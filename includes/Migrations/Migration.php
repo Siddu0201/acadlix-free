@@ -8,6 +8,14 @@ use Yuvayana\Acadlix\Migrations\LanguageMigration;
 use Yuvayana\Acadlix\Migrations\CategoryMigration;
 use Yuvayana\Acadlix\Migrations\SubjectMigration;
 use Yuvayana\Acadlix\Migrations\TopicMigration;
+use Yuvayana\Acadlix\Migrations\QuestionMigration;
+use Yuvayana\Acadlix\Migrations\QuestionLangMigration;
+use Yuvayana\Acadlix\Migrations\QuizQuestionMigration;
+use Yuvayana\Acadlix\Migrations\TemplateMigration;
+use Yuvayana\Acadlix\Migrations\PrerequisiteMigration;
+use Yuvayana\Acadlix\Migrations\SubjectTimeMigration;
+use Yuvayana\Acadlix\Migrations\StatisticRefMigration;
+use Yuvayana\Acadlix\Migrations\StatisticMigration;
 
 if(!class_exists('Migration')){
     class Migration 
@@ -18,6 +26,14 @@ if(!class_exists('Migration')){
             CategoryMigration::class,
             SubjectMigration::class,
             TopicMigration::class,
+            QuestionMigration::class,
+            QuestionLangMigration::class,
+            QuizQuestionMigration::class,
+            TemplateMigration::class,
+            PrerequisiteMigration::class,
+            SubjectTimeMigration::class,
+            StatisticRefMigration::class,
+            StatisticMigration::class,
         ];
     
     
