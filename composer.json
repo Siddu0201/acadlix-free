@@ -1,0 +1,19 @@
+{
+    "name": "yuvayana/acadlix",
+    "description": "This is advance learning management system by yuvayana",
+    "autoload": {
+        "psr-4": {
+            "Yuvayana\\Acadlix\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Siddu0201",
+            "email": "sudhanshuag02012000@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^10.7",
+        "illuminate/events": "^10.7"
+    }
+}

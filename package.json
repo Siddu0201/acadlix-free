@@ -1,0 +1,17 @@
+{
+  "name": "acadlix",
+  "version": "1.0.0",
+  "description": "This is advance lms plugin for wordpress.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "author": "Sudhanshu Agarwal",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/api-fetch": "^6.28.0",
+    "@wordpress/scripts": "^26.2.0"
+  }
+}
