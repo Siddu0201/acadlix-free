@@ -21,7 +21,9 @@ use Yuvayana\Acadlix\Seeder\Seeder;
 
 final class Acadlix {
 
-    const VERSION = '0.0.1';
+    const ACADLIX_VERSION = '0.0.1';
+
+    const ACADLIX_DB_VERSION = 1;
 
     const SLUG = 'acadlix';
 
@@ -47,7 +49,7 @@ final class Acadlix {
 
     public function define_constants()
     {
-        define( 'ACADLIX_VERSION', self::VERSION );
+        define( 'ACADLIX_VERSION', self::ACADLIX_VERSION );
         define( 'ACADLIX_SLUG', self::SLUG );
         define( 'ACADLIX_FILE', __FILE__ );
         define( 'ACADLIX_DIR', __DIR__ );
@@ -70,7 +72,7 @@ final class Acadlix {
     public function activate()
     {
         Migration::createTable();
-        // Seeder::seed();
+        Seeder::seed();
     }
 
     public function deactivate()

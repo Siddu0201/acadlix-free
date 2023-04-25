@@ -10,5 +10,9 @@ if(!class_exists('Subject')){
         protected $table = "subject";
 
         protected $fillable = ["subject_name"];
+
+        public function topic(){
+            return $this->hasMany(Topic::class, 'subject_id', 'id');
+        }
     }
 }

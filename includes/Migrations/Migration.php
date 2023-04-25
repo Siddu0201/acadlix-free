@@ -21,11 +21,11 @@ if(!class_exists('Migration')){
     class Migration 
     {   
         protected static $_tables = [
-            QuizMigration::class,
             LanguageMigration::class,
             CategoryMigration::class,
             SubjectMigration::class,
             TopicMigration::class,
+            QuizMigration::class,
             QuestionMigration::class,
             QuestionLangMigration::class,
             QuizQuestionMigration::class,
@@ -39,16 +39,22 @@ if(!class_exists('Migration')){
     
         public static function createTable()
         {
-            foreach(self::$_tables as $table){
-                (new $table())->up();
+            foreach(self::$_tables as $table_class){
+                if(method_exists($table_class, 'up')){
+                    $table = new $table_class();
+                    $table->up();
+                }
             }
         }
     
         public static function removeTable()
         {
             Manager::schema()->disableForeignKeyConstraints();
-            foreach(self::$_tables as $table){
-                (new $table())->down();
+            foreach(self::$_tables as $table_class){
+                if(method_exists($table_class, 'down')){
+                    $table = new $table_class();
+                    $table->down();
+                }
             }
             Manager::schema()->enableForeignKeyConstraints();
         }

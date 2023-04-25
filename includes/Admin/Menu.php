@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Admin;
 
+use Yuvayana\Acadlix\Models\Question;
+
 if(!class_exists('Menu')){
     class Menu {
         public function __construct()
@@ -15,11 +17,12 @@ if(!class_exists('Menu')){
             global $submenu;
 
             $slug          = ACADLIX_SLUG;
+            $menu_position = 50;
             $capability    = 'manage_options';
             
-            add_menu_page( 'Acadlix' , 'Acadlix' , $capability , $slug, [$this, 'plugin_page'] );
+            add_menu_page( 'Acadlix' , 'Acadlix' , $capability , $slug, [$this, 'plugin_page'], '' , $menu_position );
 
-            add_submenu_page( $slug, 'Quiz', 'Quiz', $capability, 'admin.php?page=' . $slug . '#/' );
+            // add_submenu_page( $slug, 'Quiz', 'Quiz', $capability, 'admin.php?page=' . $slug . '#/quiz' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
         }
 
         public function plugin_page()
