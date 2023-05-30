@@ -3,6 +3,7 @@ import React from 'react'
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
 import AdminHeader from '../partials/AdminHeader';
+import Quiz from './views/quiz/Quiz';
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
@@ -159,7 +160,11 @@ const AppAdmin = () => {
               <Routes>
                 <Route element={<AdminHeader />} >
                   <Route index element={<div> hello world</div>} />
-                  <Route path="/quiz" element={<div>Quiz</div>} />
+                  <Route path="/quiz" >
+                    <Route index element={<Quiz />} />
+                  </Route>
+                  <Route path="/course" element={<div>Course</div>} />
+                  <Route path="/question" element={<div>Question</div>} />
                 </Route>
                 <Route path="*" element={<div>No path found</div>}></Route>
               </Routes>
