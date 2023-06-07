@@ -1,21 +1,22 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-import React from 'react'
-import { QueryClientProvider, QueryClient } from 'react-query';
-import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
-import AdminHeader from '../partials/AdminHeader';
-import Quiz from './views/quiz/Quiz';
+import { ThemeProvider, createTheme } from "@mui/material";
+import React from "react";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
+import AdminHeader from "../partials/AdminHeader";
+import Quiz from "./views/quiz/Quiz";
+import Fill from "./views/fill/Fill";
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-      }
-    }
+      },
+    },
   });
 
-  const mode = 'light';
-  const themeColor = 'primary';
+  const mode = "light";
+  const themeColor = "primary";
 
   const colors = {
     main: {
@@ -41,24 +42,24 @@ const AppAdmin = () => {
       error: "#E8381A",
       warning: "#E89C00",
       info: "#03B1D7",
-    }
+    },
   };
   const theme = createTheme({
     typography: {
       fontFamily: [
         '"Public Sans"',
-        'san-serif',
-        '-apple-system',
-        'BlinkMacSystemFont',
+        "san-serif",
+        "-apple-system",
+        "BlinkMacSystemFont",
         '"Segoe UI"',
-        'Roboto',
+        "Roboto",
         '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
+        "Arial",
+        "sans-serif",
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-      ].join(','),
+      ].join(","),
     },
     spacing: (factor) => `${0.25 * factor}rem`,
     shape: {
@@ -67,45 +68,45 @@ const AppAdmin = () => {
     palette: {
       mode,
       shape: {
-        borderRadius: '6px',
+        borderRadius: "6px",
       },
       customColors: {
-        dark: '219, 219, 235',
-        light: '55, 71, 92',
+        dark: "219, 219, 235",
+        light: "55, 71, 92",
       },
       primary: {
         main: colors.main[themeColor],
         light: colors.light[themeColor],
         dark: colors.dark[themeColor],
-        contrastText: '#fff'
+        contrastText: "#fff",
       },
-      ...(mode === 'light' ?
-        {
-          background: {
-            paper: '#ffffff',
-            default: '#f5f5f9',
-          },
-          text: {
-            primary: 'rgba(55, 71, 92, 0.87)',
-            secondary: 'rgba(55, 71, 92, 0.6)',
-          },
-        }
+      ...(mode === "light"
+        ? {
+            background: {
+              paper: "#ffffff",
+              default: "#f5f5f9",
+            },
+            text: {
+              primary: "rgba(55, 71, 92, 0.87)",
+              secondary: "rgba(55, 71, 92, 0.6)",
+            },
+          }
         : {
-          background: {
-            paper: '#2b2c40',
-            default: '#232333',
-          },
-          text: {
-            primary: 'rgba(219, 219, 235, 0.87)',
-            secondary: 'rgba(219, 219, 235, 0.6)',
-          },
-        }),
+            background: {
+              paper: "#2b2c40",
+              default: "#232333",
+            },
+            text: {
+              primary: "rgba(219, 219, 235, 0.87)",
+              secondary: "rgba(219, 219, 235, 0.6)",
+            },
+          }),
     },
     components: {
       MuiPaper: {
         styleOverrides: {
           root: {
-            backgroundImage: 'none',
+            backgroundImage: "none",
           },
         },
       },
@@ -117,7 +118,7 @@ const AppAdmin = () => {
           root: {
             borderRadius: 8,
           },
-        }
+        },
       },
       MuiChip: {
         styleOverrides: {
@@ -127,26 +128,23 @@ const AppAdmin = () => {
           root: {
             height: 24,
             "&.MuiChip-rounded": {
-              borderRadius: '4px'
-            }
-          }
-        }
+              borderRadius: "4px",
+            },
+          },
+        },
       },
       MuiDataGrid: {
-        defaultProps: {
-
-        },
+        defaultProps: {},
         styleOverrides: {
           columnHeaders: {
-            borderTop: '1px solid rgba(50, 71, 92, 0.12)',
+            borderTop: "1px solid rgba(50, 71, 92, 0.12)",
             borderRadius: 0,
-
           },
           root: {
             border: 0,
             borderRadius: 0,
           },
-        }
+        },
       },
     },
   });
@@ -158,13 +156,14 @@ const AppAdmin = () => {
           <div>
             <ThemeProvider theme={theme}>
               <Routes>
-                <Route element={<AdminHeader />} >
+                <Route element={<AdminHeader />}>
                   <Route index element={<div> hello world</div>} />
-                  <Route path="/quiz" >
+                  <Route path="/quiz">
                     <Route index element={<Quiz />} />
                   </Route>
                   <Route path="/course" element={<div>Course</div>} />
                   <Route path="/question" element={<div>Question</div>} />
+                  <Route path="/fill" element={<div>{<Fill />}</div>} />
                 </Route>
                 <Route path="*" element={<div>No path found</div>}></Route>
               </Routes>
@@ -173,7 +172,7 @@ const AppAdmin = () => {
         </HashRouter>
       </QueryClientProvider>
     </>
-  )
-}
+  );
+};
 
-export default AppAdmin
+export default AppAdmin;
