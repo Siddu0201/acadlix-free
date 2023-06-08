@@ -1,0 +1,1 @@
+{"version":3,"file":"index.css","mappings":";;;AAAA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,YAAY;EACZ,YAAY;EACZ,sBAAsB;AACxB","sources":["webpack://acadlix/./src/admin/views/course/Course.css"],"sourcesContent":["body {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.sidebar {\r\n  height: 100%;\r\n  width: 300px;\r\n  background-color: blue;\r\n}\r\n"],"names":[],"sourceRoot":""}

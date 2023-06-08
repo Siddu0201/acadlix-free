@@ -5,6 +5,7 @@ import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
 import AdminHeader from "../partials/AdminHeader";
 import Quiz from "./views/quiz/Quiz";
 import Fill from "./views/fill/Fill";
+import Course from "./views/course/Course";
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
@@ -161,7 +162,7 @@ const AppAdmin = () => {
                   <Route path="/quiz">
                     <Route index element={<Quiz />} />
                   </Route>
-                  <Route path="/course" element={<div>Course</div>} />
+                  <Route path="/course" element={<div>{<Course />}</div>} />
                   <Route path="/question" element={<div>Question</div>} />
                   <Route path="/fill" element={<div>{<Fill />}</div>} />
                 </Route>
