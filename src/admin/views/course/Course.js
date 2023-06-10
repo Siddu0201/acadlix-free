@@ -20,9 +20,12 @@ import {
   FormGroup,
   FormControlLabel,
   Autocomplete,
+  Card,
+  CardContent,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import GridItem1 from "../../../components/GridItem1";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -56,9 +59,9 @@ export default function Course() {
   const styling = { p: 1, mb: "15px" };
   return (
     <Box>
-      <Grid container spacing={1}>
-        <Grid lg={3} md={3} sm={3} xs={1}>
-          <Paper style={{ height: "100%" }}>
+      <Grid container>
+        <GridItem1 lg={3} md={3} sm={3} xs={0}>
+          {/* <Paper style={{ height: "100%" }}>
             {!showDesktop && (
               <MenuIcon onClick={handleClickOpen} style={{ margin: "15px" }} />
             )}
@@ -81,12 +84,18 @@ export default function Course() {
                 </Toolbar>
               </AppBar>
             </Dialog>
-          </Paper>
-        </Grid>
-        <Grid lg={9} md={9} sm={9} xs={11}>
-          <Item>
-            <Grid container spacing={1}>
-              <Grid lg={8} md={8} sm={8} xs={12}>
+          </Paper> */}
+          <Card sx={{ 
+            height: '100%'
+          }}>
+            <CardContent>
+              Sidebar
+            </CardContent>
+          </Card>
+        </GridItem1>
+        <Grid lg={9} md={9} sm={9} xs={12}>
+            <Grid container>
+              <GridItem1 lg={8} md={8} sm={8} xs={12}>
                 <Item sx={{ boxShadow: 0, textAlign: "left" }}>
                   <Container maxWidth="100%" sx={styling}>
                     <h3>Add Course</h3>
@@ -153,8 +162,8 @@ export default function Course() {
                     </Button>
                   </Container>
                 </Item>
-              </Grid>
-              <Grid lg={4} md={4} sm={4} xs={12}>
+              </GridItem1>
+              <GridItem1 lg={4} md={4} sm={4} xs={12}>
                 <Item sx={{ boxShadow: 0 }}>
                   <Container
                     maxWidth="100%"
@@ -268,9 +277,8 @@ export default function Course() {
                     />
                   </Container>
                 </Item>
-              </Grid>
+              </GridItem1>
             </Grid>
-          </Item>
         </Grid>
       </Grid>
     </Box>

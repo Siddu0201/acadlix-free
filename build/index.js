@@ -5555,74 +5555,6 @@ function useSlotProps(parameters) {
 
 /***/ }),
 
-/***/ "./node_modules/@mui/icons-material/Close.js":
-/*!***************************************************!*\
-  !*** ./node_modules/@mui/icons-material/Close.js ***!
-  \***************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@mui/icons-material/utils/createSvgIcon.js"));
-var _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-  d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-}), 'Close');
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ "./node_modules/@mui/icons-material/Menu.js":
-/*!**************************************************!*\
-  !*** ./node_modules/@mui/icons-material/Menu.js ***!
-  \**************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@mui/icons-material/utils/createSvgIcon.js"));
-var _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-  d: "M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-}), 'Menu');
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ "./node_modules/@mui/icons-material/utils/createSvgIcon.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@mui/icons-material/utils/createSvgIcon.js ***!
-  \*****************************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-Object.defineProperty(exports, "default", ({
-  enumerable: true,
-  get: function () {
-    return _utils.createSvgIcon;
-  }
-}));
-var _utils = __webpack_require__(/*! @mui/material/utils */ "./node_modules/@mui/material/utils/index.js");
-
-/***/ }),
-
 /***/ "./node_modules/@mui/material/AppBar/AppBar.js":
 /*!*****************************************************!*\
   !*** ./node_modules/@mui/material/AppBar/AppBar.js ***!
@@ -10101,469 +10033,6 @@ const Container = (0,_mui_system__WEBPACK_IMPORTED_MODULE_0__["default"])({
   sx: prop_types__WEBPACK_IMPORTED_MODULE_4___default().oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_4___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_4___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_4___default().func), (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_4___default().bool)])), (prop_types__WEBPACK_IMPORTED_MODULE_4___default().func), (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object)])
 } : 0;
 /* harmony default export */ __webpack_exports__["default"] = (Container);
-
-/***/ }),
-
-/***/ "./node_modules/@mui/material/Dialog/Dialog.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@mui/material/Dialog/Dialog.js ***!
-  \*****************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.m.js");
-/* harmony import */ var _mui_base__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/base */ "./node_modules/@mui/utils/esm/composeClasses/composeClasses.js");
-/* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/useId.js");
-/* harmony import */ var _utils_capitalize__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/capitalize */ "./node_modules/@mui/material/utils/capitalize.js");
-/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Modal */ "./node_modules/@mui/material/Modal/Modal.js");
-/* harmony import */ var _Fade__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Fade */ "./node_modules/@mui/material/Fade/Fade.js");
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Paper */ "./node_modules/@mui/material/Paper/Paper.js");
-/* harmony import */ var _styles_useThemeProps__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../styles/useThemeProps */ "./node_modules/@mui/material/styles/useThemeProps.js");
-/* harmony import */ var _styles_styled__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/styled */ "./node_modules/@mui/material/styles/styled.js");
-/* harmony import */ var _dialogClasses__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dialogClasses */ "./node_modules/@mui/material/Dialog/dialogClasses.js");
-/* harmony import */ var _DialogContext__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./DialogContext */ "./node_modules/@mui/material/Dialog/DialogContext.js");
-/* harmony import */ var _Backdrop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Backdrop */ "./node_modules/@mui/material/Backdrop/Backdrop.js");
-/* harmony import */ var _styles_useTheme__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../styles/useTheme */ "./node_modules/@mui/material/styles/useTheme.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-const _excluded = ["aria-describedby", "aria-labelledby", "BackdropComponent", "BackdropProps", "children", "className", "disableEscapeKeyDown", "fullScreen", "fullWidth", "maxWidth", "onBackdropClick", "onClose", "open", "PaperComponent", "PaperProps", "scroll", "TransitionComponent", "transitionDuration", "TransitionProps"];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const DialogBackdrop = (0,_styles_styled__WEBPACK_IMPORTED_MODULE_5__["default"])(_Backdrop__WEBPACK_IMPORTED_MODULE_6__["default"], {
-  name: 'MuiDialog',
-  slot: 'Backdrop',
-  overrides: (props, styles) => styles.backdrop
-})({
-  // Improve scrollable dialog support.
-  zIndex: -1
-});
-const useUtilityClasses = ownerState => {
-  const {
-    classes,
-    scroll,
-    maxWidth,
-    fullWidth,
-    fullScreen
-  } = ownerState;
-  const slots = {
-    root: ['root'],
-    container: ['container', `scroll${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_7__["default"])(scroll)}`],
-    paper: ['paper', `paperScroll${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_7__["default"])(scroll)}`, `paperWidth${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_7__["default"])(String(maxWidth))}`, fullWidth && 'paperFullWidth', fullScreen && 'paperFullScreen']
-  };
-  return (0,_mui_base__WEBPACK_IMPORTED_MODULE_8__["default"])(slots, _dialogClasses__WEBPACK_IMPORTED_MODULE_9__.getDialogUtilityClass, classes);
-};
-const DialogRoot = (0,_styles_styled__WEBPACK_IMPORTED_MODULE_5__["default"])(_Modal__WEBPACK_IMPORTED_MODULE_10__["default"], {
-  name: 'MuiDialog',
-  slot: 'Root',
-  overridesResolver: (props, styles) => styles.root
-})({
-  '@media print': {
-    // Use !important to override the Modal inline-style.
-    position: 'absolute !important'
-  }
-});
-const DialogContainer = (0,_styles_styled__WEBPACK_IMPORTED_MODULE_5__["default"])('div', {
-  name: 'MuiDialog',
-  slot: 'Container',
-  overridesResolver: (props, styles) => {
-    const {
-      ownerState
-    } = props;
-    return [styles.container, styles[`scroll${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_7__["default"])(ownerState.scroll)}`]];
-  }
-})(({
-  ownerState
-}) => (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
-  height: '100%',
-  '@media print': {
-    height: 'auto'
-  },
-  // We disable the focus ring for mouse, touch and keyboard users.
-  outline: 0
-}, ownerState.scroll === 'paper' && {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-}, ownerState.scroll === 'body' && {
-  overflowY: 'auto',
-  overflowX: 'hidden',
-  textAlign: 'center',
-  '&:after': {
-    content: '""',
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    height: '100%',
-    width: '0'
-  }
-}));
-const DialogPaper = (0,_styles_styled__WEBPACK_IMPORTED_MODULE_5__["default"])(_Paper__WEBPACK_IMPORTED_MODULE_11__["default"], {
-  name: 'MuiDialog',
-  slot: 'Paper',
-  overridesResolver: (props, styles) => {
-    const {
-      ownerState
-    } = props;
-    return [styles.paper, styles[`scrollPaper${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_7__["default"])(ownerState.scroll)}`], styles[`paperWidth${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_7__["default"])(String(ownerState.maxWidth))}`], ownerState.fullWidth && styles.paperFullWidth, ownerState.fullScreen && styles.paperFullScreen];
-  }
-})(({
-  theme,
-  ownerState
-}) => (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
-  margin: 32,
-  position: 'relative',
-  overflowY: 'auto',
-  // Fix IE11 issue, to remove at some point.
-  '@media print': {
-    overflowY: 'visible',
-    boxShadow: 'none'
-  }
-}, ownerState.scroll === 'paper' && {
-  display: 'flex',
-  flexDirection: 'column',
-  maxHeight: 'calc(100% - 64px)'
-}, ownerState.scroll === 'body' && {
-  display: 'inline-block',
-  verticalAlign: 'middle',
-  textAlign: 'left' // 'initial' doesn't work on IE11
-}, !ownerState.maxWidth && {
-  maxWidth: 'calc(100% - 64px)'
-}, ownerState.maxWidth === 'xs' && {
-  maxWidth: theme.breakpoints.unit === 'px' ? Math.max(theme.breakpoints.values.xs, 444) : `${theme.breakpoints.values.xs}${theme.breakpoints.unit}`,
-  [`&.${_dialogClasses__WEBPACK_IMPORTED_MODULE_9__["default"].paperScrollBody}`]: {
-    [theme.breakpoints.down(Math.max(theme.breakpoints.values.xs, 444) + 32 * 2)]: {
-      maxWidth: 'calc(100% - 64px)'
-    }
-  }
-}, ownerState.maxWidth && ownerState.maxWidth !== 'xs' && {
-  maxWidth: `${theme.breakpoints.values[ownerState.maxWidth]}${theme.breakpoints.unit}`,
-  [`&.${_dialogClasses__WEBPACK_IMPORTED_MODULE_9__["default"].paperScrollBody}`]: {
-    [theme.breakpoints.down(theme.breakpoints.values[ownerState.maxWidth] + 32 * 2)]: {
-      maxWidth: 'calc(100% - 64px)'
-    }
-  }
-}, ownerState.fullWidth && {
-  width: 'calc(100% - 64px)'
-}, ownerState.fullScreen && {
-  margin: 0,
-  width: '100%',
-  maxWidth: '100%',
-  height: '100%',
-  maxHeight: 'none',
-  borderRadius: 0,
-  [`&.${_dialogClasses__WEBPACK_IMPORTED_MODULE_9__["default"].paperScrollBody}`]: {
-    margin: 0,
-    maxWidth: '100%'
-  }
-}));
-
-/**
- * Dialogs are overlaid modal paper based components with a backdrop.
- */
-const Dialog = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.forwardRef(function Dialog(inProps, ref) {
-  const props = (0,_styles_useThemeProps__WEBPACK_IMPORTED_MODULE_12__["default"])({
-    props: inProps,
-    name: 'MuiDialog'
-  });
-  const theme = (0,_styles_useTheme__WEBPACK_IMPORTED_MODULE_13__["default"])();
-  const defaultTransitionDuration = {
-    enter: theme.transitions.duration.enteringScreen,
-    exit: theme.transitions.duration.leavingScreen
-  };
-  const {
-      'aria-describedby': ariaDescribedby,
-      'aria-labelledby': ariaLabelledbyProp,
-      BackdropComponent,
-      BackdropProps,
-      children,
-      className,
-      disableEscapeKeyDown = false,
-      fullScreen = false,
-      fullWidth = false,
-      maxWidth = 'sm',
-      onBackdropClick,
-      onClose,
-      open,
-      PaperComponent = _Paper__WEBPACK_IMPORTED_MODULE_11__["default"],
-      PaperProps = {},
-      scroll = 'paper',
-      TransitionComponent = _Fade__WEBPACK_IMPORTED_MODULE_14__["default"],
-      transitionDuration = defaultTransitionDuration,
-      TransitionProps
-    } = props,
-    other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(props, _excluded);
-  const ownerState = (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, props, {
-    disableEscapeKeyDown,
-    fullScreen,
-    fullWidth,
-    maxWidth,
-    scroll
-  });
-  const classes = useUtilityClasses(ownerState);
-  const backdropClick = react__WEBPACK_IMPORTED_MODULE_2__.useRef();
-  const handleMouseDown = event => {
-    // We don't want to close the dialog when clicking the dialog content.
-    // Make sure the event starts and ends on the same DOM element.
-    backdropClick.current = event.target === event.currentTarget;
-  };
-  const handleBackdropClick = event => {
-    // Ignore the events not coming from the "backdrop".
-    if (!backdropClick.current) {
-      return;
-    }
-    backdropClick.current = null;
-    if (onBackdropClick) {
-      onBackdropClick(event);
-    }
-    if (onClose) {
-      onClose(event, 'backdropClick');
-    }
-  };
-  const ariaLabelledby = (0,_mui_utils__WEBPACK_IMPORTED_MODULE_15__["default"])(ariaLabelledbyProp);
-  const dialogContextValue = react__WEBPACK_IMPORTED_MODULE_2__.useMemo(() => {
-    return {
-      titleId: ariaLabelledby
-    };
-  }, [ariaLabelledby]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DialogRoot, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
-    className: (0,clsx__WEBPACK_IMPORTED_MODULE_3__["default"])(classes.root, className),
-    closeAfterTransition: true,
-    components: {
-      Backdrop: DialogBackdrop
-    },
-    componentsProps: {
-      backdrop: (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
-        transitionDuration,
-        as: BackdropComponent
-      }, BackdropProps)
-    },
-    disableEscapeKeyDown: disableEscapeKeyDown,
-    onClose: onClose,
-    open: open,
-    ref: ref,
-    onClick: handleBackdropClick,
-    ownerState: ownerState
-  }, other, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TransitionComponent, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
-      appear: true,
-      in: open,
-      timeout: transitionDuration,
-      role: "presentation"
-    }, TransitionProps, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DialogContainer, {
-        className: (0,clsx__WEBPACK_IMPORTED_MODULE_3__["default"])(classes.container),
-        onMouseDown: handleMouseDown,
-        ownerState: ownerState,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DialogPaper, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
-          as: PaperComponent,
-          elevation: 24,
-          role: "dialog",
-          "aria-describedby": ariaDescribedby,
-          "aria-labelledby": ariaLabelledby
-        }, PaperProps, {
-          className: (0,clsx__WEBPACK_IMPORTED_MODULE_3__["default"])(classes.paper, PaperProps.className),
-          ownerState: ownerState,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_DialogContext__WEBPACK_IMPORTED_MODULE_16__["default"].Provider, {
-            value: dialogContextValue,
-            children: children
-          })
-        }))
-      })
-    }))
-  }));
-});
- true ? Dialog.propTypes /* remove-proptypes */ = {
-  // ----------------------------- Warning --------------------------------
-  // | These PropTypes are generated from the TypeScript type definitions |
-  // |     To update them edit the d.ts file and run "yarn proptypes"     |
-  // ----------------------------------------------------------------------
-  /**
-   * The id(s) of the element(s) that describe the dialog.
-   */
-  'aria-describedby': (prop_types__WEBPACK_IMPORTED_MODULE_17___default().string),
-  /**
-   * The id(s) of the element(s) that label the dialog.
-   */
-  'aria-labelledby': (prop_types__WEBPACK_IMPORTED_MODULE_17___default().string),
-  /**
-   * A backdrop component. This prop enables custom backdrop rendering.
-   * @deprecated Use `slots.backdrop` instead. While this prop currently works, it will be removed in the next major version.
-   * Use the `slots.backdrop` prop to make your application ready for the next version of Material UI.
-   * @default styled(Backdrop, {
-   *   name: 'MuiModal',
-   *   slot: 'Backdrop',
-   *   overridesResolver: (props, styles) => {
-   *     return styles.backdrop;
-   *   },
-   * })({
-   *   zIndex: -1,
-   * })
-   */
-  BackdropComponent: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().elementType),
-  /**
-   * @ignore
-   */
-  BackdropProps: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().object),
-  /**
-   * Dialog children, usually the included sub-components.
-   */
-  children: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().node),
-  /**
-   * Override or extend the styles applied to the component.
-   */
-  classes: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().object),
-  /**
-   * @ignore
-   */
-  className: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().string),
-  /**
-   * If `true`, hitting escape will not fire the `onClose` callback.
-   * @default false
-   */
-  disableEscapeKeyDown: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().bool),
-  /**
-   * If `true`, the dialog is full-screen.
-   * @default false
-   */
-  fullScreen: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().bool),
-  /**
-   * If `true`, the dialog stretches to `maxWidth`.
-   *
-   * Notice that the dialog width grow is limited by the default margin.
-   * @default false
-   */
-  fullWidth: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().bool),
-  /**
-   * Determine the max-width of the dialog.
-   * The dialog width grows with the size of the screen.
-   * Set to `false` to disable `maxWidth`.
-   * @default 'sm'
-   */
-  maxWidth: prop_types__WEBPACK_IMPORTED_MODULE_17___default().oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_17___default().oneOf(['xs', 'sm', 'md', 'lg', 'xl', false]), (prop_types__WEBPACK_IMPORTED_MODULE_17___default().string)]),
-  /**
-   * Callback fired when the backdrop is clicked.
-   * @deprecated Use the `onClose` prop with the `reason` argument to handle the `backdropClick` events.
-   */
-  onBackdropClick: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().func),
-  /**
-   * Callback fired when the component requests to be closed.
-   *
-   * @param {object} event The event source of the callback.
-   * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`.
-   */
-  onClose: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().func),
-  /**
-   * If `true`, the component is shown.
-   */
-  open: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().bool.isRequired),
-  /**
-   * The component used to render the body of the dialog.
-   * @default Paper
-   */
-  PaperComponent: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().elementType),
-  /**
-   * Props applied to the [`Paper`](/material-ui/api/paper/) element.
-   * @default {}
-   */
-  PaperProps: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().object),
-  /**
-   * Determine the container for scrolling the dialog.
-   * @default 'paper'
-   */
-  scroll: prop_types__WEBPACK_IMPORTED_MODULE_17___default().oneOf(['body', 'paper']),
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: prop_types__WEBPACK_IMPORTED_MODULE_17___default().oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_17___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_17___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_17___default().func), (prop_types__WEBPACK_IMPORTED_MODULE_17___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_17___default().bool)])), (prop_types__WEBPACK_IMPORTED_MODULE_17___default().func), (prop_types__WEBPACK_IMPORTED_MODULE_17___default().object)]),
-  /**
-   * The component used for the transition.
-   * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
-   * @default Fade
-   */
-  TransitionComponent: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().elementType),
-  /**
-   * The duration for the transition, in milliseconds.
-   * You may specify a single timeout for all transitions, or individually with an object.
-   * @default {
-   *   enter: theme.transitions.duration.enteringScreen,
-   *   exit: theme.transitions.duration.leavingScreen,
-   * }
-   */
-  transitionDuration: prop_types__WEBPACK_IMPORTED_MODULE_17___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_17___default().number), prop_types__WEBPACK_IMPORTED_MODULE_17___default().shape({
-    appear: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().number),
-    enter: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().number),
-    exit: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().number)
-  })]),
-  /**
-   * Props applied to the transition element.
-   * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition/) component.
-   */
-  TransitionProps: (prop_types__WEBPACK_IMPORTED_MODULE_17___default().object)
-} : 0;
-/* harmony default export */ __webpack_exports__["default"] = (Dialog);
-
-/***/ }),
-
-/***/ "./node_modules/@mui/material/Dialog/DialogContext.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@mui/material/Dialog/DialogContext.js ***!
-  \************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-const DialogContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
-if (true) {
-  DialogContext.displayName = 'DialogContext';
-}
-/* harmony default export */ __webpack_exports__["default"] = (DialogContext);
-
-/***/ }),
-
-/***/ "./node_modules/@mui/material/Dialog/dialogClasses.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@mui/material/Dialog/dialogClasses.js ***!
-  \************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getDialogUtilityClass": function() { return /* binding */ getDialogUtilityClass; }
-/* harmony export */ });
-/* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/generateUtilityClasses/generateUtilityClasses.js");
-/* harmony import */ var _generateUtilityClass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../generateUtilityClass */ "./node_modules/@mui/utils/esm/generateUtilityClass/generateUtilityClass.js");
-
-
-function getDialogUtilityClass(slot) {
-  return (0,_generateUtilityClass__WEBPACK_IMPORTED_MODULE_0__["default"])('MuiDialog', slot);
-}
-const dialogClasses = (0,_mui_utils__WEBPACK_IMPORTED_MODULE_1__["default"])('MuiDialog', ['root', 'scrollPaper', 'scrollBody', 'container', 'paper', 'paperScrollPaper', 'paperScrollBody', 'paperWidthFalse', 'paperWidthXs', 'paperWidthSm', 'paperWidthMd', 'paperWidthLg', 'paperWidthXl', 'paperFullWidth', 'paperFullScreen']);
-/* harmony default export */ __webpack_exports__["default"] = (dialogClasses);
 
 /***/ }),
 
@@ -23193,20 +22662,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/@mui/material/utils/deprecatedPropType.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@mui/material/utils/deprecatedPropType.js ***!
-  \****************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/deprecatedPropType.js");
-
-/* harmony default export */ __webpack_exports__["default"] = (_mui_utils__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-/***/ }),
-
 /***/ "./node_modules/@mui/material/utils/getScrollbarSize.js":
 /*!**************************************************************!*\
   !*** ./node_modules/@mui/material/utils/getScrollbarSize.js ***!
@@ -23218,83 +22673,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/getScrollbarSize.js");
 
 /* harmony default export */ __webpack_exports__["default"] = (_mui_utils__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-/***/ }),
-
-/***/ "./node_modules/@mui/material/utils/index.js":
-/*!***************************************************!*\
-  !*** ./node_modules/@mui/material/utils/index.js ***!
-  \***************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "capitalize": function() { return /* reexport safe */ _capitalize__WEBPACK_IMPORTED_MODULE_0__["default"]; },
-/* harmony export */   "createChainedFunction": function() { return /* reexport safe */ _createChainedFunction__WEBPACK_IMPORTED_MODULE_1__["default"]; },
-/* harmony export */   "createSvgIcon": function() { return /* reexport safe */ _createSvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"]; },
-/* harmony export */   "debounce": function() { return /* reexport safe */ _debounce__WEBPACK_IMPORTED_MODULE_3__["default"]; },
-/* harmony export */   "deprecatedPropType": function() { return /* reexport safe */ _deprecatedPropType__WEBPACK_IMPORTED_MODULE_4__["default"]; },
-/* harmony export */   "isMuiElement": function() { return /* reexport safe */ _isMuiElement__WEBPACK_IMPORTED_MODULE_5__["default"]; },
-/* harmony export */   "ownerDocument": function() { return /* reexport safe */ _ownerDocument__WEBPACK_IMPORTED_MODULE_6__["default"]; },
-/* harmony export */   "ownerWindow": function() { return /* reexport safe */ _ownerWindow__WEBPACK_IMPORTED_MODULE_7__["default"]; },
-/* harmony export */   "requirePropFactory": function() { return /* reexport safe */ _requirePropFactory__WEBPACK_IMPORTED_MODULE_8__["default"]; },
-/* harmony export */   "setRef": function() { return /* reexport safe */ _setRef__WEBPACK_IMPORTED_MODULE_9__["default"]; },
-/* harmony export */   "unstable_ClassNameGenerator": function() { return /* binding */ unstable_ClassNameGenerator; },
-/* harmony export */   "unstable_useEnhancedEffect": function() { return /* reexport safe */ _useEnhancedEffect__WEBPACK_IMPORTED_MODULE_10__["default"]; },
-/* harmony export */   "unstable_useId": function() { return /* reexport safe */ _useId__WEBPACK_IMPORTED_MODULE_11__["default"]; },
-/* harmony export */   "unsupportedProp": function() { return /* reexport safe */ _unsupportedProp__WEBPACK_IMPORTED_MODULE_12__["default"]; },
-/* harmony export */   "useControlled": function() { return /* reexport safe */ _useControlled__WEBPACK_IMPORTED_MODULE_13__["default"]; },
-/* harmony export */   "useEventCallback": function() { return /* reexport safe */ _useEventCallback__WEBPACK_IMPORTED_MODULE_14__["default"]; },
-/* harmony export */   "useForkRef": function() { return /* reexport safe */ _useForkRef__WEBPACK_IMPORTED_MODULE_15__["default"]; },
-/* harmony export */   "useIsFocusVisible": function() { return /* reexport safe */ _useIsFocusVisible__WEBPACK_IMPORTED_MODULE_16__["default"]; }
-/* harmony export */ });
-/* harmony import */ var _mui_base_className__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/base/className */ "./node_modules/@mui/utils/esm/ClassNameGenerator/ClassNameGenerator.js");
-/* harmony import */ var _capitalize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capitalize */ "./node_modules/@mui/material/utils/capitalize.js");
-/* harmony import */ var _createChainedFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createChainedFunction */ "./node_modules/@mui/material/utils/createChainedFunction.js");
-/* harmony import */ var _createSvgIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createSvgIcon */ "./node_modules/@mui/material/utils/createSvgIcon.js");
-/* harmony import */ var _debounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./debounce */ "./node_modules/@mui/material/utils/debounce.js");
-/* harmony import */ var _deprecatedPropType__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./deprecatedPropType */ "./node_modules/@mui/material/utils/deprecatedPropType.js");
-/* harmony import */ var _isMuiElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./isMuiElement */ "./node_modules/@mui/material/utils/isMuiElement.js");
-/* harmony import */ var _ownerDocument__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ownerDocument */ "./node_modules/@mui/material/utils/ownerDocument.js");
-/* harmony import */ var _ownerWindow__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ownerWindow */ "./node_modules/@mui/material/utils/ownerWindow.js");
-/* harmony import */ var _requirePropFactory__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./requirePropFactory */ "./node_modules/@mui/material/utils/requirePropFactory.js");
-/* harmony import */ var _setRef__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./setRef */ "./node_modules/@mui/material/utils/setRef.js");
-/* harmony import */ var _useEnhancedEffect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./useEnhancedEffect */ "./node_modules/@mui/material/utils/useEnhancedEffect.js");
-/* harmony import */ var _useId__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./useId */ "./node_modules/@mui/material/utils/useId.js");
-/* harmony import */ var _unsupportedProp__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./unsupportedProp */ "./node_modules/@mui/material/utils/unsupportedProp.js");
-/* harmony import */ var _useControlled__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./useControlled */ "./node_modules/@mui/material/utils/useControlled.js");
-/* harmony import */ var _useEventCallback__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./useEventCallback */ "./node_modules/@mui/material/utils/useEventCallback.js");
-/* harmony import */ var _useForkRef__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./useForkRef */ "./node_modules/@mui/material/utils/useForkRef.js");
-/* harmony import */ var _useIsFocusVisible__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./useIsFocusVisible */ "./node_modules/@mui/material/utils/useIsFocusVisible.js");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// TODO: remove this export once ClassNameGenerator is stable
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const unstable_ClassNameGenerator = {
-  configure: generator => {
-    if (true) {
-      console.warn(['MUI: `ClassNameGenerator` import from `@mui/material/utils` is outdated and might cause unexpected issues.', '', "You should use `import { unstable_ClassNameGenerator } from '@mui/material/className'` instead", '', 'The detail of the issue: https://github.com/mui/material-ui/issues/30011#issuecomment-1024993401', '', 'The updated documentation: https://mui.com/guides/classname-generator/'].join('\n'));
-    }
-    _mui_base_className__WEBPACK_IMPORTED_MODULE_17__["default"].configure(generator);
-  }
-};
 
 /***/ }),
 
@@ -23349,20 +22727,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/requirePropFactory.js");
-
-/* harmony default export */ __webpack_exports__["default"] = (_mui_utils__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-/***/ }),
-
-/***/ "./node_modules/@mui/material/utils/setRef.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@mui/material/utils/setRef.js ***!
-  \****************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/setRef.js");
 
 /* harmony default export */ __webpack_exports__["default"] = (_mui_utils__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -26785,31 +26149,6 @@ function deepmerge(target, source, options = {
     });
   }
   return output;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@mui/utils/esm/deprecatedPropType.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@mui/utils/esm/deprecatedPropType.js ***!
-  \***********************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ deprecatedPropType; }
-/* harmony export */ });
-function deprecatedPropType(validator, reason) {
-  if (false) {}
-  return (props, propName, componentName, location, propFullName) => {
-    const componentNameSafe = componentName || '<<anonymous>>';
-    const propFullNameSafe = propFullName || propName;
-    if (typeof props[propName] !== 'undefined') {
-      return new Error(`The ${location} \`${propFullNameSafe}\` of ` + `\`${componentNameSafe}\` is deprecated. ${reason}`);
-    }
-    return null;
-  };
 }
 
 /***/ }),
@@ -35123,34 +34462,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/styles/styled.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Paper/Paper.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Slide/Slide.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/styles/useTheme.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/useMediaQuery/useMediaQuery.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Box/Box.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Grid/Grid.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Dialog/Dialog.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/AppBar/AppBar.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Toolbar/Toolbar.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/IconButton/IconButton.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Container/Container.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Button/Button.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/TextField/TextField.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/base/TextareaAutosize/TextareaAutosize.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/FormGroup/FormGroup.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/FormControlLabel/FormControlLabel.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Checkbox/Checkbox.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Autocomplete/Autocomplete.js");
-/* harmony import */ var _mui_icons_material_Menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/icons-material/Menu */ "./node_modules/@mui/icons-material/Menu.js");
-/* harmony import */ var _mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/icons-material/Close */ "./node_modules/@mui/icons-material/Close.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/styles/styled.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Paper/Paper.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Slide/Slide.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/styles/useTheme.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/useMediaQuery/useMediaQuery.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Box/Box.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Grid/Grid.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Card/Card.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/CardContent/CardContent.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Container/Container.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Button/Button.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/TextField/TextField.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/base/TextareaAutosize/TextareaAutosize.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/FormGroup/FormGroup.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/FormControlLabel/FormControlLabel.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Checkbox/Checkbox.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Autocomplete/Autocomplete.js");
+/* harmony import */ var _components_GridItem1__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/GridItem1 */ "./src/components/GridItem1.js");
 
 
 
 
 
 
-const Item = (0,_mui_material__WEBPACK_IMPORTED_MODULE_3__["default"])(_mui_material__WEBPACK_IMPORTED_MODULE_4__["default"])(_ref => {
+
+const Item = (0,_mui_material__WEBPACK_IMPORTED_MODULE_4__["default"])(_mui_material__WEBPACK_IMPORTED_MODULE_5__["default"])(_ref => {
   let {
     theme
   } = _ref;
@@ -35163,14 +34500,14 @@ const Item = (0,_mui_material__WEBPACK_IMPORTED_MODULE_3__["default"])(_mui_mate
   };
 });
 const Transition = react__WEBPACK_IMPORTED_MODULE_2__.forwardRef(function Transition(props, ref) {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_6__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     direction: "up",
     ref: ref
   }, props));
 });
 function Course() {
-  const theme = (0,_mui_material__WEBPACK_IMPORTED_MODULE_6__["default"])();
-  const showDesktop = (0,_mui_material__WEBPACK_IMPORTED_MODULE_7__["default"])(theme.breakpoints.up("sm"));
+  const theme = (0,_mui_material__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  const showDesktop = (0,_mui_material__WEBPACK_IMPORTED_MODULE_8__["default"])(theme.breakpoints.up("sm"));
   const [open, setOpen] = react__WEBPACK_IMPORTED_MODULE_2__.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -35189,47 +34526,25 @@ function Course() {
     p: 1,
     mb: "15px"
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_8__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], {
-    container: true,
-    spacing: 1
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    container: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_components_GridItem1__WEBPACK_IMPORTED_MODULE_3__["default"], {
     lg: 3,
     md: 3,
     sm: 3,
-    xs: 1
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    style: {
-      height: "100%"
-    }
-  }, !showDesktop && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_icons_material_Menu__WEBPACK_IMPORTED_MODULE_10__["default"], {
-    onClick: handleClickOpen,
-    style: {
-      margin: "15px"
-    }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    fullScreen: true,
-    open: open,
-    onClose: handleClose,
-    TransitionComponent: Transition
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    xs: 0
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_11__["default"], {
     sx: {
-      position: "relative",
-      mt: "40px"
+      height: '100%'
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
-    edge: "start",
-    color: "inherit",
-    onClick: handleClose,
-    "aria-label": "close"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_15__["default"], null))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_12__["default"], null, "Sidebar"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_10__["default"], {
     lg: 9,
     md: 9,
     sm: 9,
-    xs: 11
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Item, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], {
-    container: true,
-    spacing: 1
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    xs: 12
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    container: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_components_GridItem1__WEBPACK_IMPORTED_MODULE_3__["default"], {
     lg: 8,
     md: 8,
     sm: 8,
@@ -35239,27 +34554,27 @@ function Course() {
       boxShadow: 0,
       textAlign: "left"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: styling
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Add Course"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Add Course"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
     variant: "contained",
     color: "success"
-  }, "Description"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }, "Description"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
     variant: "outlined",
     color: "success"
-  }, "Course Content")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, "Course Content")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: styling
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Course Name"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Course Name"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true,
     id: "fullWidth"
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: styling
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Course Tagline"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Course Tagline"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
@@ -35267,56 +34582,56 @@ function Course() {
       border: "1px solid black",
       textAlign: "center"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Outcomes"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Outcomes"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true,
     placeholder: "Outcome1"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true,
     placeholder: "Outcome2"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
     variant: "contained",
     color: "success"
-  }, "Add More")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, "Add More")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: styling
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Short Description"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Short Description"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
     minRows: 4,
     style: {
       width: "100%"
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: styling
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Long Description"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Long Description"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
     minRows: 8,
     style: {
       width: "100%"
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: styling
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Prerequisite"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Prerequisite"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
     minRows: 4,
     style: {
       width: "100%"
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
       mb: "15px",
       border: "1px solid black"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "This Course includes"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "This Course includes"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true,
     placeholder: "description"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
     style: {
       marginTop: "5px"
     },
     variant: "contained",
     color: "success"
-  }, "Add More")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, "Add More")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_components_GridItem1__WEBPACK_IMPORTED_MODULE_3__["default"], {
     lg: 4,
     md: 4,
     sm: 4,
@@ -35325,37 +34640,37 @@ function Course() {
     sx: {
       boxShadow: 0
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
       mb: "15px",
       border: "1px solid black"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Draft"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Draft"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true,
     placeholder: "description"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
     style: {
       marginTop: "5px"
     },
     variant: "contained",
     color: "success"
-  }, "Publish")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, "Publish")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
       mb: "15px",
       border: "1px solid black"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Price"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Price"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_20__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_21__["default"], {
-    control: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_22__["default"], null),
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+    control: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_19__["default"], null),
     label: "Discount"
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
@@ -35363,9 +34678,9 @@ function Course() {
       border: "1px solid black",
       textAlign: "left"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Categories"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Categories"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
@@ -35373,29 +34688,29 @@ function Course() {
       border: "1px solid black",
       textAlign: "left"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Tags"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Tags"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], {
     fullWidth: true
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_14__["default"], {
     style: {
       marginTop: "5px"
     },
     variant: "contained",
     color: "success"
-  }, "Add")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, "Add")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
       mb: "15px",
       border: "1px solid black"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Feactured Image 1"), "Select the image"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Feactured Image 1"), "Select the image"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
       mb: "15px",
       border: "1px solid black"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Featured Image 2"), "Select the Image"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Featured Image 2"), "Select the Image"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_13__["default"], {
     maxWidth: "100%",
     sx: {
       p: 1,
@@ -35403,17 +34718,17 @@ function Course() {
       border: "1px solid black",
       textAlign: "left"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Instructor"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_23__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, "Instructor"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_20__["default"], {
     disablePortal: true,
     id: "combo-box-demo",
     options: instructor,
     sx: {
       width: 300
     },
-    renderInput: params => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_18__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, params, {
+    renderInput: params => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_15__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, params, {
       label: "Instructor"
     }))
-  })))))))));
+  }))))))));
 }
 
 /***/ }),
@@ -35641,6 +34956,38 @@ const BoxMain = props => {
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (BoxMain);
+
+/***/ }),
+
+/***/ "./src/components/GridItem1.js":
+/*!*************************************!*\
+  !*** ./src/components/GridItem1.js ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/Grid/Grid.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+const GridItem1 = props => {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_mui_material__WEBPACK_IMPORTED_MODULE_3__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    item: true
+  }, props, {
+    sx: {
+      paddingLeft: 4,
+      paddingTop: 4
+    }
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (GridItem1);
 
 /***/ }),
 
@@ -47102,21 +46449,6 @@ module.exports = window["ReactDOM"];
 
 "use strict";
 module.exports = window["wp"]["element"];
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
-  \**********************************************************************/
-/***/ (function(module) {
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
