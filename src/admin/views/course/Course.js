@@ -29,6 +29,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import GridItem1 from "../../../components/GridItem1";
 import Card1 from "../../../components/Card1";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -36,12 +37,16 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 export default function Course() {
   const theme = useTheme();
   const showDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+  const {wp} = window;
+  console.log(wp);
 
   const [open, setOpen] = React.useState(false);
 
@@ -63,30 +68,6 @@ export default function Course() {
     <Box>
       <Grid container>
         <GridItem1 lg={3} md={3} sm={3} xs={0}>
-          {/* <Paper style={{ height: "100%" }}>
-            {!showDesktop && (
-              <MenuIcon onClick={handleClickOpen} style={{ margin: "15px" }} />
-            )}
-            <Dialog
-              fullScreen
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Transition}
-            >
-              <AppBar sx={{ position: "relative", mt: "40px" }}>
-                <Toolbar>
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={handleClose}
-                    aria-label="close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Toolbar>
-              </AppBar>
-            </Dialog>
-          </Paper> */}
           <Card
             sx={{
               height: "100%",
@@ -109,6 +90,7 @@ export default function Course() {
                       Course Content
                     </Button>
                   </Container>
+                  
                   <Container maxWidth="100%" sx={styling}>
                     <h3>Course Name</h3>
                     <TextField fullWidth id="fullWidth" />
@@ -224,11 +206,21 @@ export default function Course() {
                   <CardHeader title="Instructors" />
                   <CardContent>
                     <Autocomplete
-                      disablePortal
                       id="combo-box-demo"
                       options={instructor}
+                      renderOption={(props, option) => (
+                        <Box component="li" {...props}>
+                          {option?.label}
+                        </Box>
+                      )}
                       renderInput={(params) => (
-                        <TextField {...params} label="Instructor" />
+                        <TextField
+                          {...params}
+                          label="Instructor"
+                          inputProps={{
+                            ...params.inputProps,
+                          }}
+                        />
                       )}
                     />
                   </CardContent>

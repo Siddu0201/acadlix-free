@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@wordpress/api-fetch": "^6.28.0",
-    "@wordpress/scripts": "^26.2.0"
+    "@wordpress/scripts": "^26.6.0"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

@@ -32,19 +32,19 @@ class Manager {
     }
 
     public function register_all_scripts() {
-        // $this->register_styles( $this->get_styles() );
+        $this->register_styles( $this->get_styles() );
         $this->register_scripts( $this->get_scripts() );
     }
 
-    // public function get_styles(): array {
-    //     return [
-    //         'acadlix-css' => [
-    //             'src'     => ACADLIX_BUILD . '/index.css',
-    //             'version' => ACADLIX_VERSION,
-    //             'deps'    => [],
-    //         ],
-    //     ];
-    // }
+    public function get_styles(): array {
+        return [
+            'acadlix-css' => [
+                'src'     => ACADLIX_BUILD . '/index.css',
+                'version' => ACADLIX_VERSION,
+                'deps'    => [],
+            ],
+        ];
+    }
 
     public function get_scripts(): array {
         $dependency = require_once ACADLIX_DIR . '/build/index.asset.php';
@@ -83,9 +83,14 @@ class Manager {
         if ( ! is_admin() || ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== ACADLIX_SLUG ) {
             return;
         }
-
-        // wp_enqueue_style( 'acadlix-css' );
+        wp_enqueue_editor();
+        wp_enqueue_media();
+        wp_enqueue_style( 'acadlix-css' );
         wp_enqueue_script( 'acadlix-app' );
+        // if ( ! class_exists( '_WP_Editors', false ) ) {
+        //     require( ABSPATH . WPINC . '/class-wp-editor.php' );
+        // }
+        // add_action( 'admin_print_footer_scripts', array( '_WP_Editors', 'print_default_editor_scripts' ) );
     }
 
     public function enqueue_front_assets() {

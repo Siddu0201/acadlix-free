@@ -15,6 +15,10 @@ const menus = [
     name: "Fill",
     path: "/fill",
   },
+  {
+    name: "Testing",
+    path: "/testing",
+  },
 ];
 
 export default menus;
