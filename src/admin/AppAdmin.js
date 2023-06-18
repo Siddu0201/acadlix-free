@@ -6,8 +6,9 @@ import AdminHeader from "../partials/AdminHeader";
 import Quiz from "./views/quiz/Quiz";
 import Fill from "./views/fill/Fill";
 import Course from "./views/course/Course";
-import './AppAdmin.css'
-import Testing from "./views/Testing"
+import Configuration from "./views/configuration/Configuration";
+import "./AppAdmin.css";
+import Testing from "./views/Testing";
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
@@ -167,7 +168,22 @@ const AppAdmin = () => {
                   <Route path="/course" element={<div>{<Course />}</div>} />
                   <Route path="/question" element={<div>Question</div>} />
                   <Route path="/fill" element={<div>{<Fill />}</div>} />
-                  <Route path="/testing" element={<div><Testing /></div>} />
+                  <Route
+                    path="/testing"
+                    element={
+                      <div>
+                        <Testing />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/configuration"
+                    element={
+                      <div>
+                        <Configuration />
+                      </div>
+                    }
+                  />
                 </Route>
                 <Route path="*" element={<div>No path found</div>}></Route>
               </Routes>
