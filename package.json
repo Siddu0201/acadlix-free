@@ -29,6 +29,7 @@
     "dayjs": "^1.11.8",
     "react-datetime": "^3.2.0",
     "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.5",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.11"

@@ -1,6 +1,14 @@
-import React from "react";
+import * as React from "react";
 import BoxMain from "../../../components/BoxMain";
 import Card1 from "../../../components/Card1";
+import Fill from "./Fill";
+import RangeType from "./RangeType";
+import TrueFalse from "./TrueFalse";
+import Numerical from "./Numerical";
+import MultipleChoice from "./MultipleChoice";
+import SingleChoice from "./SingleChoice";
+import SortingChoice from "./SortingChoice";
+import MatrixSortingChoice from "./MatrixSortingChoice";
 import {
   TextareaAutosize,
   Input,
@@ -13,7 +21,12 @@ import {
   CardContent,
   CardHeader,
 } from "@mui/material";
-function Fill() {
+function Question() {
+  const [answer, setAnswer] = React.useState("trueFalse");
+
+  const handleChange = (event) => {
+    setAnswer(event.target.value);
+  };
   return (
     <div>
       <BoxMain>
@@ -44,11 +57,7 @@ function Fill() {
           <Card1>
             <CardHeader title="Answer Type"></CardHeader>
             <CardContent>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
+              <RadioGroup row value={answer} onChange={handleChange}>
                 <FormControlLabel
                   value="single-choice"
                   control={<Radio />}
@@ -75,7 +84,7 @@ function Fill() {
                   label="Matrix Sorting Choice"
                 />
                 <FormControlLabel
-                  value="Fill-in-the-blank"
+                  value="fill-in-the-blank"
                   control={<Radio />}
                   label="Fill in the Blank"
                 />
@@ -104,18 +113,46 @@ function Fill() {
             </CardContent>
           </Card1>
           <Card1>
-            <CardHeader title="Answer"></CardHeader>
-            <CardContent>
-              <TextareaAutosize minRows={3} style={{ width: "100%" }} />
-              <Button variant="contained" color="success">
-                Save
-              </Button>
-            </CardContent>
+            {(() => {
+              switch (answer) {
+                case "single-choice":
+                  return <SingleChoice />;
+                  break;
+                case "multiple-choice":
+                  return <MultipleChoice />;
+                  break;
+                case "truefalse":
+                  return <TrueFalse />;
+                  break;
+                case "sorting-choice":
+                  return <SortingChoice />;
+                  break;
+                case "matrix-sorting-choice":
+                  return <MatrixSortingChoice />;
+                  break;
+                case "fill-in-the-blank":
+                  return <Fill />;
+                  break;
+                case "numerical":
+                  return <Numerical />;
+                  break;
+                case "range-type":
+                  return <RangeType />;
+                  break;
+                case "paragraph":
+                  break;
+                default:
+                  break;
+              }
+            })()}
           </Card1>
+          <Button variant="contained" color="success">
+            Save
+          </Button>
         </FormControl>
       </BoxMain>
     </div>
   );
 }
 
-export default Fill;
+export default Question;

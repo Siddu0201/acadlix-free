@@ -12,10 +12,6 @@ const menus = [
     path: "/question",
   },
   {
-    name: "Fill",
-    path: "/fill",
-  },
-  {
     name: "Testing",
     path: "/testing",
   },
