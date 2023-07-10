@@ -1,7 +1,6 @@
-import React, {useRef, useEffect, useState} from 'react'
+import React, {useEffect } from 'react'
 import { MediaUpload } from '@wordpress/media-utils'
 import { Button } from '@mui/material'
-import {Editor} from '@wordpress/editor'
 
 const Testing = () => {
 

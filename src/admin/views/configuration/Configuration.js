@@ -13,15 +13,15 @@ import {
 import GridItem1 from "../../../components/GridItem1";
 import Card1 from "../../../components/Card1";
 import PropTypes from "prop-types";
-import General from "./General";
-import Payment from "./Payment";
-import Notification from "./Notification";
-import Personalization from "./Personalization";
-import Registration from "./Registration";
-import Translation from "./Translation";
-import Tools from "./Tools";
-import License from "./License";
-import Certificate from "./Certificate";
+import General from "./section/General";
+import Payment from "./section/Payment";
+import Notification from "./section/Notification";
+import Personalization from "./section/Personalization";
+import Registration from "./section/Registration";
+import Translation from "./section/Translation";
+import Tools from "./section/Tools";
+import License from "./section/License";
+import Certificate from "./section/Certificate";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,81 +62,72 @@ function Configuration() {
     setValue(newValue);
   };
   return (
-    <div>
-      <Box>
-        <Grid container>
-          <GridItem1 lg={3} md={3} sm={3} xs={0}>
-            <Card
-              sx={{
-                height: "100%",
-              }}
-            >
-              <CardContent>Sidebar</CardContent>
-            </Card>
-          </GridItem1>
-          <GridItem1 lg={9} md={9} sm={9} xs={12}>
-            <FormControl sx={{ width: "100%" }}>
-              <Card1 sx={{ padding: "10px" }}>
-                <Box sx={{ width: "100%" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      variant="scrollable"
-                      scrollButtons="auto"
-                    >
-                      <Tab label="General" {...a11yProps(0)} />
-                      <Tab label="Payment" {...a11yProps(1)} />
-                      <Tab label="Notification" {...a11yProps(2)} />
-                      <Tab label="Personalization" {...a11yProps(3)} />
-                      <Tab label="Registration" {...a11yProps(4)} />
-                      <Tab label="Translation" {...a11yProps(5)} />
-                      <Tab label="Tools" {...a11yProps(6)} />
-                      <Tab label="License" {...a11yProps(7)} />
-                      <Tab label="Certificate" {...a11yProps(8)} />
-                    </Tabs>
-                  </Box>
-                  <TabPanel value={value} index={0}>
-                    <General />
-                  </TabPanel>
-                  <TabPanel value={value} index={1}>
-                    <Payment />
-                  </TabPanel>
-                  <TabPanel value={value} index={2}>
-                    <Notification />
-                  </TabPanel>
-                  <TabPanel value={value} index={3}>
-                    <Personalization />
-                  </TabPanel>
-                  <TabPanel value={value} index={4}>
-                    <Registration />
-                  </TabPanel>
-                  <TabPanel value={value} index={5}>
-                    <Translation />
-                  </TabPanel>
-                  <TabPanel value={value} index={6}>
-                    <Tools />
-                  </TabPanel>
-                  <TabPanel value={value} index={7}>
-                    <License />
-                  </TabPanel>
-                  <TabPanel value={value} index={8}>
-                    <Certificate />
-                  </TabPanel>
+    <Box>
+      <Grid container rowSpacing={3} spacing={4} sx={{
+        padding: 4
+      }}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
+          <FormControl sx={{ width: "100%" }}>
+            <Card1 sx={{ padding: "10px" }}>
+              <Box sx={{ width: "100%" }}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                  >
+                    <Tab label="General" {...a11yProps(0)} />
+                    <Tab label="Payment" {...a11yProps(1)} />
+                    <Tab label="Notification" {...a11yProps(2)} />
+                    <Tab label="Personalization" {...a11yProps(3)} />
+                    <Tab label="Registration" {...a11yProps(4)} />
+                    <Tab label="Translation" {...a11yProps(5)} />
+                    <Tab label="Tools" {...a11yProps(6)} />
+                    <Tab label="License" {...a11yProps(7)} />
+                    <Tab label="Certificate" {...a11yProps(8)} />
+                  </Tabs>
                 </Box>
-              </Card1>
-            </FormControl>
-          </GridItem1>
+                <TabPanel value={value} index={0}>
+                  <General />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <Payment />
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                  <Notification />
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                  <Personalization />
+                </TabPanel>
+                <TabPanel value={value} index={4}>
+                  <Registration />
+                </TabPanel>
+                <TabPanel value={value} index={5}>
+                  <Translation />
+                </TabPanel>
+                <TabPanel value={value} index={6}>
+                  <Tools />
+                </TabPanel>
+                <TabPanel value={value} index={7}>
+                  <License />
+                </TabPanel>
+                <TabPanel value={value} index={8}>
+                  <Certificate />
+                </TabPanel>
+              </Box>
+            </Card1>
+          </FormControl>
         </Grid>
-        <Button
-          sx={{ float: "right", margin: "5px" }}
-          variant="contained"
-          color="success"
-        >
-          Save
-        </Button>
-      </Box>
-    </div>
+      </Grid>
+      <Button
+        sx={{ float: "right", margin: "5px" }}
+        variant="contained"
+        color="success"
+      >
+        Save
+      </Button>
+    </Box>
   );
 }
 

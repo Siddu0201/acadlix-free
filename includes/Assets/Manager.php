@@ -87,10 +87,6 @@ class Manager {
         wp_enqueue_media();
         wp_enqueue_style( 'acadlix-css' );
         wp_enqueue_script( 'acadlix-app' );
-        // if ( ! class_exists( '_WP_Editors', false ) ) {
-        //     require( ABSPATH . WPINC . '/class-wp-editor.php' );
-        // }
-        // add_action( 'admin_print_footer_scripts', array( '_WP_Editors', 'print_default_editor_scripts' ) );
     }
 
     public function enqueue_front_assets() {

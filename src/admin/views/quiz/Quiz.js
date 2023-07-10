@@ -16,16 +16,17 @@ import {
   Tab,
   Typography,
   Switch,
+  FormLabel,
+  useTheme,
 } from "@mui/material";
 import React from "react";
-import BoxMain from "../../../components/BoxMain";
-import GridItem1 from "../../../components/GridItem1";
 import Card1 from "../../../components/Card1";
-import PropTypes from "prop-types";
-import General from "./General";
-import Question from "./Question";
-import Result from "./Result";
-import Notification from "./Notification";
+import General from "./tabs/General";
+import Question from "./tabs/Question";
+import Result from "./tabs/Result";
+import Notification from "./tabs/Notification";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import CustomTextField from "../../../components/CustomTextField";
 const Categories = [
   { label: "category1" },
   { label: "category2" },
@@ -36,228 +37,324 @@ const templates = [
   { label: "tempelate2" },
   { label: "tempelate3" },
 ];
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 const Quiz = () => {
-  const [value, setValue] = React.useState(0);
+  const theme = useTheme();
+  const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <Box>
-      <Grid container>
-        <GridItem1 lg={3} md={3} sm={3} xs={0}>
-          <Card
-            sx={{
-              height: "100%",
-            }}
-          >
-            <CardContent>Sidebar</CardContent>
+      <Grid container rowSpacing={3} spacing={4} sx={{
+        padding: 4
+      }}>
+        {/* Top section containing category and template load */}
+        <Grid item xs={12} sm={12}>
+          <Card>
+              <CardContent>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={3}>
+                    <Autocomplete
+                      size="small"
+                      options={Categories}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Select Quiz Categories" />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={9}>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'end'
+                    }}>
+                      <Autocomplete
+                        sx={{
+                          minWidth: {
+                            xs: '200px',
+                            sm: '300px'
+                          },
+                          marginRight: 3,
+                        }}
+                        size="small"
+                        options={templates}
+                        renderInput={(params) => (
+                          <TextField {...params} label="Select Template" />
+                        )}
+                      />
+                      <Button
+                        variant="contained"
+                        color="success"
+                        size="small"
+                      >
+                        Load Template
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </CardContent>
           </Card>
-        </GridItem1>
-        <GridItem1 lg={9} md={9} sm={9} xs={12}>
-          <FormControl sx={{ width: "100%" }}>
-            <Card1 sx={{ padding: "10px" }}>
+        </Grid>
+
+        {/* Second section contain title and Description */}
+        <Grid item xs={12} sm={12}>
+          <Card>
               <CardContent>
-                <Autocomplete
-                  sx={{ border: "none", float: "left", width: "250px" }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={Categories}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select Quiz Categories" />
-                  )}
-                />
-                <Button
-                  style={{ float: "right", margin: "5px" }}
-                  variant="contained"
-                  color="success"
-                >
-                  Load Template
-                </Button>
-                <Autocomplete
-                  sx={{ float: "right", width: "250px", border: 0 }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={templates}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select Template" />
-                  )}
-                />
+                <Grid container spacing={4}>
+                  <Grid item xs={12} sm={12}>
+                    <CustomTextField 
+                      fullWidth
+                      name="title"
+                      size="small"
+                      label="Enter quiz title"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <CustomTextField 
+                      fullWidth
+                      name="title"
+                      size="small"
+                      label="Enter quiz description"
+                      multiline
+                      rows={2}
+                     
+                    />
+                  </Grid>
+                </Grid>
               </CardContent>
-            </Card1>
-            <Card1>
-              <CardContent>
-                <h3>Quiz Title</h3>
-                <TextField fullWidth />
-                <h3>Description</h3>
-                <TextareaAutosize minRows={4} style={{ width: "100%" }} />
-                <Button
-                  style={{ margin: "5px" }}
-                  variant="contained"
-                  color="success"
-                >
-                  Add Quiz
-                </Button>
-              </CardContent>
-            </Card1>
-            <Card1>
+          </Card>
+        </Grid>
+
+        {/* Third section contain quiz mode */}
+        <Grid item xs={12} sm={12}>
+          <Card>
               <CardHeader title="Mode"></CardHeader>
               <CardContent>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                >
-                  <Grid sx={{ textAlign: "center", color: "black" }}>
-                    <Grid container>
-                      <GridItem1 lg={4}>
-                        <FormControlLabel value="normal" control={<Radio />} />
-                        <h3>Normal</h3>
-                        <FormControlLabel
-                          control={<Switch />}
-                          label="Unable Back Button"
-                        />
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={4}>
+                    <Card sx={{
+                      height: '100%'
+                    }}>
+                      <CardContent>
+                        <Box sx={{
+                          textAlign: 'center',
+                          marginY: 2
+                        }}>
+                          <Radio
+                            checked={true}
+                            name="mode"
+                            sx={{
+                              padding: 1
+                            }}
+                          />
+                          <h3 style={{
+                            margin: '5px 0 10px 0',
+                            cursor: 'pointer'
+                          }}>
+                            Normal
+                          </h3>
+                        </Box>
+                        <Box>
+                          <FormControlLabel
+                            control={<Switch />}
+                            label="Enable Back Button"
+                          />
 
-                        <FormControlLabel
-                          control={<Switch />}
-                          label="Unable Check Button"
-                        />
-                      </GridItem1>
-                      <GridItem1 lg={4}>
-                        <FormControlLabel
-                          value="Check_and_continue"
-                          control={<Radio />}
-                        />
-                        <h3>Check And Continue</h3>
-                        <FormControlLabel
-                          control={<Switch />}
-                          label="Unable Check on Option Selected"
-                        />
-                      </GridItem1>
-                      <GridItem1 lg={4}>
-                        <FormControlLabel
-                          value="question_below_each_other"
-                          control={<Radio />}
-                        />
-                        <h3>Question Below Each Other</h3>
-                        <FormControlLabel
-                          control={<TextField type="number" />}
-                          label="Questions per page"
-                        />
-                      </GridItem1>
-                    </Grid>
-                    <Grid container>
-                      <GridItem1 lg={8}>
-                        <h3>Indian Exam Mode</h3>
-
-                        <h5>(Quiz Option will only set as per the exam)</h5>
-                        <FormControlLabel
-                          value="ibps"
-                          control={<Radio />}
-                          label="IBPS"
-                        />
-                        <FormControlLabel
-                          value="ssc"
-                          control={<Radio />}
-                          label="SSC"
-                        />
-                        <FormControlLabel
-                          value="gate"
-                          control={<Radio />}
-                          label="GATE"
-                        />
-                        <FormControlLabel
-                          value="sbi"
-                          control={<Radio />}
-                          label="SBI"
-                        />
-                        <FormControlLabel
-                          value="jee"
-                          control={<Radio />}
-                          label="JEE"
-                        />
-                        <FormControlLabel
-                          value="railway"
-                          control={<Radio />}
-                          label="Railway"
-                        />
-                        <h3>Other</h3>
-                        <TextField />
-                      </GridItem1>
-                      <GridItem1 lg={4}>
-                        <FormControlLabel
-                          value="advanced"
-                          control={<Radio />}
-                        />
-                        <h3>Advanced Mode</h3>
-                      </GridItem1>
-                    </Grid>
+                          <FormControlLabel
+                            control={<Switch />}
+                            label="Enable Check Button"
+                          />
+                        </Box>
+                      </CardContent>
+                    </Card>
                   </Grid>
-                </RadioGroup>
+                  <Grid item xs={12} sm={4}>
+                    <Card sx={{
+                      height: '100%'
+                    }}>
+                      <CardContent>
+                        <Box sx={{
+                          textAlign: 'center',
+                          marginY: 2
+                        }}>
+                          <Radio
+                            checked={true}
+                            name="mode"
+                            sx={{
+                              padding: 1
+                            }}
+                          />
+                          <h3 style={{
+                            margin: '5px 0 10px 0',
+                            cursor: 'pointer'
+                          }}>
+                            Check And Continue
+                          </h3>
+                        </Box>
+                        <Box>
+                          <FormControlLabel
+                            control={<Switch />}
+                            label="Unable Check on Option Selected"
+                          />
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Card sx={{
+                      height: '100%'
+                    }}>
+                      <CardContent>
+                        <Box sx={{
+                          textAlign: 'center',
+                          marginY: 2
+                        }}>
+                          <Radio
+                            checked={true}
+                            name="mode"
+                            sx={{
+                              padding: 1
+                            }}
+                          />
+                          <h3 style={{
+                            margin: '5px 0 10px 0',
+                            cursor: 'pointer'
+                          }}>
+                            Question Below Each Other
+                          </h3>
+                        </Box>
+                        <Box>
+                          <h3>
+                            Question per page
+                          </h3>
+                          <CustomTextField
+                           size="small"
+                           fullWidth
+                           type="number"
+                           label="Question per page"
+                          />
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <Card sx={{
+                      height: '100%'
+                    }}>
+                      <CardContent>
+                        <Box sx={{
+                          textAlign: 'center',
+                          marginY: 2
+                        }}>
+                          <Radio
+                            checked={true}
+                            name="mode"
+                            sx={{
+                              padding: 1
+                            }}
+                          />
+                          <h3 style={{
+                            margin: '5px 0 5px 0',
+                            cursor: 'pointer'
+                          }}>
+                            Advance mode
+                          </h3>
+                          <h5 style={{
+                            margin: "5px 0",
+                          }}>
+                            (Quiz Option will only set as per the exam)
+                          </h5>
+                        </Box>
+                        <Box sx={{
+                          textAlign: 'center'
+                        }}>
+                          <FormControl>
+                            <RadioGroup
+                              row
+                              name="advance_mode"
+                            >
+                              <FormControlLabel
+                                value="ibps"
+                                control={<Radio />}
+                                label="IBPS"
+                              />
+                              <FormControlLabel
+                                value="ssc"
+                                control={<Radio />}
+                                label="SSC"
+                              />
+                              <FormControlLabel
+                                value="gate"
+                                control={<Radio />}
+                                label="GATE"
+                              />
+                              <FormControlLabel
+                                value="sbi"
+                                control={<Radio />}
+                                label="SBI"
+                              />
+                              <FormControlLabel
+                                value="jee"
+                                control={<Radio />}
+                                label="JEE"
+                              />
+                              <FormControlLabel
+                                value="railway"
+                                control={<Radio />}
+                                label="Railway"
+                              />
+                              <FormControlLabel
+                                value="advance panel"
+                                control={<Radio />}
+                                label="Advance Panel"
+                              />
+
+                            </RadioGroup>
+                          </FormControl>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </Grid>
               </CardContent>
-            </Card1>
-            <Card1>
+          </Card>
+        </Grid>
+
+        {/* Fourth section contain quiz settings */}
+        <Grid item xs={12} sm={12}>
+          <Card1>
               <Box sx={{ width: "100%" }}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="fullWidth"
-                  >
-                    <Tab label="General" {...a11yProps(0)} />
-                    <Tab label="Question" {...a11yProps(1)} />
-                    <Tab label="Result" {...a11yProps(2)} />
-                    <Tab label="Notification" {...a11yProps(3)} />
-                  </Tabs>
-                </Box>
-                <TabPanel value={value} index={0}>
-                  <General />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                  <Question />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <Result />
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                  <Notification />
-                </TabPanel>
+                  <TabContext value={value}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                      <TabList 
+                        onChange={handleChange}
+                        variant="scrollable"
+                        allowScrollButtonsMobile
+                        aria-label="scrollable prevent tabs example"
+                      >
+                        <Tab label="General" value="1" />
+                        <Tab label="Question" value="2" />
+                        <Tab label="Result" value="3" />
+                        <Tab label="Notification" value="4" />
+                      </TabList>
+                    </Box>
+                    <TabPanel value="1">
+                      <General />
+                    </TabPanel>
+                    <TabPanel value="2">
+                      <Question />
+                    </TabPanel>
+                    <TabPanel value="3">
+                      <Result />
+                    </TabPanel>
+                    <TabPanel value="4">
+                      <Notification />
+                    </TabPanel>
+                </TabContext>
               </Box>
-            </Card1>
-          </FormControl>
-        </GridItem1>
+          </Card1>
+        </Grid>
       </Grid>
     </Box>
   );

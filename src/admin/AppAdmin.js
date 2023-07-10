@@ -2,13 +2,14 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
-import AdminHeader from "../partials/AdminHeader";
 import Quiz from "./views/quiz/Quiz";
 import Question from "./views/question/Question";
 import Course from "./views/course/Course";
 import Configuration from "./views/configuration/Configuration";
 import "./AppAdmin.css";
 import Testing from "./views/Testing";
+import AdminLayout from "../layout/AdminLayout";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
@@ -114,6 +115,13 @@ const AppAdmin = () => {
           },
         },
       },
+      MuiCardHeader:{
+        styleOverrides: {
+          root: {
+            padding: `8px 16px`,
+          }
+        }
+      },
       MuiCard: {
         defaultProps: {
           elevation: 6,
@@ -160,7 +168,7 @@ const AppAdmin = () => {
           <div>
             <ThemeProvider theme={theme}>
               <Routes>
-                <Route element={<AdminHeader />}>
+                <Route element={<AdminLayout />}>
                   <Route index element={<div> hello world</div>} />
                   <Route path="/quiz">
                     <Route index element={<Quiz />} />

@@ -8,7 +8,7 @@ import {
   TextareaAutosize,
   Button,
 } from "@mui/material";
-import GridItem1 from "../../../components/GridItem1";
+import GridItem1 from "../../../../components/GridItem1";
 function Notification() {
   return (
     <div>

@@ -2,16 +2,20 @@ import React from "react";
 import {
   CardHeader,
   CardContent,
-  TextField,
-  FormControlLabel,
 } from "@mui/material";
+import CustomTextField from "../../../../components/CustomTextField";
 function Numerical() {
   return (
     <div>
-      <CardHeader title="Option"></CardHeader>
       <CardContent>
         <h3>Answer Value</h3>
-        <FormControlLabel control={<TextField type="number" fullWidth />} />
+        <CustomTextField
+          fullWidth
+          size="small"
+          multiline
+          rows={2}
+          helperText="Numerical values only"
+        />
       </CardContent>
     </div>
   );

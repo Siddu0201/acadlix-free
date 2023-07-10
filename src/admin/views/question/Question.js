@@ -1,61 +1,190 @@
 import * as React from "react";
-import BoxMain from "../../../components/BoxMain";
-import Card1 from "../../../components/Card1";
-import Fill from "./Fill";
-import RangeType from "./RangeType";
-import TrueFalse from "./TrueFalse";
-import Numerical from "./Numerical";
-import MultipleChoice from "./MultipleChoice";
-import SingleChoice from "./SingleChoice";
-import SortingChoice from "./SortingChoice";
-import MatrixSortingChoice from "./MatrixSortingChoice";
+import Fill from "./types/Fill";
+import RangeType from "./types/RangeType";
+import TrueFalse from "./types/TrueFalse";
+import Numerical from "./types/Numerical";
+import MultipleChoice from "./types/MultipleChoice";
+import SingleChoice from "./types/SingleChoice";
+import SortingChoice from "./types/SortingChoice";
+import MatrixSortingChoice from "./types/MatrixSortingChoice";
 import {
-  TextareaAutosize,
-  Input,
   Radio,
   RadioGroup,
-  FormControl,
   FormControlLabel,
-  FormLabel,
   Button,
   CardContent,
   CardHeader,
+  Grid,
+  Card,
+  Box,
+  Autocomplete,
+  TextField,
+  Switch,
 } from "@mui/material";
+import CustomTextField from "../../../components/CustomTextField";
 function Question() {
-  const [answer, setAnswer] = React.useState("trueFalse");
+  const [answer, setAnswer] = React.useState("single-choice");
 
   const handleChange = (event) => {
     setAnswer(event.target.value);
   };
+
+  const answerType = () => {
+    switch (answer) {
+      case "single-choice":
+        return <SingleChoice />;
+      case "multiple-choice":
+        return <MultipleChoice />;
+      case "true-false":
+        return <TrueFalse />;
+      case "sorting-choice":
+        return <SortingChoice />;
+      case "matrix-sorting-choice":
+        return <MatrixSortingChoice />;
+      case "fill-in-the-blank":
+        return <Fill />;
+      case "numerical":
+        return <Numerical />;
+      case "range-type":
+        return <RangeType />;
+      case "paragraph":
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
-    <div>
-      <BoxMain>
-        <FormControl>
-          <Card1>
+    <Box>
+      <Grid container rowSpacing={3} spacing={4} sx={{
+        padding: 4
+      }}>
+        {/* Top section contain title, points, subject, topic */}
+        <Grid item xs={12} sm={12}>
+          <Card>
             <CardContent>
-              <Input
-                style={{ marginRight: "20px" }}
-                placeholder="Question Title"
-              />
-              <Input style={{ marginRight: "20px" }} placeholder="+ Points" />
-              <Input style={{ marginRight: "20px" }} placeholder="- Points" />
-              <Input style={{ marginRight: "20px" }} placeholder="Topic" />
+              <Grid container spacing={4}>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="Question Title"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="+ Point"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="- Point"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <Autocomplete
+                    fullWidth
+                    size="small"
+                    options={[]}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Subject" />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <Autocomplete
+                    fullWidth
+                    size="small"
+                    options={[]}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Topic" />
+                    )}
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-          </Card1>
-          <Card1>
-            <CardHeader title="Question"></CardHeader>
+          </Card>
+        </Grid>
+
+        {/* Section contain question */}
+        <Grid item xs={12} sm={12}>
+          <Card>
+            <CardHeader title="Question" />
             <CardContent>
-              <TextareaAutosize minRows={3} style={{ width: "100%" }} />
+              <Grid container spacing={4}>
+                <Grid item xs={12} lg={12}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="Question"
+                    multiline
+                    rows={4}
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-          </Card1>
-          <Card1>
-            <CardHeader title="Message with correct answer"></CardHeader>
+          </Card>
+        </Grid>
+
+        {/* Section contain correct answer */}
+        <Grid item xs={12} sm={12}>
+          <Card>
+            <CardHeader title="Message with correct answer" />
             <CardContent>
-              <TextareaAutosize minRows={3} style={{ width: "100%" }} />
+              <Grid container spacing={4}>
+                <Grid item xs={12} lg={12}>
+                  <FormControlLabel control={<Switch />} label="Different Message with Correct and Incorrect Answer?" />
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="Correct message"
+                    multiline
+                    rows={4}
+                  />
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="Incorrect message"
+                    multiline
+                    rows={4}
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-          </Card1>
-          <Card1>
-            <CardHeader title="Answer Type"></CardHeader>
+          </Card>
+        </Grid>
+
+        {/* Section contain hint */}
+        <Grid item xs={12} sm={12}>
+          <Card>
+            <CardHeader title="Hint(Optional)" />
+            <CardContent>
+              <Grid container spacing={4}>
+                <Grid item xs={12} lg={12}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label="Enter hint"
+                    multiline
+                    rows={4}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <Card>
+            <CardHeader title="Answer Type" />
             <CardContent>
               <RadioGroup row value={answer} onChange={handleChange}>
                 <FormControlLabel
@@ -69,7 +198,7 @@ function Question() {
                   label="Multiple Choice"
                 />
                 <FormControlLabel
-                  value="truefalse"
+                  value="true-false"
                   control={<Radio />}
                   label="True/False"
                 />
@@ -105,53 +234,25 @@ function Question() {
                 />
               </RadioGroup>
             </CardContent>
-          </Card1>
-          <Card1>
-            <CardHeader title="Hint(Optional)"></CardHeader>
+          </Card>
+        </Grid>
+        
+        {/* Section contain answer type form */}
+        <Grid item xs={12} sm={12}>
+          <Card>
             <CardContent>
-              <TextareaAutosize minRows={3} style={{ width: "100%" }} />
+              {answerType()}
             </CardContent>
-          </Card1>
-          <Card1>
-            {(() => {
-              switch (answer) {
-                case "single-choice":
-                  return <SingleChoice />;
-                  break;
-                case "multiple-choice":
-                  return <MultipleChoice />;
-                  break;
-                case "truefalse":
-                  return <TrueFalse />;
-                  break;
-                case "sorting-choice":
-                  return <SortingChoice />;
-                  break;
-                case "matrix-sorting-choice":
-                  return <MatrixSortingChoice />;
-                  break;
-                case "fill-in-the-blank":
-                  return <Fill />;
-                  break;
-                case "numerical":
-                  return <Numerical />;
-                  break;
-                case "range-type":
-                  return <RangeType />;
-                  break;
-                case "paragraph":
-                  break;
-                default:
-                  break;
-              }
-            })()}
-          </Card1>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
           <Button variant="contained" color="success">
             Save
           </Button>
-        </FormControl>
-      </BoxMain>
-    </div>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Autocomplete, TextField } from "@mui/material";
-import Row from "../../../components/Row";
+import Row from "../../../../components/Row";
 function Personalization() {
   const Color = [{ label: "Color1" }, { label: "Color2" }, { label: "Color3" }];
   return (

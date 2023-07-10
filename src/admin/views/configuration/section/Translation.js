@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, TextField, FormControlLabel, Autocomplete } from "@mui/material";
-import Row from "../../../components/Row";
+import Row from "../../../../components/Row";
 function Translation() {
   const Language = [
     { label: "Language1" },

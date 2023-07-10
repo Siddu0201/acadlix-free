@@ -5,7 +5,8 @@ const GridItem1 = (props) => {
   return (
     <Grid item {...props} sx={{
         paddingLeft: 4,
-        paddingTop: 4
+        paddingTop: 4,
+        ...props.sx
     }}></Grid>
   )
 }
