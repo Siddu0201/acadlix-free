@@ -8,12 +8,11 @@ function Translation() {
     { label: "Language3" },
   ];
   return (
-    <div>
       <Box sx={{ color: "black" }}>
         <Row>
-          <h4>Choose Language</h4>
           <Autocomplete
             sx={{ width: "250px", ml: "10px" }}
+            size="small"
             disablePortal
             id="combo-box-demo"
             options={Language}
@@ -23,7 +22,6 @@ function Translation() {
           />
         </Row>
       </Box>
-    </div>
   );
 }
 

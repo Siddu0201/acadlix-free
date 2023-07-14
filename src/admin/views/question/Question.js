@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect} from "react";
 import Fill from "./types/Fill";
 import RangeType from "./types/RangeType";
 import TrueFalse from "./types/TrueFalse";
@@ -24,6 +24,29 @@ import {
 import CustomTextField from "../../../components/CustomTextField";
 function Question() {
   const [answer, setAnswer] = React.useState("single-choice");
+
+  const loadEditor = (key) => {
+    window.wp.editor.initialize(key,{
+        tinymce: {
+            wpautop: true,
+            plugins : 'charmap colorpicker hr lists paste tabfocus textcolor fullscreen wordpress wpautoresize wpeditimage wpemoji wpgallery wplink wptextpattern',
+            toolbar1: 'formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,wp_more,spellchecker,fullscreen,wp_adv,listbuttons',
+            toolbar2: 'styleselect,strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help',
+            textarea_rows : 20,
+            setup: function(editor){
+                editor.on('input change', function(){
+                    // console.log(editor.getContent());
+                })
+            }
+        },
+        quicktags: true,
+        mediaButtons: true
+    });
+  }
+
+  const removeEditor = (key) => {
+      window.wp.editor.remove(key);
+  }
 
   const handleChange = (event) => {
     setAnswer(event.target.value);
@@ -53,6 +76,17 @@ function Question() {
         break;
     }
   }
+
+  useEffect(() => {
+    setTimeout(() =>{
+        loadEditor('texteditor1');
+    },1);
+
+    return () => {
+       clearTimeout();
+       removeEditor('texteditor1');
+    }
+  },[]);
 
   return (
     <Box>
@@ -117,13 +151,20 @@ function Question() {
             <CardContent>
               <Grid container spacing={4}>
                 <Grid item xs={12} lg={12}>
-                  <CustomTextField
+                  <textarea 
+                    id="texteditor1" 
+                    style={{
+                      width: '100%'
+                    }}
+                  />
+                  {/* <CustomTextField
                     fullWidth
                     size="small"
                     label="Question"
                     multiline
                     rows={4}
-                  />
+                    id="texteditor1"
+                  /> */}
                 </Grid>
               </Grid>
             </CardContent>
@@ -227,11 +268,11 @@ function Question() {
                   control={<Radio />}
                   label="Range Type"
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   value="paragraph"
                   control={<Radio />}
                   label="Paragraph"
-                />
+                /> */}
               </RadioGroup>
             </CardContent>
           </Card>
@@ -239,11 +280,7 @@ function Question() {
         
         {/* Section contain answer type form */}
         <Grid item xs={12} sm={12}>
-          <Card>
-            <CardContent>
-              {answerType()}
-            </CardContent>
-          </Card>
+          {answerType()}
         </Grid>
 
         <Grid item xs={12} sm={12}>

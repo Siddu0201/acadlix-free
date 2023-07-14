@@ -6,65 +6,110 @@ import {
   Switch,
   TextField,
   Stack,
+  Typography,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
+import CustomTextField from "../../../../components/CustomTextField";
 
 function Registration() {
   return (
-    <div>
-      <Box sx={{ color: "black" }}>
-        <Grid container>
-          <GridItem1 lg={4}>
-            <Stack spacing={2}>
-              <h3>Enable</h3>
-
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-            </Stack>
-          </GridItem1>
-          <GridItem1 lg={4}>
-            <Stack spacing={2}>
-              <h3>Required</h3>
-
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-              <FormControlLabel control={<Switch />} />
-            </Stack>
-          </GridItem1>
-          <GridItem1 lg={4}>
-            <Stack spacing={3.5}>
-              <h3>Label</h3>
-
-              <FormControlLabel
-                control={<TextField placeholder="First Name" />}
-              />
-              <FormControlLabel
-                control={<TextField placeholder="Last Name" />}
-              />
-              <FormControlLabel
-                control={<TextField placeholder="Email ID" />}
-              />
-              <FormControlLabel
-                control={<TextField placeholder="Choose Username" />}
-              />
-              <FormControlLabel
-                control={<TextField placeholder="Mobile Number" />}
-              />
-              <FormControlLabel
-                control={<TextField placeholder="Highest Qualification" />}
-              />
-            </Stack>
-          </GridItem1>
-        </Grid>
-      </Box>
-    </div>
+    <Box sx={{ color: "black" }}>
+      <Grid container>
+        <GridItem1 xs={3} lg={3}>
+          <Typography variant="body1">
+            Enable
+          </Typography>
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <Typography variant="body1">
+            Required
+          </Typography>
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <Typography variant="body1">
+            Label
+          </Typography>
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="First name"
+          />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Last name"
+          />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Email ID"
+          />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Choose Username"
+          />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Mobile number"
+          />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={3} lg={3}>
+          <FormControlLabel control={<Switch />} />
+        </GridItem1>
+        <GridItem1 xs={6} lg={4}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Highest Qualification"
+          />
+        </GridItem1>
+      </Grid>
+    </Box>
   );
 }
 

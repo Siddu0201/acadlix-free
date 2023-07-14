@@ -30,7 +30,6 @@ function General() {
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel control={<Switch />} label="Quiz Title" />
         </GridItem1>
-        
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel control={<Switch />} label="Restart Button" />
         </GridItem1>

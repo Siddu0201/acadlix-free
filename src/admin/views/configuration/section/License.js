@@ -1,26 +1,28 @@
 import React from "react";
-import { Box, TextField, FormControlLabel } from "@mui/material";
-import Row from "../../../../components/Row";
+import { Box, Grid } from "@mui/material";
+import GridItem1 from "../../../../components/GridItem1";
+import CustomTextField from "../../../../components/CustomTextField";
+
 function License() {
   return (
-    <div>
-      <Box sx={{ color: "black" }}>
-        <Row>
-          <h4>Email ID</h4>
-          <FormControlLabel
-            control={<TextField />}
-            sx={{ marginLeft: "10px" }}
-          ></FormControlLabel>
-        </Row>
-        <Row>
-          <h4>License Key</h4>
-          <FormControlLabel
-            control={<TextField />}
-            sx={{ marginLeft: "10px" }}
-          ></FormControlLabel>
-        </Row>
-      </Box>
-    </div>
+    <Box sx={{ color: "black" }}>
+      <Grid container>
+        <GridItem1 xs={12} lg={3}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Email ID"
+          />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="License Key"
+          />
+        </GridItem1>
+      </Grid>
+    </Box>
   );
 }
 

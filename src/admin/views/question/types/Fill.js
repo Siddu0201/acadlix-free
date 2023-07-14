@@ -1,11 +1,16 @@
 import React from "react";
-import { CardHeader, CardContent } from "@mui/material";
+import { CardHeader, CardContent, Card } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 function Fill() {
   return (
-    <div>
-      <CardHeader title="Answer"></CardHeader>
-      <CardContent>
+    <Card>
+      <CardHeader title="Fill in the Blank"
+      titleTypographyProps={{
+        variant: 'h6'
+      }}></CardHeader>
+      <CardContent sx={{
+        paddingTop: 1
+      }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -13,7 +18,7 @@ function Fill() {
           rows={4}
         />
       </CardContent>
-    </div>
+    </Card>
   );
 }
 

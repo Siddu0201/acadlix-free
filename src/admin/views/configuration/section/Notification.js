@@ -2,109 +2,110 @@ import React from "react";
 import {
   Grid,
   Box,
-  TextField,
   FormControlLabel,
   Switch,
-  TextareaAutosize,
   Button,
+  Typography,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
+import CustomTextField from "../../../../components/CustomTextField";
+
 function Notification() {
   return (
-    <div>
-      <Box sx={{ color: "black" }}>
-        <h3>Email Settings</h3>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <h4>Notify Course Purchase To</h4>
+    <Box sx={{ color: "black" }}>
+      <h3>Email Settings</h3>
+      <Grid container>
+        <GridItem1 xs={12} lg={3}>
+          <Typography variant="body1" sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+            Notify Course Purchase To
+          </Typography>
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Student" />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Instructor" />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Admin" />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <h4>Notify Course Completion To</h4>
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
+          <Typography variant="body1" sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+            Notify Course Completion To
+          </Typography>
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Student" />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Instructor" />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Admin" />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <h4>Notify Failed Transaction To</h4>
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
+          <Typography variant="body1" sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+            Notify Failed Transaction To
+          </Typography>
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Student" />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Instructor" />
+        </GridItem1>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel control={<Switch />} label="Admin" />
-        </div>
-        <FormControlLabel
-          control={<Switch />}
-          label="Send Custom Notification"
-        />
-        <Grid container>
-          <GridItem1 lg={3}>
-            <div
-              style={{
-                marginRight: "40px",
-                fontSize: "20px",
-                marginBottom: "10px",
-              }}
-            >
-              To:
-            </div>
-
-            <div
-              style={{
-                marginRight: "40px",
-                fontSize: "20px",
-                marginBottom: "10px",
-              }}
-            >
-              Subject:
-            </div>
-            <div
-              style={{
-                marginRight: "40px",
-                fontSize: "20px",
-                marginBottom: "10px",
-              }}
-            >
-              Message:
-            </div>
-          </GridItem1>
-          <GridItem1 lg={9}>
-            <TextField
-              fullWidth
-              sx={{ marginBottom: "10px" }}
-              placeholder="Student, Instructor or Email ID"
-            />
-
-            <TextField fullWidth sx={{ marginBottom: "10px" }} />
-            <TextareaAutosize minRows={4} style={{ width: "100%" }} />
-          </GridItem1>
-        </Grid>
-        <Button
-          style={{ float: "right", margin: "10px" }}
-          variant="contained"
-          color="success"
-        >
-          Send
-        </Button>
-      </Box>
-    </div>
+        </GridItem1>
+        <GridItem1 xs={12} lg={12}>
+          <FormControlLabel
+            control={<Switch />}
+            label="Send Custom Notification"
+          />
+        </GridItem1>
+        <GridItem1 xs={12} lg={12}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="To"
+          />
+        </GridItem1>
+        <GridItem1 xs={12} lg={12}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Subject"
+          />
+        </GridItem1>
+        <GridItem1 xs={12} lg={12}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            label="Message"
+            multiline
+            rows={3}
+          />
+        </GridItem1>
+        <GridItem1 xs={12} lg={12}>
+          <Button
+            style={{ float: "right", margin: "10px" }}
+            variant="contained"
+            color="success"
+          >
+            Send
+          </Button>
+        </GridItem1>
+      </Grid>
+    </Box>
   );
 }
 

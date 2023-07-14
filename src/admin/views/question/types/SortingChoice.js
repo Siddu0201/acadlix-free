@@ -12,16 +12,32 @@ import CustomTextField from "../../../../components/CustomTextField";
 
 function SortingChoice() {
   return (
-    <div>
-      <Option title="Option1"></Option>
-      <Option title="Option2"></Option>
-    </div>
+    <Card>
+      <CardHeader title="Sorting Choice"
+      titleTypographyProps={{
+        variant: 'h6'
+      }}
+      ></CardHeader>
+      <CardContent>
+        <Grid container spacing={4}>
+          <Grid item xs={12} lg={12}>
+            <Option title="Option1"></Option>
+          </Grid>
+          <Grid item xs={12} lg={12}>
+            <Option title="Option2"></Option>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }
 const Option = ({ title }) => {
   return (
-    <Card sx={{ margin: "10px" }}>
-      <CardHeader title={title}></CardHeader>
+    <Card>
+      <CardHeader title={title}
+      titleTypographyProps={{
+        variant: 'h6'
+      }}></CardHeader>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>

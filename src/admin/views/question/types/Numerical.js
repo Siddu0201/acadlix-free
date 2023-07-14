@@ -2,22 +2,27 @@ import React from "react";
 import {
   CardHeader,
   CardContent,
+  Card,
 } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 function Numerical() {
   return (
-    <div>
-      <CardContent>
-        <h3>Answer Value</h3>
+    <Card>
+      <CardHeader title="Numerical"
+      titleTypographyProps={{
+        variant: 'h6'
+      }}></CardHeader>
+      <CardContent sx={{
+        paddingTop: 1
+      }}>
         <CustomTextField
-          fullWidth
           size="small"
-          multiline
-          rows={2}
+          type="number"
+          label="Enter number"
           helperText="Numerical values only"
         />
       </CardContent>
-    </div>
+    </Card>
   );
 }
 

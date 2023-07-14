@@ -1,68 +1,91 @@
 import React from "react";
-import { Box, TextField, FormControlLabel, Switch } from "@mui/material";
+import { Box, FormControlLabel, Switch, Grid } from "@mui/material";
+import GridItem1 from "../../../../components/GridItem1";
+import CustomTextField from "../../../../components/CustomTextField";
+
 function Payment() {
   return (
-    <div>
       <Box sx={{ color: "black" }}>
-        <h3>payment Gateway</h3>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <FormControlLabel control={<Switch />} label="RazorPay" />
-          <FormControlLabel
-            control={<TextField placeholder="RazorPay Key" />}
-          />
-          <FormControlLabel
-            control={<TextField placeholder="RazorPay Salt" />}
-          />
-
-          <FormControlLabel control={<Switch />} label="Sandbox" />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <FormControlLabel control={<Switch />} label="PayPal" />
-          <FormControlLabel control={<TextField placeholder="PayPal Key" />} />
-          <FormControlLabel control={<TextField placeholder="PayPal Salt" />} />
-
-          <FormControlLabel control={<Switch />} label="Sandbox" />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <FormControlLabel control={<Switch />} label="PayPalUMoney" />
-          <FormControlLabel
-            control={<TextField placeholder="PayUMoney Key" />}
-          />
-          <FormControlLabel
-            control={<TextField placeholder="PayUMoney Salt" />}
-          />
-
-          <FormControlLabel control={<Switch />} label="Sandbox" />
-        </div>
-        <FormControlLabel control={<Switch />} label="Offline Payment Method" />
-        <FormControlLabel
-          control={<Switch />}
-          label="Admin/Instructor Can Assign Courses To Student"
-        />
-        <FormControlLabel
-          control={<Switch />}
-          label="Admin/Instructor Can Remove Student From Course"
-        />
+        <h3>Payment Gateway</h3>
+        <Grid container>
+          <GridItem1 xs={12} lg={3}>
+            <FormControlLabel control={<Switch />} label="RazorPay" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              type="text"
+              label="RazorPay Key"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              type="text"
+              label="RazorPay Salt"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <FormControlLabel control={<Switch />} label="Sandbox" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <FormControlLabel control={<Switch />} label="PayPal" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              type="text"
+              label="PayPal Key"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              type="text"
+              label="PayPal Salt"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <FormControlLabel control={<Switch />} label="Sandbox" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <FormControlLabel control={<Switch />} label="PayPalUMoney" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              type="text"
+              label="PayPalUMoney Key"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              type="text"
+              label="PayPalUMoney Salt"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={3}>
+            <FormControlLabel control={<Switch />} label="Sandbox" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={4}>
+            <FormControlLabel control={<Switch />} label="Offline Payment Method" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={4}>
+            <FormControlLabel control={<Switch />} label="Admin/Instructor Can Assign Courses To Student" />
+          </GridItem1>
+          <GridItem1 xs={12} lg={4}>
+            <FormControlLabel control={<Switch />} label="Admin/Instructor Can Remove Student From Course" />
+          </GridItem1>
+        </Grid>
+        
       </Box>
-    </div>
   );
 }
 

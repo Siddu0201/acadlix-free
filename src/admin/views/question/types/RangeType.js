@@ -2,39 +2,41 @@ import React from "react";
 import {
   CardHeader,
   CardContent,
-  FormControlLabel,
-  TextField,
   Grid,
+  Card,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 function RangeType() {
   return (
-    <div>
-      <CardHeader title="Option"></CardHeader>
-      <CardContent>
-        <Grid container>
-          <GridItem1 xs={12} lg={6}>
-            <h3>Range From</h3>
+    <Card>
+      <CardHeader title="Range Type"
+      titleTypographyProps={{
+        variant: 'h6'
+      }}></CardHeader>
+      <CardContent sx={{
+        paddingTop: 1
+      }}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} lg={6}>
             <CustomTextField
               fullWidth
               size="small"
-              multiline
-              rows={2}
+              label="Range From"
+              type="Number"
             />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <h3>Range To</h3>
+          </Grid>
+          <Grid item xs={12} lg={6}>
             <CustomTextField
               fullWidth
               size="small"
-              multiline
-              rows={2}
+              label="Range To"
+              type="number"
             />
-          </GridItem1>
+          </Grid>
         </Grid>
       </CardContent>
-    </div>
+    </Card>
   );
 }
 
