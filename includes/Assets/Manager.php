@@ -11,9 +11,13 @@ class Manager {
 
     public function __construct() {
         add_action( 'init', [ $this, 'register_all_scripts' ] );
-        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_front_assets']);
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
         add_shortcode( 'Acadlix_Quiz', [ $this, 'add_shortcode_quiz'] );
+        add_shortcode( 'Acadlix_Dashboard',  [$this, 'acadlix_dashboard_shortcode']);
+
+        add_filter( 'single_template', [$this, 'acadlix_dashboard_template'] );
+        add_filter( 'page_template', [$this, 'acadlix_dashboard_template'] );
     }
 
     public function add_shortcode_quiz($atts){
@@ -29,6 +33,28 @@ class Manager {
             ob_get_clean();
         }
         return $content;
+    }
+
+    public function acadlix_dashboard_shortcode(){
+        $content = '';
+
+        ob_start();
+        ?>
+        <div id="acadlix_dashboard"></div>
+        <?php
+        $content = ob_get_contents();
+        ob_get_clean();
+        return $content;
+
+    }
+
+    public function acadlix_dashboard_template($page_template){
+        global $post;
+
+        if(has_shortcode( $post->post_content, 'Acadlix_Dashboard' )){
+            $page_template = ACADLIX_TEMPLATE_PATH. '/dashboard.php';
+        }
+        return $page_template;
     }
 
     public function register_all_scripts() {

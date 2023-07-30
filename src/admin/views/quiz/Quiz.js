@@ -179,7 +179,6 @@ const Quiz = () => {
                           marginY: 2
                         }}>
                           <Radio
-                            checked={true}
                             name="mode"
                             sx={{
                               padding: 1
@@ -195,7 +194,7 @@ const Quiz = () => {
                         <Box>
                           <FormControlLabel
                             control={<Switch />}
-                            label="Unable Check on Option Selected"
+                            label="Enable Check on Option Selected"
                           />
                         </Box>
                       </CardContent>
@@ -211,7 +210,6 @@ const Quiz = () => {
                           marginY: 2
                         }}>
                           <Radio
-                            checked={true}
                             name="mode"
                             sx={{
                               padding: 1
@@ -248,7 +246,6 @@ const Quiz = () => {
                           marginY: 2
                         }}>
                           <Radio
-                            checked={true}
                             name="mode"
                             sx={{
                               padding: 1

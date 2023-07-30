@@ -53,14 +53,14 @@ function Payment() {
             <FormControlLabel control={<Switch />} label="Sandbox" />
           </GridItem1>
           <GridItem1 xs={12} lg={3}>
-            <FormControlLabel control={<Switch />} label="PayPalUMoney" />
+            <FormControlLabel control={<Switch />} label="PayUMoney" />
           </GridItem1>
           <GridItem1 xs={12} lg={3}>
             <CustomTextField
               fullWidth
               size="small"
               type="text"
-              label="PayPalUMoney Key"
+              label="PayUMoney Key"
             />
           </GridItem1>
           <GridItem1 xs={12} lg={3}>
@@ -68,7 +68,7 @@ function Payment() {
               fullWidth
               size="small"
               type="text"
-              label="PayPalUMoney Salt"
+              label="PayUMoney Salt"
             />
           </GridItem1>
           <GridItem1 xs={12} lg={3}>

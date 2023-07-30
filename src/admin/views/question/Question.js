@@ -22,10 +22,46 @@ import {
   Switch,
 } from "@mui/material";
 import CustomTextField from "../../../components/CustomTextField";
+import Language from "./sections/Language";
+import { useForm } from "react-hook-form";
 function Question() {
   const [answer, setAnswer] = React.useState("single-choice");
 
-  const loadEditor = (key) => {
+  const methods = useForm({
+    defaultValues: {
+      id: null,
+      subject_id: null,
+      topic_id: null,
+      points: 0,
+      negative_point: 0,
+      different_incorrect_text: '',
+      tip_enabled: 0,
+      answer_type: '',
+      language: [{
+        language_id: null,
+        default: true,
+        question: '',
+        correct_msg: '',
+        incorrect_msg: '',
+        tip_msg: '',
+        answer_data: {
+          singleChoice: {},
+          multipleChoice: {},
+          trueFalse: {},
+          sortingChoice: {},
+          matrixSortingChoice: {},
+          fillInTheBlank: {},
+          numerical: {},
+          rangeType: {},
+          paragraph: {},
+        }
+      }]
+    }
+  });
+
+  console.log(methods.watch());
+
+  const loadEditor = (key, name = '') => {
     window.wp.editor.initialize(key,{
         tinymce: {
             wpautop: true,
@@ -77,14 +113,23 @@ function Question() {
     }
   }
 
+  const loadPage = () => {
+    loadEditor('question');
+    loadEditor('correct_message');
+    loadEditor('incorrect_message');
+    loadEditor('hint');
+  }
+
   useEffect(() => {
-    setTimeout(() =>{
-        loadEditor('texteditor1');
-    },1);
+    loadPage();
+    window.addEventListener('load', loadPage);
 
     return () => {
-       clearTimeout();
-       removeEditor('texteditor1');
+       removeEditor('question');
+       removeEditor('correct_message');
+       removeEditor('incorrect_message');
+       removeEditor('hint');
+       window.removeEventListener('load', loadPage);
     }
   },[]);
 
@@ -93,6 +138,7 @@ function Question() {
       <Grid container rowSpacing={3} spacing={4} sx={{
         padding: 4
       }}>
+
         {/* Top section contain title, points, subject, topic */}
         <Grid item xs={12} sm={12}>
           <Card>
@@ -110,6 +156,7 @@ function Question() {
                     fullWidth
                     size="small"
                     label="+ Point"
+                    type="number"
                   />
                 </Grid>
                 <Grid item xs={12} sm={2}>
@@ -117,6 +164,7 @@ function Question() {
                     fullWidth
                     size="small"
                     label="- Point"
+                    type="number"
                   />
                 </Grid>
                 <Grid item xs={12} sm={2}>
@@ -144,6 +192,9 @@ function Question() {
           </Card>
         </Grid>
 
+         {/* Language section */}
+         <Language />
+
         {/* Section contain question */}
         <Grid item xs={12} sm={12}>
           <Card>
@@ -152,19 +203,11 @@ function Question() {
               <Grid container spacing={4}>
                 <Grid item xs={12} lg={12}>
                   <textarea 
-                    id="texteditor1" 
+                    id="question" 
                     style={{
                       width: '100%'
                     }}
                   />
-                  {/* <CustomTextField
-                    fullWidth
-                    size="small"
-                    label="Question"
-                    multiline
-                    rows={4}
-                    id="texteditor1"
-                  /> */}
                 </Grid>
               </Grid>
             </CardContent>
@@ -181,21 +224,19 @@ function Question() {
                   <FormControlLabel control={<Switch />} label="Different Message with Correct and Incorrect Answer?" />
                 </Grid>
                 <Grid item xs={12} lg={12}>
-                  <CustomTextField
-                    fullWidth
-                    size="small"
-                    label="Correct message"
-                    multiline
-                    rows={4}
+                  <textarea 
+                    id="correct_message" 
+                    style={{
+                      width: '100%'
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} lg={12}>
-                  <CustomTextField
-                    fullWidth
-                    size="small"
-                    label="Incorrect message"
-                    multiline
-                    rows={4}
+                  <textarea 
+                    id="incorrect_message" 
+                    style={{
+                      width: '100%'
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -210,12 +251,11 @@ function Question() {
             <CardContent>
               <Grid container spacing={4}>
                 <Grid item xs={12} lg={12}>
-                  <CustomTextField
-                    fullWidth
-                    size="small"
-                    label="Enter hint"
-                    multiline
-                    rows={4}
+                  <textarea 
+                    id="hint" 
+                    style={{
+                      width: '100%'
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -282,6 +322,9 @@ function Question() {
         <Grid item xs={12} sm={12}>
           {answerType()}
         </Grid>
+
+        {/* Language section */}
+        <Language />
 
         <Grid item xs={12} sm={12}>
           <Button variant="contained" color="success">

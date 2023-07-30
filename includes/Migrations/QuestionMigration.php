@@ -17,7 +17,7 @@ if(!class_exists('QuestionMigration')){
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
                     $table->float('points')->default(0);
                     $table->float('negative_points')->default(0);
-                    $table->boolean('correct_same_text')->default(0);
+                    $table->boolean('different_incorrect_text')->default(0);
                     $table->boolean('tip_enabled')->default(0)->comment('0 => hint inactive, 1 =>  hint active');
                     $table->string('answer_type');
                     $table->tinyInteger('matrix_sort_answer_criteria')->default(20);
