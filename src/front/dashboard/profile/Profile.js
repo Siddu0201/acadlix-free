@@ -40,12 +40,20 @@ const Profile = () => {
                     />
                   </GridItem1>
                   <GridItem1>
-                    <h6>New Password</h6>
-                    <CustomTextField fullWidth name="title" size="small" />
+                    <CustomTextField
+                      label="New Password"
+                      fullWidth
+                      name="title"
+                      size="small"
+                    />
                   </GridItem1>
                   <GridItem1>
-                    <h6>Re-Enter New Password</h6>
-                    <CustomTextField fullWidth name="title" size="small" />
+                    <CustomTextField
+                      label="Re-Enter New Password"
+                      fullWidth
+                      name="title"
+                      size="small"
+                    />
                   </GridItem1>
                   <GridItem1>
                     <Button variant="contained" color="success">
@@ -57,46 +65,86 @@ const Profile = () => {
                   <Grid container>
                     <GridItem1 lg={6} md={6} sm={12} xs={12}>
                       <GridItem1>
-                        <h6>First Name</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="First Name"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>Email</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Email"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>Address Line 1</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Address Line 1"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>City/Town</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="City/Town"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>Country</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Country"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                     </GridItem1>
                     <GridItem1 lg={6} md={6} sm={12} xs={12}>
                       <GridItem1>
-                        <h6>Last Name</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Last Name"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>Mobile Number</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Mobile Number"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>Address Line 2</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Address Line 2"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>State</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="State"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                       <GridItem1>
-                        <h6>Pin Code/Zip</h6>
-                        <CustomTextField fullWidth name="title" size="small" />
+                        <CustomTextField
+                          label="Pin Code/Zip"
+                          fullWidth
+                          name="title"
+                          size="small"
+                        />
                       </GridItem1>
                     </GridItem1>
                   </Grid>
