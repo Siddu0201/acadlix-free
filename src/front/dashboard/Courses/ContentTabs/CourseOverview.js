@@ -1,10 +1,13 @@
+import { Box, Typography } from "@mui/material";
 import React from "react";
 
 const CourseOverview = () => {
   return (
-    <div>
-      <h1>Course Overview</h1>
-    </div>
+    <Box>
+      <Typography>
+        Course Overview
+      </Typography>
+    </Box>
   );
 };
 

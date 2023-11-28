@@ -1,15 +1,10 @@
 import React from "react";
-import { Box, Card, CardContent, CardHeader } from "@mui/material";
+import { Box,Typography } from "@mui/material";
 const Result = () => {
   return (
-    <div>
-      <Box>
-        <Card>
-          <CardHeader title="My Result"></CardHeader>
-          <CardContent></CardContent>
-        </Card>
-      </Box>
-    </div>
+    <Box>
+      <Typography>My Result</Typography>
+    </Box>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -8,93 +8,212 @@ import {
   Tab,
   useMediaQuery,
   useTheme,
+  AppBar,
+  Drawer,
+  Typography,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  List,
+  ListItem,
+  ListItemText,
+  Checkbox,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import GridItem1 from "../../../components/GridItem1";
-import Notes from "./ContentTabs/Notes";
 import Announcments from "./ContentTabs/Announcments";
-import Discussion from "./ContentTabs/Discussion";
 import CourseOverview from "./ContentTabs/CourseOverview";
-import Sidebar from "./ContentTabs/Sidebar";
+import CourseSidebar from "./ContentTabs/CourseSidebar";
+import { FaAngleDown, FaArrowRight, FaTimes } from "react-icons/fa";
+
 const CourseContent = () => {
   const theme = useTheme();
-  const showSidebar = useMediaQuery(theme.breakpoints.up("sm"));
+  const showDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+  const [open, setOpen] = useState(showDesktop ? true : false);
+  const [scrollTop, setScrollTop] = useState(0);
 
-  const [value, setValue] = showSidebar
-    ? React.useState("2")
-    : React.useState("1");
+  const [value, setValue] = useState(showDesktop ? '2' : '1');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  return (
-    <div>
-      <Box>
-        <Grid container>
-          {showSidebar && (
-            <GridItem1 lg={3} md={3} sm={12} xs={12}>
-              <Card sx={{ minHeight: "100%" }}>
-                <CardHeader title="Course Content"></CardHeader>
-                <CardContent>
-                  <Sidebar />
-                </CardContent>
-              </Card>
-            </GridItem1>
-          )}
-          <GridItem1 lg={9} md={9} sm={12} xs={12}>
-            <Card style={{ marginRight: "10px" }}>
-              <iframe
-                src="https://www.youtube.com/embed/tgbNymZ7vqY?playlist=tgbNymZ7vqY&loop=1"
-                width="100%"
-                height="150%"
-              ></iframe>
-            </Card>
-            <TabContext value={value}>
-              <Box>
-                {showSidebar && (
-                  <TabList onChange={handleChange} variant="fullWidth">
-                    <Tab label="Notes" value="2" />
-                    <Tab label="Course Overview" value="3" />
-                    <Tab label="Announcements" value="4" />
-                    <Tab label="Discussion" value="5" />
-                  </TabList>
-                )}
 
-                {!showSidebar && (
-                  <TabList
-                    onChange={handleChange}
-                    variant="scrollable"
-                    scrollButtons
-                    allowScrollButtonsMobile
+  const handleOpen = () => {
+    setOpen(curr => !curr);
+    if(value === "1"){
+      setValue("2");
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = (event) => {
+      setScrollTop(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  return (
+    <Box>
+      <Box>
+        <AppBar
+          position="static"
+          sx={{
+            height: 56,
+          }}
+        >
+          {/* hello */}
+        </AppBar>
+      </Box>
+      <Box>
+        {/* Sidebar */}
+        <Grid container>
+          <Grid item xs={0} md={open ? 3 : 0}>
+            <Card
+              sx={{
+                borderRadius: 0,
+                height:
+                  scrollTop > 56
+                    ? "100%"
+                    : `calc(100% - calc(56px - ${scrollTop}px))`,
+                top: scrollTop > 56 ? 0 : `calc(56px - ${scrollTop}px)`,
+                position: "fixed",
+                zIndex: 1,
+                width: {
+                  xs: 0,
+                  md: open ? "25%" : 0,
+                },
+              }}
+            >
+              <CardContent
+                sx={{
+                  padding: 0,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    paddingY: 3,
+                    paddingLeft: 5,
+                    paddingRight: 3,
+                    borderBottom: "1px solid #d1d7dc",
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: 19,
+                        fontWeight: 600,
+                      }}
+                    >
+                      Course content
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                    onClick={handleOpen}
                   >
-                    <Tab label="Course Content" value="1" />
-                    <Tab label="Notes" value="2" />
-                    <Tab label="Course Overview" value="3" />
-                    <Tab label="Announcements" value="4" />
-                    <Tab label="Discussion" value="5" />
-                  </TabList>
-                )}
-              </Box>
-              <TabPanel value="1">
-                <Sidebar />
-              </TabPanel>
-              <TabPanel value="2">
-                <Notes />
-              </TabPanel>
-              <TabPanel value="3">
-                <CourseOverview />
-              </TabPanel>
-              <TabPanel value="4">
-                <Announcments />
-              </TabPanel>
-              <TabPanel value="5">
-                <Discussion />
-              </TabPanel>
-            </TabContext>
-          </GridItem1>
+                    <FaTimes />
+                  </Box>
+                </Box>
+                <CourseSidebar />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={open ? 9 : 12}>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: open ? "none" : "flex",
+                },
+                position: "absolute",
+                zIndex: 6,
+                top: "5rem",
+                left: 0,
+                border: "1px solid #6a6f73",
+                height: "2.5rem",
+                paddingRight: 4,
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={handleOpen}
+            >
+              <FaArrowRight
+                style={{
+                  height: "1.5rem",
+                  width: "1.5rem",
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                minHeight: {
+                  xs: "15rem",
+                  sm: open ? "23rem" : "28rem",
+                },
+                maxHeight: {
+                  xs: "15rem",
+                  sm: open ? "23rem" : "28rem",
+                },
+                height: "100%",
+                borderBottom: "1px solid #d1d7dc",
+              }}
+            >
+              hello
+            </Box>
+            <Box sx={{
+              paddingX: {
+                xs: 0,
+                sm: open ? 0 :'6%'
+              }
+            }}>
+              <TabContext value={value}>
+                <Box>
+                    <TabList
+                      onChange={handleChange}
+                      variant="scrollable"
+                      scrollButtons
+                      allowScrollButtonsMobile
+                    >
+                      {!open &&
+                        <Tab label="Course Content" value="1" />
+                      }
+                      <Tab label="Course Overview" value="2" />
+                      <Tab label="Announcements" value="3" />
+                    </TabList>
+                </Box>
+                <Box sx={{
+                  paddingX: {
+                    xs: 2,
+                    sm: 9
+                  }
+                }}>
+                  {!open &&
+                    <TabPanel value="1">
+                      <CourseSidebar />
+                    </TabPanel>
+                  }
+                  <TabPanel value="2">
+                    <CourseOverview />
+                  </TabPanel>
+                  <TabPanel value="3">
+                    <Announcments />
+                  </TabPanel>
+                </Box>
+              </TabContext>
+            </Box>
+          </Grid>
         </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
 

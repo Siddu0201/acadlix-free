@@ -67,6 +67,7 @@ final class Acadlix {
             new Yuvayana\Acadlix\Admin\Menu();
         }
         new Yuvayana\Acadlix\Assets\Manager();
+        new Yuvayana\Acadlix\REST\Api();
     }
 
     public function activate()

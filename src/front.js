@@ -9,7 +9,6 @@ if(shortcode.length > 0){
     });
 }
 
-
 const dashboard = document.getElementById("acadlix_dashboard");
 
 if(dashboard){

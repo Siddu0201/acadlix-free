@@ -69,6 +69,11 @@ class Manager {
                 'version' => ACADLIX_VERSION,
                 'deps'    => [],
             ],
+            'acadlix-front-css' => [
+                'src'     => ACADLIX_BUILD . '/front.css',
+                'version' => ACADLIX_VERSION,
+                'deps'    => [],
+            ],
         ];
     }
 
@@ -119,6 +124,7 @@ class Manager {
         if(is_admin()){
             return;
         }
+        wp_enqueue_style( 'acadlix-front-css' );
         wp_enqueue_script( 'acadlix-front-app');
     }
 }

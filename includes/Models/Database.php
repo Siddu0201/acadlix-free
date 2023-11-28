@@ -19,8 +19,8 @@ if(!class_exists('Database')){
                 'database' => DB_NAME,
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
-                'charset' => 'utf8',
-                'collation' => 'utf8_unicode_ci',
+                'charset' => DB_CHARSET,
+                'collation' => 'utf8mb4_unicode_ci',
                 'prefix' => $wpdb->prefix.'acadlix_',
             ]);
             // Set the event dispatcher used by Eloquent models... (optional)

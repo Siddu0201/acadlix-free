@@ -13,7 +13,7 @@ const Language = () => {
                             multiple
                             fullWidth
                             size="small"
-                            options={['English']}
+                            options={['English', 'Hindi']}
                             renderOption={(props, option, { selected }) => (
                                 <li {...props}>
                                   <Checkbox

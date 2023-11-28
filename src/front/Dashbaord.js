@@ -4,12 +4,15 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import "../admin/AppAdmin.css";
 import DashboardLayout from "../layout/DashboardLayout";
-import Courses from "./dashboard/Courses/Courses";
+import Courses from "./dashboard/courses/Courses";
 import CourseContent from "./dashboard/Courses/CourseContent";
 import Result from "./dashboard/result/Result";
 import PurchaseHistory from "./dashboard/purchaseHistory/PurchaseHistory";
 import Profile from "./dashboard/profile/Profile";
-import Sidebar from "./dashboard/Courses/ContentTabs/Sidebar";
+import Sidebar from "./dashboard/Courses/ContentTabs/CourseSidebar";
+import "./AppFront.css";
+import Quiz from "./dashboard/quiz/Quiz.js";
+
 const Dashbaord = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,12 +27,14 @@ const Dashbaord = () => {
 
   const colors = {
     main: {
-      primary: "#696CFF",
+      // primary: "#696CFF",
+      primary: "#eb5252",
       grey: "#8592A3",
       success: "#71DD37",
       error: "#FF3E1D",
       warning: "#FFAB00",
       info: "#03C3EC",
+      section: "#f8f9fc",
     },
     light: {
       primary: "#8082FF",
@@ -38,14 +43,17 @@ const Dashbaord = () => {
       error: "#FF5B3F",
       warning: "#FFB826",
       info: "#29CCEF",
+      section: "#f8f9fc",
     },
     dark: {
-      primary: "#6062E8",
+      // primary: "#6062E8",
+      primary: "#a04444",
       grey: "#798594",
       success: "#67C932",
       error: "#E8381A",
       warning: "#E89C00",
       info: "#03B1D7",
+      section: "#d4daed",
     },
   };
   const theme = createTheme({
@@ -84,6 +92,12 @@ const Dashbaord = () => {
         dark: colors.dark[themeColor],
         contrastText: "#fff",
       },
+      section: {
+        main: colors.main['section'],
+        light: colors.light['section'],
+        dark: colors.dark['section'],
+        contrastText: "#3a3b45",
+      },
       ...(mode === "light"
         ? {
             background: {
@@ -91,8 +105,8 @@ const Dashbaord = () => {
               default: "#f5f5f9",
             },
             text: {
-              primary: "rgba(55, 71, 92, 0.87)",
-              secondary: "rgba(55, 71, 92, 0.6)",
+              primary: "rgba(55, 71, 92, 1)!important",
+              secondary: "rgba(55, 71, 92, 0.6)!important",
             },
           }
         : {
@@ -157,6 +171,14 @@ const Dashbaord = () => {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: 'none',
+            marginBottom: '0px !important'
+          }
+        }
+      }
     },
   });
   return (
@@ -178,6 +200,7 @@ const Dashbaord = () => {
                 <Route path="/profile" element={<Profile />} />
               </Route>
               <Route path="/content" element={<CourseContent />} />
+              <Route path="/quiz" element={<Quiz />} />
               <Route path="/sidebar" element={<Sidebar />} />
             </Routes>
           </ThemeProvider>

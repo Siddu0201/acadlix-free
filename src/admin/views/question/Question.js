@@ -25,7 +25,7 @@ import CustomTextField from "../../../components/CustomTextField";
 import Language from "./sections/Language";
 import { useForm } from "react-hook-form";
 function Question() {
-  const [answer, setAnswer] = React.useState("single-choice");
+  const [answer, setAnswer] = React.useState("singleChoice");
 
   const methods = useForm({
     defaultValues: {
@@ -90,21 +90,21 @@ function Question() {
 
   const answerType = () => {
     switch (answer) {
-      case "single-choice":
+      case "singleChoice":
         return <SingleChoice />;
-      case "multiple-choice":
+      case "multipleChoice":
         return <MultipleChoice />;
-      case "true-false":
+      case "trueFalse":
         return <TrueFalse />;
-      case "sorting-choice":
+      case "sortingChoice":
         return <SortingChoice />;
-      case "matrix-sorting-choice":
+      case "matrixSortingChoice":
         return <MatrixSortingChoice />;
-      case "fill-in-the-blank":
+      case "fillInTheBlank":
         return <Fill />;
       case "numerical":
         return <Numerical />;
-      case "range-type":
+      case "rangeType":
         return <RangeType />;
       case "paragraph":
         break;
@@ -269,32 +269,32 @@ function Question() {
             <CardContent>
               <RadioGroup row value={answer} onChange={handleChange}>
                 <FormControlLabel
-                  value="single-choice"
+                  value="singleChoice"
                   control={<Radio />}
                   label="Single Choice"
                 />
                 <FormControlLabel
-                  value="multiple-choice"
+                  value="multipleChoice"
                   control={<Radio />}
                   label="Multiple Choice"
                 />
                 <FormControlLabel
-                  value="true-false"
+                  value="trueFalse"
                   control={<Radio />}
                   label="True/False"
                 />
                 <FormControlLabel
-                  value="sorting-choice"
+                  value="sortingChoice"
                   control={<Radio />}
                   label="Sorting Choice"
                 />
                 <FormControlLabel
-                  value="matrix-sorting-choice"
+                  value="matrixSortingChoice"
                   control={<Radio />}
                   label="Matrix Sorting Choice"
                 />
                 <FormControlLabel
-                  value="fill-in-the-blank"
+                  value="fillInTheBlank"
                   control={<Radio />}
                   label="Fill in the Blank"
                 />
@@ -304,7 +304,7 @@ function Question() {
                   label="Numerical"
                 />
                 <FormControlLabel
-                  value="range-type"
+                  value="rangeType"
                   control={<Radio />}
                   label="Range Type"
                 />

@@ -1,16 +1,11 @@
-import { Box, Card, CardContent, CardHeader } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 
 const PurchaseHistory = () => {
   return (
-    <div>
-      <Box>
-        <Card>
-          <CardHeader title="Purchase History"></CardHeader>
-          <CardContent></CardContent>
-        </Card>
-      </Box>
-    </div>
+    <Box>
+      <Typography>Purchase History</Typography>
+    </Box>
   );
 };
 

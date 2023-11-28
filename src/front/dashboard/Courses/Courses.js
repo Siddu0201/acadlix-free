@@ -3,25 +3,21 @@ import {
   Box,
   Card,
   CardContent,
-  CardHeader,
   CardMedia,
   CardActionArea,
-  Container,
   Grid,
   Autocomplete,
   TextField,
-  Button,
   InputAdornment,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import GridItem1 from "../../../components/GridItem1";
-import Card1 from "../../../components/Card1";
-import Row from "../../../components/Row";
+import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import User from "../profile/User.png";
+
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -33,99 +29,85 @@ const Courses = () => {
   ];
 
   return (
-    <div>
-      <Box>
-        <Card>
-          <CardHeader title="My Courses"></CardHeader>
-          <CardContent>
-            <Grid container spacing={3}>
-              <Grid item lg={6}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Autocomplete
-                    sx={{ width: "250px", ml: "10px" }}
-                    size="small"
-                    options={Categories}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Recently Added" />
-                    )}
-                  />
-                  <Autocomplete
-                    sx={{ width: "250px", ml: "10px" }}
-                    size="small"
-                    options={Categories}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Categories" />
-                    )}
-                  />
-                  <Autocomplete
-                    sx={{ width: "250px", ml: "10px" }}
-                    size="small"
-                    options={Categories}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Progress" />
-                    )}
-                  />
-                  <Autocomplete
-                    sx={{ width: "250px", ml: "10px" }}
-                    size="small"
-                    options={Categories}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Instructor" />
-                    )}
-                  />
-                </div>
-              </Grid>
-              <Grid item lg={6}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "end",
-                  }}
-                >
-                  <TextField
-                    size="small"
-                    id="search"
-                    type="search"
-                    label="Search"
-                    value={searchTerm}
-                    onChange={handleChange}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Button>
-                            <SearchIcon />
-                          </Button>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
-              </Grid>
+    <Box sx={{
+      marginTop: 4
+    }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={7}>
+          <Grid container spacing={3}>
+            <Grid item xs={4} sm={4}>
+              <Autocomplete
+                size="small"
+                options={Categories}
+                renderInput={(params) => (
+                  <TextField {...params} label="Categories" />
+                )}
+              />
+            </Grid> 
+            <Grid item xs={4} sm={4}>
+              <Autocomplete
+                size="small"
+                options={Categories}
+                renderInput={(params) => (
+                  <TextField {...params} label="Progress" />
+                )}
+              />
             </Grid>
-
-            <Card
+            <Grid item xs={4} sm={4}>
+              <Autocomplete
+                size="small"
+                options={Categories}
+                renderInput={(params) => (
+                  <TextField {...params} label="Instructor" />
+                )}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={5} sx={{
+          display: 'flex',
+          justifyContent: 'end'
+        }}>
+            <TextField
               sx={{
-                marginTop: "10px",
-                height: "50%",
-                width: "25%",
+                width: {
+                  xs: '100%',
+                  md: '70%',
+                }
               }}
-            >
-              <CardActionArea component={Link} to="/content">
-                <CardMedia component="img" image={User} alt="User" />
-                <CardContent>
-                  <Typography>Course 1</Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </CardContent>
-        </Card>
-      </Box>
-    </div>
+              size="small"
+              id="search"
+              type="search"
+              label="Search"
+              value={searchTerm}
+              onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                      <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Card onClick={() => navigate("/content")} sx={{
+            cursor: 'pointer'
+          }}>
+            <CardMedia component="img" image={User} alt="User" />
+            <CardContent>
+              <Box>
+                <Typography>
+                  Course 1
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      
+    </Box>
   );
 };
 
