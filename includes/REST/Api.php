@@ -2,6 +2,11 @@
 
 namespace Yuvayana\Acadlix\REST;
 
+/**
+ * API Manager class
+ * 
+ * All API classes would be registered here
+ */
 class Api {
 
     /**
@@ -13,7 +18,7 @@ class Api {
     protected $class_map;
 
     /**
-     * Constructor.
+     * Constructor used to register all apis.
      */
     public function __construct() {
         if ( ! class_exists( 'WP_REST_Server' ) ) {
@@ -31,6 +36,11 @@ class Api {
         add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
     }
 
+    /**
+     * Register rest API route function
+     *
+     * @return void
+     */
     public function register_rest_routes(): void {
         foreach ( $this->class_map as $controller ) {
             $this->$controller = new $controller();
