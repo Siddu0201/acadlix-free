@@ -4,13 +4,30 @@ import {
   Grid,
   FormControlLabel,
   Switch,
-  TextareaAutosize,
   Button,
-  TextField,
+  FormControl,
+  RadioGroup,
+  FormLabel,
+  Radio,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
-function Result() {
+
+const Result = (props) => {
+  const loadPage = () => {
+    props?.loadEditor("result_text");
+  };
+
+  React.useEffect(() => {
+    loadPage();
+    window.addEventListener("load", loadPage);
+
+    return () => {
+      props?.removeEditor("result_text");
+      window.removeEventListener("load", loadPage);
+    };
+  }, []);
+
   return (
     <div>
       <Box sx={{ color: "black" }}>
@@ -119,6 +136,10 @@ function Result() {
             />
           </GridItem1>
 
+          <GridItem1 xs={12} lg={4}>
+            <FormControlLabel control={<Switch />} label="Bookmark" />
+          </GridItem1>
+
           {/* A button to report regarding the question of the answer    */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
@@ -167,18 +188,96 @@ function Result() {
             <CustomTextField
               fullWidth
               size="small"
-              label="Number of time (0 -> Infinity)"
+              label="Number of time (0 ->s Infinity)"
               type="number"
             />
           </GridItem1>
-          
+          <GridItem1 xs={12} lg={12}>
+            <FormControl
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <FormLabel
+                id="acadlix-result-display-leaderboard-in-quiz-result"
+                sx={{
+                  marginRight: 1,
+                }}
+              >
+                Automatically display leaderboard in quiz result
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="acadlix-result-display-leaderboard-in-quiz-result"
+              >
+                <FormControlLabel
+                  value="don't display"
+                  label="don't display"
+                  control={<Radio />}
+                />
+                <FormControlLabel
+                  value="below the result"
+                  label="below the result"
+                  control={<Radio />}
+                />
+                <FormControlLabel
+                  value="in the button"
+                  label="in the button"
+                  control={<Radio />}
+                />
+              </RadioGroup>
+            </FormControl>
+          </GridItem1>
+
+          <GridItem1 xs={12} lg={12}>
+            <h3>Result Text(Optional)</h3>
+          </GridItem1>
+          <GridItem1 xs={12} lg={12}>
+            <FormControlLabel
+              control={<Switch />}
+              label="% Based Result Text"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={12}>
+            <textarea
+              id="result_text"
+              style={{
+                width: "100%",
+              }}
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={2}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              multiline
+              rows={1}
+              label="Percentage"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={10}>
+            <CustomTextField
+              fullWidth
+              size="small"
+              multiline
+              rows={3}
+              label="% text"
+            />
+          </GridItem1>
+          <GridItem1 xs={12} lg={12}>
+            <Button
+              sx={{
+                marginY: 3,
+              }}
+              variant="contained"
+              color="success"
+            >
+              Add More
+            </Button>
+          </GridItem1>
         </Grid>
-        <h3>Result Text(Optional)</h3>
-        <FormControlLabel control={<Switch />} label="% Based Result Text" />
-        <CustomTextField fullWidth size="small" multiline rows={3} />
-        <Button sx={{ marginY: 3 }} variant="contained" color="success">
-          Add More
-        </Button>
       </Box>
     </div>
   );

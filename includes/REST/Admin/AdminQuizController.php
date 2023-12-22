@@ -1,10 +1,10 @@
 <?php
 
-namespace Yuvayana\Acadlix\REST;
+namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 
-class QuizController {
+class AdminQuizController {
 
     protected $namespace = 'acadlix/v1';
 
@@ -28,6 +28,6 @@ class QuizController {
     }
 
     public function check_permission() {
-        return true;
+        return true;    
     }
 }

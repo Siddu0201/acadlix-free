@@ -28,7 +28,7 @@ class Api {
         $this->class_map = apply_filters(
             'acadlix_rest_api_class_map',
             [
-                \Yuvayana\Acadlix\REST\QuizController::class
+                \Yuvayana\Acadlix\REST\Admin\AdminQuizController::class
             ]
         );
 

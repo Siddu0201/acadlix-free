@@ -1,0 +1,16 @@
+namespace = "acadlix/v1"
+Admin
+    AdminQuizController.php
+    base= "/admin-quiz"
+        route="/", function="get_all_quiz",  WP_REST_Server::READABLE
+        route="/", function="post_create_quiz", WP_REST_Server::CREATABLE
+        route="/", function="delete_quiz", WP_REST_Server::DELETABLE
+        route="/(?P<id>[a-zA-Z0-9-]+)", function="get_quiz_by_id", WP_REST_Server::READABLE
+        route="/(?P<id>[a-zA-Z0-9-]+)", function="update_quiz_by_id", WP_REST_Server::EDITABLE
+    AdminQuestionController.php
+    base= "/admin-quiz/(?P<id>[a-zA-Z0-9-]+)/question"
+        route="/", function="get_quiz_questions", WP_REST_Server::READABLE
+        route="/", function="post_create_quiz_question", WP_REST_Server::CREATABLE
+        route="/", function="delete_quiz_question", WP_REST_Server::DELETABLE
+        route="/(?P<id>[a-zA-Z0-9-]+)", function="get_quiz_question_id", WP_REST_Server::READABLE
+        route="/(?P<id>[a-zA-Z0-9-]+)", function="update_quiz_question_by_id", WP_REST_Server::EDITABLE

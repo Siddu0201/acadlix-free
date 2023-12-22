@@ -1,129 +1,139 @@
 import React from "react";
-import {
-  Grid,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
+import { Grid, FormControlLabel, Switch } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 
-function Notification() {
+const Notification = (props) => {
+  const loadPage = () => {
+    props?.loadEditor("admin_message");
+    props?.loadEditor("student_message");
+    props?.loadEditor("instructor_message");
+  };
+
+  React.useEffect(() => {
+    loadPage();
+    window.addEventListener("load", loadPage);
+
+    return () => {
+      props?.removeEditor("admin_message");
+      props?.removeEditor("student_message");
+      props?.removeEditor("instructor_message");
+      window.removeEventListener("load", loadPage);
+    };
+  }, []);
+
   return (
     <div>
-        <Grid container>
-          <GridItem1 xs={12} lg={12}>
-            <FormControlLabel
-              control={<Switch />}
-              label="Admin Email Notification"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="To"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="From"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="Subject"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="Message"
-              multiline
-              rows={4}
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <FormControlLabel
-              control={<Switch />}
-              label="Student Email Notification"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="To"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="From"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="Subject"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="Message"
-              multiline
-              rows={4}
-            />
-          </GridItem1>
+      <Grid container>
+        {/* 
+          Admin email notification is used to send email to admin on quiz submition. Contain
+           - To : Whom you want to send mail
+           - From : To whom you want to send
+           - Subject: Subject of the mail
+           - Message: Message you want to send in mail
+        */}
+        <GridItem1 xs={12} lg={12}>
+          <FormControlLabel
+            control={<Switch />}
+            label="Admin Email Notification"
+          />
+        </GridItem1>
+        {/* Admin email id to whom you want to send email */}
+        <GridItem1 xs={12} lg={6}>
+          <CustomTextField fullWidth size="small" label="To" />
+        </GridItem1>
+        {/* Student email id from whom you want to send email */}
+        <GridItem1 xs={12} lg={6}>
+          <CustomTextField fullWidth size="small" label="From" />
+        </GridItem1>
+        {/* Subject of email */}
+        <GridItem1 xs={12} lg={12}>
+          <CustomTextField fullWidth size="small" label="Subject" />
+        </GridItem1>
+        {/* Message of email */}
+        <GridItem1 xs={12} lg={12}>
+          <textarea
+            id="admin_message"
+            style={{
+              width: "100%",
+            }}
+          />
+        </GridItem1>
 
-          {/* Instructor Email Only for Panel Mode  */}
-          <GridItem1 xs={12} lg={12}>
-            <FormControlLabel
-              control={<Switch />}
-              label="Instructor Email Notification"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="To"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={6}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="From"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="Subject"
-            />
-          </GridItem1>
-          <GridItem1 xs={12} lg={12}>
-            <CustomTextField
-              fullWidth
-              size="small"
-              label="Message"
-              multiline
-              rows={4}
-            />
-          </GridItem1>
-        </Grid>
+        {/* 
+          Student email notification is used to send email to student on quiz submition. Contain
+           - To : Whom you want to send mail
+           - From : To whom you want to send
+           - Subject: Subject of the mail
+           - Message: Message you want to send in mail
+        */}
+        <GridItem1 xs={12} lg={12}>
+          <FormControlLabel
+            control={<Switch />}
+            label="Student Email Notification"
+          />
+        </GridItem1>
+        {/* Student email to */}
+        <GridItem1 xs={12} lg={6}>
+          <CustomTextField fullWidth size="small" label="To" />
+        </GridItem1>
+        {/* From which email id you want to send */}
+        <GridItem1 xs={12} lg={6}>
+          <CustomTextField fullWidth size="small" label="From" />
+        </GridItem1>
+        {/* Subject of email */}
+        <GridItem1 xs={12} lg={12}>
+          <CustomTextField fullWidth size="small" label="Subject" />
+        </GridItem1>
+        {/* Message of email */}
+        <GridItem1 xs={12} lg={12}>
+          <textarea
+            id="student_message"
+            style={{
+              width: "100%",
+            }}
+          />
+        </GridItem1>
+
+        {/* 
+          Instructor Email Only for Panel Mode 
+          Instructor email notification is used to send email to instructor on quiz submition. Contain
+           - To : Whom you want to send mail
+           - From : To whom you want to send
+           - Subject: Subject of the mail
+           - Message: Message you want to send in mail
+        */}
+        <GridItem1 xs={12} lg={12}>
+          <FormControlLabel
+            control={<Switch />}
+            label="Instructor Email Notification"
+          />
+        </GridItem1>
+        {/* Instructor email */}
+        <GridItem1 xs={12} lg={6}>
+          <CustomTextField fullWidth size="small" label="To" />
+        </GridItem1>
+        {/* From email id */}
+        <GridItem1 xs={12} lg={6}>
+          <CustomTextField fullWidth size="small" label="From" />
+        </GridItem1>
+        {/* Subject of email */}
+        <GridItem1 xs={12} lg={12}>
+          <CustomTextField fullWidth size="small" label="Subject" />
+        </GridItem1>
+        {/* Message of email */}
+        <GridItem1 xs={12} lg={12}>
+          <textarea
+            id="instructor_message"
+            style={{
+              width: "100%",
+            }}
+            value="fdsfdsff"
+          />
+        </GridItem1>
+      </Grid>
     </div>
   );
-}
+};
 
 export default Notification;

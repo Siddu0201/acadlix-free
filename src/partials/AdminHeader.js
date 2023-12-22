@@ -36,8 +36,8 @@ const AdminHeader = () => {
                 {menus.length > 0 && menus.map((menu, index) => (
                   <Button
                     key={index}
-                    sx={{color: 'text.secondary', display: 'block' }}
-                    component={Link}
+                    sx={{ display: 'block' }}
+                    LinkComponent={Link}
                     to={menu?.path}
                   >
                     {menu?.name}

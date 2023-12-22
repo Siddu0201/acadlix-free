@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
-import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Quiz from "./views/quiz/Quiz";
 import Question from "./views/question/Question";
 import Course from "./views/course/Course";
@@ -10,6 +10,8 @@ import "./AppAdmin.css";
 import Testing from "./views/Testing";
 import AdminLayout from "../layout/AdminLayout";
 import "react-datepicker/dist/react-datepicker.css";
+import CreateQuiz from "./views/quiz/CreateQuiz";
+import CreateQuestion from "./views/question/CreateQuestion";
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
@@ -25,7 +27,8 @@ const AppAdmin = () => {
 
   const colors = {
     main: {
-      primary: "#696CFF",
+      // primary: "#696CFF",
+      primary: "#1c64f2",
       grey: "#8592A3",
       success: "#71DD37",
       error: "#FF3E1D",
@@ -41,7 +44,8 @@ const AppAdmin = () => {
       info: "#29CCEF",
     },
     dark: {
-      primary: "#6062E8",
+      // primary: "#6062E8",
+      primary: "#1c64f2cc",
       grey: "#798594",
       success: "#67C932",
       error: "#E8381A",
@@ -145,6 +149,13 @@ const AppAdmin = () => {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          contained: {
+            color: '#fff!important',
+          }
+        }
+      },
       MuiDataGrid: {
         defaultProps: {},
         styleOverrides: {
@@ -172,9 +183,13 @@ const AppAdmin = () => {
                   <Route index element={<div> hello world</div>} />
                   <Route path="/quiz">
                     <Route index element={<Quiz />} />
+                    <Route path="create" element={<CreateQuiz />} />
                   </Route>
                   <Route path="/course" element={<div>{<Course />}</div>} />
-                  <Route path="/question" element={<div>{<Question />}</div>} />
+                  <Route path="/question">
+                    <Route index element={<Question />} />
+                    <Route path="create" element={<CreateQuestion />} />
+                  </Route>
 
                   <Route
                     path="/testing"
