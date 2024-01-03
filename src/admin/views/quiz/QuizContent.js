@@ -1,56 +1,114 @@
 import {
   Box,
-  Card,
-  CardContent,
-  CardHeader,
   Grid,
-  Button,
-  Autocomplete,
-  TextField,
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormControlLabel,
-  Tab,
-  Switch,
 } from "@mui/material";
 import React from "react";
-import Card1 from "../../../components/Card1";
-import General from "./tabs/General";
-import Question from "./tabs/Question";
-import Result from "./tabs/Result";
-import Notification from "./tabs/Notification";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import CustomTextField from "../../../components/CustomTextField";
 import { useForm } from "react-hook-form";
-const Categories = [
-  { label: "category1" },
-  { label: "category2" },
-  { label: "category3" },
-];
-const templates = [
-  { label: "tempelate1" },
-  { label: "tempelate2" },
-  { label: "tempelate3" },
-];
+import CategoryTemplateSection from "./sections/CategoryTemplateSection";
+import TitleDescriptionSection from "./sections/TitleDescriptionSection";
+import QuizModeSection from "./sections/QuizModeSection";
+import QuizSettingSection from "./sections/QuizSettingSection";
 
 const QuizContent = () => {
-  const [value, setValue] = React.useState("1");
-
   const methods = useForm();
   const { reset } = methods;
 
   React.useEffect(() => {
     reset({
       id: null,
+      category_id: null,
+      load_template_id: null,
       title: "",
       description: "",
+      // Mode settings 
+      mode: "normal", // normal/check_and_continue/question_below_each_other/advance_mode
+      enable_back_button: false,
+      enable_check_button: false,
+      enable_check_on_option_selected: false,
+      question_per_page: 10, // 0 => all question
+      advance_mode_type: "advance_panel", // advance_panel/ibps/ssc/gate/sbi/jee/railway 
+      // General settings 
+      hide_quiz_title: false,
+      hide_restart_button: false,
+      show_clear_response_button: false,
+      quiz_timing_type: "full_quiz_time", // full_quiz_time/per_question_time 
+      quiz_time: 0, // 0 => Infinity (no limit)
+      pause_quiz: false,
+      start_date: null, // null => indefinite
+      end_date: null, // null => indefinite
+      prerequisite: false,
+      enable_login_register: false,
+      login_register_type: "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz 
+      per_user_allowed_attempt: 0, // 0 => infinity
+      save_statistic: false,
+      save_statistic_number_of_times: 0, // 0 =>  infinity
+      on_screen_calculator: false,
+      quiz_certificate: false,
+      show_only_specific_number_of_questions: false,
+      specific_number_of_questions: 0, // 0 => all
+      resume_unfinished_quiz: false,
+      rate_quiz: false,
+      quiz_feedback: false,
+      proctoring: false,
+      proctoring_max_number_of_time_allowed: 3, // min 1
+      // Question settings
+      show_marks: false,
+      display_subject: false,
+      skip_question: false,
+      answer_bullet: false,
+      answer_bullet_type: "numeric", // numeric/alphabet 
+      random_question: false,
+      random_option: false,
+      do_not_randomize_last_option: false,
+      question_overview: false,
+      hide_question_numbering: false,
+      sort_by_subject: false,
+      attempt_and_move_forward: false,
+      force_user_to_answer_each_question: false,
+      // Result settings
+      hide_result: false,
+      hide_negative_marks: false,
+      hide_quiz_time: false,
+      show_speed: false,
+      show_percentile: false,
+      show_accuracy: false,
+      show_rank: false,
+      show_average_score: false,
+      show_subject_wise_analysis: false,
+      show_marks_distribution: false,
+      show_status_based_on_min_percent: false,
+      result_comparision_with_top_five_student: false,
+      minimum_percent_to_pass: 0, // above 0 => pass
+      hide_answer_sheet: false,
+      show_per_question_time: false,
+      was_the_solution_helpful: false,
+      bookmark: false,
+      report_question_answer: false,
+      leaderboard: false,
+      leaderboard_total_number_of_entries: 10, // 0 => all,
+      leaderboard_user_can_apply_multiple_times: false,
+      leaderboard_apply_multiple_number_of_times: 0, // 0 => infinite
+      display_leaderboard_in_quiz_result: "do_not_display", // do_not_display/below_the_result/in_the_button
+      percent_based_result_text: false,
+      result_text: "", // ""/[{percent: number, text: ""}]
+      // Notification settings
+      admin_email_notification: false,
+      admin_to: "",
+      admin_from: "",
+      admin_subject: "",
+      admin_message: "",
+      student_email_notification: false,
+      student_to: "",
+      student_from: "",
+      student_subject: "",
+      student_message: "",
+      instructor_email_notification: false,
+      instructor_to: "",
+      instructor_from: "",
+      instructor_subject: "",
+      instructor_message: "",
     });
   }, [reset]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -78,20 +136,6 @@ const QuizContent = () => {
     window.wp.editor.remove(key);
   };
 
-  const loadPage = () => {
-    loadEditor("description");
-  }
-
-  React.useEffect(() => {
-    loadPage();
-    window.addEventListener('load', loadPage);
-
-    return () => {
-       removeEditor("description");
-       window.removeEventListener('load', loadPage);
-    }
-  },[]);
-
   return (
     <Box>
       <Grid
@@ -103,324 +147,16 @@ const QuizContent = () => {
         }}
       >
         {/* Top section containing category and template load */}
-        <Grid item xs={12} sm={12}>
-          <Card>
-            <CardContent>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={3}>
-                  <Autocomplete
-                    size="small"
-                    options={Categories}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Select Quiz Categories" />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={9}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "end",
-                    }}
-                  >
-                    <Autocomplete
-                      sx={{
-                        minWidth: {
-                          xs: "200px",
-                          sm: "300px",
-                        },
-                        marginRight: 3,
-                      }}
-                      size="small"
-                      options={templates}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Select Template" />
-                      )}
-                    />
-                    <Button variant="contained" color="success" size="small">
-                      Load Template
-                    </Button>
-                  </Box>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+        <CategoryTemplateSection />
 
         {/* Second section contain title and Description */}
-        <Grid item xs={12} sm={12}>
-          <Card>
-            <CardContent>
-              <Grid container spacing={4}>
-                <Grid item xs={12} sm={12}>
-                  <CustomTextField
-                    fullWidth
-                    name="title"
-                    size="small"
-                    label="Enter quiz title"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <textarea
-                    id="description"
-                    style={{
-                      width: '100%'
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+        <TitleDescriptionSection loadEditor={loadEditor} removeEditor={removeEditor} />
 
         {/* Third section contain quiz mode */}
-        <Grid item xs={12} sm={12}>
-          <Card>
-            <CardHeader title="Mode"></CardHeader>
-            <CardContent>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                    }}
-                  >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          textAlign: "center",
-                          marginY: 2,
-                        }}
-                      >
-                        <Radio
-                          checked={true}
-                          name="mode"
-                          sx={{
-                            padding: 1,
-                          }}
-                        />
-                        <h3
-                          style={{
-                            margin: "5px 0 10px 0",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Normal
-                        </h3>
-                      </Box>
-                      <Box>
-                        <FormControlLabel
-                          control={<Switch />}
-                          label="Enable Back Button"
-                        />
-
-                        <FormControlLabel
-                          control={<Switch />}
-                          label="Enable Check Button"
-                        />
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                    }}
-                  >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          textAlign: "center",
-                          marginY: 2,
-                        }}
-                      >
-                        <Radio
-                          name="mode"
-                          sx={{
-                            padding: 1,
-                          }}
-                        />
-                        <h3
-                          style={{
-                            margin: "5px 0 10px 0",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Check And Continue
-                        </h3>
-                      </Box>
-                      <Box>
-                        <FormControlLabel
-                          control={<Switch />}
-                          label="Enable Check on Option Selected"
-                        />
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                    }}
-                  >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          textAlign: "center",
-                          marginY: 2,
-                        }}
-                      >
-                        <Radio
-                          name="mode"
-                          sx={{
-                            padding: 1,
-                          }}
-                        />
-                        <h3
-                          style={{
-                            margin: "5px 0 10px 0",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Question Below Each Other
-                        </h3>
-                      </Box>
-                      <Box>
-                        <h3>Question per page</h3>
-                        <CustomTextField
-                          size="small"
-                          fullWidth
-                          type="number"
-                          label="Question per page"
-                        />
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                    }}
-                  >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          textAlign: "center",
-                          marginY: 2,
-                        }}
-                      >
-                        <Radio
-                          name="mode"
-                          sx={{
-                            padding: 1,
-                          }}
-                        />
-                        <h3
-                          style={{
-                            margin: "5px 0 5px 0",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Advance mode
-                        </h3>
-                        <h5
-                          style={{
-                            margin: "5px 0",
-                          }}
-                        >
-                          (Quiz Option will only set as per the exam)
-                        </h5>
-                      </Box>
-                      <Box
-                        sx={{
-                          textAlign: "center",
-                        }}
-                      >
-                        <FormControl>
-                          <RadioGroup row name="advance_mode">
-                            <FormControlLabel
-                              value="ibps"
-                              control={<Radio />}
-                              label="IBPS"
-                            />
-                            <FormControlLabel
-                              value="ssc"
-                              control={<Radio />}
-                              label="SSC"
-                            />
-                            <FormControlLabel
-                              value="gate"
-                              control={<Radio />}
-                              label="GATE"
-                            />
-                            <FormControlLabel
-                              value="sbi"
-                              control={<Radio />}
-                              label="SBI"
-                            />
-                            <FormControlLabel
-                              value="jee"
-                              control={<Radio />}
-                              label="JEE"
-                            />
-                            <FormControlLabel
-                              value="railway"
-                              control={<Radio />}
-                              label="Railway"
-                            />
-                            <FormControlLabel
-                              value="advance panel"
-                              control={<Radio />}
-                              label="Advance Panel"
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+        <QuizModeSection />
 
         {/* Fourth section contain quiz settings */}
-        <Grid item xs={12} sm={12}>
-          <Card1>
-            <Box sx={{ width: "100%" }}>
-              <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <TabList
-                    onChange={handleChange}
-                    variant="scrollable"
-                    allowScrollButtonsMobile
-                    aria-label="scrollable prevent tabs example"
-                  >
-                    <Tab label="General" value="1" />
-                    <Tab label="Question" value="2" />
-                    <Tab label="Result" value="3" />
-                    <Tab label="Notification" value="4" />
-                  </TabList>
-                </Box>
-                <TabPanel value="1">
-                  <General />
-                </TabPanel>
-                <TabPanel value="2">
-                  <Question />
-                </TabPanel>
-                <TabPanel value="3">
-                  <Result loadEditor={loadEditor} removeEditor={removeEditor} />
-                </TabPanel>
-                <TabPanel value="4">
-                  <Notification loadEditor={loadEditor} removeEditor={removeEditor} />
-                </TabPanel>
-              </TabContext>
-            </Box>
-          </Card1>
-        </Grid>
+        <QuizSettingSection loadEditor={loadEditor} removeEditor={removeEditor} />
       </Grid>
     </Box>
   );

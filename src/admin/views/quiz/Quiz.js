@@ -19,7 +19,7 @@ const Quiz = () => {
   ]);
 
   const columns = [
-    { field: "id", headerName: "ID", hide: true },
+    { field: "id", headerName: "ID" },
     { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
     { field: "category", headerName: "Category", flex: 1, minWidth: 100 },
     { field: "shortcode", headerName: "Shortcode", flex: 1, minWidth: 100 },
@@ -87,6 +87,9 @@ const Quiz = () => {
                   autoHeight
                   rows={rows}
                   columns={columns}
+                  columnVisibilityModel={{
+                    id: false
+                  }}
                 />
               </Box>
             </CardContent>

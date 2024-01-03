@@ -3,13 +3,13 @@ import {
   Box,
   Grid,
   FormControlLabel,
-  Switch,
   TextField,
   Stack,
   Typography,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
+import CustomSwitch from "../../../../components/CustomSwitch";
 
 function Registration() {
   return (
@@ -31,10 +31,10 @@ function Registration() {
           </Typography>
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <CustomTextField
@@ -44,10 +44,10 @@ function Registration() {
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <CustomTextField
@@ -57,10 +57,10 @@ function Registration() {
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <CustomTextField
@@ -70,10 +70,10 @@ function Registration() {
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <CustomTextField
@@ -83,10 +83,10 @@ function Registration() {
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <CustomTextField
@@ -96,10 +96,10 @@ function Registration() {
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
-          <FormControlLabel control={<Switch />} />
+          <FormControlLabel control={<CustomSwitch />} />
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <CustomTextField

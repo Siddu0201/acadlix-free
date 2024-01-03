@@ -19,6 +19,11 @@ const menus = [
     name: "Profile",
     path: "/profile",
   },
+  {
+    id: "quiz",
+    name: "Quiz",
+    path: "/quiz",
+  },
 ];
 
 export default menus;

@@ -1,8 +1,9 @@
 import React from "react";
-import { Grid, Box, FormControlLabel, Switch } from "@mui/material";
+import { Grid, Box, FormControlLabel } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import DatePicker from "react-datepicker";
 import CustomTextField from "../../../../components/CustomTextField";
+import CustomSwitch from "../../../../components/CustomSwitch";
 
 function General() {
   return (
@@ -36,7 +37,7 @@ function General() {
             <Grid item xs={12} lg={12}>
               <FormControlLabel
                 label="Acadlix Registration"
-                control={<Switch />}
+                control={<CustomSwitch />}
               />
             </Grid>
             <Grid item xs={12} lg={12}>
@@ -50,7 +51,7 @@ function General() {
             <Grid item xs={12} sm={12} lg={12}>
               <FormControlLabel
                 label="One Click Checkout"
-                control={<Switch />}
+                control={<CustomSwitch />}
               />
             </Grid>
           </Grid>
@@ -60,19 +61,19 @@ function General() {
           <Grid container spacing={4}>
             <Grid item xs={12} lg={12}>
               <FormControlLabel
-                control={<Switch />}
+                control={<CustomSwitch />}
                 label="Admin Auto Registration To Courses"
               />
             </Grid>
             <Grid item xs={12} lg={12}>
               <FormControlLabel
-                control={<Switch />}
+                control={<CustomSwitch />}
                 label="Remove Course/Quiz Limitations"
               />
             </Grid>
             <Grid item xs={12} lg={12}>
               <FormControlLabel
-                control={<Switch />}
+                control={<CustomSwitch />}
                 label="Include In Report"
               />
             </Grid>

@@ -3,12 +3,12 @@ import {
   Grid,
   Box,
   FormControlLabel,
-  Switch,
   Button,
   Typography,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
+import CustomSwitch from "../../../../components/CustomSwitch";
 
 function Notification() {
   return (
@@ -24,13 +24,13 @@ function Notification() {
           </Typography>
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Student" />
+          <FormControlLabel control={<CustomSwitch />} label="Student" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Instructor" />
+          <FormControlLabel control={<CustomSwitch />} label="Instructor" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Admin" />
+          <FormControlLabel control={<CustomSwitch />} label="Admin" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
           <Typography variant="body1" sx={{
@@ -41,13 +41,13 @@ function Notification() {
           </Typography>
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Student" />
+          <FormControlLabel control={<CustomSwitch />} label="Student" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Instructor" />
+          <FormControlLabel control={<CustomSwitch />} label="Instructor" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Admin" />
+          <FormControlLabel control={<CustomSwitch />} label="Admin" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
           <Typography variant="body1" sx={{
@@ -58,17 +58,17 @@ function Notification() {
           </Typography>
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Student" />
+          <FormControlLabel control={<CustomSwitch />} label="Student" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Instructor" />
+          <FormControlLabel control={<CustomSwitch />} label="Instructor" />
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<Switch />} label="Admin" />
+          <FormControlLabel control={<CustomSwitch />} label="Admin" />
         </GridItem1>
         <GridItem1 xs={12} lg={12}>
           <FormControlLabel
-            control={<Switch />}
+            control={<CustomSwitch />}
             label="Send Custom Notification"
           />
         </GridItem1>

@@ -3,15 +3,16 @@ import {
   Box,
   Grid,
   FormControlLabel,
-  Switch,
   Button,
   FormControl,
   RadioGroup,
   FormLabel,
   Radio,
+  Typography,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
+import CustomSwitch from "../../../../components/CustomSwitch";
 
 const Result = (props) => {
   const loadPage = () => {
@@ -33,73 +34,84 @@ const Result = (props) => {
       <Box sx={{ color: "black" }}>
         <Grid container>
           {/*           
-          Result option used to show result after quiz finish and options available in result are:
+          Result option used to hide result after quiz finish and options available in result are:
             - Hide Negative Marks
-            - Speed 
-            - Percentile 
-            - Accuracy 
-            - Rank 
-            - Average Score
-            - Subject Wise Analysis 
-            - Marks Distribution 
-            - Status 
+            - Hide Quiz Time
+            - Show Speed 
+            - Show Percentile 
+            - Show Accuracy % 
+            - Show Rank 
+            - Show Average Score
+            - Show Subject Wise Analysis 
+            - Show Marks Distribution 
+            - Show Status Based on min %
+            - Minimum % to pass 
+            - Result Comparison with top 5 Students
           */}
           <GridItem1 xs={12} lg={12}>
-            <FormControlLabel control={<Switch />} label="Result" />
+            <Typography variant="h6">Result Options</Typography>
+          </GridItem1> 
+          <GridItem1 xs={12} lg={12}>
+            <FormControlLabel control={<CustomSwitch />} label="Hide Result" />
           </GridItem1>
 
           {/* Used to hide negative marks in result  */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<Switch />}
+              control={<CustomSwitch />}
               label="Hide Negative Marks"
             />
           </GridItem1>
 
+          {/* Used to hide quiz time in result  */}
+          <GridItem1 xs={12} lg={4}>
+            <FormControlLabel control={<CustomSwitch />} label="Hide Quiz Time" />
+          </GridItem1>
+
           {/* Its an average speed per question - total_time_taken/question  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Speed" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Speed" />
           </GridItem1>
 
           {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Percentile" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Percentile" />
           </GridItem1>
 
           {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Accuracy %" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Accuracy %" />
           </GridItem1>
 
           {/* Used to show rank  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Rank" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Rank" />
           </GridItem1>
 
           {/* Used to Show Average Score  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Average Score" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Average Score" />
           </GridItem1>
 
           {/* Used to show subject wise analysis of quiz  */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<Switch />}
-              label="Subject Wise Analysis"
+              control={<CustomSwitch />}
+              label="Show Subject Wise Analysis"
             />
           </GridItem1>
 
           {/* Used to show marks Distribution  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Marks Distribution" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Marks Distribution" />
           </GridItem1>
 
           {/* 
           Used to show Status - Pass /Fail on the basis of Percent 
           On check - Minimum % to pass option will open
            */}
-          <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Status" />
+          <GridItem1 xs={12} lg={6}>
+            <FormControlLabel control={<CustomSwitch />} label="Show Status Based On Min % (Pass/Fail)" />
           </GridItem1>
 
           {/* Minimum marks to pass - default 0  */}
@@ -111,87 +123,107 @@ const Result = (props) => {
               type="number"
             />
           </GridItem1>
+
+          {/* Option for Result Comparision with top 5 student    */}
+          <GridItem1 xs={12} lg={12}>
+            <FormControlLabel
+              control={<CustomSwitch />}
+              label="Result Comparison with top 5 Students"
+            />
+          </GridItem1>
+
           {/* End of Result options */}
 
           {/* 
-          Answer sheet option to show answer sheet and options availbales are: 
-           - Per Question Time
+          Answer sheet option to hide answer sheet and options availbales are: 
+           - Show Per Question Time
            - was the solution helpful
+           - bookmark
            - report question/answer 
             */}
           <GridItem1 xs={12} lg={12}>
-            <FormControlLabel control={<Switch />} label="Answer Sheet" />
+            <Typography variant="h6">Answer Sheet Options</Typography>
+          </GridItem1>   
+          <GridItem1 xs={12} lg={12}>
+            <FormControlLabel control={<CustomSwitch />} label="Hide Answer Sheet" />
           </GridItem1>
 
           {/* Used to show per question time in answer sheet    */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Per Question Time" />
+            <FormControlLabel control={<CustomSwitch />} label="Show Per Question Time" />
           </GridItem1>
 
           {/* Used to ask the user as the solution is helpful or not - show like dislike emoji */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<Switch />}
-              label="Was the solution helpful"
+              control={<CustomSwitch />}
+              label="Was The Solution Helpful"
             />
           </GridItem1>
 
+          {/* Used to ask user to bookmark question in answer sheet */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<Switch />} label="Bookmark" />
+            <FormControlLabel control={<CustomSwitch />} label="Bookmark" />
           </GridItem1>
 
           {/* A button to report regarding the question of the answer    */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<Switch />}
+              control={<CustomSwitch />}
               label="Report question/answer"
             />
           </GridItem1>
 
           {/* End Answer sheet option  */}
 
-          {/* Option for Result Comparision with top 5 student    */}
-          <GridItem1 xs={12} lg={12}>
-            <FormControlLabel
-              control={<Switch />}
-              label="Result Comparison with top 5 Students"
-            />
-          </GridItem1>
-
           {/* 
           Options for Leaderboard contains
             - total number of entries
-            - automatically display leaderboard in quiz result - don't display(default) , below the result , in a button 
             - Users can apply multiple times (on selection show field for number of time 0 as default for infinity)
+            - Number of times user can apply
+            - automatically display leaderboard in quiz result - don't display(default) , below the result , in a button 
              */}
           <GridItem1 xs={12} lg={12}>
-            <FormControlLabel control={<Switch />} label="Leaderboard" />
+            <Typography variant="h6">Leaderboard Options</Typography>
+          </GridItem1>   
+          <GridItem1 xs={12} lg={12}>
+            <FormControlLabel control={<CustomSwitch />} label="Leaderboard" />
           </GridItem1>
 
+          {/* Total number of entries to be displayed in leaderboard */}
           <GridItem1 xs={12} lg={4}>
             <CustomTextField
               fullWidth
               size="small"
               label="Total number of enteries"
               type="number"
+              value={1}
             />
           </GridItem1>
 
+          {/* User can apply multiple times for leaderboard */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<Switch />}
+              control={<CustomSwitch />}
               label="User can apply multiple times"
             />
           </GridItem1>
 
+          {/* Number of times user can apply for leaderboard */}
           <GridItem1 xs={12} lg={4}>
             <CustomTextField
               fullWidth
               size="small"
-              label="Number of time (0 ->s Infinity)"
+              label="Number of time (0 -> Infinity)"
               type="number"
             />
           </GridItem1>
+
+          {/* Option to show position of leaderboard in quiz result
+            - don't display
+            - below the result
+            - in the button
+          */}
           <GridItem1 xs={12} lg={12}>
             <FormControl
               sx={{
@@ -203,7 +235,10 @@ const Result = (props) => {
               <FormLabel
                 id="acadlix-result-display-leaderboard-in-quiz-result"
                 sx={{
-                  marginRight: 1,
+                  marginRight: 4,
+                  color: "black",
+                  fontWeight: 500,
+                  fontSize: '1rem',
                 }}
               >
                 Automatically display leaderboard in quiz result
@@ -230,13 +265,17 @@ const Result = (props) => {
               </RadioGroup>
             </FormControl>
           </GridItem1>
+          {/* End leaderboard options */}
 
+          {/* Show result Text
+            - show simple text or based on %
+          */}
           <GridItem1 xs={12} lg={12}>
-            <h3>Result Text(Optional)</h3>
+            <Typography variant="h6">Result Text</Typography>
           </GridItem1>
           <GridItem1 xs={12} lg={12}>
             <FormControlLabel
-              control={<Switch />}
+              control={<CustomSwitch />}
               label="% Based Result Text"
             />
           </GridItem1>
