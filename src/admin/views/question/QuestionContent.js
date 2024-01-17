@@ -7,22 +7,8 @@ import MultipleChoice from "./types/MultipleChoice";
 import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
 import MatrixSortingChoice from "./types/MatrixSortingChoice";
-import {
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  Button,
-  CardContent,
-  CardHeader,
-  Grid,
-  Card,
-  Box,
-  Autocomplete,
-  TextField,
-} from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import { useForm } from "react-hook-form";
-import CustomTextField from "../../../components/CustomTextField";
-import CustomSwitch from "../../../components/CustomSwitch";
 import LanguageSection from "./sections/LanguageSection";
 import GeneralOptionSection from "./sections/GeneralOptionSection";
 import QuestionTextSection from "./sections/QuestionTextSection";
@@ -31,41 +17,41 @@ import QuestionHintSection from "./sections/QuestionHintSection";
 import QuestionAnswerTypeSection from "./sections/QuestionAnswerTypeSection";
 
 const QuestionContent = () => {
-  const [answer, setAnswer] = React.useState("singleChoice");
+  const [availableLanguage, setAvailableLanguage] = React.useState([
+    {id: 1, name: "English"},
+    {id: 2, name: "Hindi"},
+    {id: 3, name: "Tamil"},
+    {id: 4, name: "Malyalum"},
+    {id: 5, name: "Kannada"},
+  ]);
 
   const methods = useForm({
     defaultValues: {
       id: null,
       subject_id: null,
-      topic_id: null,
-      points: 0,
-      negative_point: 0,
-      different_incorrect_text: "",
-      tip_enabled: 0,
-      answer_type: "",
+      title: "",
+      points: 1,
+      negative_points: 0,
+      different_points_for_each_answer: false,
+      different_incorrect_msg: false,
+      hint_enabled: false,
+      answer_type: "singleChoice",
+      default_language_id: 1,
+      selected_language_id: 1,
       language: [
         {
-          language_id: null,
-          default: true,
+          language_id: 1,
           question: "",
           correct_msg: "",
           incorrect_msg: "",
-          tip_msg: "",
-          answer_data: {
-            singleChoice: {},
-            multipleChoice: {},
-            trueFalse: {},
-            sortingChoice: {},
-            matrixSortingChoice: {},
-            fillInTheBlank: {},
-            numerical: {},
-            rangeType: {},
-            paragraph: {},
-          },
+          hint_msg: "",
+          answer_data: []
         },
       ],
     },
   });
+
+  console.log(methods?.watch());
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -79,9 +65,10 @@ const QuestionContent = () => {
           "styleselect,strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help",
         textarea_rows: 20,
         setup: function (editor) {
-          editor.on("input change", function () {
-            // console.log(editor.getContent());
+          editor.on("input change", function (e) {
+              methods.setValue(name, window.wp.editor.getContent(key), { shouldDirty: true });
           });
+          
         },
       },
       quicktags: true,
@@ -93,28 +80,72 @@ const QuestionContent = () => {
     window.wp.editor.remove(key);
   };
 
-  const handleChange = (event) => {
-    setAnswer(event.target.value);
-  };
-
   const answerType = () => {
-    switch (answer) {
+    switch (methods.watch("answer_type")) {
       case "singleChoice":
-        return <SingleChoice />;
+        return (
+          <SingleChoice
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "multipleChoice":
-        return <MultipleChoice />;
+        return (
+          <MultipleChoice
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "trueFalse":
-        return <TrueFalse />;
+        return (
+          <TrueFalse
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "sortingChoice":
-        return <SortingChoice />;
+        return (
+          <SortingChoice
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "matrixSortingChoice":
-        return <MatrixSortingChoice />;
+        return (
+          <MatrixSortingChoice
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "fillInTheBlank":
-        return <Fill />;
+        return (
+          <Fill
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "numerical":
-        return <Numerical />;
+        return (
+          <Numerical
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "rangeType":
-        return <RangeType />;
+        return (
+          <RangeType
+            {...methods}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
       case "paragraph":
         break;
       default:
@@ -122,28 +153,14 @@ const QuestionContent = () => {
     }
   };
 
-  const loadPage = () => {
-    loadEditor("question");
-    loadEditor("correct_message");
-    loadEditor("incorrect_message");
-    loadEditor("hint");
-  };
-
-  useEffect(() => {
-    loadPage();
-    window.addEventListener("load", loadPage);
-
-    return () => {
-      removeEditor("question");
-      removeEditor("correct_message");
-      removeEditor("incorrect_message");
-      removeEditor("hint");
-      window.removeEventListener("load", loadPage);
-    };
-  }, []);
+  // console.log(methods.watch());
 
   return (
-    <Box>
+    <Box
+      sx={{
+        color: "black",
+      }}
+    >
       <Grid
         container
         rowSpacing={3}
@@ -153,22 +170,55 @@ const QuestionContent = () => {
         }}
       >
         {/* General section contain title, points, subject, topic */}
-        <GeneralOptionSection />
+        <GeneralOptionSection {...methods} />
 
         {/* Language section */}
-        <LanguageSection />
+        <LanguageSection
+          {...methods}
+          availableLanguage={availableLanguage}
+          setAvailableLanguage={setAvailableLanguage}
+          removeEditor={removeEditor}
+        />
 
-        {/* Section contain question */}
-        <QuestionTextSection />
+        {
+          methods?.watch("language")?.length > 0 &&
+          methods?.watch("language")?.map((lang, index) => (
+            <React.Fragment key={index}>
+              {/* Section contain question */}
+              <QuestionTextSection
+                {...methods}
+                loadEditor={loadEditor}
+                removeEditor={removeEditor}
+                index={index}
+                lang={lang}
+                availableLanguage={availableLanguage}
+              />
 
-        {/* Section contain message with correct answer and incorrect answer */}
-        <QuestionMessageSection />
+              {/* Section contain message with correct answer and incorrect answer */}
+              <QuestionMessageSection
+                {...methods}
+                loadEditor={loadEditor}
+                removeEditor={removeEditor}
+                index={index}
+                lang={lang}
+                availableLanguage={availableLanguage}
+              />
 
-        {/* Section contain hint */}
-        <QuestionHintSection />
+              {/* Section contain hint */}
+              <QuestionHintSection
+                {...methods}
+                loadEditor={loadEditor}
+                removeEditor={removeEditor}
+                index={index}
+                lang={lang}
+                availableLanguage={availableLanguage}
+              />
+            </React.Fragment>
+          ))
+        }
 
         {/* Section contain answer type */}
-        <QuestionAnswerTypeSection answer={answer} handleChange={handleChange} />
+        <QuestionAnswerTypeSection {...methods} />
 
         {/* Section contain answer type form */}
         <Grid item xs={12} sm={12}>
@@ -176,7 +226,12 @@ const QuestionContent = () => {
         </Grid>
 
         {/* Language section */}
-        <LanguageSection />
+        <LanguageSection
+          {...methods}
+          availableLanguage={availableLanguage}
+          setAvailableLanguage={setAvailableLanguage}
+          removeEditor={removeEditor}
+        />
 
         <Grid item xs={12} sm={12}>
           <Button variant="contained" color="success">

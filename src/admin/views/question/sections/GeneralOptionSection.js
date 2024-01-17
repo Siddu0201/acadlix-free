@@ -24,8 +24,18 @@ const GeneralOptionSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={4}>
-              <CustomTextField fullWidth size="small" label="Question Title" />
+            <Grid item xs={12} sm={5}>
+              <CustomTextField
+                {...props?.register("title", {required: "Question title is required"})}
+                required 
+                fullWidth 
+                size="small" 
+                label="Question Title"
+                value={props?.watch("title")}
+                onChange={(e) => {
+                  props?.setValue("title", e.target.value, {shouldDirty: true});
+                }}
+              />
             </Grid>
             <Grid item xs={12} sm={2}>
               <CustomTextField
@@ -33,6 +43,11 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 label="+ Point"
                 type="number"
+                InputProps={{ inputProps: { min: 0} }}
+                value={props?.watch("points")}
+                onChange={(e) => {
+                  props?.setValue("points", e.target.value, {shouldDirty: true});
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={2}>
@@ -41,25 +56,20 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 label="- Point"
                 type="number"
+                InputProps={{ inputProps: { min: 0} }}
+                value={props?.watch("negative_points")}
+                onChange={(e) => {
+                  props?.setValue("negative_points", e.target.value, {shouldDirty: true});
+                }}
               />
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={3}>
               <Autocomplete
                 fullWidth
                 size="small"
                 options={[]}
                 renderInput={(params) => (
                   <TextField {...params} label="Subject" />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={2}>
-              <Autocomplete
-                fullWidth
-                size="small"
-                options={[]}
-                renderInput={(params) => (
-                  <TextField {...params} label="Topic" />
                 )}
               />
             </Grid>
