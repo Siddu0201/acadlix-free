@@ -3,7 +3,7 @@ import MainBox from './MainBox'
 
 const NormalQuiz = () => {
   return (
-    <div>
+    <div> 
       <MainBox/>
     </div>
   )
