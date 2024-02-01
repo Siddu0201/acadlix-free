@@ -12,6 +12,7 @@ import Profile from "./dashboard/profile/Profile";
 import Sidebar from "./dashboard/Courses/ContentTabs/CourseSidebar";
 import "./AppFront.css";
 import Quiz from "./dashboard/quiz/Quiz.js";
+import NormalQuiz from "./dashboard/normalQuiz/NormalQuiz.js";
 
 const Dashbaord = () => {
   const queryClient = new QueryClient({
@@ -198,6 +199,7 @@ const Dashbaord = () => {
                 <Route path="/result" element={<Result />} />
                 <Route path="/purchase" element={<PurchaseHistory />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/normal-quiz" element={<NormalQuiz/>} />
               </Route>
               <Route path="/content" element={<CourseContent />} />
               <Route path="/quiz" element={<Quiz />} />

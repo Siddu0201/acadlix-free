@@ -24,6 +24,11 @@ const menus = [
     name: "Quiz",
     path: "/quiz",
   },
+  {
+    id: "normal-quiz",
+    name: "Normal Quiz",
+    path: "/normal-quiz",
+  },
 ];
 
 export default menus;
