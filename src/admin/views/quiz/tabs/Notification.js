@@ -6,9 +6,9 @@ import CustomSwitch from "../../../../components/CustomSwitch";
 
 const Notification = (props) => {
   const loadPage = () => {
-    props?.loadEditor("admin_message");
-    props?.loadEditor("student_message");
-    props?.loadEditor("instructor_message");
+    props?.loadEditor("admin_message", "admin_message");
+    props?.loadEditor("student_message", "student_message");
+    props?.loadEditor("instructor_message", "instructor_message");
   };
 
   React.useEffect(() => {

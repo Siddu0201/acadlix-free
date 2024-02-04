@@ -32,21 +32,23 @@ const QuizSettingSection = (props) => {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <General />
+              <General
+                {...props}
+              />
             </TabPanel>
             <TabPanel value="2">
-              <Question />
+              <Question 
+                {...props}
+              />
             </TabPanel>
             <TabPanel value="3">
               <Result
-                loadEditor={props?.loadEditor}
-                removeEditor={props?.removeEditor}
+                {...props}
               />
             </TabPanel>
             <TabPanel value="4">
               <Notification
-                loadEditor={props?.loadEditor}
-                removeEditor={props?.removeEditor}
+                {...props}
               />
             </TabPanel>
           </TabContext>

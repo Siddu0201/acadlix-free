@@ -79,7 +79,14 @@ const QuizModeSection = (props) => {
                     />
 
                     <FormControlLabel
-                      control={<CustomSwitch />}
+                      control={
+                        <CustomSwitch
+                          checked={props?.watch("enable_check_button") ?? false}
+                          onChange={(e) => {
+                            props?.setValue("enable_check_button" , e?.target?.checked, {shouldDirty: true});
+                          }}
+                        />
+                      }
                       label="Enable Check Button"
                     />
                   </Box>
@@ -125,7 +132,14 @@ const QuizModeSection = (props) => {
                   </Box>
                   <Box>
                     <FormControlLabel
-                      control={<CustomSwitch />}
+                      control={
+                        <CustomSwitch
+                          checked={props?.watch("enable_check_on_option_selected") ?? false}
+                          onChange={(e) => {
+                            props?.setValue("enable_check_on_option_selected", e?.target?.checked, {shouldDirty: true});
+                          }}
+                        />
+                      }
                       label="Enable Check on Option Selected"
                     />
                   </Box>
@@ -176,6 +190,10 @@ const QuizModeSection = (props) => {
                       fullWidth
                       type="number"
                       label="Question per page"
+                      value={props?.watch("question_per_page") ?? 10}
+                      onChange={(e) => {
+                        props?.setValue("question_per_page", Number(e?.target?.value), {shouldDirty: true});
+                      }}
                     />
                   </Box>
                 </CardContent>
