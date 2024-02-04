@@ -1,7 +1,6 @@
 import { Delete, DeleteOutline } from "@mui/icons-material";
 import {
   Autocomplete,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -19,6 +18,88 @@ import {
 import React from "react";
 
 const LanguageSection = (props) => {
+
+  const getLanguageAnswerData = (type) => {
+    let answerData = {};
+    switch (type) {
+      case "singleChoice":
+        answerData = {
+          singleChoice: [
+            ...props?.watch(`language.0.answer_data.${type}`)?.map((opt) => {
+              return {...opt, option: ""};
+            })
+          ]
+        };
+        break;
+      case "multipleChoice":
+        answerData = {
+          multipleChoice: [
+            ...props?.watch(`language.0.answer_data.${type}`)?.map((opt) => {
+              return {...opt, option: ""};
+            })
+          ]
+        };
+        break;
+      case "trueFalse":
+        answerData = {
+          trueFalse: [
+            ...props?.watch(`language.0.answer_data.${type}`).map((opt) => {
+              return {...opt};
+            })
+          ]
+        };
+        break;
+      case "sortingChoice":
+        answerData = {
+          sortingChoice: [
+            ...props?.watch(`language.0.answer_data.${type}`).map((opt) => {
+              return {...opt, option: ""};
+            })
+          ]
+        };
+        break;
+      case "matrixSortingChoice":
+        answerData = {
+          matrixSortingChoice: [
+            ...props?.watch(`language.0.answer_data.${type}`).map((opt) => {
+              return {...opt, criteria: "", element: ""};
+            })
+          ]
+        };
+        break;
+      case "fillInTheBlank":
+        answerData = {
+          fillInTheBlank: [
+            ...props?.watch(`language.0.answer_data.${type}`)
+          ]
+        };
+        break;
+      case "numerical":
+        answerData = {
+          numerical: [
+            ...props?.watch(`language.0.answer_data.${type}`)
+          ]
+        };
+        break;
+      case "rangeType":
+        answerData = {
+          rangeType: [
+            ...props?.watch(`language.0.answer_data.${type}`)
+          ]
+        };
+        break;
+      case "paragraph":
+        answerData = {
+          paragraph: []
+        };
+        break;
+      default:
+        answerData = {};
+        break;
+    }
+    return answerData;
+  }
+
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -68,22 +149,10 @@ const LanguageSection = (props) => {
                           correct_msg: "",
                           incorrect_msg: "",
                           hint_msg: "",
-                          answer_data: {
-                            singleChoice: [],
-                            multipleChoice: [],
-                            trueFalse: [],
-                            sortingChoice: [],
-                            matrixSortingChoice: [],
-                            fillInTheBlank: [],
-                            numerical: [],
-                            rangeType: [],
-                            paragraph: [],
-                          },
+                          answer_data: {...getLanguageAnswerData(props?.watch("answer_type"))},
                         }];
                       }
                     });
-                    console.log(newValue);
-                   console.log(newlang);
 
                   props?.setValue("language", [...newlang], {shouldDirty: true});
                 }}

@@ -123,7 +123,7 @@ const QuizContent = () => {
         textarea_rows: 20,
         setup: function (editor) {
           editor.on("input change", function () {
-            // console.log(editor.getContent());
+            methods.setValue(name, window.wp.editor.getContent(key), { shouldDirty: true });
           });
         },
       },
@@ -136,6 +136,8 @@ const QuizContent = () => {
     window.wp.editor.remove(key);
   };
 
+  console.log(methods?.watch());
+
   return (
     <Box>
       <Grid
@@ -147,16 +149,28 @@ const QuizContent = () => {
         }}
       >
         {/* Top section containing category and template load */}
-        <CategoryTemplateSection />
+        <CategoryTemplateSection 
+          {...methods}
+        />
 
         {/* Second section contain title and Description */}
-        <TitleDescriptionSection loadEditor={loadEditor} removeEditor={removeEditor} />
+        <TitleDescriptionSection 
+          {...methods}
+          loadEditor={loadEditor} 
+          removeEditor={removeEditor} 
+        />
 
         {/* Third section contain quiz mode */}
-        <QuizModeSection />
+        <QuizModeSection 
+          {...methods}
+        />
 
         {/* Fourth section contain quiz settings */}
-        <QuizSettingSection loadEditor={loadEditor} removeEditor={removeEditor} />
+        <QuizSettingSection 
+          {...methods}
+          loadEditor={loadEditor} 
+          removeEditor={removeEditor} 
+        />
       </Grid>
     </Box>
   );

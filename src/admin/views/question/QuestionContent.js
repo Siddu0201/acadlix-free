@@ -51,8 +51,6 @@ const QuestionContent = () => {
     },
   });
 
-  console.log(methods?.watch());
-
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
       tinymce: {
@@ -80,70 +78,210 @@ const QuestionContent = () => {
     window.wp.editor.remove(key);
   };
 
-  const answerType = () => {
+  const getAnswerData = (type) => {
+    let answerData = {};
+    switch (type) {
+      case "singleChoice":
+        answerData = {
+          singleChoice: [
+            {
+              option: "",
+              points: 0,
+              negative_points: 0,
+              isCorrect: false,
+              isChecked: false,
+            }
+          ]
+        };
+        break;
+      case "multipleChoice":
+        answerData = {
+          multipleChoice: [
+            {
+              option: "",
+              points: 0,
+              negative_points: 0,
+              isCorrect: false,
+              isChecked: false,
+            }
+          ]
+        };
+        break;
+      case "trueFalse":
+        answerData = {
+          trueFalse: [
+            { option: "True", isCorrect: false, isChecked: false},
+            { option: "False", isCorrect: false, isChecked: false},
+          ]
+        };
+        break;
+      case "sortingChoice":
+        answerData = {
+          sortingChoice: [
+            {
+              option: "",
+              position: 0,
+            }
+          ]
+        };
+        break;
+      case "matrixSortingChoice":
+        answerData = {
+          matrixSortingChoice: [
+            {
+              criteria: "",
+              position: 0,
+              element: "",
+            }
+          ]
+        };
+        break;
+      case "fillInTheBlank":
+        answerData = {
+          fillInTheBlank: [
+            {
+              option: "",
+              caseSensitive: false,
+              correctOption: [],
+              yourAnswer: [],
+            }
+          ]
+        };
+        break;
+      case "numerical":
+        answerData = {
+          numerical: [
+            {
+              option: "",
+              yourAnswer: "",
+            }
+          ]
+        };
+        break;
+      case "rangeType":
+        answerData = {
+          rangeType: [
+            {
+              from: "",
+              to: "",
+              yourAnswer: "",
+            }
+          ]
+        };
+        break;
+      case "paragraph":
+        answerData = {
+          paragraph: []
+        };
+        break;
+      default:
+        answerData = {};
+        break;
+    }
+
+    return answerData;
+  }
+
+  const answerType = (lang, index) => {
     switch (methods.watch("answer_type")) {
       case "singleChoice":
         return (
           <SingleChoice
             {...methods}
+            index={index}
+            lang={lang}
+            type="singleChoice"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
+            getAnswerData={getAnswerData}
           />
         );
       case "multipleChoice":
         return (
           <MultipleChoice
             {...methods}
+            index={index}
+            lang={lang}
+            type="multipleChoice"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
+            getAnswerData={getAnswerData}
           />
         );
       case "trueFalse":
         return (
           <TrueFalse
             {...methods}
+            index={index}
+            lang={lang}
+            type="trueFalse"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
           />
         );
       case "sortingChoice":
         return (
           <SortingChoice
             {...methods}
+            index={index}
+            lang={lang}
+            type="sortingChoice"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
+            getAnswerData={getAnswerData}
           />
         );
       case "matrixSortingChoice":
         return (
           <MatrixSortingChoice
             {...methods}
+            index={index}
+            lang={lang}
+            type="matrixSortingChoice"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
+            getAnswerData={getAnswerData}
           />
         );
       case "fillInTheBlank":
         return (
           <Fill
             {...methods}
+            index={index}
+            lang={lang}
+            type="fillInTheBlank"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
           />
         );
       case "numerical":
         return (
           <Numerical
             {...methods}
+            index={index}
+            lang={lang}
+            type="numerical"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
           />
         );
       case "rangeType":
         return (
           <RangeType
             {...methods}
+            index={index}
+            lang={lang}
+            type="rangeType"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
+            availableLanguage={availableLanguage}
           />
         );
       case "paragraph":
@@ -153,7 +291,6 @@ const QuestionContent = () => {
     }
   };
 
-  // console.log(methods.watch());
 
   return (
     <Box
@@ -178,6 +315,7 @@ const QuestionContent = () => {
           availableLanguage={availableLanguage}
           setAvailableLanguage={setAvailableLanguage}
           removeEditor={removeEditor}
+          getAnswerData={getAnswerData}
         />
 
         {
@@ -218,12 +356,24 @@ const QuestionContent = () => {
         }
 
         {/* Section contain answer type */}
-        <QuestionAnswerTypeSection {...methods} />
+        <QuestionAnswerTypeSection 
+          {...methods} 
+          getAnswerData={getAnswerData}
+        />
 
         {/* Section contain answer type form */}
-        <Grid item xs={12} sm={12}>
-          {answerType()}
-        </Grid>
+        {
+          methods?.watch("language")?.length > 0 &&
+          methods?.watch("language")?.map((lang, index) => (
+            <React.Fragment key={index}>
+              <Grid item xs={12} sm={12} sx={{
+                display: lang?.language_id === methods?.watch("selected_language_id") ? "" : "none"
+              }}>
+                {answerType(lang, index)}
+              </Grid>
+            </React.Fragment>
+          ))
+        }
 
         {/* Language section */}
         <LanguageSection
@@ -231,6 +381,7 @@ const QuestionContent = () => {
           availableLanguage={availableLanguage}
           setAvailableLanguage={setAvailableLanguage}
           removeEditor={removeEditor}
+          getAnswerData={getAnswerData}
         />
 
         <Grid item xs={12} sm={12}>

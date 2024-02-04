@@ -76,6 +76,7 @@ const QuestionMessageSection = (props) => {
                 style={{
                   width: "100%",
                 }}
+                value={props?.watch(`language.${props?.index}.correct_msg`)}
               />
             </Grid>
             <Grid item xs={12} lg={12} sx={{
@@ -91,6 +92,7 @@ const QuestionMessageSection = (props) => {
                 style={{
                   width: "100%",
                 }}
+                value={props?.watch(`language.${props?.index}.incorrect_msg`)}
               />
             </Grid>
           </Grid>

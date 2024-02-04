@@ -4,7 +4,7 @@ import CustomTextField from "../../../../components/CustomTextField";
 
 const TitleDescriptionSection = (props) => {
   const loadPage = () => {
-    props?.loadEditor("description");
+    props?.loadEditor("description", "description");
   };
 
   React.useEffect(() => {
@@ -38,6 +38,10 @@ const TitleDescriptionSection = (props) => {
                 name="title"
                 size="small"
                 label="Enter quiz title"
+                value={props?.watch("title")}
+                onChange={(e) => {
+                  props?.setValue("title", e?.target?.value, {shouldDirty: true});
+                }}
               />
             </Grid>
             
@@ -51,6 +55,7 @@ const TitleDescriptionSection = (props) => {
                 style={{
                   width: "100%",
                 }}
+                value={props?.watch("description")}
               />
             </Grid>
           </Grid>

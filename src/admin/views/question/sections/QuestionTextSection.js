@@ -50,6 +50,7 @@ const QuestionTextSection = (props) => {
                 style={{
                   width: "100%",
                 }}
+                value={props?.watch(`language.${props?.index}.question`)}
               />
             </Grid>
           </Grid>

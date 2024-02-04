@@ -13,7 +13,7 @@ import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
 
-const QuizModeSection = () => {
+const QuizModeSection = (props) => {
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -46,10 +46,14 @@ const QuizModeSection = () => {
                     }}
                   >
                     <Radio
-                      checked={true}
-                      name="normal_mode"
+                      checked={props?.watch("mode") === "normal"}
+                      name="mode"
                       sx={{
                         padding: 1,
+                      }}
+                      value="normal"
+                      onClick={() => {
+                        props?.setValue("mode", "normal", {shouldDirty: true});
                       }}
                     />
                     <h3
@@ -63,7 +67,14 @@ const QuizModeSection = () => {
                   </Box>
                   <Box>
                     <FormControlLabel
-                      control={<CustomSwitch />}
+                      control={
+                        <CustomSwitch
+                          checked={props?.watch("enable_back_button") ?? false}
+                          onChange={(e) => {
+                            props?.setValue("enable_back_button", e?.target?.checked, {shouldDirty: true});
+                          }}
+                        />
+                      }
                       label="Enable Back Button"
                     />
 
@@ -93,9 +104,14 @@ const QuizModeSection = () => {
                     }}
                   >
                     <Radio
+                      checked={props?.watch("mode") === "check_and_continue"}
                       name="mode"
                       sx={{
                         padding: 1,
+                      }}
+                      value="check_and_continue"
+                      onClick={() => {
+                        props?.setValue("mode", "check_and_continue", {shouldDirty: true});
                       }}
                     />
                     <h3
@@ -134,9 +150,14 @@ const QuizModeSection = () => {
                     }}
                   >
                     <Radio
+                      checked={props?.watch("mode") === "question_below_each_other"}
                       name="mode"
                       sx={{
                         padding: 1,
+                      }}
+                      value="question_below_each_other"
+                      onClick={() => {
+                        props?.setValue("mode", "question_below_each_other", {shouldDirty: true});
                       }}
                     />
                     <h3
@@ -184,9 +205,14 @@ const QuizModeSection = () => {
                     }}
                   >
                     <Radio
+                      checked={props?.watch("mode") === "advance_mode"}
                       name="mode"
                       sx={{
                         padding: 1,
+                      }}
+                      value="advance_mode"
+                      onClick={() => {
+                        props?.setValue("mode", "advance_mode", {shouldDirty: true});
                       }}
                     />
                     <h3
@@ -211,41 +237,53 @@ const QuizModeSection = () => {
                     }}
                   >
                     <FormControl>
-                      <RadioGroup row name="advance_mode">
+                      <RadioGroup row 
+                        name="advance_mode"
+                        onChange={(e) => {
+                          props?.setValue("advance_mode_type", e.target.value, {shouldDirty: true});
+                        }}
+                      >
                         <FormControlLabel
-                          value="advance panel"
+                          value="advance_panel"
                           control={<Radio />}
                           label="Advance Panel"
+                          checked={props?.watch("advance_mode_type") === "advance_panel"}
                         />
                         <FormControlLabel
                           value="ibps"
                           control={<Radio />}
                           label="IBPS"
+                          checked={props?.watch("advance_mode_type") === "ibps"}
                         />
                         <FormControlLabel
                           value="ssc"
                           control={<Radio />}
                           label="SSC"
+                          checked={props?.watch("advance_mode_type") === "ssc"}
                         />
                         <FormControlLabel
                           value="gate"
                           control={<Radio />}
                           label="GATE"
+                          checked={props?.watch("advance_mode_type") === "gate"}
                         />
                         <FormControlLabel
                           value="sbi"
                           control={<Radio />}
                           label="SBI"
+                          checked={props?.watch("advance_mode_type") === "sbi"}
                         />
                         <FormControlLabel
                           value="jee"
                           control={<Radio />}
                           label="JEE"
+                          checked={props?.watch("advance_mode_type") === "jee"}
                         />
                         <FormControlLabel
                           value="railway"
                           control={<Radio />}
                           label="Railway"
+                          checked={props?.watch("advance_mode_type") === "railway"}
                         />
                       </RadioGroup>
                     </FormControl>

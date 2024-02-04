@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import '../styling.css';
+import { Button } from '@mui/material';
 
 const QuestionBox = (props) => {
   return (

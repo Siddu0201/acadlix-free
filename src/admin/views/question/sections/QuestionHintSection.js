@@ -50,7 +50,7 @@ const QuestionHintSection = (props) => {
                 control={<CustomSwitch 
                   checked={props?.watch("hint_enabled")}
                   onChange={(e)=> {
-                    props?.setValue("hint_enabled", e.target.checked, {shouldDirty: true});
+                    props?.setValue("hint_enabled", e?.target?.checked, {shouldDirty: true});
                   }}  
                 />}
                 label="Hint Enable"
@@ -64,6 +64,7 @@ const QuestionHintSection = (props) => {
                 style={{
                   width: "100%",
                 }}
+                value={props?.watch(`language.${props?.index}.hint_msg`)}
               />
             </Grid>
           </Grid>

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Card,
   CardContent,
   CardHeader,
@@ -10,109 +11,22 @@ import {
 import React from "react";
 
 const QuestionAnswerTypeSection = (props) => {
-  const handleTypeChange = (e) => {
-    let answerData = {};
-    switch (e?.target?.value) {
-      case "singleChoice":
-        answerData = {
-          singleChoice: [
-            {
-              option: "",
-              points: 0,
-              negative_points: 0,
-              isCorrect: false,
-              isChecked: false,
-            }
-          ]
-        };
-        break;
-      case "multipleChoice":
-        answerData = {
-          multipleChoice: [
-            {
-              option: "",
-              points: 0,
-              negative_points: 0,
-              isCorrect: false,
-              isChecked: false,
-            }
-          ]
-        };
-        break;
-      case "trueFalse":
-        answerData = {
-          trueFalse: [
-            { option: "True", isCorrect: false, isChecked: false},
-            { option: "False", isCorrect: false, isChecked: false},
-          ]
-        };
-        break;
-      case "sortingChoice":
-        answerData = {
-          sortingChoice: [
-            {
-              option: "",
-              position: 0,
-            }
-          ]
-        };
-        break;
-      case "matrixSortingChoice":
-        answerData = {
-          matrixSortingChoice: [
-            {
-              option: "",
-              position: 0,
-              sortString: "",
-            }
-          ]
-        };
-        break;
-      case "fillInTheBlank":
-        answerData = {
-          fillInTheBlank: [
-            {
-              option: "",
-              caseSensitive: false,
-              correctOption: [],
-              yourAnswer: [],
-            }
-          ]
-        };
-        break;
-      case "numerical":
-        answerData = {
-          numerical: [
-            {
-              option: "",
-              yourAnswer: "",
-            }
-          ]
-        };
-        break;
-      case "rangeType":
-        answerData = {
-          rangeType: {
-            from: "",
-            to: "",
-            yourAnswer: "",
-          }
-        };
-        break;
-      case "paragraph":
-        answerData = {
-          paragraph: []
-        };
-        break;
-      default:
-        answerData = {};
-        break;
-    }
-    props?.setValue("answer_type", e.target.value, {shouldDirty: true});
+
+  const changeType = (type) => {
     props?.watch("language")?.forEach((_, index) => {
-      props?.setValue(`language.${index}.answer_data`, answerData, {shouldDirty: true});
+      props?.setValue(`language.${index}.answer_data`, props?.getAnswerData(type), {shouldDirty: true});
     })
   }
+
+  const handleTypeChange = (e) => {
+    props?.setValue("answer_type", e.target.value, {shouldDirty: true});
+    changeType(e.target.value);
+  }
+
+  React.useEffect(() => {
+    changeType(props?.watch("answer_type"));
+  },[]);
+
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -126,6 +40,7 @@ const QuestionAnswerTypeSection = (props) => {
           }}
         />
         <CardContent>
+          <Alert severity="warning">By switching answer type existing entries will be deleted.</Alert>
           <RadioGroup
             row
             value={props?.watch("answer_type")}

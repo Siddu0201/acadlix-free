@@ -1,10 +1,10 @@
 import React from 'react'
-import MainBox from './MainBox'
+import MainBox from './section/MainBox'
 
 const NormalQuiz = () => {
   return (
-    <div> 
-      <MainBox/>
+    <div>
+      <MainBox />
     </div>
   )
 }
