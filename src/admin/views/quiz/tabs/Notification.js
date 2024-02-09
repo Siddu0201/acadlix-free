@@ -39,7 +39,12 @@ const Notification = (props) => {
           </GridItem1>
           <GridItem1 xs={12} lg={12}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+                          checked={props?.watch("admin_email_notification") ?? false}
+                          onChange={(e) => {
+                            props?.setValue("admin_email_notification", e?.target?.checked, {shouldDirty: true});
+                          }}
+                        />}
               label="Admin Email Notification"
             />
           </GridItem1>
@@ -77,7 +82,12 @@ const Notification = (props) => {
           </GridItem1>
           <GridItem1 xs={12} lg={12}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+                          checked={props?.watch("student_email_notification") ?? false}
+                          onChange={(e) => {
+                            props?.setValue("student_email_notification", e?.target?.checked, {shouldDirty: true});
+                          }}
+                        />}
               label="Student Email Notification"
             />
           </GridItem1>
@@ -116,7 +126,12 @@ const Notification = (props) => {
           </GridItem1>
           <GridItem1 xs={12} lg={12}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+                          checked={props?.watch("instructor_email_notification") ?? false}
+                          onChange={(e) => {
+                            props?.setValue("instructor_email_notification", e?.target?.checked, {shouldDirty: true});
+                          }}
+                        />}
               label="Instructor Email Notification"
             />
           </GridItem1>

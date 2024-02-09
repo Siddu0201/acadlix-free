@@ -49,61 +49,129 @@ const Result = (props) => {
             - Result Comparison with top 5 Students
           */}
           <GridItem1 xs={12} lg={12}>
-            <Typography variant="h6">Result Options</Typography>
-          </GridItem1> 
-          <GridItem1 xs={12} lg={12}>
-            <FormControlLabel control={<CustomSwitch />} label="Hide Result" />
-          </GridItem1>
+  <Typography variant="h6">Result Options</Typography>
+</GridItem1>
+<GridItem1 xs={12} lg={12}>
+  <FormControlLabel
+    control={
+      <CustomSwitch
+        checked={props?.watch("hide_result") ?? false}
+        onChange={(e) => {
+          props?.setValue("hide_result", e?.target?.checked, { shouldDirty: true });
+        }}
+      />
+    }
+    label="Hide Result"
+  />
+</GridItem1>
+
 
           {/* Used to hide negative marks in result  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel
-              control={<CustomSwitch />}
-              label="Hide Negative Marks"
-            />
-          </GridItem1>
+  <FormControlLabel
+    control={
+      <CustomSwitch
+        checked={props?.watch("hide_negative_marks") ?? false}
+        onChange={(e) => {
+          props?.setValue("hide_negative_marks", e?.target?.checked, { shouldDirty: true });
+        }}
+      />
+    }
+    label="Hide Negative Marks"
+  />
+</GridItem1>
+
 
           {/* Used to hide quiz time in result  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Hide Quiz Time" />
-          </GridItem1>
+  <FormControlLabel
+    control={
+      <CustomSwitch
+        checked={props?.watch("hide_quiz_time") ?? false}
+        onChange={(e) => {
+          props?.setValue("hide_quiz_time", e?.target?.checked, { shouldDirty: true });
+        }}
+      />
+    }
+    label="Hide Quiz Time"
+  />
+</GridItem1>
+
 
           {/* Its an average speed per question - total_time_taken/question  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Speed" />
+            <FormControlLabel control={
+              <CustomSwitch
+        checked={props?.watch("show_speed") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_speed", e?.target?.checked, { shouldDirty: true });
+        }}
+      />
+            } label="Show Speed" />
           </GridItem1>
 
           {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Percentile" />
+            <FormControlLabel control={
+            <CustomSwitch
+        checked={props?.watch("show_percentile") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_percentile", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Percentile" />
           </GridItem1>
 
           {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Accuracy %" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("show_accuracy") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_accuracy", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Accuracy %" />
           </GridItem1>
 
           {/* Used to show rank  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Rank" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("show_rank") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_rank", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Rank" />
           </GridItem1>
 
           {/* Used to Show Average Score  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Average Score" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("show_average_score") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_average_score", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Average Score" />
           </GridItem1>
 
           {/* Used to show subject wise analysis of quiz  */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+        checked={props?.watch("show_subject_wise_analysis") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_subject_wise_analysis", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
               label="Show Subject Wise Analysis"
             />
           </GridItem1>
 
           {/* Used to show marks Distribution  */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Marks Distribution" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("show_marks_distribution") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_marks_distribution", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Marks Distribution" />
           </GridItem1>
 
           {/* 
@@ -111,7 +179,12 @@ const Result = (props) => {
           On check - Minimum % to pass option will open
            */}
           <GridItem1 xs={12} lg={6}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Status Based On Min % (Pass/Fail)" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("show_status_based_on_min_percent") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_status_based_on_min_percent", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Status Based On Min % (Pass/Fail)" />
           </GridItem1>
 
           {/* Minimum marks to pass - default 0  */}
@@ -127,7 +200,12 @@ const Result = (props) => {
           {/* Option for Result Comparision with top 5 student    */}
           <GridItem1 xs={12} lg={12}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+        checked={props?.watch("result_comparision_with_top_five_student") ?? false}
+        onChange={(e) => {
+          props?.setValue("result_comparision_with_top_five_student", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
               label="Result Comparison with top 5 Students"
             />
           </GridItem1>
@@ -145,31 +223,56 @@ const Result = (props) => {
             <Typography variant="h6">Answer Sheet Options</Typography>
           </GridItem1>   
           <GridItem1 xs={12} lg={12}>
-            <FormControlLabel control={<CustomSwitch />} label="Hide Answer Sheet" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("hide_answer_sheet") ?? false}
+        onChange={(e) => {
+          props?.setValue("hide_answer_sheet", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Hide Answer Sheet" />
           </GridItem1>
 
           {/* Used to show per question time in answer sheet    */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Show Per Question Time" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("show_per_question_time") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_per_question_time", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Show Per Question Time" />
           </GridItem1>
 
           {/* Used to ask the user as the solution is helpful or not - show like dislike emoji */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+        checked={props?.watch("was_the_solution_helpful") ?? false}
+        onChange={(e) => {
+          props?.setValue("was_the_solution_helpful", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
               label="Was The Solution Helpful"
             />
           </GridItem1>
 
           {/* Used to ask user to bookmark question in answer sheet */}
           <GridItem1 xs={12} lg={4}>
-            <FormControlLabel control={<CustomSwitch />} label="Bookmark" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("book_mark") ?? false}
+        onChange={(e) => {
+          props?.setValue("book_mark", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Bookmark" />
           </GridItem1>
 
           {/* A button to report regarding the question of the answer    */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+        checked={props?.watch("report_question_answer") ?? false}
+        onChange={(e) => {
+          props?.setValue("report_question_answer", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
               label="Report question/answer"
             />
           </GridItem1>
@@ -187,7 +290,12 @@ const Result = (props) => {
             <Typography variant="h6">Leaderboard Options</Typography>
           </GridItem1>   
           <GridItem1 xs={12} lg={12}>
-            <FormControlLabel control={<CustomSwitch />} label="Leaderboard" />
+            <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("leaderboard") ?? false}
+        onChange={(e) => {
+          props?.setValue("leaderboard", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Leaderboard" />
           </GridItem1>
 
           {/* Total number of entries to be displayed in leaderboard */}
@@ -204,7 +312,12 @@ const Result = (props) => {
           {/* User can apply multiple times for leaderboard */}
           <GridItem1 xs={12} lg={4}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+        checked={props?.watch("user_can_apply_multiple_times") ?? false}
+        onChange={(e) => {
+          props?.setValue("user_can_apply_multiple_times", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
               label="User can apply multiple times"
             />
           </GridItem1>
@@ -275,7 +388,12 @@ const Result = (props) => {
           </GridItem1>
           <GridItem1 xs={12} lg={12}>
             <FormControlLabel
-              control={<CustomSwitch />}
+              control={<CustomSwitch
+        checked={props?.watch("hide_quiz_time") ?? false}
+        onChange={(e) => {
+          props?.setValue("hide_quiz_time", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
               label="% Based Result Text"
             />
           </GridItem1>

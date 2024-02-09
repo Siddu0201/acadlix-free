@@ -9,12 +9,13 @@ import {
   Typography,
   FormLabel,
 } from "@mui/material";
+import CustomSwitch from "../../../../components/CustomSwitch";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 import DatePicker from "react-datepicker";
-import CustomSwitch from "../../../../components/CustomSwitch";
 
-function General() {
+const General = (props) => {
+  
   return (
     <Box sx={{ color: "black" }}>
       <Grid container>
@@ -24,24 +25,44 @@ function General() {
 
         {/* Used to hide quiz title in a quiz */}
         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label="Hide Quiz Title"
-          />
+        <FormControlLabel
+          control={
+            <CustomSwitch
+              checked={props?.watch("hide_quiz_title") ?? false}
+              onChange={(e) => {
+                props?.setValue("hide_quiz_title", e?.target?.checked, { shouldDirty: true });
+              }}
+            />
+          }
+          label="Hide Quiz Title"
+        />
         </GridItem1>
 
         {/* User can restart quiz after submittion */}
         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label="Hide Restart Button"
-          />
-        </GridItem1>
+  <FormControlLabel
+    control={
+      <CustomSwitch
+        checked={props?.watch("hide_restart_button") ?? false}
+        onChange={(e) => {
+          props?.setValue("hide_restart_button", e?.target?.checked, { shouldDirty: true });
+        }}
+      />
+    }
+    label="Hide Restart Button"
+  />
+    </GridItem1>
 
+    
         {/* Used to clear answer button to clear option selction */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("show_clear_response_button") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_clear_response_button", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="Show Clear Response Button"
           />
         </GridItem1>
@@ -102,7 +123,13 @@ function General() {
 
         {/* Button to pause quiz */}
         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel control={<CustomSwitch />} label="Pause Quiz" />
+          <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("pause_quiz") ?? false}
+        onChange={(e) => {
+          props?.setValue("pause_quiz", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
+       label="Pause Quiz" />
         </GridItem1>
 
         {/* Quiz start date */}
@@ -125,7 +152,12 @@ function General() {
 
         {/* Quiz prerequisite */}
         <GridItem1 xs={12} lg={12}>
-          <FormControlLabel control={<CustomSwitch />} label="Prerequisite" />
+          <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("prerequisite") ?? false}
+        onChange={(e) => {
+          props?.setValue("prerequisite", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Prerequisite" />
         </GridItem1>
 
         <GridItem1 xs={12} lg={12}>
@@ -135,7 +167,12 @@ function General() {
         {/* If login is required for the quiz */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("enable_login_register") ?? false}
+        onChange={(e) => {
+          props?.setValue("enable_login_register", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="Enable login/register"
           />
         </GridItem1>
@@ -175,7 +212,12 @@ function General() {
         {/* Save Statistic */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("save_statistic") ?? false}
+        onChange={(e) => {
+          props?.setValue("save_statistic", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="Save Statistics"
           />
         </GridItem1>
@@ -198,7 +240,12 @@ function General() {
         {/* On screen calculator for complex calculation */}
         <GridItem1 xl={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("on_screen_calculator") ?? false}
+        onChange={(e) => {
+          props?.setValue("on_screen_calculator", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="On Screen Calculator"
           />
         </GridItem1>
@@ -206,7 +253,12 @@ function General() {
         {/* Used to generate quiz certificate */}
         <GridItem1 xl={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("quiz_certificate") ?? false}
+        onChange={(e) => {
+          props?.setValue("quiz_certificate", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="Quiz Certificate"
           />
         </GridItem1>
@@ -214,7 +266,12 @@ function General() {
         {/* Used to set limited number of question in a quiz */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("show_only_specific_number_of_questions") ?? false}
+        onChange={(e) => {
+          props?.setValue("show_only_specific_number_of_questions", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="Show Only Specific Number of Questions"
           />
         </GridItem1>
@@ -232,24 +289,44 @@ function General() {
         {/* Used to resume unfinshed quiz */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
-            control={<CustomSwitch />}
+            control={<CustomSwitch
+        checked={props?.watch("resume_unfinished_quiz") ?? false}
+        onChange={(e) => {
+          props?.setValue("resume_unfinished_quiz", e?.target?.checked, { shouldDirty: true });
+        }}
+      />}
             label="Resume Unfinished Quiz"
           />
         </GridItem1>
 
         {/* Rate quiz at the end of quiz */}
         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel control={<CustomSwitch />} label="Rate Quiz" />
+          <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("rate_quiz") ?? false}
+        onChange={(e) => {
+          props?.setValue("rate_quiz", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Rate Quiz" />
         </GridItem1>
 
         {/* Take feedback from user */}
         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel control={<CustomSwitch />} label="Quiz Feedback" />
+          <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("quiz_feedback") ?? false}
+        onChange={(e) => {
+          props?.setValue("quiz_feedback", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Quiz Feedback" />
         </GridItem1>
 
         {/* Used to set proctoring if used is clicking outside the quiz window */}
         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel control={<CustomSwitch />} label="Proctoring" />
+          <FormControlLabel control={<CustomSwitch
+        checked={props?.watch("proctoring") ?? false}
+        onChange={(e) => {
+          props?.setValue("proctoring", e?.target?.checked, { shouldDirty: true });
+        }}
+      />} label="Proctoring" />
         </GridItem1>
 
         {/* Number of warning for proctoring allowed */}
