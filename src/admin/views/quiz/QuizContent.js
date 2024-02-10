@@ -8,9 +8,7 @@ import CategoryTemplateSection from "./sections/CategoryTemplateSection";
 import TitleDescriptionSection from "./sections/TitleDescriptionSection";
 import QuizModeSection from "./sections/QuizModeSection";
 import QuizSettingSection from "./sections/QuizSettingSection";
-import General from "./tabs/General";
-import Result from "./tabs/Result";
-import Notification from "./tabs/Notification";
+
 
 const QuizContent = () => {
   const methods = useForm();
