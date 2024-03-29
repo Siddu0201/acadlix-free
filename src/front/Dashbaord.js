@@ -13,6 +13,7 @@ import Sidebar from "./dashboard/Courses/ContentTabs/CourseSidebar";
 import "./AppFront.css";
 import Quiz from "./dashboard/quiz/Quiz.js";
 import NormalQuiz from "./dashboard/normalQuiz/NormalQuiz.js";
+import IbpsQuiz from "./dashboard/ibpsQuiz/src/IbpsQuiz.js";
 
 const Dashbaord = () => {
   const queryClient = new QueryClient({
@@ -200,6 +201,7 @@ const Dashbaord = () => {
                 <Route path="/purchase" element={<PurchaseHistory />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/normal-quiz" element={<NormalQuiz/>} />
+                <Route path = "ibps-quiz" element = {<IbpsQuiz/>} />
               </Route>
               <Route path="/content" element={<CourseContent />} />
               <Route path="/quiz" element={<Quiz />} />
