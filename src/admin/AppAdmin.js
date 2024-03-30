@@ -12,6 +12,8 @@ import AdminLayout from "../layout/AdminLayout";
 import "react-datepicker/dist/react-datepicker.css";
 import CreateQuiz from "./views/quiz/CreateQuiz";
 import CreateQuestion from "./views/question/CreateQuestion";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const AppAdmin = () => {
   const queryClient = new QueryClient({
@@ -169,6 +171,26 @@ const AppAdmin = () => {
           },
         },
       },
+      MuiSwitch: {
+        styleOverrides: {
+          input:{
+            ":disabled": {
+              opacity: "0 !important",
+            }
+          }
+        }
+      },
+      MuiRadio: {
+        styleOverrides: {
+          root: {
+            "&.Mui-disabled": {
+              "input": {
+                opacity: "0 !important"
+              }
+            }
+          }
+        }
+      }
     },
   });
 
@@ -178,38 +200,40 @@ const AppAdmin = () => {
         <HashRouter>
           <div>
             <ThemeProvider theme={theme}>
-              <Routes>
-                <Route element={<AdminLayout />}>
-                  <Route index element={<div> hello world</div>} />
-                  <Route path="/quiz">
-                    <Route index element={<Quiz />} />
-                    <Route path="create" element={<CreateQuiz />} />
-                  </Route>
-                  <Route path="/course" element={<div>{<Course />}</div>} />
-                  <Route path="/question">
-                    <Route index element={<Question />} />
-                    <Route path="create" element={<CreateQuestion />} />
-                  </Route>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Routes>
+                  <Route element={<AdminLayout />}>
+                    <Route index element={<div> hello world</div>} />
+                    <Route path="/quiz">
+                      <Route index element={<Quiz />} />
+                      <Route path="create" element={<CreateQuiz />} />
+                    </Route>
+                    <Route path="/course" element={<div>{<Course />}</div>} />
+                    <Route path="/question">
+                      <Route index element={<Question />} />
+                      <Route path="create" element={<CreateQuestion />} />
+                    </Route>
 
-                  <Route
-                    path="/testing"
-                    element={
-                      <div>
-                        <Testing />
-                      </div>
-                    }
-                  />
-                  <Route
-                    path="/configuration"
-                    element={
-                      <div>
-                        <Configuration />
-                      </div>
-                    }
-                  />
-                </Route>
-                <Route path="*" element={<div>No path found</div>}></Route>
-              </Routes>
+                    <Route
+                      path="/testing"
+                      element={
+                        <div>
+                          <Testing />
+                        </div>
+                      }
+                    />
+                    <Route
+                      path="/configuration"
+                      element={
+                        <div>
+                          <Configuration />
+                        </div>
+                      }
+                    />
+                  </Route>
+                  <Route path="*" element={<div>No path found</div>}></Route>
+                </Routes>
+              </LocalizationProvider>
             </ThemeProvider>
           </div>
         </HashRouter>

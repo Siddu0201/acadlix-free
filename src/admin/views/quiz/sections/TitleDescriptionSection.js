@@ -38,7 +38,7 @@ const TitleDescriptionSection = (props) => {
                 name="title"
                 size="small"
                 label="Enter quiz title"
-                value={props?.watch("title")}
+                value={props?.watch("title") ?? ""}
                 onChange={(e) => {
                   props?.setValue("title", e?.target?.value, {shouldDirty: true});
                 }}
@@ -55,7 +55,7 @@ const TitleDescriptionSection = (props) => {
                 style={{
                   width: "100%",
                 }}
-                value={props?.watch("description")}
+                value={props?.watch("description") ?? ""}
               />
             </Grid>
           </Grid>

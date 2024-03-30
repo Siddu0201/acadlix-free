@@ -1,11 +1,14 @@
 import React from 'react'
 import MainBox from './section/MainBox'
+import { Box } from '@mui/material';
+import NormalQuizContent from './NormalQuizContent';
 
 const NormalQuiz = () => {
   return (
-    <div>
-      <MainBox />
-    </div>
+    <Box>
+      {/* <MainBox /> */}
+      <NormalQuizContent />
+    </Box>
   )
 }
 

@@ -28,7 +28,6 @@ const Quiz = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-  console.log(isDesktop);
 
   return (
     <Box>

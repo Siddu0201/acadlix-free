@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import TypeSingleChoice from "../question-types/TypeSingleChoice";
 
 const QuizQuestion = (props) => {
   return (
@@ -26,7 +27,8 @@ const QuizQuestion = (props) => {
           paddingX: 3,
         }}
       >
-        {/* Your content goes here */}
+        <TypeSingleChoice />
+        {/* Your content goes here
         <Typography>
           Which is the Indian state surrounded by Bangladesh from three sides?
           <br />
@@ -91,7 +93,7 @@ const QuizQuestion = (props) => {
               label="Tripura"
             />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
       </Box>
     </Box>
   );

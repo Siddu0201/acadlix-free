@@ -17,6 +17,7 @@ const QuizContent = () => {
   React.useEffect(() => {
     reset({
       id: null,
+      quiz_section: "1",
       category_id: null,
       load_template_id: null,
       title: "",
@@ -35,9 +36,12 @@ const QuizContent = () => {
       quiz_timing_type: "full_quiz_time", // full_quiz_time/per_question_time 
       quiz_time: 0, // 0 => Infinity (no limit)
       pause_quiz: false,
+      set_start_date: false,
       start_date: null, // null => indefinite
+      set_end_date: false,
       end_date: null, // null => indefinite
       prerequisite: false,
+      prerequisite_data: [],
       enable_login_register: false,
       login_register_type: "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz 
       per_user_allowed_attempt: 0, // 0 => infinity
@@ -45,9 +49,9 @@ const QuizContent = () => {
       save_statistic_number_of_times: 0, // 0 =>  infinity
       on_screen_calculator: false,
       quiz_certificate: false,
+      resume_unfinished_quiz: false,
       show_only_specific_number_of_questions: false,
       specific_number_of_questions: 0, // 0 => all
-      resume_unfinished_quiz: false,
       rate_quiz: false,
       quiz_feedback: false,
       proctoring: false,
@@ -78,8 +82,8 @@ const QuizContent = () => {
       show_subject_wise_analysis: false,
       show_marks_distribution: false,
       show_status_based_on_min_percent: false,
-      result_comparision_with_top_five_student: false,
       minimum_percent_to_pass: 0, // above 0 => pass
+      result_comparision_with_top_five_student: false,
       hide_answer_sheet: false,
       show_per_question_time: false,
       was_the_solution_helpful: false,
@@ -108,8 +112,14 @@ const QuizContent = () => {
       instructor_from: "",
       instructor_subject: "",
       instructor_message: "",
+      // Instruction settings
+      instruction1: "",
+      instruction2: "",
     });
   }, [reset]);
+
+  // console.log(methods?.watch("quiz_section"));
+
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -136,8 +146,6 @@ const QuizContent = () => {
   const removeEditor = (key) => {
     window.wp.editor.remove(key);
   };
-
-  console.log(methods?.watch());
 
   return (
     <Box>
