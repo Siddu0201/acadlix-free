@@ -16,7 +16,7 @@ if(!class_exists('QuestionLang')){
             "question",
             "correct_msg",
             "incorrect_msg",
-            "tip_msg",
+            "hint_msg",
             "answer_data"
         ];
 

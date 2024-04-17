@@ -12,15 +12,20 @@ if(!class_exists('QuestionMigration')){
             if(!Manager::schema()->hasTable('question')){
                 Manager::schema()->create('question', function($table){
                     $table->bigIncrements('id');
+                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
                     $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
-                    $table->foreignId('topic_id')->nullable()->constrained('topic')->nullOnDelete();
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
-                    $table->float('points')->default(0);
+                    $table->integer('sort')->unsigned()->default(1);
+                    $table->boolean('multi_language')->default(0);
+                    $table->string('title');
+                    $table->float('points')->default(1);
                     $table->float('negative_points')->default(0);
-                    $table->boolean('different_incorrect_text')->default(0);
-                    $table->boolean('tip_enabled')->default(0)->comment('0 => hint inactive, 1 =>  hint active');
+                    $table->boolean('different_points_for_each_answer')->default(0);
+                    $table->boolean('different_incorrect_msg')->default(0);
+                    $table->boolean('hint_enabled')->default(0);
                     $table->string('answer_type');
-                    $table->tinyInteger('matrix_sort_answer_criteria')->default(20);
+                    $table->foreignId('default_language_id')->nullable()->constrained('language')->nullOnDelete();
+                    $table->foreignId('selected_language_id')->nullable()->constrained('language')->nullOnDelete();
                     $table->timestamps();
                 });
             }

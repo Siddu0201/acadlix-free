@@ -18,7 +18,7 @@ if(!class_exists('QuestionLangMigration')){
                     $table->text("question")->nullable();
                     $table->text("correct_msg")->nullable();
                     $table->text("incorrect_msg")->nullable();
-                    $table->text("tip_msg")->nullable();
+                    $table->text("hint_msg")->nullable();
                     $table->longText("answer_data")->nullable();
                     $table->timestamps();
                 });

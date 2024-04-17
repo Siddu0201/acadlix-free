@@ -28,7 +28,11 @@ const QuestionContent = () => {
   const methods = useForm({
     defaultValues: {
       id: null,
+      quiz_id: null,
       subject_id: null,
+      online: true,
+      sort: 1,
+      multi_language: false,
       title: "",
       points: 1,
       negative_points: 0,
@@ -40,7 +44,9 @@ const QuestionContent = () => {
       selected_language_id: 1,
       language: [
         {
+          id: null,
           language_id: 1,
+          default_lang: true,
           question: "",
           correct_msg: "",
           incorrect_msg: "",

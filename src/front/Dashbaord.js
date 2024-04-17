@@ -9,11 +9,8 @@ import CourseContent from "./dashboard/Courses/CourseContent";
 import Result from "./dashboard/result/Result";
 import PurchaseHistory from "./dashboard/purchaseHistory/PurchaseHistory";
 import Profile from "./dashboard/profile/Profile";
-import Sidebar from "./dashboard/Courses/ContentTabs/CourseSidebar";
 import "./AppFront.css";
 import Quiz from "./dashboard/quiz/Quiz.js";
-import NormalQuiz from "./dashboard/normalQuiz/NormalQuiz.js";
-import IbpsQuiz from "./dashboard/ibpsQuiz/src/IbpsQuiz.js";
 
 const Dashbaord = () => {
   const queryClient = new QueryClient({
@@ -36,7 +33,7 @@ const Dashbaord = () => {
       error: "#FF3E1D",
       warning: "#FFAB00",
       info: "#03C3EC",
-      section: "#f8f9fc",
+      section: "#13455b",
     },
     light: {
       primary: "#8082FF",
@@ -55,7 +52,7 @@ const Dashbaord = () => {
       error: "#E8381A",
       warning: "#E89C00",
       info: "#03B1D7",
-      section: "#d4daed",
+      section: "#13455b",
     },
   };
   const theme = createTheme({
@@ -200,12 +197,11 @@ const Dashbaord = () => {
                 <Route path="/result" element={<Result />} />
                 <Route path="/purchase" element={<PurchaseHistory />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/normal-quiz" element={<NormalQuiz/>} />
-                <Route path = "ibps-quiz" element = {<IbpsQuiz/>} />
+                <Route path="/normal" element={<Quiz mode="normal"/>} />
               </Route>
               <Route path="/content" element={<CourseContent />} />
-              <Route path="/quiz" element={<Quiz />} />
-              <Route path="/sidebar" element={<Sidebar />} />
+              <Route path = "/ibps" element = {<Quiz mode="advance_mode" advance_mode="ibps" />} />
+              <Route path="/advance_panel" element={<Quiz mode="advance_mode" advance_mode="advance_panel" />} />
             </Routes>
           </ThemeProvider>
         </div>

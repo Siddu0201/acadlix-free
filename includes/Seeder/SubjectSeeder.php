@@ -14,7 +14,6 @@ if(!class_exists('SubjectSeeder')){
             $subject = Subject::where("subject_name", $subject_name)->first();
             if(!$subject){
                 $subject = Subject::create(["subject_name" => $subject_name]);
-                $subject->topic()->create(["topic_name" => $subject_name]);
             }
         }
     }

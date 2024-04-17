@@ -126,5 +126,8 @@ class Manager {
         }
         wp_enqueue_style( 'acadlix-front-css' );
         wp_enqueue_script( 'acadlix-front-app');
+        wp_localize_script( 'acadlix-front-app', 'acadlixFront', array(
+            'is_admin_bar_showing' => is_admin_bar_showing(  )
+        ) );
     }
 }

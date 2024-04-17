@@ -67,6 +67,383 @@ const TypeSingleChoice = () => {
             }
             label="Tripura"
           />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
+          <FormControlLabel
+            value="Tripura"
+            control={
+              <Radio
+                sx={{
+                  "&.Mui-checked": {
+                    color: "red !important",
+                  },
+                }}
+              />
+            }
+            label="Tripura"
+          />
         </RadioGroup>
       </FormControl>
     </Box>

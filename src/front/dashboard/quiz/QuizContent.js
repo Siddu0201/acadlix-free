@@ -1,39 +1,30 @@
-import {
-  Box,
-  Grid,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
+import NormalQuizMode from "./NormalQuizMode";
+import AdvanceQuizMode from "./AdvanceQuizMode";
 import { useForm } from "react-hook-form";
-import CategoryTemplateSection from "./sections/CategoryTemplateSection";
-import TitleDescriptionSection from "./sections/TitleDescriptionSection";
-import QuizModeSection from "./sections/QuizModeSection";
-import QuizSettingSection from "./sections/QuizSettingSection";
 
-
-const QuizContent = () => {
-  const methods = useForm();
-  const { reset } = methods;
-
-  React.useEffect(() => {
-    reset({
+const QuizContent = (props) => {
+  const methods = useForm({
+    defaultValues: {
       id: null,
       quiz_section: "1",
       category_id: null,
       load_template_id: null,
       title: "",
       description: "",
-      // Mode settings 
+      // Mode settings
       mode: "normal", // normal/check_and_continue/question_below_each_other/advance_mode
       enable_back_button: false,
       enable_check_button: false,
       enable_check_on_option_selected: false,
       question_per_page: 10, // 0 => all question
-      advance_mode_type: "advance_panel", // advance_panel/ibps/ssc/gate/sbi/jee/railway 
-      // General settings 
+      advance_mode_type: "advance_panel", // advance_panel/ibps/ssc/gate/sbi/jee/railway
+      // General settings
       hide_quiz_title: false,
       hide_restart_button: false,
       show_clear_response_button: false,
-      quiz_timing_type: "full_quiz_time", // full_quiz_time/per_question_time 
+      quiz_timing_type: "full_quiz_time", // full_quiz_time/per_question_time
       quiz_time: 0, // 0 => Infinity (no limit)
       pause_quiz: false,
       set_start_date: false,
@@ -43,7 +34,7 @@ const QuizContent = () => {
       prerequisite: false,
       prerequisite_data: [],
       enable_login_register: false,
-      login_register_type: "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz 
+      login_register_type: "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz
       per_user_allowed_attempt: 0, // 0 => infinity
       save_statistic: false,
       save_statistic_number_of_times: 0, // 0 =>  infinity
@@ -61,7 +52,7 @@ const QuizContent = () => {
       display_subject: false,
       skip_question: false,
       answer_bullet: false,
-      answer_bullet_type: "numeric", // numeric/alphabet 
+      answer_bullet_type: "numeric", // numeric/alphabet
       random_question: false,
       random_option: false,
       do_not_randomize_last_option: false,
@@ -112,81 +103,50 @@ const QuizContent = () => {
       instructor_from: "",
       instructor_subject: "",
       instructor_message: "",
-      // Language settings
-      multi_language: false,
-      language: null, // [{language_id: 1, default: false}]
       // Instruction settings
       instruction1: "",
       instruction2: "",
-
-    });
-  }, [reset]);
-
-  // console.log(methods?.watch("quiz_section"));
-
-
-  const loadEditor = (key, name = "") => {
-    window.wp.editor.initialize(key, {
-      tinymce: {
-        wpautop: true,
-        plugins:
-          "charmap colorpicker hr lists paste tabfocus textcolor fullscreen wordpress wpautoresize wpeditimage wpemoji wpgallery wplink wptextpattern",
-        toolbar1:
-          "formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,wp_more,spellchecker,fullscreen,wp_adv,listbuttons",
-        toolbar2:
-          "styleselect,strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help",
-        textarea_rows: 20,
-        setup: function (editor) {
-          editor.on("input change", function () {
-            methods.setValue(name, window.wp.editor.getContent(key), { shouldDirty: true });
-          });
+      // Question Section
+      questions: [
+        {
+          id: null,
+          subject_id: null,
+          title: "",
+          points: 1,
+          negative_points: 0,
+          different_points_for_each_answer: false,
+          different_incorrect_msg: false,
+          hint_enabled: false,
+          answer_type: "singleChoice",
+          default_language_id: 1,
+          selected_language_id: 1,
+          language: [
+            {
+              language_id: 1,
+              question: "",
+              correct_msg: "",
+              incorrect_msg: "",
+              hint_msg: "",
+              answer_data: [],
+            },
+          ],
         },
-      },
-      quicktags: true,
-      mediaButtons: true,
-    });
+      ],
+    },
+  });
+  const checkMode = () => {
+    switch (props?.mode) {
+      case "normal":
+      case "check_and_continue":
+      case "question_below_each_other":
+        return <NormalQuizMode {...methods} {...props} />;
+      case "advance_mode":
+        return <AdvanceQuizMode {...methods} {...props} />;
+      default:
+        return <NormalQuizMode {...methods} {...props} />;
+    }
   };
-
-  const removeEditor = (key) => {
-    window.wp.editor.remove(key);
-  };
-
-  return (
-    <Box>
-      <Grid
-        container
-        rowSpacing={3}
-        spacing={4}
-        sx={{
-          padding: 4,
-        }}
-      >
-        {/* Top section containing category and template load */}
-        <CategoryTemplateSection 
-          {...methods}
-        />
-
-        {/* Second section contain title and Description */}
-        <TitleDescriptionSection 
-          {...methods}
-          loadEditor={loadEditor} 
-          removeEditor={removeEditor} 
-        />
-
-        {/* Third section contain quiz mode */}
-        <QuizModeSection 
-          {...methods}
-        />
-
-        {/* Fourth section contain quiz settings */}
-        <QuizSettingSection 
-          {...methods}
-          loadEditor={loadEditor} 
-          removeEditor={removeEditor} 
-        />
-      </Grid>
-    </Box>
-  );
+  return <Box>{checkMode()}</Box>;
 };
 
 export default QuizContent;

@@ -20,14 +20,19 @@ const menus = [
     path: "/profile",
   },
   {
-    id: "quiz",
-    name: "Quiz",
-    path: "/quiz",
+    id: "advance-panel",
+    name: "Advance Panel",
+    path: "/advance_panel",
+  },
+  {
+    id: "ibps",
+    name: "Ibps",
+    path: "/ibps",
   },
   {
     id: "normal-quiz",
     name: "Normal Quiz",
-    path: "/normal-quiz",
+    path: "/normal",
   },
 ];
 
