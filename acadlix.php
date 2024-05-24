@@ -19,6 +19,8 @@ use Illuminate\Database\Capsule\Manager;
 use Yuvayana\Acadlix\Migrations\Migration;
 use Yuvayana\Acadlix\Seeder\Seeder;
 
+use Yuvayana\Acadlix\Admin\Option;
+
 final class Acadlix {
 
     const ACADLIX_VERSION = '0.0.1';
@@ -70,13 +72,20 @@ final class Acadlix {
         new Yuvayana\Acadlix\REST\Api();
     }
 
-    public function activate()
+    public static function activate()
     {
         Migration::createTable();
         Seeder::seed();
+        Option::createOption();
+        
     }
 
-    public function deactivate()
+    public static function deactivate()
+    {
+        // Migration::removeTable();
+    }
+
+    public static function uninstall()
     {
         Migration::removeTable();
     }
@@ -86,5 +95,6 @@ function acadlix(){
     return Acadlix::init();
 
 }
-
 acadlix();
+
+register_uninstall_hook( __FILE__, 'Acadlix::uninstall');

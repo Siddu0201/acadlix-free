@@ -14,9 +14,7 @@ function MatrixSortingChoice(props) {
   return (
     <Card>
       <CardHeader title={`Matrix Sorting Choice (${
-        props?.availableLanguage?.filter(
-          (avl) => avl?.id === props?.lang?.language_id
-        )?.[0]?.name
+        props?.lang?.language_name
       })`}
       titleTypographyProps={{
         variant: 'h6'
@@ -52,7 +50,7 @@ function MatrixSortingChoice(props) {
                   props?.setValue(
                       `language.${index}.answer_data.${props?.type}`, 
                       [...props?.watch(`language.${index}.answer_data.${props?.type}`), 
-                       ...props?.getAnswerData(props?.type)?.[props?.type]?.map((opt) => {
+                       ...props?.getAnswerData(props?.type)?.map((opt) => {
                         return {...opt, position: props?.watch(`language.${index}.answer_data.${props?.type}`)?.length}
                        })
                       ], 

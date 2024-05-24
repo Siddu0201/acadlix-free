@@ -10,13 +10,10 @@ import {
 } from "@mui/material";
 
 function MultipleChoice(props) {
-
   return (
     <Card>
       <CardHeader title={`Multiple Choice (${
-        props?.availableLanguage?.filter(
-          (avl) => avl?.id === props?.lang?.language_id
-        )?.[0]?.name
+        props?.lang?.language_name
       })`}
       titleTypographyProps={{
         variant: 'h6'
@@ -50,7 +47,7 @@ function MultipleChoice(props) {
                 props?.watch("language")?.forEach((_, index) => {
                   props?.setValue(
                       `language.${index}.answer_data.${props?.type}`, 
-                      [...props?.watch(`language.${index}.answer_data.${props?.type}`), props?.getAnswerData(props?.type)?.[props?.type]?.[0]], 
+                      [...props?.watch(`language.${index}.answer_data.${props?.type}`), ...props?.getAnswerData(props?.type)], 
                       {shouldDirty: true}
                     );
                 })

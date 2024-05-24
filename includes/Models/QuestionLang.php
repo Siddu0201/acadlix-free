@@ -12,13 +12,15 @@ if(!class_exists('QuestionLang')){
         protected $fillable = [
             "question_id",
             "language_id",
-            "default_lang",
+            "default",
             "question",
             "correct_msg",
             "incorrect_msg",
             "hint_msg",
             "answer_data"
         ];
+
+        protected $with = ['language'];
 
         public function question(){
             return $this->belongsTo(Question::class, 'question_id', 'id');

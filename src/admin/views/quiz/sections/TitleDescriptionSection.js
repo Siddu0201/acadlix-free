@@ -34,7 +34,9 @@ const TitleDescriptionSection = (props) => {
             {/* Used to enter quiz title  */}
             <Grid item xs={12} sm={12}>
               <CustomTextField
+                {...props?.register("title", {required: "Title is required"})}
                 fullWidth
+                required
                 name="title"
                 size="small"
                 label="Enter quiz title"
@@ -42,6 +44,9 @@ const TitleDescriptionSection = (props) => {
                 onChange={(e) => {
                   props?.setValue("title", e?.target?.value, {shouldDirty: true});
                 }}
+                error={props?.formState?.errors?.title}
+                helperText={props?.formState?.errors?.title?.message}
+
               />
             </Grid>
             

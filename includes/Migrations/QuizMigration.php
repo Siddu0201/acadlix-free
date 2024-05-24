@@ -33,11 +33,12 @@ if(!class_exists('QuizMigration')){
                     $table->string('start_date')->nullable();
                     $table->boolean('set_end_date')->default(0);
                     $table->string('end_date')->nullable();
+                    $table->boolean('prerequisite')->default(0);
                     $table->boolean('enable_login_register')->default(0);
                     $table->string('login_register_type')->nullable()->default('at_start_of_quiz')->comment('at_start_of_quiz/at_finish_of_quiz');
                     $table->integer('per_user_allowed_attempt')->unsigned()->default(0)->comment('0 => Infinity (no limit)');
                     $table->boolean('save_statistic')->default(0);
-                    $table->integer('save_statisic_number_of_times')->unsigned()->default(0)->comment('0 => Infinity (no limit)');
+                    $table->integer('save_statistic_number_of_times')->unsigned()->default(0)->comment('0 => Infinity (no limit)');
                     $table->boolean('on_screen_calculator')->default(0);
                     $table->boolean('quiz_certificate')->default(0);
                     $table->boolean('resume_unfinished_quiz')->default(0);

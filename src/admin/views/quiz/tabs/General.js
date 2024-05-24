@@ -24,8 +24,8 @@ import CustomTextField from "../../../../components/CustomTextField";
 // import DatePicker from "react-datepicker";
 import { MdAdd } from "react-icons/md";
 import { FaMinus } from "react-icons/fa";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const General = (props) => {
   const [quiz, setQuiz] = React.useState([
@@ -56,7 +56,10 @@ const General = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
               />
             }
             label="Hide Quiz Title"
@@ -74,7 +77,10 @@ const General = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
               />
             }
             label="Hide Restart Button"
@@ -146,7 +152,10 @@ const General = (props) => {
                 checked={
                   props?.watch("quiz_timing_type") === "per_question_time"
                 }
-                disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
               />
             </RadioGroup>
           </FormControl>
@@ -188,31 +197,45 @@ const General = (props) => {
 
         {/* Quiz start date */}
         <GridItem1 xs={12} lg={3}>
-          <DemoContainer components={['DatePicker']}>
-            <DatePicker 
-              label="Enter Start Date" 
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker
+              {...props?.register("start_date", {
+                required: {
+                  value: props?.watch("set_start_date"),
+                  message: "Start Date is required",
+                },
+              })}
+              required={props?.watch("set_start_date")}
+              label="Enter Start Date"
               sx={{
-                '.MuiFormControl-root ': {
-                  maxHeight: '42px',
+                ".MuiFormControl-root ": {
+                  maxHeight: "42px",
                 },
-                '.MuiInputBase-input': {
-                  padding: "9px 14px !important"
+                ".MuiInputBase-input": {
+                  padding: "9px 14px !important",
                 },
-                '.MuiFormLabel-root': {
-                  top: '-7px !important',
+                ".MuiFormLabel-root": {
+                  top: "-7px !important",
                 },
-                '.MuiInputLabel-shrink': {
+                ".MuiInputLabel-shrink": {
                   top: "0px !important",
-                }
+                },
               }}
               format="DD/MM/YYYY"
               value={props?.watch("start_date") ?? null}
               onChange={(value) => {
-                props?.setValue("start_date", new Date(value?.$d), {shouldDirty: true});
+                props?.setValue("start_date", new Date(value?.$d), {
+                  shouldDirty: true,
+                });
               }}
               disabled={!props?.watch("set_start_date")}
             />
           </DemoContainer>
+          {props?.formState?.errors?.start_date && (
+            <Typography component="p" color="error">
+              {props?.formState?.errors?.start_date?.message}
+            </Typography>
+          )}
         </GridItem1>
 
         <GridItem1 xs={0} lg={5}></GridItem1>
@@ -236,33 +259,47 @@ const General = (props) => {
 
         {/* Quiz End Date */}
         <GridItem1 xs={12} lg={3}>
-          <DemoContainer components={['DatePicker']}>
-            <DatePicker 
-              label="Enter End Date" 
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker
+              {...props?.register("end_date", {
+                required: {
+                  value: props?.watch("set_end_date"),
+                  message: "End Date is required",
+                },
+              })}
+              required={props?.watch("set_end_date")}
+              label="Enter End Date"
               sx={{
-                '.MuiFormControl-root ': {
-                  maxHeight: '42px',
+                ".MuiFormControl-root ": {
+                  maxHeight: "42px",
                 },
-                '.MuiInputBase-input': {
-                  padding: "9px 14px !important"
+                ".MuiInputBase-input": {
+                  padding: "9px 14px !important",
                 },
-                '.MuiFormLabel-root': {
-                  top: '-7px !important',
+                ".MuiFormLabel-root": {
+                  top: "-7px !important",
                 },
-                '.MuiInputLabel-shrink': {
+                ".MuiInputLabel-shrink": {
                   top: "0px !important",
-                }
-              }} 
+                },
+              }}
               format="DD/MM/YYYY"
               value={props?.watch("end_date") ?? null}
               onChange={(value) => {
-                props?.setValue("end_date", new Date(value?.$d), {shouldDirty: true});
+                props?.setValue("end_date", new Date(value?.$d), {
+                  shouldDirty: true,
+                });
               }}
               disabled={!props?.watch("set_end_date")}
             />
           </DemoContainer>
+          {props?.formState?.errors?.end_date && (
+            <Typography component="p" color="error">
+              {props?.formState?.errors?.end_date?.message}
+            </Typography>
+          )}
         </GridItem1>
-        
+
         <GridItem1 xs={0} lg={5}></GridItem1>
 
         {/* Button to pause quiz */}
@@ -293,7 +330,10 @@ const General = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
               />
             }
             label="Prerequisite"
@@ -305,7 +345,7 @@ const General = (props) => {
           sx={{
             display: {
               xs: props?.watch("prerequisite") ? "block" : "none",
-              md: props?.watch("prerequisite") ? "flex" : "none",
+              sm: props?.watch("prerequisite") ? "flex" : "none",
             },
           }}
         >
@@ -497,7 +537,10 @@ const General = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
               />
             }
             label="Enable login/register"
@@ -535,7 +578,11 @@ const General = (props) => {
                 checked={
                   props?.watch("login_register_type") === "at_finish_of_quiz"
                 }
-                disabled={!props?.watch("enable_login_register") || (props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel")}
+                disabled={
+                  !props?.watch("enable_login_register") ||
+                  (props?.watch("mode") === "advance_mode" &&
+                    props?.watch("advance_mode_type") !== "advance_panel")
+                }
               />
             </RadioGroup>
           </FormControl>
@@ -569,7 +616,10 @@ const General = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
               />
             }
             label="Save Statistics"
@@ -592,7 +642,10 @@ const General = (props) => {
               );
             }}
             value={props?.watch("save_statistic_number_of_times") ?? 0}
-            disabled={!props?.watch("enable_login_register") || !props?.watch("save_statistic")}
+            disabled={
+              !props?.watch("enable_login_register") ||
+              !props?.watch("save_statistic")
+            }
           />
         </GridItem1>
 

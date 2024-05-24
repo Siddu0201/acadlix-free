@@ -33,7 +33,7 @@ const QuestionMessageSection = (props) => {
       sm={12}
       sx={{
         display:
-          props?.watch("selected_language_id") === props?.lang?.language_id
+          props?.lang?.selected
             ? "block"
             : "none",
       }}
@@ -41,9 +41,7 @@ const QuestionMessageSection = (props) => {
       <Card>
         <CardHeader
           title={`Message with correct answer (${
-            props?.availableLanguage?.filter(
-              (avl) => avl?.id === props?.lang?.language_id
-            )?.[0]?.name
+            props?.lang?.language_name
           })`}
           titleTypographyProps={{
             sx: {

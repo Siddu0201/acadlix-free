@@ -21,7 +21,7 @@ const HintAndMessageSection = (props) => {
           </Typography>
         </Box>
         <Box>
-          <Typography>Hint message</Typography>
+          <Typography>{props?.lang?.hint_msg}</Typography>
         </Box>
       </Box>
       <Box>
@@ -31,7 +31,7 @@ const HintAndMessageSection = (props) => {
           </Typography>
         </Box>
         <Box>
-          <Typography>Correct message</Typography>
+          <Typography>{props?.lang?.correct_msg}</Typography>
         </Box>
       </Box>
       <Box>
@@ -41,7 +41,7 @@ const HintAndMessageSection = (props) => {
           </Typography>
         </Box>
         <Box>
-          <Typography>Incorrect message</Typography>
+          <Typography>{props?.lang?.incorrect_msg}</Typography>
         </Box>
       </Box>
       <Box>
@@ -51,7 +51,7 @@ const HintAndMessageSection = (props) => {
           </Typography>
         </Box>
         <Box>
-          <Typography>Unattempted also contain incorrect message</Typography>
+          <Typography>{props?.lang?.incorrect_msg}</Typography>
         </Box>
       </Box>
     </Box>

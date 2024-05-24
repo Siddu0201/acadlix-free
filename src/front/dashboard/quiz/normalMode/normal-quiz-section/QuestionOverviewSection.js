@@ -3,11 +3,49 @@ import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 
 const QuestionOverviewSection = (props) => {
-  let arr = [
-    ...Array(100)
-      .keys()
-      .map((i) => ++i),
-  ];
+  const handleClick = (id) => {
+    props?.setValue("finish", false, { shouldDirty: true });
+    props?.setValue(
+      "questions",
+      props.watch("questions")?.map((question, index) => {
+        if(question.selected){
+          question.result.time = question.result.time + Math.round(((Date.now() - props?.watch("last"))/1000));
+        }
+        if (index === id) {
+          question.selected = true;
+        } else {
+          question.selected = false;
+        }
+        return question;
+      }),
+      { shouldDirty: true }
+    );
+  };
+
+  const handleQuizOverView = () => {
+    props?.setValue(
+      "questions",
+      props.watch("questions")?.map((question, index) => {
+        question.selected = false;
+        return question;
+      }),
+      { shouldDirty: true }
+    );
+    props?.setValue("finish", true, { shouldDirty: true });
+  };
+
+  const handleReview = () => {
+    props?.setValue(
+      "questions",
+      props.watch("questions")?.map((question, index) => {
+        if (question.selected) {
+          question.review = true;
+        }
+        return question;
+      }),
+      { shouldDirty: true }
+    );
+  };
 
   return (
     <Box
@@ -29,7 +67,7 @@ const QuestionOverviewSection = (props) => {
           backgroundColor: props?.colorCode?.overview_background,
         }}
       >
-        {arr.map((ar, index) => (
+        {props?.watch("questions")?.map((_, index) => (
           <Button
             key={index}
             variant="outlined"
@@ -48,8 +86,9 @@ const QuestionOverviewSection = (props) => {
                 border: `1px solid ${props?.colorCode?.overview_button_border}`,
               },
             }}
+            onClick={handleClick.bind(this, index)}
           >
-            {ar}
+            {++index}
           </Button>
         ))}
       </Box>
@@ -95,8 +134,8 @@ const QuestionOverviewSection = (props) => {
           },
         }}
       >
-        <CustomButton>Review Question</CustomButton>
-        <CustomButton>Quiz Summary</CustomButton>
+        <CustomButton onClick={handleReview}>Review Question</CustomButton>
+        <CustomButton onClick={handleQuizOverView}>Quiz Summary</CustomButton>
       </Box>
     </Box>
   );

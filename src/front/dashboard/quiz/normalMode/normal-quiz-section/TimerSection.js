@@ -1,54 +1,75 @@
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import React from "react";
+import Countdown from "react-countdown";
 
 const TimerSection = (props) => {
-  const [progress, setProgress] = React.useState(props?.time);
-  let interval;
-
-  const startTimer = () => {
-    interval = setInterval(() => {
-      setProgress((pro) => {
-        if (pro > 0) {
-          if (pro < 20) {
-            stopTimer();
-          }
-          return pro - 16;
-        }
-        return pro;
-      });
-    }, 16);
-  };
-
-  const stopTimer = () => {
-    clearInterval(interval);
-  };
+  const setRef = (countdown) => {
+    if(countdown){
+      props.countdownApi = countdown.getApi();
+    }
+  }
 
   React.useEffect(() => {
-    startTimer();
-    return () => stopTimer();
-  }, [props?.time]);
-
+    if(props?.watch("view_question")){
+      props?.countdownApi?.start();
+    }
+  },[props?.watch('view_question')])
 
   return (
-    <Box>
-      <Typography
-        style={{
-          margin: 1,
+    <Box sx={{
+      display: props?.watch('quiz_time') === 0 ? "none" : "block",
+      marginY: 2,
+    }}>
+      <Countdown
+        date={props?.watch('now') + props?.watch('quiz_time')}
+        ref={setRef}
+        controlled={false}
+        autoStart={false}
+        intervalDelay={50}
+        precision={3}
+        onComplete={() => {
+          props?.setValue(
+            "questions",
+            props.watch("questions")?.map((question, index) => {
+              if(question.selected){
+                question.result.time = question.result.time + Math.round(((Date.now() - props?.watch("last"))/1000));
+              }
+              question.selected = false;
+              return question;
+            }),
+            { shouldDirty: true }
+          );
+          props?.setValue('view_question', false, {shouldDirty: true});
+          props?.setValue('result', true, {shouldDirty: true});
         }}
+        renderer={(prop) => {
+          return (
+          <>
+            <Typography
+              style={{
+                margin: 1,
+              }}
+            >
+              Time Limit: {Math.ceil(prop?.total / 1000)}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={(prop?.total / props?.watch('quiz_time')) * 100}
+              sx={{
+                height: "8px",
+                backgroundColor: "transparent",
+                '& .MuiLinearProgress-bar': {
+                  backgroundColor: props?.colorCode?.timer,
+                }
+              }}
+            />
+          </>
+          )
+        }
+        }
       >
-        Time Limit: {Math.ceil(progress / 1000)}
-      </Typography>
-      <LinearProgress
-        variant="determinate"
-        value={(progress / props?.time) * 100}
-        sx={{
-          height: "8px",
-          backgroundColor: "transparent",
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: props?.colorCode?.timer,
-          }
-        }}
-      />
+
+      </Countdown>
     </Box>
   );
 };

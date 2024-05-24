@@ -26,7 +26,7 @@ const Ibps = (props) => {
           },
         }}
       >
-        <QuizSection {...props} />
+        {/* <QuizSection {...props} /> */}
         <QuizTimer {...props} />
         <QuizSubsection {...props} />
         <QuizQuestionTypeAndMarks {...props} />

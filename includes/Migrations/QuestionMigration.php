@@ -16,7 +16,6 @@ if(!class_exists('QuestionMigration')){
                     $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
                     $table->integer('sort')->unsigned()->default(1);
-                    $table->boolean('multi_language')->default(0);
                     $table->string('title');
                     $table->float('points')->default(1);
                     $table->float('negative_points')->default(0);
@@ -24,8 +23,6 @@ if(!class_exists('QuestionMigration')){
                     $table->boolean('different_incorrect_msg')->default(0);
                     $table->boolean('hint_enabled')->default(0);
                     $table->string('answer_type');
-                    $table->foreignId('default_language_id')->nullable()->constrained('language')->nullOnDelete();
-                    $table->foreignId('selected_language_id')->nullable()->constrained('language')->nullOnDelete();
                     $table->timestamps();
                 });
             }

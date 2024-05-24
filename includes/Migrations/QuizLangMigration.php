@@ -14,7 +14,7 @@ if(!class_exists('QuizLangMigration')){
                     $table->bigIncrements('id');
                     $table->foreignId('quiz_id')->constrained('quiz')->onDelete('cascade');
                     $table->foreignId('language_id')->nullable()->constrained('language')->nullOnDelete();
-                    $table->boolean('default_lang')->default(0);
+                    $table->boolean('default')->default(false);
                     $table->timestamps();
                 });
             }

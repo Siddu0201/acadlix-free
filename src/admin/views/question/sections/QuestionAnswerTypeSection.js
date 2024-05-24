@@ -11,21 +11,9 @@ import {
 import React from "react";
 
 const QuestionAnswerTypeSection = (props) => {
-
-  const changeType = (type) => {
-    props?.watch("language")?.forEach((_, index) => {
-      props?.setValue(`language.${index}.answer_data`, props?.getAnswerData(type), {shouldDirty: true});
-    })
-  }
-
   const handleTypeChange = (e) => {
     props?.setValue("answer_type", e.target.value, {shouldDirty: true});
-    changeType(e.target.value);
   }
-
-  React.useEffect(() => {
-    changeType(props?.watch("answer_type"));
-  },[]);
 
   return (
     <Grid item xs={12} sm={12}>
@@ -66,11 +54,11 @@ const QuestionAnswerTypeSection = (props) => {
               control={<Radio />}
               label="Sorting Choice"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               value="matrixSortingChoice"
               control={<Radio />}
               label="Matrix Sorting Choice"
-            />
+            /> */}
             <FormControlLabel
               value="fillInTheBlank"
               control={<Radio />}

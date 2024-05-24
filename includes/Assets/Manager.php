@@ -15,9 +15,10 @@ class Manager {
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
         add_shortcode( 'Acadlix_Quiz', [ $this, 'add_shortcode_quiz'] );
         add_shortcode( 'Acadlix_Dashboard',  [$this, 'acadlix_dashboard_shortcode']);
+        add_shortcode( 'Acadlix_Advance_Quiz',  [$this, 'acadlix_advance_quiz_shortcode']);
 
-        add_filter( 'single_template', [$this, 'acadlix_dashboard_template'] );
-        add_filter( 'page_template', [$this, 'acadlix_dashboard_template'] );
+        add_filter( 'single_template', [$this, 'acadlix_template'] );
+        add_filter( 'page_template', [$this, 'acadlix_template'] );
     }
 
     public function add_shortcode_quiz($atts){
@@ -48,10 +49,22 @@ class Manager {
 
     }
 
-    public function acadlix_dashboard_template($page_template){
+    public function acadlix_advance_quiz_shortcode(){
+        $content = '';
+
+        ob_start();
+        ?>
+        <div id="acadlix_advance_quiz"></div>
+        <?php
+        $content = ob_get_contents();
+        ob_get_clean();
+        return $content;
+    }
+
+    public function acadlix_template($page_template){
         global $post;
 
-        if(has_shortcode( $post->post_content, 'Acadlix_Dashboard' )){
+        if(has_shortcode( $post->post_content, 'Acadlix_Dashboard' ) || has_shortcode( $post->post_content, 'Acadlix_Advance_Quiz')){
             $page_template = ACADLIX_TEMPLATE_PATH. '/dashboard.php';
         }
         return $page_template;
@@ -118,6 +131,10 @@ class Manager {
         wp_enqueue_media();
         wp_enqueue_style( 'acadlix-css' );
         wp_enqueue_script( 'acadlix-app' );
+        wp_localize_script( 'acadlix-app', 'acadlixOptions', array(
+            'api_url' => esc_url_raw( rest_url( 'acadlix/v1') ),
+            'nonce' => wp_create_nonce( 'wp_rest' ),
+        ) );
     }
 
     public function enqueue_front_assets() {
@@ -126,8 +143,11 @@ class Manager {
         }
         wp_enqueue_style( 'acadlix-front-css' );
         wp_enqueue_script( 'acadlix-front-app');
-        wp_localize_script( 'acadlix-front-app', 'acadlixFront', array(
-            'is_admin_bar_showing' => is_admin_bar_showing(  )
+        wp_localize_script( 'acadlix-front-app', 'acadlixOptions', array(
+            'is_admin_bar_showing' => is_admin_bar_showing(  ),
+            'api_url' => esc_url_raw( rest_url( 'acadlix/v1') ),
+            'nonce' => wp_create_nonce( 'wp_rest' ),
+            'advance_quiz_url' => get_option( 'acadlix_advance_quiz_page' ),
         ) );
     }
 }

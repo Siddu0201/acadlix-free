@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const CategoryTemplateSection = () => {
+const CategoryTemplateSection = (props) => {
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -19,14 +19,33 @@ const CategoryTemplateSection = () => {
             <Grid item xs={12} sm={3}>
               <Autocomplete
                 size="small"
-                options={[
-                  { label: "category1" },
-                  { label: "category2" },
-                  { label: "category3" },
-                ]}
+                value={
+                  props?.watch("category_id") !== null
+                    ? props?.categories.filter(
+                        (option) => props?.watch("category_id") === option?.id
+                      )?.[0]
+                    : null
+                }
+                options={props?.categories ? props?.categories : []}
+                getOptionLabel={(option) => option?.category_name || ""}
+                isOptionEqualToValue={(option, value) =>
+                  option?.id === value?.id
+                }
                 renderInput={(params) => (
-                  <TextField {...params} label="Select Quiz Categories" />
+                  <TextField
+                    {...params}
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "spoc_gender",
+                    }}
+                    label="Select Quiz Categories"
+                  />
                 )}
+                onChange={(_, newValue) => {
+                  props?.setValue("category_id", newValue?.id ??  null, {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </Grid>
 

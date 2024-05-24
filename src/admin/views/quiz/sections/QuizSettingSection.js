@@ -6,6 +6,7 @@ import Question from "../tabs/Question";
 import Result from "../tabs/Result";
 import Notification from "../tabs/Notification";
 import Instruction from "../tabs/Instruction";
+import Language from "../tabs/Language";
 
 const QuizSettingSection = (props) => {
 
@@ -27,9 +28,10 @@ const QuizSettingSection = (props) => {
                 <Tab label="Question" value="2" />
                 <Tab label="Result" value="3" />
                 <Tab label="Notification" value="4" />
+                <Tab label="Language" value="5" />
                 <Tab
                   label="Instruction"
-                  value="5"
+                  value="6"
                   sx={{
                     display:
                       props?.watch("mode") === "advance_mode" ? "" : "none",
@@ -49,8 +51,11 @@ const QuizSettingSection = (props) => {
             <TabPanel value="4">
               <Notification {...props} />
             </TabPanel>
+            <TabPanel value="5">
+              <Language {...props} />
+            </TabPanel>
             <TabPanel
-              value="5"
+              value="6"
               sx={{
                 display: props?.watch("mode") === "advance_mode" ? "" : "none",
               }}

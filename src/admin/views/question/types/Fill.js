@@ -3,15 +3,48 @@ import { CardHeader, CardContent, Card } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 
 function Fill(props) {
+  const fillChange = (e) => {
+    let rxp = /{([^}]+)}/g ;
+    let currmatch;
+    let found = [];
+    let points = props?.watch(`points`);
+    while(currmatch = rxp.exec(e?.target?.value)){
+      let newrxp = /\[([^\][]*)]/g;
+      if(currmatch[1]?.includes('|')){
+        points = currmatch[1]?.split('|')?.[1];
+        currmatch[1] = currmatch[1]?.split('|')?.[0];
+      }
+      if(currmatch[1]?.match(newrxp)?.length > 0){
+        let newCurrMatch, newFound = [];
+        while(newCurrMatch = newrxp.exec(currmatch[1])){
+          newFound.push(newCurrMatch[1]);
+        }
+        found.push({option: newFound, points: Number(points), yourAnswer: ''});
+      }else{
+        found?.push({option: [currmatch[1]], points: Number(points), yourAnswer: ''});
+      }
+    }
+    props?.watch("language")?.forEach((lang, lindex) => {
+      props?.setValue(
+        `language.${lindex}.answer_data.${props?.type}.option`,
+        e?.target?.value,
+        { shouldDirty: true }
+      );
+    });
+    props?.watch("language")?.forEach((lang, lindex) => {
+      props?.setValue(
+        `language.${lindex}.answer_data.${props?.type}.correctOption`,
+        found,
+        { shouldDirty: true }
+      );
+    });
+  };
+  // console.log(props?.lang);
 
   return (
     <Card>
       <CardHeader
-        title={`Fill in the Blank (${
-          props?.availableLanguage?.filter(
-            (avl) => avl?.id === props?.lang?.language_id
-          )?.[0]?.name
-        })`}
+        title={`Fill in the Blank (${props?.lang?.language_name})`}
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -21,31 +54,14 @@ function Fill(props) {
           paddingTop: 1,
         }}
       >
-        {
-          props?.lang?.answer_data?.[props?.type]?.length > 0 &&
-          props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
-            <CustomTextField
-              key={index} 
-              fullWidth 
-              size="small" 
-              multiline 
-              rows={4} 
-              value={option?.option}
-              onChange={(e) => {
-                props?.watch("language")?.forEach((lang, lindex) => {
-                  lang?.answer_data?.[props?.type]?.forEach((_, option_index) => {
-                      props?.setValue(
-                        `language.${lindex}.answer_data.${props?.type}.${option_index}.option`,
-                        e?.target?.value,
-                        {shouldDirty: true}
-                      );
-                    
-                  });
-                })
-              }}
-            />
-          ))
-        }
+        <CustomTextField
+          fullWidth
+          size="small"
+          multiline
+          rows={4}
+          value={props?.lang?.answer_data?.[props?.type]?.option}
+          onChange={fillChange}
+        />
       </CardContent>
     </Card>
   );

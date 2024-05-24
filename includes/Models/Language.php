@@ -9,7 +9,7 @@ if(!class_exists('Language')){
     {
         protected $table = "language";
 
-        protected $fillable = ["language_name"];
+        protected $fillable = ["language_name", "default"];
 
     }
 }

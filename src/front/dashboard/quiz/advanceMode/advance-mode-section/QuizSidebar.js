@@ -37,13 +37,13 @@ const QuizSidebar = (props) => {
     idList.forEach((a,i) => {
       total += document.getElementById(a)?.clientHeight ?? 0;
     });
-    if (acadlixFront?.is_admin_bar_showing) {
+    if (acadlixOptions?.is_admin_bar_showing) {
       total += props?.isDesktop ? 32 : 46;
     }
     setRemainingHeight(total);
 
     let top = 0;
-    if (acadlixFront?.is_admin_bar_showing) {
+    if (acadlixOptions?.is_admin_bar_showing) {
       top += props?.isDesktop ? 32 : 46;
     }
     top += document.getElementById("acadlix_quiz_logo_and_title")?.clientHeight ?? 0;

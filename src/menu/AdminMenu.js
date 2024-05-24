@@ -8,10 +8,6 @@ const menus = [
     path: "/course",
   },
   {
-    name: "Question",
-    path: "/question",
-  },
-  {
     name: "Testing",
     path: "/testing",
   },

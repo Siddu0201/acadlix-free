@@ -14,7 +14,6 @@ if(!class_exists('Question')){
             "subject_id",
             "online",
             "sort",
-            "multi_language",
             "title",
             "points",
             "negative_points",
@@ -22,9 +21,9 @@ if(!class_exists('Question')){
             "different_incorrect_msg",
             "hint_enabled",
             "answer_type",
-            "default_language_id",
-            "selected_language_id"
         ];
+
+        protected $with = ['question_languages', 'subject'];
 
         public function quiz(){
             return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
@@ -34,14 +33,8 @@ if(!class_exists('Question')){
             return $this->belongsTo(Subject::class, 'subject_id', 'id');
         }
 
-        public function default_language()
-        {
-            return $this->belongsTo(Language::class, 'default_language_id', 'id');
-        }
-
-        public function selected_language()
-        {
-            return $this->belongsTo(Language::class, 'selected_language_id', 'id');
+        public function question_languages(){
+            return $this->hasMany(QuestionLang::class, 'question_id', 'id');
         }
 
     }

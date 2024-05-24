@@ -24,7 +24,7 @@ const QuestionHintSection = (props) => {
       sm={12}
       sx={{
         display:
-          props?.watch("selected_language_id") === props?.lang?.language_id
+          props?.lang?.selected
             ? "block"
             : "none",
       }}
@@ -32,9 +32,7 @@ const QuestionHintSection = (props) => {
       <Card>
         <CardHeader
           title={`Hint (${
-            props?.availableLanguage?.filter(
-              (avl) => avl?.id === props?.lang?.language_id
-            )?.[0]?.name
+            props?.lang?.language_name
           })`}
           titleTypographyProps={{
             sx: {

@@ -31,6 +31,7 @@ if(!class_exists('Quiz')){
             "start_date",
             "set_end_date",
             "end_date",
+            "prerequisite",
             "enable_login_register",
             "login_register_type",
             "per_user_allowed_attempt",
@@ -107,9 +108,27 @@ if(!class_exists('Quiz')){
             "instruction2",
         ];
 
+        protected $with = ["category", "quiz_languages"];
+
+
         public function category()
         {
-            return this->belongsTo(Category::class, "category_id", "id");
+            return $this->belongsTo(Category::class, "category_id", "id");
+        }
+
+        /**
+         * Get all of the quiz_language for the Quiz
+         *
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function quiz_languages()
+        {
+            return $this->hasMany(QuizLang::class, 'quiz_id', 'id');
+        }
+
+        public function questions()
+        {
+            return $this->hasMany(Question::class, 'quiz_id', 'id');
         }
 
     }

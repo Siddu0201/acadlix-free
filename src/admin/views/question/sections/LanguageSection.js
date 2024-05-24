@@ -1,104 +1,17 @@
-import { Delete, DeleteOutline } from "@mui/icons-material";
 import {
-  Autocomplete,
   Card,
   CardContent,
   CardHeader,
-  Checkbox,
-  Chip,
   FormControl,
   FormControlLabel,
   FormLabel,
   Grid,
-  IconButton,
   Radio,
   RadioGroup,
-  TextField,
 } from "@mui/material";
 import React from "react";
 
 const LanguageSection = (props) => {
-
-  const getLanguageAnswerData = (type) => {
-    let answerData = {};
-    switch (type) {
-      case "singleChoice":
-        answerData = {
-          singleChoice: [
-            ...props?.watch(`language.0.answer_data.${type}`)?.map((opt) => {
-              return {...opt, option: ""};
-            })
-          ]
-        };
-        break;
-      case "multipleChoice":
-        answerData = {
-          multipleChoice: [
-            ...props?.watch(`language.0.answer_data.${type}`)?.map((opt) => {
-              return {...opt, option: ""};
-            })
-          ]
-        };
-        break;
-      case "trueFalse":
-        answerData = {
-          trueFalse: [
-            ...props?.watch(`language.0.answer_data.${type}`).map((opt) => {
-              return {...opt};
-            })
-          ]
-        };
-        break;
-      case "sortingChoice":
-        answerData = {
-          sortingChoice: [
-            ...props?.watch(`language.0.answer_data.${type}`).map((opt) => {
-              return {...opt, option: ""};
-            })
-          ]
-        };
-        break;
-      case "matrixSortingChoice":
-        answerData = {
-          matrixSortingChoice: [
-            ...props?.watch(`language.0.answer_data.${type}`).map((opt) => {
-              return {...opt, criteria: "", element: ""};
-            })
-          ]
-        };
-        break;
-      case "fillInTheBlank":
-        answerData = {
-          fillInTheBlank: [
-            ...props?.watch(`language.0.answer_data.${type}`)
-          ]
-        };
-        break;
-      case "numerical":
-        answerData = {
-          numerical: [
-            ...props?.watch(`language.0.answer_data.${type}`)
-          ]
-        };
-        break;
-      case "rangeType":
-        answerData = {
-          rangeType: [
-            ...props?.watch(`language.0.answer_data.${type}`)
-          ]
-        };
-        break;
-      case "paragraph":
-        answerData = {
-          paragraph: []
-        };
-        break;
-      default:
-        answerData = {};
-        break;
-    }
-    return answerData;
-  }
 
   return (
     <Grid item xs={12} sm={12}>
@@ -114,81 +27,6 @@ const LanguageSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={3}>
-              <Autocomplete
-                multiple
-                fullWidth
-                size="small"
-                disableCloseOnSelect
-                options={props?.availableLanguage}
-                getOptionLabel={(option) => option?.name}
-                value={
-                  props?.watch("language")?.length > 0 ?
-                  props?.watch("language")?.map((lang) => {
-                    return {
-                      id: lang?.language_id,
-                      name: props?.availableLanguage?.filter(avl => avl?.id === lang?.language_id)?.[0]?.name
-                    }
-                  })
-                  :
-                  null
-                }
-                isOptionEqualToValue={(option, value) =>
-                  option?.id === value?.id
-                }
-                onChange={(_, newValue) => {
-                  let newlang = [];
-                    // add language
-                    newValue?.forEach((nvalue) => {
-                      if(props?.watch("language")?.some((item) => item?.language_id === nvalue?.id)){
-                        newlang = [...newlang, ...props?.watch("language")?.filter((lang) => lang?.language_id === nvalue?.id)];
-                      }else{
-                        newlang = [...newlang, {
-                          language_id: nvalue?.id,
-                          question: "",
-                          correct_msg: "",
-                          incorrect_msg: "",
-                          hint_msg: "",
-                          answer_data: {...getLanguageAnswerData(props?.watch("answer_type"))},
-                        }];
-                      }
-                    });
-
-                  props?.setValue("language", [...newlang], {shouldDirty: true});
-                }}
-                filterSelectedOptions={true}
-                renderOption={(prop, option) => (
-                  <li {...prop} disabled={props?.watch("default_language_id") === option?.id}>
-                    <Checkbox 
-                      sx={{ marginRight: 4 }} 
-                      checked={props?.watch("language")?.filter((lang) => lang?.language_id === option?.id)?.length > 0} 
-                      disabled={props?.watch("default_language_id") === option?.id}
-                    />
-                    {option?.name}
-                  </li>
-                )}
-                renderTags={(tagValue, getTagProps) =>
-                  tagValue.map((option, index) => (
-                    <Chip
-                      label={option.name}
-                      deleteIcon={<></>}
-                      {...getTagProps({ index })}
-                    />
-                  ))
-                }
-                disableClearable={true}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Add Language"
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "code",
-                    }}
-                  />
-                )}
-              />
-            </Grid>
             <Grid item xs={12} sm={9}>
               <FormControl
                 sx={{
@@ -208,9 +46,19 @@ const LanguageSection = (props) => {
                 </FormLabel>
                 <RadioGroup 
                   row
-                  value={props?.watch("selected_language_id")}
+                  value={props?.watch("language")?.filter(lang => lang?.selected)?.[0]?.language_id}
                   onChange={(e) => {
-                    props?.setValue("selected_language_id", Number(e.target.value), {shouldDirty: true});
+                    props?.setValue("language", 
+                      props?.watch("language")?.map(lang => {
+                        if(lang?.language_id === Number(e?.target?.value)){
+                          lang.selected = true;
+                        }else{
+                          lang.selected = false;
+                        }
+                        return lang;
+                      }),
+                      {shouldDirty: true}
+                    );
                   }}
                 >
                   {
@@ -222,9 +70,9 @@ const LanguageSection = (props) => {
                         value={lang?.language_id}
                         label={
                           <>
-                            {props?.availableLanguage?.filter((avl) => avl?.id === lang?.language_id)?.[0]?.name}
-                            {lang?.language_id === props?.watch("default_language_id") ? "(default)" : ""}
-                            <IconButton 
+                            {lang?.language_name}
+                            {lang?.default ? "(default)" : ""}
+                            {/* <IconButton 
                               aria-label="delete" 
                               size="small" 
                               color="error" 
@@ -239,7 +87,7 @@ const LanguageSection = (props) => {
                               }}
                             >
                               <DeleteOutline fontSize="small" />
-                            </IconButton>
+                            </IconButton> */}
                           </>
                         }
                       />

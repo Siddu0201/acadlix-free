@@ -1,5 +1,5 @@
-import { Container, useMediaQuery } from '@mui/material'
-import React from 'react'
+import { Container, useMediaQuery } from "@mui/material";
+import React from "react";
 import DescriptionSection from "./normal-quiz-section/DescriptionSection";
 import ResultSection from "./normal-quiz-section/ResultSection";
 import AverageResultSection from "./normal-quiz-section/AverageResultSection";
@@ -9,8 +9,9 @@ import LeaderboardSection from "./normal-quiz-section/LeaderboardSection";
 import ViewButtonSection from "./normal-quiz-section/ViewButtonSection";
 import QuestionOverviewSection from "./normal-quiz-section/QuestionOverviewSection";
 import QuestionSection from "./normal-quiz-section/QuestionSection";
-import { useTheme } from '@emotion/react';
-
+import { useTheme } from "@emotion/react";
+import TimerSection from "./normal-quiz-section/TimerSection";
+import FinishSection from "./normal-quiz-section/FinishSection";
 
 const NormalQuiz = (props) => {
   const colorCode = {
@@ -39,26 +40,91 @@ const NormalQuiz = (props) => {
   };
 
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Container minWidth="80%" sx={{
-      paddingX: {
-        xs: 0,
-        md: 2
+    <Container
+      minWidth="80%"
+      sx={{
+        paddingX: {
+          xs: 0,
+          md: 2,
+        },
+      }}
+    >
+      {
+        props?.watch('result') &&
+        <>
+          <ResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
+          {/* <AverageResultSection
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props}
+          /> */}
+          <SubjectResultSection
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props}
+          />
+          <ResultTextSection
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props}
+          />
+          <ViewButtonSection
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props}
+          />
+          {
+            props?.watch('view_leaderboard') &&
+            <LeaderboardSection
+              colorCode={colorCode}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          }
+        </>
       }
-    }}>
-        <DescriptionSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <ResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <AverageResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <SubjectResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />  
-        <ResultTextSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <LeaderboardSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <ViewButtonSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <QuestionOverviewSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-        <QuestionSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-    </Container>
-  )
-}
+      {
+        props?.watch('view_question') &&
+        <>
+          <TimerSection 
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props} 
+          />
 
-export default NormalQuiz
+          <QuestionOverviewSection
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props}
+          />
+          {
+            props?.watch('questions')?.length > 0 &&
+            props?.watch('questions')?.map((question, index) => (
+              <QuestionSection 
+                {...props}
+                key={index}
+                index={index}
+                num={index + 1}
+                colorCode={colorCode} 
+                isDesktop={isDesktop} 
+                question={question} 
+                first={index === 0}
+                last={props?.watch('questions')?.length - 1 === index}
+              />
+            ))
+          }
+          <FinishSection
+            colorCode={colorCode}
+            isDesktop={isDesktop}
+            {...props}
+          />
+        </>
+      }
+    </Container>
+  );
+};
+
+export default NormalQuiz;

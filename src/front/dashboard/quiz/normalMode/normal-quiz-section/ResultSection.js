@@ -1,11 +1,20 @@
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Typography } from "@mui/material";
 import React from "react";
+import TickImage from '../../../../../images/icons8-correct-96.png';
+import ClockImage from '../../../../../images/clock-svgrepo-com.png';
+import AccuracyImage from '../../../../../images/percentage-discount-svgrepo-com.svg';
+import QuestionReportChart from "./charts/QuestionReportChart";
+import ScoreChart from "./charts/ScoreChart";
+import { secondsToHms } from "../../../../../helpers/util";
 
 const ResultSection = (props) => {
+
   return (
-    <Box sx={{
-      marginY: 1
-    }}>
+    <Box
+      sx={{
+        marginY: 1,
+      }}
+    >
       <Typography
         sx={{
           color: "#fa7419",
@@ -22,70 +31,98 @@ const ResultSection = (props) => {
             fontSize: 24,
           }}
         >
-          Geography
+          {props?.watch("title")}
         </Typography>
         "
       </Typography>
-      <Typography>1 of 1 questions answered correctly</Typography>
-      <Typography>Your time: 20</Typography>
-      <Typography>
-        <b>Your Final Score is : 1.00</b>
-      </Typography>
-      <Typography>
-        <b>You have attempted : 1</b>
-      </Typography>
-      <Typography
+      <Grid container
         sx={{
-          fontWeight: "bold",
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "10px auto",
         }}
       >
-        Number of Correct Questions :{" "}
-        <Typography
-          component="span"
-          sx={{
-            color: props?.colorCode?.correct_number,
-            fontWeight: "bold",
-          }}
-        >
-          1
-        </Typography>{" "}
-        {" "}and scored{" "}
-        <Typography
-          component="span"
-          sx={{
-            color: props?.colorCode?.correct_number,
-            fontWeight: "bold",
-          }}
-        >
-          1
-        </Typography>
-      </Typography>
-      <Typography
-        sx={{
-          fontWeight: "bold",
-        }}
-      >
-        Number of Incorrect Questions :{" "}
-        <Typography
-          component="span"
-          sx={{
-            color: props?.colorCode?.incorrect_number,
-            fontWeight: "bold",
-          }}
-        >
-          0
-        </Typography>
-         {" "}and Negative marks{" "}
-        <Typography
-          component="span"
-          sx={{
-            color: props?.colorCode?.incorrect_number,
-            fontWeight: "bold",
-          }}
-        >
-          0.00{" "}
-        </Typography>
-      </Typography>
+        <Grid item xs={12} sm={4} sx={{ textAlign: "center" }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar src={TickImage} />
+          </Box>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              {
+                props?.watch('questions')
+                ?.reduce((total, d) => {
+                  if(d?.result?.solved_count && d?.result?.correct_count){
+                    return total + d?.points;
+                  }else if(d?.result?.solved_count && d?.result?.incorrect_count){
+                    return total - d?.negative_points;
+                  }else{
+                    return total;
+                  }
+                },0)
+              }
+              /
+              {props?.watch('questions')?.reduce((total, d) => total + d?.points , 0)}
+            </Typography>
+            <Typography variant="h7">Marks Obtained</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={4} sx={{ textAlign: "center" }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar src={AccuracyImage}/>
+          </Box>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              {`${
+                props?.watch('questions')?.filter(d => d?.result?.solved_count)?.length > 0
+                ? (props?.watch('questions')?.filter(d => d?.result?.correct_count)?.length/props?.watch('questions')?.filter(d => d?.result?.solved_count)?.length * 100)?.toFixed(2)
+                : 0
+                }%`}
+            </Typography>
+            <Typography variant="h7">Accuracy</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={4}  sx={{ textAlign: "center" }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar src={ClockImage} />
+          </Box>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            {secondsToHms(props
+            ?.watch("questions")
+            .reduce((total, d) => total + d?.result?.time, 0) ?? 0)}
+            </Typography>
+            <Typography variant="h7">Time Taken</Typography>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Grid item xs={12} md={6}>
+          <QuestionReportChart 
+            skipped={(props?.watch('questions')?.filter(d => !d?.result?.solved_count)?.length/props?.watch('questions')?.length * 100).toFixed(2)} 
+            correct={(props?.watch('questions')?.filter(d => d?.result?.solved_count && d?.result?.correct_count)?.length/props?.watch('questions')?.length * 100).toFixed(2)} 
+            incorrect={(props?.watch('questions')?.filter(d => d?.result?.solved_count && d?.result?.incorrect_count)?.length/props?.watch('questions')?.length * 100).toFixed(2)} 
+          />
+        </Grid>
+        <Grid md={2}></Grid>
+        <Grid item xs={12} md={4}>
+          <ScoreChart 
+            total={props?.watch('questions')?.length}
+            skipped={props?.watch('questions')?.filter(d => !d?.result?.solved_count)?.length}
+            correct={props?.watch('questions')?.filter(d => d?.result?.solved_count && d?.result?.correct_count)?.length}
+            incorrect={props?.watch('questions')?.filter(d => d?.result?.solved_count && d?.result?.incorrect_count)?.length}
+          />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}>
+            <Typography variant='h6'>
+                Question Report
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>     
     </Box>
   );
 };

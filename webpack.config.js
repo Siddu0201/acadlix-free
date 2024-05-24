@@ -12,8 +12,8 @@ module.exports = {
 
         index: path.resolve(process.cwd(), 'src', 'index.js'),
 
-        front: path.resolve(process.cwd(), 'src', 'front.js')
-
-    }
+        front: path.resolve(process.cwd(), 'src', 'front.js'),
+        
+    },
 
 };

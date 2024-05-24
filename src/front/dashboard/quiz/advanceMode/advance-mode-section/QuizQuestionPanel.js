@@ -20,7 +20,7 @@ const QuizQuestionPanel = (props) => {
     idList.forEach((a, i) => {
       total += document.getElementById(a)?.clientHeight ?? 0;
     });
-    if (acadlixFront?.is_admin_bar_showing) {
+    if (acadlixOptions?.is_admin_bar_showing) {
       total += props?.isDesktop ? 32 : 46;
     }
     setRemainingHeight(total);

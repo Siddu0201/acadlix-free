@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 
 function TrueFalse(props) {
-
   return (
     <Card>
       <CardHeader title="True/False"
@@ -29,25 +28,37 @@ function TrueFalse(props) {
                   <Radio 
                     checked={option?.isCorrect}
                     onClick={() => {
-                      console.log(option)
-                      props?.watch("language")?.forEach((lang, index) => {
-                        lang?.answer_data?.[props?.type]?.forEach((_, oindex) => {
-                          if(option_index === oindex){
-                            props?.setValue(
-                              `language.${index}.answer_data.${props?.type}.${oindex}.isCorrect`,
-                              true,
-                              {shouldDirty: true}
-                            );
-                          }else{
-                            props?.setValue(
-                              `language.${index}.answer_data.${props?.type}.${oindex}.isCorrect`,
-                              false,
-                              {shouldDirty: true}
-                            );
-
-                          }
+                      props?.setValue("language", 
+                        props?.watch("language")?.map((lang) => {
+                          lang.answer_data[props?.type] = lang?.answer_data?.[props?.type]?.map((answer, o_index) => {
+                            if(option_index === o_index){
+                              answer.isCorrect = true;
+                            }else{
+                              answer.isCorrect = false;
+                            }
+                            return answer;
+                          })
+                          return lang;
                         })
-                      })
+                      ,{shouldDirty: true});
+                      // props?.watch("language")?.forEach((lang, index) => {
+                      //   lang?.answer_data?.[props?.type]?.forEach((_, oindex) => {
+                      //     if(option_index === oindex){
+                      //       props?.setValue(
+                      //         `language.${index}.answer_data.${props?.type}.${oindex}.isCorrect`,
+                      //         true,
+                      //         {shouldDirty: true}
+                      //       );
+                      //     }else{
+                      //       props?.setValue(
+                      //         `language.${index}.answer_data.${props?.type}.${oindex}.isCorrect`,
+                      //         false,
+                      //         {shouldDirty: true}
+                      //       );
+
+                      //     }
+                      //   })
+                      // })
                     }}
                   />
                 } 

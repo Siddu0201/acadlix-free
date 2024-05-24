@@ -12,8 +12,10 @@ if(!class_exists('QuizLang')){
         protected $fillable = [
             "quiz_id",
             "language_id",
-            "default_lang"
+            "default"
         ];
+
+        protected $with = ['language'];
 
         public function quiz(){
             return $this->belongsTo(Quiz::class, 'quiz_id', 'id');

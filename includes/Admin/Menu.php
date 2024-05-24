@@ -2,7 +2,6 @@
 
 namespace Yuvayana\Acadlix\Admin;
 
-use Yuvayana\Acadlix\Models\Question;
 
 if(!class_exists('Menu')){
     class Menu {

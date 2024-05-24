@@ -7,7 +7,17 @@ namespace Yuvayana\Acadlix\REST;
  * 
  * All API classes would be registered here
  */
-class Api {
+// Admin API Controller
+use Yuvayana\Acadlix\REST\Admin\AdminLanguageController;
+use Yuvayana\Acadlix\REST\Admin\AdminCategoryController;
+use Yuvayana\Acadlix\REST\Admin\AdminSubjectController;
+use Yuvayana\Acadlix\REST\Admin\AdminQuizController;
+use Yuvayana\Acadlix\REST\Admin\AdminQuestionController;
+
+// Front API Controller
+use Yuvayana\Acadlix\REST\Front\FrontQuizController;
+
+#[\AllowDynamicProperties] class Api {
 
     /**
      * Class dir and class name mapping.
@@ -28,7 +38,15 @@ class Api {
         $this->class_map = apply_filters(
             'acadlix_rest_api_class_map',
             [
-                \Yuvayana\Acadlix\REST\Admin\AdminQuizController::class
+                // Admin Controllers
+                AdminLanguageController::class,
+                AdminCategoryController::class,
+                AdminSubjectController::class,
+                AdminQuizController::class,
+                AdminQuestionController::class,
+
+                // Front Controllers
+                FrontQuizController::class,
             ]
         );
 
@@ -43,8 +61,10 @@ class Api {
      */
     public function register_rest_routes(): void {
         foreach ( $this->class_map as $controller ) {
-            $this->$controller = new $controller();
-            $this->$controller->register_routes();
+            if(method_exists($controller, 'register_routes')){
+                $this->$controller = new $controller();
+                $this->$controller->register_routes();
+            }
         }
     }
 }

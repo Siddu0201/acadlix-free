@@ -3,6 +3,17 @@ import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 
 const ViewButtonSection = (props) => {
+  const handleResetQuiz = () => {
+    props?.reset();
+  }
+
+  const handleViewAnswer = () => {
+    props?.setValue('view_answer', !props?.watch('view_answer'), {shouldDirty: true});
+  }
+  
+  const handleViewLeaderBoard = () => {
+    props?.setValue('view_leaderboard', !props?.watch('view_leaderboard'), {shouldDirty: true});
+  }
   return (
     <Box
       sx={{
@@ -11,9 +22,9 @@ const ViewButtonSection = (props) => {
         columnGap: 1,
       }}
     >
-      <CustomButton>Restart Test</CustomButton>
-      <CustomButton>View Answer</CustomButton>
-      <CustomButton>Leaderboard</CustomButton>
+      <CustomButton onClick={handleResetQuiz}>Restart Quiz</CustomButton>
+      <CustomButton onClick={handleViewAnswer}>View Answer</CustomButton>
+      <CustomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
     </Box>
   );
 };

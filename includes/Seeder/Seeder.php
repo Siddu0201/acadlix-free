@@ -12,9 +12,9 @@ if(!class_exists('Seeder')){
         public static function seed()
         {
             $seeder_classes = [
-                SubjectSeeder::class,
+                // SubjectSeeder::class,
                 LanguageSeeder::class,
-                CategorySeeder::class,
+                // CategorySeeder::class,
             ];
 
             foreach($seeder_classes as $seeder_class){

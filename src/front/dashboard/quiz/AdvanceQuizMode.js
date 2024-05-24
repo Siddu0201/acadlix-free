@@ -116,7 +116,7 @@ const AdvanceQuizMode = (props) => {
   };
 
   const checkAdvanceMode = () => {
-    switch (props?.advance_mode) {
+    switch (props?.watch('advance_mode_type')) {
       case "advance_panel":
         return (
           <AdvancePanel

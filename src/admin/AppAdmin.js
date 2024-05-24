@@ -1,28 +1,33 @@
 import { ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
-import { QueryClientProvider, QueryClient } from "react-query";
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import { HashRouter, Route, Routes } from "react-router-dom";
-import Quiz from "./views/quiz/Quiz";
-import Question from "./views/question/Question";
-import Course from "./views/course/Course";
-import Configuration from "./views/configuration/Configuration";
 import "./AppAdmin.css";
 import Testing from "./views/Testing";
 import AdminLayout from "../layout/AdminLayout";
 import "react-datepicker/dist/react-datepicker.css";
-import CreateQuiz from "./views/quiz/CreateQuiz";
-import CreateQuestion from "./views/question/CreateQuestion";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
+import Quiz from "./views/quiz/Quiz";
+import CreateQuiz from "./views/quiz/CreateQuiz";
+import EditQuiz from "./views/quiz/EditQuiz";
+import Question from "./views/question/Question";
+import CreateQuestion from "./views/question/CreateQuestion";
+import EditQuestion from "./views/question/EditQuestion";
+import Course from "./views/course/Course";
+import Configuration from "./views/configuration/Configuration";
 
 const AppAdmin = () => {
-  const queryClient = new QueryClient({
+
+  const [queryClient] = React.useState(() => new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-      },
-    },
-  });
+      }
+    }
+  }));
 
   const mode = "light";
   const themeColor = "primary";
@@ -47,7 +52,7 @@ const AppAdmin = () => {
     },
     dark: {
       // primary: "#6062E8",
-      primary: "#1c64f2cc",
+      primary: "#1c64f2c",
       grey: "#798594",
       success: "#67C932",
       error: "#E8381A",
@@ -201,18 +206,21 @@ const AppAdmin = () => {
           <div>
             <ThemeProvider theme={theme}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Toaster position="bottom-right" />
                 <Routes>
                   <Route element={<AdminLayout />}>
                     <Route index element={<div> hello world</div>} />
                     <Route path="/quiz">
                       <Route index element={<Quiz />} />
                       <Route path="create" element={<CreateQuiz />} />
+                      <Route path="edit/:quiz_id" element={<EditQuiz />} />
+                      <Route path=":quiz_id/question">
+                        <Route index element={<Question />} />
+                        <Route path="create" element={<CreateQuestion />} />
+                        <Route path="edit/:question_id" element={<EditQuestion />} />
+                      </Route>
                     </Route>
                     <Route path="/course" element={<div>{<Course />}</div>} />
-                    <Route path="/question">
-                      <Route index element={<Question />} />
-                      <Route path="create" element={<CreateQuestion />} />
-                    </Route>
 
                     <Route
                       path="/testing"
@@ -233,6 +241,7 @@ const AppAdmin = () => {
                   </Route>
                   <Route path="*" element={<div>No path found</div>}></Route>
                 </Routes>
+                <ReactQueryDevtools position="bottom-right" />  
               </LocalizationProvider>
             </ThemeProvider>
           </div>

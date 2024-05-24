@@ -1,10 +1,27 @@
 import React from 'react'
 import QuestionContent from './QuestionContent'
+import { useParams } from 'react-router-dom'
+import { GetCreateQuizQuestion } from '../../../requests/admin/AdminQuestionRequest';
+import Loader from '../../../components/Loader';
 
 const CreateQuestion = () => {
+  const {quiz_id} = useParams();
+  const {isFetching, data} = GetCreateQuizQuestion(quiz_id);
+  
+  if(isFetching) {
+    return <Loader />;
+  }
+
   return (
     <>
-     <QuestionContent /> 
+     <QuestionContent
+        quiz_id={quiz_id}
+        question_id={null}
+        create={true}
+        quiz={data?.data?.quiz}
+        question={null}
+        subjects={data?.data?.subjects}
+     /> 
     </>
   )
 }

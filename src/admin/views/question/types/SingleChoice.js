@@ -15,9 +15,7 @@ const SingleChoice = (props) => {
     <Card>
       <CardHeader 
       title={`Single Choice (${
-        props?.availableLanguage?.filter(
-          (avl) => avl?.id === props?.lang?.language_id
-        )?.[0]?.name
+        props?.lang?.language_name
       })`}
       titleTypographyProps={{
         variant: 'h6'
@@ -52,7 +50,7 @@ const SingleChoice = (props) => {
                   props?.watch("language")?.forEach((_, index) => {
                     props?.setValue(
                         `language.${index}.answer_data.${props?.type}`, 
-                        [...props?.watch(`language.${index}.answer_data.${props?.type}`), props?.getAnswerData(props?.type)?.[props?.type]?.[0]], 
+                        [...props?.watch(`language.${index}.answer_data.${props?.type}`), ...props?.getAnswerData(props?.type)], 
                         {shouldDirty: true}
                       );
                   })
@@ -100,23 +98,19 @@ const Option = (props) => {
               <Radio 
                 checked={props?.option?.isCorrect}
                 onClick={() => {
-                  props?.watch("language")?.forEach((lang, lindex) => {
-                    lang?.answer_data?.[props?.type]?.forEach((_, option_index) => {
-                      if(option_index === props?.option_index){
-                        props?.setValue(
-                          `language.${lindex}.answer_data.${props?.type}.${props?.option_index}.isCorrect`,
-                          true,
-                          {shouldDirty: true}
-                        );
-                      }else{
-                        props?.setValue(
-                          `language.${lindex}.answer_data.${props?.type}.${props?.option_index}.isCorrect`,
-                          false,
-                          {shouldDirty: true}
-                        );
-                      }
-                    });
-                  })
+                  props?.setValue("language",
+                    props?.watch("language")?.map((lang) => {
+                      lang.answer_data[props?.type] = lang?.answer_data?.[props?.type]?.map((answer, option_index) => {
+                        if(option_index === props?.option_index){
+                          answer.isCorrect = true;
+                        }else{
+                          answer.isCorrect = false;
+                        }
+                        return answer;
+                      })
+                      return lang;
+                    })
+                  , {shouldDirty: true});
                 }}
               />} 
               label="Correct" 

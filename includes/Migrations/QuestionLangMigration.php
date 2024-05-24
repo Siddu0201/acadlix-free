@@ -14,7 +14,7 @@ if(!class_exists('QuestionLangMigration')){
                     $table->bigIncrements('id');
                     $table->foreignId('question_id')->constrained('question')->cascadeOnDelete();
                     $table->foreignId('language_id')->nullable()->constrained('language')->nullOnDelete();
-                    $table->boolean('default_lang')->default(0);
+                    $table->boolean('default')->default(0);
                     $table->text("question")->nullable();
                     $table->text("correct_msg")->nullable();
                     $table->text("incorrect_msg")->nullable();
