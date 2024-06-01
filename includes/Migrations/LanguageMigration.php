@@ -13,6 +13,7 @@ if(!class_exists('LanguageMigration')){
                 Manager::schema()->create('language', function($table){
                     $table->bigIncrements('id');
                     $table->string("language_name");
+                    $table->boolean('default')->default(false);
                     $table->timestamps();
                 });
             }

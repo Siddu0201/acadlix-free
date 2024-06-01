@@ -1,0 +1,39 @@
+baseroute = "${site_url}/wp-json/"
+namespace = "acadlix/v1"
+Admin
+    AdminLanguagaeController.php
+    base= "/admin-language"
+        route="/", function="get_languages", WP_REST_Server::READABLE    
+        route="/", function="post_create_language", WP_REST_Server::CREATABLE    
+        route="/(?P<language_id>[\d]+)", function="get_language_by_id", WP_REST_Server::READABLE    
+        route="/(?P<language_id>[\d]+)", function="update_language_by_id", WP_REST_Server::EDITABLE    
+        route="/(?P<language_id>[\d]+)", function="delete_language_by_id", WP_REST_Server::DELETABLE    
+    AdminCategoryController.php
+    base= "/admin-category"
+        route="/", function="get_categories", WP_REST_Server::READABLE    
+        route="/", function="post_create_category", WP_REST_Server::CREATABLE    
+        route="/(?P<category_id>[\d]+)", function="get_category_by_id", WP_REST_Server::READABLE    
+        route="/(?P<category_id>[\d]+)", function="update_category_by_id", WP_REST_Server::EDITABLE    
+        route="/(?P<category_id>[\d]+)", function="delete_category_by_id", WP_REST_Server::DELETABLE    
+    AdminSubjectController.php
+    base= "/admin-subject"
+        route="/", function="get_subjects", WP_REST_Server::READABLE    
+        route="/", function="post_create_subject", WP_REST_Server::CREATABLE    
+        route="/(?P<subject_id>[\d]+)", function="get_subject_by_id", WP_REST_Server::READABLE    
+        route="/(?P<subject_id>[\d]+)", function="update_subject_by_id", WP_REST_Server::EDITABLE    
+        route="/(?P<subject_id>[\d]+)", function="delete_subject_by_id", WP_REST_Server::DELETABLE    
+    AdminQuizController.php
+    base= "/admin-quiz"
+        route="/", function="get_quizes",  WP_REST_Server::READABLE
+        route="/create", function="get_create_quiz",  WP_REST_Server::READABLE
+        route="/", function="post_create_quiz", WP_REST_Server::CREATABLE
+        route="/(?P<quiz_id>[\d]+)", function="get_quiz_by_id", WP_REST_Server::READABLE
+        route="/(?P<quiz_id>[\d]+)", function="update_quiz_by_id", WP_REST_Server::EDITABLE
+        route="/(?P<quiz_id>[\d]+)", function="delete_quiz", WP_REST_Server::DELETABLE
+    AdminQuestionController.php
+    base= "/admin-quiz/(?P<quiz_id>[\d]+)/question"
+        route="/", function="get_quiz_questions", WP_REST_Server::READABLE
+        route="/", function="post_create_quiz_question", WP_REST_Server::CREATABLE
+        route="/(?P<question_id>[\d]+)", function="get_quiz_question_by_id", WP_REST_Server::READABLE
+        route="/(?P<question_id>[\d]+)", function="update_quiz_question_by_id", WP_REST_Server::EDITABLE
+        route="/(?P<question_id>[\d]+)", function="delete_quiz_question", WP_REST_Server::DELETABLE

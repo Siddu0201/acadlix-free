@@ -1,0 +1,151 @@
+import React, {useEffect} from "react";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  FormControlLabel,
+  Button,
+  RadioGroup,
+  Radio,
+  Grid,
+} from "@mui/material";
+
+const SingleChoice = (props) => {
+  return (
+    <Card>
+      <CardHeader 
+      title={`Single Choice (${
+        props?.lang?.language_name
+      })`}
+      titleTypographyProps={{
+        variant: 'h6'
+      }}
+      ></CardHeader>
+      <CardContent>
+        <RadioGroup>
+          <Grid container spacing={4}>
+            {
+              props?.lang?.answer_data?.[props?.type]?.length > 0 &&
+              props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
+                <Grid item xs={12} lg={12} key={index}>
+                  <Option 
+                    {...props}
+                    title={`Option${index + 1}`} 
+                    id={`opt_${props?.index}_${index}`}
+                    loadEditor={props?.loadEditor}
+                    removeEditor={props?.removeEditor}
+                    option={option}
+                    option_index={index}
+                    language_index={props?.index}
+                    last={props?.lang?.answer_data?.[props?.type]?.length - 1 === index}
+                  />
+                </Grid>
+              ))
+            }
+            <Grid item xs={12} lg={12}>
+              <Button 
+                variant="contained" 
+                color="success"
+                onClick={() => {
+                  props?.watch("language")?.forEach((_, index) => {
+                    props?.setValue(
+                        `language.${index}.answer_data.${props?.type}`, 
+                        [...props?.watch(`language.${index}.answer_data.${props?.type}`), ...props?.getAnswerData(props?.type)], 
+                        {shouldDirty: true}
+                      );
+                  })
+                }}
+              >
+                Add More
+              </Button>
+            </Grid>
+          </Grid>
+        </RadioGroup>
+      </CardContent>
+    </Card>
+  );
+}
+const Option = (props) => {
+
+  const loadPage = () => {
+    props?.loadEditor(props?.id, `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`);
+  }
+
+  useEffect(() => {
+    loadPage();
+    window.addEventListener('load', loadPage);
+    
+    return () => {
+      props?.removeEditor(props?.id);
+      window.removeEventListener('load', loadPage);
+    }
+  },[]);
+
+  return (
+    <Card>
+      <CardHeader title={props?.title}
+      titleTypographyProps={{
+        variant: 'h6'
+      }}
+      ></CardHeader>
+      <CardContent sx={{
+        paddingTop: 1
+      }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} lg={2}>
+            <FormControlLabel 
+              control={
+              <Radio 
+                checked={props?.option?.isCorrect}
+                onClick={() => {
+                  props?.setValue("language",
+                    props?.watch("language")?.map((lang) => {
+                      lang.answer_data[props?.type] = lang?.answer_data?.[props?.type]?.map((answer, option_index) => {
+                        if(option_index === props?.option_index){
+                          answer.isCorrect = true;
+                        }else{
+                          answer.isCorrect = false;
+                        }
+                        return answer;
+                      })
+                      return lang;
+                    })
+                  , {shouldDirty: true});
+                }}
+              />} 
+              label="Correct" 
+            />
+            <Button 
+              variant="contained" 
+              color="error"
+              sx={{
+                display: props?.last ? "" : "none"
+              }}
+              onClick={() => {
+                props?.watch("language")?.forEach((_, lindex) => {
+                  props?.setValue(
+                    `language.${lindex}.answer_data.${props?.type}`,
+                    props?.watch(`language.${lindex}.answer_data.${props?.type}`)?.filter((_, index) => index !== props?.option_index),
+                    {shouldDirty: true}
+                    );
+                })
+              }}
+            >
+              Delete
+            </Button>
+          </Grid>
+          <Grid item xs={12} lg={10}>
+            <textarea 
+              id={props?.id} 
+              style={{
+                width: '100%'
+              }}
+              value={props?.option?.option}
+            />
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};
+export default SingleChoice;
