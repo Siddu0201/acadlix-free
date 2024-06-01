@@ -3,7 +3,7 @@ import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import "../admin/AppAdmin.css";
 import DashboardLayout from "../layout/DashboardLayout";
 import Courses from "./dashboard/courses/Courses";
-import CourseContent from "./dashboard/Courses/CourseContent";
+import CourseContent from "./dashboard/courses/CourseContent";
 import Result from "./dashboard/result/Result";
 import PurchaseHistory from "./dashboard/purchaseHistory/PurchaseHistory";
 import Profile from "./dashboard/profile/Profile";
