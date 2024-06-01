@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - yuvayana
+  pull_request:
+    branches:
+      - yuvayana
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+
+      # - name: Install PHP dependencies
+      #   run: composer install --no-progress
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Build JavaScript
+        run: npm run build
+
+      - name: Upload plugin to FTP server
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+          set ssl:verify-certificate no;
+          open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
+          mirror -R ./ /wp-content/uploads/demogit;
+          bye;
+          "

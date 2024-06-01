@@ -163,6 +163,8 @@ const QuizContent = (props) => {
             hint_enabled: Boolean(question?.hint_enabled),
             answer_type: question?.answer_type,
             review: false,
+            hint: false,
+            check: false,
             result: {
               correct_count: 0,
               incorrect_count: 0,

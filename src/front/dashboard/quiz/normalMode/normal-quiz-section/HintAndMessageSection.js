@@ -5,16 +5,17 @@ import React from "react";
 const HintAndMessageSection = (props) => {
   const theme = useTheme();
   return (
-    <Box
-      sx={{
-        border: `1px solid ${props?.colorCode?.hint_border}`,
-        padding: 2,
-        marginY: 2,
-        backgroundColor: props?.colorCode?.hint_background,
-        boxShadow: theme?.shadows[1],
-      }}
-    >
-      <Box>
+    <Box>
+      <Box
+        sx={{
+          border: `1px solid ${props?.colorCode?.hint_border}`,
+          padding: 2,
+          marginY: 2,
+          backgroundColor: props?.colorCode?.hint_background,
+          boxShadow: theme?.shadows[1],
+          display : props?.watch(`questions.${props?.index}.hint`) ? "" : "none"
+        }}
+      >
         <Box>
           <Typography>
             <b>Hint</b>
@@ -24,7 +25,16 @@ const HintAndMessageSection = (props) => {
           <Typography>{props?.lang?.hint_msg}</Typography>
         </Box>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          border: `1px solid ${props?.colorCode?.hint_border}`,
+          padding: 2,
+          marginY: 2,
+          backgroundColor: props?.colorCode?.hint_background,
+          boxShadow: theme?.shadows[1],
+          display : props?.watch('view_answer') ? "" : "none"
+        }}
+      >
         <Box>
           <Typography>
             <b>Correct</b>
@@ -34,24 +44,27 @@ const HintAndMessageSection = (props) => {
           <Typography>{props?.lang?.correct_msg}</Typography>
         </Box>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          border: `1px solid ${props?.colorCode?.hint_border}`,
+          padding: 2,
+          marginY: 2,
+          backgroundColor: props?.colorCode?.hint_background,
+          boxShadow: theme?.shadows[1],
+          display : props?.watch('view_answer') ? "" : "none"
+        }}
+      >
         <Box>
           <Typography>
             <b>Incorrect</b>
           </Typography>
         </Box>
         <Box>
-          <Typography>{props?.lang?.incorrect_msg}</Typography>
-        </Box>
-      </Box>
-      <Box>
-        <Box>
           <Typography>
-            <b>Unattempted</b>
+            {props?.lang?.different_points_for_each_answer
+              ? props?.lang?.incorrect_msg
+              : props?.lang?.correct_msg}
           </Typography>
-        </Box>
-        <Box>
-          <Typography>{props?.lang?.incorrect_msg}</Typography>
         </Box>
       </Box>
     </Box>

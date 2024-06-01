@@ -1,15 +1,19 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
+import { useTheme } from "@emotion/react";
 
 const QuestionOverviewSection = (props) => {
+  const theme = useTheme();
   const handleClick = (id) => {
     props?.setValue("finish", false, { shouldDirty: true });
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if(question.selected){
-          question.result.time = question.result.time + Math.round(((Date.now() - props?.watch("last"))/1000));
+        if (question.selected) {
+          question.result.time =
+            question.result.time +
+            Math.round((Date.now() - props?.watch("last")) / 1000);
         }
         if (index === id) {
           question.selected = true;
@@ -39,7 +43,7 @@ const QuestionOverviewSection = (props) => {
       "questions",
       props.watch("questions")?.map((question, index) => {
         if (question.selected) {
-          question.review = true;
+          question.review = !question?.review;
         }
         return question;
       }),
@@ -67,7 +71,7 @@ const QuestionOverviewSection = (props) => {
           backgroundColor: props?.colorCode?.overview_background,
         }}
       >
-        {props?.watch("questions")?.map((_, index) => (
+        {props?.watch("questions")?.map((d, index) => (
           <Button
             key={index}
             variant="outlined"
@@ -78,12 +82,38 @@ const QuestionOverviewSection = (props) => {
               },
               padding: "3px 3px",
               margin: "3px",
-              border: `1px solid ${props?.colorCode?.overview_button_border}`,
-              backgroundColor: props?.colorCode?.overview_button_background,
-              color: props?.colorCode?.overview_button_text,
+              border: `1px solid ${
+                d?.selected
+                  ? props?.colorCode?.overview_button_active_border
+                  : props?.colorCode?.overview_button_border
+              }`,
+              boxShadow: d?.selected ? theme.shadows[3] : "none",
+              backgroundColor: d?.review && d?.result?.solved_count
+                ? props?.colorCode?.answered_and_review
+                : d?.review 
+                ? props?.colorCode?.review 
+                : d?.result?.solved_count 
+                ? props?.colorCode?.answered
+                : props?.colorCode?.overview_button_background,
+              color: d?.review || d?.result?.solved_count 
+                ? props?.colorCode?.overview_button_active_text
+                : props?.colorCode?.overview_button_text,
               ":hover": {
-                backgroundColor: props?.colorCode?.overview_button_background,
-                border: `1px solid ${props?.colorCode?.overview_button_border}`,
+                backgroundColor: d?.review && d?.result?.solved_count
+                  ? props?.colorCode?.answered_and_review
+                  : d?.review 
+                  ? props?.colorCode?.review 
+                  : d?.result?.solved_count 
+                  ? props?.colorCode?.answered
+                  : props?.colorCode?.overview_button_background,
+                color: d?.review || d?.result?.solved_count 
+                  ? props?.colorCode?.overview_button_active_text
+                  : props?.colorCode?.overview_button_text,
+                border: `1px solid ${
+                  d?.selected
+                    ? props?.colorCode?.overview_button_active_border
+                    : props?.colorCode?.overview_button_border
+                }`,
               },
             }}
             onClick={handleClick.bind(this, index)}
@@ -106,7 +136,7 @@ const QuestionOverviewSection = (props) => {
             marginTop: "5px",
             height: "15px",
             width: "15px",
-            backgroundColor: "#64B335",
+            backgroundColor: props?.colorCode?.answered,
             marginRight: "5px",
             display: "inline-block",
           }}
@@ -115,7 +145,7 @@ const QuestionOverviewSection = (props) => {
         <Box
           sx={{
             marginTop: "5px",
-            backgroundColor: "#FFB800",
+            backgroundColor: props?.colorCode?.review,
             height: "15px",
             width: "15px",
             marginX: "5px",
@@ -123,6 +153,17 @@ const QuestionOverviewSection = (props) => {
           }}
         ></Box>
         <Typography>Review</Typography>
+        <Box
+          sx={{
+            marginTop: "5px",
+            backgroundColor: props?.colorCode?.answered_and_review,
+            height: "15px",
+            width: "15px",
+            marginX: "5px",
+            display: "inline-block",
+          }}
+        ></Box>
+        <Typography>Review and answered</Typography>
       </Box>
       <Box
         sx={{

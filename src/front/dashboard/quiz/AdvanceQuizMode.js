@@ -89,7 +89,7 @@ const AdvanceQuizMode = (props) => {
     not_visited_color: "#474747",
     marked_for_review_background: "#674787",
     marked_for_review_color: "#ffffff",
-    answered_and_marked_for_review_background: "#674787 ",
+    answered_and_marked_for_review_background: "#674787",
     // Sidebar section
     sidebar_section_background: "#4e85c5",
     sidebar_section_color: "#ffffff",

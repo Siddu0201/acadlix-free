@@ -7,87 +7,104 @@ const OptionButtonSection = (props) => {
   const handleClearResponse = () => {
     switch (props?.question?.answer_type) {
       case "singleChoice":
-        props?.setValue(`questions.${props?.index}.language`,
+        props?.setValue(
+          `questions.${props?.index}.language`,
           props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[props?.question?.answer_type]?.map((answer , index) => {
+            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
+              props?.question?.answer_type
+            ]?.map((answer, index) => {
               answer.isChecked = false;
               return answer;
-            })
-            return lang;
-          }),
-          {shouldDirty: true}
-        );
-        break;
-      case "multipleChoice":
-        props?.setValue(`questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[props?.question?.answer_type]?.map((answer , index) => {
-              answer.isChecked = false;
-              return answer;
-            })
-            return lang;
-          }),
-          {shouldDirty: true}
-        );
-        break;
-      case "trueFalse":
-        props?.setValue(`questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[props?.question?.answer_type]?.map((answer , index) => {
-              answer.isChecked = false;
-              return answer;
-            })
-            return lang;
-          }),
-          {shouldDirty: true}
-        );
-        break;
-      case "sortingChoice":
-        props?.setValue(`questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = arrayRandomize(lang.answer_data[props?.question?.answer_type]);
-            return lang;
-          }),
-          {shouldDirty: true}
-        );  
-        break;
-      case "matrixSortingChoice":
-        
-        break;
-      case "fillInTheBlank":
-        props?.setValue(`questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type].correctOption = lang.answer_data[props?.question?.answer_type].correctOption.map(correct => {
-              correct.yourAnswer = '';
-              return correct;
             });
             return lang;
           }),
-          {shouldDirty: true}
+          { shouldDirty: true }
+        );
+        break;
+      case "multipleChoice":
+        props?.setValue(
+          `questions.${props?.index}.language`,
+          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
+              props?.question?.answer_type
+            ]?.map((answer, index) => {
+              answer.isChecked = false;
+              return answer;
+            });
+            return lang;
+          }),
+          { shouldDirty: true }
+        );
+        break;
+      case "trueFalse":
+        props?.setValue(
+          `questions.${props?.index}.language`,
+          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
+              props?.question?.answer_type
+            ]?.map((answer, index) => {
+              answer.isChecked = false;
+              return answer;
+            });
+            return lang;
+          }),
+          { shouldDirty: true }
+        );
+        break;
+      case "sortingChoice":
+        props?.setValue(
+          `questions.${props?.index}.language`,
+          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+            lang.answer_data[props?.question?.answer_type] = arrayRandomize(
+              lang.answer_data[props?.question?.answer_type]
+            );
+            return lang;
+          }),
+          { shouldDirty: true }
+        );
+        break;
+      case "matrixSortingChoice":
+        break;
+      case "fillInTheBlank":
+        props?.setValue(
+          `questions.${props?.index}.language`,
+          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+            lang.answer_data[props?.question?.answer_type].correctOption =
+              lang.answer_data[props?.question?.answer_type].correctOption.map(
+                (correct) => {
+                  correct.yourAnswer = "";
+                  return correct;
+                }
+              );
+            return lang;
+          }),
+          { shouldDirty: true }
         );
         break;
       case "numerical":
-        props?.setValue(`questions.${props?.index}.language`,
+        props?.setValue(
+          `questions.${props?.index}.language`,
           props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type].yourAnswer = '';
+            lang.answer_data[props?.question?.answer_type].yourAnswer = "";
             return lang;
           }),
-          {shouldDirty: true}
+          { shouldDirty: true }
         );
         break;
       case "rangeType":
-        props?.setValue(`questions.${props?.index}.language`,
+        props?.setValue(
+          `questions.${props?.index}.language`,
           props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type].yourAnswer = '';
+            lang.answer_data[props?.question?.answer_type].yourAnswer = "";
             return lang;
           }),
-          {shouldDirty: true}
+          { shouldDirty: true }
         );
         break;
       default:
-        
     }
-    props?.setValue(`questions.${props?.index}.result`, 
+    props?.setValue(
+      `questions.${props?.index}.result`,
       {
         ...props?.watch(`questions.${props?.index}.result`),
         correct_count: 0,
@@ -95,19 +112,21 @@ const OptionButtonSection = (props) => {
         solved_count: 0,
         answer_data: "",
       },
-      {shouldDirty: true}
+      { shouldDirty: true }
     );
-  }
+  };
 
   const handleNextClick = () => {
-    if(props?.last){
-      props?.setValue("finish", true, {shouldDirty: true});
+    if (props?.last) {
+      props?.setValue("finish", true, { shouldDirty: true });
     }
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if(question.selected){
-          question.result.time = question.result.time + Math.round(((Date.now() - props?.watch("last"))/1000));
+        if (question.selected) {
+          question.result.time =
+            question.result.time +
+            Math.round((Date.now() - props?.watch("last")) / 1000);
         }
         if (index === props?.num) {
           question.selected = true;
@@ -118,15 +137,17 @@ const OptionButtonSection = (props) => {
       }),
       { shouldDirty: true }
     );
-    props?.setValue("last", Date.now(), {shouldDirty: true});
+    props?.setValue("last", Date.now(), { shouldDirty: true });
   };
 
   const handleBackClick = () => {
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if(question.selected){
-          question.result.time = question.result.time + Math.round(((Date.now() - props?.watch("last"))/1000));
+        if (question.selected) {
+          question.result.time =
+            question.result.time +
+            Math.round((Date.now() - props?.watch("last")) / 1000);
         }
         if (index === props?.index - 1) {
           question.selected = true;
@@ -135,6 +156,23 @@ const OptionButtonSection = (props) => {
         }
         return question;
       }),
+      { shouldDirty: true }
+    );
+    props?.setValue("last", Date.now(), { shouldDirty: true });
+  };
+
+  const handleHintClick = () => {
+    props?.setValue(
+      `questions.${props?.index}.hint`,
+      !props?.watch(`questions.${props?.index}.hint`),
+      { shouldDirty: true }
+    );
+    props?.setValue(
+      `questions.${props?.index}.result`,
+      {
+        ...props?.watch(`questions.${props?.index}.result`),
+        hint_count: 1,
+      },
       { shouldDirty: true }
     );
   };
@@ -153,17 +191,25 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        <CustomButton 
+        <CustomButton
           onClick={handleBackClick}
           sx={{
-            display: props?.first ? 'none' : '',
+            display: props?.first ? "none" : "",
           }}
-        >Back</CustomButton>
-        <CustomButton
-          onClick={handleClearResponse}
-        >Clear Response</CustomButton>
+        >
+          Back
+        </CustomButton>
+        <CustomButton onClick={handleClearResponse}>
+          Clear Response
+        </CustomButton>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          columnGap: 1,
+        }}
+      >
+        <CustomButton onClick={handleHintClick}>Hint</CustomButton>
         <CustomButton onClick={handleNextClick}>Next</CustomButton>
       </Box>
     </Box>

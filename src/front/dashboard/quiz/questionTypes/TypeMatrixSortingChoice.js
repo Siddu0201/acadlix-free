@@ -1,4 +1,9 @@
-import { DndContext, DragOverlay, useDraggable, useDroppable } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 import {
   SortableContext,
   horizontalListSortingStrategy,
@@ -46,10 +51,23 @@ const TypeMatrixSortingChoice = (props) => {
         {props?.question}
         <br />
       </Typography>
-        <DndContext 
-          onDragEnd={handleDragEnd}
-          onDragStart={handleDragStart}
-        >
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor:
+            props?.watch("mode") !== "advance_mode"
+              ? props?.colorCode?.option_background
+              : "",
+          border:
+            props?.watch("mode") !== "advance_mode"
+              ? `1px solid ${props?.colorCode?.option_border}`
+              : "",
+          padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+          marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+          marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+        }}
+      >
+        <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
           <List
             sx={{
               display: "grid",
@@ -68,22 +86,30 @@ const TypeMatrixSortingChoice = (props) => {
                 activeId={activeId}
               />
             ))}
-          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+            <DragOverlay>
+              {activeId ? <Item id={activeId} /> : null}
+            </DragOverlay>
           </List>
-          <List sx={{
-            display: "grid",
-            gap: "10px",
-            backgroundColor: "lightgrey",
-            padding: "10px",
-          }}>
+          <List
+            sx={{
+              display: "grid",
+              gap: "10px",
+              backgroundColor: "lightgrey",
+              padding: "10px",
+            }}
+          >
             {props?.answer_data?.[props?.type]?.map((item, index) => (
-              <ListItem sx={{
-                border: '1px dotted black',
-              }}>
-                <Box sx={{
-                  borderRight: '1px dotted black',
-                  minWidth: "20%",
-                }}>
+              <ListItem
+                sx={{
+                  border: "1px dotted black",
+                }}
+              >
+                <Box
+                  sx={{
+                    borderRight: "1px dotted black",
+                    minWidth: "20%",
+                  }}
+                >
                   <Typography>{item?.criteria}</Typography>
                 </Box>
                 <DroppableItem key={index} id={index} item={item} />
@@ -91,10 +117,10 @@ const TypeMatrixSortingChoice = (props) => {
             ))}
           </List>
         </DndContext>
+      </Box>
     </Box>
   );
 };
-
 
 const Item = React.forwardRef(({ id, ...props }, ref) => {
   return (
@@ -140,18 +166,20 @@ const DraggableItem = (props) => {
 };
 
 const DroppableItem = (props) => {
-  const {isOver, setNodeRef} = useDroppable({
+  const { isOver, setNodeRef } = useDroppable({
     id: props.id,
   });
 
   return (
-    <Box ref={setNodeRef} sx={{
-      backgroundColor: isOver ? 'yellow' : 'transparent',
-      height : '30px',
-      minWidth: '70%',
-      marginX: '10px',
-    }}>
-    </Box>
+    <Box
+      ref={setNodeRef}
+      sx={{
+        backgroundColor: isOver ? "yellow" : "transparent",
+        height: "30px",
+        minWidth: "70%",
+        marginX: "10px",
+      }}
+    ></Box>
   );
 };
 

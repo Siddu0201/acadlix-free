@@ -12,6 +12,7 @@ import QuestionSection from "./normal-quiz-section/QuestionSection";
 import { useTheme } from "@emotion/react";
 import TimerSection from "./normal-quiz-section/TimerSection";
 import FinishSection from "./normal-quiz-section/FinishSection";
+import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
 
 const NormalQuiz = (props) => {
   const colorCode = {
@@ -19,17 +20,19 @@ const NormalQuiz = (props) => {
     timer: "#00f",
     answered: "#6ca54c",
     review: "#ffb800",
-    correct: "#6db46d",
-    incorrect: "#ff9191",
+    answered_and_review: "#674787",
+    correct: '#56AB2F',
+    incorrect: '#FF6B6B',
     radio: "#0075ff",
     incorrect_number: "#f00",
     correct_number: "#6ca54c",
     overview_border: "#C3D1A3",
     overview_background: "#f8faf5",
     overview_button_border: "#CFCFCF",
-    overview_button_active_border: "#7DB1D3",
     overview_button_background: "#fff",
     overview_button_text: "black",
+    overview_button_active_text: "white",
+    overview_button_active_border: "#7DB1D3",
     option_background: "#f8faf5",
     option_border: "#C3D1A3",
     hint_background: "#f8faf5",
@@ -79,6 +82,14 @@ const NormalQuiz = (props) => {
           {
             props?.watch('view_leaderboard') &&
             <LeaderboardSection
+              colorCode={colorCode}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          }
+          {
+            props?.watch('view_answer') &&
+            <ViewAnswerSection
               colorCode={colorCode}
               isDesktop={isDesktop}
               {...props}

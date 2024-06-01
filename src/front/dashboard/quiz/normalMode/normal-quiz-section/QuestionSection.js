@@ -10,6 +10,7 @@ import TypeMatrixSortingChoice from "../../questionTypes/TypeMatrixSortingChoice
 import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
+import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 
 const QuestionSection = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -107,45 +108,15 @@ const QuestionSection = (props) => {
     }
   };
   return (
-    <Box sx={{
-      display: props?.question?.selected ? "" : "none",
-    }}>
+    <Box
+      sx={{
+        display: props?.question?.selected ? "" : "none",
+      }}
+    >
       <Box>
-        <Box
-          sx={{
-            marginY: "5px",
-          }}
-        >
-          <Typography>
-            Question <b>{props?.num}</b> of{" "}
-            <b>{props?.watch("questions")?.length}</b>
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginY: "5px",
-          }}
-        >
-          <Box>
-            <Typography>{props?.num}. Question</Typography>
-          </Box>
-          <Box>
-            <Typography>
-              <b>{props?.question?.points} points</b>
-            </Typography>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            marginY: "2px",
-          }}
-        >
-          <Typography>
-            <b>Category: {props?.watch("category")}</b>
-          </Typography>
-        </Box>
+        
+        <QuestionSubjectAndPointSection {...props} />
+
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, lang_index) => (
             <React.Fragment key={lang_index}>

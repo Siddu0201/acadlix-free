@@ -9,6 +9,9 @@ const ViewButtonSection = (props) => {
 
   const handleViewAnswer = () => {
     props?.setValue('view_answer', !props?.watch('view_answer'), {shouldDirty: true});
+    if(props?.watch('questions')?.filter(d => d.selected).length === 0){
+      props?.setValue('questions.0.selected', true, {shouldDirty: true});
+    }
   }
   
   const handleViewLeaderBoard = () => {
