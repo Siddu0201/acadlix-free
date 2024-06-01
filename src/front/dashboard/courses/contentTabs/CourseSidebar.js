@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Box,
 } from "@mui/material";
-import SidebarList from "../CourseComponents/SidebarList";
+import SidebarList from "../courseComponents/SidebarList";
 
 const CourseSidebar = () => {
   
