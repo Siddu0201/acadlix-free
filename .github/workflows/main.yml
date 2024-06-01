@@ -37,7 +37,7 @@ jobs:
         run: npm run build
 
       - name: Install lftp
-        run: sudo apt-get install -y lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
 
       - name: Upload plugin to FTP server
         env:
