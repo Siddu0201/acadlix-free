@@ -21,10 +21,10 @@ import {
   Checkbox,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import Announcments from "./courseTabs/Announcments";
-import CourseOverview from "./courseTabs/CourseOverview";
-import CourseSidebar from "./courseTabs/CourseSidebar";
 import { FaAngleDown, FaArrowRight, FaTimes } from "react-icons/fa";
+import CourseOverview from "./contentTabs/CourseOverview";
+import Announcments from "./contentTabs/Announcments";
+import CourseSidebar from "./contentTabs/CourseSidebar";
 
 const CourseContent = () => {
   const theme = useTheme();
