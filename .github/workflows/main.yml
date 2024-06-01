@@ -19,12 +19,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: "8.1"
           tools: composer
 
       # - name: Install PHP dependencies
@@ -35,6 +35,9 @@ jobs:
 
       - name: Build JavaScript
         run: npm run build
+
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
 
       - name: Upload plugin to FTP server
         env:
