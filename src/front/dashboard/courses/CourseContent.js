@@ -21,9 +21,9 @@ import {
   Checkbox,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import Announcments from "./ContentTabs/Announcments";
-import CourseOverview from "./ContentTabs/CourseOverview";
-import CourseSidebar from "./ContentTabs/CourseSidebar";
+import Announcments from "./courseTabs/Announcments";
+import CourseOverview from "./courseTabs/CourseOverview";
+import CourseSidebar from "./courseTabs/CourseSidebar";
 import { FaAngleDown, FaArrowRight, FaTimes } from "react-icons/fa";
 
 const CourseContent = () => {
