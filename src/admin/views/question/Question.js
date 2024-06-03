@@ -89,7 +89,7 @@ const Question = () => {
         return {
           id: question?.id,
           title: question?.title,
-          subject: question?.subject?.subject_name ?? "Uncategories",
+          subject: question?.subject?.subject_name ?? "Uncategorized",
           points: question?.points,
           negative_points: question?.negative_points,
         };
@@ -152,7 +152,7 @@ const Question = () => {
                     }}
                     color="primary"
                   >
-                    Create
+                    Add
                   </Button>
                 </Box>
               </Box>

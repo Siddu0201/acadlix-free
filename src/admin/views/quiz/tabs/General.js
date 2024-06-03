@@ -21,11 +21,11 @@ import {
 import CustomSwitch from "../../../../components/CustomSwitch";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
-// import DatePicker from "react-datepicker";
 import { MdAdd } from "react-icons/md";
 import { FaMinus } from "react-icons/fa";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const General = (props) => {
   const [quiz, setQuiz] = React.useState([
@@ -196,9 +196,9 @@ const General = (props) => {
         </GridItem1>
 
         {/* Quiz start date */}
-        <GridItem1 xs={12} lg={3}>
-          <DemoContainer components={["DatePicker"]}>
-            <DatePicker
+        <GridItem1 xs={12} lg={4}>
+          <DemoContainer components={["DateTimePicker"]}>
+            <DateTimePicker
               {...props?.register("start_date", {
                 required: {
                   value: props?.watch("set_start_date"),
@@ -206,7 +206,8 @@ const General = (props) => {
                 },
               })}
               required={props?.watch("set_start_date")}
-              label="Enter Start Date"
+              label="Enter Start Date*"
+              format="DD/MM/YYYY hh:mm:a"
               sx={{
                 ".MuiFormControl-root ": {
                   maxHeight: "42px",
@@ -221,8 +222,7 @@ const General = (props) => {
                   top: "0px !important",
                 },
               }}
-              format="DD/MM/YYYY"
-              value={props?.watch("start_date") ?? null}
+              value={props?.watch("start_date") ? dayjs(props?.watch("start_date")) : null}
               onChange={(value) => {
                 props?.setValue("start_date", new Date(value?.$d), {
                   shouldDirty: true,
@@ -238,7 +238,7 @@ const General = (props) => {
           )}
         </GridItem1>
 
-        <GridItem1 xs={0} lg={5}></GridItem1>
+        <GridItem1 xs={0} lg={4}></GridItem1>
 
         {/* Button to enable end date */}
         <GridItem1 xs={12} lg={4}>
@@ -258,9 +258,9 @@ const General = (props) => {
         </GridItem1>
 
         {/* Quiz End Date */}
-        <GridItem1 xs={12} lg={3}>
-          <DemoContainer components={["DatePicker"]}>
-            <DatePicker
+        <GridItem1 xs={12} lg={4}>
+          <DemoContainer components={["DateTimePicker"]}>
+            <DateTimePicker
               {...props?.register("end_date", {
                 required: {
                   value: props?.watch("set_end_date"),
@@ -268,7 +268,7 @@ const General = (props) => {
                 },
               })}
               required={props?.watch("set_end_date")}
-              label="Enter End Date"
+              label="Enter End Date*"
               sx={{
                 ".MuiFormControl-root ": {
                   maxHeight: "42px",
@@ -283,8 +283,8 @@ const General = (props) => {
                   top: "0px !important",
                 },
               }}
-              format="DD/MM/YYYY"
-              value={props?.watch("end_date") ?? null}
+              format="DD/MM/YYYY hh:mm:a"
+              value={props?.watch("end_date") ? dayjs(props?.watch("end_date")) : null}
               onChange={(value) => {
                 props?.setValue("end_date", new Date(value?.$d), {
                   shouldDirty: true,
@@ -300,7 +300,7 @@ const General = (props) => {
           )}
         </GridItem1>
 
-        <GridItem1 xs={0} lg={5}></GridItem1>
+        <GridItem1 xs={0} lg={4}></GridItem1>
 
         {/* Button to pause quiz */}
         <GridItem1 xs={12} lg={4}>
@@ -363,7 +363,7 @@ const General = (props) => {
               title="Quiz"
               subheader={`${
                 quiz?.filter((val) => val?.show === true)?.length
-              } quizes.`}
+              } quizzes.`}
             />
             <Divider />
             <List
@@ -443,7 +443,7 @@ const General = (props) => {
               title="Prerequisites quiz"
               subheader={`${
                 props?.watch("prerequisite_data")?.length
-              } quizes. You can set a minimum percentage that a user has to score to attempt this quiz. By default it will be set to zero`}
+              } quizzes. You can set a minimum % that a user has to score to attempt this quiz. By default it will be set to zero.`}
             />
             <Divider />
             <List

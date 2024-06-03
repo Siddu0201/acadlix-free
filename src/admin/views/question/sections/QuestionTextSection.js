@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Grid } from "@mui/material";
+import { Alert, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import React from "react";
 
 const QuestionTextSection = (props) => {
@@ -30,26 +30,39 @@ const QuestionTextSection = (props) => {
     >
       <Card>
         <CardHeader
-          title={`Question (${
-            props?.lang?.language_name
-          })`}
-          titleTypographyProps={{
-            sx: {
+          title={(
+            <Typography sx={{
               fontWeight: 500,
               color: "black",
-            },
-          }}
+              fontSize: '1.5rem',
+            }}>
+              Question<span style={{color: "red"}}>*</span> ({props?.lang?.language_name})
+            </Typography>
+            )}
         />
         <CardContent>
           <Grid container spacing={4}>
             <Grid item xs={12} lg={12}>
               <textarea
+                {...props?.register(`language.${props?.index}.question`, {
+                  required: {
+                    value: props?.watch(`language.${props?.index}.default`),
+                    message: "Question is required"
+                  }
+                })}
                 id={`question_${props?.lang?.language_id}`}
                 style={{
                   width: "100%",
                 }}
                 value={props?.watch(`language.${props?.index}.question`)}
               />
+              {Boolean(props.formState?.errors?.language?.[props?.index]?.question) && (
+                <Alert severity="error" sx={{
+                  marginTop: 2
+                }}>
+                  {props.formState.errors?.language?.[props?.index]?.question?.message}
+                </Alert>
+              )}
             </Grid>
           </Grid>
         </CardContent>

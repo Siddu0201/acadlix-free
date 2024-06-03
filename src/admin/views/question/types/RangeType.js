@@ -24,9 +24,9 @@ function RangeType(props) {
               label="Range From"
               type="Number"
               inputProps={{
-                step: 0.01,
+                step: 0.00001,
               }}
-              value={props?.lang?.[props?.type]?.from}
+              value={props?.lang?.answer_data?.[props?.type]?.from}
               onChange={(e) => {
                 props?.watch("language")?.forEach((lang, lindex) => {
                   props?.setValue(
@@ -45,9 +45,9 @@ function RangeType(props) {
               label="Range To"
               type="number"
               inputProps={{
-                step: 0.01,
+                step: 0.00001,
               }}
-              value={props?.lang?.[props?.type]?.to}
+              value={props?.lang?.answer_data?.[props?.type]?.to}
               onChange={(e) => {
                 props?.watch("language")?.forEach((lang, lindex) => {
                   props?.setValue(

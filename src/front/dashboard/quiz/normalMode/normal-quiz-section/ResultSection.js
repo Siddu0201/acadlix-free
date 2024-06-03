@@ -8,7 +8,6 @@ import ScoreChart from "./charts/ScoreChart";
 import { secondsToHms } from "../../../../../helpers/util";
 
 const ResultSection = (props) => {
-
   return (
     <Box
       sx={{
@@ -52,16 +51,16 @@ const ResultSection = (props) => {
                 props?.watch('questions')
                 ?.reduce((total, d) => {
                   if(d?.result?.solved_count && d?.result?.correct_count){
-                    return total + d?.points;
+                    return total + Number(d?.points);
                   }else if(d?.result?.solved_count && d?.result?.incorrect_count){
-                    return total - d?.negative_points;
+                    return total - Number(d?.negative_points);
                   }else{
                     return total;
                   }
                 },0)
               }
               /
-              {props?.watch('questions')?.reduce((total, d) => total + d?.points , 0)}
+              {props?.watch('questions')?.reduce((total, d) => total + Number(d?.points) , 0)}
             </Typography>
             <Typography variant="h7">Marks Obtained</Typography>
           </Box>

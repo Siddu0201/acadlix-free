@@ -108,9 +108,9 @@ const SubjectResultSection = (props) => {
                     props?.watch('questions').filter(d => d?.subject_name === row)
                     ?.reduce((total, d) => {
                       if(d?.result?.solved_count && d?.result?.correct_count){
-                        return total + d?.points;
+                        return total + Number(d?.points);
                       }else if(d?.result?.solved_count && d?.result?.incorrect_count){
-                        return total - d?.negative_points;
+                        return total - Number(d?.negative_points);
                       }else{
                         return total;
                       }

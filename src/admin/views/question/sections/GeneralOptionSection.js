@@ -26,10 +26,7 @@ const GeneralOptionSection = (props) => {
           <Grid container spacing={4}>
             <Grid item xs={12} sm={5}>
               <CustomTextField
-                {...props?.register("title", {
-                  required: "Question title is required",
-                })}
-                required
+                {...props?.register("title")}
                 fullWidth
                 size="small"
                 label="Question Title"
@@ -47,7 +44,7 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 label="+ Point"
                 type="number"
-                InputProps={{ inputProps: { min: 0 } }}
+                InputProps={{ inputProps: { min: 0, step: 0.01 } }}
                 value={props?.watch("points")}
                 onChange={(e) => {
                   props?.setValue("points", e.target.value, {
@@ -62,7 +59,7 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 label="- Point"
                 type="number"
-                InputProps={{ inputProps: { min: 0 } }}
+                InputProps={{ inputProps: { min: 0, step: 0.01 } }}
                 value={props?.watch("negative_points")}
                 onChange={(e) => {
                   props?.setValue("negative_points", e.target.value, {

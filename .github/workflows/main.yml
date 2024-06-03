@@ -1,15 +1,12 @@
-name: CI/CD Pipeline
+name: Deploy WordPress Plugin
 
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
+      - yuvayana
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,34 +16,38 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "18"
+          node-version: '18'
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
-          tools: composer
-
-      # - name: Install PHP dependencies
-      #   run: composer install --no-progress
-
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm install
+        working-directory: ./
 
-      - name: Build JavaScript
+      - name: Build React app
         run: npm run build
+        working-directory: ./
 
-      - name: Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
-
-      - name: Upload plugin to FTP server
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      - name: Zip the plugin
         run: |
-          lftp -c "
-          set ssl:verify-certificate no;
-          open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
-          mirror -R ./ /wp-content/uploads/demogit;
-          bye;"
+          zip -r plugin.zip . -x "node_modules/*"
+        working-directory: ./
+
+      - name: Upload ZIP to server
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          echo "$EC2_SSH_KEY" > private_key
+          chmod 600 private_key
+          scp -o StrictHostKeyChecking=no -i private_key plugin.zip bitnami@$EC2_HOST:/home/bitnami/
+
+      - name: Deploy to WordPress
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          echo "$EC2_SSH_KEY" > private_key
+          chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key bitnami@$EC2_HOST << 'EOF'
+            unzip -o /home/bitnami/plugin.zip -d /home/bitnami/stack/wordpress/wp-content/plugins/acadlix
+            rm /home/bitnami/plugin.zip
+          EOF

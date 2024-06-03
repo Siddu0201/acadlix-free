@@ -16,7 +16,6 @@ import {FaEdit, FaQuestion, FaTrash} from 'react-icons/fa'
 
 const Quiz = () => {
 
-  console.log(acadlixOptions?.language);
   const [rows, setRows] = React.useState([]);
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 10,
@@ -93,7 +92,7 @@ const Quiz = () => {
         return {
           id: quiz?.id,
           title: quiz?.title,
-          category: quiz?.category?.category_name ?? 'Uncategories',
+          category: quiz?.category?.category_name ?? 'Uncategorized',
           shortcode: `[Acadlix_Quiz ${quiz?.id}]`,
           total_questions: quiz?.questions_count,
         };
@@ -142,7 +141,7 @@ const Quiz = () => {
                     }}
                     color="primary"
                   >
-                    Create
+                    Add
                   </Button>
                 </Box>
               </Box>

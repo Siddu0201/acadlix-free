@@ -8,6 +8,7 @@ import {
   RadioGroup,
   Radio,
   Grid,
+  Alert,
 } from "@mui/material";
 
 const SingleChoice = (props) => {
@@ -96,6 +97,15 @@ const Option = (props) => {
             <FormControlLabel 
               control={
               <Radio 
+                {...props?.register(
+                  `language.${props?.index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`,
+                  {
+                    required: {
+                      value: props?.watch(`language.${props?.index}.default`) && props?.watch(`language.${props?.index}.answer_data.${props?.type}`).filter(d => d?.isCorrect).length === 0,
+                      message: "Please set atleast one correct option"
+                    },
+                  }
+                )}
                 checked={props?.option?.isCorrect}
                 onClick={() => {
                   props?.setValue("language",
@@ -119,7 +129,7 @@ const Option = (props) => {
               variant="contained" 
               color="error"
               sx={{
-                display: props?.last ? "" : "none"
+                display: props?.last ? props?.option_index === 0 ? "none" : "" : "none"
               }}
               onClick={() => {
                 props?.watch("language")?.forEach((_, lindex) => {
@@ -136,12 +146,27 @@ const Option = (props) => {
           </Grid>
           <Grid item xs={12} lg={10}>
             <textarea 
+              {...props?.register(
+                `language.${props?.index}.answer_data.${props?.type}.${props?.option_index}.option`, 
+                {
+                required: {
+                  value: props?.watch(`language.${props?.index}.default`),
+                  message: "Option is required"
+                }
+              })}
               id={props?.id} 
               style={{
                 width: '100%'
               }}
               value={props?.option?.option}
             />
+            {Boolean(props.formState?.errors?.language?.[props?.index]?.answer_data?.[props?.type]?.[props?.option_index]?.option) && (
+              <Alert severity="error" sx={{
+                marginTop: 2
+              }}>
+                {props.formState.errors?.language?.[props?.index]?.answer_data?.[props?.type]?.[props?.option_index]?.option?.message}
+              </Alert>
+            )}
           </Grid>
         </Grid>
       </CardContent>

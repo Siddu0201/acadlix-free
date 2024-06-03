@@ -109,19 +109,19 @@ const QuestionContent = (props) => {
       subject_id: props?.question?.subject_id
         ? Number(props?.question?.subject_id)
         : null,
-      online: props?.question?.online ? Boolean(props?.question?.online) : true,
+      online: !props?.create ? Boolean(Number(props?.question?.online)) : true,
       sort: props?.create
         ? props?.quiz?.questions_count + 1
         : props?.question?.sort,
-      multi_language: Boolean(props?.quiz?.multi_language) ?? false,
+      multi_language: Boolean(Number(props?.quiz?.multi_language)),
       title: props?.question?.title ?? "",
-      points: props?.question?.points ?? 1,
-      negative_points: props?.question?.negative_points ?? 0,
+      points: props?.question?.points ? Number(props?.question?.points) : 1,
+      negative_points: props?.question?.negative_points? Number(props?.question?.negative_points) : 0,
       different_points_for_each_answer:
-        Boolean(props?.question?.different_points_for_each_answer) ?? false,
+        Boolean(Number(props?.question?.different_points_for_each_answer)),
       different_incorrect_msg:
-        Boolean(props?.question?.different_incorrect_msg) ?? false,
-      hint_enabled: Boolean(props?.question?.hint_enabled) ?? false,
+        Boolean(Number(props?.question?.different_incorrect_msg)),
+      hint_enabled: Boolean(Number(props?.question?.hint_enabled)),
       answer_type: props?.question?.answer_type ?? "singleChoice",
       language: props?.create
         ? props?.quiz?.quiz_languages?.map((lang) => {
@@ -129,8 +129,8 @@ const QuestionContent = (props) => {
               id: null,
               language_id: lang?.language_id,
               language_name: lang?.language?.language_name,
-              default: Boolean(lang?.default),
-              selected: Boolean(lang?.default),
+              default: Boolean(Number(lang?.default)),
+              selected: Boolean(Number(lang?.default)),
               question: "",
               correct_msg: "",
               incorrect_msg: "",
@@ -161,8 +161,8 @@ const QuestionContent = (props) => {
                 id: queslang?.id,
                 language_id: queslang?.language_id,
                 language_name: queslang?.language?.language_name,
-                default: Boolean(lang?.default),
-                selected: Boolean(lang?.default),
+                default: Boolean(Number(lang?.default)),
+                selected: Boolean(Number(lang?.default)),
                 question: queslang?.question,
                 correct_msg: queslang?.correct_msg,
                 incorrect_msg: queslang?.incorrect_msg,
@@ -175,8 +175,8 @@ const QuestionContent = (props) => {
                 id: null,
                 language_id: lang?.language_id,
                 language_name: lang?.language?.language_name,
-                default: Boolean(lang?.default),
-                selected: Boolean(lang?.default),
+                default: Boolean(Number(lang?.default)),
+                selected: Boolean(Number(lang?.default)),
                 question: "",
                 correct_msg: "",
                 incorrect_msg: "",
@@ -337,33 +337,40 @@ const QuestionContent = (props) => {
   };
 
   // console.log(methods.watch());
-  console.log(props?.quiz);
+  // console.log(props?.quiz);
 
   const navigate = useNavigate();
+  const validateInput = () => {
+    let questionIndex = methods?.watch("language")?.findIndex(d => d?.default);
+    if(methods?.watch(`language.${questionIndex}.question`)){
+      methods?.setError(`language.${questionIndex}.question`, { type: "custom", message: "Question is required"})
+    }
+  }
   const createMutation = PostCreateQuizQuestion(props?.quiz_id);
   const updateMutation = UpdateQuizQuestionById(
     props?.quiz_id,
     props?.question_id
   );
+  console.log(methods.formState.errors);
   const onSubmit = (data) => {
     const newData = { ...data };
     newData?.language?.map((lang) => {
       lang.answer_data = JSON.stringify(lang.answer_data);
       return lang;
     });
-    if (props?.create) {
-      createMutation.mutate(newData, {
-        onSuccess: (data) => {
-          navigate(`/quiz/${props?.quiz_id}/question`);
-        },
-      });
-    } else {
-      updateMutation.mutate(newData, {
-        onSuccess: (data) => {
-          navigate(`/quiz/${props?.quiz_id}/question`);
-        },
-      });
-    }
+    // if (props?.create) {
+    //   createMutation.mutate(newData, {
+    //     onSuccess: (data) => {
+    //       navigate(`/quiz/${props?.quiz_id}/question`);
+    //     },
+    //   });
+    // } else {
+    //   updateMutation.mutate(newData, {
+    //     onSuccess: (data) => {
+    //       navigate(`/quiz/${props?.quiz_id}/question`);
+    //     },
+    //   });
+    // }
   };
 
   return (

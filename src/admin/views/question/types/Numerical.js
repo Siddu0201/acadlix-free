@@ -21,7 +21,10 @@ function Numerical(props) {
           type="number"
           label="Enter number"
           helperText="Numerical values only"
-          value={props?.lang?.[props?.type]?.option}
+          inputProps={{
+            step: 0.000001
+          }}
+          value={props?.lang?.answer_data?.[props?.type]?.option}
           onChange={(e) => {
             props?.watch("language")?.forEach((lang, lindex) => {
               props?.setValue(
