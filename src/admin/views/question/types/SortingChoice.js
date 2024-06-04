@@ -5,6 +5,7 @@ import {
   CardContent,
   Button,
   Grid,
+  Alert,
 } from "@mui/material";
 
 function SortingChoice(props) {
@@ -90,12 +91,40 @@ const Option = (props) => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <textarea 
+              {...props?.register(
+                `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`,
+                {
+                  required: {
+                    value: props?.watch(
+                      `language.${props?.language_index}.default`
+                    ),
+                    message: "Option is required",
+                  },
+                }
+              )}
               id={props?.id} 
               style={{
                 width: '100%'
               }}
               value={props?.option?.option}
             />
+            {Boolean(
+              props.formState?.errors?.language?.[props?.language_index]
+                ?.answer_data?.[props?.type]?.[props?.option_index]?.option
+            ) && (
+              <Alert
+                severity="error"
+                sx={{
+                  marginTop: 2,
+                }}
+              >
+                {
+                  props.formState.errors?.language?.[props?.language_index]
+                    ?.answer_data?.[props?.type]?.[props?.option_index]?.option
+                    ?.message
+                }
+              </Alert>
+            )}
           </Grid>
           <Grid item xs={12} sm={12}>
             <Button 

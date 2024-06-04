@@ -7,7 +7,9 @@ import {
   Checkbox,
   Card,
   Grid,
+  Alert,
 } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 function MultipleChoice(props) {
   return (
@@ -89,24 +91,60 @@ const Option = (props) => {
       }}>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={2}>
-            <FormControlLabel 
-              control={
-                <Checkbox 
-                  checked={props?.option?.isCorrect}
-                  onClick={(e) => {
-                    if(e.target.checked !== undefined){
-                      props?.watch("language")?.forEach((lang, lindex) => {
-                            props?.setValue(
-                              `language.${lindex}.answer_data.${props?.type}.${props?.option_index}.isCorrect`,
-                              e.target?.checked,
-                              {shouldDirty: true}
-                            )
-                        })
-                    }
-                  }}
+            {Boolean(
+              props.formState?.errors?.language?.[props?.language_index]
+                ?.answer_data?.[props?.type]?.[props?.option_index]?.isCorrect
+            ) && (
+              <Alert
+                severity="error"
+                sx={{
+                  marginTop: 2,
+                }}
+              >
+                {
+                  props.formState.errors?.language?.[props?.language_index]
+                    ?.answer_data?.[props?.type]?.[props?.option_index]
+                    ?.isCorrect?.message
+                }
+              </Alert>
+            )}
+            <Controller
+              rules={{
+                required: {
+                  value:
+                    props?.watch(`language.${props?.index}.default`) &&
+                    props
+                      ?.watch(
+                        `language.${props?.language_index}.answer_data.${props?.type}`
+                      )
+                      .filter((d) => d?.isCorrect).length === 0,
+                  message: "Please set atleast one correct option",
+                },
+              }}
+              control={props.control}
+              name={`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`}
+              render={(data) => (
+                <FormControlLabel 
+                  control={
+                    <Checkbox 
+                      checked={props?.option?.isCorrect}
+                      onBlur={data.field.onBlur}
+                      onChange={(e) => {
+                        if(e.target.checked !== undefined){
+                          props?.watch("language")?.forEach((lang, lindex) => {
+                                props?.setValue(
+                                  `language.${lindex}.answer_data.${props?.type}.${props?.option_index}.isCorrect`,
+                                  e.target?.checked,
+                                  {shouldDirty: true}
+                                )
+                            })
+                        }
+                      }}
+                    />
+                  } 
+                  label="Correct" 
                 />
-              } 
-              label="Correct" 
+              )}
             />
             <Button 
               variant="contained" 
@@ -129,12 +167,40 @@ const Option = (props) => {
           </Grid>
           <Grid item xs={12} lg={10}>
             <textarea 
+              {...props?.register(
+                `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`,
+                {
+                  required: {
+                    value: props?.watch(
+                      `language.${props?.language_index}.default`
+                    ),
+                    message: "Option is required",
+                  },
+                }
+              )}
               id={props?.id} 
               style={{
                 width: '100%'
               }}
               value={props?.option?.option}
             />
+            {Boolean(
+              props.formState?.errors?.language?.[props?.language_index]
+                ?.answer_data?.[props?.type]?.[props?.option_index]?.option
+            ) && (
+              <Alert
+                severity="error"
+                sx={{
+                  marginTop: 2,
+                }}
+              >
+                {
+                  props.formState.errors?.language?.[props?.language_index]
+                    ?.answer_data?.[props?.type]?.[props?.option_index]?.option
+                    ?.message
+                }
+              </Alert>
+            )}
           </Grid>
         </Grid>
       </CardContent>

@@ -55,12 +55,31 @@ function Fill(props) {
         }}
       >
         <CustomTextField
+          {
+            ...props?.register(
+              `language.${props?.index}.answer_data.${props?.type}.option`,
+              {
+                required: {
+                  value: props?.watch(
+                    `language.${props?.index}.default`
+                  ),
+                  message: "Required",
+                }
+              }
+            )
+          }
           fullWidth
           size="small"
           multiline
           rows={4}
+          control={props?.control}
           value={props?.lang?.answer_data?.[props?.type]?.option}
           onChange={fillChange}
+          error={Boolean(props.formState?.errors?.language?.[props?.index]
+            ?.answer_data?.[props?.type]?.option)}
+          helperText={props.formState.errors?.language?.[props?.index]
+            ?.answer_data?.[props?.type]?.option
+            ?.message}  
         />
       </CardContent>
     </Card>

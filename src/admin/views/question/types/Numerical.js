@@ -17,10 +17,23 @@ function Numerical(props) {
         }}
       >
         <CustomTextField
+          {
+            ...props?.register(
+              `language.${props?.index}.answer_data.${props?.type}.option`,
+              {
+                valueAsNumber: true,
+                required: {
+                  value: props?.watch(
+                    `language.${props?.index}.default`
+                  ),
+                  message: "Required",
+                }
+              }
+            )
+          }
           size="small"
           type="number"
           label="Enter number"
-          helperText="Numerical values only"
           inputProps={{
             step: 0.000001
           }}
@@ -34,6 +47,11 @@ function Numerical(props) {
               );
             });
           }}
+          error={Boolean(props.formState?.errors?.language?.[props?.index]
+            ?.answer_data?.[props?.type]?.option)}
+          helperText={props.formState.errors?.language?.[props?.index]
+            ?.answer_data?.[props?.type]?.option
+            ?.message} 
         />
       </CardContent>
     </Card>

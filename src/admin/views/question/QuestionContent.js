@@ -358,19 +358,19 @@ const QuestionContent = (props) => {
       lang.answer_data = JSON.stringify(lang.answer_data);
       return lang;
     });
-    // if (props?.create) {
-    //   createMutation.mutate(newData, {
-    //     onSuccess: (data) => {
-    //       navigate(`/quiz/${props?.quiz_id}/question`);
-    //     },
-    //   });
-    // } else {
-    //   updateMutation.mutate(newData, {
-    //     onSuccess: (data) => {
-    //       navigate(`/quiz/${props?.quiz_id}/question`);
-    //     },
-    //   });
-    // }
+    if (props?.create) {
+      createMutation.mutate(newData, {
+        onSuccess: (data) => {
+          navigate(`/quiz/${props?.quiz_id}/question`);
+        },
+      });
+    } else {
+      updateMutation.mutate(newData, {
+        onSuccess: (data) => {
+          navigate(`/quiz/${props?.quiz_id}/question`);
+        },
+      });
+    }
   };
 
   return (
