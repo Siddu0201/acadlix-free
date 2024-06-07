@@ -5,16 +5,19 @@ import { secondsToHms } from "../../../../../helpers/util";
 const QuestionSubjectAndPointSection = (props) => {
   return (
     <>
-      <Box
-        sx={{
-          marginY: "5px",
-        }}
-      >
-        <Typography>
-          Question <b>{props?.num}</b> of{" "}
-          <b>{props?.watch("questions")?.length}</b>
-        </Typography>
-      </Box>
+      {
+        props?.watch("question_overview") &&
+        <Box
+          sx={{
+            marginY: "5px",
+          }}
+        >
+          <Typography>
+            Question <b>{props?.num}</b> of{" "}
+            <b>{props?.watch("questions")?.length}</b>
+          </Typography>
+        </Box>
+      }
       <Box
         sx={{
           display: "flex",
@@ -23,11 +26,17 @@ const QuestionSubjectAndPointSection = (props) => {
         }}
       >
         <Box>
-          <Typography>{props?.num}. Question</Typography>
+          {
+            !props?.watch("hide_question_numbering") &&
+            <Typography>Question {props?.num}:</Typography>
+          }
         </Box>
         <Box>
           <Typography>
-            <b>{props?.question?.points} points</b>
+            {
+              props?.watch("show_marks") &&
+              <b>{props?.question?.points} points</b>
+            }
             {
               props?.watch("view_answer") &&
               <>
@@ -37,15 +46,18 @@ const QuestionSubjectAndPointSection = (props) => {
           </Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          marginY: "2px",
-        }}
-      >
-        <Typography>
-          <b>Category: {props?.watch("category")}</b>
-        </Typography>
-      </Box>
+      {
+        props?.watch("display_subject") &&
+        <Box
+          sx={{
+            marginY: "2px",
+          }}
+        >
+          <Typography>
+            <b>Subject: {props?.watch(`questions.${props?.index}.subject_name`)}</b>
+          </Typography>
+        </Box>
+      }
     </>
   );
 };

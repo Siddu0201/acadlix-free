@@ -55,3 +55,25 @@ export const secondsToHms = (d) => {
     var sDisplay = s > 9 ? s : "0" + s;
     return hDisplay + ":" + mDisplay + ":" + sDisplay; 
 }
+
+export const updateQuestions = (questions = [], quiz={}) => {
+    if(Boolean(Number(quiz?.random_question))){
+        for (let i = questions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [questions[i], questions[j]] = [questions[j], questions[i]];
+        }
+        return questions;
+    }
+    return questions;
+}
+
+export const updateAnswer = (options = [], random = false, notlast= false) => {
+    if(random){
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+        return options;
+    }
+    return options;
+}

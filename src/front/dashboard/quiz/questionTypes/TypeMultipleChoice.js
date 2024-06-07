@@ -50,6 +50,9 @@ const TypeMultipleChoice = (props) => {
       { shouldDirty: true }
     );
   };
+  
+  const alphabate = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+
   return (
     <Box
       sx={{
@@ -79,10 +82,29 @@ const TypeMultipleChoice = (props) => {
       >
         {props?.answer_data?.[props?.type]?.length > 0 &&
           props?.answer_data?.[props?.type]?.map((data, index) => (
+            <Box sx={{
+              display: "flex",
+              alignItems: "center"
+            }}>
+              {
+                props?.watch("answer_bullet") 
+                ? props?.watch("answer_bullet_type") === "numeric"
+                ?
+                <Typography>
+                  {++index}.
+                </Typography>
+                :
+                <Typography>
+                  {alphabate[index % 26]}.
+                </Typography>
+
+                :
+                <></>
+              }
             <FormControlLabel
               key={index}
               checked={data?.isChecked}
-              control={<Checkbox disabled={props?.watch("view_answer")} />}
+              control={<Checkbox disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)} />}
               label={
                 <Box
                   sx={{
@@ -97,7 +119,7 @@ const TypeMultipleChoice = (props) => {
                       top: "2px",
                     }}
                   >
-                    {props?.watch("view_answer") ? (
+                    {props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? (
                       data?.isCorrect ? (
                         <SiTicktick
                           style={{
@@ -140,6 +162,7 @@ const TypeMultipleChoice = (props) => {
                 },
               }}
             />
+            </Box>
           ))}
       </FormControl>
     </Box>

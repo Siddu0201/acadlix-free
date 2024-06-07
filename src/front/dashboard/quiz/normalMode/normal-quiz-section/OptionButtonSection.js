@@ -177,6 +177,14 @@ const OptionButtonSection = (props) => {
     );
   };
 
+  const handleCheckClick = () => {
+    props?.setValue(
+      `questions.${props?.index}.check`,
+      !props?.watch(`questions.${props?.index}.check`),
+      { shouldDirty: true }
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -191,17 +199,21 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        <CustomButton
-          onClick={handleBackClick}
-          sx={{
-            display: props?.first ? "none" : "",
-          }}
-        >
-          Back
-        </CustomButton>
-        <CustomButton onClick={handleClearResponse}>
-          Clear Response
-        </CustomButton>
+        {props?.watch("enable_back_button") && (
+          <CustomButton
+            onClick={handleBackClick}
+            sx={{
+              display: props?.first ? "none" : "",
+            }}
+          >
+            Back
+          </CustomButton>
+        )}
+        {props?.watch("show_clear_response_button") && (
+          <CustomButton onClick={handleClearResponse}>
+            Clear Response
+          </CustomButton>
+        )}
       </Box>
       <Box
         sx={{
@@ -210,6 +222,10 @@ const OptionButtonSection = (props) => {
         }}
       >
         <CustomButton onClick={handleHintClick}>Hint</CustomButton>
+        {props?.watch("enable_check_button") &&
+          !props?.watch(`questions.${props?.index}.check`) && (
+            <CustomButton onClick={handleCheckClick}>Check</CustomButton>
+          )}
         <CustomButton onClick={handleNextClick}>Next</CustomButton>
       </Box>
     </Box>

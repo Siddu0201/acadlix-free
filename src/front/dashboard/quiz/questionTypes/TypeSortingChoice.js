@@ -102,9 +102,9 @@ const TypeSortingChoice = (props) => {
         }}
       >
         {
-          props?.watch("view_answer") &&
+          (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) )&&
           <Typography>
-            Your answer
+            <b>Your answer</b>
           </Typography>
         }
         <DndContext
@@ -139,10 +139,10 @@ const TypeSortingChoice = (props) => {
           </List>
         </DndContext>
         {
-          props?.watch("view_answer") &&
+          (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) &&
           <>
             <Typography>
-              Correct answer
+              <b>Correct answer</b>
             </Typography>
             <List
               sx={{
@@ -192,7 +192,7 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
 const SortableItem = (props) => {
   const { attributes, listeners, setNodeRef, transition } = useSortable({
     id: props.item?.option,
-    disabled: props?.watch("view_answer")
+    disabled: props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)
   });
 
   return (
@@ -203,7 +203,7 @@ const SortableItem = (props) => {
         border: "1px dotted black",
         borderRadius: 1,
         backgroundColor: "white",
-        cursor: props?.watch("view_answer") ? "pointer" : "move",
+        cursor: props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? "pointer" : "move",
         opacity: props?.item?.option === props?.activeId ? 0.4 : 1,
         touchAction: "none",
       }}
@@ -212,7 +212,7 @@ const SortableItem = (props) => {
     >
       {props?.item?.option}
       {
-        props?.watch("view_answer") &&
+        (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) &&
         <Box sx={{
           position: "relative",
           marginLeft: "5px",

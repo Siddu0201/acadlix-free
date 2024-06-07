@@ -57,7 +57,12 @@ const TypeNumerical = (props) => {
           marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
         }}
       >
-        {props?.watch("view_answer") && <Typography>Your answer</Typography>}
+        {(props?.watch("view_answer") ||
+          props?.watch(`questions.${props?.index}.check`)) && (
+          <Typography>
+            <b>Your answer</b>
+          </Typography>
+        )}
         <Box
           sx={{
             display: "flex",
@@ -76,7 +81,8 @@ const TypeNumerical = (props) => {
             onChange={handleChange}
             value={props?.answer_data?.[props?.type]?.yourAnswer}
           />
-          {props?.watch("view_answer") && (
+          {(props?.watch("view_answer") ||
+            props?.watch(`questions.${props?.index}.check`)) && (
             <Box
               sx={{
                 position: "relative",
@@ -84,7 +90,9 @@ const TypeNumerical = (props) => {
                 top: "17px",
               }}
             >
-              {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
+              {props?.watch(
+                `questions.${props?.index}.result.correct_count`
+              ) ? (
                 <SiTicktick
                   style={{
                     color: props?.colorCode?.correct,
@@ -102,9 +110,12 @@ const TypeNumerical = (props) => {
           )}
         </Box>
 
-        {props?.watch("view_answer") && (
+        {(props?.watch("view_answer") ||
+          props?.watch(`questions.${props?.index}.check`)) && (
           <>
-            <Typography>Correct answer</Typography>
+            <Typography>
+              <b>Correct answer</b>
+            </Typography>
             <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
           </>
         )}

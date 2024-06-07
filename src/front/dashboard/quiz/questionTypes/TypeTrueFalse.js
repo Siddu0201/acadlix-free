@@ -90,7 +90,7 @@ const TypeTrueFalse = (props) => {
               <FormControlLabel
                 key={index}
                 checked={data?.isChecked}
-                control={<Radio disabled={props?.watch("view_answer")} />}
+                control={<Radio disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)} />}
                 value={index}
                 label={
                   <Box
@@ -106,7 +106,7 @@ const TypeTrueFalse = (props) => {
                         top: "2px",
                       }}
                     >
-                      {props?.watch("view_answer") ? (
+                      {props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? (
                         data?.isCorrect ? (
                           <SiTicktick
                             style={{

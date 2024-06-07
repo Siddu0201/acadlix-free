@@ -54,6 +54,7 @@ if(!class_exists('QuizMigration')){
                     $table->boolean('skip_question')->default(0);
                     $table->boolean('answer_bullet')->default(0);
                     $table->string('answer_bullet_type')->nullable()->default('numeric')->comment('numeric/alphabet ');
+                    $table->boolean('random_question')->default(0);
                     $table->boolean('random_option')->default(0);
                     $table->boolean('do_not_randomize_last_option')->default(0);
                     $table->boolean('question_overview')->default(0);

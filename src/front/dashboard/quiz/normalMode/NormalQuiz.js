@@ -109,11 +109,14 @@ const NormalQuiz = (props) => {
             />
           }
 
-          <QuestionOverviewSection
-            colorCode={colorCode}
-            isDesktop={isDesktop}
-            {...props}
-          />
+          {
+            props?.watch("question_overview") &&
+            <QuestionOverviewSection
+              colorCode={colorCode}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          }
           {
             props?.watch('questions')?.length > 0 &&
             props?.watch('questions')?.map((question, index) => (

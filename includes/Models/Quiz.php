@@ -52,6 +52,7 @@ if(!class_exists('Quiz')){
             "skip_question",
             "answer_bullet",
             "answer_bullet_type",
+            "random_question",
             "random_option",
             "do_not_randomize_last_option",
             "question_overview",

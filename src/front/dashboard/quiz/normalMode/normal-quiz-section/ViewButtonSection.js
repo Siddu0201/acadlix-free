@@ -25,7 +25,10 @@ const ViewButtonSection = (props) => {
         columnGap: 1,
       }}
     >
-      <CustomButton onClick={handleResetQuiz}>Restart Quiz</CustomButton>
+      {
+        !props?.watch("hide_restart_button") &&
+        <CustomButton onClick={handleResetQuiz}>Restart Quiz</CustomButton>
+      }
       <CustomButton onClick={handleViewAnswer}>View Answer</CustomButton>
       <CustomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
     </Box>

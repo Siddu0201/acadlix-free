@@ -54,8 +54,7 @@ const TypeSingleChoice = (props) => {
     );
   };
 
-  const result = props.watch(`questions.${props?.index}.result`);
-
+  const alphabate = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
   return (
     <Box
       sx={{
@@ -93,66 +92,86 @@ const TypeSingleChoice = (props) => {
         >
           {props?.answer_data?.[props?.type]?.length > 0 &&
             props?.answer_data?.[props?.type]?.map((data, index) => (
-              <FormControlLabel
-                key={index}
-                checked={data?.isChecked}
-                control={<Radio disabled={props?.watch("view_answer")} />}
-                value={index}
-                label={
-                  <Box
-                    sx={{
-                      display: "flex",
-                    }}
-                  >
-                    <Typography>{data?.option}</Typography>
+              <Box sx={{
+                display: "flex",
+                alignItems: "center"
+              }}>
+                {
+                  props?.watch("answer_bullet") 
+                  ? props?.watch("answer_bullet_type") === "numeric"
+                  ?
+                  <Typography>
+                    {++index}.
+                  </Typography>
+                  :
+                  <Typography>
+                    {alphabate[index % 26]}.
+                  </Typography>
+
+                  :
+                  <></>
+                }
+                <FormControlLabel
+                  key={index}
+                  checked={data?.isChecked}
+                  control={<Radio disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)} />}
+                  value={index}
+                  label={
                     <Box
                       sx={{
-                        position: "relative",
-                        marginLeft: "5px",
-                        top: "2px",
+                        display: "flex",
                       }}
                     >
-                      {props?.watch("view_answer") ? (
-                        data?.isCorrect ? (
-                          <SiTicktick
-                            style={{
-                              color: props?.colorCode?.correct,
-                            }}
-                          />
-                        ) : data?.isChecked ? (
-                          <ImCross
-                            style={{
-                              fontSize: "smaller",
-                              color: props?.colorCode?.incorrect,
-                            }}
-                          />
+                      <Typography>{data?.option}</Typography>
+                      <Box
+                        sx={{
+                          position: "relative",
+                          marginLeft: "5px",
+                          top: "2px",
+                        }}
+                      >
+                        {props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? (
+                          data?.isCorrect ? (
+                            <SiTicktick
+                              style={{
+                                color: props?.colorCode?.correct,
+                              }}
+                            />
+                          ) : data?.isChecked ? (
+                            <ImCross
+                              style={{
+                                fontSize: "smaller",
+                                color: props?.colorCode?.incorrect,
+                              }}
+                            />
+                          ) : (
+                            <></>
+                          )
                         ) : (
                           <></>
-                        )
-                      ) : (
-                        <></>
-                      )}
+                        )}
+                      </Box>
                     </Box>
-                  </Box>
-                }
-                sx={{
-                  width: 'fit-content',
-                  marginLeft: 0,
-                  '& svg': {
-                    height: "15px",
-                    width: "15px",
                   }
-                }}
-                componentsProps={{
-                  typography: {
-                    sx: {
-                      "&.Mui-disabled": {
-                        color: "initial !important",
+                  sx={{
+                    width: 'fit-content',
+                    marginLeft: 0,
+                    '& svg': {
+                      height: "15px",
+                      width: "15px",
+                    }
+                  }}
+                  componentsProps={{
+                    typography: {
+                      sx: {
+                        "&.Mui-disabled": {
+                          color: "initial !important",
+                        },
                       },
                     },
-                  },
-                }}
-              />
+                  }}
+                />
+              </Box>
             ))}
         </RadioGroup>
       </FormControl>

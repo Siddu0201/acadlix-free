@@ -88,7 +88,7 @@ const TypeFill = (props) => {
           marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
         }}
       >
-        {props?.watch("view_answer") && <Typography>Your answer</Typography>}
+        {(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) && <Typography><b>Your answer</b></Typography>}
         <Box
           sx={{
             display: "flex",
@@ -112,7 +112,7 @@ const TypeFill = (props) => {
                         props?.answer_data?.[props?.type]?.correctOption?.[i]
                           .yourAnswer
                       }
-                      disabled={props?.watch("view_answer")}
+                      disabled={(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`))}
                       onChange={handleChange.bind(this, i++)}
                     />
                   );
@@ -120,7 +120,7 @@ const TypeFill = (props) => {
                 return data;
               })}
           </Box>
-          {props?.watch("view_answer") && (
+          {(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) && (
             <Box
               sx={{
                 position: "relative",
@@ -147,9 +147,9 @@ const TypeFill = (props) => {
             </Box>
           )}
         </Box>
-        {props?.watch("view_answer") && (
+        {(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) && (
           <>
-            <Typography>Correct answer</Typography>
+            <Typography><b>Correct answer</b></Typography>
             <Box>
               {props?.answer_data?.[props?.type]?.option
                 ?.split(rxp)

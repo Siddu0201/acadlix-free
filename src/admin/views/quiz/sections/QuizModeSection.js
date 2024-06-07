@@ -129,6 +129,7 @@ const QuizModeSection = (props) => {
                       control={
                         <CustomSwitch
                           checked={props?.watch("enable_back_button") ?? false}
+                          disabled={props?.watch("mode") !== "normal"}
                           onChange={(e) => {
                             props?.setValue(
                               "enable_back_button",
@@ -145,6 +146,7 @@ const QuizModeSection = (props) => {
                       control={
                         <CustomSwitch
                           checked={props?.watch("enable_check_button") ?? false}
+                          disabled={props?.watch("mode") !== "normal"}
                           onChange={(e) => {
                             props?.setValue(
                               "enable_check_button",
@@ -212,6 +214,7 @@ const QuizModeSection = (props) => {
                             props?.watch("enable_check_on_option_selected") ??
                             false
                           }
+                          disabled={props?.watch("mode") !== "check_and_continue"}
                           onChange={(e) => {
                             props?.setValue(
                               "enable_check_on_option_selected",
@@ -281,6 +284,7 @@ const QuizModeSection = (props) => {
                       type="number"
                       label="Question per page"
                       value={props?.watch("question_per_page") ?? 10}
+                      disabled={props?.watch("mode") !== "question_below_each_other"}
                       onChange={(e) => {
                         props?.setValue(
                           "question_per_page",

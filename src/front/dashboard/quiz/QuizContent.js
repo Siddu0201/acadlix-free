@@ -4,7 +4,7 @@ import NormalQuizMode from "./NormalQuizMode";
 import AdvanceQuizMode from "./AdvanceQuizMode";
 import { set, useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
-import { arrayRandomize, randomizePosition } from "../../../helpers/util";
+import { arrayRandomize, randomizePosition, updateQuestions } from "../../../helpers/util";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -38,9 +38,9 @@ const QuizContent = (props) => {
       quiz_time: props?.quiz?.quiz_time * 1000, // 0 => Infinity (no limit)
       pause_quiz: Boolean(Number(props?.quiz?.pause_quiz)),
       set_start_date: Boolean(Number(props?.quiz?.set_start_date)),
-      start_date: props?.quiz?.start_date, // null => indefinite
+      start_date: props?.quiz?.start_date ? new Date(props?.quiz?.start_date) : null, // null => indefinite
       set_end_date: Boolean(Number(props?.quiz?.set_end_date)),
-      end_date: props?.quiz?.end_date, // null => indefinite
+      end_date: props?.quiz?.end_date ? new Date(props?.quiz?.end_date) : null, // null => indefinite
       prerequisite: Boolean(Number(props?.quiz?.prerequisite)),
       prerequisite_data: [],
       enable_login_register: Boolean(Number(props?.quiz?.enable_login_register)),
@@ -145,7 +145,7 @@ const QuizContent = (props) => {
       instruction2: props?.quiz?.instruction2,
       // Question Section
       questions:
-        props?.quiz?.questions?.map((question, index) => {
+        updateQuestions(props?.quiz?.questions, props?.quiz )?.map((question, index) => {
           return {
             selected: index === 0 ?? false,
             question_id: question?.id,

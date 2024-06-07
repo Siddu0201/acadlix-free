@@ -39,7 +39,6 @@ const TypeRange = (props) => {
     );
   };
 
-
   return (
     <Box
       sx={{
@@ -66,10 +65,17 @@ const TypeRange = (props) => {
           marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
         }}
       >
-        {props?.watch("view_answer") && <Typography>Your answer</Typography>}
-        <Box sx={{
-          display: "flex"
-        }}>
+        {(props?.watch("view_answer") ||
+          props?.watch(`questions.${props?.index}.check`)) && (
+          <Typography>
+            <b>Your answer</b>
+          </Typography>
+        )}
+        <Box
+          sx={{
+            display: "flex",
+          }}
+        >
           <CustomTextField
             type="number"
             label="Type your answer"
@@ -83,7 +89,8 @@ const TypeRange = (props) => {
             onChange={handleChange}
             value={props?.answer_data?.[props?.type]?.yourAnswer}
           />
-          {props?.watch("view_answer") && (
+          {(props?.watch("view_answer") ||
+            props?.watch(`questions.${props?.index}.check`)) && (
             <Box
               sx={{
                 position: "relative",
@@ -110,10 +117,16 @@ const TypeRange = (props) => {
             </Box>
           )}
         </Box>
-        {props?.watch("view_answer") && (
+        {(props?.watch("view_answer") ||
+          props?.watch(`questions.${props?.index}.check`)) && (
           <>
-            <Typography>Correct answer</Typography>
-            <Typography>{props?.answer_data?.[props?.type]?.from} - {props?.answer_data?.[props?.type]?.to}</Typography>
+            <Typography>
+              <b>Correct answer</b>
+            </Typography>
+            <Typography>
+              {props?.answer_data?.[props?.type]?.from} -{" "}
+              {props?.answer_data?.[props?.type]?.to}
+            </Typography>
           </>
         )}
       </Box>
