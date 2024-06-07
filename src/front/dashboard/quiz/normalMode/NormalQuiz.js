@@ -100,11 +100,14 @@ const NormalQuiz = (props) => {
       {
         props?.watch('view_question') &&
         <>
-          <TimerSection 
-            colorCode={colorCode}
-            isDesktop={isDesktop}
-            {...props} 
-          />
+          {
+            props?.watch('quiz_time') > 0 &&
+            <TimerSection 
+              colorCode={colorCode}
+              isDesktop={isDesktop}
+              {...props} 
+            />
+          }
 
           <QuestionOverviewSection
             colorCode={colorCode}

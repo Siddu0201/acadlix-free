@@ -26,7 +26,7 @@ const LeaderboardSection = (props) => {
     <Box sx={{
       marginY: 1
     }}>
-      <Box sx={{
+      {/* <Box sx={{
         border: `1px solid ${props?.colorCode?.leaderboard_header}`,
         marginY: 2,
         padding: 3,
@@ -37,7 +37,7 @@ const LeaderboardSection = (props) => {
         <Box>
           <Typography>You signed up successfully.</Typography>
         </Box>
-      </Box>
+      </Box> */}
       <Box>
         <DataGrid
           autoHeight

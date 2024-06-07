@@ -130,6 +130,7 @@ const TypeTrueFalse = (props) => {
                   </Box>
                 }
                 sx={{
+                  width: 'fit-content',
                   marginLeft: 0,
                   "& svg": {
                     height: "15px",

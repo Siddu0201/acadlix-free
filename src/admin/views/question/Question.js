@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   Grid,
   IconButton,
   Tooltip,
@@ -24,6 +25,7 @@ const Question = () => {
     pageSize: 10,
     page: 0,
   });
+  const [rowSelection, setRowSelection] = React.useState([]);
 
   const { quiz_id } = useParams();
 
@@ -35,7 +37,7 @@ const Question = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", hide: true },
+    { field: "id", headerName: "ID"},
     { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
     { field: "subject", headerName: "Subject", flex: 1, minWidth: 100 },
     { field: "points", headerName: "Points", flex: 1, minWidth: 100 },
@@ -88,7 +90,7 @@ const Question = () => {
       const newRows = data?.data?.questions?.map((question) => {
         return {
           id: question?.id,
-          title: question?.title,
+          title: question?.title ? question?.title : question?.question_languages?.filter(d => d?.default)?.[0]?.question?.substr(0, 50),
           subject: question?.subject?.subject_name ?? "Uncategorized",
           points: question?.points,
           negative_points: question?.negative_points,
@@ -162,19 +164,28 @@ const Question = () => {
                 }}
               >
                 <DataGrid
+                  rows={rows}
+                  columns={columns}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection
-                  disableSelectionOnClick
-                  pagination
+                  disableRowSelectionOnClick
+                  onRowSelectionModelChange={(data) => {
+                    setRowSelection(data)
+                  }}
+                  rowSelectionModel={rowSelection}
                   autoHeight
-                  rows={rows}
-                  columns={columns}
                   loading={isFetching}
-                  rowCount={1}
                   columnVisibilityModel={{
                     id: false,
+                  }}
+                  sx={{
+                    '& .PrivateSwitchBase-input': {
+                      height: '100% !important',
+                      width: '100% !important',
+                      margin: "0 !important",
+                    }
                   }}
                 />
               </Box>

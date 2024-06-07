@@ -123,6 +123,7 @@ const TypeMultipleChoice = (props) => {
               onChange={handleChange}
               value={index}
               sx={{
+                width: 'fit-content',
                 marginLeft: 0,
                 "& svg": {
                   height: "20px",
@@ -132,10 +133,6 @@ const TypeMultipleChoice = (props) => {
               componentsProps={{
                 typography: {
                   sx: {
-                    // fontWeight:
-                    //   props?.watch("view_answer") && data?.isCorrect
-                    //     ? "bold"
-                    //     : "initial",
                     "&.Mui-disabled": {
                       color: "initial !important",
                     },

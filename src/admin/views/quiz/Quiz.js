@@ -21,6 +21,7 @@ const Quiz = () => {
     pageSize: 10,
     page: 0,
   });
+  const [rowSelection, setRowSelection] = React.useState([]);
 
   const deleteMutation = DeleteQuizById();
   const deleteQuizById = (id) => {
@@ -151,19 +152,30 @@ const Quiz = () => {
                 }}
               >
                 <DataGrid
+                  rows={rows}
+                  columns={columns}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection
-                  disableSelectionOnClick
+                  disableRowSelectionOnClick
+                  onRowSelectionModelChange={(data) => {
+                    setRowSelection(data)
+                  }}
+                  rowSelectionModel={rowSelection}
                   pagination
                   autoHeight
-                  rows={rows}
-                  columns={columns}
                   loading={isFetching}
                   rowCount={data?.data?.total}
                   columnVisibilityModel={{
                     id: false,
+                  }}
+                  sx={{
+                    '& .PrivateSwitchBase-input': {
+                      height: '100% !important',
+                      width: '100% !important',
+                      margin: "0 !important",
+                    }
                   }}
                 />
               </Box>

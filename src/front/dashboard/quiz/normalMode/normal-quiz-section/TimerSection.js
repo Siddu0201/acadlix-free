@@ -1,6 +1,7 @@
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import React from "react";
 import Countdown from "react-countdown";
+import { secondsToHms } from "../../../../../helpers/util";
 
 const TimerSection = (props) => {
   const setRef = (countdown) => {
@@ -50,7 +51,7 @@ const TimerSection = (props) => {
                 margin: 1,
               }}
             >
-              Time Limit: {Math.ceil(prop?.total / 1000)}
+              Time Limit: {secondsToHms(Math.ceil(prop?.total / 1000))}
             </Typography>
             <LinearProgress
               variant="determinate"

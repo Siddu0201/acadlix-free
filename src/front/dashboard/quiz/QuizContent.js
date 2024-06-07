@@ -215,7 +215,7 @@ const QuizContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
+  console.log(methods?.watch());
   let countdownApi = null;
 
   const checkMode = () => {

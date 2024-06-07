@@ -13,7 +13,11 @@ const HintAndMessageSection = (props) => {
           marginY: 2,
           backgroundColor: props?.colorCode?.hint_background,
           boxShadow: theme?.shadows[1],
-          display : props?.watch(`questions.${props?.index}.hint`) ? "" : "none"
+          display:
+            props?.watch(`questions.${props?.index}.hint`) &&
+            props?.watch(`questions.${props?.index}.language`).filter(d => d?.selected )?.[0]?.hint_msg
+              ? ""
+              : "none",
         }}
       >
         <Box>
@@ -32,7 +36,7 @@ const HintAndMessageSection = (props) => {
           marginY: 2,
           backgroundColor: props?.colorCode?.hint_background,
           boxShadow: theme?.shadows[1],
-          display : props?.watch('view_answer') ? "" : "none"
+          display: props?.watch("view_answer") ? "" : "none",
         }}
       >
         <Box>
@@ -51,7 +55,7 @@ const HintAndMessageSection = (props) => {
           marginY: 2,
           backgroundColor: props?.colorCode?.hint_background,
           boxShadow: theme?.shadows[1],
-          display : props?.watch('view_answer') ? "" : "none"
+          display: props?.watch("view_answer") ? "" : "none",
         }}
       >
         <Box>

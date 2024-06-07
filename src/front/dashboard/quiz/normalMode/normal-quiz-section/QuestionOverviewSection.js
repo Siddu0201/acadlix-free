@@ -88,27 +88,31 @@ const QuestionOverviewSection = (props) => {
                   : props?.colorCode?.overview_button_border
               }`,
               boxShadow: d?.selected ? theme.shadows[3] : "none",
-              backgroundColor: d?.review && d?.result?.solved_count
-                ? props?.colorCode?.answered_and_review
-                : d?.review 
-                ? props?.colorCode?.review 
-                : d?.result?.solved_count 
-                ? props?.colorCode?.answered
-                : props?.colorCode?.overview_button_background,
-              color: d?.review || d?.result?.solved_count 
-                ? props?.colorCode?.overview_button_active_text
-                : props?.colorCode?.overview_button_text,
-              ":hover": {
-                backgroundColor: d?.review && d?.result?.solved_count
+              backgroundColor:
+                d?.review && d?.result?.solved_count
                   ? props?.colorCode?.answered_and_review
-                  : d?.review 
-                  ? props?.colorCode?.review 
-                  : d?.result?.solved_count 
+                  : d?.review
+                  ? props?.colorCode?.review
+                  : d?.result?.solved_count
                   ? props?.colorCode?.answered
                   : props?.colorCode?.overview_button_background,
-                color: d?.review || d?.result?.solved_count 
+              color:
+                d?.review || d?.result?.solved_count
                   ? props?.colorCode?.overview_button_active_text
                   : props?.colorCode?.overview_button_text,
+              ":hover": {
+                backgroundColor:
+                  d?.review && d?.result?.solved_count
+                    ? props?.colorCode?.answered_and_review
+                    : d?.review
+                    ? props?.colorCode?.review
+                    : d?.result?.solved_count
+                    ? props?.colorCode?.answered
+                    : props?.colorCode?.overview_button_background,
+                color:
+                  d?.review || d?.result?.solved_count
+                    ? props?.colorCode?.overview_button_active_text
+                    : props?.colorCode?.overview_button_text,
                 border: `1px solid ${
                   d?.selected
                     ? props?.colorCode?.overview_button_active_border
@@ -175,8 +179,22 @@ const QuestionOverviewSection = (props) => {
           },
         }}
       >
-        <CustomButton onClick={handleReview}>Review Question</CustomButton>
-        <CustomButton onClick={handleQuizOverView}>Quiz Summary</CustomButton>
+        <CustomButton
+          onClick={handleReview}
+          sx={{
+            display: props?.watch("finish") ? "none" : "",
+          }}
+        >
+          Review Question
+        </CustomButton>
+        <CustomButton
+          onClick={handleQuizOverView}
+          sx={{
+            display: props?.watch("finish") ? "none" : "",
+          }}
+        >
+          Quiz Summary
+        </CustomButton>
       </Box>
     </Box>
   );

@@ -165,7 +165,7 @@ const General = (props) => {
         <GridItem1 xs={12} lg={4}>
           <CustomTextField
             fullWidth
-            label="Timing (in sec)"
+            label="Timing (in sec, 0 => infinite)"
             size="small"
             type="number"
             value={props?.watch("quiz_time") ?? 0}

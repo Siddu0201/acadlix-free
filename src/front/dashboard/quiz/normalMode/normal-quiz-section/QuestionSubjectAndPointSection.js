@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { secondsToHms } from "../../../../../helpers/util";
 
 const QuestionSubjectAndPointSection = (props) => {
   return (
@@ -27,6 +28,12 @@ const QuestionSubjectAndPointSection = (props) => {
         <Box>
           <Typography>
             <b>{props?.question?.points} points</b>
+            {
+              props?.watch("view_answer") &&
+              <>
+               {" "} | <b>{secondsToHms(props?.question?.result?.time)}</b>
+              </>
+            }
           </Typography>
         </Box>
       </Box>
