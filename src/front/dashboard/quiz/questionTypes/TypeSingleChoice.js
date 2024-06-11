@@ -101,7 +101,7 @@ const TypeSingleChoice = (props) => {
                   ? props?.watch("answer_bullet_type") === "numeric"
                   ?
                   <Typography>
-                    {++index}.
+                    {index + 1}.
                   </Typography>
                   :
                   <Typography>

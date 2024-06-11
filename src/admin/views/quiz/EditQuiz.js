@@ -20,6 +20,7 @@ const EditQuiz = () => {
         quiz={data?.data?.quiz}
         categories={data?.data?.categories}
         languages={data?.data?.languages}
+        non_prerquisites={data?.data?.quizes}
       />
     </>
   );

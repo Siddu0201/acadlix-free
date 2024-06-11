@@ -69,6 +69,18 @@ export const updateQuestions = (questions = [], quiz={}) => {
 
 export const updateAnswer = (options = [], random = false, notlast= false) => {
     if(random){
+        if(notlast){
+            const arrayToShuffle = options.slice(0, options.length - 1);
+            for (let i = arrayToShuffle.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arrayToShuffle[i], arrayToShuffle[j]] = [arrayToShuffle[j], arrayToShuffle[i]];
+            }
+        
+            // Combine the shuffled array with the last element
+            const shuffledArray = arrayToShuffle.concat(options.slice(-1));
+        
+            return shuffledArray;
+        }
         for (let i = options.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [options[i], options[j]] = [options[j], options[i]];

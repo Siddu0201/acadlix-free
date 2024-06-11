@@ -58,22 +58,30 @@ const NormalQuiz = (props) => {
       {
         props?.watch('result') &&
         <>
-          <ResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
-          {/* <AverageResultSection
-            colorCode={colorCode}
-            isDesktop={isDesktop}
-            {...props}
-          /> */}
-          <SubjectResultSection
-            colorCode={colorCode}
-            isDesktop={isDesktop}
-            {...props}
-          />
-          <ResultTextSection
-            colorCode={colorCode}
-            isDesktop={isDesktop}
-            {...props}
-          />
+          {
+            !props?.watch('hide_result') &&
+            <>
+              <ResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
+              {/* <AverageResultSection
+                colorCode={colorCode}
+                isDesktop={isDesktop}
+                {...props}
+              /> */}
+              {
+                props?.watch("show_subject_wise_analysis") &&
+                <SubjectResultSection
+                  colorCode={colorCode}
+                  isDesktop={isDesktop}
+                  {...props}
+                />
+              }
+              <ResultTextSection
+                colorCode={colorCode}
+                isDesktop={isDesktop}
+                {...props}
+              />
+            </>
+          }
           <ViewButtonSection
             colorCode={colorCode}
             isDesktop={isDesktop}

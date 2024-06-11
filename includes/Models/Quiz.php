@@ -132,5 +132,10 @@ if(!class_exists('Quiz')){
             return $this->hasMany(Question::class, 'quiz_id', 'id');
         }
 
+        public function prerequisites()
+        {
+            return $this->hasMany(Prerequisite::class, 'quiz_id', 'id');
+        }
+
     }
 }

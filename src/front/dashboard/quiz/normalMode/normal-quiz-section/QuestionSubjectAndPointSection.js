@@ -38,7 +38,7 @@ const QuestionSubjectAndPointSection = (props) => {
               <b>{props?.question?.points} points</b>
             }
             {
-              props?.watch("view_answer") &&
+              props?.watch("view_answer") && props?.watch("show_per_question_time") &&
               <>
                {" "} | <b>{secondsToHms(props?.question?.result?.time)}</b>
               </>

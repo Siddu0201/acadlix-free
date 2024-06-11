@@ -113,6 +113,7 @@ class AdminQuizController {
         $res = [];
         $res['categories'] = Category::get();
         $res['languages'] = Language::get();
+        $res['quizes'] = Quiz::get();
         return rest_ensure_response( $res );
     }
 
@@ -121,6 +122,7 @@ class AdminQuizController {
         $params = $request->get_json_params();
         $quiz = Quiz::create($params);
         $quiz->quiz_languages()->createMany($params['language_data']);
+        $quiz->prerequisites()->createMany($params['prerequisite_data']);
         $res['quiz'] = $quiz;
         return rest_ensure_response($res);
     }
@@ -130,9 +132,10 @@ class AdminQuizController {
         $id = $request['quiz_id'];
         $res['quiz'] = Quiz::withCount(['questions' => function (Builder $query) {
             $query->where('online', 1);
-        }])->find($id);
+        }])->with(['prerequisites'])->find($id);
         $res['categories'] = Category::get();
         $res['languages'] = Language::get();
+        $res['quizes'] = Quiz::whereNot('id', $id)->get();
         return rest_ensure_response($res);
     }
     
@@ -150,6 +153,15 @@ class AdminQuizController {
         }
         $rowToDelete = $quiz->quiz_languages()->whereNotIn('language_id', array_column($params['language_data'], 'language_id'))->pluck('id');
         $quiz->quiz_languages()->whereIn('id', $rowToDelete)->delete();
+
+        foreach($params['prerequisite_data'] as $pre){
+            $quiz->prerequisites()->updateOrCreate(
+                ['prerequisite_quiz_id' => $pre['prerequisite_quiz_id']],
+                $pre
+                );
+        }
+        $rowToDelete = $quiz->prerequisites()->whereNotIn('prerequisite_quiz_id', array_column($params['prerequisite_data'], 'prerequisite_quiz_id'))->pluck('id');
+        $quiz->prerequisites()->whereIn('id', $rowToDelete)->delete();
         return rest_ensure_response($res);
     }
     

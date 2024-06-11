@@ -376,8 +376,8 @@ const General = (props) => {
                 overflow: "auto",
               }}
             >
-              {quiz?.length > 0 &&
-                quiz?.map((value, _) => {
+              {props?.watch("non_prerequisite_quiz")?.length > 0 &&
+                props?.watch("non_prerequisite_quiz")?.map((value, _) => {
                   const labelId = `transfer-list-all-item-${value?.title}-label`;
                   return (
                     <ListItem
@@ -404,22 +404,23 @@ const General = (props) => {
                           },
                         }}
                         onClick={(e) => {
-                          setQuiz(
-                            quiz?.map((val) => {
+                          props?.setValue(
+                            "non_prerequisite_quiz",
+                            props?.watch("non_prerequisite_quiz")?.map((val) => {
                               if (val?.id === value?.id) {
                                 val["show"] = false;
                               }
                               return val;
-                            })
+                            }),
+                            {shouldDirty: true}
                           );
                           props?.setValue(
                             "prerequisite_data",
                             [
                               ...props?.watch("prerequisite_data"),
                               {
-                                id: value?.id,
-                                title: value?.title,
-                                min_marks: 0,
+                                prerequisite_quiz_id: value?.id,
+                                min_percentage: 0,
                               },
                             ],
                             { shouldDirty: true }
@@ -460,13 +461,13 @@ const General = (props) => {
                 props?.watch("prerequisite_data")?.map((value, index) => {
                   const labelId = `transfer-list-all-item-${value?.title}-label`;
                   return (
-                    <ListItem key={value?.id}>
+                    <ListItem key={value?.prerequisite_quiz_id}>
                       <ListItemText
                         id={labelId}
                         primary={
-                          value?.title?.length > 20
-                            ? value?.title?.substring(0, 20) + "..."
-                            : value?.title
+                          props?.watch("non_prerequisite_quiz")?.filter(val => val?.id === value?.prerequisite_quiz_id)?.[0]?.title?.length > 20
+                            ? props?.watch("non_prerequisite_quiz")?.filter(val => val?.id === value?.prerequisite_quiz_id)?.[0]?.title?.substring(0, 20) + "..."
+                            : props?.watch("non_prerequisite_quiz")?.filter(val => val?.id === value?.prerequisite_quiz_id)?.[0]?.title
                         }
                       />
                       <CustomTextField
@@ -478,10 +479,10 @@ const General = (props) => {
                           maxWidth: "30%",
                           marginX: 2,
                         }}
-                        value={value?.min_marks ?? 0}
+                        value={value?.min_percentage ?? 0}
                         onChange={(e) => {
                           props?.setValue(
-                            `prerequisite_data.${index}.min_marks`,
+                            `prerequisite_data.${index}.min_percentage`,
                             e?.target?.value,
                             { shouldDirty: true }
                           );
@@ -498,19 +499,21 @@ const General = (props) => {
                           },
                         }}
                         onClick={(e) => {
-                          setQuiz(
-                            quiz?.map((val) => {
-                              if (val?.id === value?.id) {
+                          props?.setValue(
+                            "non_prerequisite_quiz",
+                            props?.watch("non_prerequisite_quiz")?.map((val) => {
+                              if (val?.id === value?.prerequisite_quiz_id) {
                                 val["show"] = true;
                               }
                               return val;
-                            })
+                            }),
+                            {shouldDirty: true}
                           );
                           props?.setValue(
                             "prerequisite_data",
                             props
                               ?.watch("prerequisite_data")
-                              ?.filter((val) => val?.id !== value?.id),
+                              ?.filter((val) => val?.prerequisite_quiz_id !== value?.prerequisite_quiz_id),
                             { shouldDirty: true }
                           );
                         }}

@@ -29,8 +29,14 @@ const ViewButtonSection = (props) => {
         !props?.watch("hide_restart_button") &&
         <CustomButton onClick={handleResetQuiz}>Restart Quiz</CustomButton>
       }
-      <CustomButton onClick={handleViewAnswer}>View Answer</CustomButton>
-      <CustomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
+      {
+        !props?.watch("hide_answer_sheet") &&
+        <CustomButton onClick={handleViewAnswer}>View Answer</CustomButton>
+      }
+      {
+        props?.watch("leaderboard") &&
+        <CustomButton  tomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
+      }
     </Box>
   );
 };
