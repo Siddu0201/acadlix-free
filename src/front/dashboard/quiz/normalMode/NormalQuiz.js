@@ -23,6 +23,7 @@ const NormalQuiz = (props) => {
     answered_and_review: "#674787",
     correct: '#56AB2F',
     incorrect: '#FF6B6B',
+    skipped: '#8f83f7',
     radio: "#0075ff",
     incorrect_number: "#f00",
     correct_number: "#6ca54c",

@@ -21,6 +21,7 @@ const CreateQuiz = () => {
         categories={data?.data?.categories}
         languages={data?.data?.languages}
         non_prerquisites={data?.data?.quizes}
+        isFetching={isFetching}
       />
     </>
   );

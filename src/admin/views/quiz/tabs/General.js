@@ -208,6 +208,9 @@ const General = (props) => {
               required={props?.watch("set_start_date")}
               label="Enter Start Date*"
               format="DD/MM/YYYY hh:mm:a"
+              timeSteps={{
+                minutes: 1
+              }}
               sx={{
                 ".MuiFormControl-root ": {
                   maxHeight: "42px",
@@ -362,7 +365,7 @@ const General = (props) => {
             <CardHeader
               title="Quiz"
               subheader={`${
-                quiz?.filter((val) => val?.show === true)?.length
+                props?.watch("non_prerequisite_quiz")?.filter((val) => val?.show === true)?.length
               } quizzes.`}
             />
             <Divider />

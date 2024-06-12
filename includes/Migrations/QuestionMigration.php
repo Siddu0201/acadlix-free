@@ -16,7 +16,7 @@ if(!class_exists('QuestionMigration')){
                     $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
                     $table->integer('sort')->unsigned()->default(1);
-                    $table->string('title');
+                    $table->string('title')->nullable();
                     $table->float('points')->default(1);
                     $table->float('negative_points')->default(0);
                     $table->boolean('different_points_for_each_answer')->default(0);

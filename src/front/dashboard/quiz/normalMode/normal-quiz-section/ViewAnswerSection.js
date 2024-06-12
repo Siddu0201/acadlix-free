@@ -2,7 +2,6 @@ import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
-import HintAndMessageSection from "./HintAndMessageSection";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
 import TypeMultipleChoice from "../../questionTypes/TypeMultipleChoice";
 import TypeTrueFalse from "../../questionTypes/TypeTrueFalse";
@@ -74,20 +73,16 @@ const ViewAnswerSection = (props) => {
                     ? props?.colorCode?.correct
                     : d?.result?.incorrect_count && d?.result?.solved_count
                     ? props?.colorCode?.incorrect
-                    : props?.colorCode?.overview_button_background,
-                color: d?.result?.solved_count
-                  ? props?.colorCode?.overview_button_active_text
-                  : props?.colorCode?.overview_button_text,
+                    : props?.colorCode?.skipped,
+                color: props?.colorCode?.overview_button_active_text,
                 ":hover": {
                   backgroundColor:
                     d?.result?.correct_count && d?.result?.solved_count
                       ? props?.colorCode?.correct
                       : d?.result?.incorrect_count && d?.result?.solved_count
                       ? props?.colorCode?.incorrect
-                      : props?.colorCode?.overview_button_background,
-                  color: d?.result?.solved_count
-                    ? props?.colorCode?.overview_button_active_text
-                    : props?.colorCode?.overview_button_text,
+                      : props?.colorCode?.skipped,
+                  color: props?.colorCode?.overview_button_active_text,
                   border: `1px solid ${
                     d?.selected
                       ? props?.colorCode?.overview_button_active_border
@@ -135,7 +130,7 @@ const ViewAnswerSection = (props) => {
           <Box
             sx={{
               marginTop: "5px",
-              backgroundColor: props?.colorCode?.overview_button_background,
+              backgroundColor: props?.colorCode?.skipped,
               height: "15px",
               width: "15px",
               marginX: "5px",

@@ -4,12 +4,31 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
+  Paper,
   TextField,
 } from "@mui/material";
 import React from "react";
+import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequest";
 
 const CategoryTemplateSection = (props) => {
+  const [input, setInput] = React.useState("");
+  const [categories, setCategories] = React.useState(props?.categories);
+  const updateMutation = PostCreateCategory();
+
+  const createCategory = () => {
+    updateMutation.mutate({category: input}, {
+      onSuccess: (data)=> {
+        setCategories(data?.data?.categories);
+        props?.setValue("category_id", data?.data?.category_id ??  null, {
+          shouldDirty: true,
+        });
+      }
+    })
+  }
+
+  
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -21,12 +40,12 @@ const CategoryTemplateSection = (props) => {
                 size="small"
                 value={
                   props?.watch("category_id") !== null
-                    ? props?.categories.filter(
+                    ? categories?.filter(
                         (option) => props?.watch("category_id") === option?.id
                       )?.[0]
                     : null
                 }
-                options={props?.categories ? props?.categories : []}
+                options={categories ? categories : []}
                 getOptionLabel={(option) => option?.category_name || ""}
                 isOptionEqualToValue={(option, value) =>
                   option?.id === value?.id
@@ -38,13 +57,38 @@ const CategoryTemplateSection = (props) => {
                       ...params.inputProps,
                       autoComplete: "spoc_gender",
                     }}
-                    label="Select Quiz Categories"
+                    label="Select Quiz Category"
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <React.Fragment>
+                          {updateMutation?.isPending ? <CircularProgress color="inherit" size={20} /> : null}
+                          {params.InputProps.endAdornment}
+                        </React.Fragment>
+                      ),
+                    }}
+                    onChange={(e) => setInput(e.target.value)}
                   />
                 )}
                 onChange={(_, newValue) => {
                   props?.setValue("category_id", newValue?.id ??  null, {
                     shouldDirty: true,
                   });
+                }}
+                PaperComponent={(data) => {
+                  return (
+                    <Paper>
+                      {data?.children}
+                      <Button
+                        color="primary"
+                        fullWidth
+                        sx={{ justifyContent: "flex-start", pl: 2 }}
+                        onMouseDown={createCategory}
+                      >
+                        + Add New
+                      </Button>
+                    </Paper>
+                  );
                 }}
               />
             </Grid>

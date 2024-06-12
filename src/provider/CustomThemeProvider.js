@@ -165,9 +165,9 @@ const CustomThemeProvider = ({ children }) => {
           "& .MuiSvgIcon-root": {
             height: 15,
             width: 15,
-          }
-        }
-      }
+          },
+        },
+      },
     },
   });
   return <ThemeProvider theme={themeOptions}>{children}</ThemeProvider>;

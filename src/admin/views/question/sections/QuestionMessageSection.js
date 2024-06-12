@@ -40,7 +40,7 @@ const QuestionMessageSection = (props) => {
     >
       <Card>
         <CardHeader
-          title={`Message with correct answer (${
+          title={`Explanation (${
             props?.lang?.language_name
           })`}
           titleTypographyProps={{
@@ -62,12 +62,15 @@ const QuestionMessageSection = (props) => {
                     props?.setValue("different_incorrect_msg", e.target.checked, {shouldDirty: true});
                   }} 
                   />}
-                label="Different Message with Correct and Incorrect Answer?"
+                label="Different Explanation for correct and incorrect answer?"
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
-              <Typography variant="subtitle2">Correct Message</Typography>
-            </Grid>
+            {
+              props?.watch("different_incorrect_msg") &&
+              <Grid item xs={12} lg={12}>
+                <Typography variant="subtitle2">Explanation for correct answer</Typography>
+              </Grid>
+            }
             <Grid item xs={12} lg={12}>
               <textarea
                 id={`correct_msg_${props?.lang?.language_id}`}
@@ -80,7 +83,7 @@ const QuestionMessageSection = (props) => {
             <Grid item xs={12} lg={12} sx={{
               display: props?.watch('different_incorrect_msg') ? "" : "none",
             }}>
-              <Typography variant="subtitle2">Incorrect Message</Typography>
+              <Typography variant="subtitle2">Explanation for incorrect answer</Typography>
             </Grid>
             <Grid item xs={12} lg={12} sx={{
               display: props?.watch('different_incorrect_msg') ? "" : "none",

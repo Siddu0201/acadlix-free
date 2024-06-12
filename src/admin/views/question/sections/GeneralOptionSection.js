@@ -1,15 +1,37 @@
 import {
   Autocomplete,
+  Button,
   Card,
   CardContent,
   CardHeader,
+  CircularProgress,
   Grid,
+  Paper,
   TextField,
 } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
+import { PostCreateSubject } from "../../../../requests/admin/AdminSubjectRequest";
 
 const GeneralOptionSection = (props) => {
+  const [input, setInput] = React.useState("");
+  const [subjects, setSubjects] = React.useState(props?.subjects);
+  const updateMutation = PostCreateSubject();
+
+  const createSubject = () => {
+    updateMutation.mutate(
+      { subject: input },
+      {
+        onSuccess: (data) => {
+          setSubjects(data?.data?.subjects);
+          props?.setValue("subject_id", data?.data?.subject_id ?? null, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
+  };
+
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -51,6 +73,15 @@ const GeneralOptionSection = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                sx={{
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={2}>
@@ -66,6 +97,15 @@ const GeneralOptionSection = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                sx={{
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -74,14 +114,14 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 value={
                   props?.watch("subject_id") !== null
-                    ? props?.subjects.filter(
+                    ? subjects.filter(
                         (option) => props?.watch("subject_id") === option?.id
                       )?.[0]
                     : null
                 }
-                options={props?.subjects ? props?.subjects : []}
+                options={subjects ? subjects : []}
                 getOptionLabel={(option) => option?.subject_name || ""}
-                isOptionEqualToValue={(option, value) => 
+                isOptionEqualToValue={(option, value) =>
                   option?.id === value?.id
                 }
                 renderInput={(params) => (
@@ -92,12 +132,39 @@ const GeneralOptionSection = (props) => {
                       autoComplete: "spoc_gender",
                     }}
                     label="Select Subject"
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <React.Fragment>
+                          {updateMutation?.isPending ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </React.Fragment>
+                      ),
+                    }}
+                    onChange={(e) => setInput(e.target.value)}
                   />
                 )}
                 onChange={(_, newValue) => {
                   props?.setValue("subject_id", newValue?.id ?? null, {
                     shouldDirty: true,
                   });
+                }}
+                PaperComponent={(data) => {
+                  return (
+                    <Paper>
+                      {data?.children}
+                      <Button
+                        color="primary"
+                        fullWidth
+                        sx={{ justifyContent: "flex-start", pl: 2 }}
+                        onMouseDown={createSubject}
+                      >
+                        + Add New
+                      </Button>
+                    </Paper>
+                  );
                 }}
               />
             </Grid>

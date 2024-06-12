@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { ImCross } from "react-icons/im";
 import { SiTicktick } from "react-icons/si";
+import parse from "html-react-parser";
 
 const TypeSingleChoice = (props) => {
   const handleChange = (e) => {
@@ -55,16 +56,17 @@ const TypeSingleChoice = (props) => {
   };
 
   const alphabate = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+  
   return (
     <Box
       sx={{
         display: props?.selected ? "block" : "none",
       }}
     >
-      <Typography>
-        {props?.question}
+      <Box>
+        {parse(props?.question)}
         <br />
-      </Typography>
+      </Box>
 
       <FormControl
         sx={{

@@ -79,7 +79,12 @@ class AdminCategoryController {
     }
 
     public function post_create_category($request) {
-        return rest_ensure_response($request->get_url_params());
+        $res = [];
+        $params = $request->get_json_params();
+        $category = Category::create(["category_name" => $params["category"]]);
+        $res['category_id'] = $category->id;
+        $res['categories'] = Category::get();
+        return rest_ensure_response($res);
     }
     
     public function get_category_by_id($request) {

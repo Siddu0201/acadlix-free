@@ -79,7 +79,12 @@ class AdminSubjectController {
     }
 
     public function post_create_subject($request) {
-        return rest_ensure_response("Create Subject");
+        $res = [];
+        $params = $request->get_json_params();
+        $subject = Subject::create(["subject_name" => $params["subject"]]);
+        $res['subject_id'] = $subject->id;
+        $res['subjects'] = Subject::get();
+        return rest_ensure_response($res);
     }
     
     public function get_subject_by_id($request) {
