@@ -10,7 +10,7 @@ const DescriptionSection = (props) => {
     props?.watch("set_start_date") &&
     current_date < props?.watch("start_date")
   ) {
-    return <ExpireDate />;
+    return <NotStarted {...props} />;
   }
 
   if (props?.watch("set_end_date") && current_date > props?.watch("end_date")) {
@@ -59,5 +59,13 @@ const DescriptionSection = (props) => {
     </Box>
   );
 };
+
+const NotStarted = (props) => {
+  return (
+    <Alert severity="error">{
+      `Quiz will start on ${props?.watch("start_date")} `
+    }</Alert>
+  )
+}
 
 export default DescriptionSection;

@@ -226,7 +226,7 @@ const OptionButtonSection = (props) => {
           !props?.watch(`questions.${props?.index}.check`) && (
             <CustomButton onClick={handleCheckClick}>Check</CustomButton>
           )}
-        <CustomButton onClick={handleNextClick}>Next</CustomButton>
+        <CustomButton onClick={handleNextClick}>{props?.last ? "Quiz Summary" : "Next"}</CustomButton>
       </Box>
     </Box>
   );

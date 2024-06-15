@@ -56,6 +56,22 @@ const TypeSingleChoice = (props) => {
   };
 
   const alphabate = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+  const renderShortcode = (content) => {
+    // Regular expression to find audio shortcode
+    const audioRegex = /\[audio\s+src="([^"]+)"\s*\]/g;
+    const matches = content.match(audioRegex);
+    console.log(content ,matches);
+
+    if (matches) {
+      return matches.map((match, index) => {
+        // Extract audio URL from shortcode
+        const src = match.match(/src="([^"]+)"/)[1];
+        return <audio key={index} controls><source src={src} type="audio/mpeg" /></audio>;
+      });
+    } else {
+      return <p>No audio found.</p>;
+    }
+  };
   
   return (
     <Box
@@ -63,10 +79,11 @@ const TypeSingleChoice = (props) => {
         display: props?.selected ? "block" : "none",
       }}
     >
-      <Box>
-        {parse(props?.question)}
+      <div dangerouslySetInnerHTML={{ __html: props?.question }} />
+      {/* <Box>
+        {renderShortcode(props?.question)}
         <br />
-      </Box>
+      </Box> */}
 
       <FormControl
         sx={{
@@ -124,7 +141,7 @@ const TypeSingleChoice = (props) => {
                         display: "flex",
                       }}
                     >
-                      <Typography>{data?.option}</Typography>
+                      <Typography>{parse(data?.option)}</Typography>
                       <Box
                         sx={{
                           position: "relative",

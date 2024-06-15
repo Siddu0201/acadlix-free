@@ -17,25 +17,21 @@ function Numerical(props) {
         }}
       >
         <CustomTextField
-          {
-            ...props?.register(
-              `language.${props?.index}.answer_data.${props?.type}.option`,
-              {
-                valueAsNumber: true,
-                required: {
-                  value: props?.watch(
-                    `language.${props?.index}.default`
-                  ),
-                  message: "Required",
-                }
-              }
-            )
-          }
+          {...props?.register(
+            `language.${props?.index}.answer_data.${props?.type}.option`,
+            {
+              valueAsNumber: true,
+              required: {
+                value: props?.watch(`language.${props?.index}.default`),
+                message: "Required",
+              },
+            }
+          )}
           size="small"
           type="number"
           label="Enter number"
           inputProps={{
-            step: 0.000001
+            step: 0.000001,
           }}
           value={props?.lang?.answer_data?.[props?.type]?.option}
           onChange={(e) => {
@@ -47,11 +43,25 @@ function Numerical(props) {
               );
             });
           }}
-          error={Boolean(props.formState?.errors?.language?.[props?.index]
-            ?.answer_data?.[props?.type]?.option)}
-          helperText={props.formState.errors?.language?.[props?.index]
-            ?.answer_data?.[props?.type]?.option
-            ?.message} 
+          sx={{
+            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+              {
+                display: "none",
+              },
+            "& input[type=number]": {
+              MozAppearance: "textfield",
+            },
+          }}
+          error={Boolean(
+            props.formState?.errors?.language?.[props?.index]?.answer_data?.[
+              props?.type
+            ]?.option
+          )}
+          helperText={
+            props.formState.errors?.language?.[props?.index]?.answer_data?.[
+              props?.type
+            ]?.option?.message
+          }
         />
       </CardContent>
     </Card>

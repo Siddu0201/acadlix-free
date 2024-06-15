@@ -19,20 +19,16 @@ function RangeType(props) {
         <Grid container spacing={4}>
           <Grid item xs={12} lg={6}>
             <CustomTextField
-              {
-                ...props?.register(
-                  `language.${props?.index}.answer_data.${props?.type}.from`,
-                  {
-                    valueAsNumber: true,
-                    required: {
-                      value: props?.watch(
-                        `language.${props?.index}.default`
-                      ),
-                      message: "Required",
-                    }
-                  }
-                )
-              }
+              {...props?.register(
+                `language.${props?.index}.answer_data.${props?.type}.from`,
+                {
+                  valueAsNumber: true,
+                  required: {
+                    value: props?.watch(`language.${props?.index}.default`),
+                    message: "Required",
+                  },
+                }
+              )}
               fullWidth
               size="small"
               label="Range From"
@@ -50,30 +46,43 @@ function RangeType(props) {
                   );
                 });
               }}
-              error={Boolean(props.formState?.errors?.language?.[props?.index]
-                ?.answer_data?.[props?.type]?.from)}
-              helperText={props.formState.errors?.language?.[props?.index]
-                ?.answer_data?.[props?.type]?.from
-                ?.message} 
+              sx={{
+                "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                  {
+                    display: "none",
+                  },
+                "& input[type=number]": {
+                  MozAppearance: "textfield",
+                },
+              }}
+              error={Boolean(
+                props.formState?.errors?.language?.[props?.index]
+                  ?.answer_data?.[props?.type]?.from
+              )}
+              helperText={
+                props.formState.errors?.language?.[props?.index]?.answer_data?.[
+                  props?.type
+                ]?.from?.message
+              }
             />
           </Grid>
           <Grid item xs={12} lg={6}>
             <CustomTextField
-              {
-                ...props?.register(
-                  `language.${props?.index}.answer_data.${props?.type}.to`,
-                  {
-                    valueAsNumber: true,
-                    required: {
-                      value: props?.watch(
-                        `language.${props?.index}.default`
-                      ),
-                      message: "Required",
-                    },
-                    validate: value => value > props?.watch(`language.${props?.index}.answer_data.${props?.type}.from`) || 'Must be greater than from'
-                  }
-                )
-              }
+              {...props?.register(
+                `language.${props?.index}.answer_data.${props?.type}.to`,
+                {
+                  valueAsNumber: true,
+                  required: {
+                    value: props?.watch(`language.${props?.index}.default`),
+                    message: "Required",
+                  },
+                  validate: (value) =>
+                    value >
+                      props?.watch(
+                        `language.${props?.index}.answer_data.${props?.type}.from`
+                      ) || "Must be greater than from",
+                }
+              )}
               fullWidth
               size="small"
               label="Range To"
@@ -91,11 +100,24 @@ function RangeType(props) {
                   );
                 });
               }}
-              error={Boolean(props.formState?.errors?.language?.[props?.index]
-                ?.answer_data?.[props?.type]?.to)}
-              helperText={props.formState.errors?.language?.[props?.index]
-                ?.answer_data?.[props?.type]?.to
-                ?.message} 
+              sx={{
+                "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                  {
+                    display: "none",
+                  },
+                "& input[type=number]": {
+                  MozAppearance: "textfield",
+                },
+              }}
+              error={Boolean(
+                props.formState?.errors?.language?.[props?.index]
+                  ?.answer_data?.[props?.type]?.to
+              )}
+              helperText={
+                props.formState.errors?.language?.[props?.index]?.answer_data?.[
+                  props?.type
+                ]?.to?.message
+              }
             />
           </Grid>
         </Grid>

@@ -9,7 +9,7 @@ const TypeNumerical = (props) => {
     props?.setValue(
       `questions.${props?.index}.language`,
       props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-        lang.answer_data[props?.type].yourAnswer = e.target.value;
+        lang.answer_data[props?.type].yourAnswer = Number(e.target.value);
         return lang;
       }),
       { shouldDirty: true }
@@ -77,6 +77,13 @@ const TypeNumerical = (props) => {
             }}
             sx={{
               marginY: 2,
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
             }}
             onChange={handleChange}
             value={props?.answer_data?.[props?.type]?.yourAnswer}

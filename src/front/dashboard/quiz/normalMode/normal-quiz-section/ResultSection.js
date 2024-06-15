@@ -53,7 +53,7 @@ const ResultSection = (props) => {
           fontSize: 24,
         }}
       >
-        Your have Completed "
+        You have Completed "
         <Typography
           component="span"
           sx={{
@@ -193,7 +193,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                40%
+                40
               </Typography>
               <Typography variant="h7">Percentile</Typography>
             </Box>
