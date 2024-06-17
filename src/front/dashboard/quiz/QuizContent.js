@@ -10,6 +10,7 @@ import {
   updateAnswer,
   updateQuestions,
 } from "../../../helpers/util";
+import { PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -17,9 +18,10 @@ const QuizContent = (props) => {
       start: false,
       view_question: false,
       finsih: false,
-      result: false,
+      view_result: false,
       view_answer: false,
       view_leaderboard: false,
+      user_id: acadlixOptions?.user_id,
       id: props?.quiz?.id,
       category: props?.quiz?.category?.category_name ?? "Uncategorized",
       title: props?.quiz?.title,
@@ -56,6 +58,7 @@ const QuizContent = (props) => {
       login_register_type: props?.quiz?.login_register_type, // at_start_of_quiz/at_finish_of_quiz
       per_user_allowed_attempt: props?.quiz?.per_user_allowed_attempt, // 0 => infinity
       save_statistic: Boolean(Number(props?.quiz?.save_statistic)),
+      statistic_ip_lock: Number(props?.quiz?.statistic_ip_lock),
       save_statistic_number_of_times:
         props?.quiz?.save_statistic_number_of_times, // 0 =>  infinity
       on_screen_calculator: Boolean(Number(props?.quiz?.on_screen_calculator)),
@@ -258,13 +261,49 @@ const QuizContent = (props) => {
   console.log(methods?.watch());
   let countdownApi = null;
 
+  const saveResultMutation = PostSaveResultById(props?.quiz?.id);
+  const saveResult = () => {
+    const points = methods?.watch("questions")?.reduce((total, d) => {
+      if (d?.result?.solved_count && d?.result?.correct_count) {
+        return total + Number(d?.points);
+      } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
+        return total - Number(d?.negative_points);
+      } else {
+        return total;
+      }
+    }, 0);
+    const total = methods
+      ?.watch("questions")
+      ?.reduce((total, d) => total + Number(d?.points), 0);
+    let data = {
+      points: points,
+      result: ((points / total) * 100).toFixed(2),
+      time_taken: methods
+        ?.watch("questions")
+        .reduce((total, d) => total + d?.result?.time, 0),
+      ...methods.watch(),
+    };
+
+    saveResultMutation?.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data?.data);
+      },
+    });
+  };
+
   const checkMode = () => {
     switch (methods?.watch("mode")) {
       case "normal":
       case "check_and_continue":
       case "question_below_each_other":
         return (
-          <NormalQuizMode {...methods} {...props} countdownApi={countdownApi} />
+          <NormalQuizMode
+            {...methods}
+            {...props}
+            countdownApi={countdownApi}
+            saveResult={saveResult}
+            isPending={saveResultMutation?.isPending}
+          />
         );
       case "advance_mode":
         return (
@@ -272,11 +311,19 @@ const QuizContent = (props) => {
             {...methods}
             {...props}
             countdownApi={countdownApi}
+            saveResult={saveResult}
+            isPending={saveResultMutation?.isPending}
           />
         );
       default:
         return (
-          <NormalQuizMode {...methods} {...props} countdownApi={countdownApi} />
+          <NormalQuizMode
+            {...methods}
+            {...props}
+            countdownApi={countdownApi}
+            saveResult={saveResult}
+            isPending={saveResultMutation?.isPending}
+          />
         );
     }
   };

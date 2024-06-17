@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts'
 import React from 'react'
 
-const QuestionReportChart = ({ skipped, correct, incorrect }) => {
+const QuestionReportChart = (props) => {
   return (
     <Box 
     sx={{ 
@@ -15,9 +15,9 @@ const QuestionReportChart = ({ skipped, correct, incorrect }) => {
         series={[
           {
             data: [
-              { id: 0, value: correct, label: "Correct %" },
-              { id: 1, value: incorrect, label: "Incorrect %" },
-              { id: 2, value: skipped, label: "Skipped %" },
+              { id: 0, value: props?.correct, label: "Correct %", color: props?.colorCode?.correct  },
+              { id: 1, value: props?.incorrect, label: "Incorrect %", color: props?.colorCode?.incorrect },
+              { id: 2, value: props?.skipped, label: "Skipped %", color: props?.colorCode?.skipped },
             ],
             arcLabel: (item) => `${item.value} %`,
             arcLabelMinAngle: 45,

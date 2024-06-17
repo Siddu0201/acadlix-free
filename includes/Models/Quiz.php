@@ -36,6 +36,7 @@ if(!class_exists('Quiz')){
             "login_register_type",
             "per_user_allowed_attempt",
             "save_statistic",
+            "statistic_ip_lock",
             "save_statistic_number_of_times",
             "on_screen_calculator",
             "quiz_certificate",

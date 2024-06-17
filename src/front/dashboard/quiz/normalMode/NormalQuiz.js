@@ -45,6 +45,7 @@ const NormalQuiz = (props) => {
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  console.log(acadlixOptions.user_id);
 
   return (
     <Container
@@ -57,7 +58,7 @@ const NormalQuiz = (props) => {
       }}
     >
       {
-        props?.watch('result') &&
+        props?.watch('view_result') &&
         <>
           {
             !props?.watch('hide_result') &&

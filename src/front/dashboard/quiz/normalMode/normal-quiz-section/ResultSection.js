@@ -15,6 +15,7 @@ import ScoreChart from "./charts/ScoreChart";
 import { secondsToHms } from "../../../../../helpers/util";
 
 const ResultSection = (props) => {
+  
   const result = props?.watch("questions")?.reduce((total, d) => {
     if (d?.result?.solved_count && d?.result?.correct_count) {
       return total + Number(d?.points);
@@ -219,6 +220,7 @@ const ResultSection = (props) => {
       >
         <Grid item xs={6} md={6}>
           <QuestionReportChart
+            {...props}
             skipped={(
               (props
                 ?.watch("questions")

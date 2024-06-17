@@ -17,6 +17,8 @@ import {
   ListItemText,
   ListItem,
   Button,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import GridItem1 from "../../../../components/GridItem1";
@@ -26,6 +28,9 @@ import { FaMinus } from "react-icons/fa";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { BsQuestion } from "react-icons/bs";
+import { RiQuestionFill } from "react-icons/ri";
 
 const General = (props) => {
   const [quiz, setQuiz] = React.useState([
@@ -209,7 +214,7 @@ const General = (props) => {
               label="Enter Start Date*"
               format="DD/MM/YYYY hh:mm:a"
               timeSteps={{
-                minutes: 1
+                minutes: 1,
               }}
               sx={{
                 ".MuiFormControl-root ": {
@@ -225,7 +230,11 @@ const General = (props) => {
                   top: "0px !important",
                 },
               }}
-              value={props?.watch("start_date") ? dayjs(props?.watch("start_date")) : null}
+              value={
+                props?.watch("start_date")
+                  ? dayjs(props?.watch("start_date"))
+                  : null
+              }
               onChange={(value) => {
                 props?.setValue("start_date", new Date(value?.$d), {
                   shouldDirty: true,
@@ -287,7 +296,11 @@ const General = (props) => {
                 },
               }}
               format="DD/MM/YYYY hh:mm:a"
-              value={props?.watch("end_date") ? dayjs(props?.watch("end_date")) : null}
+              value={
+                props?.watch("end_date")
+                  ? dayjs(props?.watch("end_date"))
+                  : null
+              }
               onChange={(value) => {
                 props?.setValue("end_date", new Date(value?.$d), {
                   shouldDirty: true,
@@ -365,7 +378,9 @@ const General = (props) => {
             <CardHeader
               title="Quiz"
               subheader={`${
-                props?.watch("non_prerequisite_quiz")?.filter((val) => val?.show === true)?.length
+                props
+                  ?.watch("non_prerequisite_quiz")
+                  ?.filter((val) => val?.show === true)?.length
               } quizzes.`}
             />
             <Divider />
@@ -409,13 +424,15 @@ const General = (props) => {
                         onClick={(e) => {
                           props?.setValue(
                             "non_prerequisite_quiz",
-                            props?.watch("non_prerequisite_quiz")?.map((val) => {
-                              if (val?.id === value?.id) {
-                                val["show"] = false;
-                              }
-                              return val;
-                            }),
-                            {shouldDirty: true}
+                            props
+                              ?.watch("non_prerequisite_quiz")
+                              ?.map((val) => {
+                                if (val?.id === value?.id) {
+                                  val["show"] = false;
+                                }
+                                return val;
+                              }),
+                            { shouldDirty: true }
                           );
                           props?.setValue(
                             "prerequisite_data",
@@ -468,9 +485,24 @@ const General = (props) => {
                       <ListItemText
                         id={labelId}
                         primary={
-                          props?.watch("non_prerequisite_quiz")?.filter(val => val?.id === value?.prerequisite_quiz_id)?.[0]?.title?.length > 20
-                            ? props?.watch("non_prerequisite_quiz")?.filter(val => val?.id === value?.prerequisite_quiz_id)?.[0]?.title?.substring(0, 20) + "..."
-                            : props?.watch("non_prerequisite_quiz")?.filter(val => val?.id === value?.prerequisite_quiz_id)?.[0]?.title
+                          props
+                            ?.watch("non_prerequisite_quiz")
+                            ?.filter(
+                              (val) => val?.id === value?.prerequisite_quiz_id
+                            )?.[0]?.title?.length > 20
+                            ? props
+                                ?.watch("non_prerequisite_quiz")
+                                ?.filter(
+                                  (val) =>
+                                    val?.id === value?.prerequisite_quiz_id
+                                )?.[0]
+                                ?.title?.substring(0, 20) + "..."
+                            : props
+                                ?.watch("non_prerequisite_quiz")
+                                ?.filter(
+                                  (val) =>
+                                    val?.id === value?.prerequisite_quiz_id
+                                )?.[0]?.title
                         }
                       />
                       <CustomTextField
@@ -504,19 +536,25 @@ const General = (props) => {
                         onClick={(e) => {
                           props?.setValue(
                             "non_prerequisite_quiz",
-                            props?.watch("non_prerequisite_quiz")?.map((val) => {
-                              if (val?.id === value?.prerequisite_quiz_id) {
-                                val["show"] = true;
-                              }
-                              return val;
-                            }),
-                            {shouldDirty: true}
+                            props
+                              ?.watch("non_prerequisite_quiz")
+                              ?.map((val) => {
+                                if (val?.id === value?.prerequisite_quiz_id) {
+                                  val["show"] = true;
+                                }
+                                return val;
+                              }),
+                            { shouldDirty: true }
                           );
                           props?.setValue(
                             "prerequisite_data",
                             props
                               ?.watch("prerequisite_data")
-                              ?.filter((val) => val?.prerequisite_quiz_id !== value?.prerequisite_quiz_id),
+                              ?.filter(
+                                (val) =>
+                                  val?.prerequisite_quiz_id !==
+                                  value?.prerequisite_quiz_id
+                              ),
                             { shouldDirty: true }
                           );
                         }}
@@ -595,7 +633,16 @@ const General = (props) => {
         </GridItem1>
 
         {/* Per user allowed attempt to attent the quiz */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={3}>
+          <Tooltip title="Sets allowed attempts (0 = unlimited); requires login at quiz start." placement="right-start">
+            <IconButton
+              sx={{
+                fontSize: "1.25rem",
+              }}
+            >
+              <RiQuestionFill />
+            </IconButton>
+          </Tooltip>
           <CustomTextField
             label="Per User Allowed Attempt"
             variant="outlined"
@@ -607,12 +654,24 @@ const General = (props) => {
               });
             }}
             value={props?.watch("per_user_allowed_attempt") ?? 0}
-            disabled={!props?.watch("enable_login_register")}
+            disabled={
+              !props?.watch("enable_login_register") ||
+              props?.watch("login_register_type") === "at_finish_of_quiz"
+            }
           />
         </GridItem1>
 
         {/* Save Statistic */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={3}>
+          <Tooltip title="Used to save statistic">
+            <IconButton
+              sx={{
+                fontSize: "1.25rem",
+              }}
+            >
+              <RiQuestionFill />
+            </IconButton>
+          </Tooltip>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -633,8 +692,28 @@ const General = (props) => {
           />
         </GridItem1>
 
+        {/* Statistic ip Lock */}
+        <GridItem1 xs={12} lg={3}>
+          <CustomTextField
+            label="Statistic IP Lock"
+            variant="outlined"
+            size="small"
+            type="number"
+            onChange={(e) => {
+              props?.setValue("statistic_ip_lock", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+            value={props?.watch("statistic_ip_lock") ?? 0}
+            disabled={
+              !props?.watch("enable_login_register") ||
+              !props?.watch("save_statistic")
+            }
+          />
+        </GridItem1>
+
         {/* Number of time statistic saved per user (0 => infinity) */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={3}>
           <CustomTextField
             label="Save statistic no. of times"
             variant="outlined"

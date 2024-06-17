@@ -17,8 +17,14 @@ if(!class_exists('StatisticRef')){
             "quiz_time"
         ];
 
+        protected $with = ['statistics'];
+
         public function quiz(){
             return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
+        }
+
+        public function statistics(){
+            return $this->hasMany(Statistic::class, "statistic_ref_id", "id");
         }
 
     }

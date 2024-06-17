@@ -38,6 +38,7 @@ if(!class_exists('QuizMigration')){
                     $table->string('login_register_type')->nullable()->default('at_start_of_quiz')->comment('at_start_of_quiz/at_finish_of_quiz');
                     $table->integer('per_user_allowed_attempt')->unsigned()->default(0)->comment('0 => Infinity (no limit)');
                     $table->boolean('save_statistic')->default(0);
+                    $table->integer('statistic_ip_lock')->default(0);
                     $table->integer('save_statistic_number_of_times')->unsigned()->default(0)->comment('0 => Infinity (no limit)');
                     $table->boolean('on_screen_calculator')->default(0);
                     $table->boolean('quiz_certificate')->default(0);
@@ -117,6 +118,17 @@ if(!class_exists('QuizMigration')){
         public function down()
         {
             Manager::schema()->dropIfExists('quiz');
+        }
+
+        public function update()
+        {
+            if(!Manager::schema()->hasColumn('quiz', 'statistic_ip_lock')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->after('save_statistic', function($table){
+                        $table->integer('statistic_ip_lock')->default(0);
+                    });
+                });
+            }
         }
     }
 }

@@ -15,6 +15,10 @@ use Yuvayana\Acadlix\Migrations\QuestionLangMigration;
 use Yuvayana\Acadlix\Migrations\PrerequisiteMigration;
 use Yuvayana\Acadlix\Migrations\StatisticRefMigration;
 use Yuvayana\Acadlix\Migrations\StatisticMigration;
+use Yuvayana\Acadlix\Migrations\ToplistMigration;
+use Yuvayana\Acadlix\Migrations\QuizAttemptMigration;
+use Yuvayana\Acadlix\Migrations\AnswerOptionMigration;
+use Yuvayana\Acadlix\Migrations\QuizOptionMigration;
 
 if(!class_exists('Migration')){
     class Migration 
@@ -32,6 +36,10 @@ if(!class_exists('Migration')){
             PrerequisiteMigration::class,
             StatisticRefMigration::class,
             StatisticMigration::class,
+            ToplistMigration::class,
+            QuizAttemptMigration::class,
+            AnswerOptionMigration::class,
+            QuizOptionMigration::class,
         ];
     
     
@@ -41,6 +49,11 @@ if(!class_exists('Migration')){
                 if(method_exists($table_class, 'up')){
                     $table = new $table_class();
                     $table->up();
+                }
+
+                if(method_exists($table_class, 'update')){
+                    $table = new $table_class();
+                    $table->update();
                 }
             }
         }

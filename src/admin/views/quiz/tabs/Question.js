@@ -112,7 +112,7 @@ const Question = (props) => {
               <FormControlLabel
                 value="alphabet"
                 control={<Radio />}
-                label="Albhabet"
+                label="Alphabet"
                 checked={props?.watch("answer_bullet_type") === "alphabet"}
                 disabled={!props?.watch("answer_bullet")}
               />
@@ -228,7 +228,7 @@ const Question = (props) => {
                   }}
                 />
               }
-              label="Sort By Subject"
+              label="Sort Questions By Subject"
             />
           </GridItem1>
 
