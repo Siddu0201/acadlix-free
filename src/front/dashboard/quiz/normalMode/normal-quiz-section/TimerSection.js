@@ -43,6 +43,7 @@ const TimerSection = (props) => {
           );
           props?.setValue('view_question', false, {shouldDirty: true});
           props?.setValue('view_result', true, {shouldDirty: true});
+          props?.saveResult();
         }}
         renderer={(prop) => {
           return (

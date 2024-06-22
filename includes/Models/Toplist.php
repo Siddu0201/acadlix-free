@@ -16,7 +16,10 @@ if(!class_exists('Toplist')){
             "email",
             "points",
             "result",
-            "ip"
+            "ip",
+            "quiz_time",
+            "accuracy",
+            "status",
         ];
 
     }

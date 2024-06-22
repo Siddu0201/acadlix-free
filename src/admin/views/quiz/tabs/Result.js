@@ -39,13 +39,11 @@ const Result = (props) => {
             - Show Speed 
             - Show Percentile 
             - Show Accuracy % 
-            - Show Rank 
             - Show Average Score
             - Show Subject Wise Analysis 
             - Show Marks Distribution 
             - Show Status Based on min %
             - Minimum % to pass 
-            - Result Comparison with top 5 Students
           */}
         <GridItem1 xs={12} lg={12}>
           <Typography variant="h6">Result Options</Typography>
@@ -180,28 +178,6 @@ const Result = (props) => {
           />
         </GridItem1>
 
-        {/* Used to show rank  */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("show_rank") ?? false}
-                onChange={(e) => {
-                  props?.setValue("show_rank", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Show Rank"
-            disabled={
-              props?.watch("hide_result") ||
-              (props?.watch("mode") === "advance_mode" &&
-                props?.watch("advance_mode_type") !== "advance_panel")
-            }
-          />
-        </GridItem1>
-
         {/* Used to Show Average Score  */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
@@ -317,33 +293,6 @@ const Result = (props) => {
             disabled={
               props?.watch("hide_result") ||
               !props?.watch("show_status_based_on_min_percent")
-            }
-          />
-        </GridItem1>
-
-        {/* Option for Result Comparision with top 5 student    */}
-        <GridItem1 xs={12} lg={12}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={
-                  props?.watch("result_comparision_with_top_five_student") ??
-                  false
-                }
-                onChange={(e) => {
-                  props?.setValue(
-                    "result_comparision_with_top_five_student",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-              />
-            }
-            label="Result Comparison with top 5 Students"
-            disabled={
-              props?.watch("hide_result") ||
-              (props?.watch("mode") === "advance_mode" &&
-                props?.watch("advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -478,6 +427,8 @@ const Result = (props) => {
 
         {/* 
           Options for Leaderboard contains
+            - show rank
+            - result comparision with topper
             - total number of entries
             - Users can apply multiple times (on selection show field for number of time 0 as default for infinity)
             - Number of times user can apply
@@ -486,7 +437,7 @@ const Result = (props) => {
         <GridItem1 xs={12} lg={12}>
           <Typography variant="h6">Leaderboard Options</Typography>
         </GridItem1>
-        <GridItem1 xs={12} lg={12}>
+        <GridItem1 xs={12} lg={4}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -503,6 +454,67 @@ const Result = (props) => {
               props?.watch("mode") === "advance_mode" &&
               props?.watch("advance_mode_type") !== "advance_panel"
             }
+          />
+        </GridItem1>
+
+        {/* Used to show rank  */}
+        <GridItem1 xs={12} lg={4}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={props?.watch("show_rank") ?? false}
+                onChange={(e) => {
+                  props?.setValue("show_rank", e?.target?.checked, {
+                    shouldDirty: true,
+                  });
+                  props?.setValue(
+                    "leaderboard_user_can_apply_multiple_times",
+                    true,
+                    {shouldDirty: true}
+                  );
+                  props?.setValue(
+                    "leaderboard_apply_multiple_number_of_times",
+                    0,
+                    {shouldDirty: true}
+                  );
+                }}
+              />
+            }
+            label="Show Rank"
+            disabled={!props?.watch("leaderboard")}
+          />
+        </GridItem1>
+
+         {/* Option for Result Comparision with top 5 student    */}
+         <GridItem1 xs={12} lg={4}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={
+                  props?.watch("result_comparision_with_topper") ??
+                  false
+                }
+                onChange={(e) => {
+                  props?.setValue(
+                    "result_comparision_with_topper",
+                    e?.target?.checked,
+                    { shouldDirty: true }
+                  );
+                  props?.setValue(
+                    "leaderboard_user_can_apply_multiple_times",
+                    true,
+                    {shouldDirty: true}
+                  );
+                  props?.setValue(
+                    "leaderboard_apply_multiple_number_of_times",
+                    0,
+                    {shouldDirty: true}
+                  );
+                }}
+              />
+            }
+            label="Result Comparison with topper"
+            disabled={!props?.watch("leaderboard")}
           />
         </GridItem1>
 
@@ -544,7 +556,7 @@ const Result = (props) => {
               />
             }
             label="User can apply multiple times"
-            disabled={!props?.watch("leaderboard")}
+            disabled={!props?.watch("leaderboard") || props?.watch("show_rank") || props?.watch("result_comparision_with_topper")}
           />
         </GridItem1>
 
@@ -568,6 +580,7 @@ const Result = (props) => {
             disabled={
               !props?.watch("leaderboard") ||
               !props?.watch("leaderboard_user_can_apply_multiple_times")
+              || props?.watch("show_rank") || props?.watch("result_comparision_with_topper")
             }
           />
         </GridItem1>

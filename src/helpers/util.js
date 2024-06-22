@@ -62,7 +62,20 @@ export const updateQuestions = (questions = [], quiz={}) => {
             const j = Math.floor(Math.random() * (i + 1));
             [questions[i], questions[j]] = [questions[j], questions[i]];
         }
+        if(Boolean(Number(quiz?.sort_by_subject))){
+            questions = [...questions?.map(a => {
+                a.subject_name = a?.subject?.subject_name ?? 'Uncategorized';
+                return a;
+            })?.sort((a, b) => a?.subject_name?.localeCompare(b?.subject_name))]
+        }
         return questions;
+    }
+    if(Boolean(Number(quiz?.sort_by_subject))){
+        questions = [...questions?.map(a => {
+            let data = [...a];
+            data.subject_name = a?.subject?.subject_name ?? 'Uncategorized';
+            return data;
+        })?.sort((a, b) => a?.subject_name?.localeCompare(b?.subject_name))]
     }
     return questions;
 }

@@ -13,6 +13,7 @@ import { useTheme } from "@emotion/react";
 import TimerSection from "./normal-quiz-section/TimerSection";
 import FinishSection from "./normal-quiz-section/FinishSection";
 import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
+import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSection";
 
 const NormalQuiz = (props) => {
   const colorCode = {
@@ -45,7 +46,6 @@ const NormalQuiz = (props) => {
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-  console.log(acadlixOptions.user_id);
 
   return (
     <Container
@@ -84,13 +84,21 @@ const NormalQuiz = (props) => {
               />
             </>
           }
+           {
+            props?.watch('leaderboard') && props?.watch("display_leaderboard_in_quiz_result") === "below_the_result" &&
+            <LeaderboardSection
+              colorCode={colorCode}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          }
           <ViewButtonSection
             colorCode={colorCode}
             isDesktop={isDesktop}
             {...props}
           />
           {
-            props?.watch('view_leaderboard') &&
+            props?.watch('view_leaderboard') && props?.watch("display_leaderboard_in_quiz_result") === "in_the_button" &&
             <LeaderboardSection
               colorCode={colorCode}
               isDesktop={isDesktop}
@@ -111,12 +119,28 @@ const NormalQuiz = (props) => {
         props?.watch('view_question') &&
         <>
           {
-            props?.watch('quiz_time') > 0 &&
+            props?.watch('quiz_time') > 0 && props?.watch("quiz_timing_type") === "full_quiz_time" &&
             <TimerSection 
               colorCode={colorCode}
               isDesktop={isDesktop}
               {...props} 
             />
+          }
+          {
+           props?.watch("quiz_timing_type") === "per_question_time" && 
+           props?.watch('questions')?.length > 0 &&
+            props?.watch('questions')?.map((question, index) => (
+              <PerQuestionTimerSection
+                {...props}
+                key={index}
+                index={index}
+                colorCode={colorCode}
+                isDesktop={isDesktop}
+                question={question} 
+                first={index === 0}
+                last={props?.watch('questions')?.length - 1 === index}
+              />
+            ))
           }
 
           {

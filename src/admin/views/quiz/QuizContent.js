@@ -28,6 +28,7 @@ const QuizContent = (props) => {
       enable_check_on_option_selected: Boolean(
         Number(props?.quiz?.enable_check_on_option_selected)
       ),
+      skip_question: Boolean(Number(props?.quiz?.skip_question)),
       question_per_page: props?.quiz?.question_per_page ?? 10, // 0 => all question
       advance_mode_type: props?.quiz?.advance_mode_type ?? "advance_panel", // advance_panel/ibps/ssc/gate/sbi/jee/railway
       // General settings
@@ -89,7 +90,6 @@ const QuizContent = (props) => {
       // Question settings
       show_marks: Boolean(Number(props?.quiz?.show_marks)),
       display_subject: Boolean(Number(props?.quiz?.display_subject)),
-      skip_question: Boolean(Number(props?.quiz?.skip_question)),
       answer_bullet: Boolean(Number(props?.quiz?.answer_bullet)),
       answer_bullet_type: props?.quiz?.answer_bullet_type ?? "numeric", // numeric/alphabet
       random_question: Boolean(Number(props?.quiz?.random_question)),
@@ -115,7 +115,6 @@ const QuizContent = (props) => {
       show_speed: Boolean(Number(props?.quiz?.show_speed)),
       show_percentile: Boolean(Number(props?.quiz?.show_percentile)),
       show_accuracy: Boolean(Number(props?.quiz?.show_accuracy)),
-      show_rank: Boolean(Number(props?.quiz?.show_rank)),
       show_average_score: Boolean(Number(props?.quiz?.show_average_score)),
       show_subject_wise_analysis: Boolean(
         Number(props?.quiz?.show_subject_wise_analysis)
@@ -127,9 +126,6 @@ const QuizContent = (props) => {
         Number(props?.quiz?.show_status_based_on_min_percent)
       ),
       minimum_percent_to_pass: props?.quiz?.minimum_percent_to_pass ?? 0, // above 0 => pass
-      result_comparision_with_top_five_student: Boolean(
-        Number(props?.quiz?.result_comparision_with_top_five_student)
-      ),
       hide_answer_sheet: Boolean(Number(props?.quiz?.hide_answer_sheet)),
       show_per_question_time: Boolean(
         Number(props?.quiz?.show_per_question_time)
@@ -142,6 +138,10 @@ const QuizContent = (props) => {
         Number(props?.quiz?.report_question_answer)
       ),
       leaderboard: Boolean(Number(props?.quiz?.leaderboard)),
+      show_rank: Boolean(Number(props?.quiz?.show_rank)),
+      result_comparision_with_topper: Boolean(
+        Number(props?.quiz?.result_comparision_with_topper)
+      ),
       leaderboard_total_number_of_entries:
         props?.quiz?.leaderboard_total_number_of_entries ?? 10, // 0 => all,
       leaderboard_user_can_apply_multiple_times: Boolean(

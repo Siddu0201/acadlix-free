@@ -25,6 +25,7 @@ const QuestionOverviewSection = (props) => {
       }),
       { shouldDirty: true }
     );
+    props?.setValue("last", Date.now(), { shouldDirty: true });
   };
 
   const handleQuizOverView = () => {
@@ -41,6 +42,7 @@ const QuestionOverviewSection = (props) => {
       }),
       { shouldDirty: true }
     );
+    props?.setValue("last", Date.now(), { shouldDirty: true });
     props?.setValue("finish", true, { shouldDirty: true });
   };
 

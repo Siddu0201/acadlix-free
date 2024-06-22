@@ -148,7 +148,7 @@ class Manager {
             'api_url' => esc_url_raw( rest_url( 'acadlix/v1') ),
             'nonce' => wp_create_nonce( 'wp_rest' ),
             'advance_quiz_url' => get_option( 'acadlix_advance_quiz_page' ),
-            'user_id' => get_current_user_id(  )
+            'user' => get_current_user_id(  ) > 0 ? get_userdata( get_current_user_id(  ) )?->data : [],
         ) );
     }
 }

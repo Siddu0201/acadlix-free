@@ -20,7 +20,7 @@ const Question = (props) => {
           </GridItem1>
 
           {/* Used to show morks - +points & -points in question */}
-          <GridItem1 xs={12} lg={4}>
+          <GridItem1 xs={12} lg={3}>
             <FormControlLabel
               control={
                 <CustomSwitch
@@ -39,7 +39,7 @@ const Question = (props) => {
           </GridItem1>
 
           {/* Display subject in question */}
-          <GridItem1 xs={12} lg={4}>
+          <GridItem1 xs={12} lg={3}>
             <FormControlLabel
               control={
                 <CustomSwitch
@@ -56,26 +56,8 @@ const Question = (props) => {
             />
           </GridItem1>
 
-          {/* Show skip button in question to skip question */}
-          <GridItem1 xs={12} lg={4}>
-            <FormControlLabel
-              control={
-                <CustomSwitch
-                  checked={props?.watch("skip_question") ?? false}
-                  onChange={(e) => {
-                    props?.setValue("skip_question", e?.target?.checked, {
-                      shouldDirty: true,
-                    });
-                  }}
-                  disabled={props?.watch("mode") === "advance_mode" && props?.watch("advance_mode_type") !== "advance_panel"}
-                />
-              }
-              label="Skip Question"
-            />
-          </GridItem1>
-
           {/* Show bullets in answer option- only for single and multiple choice */}
-          <GridItem1 xs={12} lg={4}>
+          <GridItem1 xs={12} lg={3}>
             <FormControlLabel
               control={
                 <CustomSwitch
@@ -93,7 +75,7 @@ const Question = (props) => {
           </GridItem1>
 
           {/* Type of bullets to show Numeric/Alphabatic */}
-          <GridItem1 xs={12} lg={8}>
+          <GridItem1 xs={12} lg={3}>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"

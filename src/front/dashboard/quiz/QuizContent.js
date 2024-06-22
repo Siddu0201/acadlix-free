@@ -21,7 +21,9 @@ const QuizContent = (props) => {
       view_result: false,
       view_answer: false,
       view_leaderboard: false,
-      user_id: acadlixOptions?.user_id,
+      user_id: Number(acadlixOptions?.user?.ID),
+      name: acadlixOptions?.user?.user_login,
+      email: acadlixOptions?.user?.user_email,
       id: props?.quiz?.id,
       category: props?.quiz?.category?.category_name ?? "Uncategorized",
       title: props?.quiz?.title,
@@ -33,6 +35,7 @@ const QuizContent = (props) => {
       enable_check_on_option_selected: Boolean(
         Number(props?.quiz?.enable_check_on_option_selected)
       ),
+      skip_question: Boolean(Number(props?.quiz?.skip_question)),
       question_per_page: props?.quiz?.question_per_page, // 0 => all question
       advance_mode_type: props?.quiz?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
       // General settings
@@ -56,7 +59,7 @@ const QuizContent = (props) => {
         Number(props?.quiz?.enable_login_register)
       ),
       login_register_type: props?.quiz?.login_register_type, // at_start_of_quiz/at_finish_of_quiz
-      per_user_allowed_attempt: props?.quiz?.per_user_allowed_attempt, // 0 => infinity
+      per_user_allowed_attempt: Number(props?.quiz?.per_user_allowed_attempt), // 0 => infinity
       save_statistic: Boolean(Number(props?.quiz?.save_statistic)),
       statistic_ip_lock: Number(props?.quiz?.statistic_ip_lock),
       save_statistic_number_of_times:
@@ -78,7 +81,6 @@ const QuizContent = (props) => {
       // Question settings
       show_marks: Boolean(Number(props?.quiz?.show_marks)),
       display_subject: Boolean(Number(props?.quiz?.display_subject)),
-      skip_question: Boolean(Number(props?.quiz?.skip_question)),
       answer_bullet: Boolean(Number(props?.quiz?.answer_bullet)),
       answer_bullet_type: props?.quiz?.answer_bullet_type, // numeric/alphabet
       random_question: Boolean(Number(props?.quiz?.random_question)),
@@ -104,7 +106,6 @@ const QuizContent = (props) => {
       show_speed: Boolean(Number(props?.quiz?.show_speed)),
       show_percentile: Boolean(Number(props?.quiz?.show_percentile)),
       show_accuracy: Boolean(Number(props?.quiz?.show_accuracy)),
-      show_rank: Boolean(Number(props?.quiz?.show_rank)),
       show_average_score: Boolean(Number(props?.quiz?.show_average_score)),
       show_subject_wise_analysis: Boolean(
         Number(props?.quiz?.show_subject_wise_analysis)
@@ -116,9 +117,6 @@ const QuizContent = (props) => {
         Number(props?.quiz?.show_status_based_on_min_percent)
       ),
       minimum_percent_to_pass: props?.quiz?.minimum_percent_to_pass, // above 0 => pass
-      result_comparision_with_top_five_student: Boolean(
-        Number(props?.quiz?.result_comparision_with_top_five_student)
-      ),
       hide_answer_sheet: Boolean(Number(props?.quiz?.hide_answer_sheet)),
       show_per_question_time: Boolean(
         Number(props?.quiz?.show_per_question_time)
@@ -131,6 +129,10 @@ const QuizContent = (props) => {
         Number(props?.quiz?.report_question_answer)
       ),
       leaderboard: Boolean(Number(props?.quiz?.leaderboard)),
+      show_rank: Boolean(Number(props?.quiz?.show_rank)),
+      result_comparision_with_topper: Boolean(
+        Number(props?.quiz?.result_comparision_with_topper)
+      ),
       leaderboard_total_number_of_entries:
         props?.quiz?.leaderboard_total_number_of_entries, // 0 => all,
       leaderboard_user_can_apply_multiple_times: Boolean(
@@ -193,6 +195,7 @@ const QuizContent = (props) => {
               ),
               hint_enabled: Boolean(Number(question?.hint_enabled)),
               answer_type: question?.answer_type,
+              time: props?.quiz?.quiz_time * 1000,
               review: false,
               hint: false,
               check: false,
@@ -255,6 +258,20 @@ const QuizContent = (props) => {
         ) ?? [],
       last: Date.now(),
       now: Date.now(),
+      rank: 0,
+      percentile: 0,
+      average_score: 0,
+      topper_result: {
+        quiz_time: "",
+        accuracy: "",
+        status: "",
+        result: "",
+        points: "",
+        rank: "",
+        name: "",
+        email: "",
+      },
+      toplist: [],
     },
   });
 
@@ -275,9 +292,17 @@ const QuizContent = (props) => {
     const total = methods
       ?.watch("questions")
       ?.reduce((total, d) => total + Number(d?.points), 0);
+    const correct_count = methods
+      ?.watch("questions")
+      ?.filter((d) => d?.result?.correct_count)?.length;
+    const solved_count = methods
+      ?.watch("questions")
+      ?.filter((d) => d?.result?.solved_count)?.length;
     let data = {
       points: points,
       result: ((points / total) * 100).toFixed(2),
+      accuracy: ((correct_count / solved_count) * 100).toFixed(2),
+      status: (points / total) * 100 > methods?.watch("minimum_percent_to_pass") ? "Pass" : "Fail",
       time_taken: methods
         ?.watch("questions")
         .reduce((total, d) => total + d?.result?.time, 0),
@@ -286,7 +311,22 @@ const QuizContent = (props) => {
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
-        console.log(data?.data);
+        methods?.setValue("average_score", data?.data?.average_score ?? 0 , {shouldDirty: true});
+        methods?.setValue("percentile", data?.data?.percentile ?? 0 , {shouldDirty: true});
+        methods?.setValue("rank", data?.data?.rank ?? 0 , {shouldDirty: true});
+        methods?.setValue("toplist", data?.data?.toplist ?? [] , {shouldDirty: true});
+        let topper = data?.data?.toplist?.filter((d, key) => key === 0)?.[0];
+        let topper_data = {
+          quiz_time: topper?.quiz_time ?? 0,
+          accuracy: topper?.accuracy ?? 0,
+          status: topper?.status ?? "",
+          result: topper?.result ?? 0,
+          points: topper?.points ?? 0,
+          rank: 1,
+          name: topper?.name ?? "",
+          email: topper?.email ?? "",
+        }
+        methods?.setValue("topper_result", topper_data, {shouldDirty: true});
       },
     });
   };

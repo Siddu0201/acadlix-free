@@ -5,8 +5,10 @@ namespace Yuvayana\Acadlix\REST\Front;
 use Illuminate\Contracts\Database\Query\Builder;
 use WP_REST_Server;
 use Yuvayana\Acadlix\Models\Quiz;
+use Yuvayana\Acadlix\Models\QuizAttempt;
 use Yuvayana\Acadlix\Models\Statistic;
 use Yuvayana\Acadlix\Models\StatisticRef;
+use Yuvayana\Acadlix\Models\Toplist;
 
 class FrontQuizController
 {
@@ -67,7 +69,6 @@ class FrontQuizController
         $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
         if ($params['user_id'] > 0 && $params['enable_login_register']) {
-
             // Statistic check and save
             $statistic_ref = StatisticRef::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
             if ($params['save_statistic'] && ($params['statistic_ip_lock'] == 0 || round((time() - strtotime($statistic_ref->latest()->first()->created_at)) / 60) > $params["statistic_ip_lock"]) && ($params['save_statistic_number_of_times'] == 0 || $params['save_statistic_number_of_times'] > $statistic_ref->count())) {
@@ -96,7 +97,49 @@ class FrontQuizController
             $res['statistic_ref'] = $statistic_ref->get();
 
             // Allowed attempt
+            $quiz_attempt = QuizAttempt::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
+            if($params["login_register_type"] == "at_start_of_quiz" && ($params['per_user_allowed_attempt'] == 0 || $params['per_user_allowed_attempt'] > $quiz_attempt->count())){
+                QuizAttempt::create([
+                    "quiz_id" => $quiz_id,
+                    "user_id" => $params["user_id"]
+                ]);
+            }
+            $res['quiz_attempt'] = $quiz_attempt->get();
+
+            // Leaderboard/ Toplist
+            if($params['leaderboard']){
+                $toplist = Toplist::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
+                $toplist_data = [
+                    "quiz_id" => $quiz_id,
+                    "user_id" => $params["user_id"],
+                    "name" => $params["name"],
+                    "email" => $params["email"],
+                    "points" => $params["points"],
+                    "result" => $params["result"],
+                    "ip" => filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP),
+                    "quiz_time" => $params["time_taken"],
+                    "accuracy" => $params["accuracy"],
+                    "status" => $params["status"],
+                ];
+                if($params["leaderboard_user_can_apply_multiple_times"] && ($params["leaderboard_apply_multiple_number_of_times"] == 0 || $params["leaderboard_apply_multiple_number_of_times"] > $toplist->count())){
+                    $top = Toplist::create($toplist_data);
+                }elseif(!$params["leaderboard_user_can_apply_multiple_times"] && $toplist->count() == 0){
+                    $top = Toplist::create($toplist_data);
+                }
+                $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("points", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
+                $res['rank'] = $params['show_rank'] && $toplist->count() > 0 ? array_flip($toplist->pluck("id")->toArray())[$top->id] + 1 : 1;
+                if($params['leaderboard_total_number_of_entries'] > 0){
+                    $res["toplist"] = $toplist->take($params['leaderboard_total_number_of_entries'])->get();
+                }else{
+                    $res["toplist"] = $toplist->get();
+                }
+            }
         }
+
+        $statistic_ref = StatisticRef::where('quiz_id', $quiz_id);
+        $res['average_score'] = $statistic_ref->count() > 0 && $params['show_average_score'] ? $statistic_ref->avg('points') : 0;
+        $res['percentile'] = $statistic_ref->count() > 0 && $params['show_percentile'] ? round($params['points'] / $statistic_ref->max('points') * 100, 2) : 0;
+
         return rest_ensure_response($res);
     }
 

@@ -34,8 +34,8 @@ const ViewButtonSection = (props) => {
         <CustomButton onClick={handleViewAnswer}>View Answer</CustomButton>
       }
       {
-        props?.watch("leaderboard") &&
-        <CustomButton  tomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
+        props?.watch("leaderboard") && props?.watch("display_leaderboard_in_quiz_result") === "in_the_button" &&
+        <CustomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
       }
     </Box>
   );

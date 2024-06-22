@@ -19,6 +19,9 @@ if(!class_exists(('ToplistMigration'))){
                     $table->float('points')->nullable();
                     $table->float('result')->nullable();
                     $table->string('ip', 100)->nullable();
+                    $table->integer('quiz_time')->default(0);
+                    $table->float('accuracy')->nullable();
+                    $table->string('status', 100)->nullable();
                     $table->timestamps();
                 });
             }
@@ -27,6 +30,19 @@ if(!class_exists(('ToplistMigration'))){
         public function down()
         {
             Manager::schema()->dropIfExists('toplist');
+        }
+
+        public function update()
+        {
+            if(!Manager::schema()->hasColumns('toplist', ['quiz_time', 'accuracy', 'status'])){
+                Manager::schema()->table('toplist', function($table){
+                    $table->after('ip', function($table){
+                        $table->integer('quiz_time')->default(0);
+                        $table->float('accuracy')->nullable();
+                        $table->string('status', 100)->nullable();
+                    });
+                });
+            }
         }
     }
 }

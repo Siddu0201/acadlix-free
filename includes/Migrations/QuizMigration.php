@@ -70,19 +70,19 @@ if(!class_exists('QuizMigration')){
                     $table->boolean('show_speed')->default(0);
                     $table->boolean('show_percentile')->default(0);
                     $table->boolean('show_accuracy')->default(0);
-                    $table->boolean('show_rank')->default(0);
                     $table->boolean('show_average_score')->default(0);
                     $table->boolean('show_subject_wise_analysis')->default(0);
                     $table->boolean('show_marks_distribution')->default(0);
                     $table->boolean('show_status_based_on_min_percent')->default(0);
                     $table->integer('minimum_percent_to_pass')->unsigned()->default(0)->comment('above 0 => pass');
-                    $table->boolean('result_comparision_with_top_five_student')->default(0);
                     $table->boolean('hide_answer_sheet')->default(0);
                     $table->boolean('show_per_question_time')->default(0);
                     $table->boolean('was_the_solution_helpful')->default(0);
                     $table->boolean('bookmark')->default(0);
                     $table->boolean('report_question_answer')->default(0);
                     $table->boolean('leaderboard')->default(0);
+                    $table->boolean('show_rank')->default(0);
+                    $table->boolean('result_comparision_with_topper')->default(0);
                     $table->integer('leaderboard_total_number_of_entries')->unsigned()->default(10)->comment('0 => all');
                     $table->boolean('leaderboard_user_can_apply_multiple_times')->default(0);
                     $table->integer('leaderboard_apply_multiple_number_of_times')->unsigned()->default(0)->comment('0 => infinity');
@@ -127,6 +127,12 @@ if(!class_exists('QuizMigration')){
                     $table->after('save_statistic', function($table){
                         $table->integer('statistic_ip_lock')->default(0);
                     });
+                });
+            }
+
+            if(Manager::schema()->hasColumn('quiz', 'result_comparision_with_top_five_student')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->renameColumn('result_comparision_with_top_five_student', 'result_comparision_with_topper');
                 });
             }
         }

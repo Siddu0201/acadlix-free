@@ -221,7 +221,10 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        <CustomButton onClick={handleHintClick}>Hint</CustomButton>
+        {
+          props?.watch(`questions.${props?.index}.hint_enabled`) && props?.watch(`questions.${props?.index}.language`).filter(d => d?.selected )?.[0]?.hint_msg &&
+          <CustomButton onClick={handleHintClick}>Hint</CustomButton>
+        }
         {props?.watch("enable_check_button") &&
           !props?.watch(`questions.${props?.index}.check`) && (
             <CustomButton onClick={handleCheckClick}>Check</CustomButton>

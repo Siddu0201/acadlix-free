@@ -14,7 +14,6 @@ import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
 
 const QuizModeSection = (props) => {
-
   const setAdvanceModeDefaultSettings = () => {
     // default general setting
     props?.setValue("hide_quiz_title", false, { shouldDirty: true });
@@ -165,6 +164,7 @@ const QuizModeSection = (props) => {
 
             {/* Used to enable check and continue mode
                 - contain enable on option selected
+                - skip button
             */}
             <Grid item xs={12} sm={4}>
               <Card
@@ -214,7 +214,9 @@ const QuizModeSection = (props) => {
                             props?.watch("enable_check_on_option_selected") ??
                             false
                           }
-                          disabled={props?.watch("mode") !== "check_and_continue"}
+                          disabled={
+                            props?.watch("mode") !== "check_and_continue"
+                          }
                           onChange={(e) => {
                             props?.setValue(
                               "enable_check_on_option_selected",
@@ -225,6 +227,27 @@ const QuizModeSection = (props) => {
                         />
                       }
                       label="Enable Check on Option Selected"
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <CustomSwitch
+                          checked={props?.watch("skip_question") ?? false}
+                          onChange={(e) => {
+                            props?.setValue(
+                              "skip_question",
+                              e?.target?.checked,
+                              {
+                                shouldDirty: true,
+                              }
+                            );
+                          }}
+                          disabled={
+                            props?.watch("mode") !== "check_and_continue"
+                          }
+                        />
+                      }
+                      label="Skip Question"
                     />
                   </Box>
                 </CardContent>
@@ -284,7 +307,9 @@ const QuizModeSection = (props) => {
                       type="number"
                       label="Question per page"
                       value={props?.watch("question_per_page") ?? 10}
-                      disabled={props?.watch("mode") !== "question_below_each_other"}
+                      disabled={
+                        props?.watch("mode") !== "question_below_each_other"
+                      }
                       onChange={(e) => {
                         props?.setValue(
                           "question_per_page",
