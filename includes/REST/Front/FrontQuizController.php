@@ -80,8 +80,7 @@ class FrontQuizController
                     "quiz_time" => $params["time_taken"]
                 ]);
                 foreach ($params['questions'] as $question) {
-                    $stat_ref->statistic()->create([
-                        "statistic_ref_id" => $stat_ref->id,
+                    $stat_ref?->statistics()?->create([
                         "question_id" => $question["question_id"],
                         "correct_count" => $question["result"]["correct_count"],
                         "incorrect_count" => $question["result"]["incorrect_count"],

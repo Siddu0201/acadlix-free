@@ -1,12 +1,7 @@
 import {
   Avatar,
   Box,
-  Card,
-  CardHeader,
-  Divider,
   Grid,
-  List,
-  ListItem,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -20,9 +15,12 @@ import Pass from "../../../../../images/grinning-face-svgrepo-com.svg";
 import Fail from "../../../../../images/sad-but-relieved-face-svgrepo-com.svg";
 import Negative from "../../../../../images/wrong-way-svgrepo-com.svg";
 import Average from "../../../../../images/bars-graph-svgrepo-com.svg";
+import Name from "../../../../../images/avatar-people-person-profile-user-svgrepo-com.svg";
+import Result from "../../../../../images/certificate-manager-svgrepo-com.svg";
 import QuestionReportChart from "./charts/QuestionReportChart";
 import ScoreChart from "./charts/ScoreChart";
 import { secondsToHms } from "../../../../../helpers/util";
+import ResultComparisionSection from "./ResultComparisionSection";
 
 const ResultSection = (props) => {
   const result = props?.watch("questions")?.reduce((total, d) => {
@@ -228,124 +226,26 @@ const ResultSection = (props) => {
         )}
       </Grid>
       {props?.watch("result_comparision_with_topper") && (
-        <Grid container>
-          <Grid item xs={12} sm={5}>
-            <Card>
-              <CardHeader title="Your Result" />
-              <Divider />
-              {props?.isPending ? (
-                "Loading..."
-              ) : (
-                <List dense component="div">
-                  <ListItem>
-                    <Typography>
-                      <b>Name:</b>{` ${props?.watch("name")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Email: </b>{` ${props?.watch("email")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Time: </b>{` ${time}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Points: </b>{` ${result.toFixed(2)}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Result: </b>{` ${percent.toFixed(2)}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Accuracy: </b>{` ${accuracy}%`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Status: </b>{` ${percent > props?.watch("minimum_percent_to_pass")
-                        ? "Pass"
-                        : "Fail"}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Rank: </b>{` ${props?.watch("rank")}`}
-                    </Typography>
-                  </ListItem>
-                </List>
-              )}
-            </Card>
-          </Grid>
-          <Grid item xs={0} sm={2}></Grid>
-          <Grid item xs={12} sm={5}>
-            <Card>
-              <CardHeader title="Topper Result" />
-              <Divider />
-              {props?.isPending ? (
-                "Loading..."
-              ) : (
-                <List dense component="div">
-                  <ListItem>
-                    <Typography>
-                      <b>Name: </b>{` ${props?.watch("topper_result.name")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Email: </b>{` ${props?.watch("topper_result.email")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Time: </b>{` ${props?.watch("topper_result.quiz_time")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Points: </b>{` ${props?.watch("topper_result.points")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Result: </b>{` ${props?.watch("topper_result.result")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Accuracy: </b>{` ${props?.watch(
-                      "topper_result.accuracy"
-                    )}%`}
-                    </Typography>
-                    <Typography></Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Status: </b>{` ${props?.watch("topper_result.status")}`}
-                    </Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography>
-                      <b>Rank: </b>{` ${props?.watch("topper_result.rank")}`}
-                    </Typography>
-                  </ListItem>
-                </List>
-              )}
-            </Card>
-          </Grid>
-        </Grid>
+        <ResultComparisionSection
+          {...props}
+          result={percent}
+          accuracy={accuracy}
+          points={result}
+          time={time}
+          TickImage={TickImage}
+          ClockImage={ClockImage}
+          AccuracyImage={AccuracyImage}
+          Pass={Pass}
+          Fail={Fail}
+          Name={Name}
+          Result={Result}
+        />
       )}
       <Grid
         container
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Grid item xs={6} md={6}>
+        <Grid item xs={12} md={12}>
           <QuestionReportChart
             {...props}
             skipped={(
@@ -375,8 +275,8 @@ const ResultSection = (props) => {
             ).toFixed(2)}
           />
         </Grid>
-        <Grid md={2}></Grid>
-        <Grid item xs={12} md={4}>
+        {/* <Grid md={2}></Grid> */}
+        {/* <Grid item xs={12} md={4}>
           <ScoreChart
             total={props?.watch("questions")?.length}
             skipped={
@@ -398,7 +298,7 @@ const ResultSection = (props) => {
                 )?.length
             }
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={12}>
           <Box
             sx={{
