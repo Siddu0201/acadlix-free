@@ -89,7 +89,7 @@ class FrontQuizController
                         "points" => $question["points"],
                         "negative_points" => $question["negative_points"],
                         "question_time" => $question["result"]["time"],
-                        "answer_data" => json_encode($question["result"]["answer_data"])
+                        "answer_data" => wp_json_encode($question["result"]["answer_data"])
                     ]);
                 }
             }

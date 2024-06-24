@@ -1,3 +1,6 @@
-<div id="acadlix-admin">
+<?php
+
+echo  '<div id="acadlix-admin">
     <h2>Loading...</h2>
-</div>
+</div>';
+

@@ -28,7 +28,7 @@ class Manager {
         if(is_numeric($id)){
             ob_start();
             ?>
-            <div class="acadlix-front" id="<?php echo $id; ?>"></div>
+            <div class="acadlix-front" id="<?php echo esc_html($id); ?>"></div>
             <?php
             $content = ob_get_contents();
             ob_get_clean();

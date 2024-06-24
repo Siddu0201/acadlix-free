@@ -15,7 +15,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use Illuminate\Database\Capsule\Manager;
 use Yuvayana\Acadlix\Migrations\Migration;
 use Yuvayana\Acadlix\Seeder\Seeder;
 

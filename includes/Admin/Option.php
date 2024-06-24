@@ -38,10 +38,16 @@ if(!class_exists("Option")){
 
         public static function createPage($option = '', $data = [])
         {
-            $page = get_page_by_title( $data['post_title'] );
+            $args = array(
+                'post_type' => 'page',
+                'post_status' => 'publish',
+                'posts_per_page' => 1,
+                'post_title' => $data['post_title']
+            );
+            $query = new WP_Query( $args );
 
             // If the page doesn't exist, create it
-            if ( ! $page ) {
+            if ( empty($query->post) ) {
                 // Insert the page into the database
                 $page_id = wp_insert_post( $data );
                 $page_permalink = get_permalink($page_id);
