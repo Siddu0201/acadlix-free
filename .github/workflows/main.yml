@@ -28,7 +28,8 @@ jobs:
 
       - name: Zip the plugin
         run: |
-          zip -r plugin.zip . -x "node_modules/*"
+          zip -r plugin.zip . -x "node_modules/*" \
+                              -x ".gitignore"
         working-directory: ./
 
       - name: Upload ZIP to server
