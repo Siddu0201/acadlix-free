@@ -21,3 +21,12 @@ export const PostSaveResultById = (quiz_id = '') => {
         },
     })
 }
+
+export const PostLoadMoreLeaderboard = (quiz_id = '') => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/load-more-leaderboard/${quiz_id}`, data);
+        },
+    })
+}

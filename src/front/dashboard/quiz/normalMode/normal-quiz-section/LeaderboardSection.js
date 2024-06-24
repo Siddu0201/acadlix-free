@@ -1,8 +1,9 @@
-import { Avatar, Box, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import First from "../../../../../images/medal-1.svg";
 import Second from "../../../../../images/medal-2.svg";
 import Third from "../../../../../images/medal-3.svg";
+import { PostLoadMoreLeaderboard } from "../../../../../requests/front/FrontQuizRequest";
 
 const LeaderboardSection = (props) => {
   const styles = {
@@ -129,8 +130,29 @@ const LeaderboardSection = (props) => {
   const topThree = props?.watch("toplist")?.slice(0, 3);
   const rest = props?.watch("toplist")?.slice(3);
 
+  const loadMoreMutation = PostLoadMoreLeaderboard(props?.watch("id"));
+  const handleLoadMoreLeaderboard = () => {
+    loadMoreMutation.mutate({
+      toplist_view_count : props?.watch("toplist")?.length,
+      leaderboard_total_number_of_entries: props?.watch('leaderboard_total_number_of_entries'),
+    }, {
+      onSuccess: (data) => {
+        console.log(data?.data);
+        props?.setValue("toplist", [...props?.watch("toplist"),... data?.data?.toplist], {shouldDirty: true});
+      }
+    })
+  }
+
   return (
-    <Grid container sx={{ backgroundColor: "#37afca", minHeight: "100vh", marginY: 1 }}>
+    <Grid
+      container
+      sx={{ 
+        backgroundColor: "#37afca", 
+        minHeight: "100vh", 
+        marginY: 1,
+        justifyContent: "center"
+       }}
+    >
       <Box sx={styles.header}>
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
           Leaderboard
@@ -240,6 +262,20 @@ const LeaderboardSection = (props) => {
           </Box>
         ))}
       </Box>
+      {
+        props?.watch("leaderboard_total_number_of_entries") > props?.watch("toplist").length && props?.watch("toplist_count") > props?.watch("toplist").length &&
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginY: 2
+          }}
+        >
+          <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
+            Load More
+          </Button>
+        </Box>
+      }
     </Grid>
   );
 };

@@ -49,6 +49,25 @@ class FrontQuizController
                 ],
             ]
         );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/load-more-leaderboard/(?P<quiz_id>[\d]+)',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_load_more_toplist_by_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'quiz_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+            ]
+        );
     }
 
     public function get_front_quiz_by_id($request)
@@ -127,10 +146,11 @@ class FrontQuizController
                 }
                 $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("points", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
                 $res['rank'] = $params['show_rank'] && $toplist->count() > 0 ? array_flip($toplist->pluck("id")->toArray())[$top->id] + 1 : 1;
-                if($params['leaderboard_total_number_of_entries'] > 0){
+                $res["toplist_count"] = $toplist->count();
+                if($params['leaderboard_total_number_of_entries'] > 0 && $params['leaderboard_total_number_of_entries'] < 10){
                     $res["toplist"] = $toplist->take($params['leaderboard_total_number_of_entries'])->get();
                 }else{
-                    $res["toplist"] = $toplist->get();
+                    $res["toplist"] = $toplist->take(10)->get();
                 }
             }
         }
@@ -140,6 +160,21 @@ class FrontQuizController
         $res['percentile'] = $statistic_ref->count() > 0 && $params['show_percentile'] ? round($params['points'] / $statistic_ref->max('points') * 100, 2) : 0;
 
         return rest_ensure_response($res);
+    }
+
+    public function post_load_more_toplist_by_id($request)
+    {
+        $res = [];
+        $quiz_id = $request['quiz_id'];
+        $params = $request->get_json_params();
+        $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("points", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
+        $res["toplist_count"] = $toplist->count();
+        if($params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"] < 10){
+            $res["toplist"] = $toplist->skip($params["toplist_view_count"])->take($params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"])->get();
+        }else{
+            $res["toplist"] = $toplist->skip($params["toplist_view_count"])->take(10)->get();
+        }
+        return rest_ensure_response( $res );
     }
 
     public function check_permission()

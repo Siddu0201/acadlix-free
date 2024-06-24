@@ -122,9 +122,9 @@ class Manager {
         }
     }
 
-    public function enqueue_admin_assets() {
+    public function enqueue_admin_assets($hook) {
         // Check if we are on the admin page and page=acadlix.
-        if ( ! is_admin() || ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== ACADLIX_SLUG ) {
+        if ( ! is_admin() || 'toplevel_page_'.ACADLIX_SLUG != $hook || ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== ACADLIX_SLUG ) {
             return;
         }
         wp_enqueue_editor();

@@ -22,7 +22,7 @@ const QuizContent = (props) => {
       view_answer: false,
       view_leaderboard: false,
       user_id: Number(acadlixOptions?.user?.ID),
-      name: acadlixOptions?.user?.user_login,
+      name: acadlixOptions?.user?.display_name,
       email: acadlixOptions?.user?.user_email,
       id: props?.quiz?.id,
       category: props?.quiz?.category?.category_name ?? "Uncategorized",
@@ -274,6 +274,7 @@ const QuizContent = (props) => {
         email: "",
       },
       toplist: [],
+      toplist_count: 0,
     },
   });
 
@@ -323,6 +324,7 @@ const QuizContent = (props) => {
           shouldDirty: true,
         });
         methods?.setValue("rank", data?.data?.rank ?? 0, { shouldDirty: true });
+        methods?.setValue("toplist_count", data?.data?.toplist_count ?? 0, { shouldDirty: true });
         methods?.setValue("toplist", data?.data?.toplist ?? [], {
           shouldDirty: true,
         });
