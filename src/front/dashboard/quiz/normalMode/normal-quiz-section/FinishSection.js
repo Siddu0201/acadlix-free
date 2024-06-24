@@ -11,6 +11,12 @@ const FinishSection = (props) => {
     props?.saveResult();
   }  
 
+  const handleGoToFirstQuestion = () =>{
+    props?.setValue("finish", false, { shouldDirty: true });
+    props?.setValue("questions.0.selected", true, { shouldDirty: true });
+    props?.setValue("last", Date.now(), { shouldDirty: true });
+  }
+
   const solved_count = props?.watch('questions').filter(d => d?.result?.solved_count)?.length;
   const total = props?.watch("questions").length;
 
@@ -23,10 +29,18 @@ const FinishSection = (props) => {
         props?.watch("force_user_to_answer_each_question") && solved_count !== total &&
         <Alert severity='error' sx={{ marginY: 2}}>You can finish this quiz when you answer all questions</Alert>
       }
-      <CustomButton
-        disabled={props?.watch("force_user_to_answer_each_question") && solved_count !== total}
-        onClick={handleFinishQuiz}
-      >Finish Quiz</CustomButton>
+      <Box sx={{
+        display: 'flex',
+        gap: 2
+      }}>
+        <CustomButton
+          onClick={handleGoToFirstQuestion}
+        >Go to First Question</CustomButton>
+        <CustomButton
+          disabled={props?.watch("force_user_to_answer_each_question") && solved_count !== total}
+          onClick={handleFinishQuiz}
+        >Finish Quiz</CustomButton>
+      </Box>
     </Box>
   )
 }

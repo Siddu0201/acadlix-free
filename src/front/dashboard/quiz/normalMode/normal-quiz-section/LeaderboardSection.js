@@ -130,7 +130,7 @@ const LeaderboardSection = (props) => {
   const rest = props?.watch("toplist")?.slice(3);
 
   return (
-    <Grid container sx={{ backgroundColor: "#37afca", minHeight: "100vh" }}>
+    <Grid container sx={{ backgroundColor: "#37afca", minHeight: "100vh", marginY: 1 }}>
       <Box sx={styles.header}>
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
           Leaderboard
@@ -225,7 +225,7 @@ const LeaderboardSection = (props) => {
           <Box key={index} sx={styles.leaderboardItem}>
             <Box sx={styles.rankNameContainer}>
               <Typography variant="body1" sx={styles.rank}>
-                {`${index + 1}. `}
+                {`${index + 4}. `}
               </Typography>
               <Typography variant="body1" sx={styles.name}>
                 {item?.name}

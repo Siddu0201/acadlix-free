@@ -27,7 +27,9 @@ const SubjectResultSection = (props) => {
     ?.map((d) => d?.subject_name);
   
   return (
-    <Box>
+    <Box sx={{
+      marginY: 1
+    }}>
       <TableContainer
         sx={{ maxWidth: 1200, margin: "0px auto" }}
         component={Paper}

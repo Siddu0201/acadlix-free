@@ -77,11 +77,6 @@ const NormalQuiz = (props) => {
                   {...props}
                 />
               }
-              <ResultTextSection
-                colorCode={colorCode}
-                isDesktop={isDesktop}
-                {...props}
-              />
             </>
           }
            {

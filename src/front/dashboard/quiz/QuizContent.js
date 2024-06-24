@@ -145,7 +145,9 @@ const QuizContent = (props) => {
       percent_based_result_text: Boolean(
         Number(props?.quiz?.percent_based_result_text)
       ),
-      result_text: props?.quiz?.result_text, // ""/[{percent: number, text: ""}]
+      result_text: Boolean(Number(props?.quiz?.percent_based_result_text))
+        ? JSON.parse(props?.quiz?.result_text)
+        : props?.quiz?.result_text, // ""/[{percent: number, text: ""}]
       // Notification settings
       admin_email_notification: Boolean(
         Number(props?.quiz?.admin_email_notification)
@@ -302,7 +304,10 @@ const QuizContent = (props) => {
       points: points,
       result: ((points / total) * 100).toFixed(2),
       accuracy: ((correct_count / solved_count) * 100).toFixed(2),
-      status: (points / total) * 100 > methods?.watch("minimum_percent_to_pass") ? "Pass" : "Fail",
+      status:
+        (points / total) * 100 > methods?.watch("minimum_percent_to_pass")
+          ? "Pass"
+          : "Fail",
       time_taken: methods
         ?.watch("questions")
         .reduce((total, d) => total + d?.result?.time, 0),
@@ -311,10 +316,16 @@ const QuizContent = (props) => {
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
-        methods?.setValue("average_score", data?.data?.average_score ?? 0 , {shouldDirty: true});
-        methods?.setValue("percentile", data?.data?.percentile ?? 0 , {shouldDirty: true});
-        methods?.setValue("rank", data?.data?.rank ?? 0 , {shouldDirty: true});
-        methods?.setValue("toplist", data?.data?.toplist ?? [] , {shouldDirty: true});
+        methods?.setValue("average_score", data?.data?.average_score ?? 0, {
+          shouldDirty: true,
+        });
+        methods?.setValue("percentile", data?.data?.percentile ?? 0, {
+          shouldDirty: true,
+        });
+        methods?.setValue("rank", data?.data?.rank ?? 0, { shouldDirty: true });
+        methods?.setValue("toplist", data?.data?.toplist ?? [], {
+          shouldDirty: true,
+        });
         let topper = data?.data?.toplist?.filter((d, key) => key === 0)?.[0];
         let topper_data = {
           quiz_time: topper?.quiz_time ?? 0,
@@ -325,8 +336,8 @@ const QuizContent = (props) => {
           rank: 1,
           name: topper?.name ?? "",
           email: topper?.email ?? "",
-        }
-        methods?.setValue("topper_result", topper_data, {shouldDirty: true});
+        };
+        methods?.setValue("topper_result", topper_data, { shouldDirty: true });
       },
     });
   };

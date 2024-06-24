@@ -21,6 +21,7 @@ import QuestionReportChart from "./charts/QuestionReportChart";
 import ScoreChart from "./charts/ScoreChart";
 import { secondsToHms } from "../../../../../helpers/util";
 import ResultComparisionSection from "./ResultComparisionSection";
+import ResultTextSection from "./ResultTextSection";
 
 const ResultSection = (props) => {
   const result = props?.watch("questions")?.reduce((total, d) => {
@@ -87,6 +88,7 @@ const ResultSection = (props) => {
         </Typography>
         "
       </Typography>
+      <ResultTextSection {...props} percent={percent} />
       <Grid
         container
         sx={{

@@ -50,17 +50,21 @@ const QuizContent = (props) => {
             return {
               id: d?.id,
               title: d?.title,
-              show: props?.quiz?.prerequisites?.find(p => p?.prerequisite_quiz_id === d?.id) ? false : true,
+              show: props?.quiz?.prerequisites?.find(
+                (p) => p?.prerequisite_quiz_id === d?.id
+              )
+                ? false
+                : true,
             };
           })
         : [],
       prerequisite_data: props?.quiz?.prerequisites
-        ? props?.quiz?.prerequisites?.map(d => {
-          return {
-            prerequisite_quiz_id: d?.prerequisite_quiz_id,
-            min_percentage: d?.min_percentage,
-          }
-        })
+        ? props?.quiz?.prerequisites?.map((d) => {
+            return {
+              prerequisite_quiz_id: d?.prerequisite_quiz_id,
+              min_percentage: d?.min_percentage,
+            };
+          })
         : [],
       enable_login_register: Boolean(
         Number(props?.quiz?.enable_login_register)
@@ -69,7 +73,7 @@ const QuizContent = (props) => {
         props?.quiz?.login_register_type ?? "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz
       per_user_allowed_attempt: props?.quiz?.per_user_allowed_attempt ?? 0, // 0 => infinity
       save_statistic: Boolean(Number(props?.quiz?.save_statistic)),
-      statistic_ip_lock: Number(props?.quiz?.statistic_ip_lock),
+      statistic_ip_lock: Number(props?.quiz?.statistic_ip_lock) ?? 0,
       save_statistic_number_of_times:
         props?.quiz?.save_statistic_number_of_times ?? 0, // 0 =>  infinity
       on_screen_calculator: Boolean(Number(props?.quiz?.on_screen_calculator)),
@@ -156,7 +160,9 @@ const QuizContent = (props) => {
       percent_based_result_text: Boolean(
         Number(props?.quiz?.percent_based_result_text)
       ),
-      result_text: props?.quiz?.result_text ?? "", // ""/[{percent: number, text: ""}]
+      result_text: Boolean(Number(props?.quiz?.percent_based_result_text))
+        ? JSON.parse(props?.quiz?.result_text)
+        : props?.quiz?.result_text, // ""/[{percent: number, text: ""}]
       // Notification settings
       admin_email_notification: Boolean(
         Number(props?.quiz?.admin_email_notification)

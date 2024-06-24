@@ -9,7 +9,7 @@ const TypeNumerical = (props) => {
     props?.setValue(
       `questions.${props?.index}.language`,
       props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-        lang.answer_data[props?.type].yourAnswer = Number(e.target.value);
+        lang.answer_data[props?.type].yourAnswer = e?.target.value ? Number(e.target.value) : '';
         return lang;
       }),
       { shouldDirty: true }

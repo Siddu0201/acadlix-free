@@ -696,6 +696,7 @@ const Result = (props) => {
         >
           <textarea
             id="result_text"
+            value={typeof props?.watch("result_text") === 'string' ? props?.watch("result_text") : ""}
             style={{
               width: "100%",
             }}
@@ -709,7 +710,7 @@ const Result = (props) => {
                   fullWidth
                   size="small"
                   type="number"
-                  label="Percentage"
+                  label="Percentage (>=)"
                   value={val?.percent ?? 0}
                   onChange={(e) => {
                     props?.setValue(
