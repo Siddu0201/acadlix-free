@@ -103,11 +103,9 @@ const TypeSingleChoice = (props) => {
         display: props?.selected ? "block" : "none",
       }}
     >
-      <div dangerouslySetInnerHTML={{ __html: props?.question }} />
-      {/* <Box>
-        {renderShortcode(props?.question)}
-        <br />
-      </Box> */}
+      <Typography>
+        {props?.question}
+      </Typography>
 
       <FormControl
         sx={{

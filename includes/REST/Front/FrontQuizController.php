@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use Illuminate\Contracts\Database\Query\Builder;
 use WP_REST_Server;
+use Yuvayana\Acadlix\Models\Prerequisite;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\QuizAttempt;
 use Yuvayana\Acadlix\Models\Statistic;
@@ -68,17 +69,59 @@ class FrontQuizController
                 ],
             ]
         );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/check-prerequisite/(?P<quiz_id>[\d]+)',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_check_prerequisite_by_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'quiz_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+            ]
+        );
     }
 
     public function get_front_quiz_by_id($request)
     {
         $res = [];
         $quiz_id = $request['quiz_id'];
-        $res['quiz'] = Quiz::with([
+        $quiz = Quiz::with([
             'questions' => function (Builder $query) {
                 $query->where('online', 1);
             }
         ])->find($quiz_id);
+        $quiz['description'] = $this->renderShortCode($quiz['description']);
+        $quiz['result_text'] = $quiz['percent_based_result_text'] ? $quiz['result_text'] : $this->renderShortCode($quiz['result_text']);
+
+        foreach($quiz->questions as $qkey => $question){
+            foreach($question->question_languages as $lkey => $lang){
+                $lang['question'] = $this->renderShortCode($lang['question']);
+                $lang['hint_msg'] = $this->renderShortCode($lang['hint_msg']);
+                $lang['correct_msg'] = $this->renderShortCode($lang['correct_msg']);
+                $lang['incorrect_msg'] = $this->renderShortCode($lang['incorrect_msg']);
+
+                if(in_array($question['answer_type'], ['singleChoice', 'multipleChoice', 'sortingChoice'])){
+                    $lang['answer_data'] = json_decode($lang['answer_data'], true);
+                    $newLang['answer_data'] = $lang['answer_data'];
+                    foreach($lang['answer_data'][$question['answer_type']] as $okey => $opt){
+                        $opt['option'] = $this->renderShortCode($opt["option"]);
+                        $newLang['answer_data'][$question['answer_type']][$okey] = $opt;
+                    }
+                    $lang['answer_data'] = json_encode($newLang['answer_data']);
+                }
+                $quiz['questions'][$qkey]['question_languages'][$lkey] = $lang;
+            }
+        }
+        $res['quiz'] = $quiz;
         return rest_ensure_response($res);
     }
 
@@ -177,8 +220,38 @@ class FrontQuizController
         return rest_ensure_response( $res );
     }
 
+    public function post_check_prerequisite_by_id($request)
+    {
+        $res = [];
+        $quiz_id = $request['quiz_id'];
+        $params = $request->get_json_params();
+        $i = 0;
+        $prerquisite_quizzes = Prerequisite::where("quiz_id", $quiz_id)->get();
+        if(count($prerquisite_quizzes) > 0){
+            foreach($prerquisite_quizzes as $prerquisite_quiz){
+                $statistic_ref = StatisticRef::where('quiz_id', $prerquisite_quiz->prerequisite_quiz_id)->where('user_id', $params['user_id']);
+                if($statistic_ref->count() > 0){
+                    if($statistic_ref->max('result') < $prerquisite_quiz->min_percentage){
+                        $res[$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
+                        $res[$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
+                        $i++;
+                    }
+                }else{
+                    $res[$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
+                    $res[$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
+                    $i++;
+                }
+            }
+        }
+        return rest_ensure_response( $res );
+    }
+
     public function check_permission()
     {
         return true;
+    }
+
+    public function renderShortCode($data){
+        return do_shortcode(apply_filters('comment_text',  $data));
     }
 }

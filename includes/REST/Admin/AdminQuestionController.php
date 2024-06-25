@@ -109,7 +109,7 @@ class AdminQuestionController {
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
-        $question = Question::where('quiz_id', $quiz_id)->where('online', 1);
+        $question = Question::where('quiz_id', $quiz_id)->where('online', 1)->orderBy('created_at', 'desc');
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
         $res['quiz'] = Quiz::find($quiz_id);

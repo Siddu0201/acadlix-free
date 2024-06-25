@@ -49,7 +49,6 @@ const TypeMatrixSortingChoice = (props) => {
     >
       <Typography>
         {props?.question}
-        <br />
       </Typography>
       <Box
         sx={{

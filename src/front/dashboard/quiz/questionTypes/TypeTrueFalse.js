@@ -61,7 +61,6 @@ const TypeTrueFalse = (props) => {
     >
       <Typography>
         {props?.question}
-        <br />
       </Typography>
 
       <FormControl

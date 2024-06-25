@@ -14,7 +14,7 @@ if(!class_exists('QuizMigration')){
                     $table->bigIncrements('id');
                     $table->foreignId('category_id')->nullable()->constrained('category')->nullOnDelete();
                     $table->string('title');
-                    $table->string('description');
+                    $table->longText('description');
                     // Mode setting
                     $table->string('mode')->nullable()->default('normal')->comment('normal/check_and_continue/question_below_each_other/advance_mode');
                     $table->boolean('enable_back_button')->default(0);
@@ -133,6 +133,12 @@ if(!class_exists('QuizMigration')){
             if(Manager::schema()->hasColumn('quiz', 'result_comparision_with_top_five_student')){
                 Manager::schema()->table('quiz', function($table){
                     $table->renameColumn('result_comparision_with_top_five_student', 'result_comparision_with_topper');
+                });
+            }
+
+            if(Manager::schema()->hasColumn('quiz', 'description')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->longText('description')->change();
                 });
             }
         }

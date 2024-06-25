@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { ImCross } from "react-icons/im";
 import { SiTicktick } from "react-icons/si";
+import parse from "html-react-parser";
 
 const TypeMultipleChoice = (props) => {
   const handleChange = (e) => {
@@ -61,7 +62,6 @@ const TypeMultipleChoice = (props) => {
     >
       <Typography>
         {props?.question}
-        <br />
       </Typography>
 
       <FormControl
@@ -111,7 +111,7 @@ const TypeMultipleChoice = (props) => {
                     display: "flex",
                   }}
                 >
-                  <Typography>{data?.option}</Typography>
+                  <Typography>{parse(data?.option)}</Typography>
                   <Box
                     sx={{
                       position: "relative",

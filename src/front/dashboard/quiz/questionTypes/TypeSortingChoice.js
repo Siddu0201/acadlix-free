@@ -18,6 +18,7 @@ import { Box, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { ImCross } from "react-icons/im";
 import { SiTicktick } from "react-icons/si";
+import parse from "html-react-parser";
 
 const TypeSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -83,7 +84,6 @@ const TypeSortingChoice = (props) => {
     >
       <Typography>
         {props?.question}
-        <br />
       </Typography>
       <Box
         sx={{
@@ -160,7 +160,7 @@ const TypeSortingChoice = (props) => {
                     touchAction: "none",
                   }}
                 >
-                  {item?.option}
+                  {parse(item?.option)}
                 </ListItem>
               ))}
             </List>
@@ -210,7 +210,7 @@ const SortableItem = (props) => {
       {...attributes}
       {...listeners}
     >
-      {props?.item?.option}
+      {parse(props?.item?.option)}
       {
         (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) &&
         <Box sx={{

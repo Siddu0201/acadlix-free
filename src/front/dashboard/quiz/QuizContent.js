@@ -11,6 +11,7 @@ import {
   updateQuestions,
 } from "../../../helpers/util";
 import { PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
+import parse from "html-react-parser";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -27,7 +28,7 @@ const QuizContent = (props) => {
       id: props?.quiz?.id,
       category: props?.quiz?.category?.category_name ?? "Uncategorized",
       title: props?.quiz?.title,
-      description: props?.quiz?.description,
+      description: parse(props?.quiz?.description),
       // Mode settings
       mode: props?.quiz?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
       enable_back_button: Boolean(Number(props?.quiz?.enable_back_button)),
@@ -54,7 +55,7 @@ const QuizContent = (props) => {
       set_end_date: Boolean(Number(props?.quiz?.set_end_date)),
       end_date: props?.quiz?.end_date ? new Date(props?.quiz?.end_date) : null, // null => indefinite
       prerequisite: Boolean(Number(props?.quiz?.prerequisite)),
-      prerequisite_data: [],
+      prerequisite_error_msg : '',
       enable_login_register: Boolean(
         Number(props?.quiz?.enable_login_register)
       ),
@@ -147,29 +148,7 @@ const QuizContent = (props) => {
       ),
       result_text: Boolean(Number(props?.quiz?.percent_based_result_text))
         ? JSON.parse(props?.quiz?.result_text)
-        : props?.quiz?.result_text, // ""/[{percent: number, text: ""}]
-      // Notification settings
-      admin_email_notification: Boolean(
-        Number(props?.quiz?.admin_email_notification)
-      ),
-      admin_to: props?.quiz?.admin_to,
-      admin_from: props?.quiz?.admin_from,
-      admin_subject: props?.quiz?.admin_subject,
-      admin_message: props?.quiz?.admin_message,
-      student_email_notification: Boolean(
-        Number(props?.quiz?.student_email_notification)
-      ),
-      student_to: props?.quiz?.student_to,
-      student_from: props?.quiz?.student_from,
-      student_subject: props?.quiz?.student_subject,
-      student_message: props?.quiz?.student_message,
-      instructor_email_notification: Boolean(
-        Number(props?.quiz?.instructor_email_notification)
-      ),
-      instructor_to: props?.quiz?.instructor_to,
-      instructor_from: props?.quiz?.instructor_from,
-      instructor_subject: props?.quiz?.instructor_subject,
-      instructor_message: props?.quiz?.instructor_message,
+        : parse(props?.quiz?.result_text), // ""/[{percent: number, text: ""}]
       // Language setting
       multi_language: Boolean(Number(props?.quiz?.multi_language)),
       // Instruction settings
@@ -216,10 +195,10 @@ const QuizContent = (props) => {
                     language_name: lang?.language?.language_name,
                     default: Boolean(Number(lang?.default)),
                     selected: Boolean(Number(lang?.default)),
-                    question: lang?.question,
-                    correct_msg: lang?.correct_msg,
-                    incorrect_msg: lang?.incorrect_msg,
-                    hint_msg: lang?.hint_msg,
+                    question: parse(lang?.question),
+                    correct_msg: parse(lang?.correct_msg),
+                    incorrect_msg: parse(lang?.incorrect_msg),
+                    hint_msg: parse(lang?.hint_msg),
                     answer_data: {
                       singleChoice: updateAnswer(
                         JSON.parse(lang?.answer_data)?.singleChoice,

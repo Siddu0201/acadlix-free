@@ -103,7 +103,7 @@ class AdminQuizController {
         $skip = $params['page'] * $params['pageSize'];
         $quiz = Quiz::withCount(['questions' => function (Builder $query) {
             $query->where('online', 1);
-        }]);
+        }])->orderBy('created_at', 'desc');
         $res['total'] = $quiz->count();
         $res['quizes'] = $quiz->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);

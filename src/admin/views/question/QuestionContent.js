@@ -340,18 +340,17 @@ const QuestionContent = (props) => {
   // console.log(props?.quiz);
 
   const navigate = useNavigate();
-  const validateInput = () => {
-    let questionIndex = methods?.watch("language")?.findIndex(d => d?.default);
-    if(methods?.watch(`language.${questionIndex}.question`)){
-      methods?.setError(`language.${questionIndex}.question`, { type: "custom", message: "Question is required"})
-    }
-  }
+  // const validateInput = () => {
+  //   let questionIndex = methods?.watch("language")?.findIndex(d => d?.default);
+  //   if(methods?.watch(`language.${questionIndex}.question`)){
+  //     methods?.setError(`language.${questionIndex}.question`, { type: "custom", message: "Question is required"})
+  //   }
+  // }
   const createMutation = PostCreateQuizQuestion(props?.quiz_id);
   const updateMutation = UpdateQuizQuestionById(
     props?.quiz_id,
     props?.question_id
   );
-  console.log(methods.formState.errors);
   const onSubmit = (data) => {
     const newData = { ...data };
     newData?.language?.map((lang) => {

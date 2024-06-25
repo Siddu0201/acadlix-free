@@ -72,8 +72,8 @@ const QuizContent = (props) => {
       login_register_type:
         props?.quiz?.login_register_type ?? "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz
       per_user_allowed_attempt: props?.quiz?.per_user_allowed_attempt ?? 0, // 0 => infinity
-      save_statistic: Boolean(Number(props?.quiz?.save_statistic)),
-      statistic_ip_lock: Number(props?.quiz?.statistic_ip_lock) ?? 0,
+      save_statistic: Boolean(Number(props?.quiz?.save_statistic)) ?? 0,
+      statistic_ip_lock: props?.quiz?.statistic_ip_lock ? Number(props?.quiz?.statistic_ip_lock) : 0,
       save_statistic_number_of_times:
         props?.quiz?.save_statistic_number_of_times ?? 0, // 0 =>  infinity
       on_screen_calculator: Boolean(Number(props?.quiz?.on_screen_calculator)),
@@ -232,7 +232,7 @@ const QuizContent = (props) => {
     }
   };
 
-  // console.log(methods);
+  console.log(methods.watch());
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {

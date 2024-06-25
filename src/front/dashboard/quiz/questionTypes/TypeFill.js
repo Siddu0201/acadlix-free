@@ -70,7 +70,6 @@ const TypeFill = (props) => {
     >
       <Typography>
         {props?.question}
-        <br />
       </Typography>
       <Box
         sx={{

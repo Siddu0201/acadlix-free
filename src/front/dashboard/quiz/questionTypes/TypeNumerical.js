@@ -39,7 +39,6 @@ const TypeNumerical = (props) => {
     >
       <Typography>
         {props?.question}
-        <br />
       </Typography>
       <Box
         sx={{
