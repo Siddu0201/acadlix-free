@@ -93,7 +93,8 @@ const TypeNumerical = (props) => {
               sx={{
                 position: "relative",
                 marginLeft: "5px",
-                top: "17px",
+                display: "flex",
+                alignItems: "center",
               }}
             >
               {props?.watch(

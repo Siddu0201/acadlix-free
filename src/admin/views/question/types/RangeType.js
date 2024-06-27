@@ -32,7 +32,7 @@ function RangeType(props) {
               fullWidth
               size="small"
               label="Range From"
-              type="Number"
+              type="number"
               inputProps={{
                 step: 0.00001,
               }}

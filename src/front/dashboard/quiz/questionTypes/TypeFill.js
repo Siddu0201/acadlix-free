@@ -124,7 +124,8 @@ const TypeFill = (props) => {
               sx={{
                 position: "relative",
                 marginLeft: "5px",
-                top: "2px",
+                display: "flex",
+                alignItems: "center",
               }}
             >
               {props?.watch(

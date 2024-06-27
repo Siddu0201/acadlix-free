@@ -294,6 +294,15 @@ const Result = (props) => {
               props?.watch("hide_result") ||
               !props?.watch("show_status_based_on_min_percent")
             }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -534,6 +543,15 @@ const Result = (props) => {
               );
             }}
             disabled={!props?.watch("leaderboard")}
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -582,6 +600,15 @@ const Result = (props) => {
               !props?.watch("leaderboard_user_can_apply_multiple_times")
               || props?.watch("show_rank") || props?.watch("result_comparision_with_topper")
             }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -718,6 +745,15 @@ const Result = (props) => {
                       e?.target?.value,
                       { shouldDirty: true }
                     );
+                  }}
+                  sx={{
+                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                      {
+                        display: "none",
+                      },
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
                   }}
                 />
               </GridItem1>

@@ -8,6 +8,7 @@ import {
   Grid,
   Paper,
   TextField,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequest";
@@ -18,17 +19,38 @@ const CategoryTemplateSection = (props) => {
   const updateMutation = PostCreateCategory();
 
   const createCategory = () => {
-    updateMutation.mutate({category: input}, {
-      onSuccess: (data)=> {
-        setCategories(data?.data?.categories);
-        props?.setValue("category_id", data?.data?.category_id ??  null, {
-          shouldDirty: true,
+    if (input) {
+      if (
+        categories?.filter(
+          (d) => d?.category_name?.toLowerCase() === input?.toLowerCase()
+        )?.length > 0
+      ) {
+        props?.setError(`category_id`, {
+          type: "custom",
+          message: "Category name is already exist",
         });
+      } else {
+        updateMutation.mutate(
+          { category: input },
+          {
+            onSuccess: (data) => {
+              props?.clearErrors("category_id");
+              setCategories(data?.data?.categories);
+              props?.setValue("category_id", data?.data?.category_id ?? null, {
+                shouldDirty: true,
+              });
+            },
+          }
+        );
       }
-    })
-  }
+    } else {
+      props?.setError(`category_id`, {
+        type: "custom",
+        message: "Category cannot be empty",
+      });
+    }
+  };
 
-  
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -62,7 +84,9 @@ const CategoryTemplateSection = (props) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {updateMutation?.isPending ? <CircularProgress color="inherit" size={20} /> : null}
+                          {updateMutation?.isPending ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
                           {params.InputProps.endAdornment}
                         </React.Fragment>
                       ),
@@ -71,7 +95,7 @@ const CategoryTemplateSection = (props) => {
                   />
                 )}
                 onChange={(_, newValue) => {
-                  props?.setValue("category_id", newValue?.id ??  null, {
+                  props?.setValue("category_id", newValue?.id ?? null, {
                     shouldDirty: true,
                   });
                 }}
@@ -91,6 +115,12 @@ const CategoryTemplateSection = (props) => {
                   );
                 }}
               />
+              {
+                Boolean(props?.formState?.errors?.category_id) &&
+                <Typography component="p" color="error">
+                  {props?.formState?.errors?.category_id?.message}
+                </Typography>
+              }
             </Grid>
 
             {/* Used to load quiz data from template  */}

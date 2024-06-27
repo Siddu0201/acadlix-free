@@ -168,7 +168,8 @@ const TypeSingleChoice = (props) => {
                         sx={{
                           position: "relative",
                           marginLeft: "5px",
-                          top: "2px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
                         {props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? (

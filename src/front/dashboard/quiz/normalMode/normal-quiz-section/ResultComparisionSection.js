@@ -16,15 +16,17 @@ const ResultComparisionSection = (props) => {
         <Card>
           <CardHeader
             title="Result comparision with topper"
-            sx={{
-              textAlign: "center",
-              fontWeight: {
-                xs: 600,
-                md: 400
-              },
-              fontSize: {
-                xs: "1.15rem",
-                md: "1.5rem",
+            titleTypographyProps={{
+              sx: {
+                textAlign: "center",
+                fontWeight: {
+                  xs: 600,
+                  md: 400
+                },
+                fontSize: {
+                  xs: "1.15rem",
+                  md: "1.5rem",
+                }
               }
             }}
           />

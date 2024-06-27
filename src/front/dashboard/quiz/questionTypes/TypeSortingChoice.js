@@ -184,7 +184,7 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
         cursor: "move",
       }}
     >
-      {id}
+      {parse(id)}
     </ListItem>
   );
 });
@@ -216,7 +216,8 @@ const SortableItem = (props) => {
         <Box sx={{
           position: "relative",
           marginLeft: "5px",
-          top: "2px",
+          display: "flex",
+          alignItems: "center",
         }}>
           {
             props?.id === props?.item?.position ?

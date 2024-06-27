@@ -233,7 +233,7 @@ const ResultSection = (props) => {
           result={percent}
           accuracy={accuracy}
           points={result}
-          time={time}
+          time={secondsToHms(time)}
           TickImage={TickImage}
           ClockImage={ClockImage}
           AccuracyImage={AccuracyImage}

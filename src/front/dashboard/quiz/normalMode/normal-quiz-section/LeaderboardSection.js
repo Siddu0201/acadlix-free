@@ -148,7 +148,6 @@ const LeaderboardSection = (props) => {
       container
       sx={{ 
         backgroundColor: "#37afca", 
-        minHeight: "100vh", 
         marginY: 1,
         justifyContent: "center"
        }}

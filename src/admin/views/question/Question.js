@@ -88,17 +88,28 @@ const Question = () => {
   React.useMemo(() => {
     if (Array.isArray(data?.data?.questions)) {
       const newRows = data?.data?.questions?.map((question) => {
-        return {
-          id: question?.id,
-          title: question?.title ? question?.title : question?.question_languages?.filter(d => d?.default)?.[0]?.question?.substr(0, 50),
-          subject: question?.subject?.subject_name ?? "Uncategorized",
-          points: question?.points,
-          negative_points: question?.negative_points,
-        };
+          return {
+            id: question?.id,
+            title: question?.title ? question?.title : question?.question_languages?.filter(d => d?.default)?.[0]?.question?.substr(0, 50),
+            subject: question?.subject?.subject_name ?? "Uncategorized",
+            points: question?.points,
+            negative_points: question?.negative_points,
+          };
       });
-      setRows(() => [...newRows]);
+      setRows(() => [...rows.concat(newRows.filter(item2 =>
+        !rows.some(item1 => item1.id === item2.id)))]);
     }
   }, [data, setRows]);
+
+
+  const rowCountRef = React.useRef(data?.data?.total || 0);
+
+  const rowCount = React.useMemo(() => {
+    if (data?.data?.total !== undefined) {
+      rowCountRef.current = data?.data?.total;
+    }
+    return rowCountRef.current;
+  }, [data?.data?.total]);
 
   return (
     <Box>
@@ -166,6 +177,7 @@ const Question = () => {
                 <DataGrid
                   rows={rows}
                   columns={columns}
+                  rowCount={rowCount}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   pageSizeOptions={[10, 20, 50]}

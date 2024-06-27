@@ -179,6 +179,15 @@ const General = (props) => {
                 shouldDirty: true,
               });
             }}
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
         <GridItem1 xs={12} lg={2}></GridItem1>
@@ -513,6 +522,13 @@ const General = (props) => {
                         sx={{
                           maxWidth: "30%",
                           marginX: 2,
+                          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                            {
+                              display: "none",
+                            },
+                          "& input[type=number]": {
+                            MozAppearance: "textfield",
+                          },
                         }}
                         value={value?.min_percentage ?? 0}
                         onChange={(e) => {
@@ -658,6 +674,15 @@ const General = (props) => {
               !props?.watch("enable_login_register") ||
               props?.watch("login_register_type") === "at_finish_of_quiz"
             }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -709,6 +734,15 @@ const General = (props) => {
               !props?.watch("enable_login_register") ||
               !props?.watch("save_statistic")
             }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -731,6 +765,15 @@ const General = (props) => {
               !props?.watch("enable_login_register") ||
               !props?.watch("save_statistic")
             }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -828,6 +871,15 @@ const General = (props) => {
               );
             }}
             disabled={!props?.watch("show_only_specific_number_of_questions")}
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
 
@@ -898,6 +950,15 @@ const General = (props) => {
               );
             }}
             disabled={!props?.watch("proctoring")}
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
           />
         </GridItem1>
       </Grid>

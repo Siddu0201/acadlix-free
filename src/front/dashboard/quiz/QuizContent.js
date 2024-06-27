@@ -7,6 +7,7 @@ import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSect
 import {
   arrayRandomize,
   randomizePosition,
+  secondsToHms,
   updateAnswer,
   updateQuestions,
 } from "../../../helpers/util";
@@ -282,8 +283,8 @@ const QuizContent = (props) => {
       ?.filter((d) => d?.result?.solved_count)?.length;
     let data = {
       points: points,
-      result: ((points / total) * 100).toFixed(2),
-      accuracy: ((correct_count / solved_count) * 100).toFixed(2),
+      result: total > 0 ? ((points / total) * 100).toFixed(2) : "0.00",
+      accuracy: solved_count > 0 ? ((correct_count / solved_count) * 100).toFixed(2) : "0.00",
       status:
         (points / total) * 100 > methods?.watch("minimum_percent_to_pass")
           ? "Pass"
@@ -296,10 +297,10 @@ const QuizContent = (props) => {
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
-        methods?.setValue("average_score", data?.data?.average_score ?? 0, {
+        methods?.setValue("average_score", data?.data?.average_score?.toFixed(2) ?? 0, {
           shouldDirty: true,
         });
-        methods?.setValue("percentile", data?.data?.percentile ?? 0, {
+        methods?.setValue("percentile", data?.data?.percentile?.toFixed(2) ?? 0, {
           shouldDirty: true,
         });
         methods?.setValue("rank", data?.data?.rank ?? 0, { shouldDirty: true });
@@ -309,11 +310,11 @@ const QuizContent = (props) => {
         });
         let topper = data?.data?.toplist?.filter((d, key) => key === 0)?.[0];
         let topper_data = {
-          quiz_time: topper?.quiz_time ?? 0,
-          accuracy: topper?.accuracy ?? 0,
+          quiz_time: secondsToHms(topper?.quiz_time) ?? 0,
+          accuracy: topper?.accuracy?.toFixed(2)  ?? 0,
           status: topper?.status ?? "",
-          result: topper?.result ?? 0,
-          points: topper?.points ?? 0,
+          result: topper?.result?.toFixed(2) ?? 0,
+          points: topper?.points?? 0,
           rank: 1,
           name: topper?.name ?? "",
           email: topper?.email ?? "",

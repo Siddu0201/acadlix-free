@@ -30,7 +30,6 @@ const Quiz = () => {
     }
   }
 
-
   const columns = [
     { field: "id", headerName: "ID" },
     { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
@@ -98,9 +97,19 @@ const Quiz = () => {
           total_questions: quiz?.questions_count,
         };
       });
-      setRows(() => [...newRows]);
+      setRows(() => [...rows.concat(newRows.filter(item2 =>
+        !rows.some(item1 => item1.id === item2.id)))]);
     }
   }, [data, setRows]);
+
+  const rowCountRef = React.useRef(data?.data?.total || 0);
+
+  const rowCount = React.useMemo(() => {
+    if (data?.data?.total !== undefined) {
+      rowCountRef.current = data?.data?.total;
+    }
+    return rowCountRef.current;
+  }, [data?.data?.total]);
 
   return (
     <Box>
@@ -154,6 +163,7 @@ const Quiz = () => {
                 <DataGrid
                   rows={rows}
                   columns={columns}
+                  rowCount={rowCount}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   pageSizeOptions={[10, 20, 50]}
@@ -163,10 +173,8 @@ const Quiz = () => {
                     setRowSelection(data)
                   }}
                   rowSelectionModel={rowSelection}
-                  pagination
                   autoHeight
                   loading={isFetching}
-                  rowCount={data?.data?.total}
                   columnVisibilityModel={{
                     id: false,
                   }}

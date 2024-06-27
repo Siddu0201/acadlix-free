@@ -8,6 +8,7 @@ import {
   Grid,
   Paper,
   TextField,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -19,17 +20,26 @@ const GeneralOptionSection = (props) => {
   const updateMutation = PostCreateSubject();
 
   const createSubject = () => {
-    updateMutation.mutate(
-      { subject: input },
-      {
-        onSuccess: (data) => {
-          setSubjects(data?.data?.subjects);
-          props?.setValue("subject_id", data?.data?.subject_id ?? null, {
-            shouldDirty: true,
-          });
-        },
+    if(input){
+      if(subjects?.filter(d => d?.subject_name?.toLowerCase() === input?.toLowerCase())?.length > 0){
+        props?.setError(`subject_id`, { type: "custom", message: "Subject name is already exist"});
+      }else{
+        updateMutation.mutate(
+          { subject: input },
+          {
+            onSuccess: (data) => {
+              props?.clearErrors("subject_id");
+              setSubjects(data?.data?.subjects);
+              props?.setValue("subject_id", data?.data?.subject_id ?? null, {
+                shouldDirty: true,
+              });
+            },
+          }
+        );
       }
-    );
+    }else{
+      props?.setError(`subject_id`, { type: "custom", message: "Subject cannot be empty"});
+    }
   };
 
   return (
@@ -167,6 +177,12 @@ const GeneralOptionSection = (props) => {
                   );
                 }}
               />
+              {
+                Boolean(props?.formState?.errors?.subject_id) &&
+                <Typography component="p" color="error">
+                  {props?.formState?.errors?.subject_id?.message}
+                </Typography>
+              }
             </Grid>
           </Grid>
         </CardContent>
