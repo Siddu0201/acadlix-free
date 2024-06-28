@@ -282,7 +282,7 @@ const QuizContent = (props) => {
       ?.watch("questions")
       ?.filter((d) => d?.result?.solved_count)?.length;
     let data = {
-      points: points,
+      points: points?.toFixed(2),
       result: total > 0 ? ((points / total) * 100).toFixed(2) : "0.00",
       accuracy: solved_count > 0 ? ((correct_count / solved_count) * 100).toFixed(2) : "0.00",
       status:
@@ -314,7 +314,7 @@ const QuizContent = (props) => {
           accuracy: topper?.accuracy?.toFixed(2)  ?? 0,
           status: topper?.status ?? "",
           result: topper?.result?.toFixed(2) ?? 0,
-          points: topper?.points?? 0,
+          points: topper?.points?.toFixed(2) ?? 0,
           rank: 1,
           name: topper?.name ?? "",
           email: topper?.email ?? "",

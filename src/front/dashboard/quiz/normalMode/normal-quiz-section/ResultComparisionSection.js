@@ -128,7 +128,7 @@ const ResultComparisionSection = (props) => {
                   <b>Points:</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
-                  <Typography>{props?.points}</Typography>
+                  <Typography>{props?.points?.toFixed(2)}</Typography>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>
@@ -154,11 +154,11 @@ const ResultComparisionSection = (props) => {
                   <b>Result:</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
-                  <Typography>{props?.result?.toFixed(2)}</Typography>
+                  <Typography>{props?.result?.toFixed(2)}%</Typography>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>
-                    {props?.watch("topper_result.result")}
+                    {props?.watch("topper_result.result")}%
                   </Typography>
                 </Grid>
               </Grid>
