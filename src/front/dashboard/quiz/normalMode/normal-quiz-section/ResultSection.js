@@ -104,7 +104,7 @@ const ResultSection = (props) => {
           </Box>
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              {result}/{total}
+              {result?.toFixed(2)}/{total}
             </Typography>
             <Typography variant="h7">Marks Obtained</Typography>
           </Box>
@@ -116,7 +116,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {`-${negative_marks}`}
+                {`-${negative_marks?.toFixed(2)}`}
               </Typography>
               <Typography variant="h7">Negative Marks</Typography>
             </Box>

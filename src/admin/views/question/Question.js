@@ -90,7 +90,7 @@ const Question = () => {
       const newRows = data?.data?.questions?.map((question) => {
           return {
             id: question?.id,
-            title: question?.title ? question?.title : question?.question_languages?.filter(d => d?.default)?.[0]?.question?.substr(0, 50),
+            title: question?.title ? question?.title : question?.question_languages?.filter(d => d?.default)?.[0]?.question.substring(0, 50),
             subject: question?.subject?.subject_name ?? "Uncategorized",
             points: question?.points,
             negative_points: question?.negative_points,

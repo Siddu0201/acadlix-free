@@ -112,6 +112,12 @@ class AdminQuestionController {
         $question = Question::where('quiz_id', $quiz_id)->where('online', 1)->orderBy('created_at', 'desc');
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
+        foreach($res['questions'] as $key => $question){
+            foreach($question->question_languages as $lkey => $lang){
+                $lang['question'] = strip_tags($this->renderShortCode($lang['question']));
+                $res['questions'][$key]['question_languages'][$lkey] = $lang;
+            }
+        }
         $res['quiz'] = Quiz::find($quiz_id);
         return rest_ensure_response($res);
     }
@@ -172,5 +178,9 @@ class AdminQuestionController {
     }
     public function check_permission() {
         return true;
+    }
+
+    public function renderShortCode($data){
+        return do_shortcode(apply_filters('comment_text',  $data));
     }
 }
