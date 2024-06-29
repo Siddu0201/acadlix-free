@@ -335,78 +335,89 @@ const ViewQuestionSection = (props) => {
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
             <Box>
-              {props?.question?.result?.solved_count ? 
-                (
-                    props?.question?.result?.correct_count ? 
-                    (
-                        <Box
-                            sx={{
-                            border: `1px solid ${props?.colorCode?.hint_border}`,
-                            padding: 2,
-                            marginY: 2,
-                            backgroundColor: props?.colorCode?.hint_background,
-                            boxShadow: theme?.shadows[1],
-                            }}
-                        >
-                            <Box>
-                            <Typography>
-                                <b>Correct</b>
-                            </Typography>
-                            </Box>
-                            <Box>
-                            <Typography>{lang?.correct_msg}</Typography>
-                            </Box>
-                        </Box>
-                    ) : 
-                    (
-                        <Box
-                            sx={{
-                            border: `1px solid ${props?.colorCode?.hint_border}`,
-                            padding: 2,
-                            marginY: 2,
-                            backgroundColor: props?.colorCode?.hint_background,
-                            boxShadow: theme?.shadows[1],
-                            }}
-                        >
-                            <Box>
-                            <Typography>
-                                <b>Incorrect</b>
-                            </Typography>
-                            </Box>
-                            <Box>
-                            <Typography>
-                                {lang?.different_points_for_each_answer
-                                ? lang?.incorrect_msg
-                                : lang?.correct_msg}
-                            </Typography>
-                            </Box>
-                        </Box>
-                    )
-                ) : 
-                (
-                    <Box
+              {props?.question?.result?.solved_count ? (
+                props?.question?.result?.correct_count ? (
+                  <Box
                     sx={{
-                        border: `1px solid ${props?.colorCode?.hint_border}`,
-                        padding: 2,
-                        marginY: 2,
-                        backgroundColor: props?.colorCode?.hint_background,
-                        boxShadow: theme?.shadows[1],
+                      border: `1px solid ${props?.colorCode?.hint_border}`,
+                      padding: 2,
+                      marginY: 2,
+                      backgroundColor: props?.colorCode?.hint_background,
+                      boxShadow: theme?.shadows[1],
+                      display: lang?.correct_msg?.length > 0 ? "" : "none",
                     }}
-                    >
+                  >
                     <Box>
-                        <Typography>
-                        <b>Skipped</b>
-                        </Typography>
+                      <Typography>
+                        <b>Correct</b>
+                      </Typography>
                     </Box>
                     <Box>
-                        <Typography>
+                      <Typography>{lang?.correct_msg}</Typography>
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      border: `1px solid ${props?.colorCode?.hint_border}`,
+                      padding: 2,
+                      marginY: 2,
+                      backgroundColor: props?.colorCode?.hint_background,
+                      boxShadow: theme?.shadows[1],
+                      display: lang?.different_points_for_each_answer
+                        ? lang?.incorrect_msg?.length > 0
+                          ? ""
+                          : "none"
+                        : lang?.correct_msg?.length > 0
+                        ? ""
+                        : "none",
+                    }}
+                  >
+                    <Box>
+                      <Typography>
+                        <b>Incorrect</b>
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography>
                         {lang?.different_points_for_each_answer
-                            ? lang?.incorrect_msg
-                            : lang?.correct_msg}
-                        </Typography>
+                          ? lang?.incorrect_msg
+                          : lang?.correct_msg}
+                      </Typography>
                     </Box>
-                    </Box>
-                )}
+                  </Box>
+                )
+              ) : (
+                <Box
+                  sx={{
+                    border: `1px solid ${props?.colorCode?.hint_border}`,
+                    padding: 2,
+                    marginY: 2,
+                    backgroundColor: props?.colorCode?.hint_background,
+                    boxShadow: theme?.shadows[1],
+                    display: lang?.different_points_for_each_answer
+                      ? lang?.incorrect_msg?.length > 0
+                        ? ""
+                        : "none"
+                      : lang?.correct_msg?.length > 0
+                      ? ""
+                      : "none",
+                  }}
+                >
+                  <Box>
+                    <Typography>
+                      <b>Skipped</b>
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography>
+                      {lang?.different_points_for_each_answer
+                        ? lang?.incorrect_msg
+                        : lang?.correct_msg}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
             </Box>
           ))}
       </Box>

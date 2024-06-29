@@ -16,6 +16,11 @@ use Yuvayana\Acadlix\REST\Admin\AdminQuestionController;
 
 // Front API Controller
 use Yuvayana\Acadlix\REST\Front\FrontQuizController;
+use Yuvayana\Acadlix\REST\Front\FrontUserController;
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
 
 #[\AllowDynamicProperties] class Api {
 
@@ -47,6 +52,7 @@ use Yuvayana\Acadlix\REST\Front\FrontQuizController;
 
                 // Front Controllers
                 FrontQuizController::class,
+                FrontUserController::class
             ]
         );
 

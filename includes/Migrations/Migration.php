@@ -20,6 +20,10 @@ use Yuvayana\Acadlix\Migrations\QuizAttemptMigration;
 use Yuvayana\Acadlix\Migrations\AnswerOptionMigration;
 use Yuvayana\Acadlix\Migrations\QuizOptionMigration;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
+
 if(!class_exists('Migration')){
     class Migration 
     {   

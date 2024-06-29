@@ -328,7 +328,7 @@ const General = (props) => {
         <GridItem1 xs={0} lg={4}></GridItem1>
 
         {/* Button to pause quiz */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={12}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -344,8 +344,203 @@ const General = (props) => {
           />
         </GridItem1>
 
-        {/* Quiz prerequisite */}
+        <GridItem1 xs={12} lg={12}>
+          <Typography variant="h6">Login Options</Typography>
+        </GridItem1>
+
+        {/* If login is required for the quiz */}
+        <GridItem1 xs={12} lg={4}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={props?.watch("enable_login_register") ?? false}
+                onChange={(e) => {
+                  props?.setValue("enable_login_register", e?.target?.checked, {
+                    shouldDirty: true,
+                  });
+                }}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
+              />
+            }
+            label="Enable login/register"
+          />
+        </GridItem1>
+
+        {/* Login position
+          - At Start of Quiz
+          - At Finish of Quiz
+        */}
         <GridItem1 xs={12} lg={8}>
+          <FormControl>
+            <RadioGroup
+              name="login"
+              row
+              onChange={(e) => {
+                props?.setValue("login_register_type", e?.target?.value, {
+                  shouldDirty: true,
+                });
+              }}
+            >
+              <FormControlLabel
+                control={<Radio />}
+                label="At Start of Quiz"
+                value="at_start_of_quiz"
+                checked={
+                  props?.watch("login_register_type") === "at_start_of_quiz"
+                }
+                disabled={!props?.watch("enable_login_register")}
+              />
+              <FormControlLabel
+                control={<Radio />}
+                label="At Finish of Quiz"
+                value="at_finish_of_quiz"
+                checked={
+                  props?.watch("login_register_type") === "at_finish_of_quiz"
+                }
+                disabled={
+                  !props?.watch("enable_login_register") ||
+                  (props?.watch("mode") === "advance_mode" &&
+                    props?.watch("advance_mode_type") !== "advance_panel")
+                }
+              />
+            </RadioGroup>
+          </FormControl>
+        </GridItem1>
+
+        {/* Per user allowed attempt to attent the quiz */}
+        <GridItem1 xs={12} lg={3}>
+          <Tooltip title="Sets allowed attempts (0 = unlimited); requires login at quiz start." placement="right-start">
+            <IconButton
+              sx={{
+                fontSize: "1.25rem",
+              }}
+            >
+              <RiQuestionFill />
+            </IconButton>
+          </Tooltip>
+          <CustomTextField
+            label="Per User Allowed Attempt"
+            variant="outlined"
+            size="small"
+            type="number"
+            onChange={(e) => {
+              props?.setValue("per_user_allowed_attempt", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+            value={props?.watch("per_user_allowed_attempt") ?? 0}
+            disabled={
+              !props?.watch("enable_login_register") ||
+              props?.watch("login_register_type") === "at_finish_of_quiz"
+            }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
+          />
+        </GridItem1>
+
+        {/* Save Statistic */}
+        <GridItem1 xs={12} lg={3}>
+          <Tooltip title="Used to save statistic">
+            <IconButton
+              sx={{
+                fontSize: "1.25rem",
+              }}
+            >
+              <RiQuestionFill />
+            </IconButton>
+          </Tooltip>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={props?.watch("save_statistic") ?? false}
+                onChange={(e) => {
+                  props?.setValue("save_statistic", e?.target?.checked, {
+                    shouldDirty: true,
+                  });
+                }}
+                disabled={
+                  props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel"
+                }
+              />
+            }
+            label="Save Statistics"
+            disabled={!props?.watch("enable_login_register")}
+          />
+        </GridItem1>
+
+        {/* Statistic ip Lock */}
+        <GridItem1 xs={12} lg={3}>
+          <CustomTextField
+            label="Statistic IP Lock"
+            variant="outlined"
+            size="small"
+            type="number"
+            onChange={(e) => {
+              props?.setValue("statistic_ip_lock", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+            value={props?.watch("statistic_ip_lock") ?? 0}
+            disabled={
+              !props?.watch("enable_login_register") ||
+              !props?.watch("save_statistic")
+            }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
+          />
+        </GridItem1>
+
+        {/* Number of time statistic saved per user (0 => infinity) */}
+        <GridItem1 xs={12} lg={3}>
+          <CustomTextField
+            label="Save statistic no. of times"
+            variant="outlined"
+            size="small"
+            type="number"
+            onChange={(e) => {
+              props?.setValue(
+                "save_statistic_number_of_times",
+                e?.target?.value,
+                { shouldDirty: true }
+              );
+            }}
+            value={props?.watch("save_statistic_number_of_times") ?? 0}
+            disabled={
+              !props?.watch("enable_login_register") ||
+              !props?.watch("save_statistic")
+            }
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
+          />
+        </GridItem1>
+
+        {/* Quiz prerequisite */}
+        <GridItem1 xs={12} lg={12}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -356,8 +551,9 @@ const General = (props) => {
                   });
                 }}
                 disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
+                  (props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel") ||
+                  !props?.watch("enable_login_register") || props?.watch("login_register_type") !== "at_start_of_quiz"
                 }
               />
             }
@@ -580,201 +776,6 @@ const General = (props) => {
                 })}
             </List>
           </Card>
-        </GridItem1>
-
-        <GridItem1 xs={12} lg={12}>
-          <Typography variant="h6">Login Options</Typography>
-        </GridItem1>
-
-        {/* If login is required for the quiz */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("enable_login_register") ?? false}
-                onChange={(e) => {
-                  props?.setValue("enable_login_register", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
-                }
-              />
-            }
-            label="Enable login/register"
-          />
-        </GridItem1>
-
-        {/* Login position
-          - At Start of Quiz
-          - At Finish of Quiz
-        */}
-        <GridItem1 xs={12} lg={8}>
-          <FormControl>
-            <RadioGroup
-              name="login"
-              row
-              onChange={(e) => {
-                props?.setValue("login_register_type", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-            >
-              <FormControlLabel
-                control={<Radio />}
-                label="At Start of Quiz"
-                value="at_start_of_quiz"
-                checked={
-                  props?.watch("login_register_type") === "at_start_of_quiz"
-                }
-                disabled={!props?.watch("enable_login_register")}
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="At Finish of Quiz"
-                value="at_finish_of_quiz"
-                checked={
-                  props?.watch("login_register_type") === "at_finish_of_quiz"
-                }
-                disabled={
-                  !props?.watch("enable_login_register") ||
-                  (props?.watch("mode") === "advance_mode" &&
-                    props?.watch("advance_mode_type") !== "advance_panel")
-                }
-              />
-            </RadioGroup>
-          </FormControl>
-        </GridItem1>
-
-        {/* Per user allowed attempt to attent the quiz */}
-        <GridItem1 xs={12} lg={3}>
-          <Tooltip title="Sets allowed attempts (0 = unlimited); requires login at quiz start." placement="right-start">
-            <IconButton
-              sx={{
-                fontSize: "1.25rem",
-              }}
-            >
-              <RiQuestionFill />
-            </IconButton>
-          </Tooltip>
-          <CustomTextField
-            label="Per User Allowed Attempt"
-            variant="outlined"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              props?.setValue("per_user_allowed_attempt", e?.target?.value, {
-                shouldDirty: true,
-              });
-            }}
-            value={props?.watch("per_user_allowed_attempt") ?? 0}
-            disabled={
-              !props?.watch("enable_login_register") ||
-              props?.watch("login_register_type") === "at_finish_of_quiz"
-            }
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
-        </GridItem1>
-
-        {/* Save Statistic */}
-        <GridItem1 xs={12} lg={3}>
-          <Tooltip title="Used to save statistic">
-            <IconButton
-              sx={{
-                fontSize: "1.25rem",
-              }}
-            >
-              <RiQuestionFill />
-            </IconButton>
-          </Tooltip>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("save_statistic") ?? false}
-                onChange={(e) => {
-                  props?.setValue("save_statistic", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
-                }
-              />
-            }
-            label="Save Statistics"
-            disabled={!props?.watch("enable_login_register")}
-          />
-        </GridItem1>
-
-        {/* Statistic ip Lock */}
-        <GridItem1 xs={12} lg={3}>
-          <CustomTextField
-            label="Statistic IP Lock"
-            variant="outlined"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              props?.setValue("statistic_ip_lock", e?.target?.value, {
-                shouldDirty: true,
-              });
-            }}
-            value={props?.watch("statistic_ip_lock") ?? 0}
-            disabled={
-              !props?.watch("enable_login_register") ||
-              !props?.watch("save_statistic")
-            }
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
-        </GridItem1>
-
-        {/* Number of time statistic saved per user (0 => infinity) */}
-        <GridItem1 xs={12} lg={3}>
-          <CustomTextField
-            label="Save statistic no. of times"
-            variant="outlined"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              props?.setValue(
-                "save_statistic_number_of_times",
-                e?.target?.value,
-                { shouldDirty: true }
-              );
-            }}
-            value={props?.watch("save_statistic_number_of_times") ?? 0}
-            disabled={
-              !props?.watch("enable_login_register") ||
-              !props?.watch("save_statistic")
-            }
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
         </GridItem1>
 
         <GridItem1 xs={12} lg={12}>

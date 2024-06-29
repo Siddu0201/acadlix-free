@@ -3,9 +3,12 @@
 namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
-use WP_Error;
 
 use Yuvayana\Acadlix\Models\Subject;
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
 
 class AdminSubjectController {
 

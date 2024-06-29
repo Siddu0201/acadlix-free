@@ -3,6 +3,7 @@ import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 import { PostCheckPrerequisite } from "../../../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
+import LoginModel from "./LoginModel";
 
 const DescriptionSection = (props) => {
   const current_date = new Date();
@@ -20,7 +21,7 @@ const DescriptionSection = (props) => {
   }
 
   const handleStart = () => {
-    props?.setValue("prerequisite_error_msg", '', {shouldDirty: true})
+    props?.setValue("prerequisite_error_msg", "", { shouldDirty: true });
     if (props?.watch("mode") === "advance_mode") {
       const link = `${
         acadlixOptions?.advance_quiz_url
@@ -36,33 +37,53 @@ const DescriptionSection = (props) => {
       props?.setValue("last", Date.now(), { shouldDirty: true });
       props?.setValue("now", Date.now(), { shouldDirty: true });
     }
-  }
+  };
 
   const checkPrerequisite = PostCheckPrerequisite(props?.watch("id"));
 
   const handleStartWithPrerequisite = () => {
-    if(props?.watch("user_id") > 0){
-      checkPrerequisite.mutate({user_id: props?.watch("user_id")}, {
-        onSuccess: (data) => {
-          console.log(data?.data);
-          if(data?.data?.length > 0){
-            let msg = '';
-            data?.data?.forEach((d, index) => {
-              msg += `<b>${d?.title} (with min ${d?.min_percentage}%)</b>`;
-              if(index + 1 !== data?.data?.length){
-                msg += ', ';
+    if (props?.watch("user_id") > 0) {
+      checkPrerequisite.mutate(
+        { user_id: props?.watch("user_id") },
+        {
+          onSuccess: (data) => {
+            if (data?.data?.prerequisite?.length > 0 || data?.data?.user_allowed_attempt_error) {
+              let msg = "";
+              data?.data?.prerequisite?.forEach((d, index) => {
+                msg += `<b>${d?.title} (with min ${d?.min_percentage}%)</b>`;
+                if (index + 1 !== data?.data?.length) {
+                  msg += ", ";
+                }
+              });
+              if(data?.data?.prerequisite?.length > 0){
+                props?.setValue(
+                  "prerequisite_error_msg",
+                  `You must finish ${msg} to proceed.`,
+                  { shouldDirty: true }
+                );
               }
-            });
-            props?.setValue("prerequisite_error_msg", `You must finish ${msg} to proceed.`, {shouldDirty: true});
-          }else{
-            handleStart();
-          }
+
+              if(data?.data?.user_allowed_attempt_error){
+                props?.setValue(
+                  "user_allowed_attempt_error",
+                  data?.data?.user_allowed_attempt_error,
+                  { shouldDirty: true }
+                );
+              }
+            } else {
+              handleStart();
+            }
+          },
         }
-      })
-    }else{
-      props?.setValue("prerequisite_error_msg", "Please login to start the test.", {shouldDirty: true});
+      );
+    } else {
+      props?.setValue(
+        "prerequisite_error_msg",
+        "Please login to start the test.",
+        { shouldDirty: true }
+      );
     }
-  }
+  };
 
   return (
     <Box>
@@ -84,38 +105,61 @@ const DescriptionSection = (props) => {
       </Typography>
       <CustomButton
         onClick={() => {
-          if(props?.watch("prerequisite")){
-            handleStartWithPrerequisite();
-          }else{
-            handleStart();
+          if (
+            props?.watch("enable_login_register") &&
+            props?.watch("login_register_type") == "at_start_of_quiz" &&
+            props?.watch("user_id") == 0
+          ) {
+            props?.setValue("login_model", true, { shouldDirty: true });
+          } else {
+            if (props?.watch("prerequisite")|| props?.watch("per_user_allowed_attempt") > 0) {
+              handleStartWithPrerequisite();
+            } else {
+              handleStart();
+            }
           }
         }}
         disabled={checkPrerequisite?.isPending}
       >
-        {
-          checkPrerequisite?.isPending ? 'Loading...' : 'Start Quiz'
-        }
+        {checkPrerequisite?.isPending ? "Loading..." : "Start Quiz"}
       </CustomButton>
-      {
-        props?.watch("prerequisite_error_msg") &&
-        <Box sx={{
-          marginY: 2
-        }}>
+      <LoginModel
+        {...props}
+        handleStart={handleStart}
+        handleStartWithPrerequisite={handleStartWithPrerequisite}
+      />
+      {props?.watch("prerequisite_error_msg") && (
+        <Box
+          sx={{
+            marginY: 2,
+          }}
+        >
           <Alert severity="error">
             {parse(props?.watch("prerequisite_error_msg"))}
           </Alert>
         </Box>
-      }
+      )}
+      {props?.watch("user_allowed_attempt_error") && (
+        <Box
+          sx={{
+            marginY: 2,
+          }}
+        >
+          <Alert severity="error">
+            {props?.watch("user_allowed_attempt_error")}
+          </Alert>
+        </Box>
+      )}
     </Box>
   );
 };
 
 const NotStarted = (props) => {
   return (
-    <Alert severity="error">{
-      `Quiz will start on ${props?.watch("start_date")} `
-    }</Alert>
-  )
-}
+    <Alert severity="error">{`Quiz will start on ${props?.watch(
+      "start_date"
+    )} `}</Alert>
+  );
+};
 
 export default DescriptionSection;

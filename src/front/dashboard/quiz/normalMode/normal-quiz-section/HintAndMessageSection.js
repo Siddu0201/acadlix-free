@@ -14,8 +14,7 @@ const HintAndMessageSection = (props) => {
           backgroundColor: props?.colorCode?.hint_background,
           boxShadow: theme?.shadows[1],
           display:
-            props?.watch(`questions.${props?.index}.hint`) &&
-            props?.watch(`questions.${props?.index}.language`).filter(d => d?.selected )?.[0]?.hint_msg
+            props?.question?.hint && props?.lang?.hint_msg?.length > 0
               ? ""
               : "none",
         }}
@@ -29,48 +28,65 @@ const HintAndMessageSection = (props) => {
           <Typography>{props?.lang?.hint_msg}</Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          border: `1px solid ${props?.colorCode?.hint_border}`,
-          padding: 2,
-          marginY: 2,
-          backgroundColor: props?.colorCode?.hint_background,
-          boxShadow: theme?.shadows[1],
-          display: props?.watch("view_answer") ? "" : "none",
-        }}
-      >
-        <Box>
-          <Typography>
-            <b>Correct</b>
-          </Typography>
-        </Box>
-        <Box>
-          <Typography>{props?.lang?.correct_msg}</Typography>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          border: `1px solid ${props?.colorCode?.hint_border}`,
-          padding: 2,
-          marginY: 2,
-          backgroundColor: props?.colorCode?.hint_background,
-          boxShadow: theme?.shadows[1],
-          display: props?.watch("view_answer") ? "" : "none",
-        }}
-      >
-        <Box>
-          <Typography>
-            <b>Incorrect</b>
-          </Typography>
-        </Box>
-        <Box>
-          <Typography>
-            {props?.lang?.different_points_for_each_answer
-              ? props?.lang?.incorrect_msg
-              : props?.lang?.correct_msg}
-          </Typography>
-        </Box>
-      </Box>
+      {props?.question?.check ? (
+        props?.question?.result?.correct_count ? (
+          <Box
+            sx={{
+              border: `1px solid ${props?.colorCode?.hint_border}`,
+              padding: 2,
+              marginY: 2,
+              backgroundColor: props?.colorCode?.hint_background,
+              boxShadow: theme?.shadows[1],
+              display:
+                props?.lang?.correct_msg?.length > 0
+                  ? ""
+                  : "none",
+            }}
+          >
+            <Box>
+              <Typography>
+                <b>Correct</b>
+              </Typography>
+            </Box>
+            <Box>
+              <Typography>{props?.lang?.correct_msg}</Typography>
+            </Box>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              border: `1px solid ${props?.colorCode?.hint_border}`,
+              padding: 2,
+              marginY: 2,
+              backgroundColor: props?.colorCode?.hint_background,
+              boxShadow: theme?.shadows[1],
+              display:
+                props?.lang?.different_points_for_each_answer
+                  ? props?.lang?.incorrect_msg?.length > 0
+                    ? ""
+                    : "none"
+                  : props?.lang?.correct_msg?.length > 0
+                  ? ""
+                  : "none",
+            }}
+          >
+            <Box>
+              <Typography>
+                <b>Incorrect</b>
+              </Typography>
+            </Box>
+            <Box>
+              <Typography>
+                {props?.lang?.different_points_for_each_answer
+                  ? props?.lang?.incorrect_msg
+                  : props?.lang?.correct_msg}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };

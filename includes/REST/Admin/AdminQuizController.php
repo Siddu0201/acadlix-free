@@ -3,12 +3,15 @@
 namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
-use WP_REST_Response;
 use WP_REST_Request;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Category;
 use Yuvayana\Acadlix\Models\Language;
 use Illuminate\Contracts\Database\Query\Builder;
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
 
 class AdminQuizController {
 
@@ -159,6 +162,12 @@ class AdminQuizController {
                 ['prerequisite_quiz_id' => $pre['prerequisite_quiz_id']],
                 $pre
                 );
+            $prerequisite_quiz = Quiz::find($pre['prerequisite_quiz_id']);
+            $prerequisite_quiz->update([
+                'enable_login_register' => true,
+                'login_register_type' => "at_start_of_quiz",
+                'save_statistic' => true,
+            ]); 
         }
         $rowToDelete = $quiz->prerequisites()->whereNotIn('prerequisite_quiz_id', array_column($params['prerequisite_data'], 'prerequisite_quiz_id'))->pluck('id');
         $quiz->prerequisites()->whereIn('id', $rowToDelete)->delete();

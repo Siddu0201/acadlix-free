@@ -7,9 +7,12 @@ use WP_REST_Server;
 use Yuvayana\Acadlix\Models\Prerequisite;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\QuizAttempt;
-use Yuvayana\Acadlix\Models\Statistic;
 use Yuvayana\Acadlix\Models\StatisticRef;
 use Yuvayana\Acadlix\Models\Toplist;
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
 
 class FrontQuizController
 {
@@ -187,7 +190,7 @@ class FrontQuizController
                 }elseif(!$params["leaderboard_user_can_apply_multiple_times"] && $toplist->count() == 0){
                     $top = Toplist::create($toplist_data);
                 }
-                $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("points", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
+                $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("result", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
                 $res['rank'] = $params['show_rank'] && $toplist->count() > 0 ? array_flip($toplist->pluck("id")->toArray())[$top->id] + 1 : 1;
                 $res["toplist_count"] = $toplist->count();
                 if($params['leaderboard_total_number_of_entries'] > 0 && $params['leaderboard_total_number_of_entries'] < 10){
@@ -210,7 +213,7 @@ class FrontQuizController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
-        $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("points", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
+        $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("result", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
         $res["toplist_count"] = $toplist->count();
         if($params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"] < 10){
             $res["toplist"] = $toplist->skip($params["toplist_view_count"])->take($params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"])->get();
@@ -232,16 +235,22 @@ class FrontQuizController
                 $statistic_ref = StatisticRef::where('quiz_id', $prerquisite_quiz->prerequisite_quiz_id)->where('user_id', $params['user_id']);
                 if($statistic_ref->count() > 0){
                     if($statistic_ref->max('result') < $prerquisite_quiz->min_percentage){
-                        $res[$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
-                        $res[$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
+                        $res['prerequisite'][$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
+                        $res['prerequisite'][$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
                         $i++;
                     }
                 }else{
-                    $res[$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
-                    $res[$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
+                    $res['prerequisite'][$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
+                    $res['prerequisite'][$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
                     $i++;
                 }
             }
+        }
+
+        $quiz = Quiz::find($quiz_id);
+        $quiz_allowed = QuizAttempt::where('quiz_id', $quiz_id)->where('user_id',$params['user_id']);
+        if($quiz->per_user_allowed_attempt > 0 && $quiz->per_user_allowed_attempt < $quiz_allowed->count()){
+            $res['user_allowed_attempt_error'] = 'You have reached your maximum limit of attempts.';
         }
         return rest_ensure_response( $res );
     }

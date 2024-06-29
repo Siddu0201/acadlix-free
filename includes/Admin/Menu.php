@@ -1,7 +1,11 @@
 <?php
 
+
 namespace Yuvayana\Acadlix\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
 
 if(!class_exists('Menu')){
     class Menu {

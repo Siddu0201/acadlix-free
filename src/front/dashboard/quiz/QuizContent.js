@@ -13,17 +13,21 @@ import {
 } from "../../../helpers/util";
 import { PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
+import LoginModel from "./normalMode/normal-quiz-section/LoginModel";
 
 const QuizContent = (props) => {
   const methods = useForm({
     defaultValues: {
+      login_model: false,
+      signin: true,
+      signup: false,
       start: false,
       view_question: false,
       finsih: false,
       view_result: false,
       view_answer: false,
       view_leaderboard: false,
-      user_id: Number(acadlixOptions?.user?.ID),
+      user_id: acadlixOptions?.user?.ID ? Number(acadlixOptions?.user?.ID) : 0,
       name: acadlixOptions?.user?.display_name,
       email: acadlixOptions?.user?.user_email,
       id: props?.quiz?.id,
@@ -56,12 +60,13 @@ const QuizContent = (props) => {
       set_end_date: Boolean(Number(props?.quiz?.set_end_date)),
       end_date: props?.quiz?.end_date ? new Date(props?.quiz?.end_date) : null, // null => indefinite
       prerequisite: Boolean(Number(props?.quiz?.prerequisite)),
-      prerequisite_error_msg : '',
+      prerequisite_error_msg: "",
       enable_login_register: Boolean(
         Number(props?.quiz?.enable_login_register)
       ),
       login_register_type: props?.quiz?.login_register_type, // at_start_of_quiz/at_finish_of_quiz
       per_user_allowed_attempt: Number(props?.quiz?.per_user_allowed_attempt), // 0 => infinity
+      user_allowed_attempt_error: "",
       save_statistic: Boolean(Number(props?.quiz?.save_statistic)),
       statistic_ip_lock: Number(props?.quiz?.statistic_ip_lock),
       save_statistic_number_of_times:
@@ -178,6 +183,11 @@ const QuizContent = (props) => {
               hint_enabled: Boolean(Number(question?.hint_enabled)),
               answer_type: question?.answer_type,
               time: props?.quiz?.quiz_time * 1000,
+              bookmark: false,
+              like: false,
+              dislike: false,
+              report: false,
+              report_msg: "",
               review: false,
               hint: false,
               check: false,
@@ -284,7 +294,10 @@ const QuizContent = (props) => {
     let data = {
       points: points?.toFixed(2),
       result: total > 0 ? ((points / total) * 100).toFixed(2) : "0.00",
-      accuracy: solved_count > 0 ? ((correct_count / solved_count) * 100).toFixed(2) : "0.00",
+      accuracy:
+        solved_count > 0
+          ? ((correct_count / solved_count) * 100).toFixed(2)
+          : "0.00",
       status:
         (points / total) * 100 > methods?.watch("minimum_percent_to_pass")
           ? "Pass"
@@ -297,21 +310,31 @@ const QuizContent = (props) => {
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
-        methods?.setValue("average_score", data?.data?.average_score?.toFixed(2) ?? 0, {
-          shouldDirty: true,
-        });
-        methods?.setValue("percentile", data?.data?.percentile?.toFixed(2) ?? 0, {
-          shouldDirty: true,
-        });
+        methods?.setValue(
+          "average_score",
+          data?.data?.average_score?.toFixed(2) ?? 0,
+          {
+            shouldDirty: true,
+          }
+        );
+        methods?.setValue(
+          "percentile",
+          data?.data?.percentile?.toFixed(2) ?? 0,
+          {
+            shouldDirty: true,
+          }
+        );
         methods?.setValue("rank", data?.data?.rank ?? 0, { shouldDirty: true });
-        methods?.setValue("toplist_count", data?.data?.toplist_count ?? 0, { shouldDirty: true });
+        methods?.setValue("toplist_count", data?.data?.toplist_count ?? 0, {
+          shouldDirty: true,
+        });
         methods?.setValue("toplist", data?.data?.toplist ?? [], {
           shouldDirty: true,
         });
         let topper = data?.data?.toplist?.filter((d, key) => key === 0)?.[0];
         let topper_data = {
           quiz_time: secondsToHms(topper?.quiz_time) ?? 0,
-          accuracy: topper?.accuracy?.toFixed(2)  ?? 0,
+          accuracy: topper?.accuracy?.toFixed(2) ?? 0,
           status: topper?.status ?? "",
           result: topper?.result?.toFixed(2) ?? 0,
           points: topper?.points?.toFixed(2) ?? 0,
@@ -362,10 +385,19 @@ const QuizContent = (props) => {
   };
 
   if (!methods?.watch("start")) {
-    return <DescriptionSection {...methods} countdownApi={countdownApi} />;
+    return (
+      <>
+        <DescriptionSection {...methods} countdownApi={countdownApi} />
+      </>
+    );
   }
 
-  return <Box>{checkMode()}</Box>;
+  return (
+    <Box>
+      {checkMode()}
+      <LoginModel {...methods} />
+    </Box>
+  );
 };
 
 export default QuizContent;

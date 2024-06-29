@@ -8,6 +8,10 @@ use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Subject;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+} 
+
 class AdminQuestionController {
 
     protected $namespace = 'acadlix/v1';

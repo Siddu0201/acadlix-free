@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
+import { FaRegBookmark } from "react-icons/fa6";
 
 const QuestionSubjectAndPointSection = (props) => {
   return (
@@ -35,29 +36,44 @@ const QuestionSubjectAndPointSection = (props) => {
           <Typography>
             {
               props?.watch("show_marks") &&
-              <b>{props?.question?.points} points</b>
+              <>
+                <b>{props?.question?.points} points</b> {" "} |
+              </>
             }
             {
               props?.watch("view_answer") && props?.watch("show_per_question_time") &&
               <>
-               {" "} | <b>{secondsToHms(props?.question?.result?.time)}</b>
+                <b>{secondsToHms(props?.question?.result?.time)}</b>
               </>
             }
           </Typography>
         </Box>
       </Box>
-      {
-        props?.watch("display_subject") &&
-        <Box
-          sx={{
-            marginY: "2px",
-          }}
-        >
-          <Typography>
-            <b>Subject: {props?.watch(`questions.${props?.index}.subject_name`)}</b>
-          </Typography>
-        </Box>
-      }
+      <Box sx={{
+        display: "flex",
+        justifyContent: "space-between"
+      }}>
+        {
+          props?.watch("display_subject") &&
+          <Box
+            sx={{
+              marginY: "2px",
+            }}
+          >
+            <Typography>
+              <b>Subject: {props?.watch(`questions.${props?.index}.subject_name`)}</b>
+            </Typography>
+          </Box>
+        }
+        {/* <Box>
+          <Tooltip title="Bookmark">
+            <IconButton>
+              
+              <FaRegBookmark />
+            </IconButton>
+          </Tooltip>
+        </Box> */}
+      </Box>
     </>
   );
 };
