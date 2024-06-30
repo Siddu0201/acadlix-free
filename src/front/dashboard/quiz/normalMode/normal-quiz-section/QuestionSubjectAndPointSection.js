@@ -6,8 +6,7 @@ import { FaRegBookmark } from "react-icons/fa6";
 const QuestionSubjectAndPointSection = (props) => {
   return (
     <>
-      {
-        props?.watch("question_overview") &&
+      {props?.watch("question_overview") && (
         <Box
           sx={{
             marginY: "5px",
@@ -18,7 +17,7 @@ const QuestionSubjectAndPointSection = (props) => {
             <b>{props?.watch("questions")?.length}</b>
           </Typography>
         </Box>
-      }
+      )}
       <Box
         sx={{
           display: "flex",
@@ -27,44 +26,56 @@ const QuestionSubjectAndPointSection = (props) => {
         }}
       >
         <Box>
-          {
-            !props?.watch("hide_question_numbering") &&
+          {!props?.watch("hide_question_numbering") && (
             <Typography>Question {props?.num}:</Typography>
-          }
+          )}
         </Box>
         <Box>
           <Typography>
-            {
-              props?.watch("show_marks") &&
+            {props?.watch("show_marks") && (
               <>
-                <b>{props?.question?.points} points</b> {" "} |
+                <b>
+                  {props?.watch("view_answer")
+                    ? props?.question?.result?.solved_count 
+                    ? props?.question?.result?.correct_count 
+                    ? `+${props?.question?.points}`
+                    : `-${props?.question?.negative_points}`
+                    : 0
+                    : props?.question?.points}{" "}
+                  points
+                </b>{" "}
+                |
               </>
-            }
-            {
-              props?.watch("view_answer") && props?.watch("show_per_question_time") &&
-              <>
-                <b>{secondsToHms(props?.question?.result?.time)}</b>
-              </>
-            }
+            )}
+            {props?.watch("view_answer") &&
+              props?.watch("show_per_question_time") && (
+                <>
+                  <b>{secondsToHms(props?.question?.result?.time)}</b>
+                </>
+              )}
           </Typography>
         </Box>
       </Box>
-      <Box sx={{
-        display: "flex",
-        justifyContent: "space-between"
-      }}>
-        {
-          props?.watch("display_subject") &&
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        {props?.watch("display_subject") && (
           <Box
             sx={{
               marginY: "2px",
             }}
           >
             <Typography>
-              <b>Subject: {props?.watch(`questions.${props?.index}.subject_name`)}</b>
+              <b>
+                Subject:{" "}
+                {props?.watch(`questions.${props?.index}.subject_name`)}
+              </b>
             </Typography>
           </Box>
-        }
+        )}
         {/* <Box>
           <Tooltip title="Bookmark">
             <IconButton>

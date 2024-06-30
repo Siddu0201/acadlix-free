@@ -13,10 +13,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DeleteQuizById, GetQuizes } from "../../../requests/admin/AdminQuizRequest";
 import {FaEdit, FaQuestion, FaTrash} from 'react-icons/fa'
+import { useForm } from "react-hook-form";
 
 const Quiz = () => {
-
-  const [rows, setRows] = React.useState([]);
+  const methods = useForm({
+    defaultValues: {
+      rows: []
+    }
+  })
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 10,
     page: 0,
@@ -97,10 +101,9 @@ const Quiz = () => {
           total_questions: quiz?.questions_count,
         };
       });
-      setRows(() => [...rows.concat(newRows.filter(item2 =>
-        !rows.some(item1 => item1.id === item2.id)))]);
+      methods.setValue("rows", newRows, {shouldDirty: true});
     }
-  }, [data, setRows]);
+  }, [data]);
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
 
@@ -161,11 +164,12 @@ const Quiz = () => {
                 }}
               >
                 <DataGrid
-                  rows={rows}
+                  rows={methods?.watch("rows")}
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
+                  paginationMode="server"
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection
                   disableRowSelectionOnClick

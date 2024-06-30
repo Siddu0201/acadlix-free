@@ -4,7 +4,8 @@ import CustomButton from "../normal-quiz-component/CustomButton";
 
 const ViewButtonSection = (props) => {
   const handleResetQuiz = () => {
-    props?.reset();
+    // props?.reset();
+    window?.location?.reload();
   }
 
   const handleViewAnswer = () => {

@@ -77,7 +77,7 @@ const TypeRange = (props) => {
         >
           <CustomTextField
             type="number"
-            label="Type your answer"
+            label={props?.watch("view_answer") ? "" : "Type your answer"}
             size="small"
             inputProps={{
               step: 0.01,
