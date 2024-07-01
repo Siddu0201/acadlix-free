@@ -13,18 +13,19 @@ import {
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { PostCreateSubject } from "../../../../requests/admin/AdminSubjectRequest";
+import { useForm } from "react-hook-form";
 
 const GeneralOptionSection = (props) => {
   const [input, setInput] = React.useState("");
   const [subjects, setSubjects] = React.useState(props?.subjects);
-  const updateMutation = PostCreateSubject();
+  const createSubjectMutation = PostCreateSubject();
 
   const createSubject = () => {
     if(input){
       if(subjects?.filter(d => d?.subject_name?.toLowerCase() === input?.toLowerCase())?.length > 0){
         props?.setError(`subject_id`, { type: "custom", message: "Subject name is already exist"});
       }else{
-        updateMutation.mutate(
+        createSubjectMutation.mutate(
           { subject: input },
           {
             onSuccess: (data) => {
@@ -146,7 +147,7 @@ const GeneralOptionSection = (props) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {updateMutation?.isPending ? (
+                          {createSubjectMutation?.isPending ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}

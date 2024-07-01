@@ -16,7 +16,7 @@ import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequ
 const CategoryTemplateSection = (props) => {
   const [input, setInput] = React.useState("");
   const [categories, setCategories] = React.useState(props?.categories);
-  const updateMutation = PostCreateCategory();
+  const createCategoryMutation = PostCreateCategory();
 
   const createCategory = () => {
     if (input) {
@@ -30,7 +30,7 @@ const CategoryTemplateSection = (props) => {
           message: "Category name is already exist",
         });
       } else {
-        updateMutation.mutate(
+        createCategoryMutation.mutate(
           { category: input },
           {
             onSuccess: (data) => {
@@ -84,7 +84,7 @@ const CategoryTemplateSection = (props) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {updateMutation?.isPending ? (
+                          {createCategoryMutation?.isPending ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}

@@ -92,3 +92,45 @@ export const DeleteQuizById = () => {
         }
     })
 }
+
+export const DeleteBulkQuiz = () => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.delete(`${base}/delete-bulk-quiz`, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions?.nonce,
+                },
+                data: data
+            });
+        },
+        onSuccess: () => {
+            toast.success('Quizzes deleted successfully');
+            queryClient.invalidateQueries({
+                queryKey: ["getQuizes"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    });
+}
+
+export const PostSetCategory = () => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/set-category`, data);
+        },
+        onSuccess: () => {
+            toast.success('Category updated successfully.');
+            queryClient.invalidateQueries({
+                queryKey: ["getQuizes"]
+            });
+        },
+    })
+}

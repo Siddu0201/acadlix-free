@@ -4,40 +4,56 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Dialog,
+  FormControl,
+  FormHelperText,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Tooltip,
+  Typography,
+  styled,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { Link } from "react-router-dom";
-import { DeleteQuizById, GetQuizes } from "../../../requests/admin/AdminQuizRequest";
-import {FaEdit, FaQuestion, FaTrash} from 'react-icons/fa'
+import {
+  DeleteBulkQuiz,
+  DeleteQuizById,
+  GetQuizes,
+} from "../../../requests/admin/AdminQuizRequest";
+import { FaEdit, FaQuestion, FaTrash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import CategoryModel from "./actions/CategoryModel";
 
 const Quiz = () => {
   const methods = useForm({
     defaultValues: {
-      rows: []
-    }
-  })
+      rows: [],
+      quiz_ids: [],
+      action: "",
+      category_model: false,
+    },
+  });
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 10,
     page: 0,
   });
-  const [rowSelection, setRowSelection] = React.useState([]);
 
   const deleteMutation = DeleteQuizById();
   const deleteQuizById = (id) => {
-    if(confirm("Do you really want to delete this quiz?")){
-      deleteMutation?.mutate(id)
+    if (confirm("Do you really want to delete this quiz?")) {
+      deleteMutation?.mutate(id);
     }
-  }
+  };
 
   const columns = [
     { field: "id", headerName: "ID" },
     { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
-    { field: "category", headerName: "Category", flex: 1, minWidth: 100  },
+    { field: "category", headerName: "Category", flex: 1, minWidth: 100 },
     { field: "shortcode", headerName: "Shortcode", flex: 1, minWidth: 100 },
     {
       field: "total_questions",
@@ -88,20 +104,22 @@ const Quiz = () => {
     },
   ];
 
-
-  const { isFetching, data } = GetQuizes(paginationModel?.page, paginationModel?.pageSize);
+  const { isFetching, data } = GetQuizes(
+    paginationModel?.page,
+    paginationModel?.pageSize
+  );
   React.useMemo(() => {
     if (Array.isArray(data?.data?.quizes)) {
       const newRows = data?.data?.quizes?.map((quiz) => {
         return {
           id: quiz?.id,
           title: quiz?.title,
-          category: quiz?.category?.category_name ?? 'Uncategorized',
+          category: quiz?.category?.category_name ?? "Uncategorized",
           shortcode: `[Acadlix_Quiz ${quiz?.id}]`,
           total_questions: quiz?.questions_count,
         };
       });
-      methods.setValue("rows", newRows, {shouldDirty: true});
+      methods.setValue("rows", newRows, { shouldDirty: true });
     }
   }, [data]);
 
@@ -114,8 +132,88 @@ const Quiz = () => {
     return rowCountRef.current;
   }, [data?.data?.total]);
 
+  const deleteBulkMutation = DeleteBulkQuiz();
+  const handleBulkDelete = () => {
+    if (confirm("Do you really want to delete these quizzes?")) {
+      deleteBulkMutation?.mutate(
+        {
+          quiz_ids: methods?.watch("quiz_ids"),
+        },
+        {
+          onSettled: () => {
+            methods?.setValue("action", "", { shouldDirty: true });
+            methods?.setValue("quiz_ids", [], { shouldDirty: true });
+          },
+        }
+      );
+    }
+  };
+
+  const handleCategory = () => {
+    methods?.setValue("category_model", true, { shouldDirty: true });
+  };
+
+  const handleActionChange = (e) => {
+    methods?.setValue("action", e?.target?.value, { shouldDirty: true });
+  };
+
+  const handleBulkAction = () => {
+    if (methods?.watch("action")) {
+      methods?.clearErrors("action");
+      if (methods?.watch("quiz_ids")?.length > 0) {
+        switch (methods?.watch("action")) {
+          case "delete":
+            handleBulkDelete();
+            break;
+          case "set_category":
+            handleCategory();
+            break;
+          default:
+        }
+      } else {
+        toast.error("Please select atleast 1 entry.", {
+          position: "bottom-left",
+        });
+      }
+    } else {
+      methods?.setError("action", {
+        type: "custom",
+        message: "Action required",
+      });
+    }
+  };
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+    "& .MuiPaper-root": {
+      width: "100%",
+    },
+  }));
+
+  const handleClose = () => {
+    methods?.setValue("category_model", false, { shouldDirty: true });
+  };
+
   return (
     <Box>
+      {!isFetching && (
+        <BootstrapDialog
+          open={methods?.watch("category_model")}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <CategoryModel
+            {...methods}
+            handleClose={handleClose}
+          />
+        </BootstrapDialog>
+      )}
       <Grid
         container
         rowSpacing={3}
@@ -127,24 +225,20 @@ const Quiz = () => {
         <Grid item xs={12} lg={12}>
           <Card>
             <CardHeader
-              title="Quiz Overview"
-              sx={{
-                paddingX: 4,
-                paddingY: 2,
-                paddingBottom: 1,
-              }}
-            ></CardHeader>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 4,
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingBottom: 2,
-                }}
-              >
-                <Box sx={{ display: "flex" }}>
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 4,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Quiz Overview
+                  </Typography>
                   <Button
                     variant="contained"
                     LinkComponent={Link}
@@ -155,6 +249,62 @@ const Quiz = () => {
                     color="primary"
                   >
                     Add
+                  </Button>
+                </Box>
+              }
+              sx={{
+                paddingX: 4,
+                paddingY: 2,
+                paddingBottom: 1,
+              }}
+            ></CardHeader>
+            <CardContent>
+              <Box
+                sx={{
+                  paddingBottom: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    alignItems: "baseline",
+                  }}
+                >
+                  <FormControl
+                    sx={{ minWidth: 150 }}
+                    size="small"
+                    error={Boolean(methods?.formState?.errors?.action)}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      Bulk Actions
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={methods?.watch("action")}
+                      label="Age"
+                      onChange={handleActionChange}
+                    >
+                      <MenuItem value="">Bulk Actions</MenuItem>
+                      <MenuItem value="delete">Delete</MenuItem>
+                      <MenuItem value="set_category">
+                        Set Category
+                      </MenuItem>
+                    </Select>
+                    <FormHelperText>
+                      {methods?.formState?.errors?.action?.message}
+                    </FormHelperText>
+                  </FormControl>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      marginRight: 2,
+                    }}
+                    onClick={handleBulkAction}
+                    color="primary"
+                  >
+                    Apply
                   </Button>
                 </Box>
               </Box>
@@ -174,20 +324,22 @@ const Quiz = () => {
                   checkboxSelection
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
-                    setRowSelection(data)
+                    methods?.setValue("quiz_ids", data, {
+                      shouldDirty: true
+                    });
                   }}
-                  rowSelectionModel={rowSelection}
+                  rowSelectionModel={methods?.watch("quiz_ids")}
                   autoHeight
                   loading={isFetching}
                   columnVisibilityModel={{
                     id: false,
                   }}
                   sx={{
-                    '& .PrivateSwitchBase-input': {
-                      height: '100% !important',
-                      width: '100% !important',
+                    "& .PrivateSwitchBase-input": {
+                      height: "100% !important",
+                      width: "100% !important",
                       margin: "0 !important",
-                    }
+                    },
                   }}
                 />
               </Box>

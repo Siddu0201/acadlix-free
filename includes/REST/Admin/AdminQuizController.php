@@ -93,6 +93,33 @@ class AdminQuizController {
                 ],
             ]
         );
+
+        register_rest_route( 
+            $this->namespace, '/' . $this->base . '/set-category', 
+            [
+                [
+                    'methods'             => WP_REST_Server::EDITABLE,
+                    'callback'            => [ $this, 'post_set_category' ],
+                    'permission_callback' => [ $this, 'check_permission' ],
+                ],
+            ]
+        );
+
+        register_rest_route( 
+            $this->namespace, '/' . $this->base . '/delete-bulk-quiz', 
+            [
+                [
+                    'methods'             => WP_REST_Server::DELETABLE,
+                    'callback'            => [ $this, 'delete_bulk_quiz' ],
+                    'permission_callback' => function (WP_REST_REQUEST $request) {
+                        if (wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest')) {
+                            return true;
+                        }
+                        return false;
+                    },
+                ],
+            ]
+        );
     }
     /**
      * @api /admin-quiz
@@ -181,6 +208,32 @@ class AdminQuizController {
         $quiz->delete();
         $res['quiz'] = $quiz;
         return rest_ensure_response($res);
+    }
+
+    public function post_set_category($request){
+        $res = [];
+        $params = $request->get_json_params();
+        if(count($params['quiz_ids']) > 0){
+            foreach($params['quiz_ids'] as $quiz_id){
+                $quiz = Quiz::find($quiz_id);
+                $quiz->update([
+                    'category_id' => !empty($params['category_id']) ? $params['category_id'] : $quiz->category_id,
+                ]);
+            }
+        }
+        return rest_ensure_response( $res );
+    }
+
+    public function delete_bulk_quiz($request){
+        $res = [];
+        $params = $request->get_json_params();
+        if(count($params['quiz_ids']) > 0){
+            foreach($params['quiz_ids'] as $quiz_id){
+                $quiz = Quiz::find($quiz_id);
+                $quiz->delete();
+            }
+        }
+        return rest_ensure_response( $res );
     }
 
     public function check_permission() {

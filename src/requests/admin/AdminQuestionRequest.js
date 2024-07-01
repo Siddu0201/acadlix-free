@@ -90,5 +90,48 @@ export const DeleteQuizQuestionById = (quiz_id = '') => {
         onError: (error) => {
             toast.error(error?.response?.data?.message);
         }
+    });
+}
+
+export const PostSetSubjectAndPoint = (quiz_id = '') => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${quiz_id}/question/set-subject-and-point`, data);
+        },
+        onSuccess: () => {
+            toast.success('Subject and points updated successfully.');
+            queryClient.invalidateQueries({
+                queryKey: ["getQuizQuestion"]
+            });
+        },
     })
+}
+
+
+export const DeleteBulkQuestion= (quiz_id = '') => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.delete(`${base}/${quiz_id}/question/delete-bulk-question`, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions?.nonce,
+                },
+                data: data
+            });
+        },
+        onSuccess: () => {
+            toast.success('Questions deleted successfully');
+            queryClient.invalidateQueries({
+                queryKey: ["getQuizQuestion"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    });
 }

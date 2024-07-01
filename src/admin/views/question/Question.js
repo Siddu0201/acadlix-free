@@ -5,32 +5,45 @@ import {
   CardContent,
   CardHeader,
   Checkbox,
+  Dialog,
+  FormControl,
+  FormHelperText,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Tooltip,
+  Typography,
+  styled,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 import {
+  DeleteBulkQuestion,
   DeleteQuizQuestionById,
   GetQuizQuestion,
 } from "../../../requests/admin/AdminQuestionRequest";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 
 const Question = () => {
   const methods = useForm({
     defaultValues: {
-      rows: []
-    }
-  })
+      rows: [],
+      question_ids: [],
+      action: "",
+      subject_and_point_model: false,
+    },
+  });
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 10,
     page: 0,
   });
-  const [rowSelection, setRowSelection] = React.useState([]);
 
   const { quiz_id } = useParams();
 
@@ -42,7 +55,7 @@ const Question = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID"},
+    { field: "id", headerName: "ID" },
     { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
     { field: "subject", headerName: "Subject", flex: 1, minWidth: 100 },
     { field: "points", headerName: "Points", flex: 1, minWidth: 100 },
@@ -93,18 +106,21 @@ const Question = () => {
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.questions)) {
       const newRows = data?.data?.questions?.map((question) => {
-          return {
-            id: question?.id,
-            title: question?.title ? question?.title : question?.question_languages?.filter(d => d?.default)?.[0]?.question.substring(0, 50),
-            subject: question?.subject?.subject_name ?? "Uncategorized",
-            points: question?.points,
-            negative_points: question?.negative_points,
-          };
+        return {
+          id: question?.id,
+          title: question?.title
+            ? question?.title
+            : question?.question_languages
+                ?.filter((d) => d?.default)?.[0]
+                ?.question.substring(0, 50),
+          subject: question?.subject?.subject_name ?? "Uncategorized",
+          points: question?.points,
+          negative_points: question?.negative_points,
+        };
       });
-      methods.setValue('rows', newRows, {shouldDirty: true});
+      methods.setValue("rows", newRows, { shouldDirty: true });
     }
   }, [data]);
-
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
 
@@ -115,8 +131,89 @@ const Question = () => {
     return rowCountRef.current;
   }, [data?.data?.total]);
 
+  const deleteBulkMutation = DeleteBulkQuestion(quiz_id);
+  const handleBulkDelete = () => {
+    if (confirm("Do you really want to delete these questions?")) {
+      deleteBulkMutation?.mutate(
+        {
+          question_ids: methods?.watch("question_ids"),
+        },
+        {
+          onSettled: () => {
+            methods?.setValue("action", "", { shouldDirty: true });
+            methods?.setValue("question_ids", [], { shouldDirty: true });
+          },
+        }
+      );
+    }
+  };
+
+  const handleSetSubjectAndPoints = () => {
+    methods?.setValue("subject_and_point_model", true, { shouldDirty: true });
+  };
+
+  const handleActionChange = (e) => {
+    methods?.setValue("action", e?.target?.value, { shouldDirty: true });
+  };
+
+  const handleBulkAction = () => {
+    if (methods?.watch("action")) {
+      methods?.clearErrors("action");
+      if (methods?.watch("question_ids")?.length > 0) {
+        switch (methods?.watch("action")) {
+          case "delete":
+            handleBulkDelete();
+            break;
+          case "set_subject_and_points":
+            handleSetSubjectAndPoints();
+            break;
+          default:
+        }
+      } else {
+        toast.error("Please select atleast 1 entry.", {
+          position: "bottom-left",
+        });
+      }
+    } else {
+      methods?.setError("action", {
+        type: "custom",
+        message: "Action required",
+      });
+    }
+  };
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+    "& .MuiPaper-root": {
+      width: "100%",
+    },
+  }));
+
+  const handleClose = () => {
+    methods?.setValue("subject_and_point_model", false, { shouldDirty: true });
+  };
+
   return (
     <Box>
+      {!isFetching && (
+        <BootstrapDialog
+          open={methods?.watch("subject_and_point_model")}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <SubjectAndPointModel
+            {...methods}
+            handleClose={handleClose}
+            quiz_id={quiz_id}
+          />
+        </BootstrapDialog>
+      )}
       <Grid
         container
         rowSpacing={3}
@@ -142,24 +239,20 @@ const Question = () => {
         <Grid item xs={12} lg={12}>
           <Card>
             <CardHeader
-              title="Question Overview"
-              sx={{
-                paddingX: 4,
-                paddingY: 2,
-                paddingBottom: 1,
-              }}
-            ></CardHeader>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 4,
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingBottom: 2,
-                }}
-              >
-                <Box sx={{ display: "flex" }}>
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 4,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Question Overview
+                  </Typography>
                   <Button
                     variant="contained"
                     LinkComponent={Link}
@@ -172,14 +265,74 @@ const Question = () => {
                     Add
                   </Button>
                 </Box>
-              </Box>
+              }
+              sx={{
+                paddingX: 4,
+                paddingY: 2,
+                paddingBottom: 1,
+              }}
+            ></CardHeader>
+            <CardContent>
+              {methods?.watch("rows")?.length > 0 && (
+                <>
+                  <Box
+                    sx={{
+                      paddingBottom: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 2,
+                        alignItems: "baseline",
+                      }}
+                    >
+                      <FormControl
+                        sx={{ minWidth: 150 }}
+                        size="small"
+                        error={Boolean(methods?.formState?.errors?.action)}
+                      >
+                        <InputLabel id="demo-simple-select-label">
+                          Bulk Actions
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={methods?.watch("action")}
+                          label="Age"
+                          onChange={handleActionChange}
+                        >
+                          <MenuItem value="">Bulk Actions</MenuItem>
+                          <MenuItem value="delete">Delete</MenuItem>
+                          <MenuItem value="set_subject_and_points">
+                            Set Subject and Points
+                          </MenuItem>
+                        </Select>
+                        <FormHelperText>
+                          {methods?.formState?.errors?.action?.message}
+                        </FormHelperText>
+                      </FormControl>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          marginRight: 2,
+                        }}
+                        onClick={handleBulkAction}
+                        color="primary"
+                      >
+                        Apply
+                      </Button>
+                    </Box>
+                  </Box>
+                </>
+              )}
               <Box
                 sx={{
                   width: "100%",
                 }}
               >
                 <DataGrid
-                  rows={methods?.watch('rows')}
+                  rows={methods?.watch("rows")}
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
@@ -189,20 +342,22 @@ const Question = () => {
                   checkboxSelection
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
-                    setRowSelection(data)
+                    methods.setValue("question_ids", data, {
+                      shouldDirty: true,
+                    });
                   }}
-                  rowSelectionModel={rowSelection}
+                  rowSelectionModel={methods?.watch("question_ids")}
                   autoHeight
                   loading={isFetching}
                   columnVisibilityModel={{
                     id: false,
                   }}
                   sx={{
-                    '& .PrivateSwitchBase-input': {
-                      height: '100% !important',
-                      width: '100% !important',
+                    "& .PrivateSwitchBase-input": {
+                      height: "100% !important",
+                      width: "100% !important",
                       margin: "0 !important",
-                    }
+                    },
                   }}
                 />
               </Box>
