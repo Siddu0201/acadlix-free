@@ -51,7 +51,7 @@ const General = (props) => {
         </GridItem1>
 
         {/* Used to hide quiz title in a quiz */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -72,7 +72,7 @@ const General = (props) => {
         </GridItem1>
 
         {/* User can restart quiz after submittion */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -93,7 +93,7 @@ const General = (props) => {
         </GridItem1>
 
         {/* Used to clear answer button to clear option selction */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -108,6 +108,23 @@ const General = (props) => {
               />
             }
             label="Show Clear Response Button"
+          />
+        </GridItem1>
+
+        <GridItem1 xs={12} lg={3}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={props?.watch("enable_check_button") ?? false}
+                disabled={props?.watch("mode") === "check_and_continue"}
+                onChange={(e) => {
+                  props?.setValue("enable_check_button", e?.target?.checked, {
+                    shouldDirty: true,
+                  });
+                }}
+              />
+            }
+            label="Enable Check Button"
           />
         </GridItem1>
 
@@ -412,7 +429,10 @@ const General = (props) => {
 
         {/* Per user allowed attempt to attent the quiz */}
         <GridItem1 xs={12} lg={3}>
-          <Tooltip title="Sets allowed attempts (0 = unlimited); requires login at quiz start." placement="right-start">
+          <Tooltip
+            title="Sets allowed attempts (0 = unlimited); requires login at quiz start."
+            placement="right-start"
+          >
             <IconButton
               sx={{
                 fontSize: "1.25rem",
@@ -552,8 +572,9 @@ const General = (props) => {
                 }}
                 disabled={
                   (props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel") ||
-                  !props?.watch("enable_login_register") || props?.watch("login_register_type") !== "at_start_of_quiz"
+                    props?.watch("advance_mode_type") !== "advance_panel") ||
+                  !props?.watch("enable_login_register") ||
+                  props?.watch("login_register_type") !== "at_start_of_quiz"
                 }
               />
             }

@@ -14,6 +14,7 @@ import TimerSection from "./normal-quiz-section/TimerSection";
 import FinishSection from "./normal-quiz-section/FinishSection";
 import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
 import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSection";
+import QuestionPaginationSection from "./normal-quiz-section/QuestionPaginationSection";
 
 const NormalQuiz = (props) => {
   const colorCode = {
@@ -46,6 +47,18 @@ const NormalQuiz = (props) => {
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
+  let questionRef = React.useRef([]);
+
+  const scrollToQuestion = (id) => {
+    if (questionRef?.current?.[id]) {
+      setTimeout(() => {
+        questionRef?.current?.[id].scrollIntoView({
+          behavior: "smooth", // 'smooth' makes it animate smoothly
+        });
+      }, 10);
+    }
+  }
 
   return (
     <Container
@@ -143,6 +156,7 @@ const NormalQuiz = (props) => {
             <QuestionOverviewSection
               colorCode={colorCode}
               isDesktop={isDesktop}
+              scrollToQuestion={scrollToQuestion}
               {...props}
             />
           }
@@ -159,8 +173,20 @@ const NormalQuiz = (props) => {
                 question={question} 
                 first={index === 0}
                 last={props?.watch('questions')?.length - 1 === index}
+                questionRef={questionRef}
               />
             ))
+          }
+
+          {
+            props?.watch('questions')?.length > 0 &&
+            props?.watch("mode") === "question_below_each_other" &&
+            props?.watch("question_per_page") > 0 &&
+            !props?.watch('finish') &&
+            <QuestionPaginationSection 
+              {...props}
+              scrollToQuestion={scrollToQuestion}
+            /> 
           }
           <FinishSection
             colorCode={colorCode}

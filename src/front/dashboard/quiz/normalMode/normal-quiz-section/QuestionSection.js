@@ -112,9 +112,10 @@ const QuestionSection = (props) => {
       sx={{
         display: props?.question?.selected ? "" : "none",
       }}
+      id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
+      ref={(elem) => props.questionRef.current[props.index] = elem}
     >
       <Box>
-        
         <QuestionSubjectAndPointSection {...props} />
 
         {props?.question?.language?.length > 0 &&

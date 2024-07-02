@@ -2,30 +2,53 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 import { useTheme } from "@emotion/react";
+import { ElevenMp } from "@mui/icons-material";
 
 const QuestionOverviewSection = (props) => {
   const theme = useTheme();
 
-  const handleClick = (id) => {
+  const handleClick = (id, event) => {
+    event?.preventDefault();
     props?.setValue("finish", false, { shouldDirty: true });
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if (question.selected) {
-          question.result.time =
-            question.result.time +
-            Math.round((Date.now() - props?.watch("last")) / 1000);
-        }
-        if (index === id) {
-          question.selected = true;
-        } else {
-          question.selected = false;
+        switch (props?.watch("mode")) {
+          case "normal":
+            case "check_and_continue":
+            if (question.selected) {
+              question.result.time =
+                question.result.time +
+                Math.round((Date.now() - props?.watch("last")) / 1000);
+            }
+            if (index === id) {
+              question.selected = true;
+            } else {
+              question.selected = false;
+            }
+            break;
+          case "question_below_each_other":
+            if (props?.watch("question_per_page") > 0) {
+              let perPage = props?.watch("question_per_page");
+              let question_number = id + 1;
+              let page = Math.ceil(question_number / perPage);
+              if (index >= (page - 1) * perPage && index < page * perPage) {
+                question.selected = true;
+              } else {
+                question.selected = false;
+              }
+            }
+            break;
+          default:
         }
         return question;
       }),
       { shouldDirty: true }
     );
     props?.setValue("last", Date.now(), { shouldDirty: true });
+    if (props?.watch("mode") === "question_below_each_other") {
+      props?.scrollToQuestion(id);
+    }
   };
 
   const handleQuizOverView = () => {
@@ -91,11 +114,16 @@ const QuestionOverviewSection = (props) => {
               padding: "3px 3px",
               margin: "3px",
               border: `1px solid ${
-                d?.selected
+                d?.selected &&
+                props?.watch("mode") !== "question_below_each_other"
                   ? props?.colorCode?.overview_button_active_border
                   : props?.colorCode?.overview_button_border
               }`,
-              boxShadow: d?.selected ? theme.shadows[3] : "none",
+              boxShadow:
+                d?.selected &&
+                props?.watch("mode") !== "question_below_each_other"
+                  ? theme.shadows[3]
+                  : "none",
               backgroundColor:
                 d?.review && d?.result?.solved_count
                   ? props?.colorCode?.answered_and_review

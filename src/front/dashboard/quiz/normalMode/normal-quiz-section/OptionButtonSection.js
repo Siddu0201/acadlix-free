@@ -199,18 +199,35 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        {props?.watch("enable_back_button") && (
+        {props?.watch("mode") === "normal" &&
+          props?.watch("enable_back_button") && (
+            <CustomButton
+              onClick={handleBackClick}
+              sx={{
+                display: props?.first ? "none" : "",
+              }}
+            >
+              Back
+            </CustomButton>
+          )}
+        {props?.watch("mode") === "check_and_continue" &&
+          props?.watch("skip_question") && (
+            <CustomButton
+              onClick={handleNextClick}
+              sx={{
+                display: props?.question?.check ? "none" : "",
+              }}
+            >
+              Skip
+            </CustomButton>
+          )}
+        {props?.watch("show_clear_response_button") && (
           <CustomButton
-            onClick={handleBackClick}
+            onClick={handleClearResponse}
             sx={{
-              display: props?.first ? "none" : "",
+              display: props?.question?.check ? "none" : "",
             }}
           >
-            Back
-          </CustomButton>
-        )}
-        {props?.watch("show_clear_response_button") && (
-          <CustomButton onClick={handleClearResponse}>
             Clear Response
           </CustomButton>
         )}
@@ -221,15 +238,60 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        {
-          props?.watch(`questions.${props?.index}.hint_enabled`) && props?.watch(`questions.${props?.index}.language`).filter(d => d?.selected )?.[0]?.hint_msg &&
-          <CustomButton onClick={handleHintClick}>Hint</CustomButton>
-        }
-        {props?.watch("enable_check_button") &&
-          !props?.watch(`questions.${props?.index}.check`) && (
+        {props?.watch(`questions.${props?.index}.hint_enabled`) &&
+          props
+            ?.watch(`questions.${props?.index}.language`)
+            .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (
+            <CustomButton onClick={handleHintClick}>Hint</CustomButton>
+          )}
+
+        {/* check for normal mode */}
+        {["normal", "question_below_each_other"]?.includes(props?.watch("mode")) &&
+          props?.watch("enable_check_button") &&
+          !props?.question?.check && (
             <CustomButton onClick={handleCheckClick}>Check</CustomButton>
           )}
-        <CustomButton onClick={handleNextClick}>{props?.last ? "Quiz Summary" : "Next"}</CustomButton>
+
+        {/* check for check and continue mode  */}
+        {props?.watch("mode") === "check_and_continue" &&
+          !props?.question?.check && (
+            <CustomButton
+              onClick={handleCheckClick}
+              sx={{
+                display:
+                  props?.watch("enable_check_on_option_selected") &&
+                  !props?.question?.result?.solved_count
+                    ? "none"
+                    : "",
+              }}
+            >
+              Check
+            </CustomButton>
+          )}
+
+        {["normal", "check_and_continue"]?.includes(props?.watch("mode")) && (
+            <CustomButton
+              onClick={handleNextClick}
+              sx={{
+                display:
+                  props?.watch("mode") === "check_and_continue" &&
+                  !props?.question?.check
+                    ? "none"
+                    : "",
+              }}
+            >
+              {props?.last ? "Quiz Summary" : "Next"}
+            </CustomButton>
+          )}
+
+        {["question_below_each_other"]?.includes(props?.watch("mode")) &&
+          props?.last && (
+            <CustomButton
+              onClick={handleNextClick}
+            >
+              Quiz Summary
+            </CustomButton>
+          )}
       </Box>
     </Box>
   );

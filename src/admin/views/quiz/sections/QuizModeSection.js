@@ -140,23 +140,6 @@ const QuizModeSection = (props) => {
                       }
                       label="Enable Back Button"
                     />
-
-                    <FormControlLabel
-                      control={
-                        <CustomSwitch
-                          checked={props?.watch("enable_check_button") ?? false}
-                          disabled={props?.watch("mode") !== "normal"}
-                          onChange={(e) => {
-                            props?.setValue(
-                              "enable_check_button",
-                              e?.target?.checked,
-                              { shouldDirty: true }
-                            );
-                          }}
-                        />
-                      }
-                      label="Enable Check Button"
-                    />
                   </Box>
                 </CardContent>
               </Card>

@@ -24,7 +24,6 @@ const QuizContent = (props) => {
       // Mode settings
       mode: props?.quiz?.mode ?? "normal", // normal/check_and_continue/question_below_each_other/advance_mode
       enable_back_button: Boolean(Number(props?.quiz?.enable_back_button)),
-      enable_check_button: Boolean(Number(props?.quiz?.enable_check_button)),
       enable_check_on_option_selected: Boolean(
         Number(props?.quiz?.enable_check_on_option_selected)
       ),
@@ -37,6 +36,7 @@ const QuizContent = (props) => {
       show_clear_response_button: Boolean(
         Number(props?.quiz?.show_clear_response_button)
       ),
+      enable_check_button: Boolean(Number(props?.quiz?.enable_check_button)),
       quiz_timing_type: props?.quiz?.quiz_timing_type ?? "full_quiz_time", // full_quiz_time/per_question_time
       quiz_time: props?.quiz?.quiz_time ?? 0, // 0 => Infinity (no limit)
       pause_quiz: Boolean(Number(props?.quiz?.pause_quiz)),

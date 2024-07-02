@@ -165,7 +165,10 @@ const QuizContent = (props) => {
         updateQuestions(props?.quiz?.questions, props?.quiz)?.map(
           (question, index) => {
             return {
-              selected: index === 0 ?? false,
+              selected:
+                props?.quiz?.mode === "question_below_each_other"
+                  ? props?.quiz?.question_per_page > 0 ? props?.quiz?.question_per_page > index ?? false : true
+                  : index === 0 ?? false,
               question_id: question?.id,
               quiz_id: props?.quiz?.id,
               subject_name: question?.subject?.subject_name ?? "Uncategorized",
