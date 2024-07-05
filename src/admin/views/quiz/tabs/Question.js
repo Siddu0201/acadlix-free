@@ -220,6 +220,7 @@ const Question = (props) => {
               control={
                 <CustomSwitch
                   checked={props?.watch("attempt_and_move_forward") ?? false}
+                  disabled={["question_below_each_other", "check_and_continue"].includes(props?.watch("mode"))}
                   onChange={(e) => {
                     props?.setValue(
                       "attempt_and_move_forward",

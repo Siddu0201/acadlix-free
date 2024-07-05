@@ -13,7 +13,37 @@ const FinishSection = (props) => {
 
   const handleGoToFirstQuestion = () =>{
     props?.setValue("finish", false, { shouldDirty: true });
-    props?.setValue("questions.0.selected", true, { shouldDirty: true });
+    let perPage = props?.watch("question_per_page");
+    let question_number = 1;
+    let page = Math.ceil(question_number / perPage);
+    props?.setValue(
+      "questions",
+      props.watch("questions")?.map((question, index) => {
+        switch (props?.watch("mode")) {
+          case "normal":
+          case "check_and_continue":
+            if (index === 0) {
+              question.selected = true;
+            } else {
+              question.selected = false;
+            }
+            break;
+          case "question_below_each_other":
+            if (perPage > 0) {
+              if (index >= (page - 1) * perPage && index < page * perPage) {
+                question.selected = true;
+              } else {
+                question.selected = false;
+              }
+            }
+            break;
+          default:
+        }
+        return question;
+      }),
+      { shouldDirty: true }
+    );
+    props?.setValue("pagination_page", 1, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });
   }
 

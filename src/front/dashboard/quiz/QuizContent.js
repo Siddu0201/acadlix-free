@@ -43,6 +43,7 @@ const QuizContent = (props) => {
       ),
       skip_question: Boolean(Number(props?.quiz?.skip_question)),
       question_per_page: props?.quiz?.question_per_page, // 0 => all question
+      pagination_page: 1,
       advance_mode_type: props?.quiz?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
       // General settings
       hide_quiz_title: Boolean(Number(props?.quiz?.hide_quiz_title)),

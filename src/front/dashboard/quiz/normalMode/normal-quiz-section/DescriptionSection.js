@@ -4,6 +4,7 @@ import CustomButton from "../normal-quiz-component/CustomButton";
 import { PostCheckPrerequisite } from "../../../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
 import LoginModel from "./LoginModel";
+import dateFormat from "dateformat";
 
 const DescriptionSection = (props) => {
   const current_date = new Date();
@@ -40,6 +41,10 @@ const DescriptionSection = (props) => {
   };
 
   const checkPrerequisite = PostCheckPrerequisite(props?.watch("id"));
+
+  // Tue Jul 02, 2024 7:00:00 PM IST
+  // console.log(props?.watch("start_date"));
+  // console.log(dateFormat(props?.watch("start_date"), "ddd, mmm dd, yyyy hh:MM:ss TT Z"));
 
   const handleStartWithPrerequisite = () => {
     if (props?.watch("user_id") > 0) {
@@ -100,7 +105,7 @@ const DescriptionSection = (props) => {
         </Typography>
       )}
 
-      <Typography variant="body1" sx={{ marginY: "9px" }}>
+      <Typography variant="body1" sx={{ marginY: "9px !important" }}>
         {props?.watch("description")}
       </Typography>
       <CustomButton

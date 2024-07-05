@@ -6,13 +6,12 @@ const CustomButton = (props) => {
     <Button
       {...props}
       variant="contained"
+      color="primary"
       sx={{
-        borderRadius: "20px",
         padding: "4px 15px",
         fontSize: "14px",
-        backgroundColor: "#13455b",
-        ":hover": {
-          backgroundColor: "#13455b",
+        ":hover, :focus": {
+          backgroundColor: (theme) => theme.palette.primary.dark,
         },
         ...props?.sx,
       }}

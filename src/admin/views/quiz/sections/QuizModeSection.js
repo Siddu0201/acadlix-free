@@ -173,6 +173,9 @@ const QuizModeSection = (props) => {
                         props?.setValue("mode", "check_and_continue", {
                           shouldDirty: true,
                         });
+                        props?.setValue("attempt_and_move_forward", false, {
+                          shouldDirty: true,
+                        });
                         if (props?.watch("quiz_section") === "5") {
                           props?.setValue("quiz_section", "1", {
                             shouldDirty: true,
@@ -264,6 +267,12 @@ const QuizModeSection = (props) => {
                       value="question_below_each_other"
                       onClick={() => {
                         props?.setValue("mode", "question_below_each_other", {
+                          shouldDirty: true,
+                        });
+                        props?.setValue("quiz_timing_type", "full_quiz_time", {
+                          shouldDirty: true,
+                        });
+                        props?.setValue("attempt_and_move_forward", false, {
                           shouldDirty: true,
                         });
                         if (props?.watch("quiz_section") === "5") {

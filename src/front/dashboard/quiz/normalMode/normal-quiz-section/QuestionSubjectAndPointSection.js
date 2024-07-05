@@ -36,20 +36,20 @@ const QuestionSubjectAndPointSection = (props) => {
               <>
                 <b>
                   {props?.watch("view_answer")
-                    ? props?.question?.result?.solved_count 
-                    ? props?.question?.result?.correct_count 
-                    ? `+${props?.question?.points}`
-                    : `-${props?.question?.negative_points}`
-                    : 0
+                    ? props?.question?.result?.solved_count
+                      ? props?.question?.result?.correct_count
+                        ? `+${props?.question?.points}`
+                        : `-${props?.question?.negative_points}`
+                      : 0
                     : props?.question?.points}{" "}
-                  points
+                  Points
                 </b>{" "}
-                |
               </>
             )}
             {props?.watch("view_answer") &&
               props?.watch("show_per_question_time") && (
                 <>
+                  {"| "}
                   <b>{secondsToHms(props?.question?.result?.time)}</b>
                 </>
               )}

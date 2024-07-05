@@ -16,6 +16,7 @@ const QuestionPaginationSection = (props) => {
       }),
       { shouldDirty: true }
     );
+    props?.setValue("pagination_page", page, {shouldDirty: true});
 
     props?.scrollToQuestion((page - 1) * perPage);
   };
@@ -30,6 +31,7 @@ const QuestionPaginationSection = (props) => {
         count={Math.ceil(
           props?.watch("questions")?.length / props?.watch("question_per_page")
         )}
+        page={props?.watch("pagination_page")}
         onChange={handlePaginationChange}
         renderItem={(item) => (
           <PaginationItem
@@ -40,6 +42,11 @@ const QuestionPaginationSection = (props) => {
             {...item}
           />
         )}
+        sx={{
+          '& .MuiPaginationItem-root:hover,.MuiPaginationItem-root:focus':{
+            color: "rgba(0, 0, 0, 0.87)"
+          },
+        }}
       />
     </Box>
   );

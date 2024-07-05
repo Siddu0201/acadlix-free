@@ -8,7 +8,7 @@ const CustomThemeProvider = ({ children }) => {
   const colors = {
     main: {
       // primary: "#696CFF",
-      primary: "#1c64f2",
+      primary: "#1976d2",
       grey: "#8592A3",
       success: "#71DD37",
       error: "#FF3E1D",
@@ -27,7 +27,7 @@ const CustomThemeProvider = ({ children }) => {
     },
     dark: {
       // primary: "#6062E8",
-      primary: "#1c64f2c",
+      primary: "#1565c0",
       grey: "#798594",
       success: "#67C932",
       error: "#E8381A",

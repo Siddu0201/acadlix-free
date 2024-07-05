@@ -175,8 +175,9 @@ const General = (props) => {
                   props?.watch("quiz_timing_type") === "per_question_time"
                 }
                 disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
+                  (props?.watch("mode") === "advance_mode" &&
+                  props?.watch("advance_mode_type") !== "advance_panel") ||
+                  props?.watch("mode") === "question_below_each_other"
                 }
               />
             </RadioGroup>
@@ -390,7 +391,7 @@ const General = (props) => {
           - At Start of Quiz
           - At Finish of Quiz
         */}
-        <GridItem1 xs={12} lg={8}>
+        {/* <GridItem1 xs={12} lg={8}>
           <FormControl>
             <RadioGroup
               name="login"
@@ -425,7 +426,7 @@ const General = (props) => {
               />
             </RadioGroup>
           </FormControl>
-        </GridItem1>
+        </GridItem1> */}
 
         {/* Per user allowed attempt to attent the quiz */}
         <GridItem1 xs={12} lg={3}>

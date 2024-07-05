@@ -9,13 +9,16 @@ const QuestionOverviewSection = (props) => {
 
   const handleClick = (id, event) => {
     event?.preventDefault();
+    let perPage = props?.watch("question_per_page");
+    let question_number = id + 1;
+    let page = Math.ceil(question_number / perPage);
     props?.setValue("finish", false, { shouldDirty: true });
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
         switch (props?.watch("mode")) {
           case "normal":
-            case "check_and_continue":
+          case "check_and_continue":
             if (question.selected) {
               question.result.time =
                 question.result.time +
@@ -28,10 +31,7 @@ const QuestionOverviewSection = (props) => {
             }
             break;
           case "question_below_each_other":
-            if (props?.watch("question_per_page") > 0) {
-              let perPage = props?.watch("question_per_page");
-              let question_number = id + 1;
-              let page = Math.ceil(question_number / perPage);
+            if (perPage > 0) {
               if (index >= (page - 1) * perPage && index < page * perPage) {
                 question.selected = true;
               } else {
@@ -45,6 +45,8 @@ const QuestionOverviewSection = (props) => {
       }),
       { shouldDirty: true }
     );
+
+    props?.setValue("pagination_page", page, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });
     if (props?.watch("mode") === "question_below_each_other") {
       props?.scrollToQuestion(id);
