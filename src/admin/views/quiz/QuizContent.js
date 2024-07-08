@@ -219,6 +219,9 @@ const QuizContent = (props) => {
   const createMutation = PostCreateQuiz();
   const updateMutation = UpdateQuizById(props?.quiz_id);
   const onSubmit = (data) => {
+    if(data?.percent_based_result_text){
+      data.result_text = JSON.stringify(data.result_text);
+    }
     if (props?.create) {
       createMutation.mutate(data, {
         onSuccess: (data) => {
