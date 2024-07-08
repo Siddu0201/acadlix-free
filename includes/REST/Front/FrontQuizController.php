@@ -102,6 +102,13 @@ class FrontQuizController
                 $query->where('online', 1);
             }
         ])->find($quiz_id);
+
+        if($quiz['show_only_specific_number_of_questions'] && $quiz['specific_number_of_questions'] > 0){
+            $numberOfQuestions = $quiz['specific_number_of_questions'];
+            $quiz->load(['questions' => function (Builder $query) use ($numberOfQuestions) {
+                $query->inRandomOrder()->limit($numberOfQuestions);
+            }]);
+        }
         $quiz['description'] = $this->renderShortCode($quiz['description']);
         $quiz['result_text'] = $quiz['percent_based_result_text'] ? $quiz['result_text'] : $this->renderShortCode($quiz['result_text']);
 

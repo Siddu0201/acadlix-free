@@ -232,7 +232,7 @@ const Question = (props) => {
               }
               label="Attempt & move forward automatically"
             />
-            <FormHelperText>(only for single choice)</FormHelperText>
+            <FormHelperText>(This feature will only work for single choice questions in normal mode)</FormHelperText>
           </GridItem1>
 
           {/* Force user to answer each question */}

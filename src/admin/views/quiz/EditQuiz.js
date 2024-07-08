@@ -19,6 +19,7 @@ const EditQuiz = () => {
         create={false}
         quiz={data?.data?.quiz}
         categories={data?.data?.categories}
+        templates={data?.data?.templates}
         languages={data?.data?.languages}
         non_prerquisites={data?.data?.quizes}
         isFetching={isFetching}

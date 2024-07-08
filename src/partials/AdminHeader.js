@@ -32,7 +32,12 @@ const AdminHeader = () => {
                   </Typography>
                 </Button>
               </Box>
-              <div style={{ display: 'flex'}}>
+              <Box sx={{ 
+                display: {
+                  sm: 'flex',
+                  xs: "none",
+                }
+              }}>
                 {menus.length > 0 && menus.map((menu, index) => (
                   <Button
                     key={index}
@@ -43,7 +48,7 @@ const AdminHeader = () => {
                     {menu?.name}
                   </Button>
                 ))}
-              </div>
+              </Box>
             </Toolbar>
         </Container>
       </AppBar>

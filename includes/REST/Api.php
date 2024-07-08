@@ -13,6 +13,7 @@ use Yuvayana\Acadlix\REST\Admin\AdminCategoryController;
 use Yuvayana\Acadlix\REST\Admin\AdminSubjectController;
 use Yuvayana\Acadlix\REST\Admin\AdminQuizController;
 use Yuvayana\Acadlix\REST\Admin\AdminQuestionController;
+use Yuvayana\Acadlix\REST\Admin\AdminTemplateController;
 
 // Front API Controller
 use Yuvayana\Acadlix\REST\Front\FrontQuizController;
@@ -49,6 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 AdminSubjectController::class,
                 AdminQuizController::class,
                 AdminQuestionController::class,
+                AdminTemplateController::class,
 
                 // Front Controllers
                 FrontQuizController::class,

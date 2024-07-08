@@ -8,6 +8,7 @@ use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Category;
 use Yuvayana\Acadlix\Models\Language;
 use Illuminate\Contracts\Database\Query\Builder;
+use Yuvayana\Acadlix\Models\Template;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -144,6 +145,7 @@ class AdminQuizController {
         $res['categories'] = Category::get();
         $res['languages'] = Language::get();
         $res['quizes'] = Quiz::get();
+        $res['templates'] = Template::where("type", "quiz")->get(["id", "name"]);
         return rest_ensure_response( $res );
     }
 
@@ -165,6 +167,7 @@ class AdminQuizController {
         }])->with(['prerequisites'])->find($id);
         $res['categories'] = Category::get();
         $res['languages'] = Language::get();
+        $res['templates'] = Template::where("type", "quiz")->get(["id", "name"]);
         $res['quizes'] = Quiz::whereNot('id', $id)->get();
         return rest_ensure_response($res);
     }

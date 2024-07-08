@@ -1,0 +1,124 @@
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import React from "react";
+import { PostSaveTemplate } from "../../../../requests/admin/AdminTemplateRequest";
+import { FaCloudUploadAlt } from "react-icons/fa";
+
+const SaveTemplateSection = (props) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const [template_id, setTemplate_id] = React.useState(null);
+  const [input, setInput] = React.useState("");
+
+  const saveTemplateMutation = PostSaveTemplate();
+
+  const saveTemplate = () => {
+    if (template_id || input) {
+      saveTemplateMutation?.mutate(
+        {
+          id: template_id,
+          name: input,
+          type: "quiz",
+          data: JSON.stringify(props?.watch()),
+        },
+        {
+          onSuccess: (data) => {
+            setTemplate_id(null);
+            setInput("");
+            props?.setValue("templates", data?.data?.templates, {
+              shouldDirty: true,
+            });
+          },
+        }
+      );
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "end",
+      }}
+    >
+      <Autocomplete
+        sx={{
+          minWidth: {
+            xs: "120px",
+            sm: "250px",
+          },
+          marginRight: 3,
+        }}
+        size="small"
+        value={
+          template_id !== null
+            ? props
+                ?.watch("templates")
+                ?.filter((option) => option?.id === template_id)?.[0]
+            : null
+        }
+        options={props?.watch("templates") ?? []}
+        getOptionLabel={(option) => option?.name || ""}
+        isOptionEqualToValue={(option, value) => option?.id === value?.id}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            inputProps={{
+              ...params.inputProps,
+              autoComplete: "template",
+            }}
+            label="Enter Template Name"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <React.Fragment>
+                  {saveTemplateMutation?.isPending ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </React.Fragment>
+              ),
+            }}
+            onChange={(e) => setInput(e.target.value)}
+          />
+        )}
+        onChange={(_, newValue) => {
+          setTemplate_id(newValue?.id);
+        }}
+      />
+      {isDesktop ? (
+        <Button
+          variant="contained"
+          size="small"
+          onClick={saveTemplate}
+          color="primary"
+        >
+          {saveTemplateMutation?.isPending ? (
+            <CircularProgress color="inherit" size={20} />
+          ) : (
+            "Save Template"
+          )}
+        </Button>
+      ) : (
+        <IconButton color="success" onClick={saveTemplate} title="load">
+          {saveTemplateMutation?.isPending ? (
+            <CircularProgress color="inherit" size={20} />
+          ) : (
+            <FaCloudUploadAlt />
+          )}
+        </IconButton>
+      )}
+    </Box>
+  );
+};
+
+export default SaveTemplateSection;

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import CategoryTemplateSection from "./sections/CategoryTemplateSection";
@@ -11,6 +11,7 @@ import {
   PostCreateQuiz,
   UpdateQuizById,
 } from "../../../requests/admin/AdminQuizRequest";
+import SaveTemplateSection from "./sections/SaveTemplateSection";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -18,6 +19,7 @@ const QuizContent = (props) => {
       id: null,
       quiz_section: "1",
       category_id: props?.quiz?.category_id ?? null,
+      templates: props?.templates ?? [],
       load_template_id: null,
       title: props?.quiz?.title ?? "",
       description: props?.quiz?.description ?? "",
@@ -320,11 +322,23 @@ const QuizContent = (props) => {
           />
 
           <Grid item xs={12} sm={12}>
-            <Box>
-              <Button variant="contained" size="medium" type="submit">
-                Save Change
-              </Button>
-            </Box>
+            <Card>
+              <CardContent>
+                <Grid container spacing={{xs: 1, sm: 3}}>
+                  <Grid item xs={5} sm={3}>
+                    <Button variant="contained" size="medium" type="submit">
+                      Save Change
+                    </Button>
+                  </Grid>
+                  <Grid item xs={7} sm={9}>
+                    <SaveTemplateSection
+                      {...methods}
+                      {...props}
+                    />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </form>
