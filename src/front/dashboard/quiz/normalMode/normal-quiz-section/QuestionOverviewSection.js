@@ -64,24 +64,10 @@ const QuestionOverviewSection = (props) => {
         }
         question.selected = false;
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
     props?.setValue("last", Date.now(), { shouldDirty: true });
     props?.setValue("finish", true, { shouldDirty: true });
-  };
-
-  const handleReview = () => {
-    props?.setValue(
-      "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (question.selected) {
-          question.review = !question?.review;
-        }
-        return question;
-      }),
-      { shouldDirty: true }
-    );
   };
 
   return (
@@ -210,21 +196,13 @@ const QuestionOverviewSection = (props) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           padding: {
             xs: "3px 3px",
             sm: "5px 8px",
           },
         }}
       >
-        <CustomButton
-          onClick={handleReview}
-          sx={{
-            display: props?.watch("finish") ? "none" : "",
-          }}
-        >
-          Review Question
-        </CustomButton>
         <CustomButton
           onClick={handleQuizOverView}
           sx={{

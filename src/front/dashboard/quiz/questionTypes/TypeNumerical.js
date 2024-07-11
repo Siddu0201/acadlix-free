@@ -9,10 +9,11 @@ const TypeNumerical = (props) => {
     props?.setValue(
       `questions.${props?.index}.language`,
       props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-        lang.answer_data[props?.type].yourAnswer = e?.target.value ? Number(e.target.value) : '';
+        lang.answer_data[props?.type].yourAnswer = e?.target.value
+          ? Number(e.target.value)
+          : "";
         return lang;
-      }),
-      { shouldDirty: true }
+      })
     );
 
     let data = props?.watch(
@@ -34,99 +35,88 @@ const TypeNumerical = (props) => {
   return (
     <Box
       sx={{
-        display: props?.selected ? "block" : "none",
+        width: "100%",
+        backgroundColor:
+          props?.watch("mode") !== "advance_mode"
+            ? props?.colorCode?.option_background
+            : "",
+        border:
+          props?.watch("mode") !== "advance_mode"
+            ? `1px solid ${props?.colorCode?.option_border}`
+            : "",
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
       }}
     >
-      <Typography>
-        {props?.question}
-      </Typography>
+      {(props?.watch("view_answer") ||
+        props?.watch(`questions.${props?.index}.check`)) && (
+        <Typography>
+          <b>Your answer</b>
+        </Typography>
+      )}
       <Box
         sx={{
-          width: "100%",
-          backgroundColor:
-            props?.watch("mode") !== "advance_mode"
-              ? props?.colorCode?.option_background
-              : "",
-          border:
-            props?.watch("mode") !== "advance_mode"
-              ? `1px solid ${props?.colorCode?.option_border}`
-              : "",
-          padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+          display: "flex",
         }}
       >
-        {(props?.watch("view_answer") ||
-          props?.watch(`questions.${props?.index}.check`)) && (
-          <Typography>
-            <b>Your answer</b>
-          </Typography>
-        )}
-        <Box
-          sx={{
-            display: "flex",
+        <CustomTextField
+          type="number"
+          label={props?.watch("view_answer") ? "" : "Type your answer"}
+          size="small"
+          inputProps={{
+            step: 0.01,
           }}
-        >
-          <CustomTextField
-            type="number"
-            label={props?.watch("view_answer") ? "" : "Type your answer"}
-            size="small"
-            inputProps={{
-              step: 0.01,
-            }}
-            sx={{
-              marginY: 2,
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
+          sx={{
+            marginY: 2,
+            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+              {
+                display: "none",
               },
-            }}
-            onChange={handleChange}
-            value={props?.answer_data?.[props?.type]?.yourAnswer}
-          />
-          {(props?.watch("view_answer") ||
-            props?.watch(`questions.${props?.index}.check`)) && (
-            <Box
-              sx={{
-                position: "relative",
-                marginLeft: "5px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {props?.watch(
-                `questions.${props?.index}.result.correct_count`
-              ) ? (
-                <SiTicktick
-                  style={{
-                    color: props?.colorCode?.correct,
-                  }}
-                />
-              ) : (
-                <ImCross
-                  style={{
-                    fontSize: "smaller",
-                    color: props?.colorCode?.incorrect,
-                  }}
-                />
-              )}
-            </Box>
-          )}
-        </Box>
-
+            "& input[type=number]": {
+              MozAppearance: "textfield",
+            },
+          }}
+          onChange={handleChange}
+          value={props?.answer_data?.[props?.type]?.yourAnswer}
+        />
         {(props?.watch("view_answer") ||
           props?.watch(`questions.${props?.index}.check`)) && (
-          <>
-            <Typography>
-              <b>Correct answer</b>
-            </Typography>
-            <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
-          </>
+          <Box
+            sx={{
+              position: "relative",
+              marginLeft: "5px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
+              <SiTicktick
+                style={{
+                  color: props?.colorCode?.correct,
+                }}
+              />
+            ) : (
+              <ImCross
+                style={{
+                  fontSize: "smaller",
+                  color: props?.colorCode?.incorrect,
+                }}
+              />
+            )}
+          </Box>
         )}
       </Box>
+
+      {(props?.watch("view_answer") ||
+        props?.watch(`questions.${props?.index}.check`)) && (
+        <>
+          <Typography>
+            <b>Correct answer</b>
+          </Typography>
+          <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
+        </>
+      )}
     </Box>
   );
 };

@@ -1,5 +1,7 @@
 import {
+  Avatar,
   Box,
+  Chip,
   FormControl,
   FormControlLabel,
   Radio,
@@ -27,8 +29,7 @@ const TypeSingleChoice = (props) => {
           }
         );
         return lang;
-      }),
-      { shouldDirty: true }
+      })
     );
 
     let data = props?.watch(
@@ -54,7 +55,7 @@ const TypeSingleChoice = (props) => {
       { shouldDirty: true }
     );
 
-    if(props?.watch("attempt_and_move_forward")){
+    if (props?.watch("attempt_and_move_forward")) {
       if (props?.last) {
         props?.setValue("finish", true, { shouldDirty: true });
       }
@@ -79,145 +80,187 @@ const TypeSingleChoice = (props) => {
     }
   };
 
-  const alphabate = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
-  const renderShortcode = (content) => {
-    // Regular expression to find audio shortcode
-    const audioRegex = /\[audio\s+src="([^"]+)"\s*\]/g;
-    const matches = content.match(audioRegex);
-    console.log(content ,matches);
+  const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+  // const renderShortcode = (content) => {
+  //   // Regular expression to find audio shortcode
+  //   const audioRegex = /\[audio\s+src="([^"]+)"\s*\]/g;
+  //   const matches = content.match(audioRegex);
+  //   console.log(content ,matches);
 
-    if (matches) {
-      return matches.map((match, index) => {
-        // Extract audio URL from shortcode
-        const src = match.match(/src="([^"]+)"/)[1];
-        return <audio key={index} controls><source src={src} type="audio/mpeg" /></audio>;
-      });
-    } else {
-      return <p>No audio found.</p>;
-    }
-  };
-  
+  //   if (matches) {
+  //     return matches.map((match, index) => {
+  //       // Extract audio URL from shortcode
+  //       const src = match.match(/src="([^"]+)"/)[1];
+  //       return <audio key={index} controls><source src={src} type="audio/mpeg" /></audio>;
+  //     });
+  //   } else {
+  //     return <p>No audio found.</p>;
+  //   }
+  // };
+
   return (
-    <Box
+    <FormControl
       sx={{
-        display: props?.selected ? "block" : "none",
+        width: "100%",
+        // backgroundColor:
+        //   props?.watch("mode") !== "advance_mode"
+        //     ? props?.colorCode?.option_background
+        //     : "",
+        // border:
+        //   props?.watch("mode") !== "advance_mode"
+        //     ? `1px solid ${props?.colorCode?.option_border}`
+        //     : "",
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
       }}
     >
-      <Typography>
-        {props?.question}
-      </Typography>
-
-      <FormControl
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group"
+        onChange={handleChange}
         sx={{
-          width: "100%",
-          backgroundColor:
-            props?.watch("mode") !== "advance_mode"
-              ? props?.colorCode?.option_background
-              : "",
-          border:
-            props?.watch("mode") !== "advance_mode"
-              ? `1px solid ${props?.colorCode?.option_border}`
-              : "",
-          padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+          gap: "6px",
         }}
       >
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group"
-          onChange={handleChange}
-          sx={{
-            gap: "5px",
-          }}
-        >
-          {props?.answer_data?.[props?.type]?.length > 0 &&
-            props?.answer_data?.[props?.type]?.map((data, index) => (
-              <Box sx={{
+        {props?.answer_data?.[props?.type]?.length > 0 &&
+          props?.answer_data?.[props?.type]?.map((data, index) => (
+            <Box
+              key={index}
+              sx={{
                 display: "flex",
-                alignItems: "center"
-              }}>
-                {
-                  props?.watch("answer_bullet") 
-                  ? props?.watch("answer_bullet_type") === "numeric"
-                  ?
-                  <Typography>
-                    {index + 1}.
-                  </Typography>
-                  :
-                  <Typography>
-                    {alphabate[index % 26]}.
-                  </Typography>
-
-                  :
-                  <></>
+                alignItems: "center",
+                border: props?.watch(`questions.${props?.index}.check`)
+                  ? data?.isCorrect
+                    ? (theme) => `1px solid ${theme.palette.success.dark}`
+                    : data?.isChecked
+                    ? (theme) => `1px solid ${theme.palette.error.dark}`
+                    : (theme) => `1px solid ${theme.palette.grey[300]}`
+                  : (theme) => `1px solid ${theme.palette.grey[300]}`,
+                backgroundColor: props?.watch(`questions.${props?.index}.check`)
+                  ? data?.isCorrect
+                    ? (theme) => theme.palette.success.light
+                    : data?.isChecked
+                    ? (theme) => theme.palette.error.light
+                    : "transparent"
+                  : "transparent",
+                borderRadius: 1,
+                paddingX: 1,
+                paddingY: 2,
+              }}
+            >
+              {props?.watch("answer_bullet") ? (
+                props?.watch("answer_bullet_type") === "numeric" ? (
+                  <Avatar
+                    sx={{
+                      height: 24,
+                      width: 24,
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      backgroundColor: props?.watch(
+                        `questions.${props?.index}.check`
+                      )
+                        ? data?.isCorrect
+                          ? (theme) => theme.palette.success.main
+                          : data?.isChecked
+                          ? (theme) => theme.palette.error.main
+                          : (theme) => theme.palette.grey[500]
+                        : (theme) => theme.palette.grey[500]
+                    }}
+                  >
+                    {index + 1}
+                  </Avatar>
+                ) : (
+                  <Avatar
+                    sx={{
+                      height: 24,
+                      width: 24,
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      backgroundColor: props?.watch(
+                        `questions.${props?.index}.check`
+                      )
+                        ? data?.isCorrect
+                          ? (theme) => theme.palette.success.main
+                          : data?.isChecked
+                          ? (theme) => theme.palette.error.main
+                          : (theme) => theme.palette.grey[500]
+                        : (theme) => theme.palette.grey[500]
+                    }}
+                  >
+                    {alphabate[index % 26]}
+                  </Avatar>
+                )
+              ) : (
+                <></>
+              )}
+              <FormControlLabel
+                checked={data?.isChecked}
+                control={
+                  <Radio
+                    disabled={
+                      props?.watch("view_answer") ||
+                      props?.watch(`questions.${props?.index}.check`)
+                    }
+                  />
                 }
-                <FormControlLabel
-                  key={index}
-                  checked={data?.isChecked}
-                  control={<Radio disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)} />}
-                  value={index}
-                  label={
+                value={index}
+                label={
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography component="div">
+                      {parse(data?.option)}
+                    </Typography>
                     <Box
                       sx={{
+                        position: "relative",
+                        marginLeft: "5px",
                         display: "flex",
+                        alignItems: "center",
                       }}
                     >
-                      <Typography>{parse(data?.option)}</Typography>
-                      <Box
-                        sx={{
-                          position: "relative",
-                          marginLeft: "5px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        {props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? (
-                          data?.isCorrect ? (
-                            <SiTicktick
-                              style={{
-                                color: props?.colorCode?.correct,
-                              }}
-                            />
-                          ) : data?.isChecked ? (
-                            <ImCross
-                              style={{
-                                fontSize: "smaller",
-                                color: props?.colorCode?.incorrect,
-                              }}
-                            />
-                          ) : (
-                            <></>
-                          )
+                      {props?.watch("view_answer") ||
+                      props?.watch(`questions.${props?.index}.check`) ? (
+                        data?.isCorrect ? (
+                          <Chip label="Correct Answer" color="success" />
+                        ) : data?.isChecked ? (
+                          <Chip label="Your Answer" color="error" />
                         ) : (
                           <></>
-                        )}
-                      </Box>
+                        )
+                      ) : (
+                        <></>
+                      )}
                     </Box>
-                  }
-                  sx={{
-                    width: 'fit-content',
-                    marginLeft: 0,
-                    '& svg': {
-                      height: "15px",
-                      width: "15px",
-                    }
-                  }}
-                  componentsProps={{
-                    typography: {
-                      sx: {
-                        "&.Mui-disabled": {
-                          color: "initial !important",
-                        },
+                  </Box>
+                }
+                sx={{
+                  width: "100%",
+                  marginLeft: 0,
+                  "& svg": {
+                    height: "15px",
+                    width: "15px",
+                  },
+                }}
+                componentsProps={{
+                  typography: {
+                    sx: {
+                      width: "100%",
+                      "&.Mui-disabled": {
+                        color: "initial !important",
                       },
                     },
-                  }}
-                />
-              </Box>
-            ))}
-        </RadioGroup>
-      </FormControl>
-    </Box>
+                  },
+                }}
+              />
+            </Box>
+          ))}
+      </RadioGroup>
+    </FormControl>
   );
 };
 

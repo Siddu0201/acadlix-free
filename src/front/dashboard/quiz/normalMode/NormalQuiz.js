@@ -62,12 +62,12 @@ const NormalQuiz = (props) => {
 
   return (
     <Container
-      minWidth="80%"
       sx={{
         paddingX: {
           xs: 0,
           md: 2,
         },
+        minWidth: "80%"
       }}
     >
       {

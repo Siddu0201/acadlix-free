@@ -2,22 +2,19 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
 import { FaRegBookmark } from "react-icons/fa6";
+import CustomButton from "../normal-quiz-component/CustomButton";
 
 const QuestionSubjectAndPointSection = (props) => {
+  const handleReview = () => {
+    props?.setValue(
+      `questions.${props?.index}.review`,
+      !props?.watch(`questions.${props?.index}.review`),
+      { shouldDirty: true }
+    );
+  };
+
   return (
     <>
-      {props?.watch("question_overview") && (
-        <Box
-          sx={{
-            marginY: "5px",
-          }}
-        >
-          <Typography>
-            Question <b>{props?.num}</b> of{" "}
-            <b>{props?.watch("questions")?.length}</b>
-          </Typography>
-        </Box>
-      )}
       <Box
         sx={{
           display: "flex",
@@ -25,11 +22,19 @@ const QuestionSubjectAndPointSection = (props) => {
           marginY: "5px",
         }}
       >
-        <Box>
-          {!props?.watch("hide_question_numbering") && (
-            <Typography>Question {props?.num}:</Typography>
-          )}
-        </Box>
+        {!props?.watch("hide_question_numbering") && (
+          <Box
+            sx={{
+              marginY: "5px",
+            }}
+          >
+            <Typography sx={{
+              fontWeight: "bold"
+            }}>
+              Question {props?.num} of {props?.watch("questions")?.length}
+            </Typography>
+          </Box>
+        )}
         <Box>
           <Typography>
             {props?.watch("show_marks") && (
@@ -54,6 +59,16 @@ const QuestionSubjectAndPointSection = (props) => {
                 </>
               )}
           </Typography>
+        </Box>
+        <Box>
+          <CustomButton
+            onClick={handleReview}
+            sx={{
+              display: props?.watch("finish") ? "none" : "",
+            }}
+          >
+            Review Question
+          </CustomButton>
         </Box>
       </Box>
       <Box

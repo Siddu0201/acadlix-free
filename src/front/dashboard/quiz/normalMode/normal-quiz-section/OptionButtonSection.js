@@ -17,8 +17,7 @@ const OptionButtonSection = (props) => {
               return answer;
             });
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       case "multipleChoice":
@@ -32,8 +31,7 @@ const OptionButtonSection = (props) => {
               return answer;
             });
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       case "trueFalse":
@@ -47,8 +45,7 @@ const OptionButtonSection = (props) => {
               return answer;
             });
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       case "sortingChoice":
@@ -59,8 +56,7 @@ const OptionButtonSection = (props) => {
               lang.answer_data[props?.question?.answer_type]
             );
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       case "matrixSortingChoice":
@@ -77,8 +73,7 @@ const OptionButtonSection = (props) => {
                 }
               );
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       case "numerical":
@@ -87,8 +82,7 @@ const OptionButtonSection = (props) => {
           props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].yourAnswer = "";
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       case "rangeType":
@@ -97,8 +91,7 @@ const OptionButtonSection = (props) => {
           props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].yourAnswer = "";
             return lang;
-          }),
-          { shouldDirty: true }
+          })
         );
         break;
       default:
@@ -134,8 +127,7 @@ const OptionButtonSection = (props) => {
           question.selected = false;
         }
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
     props?.setValue("last", Date.now(), { shouldDirty: true });
   };
@@ -155,8 +147,7 @@ const OptionButtonSection = (props) => {
           question.selected = false;
         }
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
     props?.setValue("last", Date.now(), { shouldDirty: true });
   };

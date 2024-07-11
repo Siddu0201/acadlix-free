@@ -26,6 +26,15 @@ if(!class_exists('Database')){
                 'charset' => DB_CHARSET,
                 'prefix' => $wpdb->prefix.'acadlix_',
             ]);
+            $capsule->addConnection([
+                'driver' => 'mysql',
+                'host' => DB_HOST,
+                'database' => DB_NAME,
+                'username' => DB_USER,
+                'password' => DB_PASSWORD,
+                'charset' => DB_CHARSET,
+                'prefix' => $wpdb->prefix,
+            ], 'wordpress');
             // Set the event dispatcher used by Eloquent models... (optional)
             $capsule->setEventDispatcher(new Dispatcher(new Container));
     

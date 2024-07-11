@@ -1,0 +1,54 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInstance } from "../../helpers/util";
+import toast from "react-hot-toast";
+
+const base = "/admin-statistic";
+
+export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize= 10) => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getStatisticByQuizId", quiz_id, page, pageSize],
+        queryFn: () => {
+            return instance.get(`${base}/${quiz_id}`, {
+                params: {
+                    page: page,
+                    pageSize: pageSize
+                }
+            });
+        }
+    });
+}
+
+export const DeleteStatisticById = () => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (statistic_ref_id = '') => {
+            return instance.delete(`${base}/${statistic_ref_id}`, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions?.nonce,
+                }
+            });
+        },
+        onSuccess: () => {
+            toast.success('Result successfully deleted.');
+            queryClient.invalidateQueries({
+                queryKey: ["getStatisticByQuizId"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    });
+}
+
+export const GetStatisticById = (statistic_ref_id = '') => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getStatisticById", statistic_ref_id],
+        queryFn: () => {
+            return instance.get(`${base}/answersheet/${statistic_ref_id}`);
+        }
+    });
+}

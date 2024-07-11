@@ -25,7 +25,6 @@ const TypeMultipleChoice = (props) => {
         );
         return lang;
       }),
-      { shouldDirty: true }
     );
 
     let data = props?.watch(
@@ -55,15 +54,6 @@ const TypeMultipleChoice = (props) => {
   const alphabate = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 
   return (
-    <Box
-      sx={{
-        display: props?.selected ? "block" : "none",
-      }}
-    >
-      <Typography>
-        {props?.question}
-      </Typography>
-
       <FormControl
         sx={{
           width: "100%",
@@ -82,7 +72,7 @@ const TypeMultipleChoice = (props) => {
       >
         {props?.answer_data?.[props?.type]?.length > 0 &&
           props?.answer_data?.[props?.type]?.map((data, index) => (
-            <Box sx={{
+            <Box key={index} sx={{
               display: "flex",
               alignItems: "center"
             }}>
@@ -102,7 +92,6 @@ const TypeMultipleChoice = (props) => {
                 <></>
               }
             <FormControlLabel
-              key={index}
               checked={data?.isChecked}
               control={<Checkbox disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)} />}
               label={
@@ -111,7 +100,7 @@ const TypeMultipleChoice = (props) => {
                     display: "flex",
                   }}
                 >
-                  <Typography>{parse(data?.option)}</Typography>
+                  <Typography component="div">{parse(data?.option)}</Typography>
                   <Box
                     sx={{
                       position: "relative",
@@ -166,7 +155,6 @@ const TypeMultipleChoice = (props) => {
             </Box>
           ))}
       </FormControl>
-    </Box>
   );
 };
 

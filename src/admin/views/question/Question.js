@@ -77,6 +77,7 @@ const Question = () => {
               <IconButton
                 aria-label="edit"
                 size="small"
+                color="primary"
                 LinkComponent={Link}
                 to={`/quiz/${quiz_id}/question/edit/${params?.id}`}
               >
@@ -87,6 +88,7 @@ const Question = () => {
               <IconButton
                 aria-label="delete"
                 size="small"
+                color="error"
                 onClick={deleteQuestionById.bind(this, params?.id)}
               >
                 <FaTrash />

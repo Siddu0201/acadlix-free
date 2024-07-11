@@ -21,7 +21,7 @@ if(!class_exists('StatisticRef')){
             "quiz_time"
         ];
 
-        protected $with = ['statistics'];
+        protected $with = ['statistics', 'user'];
 
         public function quiz(){
             return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
@@ -29,6 +29,10 @@ if(!class_exists('StatisticRef')){
 
         public function statistics(){
             return $this->hasMany(Statistic::class, "statistic_ref_id", "id");
+        }
+
+        public function user(){
+            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
         }
 
     }

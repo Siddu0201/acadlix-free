@@ -1,22 +1,24 @@
-import { render } from '@wordpress/element';
 import AppFront from './front/AppFront';
 import Dashbaord from './front/Dashbaord';
+import { jsx as _jsx } from 'react/jsx-runtime'
+import { createRoot } from 'react-dom/client';
 
 const shortcode = document.querySelectorAll('.acadlix-front');
 if(shortcode.length > 0){
     shortcode.forEach((short, index) => {
-        render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} />, short);
+        let shortcodeRoot = createRoot(short);
+        shortcodeRoot.render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} />);
     });
 }
 
 const dashboard = document.getElementById("acadlix_dashboard");
-
 if(dashboard){
-    render(<Dashbaord />, dashboard);
+    const dashboardRoot = createRoot(dashboard);
+    dashboardRoot.render(<Dashbaord />);
 }
 
-const advacne_quiz = document.getElementById("acadlix_advance_quiz");
-
-if(advacne_quiz){
-    render(<AppFront start={true} advance={true} />, advacne_quiz);
+const advanceQuiz = document.getElementById("acadlix_advance_quiz");
+if(advanceQuiz){
+    const advanceQuizRoot = createRoot(advanceQuiz);
+    advanceQuizRoot.render(<AppFront start={true} advance={true} />);
 }

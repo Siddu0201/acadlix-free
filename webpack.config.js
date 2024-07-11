@@ -1,19 +1,27 @@
 const defaultConfig = require("./node_modules/@wordpress/scripts/config/webpack.config");
 
-const path = require('path');
+const path = require("path");
 
 module.exports = {
+  ...defaultConfig,
 
-    ...defaultConfig,
+  entry: {
+    ...defaultConfig.entry,
 
-    entry: {
+    index: path.resolve(process.cwd(), "src", "index.js"),
 
-        ...defaultConfig.entry,
+    front: path.resolve(process.cwd(), "src", "front.js"),
+  },
 
-        index: path.resolve(process.cwd(), 'src', 'index.js'),
-
-        front: path.resolve(process.cwd(), 'src', 'front.js'),
-        
-    },
+  devServer: {
+    ...defaultConfig.devServer,
+    
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3000',
+      },
+    ],
+  },
 
 };

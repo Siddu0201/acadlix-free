@@ -25,7 +25,7 @@ const HintAndMessageSection = (props) => {
           </Typography>
         </Box>
         <Box>
-          <Typography>{props?.lang?.hint_msg}</Typography>
+          <Typography component="div">{props?.lang?.hint_msg}</Typography>
         </Box>
       </Box>
       {props?.question?.check ? (
@@ -49,7 +49,7 @@ const HintAndMessageSection = (props) => {
               </Typography>
             </Box>
             <Box>
-              <Typography>{props?.lang?.correct_msg}</Typography>
+              <Typography component="div">{props?.lang?.correct_msg}</Typography>
             </Box>
           </Box>
         ) : (
@@ -76,7 +76,7 @@ const HintAndMessageSection = (props) => {
               </Typography>
             </Box>
             <Box>
-              <Typography>
+              <Typography component="div">
                 {props?.lang?.different_points_for_each_answer
                   ? props?.lang?.incorrect_msg
                   : props?.lang?.correct_msg}

@@ -18,6 +18,8 @@ import CreateQuestion from "./views/question/CreateQuestion";
 import EditQuestion from "./views/question/EditQuestion";
 import Course from "./views/course/Course";
 import Configuration from "./views/configuration/Configuration";
+import QuizResult from "./views/quiz/quiz-result/QuizResult";
+import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerSheet";
 
 const AppAdmin = () => {
 
@@ -218,6 +220,10 @@ const AppAdmin = () => {
                         <Route index element={<Question />} />
                         <Route path="create" element={<CreateQuestion />} />
                         <Route path="edit/:question_id" element={<EditQuestion />} />
+                      </Route>
+                      <Route path=":quiz_id/result">
+                        <Route index element={<QuizResult />} />
+                        <Route path=":statistic_ref_id" element={<QuizResultAnswerSheet />} />
                       </Route>
                     </Route>
                     <Route path="/course" element={<div>{<Course />}</div>} />

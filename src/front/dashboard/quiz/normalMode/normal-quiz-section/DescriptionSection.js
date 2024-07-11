@@ -105,7 +105,7 @@ const DescriptionSection = (props) => {
         </Typography>
       )}
 
-      <Typography variant="body1" sx={{ marginY: "9px !important" }}>
+      <Typography variant="body1" sx={{ marginY: "9px !important" }} component="div">
         {props?.watch("description")}
       </Typography>
       <CustomButton

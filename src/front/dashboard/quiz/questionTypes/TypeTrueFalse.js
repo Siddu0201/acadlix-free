@@ -26,8 +26,7 @@ const TypeTrueFalse = (props) => {
           }
         );
         return lang;
-      }),
-      { shouldDirty: true }
+      })
     );
 
     let data = props?.watch(

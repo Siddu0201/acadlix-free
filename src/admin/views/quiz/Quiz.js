@@ -28,6 +28,8 @@ import { FaEdit, FaQuestion, FaTrash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import CategoryModel from "./actions/CategoryModel";
+import { LuFileBarChart2 } from "react-icons/lu";
+import { FaRankingStar } from "react-icons/fa6";
 
 const Quiz = () => {
   const methods = useForm({
@@ -64,8 +66,8 @@ const Quiz = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 1,
-      minWidth: 80,
+      flex: 2,
+      minWidth: 150,
       renderCell: (params) => {
         return (
           <>
@@ -73,6 +75,7 @@ const Quiz = () => {
               <IconButton
                 aria-label="edit"
                 size="small"
+                color="primary"
                 LinkComponent={Link}
                 to={`/quiz/edit/${params?.id}`}
               >
@@ -83,6 +86,7 @@ const Quiz = () => {
               <IconButton
                 aria-label="delete"
                 size="small"
+                color="error"
                 onClick={deleteQuizById.bind(this, params?.id)}
               >
                 <FaTrash />
@@ -92,11 +96,32 @@ const Quiz = () => {
               <IconButton
                 aria-label="questions"
                 size="small"
+                color="secondary"
                 LinkComponent={Link}
                 to={`/quiz/${params?.id}/question`}
               >
                 <FaQuestion />
               </IconButton>
+            </Tooltip>
+            <Tooltip title="Result" arrow>
+              <IconButton
+                aria-label="result"
+                size="small"
+                color="info"
+                LinkComponent={Link}
+                to={`/quiz/${params?.id}/result`}
+                >
+                  <LuFileBarChart2 /> 
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Leaderboard" arrow>
+              <IconButton
+                aria-label="leaderboard"
+                size="small"
+                color="warning"
+                >
+                  <FaRankingStar /> 
+                </IconButton>
             </Tooltip>
           </>
         );

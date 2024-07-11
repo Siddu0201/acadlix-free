@@ -44,79 +44,68 @@ const TypeMatrixSortingChoice = (props) => {
   return (
     <Box
       sx={{
-        display: props?.selected ? "block" : "none",
+        width: "100%",
+        backgroundColor:
+          props?.watch("mode") !== "advance_mode"
+            ? props?.colorCode?.option_background
+            : "",
+        border:
+          props?.watch("mode") !== "advance_mode"
+            ? `1px solid ${props?.colorCode?.option_border}`
+            : "",
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
       }}
     >
-      <Typography>
-        {props?.question}
-      </Typography>
-      <Box
-        sx={{
-          width: "100%",
-          backgroundColor:
-            props?.watch("mode") !== "advance_mode"
-              ? props?.colorCode?.option_background
-              : "",
-          border:
-            props?.watch("mode") !== "advance_mode"
-              ? `1px solid ${props?.colorCode?.option_border}`
-              : "",
-          padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
-        }}
-      >
-        <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-          <List
-            sx={{
-              display: "grid",
-              gap: "10px",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              backgroundColor: "lightgrey",
-              padding: "10px",
-              marginBottom: 2,
-            }}
-          >
-            {props?.answer_data?.[props?.type]?.map((item, index) => (
-              <DraggableItem
-                key={index}
-                id={index}
-                item={item}
-                activeId={activeId}
-              />
-            ))}
-            <DragOverlay>
-              {activeId ? <Item id={activeId} /> : null}
-            </DragOverlay>
-          </List>
-          <List
-            sx={{
-              display: "grid",
-              gap: "10px",
-              backgroundColor: "lightgrey",
-              padding: "10px",
-            }}
-          >
-            {props?.answer_data?.[props?.type]?.map((item, index) => (
-              <ListItem
+      <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+        <List
+          sx={{
+            display: "grid",
+            gap: "10px",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            backgroundColor: "lightgrey",
+            padding: "10px",
+            marginBottom: 2,
+          }}
+        >
+          {props?.answer_data?.[props?.type]?.map((item, index) => (
+            <DraggableItem
+              key={index}
+              id={index}
+              item={item}
+              activeId={activeId}
+            />
+          ))}
+          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+        </List>
+        <List
+          sx={{
+            display: "grid",
+            gap: "10px",
+            backgroundColor: "lightgrey",
+            padding: "10px",
+          }}
+        >
+          {props?.answer_data?.[props?.type]?.map((item, index) => (
+            <ListItem
+              sx={{
+                border: "1px dotted black",
+              }}
+            >
+              <Box
                 sx={{
-                  border: "1px dotted black",
+                  borderRight: "1px dotted black",
+                  minWidth: "20%",
                 }}
               >
-                <Box
-                  sx={{
-                    borderRight: "1px dotted black",
-                    minWidth: "20%",
-                  }}
-                >
-                  <Typography>{item?.criteria}</Typography>
-                </Box>
-                <DroppableItem key={index} id={index} item={item} />
-              </ListItem>
-            ))}
-          </List>
-        </DndContext>
-      </Box>
+                <Typography>{item?.criteria}</Typography>
+              </Box>
+              <DroppableItem key={index} id={index} item={item} />
+            </ListItem>
+          ))}
+        </List>
+      </DndContext>
     </Box>
   );
 };

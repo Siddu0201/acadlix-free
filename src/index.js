@@ -1,8 +1,9 @@
 import AppAdmin from "./admin/AppAdmin";
-import { render } from '@wordpress/element';
+import { jsx as _jsx } from 'react/jsx-runtime'
+import { createRoot } from 'react-dom/client';
 
 const acadlixElement = document.getElementById('acadlix-admin');
-
+const acadlixElementRoot = createRoot(acadlixElement);
 if (acadlixElement){
-    render(<AppAdmin />, acadlixElement);
+    acadlixElement.render(<AppAdmin />);
 }

@@ -79,78 +79,71 @@ const TypeSortingChoice = (props) => {
   return (
     <Box
       sx={{
-        display: props?.selected ? "block" : "none",
+        width: "100%",
+        backgroundColor:
+          props?.watch("mode") !== "advance_mode"
+            ? props?.colorCode?.option_background
+            : "",
+        border:
+          props?.watch("mode") !== "advance_mode"
+            ? `1px solid ${props?.colorCode?.option_border}`
+            : "",
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
       }}
     >
-      <Typography>
-        {props?.question}
-      </Typography>
-      <Box
-        sx={{
-          width: "100%",
-          backgroundColor:
-            props?.watch("mode") !== "advance_mode"
-              ? props?.colorCode?.option_background
-              : "",
-          border:
-            props?.watch("mode") !== "advance_mode"
-              ? `1px solid ${props?.colorCode?.option_border}`
-              : "",
-          padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
-        }}
+      {(props?.watch("view_answer") ||
+        props?.watch(`questions.${props?.index}.check`)) && (
+        <Typography>
+          <b>Your answer</b>
+        </Typography>
+      )}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
-        {
-          (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) )&&
-          <Typography>
-            <b>Your answer</b>
-          </Typography>
-        }
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
+        <List
+          sx={{
+            display: "grid",
+            gap: "10px",
+          }}
         >
+          <SortableContext
+            items={props?.answer_data?.[props?.type]}
+            strategy={verticalListSortingStrategy}
+          >
+            {props?.answer_data?.[props?.type].map((item, index) => (
+              <SortableItem
+                key={index}
+                id={index}
+                item={item}
+                activeId={activeId}
+                {...props}
+              />
+            ))}
+          </SortableContext>
+          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+        </List>
+      </DndContext>
+      {(props?.watch("view_answer") ||
+        props?.watch(`questions.${props?.index}.check`)) && (
+        <>
+          <Typography>
+            <b>Correct answer</b>
+          </Typography>
           <List
             sx={{
               display: "grid",
               gap: "10px",
             }}
           >
-            <SortableContext
-              items={props?.answer_data?.[props?.type]}
-              strategy={verticalListSortingStrategy}
-            >
-              {props?.answer_data?.[props?.type].map((item, index) => (
-                <SortableItem
-                  key={index}
-                  id={index}
-                  item={item}
-                  activeId={activeId}
-                  {...props}
-                />
-              ))}
-            </SortableContext>
-            <DragOverlay>
-              {activeId ? <Item id={activeId} /> : null}
-            </DragOverlay>
-          </List>
-        </DndContext>
-        {
-          (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) &&
-          <>
-            <Typography>
-              <b>Correct answer</b>
-            </Typography>
-            <List
-              sx={{
-                display: "grid",
-                gap: "10px",
-              }}
-            >
-              {props?.answer_data?.[props?.type]?.slice()?.sort((a, b) => a.position - b.position)?.map((item, index) => (
+            {props?.answer_data?.[props?.type]
+              ?.slice()
+              ?.sort((a, b) => a.position - b.position)
+              ?.map((item, index) => (
                 <ListItem
                   sx={{
                     border: "1px dotted black",
@@ -163,10 +156,9 @@ const TypeSortingChoice = (props) => {
                   {parse(item?.option)}
                 </ListItem>
               ))}
-            </List>
-          </>
-        }
-      </Box>
+          </List>
+        </>
+      )}
     </Box>
   );
 };
@@ -192,7 +184,9 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
 const SortableItem = (props) => {
   const { attributes, listeners, setNodeRef, transition } = useSortable({
     id: props.item?.option,
-    disabled: props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)
+    disabled:
+      props?.watch("view_answer") ||
+      props?.watch(`questions.${props?.index}.check`),
   });
 
   return (
@@ -203,7 +197,11 @@ const SortableItem = (props) => {
         border: "1px dotted black",
         borderRadius: 1,
         backgroundColor: "white",
-        cursor: props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? "pointer" : "move",
+        cursor:
+          props?.watch("view_answer") ||
+          props?.watch(`questions.${props?.index}.check`)
+            ? "pointer"
+            : "move",
         opacity: props?.item?.option === props?.activeId ? 0.4 : 1,
         touchAction: "none",
       }}
@@ -211,35 +209,32 @@ const SortableItem = (props) => {
       {...listeners}
     >
       {parse(props?.item?.option)}
-      {
-        (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) &&
-        <Box sx={{
-          position: "relative",
-          marginLeft: "5px",
-          display: "flex",
-          alignItems: "center",
-        }}>
-          {
-            props?.id === props?.item?.position ?
-            (
-              <SiTicktick
-                style={{
-                  color: props?.colorCode?.correct,
-                }}
-              />
-            )
-            :
-            (
-              <ImCross
-                style={{
-                  fontSize: "smaller",
-                  color: props?.colorCode?.incorrect,
-                }}
-              />
-            )
-          }
+      {(props?.watch("view_answer") ||
+        props?.watch(`questions.${props?.index}.check`)) && (
+        <Box
+          sx={{
+            position: "relative",
+            marginLeft: "5px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {props?.id === props?.item?.position ? (
+            <SiTicktick
+              style={{
+                color: props?.colorCode?.correct,
+              }}
+            />
+          ) : (
+            <ImCross
+              style={{
+                fontSize: "smaller",
+                color: props?.colorCode?.incorrect,
+              }}
+            />
+          )}
         </Box>
-      }
+      )}
     </ListItem>
   );
 };

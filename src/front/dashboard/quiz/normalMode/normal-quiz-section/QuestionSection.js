@@ -18,6 +18,7 @@ const QuestionSection = (props) => {
       case "singleChoice":
         return (
           <TypeSingleChoice
+            key={props?.index}
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
@@ -107,13 +108,14 @@ const QuestionSection = (props) => {
         );
     }
   };
+
   return (
     <Box
       sx={{
         display: props?.question?.selected ? "" : "none",
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
-      ref={(elem) => props.questionRef.current[props.index] = elem}
+      ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
         <QuestionSubjectAndPointSection {...props} />
@@ -121,7 +123,12 @@ const QuestionSection = (props) => {
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, lang_index) => (
             <React.Fragment key={lang_index}>
-              {answerType(lang, lang_index)}
+              <Box sx={{
+                display: props?.question?.selected ? "block" : "none",
+              }}>
+                <Typography component="div">{lang?.question}</Typography>
+                {answerType(lang, lang_index)}
+              </Box>
             </React.Fragment>
           ))}
         <OptionButtonSection {...props} />
