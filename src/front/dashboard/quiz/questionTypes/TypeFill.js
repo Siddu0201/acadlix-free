@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { SiTicktick } from "react-icons/si";
@@ -69,15 +69,23 @@ const TypeFill = (props) => {
         width: "100%",
         backgroundColor:
           props?.watch("mode") !== "advance_mode"
-            ? props?.colorCode?.option_background
+            ? props?.watch(`questions.${props?.index}.check`)
+            ? props?.watch(`questions.${props?.index}.result.correct_count`)
+            ? (theme) => theme.palette.success.light
+            : (theme) => theme.palette.error.light
+            : ""
             : "",
         border:
           props?.watch("mode") !== "advance_mode"
-            ? `1px solid ${props?.colorCode?.option_border}`
-            : "",
-        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+          ? props?.watch(`questions.${props?.index}.check`)
+          ? props?.watch(`questions.${props?.index}.result.correct_count`)
+          ? (theme) => `1px solid ${theme.palette.success.dark}`
+          : (theme) => `1px solid ${theme.palette.error.dark}`
+          : (theme) => `1px solid ${theme.palette.grey[300]}`
+          : (theme) => `1px solid ${theme.palette.grey[300]}`,
+        borderRadius: 1,
+        padding: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >
       {(props?.watch("view_answer") ||
@@ -89,15 +97,17 @@ const TypeFill = (props) => {
       <Box
         sx={{
           display: "flex",
+          justifyContent: "space-between",
         }}
       >
         <Box>
           {props?.answer_data?.[props?.type]?.option
             ?.split(rxp)
-            ?.map((data) => {
+            ?.map((data, index) => {
               if (found?.includes(data)) {
                 return (
                   <CustomTextField
+                    key={index}
                     variant="standard"
                     size="small"
                     sx={{
@@ -131,18 +141,9 @@ const TypeFill = (props) => {
             }}
           >
             {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-              <SiTicktick
-                style={{
-                  color: props?.colorCode?.correct,
-                }}
-              />
+              <Chip label="Correct Answer" color="success" />
             ) : (
-              <ImCross
-                style={{
-                  fontSize: "smaller",
-                  color: props?.colorCode?.incorrect,
-                }}
-              />
+              <Chip label="Your Answer" color="error" />
             )}
           </Box>
         )}
@@ -156,11 +157,12 @@ const TypeFill = (props) => {
           <Box>
             {props?.answer_data?.[props?.type]?.option
               ?.split(rxp)
-              ?.map((data) => {
+              ?.map((data, index) => {
                 if (found?.includes(data)) {
                   return (
                     <>
                       <CustomTextField
+                        key={index}
                         variant="standard"
                         size="small"
                         sx={{

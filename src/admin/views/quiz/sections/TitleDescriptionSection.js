@@ -34,7 +34,7 @@ const TitleDescriptionSection = (props) => {
             {/* Used to enter quiz title  */}
             <Grid item xs={12} sm={12}>
               <CustomTextField
-                {...props?.register("title", {required: "Title is required"})}
+                // {...props?.register("title", {required: "Title is required"})}
                 fullWidth
                 required
                 name="title"

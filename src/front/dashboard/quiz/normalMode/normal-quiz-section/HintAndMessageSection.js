@@ -8,10 +8,11 @@ const HintAndMessageSection = (props) => {
     <Box>
       <Box
         sx={{
-          border: `1px solid ${props?.colorCode?.hint_border}`,
+          border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,
           padding: 2,
           marginY: 2,
-          backgroundColor: props?.colorCode?.hint_background,
+          borderRadius: 1,
+          backgroundColor: "transparent",
           boxShadow: theme?.shadows[1],
           display:
             props?.question?.hint && props?.lang?.hint_msg?.length > 0
@@ -32,15 +33,13 @@ const HintAndMessageSection = (props) => {
         props?.question?.result?.correct_count ? (
           <Box
             sx={{
-              border: `1px solid ${props?.colorCode?.hint_border}`,
+              border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,
               padding: 2,
               marginY: 2,
-              backgroundColor: props?.colorCode?.hint_background,
+              borderRadius: 1,
+              backgroundColor: "transparent",
               boxShadow: theme?.shadows[1],
-              display:
-                props?.lang?.correct_msg?.length > 0
-                  ? ""
-                  : "none",
+              display: props?.lang?.correct_msg?.length > 0 ? "" : "none",
             }}
           >
             <Box>
@@ -49,25 +48,27 @@ const HintAndMessageSection = (props) => {
               </Typography>
             </Box>
             <Box>
-              <Typography component="div">{props?.lang?.correct_msg}</Typography>
+              <Typography component="div">
+                {props?.lang?.correct_msg}
+              </Typography>
             </Box>
           </Box>
         ) : (
           <Box
             sx={{
-              border: `1px solid ${props?.colorCode?.hint_border}`,
+              border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,
               padding: 2,
               marginY: 2,
-              backgroundColor: props?.colorCode?.hint_background,
+              borderRadius: 1,
+              backgroundColor: "transparent",
               boxShadow: theme?.shadows[1],
-              display:
-                props?.lang?.different_points_for_each_answer
-                  ? props?.lang?.incorrect_msg?.length > 0
-                    ? ""
-                    : "none"
-                  : props?.lang?.correct_msg?.length > 0
+              display: props?.lang?.different_points_for_each_answer
+                ? props?.lang?.incorrect_msg?.length > 0
                   ? ""
-                  : "none",
+                  : "none"
+                : props?.lang?.correct_msg?.length > 0
+                ? ""
+                : "none",
             }}
           >
             <Box>

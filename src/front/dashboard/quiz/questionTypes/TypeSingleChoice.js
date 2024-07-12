@@ -102,17 +102,8 @@ const TypeSingleChoice = (props) => {
     <FormControl
       sx={{
         width: "100%",
-        // backgroundColor:
-        //   props?.watch("mode") !== "advance_mode"
-        //     ? props?.colorCode?.option_background
-        //     : "",
-        // border:
-        //   props?.watch("mode") !== "advance_mode"
-        //     ? `1px solid ${props?.colorCode?.option_border}`
-        //     : "",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >
       <RadioGroup
@@ -145,7 +136,7 @@ const TypeSingleChoice = (props) => {
                     : "transparent"
                   : "transparent",
                 borderRadius: 1,
-                paddingX: 1,
+                paddingX: 2,
                 paddingY: 2,
               }}
             >

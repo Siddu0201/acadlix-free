@@ -13,6 +13,12 @@ const ViewButtonSection = (props) => {
     if(props?.watch('questions')?.filter(d => d.selected).length === 0){
       props?.setValue('questions.0.selected', true, {shouldDirty: true});
     }
+    props?.setValue('questions',
+      props?.watch("questions")?.map(ques => {
+        ques.check = true;
+        return ques;
+      })
+    );
   }
   
   const handleViewLeaderBoard = () => {

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { SiTicktick } from "react-icons/si";
@@ -46,15 +46,23 @@ const TypeRange = (props) => {
         width: "100%",
         backgroundColor:
           props?.watch("mode") !== "advance_mode"
-            ? props?.colorCode?.option_background
+            ? props?.watch(`questions.${props?.index}.check`)
+              ? props?.watch(`questions.${props?.index}.result.correct_count`)
+                ? (theme) => theme.palette.success.light
+                : (theme) => theme.palette.error.light
+              : ""
             : "",
         border:
           props?.watch("mode") !== "advance_mode"
-            ? `1px solid ${props?.colorCode?.option_border}`
-            : "",
+            ? props?.watch(`questions.${props?.index}.check`)
+              ? props?.watch(`questions.${props?.index}.result.correct_count`)
+                ? (theme) => `1px solid ${theme.palette.success.dark}`
+                : (theme) => `1px solid ${theme.palette.error.dark}`
+              : (theme) => `1px solid ${theme.palette.grey[300]}`
+            : (theme) => `1px solid ${theme.palette.grey[300]}`,
+        borderRadius: 1,
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >
       {(props?.watch("view_answer") ||
@@ -66,15 +74,25 @@ const TypeRange = (props) => {
       <Box
         sx={{
           display: "flex",
+          justifyContent: "space-between",
         }}
       >
         <CustomTextField
           type="number"
-          label={props?.watch("view_answer") ? "" : "Type your answer"}
+          label={
+            props?.watch("view_answer") ||
+            props?.watch(`questions.${props?.index}.check`)
+              ? ""
+              : "Type your answer"
+          }
           size="small"
           inputProps={{
             step: 0.01,
           }}
+          disabled={
+            props?.watch("view_answer") ||
+            props?.watch(`questions.${props?.index}.check`)
+          }
           sx={{
             marginY: 2,
             "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
@@ -99,18 +117,9 @@ const TypeRange = (props) => {
             }}
           >
             {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-              <SiTicktick
-                style={{
-                  color: props?.colorCode?.correct,
-                }}
-              />
+              <Chip label="Correct Answer" color="success" />
             ) : (
-              <ImCross
-                style={{
-                  fontSize: "smaller",
-                  color: props?.colorCode?.incorrect,
-                }}
-              />
+              <Chip label="Your Answer" color="error" />
             )}
           </Box>
         )}

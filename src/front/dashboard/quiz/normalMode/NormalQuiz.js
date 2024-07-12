@@ -118,6 +118,8 @@ const NormalQuiz = (props) => {
             <ViewAnswerSection
               colorCode={colorCode}
               isDesktop={isDesktop}
+              questionRef={questionRef}
+              scrollToQuestion={scrollToQuestion}
               {...props}
             />
           }

@@ -64,7 +64,7 @@ const QuestionSubjectAndPointSection = (props) => {
           <CustomButton
             onClick={handleReview}
             sx={{
-              display: props?.watch("finish") ? "none" : "",
+              display: props?.watch("finish") || props?.watch('view_answer') ? "none" : "",
             }}
           >
             Review Question

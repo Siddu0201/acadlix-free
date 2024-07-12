@@ -13,6 +13,19 @@ module.exports = {
     front: path.resolve(process.cwd(), "src", "front.js"),
   },
 
+  output: {
+    ...defaultConfig.output,
+    // chunkFilename: '[name].bundle.js'
+  },  
+
+  optimization: {
+    ...defaultConfig.optimization,
+    
+    // splitChunks: {
+    //   chunks: 'all',
+    // },
+  },
+
   devServer: {
     ...defaultConfig.devServer,
     

@@ -14,7 +14,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Box, List, ListItem, Typography } from "@mui/material";
+import { Box, Chip, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { ImCross } from "react-icons/im";
 import { SiTicktick } from "react-icons/si";
@@ -80,22 +80,17 @@ const TypeSortingChoice = (props) => {
     <Box
       sx={{
         width: "100%",
-        backgroundColor:
-          props?.watch("mode") !== "advance_mode"
-            ? props?.colorCode?.option_background
-            : "",
-        border:
-          props?.watch("mode") !== "advance_mode"
-            ? `1px solid ${props?.colorCode?.option_border}`
-            : "",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <Typography>
+        <Typography
+          sx={{
+            paddingY: 2,
+          }}
+        >
           <b>Your answer</b>
         </Typography>
       )}
@@ -109,6 +104,7 @@ const TypeSortingChoice = (props) => {
           sx={{
             display: "grid",
             gap: "10px",
+            padding: 0,
           }}
         >
           <SortableContext
@@ -131,13 +127,18 @@ const TypeSortingChoice = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
         <>
-          <Typography>
+          <Typography
+            sx={{
+              paddingY: 2,
+            }}
+          >
             <b>Correct answer</b>
           </Typography>
           <List
             sx={{
               display: "grid",
               gap: "10px",
+              padding: 0,
             }}
           >
             {props?.answer_data?.[props?.type]
@@ -145,6 +146,7 @@ const TypeSortingChoice = (props) => {
               ?.sort((a, b) => a.position - b.position)
               ?.map((item, index) => (
                 <ListItem
+                  key={index}
                   sx={{
                     border: "1px dotted black",
                     borderRadius: 1,
@@ -194,9 +196,17 @@ const SortableItem = (props) => {
       ref={setNodeRef}
       sx={{
         transition: transition,
-        border: "1px dotted black",
         borderRadius: 1,
-        backgroundColor: "white",
+        border: props?.watch(`questions.${props?.index}.check`)
+          ? props?.id === props?.item?.position
+            ? (theme) => `1px solid ${theme.palette.success.dark}`
+            : (theme) => `1px solid ${theme.palette.error.dark}`
+          : (theme) => `1px solid ${theme.palette.grey[300]}`,
+        backgroundColor: props?.watch(`questions.${props?.index}.check`)
+          ? props?.id === props?.item?.position
+            ? (theme) => theme.palette.success.light
+            : (theme) => theme.palette.error.light
+          : "transparent",
         cursor:
           props?.watch("view_answer") ||
           props?.watch(`questions.${props?.index}.check`)
@@ -204,6 +214,7 @@ const SortableItem = (props) => {
             : "move",
         opacity: props?.item?.option === props?.activeId ? 0.4 : 1,
         touchAction: "none",
+        justifyContent: "space-between",
       }}
       {...attributes}
       {...listeners}
@@ -220,18 +231,9 @@ const SortableItem = (props) => {
           }}
         >
           {props?.id === props?.item?.position ? (
-            <SiTicktick
-              style={{
-                color: props?.colorCode?.correct,
-              }}
-            />
+            <Chip label="Correct Answer" color="success" />
           ) : (
-            <ImCross
-              style={{
-                fontSize: "smaller",
-                color: props?.colorCode?.incorrect,
-              }}
-            />
+            <Chip label="Your Answer" color="error" />
           )}
         </Box>
       )}

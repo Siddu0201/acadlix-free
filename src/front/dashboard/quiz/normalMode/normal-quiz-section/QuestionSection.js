@@ -11,6 +11,7 @@ import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
+import QuestionStatusSection from "./QuestionStatusSection";
 
 const QuestionSection = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -131,6 +132,7 @@ const QuestionSection = (props) => {
               </Box>
             </React.Fragment>
           ))}
+        <QuestionStatusSection {...props} />   
         <OptionButtonSection {...props} />
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (

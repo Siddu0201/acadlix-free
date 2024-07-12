@@ -11,6 +11,7 @@ import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import CustomButton from "../normal-quiz-component/CustomButton";
+import QuestionStatusSection from "./QuestionStatusSection";
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -29,13 +30,15 @@ const ViewAnswerSection = (props) => {
       { shouldDirty: true }
     );
   };
-  
+
   return (
     <Box>
       {/* Question OverView */}
       <Box
         sx={{
           border: `1px solid ${props?.colorCode?.overview_border}`,
+          borderRadius: 1,
+          boxShadow: (theme) => theme?.shadows[2],
         }}
       >
         <Box
@@ -45,11 +48,12 @@ const ViewAnswerSection = (props) => {
             overflowY: "scroll",
             maxHeight: "105px",
             padding: {
-              xs: "3px 0px",
-              sm: "5px 5px",
+              xs: "3px",
+              sm: "5px",
             },
             borderBottom: `1px solid ${props?.colorCode?.overview_border}`,
-            backgroundColor: props?.colorCode?.overview_background,
+            boxShadow: (theme) => theme?.shadows[1],
+            backgroundColor: "transparent",
           }}
         >
           {props?.watch("questions")?.map((d, index) => (
@@ -71,18 +75,18 @@ const ViewAnswerSection = (props) => {
                 boxShadow: d?.selected ? theme.shadows[3] : "none",
                 backgroundColor:
                   d?.result?.correct_count && d?.result?.solved_count
-                    ? props?.colorCode?.correct
+                    ? (theme) => theme?.palette?.success?.main
                     : d?.result?.incorrect_count && d?.result?.solved_count
-                    ? props?.colorCode?.incorrect
-                    : props?.colorCode?.skipped,
+                    ? (theme) => theme?.palette?.error?.main
+                    : (theme) => theme?.palette?.grey[300],
                 color: props?.colorCode?.overview_button_active_text,
-                ":hover": {
+                ":hover, :focus": {
                   backgroundColor:
                     d?.result?.correct_count && d?.result?.solved_count
-                      ? props?.colorCode?.correct
+                      ? (theme) => theme?.palette?.success?.main
                       : d?.result?.incorrect_count && d?.result?.solved_count
-                      ? props?.colorCode?.incorrect
-                      : props?.colorCode?.skipped,
+                      ? (theme) => theme?.palette?.error?.main
+                      : (theme) => theme?.palette?.grey[300],
                   color: props?.colorCode?.overview_button_active_text,
                   border: `1px solid ${
                     d?.selected
@@ -111,7 +115,7 @@ const ViewAnswerSection = (props) => {
               marginTop: "5px",
               height: "15px",
               width: "15px",
-              backgroundColor: props?.colorCode?.correct,
+              backgroundColor: (theme) => theme?.palette?.success?.main,
               marginRight: "5px",
               display: "inline-block",
             }}
@@ -120,7 +124,7 @@ const ViewAnswerSection = (props) => {
           <Box
             sx={{
               marginTop: "5px",
-              backgroundColor: props?.colorCode?.incorrect,
+              backgroundColor: (theme) => theme?.palette?.error?.main,
               height: "15px",
               width: "15px",
               marginX: "5px",
@@ -131,7 +135,7 @@ const ViewAnswerSection = (props) => {
           <Box
             sx={{
               marginTop: "5px",
-              backgroundColor: props?.colorCode?.skipped,
+              backgroundColor: (theme) => theme?.palette?.grey[300],
               height: "15px",
               width: "15px",
               marginX: "5px",
@@ -267,9 +271,9 @@ const ViewQuestionSection = (props) => {
           question.selected = false;
         }
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
+    props?.scrollToQuestion(props?.num);
   };
 
   const handleBackClick = () => {
@@ -282,9 +286,9 @@ const ViewQuestionSection = (props) => {
           question.selected = false;
         }
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
+    props?.scrollToQuestion(props?.index - 1);
   };
 
   return (
@@ -292,6 +296,8 @@ const ViewQuestionSection = (props) => {
       sx={{
         display: props?.question?.selected ? "" : "none",
       }}
+      id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
+      ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
         <QuestionSubjectAndPointSection {...props} />
@@ -299,9 +305,17 @@ const ViewQuestionSection = (props) => {
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, lang_index) => (
             <React.Fragment key={lang_index}>
-              {answerType(lang, lang_index)}
+              <Box
+                sx={{
+                  display: props?.question?.selected ? "block" : "none",
+                }}
+              >
+                <Typography component="div">{lang?.question}</Typography>
+                {answerType(lang, lang_index)}
+              </Box>
             </React.Fragment>
           ))}
+        <QuestionStatusSection {...props} />
         <Box
           sx={{
             display: "flex",
@@ -335,15 +349,17 @@ const ViewQuestionSection = (props) => {
         </Box>
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
-            <Box>
+            <Box key={index}>
               {props?.question?.result?.solved_count ? (
                 props?.question?.result?.correct_count ? (
                   <Box
                     sx={{
-                      border: `1px solid ${props?.colorCode?.hint_border}`,
+                      border: (theme) =>
+                        `1px solid ${theme?.palette?.grey[300]}`,
                       padding: 2,
                       marginY: 2,
-                      backgroundColor: props?.colorCode?.hint_background,
+                      borderRadius: 1,
+                      backgroundColor: "transparent",
                       boxShadow: theme?.shadows[1],
                       display: lang?.correct_msg?.length > 0 ? "" : "none",
                     }}
@@ -354,16 +370,18 @@ const ViewQuestionSection = (props) => {
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography>{lang?.correct_msg}</Typography>
+                      <Typography component="div">{lang?.correct_msg}</Typography>
                     </Box>
                   </Box>
                 ) : (
                   <Box
                     sx={{
-                      border: `1px solid ${props?.colorCode?.hint_border}`,
+                      border: (theme) =>
+                        `1px solid ${theme?.palette?.grey[300]}`,
                       padding: 2,
                       marginY: 2,
-                      backgroundColor: props?.colorCode?.hint_background,
+                      borderRadius: 1,
+                      backgroundColor: "transparent",
                       boxShadow: theme?.shadows[1],
                       display: lang?.different_points_for_each_answer
                         ? lang?.incorrect_msg?.length > 0
@@ -380,7 +398,7 @@ const ViewQuestionSection = (props) => {
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography>
+                      <Typography component="div">
                         {lang?.different_points_for_each_answer
                           ? lang?.incorrect_msg
                           : lang?.correct_msg}
@@ -391,10 +409,11 @@ const ViewQuestionSection = (props) => {
               ) : (
                 <Box
                   sx={{
-                    border: `1px solid ${props?.colorCode?.hint_border}`,
+                    border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,
                     padding: 2,
                     marginY: 2,
-                    backgroundColor: props?.colorCode?.hint_background,
+                    borderRadius: 1,
+                    backgroundColor: "transparent",
                     boxShadow: theme?.shadows[1],
                     display: lang?.different_points_for_each_answer
                       ? lang?.incorrect_msg?.length > 0
@@ -411,7 +430,7 @@ const ViewQuestionSection = (props) => {
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography>
+                    <Typography component="div">
                       {lang?.different_points_for_each_answer
                         ? lang?.incorrect_msg
                         : lang?.correct_msg}

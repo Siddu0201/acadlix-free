@@ -42,8 +42,7 @@ const QuestionOverviewSection = (props) => {
           default:
         }
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
 
     props?.setValue("pagination_page", page, { shouldDirty: true });
@@ -74,6 +73,8 @@ const QuestionOverviewSection = (props) => {
     <Box
       sx={{
         border: `1px solid ${props?.colorCode?.overview_border}`,
+        borderRadius: 1,
+        boxShadow: (theme) => theme?.shadows[2]
       }}
     >
       <Box
@@ -83,11 +84,12 @@ const QuestionOverviewSection = (props) => {
           overflowY: "scroll",
           maxHeight: "105px",
           padding: {
-            xs: "3px 0px",
-            sm: "5px 5px",
+            xs: "3px",
+            sm: "5px",
           },
           borderBottom: `1px solid ${props?.colorCode?.overview_border}`,
-          backgroundColor: props?.colorCode?.overview_background,
+          boxShadow: (theme) => theme?.shadows[1],
+          backgroundColor: "transparent",
         }}
       >
         {props?.watch("questions")?.map((d, index) => (
@@ -124,7 +126,7 @@ const QuestionOverviewSection = (props) => {
                 d?.review || d?.result?.solved_count
                   ? props?.colorCode?.overview_button_active_text
                   : props?.colorCode?.overview_button_text,
-              ":hover": {
+              ":hover, :focus": {
                 backgroundColor:
                   d?.review && d?.result?.solved_count
                     ? props?.colorCode?.answered_and_review

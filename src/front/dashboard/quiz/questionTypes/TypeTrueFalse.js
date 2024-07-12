@@ -1,5 +1,6 @@
 import {
   Box,
+  Chip,
   FormControl,
   FormControlLabel,
   Radio,
@@ -53,47 +54,63 @@ const TypeTrueFalse = (props) => {
     );
   };
   return (
-    <Box
+    <FormControl
       sx={{
-        display: props?.selected ? "block" : "none",
+        width: "100%",
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >
-      <Typography>
-        {props?.question}
-      </Typography>
-
-      <FormControl
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group"
+        onChange={handleChange}
         sx={{
-          width: "100%",
-          backgroundColor:
-            props?.watch("mode") !== "advance_mode"
-              ? props?.colorCode?.option_background
-              : "",
-          border:
-            props?.watch("mode") !== "advance_mode"
-              ? `1px solid ${props?.colorCode?.option_border}`
-              : "",
-          padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-          marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+          gap: "6px",
         }}
       >
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group"
-          onChange={handleChange}
-        >
-          {props?.answer_data?.[props?.type]?.length > 0 &&
-            props?.answer_data?.[props?.type]?.map((data, index) => (
+        {props?.answer_data?.[props?.type]?.length > 0 &&
+          props?.answer_data?.[props?.type]?.map((data, index) => (
+            <Box
+              key={index}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                border: props?.watch(`questions.${props?.index}.check`)
+                  ? data?.isCorrect
+                    ? (theme) => `1px solid ${theme.palette.success.dark}`
+                    : data?.isChecked
+                    ? (theme) => `1px solid ${theme.palette.error.dark}`
+                    : (theme) => `1px solid ${theme.palette.grey[300]}`
+                  : (theme) => `1px solid ${theme.palette.grey[300]}`,
+                backgroundColor: props?.watch(`questions.${props?.index}.check`)
+                  ? data?.isCorrect
+                    ? (theme) => theme.palette.success.light
+                    : data?.isChecked
+                    ? (theme) => theme.palette.error.light
+                    : "transparent"
+                  : "transparent",
+                borderRadius: 1,
+                paddingX: 2,
+                paddingY: 2,
+              }}
+            >
               <FormControlLabel
-                key={index}
                 checked={data?.isChecked}
-                control={<Radio disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)} />}
+                control={
+                  <Radio
+                    disabled={
+                      props?.watch("view_answer") ||
+                      props?.watch(`questions.${props?.index}.check`)
+                    }
+                  />
+                }
                 value={index}
                 label={
                   <Box
                     sx={{
                       display: "flex",
+                      justifyContent: "space-between",
                     }}
                   >
                     <Typography>{data?.option}</Typography>
@@ -105,20 +122,12 @@ const TypeTrueFalse = (props) => {
                         alignItems: "center",
                       }}
                     >
-                      {props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? (
+                      {props?.watch("view_answer") ||
+                      props?.watch(`questions.${props?.index}.check`) ? (
                         data?.isCorrect ? (
-                          <SiTicktick
-                            style={{
-                              color: props?.colorCode?.correct,
-                            }}
-                          />
+                          <Chip label="Correct Answer" color="success" />
                         ) : data?.isChecked ? (
-                          <ImCross
-                            style={{
-                              fontSize: "smaller",
-                              color: props?.colorCode?.incorrect,
-                            }}
-                          />
+                          <Chip label="Your Answer" color="error" />
                         ) : (
                           <></>
                         )
@@ -129,7 +138,7 @@ const TypeTrueFalse = (props) => {
                   </Box>
                 }
                 sx={{
-                  width: 'fit-content',
+                  width: "100%",
                   marginLeft: 0,
                   "& svg": {
                     height: "15px",
@@ -139,6 +148,7 @@ const TypeTrueFalse = (props) => {
                 componentsProps={{
                   typography: {
                     sx: {
+                      width: "100%",
                       "&.Mui-disabled": {
                         color: "initial !important",
                       },
@@ -146,10 +156,10 @@ const TypeTrueFalse = (props) => {
                   },
                 }}
               />
-            ))}
-        </RadioGroup>
-      </FormControl>
-    </Box>
+            </Box>
+          ))}
+      </RadioGroup>
+    </FormControl>
   );
 };
 

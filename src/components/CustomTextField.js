@@ -12,7 +12,7 @@ const CustomTextField = (props) => {
             '.MuiInputBase-inputMultiline':{
                 padding: 0
             },
-            ...props.sx
+            ...props?.sx
         }}
     />
   )
