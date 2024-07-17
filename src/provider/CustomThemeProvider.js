@@ -74,33 +74,33 @@ const CustomThemeProvider = ({ children }) => {
         contrastText: "#fff",
       },
       grey: {
-        main: colors.main['grey'],
-        light: colors.light['grey'],
-        dark: colors.dark['grey'],
+        main: colors.main["grey"],
+        light: colors.light["grey"],
+        dark: colors.dark["grey"],
         contrastText: "#fff",
       },
       success: {
-        main: colors.main['success'],
-        light: colors.light['success'],
-        dark: colors.dark['success'],
+        main: colors.main["success"],
+        light: colors.light["success"],
+        dark: colors.dark["success"],
         contrastText: "#fff",
       },
       error: {
-        main: colors.main['error'],
-        light: colors.light['error'],
-        dark: colors.dark['error'],
+        main: colors.main["error"],
+        light: colors.light["error"],
+        dark: colors.dark["error"],
         contrastText: "#fff",
       },
       warning: {
-        main: colors.main['warning'],
-        light: colors.light['warning'],
-        dark: colors.dark['warning'],
+        main: colors.main["warning"],
+        light: colors.light["warning"],
+        dark: colors.dark["warning"],
         contrastText: "#fff",
       },
       info: {
-        main: colors.main['info'],
-        light: colors.light['info'],
-        dark: colors.dark['info'],
+        main: colors.main["info"],
+        light: colors.light["info"],
+        dark: colors.dark["info"],
         contrastText: "#fff",
       },
       section: {
@@ -188,6 +188,9 @@ const CustomThemeProvider = ({ children }) => {
             textTransform: "none",
             marginBottom: "0px !important",
           },
+          contained: {
+            color: "#fff!important",
+          },
         },
       },
       MuiRadio: {
@@ -195,6 +198,11 @@ const CustomThemeProvider = ({ children }) => {
           "& .MuiSvgIcon-root": {
             height: 15,
             width: 15,
+          },
+          "&.Mui-disabled": {
+            input: {
+              opacity: "0 !important",
+            },
           },
         },
       },

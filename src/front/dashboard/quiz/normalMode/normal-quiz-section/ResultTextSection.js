@@ -24,7 +24,7 @@ const ResultTextSection = (props) => {
         marginY: 1,
       }}
     >
-      <Typography>
+      <Typography component="div">
         {
           props?.watch("percent_based_result_text")
           ?

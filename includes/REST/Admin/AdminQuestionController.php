@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Subject;
@@ -146,6 +147,7 @@ class AdminQuestionController
     public function get_quiz_questions($request)
     {
         $res = [];
+        $helper = new Helper();
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
@@ -154,7 +156,7 @@ class AdminQuestionController
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
         foreach ($res['questions'] as $key => $question) {
             foreach ($question->question_languages as $lkey => $lang) {
-                $lang['question'] = strip_tags($this->renderShortCode($lang['question']));
+                $lang['question'] = strip_tags($lang['question']);
                 $res['questions'][$key]['question_languages'][$lkey] = $lang;
             }
         }
@@ -252,10 +254,5 @@ class AdminQuestionController
     public function check_permission()
     {
         return true;
-    }
-
-    public function renderShortCode($data)
-    {
-        return do_shortcode(apply_filters('comment_text', $data));
     }
 }

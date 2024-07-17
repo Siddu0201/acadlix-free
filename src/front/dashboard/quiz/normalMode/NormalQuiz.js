@@ -15,6 +15,7 @@ import FinishSection from "./normal-quiz-section/FinishSection";
 import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
 import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSection";
 import QuestionPaginationSection from "./normal-quiz-section/QuestionPaginationSection";
+import { PostSaveResultById } from "../../../../requests/front/FrontQuizRequest";
 
 const NormalQuiz = (props) => {
   const colorCode = {

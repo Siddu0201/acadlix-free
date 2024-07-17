@@ -16,7 +16,6 @@ const QuizQuestion = (props) => {
           paddingX: 3,
         }}
       >
-        <TypeSingleChoice />
       </Box>
     </Box>
   );

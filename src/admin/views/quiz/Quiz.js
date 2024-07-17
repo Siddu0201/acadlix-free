@@ -66,6 +66,7 @@ const Quiz = () => {
     {
       field: "action",
       headerName: "Action",
+      sortable: false,
       flex: 2,
       minWidth: 150,
       renderCell: (params) => {

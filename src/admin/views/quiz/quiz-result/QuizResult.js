@@ -12,6 +12,7 @@ import {
   CardContent,
   IconButton,
   Tooltip,
+  Button,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { FaCheckCircle, FaExpandArrowsAlt, FaTimesCircle, FaTrash } from "react-icons/fa";
@@ -22,6 +23,7 @@ import {
   GetStatisticByQuizId,
 } from "../../../../requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
+import { TiArrowLeftThick } from "react-icons/ti";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -74,6 +76,7 @@ const QuizResult = () => {
     {
       field: "action",
       headerName: "Action",
+      sortable: false,
       flex: 1,
       minWidth: 100,
       renderCell: (params) => (
@@ -119,7 +122,7 @@ const QuizResult = () => {
           name: stat_ref?.user?.display_name,
           date: dateFormat(
             stat_ref?.created_at,
-            "ddd, mmm dd, yyyy hh:MM:ss TT"
+            "mmm dd, yyyy hh:MM:ss TT"
           ),
           score: stat_ref?.points,
           percentage: stat_ref?.result,
@@ -149,6 +152,20 @@ const QuizResult = () => {
           padding: 4,
         }}
       >
+        <Grid item xs={12} lg={12}>
+          <Button
+            variant="contained"
+            startIcon={<TiArrowLeftThick />}
+            size="medium"
+            sx={{
+              width: "fit-content",
+            }}
+            LinkComponent={Link}
+            to={`/quiz`}
+          >
+            Back
+          </Button>
+        </Grid>
         <Grid item xs={12} lg={12}>
           <Card>
             <CardHeader title="SSC CHSL" />

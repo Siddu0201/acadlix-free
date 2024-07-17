@@ -3,14 +3,17 @@
 namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Yuvayana\Acadlix\Helper\Helper;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
-} 
+}
 
-if(!class_exists('Quiz')){
+if (!class_exists('Quiz')) {
     class Quiz extends Model
     {
+        protected $helper;
+
         protected $table = "quiz";
 
         protected $fillable = [
@@ -116,7 +119,10 @@ if(!class_exists('Quiz')){
 
         protected $with = ["category", "quiz_languages"];
 
-
+        public function __construct()
+        {
+            $this->helper = new Helper();
+        }
         public function category()
         {
             return $this->belongsTo(Category::class, "category_id", "id");
@@ -142,5 +148,18 @@ if(!class_exists('Quiz')){
             return $this->hasMany(Prerequisite::class, 'quiz_id', 'id');
         }
 
+        public function getDescriptionAttribute($value)
+        {
+            return $this->helper->renderShortCode($value);
+        }
+
+        public function getResultTextAttribute($value)
+        {
+            if ($this->percent_based_result_text) {
+                return $value;
+            } else {
+                return $this->helper->renderShortCode($value);
+            }
+        }
     }
 }

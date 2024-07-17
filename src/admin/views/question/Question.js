@@ -68,6 +68,7 @@ const Question = () => {
     {
       field: "action",
       headerName: "Action",
+      sortable: false,
       flex: 1,
       minWidth: 80,
       renderCell: (params) => {

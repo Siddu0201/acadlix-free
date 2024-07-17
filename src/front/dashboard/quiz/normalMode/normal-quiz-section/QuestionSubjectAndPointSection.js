@@ -60,16 +60,19 @@ const QuestionSubjectAndPointSection = (props) => {
               )}
           </Typography>
         </Box>
-        <Box>
-          <CustomButton
-            onClick={handleReview}
-            sx={{
-              display: props?.watch("finish") || props?.watch('view_answer') ? "none" : "",
-            }}
-          >
-            Review Question
-          </CustomButton>
-        </Box>
+        {
+          !props?.watch("view_answer") &&
+          <Box>
+            <CustomButton
+              onClick={handleReview}
+              sx={{
+                display: props?.watch("finish") ? "none" : "",
+              }}
+            >
+              Review Question
+            </CustomButton>
+          </Box>
+        }
       </Box>
       <Box
         sx={{

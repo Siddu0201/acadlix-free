@@ -44,7 +44,7 @@ const HintAndMessageSection = (props) => {
           >
             <Box>
               <Typography>
-                <b>Correct</b>
+                <b>Explanation</b>
               </Typography>
             </Box>
             <Box>
@@ -73,7 +73,7 @@ const HintAndMessageSection = (props) => {
           >
             <Box>
               <Typography>
-                <b>Incorrect</b>
+                <b>Explanation</b>
               </Typography>
             </Box>
             <Box>

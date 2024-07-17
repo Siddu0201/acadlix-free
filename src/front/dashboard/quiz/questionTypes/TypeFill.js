@@ -14,6 +14,8 @@ const TypeFill = (props) => {
     found.push(currmatch[1]);
   }
 
+  console.log(found);
+
   const handleChange = (index, e) => {
     props?.setValue(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption.${index}.yourAnswer`,
@@ -23,6 +25,9 @@ const TypeFill = (props) => {
 
     let data = props?.watch(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption`
+    );
+    let answer_data =  props?.watch(
+      `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`
     );
     props?.setValue(
       `questions.${props?.index}.result`,
@@ -39,7 +44,7 @@ const TypeFill = (props) => {
             ? 0
             : 1,
         solved_count: data?.filter((d) => d.yourAnswer).length ? 1 : 0,
-        answer_data: data?.filter((d) => d.yourAnswer).length ? data : "",
+        answer_data: data?.filter((d) => d.yourAnswer).length ? answer_data : "",
       },
       { shouldDirty: true }
     );

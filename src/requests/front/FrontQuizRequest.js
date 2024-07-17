@@ -17,6 +17,7 @@ export const PostSaveResultById = (quiz_id = '') => {
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
+            console.log(data);
             return instance.post(`${base}/${quiz_id}`, data);
         },
     })

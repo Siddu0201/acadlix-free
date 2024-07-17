@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use Illuminate\Contracts\Database\Query\Builder;
 use WP_REST_Server;
+use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Prerequisite;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\QuizAttempt;
@@ -97,39 +98,18 @@ class FrontQuizController
     {
         $res = [];
         $quiz_id = $request['quiz_id'];
+        $helper = new Helper();
         $quiz = Quiz::with([
             'questions' => function (Builder $query) {
                 $query->where('online', 1);
             }
         ])->find($quiz_id);
 
-        if($quiz['show_only_specific_number_of_questions'] && $quiz['specific_number_of_questions'] > 0){
-            $numberOfQuestions = $quiz['specific_number_of_questions'];
+        if($quiz->show_only_specific_number_of_questions && $quiz->specific_number_of_questions > 0){
+            $numberOfQuestions = $quiz->specific_number_of_questions;
             $quiz->load(['questions' => function (Builder $query) use ($numberOfQuestions) {
                 $query->inRandomOrder()->limit($numberOfQuestions);
             }]);
-        }
-        $quiz['description'] = $this->renderShortCode($quiz['description']);
-        $quiz['result_text'] = $quiz['percent_based_result_text'] ? $quiz['result_text'] : $this->renderShortCode($quiz['result_text']);
-
-        foreach($quiz->questions as $qkey => $question){
-            foreach($question->question_languages as $lkey => $lang){
-                $lang['question'] = $this->renderShortCode($lang['question']);
-                $lang['hint_msg'] = $this->renderShortCode($lang['hint_msg']);
-                $lang['correct_msg'] = $this->renderShortCode($lang['correct_msg']);
-                $lang['incorrect_msg'] = $this->renderShortCode($lang['incorrect_msg']);
-
-                if(in_array($question['answer_type'], ['singleChoice', 'multipleChoice', 'sortingChoice'])){
-                    $lang['answer_data'] = json_decode($lang['answer_data'], true);
-                    $newLang['answer_data'] = $lang['answer_data'];
-                    foreach($lang['answer_data'][$question['answer_type']] as $okey => $opt){
-                        $opt['option'] = $this->renderShortCode($opt["option"]);
-                        $newLang['answer_data'][$question['answer_type']][$okey] = $opt;
-                    }
-                    $lang['answer_data'] = json_encode($newLang['answer_data']);
-                }
-                $quiz['questions'][$qkey]['question_languages'][$lkey] = $lang;
-            }
         }
         $res['quiz'] = $quiz;
         return rest_ensure_response($res);
@@ -139,11 +119,12 @@ class FrontQuizController
     {
         $res = [];
         $quiz_id = $request['quiz_id'];
+        $quiz = Quiz::find($quiz_id);
         $params = $request->get_json_params();
-        if ($params['user_id'] > 0 && $params['enable_login_register']) {
+        if ($params['user_id'] > 0 && $quiz->enable_login_register) {
             // Statistic check and save
             $statistic_ref = StatisticRef::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
-            if ($params['save_statistic'] && ($params['statistic_ip_lock'] == 0 || round((time() - strtotime($statistic_ref->latest()->first()->created_at)) / 60) > $params["statistic_ip_lock"]) && ($params['save_statistic_number_of_times'] == 0 || $params['save_statistic_number_of_times'] > $statistic_ref->count())) {
+            if ($quiz->save_statistic && ($quiz->statistic_ip_lock == 0 || round((time() - strtotime($statistic_ref->latest()->first()->created_at)) / 60) > $quiz["statistic_ip_lock"]) && ($quiz->save_statistic_number_of_times == 0 || $quiz->save_statistic_number_of_times > $statistic_ref->count())) {
                 $stat_ref = StatisticRef::create([
                     "quiz_id" => $quiz_id,
                     "user_id" => $params["user_id"],
@@ -169,7 +150,7 @@ class FrontQuizController
 
             // Allowed attempt
             $quiz_attempt = QuizAttempt::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
-            if($params["login_register_type"] == "at_start_of_quiz" && ($params['per_user_allowed_attempt'] == 0 || $params['per_user_allowed_attempt'] > $quiz_attempt->count())){
+            if($quiz["login_register_type"] == "at_start_of_quiz" && ($quiz->per_user_allowed_attempt == 0 || $quiz->per_user_allowed_attempt > $quiz_attempt->count())){
                 QuizAttempt::create([
                     "quiz_id" => $quiz_id,
                     "user_id" => $params["user_id"]
@@ -178,7 +159,7 @@ class FrontQuizController
             $res['quiz_attempt'] = $quiz_attempt->get();
 
             // Leaderboard/ Toplist
-            if($params['leaderboard']){
+            if($quiz->leaderboard){
                 $toplist = Toplist::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
                 $toplist_data = [
                     "quiz_id" => $quiz_id,
@@ -192,16 +173,16 @@ class FrontQuizController
                     "accuracy" => $params["accuracy"],
                     "status" => $params["status"],
                 ];
-                if($params["leaderboard_user_can_apply_multiple_times"] && ($params["leaderboard_apply_multiple_number_of_times"] == 0 || $params["leaderboard_apply_multiple_number_of_times"] > $toplist->count())){
+                if($quiz["leaderboard_user_can_apply_multiple_times"] && ($quiz["leaderboard_apply_multiple_number_of_times"] == 0 || $quiz["leaderboard_apply_multiple_number_of_times"] > $toplist->count())){
                     $top = Toplist::create($toplist_data);
-                }elseif(!$params["leaderboard_user_can_apply_multiple_times"] && $toplist->count() == 0){
+                }elseif(!$quiz["leaderboard_user_can_apply_multiple_times"] && $toplist->count() == 0){
                     $top = Toplist::create($toplist_data);
                 }
                 $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("result", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
-                $res['rank'] = $params['show_rank'] && $toplist->count() > 0 ? array_flip($toplist->pluck("id")->toArray())[$top->id] + 1 : 1;
+                $res['rank'] = $quiz->show_rank && $toplist->count() > 0 ? array_flip($toplist->pluck("id")->toArray())[$top->id] + 1 : 1;
                 $res["toplist_count"] = $toplist->count();
-                if($params['leaderboard_total_number_of_entries'] > 0 && $params['leaderboard_total_number_of_entries'] < 10){
-                    $res["toplist"] = $toplist->take($params['leaderboard_total_number_of_entries'])->get();
+                if($quiz->leaderboard_total_number_of_entries > 0 && $quiz->leaderboard_total_number_of_entries < 10){
+                    $res["toplist"] = $toplist->take($quiz->leaderboard_total_number_of_entries)->get();
                 }else{
                     $res["toplist"] = $toplist->take(10)->get();
                 }
@@ -209,8 +190,8 @@ class FrontQuizController
         }
 
         $statistic_ref = StatisticRef::where('quiz_id', $quiz_id);
-        $res['average_score'] = $statistic_ref->count() > 0 && $params['show_average_score'] ? $statistic_ref->avg('points') : 0;
-        $res['percentile'] = $statistic_ref->count() > 0 && $params['show_percentile'] ? round($params['points'] / $statistic_ref->max('points') * 100, 2) : 0;
+        $res['average_score'] = $statistic_ref->count() > 0 && $quiz->show_average_score ? $statistic_ref->avg('points') : 0;
+        $res['percentile'] = $statistic_ref->count() > 0 && $quiz->show_percentile ? round($params['points'] / $statistic_ref->max('points') * 100, 2) : 0;
 
         return rest_ensure_response($res);
     }
@@ -265,9 +246,5 @@ class FrontQuizController
     public function check_permission()
     {
         return true;
-    }
-
-    public function renderShortCode($data){
-        return do_shortcode(apply_filters('comment_text',  $data));
     }
 }

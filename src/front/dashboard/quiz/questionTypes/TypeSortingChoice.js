@@ -111,7 +111,7 @@ const TypeSortingChoice = (props) => {
             items={props?.answer_data?.[props?.type]}
             strategy={verticalListSortingStrategy}
           >
-            {props?.answer_data?.[props?.type].map((item, index) => (
+            {props?.answer_data?.[props?.type]?.map((item, index) => (
               <SortableItem
                 key={index}
                 id={index}

@@ -1,14 +1,16 @@
 import { Alert, Box } from '@mui/material'
 import React from 'react'
 import CustomButton from '../normal-quiz-component/CustomButton'
+import { PostSaveResultById } from '../../../../../requests/front/FrontQuizRequest';
 
 const FinishSection = (props) => {
-  const handleFinishQuiz = () => {
+  const handleFinishQuiz = (e) => {
+    props?.saveResult();
     props?.countdownApi && props?.countdownApi?.stop();
-    props?.setValue('view_question', false, {shouldDirty: true});
+    console.log("finish");
     props?.setValue('finish', false, {shouldDirty: true});
     props?.setValue('view_result', true, {shouldDirty: true});
-    props?.saveResult();
+    props?.setValue('view_question', false, {shouldDirty: true});
   }  
 
   const handleGoToFirstQuestion = () =>{

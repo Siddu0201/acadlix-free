@@ -1,6 +1,7 @@
 <?php
 
 namespace Yuvayana\Acadlix\Assets;
+use Yuvayana\Acadlix\Models\Quiz;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -31,9 +32,14 @@ class Manager {
 
         if(is_numeric($id)){
             ob_start();
-            ?>
-            <div class="acadlix-front" id="<?php echo esc_html($id); ?>"></div>
-            <?php
+            $quiz = Quiz::find($id);
+            if($quiz){
+                ?>
+                <div class="acadlix-front" id="<?php echo esc_html($id); ?>"></div>
+                <?php
+            }else{
+                echo "[Acadlix_Quiz $id]";
+            }
             $content = ob_get_contents();
             ob_get_clean();
         }

@@ -1,34 +1,114 @@
-import { useTheme } from "@emotion/react";
-import { Box, Button, Typography } from "@mui/material";
 import React from "react";
-import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
-import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
-import TypeMultipleChoice from "../../questionTypes/TypeMultipleChoice";
-import TypeTrueFalse from "../../questionTypes/TypeTrueFalse";
-import TypeSortingChoice from "../../questionTypes/TypeSortingChoice";
-import TypeMatrixSortingChoice from "../../questionTypes/TypeMatrixSortingChoice";
-import TypeFill from "../../questionTypes/TypeFill";
-import TypeNumerical from "../../questionTypes/TypeNumerical";
-import TypeRange from "../../questionTypes/TypeRange";
-import CustomButton from "../normal-quiz-component/CustomButton";
-import QuestionStatusSection from "./QuestionStatusSection";
+import { useForm } from "react-hook-form";
+import parse from "html-react-parser";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import TypeSingleChoice from "../../../../front/dashboard/quiz/questionTypes/TypeSingleChoice";
+import TypeMultipleChoice from "../../../../front/dashboard/quiz/questionTypes/TypeMultipleChoice";
+import TypeTrueFalse from "../../../../front/dashboard/quiz/questionTypes/TypeTrueFalse";
+import TypeSortingChoice from "../../../../front/dashboard/quiz/questionTypes/TypeSortingChoice";
+import TypeMatrixSortingChoice from "../../../../front/dashboard/quiz/questionTypes/TypeMatrixSortingChoice";
+import TypeFill from "../../../../front/dashboard/quiz/questionTypes/TypeFill";
+import TypeNumerical from "../../../../front/dashboard/quiz/questionTypes/TypeNumerical";
+import TypeRange from "../../../../front/dashboard/quiz/questionTypes/TypeRange";
+import QuestionSubjectAndPointSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
+import QuestionStatusSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
+import CustomButton from "../../../../front/dashboard/quiz/normalMode/normal-quiz-component/CustomButton";
 
-const ViewAnswerSection = (props) => {
+const AnswerSheetContent = (props) => {
   const theme = useTheme();
+  const methods = useForm({
+    defaultValues: {
+      show_marks: true,
+      show_per_question_time: true,
+      display_subject: true,
+      view_answer: true,
+      questions: props?.statistic?.map((stat) => {
+        return {
+          selected: true,
+          check : true,
+          question_id: stat?.question_id,
+          subject_name:
+            stat?.question?.subject?.subject_name ?? "Uncategorized",
+          online: stat?.question?.online,
+          sort: stat?.question?.sort,
+          title: stat?.question?.title,
+          points: stat?.question?.points,
+          negative_points: stat?.question?.negative_points,
+          different_points_for_each_answer: Boolean(
+            Number(stat?.question?.different_points_for_each_answer)
+          ),
+          different_incorrect_msg: Boolean(
+            Number(stat?.question?.different_incorrect_msg)
+          ),
+          hint_enabled: Boolean(Number(stat?.question?.hint_enabled)),
+          answer_type: stat?.question?.answer_type,
+          result: {
+            correct_count: stat?.correct_count,
+            incorrect_count: stat?.incorrect_count,
+            solved_count: stat?.solved_count,
+            hint_count: stat?.hint_count,
+            time: stat?.question_time,
+            answer_data: stat?.answer_data,
+          },
+          language:
+            stat?.question?.question_languages?.map((lang) => {
+              return {
+                language_id: lang?.language_id,
+                language_name: lang?.language?.language_name,
+                default: Boolean(Number(lang?.default)),
+                selected: Boolean(Number(lang?.default)),
+                question: parse(lang?.question),
+                correct_msg: parse(lang?.correct_msg),
+                incorrect_msg: parse(lang?.incorrect_msg),
+                hint_msg: parse(lang?.hint_msg),
+                answer_data: {
+                  singleChoice:
+                    stat?.question?.answer_type === "singleChoice" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.singleChoice,
+                  multipleChoice:
+                    stat?.question?.answer_type === "multipleChoice" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.multipleChoice,
+                  trueFalse:
+                    stat?.question?.answer_type === "trueFalse" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.trueFalse,
+                  sortingChoice:
+                    stat?.question?.answer_type === "sortingChoice" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.sortingChoice,
+                  matrixSortingChoice:
+                    stat?.question?.answer_type === "matrixSortingChoice" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.matrixSortingChoice,
+                  fillInTheBlank:
+                    stat?.question?.answer_type === "fillInTheBlank" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.fillInTheBlank,
+                  numerical:
+                    stat?.question?.answer_type === "numerical" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.numerical,
+                  rangeType:
+                    stat?.question?.answer_type === "rangeType" && JSON.parse(stat?.answer_data)
+                      ? JSON.parse(stat?.answer_data)
+                      : JSON.parse(lang?.answer_data)?.rangeType,
+                },
+              };
+            }) ?? [],
+        };
+      }),
+    },
+  });
+
+  let questionRef = React.useRef([]);
 
   const handleClick = (id) => {
-    props?.setValue(
-      "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (index === id) {
-          question.selected = true;
-        } else {
-          question.selected = false;
-        }
-        return question;
-      }),
-      { shouldDirty: true }
-    );
+    const elm = document.getElementById(`acadlix_question_${id}`);
+    if(elm){
+      elm?.scrollIntoView({behavior: "smooth"});
+    }
   };
 
   return (
@@ -56,7 +136,7 @@ const ViewAnswerSection = (props) => {
             backgroundColor: "transparent",
           }}
         >
-          {props?.watch("questions")?.map((d, index) => (
+          {methods?.watch("questions")?.map((d, index) => (
             <Button
               key={index}
               variant="outlined"
@@ -146,18 +226,19 @@ const ViewAnswerSection = (props) => {
         </Box>
       </Box>
 
-      {props?.watch("questions")?.length > 0 &&
-        props
-          ?.watch("questions")
+      {methods?.watch("questions")?.length > 0 &&
+        methods?.watch("questions")
           ?.map((question, index) => (
             <ViewQuestionSection
               {...props}
+              {...methods}
               key={index}
               index={index}
               num={index + 1}
               question={question}
               first={index === 0}
-              last={props?.watch("questions")?.length - 1 === index}
+              questionRef={questionRef}
+              last={methods?.watch("questions")?.length - 1 === index}
             />
           ))}
     </Box>
@@ -261,42 +342,13 @@ const ViewQuestionSection = (props) => {
     }
   };
 
-  const handleNextClick = () => {
-    props?.setValue(
-      "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (index === props?.num) {
-          question.selected = true;
-        } else {
-          question.selected = false;
-        }
-        return question;
-      })
-    );
-    props?.scrollToQuestion(props?.num);
-  };
-
-  const handleBackClick = () => {
-    props?.setValue(
-      "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (index === props?.index - 1) {
-          question.selected = true;
-        } else {
-          question.selected = false;
-        }
-        return question;
-      })
-    );
-    props?.scrollToQuestion(props?.index - 1);
-  };
-
   return (
     <Box
       sx={{
         display: props?.question?.selected ? "" : "none",
+        marginBottom: 5,
       }}
-      id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
+      id={`acadlix_question_${props?.index}`}
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
@@ -316,37 +368,6 @@ const ViewQuestionSection = (props) => {
             </React.Fragment>
           ))}
         <QuestionStatusSection {...props} />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginY: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              columnGap: 1,
-            }}
-          >
-            <CustomButton
-              onClick={handleBackClick}
-              sx={{
-                display: props?.first ? "none" : "",
-              }}
-            >
-              Back
-            </CustomButton>
-          </Box>
-          <Box
-            sx={{
-              display: props?.last ? "none" : "flex",
-              columnGap: 1,
-            }}
-          >
-            <CustomButton onClick={handleNextClick}>Next</CustomButton>
-          </Box>
-        </Box>
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
             <Box key={index}>
@@ -370,7 +391,9 @@ const ViewQuestionSection = (props) => {
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography component="div">{lang?.correct_msg}</Typography>
+                      <Typography component="div">
+                        {lang?.correct_msg}
+                      </Typography>
                     </Box>
                   </Box>
                 ) : (
@@ -445,4 +468,4 @@ const ViewQuestionSection = (props) => {
   );
 };
 
-export default ViewAnswerSection;
+export default AnswerSheetContent;

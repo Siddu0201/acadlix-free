@@ -16,12 +16,15 @@ import parse from "html-react-parser";
 import LoginModel from "./normalMode/normal-quiz-section/LoginModel";
 
 const QuizContent = (props) => {
+  console.log(props);
   const methods = useForm({
     defaultValues: {
       login_model: false,
       signin: true,
       signup: false,
-      start: false,
+      start: props?.start ?? false,
+      view_instruction1: props?.start ?? false,
+      view_instruction2: false,
       view_question: false,
       finsih: false,
       view_result: false,
@@ -277,6 +280,7 @@ const QuizContent = (props) => {
 
   const saveResultMutation = PostSaveResultById(props?.quiz?.id);
   const saveResult = () => {
+    console.log("save result");
     const points = methods?.watch("questions")?.reduce((total, d) => {
       if (d?.result?.solved_count && d?.result?.correct_count) {
         return total + Number(d?.points);
@@ -309,8 +313,21 @@ const QuizContent = (props) => {
       time_taken: methods
         ?.watch("questions")
         .reduce((total, d) => total + d?.result?.time, 0),
-      ...methods.watch(),
+      user_id: methods?.watch('user_id'),
+      name: methods?.watch('name'),
+      name: methods?.watch('name'),
+      questions: methods?.watch('questions')?.map(d => {
+        return {
+          question_id : d?.question_id,
+          result: d?.result,
+          points: d?.points,
+          negative_points: d?.negative_points,
+          answer_data: d?.answer_data
+        }
+      }),
+      
     };
+
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
@@ -347,7 +364,7 @@ const QuizContent = (props) => {
           email: topper?.email ?? "",
         };
         methods?.setValue("topper_result", topper_data, { shouldDirty: true });
-      },
+      }
     });
   };
 
