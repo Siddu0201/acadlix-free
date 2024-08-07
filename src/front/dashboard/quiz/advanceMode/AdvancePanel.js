@@ -1,60 +1,135 @@
-import { useTheme } from '@emotion/react';
-import { AppBar, Box, useMediaQuery } from '@mui/material';
-import React from 'react'
-import QuizSidebar from './advance-mode-section/QuizSidebar';
-import QuizHeader from './advance-mode-section/QuizHeader';
-import QuizSubjectAndLanguage from './advance-mode-section/QuizSubjectAndLanguage';
-import QuizGeneralOptions from './advance-mode-section/QuizGeneralOptions';
-import QuizQuestion from './advance-mode-section/QuizQuestion';
-import QuizButtonOptions from './advance-mode-section/QuizButtonOptions';
+import React from "react";
+import QuizLogoAndTitle from "./advance-mode-section/QuizLogoAndTitle";
+import QuizTitleAndInstruction from "./advance-mode-section/QuizTitleAndInstruction";
+import { Box } from "@mui/material";
+import QuizSidebar from "./advance-mode-section/QuizSidebar";
+import QuizSection from "./advance-mode-section/QuizSection";
+import QuizTimer from "./advance-mode-section/QuizTimer";
+import QuizSubsection from "./advance-mode-section/QuizSubsection";
+import QuizQuestionTypeAndMarks from "./advance-mode-section/QuizQuestionTypeAndMarks";
+import QuizLanguage from "./advance-mode-section/QuizLanguage";
+import QuizQuestionPanel from "./advance-mode-section/QuizQuestionPanel";
+import PerQuestionQuizTimer from "./advance-mode-section/PerQuestionQuizTimer";
+import SubjectWiseTiming from "./advance-mode-section/SubjectWiseTiming";
 
-const AdvancePanel = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-  const [questionHeight, setQuestionHeight] = React.useState(0);
-  
-  React.useEffect(() => {
-    let total = 0;
-    if(isDesktop){
-      total += document.getElementsByClassName('acadlix_quiz_header')[0]?.clientHeight ?? 0;
-    }
-    total += document.getElementsByClassName('acadlix_quiz_subject_and_language')[0]?.clientHeight ?? 0;
-    total += document.getElementsByClassName('acadlix_quiz_general_options')[0]?.clientHeight ?? 0;
-    total += document.getElementsByClassName('acadlix_quiz_button_options')[0]?.clientHeight ?? 0;
-    setQuestionHeight(total);
-  },[isDesktop]);
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
+const AdvancePanel = (props) => {
+  let i = 0,
+    t = 0;
   return (
     <Box>
-      <QuizSidebar
-        isDesktop={isDesktop}
-        isOpen={isOpen}
-        handleToggle={handleToggle}
-      />
-      <AppBar
-        position="sticky"
+      <QuizLogoAndTitle {...props} />
+      <QuizTitleAndInstruction {...props} />
+      <QuizSidebar {...props} />
+      <Box
         sx={{
-          backgroundColor: "#ffffff",
-          boxShadow: "none",
           width: {
             xs: "100%",
-            sm: isOpen ? "calc(100% - 300px)" : "100%",
+            sm: props?.isOpen
+              ? `calc(100% - ${props?.sidebarWidth}px)`
+              : "100%",
           },
         }}
       >
-        <QuizHeader isDesktop={isDesktop} />
-        <QuizSubjectAndLanguage isDesktop={isDesktop} />
-        <QuizGeneralOptions isDesktop={isDesktop} />
-      </AppBar>
-      <QuizQuestion questionHeight={questionHeight} isOpen={isOpen} isDesktop={isDesktop} />
-      <QuizButtonOptions isOpen={isOpen} isDesktop={isDesktop} />
+        {/* <QuizSection {...props} /> */}
+        {props?.watch("quiz_timing_type") === "full_quiz_time" && (
+          <QuizTimer {...props} />
+        )}
+        {props?.watch("quiz_timing_type") === "per_question_time" &&
+          props?.watch("subjects")?.length > 0 &&
+          props?.watch("subjects")?.map((s, s_index) => (
+            <React.Fragment key={s_index}>
+              {props
+                ?.watch("questions")
+                ?.filter((q) => q?.subject_id === s?.subject_id)?.length > 0 &&
+                props
+                  ?.watch("questions")
+                  ?.filter((q) => q?.subject_id === s?.subject_id)
+                  ?.map((question, index, arr) => (
+                    <React.Fragment key={question?.question_id}>
+                      {question?.selected && (
+                        <PerQuestionQuizTimer
+                          {...props}
+                          subject={s}
+                          key={index}
+                          s_index={s_index}
+                          question={question}
+                          first={index === 0}
+                          last={arr?.length - 1 === index}
+                          first_subject={s_index === 0}
+                          last_subject={
+                            props?.watch("subjects")?.length - 1 === s_index
+                          }
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+            </React.Fragment>
+          ))}
+        {props?.watch("quiz_timing_type") === "subject_wise_time" &&
+          props?.watch("subjects")?.length > 0 &&
+          props
+            ?.watch("subjects")
+            ?.map((s, s_index) => (
+              <React.Fragment key={s_index}>
+                {s?.selected && (
+                  <SubjectWiseTiming
+                    {...props}
+                    subject={s}
+                    time={
+                      props
+                        ?.watch("subject_times")
+                        ?.filter((t) => t?.subject_id == s?.subject_id)?.[0]
+                        ?.time
+                    }
+                    key={s_index}
+                    s_index={s_index}
+                    first_subject={s_index === 0}
+                    last_subject={
+                      props?.watch("subjects")?.length - 1 === s_index
+                    }
+                  />
+                )}
+              </React.Fragment>
+            ))}
+        <QuizSubsection {...props} />
+        <QuizQuestionTypeAndMarks {...props} />
+        <QuizLanguage {...props} />
+        {props?.watch("subjects")?.length > 0 &&
+          props?.watch("subjects")?.map((s, s_index) => (
+            <Box
+              key={s_index}
+              sx={{
+                display: s?.selected ? "" : "none",
+              }}
+            >
+              {props
+                ?.watch("questions")
+                ?.filter((q) => q?.subject_id === s?.subject_id)?.length > 0 &&
+                props
+                  ?.watch("questions")
+                  ?.filter((q) => q?.subject_id === s?.subject_id)
+                  ?.map((question, index, arr) => (
+                    <QuizQuestionPanel
+                      {...props}
+                      subject={s}
+                      key={index}
+                      index={i++}
+                      s_index={s_index}
+                      num={index + 1}
+                      question={question}
+                      first={index === 0}
+                      last={arr?.length - 1 === index}
+                      first_subject={s_index === 0}
+                      last_subject={
+                        props?.watch("subjects")?.length - 1 === s_index
+                      }
+                    />
+                  ))}
+            </Box>
+          ))}
+      </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default AdvancePanel
+export default AdvancePanel;

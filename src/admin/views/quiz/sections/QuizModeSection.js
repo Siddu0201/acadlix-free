@@ -36,6 +36,9 @@ const QuizModeSection = (props) => {
     props?.setValue("question_overview", true, { shouldDirty: true });
     props?.setValue("question_overview", true, { shouldDirty: true });
     props?.setValue("hide_question_numbering", false, { shouldDirty: true });
+    props?.setValue("sort_by_subject", true, {
+      shouldDirty: true,
+    });
     props?.setValue("force_user_to_answer_each_question", false, {
       shouldDirty: true,
     });

@@ -208,6 +208,7 @@ const Question = (props) => {
                       shouldDirty: true,
                     });
                   }}
+                  disabled={props?.watch("mode") === "advance_mode"}
                 />
               }
               label="Sort Questions By Subject"

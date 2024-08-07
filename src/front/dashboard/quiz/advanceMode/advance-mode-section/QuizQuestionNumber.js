@@ -12,7 +12,7 @@ const QuizQuestionNumber = (props) => {
     }}>
       <Box>
         <Typography variant="subtitle2">
-          Question No. 1
+          Question No. {props?.num}
         </Typography>
       </Box>
     </Box>

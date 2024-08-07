@@ -100,6 +100,7 @@ class FrontQuizController
         $quiz_id = $request['quiz_id'];
         $helper = new Helper();
         $quiz = Quiz::with([
+            'subject_times',
             'questions' => function (Builder $query) {
                 $query->where('online', 1);
             }

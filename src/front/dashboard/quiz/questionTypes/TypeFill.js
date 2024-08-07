@@ -1,8 +1,6 @@
 import { Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
-import { SiTicktick } from "react-icons/si";
-import { ImCross } from "react-icons/im";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;
@@ -14,7 +12,6 @@ const TypeFill = (props) => {
     found.push(currmatch[1]);
   }
 
-  console.log(found);
 
   const handleChange = (index, e) => {
     props?.setValue(
@@ -87,9 +84,9 @@ const TypeFill = (props) => {
           ? (theme) => `1px solid ${theme.palette.success.dark}`
           : (theme) => `1px solid ${theme.palette.error.dark}`
           : (theme) => `1px solid ${theme.palette.grey[300]}`
-          : (theme) => `1px solid ${theme.palette.grey[300]}`,
+          : "none",
         borderRadius: 1,
-        padding: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+        padding: props?.watch("mode") !== "advance_mode" ? 2 : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >

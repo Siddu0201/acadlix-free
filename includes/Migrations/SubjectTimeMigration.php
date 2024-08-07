@@ -28,5 +28,16 @@ if(!class_exists('SubjectTimeMigration')){
         {
             Manager::schema()->dropIfExists('subject_time');
         }
+
+        public function update()
+        {
+            if(!Manager::schema()->hasColumn('subject_time', 'specific_number_of_questions')){
+                Manager::schema()->table('subject_time', function($table){
+                    $table->after('time', function($table){
+                        $table->integer('specific_number_of_questions')->default(0);
+                    });
+                });
+            }
+        }
     }
 }

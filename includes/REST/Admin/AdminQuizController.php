@@ -4,9 +4,11 @@ namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Category;
 use Yuvayana\Acadlix\Models\Language;
+use Yuvayana\Acadlix\Models\SubjectTime;
 use Illuminate\Contracts\Database\Query\Builder;
 use Yuvayana\Acadlix\Models\Template;
 
@@ -118,6 +120,36 @@ class AdminQuizController {
                         }
                         return false;
                     },
+                ],
+            ]
+        );
+
+        register_rest_route( 
+            $this->namespace, '/' . $this->base . '/(?P<quiz_id>[\d]+)/get-subject-by-quiz-id',
+            [
+                [
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => [ $this, 'get_subject_by_quiz_id' ],
+                    'permission_callback' => [ $this, 'check_permission' ],
+                    'args' => array(
+                        'quiz_id' => array(
+                          'validate_callback' => function($param, $request, $key) {
+                            return is_numeric( $param );
+                          }
+                        ),
+                    ),
+                ],
+            ]
+        );
+
+        register_rest_route( 
+            $this->namespace, '/' . $this->base . '/update-quiz-subject',
+            [
+                [
+                    'methods'             => WP_REST_Server::EDITABLE,
+                    'callback'            => [ $this, 'update_quiz_subject' ],
+                    'permission_callback' => [ $this, 'check_permission' ],
+                    'args' => array( ),
                 ],
             ]
         );
@@ -234,6 +266,51 @@ class AdminQuizController {
             foreach($params['quiz_ids'] as $quiz_id){
                 $quiz = Quiz::find($quiz_id);
                 $quiz->delete();
+            }
+        }
+        return rest_ensure_response( $res );
+    }
+
+    public function get_subject_by_quiz_id($request){
+        $res = [];
+        $quiz_id = $request['quiz_id'];
+        $res['quiz'] = Quiz::select('quiz_timing_type', 'subject_wise_question')->where('id', $quiz_id)->first();
+        $questions = Question::where('quiz_id', $quiz_id)->get();
+        $grouped = $questions->groupBy('subject_id')->map(function ($group) use ($quiz_id) {
+            return [
+                'subject_id' => $group->first()->subject_id,
+                'number_of_question' => $group->count(),
+                'subject_name' => $group->first()->subject->subject_name ?? "Uncategorized",
+                'time' => SubjectTime::where("quiz_id", $quiz_id)->where("subject_id", $group->first()->subject_id)->first()->time ?? 0,
+                'specific_number_of_questions' => SubjectTime::where("quiz_id", $quiz_id)->where("subject_id", $group->first()->subject_id)->first()->specific_number_of_questions ?? $group->count(),
+            ];
+        })->values();
+        $res['subjects'] = $grouped->toArray();
+        return rest_ensure_response( $res );
+    }
+
+    public function update_quiz_subject($request){
+        $res = [];
+        $params = $request->get_json_params();
+        $quiz = Quiz::find($params['quiz_id']);
+        $quiz->update([
+            'quiz_timing_type' => $params['quiz_timing_type'] ?? $quiz->quiz_timing_type,
+            'subject_wise_question' => $params['subject_wise_question']
+        ]);
+        foreach($params['subjects'] as $subject){
+            $subject_time = SubjectTime:: where("quiz_id", $params['quiz_id'])->where("subject_id", $subject['subject_id'])->first();
+            if($subject_time){
+                $subject_time->update([
+                    'time' => $subject['time'],
+                    'specific_number_of_questions' => $subject['specific_number_of_questions'],
+                ]);
+            }else{
+                SubjectTime::create([
+                    'quiz_id' => $params['quiz_id'],
+                    'subject_id' => $subject['subject_id'],
+                    'time' => $subject['time'],
+                    'specific_number_of_questions' => $subject['specific_number_of_questions'],
+                ]);
             }
         }
         return rest_ensure_response( $res );

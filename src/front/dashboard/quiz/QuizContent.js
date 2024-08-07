@@ -1,4 +1,11 @@
-import { Box, Button, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import NormalQuizMode from "./NormalQuizMode";
 import AdvanceQuizMode from "./AdvanceQuizMode";
@@ -8,6 +15,7 @@ import {
   arrayRandomize,
   randomizePosition,
   secondsToHms,
+  shuffleArrayBasedOnOrder,
   updateAnswer,
   updateQuestions,
 } from "../../../helpers/util";
@@ -16,7 +24,6 @@ import parse from "html-react-parser";
 import LoginModel from "./normalMode/normal-quiz-section/LoginModel";
 
 const QuizContent = (props) => {
-  console.log(props);
   const methods = useForm({
     defaultValues: {
       login_model: false,
@@ -25,6 +32,7 @@ const QuizContent = (props) => {
       start: props?.start ?? false,
       view_instruction1: props?.start ?? false,
       view_instruction2: false,
+      ready_to_begin: false,
       view_question: false,
       finsih: false,
       view_result: false,
@@ -104,6 +112,7 @@ const QuizContent = (props) => {
         Number(props?.quiz?.hide_question_numbering)
       ),
       sort_by_subject: Boolean(Number(props?.quiz?.sort_by_subject)),
+      subject_wise_question: Boolean(Number(props?.quiz?.subject_wise_question)),
       attempt_and_move_forward: Boolean(
         Number(props?.quiz?.attempt_and_move_forward)
       ),
@@ -165,16 +174,21 @@ const QuizContent = (props) => {
       instruction1: props?.quiz?.instruction1,
       instruction2: props?.quiz?.instruction2,
       // Question Section
+      subjects: [],
+      subject_times: props?.quiz?.subject_times ?? [],
       questions:
         updateQuestions(props?.quiz?.questions, props?.quiz)?.map(
           (question, index) => {
             return {
               selected:
                 props?.quiz?.mode === "question_below_each_other"
-                  ? props?.quiz?.question_per_page > 0 ? props?.quiz?.question_per_page > index ?? false : true
+                  ? props?.quiz?.question_per_page > 0
+                    ? props?.quiz?.question_per_page > index ?? false
+                    : true
                   : index === 0 ?? false,
               question_id: question?.id,
               quiz_id: props?.quiz?.id,
+              subject_id: question?.subject_id,
               subject_name: question?.subject?.subject_name ?? "Uncategorized",
               online: question?.online,
               sort: question?.sort,
@@ -198,6 +212,7 @@ const QuizContent = (props) => {
               review: false,
               hint: false,
               check: false,
+              visit: index === 0,
               result: {
                 correct_count: 0,
                 incorrect_count: 0,
@@ -218,26 +233,13 @@ const QuizContent = (props) => {
                     incorrect_msg: parse(lang?.incorrect_msg),
                     hint_msg: parse(lang?.hint_msg),
                     answer_data: {
-                      singleChoice: updateAnswer(
-                        JSON.parse(lang?.answer_data)?.singleChoice,
-                        Boolean(Number(props?.quiz?.random_option)),
-                        Boolean(
-                          Number(props?.quiz?.do_not_randomize_last_option)
-                        )
-                      ),
-                      multipleChoice: updateAnswer(
-                        JSON.parse(lang?.answer_data)?.multipleChoice,
-                        Boolean(Number(props?.quiz?.random_option)),
-                        Boolean(
-                          Number(props?.quiz?.do_not_randomize_last_option)
-                        )
-                      ),
+                      singleChoice: JSON.parse(lang?.answer_data)?.singleChoice,
+                      multipleChoice: JSON.parse(lang?.answer_data)
+                        ?.multipleChoice,
                       trueFalse: JSON.parse(lang?.answer_data)?.trueFalse,
                       sortingChoice:
                         question?.answer_type === "sortingChoice"
-                          ? arrayRandomize(
-                              JSON.parse(lang?.answer_data)?.sortingChoice
-                            )
+                          ? JSON.parse(lang?.answer_data)?.sortingChoice
                           : [],
                       matrixSortingChoice:
                         question?.answer_type === "matrixSortingChoice"
@@ -276,7 +278,7 @@ const QuizContent = (props) => {
   });
 
   console.log(methods?.watch());
-  let countdownApi = null;
+  let [countdownApi, setCountDownApi] = React.useState(null);
 
   const saveResultMutation = PostSaveResultById(props?.quiz?.id);
   const saveResult = () => {
@@ -313,21 +315,19 @@ const QuizContent = (props) => {
       time_taken: methods
         ?.watch("questions")
         .reduce((total, d) => total + d?.result?.time, 0),
-      user_id: methods?.watch('user_id'),
-      name: methods?.watch('name'),
-      name: methods?.watch('name'),
-      questions: methods?.watch('questions')?.map(d => {
+      user_id: methods?.watch("user_id"),
+      name: methods?.watch("name"),
+      name: methods?.watch("name"),
+      questions: methods?.watch("questions")?.map((d) => {
         return {
-          question_id : d?.question_id,
+          question_id: d?.question_id,
           result: d?.result,
           points: d?.points,
           negative_points: d?.negative_points,
-          answer_data: d?.answer_data
-        }
+          answer_data: d?.answer_data,
+        };
       }),
-      
     };
-
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
@@ -364,7 +364,7 @@ const QuizContent = (props) => {
           email: topper?.email ?? "",
         };
         methods?.setValue("topper_result", topper_data, { shouldDirty: true });
-      }
+      },
     });
   };
 
@@ -378,6 +378,7 @@ const QuizContent = (props) => {
             {...methods}
             {...props}
             countdownApi={countdownApi}
+            setCountDownApi={setCountDownApi}
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
           />
@@ -388,6 +389,7 @@ const QuizContent = (props) => {
             {...methods}
             {...props}
             countdownApi={countdownApi}
+            setCountDownApi={setCountDownApi}
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
           />
@@ -398,12 +400,44 @@ const QuizContent = (props) => {
             {...methods}
             {...props}
             countdownApi={countdownApi}
+            setCountDownApi={setCountDownApi}
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
           />
         );
     }
   };
+
+  React.useEffect(() => {
+    const types = ["singleChoice", "multipleChoice", "sortingChoice"];
+    methods?.watch("questions")?.forEach((q, index) => {
+      if (types?.includes(q?.answer_type)) {
+        const length = q?.language?.[0]?.answer_data?.[q?.answer_type]?.length;
+        const initialIndexArray = Array.from({ length }, (_, index) => index);
+        let newIndex = [];
+        if (q?.answer_type === "sortingChoice") {
+          newIndex = arrayRandomize(initialIndexArray);
+        } else {
+          newIndex = updateAnswer(
+            initialIndexArray,
+            methods?.watch("random_option"),
+            methods?.watch("do_not_randomize_last_option")
+          );
+        }
+
+        q?.language?.forEach((l, l_index) => {
+          methods?.setValue(
+            `questions.${index}.language.${l_index}.answer_data.${q?.answer_type}`,
+            shuffleArrayBasedOnOrder(
+              l?.answer_data?.[q?.answer_type],
+              newIndex
+            ),
+            { shouldDirty: true }
+          );
+        });
+      }
+    });
+  }, []);
 
   if (!methods?.watch("start")) {
     return (

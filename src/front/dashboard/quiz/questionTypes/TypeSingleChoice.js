@@ -9,8 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { ImCross } from "react-icons/im";
-import { SiTicktick } from "react-icons/si";
 import parse from "html-react-parser";
 
 const TypeSingleChoice = (props) => {
@@ -81,22 +79,6 @@ const TypeSingleChoice = (props) => {
   };
 
   const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-  // const renderShortcode = (content) => {
-  //   // Regular expression to find audio shortcode
-  //   const audioRegex = /\[audio\s+src="([^"]+)"\s*\]/g;
-  //   const matches = content.match(audioRegex);
-  //   console.log(content ,matches);
-
-  //   if (matches) {
-  //     return matches.map((match, index) => {
-  //       // Extract audio URL from shortcode
-  //       const src = match.match(/src="([^"]+)"/)[1];
-  //       return <audio key={index} controls><source src={src} type="audio/mpeg" /></audio>;
-  //     });
-  //   } else {
-  //     return <p>No audio found.</p>;
-  //   }
-  // };
 
   return (
     <FormControl
@@ -111,7 +93,7 @@ const TypeSingleChoice = (props) => {
         name="radio-buttons-group"
         onChange={handleChange}
         sx={{
-          gap: "6px",
+          gap: props?.watch("mode") !== "advance_mode" ? "6px" : 0,
         }}
       >
         {props?.answer_data?.[props?.type]?.length > 0 &&
@@ -121,13 +103,14 @@ const TypeSingleChoice = (props) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                border: props?.watch(`questions.${props?.index}.check`)
+                border: props?.watch("mode") !== "advance_mode" ? props?.watch(`questions.${props?.index}.check`)
                   ? data?.isCorrect
                     ? (theme) => `1px solid ${theme.palette.success.dark}`
                     : data?.isChecked
                     ? (theme) => `1px solid ${theme.palette.error.dark}`
                     : (theme) => `1px solid ${theme.palette.grey[300]}`
-                  : (theme) => `1px solid ${theme.palette.grey[300]}`,
+                  : (theme) => `1px solid ${theme.palette.grey[300]}`
+                  : "none",
                 backgroundColor: props?.watch(`questions.${props?.index}.check`)
                   ? data?.isCorrect
                     ? (theme) => theme.palette.success.light
@@ -136,8 +119,8 @@ const TypeSingleChoice = (props) => {
                     : "transparent"
                   : "transparent",
                 borderRadius: 1,
-                paddingX: 2,
-                paddingY: 2,
+                paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+                paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
               }}
             >
               {props?.watch("answer_bullet") ? (
@@ -230,7 +213,7 @@ const TypeSingleChoice = (props) => {
                   </Box>
                 }
                 sx={{
-                  width: "100%",
+                  width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                   marginLeft: 0,
                   "& svg": {
                     height: "15px",

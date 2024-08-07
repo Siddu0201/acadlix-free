@@ -134,3 +134,22 @@ export const PostSetCategory = () => {
         },
     })
 }
+
+export const GetSubjectByQuizId = (quiz_id) => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getSubjectByQuizId", quiz_id],
+        queryFn: () => {
+            return instance.get(`${base}/${quiz_id}/get-subject-by-quiz-id`);
+        }
+    });
+}
+
+export const PostSetSubjectWiseTime = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/update-quiz-subject`, data);
+        }
+    })
+}

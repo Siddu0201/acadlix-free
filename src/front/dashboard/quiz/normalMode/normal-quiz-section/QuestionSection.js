@@ -131,7 +131,8 @@ const QuestionSection = (props) => {
                 {answerType(lang, lang_index)}
               </Box>
             </React.Fragment>
-          ))}
+          ))
+        }
         <QuestionStatusSection {...props} />   
         <OptionButtonSection {...props} />
         {props?.question?.language?.length > 0 &&

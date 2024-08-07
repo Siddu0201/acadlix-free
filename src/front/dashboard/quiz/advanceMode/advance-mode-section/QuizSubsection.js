@@ -1,10 +1,10 @@
-import React from 'react'
-import { Box, IconButton, Button } from "@mui/material"
-import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
-import { TiInfoLarge } from 'react-icons/ti'
-import SubsectionButton from '../advance-mode-component/SubsectionButton'
+import React from "react";
+import { Box, IconButton } from "@mui/material";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import SubsectionButton from "../advance-mode-component/SubsectionButton";
 
 const QuizSubsection = (props) => {
+
   return (
     <Box
       id="acadlix_quiz_subsection"
@@ -13,28 +13,49 @@ const QuizSubsection = (props) => {
         borderTop: "1px solid",
         borderBottom: "1px solid",
         borderColor: props?.colorCode?.subsection_border,
-        backgroundColor: props?.colorCode?.subsection_background
-      }}>
+        backgroundColor: props?.colorCode?.subsection_background,
+      }}
+    >
       <Box>
-        <IconButton size='small' disabled sx={{
-          marginBottom: "0px !important",
-        }}>
+        <IconButton
+          size="small"
+          disabled
+          sx={{
+            marginBottom: "0px !important",
+          }}
+        >
           <FaCaretLeft />
         </IconButton>
       </Box>
-      <SubsectionButton active={true} {...props} />
-      <SubsectionButton {...props} />
-      <Box sx={{
-        marginLeft: "auto"
-      }}>
-        <IconButton size='small' disabled sx={{
-          marginBottom: "0px !important",
-        }}>
+      {props?.watch("subjects")?.length > 0 &&
+        props
+          ?.watch("subjects")
+          ?.map((s, index) => (
+            <SubsectionButton
+              key={index}
+              index={index}
+              active={s?.selected}
+              {...props}
+              {...s}
+            />
+          ))}
+      <Box
+        sx={{
+          marginLeft: "auto",
+        }}
+      >
+        <IconButton
+          size="small"
+          disabled
+          sx={{
+            marginBottom: "0px !important",
+          }}
+        >
           <FaCaretRight />
         </IconButton>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default QuizSubsection
+export default QuizSubsection;

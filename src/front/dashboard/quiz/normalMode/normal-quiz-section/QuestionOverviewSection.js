@@ -45,9 +45,9 @@ const QuestionOverviewSection = (props) => {
       })
     );
 
-    props?.setValue("pagination_page", page, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });
     if (props?.watch("mode") === "question_below_each_other") {
+      props?.setValue("pagination_page", page, { shouldDirty: true });
       props?.scrollToQuestion(id);
     }
   };

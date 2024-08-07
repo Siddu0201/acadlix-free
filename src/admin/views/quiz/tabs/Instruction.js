@@ -31,6 +31,7 @@ const Instruction = (props) => {
             style={{
               width: '100%'
             }}
+            value={props?.watch("instruction1")}
           />
         </GridItem1>
         <GridItem1 xs={12} lg={12}>
@@ -42,6 +43,7 @@ const Instruction = (props) => {
             style={{
               width: '100%'
             }}
+            value={props?.watch("instruction2")}
           />
         </GridItem1>
       </Grid>

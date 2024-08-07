@@ -16,7 +16,7 @@ const QuizTitleAndInstruction = (props) => {
         <Typography sx={{
           color: props?.colorCode?.second_title_color,
           fontSize: "11px",
-        }}>New IBPS Test</Typography>
+        }}>{props?.watch("title")}</Typography>
       </Box>
       <Box sx={{
         display: "flex",

@@ -1,10 +1,8 @@
 import { Container, useMediaQuery } from "@mui/material";
 import React from "react";
-import DescriptionSection from "./normal-quiz-section/DescriptionSection";
 import ResultSection from "./normal-quiz-section/ResultSection";
 import AverageResultSection from "./normal-quiz-section/AverageResultSection";
 import SubjectResultSection from "./normal-quiz-section/SubjectResultSection";
-import ResultTextSection from "./normal-quiz-section/ResultTextSection";
 import LeaderboardSection from "./normal-quiz-section/LeaderboardSection";
 import ViewButtonSection from "./normal-quiz-section/ViewButtonSection";
 import QuestionOverviewSection from "./normal-quiz-section/QuestionOverviewSection";
@@ -15,7 +13,6 @@ import FinishSection from "./normal-quiz-section/FinishSection";
 import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
 import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSection";
 import QuestionPaginationSection from "./normal-quiz-section/QuestionPaginationSection";
-import { PostSaveResultById } from "../../../../requests/front/FrontQuizRequest";
 
 const NormalQuiz = (props) => {
   const colorCode = {
@@ -24,9 +21,9 @@ const NormalQuiz = (props) => {
     answered: "#6ca54c",
     review: "#ffb800",
     answered_and_review: "#674787",
-    correct: '#56AB2F',
-    incorrect: '#FF6B6B',
-    skipped: '#8f83f7',
+    correct: "#56AB2F",
+    incorrect: "#FF6B6B",
+    skipped: "#8f83f7",
     radio: "#0075ff",
     incorrect_number: "#f00",
     correct_number: "#6ca54c",
@@ -59,7 +56,7 @@ const NormalQuiz = (props) => {
         });
       }, 10);
     }
-  }
+  };
 
   return (
     <Container
@@ -68,54 +65,57 @@ const NormalQuiz = (props) => {
           xs: 0,
           md: 2,
         },
-        minWidth: "80%"
+        minWidth: "80%",
       }}
     >
-      {
-        props?.watch('view_result') &&
+      {props?.watch("view_result") && (
         <>
-          {
-            !props?.watch('hide_result') &&
+          {!props?.watch("hide_result") && (
             <>
-              <ResultSection colorCode={colorCode} isDesktop={isDesktop} {...props} />
+              <ResultSection
+                colorCode={colorCode}
+                isDesktop={isDesktop}
+                {...props}
+              />
               {/* <AverageResultSection
                 colorCode={colorCode}
                 isDesktop={isDesktop}
                 {...props}
               /> */}
-              {
-                props?.watch("show_subject_wise_analysis") &&
+              {props?.watch("show_subject_wise_analysis") && (
                 <SubjectResultSection
                   colorCode={colorCode}
                   isDesktop={isDesktop}
                   {...props}
                 />
-              }
+              )}
             </>
-          }
-           {
-            props?.watch('leaderboard') && props?.watch("display_leaderboard_in_quiz_result") === "below_the_result" &&
-            <LeaderboardSection
-              colorCode={colorCode}
-              isDesktop={isDesktop}
-              {...props}
-            />
-          }
+          )}
+          {props?.watch("leaderboard") &&
+            props?.watch("display_leaderboard_in_quiz_result") ===
+              "below_the_result" && (
+              <LeaderboardSection
+                colorCode={colorCode}
+                isDesktop={isDesktop}
+                {...props}
+              />
+            )}
           <ViewButtonSection
             colorCode={colorCode}
             isDesktop={isDesktop}
             {...props}
           />
-          {
-            props?.watch('view_leaderboard') && props?.watch("display_leaderboard_in_quiz_result") === "in_the_button" &&
-            <LeaderboardSection
-              colorCode={colorCode}
-              isDesktop={isDesktop}
-              {...props}
-            />
-          }
-          {
-            props?.watch('view_answer') &&
+          {props?.watch("leaderboard") &&
+            props?.watch("view_leaderboard") &&
+            props?.watch("display_leaderboard_in_quiz_result") ===
+              "in_the_button" && (
+              <LeaderboardSection
+                colorCode={colorCode}
+                isDesktop={isDesktop}
+                {...props}
+              />
+            )}
+          {props?.watch("view_answer") && (
             <ViewAnswerSection
               colorCode={colorCode}
               isDesktop={isDesktop}
@@ -123,81 +123,79 @@ const NormalQuiz = (props) => {
               scrollToQuestion={scrollToQuestion}
               {...props}
             />
-          }
+          )}
         </>
-      }
-      {
-        props?.watch('view_question') &&
+      )}
+      {props?.watch("view_question") && (
         <>
-          {
-            props?.watch('quiz_time') > 0 && props?.watch("quiz_timing_type") === "full_quiz_time" &&
-            <TimerSection 
-              colorCode={colorCode}
-              isDesktop={isDesktop}
-              {...props} 
-            />
-          }
-          {
-           props?.watch("quiz_timing_type") === "per_question_time" && 
-           props?.watch('questions')?.length > 0 &&
-            props?.watch('questions')?.map((question, index) => (
-              <PerQuestionTimerSection
-                {...props}
-                key={index}
-                index={index}
+          {props?.watch("quiz_time") > 0 &&
+            props?.watch("quiz_timing_type") === "full_quiz_time" && (
+              <TimerSection
                 colorCode={colorCode}
                 isDesktop={isDesktop}
-                question={question} 
-                first={index === 0}
-                last={props?.watch('questions')?.length - 1 === index}
+                {...props}
               />
-            ))
-          }
+            )}
+          {props?.watch("quiz_time") > 0 &&
+            props?.watch("quiz_timing_type") === "per_question_time" &&
+            props?.watch("questions")?.length > 0 &&
+            props
+              ?.watch("questions")
+              ?.map((question, index) => (
+                <PerQuestionTimerSection
+                  {...props}
+                  key={index}
+                  index={index}
+                  colorCode={colorCode}
+                  isDesktop={isDesktop}
+                  question={question}
+                  first={index === 0}
+                  last={props?.watch("questions")?.length - 1 === index}
+                />
+              ))}
 
-          {
-            props?.watch("question_overview") &&
+          {props?.watch("question_overview") && (
             <QuestionOverviewSection
               colorCode={colorCode}
               isDesktop={isDesktop}
               scrollToQuestion={scrollToQuestion}
               {...props}
             />
-          }
-          {
-            props?.watch('questions')?.length > 0 &&
-            props?.watch('questions')?.map((question, index) => (
-              <QuestionSection 
-                {...props}
-                key={index}
-                index={index}
-                num={index + 1}
-                colorCode={colorCode} 
-                isDesktop={isDesktop} 
-                question={question} 
-                first={index === 0}
-                last={props?.watch('questions')?.length - 1 === index}
-                questionRef={questionRef}
-              />
-            ))
-          }
+          )}
+          {props?.watch("questions")?.length > 0 &&
+            props
+              ?.watch("questions")
+              ?.map((question, index) => (
+                <QuestionSection
+                  {...props}
+                  key={index}
+                  index={index}
+                  num={index + 1}
+                  colorCode={colorCode}
+                  isDesktop={isDesktop}
+                  question={question}
+                  first={index === 0}
+                  last={props?.watch("questions")?.length - 1 === index}
+                  questionRef={questionRef}
+                />
+              ))}
 
-          {
-            props?.watch('questions')?.length > 0 &&
+          {props?.watch("questions")?.length > 0 &&
             props?.watch("mode") === "question_below_each_other" &&
             props?.watch("question_per_page") > 0 &&
-            !props?.watch('finish') &&
-            <QuestionPaginationSection 
-              {...props}
-              scrollToQuestion={scrollToQuestion}
-            /> 
-          }
+            !props?.watch("finish") && (
+              <QuestionPaginationSection
+                {...props}
+                scrollToQuestion={scrollToQuestion}
+              />
+            )}
           <FinishSection
             colorCode={colorCode}
             isDesktop={isDesktop}
             {...props}
           />
         </>
-      }
+      )}
     </Container>
   );
 };

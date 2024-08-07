@@ -8,15 +8,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 } 
 
-if(!class_exists('Statistic')){
-    class Statistic extends Model
+if(!class_exists('SubjectTime')){
+    class SubjectTime extends Model
     {
-        protected $table = "statistic";
+        protected $table = "subject_time";
 
         protected $fillable = [
             "quiz_id",
             "subject_id",
-            "time"
+            "time",
+            "specific_number_of_questions",
         ];
 
         public function quiz(){

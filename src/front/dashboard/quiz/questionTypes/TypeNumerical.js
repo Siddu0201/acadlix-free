@@ -51,9 +51,9 @@ const TypeNumerical = (props) => {
           ? (theme) => `1px solid ${theme.palette.success.dark}`
           : (theme) => `1px solid ${theme.palette.error.dark}`
           : (theme) => `1px solid ${theme.palette.grey[300]}`
-          : (theme) => `1px solid ${theme.palette.grey[300]}`,
+          : "none",
         borderRadius: 1,
-        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
         marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
       }}

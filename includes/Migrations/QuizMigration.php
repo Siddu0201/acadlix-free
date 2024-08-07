@@ -145,6 +145,14 @@ if(!class_exists('QuizMigration')){
                     $table->longText('description')->change();
                 });
             }
+
+            if(!Manager::schema()->hasColumn('quiz', 'subject_wise_question')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->after('sort_by_subject', function($table){
+                        $table->boolean('subject_wise_question')->default(0);
+                    });
+                });
+            }
         }
     }
 }

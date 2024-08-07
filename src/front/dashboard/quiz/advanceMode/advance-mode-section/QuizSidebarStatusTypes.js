@@ -7,13 +7,46 @@ import Marked from "../answer-type-buttons/Marked";
 import MarkedAndAnswered from "../answer-type-buttons/MarkedAndAnswered";
 
 const QuizSidebarStatusTypes = (props) => {
+  const getData = (type = '') => {
+    let answered = 0, not_answered = 0, not_visited = 0, marked_for_review = 0, answered_and_marked_for_review = 0;
+
+    props?.watch("questions")?.filter(q => q?.subject_id === props?.subject_id)?.forEach(question => {
+      if (question?.result?.solved_count && question?.review) {
+        answered_and_marked_for_review++;
+      } else if (!question?.result?.solved_count && question?.review) {
+        marked_for_review++;
+      } else if (question?.result?.solved_count && !question?.review) {
+        answered++;
+      } else if (question?.visit && !question?.result?.solved_count) {
+        not_answered++;
+      } else if (!question?.visit) {
+        not_visited++;
+      }
+    });
+    
+    switch(type){
+      case 'answered':
+        return answered;
+      case 'not_answered':
+        return not_answered;
+      case 'not_visited':
+        return not_visited;
+      case 'marked_for_review':
+        return marked_for_review;
+      case 'answered_and_marked_for_review':
+        return answered_and_marked_for_review;
+      default:
+        return 0;
+    }
+  }
   return (
     <Box
       sx={{
         background: props?.colorCode?.sidebar_status_background,
         padding: "0px 0px 12px 17px",
+        display: props?.selected ? "" : "none"
       }}
-      id="acadlix_quiz_sidebar_status_types"
+      id={`acadlix_quiz_sidebar_status_types_${props?.s_index}`}
     >
       <Box
         sx={{
@@ -37,7 +70,7 @@ const QuizSidebarStatusTypes = (props) => {
               parentBackground={props?.colorCode?.sidebar_status_background}
               {...props}
             >
-              150
+              {getData('answered')}
             </Answered>
           </Box>
           <Box>
@@ -58,7 +91,7 @@ const QuizSidebarStatusTypes = (props) => {
               parentBackground={props?.colorCode?.sidebar_status_background}
               {...props}
             >
-              100
+              {getData('not_answered')}
             </NotAnswered>
           </Box>
           <Box>
@@ -83,7 +116,7 @@ const QuizSidebarStatusTypes = (props) => {
               margin: "0px 6px 0px 0px",
             }}
           >
-            <NotVisited {...props}>100</NotVisited>
+            <NotVisited {...props}>{getData('not_visited')}</NotVisited>
           </Box>
           <Box>
             <Typography
@@ -100,7 +133,7 @@ const QuizSidebarStatusTypes = (props) => {
               margin: "0px 6px 0px 0px",
             }}
           >
-            <Marked {...props}>200</Marked>
+            <Marked {...props}>{getData('marked_for_review')}</Marked>
           </Box>
           <Box>
             <Typography
@@ -125,7 +158,7 @@ const QuizSidebarStatusTypes = (props) => {
               margin: "0px 6px 0px 0px",
             }}
           >
-            <MarkedAndAnswered {...props}>100</MarkedAndAnswered>
+            <MarkedAndAnswered {...props}>{getData('answered_and_marked_for_review')}</MarkedAndAnswered>
           </Box>
           <Box>
             <Typography

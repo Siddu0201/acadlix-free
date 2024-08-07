@@ -7,6 +7,9 @@ import Jee from "./advanceMode/Jee";
 import Railway from "./advanceMode/Railway";
 import Sbi from "./advanceMode/Sbi";
 import Ssc from "./advanceMode/Ssc";
+import Instruction1 from "./advanceMode/advance-instruction-section/Instruction1";
+import Instruction2 from "./advanceMode/advance-instruction-section/Instruction2";
+import AdvanceResultSection from "./advanceMode/advance-result-section/AdvanceResultSection";
 
 const AdvanceQuizMode = (props) => {
   const colorCode = {
@@ -106,9 +109,21 @@ const AdvanceQuizMode = (props) => {
     //Popover
     popover_background: "#e5f6fd",
     popover_border: "grey",
+    //Result
+    correct: '#56AB2F',
+    incorrect: '#FF6B6B',
+    skipped: '#8f83f7',
+    overview_border: "#C3D1A3",
+    overview_background: "#f8faf5",
+    overview_button_border: "#CFCFCF",
+    overview_button_background: "#fff",
+    overview_button_text: "black",
+    overview_button_active_text: "white",
+    overview_button_active_border: "#7DB1D3",
   };
 
   const [isOpen, setIsOpen] = React.useState(true);
+  const [instructionIsOpen, setInstructionIsOpen] = React.useState(true);
   const sidebarWidth = 250;
 
   const handleToggle = () => {
@@ -116,7 +131,7 @@ const AdvanceQuizMode = (props) => {
   };
 
   const checkAdvanceMode = () => {
-    switch (props?.watch('advance_mode_type')) {
+    switch (props?.watch("advance_mode_type")) {
       case "advance_panel":
         return (
           <AdvancePanel
@@ -199,7 +214,30 @@ const AdvanceQuizMode = (props) => {
         );
     }
   };
-  return <Box>{checkAdvanceMode()}</Box>;
+  return (
+    <>
+      {props?.watch("view_instruction1") && (
+        <Instruction1
+          {...props}
+          colorCode={colorCode}
+          sidebarWidth={sidebarWidth}
+          instructionIsOpen={instructionIsOpen}
+        />
+      )}
+      {props?.watch("view_instruction2") && (
+        <Instruction2
+          {...props}
+          colorCode={colorCode}
+          sidebarWidth={sidebarWidth}
+          instructionIsOpen={instructionIsOpen}
+        />
+      )}
+      {props?.watch("view_question") && checkAdvanceMode()}
+      {props?.watch("view_result") && (
+        <AdvanceResultSection {...props} colorCode={colorCode} />
+      )}
+    </>
+  );
 };
 
 export default AdvanceQuizMode;

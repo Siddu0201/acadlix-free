@@ -66,6 +66,7 @@ if (!class_exists('Quiz')) {
             "question_overview",
             "hide_question_numbering",
             "sort_by_subject",
+            "subject_wise_question",
             "attempt_and_move_forward",
             "force_user_to_answer_each_question",
             // Result
@@ -148,6 +149,11 @@ if (!class_exists('Quiz')) {
             return $this->hasMany(Prerequisite::class, 'quiz_id', 'id');
         }
 
+        public function subject_times()
+        {
+            return $this->hasMany(SubjectTime::class, 'quiz_id', 'id');
+        }
+
         public function getDescriptionAttribute($value)
         {
             return $this->helper->renderShortCode($value);
@@ -161,5 +167,7 @@ if (!class_exists('Quiz')) {
                 return $this->helper->renderShortCode($value);
             }
         }
+
+        
     }
 }

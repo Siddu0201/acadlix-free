@@ -6,15 +6,17 @@ import { secondsToHms } from "../../../../../helpers/util";
 const TimerSection = (props) => {
   const setRef = (countdown) => {
     if(countdown){
-      props.countdownApi = countdown.getApi();
+      props.setCountDownApi(countdown.getApi());
     }
   }
 
+  console.log(props?.countdownApi);
+
   React.useEffect(() => {
     if(props?.watch("view_question")){
-      props?.countdownApi?.start();
+        props?.countdownApi?.start();
     }
-  },[props?.watch('view_question')])
+  },[props?.watch('view_question'), props?.countdownApi]);
 
   return (
     <Box sx={{
@@ -49,7 +51,7 @@ const TimerSection = (props) => {
           return (
           <>
             <Typography
-              style={{
+              sx={{
                 margin: 1,
               }}
             >

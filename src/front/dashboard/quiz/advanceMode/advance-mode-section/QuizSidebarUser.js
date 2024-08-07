@@ -12,6 +12,7 @@ const QuizSidebarUser = (props) => {
     total += document.getElementById("acadlix_quiz_subsection")?.clientHeight ?? 0;
     setHeight(total);
   });
+  
   return (
     <Box sx={{
       display: "flex",
@@ -38,7 +39,7 @@ const QuizSidebarUser = (props) => {
         margin: 2
       }}>
         <Typography variant="body1">
-          John Smith
+          {props?.watch("name")}
         </Typography>
       </Box>
     </Box>

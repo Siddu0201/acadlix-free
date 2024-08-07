@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts'
 import React from 'react'
 

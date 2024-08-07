@@ -8,8 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { ImCross } from "react-icons/im";
-import { SiTicktick } from "react-icons/si";
 
 const TypeTrueFalse = (props) => {
   const handleChange = (e) => {
@@ -66,7 +64,7 @@ const TypeTrueFalse = (props) => {
         name="radio-buttons-group"
         onChange={handleChange}
         sx={{
-          gap: "6px",
+          gap: props?.watch("mode") !== "advance_mode" ? "6px" : 0,
         }}
       >
         {props?.answer_data?.[props?.type]?.length > 0 &&
@@ -76,13 +74,14 @@ const TypeTrueFalse = (props) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                border: props?.watch(`questions.${props?.index}.check`)
+                border: props?.watch("mode") !== "advance_mode" ? props?.watch(`questions.${props?.index}.check`)
                   ? data?.isCorrect
                     ? (theme) => `1px solid ${theme.palette.success.dark}`
                     : data?.isChecked
                     ? (theme) => `1px solid ${theme.palette.error.dark}`
                     : (theme) => `1px solid ${theme.palette.grey[300]}`
-                  : (theme) => `1px solid ${theme.palette.grey[300]}`,
+                  : (theme) => `1px solid ${theme.palette.grey[300]}`
+                  : "none",
                 backgroundColor: props?.watch(`questions.${props?.index}.check`)
                   ? data?.isCorrect
                     ? (theme) => theme.palette.success.light
@@ -91,8 +90,8 @@ const TypeTrueFalse = (props) => {
                     : "transparent"
                   : "transparent",
                 borderRadius: 1,
-                paddingX: 2,
-                paddingY: 2,
+                paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+                paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
               }}
             >
               <FormControlLabel
@@ -138,7 +137,7 @@ const TypeTrueFalse = (props) => {
                   </Box>
                 }
                 sx={{
-                  width: "100%",
+                  width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                   marginLeft: 0,
                   "& svg": {
                     height: "15px",

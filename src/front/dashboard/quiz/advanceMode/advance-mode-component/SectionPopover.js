@@ -7,6 +7,39 @@ import Marked from '../answer-type-buttons/Marked'
 import MarkedAndAnswered from '../answer-type-buttons/MarkedAndAnswered'
 
 const SectionPopover = (props) => {
+  const getData = (type = '') => {
+    let answered = 0, not_answered = 0, not_visited = 0, marked_for_review = 0, answered_and_marked_for_review = 0;
+
+    props?.watch("questions")?.filter(q => q?.subject_id === props?.subject_id)?.forEach(question => {
+      if (question?.result?.solved_count && question?.review) {
+        answered_and_marked_for_review++;
+      } else if (!question?.result?.solved_count && question?.review) {
+        marked_for_review++;
+      } else if (question?.result?.solved_count && !question?.review) {
+        answered++;
+      } else if (question?.visit && !question?.result?.solved_count) {
+        not_answered++;
+      } else if (!question?.visit) {
+        not_visited++;
+      }
+    });
+    
+    switch(type){
+      case 'answered':
+        return answered;
+      case 'not_answered':
+        return not_answered;
+      case 'not_visited':
+        return not_visited;
+      case 'marked_for_review':
+        return marked_for_review;
+      case 'answered_and_marked_for_review':
+        return answered_and_marked_for_review;
+      default:
+        return 0;
+    }
+  }
+
   return (
     <Popover
         id={props?.aria}
@@ -47,7 +80,7 @@ const SectionPopover = (props) => {
                 fontWeight: "bold",
               }}
             >
-              GENERAL AWARENESS
+              {props?.subject_name?.toUpperCase()}
             </Typography>
           </Box>
           <Box
@@ -69,7 +102,7 @@ const SectionPopover = (props) => {
                 parentBackground={props?.colorCode?.popover_background}
                 {...props}
               >
-                0
+                {getData("answered")}
               </Answered>
               <Box>
                 <Typography
@@ -93,7 +126,7 @@ const SectionPopover = (props) => {
                 parentBackground={props?.colorCode?.popover_background}
                 {...props}
               >
-                1
+                {getData("not_answered")}
               </NotAnswered>
               <Box>
                 <Typography
@@ -113,7 +146,7 @@ const SectionPopover = (props) => {
                 gap: 2,
               }}
             >
-              <NotVisited {...props}>1</NotVisited>
+              <NotVisited {...props}>{getData("not_visited")}</NotVisited>
               <Box>
                 <Typography
                   variant="body2"
@@ -132,7 +165,7 @@ const SectionPopover = (props) => {
                 gap: 2,
               }}
             >
-              <Marked {...props}>1</Marked>
+              <Marked {...props}>{getData("marked_for_review")}</Marked>
               <Box>
                 <Typography
                   variant="body2"
@@ -151,7 +184,7 @@ const SectionPopover = (props) => {
                 gap: 2,
               }}
             >
-              <MarkedAndAnswered {...props}>1</MarkedAndAnswered>
+              <MarkedAndAnswered {...props}>{getData("answered_and_marked_for_review")}</MarkedAndAnswered>
               <Box>
                 <Typography
                   variant="body2"

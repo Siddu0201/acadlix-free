@@ -1,0 +1,68 @@
+[
+    {
+        different_incorrect_msg: "true/false",
+        answer_type: "singleChoice/multipleChoice/trueFalse/sortingChoice/fillInTheBlank/numerical/rangeType",
+        language: [
+            {
+                language_name: "hindi/English/...",
+                default: true,
+                question: "Question data...",
+                correct_msg: "Correct msg...",
+                incorrect_msg: "Incorrect msg...",
+                hint_msg: "Hint msg...",
+                answer_data: {
+                    singleChoice: [
+                        {
+                            option: "option value",
+                            points: 0,
+                            negative_points: 0,
+                            isCorrect: "true/false",
+                            isChecked: false
+                        }
+                    ],
+                    multipleChoice: [
+                        {
+                            option: "option value",
+                            points: 0,
+                            negative_points: 0,
+                            isCorrect: "true/false",
+                            isChecked: false,
+                        }
+                    ],
+                    trueFalse: [
+                        { option: "True", isCorrect: "true/false", isChecked: false },
+                        { option: "False", isCorrect: "true/false", isChecked: false },
+                    ],
+                    sortingChoice: [
+                        {
+                          option: "",
+                          position: 0,
+                        }
+                    ],
+                    matrixSortingChoice: [
+                        {
+                            criteria: "",
+                            position: 0,
+                            element: "",
+                          }
+                    ],
+                    fillInTheBlank: {
+                        option: "",
+                        caseSensitive: false,
+                        correctOption: [],
+                    },
+                    numerical: {
+                        option: "option value",
+                        yourAnswer: "",
+                    },
+                    rangeType: {
+                        from: "",
+                        to: "",
+                        yourAnswer: "",
+                    },
+                    paragraph: {}
+                }
+            }
+        ]
+    }
+]

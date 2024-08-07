@@ -56,7 +56,8 @@ const Question = () => {
 
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
+    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
+    { field: "type", headerName: "Type", flex: 1, minWidth: 100 },
     { field: "subject", headerName: "Subject", flex: 1, minWidth: 100 },
     { field: "points", headerName: "Points", flex: 1, minWidth: 100 },
     {
@@ -106,6 +107,31 @@ const Question = () => {
     paginationModel?.page,
     paginationModel?.pageSize
   );
+
+  const getType = (type = '') => {
+    switch (type) {
+      case "singleChoice":
+        return "Single Choice";
+      case "multipleChoice":
+        return "Multiple Choice";
+      case "trueFalse":
+        return "True False";
+      case "sortingChoice":
+        return "Sorting Choice";
+      case "matrixSortingChoice":
+        return "Matrix Sorting Choice";
+      case "fillInTheBlank":
+        return "Fill in the blank";
+      case "numerical":
+        return "Numerical";
+      case "rangeType":
+        return "Range Type";
+      case "paragraph":
+        return "Paragraph";
+      default:
+        return "";
+    }
+  }
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.questions)) {
       const newRows = data?.data?.questions?.map((question) => {
@@ -116,6 +142,7 @@ const Question = () => {
             : question?.question_languages
                 ?.filter((d) => d?.default)?.[0]
                 ?.question.substring(0, 50),
+          type: getType(question?.answer_type),
           subject: question?.subject?.subject_name ?? "Uncategorized",
           points: question?.points,
           negative_points: question?.negative_points,

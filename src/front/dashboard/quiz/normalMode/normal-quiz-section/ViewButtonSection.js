@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 

@@ -19,7 +19,7 @@ const QuizLogoAndTitle = (props) => {
           color: props?.colorCode?.top_title_color,
           fontWeight: 700,
           fontSize: "1.15rem",
-        }}>New IBPS Text</Typography>
+        }}>{props?.watch("title")}</Typography>
       </Box>
     </Box>
   )

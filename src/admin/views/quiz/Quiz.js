@@ -28,8 +28,9 @@ import { FaEdit, FaQuestion, FaTrash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import CategoryModel from "./actions/CategoryModel";
-import { LuFileBarChart2 } from "react-icons/lu";
+import { LuFileBarChart2, LuFileClock } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
+import SubjectTimeModel from "./actions/SubjectTimeModel";
 
 const Quiz = () => {
   const methods = useForm({
@@ -38,6 +39,8 @@ const Quiz = () => {
       quiz_ids: [],
       action: "",
       category_model: false,
+      subject_model: false,
+      quiz_id: null,
     },
   });
   const [paginationModel, setPaginationModel] = React.useState({
@@ -51,10 +54,30 @@ const Quiz = () => {
       deleteMutation?.mutate(id);
     }
   };
+  
+  const handleSubjectTime = (id) => {
+    console.log(id);
+    methods?.setValue("quiz_id", id, { shouldDirty: true });
+    methods?.setValue("subject_model", true, { shouldDirty: true });
+  };
+
+  const handleSubjectTimeClose = () => {
+    methods?.setValue("quiz_id", null, { shouldDirty: true });
+    methods?.setValue("subject_model", false, { shouldDirty: true });
+  };
 
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
+    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
+    {
+      field: "mode",
+      headerName: "Mode",
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params) => {
+        return <>{getMode(params?.value)}</>;
+      },
+    },
     { field: "category", headerName: "Category", flex: 1, minWidth: 100 },
     { field: "shortcode", headerName: "Shortcode", flex: 1, minWidth: 100 },
     {
@@ -67,8 +90,8 @@ const Quiz = () => {
       field: "action",
       headerName: "Action",
       sortable: false,
-      flex: 2,
-      minWidth: 150,
+      flex: 3,
+      minWidth: 180,
       renderCell: (params) => {
         return (
           <>
@@ -111,19 +134,27 @@ const Quiz = () => {
                 color="info"
                 LinkComponent={Link}
                 to={`/quiz/${params?.id}/result`}
-                >
-                  <LuFileBarChart2 /> 
-                </IconButton>
+              >
+                <LuFileBarChart2 />
+              </IconButton>
             </Tooltip>
             <Tooltip title="Leaderboard" arrow>
-              <IconButton
-                aria-label="leaderboard"
-                size="small"
-                color="warning"
-                >
-                  <FaRankingStar /> 
-                </IconButton>
+              <IconButton aria-label="leaderboard" size="small" color="warning">
+                <FaRankingStar />
+              </IconButton>
             </Tooltip>
+            {params?.row?.mode === "advance_mode" && (
+              <Tooltip title="Subject Timing" arrow>
+                <IconButton
+                  aria-label="subject_time"
+                  size="small"
+                  color="grey"
+                  onClick={handleSubjectTime.bind(this, params?.id)}
+                >
+                  <LuFileClock />
+                </IconButton>
+              </Tooltip>
+            )}
           </>
         );
       },
@@ -134,12 +165,29 @@ const Quiz = () => {
     paginationModel?.page,
     paginationModel?.pageSize
   );
+
+  const getMode = (mode = "") => {
+    switch (mode) {
+      case "normal":
+        return "Normal";
+      case "check_and_continue":
+        return "Check and continue";
+      case "question_below_each_other":
+        return "Question below each other";
+      case "advance_mode":
+        return "Advance mode";
+      default:
+        return "Normal";
+    }
+  };
+
   React.useMemo(() => {
     if (Array.isArray(data?.data?.quizes)) {
       const newRows = data?.data?.quizes?.map((quiz) => {
         return {
           id: quiz?.id,
           title: quiz?.title,
+          mode: quiz?.mode,
           category: quiz?.category?.category_name ?? "Uncategorized",
           shortcode: `[Acadlix_Quiz ${quiz?.id}]`,
           total_questions: quiz?.questions_count,
@@ -234,12 +282,20 @@ const Quiz = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <CategoryModel
-            {...methods}
-            handleClose={handleClose}
-          />
+          <CategoryModel {...methods} handleClose={handleClose} />
         </BootstrapDialog>
       )}
+      <BootstrapDialog
+        open={methods?.watch("subject_model")}
+        onClose={handleSubjectTimeClose}
+        aria-labelledby="alert-subject-title"
+        aria-describedby="alert-subject-description"
+      >
+        <SubjectTimeModel
+          {...methods}
+          handleClose={handleSubjectTimeClose}
+        />
+      </BootstrapDialog>
       <Grid
         container
         rowSpacing={3}
@@ -314,9 +370,7 @@ const Quiz = () => {
                     >
                       <MenuItem value="">Bulk Actions</MenuItem>
                       <MenuItem value="delete">Delete</MenuItem>
-                      <MenuItem value="set_category">
-                        Set Category
-                      </MenuItem>
+                      <MenuItem value="set_category">Set Category</MenuItem>
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -351,7 +405,7 @@ const Quiz = () => {
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("quiz_ids", data, {
-                      shouldDirty: true
+                      shouldDirty: true,
                     });
                   }}
                   rowSelectionModel={methods?.watch("quiz_ids")}

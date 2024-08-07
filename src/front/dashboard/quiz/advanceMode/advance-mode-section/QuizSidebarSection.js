@@ -16,7 +16,7 @@ const QuizSidebarSection = (props) => {
         height: "31px",
         color: props?.colorCode?.sidebar_section_color,
       }}>
-        General Awareness
+        {props?.watch("subjects")?.filter(s => s?.selected)?.[0]?.subject_name}
       </Typography>
     </Box>
   )

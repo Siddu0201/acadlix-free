@@ -12,22 +12,71 @@ const SubsectionButton = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSubjectChange = () => {
+    props?.setValue(
+      "subjects",
+      props?.watch("subjects")?.map((s, s_index) => {
+        if (s_index === props?.index) {
+          s.selected = true;
+        } else {
+          s.selected = false;
+        }
+        return s;
+      })
+    );
+    
+    let i = 0;
+    props?.setValue("questions", props?.watch("questions")?.map(q => {
+      if (q.selected) {
+        q.result.time =
+          q.result.time +
+          Math.round((Date.now() - props?.watch("last")) / 1000);
+      }
+      if(q?.subject_id == props?.subject_id){
+        if(i === 0){
+          q.selected = true;
+          q.visit = true;
+          i++;
+        }else{
+          q.selected = false;
+        }
+      }else{
+        q.selected = false;
+      }
+      return q;
+    }));
+    props?.setValue("last", Date.now(), { shouldDirty: true });
+  };
   return (
     <Box>
       <Button
         variant="contained"
         size="small"
+        onClick={handleSubjectChange}
         sx={{
           borderRadius: 0,
           boxShadow: "none",
           marginBottom: "0px !important",
-          backgroundColor: props?.active ? props?.colorCode?.subsection_button_active_background : props?.colorCode?.subsection_button_background,
-          color: props?.active ? props?.colorCode?.subsection_button_active_color : props?.colorCode?.subsection_button_color,
-          borderLeft: props?.active ? "0px" :`1px solid ${props?.colorCode?.subsection_button_border}`,
-          borderRight: props?.active ? "0px" : `1px solid ${props?.colorCode?.subsection_button_border}`,
-          ":hover": {
-            backgroundColor: props?.active ? props?.colorCode?.subsection_button_active_background : props?.colorCode?.subsection_button_background,
-            color: props?.active ? props?.colorCode?.subsection_button_active_color : props?.colorCode?.subsection_button_color,
+          backgroundColor: props?.active
+            ? props?.colorCode?.subsection_button_active_background
+            : props?.colorCode?.subsection_button_background,
+          color: props?.active
+            ? props?.colorCode?.subsection_button_active_color
+            : `${props?.colorCode?.subsection_button_color} !important`,
+          borderLeft: props?.active
+            ? "0px"
+            : `1px solid ${props?.colorCode?.subsection_button_border}`,
+          borderRight: props?.active
+            ? "0px"
+            : `1px solid ${props?.colorCode?.subsection_button_border}`,
+          ":hover, :focus": {
+            backgroundColor: props?.active
+              ? props?.colorCode?.subsection_button_active_background
+              : props?.colorCode?.subsection_button_background,
+            color: props?.active
+              ? props?.colorCode?.subsection_button_active_color
+              : `${props?.colorCode?.subsection_button_color} !important`,
             boxShadow: "none",
           },
           "& .MuiButton-endIcon": {
@@ -42,7 +91,7 @@ const SubsectionButton = (props) => {
           <TiInfoLarge onMouseEnter={handleClick} onMouseLeave={handleClose} />
         }
       >
-        General Awareness
+        {props?.subject_name}
       </Button>
       <SectionPopover
         anchorEl={anchorEl}

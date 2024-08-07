@@ -16,8 +16,6 @@ import {
 } from "@dnd-kit/sortable";
 import { Box, Chip, List, ListItem, Typography } from "@mui/material";
 import React from "react";
-import { ImCross } from "react-icons/im";
-import { SiTicktick } from "react-icons/si";
 import parse from "html-react-parser";
 
 const TypeSortingChoice = (props) => {
@@ -33,9 +31,11 @@ const TypeSortingChoice = (props) => {
         (curr) => curr.option === over.id
       );
       props?.setValue(
-        `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`,
-        arrayMove(props?.answer_data?.[props?.type], oldIndex, newIndex),
-        { shouldDirty: true }
+        `questions.${props?.index}.language`,
+        props?.watch(`questions.${props?.index}.language`).map((lang) => {
+          lang.answer_data[props?.type] = arrayMove(lang?.answer_data?.[props?.type], oldIndex, newIndex);
+          return lang;
+        })
       );
 
       let data = props?.watch(
@@ -80,7 +80,7 @@ const TypeSortingChoice = (props) => {
     <Box
       sx={{
         width: "100%",
-        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}
     >
