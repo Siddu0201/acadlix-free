@@ -17,7 +17,7 @@ if(!class_exists('TemplateMigration')){
                 Manager::schema()->create('template', function($table){
                     $table->bigIncrements('id');
                     $table->string("name")->nullable();
-                    $table->tinyInteger('type')->default(0);
+                    $table->string('type')->default("quiz");
                     $table->longText('data')->nullable();
                     $table->timestamps();
                 });
@@ -27,6 +27,15 @@ if(!class_exists('TemplateMigration')){
         public function down()
         {
             Manager::schema()->dropIfExists('template');
+        }
+
+        public function update()
+        {
+            if(Manager::schema()->hasColumn('template', 'type')){
+                Manager::schema()->table('template', function($table){
+                    $table->string('type')->default("quiz")->change();
+                });
+            }
         }
     }
 }

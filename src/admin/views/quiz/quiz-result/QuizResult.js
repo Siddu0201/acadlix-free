@@ -124,7 +124,7 @@ const QuizResult = () => {
             stat_ref?.created_at,
             "mmm dd, yyyy hh:MM:ss TT"
           ),
-          score: stat_ref?.points,
+          score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
           minimum_percent_to_pass: data?.data?.quiz?.minimum_percent_to_pass,
         };

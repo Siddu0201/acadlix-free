@@ -365,7 +365,7 @@ const Quiz = () => {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={methods?.watch("action")}
-                      label="Age"
+                      label="Bulk Actions"
                       onChange={handleActionChange}
                     >
                       <MenuItem value="">Bulk Actions</MenuItem>

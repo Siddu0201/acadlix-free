@@ -11,6 +11,7 @@ import {
 import React from "react";
 import { PostSaveTemplate } from "../../../../requests/admin/AdminTemplateRequest";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const SaveTemplateSection = (props) => {
   const theme = useTheme();
@@ -37,6 +38,7 @@ const SaveTemplateSection = (props) => {
             props?.setValue("templates", data?.data?.templates, {
               shouldDirty: true,
             });
+            toast.success('Template created successfully');
           },
         }
       );
