@@ -14,10 +14,13 @@ const SubsectionButton = (props) => {
   };
 
   const handleSubjectChange = () => {
+    if(props?.watch("quiz_timing_type") === "subject_wise_time"){
+      return;
+    }
     props?.setValue(
       "subjects",
       props?.watch("subjects")?.map((s, s_index) => {
-        if (s_index === props?.index) {
+        if (s_index === props?.s_index) {
           s.selected = true;
         } else {
           s.selected = false;

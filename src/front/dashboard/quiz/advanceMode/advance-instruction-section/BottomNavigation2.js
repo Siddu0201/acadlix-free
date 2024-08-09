@@ -33,6 +33,9 @@ const BottomNavigation2 = (props) => {
           subject_name: subject_name,
           subject_id: subject_id,
           selected: index === 0,
+          model: false,
+          submitModel: false,
+          submitted: false,
         });
       }
       return acc;

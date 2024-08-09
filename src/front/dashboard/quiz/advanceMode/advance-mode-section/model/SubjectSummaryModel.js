@@ -1,4 +1,21 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Paper,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
@@ -11,8 +28,44 @@ const SubjectSummaryModel = (props) => {
       padding: theme.spacing(1),
     },
   }));
+
+
+  const getData = (type = '') => {
+    let answered = 0, not_answered = 0, not_visited = 0, marked_for_review = 0, answered_and_marked_for_review = 0;
+
+    props?.watch("questions")?.filter(q => q?.subject_id === props?.subject?.subject_id)?.forEach(question => {
+      if (question?.result?.solved_count && question?.review) {
+        answered_and_marked_for_review++;
+      } else if (!question?.result?.solved_count && question?.review) {
+        marked_for_review++;
+      } else if (question?.result?.solved_count && !question?.review) {
+        answered++;
+      } else if (question?.visit && !question?.result?.solved_count) {
+        not_answered++;
+      } else if (!question?.visit) {
+        not_visited++;
+      }
+    });
+    
+    switch(type){
+      case 'answered':
+        return answered;
+      case 'not_answered':
+        return not_answered;
+      case 'not_visited':
+        return not_visited;
+      case 'marked_for_review':
+        return marked_for_review;
+      case 'answered_and_marked_for_review':
+        return answered_and_marked_for_review;
+      default:
+        return 0;
+    }
+  }
+
   return (
     <BootstrapDialog
+      maxWidth={props?.isDesktop ? "lg" : "xs"}
       open={props?.open}
       onClose={props?.handleClose}
       aria-labelledby="alert-dialog-title"
@@ -35,18 +88,47 @@ const SubjectSummaryModel = (props) => {
       </IconButton>
       <DialogContent>
         <Box>
-            <Typography>Do you want to submit this section?</Typography>
+          <Typography>Do you want to submit this section?</Typography>
+          <Box>
+            <TableContainer component={Paper}>
+              <Table sx={{ width: "100%", margin: 0 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name of the Section</TableCell>
+                    <TableCell>No. of Question</TableCell>
+                    <TableCell>Answered</TableCell>
+                    <TableCell>Not Answered</TableCell>
+                    <TableCell>Not Visited</TableCell>
+                    <TableCell>Marked for Review</TableCell>
+                    <TableCell>Answered and Marked for Review</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {props?.subject?.subject_name?.toUpperCase()}
+                      </TableCell>
+                      <TableCell>{props?.watch("questions")?.filter(q => q?.subject_id === props?.subject?.subject_id)?.length}</TableCell>
+                      <TableCell>{getData("answered")}</TableCell>
+                      <TableCell>{getData("not_answered")}</TableCell>
+                      <TableCell>{getData("not_visited")}</TableCell>
+                      <TableCell>{getData("marked_for_review")}</TableCell>
+                      <TableCell>{getData("answered_and_marked_for_review")}</TableCell>
+                    </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
           Cancel
         </Button>
-        <Button
-          variant="contained"
-          type="submit"
-        >
-          Submit Section
+        <Button variant="contained" type="submit" onClick={() => props?.handleSubmit(props?.s_index)}>
+          {props?.submitText}
         </Button>
       </DialogActions>
     </BootstrapDialog>

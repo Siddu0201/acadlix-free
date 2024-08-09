@@ -30,10 +30,10 @@ const QuizSubsection = (props) => {
       {props?.watch("subjects")?.length > 0 &&
         props
           ?.watch("subjects")
-          ?.map((s, index) => (
+          ?.map((s, s_index) => (
             <SubsectionButton
-              key={index}
-              index={index}
+              key={s_index}
+              s_index={s_index}
               active={s?.selected}
               {...props}
               {...s}

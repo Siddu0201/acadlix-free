@@ -67,7 +67,7 @@ const QuizSidebar = (props) => {
           display: "block",
           position: "fixed",
           right: props?.isOpen ? "250px" : "0px",
-          zIndex: 9999,
+          zIndex: 999,
           top: "50%",
           borderRadius: "4px 0px 0px 4px",
           backgroundColor: "#5a5c69",

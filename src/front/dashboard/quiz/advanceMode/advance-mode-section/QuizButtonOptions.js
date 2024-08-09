@@ -6,10 +6,9 @@ import {
 } from "../../../../../helpers/util";
 import SubjectSummaryModel from "./model/SubjectSummaryModel";
 import FinalSummaryModel from "./model/FinalSummaryModel";
+import LastQuestionModel from "./model/LastQuestionModel";
 
 const QuizButtonOptions = (props) => {
-  const [openModel, setOpenModel] = React.useState(false);
-
   const currentIndex = props
     ?.watch("questions")
     ?.findIndex((q) => q?.question_id === props?.question?.question_id);
@@ -136,50 +135,56 @@ const QuizButtonOptions = (props) => {
     });
   };
 
+  const [lastModel, setLastModel] = React.useState(false);
+
   const handleNextClick = () => {
     if (props?.last) {
-      // setOpenModel(true);
-      // if (props?.last_subject) {
-      // } else {
-      //   props?.setValue(
-      //     "subjects",
-      //     props?.watch("subjects")?.map((s, s_index) => {
-      //       if (s_index === props?.s_index + 1) {
-      //         s.selected = true;
-      //       } else {
-      //         s.selected = false;
-      //       }
-      //       return s;
-      //     })
-      //   );
-
-      //   let i = 0;
-      //   const subject_id = props
-      //     ?.watch("subjects")
-      //     ?.filter((s, i) => i === props?.s_index + 1)?.[0]?.subject_id;
-      //   props?.setValue(
-      //     "questions",
-      //     props?.watch("questions")?.map((q) => {
-      //       if (q.selected) {
-      //         q.result.time =
-      //           q.result.time +
-      //           Math.round((Date.now() - props?.watch("last")) / 1000);
-      //       }
-      //       if (q?.subject_id === subject_id) {
-      //         if (i === 0) {
-      //           q.selected = true;
-      //           q.visit = true;
-      //           i++;
-      //         } else {
-      //           q.selected = false;
-      //         }
-      //       } else {
-      //         q.selected = false;
-      //       }
-      //       return q;
-      //     })
-      //   );
-      // }
+      if (props?.watch("quiz_timing_type") === "subject_wise_time") {
+        setLastModel(true);
+      } else {
+        if (props?.last_subject) {
+          setLastModel(true);
+        } else {
+          props?.setValue(
+            "subjects",
+            props?.watch("subjects")?.map((s, s_index) => {
+              if (s_index === props?.s_index + 1) {
+                s.selected = true;
+              } else {
+                s.selected = false;
+              }
+              return s;
+            })
+          );
+          let i = 0;
+          const subject_id = props
+            ?.watch("subjects")
+            ?.filter((s, i) => i === props?.s_index + 1)?.[0]?.subject_id;
+          props?.setValue(
+            "questions",
+            props?.watch("questions")?.map((q) => {
+              if (q.selected) {
+                q.result.time =
+                  q.result.time +
+                  Math.round((Date.now() - props?.watch("last")) / 1000);
+              }
+              if (q?.subject_id === subject_id) {
+                if (i === 0) {
+                  q.selected = true;
+                  q.visit = true;
+                  i++;
+                } else {
+                  q.selected = false;
+                }
+              } else {
+                q.selected = false;
+              }
+              return q;
+            })
+          );
+          props?.setValue("last", Date.now(), { shouldDirty: true });
+        }
+      }
     } else {
       props?.setValue(
         "questions",
@@ -198,8 +203,8 @@ const QuizButtonOptions = (props) => {
           return question;
         })
       );
+      props?.setValue("last", Date.now(), { shouldDirty: true });
     }
-    props?.setValue("last", Date.now(), { shouldDirty: true });
   };
 
   const handleBackClick = () => {
@@ -220,10 +225,6 @@ const QuizButtonOptions = (props) => {
       })
     );
     props?.setValue("last", Date.now(), { shouldDirty: true });
-  };
-
-  const handleClose = () => {
-    setOpenModel(false);
   };
 
   return (
@@ -251,19 +252,26 @@ const QuizButtonOptions = (props) => {
           paddingRight: "0.10rem !important",
         }}
       >
-        {props?.last_subject ? (
-          <FinalSummaryModel
-            {...props}
-            open={openModel}
-            handleClose={handleClose}
-          />
-        ) : (
-          <SubjectSummaryModel
-            {...props}
-            open={openModel}
-            handleClose={handleClose}
-          />
-        )}
+        {props?.watch("quiz_timing_type") === "subject_wise_time"
+          ? props?.last && (
+              <LastQuestionModel
+                {...props}
+                lastModel={lastModel}
+                setLastModel={setLastModel}
+                message="You have reached to the last question of this section. Please wait
+            till the time allotted for this section is over or submit the
+            section."
+              />
+            )
+          : props?.last_subject && (
+              <LastQuestionModel
+                {...props}
+                lastModel={lastModel}
+                setLastModel={setLastModel}
+                message="You have reached to the last question. Please wait
+            till the time allotted for this section is over or submit test."
+              />
+            )}
         <Box>
           <Button
             size={props?.isDesktop ? "medium" : "small"}
