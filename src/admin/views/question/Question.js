@@ -132,6 +132,12 @@ const Question = () => {
         return "";
     }
   }
+
+  function strip(html){
+    let doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+ }
+
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.questions)) {
       const newRows = data?.data?.questions?.map((question) => {
@@ -139,9 +145,9 @@ const Question = () => {
           id: question?.id,
           title: question?.title
             ? question?.title
-            : question?.question_languages
+            : strip(question?.question_languages
                 ?.filter((d) => d?.default)?.[0]
-                ?.question.substring(0, 50),
+                ?.question.substring(0, 50)),
           type: getType(question?.answer_type),
           subject: question?.subject?.subject_name ?? "Uncategorized",
           points: question?.points,
@@ -329,7 +335,7 @@ const Question = () => {
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={methods?.watch("action")}
-                          label="Age"
+                          label="Bulk Actions"
                           onChange={handleActionChange}
                         >
                           <MenuItem value="">Bulk Actions</MenuItem>

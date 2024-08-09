@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import React from "react";
 import AdvancePanel from "./advanceMode/AdvancePanel";
 import Gate from "./advanceMode/Gate";
@@ -110,9 +110,9 @@ const AdvanceQuizMode = (props) => {
     popover_background: "#e5f6fd",
     popover_border: "grey",
     //Result
-    correct: '#56AB2F',
-    incorrect: '#FF6B6B',
-    skipped: '#8f83f7',
+    correct: "#56AB2F",
+    incorrect: "#FF6B6B",
+    skipped: "#8f83f7",
     overview_border: "#C3D1A3",
     overview_background: "#f8faf5",
     overview_button_border: "#CFCFCF",
@@ -214,6 +214,25 @@ const AdvanceQuizMode = (props) => {
         );
     }
   };
+  const current_date = new Date();
+  const ExpireDate = () => <Alert severity="error">Quiz has expired</Alert>;
+  const NonLoggedIn = () => <Alert severity="error">You are not allowed to access this page</Alert>;
+
+  if (
+    props?.watch("set_start_date") &&
+    current_date < props?.watch("start_date")
+  ) {
+    return <NotStarted {...props} />;
+  }
+
+  if (props?.watch("set_end_date") && current_date > props?.watch("end_date")) {
+    return <ExpireDate />;
+  }
+
+  if(props?.watch("user_id") == 0){
+    return <NonLoggedIn />;
+  }
+
   return (
     <>
       {props?.watch("view_instruction1") && (
@@ -237,6 +256,14 @@ const AdvanceQuizMode = (props) => {
         <AdvanceResultSection {...props} colorCode={colorCode} />
       )}
     </>
+  );
+};
+
+const NotStarted = (props) => {
+  return (
+    <Alert severity="error">{`Quiz will start on ${props?.watch(
+      "start_date"
+    )} `}</Alert>
   );
 };
 

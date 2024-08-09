@@ -66,6 +66,9 @@ const SaveTemplateSection = (props) => {
                 ?.filter((option) => option?.id === template_id)?.[0]
             : null
         }
+        freeSolo
+        inputValue={input}
+        onInputChange={(e, newValue) => setInput(newValue)}
         options={props?.watch("templates") ?? []}
         getOptionLabel={(option) => option?.name || ""}
         isOptionEqualToValue={(option, value) => option?.id === value?.id}
@@ -88,7 +91,6 @@ const SaveTemplateSection = (props) => {
                 </React.Fragment>
               ),
             }}
-            onChange={(e) => setInput(e.target.value)}
           />
         )}
         onChange={(_, newValue) => {

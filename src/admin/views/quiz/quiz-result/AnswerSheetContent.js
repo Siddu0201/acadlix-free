@@ -12,7 +12,6 @@ import TypeNumerical from "../../../../front/dashboard/quiz/questionTypes/TypeNu
 import TypeRange from "../../../../front/dashboard/quiz/questionTypes/TypeRange";
 import QuestionSubjectAndPointSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
 import QuestionStatusSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
-import CustomButton from "../../../../front/dashboard/quiz/normalMode/normal-quiz-component/CustomButton";
 
 const AnswerSheetContent = (props) => {
   const theme = useTheme();

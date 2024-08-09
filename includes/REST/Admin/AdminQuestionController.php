@@ -147,19 +147,12 @@ class AdminQuestionController
     public function get_quiz_questions($request)
     {
         $res = [];
-        $helper = new Helper();
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
         $question = Question::where('quiz_id', $quiz_id)->where('online', 1)->orderBy('created_at', 'desc');
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
-        foreach ($res['questions'] as $key => $question) {
-            foreach ($question->question_languages as $lkey => $lang) {
-                $lang['question'] = strip_tags($lang['question']);
-                $res['questions'][$key]['question_languages'][$lkey] = $lang;
-            }
-        }
         return rest_ensure_response($res);
     }
 

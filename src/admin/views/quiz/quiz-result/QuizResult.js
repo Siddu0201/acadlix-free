@@ -119,13 +119,13 @@ const QuizResult = () => {
       const newRows = data?.data?.stat_refs?.map((stat_ref) => {
         return {
           id: stat_ref?.id,
-          name: stat_ref?.user?.display_name,
+          name: `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})` ,
           date: dateFormat(
             stat_ref?.created_at,
             "mmm dd, yyyy hh:MM:ss TT"
           ),
           score: stat_ref?.points,
-          percentage: stat_ref?.result,
+          percentage: stat_ref?.result?.toFixed(2),
           minimum_percent_to_pass: data?.data?.quiz?.minimum_percent_to_pass,
         };
       });
