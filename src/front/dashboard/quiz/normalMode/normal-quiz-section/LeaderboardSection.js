@@ -65,8 +65,12 @@ const LeaderboardSection = (props) => {
       },
       marginX: {
         md: "auto",
-        xs: "10px",
+        xs: "0px",
       },
+      paddingX: {
+        md: "auto",
+        xs: "10px",
+      }
     },
     rankNameContainer: {
       display: "flex",
@@ -137,7 +141,6 @@ const LeaderboardSection = (props) => {
       leaderboard_total_number_of_entries: props?.watch('leaderboard_total_number_of_entries'),
     }, {
       onSuccess: (data) => {
-        console.log(data?.data);
         props?.setValue("toplist", [...props?.watch("toplist"),... data?.data?.toplist], {shouldDirty: true});
       }
     })
@@ -149,7 +152,8 @@ const LeaderboardSection = (props) => {
       sx={{ 
         backgroundColor: "#37afca", 
         marginY: 2,
-        justifyContent: "center"
+        justifyContent: "center",
+        flexDirection: "column",
        }}
     >
       <Box sx={styles.header}>
@@ -166,7 +170,7 @@ const LeaderboardSection = (props) => {
           },
           marginX: {
             md: "auto",
-            xs: "10px",
+            xs: "0",
           },
           marginBottom: "20px",
         }}

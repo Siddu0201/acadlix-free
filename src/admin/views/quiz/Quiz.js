@@ -54,7 +54,7 @@ const Quiz = () => {
       deleteMutation?.mutate(id);
     }
   };
-  
+
   const handleSubjectTime = (id) => {
     console.log(id);
     methods?.setValue("quiz_id", id, { shouldDirty: true });
@@ -139,7 +139,13 @@ const Quiz = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Leaderboard" arrow>
-              <IconButton aria-label="leaderboard" size="small" color="warning">
+              <IconButton
+                aria-label="leaderboard"
+                size="small"
+                color="warning"
+                LinkComponent={Link}
+                to={`/quiz/${params?.id}/leaderboard`}
+              >
                 <FaRankingStar />
               </IconButton>
             </Tooltip>
@@ -291,10 +297,7 @@ const Quiz = () => {
         aria-labelledby="alert-subject-title"
         aria-describedby="alert-subject-description"
       >
-        <SubjectTimeModel
-          {...methods}
-          handleClose={handleSubjectTimeClose}
-        />
+        <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
       </BootstrapDialog>
       <Grid
         container

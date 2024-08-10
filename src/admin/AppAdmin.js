@@ -21,6 +21,7 @@ import Configuration from "./views/configuration/Configuration";
 import QuizResult from "./views/quiz/quiz-result/QuizResult";
 import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerSheet";
 import Provider from "../provider/Provider";
+import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
 
 const AppAdmin = () => {
   return (
@@ -50,6 +51,9 @@ const AppAdmin = () => {
                       path=":statistic_ref_id"
                       element={<QuizResultAnswerSheet />}
                     />
+                  </Route>
+                  <Route path=":quiz_id/leaderboard">
+                    <Route index element={<QuizLeaderboard />} />
                   </Route>
                 </Route>
                 <Route path="/course" element={<div>{<Course />}</div>} />

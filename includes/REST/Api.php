@@ -10,6 +10,7 @@ namespace Yuvayana\Acadlix\REST;
 // Admin API Controller
 use Yuvayana\Acadlix\REST\Admin\AdminLanguageController;
 use Yuvayana\Acadlix\REST\Admin\AdminCategoryController;
+use Yuvayana\Acadlix\REST\Admin\AdminLeaderboardController;
 use Yuvayana\Acadlix\REST\Admin\AdminStatisticController;
 use Yuvayana\Acadlix\REST\Admin\AdminSubjectController;
 use Yuvayana\Acadlix\REST\Admin\AdminQuizController;
@@ -53,6 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 AdminQuestionController::class,
                 AdminTemplateController::class,
                 AdminStatisticController::class,
+                AdminLeaderboardController::class,
 
                 // Front Controllers
                 FrontQuizController::class,
