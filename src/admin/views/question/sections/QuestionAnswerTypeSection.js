@@ -28,7 +28,6 @@ const QuestionAnswerTypeSection = (props) => {
           }}
         />
         <CardContent>
-          <Alert severity="warning">By switching answer type existing entries will be deleted.</Alert>
           <RadioGroup
             row
             value={props?.watch("answer_type")}

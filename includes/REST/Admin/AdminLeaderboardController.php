@@ -3,7 +3,6 @@
 namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
-use WP_REST_Request;
 use Yuvayana\Acadlix\Models\Toplist;
 
 if ( ! defined( 'ABSPATH' ) ) {

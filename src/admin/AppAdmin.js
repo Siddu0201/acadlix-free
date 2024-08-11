@@ -22,6 +22,7 @@ import QuizResult from "./views/quiz/quiz-result/QuizResult";
 import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerSheet";
 import Provider from "../provider/Provider";
 import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
+import AdminHome from "./views/home/AdminHome";
 
 const AppAdmin = () => {
   return (
@@ -32,7 +33,7 @@ const AppAdmin = () => {
             <Toaster position="bottom-right" />
             <Routes>
               <Route element={<AdminLayout />}>
-                <Route index element={<div> hello world</div>} />
+                <Route index element={<AdminHome />} />
                 <Route path="/quiz">
                   <Route index element={<Quiz />} />
                   <Route path="create" element={<CreateQuiz />} />

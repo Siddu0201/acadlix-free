@@ -211,9 +211,7 @@ const QuizContent = (props) => {
       instruction2: props?.quiz?.instruction2 ?? "",
     },
   });
-  // console.log(props?.quiz);
-  // console.log(methods?.watch("prerequisite_data"));
-  // console.log(methods?.watch("non_prerequisite_quiz"));
+
 
   const navigate = useNavigate();
   const createMutation = PostCreateQuiz();
@@ -237,7 +235,7 @@ const QuizContent = (props) => {
     }
   };
 
-  console.log(methods.watch());
+  // console.log(methods.watch());
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {

@@ -6,17 +6,17 @@ const TitleDescriptionSection = (props) => {
   const loadPage = () => {
     props?.loadEditor("description", "description");
   };
-
+  
   React.useEffect(() => {
     loadPage();
     window.addEventListener("load", loadPage);
-
+    
     return () => {
       props?.removeEditor("description");
       window.removeEventListener("load", loadPage);
     };
   }, []);
-
+  
   return (
     <Grid item xs={12} sm={12}>
       <Card>

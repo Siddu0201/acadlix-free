@@ -1,13 +1,8 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import AdminHeader from '../partials/AdminHeader'
+import React from "react";
+import AdminHeader from "../partials/AdminHeader";
 
 const AdminLayout = () => {
-  return (
-    <Box>
-        <AdminHeader />
-    </Box>
-  )
-}
+  return <AdminHeader />;
+};
 
-export default AdminLayout
+export default AdminLayout;

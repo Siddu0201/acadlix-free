@@ -77,6 +77,23 @@ const CategoryTemplateSection = (props) => {
             JSON.parse(data?.data?.template?.data)
           )) {
             if (!excludedField?.includes(key)) {
+              if (
+                [
+                  "description",
+                  "instruction1",
+                  "instruction2",
+                  "admin_message",
+                  "student_message",
+                  "instructor_message",
+                ].includes(key)
+              ) {
+                if (window.tinymce) {
+                  const editor = window.tinymce.get("description");
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+              }
               props?.setValue(key, value, { shouldDirty: true });
             }
           }

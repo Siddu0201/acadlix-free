@@ -51,7 +51,7 @@ const QuestionHintSection = (props) => {
                     props?.setValue("hint_enabled", e?.target?.checked, {shouldDirty: true});
                   }}  
                 />}
-                label="Hint Enable"
+                label="Enable Hint"
               />
             </Grid>
             <Grid item xs={12} lg={12} sx={{

@@ -33,6 +33,7 @@ const QuizResult = () => {
 
   const methods = useForm({
     defaultValues: {
+      title: "",
       rows: [],
       statistic_ref_ids: [],
       action: "",
@@ -131,6 +132,9 @@ const QuizResult = () => {
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
     }
+    if(data?.data?.quiz){
+      methods.setValue("title", data?.data?.quiz?.title, {shouldDirty: true});
+    }
   }, [data]);
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
@@ -168,7 +172,7 @@ const QuizResult = () => {
         </Grid>
         <Grid item xs={12} lg={12}>
           <Card>
-            <CardHeader title="SSC CHSL" />
+            <CardHeader title={methods?.watch("title")} />
             <CardContent>
               {/* Details Section */}
               <Box

@@ -727,6 +727,7 @@ const Result = (props) => {
             style={{
               width: "100%",
             }}
+            onChange={(e) => props?.setValue("result_text", e?.target?.value, {shouldDirty: true})}
           />
         </GridItem1>
         {Array.isArray(props?.watch("result_text")) &&

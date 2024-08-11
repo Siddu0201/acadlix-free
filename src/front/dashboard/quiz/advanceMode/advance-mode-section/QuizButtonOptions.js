@@ -208,6 +208,19 @@ const QuizButtonOptions = (props) => {
   };
 
   const handleBackClick = () => {
+    if(props?.first){
+      props?.setValue(
+        "subjects",
+        props?.watch("subjects")?.map((s, s_index) => {
+          if (s_index === props?.s_index - 1) {
+            s.selected = true;
+          } else {
+            s.selected = false;
+          }
+          return s;
+        })
+      );
+    }
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
@@ -333,7 +346,7 @@ const QuizButtonOptions = (props) => {
             variant="contained"
             color="primary"
             onClick={handleBackClick}
-            disabled={props?.first}
+            disabled={props?.watch("quiz_timing_type") === "subject_wise_time" ? props?.first : props?.first && props?.first_subject}
             sx={{
               margin: `4px!important`,
               borderRadius: 0,
