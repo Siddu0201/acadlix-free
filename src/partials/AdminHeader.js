@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -25,6 +25,7 @@ const AdminHeader = () => {
     setAnchorElNav(null);
   };
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -143,7 +144,13 @@ const AdminHeader = () => {
                 >
                   {menus.length > 0 &&
                     menus.map((menu, index) => (
-                      <MenuItem key={index} onClick={handleCloseNavMenu} sx={{
+                      <MenuItem 
+                        key={index}
+                        onClick={() => {
+                          navigate(menu?.path);
+                          handleCloseNavMenu();
+                        }} 
+                        sx={{
                         paddingX: 2,
                         paddingY: 1
                       }}>
@@ -151,8 +158,8 @@ const AdminHeader = () => {
                           key={index}
                           variant={location.pathname.startsWith(menu?.path) ? "contained" :"text"}
                           sx={{ display: "block" }}
-                          LinkComponent={Link}
-                          to={menu?.path}
+                          // LinkComponent={Link}
+                          // to={menu?.path}
                         >
                           {menu?.name}
                         </Button>

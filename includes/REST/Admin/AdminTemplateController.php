@@ -3,11 +3,6 @@
 namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
-use WP_REST_Request;
-use Yuvayana\Acadlix\Models\Quiz;
-use Yuvayana\Acadlix\Models\Category;
-use Yuvayana\Acadlix\Models\Language;
-use Illuminate\Contracts\Database\Query\Builder;
 use Yuvayana\Acadlix\Models\Template;
 
 if ( ! defined( 'ABSPATH' ) ) {

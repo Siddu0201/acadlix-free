@@ -23,6 +23,9 @@ import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerShee
 import Provider from "../provider/Provider";
 import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
 import AdminHome from "./views/home/AdminHome";
+import Paragraph from "./views/paragraph/Paragraph";
+import CreateParagraph from "./views/paragraph/CreateParagraph";
+import EditParagraph from "./views/paragraph/EditParagraph";
 
 const AppAdmin = () => {
   return (
@@ -55,6 +58,11 @@ const AppAdmin = () => {
                   </Route>
                   <Route path=":quiz_id/leaderboard">
                     <Route index element={<QuizLeaderboard />} />
+                  </Route>
+                  <Route path=":quiz_id/paragraph">
+                    <Route index element={<Paragraph />} />
+                    <Route path="create" element={<CreateParagraph />} />
+                    <Route path="edit/:paragraph_id" element={<EditParagraph />} />
                   </Route>
                 </Route>
                 <Route path="/course" element={<div>{<Course />}</div>} />

@@ -202,6 +202,8 @@ const QuizContent = (props) => {
                 Number(question?.different_incorrect_msg)
               ),
               hint_enabled: Boolean(Number(question?.hint_enabled)),
+              paragraph_enabled: Boolean(Number(question?.paragraph_enabled)),
+              paragraph_id: question?.paragraph_id,
               answer_type: question?.answer_type,
               time: props?.quiz?.quiz_time * 1000,
               bookmark: false,
@@ -228,6 +230,7 @@ const QuizContent = (props) => {
                     language_name: lang?.language?.language_name,
                     default: Boolean(Number(lang?.default)),
                     selected: Boolean(Number(lang?.default)),
+                    paragraph: parse(question?.paragraph?.paragraph_languages?.find(p => p?.language_id === lang?.language_id)?.content ?? "") ?? "",
                     question: parse(lang?.question),
                     correct_msg: parse(lang?.correct_msg),
                     incorrect_msg: parse(lang?.incorrect_msg),

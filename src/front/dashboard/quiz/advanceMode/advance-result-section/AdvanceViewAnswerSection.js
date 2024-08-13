@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box, Button, Card, Typography } from "@mui/material";
+import { Box, Button, Card, Divider, Typography } from "@mui/material";
 import React from "react";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
 import TypeMultipleChoice from "../../questionTypes/TypeMultipleChoice";
@@ -12,6 +12,7 @@ import TypeRange from "../../questionTypes/TypeRange";
 import AdvanceQuestionStatusSection from "./AdvanceQuestionStatusSection";
 import AdvanceQuestionSubjectAndPointSection from "./AdvanceQuestionSubjectAndPointSection";
 import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
+import AdvanceLanguageSection from "./AdvanceLanguageSection";
 
 const AdvanceViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -314,6 +315,11 @@ const ViewQuestionSection = (props) => {
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
+        {
+          props?.watch("multi_language") && 
+          props?.question?.selected &&
+          <AdvanceLanguageSection {...props} />
+        }
         <AdvanceQuestionSubjectAndPointSection {...props} />
 
         {props?.question?.language?.length > 0 &&
@@ -323,12 +329,22 @@ const ViewQuestionSection = (props) => {
                 sx={{
                   padding: {
                     xs: 1,
-                    sm: 2
+                    sm: 2,
                   },
-                  marginBottom: 2,  
-                  display: props?.question?.selected && lang?.selected ? "block" : "none",
+                  marginBottom: 2,
+                  display:
+                    props?.question?.selected && lang?.selected
+                      ? "block"
+                      : "none",
                 }}
               >
+                {props?.question?.paragraph_enabled &&
+                  props?.question?.paragraph_id !== null && (
+                    <Box>
+                      <Typography component="div">{lang?.paragraph}</Typography>
+                      <Divider />
+                    </Box>
+                  )}
                 <Typography component="div">{lang?.question}</Typography>
                 {answerType(lang, lang_index)}
               </Card>
@@ -368,7 +384,9 @@ const ViewQuestionSection = (props) => {
         </Box>
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
-            <Box key={index}>
+            <Box key={index} sx={{
+              display: lang?.selected ? "" : "none"
+            }}>
               {props?.question?.result?.solved_count ? (
                 props?.question?.result?.correct_count ? (
                   <Box

@@ -24,10 +24,12 @@ if(!class_exists('Question')){
             "different_points_for_each_answer",
             "different_incorrect_msg",
             "hint_enabled",
+            "paragraph_enabled",
+            "paragraph_id",
             "answer_type",
         ];
 
-        protected $with = ['question_languages', 'subject'];
+        protected $with = ['question_languages', 'subject', 'paragraph'];
 
         public function quiz(){
             return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
@@ -39,6 +41,10 @@ if(!class_exists('Question')){
 
         public function question_languages(){
             return $this->hasMany(QuestionLang::class, 'question_id', 'id');
+        }
+
+        public function paragraph(){
+            return $this->belongsTo(Paragraph::class, 'paragraph_id', 'id');
         }
 
     }

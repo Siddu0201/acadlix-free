@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import React from "react";
 import TypeMultipleChoice from "../../questionTypes/TypeMultipleChoice";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
@@ -115,23 +115,45 @@ const QuizQuestion = (props) => {
       {props?.question?.language?.length > 0 &&
         props?.question?.language?.map((lang, lang_index) => (
           <React.Fragment key={lang_index}>
-            <Box
-              sx={{
-                display: lang?.selected ? "block" : "none",
-                padding: 1,
-                paddingX: 2,
-              }}
-            >
-              <Typography
-                component="div"
+            {lang?.selected && (
+              <Grid
+                container
                 sx={{
+                  padding: 1,
                   paddingX: 2,
                 }}
               >
-                {lang?.question}
-              </Typography>
-              {answerType(lang, lang_index)}
-            </Box>
+                {props?.question?.paragraph_enabled &&
+                  props?.question?.paragraph_id !== null && (
+                    <Grid item xs={12} md={6} sx={{
+                      borderRight: `1px solid grey`,
+                      paddingRight: 1,
+                    }}>
+                      <Typography component="div">{lang?.paragraph}</Typography>
+                    </Grid>
+                  )}
+                <Grid
+                  item
+                  xs={12}
+                  md={
+                    props?.question?.paragraph_enabled &&
+                    props?.question?.paragraph_id !== null
+                      ? 6
+                      : 12
+                  }
+                >
+                  <Typography
+                    component="div"
+                    sx={{
+                      paddingX: 2,
+                    }}
+                  >
+                    {lang?.question}
+                  </Typography>
+                  {answerType(lang, lang_index)}
+                </Grid>
+              </Grid>
+            )}
           </React.Fragment>
         ))}
     </Box>

@@ -43,12 +43,12 @@ export const DeleteStatisticById = () => {
     });
 }
 
-export const GetStatisticById = (statistic_ref_id = '') => {
+export const GetStatisticById = (quiz_id ='',statistic_ref_id = '') => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getStatisticById", statistic_ref_id],
+        queryKey: ["getStatisticById", quiz_id, statistic_ref_id],
         queryFn: () => {
-            return instance.get(`${base}/answersheet/${statistic_ref_id}`);
+            return instance.get(`${base}/${quiz_id}/answersheet/${statistic_ref_id}`);
         }
     });
 }

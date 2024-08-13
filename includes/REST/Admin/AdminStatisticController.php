@@ -55,13 +55,18 @@ class AdminStatisticController {
         );
 
         register_rest_route(
-            $this->namespace, '/' . $this->base . '/answersheet/(?P<statistic_ref_id>[\d]+)',
+            $this->namespace, '/' . $this->base . '/(?P<quiz_id>[\d]+)/answersheet/(?P<statistic_ref_id>[\d]+)',
             [
                 [
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => [ $this, 'get_statistic_by_id' ],
                     'permission_callback' => [ $this, 'check_permission' ],
                     'args' => array(
+                        'quiz_id' => array(
+                          'validate_callback' => function($param, $request, $key) {
+                            return is_numeric( $param );
+                          }
+                        ),
                         'statistic_ref_id' => array(
                           'validate_callback' => function($param, $request, $key) {
                             return is_numeric( $param );
@@ -95,8 +100,10 @@ class AdminStatisticController {
 
     public function get_statistic_by_id($request){
         $res = [];
+        $quiz_id = $request['quiz_id'];
         $id = $request['statistic_ref_id'];
         $stat_ref = StatisticRef::find($id);
+        $res['quiz'] = Quiz::find($quiz_id);
         $res['statistic_ref'] = $stat_ref;
         $res['statistic'] = $stat_ref->statistics()->with("question")->get();
         return rest_ensure_response( $res );

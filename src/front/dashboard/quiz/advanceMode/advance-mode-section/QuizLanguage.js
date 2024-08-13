@@ -9,17 +9,40 @@ import {
 } from "@mui/material";
 
 const QuizLanguage = (props) => {
-  const selectedQuestion = props?.watch("questions")?.filter(q => q?.selected)?.[0];
-  const selectedQuestionIndex = props?.watch("questions")?.findIndex(q => q?.selected);
+  const selectedQuestion = props?.watch("questions")?.find((q) => q?.selected);
   const handleLanguageChange = (e) => {
-    props?.setValue(`questions.${selectedQuestionIndex}.language`, selectedQuestion?.language?.map((l) => {
-      if(e?.target?.value === l?.language_id){
-        l.selected = true;
-      }else{
-        l.selected = false;
-      }
-      return l;
-    }));
+    props?.setValue(
+      `questions`,
+      props?.watch(`questions`)?.map((q) => {
+        let selectedLang = q?.language?.find(
+          (l) => l?.language_id === e?.target?.value
+        );
+        let selectedLangIndex = q?.language?.findIndex(
+          (l) => l?.language_id === e?.target?.value
+        );
+
+        if (selectedLangIndex !== -1 && selectedLang?.question?.length > 0) {
+          q?.language?.map((l, l_index) => {
+            if (l_index === selectedLangIndex) {
+              l.selected = true;
+            } else {
+              l.selected = false;
+            }
+            return l;
+          });
+        } else {
+          q?.language?.map((l) => {
+            if (l?.default) {
+              l.selected = true;
+            } else {
+              l.selected = false;
+            }
+            return l;
+          });
+        }
+        return q;
+      })
+    );
   };
 
   return (
@@ -60,7 +83,10 @@ const QuizLanguage = (props) => {
             id="demo-select-small"
             variant="outlined"
             displayEmpty
-            value={selectedQuestion?.language?.filter(d => d?.selected)?.[0]?.language_id ?? null}
+            value={
+              selectedQuestion?.language?.filter((d) => d?.selected)?.[0]
+                ?.language_id ?? null
+            }
             onChange={handleLanguageChange}
             sx={{
               borderRadius: 0,
@@ -83,11 +109,15 @@ const QuizLanguage = (props) => {
           >
             {selectedQuestion?.language?.length > 0 &&
               selectedQuestion?.language?.map((lang, lang_index) => (
-                <MenuItem key={lang_index} value={lang?.language_id}
+                <MenuItem
+                  key={lang_index}
+                  value={lang?.language_id}
                   sx={{
                     display: lang?.question?.length > 0 ? "" : "none",
                   }}
-                >{lang?.language_name}</MenuItem>
+                >
+                  {lang?.language_name}
+                </MenuItem>
               ))}
           </Select>
         </FormControl>

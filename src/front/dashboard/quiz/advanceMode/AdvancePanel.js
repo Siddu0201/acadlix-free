@@ -93,7 +93,7 @@ const AdvancePanel = (props) => {
             ))}
         <QuizSubsection {...props} />
         <QuizQuestionTypeAndMarks {...props} />
-        <QuizLanguage {...props} />
+        {props?.watch("multi_language") && <QuizLanguage {...props} />}
         {props?.watch("subjects")?.length > 0 &&
           props?.watch("subjects")?.map((s, s_index) => (
             <Box

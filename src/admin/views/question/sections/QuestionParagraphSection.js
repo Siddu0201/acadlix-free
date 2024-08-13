@@ -1,0 +1,94 @@
+import {
+  Autocomplete,
+  Card,
+  CardContent,
+  CardHeader,
+  FormControlLabel,
+  Grid,
+  TextField,
+} from "@mui/material";
+import React from "react";
+import CustomSwitch from "../../../../components/CustomSwitch";
+
+const QuestionParagraphSection = (props) => {
+  return (
+    <Grid item xs={12} sm={12}>
+      <Card>
+        <CardHeader
+          title="Paragraph Options"
+          titleTypographyProps={{
+            sx: {
+              fontWeight: 500,
+              color: "black",
+            },
+          }}
+        />
+        <CardContent>
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={4}>
+              <FormControlLabel
+                control={
+                  <CustomSwitch
+                    checked={props?.watch("paragraph_enabled")}
+                    onChange={(e) => {
+                      props?.setValue("paragraph_enabled", e?.target?.checked, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                }
+                label="Enable Paragraph"
+              />
+            </Grid>
+            {props?.watch("paragraph_enabled") && (
+              <Grid item xs={12} sm={4}>
+                <Autocomplete
+                  fullWidth
+                  size="small"
+                  value={
+                    props?.watch("paragraph_id") !== null
+                      ? props?.paragraphs.filter(
+                          (option) =>
+                            props?.watch("paragraph_id") === option?.id
+                        )?.[0]
+                      : null
+                  }
+                  options={props?.paragraphs ? props?.paragraphs : []}
+                  getOptionLabel={(option) => option?.title || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option?.id === value?.id
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "spoc_gender",
+                      }}
+                      label="Select Paragraph"
+                      InputProps={{
+                        ...params.InputProps,
+                      }}
+                    />
+                  )}
+                  onChange={(_, newValue) => {
+                    props?.setValue("paragraph_id", newValue?.id ?? null, {
+                      shouldDirty: true,
+                    });
+                  }}
+                />
+                {Boolean(props?.formState?.errors?.paragraph_id) && (
+                  <Typography component="p" color="error">
+                    {props?.formState?.errors?.paragraph_id?.message}
+                  </Typography>
+                )}
+              </Grid>
+            )}
+          </Grid>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+};
+
+export default QuestionParagraphSection;

@@ -2,20 +2,15 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 
 const ResultTextSection = (props) => {
-  const findResultIndex = (result_array = [], percent = 0) => {
-    let index = -1;
-    let diff = 999999;
-
-    for(let i = 0; i < result_array?.length; i++){
-      let v = Number(result_array?.[i]?.percent);
-
-      if ((percent >= v) && ((percent - v) < diff)) {
-          diff = percent - v;
-          index = i;
-      }
+  const getGradeText = (result_array = [], percent = 0) => {
+    const sortedGrades = result_array.sort((a, b) => b.percent - a.percent);
+    
+    for (let i = 0; i < sortedGrades.length; i++) {
+        if (percent >= sortedGrades[i].percent) {
+            return sortedGrades[i].text;
+        }
     }
-
-    return index;
+    return ;
   }
 
   return (
@@ -28,7 +23,7 @@ const ResultTextSection = (props) => {
         {
           props?.watch("percent_based_result_text")
           ?
-          props?.watch("result_text")?.[findResultIndex(props?.watch("result_text"), props?.percent)]?.text
+          getGradeText(props?.watch("result_text"), props?.percent)
           :
           props?.watch("result_text")
         }

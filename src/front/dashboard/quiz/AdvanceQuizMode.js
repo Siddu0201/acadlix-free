@@ -10,6 +10,7 @@ import Ssc from "./advanceMode/Ssc";
 import Instruction1 from "./advanceMode/advance-instruction-section/Instruction1";
 import Instruction2 from "./advanceMode/advance-instruction-section/Instruction2";
 import AdvanceResultSection from "./advanceMode/advance-result-section/AdvanceResultSection";
+import QuizError from "./QuizError";
 
 const AdvanceQuizMode = (props) => {
   const colorCode = {
@@ -215,22 +216,25 @@ const AdvanceQuizMode = (props) => {
     }
   };
   const current_date = new Date();
-  const ExpireDate = () => <Alert severity="error">Quiz has expired</Alert>;
-  const NonLoggedIn = () => <Alert severity="error">You are not allowed to access this page</Alert>;
 
   if (
     props?.watch("set_start_date") &&
     current_date < props?.watch("start_date")
   ) {
-    return <NotStarted {...props} />;
+    return (
+      <QuizError
+        code="404"
+        message={`Quiz will start on ${props?.watch("start_date")} `}
+      />
+    );
   }
 
   if (props?.watch("set_end_date") && current_date > props?.watch("end_date")) {
-    return <ExpireDate />;
+    return <QuizError code="404" message="Quiz has expired." />;
   }
 
-  if(props?.watch("user_id") == 0){
-    return <NonLoggedIn />;
+  if (props?.watch("user_id") == 0) {
+    return <QuizError code="401" message="You are not allowed to access this page." />;
   }
 
   return (
@@ -256,14 +260,6 @@ const AdvanceQuizMode = (props) => {
         <AdvanceResultSection {...props} colorCode={colorCode} />
       )}
     </>
-  );
-};
-
-const NotStarted = (props) => {
-  return (
-    <Alert severity="error">{`Quiz will start on ${props?.watch(
-      "start_date"
-    )} `}</Alert>
   );
 };
 

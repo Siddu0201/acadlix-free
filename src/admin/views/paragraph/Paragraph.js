@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Dialog,
   FormControl,
   FormHelperText,
   Grid,
@@ -14,199 +13,111 @@ import {
   Select,
   Tooltip,
   Typography,
-  styled,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  DeleteBulkQuiz,
-  DeleteQuizById,
-  GetQuizes,
-} from "../../../requests/admin/AdminQuizRequest";
-import { FaEdit, FaParagraph, FaQuestion, FaTrash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import CategoryModel from "./actions/CategoryModel";
-import { LuFileBarChart2, LuFileClock } from "react-icons/lu";
-import { FaRankingStar } from "react-icons/fa6";
-import SubjectTimeModel from "./actions/SubjectTimeModel";
+import { Link, useParams } from "react-router-dom";
+import {
+  DeleteBulkParagraph,
+  DeleteQuizParagraphById,
+  GetQuizParagraphs,
+} from "../../../requests/admin/AdminParagraphRequest";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { TiArrowLeftThick } from "react-icons/ti";
 
-const Quiz = () => {
+const Paragraph = () => {
   const methods = useForm({
     defaultValues: {
       rows: [],
-      quiz_ids: [],
+      paragraph_ids: [],
       action: "",
-      category_model: false,
-      subject_model: false,
-      quiz_id: null,
     },
   });
+
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 10,
     page: 0,
   });
 
-  const deleteMutation = DeleteQuizById();
-  const deleteQuizById = (id) => {
-    if (confirm("Do you really want to delete this quiz?")) {
+  const { quiz_id } = useParams();
+
+  const deleteMutation = DeleteQuizParagraphById(quiz_id);
+  const deleteParagraphById = (id) => {
+    if (confirm("Do you really want to delete this paragraph?")) {
       deleteMutation?.mutate(id);
     }
   };
 
-  const handleSubjectTime = (id) => {
-    methods?.setValue("quiz_id", id, { shouldDirty: true });
-    methods?.setValue("subject_model", true, { shouldDirty: true });
-  };
-
-  const handleSubjectTimeClose = () => {
-    methods?.setValue("quiz_id", null, { shouldDirty: true });
-    methods?.setValue("subject_model", false, { shouldDirty: true });
-  };
-
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
+    { field: "title", headerName: "Title", flex: 1, minWidth: 130 },
+    { field: "content", headerName: "Content", flex: 2, minWidth: 180 },
     {
-      field: "mode",
-      headerName: "Mode",
+      field: "no_of_questions",
+      headerName: "No. of assigned questions",
       flex: 1,
-      minWidth: 100,
-      renderCell: (params) => {
-        return <>{getMode(params?.value)}</>;
-      },
-    },
-    { field: "category", headerName: "Category", flex: 1, minWidth: 100 },
-    { field: "shortcode", headerName: "Shortcode", flex: 1, minWidth: 100 },
-    {
-      field: "total_questions",
-      headerName: "Total Questions",
-      flex: 1,
-      minWidth: 80,
+      minWidth: 130,
     },
     {
       field: "action",
       headerName: "Action",
       sortable: false,
-      flex: 3,
-      minWidth: 180,
+      flex: 1,
+      minWidth: 80,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title="Edit Quiz" arrow>
+            <Tooltip title="Edit Paragraph" arrow>
               <IconButton
                 aria-label="edit"
                 size="small"
                 color="primary"
                 LinkComponent={Link}
-                to={`/quiz/edit/${params?.id}`}
+                to={`/quiz/${quiz_id}/paragraph/edit/${params?.id}`}
               >
                 <FaEdit />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Quiz" arrow>
+            <Tooltip title="Delete Paragraph" arrow>
               <IconButton
                 aria-label="delete"
                 size="small"
                 color="error"
-                onClick={deleteQuizById.bind(this, params?.id)}
+                onClick={deleteParagraphById.bind(this, params?.id)}
               >
                 <FaTrash />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Questions" arrow>
-              <IconButton
-                aria-label="questions"
-                size="small"
-                color="secondary"
-                LinkComponent={Link}
-                to={`/quiz/${params?.id}/question`}
-              >
-                <FaQuestion />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Paragraphs" arrow>
-              <IconButton
-                aria-label="paragraphs"
-                size="small"
-                color="grey"
-                LinkComponent={Link}
-                to={`/quiz/${params?.id}/paragraph`}
-              >
-                <FaParagraph />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Result" arrow>
-              <IconButton
-                aria-label="result"
-                size="small"
-                color="info"
-                LinkComponent={Link}
-                to={`/quiz/${params?.id}/result`}
-              >
-                <LuFileBarChart2 />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Leaderboard" arrow>
-              <IconButton
-                aria-label="leaderboard"
-                size="small"
-                color="warning"
-                LinkComponent={Link}
-                to={`/quiz/${params?.id}/leaderboard`}
-              >
-                <FaRankingStar />
-              </IconButton>
-            </Tooltip>
-            {params?.row?.mode === "advance_mode" && (
-              <Tooltip title="Subject Timing" arrow>
-                <IconButton
-                  aria-label="subject_time"
-                  size="small"
-                  color="grey"
-                  onClick={handleSubjectTime.bind(this, params?.id)}
-                >
-                  <LuFileClock />
-                </IconButton>
-              </Tooltip>
-            )}
           </>
         );
       },
     },
   ];
 
-  const { isFetching, data } = GetQuizes(
+  const { isFetching, data } = GetQuizParagraphs(
+    quiz_id,
     paginationModel?.page,
     paginationModel?.pageSize
   );
 
-  const getMode = (mode = "") => {
-    switch (mode) {
-      case "normal":
-        return "Normal";
-      case "check_and_continue":
-        return "Check and continue";
-      case "question_below_each_other":
-        return "Question below each other";
-      case "advance_mode":
-        return "Advance mode";
-      default:
-        return "Normal";
-    }
-  };
+  function strip(html) {
+    let doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  }
 
-  React.useMemo(() => {
-    if (Array.isArray(data?.data?.quizes)) {
-      const newRows = data?.data?.quizes?.map((quiz) => {
+  React.useLayoutEffect(() => {
+    if (Array.isArray(data?.data?.paragraphs)) {
+      const newRows = data?.data?.paragraphs?.map((paragraph) => {
+        let default_lang = paragraph?.paragraph_languages?.find(l => l?.default);
         return {
-          id: quiz?.id,
-          title: quiz?.title,
-          mode: quiz?.mode,
-          category: quiz?.category?.category_name ?? "Uncategorized",
-          shortcode: `[Acadlix_Quiz ${quiz?.id}]`,
-          total_questions: quiz?.questions_count,
+          id: paragraph?.id,
+          title:
+            paragraph?.title?.length > 50
+              ? strip(paragraph?.title?.substring(0, 50))
+              : strip(paragraph?.title),
+          content: default_lang?.content?.length > 50 ? strip(default_lang?.content?.substring(0,50)) : strip(default_lang?.content),
+          no_of_questions: paragraph?.questions_count ?? 0,
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
@@ -222,25 +133,21 @@ const Quiz = () => {
     return rowCountRef.current;
   }, [data?.data?.total]);
 
-  const deleteBulkMutation = DeleteBulkQuiz();
+  const deleteBulkMutation = DeleteBulkParagraph(quiz_id);
   const handleBulkDelete = () => {
-    if (confirm("Do you really want to delete these quizzes?")) {
+    if (confirm("Do you really want to delete these paragraphs?")) {
       deleteBulkMutation?.mutate(
         {
-          quiz_ids: methods?.watch("quiz_ids"),
+          paragraph_ids: methods?.watch("paragraph_ids"),
         },
         {
           onSettled: () => {
             methods?.setValue("action", "", { shouldDirty: true });
-            methods?.setValue("quiz_ids", [], { shouldDirty: true });
+            methods?.setValue("paragraph_ids", [], { shouldDirty: true });
           },
         }
       );
     }
-  };
-
-  const handleCategory = () => {
-    methods?.setValue("category_model", true, { shouldDirty: true });
   };
 
   const handleActionChange = (e) => {
@@ -250,13 +157,10 @@ const Quiz = () => {
   const handleBulkAction = () => {
     if (methods?.watch("action")) {
       methods?.clearErrors("action");
-      if (methods?.watch("quiz_ids")?.length > 0) {
+      if (methods?.watch("paragraph_ids")?.length > 0) {
         switch (methods?.watch("action")) {
           case "delete":
             handleBulkDelete();
-            break;
-          case "set_category":
-            handleCategory();
             break;
           default:
         }
@@ -273,42 +177,8 @@ const Quiz = () => {
     }
   };
 
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-    "& .MuiPaper-root": {
-      width: "100%",
-    },
-  }));
-
-  const handleClose = () => {
-    methods?.setValue("category_model", false, { shouldDirty: true });
-  };
-
   return (
     <Box>
-      {!isFetching && (
-        <BootstrapDialog
-          open={methods?.watch("category_model")}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <CategoryModel {...methods} handleClose={handleClose} />
-        </BootstrapDialog>
-      )}
-      <BootstrapDialog
-        open={methods?.watch("subject_model")}
-        onClose={handleSubjectTimeClose}
-        aria-labelledby="alert-subject-title"
-        aria-describedby="alert-subject-description"
-      >
-        <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
-      </BootstrapDialog>
       <Grid
         container
         rowSpacing={3}
@@ -317,6 +187,20 @@ const Quiz = () => {
           padding: 4,
         }}
       >
+        <Grid item xs={12} lg={12}>
+          <Button
+            variant="contained"
+            startIcon={<TiArrowLeftThick />}
+            size="medium"
+            sx={{
+              width: "fit-content",
+            }}
+            LinkComponent={Link}
+            to="/quiz"
+          >
+            Back
+          </Button>
+        </Grid>
         <Grid item xs={12} lg={12}>
           <Card>
             <CardHeader
@@ -332,12 +216,12 @@ const Quiz = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Quiz Overview
+                    Paragraph Overview
                   </Typography>
                   <Button
                     variant="contained"
                     LinkComponent={Link}
-                    to="/quiz/create"
+                    to={`/quiz/${quiz_id}/paragraph/create`}
                     sx={{
                       marginRight: 2,
                     }}
@@ -383,7 +267,6 @@ const Quiz = () => {
                     >
                       <MenuItem value="">Bulk Actions</MenuItem>
                       <MenuItem value="delete">Delete</MenuItem>
-                      <MenuItem value="set_category">Set Category</MenuItem>
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -417,11 +300,11 @@ const Quiz = () => {
                   checkboxSelection
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
-                    methods?.setValue("quiz_ids", data, {
+                    methods?.setValue("paragraph_ids", data, {
                       shouldDirty: true,
                     });
                   }}
-                  rowSelectionModel={methods?.watch("quiz_ids")}
+                  rowSelectionModel={methods?.watch("paragraph_ids")}
                   autoHeight
                   loading={isFetching}
                   columnVisibilityModel={{
@@ -444,4 +327,4 @@ const Quiz = () => {
   );
 };
 
-export default Quiz;
+export default Paragraph;

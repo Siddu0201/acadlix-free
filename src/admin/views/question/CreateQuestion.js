@@ -21,6 +21,7 @@ const CreateQuestion = () => {
         quiz={data?.data?.quiz}
         question={null}
         subjects={data?.data?.subjects}
+        paragraphs={data?.data?.paragraphs}
      /> 
     </>
   )

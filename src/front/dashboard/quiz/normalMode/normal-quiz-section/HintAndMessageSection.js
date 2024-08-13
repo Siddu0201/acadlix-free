@@ -5,7 +5,9 @@ import React from "react";
 const HintAndMessageSection = (props) => {
   const theme = useTheme();
   return (
-    <Box>
+    <Box sx={{
+      display: props?.lang?.selected ? "" : "none",
+    }}>
       <Box
         sx={{
           border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,

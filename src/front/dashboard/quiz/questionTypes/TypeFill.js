@@ -162,9 +162,8 @@ const TypeFill = (props) => {
               ?.map((data, index) => {
                 if (found?.includes(data)) {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <CustomTextField
-                        key={index}
                         variant="standard"
                         size="small"
                         sx={{
@@ -175,7 +174,7 @@ const TypeFill = (props) => {
                         value={getAnswerData(found[j])}
                         disabled
                       />
-                    </>
+                    </React.Fragment>
                   );
                 }
                 return data;

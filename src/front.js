@@ -7,7 +7,7 @@ const shortcode = document.querySelectorAll('.acadlix-front');
 if(shortcode.length > 0){
     shortcode.forEach((short, index) => {
         let shortcodeRoot = createRoot(short);
-        shortcodeRoot.render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} />);
+        shortcodeRoot.render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} advance={false} />);
     });
 }
 

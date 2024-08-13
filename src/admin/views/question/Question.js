@@ -30,6 +30,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
+import ParagraphModel from "./actions/ParagraphModel";
 
 const Question = () => {
   const methods = useForm({
@@ -38,6 +39,7 @@ const Question = () => {
       question_ids: [],
       action: "",
       subject_and_point_model: false,
+      paragraph_model: false,
     },
   });
   const [paginationModel, setPaginationModel] = React.useState({
@@ -108,7 +110,7 @@ const Question = () => {
     paginationModel?.pageSize
   );
 
-  const getType = (type = '') => {
+  const getType = (type = "") => {
     switch (type) {
       case "singleChoice":
         return "Single Choice";
@@ -131,12 +133,12 @@ const Question = () => {
       default:
         return "";
     }
-  }
+  };
 
-  function strip(html){
-    let doc = new DOMParser().parseFromString(html, 'text/html');
+  function strip(html) {
+    let doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
- }
+  }
 
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.questions)) {
@@ -145,9 +147,11 @@ const Question = () => {
           id: question?.id,
           title: question?.title
             ? question?.title
-            : strip(question?.question_languages
-                ?.filter((d) => d?.default)?.[0]
-                ?.question.substring(0, 50)),
+            : strip(
+                question?.question_languages
+                  ?.filter((d) => d?.default)?.[0]
+                  ?.question.substring(0, 50)
+              ),
           type: getType(question?.answer_type),
           subject: question?.subject?.subject_name ?? "Uncategorized",
           points: question?.points,
@@ -188,6 +192,10 @@ const Question = () => {
     methods?.setValue("subject_and_point_model", true, { shouldDirty: true });
   };
 
+  const handleSetParagraph = () => {
+    methods?.setValue("paragraph_model", true, { shouldDirty: true });
+  }
+
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
   };
@@ -202,6 +210,9 @@ const Question = () => {
             break;
           case "set_subject_and_points":
             handleSetSubjectAndPoints();
+            break;
+          case "set_paragraph":
+            handleSetParagraph();
             break;
           default:
         }
@@ -230,25 +241,44 @@ const Question = () => {
     },
   }));
 
-  const handleClose = () => {
+  const handleSubjectClose = () => {
     methods?.setValue("subject_and_point_model", false, { shouldDirty: true });
   };
+
+  const handleParagraphClose = () => {
+    methods?.setValue("paragraph_model", false, { shouldDirty: true });
+  }
 
   return (
     <Box>
       {!isFetching && (
-        <BootstrapDialog
-          open={methods?.watch("subject_and_point_model")}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <SubjectAndPointModel
-            {...methods}
-            handleClose={handleClose}
-            quiz_id={quiz_id}
-          />
-        </BootstrapDialog>
+        <>
+          <BootstrapDialog
+            open={methods?.watch("subject_and_point_model")}
+            onClose={handleSubjectClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <SubjectAndPointModel
+              {...methods}
+              handleClose={handleSubjectClose}
+              quiz_id={quiz_id}
+            />
+          </BootstrapDialog>
+          <BootstrapDialog
+            open={methods?.watch("paragraph_model")}
+            onClose={handleParagraphClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <ParagraphModel
+              {...methods}
+              handleClose={handleParagraphClose}
+              quiz_id={quiz_id}
+              paragraphs={data?.data?.paragraphs}
+            />
+          </BootstrapDialog>
+        </>
       )}
       <Grid
         container
@@ -342,6 +372,9 @@ const Question = () => {
                           <MenuItem value="delete">Delete</MenuItem>
                           <MenuItem value="set_subject_and_points">
                             Set Subject and Points
+                          </MenuItem>
+                          <MenuItem value="set_paragraph">
+                            Set Paragraph
                           </MenuItem>
                         </Select>
                         <FormHelperText>

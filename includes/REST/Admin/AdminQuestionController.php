@@ -4,7 +4,7 @@ namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 use WP_REST_Request;
-use Yuvayana\Acadlix\Helper\Helper;
+use Yuvayana\Acadlix\Models\Paragraph;
 use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Subject;
@@ -128,6 +128,18 @@ class AdminQuestionController
         
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/set-paragraph',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_set_paragraph'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+        
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/delete-bulk-question',
             [
                 [
@@ -153,6 +165,7 @@ class AdminQuestionController
         $question = Question::where('quiz_id', $quiz_id)->where('online', 1)->orderBy('created_at', 'desc');
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
+        $res['paragraphs'] = Paragraph::where('quiz_id', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -162,13 +175,13 @@ class AdminQuestionController
         $quiz_id = $request['quiz_id'];
         $res['subjects'] = Subject::get();
         $res['quiz'] = Quiz::withCount('questions')->find($quiz_id);
+        $res['paragraphs'] = Paragraph::where('quiz_id', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
     public function post_create_quiz_question($request)
     {
         $res = [];
-        $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
         $question = Question::create($params);
         $question->question_languages()->createMany($params['language']);
@@ -184,6 +197,7 @@ class AdminQuestionController
         $res['question'] = Question::find($question_id);
         $res['subjects'] = Subject::get();
         $res['quiz'] = Quiz::withCount('questions')->find($quiz_id);
+        $res['paragraphs'] = Paragraph::where('quiz_id', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -225,6 +239,21 @@ class AdminQuestionController
                     'subject_id' => !empty($params['subject_id']) ? $params['subject_id'] : $question->subject_id,
                     'points' => !empty($params['points']) ? $params['points'] : $question->points,
                     'negative_points' => !empty($params['negative_points']) ? $params['negative_points'] : $question->negative_points,
+                ]);
+            }
+        }
+        return rest_ensure_response( $res );
+    }
+
+    public function post_set_paragraph($request){
+        $res = [];
+        $params = $request->get_json_params();
+        if(count($params['question_ids']) > 0){
+            foreach($params['question_ids'] as $question_id){
+                $question = Question::find($question_id);
+                $question->update([
+                    'paragraph_enabled' => $params['paragraph_enabled'],
+                    'paragraph_id' => $params['paragraph_id'],
                 ]);
             }
         }

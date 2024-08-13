@@ -19,6 +19,8 @@ use Yuvayana\Acadlix\Migrations\ToplistMigration;
 use Yuvayana\Acadlix\Migrations\QuizAttemptMigration;
 use Yuvayana\Acadlix\Migrations\AnswerOptionMigration;
 use Yuvayana\Acadlix\Migrations\QuizOptionMigration;
+use Yuvayana\Acadlix\Migrations\ParagraphMigration;
+use Yuvayana\Acadlix\Migrations\ParagraphLangMigration;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -44,6 +46,8 @@ if(!class_exists('Migration')){
             QuizAttemptMigration::class,
             AnswerOptionMigration::class,
             QuizOptionMigration::class,
+            ParagraphMigration::class,
+            ParagraphLangMigration::class,
         ];
     
     

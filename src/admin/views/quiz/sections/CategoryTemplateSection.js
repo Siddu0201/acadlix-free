@@ -154,6 +154,7 @@ const CategoryTemplateSection = (props) => {
                   />
                 )}
                 onChange={(_, newValue) => {
+                  props?.clearErrors("category_id");
                   props?.setValue("category_id", newValue?.id ?? null, {
                     shouldDirty: true,
                   });

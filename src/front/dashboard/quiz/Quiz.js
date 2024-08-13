@@ -12,7 +12,7 @@ const Quiz = (props) => {
   const {isFetching, data} = GetFrontQuizById(props?.quiz_id);
 
   if(isFetching){
-    return <Loader />
+    return <Loader />;
   }
 
   return (

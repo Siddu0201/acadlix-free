@@ -21,6 +21,7 @@ const EditQuestion = () => {
         quiz={data?.data?.quiz}
         question={data?.data?.question}
         subjects={data?.data?.subjects}
+        paragraphs={data?.data?.paragraphs}
       /> 
     </>
   )

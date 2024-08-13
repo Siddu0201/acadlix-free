@@ -26,6 +26,7 @@ if(!class_exists('QuestionMigration')){
                     $table->boolean('different_points_for_each_answer')->default(0);
                     $table->boolean('different_incorrect_msg')->default(0);
                     $table->boolean('hint_enabled')->default(0);
+                    $table->boolean('paragraph_enabled')->default(0);
                     $table->string('answer_type');
                     $table->timestamps();
                 });
@@ -35,6 +36,24 @@ if(!class_exists('QuestionMigration')){
         public function down()
         {
             Manager::schema()->dropIfExists('question');
+        }
+
+        public function update()
+        {
+            if(!Manager::schema()->hasColumn('question', 'paragraph_enabled')){
+                Manager::schema()->table('question', function($table){
+                    $table->after('hint_enabled', function($table){
+                        $table->boolean('paragraph_enabled')->default(0);
+                    });
+                });
+            }
+            if(!Manager::schema()->hasColumn('question', 'paragraph_id')){
+                Manager::schema()->table('question', function($table){
+                    $table->after('paragraph_enabled', function($table){
+                        $table->foreignId('paragraph_id')->nullable()->constrained('paragraph')->nullOnDelete();
+                    });
+                });
+            }
         }
     }
 }

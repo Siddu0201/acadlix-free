@@ -21,6 +21,7 @@ import {
   UpdateQuizQuestionById,
 } from "../../../requests/admin/AdminQuestionRequest";
 import { TiArrowLeftThick } from "react-icons/ti";
+import QuestionParagraphSection from "./sections/QuestionParagraphSection";
 
 const QuestionContent = (props) => {
   const getAnswerData = (type) => {
@@ -122,6 +123,8 @@ const QuestionContent = (props) => {
       different_incorrect_msg:
         Boolean(Number(props?.question?.different_incorrect_msg)),
       hint_enabled: Boolean(Number(props?.question?.hint_enabled)),
+      paragraph_enabled: Boolean(Number(props?.question?.paragraph_enabled)),
+      paragraph_id: props?.question?.paragraph_id,
       answer_type: props?.question?.answer_type ?? "singleChoice",
       language: props?.create
         ? props?.quiz?.quiz_languages?.map((lang) => {
@@ -336,16 +339,10 @@ const QuestionContent = (props) => {
     }
   };
 
-  // console.log(methods.watch());
+  console.log(methods.watch());
   // console.log(props?.quiz);
 
   const navigate = useNavigate();
-  // const validateInput = () => {
-  //   let questionIndex = methods?.watch("language")?.findIndex(d => d?.default);
-  //   if(methods?.watch(`language.${questionIndex}.question`)){
-  //     methods?.setError(`language.${questionIndex}.question`, { type: "custom", message: "Question is required"})
-  //   }
-  // }
   const createMutation = PostCreateQuizQuestion(props?.quiz_id);
   const updateMutation = UpdateQuizQuestionById(
     props?.quiz_id,
@@ -414,6 +411,8 @@ const QuestionContent = (props) => {
           </Grid>
           {/* General section contain title, points, subject, topic */}
           <GeneralOptionSection {...methods} {...props} />
+
+          <QuestionParagraphSection {...methods} {...props} />
 
           {/* Language section */}
           {

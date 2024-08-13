@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import React from "react";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
@@ -12,6 +12,7 @@ import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import CustomButton from "../normal-quiz-component/CustomButton";
 import QuestionStatusSection from "./QuestionStatusSection";
+import LanguageSection from "./LanguageSection";
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -300,6 +301,7 @@ const ViewQuestionSection = (props) => {
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
+        {props?.watch("multi_language") && <LanguageSection {...props} />}
         <QuestionSubjectAndPointSection {...props} />
 
         {props?.question?.language?.length > 0 &&
@@ -307,9 +309,16 @@ const ViewQuestionSection = (props) => {
             <React.Fragment key={lang_index}>
               <Box
                 sx={{
-                  display: props?.question?.selected ? "block" : "none",
+                  display: lang?.selected ? "block" : "none",
                 }}
               >
+                {props?.question?.paragraph_enabled &&
+                  props?.question?.paragraph_id !== null && (
+                    <Box>
+                      <Typography component="div">{lang?.paragraph}</Typography>
+                      <Divider />
+                    </Box>
+                  )}
                 <Typography component="div">{lang?.question}</Typography>
                 {answerType(lang, lang_index)}
               </Box>
@@ -349,7 +358,9 @@ const ViewQuestionSection = (props) => {
         </Box>
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
-            <Box key={index}>
+            <Box key={index} sx={{
+              display: lang?.selected ? "" : "none"
+            }}>
               {props?.question?.result?.solved_count ? (
                 props?.question?.result?.correct_count ? (
                   <Box
@@ -370,7 +381,9 @@ const ViewQuestionSection = (props) => {
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography component="div">{lang?.correct_msg}</Typography>
+                      <Typography component="div">
+                        {lang?.correct_msg}
+                      </Typography>
                     </Box>
                   </Box>
                 ) : (

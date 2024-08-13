@@ -64,7 +64,7 @@ const SubjectTimeModel = (props) => {
   return (
     <>
       <DialogTitle id="alert-subject-title" sx={{ m: 0, p: 2 }}>
-        Set Subject Wise Timing
+        Set Subject Wise Actions
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -87,7 +87,7 @@ const SubjectTimeModel = (props) => {
           <CircularProgress size={20} />
         ) : (
           <Grid container gap={4}>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={12}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -116,7 +116,7 @@ const SubjectTimeModel = (props) => {
                 label="Subject wise timing"
               />
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={12}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -132,7 +132,7 @@ const SubjectTimeModel = (props) => {
                     }}
                   />
                 }
-                label="Subject wise question"
+                label="Subject wise specific number of questions"
               />
             </Grid>
             <Grid item xs={12} lg={12}>

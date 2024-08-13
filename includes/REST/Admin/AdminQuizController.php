@@ -80,7 +80,7 @@ class AdminQuizController {
                 [
                     'methods'             => WP_REST_Server::DELETABLE,
                     'callback'            => [ $this, 'delete_quiz' ],
-                    'permission_callback' => function (WP_REST_REQUEST $request){
+                    'permission_callback' => function (WP_REST_Request $request){
                         if(wp_verify_nonce( $request->get_header('X-WP-Nonce'), 'wp_rest' )){
                             return true;
                         }

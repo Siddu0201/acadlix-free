@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import parse from "html-react-parser";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import TypeSingleChoice from "../../../../front/dashboard/quiz/questionTypes/TypeSingleChoice";
 import TypeMultipleChoice from "../../../../front/dashboard/quiz/questionTypes/TypeMultipleChoice";
 import TypeTrueFalse from "../../../../front/dashboard/quiz/questionTypes/TypeTrueFalse";
@@ -12,6 +12,7 @@ import TypeNumerical from "../../../../front/dashboard/quiz/questionTypes/TypeNu
 import TypeRange from "../../../../front/dashboard/quiz/questionTypes/TypeRange";
 import QuestionSubjectAndPointSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
 import QuestionStatusSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
+import LanguageSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
 
 const AnswerSheetContent = (props) => {
   const theme = useTheme();
@@ -21,6 +22,7 @@ const AnswerSheetContent = (props) => {
       show_per_question_time: true,
       display_subject: true,
       view_answer: true,
+      multi_language: Boolean(Number(props?.quiz?.multi_language)),
       questions: props?.statistic?.map((stat) => {
         return {
           selected: true,
@@ -40,6 +42,8 @@ const AnswerSheetContent = (props) => {
             Number(stat?.question?.different_incorrect_msg)
           ),
           hint_enabled: Boolean(Number(stat?.question?.hint_enabled)),
+          paragraph_enabled: Boolean(Number(stat?.question?.paragraph_enabled)),
+          paragraph_id: stat?.question?.paragraph_id,
           answer_type: stat?.question?.answer_type,
           result: {
             correct_count: stat?.correct_count,
@@ -56,6 +60,7 @@ const AnswerSheetContent = (props) => {
                 language_name: lang?.language?.language_name,
                 default: Boolean(Number(lang?.default)),
                 selected: Boolean(Number(lang?.default)),
+                paragraph: parse(stat?.question?.paragraph?.paragraph_languages?.find(p => p?.language_id === lang?.language_id)?.content ?? "") ?? "",
                 question: parse(lang?.question),
                 correct_msg: parse(lang?.correct_msg),
                 incorrect_msg: parse(lang?.incorrect_msg),
@@ -100,6 +105,8 @@ const AnswerSheetContent = (props) => {
       }),
     },
   });
+
+  console.log(methods?.watch());
 
   let questionRef = React.useRef([]);
 
@@ -351,6 +358,7 @@ const ViewQuestionSection = (props) => {
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
+        {props?.watch("multi_language") && <LanguageSection {...props} />}
         <QuestionSubjectAndPointSection {...props} />
 
         {props?.question?.language?.length > 0 &&
@@ -358,9 +366,16 @@ const ViewQuestionSection = (props) => {
             <React.Fragment key={lang_index}>
               <Box
                 sx={{
-                  display: props?.question?.selected ? "block" : "none",
+                  display: lang?.selected ? "block" : "none",
                 }}
               >
+                {props?.question?.paragraph_enabled &&
+                  props?.question?.paragraph_id !== null && (
+                    <Box>
+                      <Typography component="div">{lang?.paragraph}</Typography>
+                      <Divider />
+                    </Box>
+                  )}
                 <Typography component="div">{lang?.question}</Typography>
                 {answerType(lang, lang_index)}
               </Box>
@@ -369,7 +384,9 @@ const ViewQuestionSection = (props) => {
         <QuestionStatusSection {...props} />
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
-            <Box key={index}>
+            <Box key={index} sx={{
+              display: lang?.selected ? "" : "none"
+            }}>
               {props?.question?.result?.solved_count ? (
                 props?.question?.result?.correct_count ? (
                   <Box

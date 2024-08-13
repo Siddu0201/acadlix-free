@@ -110,6 +110,23 @@ export const PostSetSubjectAndPoint = (quiz_id = '') => {
     })
 }
 
+export const PostSetParagraph = (quiz_id = '') => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${quiz_id}/question/set-paragraph`, data);
+        },
+        onSuccess: () => {
+            toast.success('Paragraph updated successfully.');
+            queryClient.invalidateQueries({
+                queryKey: ["getQuizQuestion"]
+            });
+        },
+    })
+}
+
 
 export const DeleteBulkQuestion= (quiz_id = '') => {
     const instance = useInstance();

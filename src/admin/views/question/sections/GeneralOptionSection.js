@@ -158,6 +158,7 @@ const GeneralOptionSection = (props) => {
                   />
                 )}
                 onChange={(_, newValue) => {
+                  props?.clearErrors("subject_id");
                   props?.setValue("subject_id", newValue?.id ?? null, {
                     shouldDirty: true,
                   });

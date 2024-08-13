@@ -466,67 +466,6 @@ const Result = (props) => {
           />
         </GridItem1>
 
-        {/* Used to show rank  */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("show_rank") ?? false}
-                onChange={(e) => {
-                  props?.setValue("show_rank", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                  props?.setValue(
-                    "leaderboard_user_can_apply_multiple_times",
-                    true,
-                    {shouldDirty: true}
-                  );
-                  props?.setValue(
-                    "leaderboard_apply_multiple_number_of_times",
-                    0,
-                    {shouldDirty: true}
-                  );
-                }}
-              />
-            }
-            label="Show Rank"
-            disabled={!props?.watch("leaderboard")}
-          />
-        </GridItem1>
-
-         {/* Option for Result Comparision with top 5 student    */}
-         <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={
-                  props?.watch("result_comparision_with_topper") ??
-                  false
-                }
-                onChange={(e) => {
-                  props?.setValue(
-                    "result_comparision_with_topper",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                  props?.setValue(
-                    "leaderboard_user_can_apply_multiple_times",
-                    true,
-                    {shouldDirty: true}
-                  );
-                  props?.setValue(
-                    "leaderboard_apply_multiple_number_of_times",
-                    0,
-                    {shouldDirty: true}
-                  );
-                }}
-              />
-            }
-            label="Result Comparison with topper"
-            disabled={!props?.watch("leaderboard")}
-          />
-        </GridItem1>
-
         {/* Total number of entries to be displayed in leaderboard */}
         <GridItem1 xs={12} lg={4}>
           <CustomTextField
@@ -555,6 +494,66 @@ const Result = (props) => {
           />
         </GridItem1>
 
+        {/* Used to show rank  */}
+        <GridItem1 xs={12} lg={4}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={props?.watch("show_rank") ?? false}
+                onChange={(e) => {
+                  props?.setValue("show_rank", e?.target?.checked, {
+                    shouldDirty: true,
+                  });
+                  props?.setValue(
+                    "leaderboard_user_can_apply_multiple_times",
+                    true,
+                    { shouldDirty: true }
+                  );
+                  props?.setValue(
+                    "leaderboard_apply_multiple_number_of_times",
+                    0,
+                    { shouldDirty: true }
+                  );
+                }}
+              />
+            }
+            label="Show Rank"
+            disabled={!props?.watch("leaderboard")}
+          />
+        </GridItem1>
+
+        {/* Option for Result Comparision with top 5 student    */}
+        <GridItem1 xs={12} lg={4}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={
+                  props?.watch("result_comparision_with_topper") ?? false
+                }
+                onChange={(e) => {
+                  props?.setValue(
+                    "result_comparision_with_topper",
+                    e?.target?.checked,
+                    { shouldDirty: true }
+                  );
+                  props?.setValue(
+                    "leaderboard_user_can_apply_multiple_times",
+                    true,
+                    { shouldDirty: true }
+                  );
+                  props?.setValue(
+                    "leaderboard_apply_multiple_number_of_times",
+                    0,
+                    { shouldDirty: true }
+                  );
+                }}
+              />
+            }
+            label="Result Comparison with topper"
+            disabled={!props?.watch("leaderboard")}
+          />
+        </GridItem1>
+
         {/* User can apply multiple times for leaderboard */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
@@ -574,7 +573,11 @@ const Result = (props) => {
               />
             }
             label="User can apply multiple times"
-            disabled={!props?.watch("leaderboard") || props?.watch("show_rank") || props?.watch("result_comparision_with_topper")}
+            disabled={
+              !props?.watch("leaderboard") ||
+              props?.watch("show_rank") ||
+              props?.watch("result_comparision_with_topper")
+            }
           />
         </GridItem1>
 
@@ -597,8 +600,9 @@ const Result = (props) => {
             }}
             disabled={
               !props?.watch("leaderboard") ||
-              !props?.watch("leaderboard_user_can_apply_multiple_times")
-              || props?.watch("show_rank") || props?.watch("result_comparision_with_topper")
+              !props?.watch("leaderboard_user_can_apply_multiple_times") ||
+              props?.watch("show_rank") ||
+              props?.watch("result_comparision_with_topper")
             }
             sx={{
               "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
@@ -723,11 +727,19 @@ const Result = (props) => {
         >
           <textarea
             id="result_text"
-            value={typeof props?.watch("result_text") === 'string' ? props?.watch("result_text") : ""}
+            value={
+              typeof props?.watch("result_text") === "string"
+                ? props?.watch("result_text")
+                : ""
+            }
             style={{
               width: "100%",
             }}
-            onChange={(e) => props?.setValue("result_text", e?.target?.value, {shouldDirty: true})}
+            onChange={(e) =>
+              props?.setValue("result_text", e?.target?.value, {
+                shouldDirty: true,
+              })
+            }
           />
         </GridItem1>
         {Array.isArray(props?.watch("result_text")) &&

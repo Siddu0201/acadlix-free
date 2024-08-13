@@ -21,12 +21,18 @@ const DescriptionSection = (props) => {
     return <ExpireDate />;
   }
 
+  const rand = function () {
+    return Math.random().toString(36).substring(2); // remove `0.`
+  };
+
   const handleStart = () => {
     props?.setValue("prerequisite_error_msg", "", { shouldDirty: true });
     if (props?.watch("mode") === "advance_mode") {
+      const token = rand() + rand();
+      localStorage?.setItem("acadlix_advance_quiz_token", token);
       const link = `${
         acadlixOptions?.advance_quiz_url
-      }#/advance-quiz/${props?.watch("id")}`;
+      }#/advance-quiz/${props?.watch("id")}/${token}`;
       window.open(
         link,
         "_blank",
@@ -52,7 +58,10 @@ const DescriptionSection = (props) => {
         { user_id: props?.watch("user_id") },
         {
           onSuccess: (data) => {
-            if (data?.data?.prerequisite?.length > 0 || data?.data?.user_allowed_attempt_error) {
+            if (
+              data?.data?.prerequisite?.length > 0 ||
+              data?.data?.user_allowed_attempt_error
+            ) {
               let msg = "";
               data?.data?.prerequisite?.forEach((d, index) => {
                 msg += `<b>${d?.title} (with min ${d?.min_percentage}%)</b>`;
@@ -60,7 +69,7 @@ const DescriptionSection = (props) => {
                   msg += ", ";
                 }
               });
-              if(data?.data?.prerequisite?.length > 0){
+              if (data?.data?.prerequisite?.length > 0) {
                 props?.setValue(
                   "prerequisite_error_msg",
                   `You must finish ${msg} to proceed.`,
@@ -68,7 +77,7 @@ const DescriptionSection = (props) => {
                 );
               }
 
-              if(data?.data?.user_allowed_attempt_error){
+              if (data?.data?.user_allowed_attempt_error) {
                 props?.setValue(
                   "user_allowed_attempt_error",
                   data?.data?.user_allowed_attempt_error,
@@ -105,7 +114,11 @@ const DescriptionSection = (props) => {
         </Typography>
       )}
 
-      <Typography variant="body1" sx={{ marginY: "9px !important" }} component="div">
+      <Typography
+        variant="body1"
+        sx={{ marginY: "9px !important" }}
+        component="div"
+      >
         {props?.watch("description")}
       </Typography>
       <CustomButton
@@ -117,7 +130,10 @@ const DescriptionSection = (props) => {
           ) {
             props?.setValue("login_model", true, { shouldDirty: true });
           } else {
-            if (props?.watch("prerequisite")|| props?.watch("per_user_allowed_attempt") > 0) {
+            if (
+              props?.watch("prerequisite") ||
+              props?.watch("per_user_allowed_attempt") > 0
+            ) {
               handleStartWithPrerequisite();
             } else {
               handleStart();

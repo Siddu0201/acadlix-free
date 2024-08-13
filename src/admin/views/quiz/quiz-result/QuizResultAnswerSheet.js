@@ -7,7 +7,7 @@ import { TiArrowLeftThick } from "react-icons/ti";
 
 const QuizResultAnswerSheet = () => {
   const { statistic_ref_id, quiz_id } = useParams();
-  const { data, isFetching } = GetStatisticById(statistic_ref_id);
+  const { data, isFetching } = GetStatisticById(quiz_id, statistic_ref_id);
 
   const colorCode = {
     button: "#13455b",
@@ -70,6 +70,7 @@ const QuizResultAnswerSheet = () => {
                 <AnswerSheetContent
                   statistic={data?.data?.statistic}
                   colorCode={colorCode}
+                  quiz={data?.data?.quiz}
                 />
               )}
             </CardContent>

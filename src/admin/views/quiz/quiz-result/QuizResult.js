@@ -13,9 +13,15 @@ import {
   IconButton,
   Tooltip,
   Button,
+  Chip,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { FaCheckCircle, FaExpandArrowsAlt, FaTimesCircle, FaTrash } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaExpandArrowsAlt,
+  FaTimesCircle,
+  FaTrash,
+} from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -65,12 +71,7 @@ const QuizResult = () => {
       minWidth: 100,
       renderCell: (params) => {
         return (
-          <>
-            {params?.row?.percentage >= params?.row?.minimum_percent_to_pass
-              ? <FaCheckCircle style={{ color: theme?.palette?.success?.main }} />
-              : <FaTimesCircle style={{ color: theme?.palette?.error?.main }} />
-              }
-          </>
+          <Chip color={params?.value === "Pass" ? "success" : "error"} label={params?.value} />
         );
       },
     },
@@ -120,20 +121,18 @@ const QuizResult = () => {
       const newRows = data?.data?.stat_refs?.map((stat_ref) => {
         return {
           id: stat_ref?.id,
-          name: `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})` ,
-          date: dateFormat(
-            stat_ref?.created_at,
-            "mmm dd, yyyy hh:MM:ss TT"
-          ),
+          name: `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})`,
+          date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
           score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
           minimum_percent_to_pass: data?.data?.quiz?.minimum_percent_to_pass,
+          status: stat_ref?.result?.toFixed(2) >= data?.data?.quiz?.minimum_percent_to_pass ? "Pass" : "Fail",
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
     }
-    if(data?.data?.quiz){
-      methods.setValue("title", data?.data?.quiz?.title, {shouldDirty: true});
+    if (data?.data?.quiz) {
+      methods.setValue("title", data?.data?.quiz?.title, { shouldDirty: true });
     }
   }, [data]);
 
