@@ -42,7 +42,7 @@ const QuizSidebar = (props) => {
         total += props?.isDesktop ? 32 : 46;
       }
       setRemainingHeight(total);
-    },100);
+    }, 100);
 
     let top = 0;
     if (acadlixOptions?.is_admin_bar_showing) {

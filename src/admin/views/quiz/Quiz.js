@@ -31,6 +31,7 @@ import CategoryModel from "./actions/CategoryModel";
 import { LuFileBarChart2, LuFileClock } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
 import SubjectTimeModel from "./actions/SubjectTimeModel";
+import { MdFileCopy } from "react-icons/md";
 
 const Quiz = () => {
   const methods = useForm({
@@ -77,8 +78,31 @@ const Quiz = () => {
         return <>{getMode(params?.value)}</>;
       },
     },
-    { field: "category", headerName: "Category", flex: 1, minWidth: 100 },
-    { field: "shortcode", headerName: "Shortcode", flex: 1, minWidth: 100 },
+    { field: "category", headerName: "Category", flex: 1, minWidth: 90 },
+    {
+      field: "shortcode",
+      headerName: "Shortcode",
+      flex: 1,
+      minWidth: 130,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Tooltip title="Copy Shortcode" arrow>
+              <IconButton
+                onClick={() => {
+                  navigator.clipboard.writeText(params.value);
+                  toast.success("Shortcode copied to clipboard!");
+                }}
+                size="small"
+              >
+                <MdFileCopy />
+              </IconButton>
+            </Tooltip>
+            {params.value}
+          </div>
+        );
+      },
+    },
     {
       field: "total_questions",
       headerName: "Total Questions",

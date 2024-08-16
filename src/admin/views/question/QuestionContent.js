@@ -7,7 +7,7 @@ import MultipleChoice from "./types/MultipleChoice";
 import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
 import MatrixSortingChoice from "./types/MatrixSortingChoice";
-import { Button, Grid, Box, Typography } from "@mui/material";
+import { Button, Grid, Box, Typography, CircularProgress } from "@mui/material";
 import { useForm } from "react-hook-form";
 import LanguageSection from "./sections/LanguageSection";
 import GeneralOptionSection from "./sections/GeneralOptionSection";
@@ -117,11 +117,15 @@ const QuestionContent = (props) => {
       multi_language: Boolean(Number(props?.quiz?.multi_language)),
       title: props?.question?.title ?? "",
       points: props?.question?.points ? Number(props?.question?.points) : 1,
-      negative_points: props?.question?.negative_points? Number(props?.question?.negative_points) : 0,
-      different_points_for_each_answer:
-        Boolean(Number(props?.question?.different_points_for_each_answer)),
-      different_incorrect_msg:
-        Boolean(Number(props?.question?.different_incorrect_msg)),
+      negative_points: props?.question?.negative_points
+        ? Number(props?.question?.negative_points)
+        : 0,
+      different_points_for_each_answer: Boolean(
+        Number(props?.question?.different_points_for_each_answer)
+      ),
+      different_incorrect_msg: Boolean(
+        Number(props?.question?.different_incorrect_msg)
+      ),
       hint_enabled: Boolean(Number(props?.question?.hint_enabled)),
       paragraph_enabled: Boolean(Number(props?.question?.paragraph_enabled)),
       paragraph_id: props?.question?.paragraph_id,
@@ -415,14 +419,13 @@ const QuestionContent = (props) => {
           <QuestionParagraphSection {...methods} {...props} />
 
           {/* Language section */}
-          {
-            Boolean(props?.quiz?.multi_language) &&
+          {Boolean(props?.quiz?.multi_language) && (
             <LanguageSection
               {...methods}
               removeEditor={removeEditor}
               getAnswerData={getAnswerData}
             />
-          }
+          )}
 
           {methods?.watch("language")?.length > 0 &&
             methods?.watch("language")?.map((lang, index) => (
@@ -480,18 +483,21 @@ const QuestionContent = (props) => {
             ))}
 
           {/* Language section */}
-          {
-            Boolean(props?.quiz?.multi_language) &&
+          {Boolean(props?.quiz?.multi_language) && (
             <LanguageSection
               {...methods}
               removeEditor={removeEditor}
               getAnswerData={getAnswerData}
             />
-          }
+          )}
 
           <Grid item xs={12} sm={12}>
             <Button variant="contained" type="submit">
-              Save Change
+              {createMutation?.isPending || updateMutation?.isPending ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                "Save Change"
+              )}
             </Button>
           </Grid>
         </Grid>

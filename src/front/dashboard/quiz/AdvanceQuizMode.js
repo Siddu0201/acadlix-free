@@ -123,6 +123,94 @@ const AdvanceQuizMode = (props) => {
     overview_button_active_border: "#7DB1D3",
   };
 
+  const ntaColorCode = {
+    background: "#fff",
+    // Top home
+    top_home_background: "#286090",
+    top_home_icon_color: "#ffffff",
+    top_home_icon_background: "#00a651",
+    top_home_text_color: "#ffffff",
+    //Logo
+    logo_background: "#fff",
+    // User
+    user_background: "#f3f3f3",
+    user_icon_color: "#555555",
+    user_data_color: "#f7931e",
+    timer_chip_background: "#0098DA",
+    timer_chip_color: "#ffffff",
+    // Language
+    language_background: "#4e85c5",
+    langauge_text_color: "#ffffff",
+    language_dropdown_background: "#fff",
+    language_dropdown_color: "#3c4447",
+    // Subsection
+    subsection_background: "#ffffff",
+    subsection_border: "#ebebea",
+    subsection_button_active_background: "#4e85c5",
+    subsection_button_active_color: "#ffffff",
+    subsection_button_background: "#ffffff",
+    subsection_button_color: "#5bb1fa",
+    subsection_button_border: "#ebebea",
+    //Sidebar
+    sidebar_background: "#fff",
+    //Sidebar Status types
+    sidebar_status_background: "#fff",
+    answered_background: "#2cc100",
+    not_answered_background: "#e84500",
+    not_visited_background1: "#f0f0f0",
+    not_visited_background2: "#bebdba",
+    not_visited_border: "#8e8e8e",
+    not_visited_color: "#474747",
+    marked_for_review_background: "#674787",
+    marked_for_review_color: "#ffffff",
+    answered_and_marked_for_review_background: "#674787",
+    sidebar_overview_background: "#fff",
+    // Question
+    border_top_bottom: "#808080",
+    icon_color: "#0054ff",
+    // Button options
+    border_top: "#808080",
+    save_next_button_background: "#5cb85c",
+    save_next_button_border: "#4cae4c",
+    save_next_button_hover_background: "#449d44",
+    save_next_button_hover_border: "#398439",
+    save_next_button_color: "#fff",
+    clear_back_color: "#333",
+    clear_back_background: "#fff",
+    clear_back_border: "#ccc",
+    clear_back_hover_background: "#e6e6e6",
+    clear_back_hover_border: "#adadad",
+    save_review_button_background: "#f0ad4e",
+    save_review_button_border: "#eea236",
+    save_review_button_hover_background: "#ec971f",
+    save_review_button_hover_border: "#d58512",
+    save_review_button_color: "#fff",
+    review_next_button_background: "#337ab7",
+    review_next_button_border: "#2e6da4",
+    review_next_button_hover_background: "#286090",
+    review_next_button_hover_border: "#204d74",
+    review_next_button_color: "#fff",
+    // Submit button options
+    submit_top_border: "#ddd",
+    submit_background: '#f5f5f5',
+    submit_button_background: "#5cb85c",
+    submit_button_border: "#4cae4c",
+    submit_button_hover_background: "#449d44",
+    submit_button_hover_border: "#398439",
+    submit_button_color: "#fff",
+    next_back_color: "#333",
+    next_back_background: "#fff",
+    next_back_border: "#ccc",
+    next_back_hover_background: "#e6e6e6",
+    next_back_hover_border: "#adadad",
+    // Final
+    final_button_color: "#333",
+    final_button_border: "#ccc",
+    final_button_background: "#fff",
+    final_button_hover_border: "#adadad",
+    final_button_hover_background: "#e6e6e6",
+  }
+
   const [isOpen, setIsOpen] = React.useState(true);
   const [instructionIsOpen, setInstructionIsOpen] = React.useState(true);
   const sidebarWidth = 250;
@@ -197,7 +285,7 @@ const AdvanceQuizMode = (props) => {
         return (
           <Ssc
             {...props}
-            colorCode={colorCode}
+            colorCode={ntaColorCode}
             sidebarWidth={sidebarWidth}
             isOpen={isOpen}
             handleToggle={handleToggle}

@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CircularProgress, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import CategoryTemplateSection from "./sections/CategoryTemplateSection";
@@ -328,7 +328,12 @@ const QuizContent = (props) => {
                 <Grid container spacing={{xs: 1, sm: 3}}>
                   <Grid item xs={5} sm={3}>
                     <Button variant="contained" size="medium" type="submit">
-                      Save Change
+                      {
+                        createMutation?.isPending || updateMutation?.isPending ?
+                        <CircularProgress color="inherit" size={20} />
+                        :
+                        "Save Change"
+                      }
                     </Button>
                   </Grid>
                   <Grid item xs={7} sm={9}>

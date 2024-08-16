@@ -1,28 +1,12 @@
+import { Box } from "@mui/material";
 import React from "react";
-import { Box, Typography, Grid } from "@mui/material";
-import NotVisited from "../answer-type-buttons/NotVisited";
-import NotAnswered from "../answer-type-buttons/NotAnswered";
-import Answered from "../answer-type-buttons/Answered";
-import Marked from "../answer-type-buttons/Marked";
-import MarkedAndAnswered from "../answer-type-buttons/MarkedAndAnswered";
+import NtaMarkedAndAnswered from "../type-button/NtaMarkedAndAnswered";
+import NtaMarked from "../type-button/NtaMarked";
+import NtaAnswered from "../type-button/NtaAnswered";
+import NtaNotAnswered from "../type-button/NtaNotAnswered";
+import NtaNotVisited from "../type-button/NtaNotVisited";
 
-const QuizSidebarQuestionOverview = (props) => {
-  const idList = [
-    `acadlix_quiz_sidebar_status_types_${props?.s_index}`,
-    "acadlix_quiz_sidebar_section",
-    `acadlix_quiz_choose_question_${props?.s_index}`,
-  ];
-
-  const [height, setHeight] = React.useState(0);
-
-  React.useLayoutEffect(() => {
-    let total = 0;
-    idList.forEach((a, i) => {
-      total += document.getElementById(a)?.clientHeight ?? 0;
-    });
-    setHeight(() => total);
-  });
-
+const NtaSidebarQuestionOverview = (props) => {
   const handleClick = (id, event) => {
     props?.setValue(
       "questions",
@@ -48,93 +32,73 @@ const QuizSidebarQuestionOverview = (props) => {
   const getAnswerPallete = (question, i) => {
     if (question?.result?.solved_count && question?.review) {
       return (
-        <MarkedAndAnswered
+        <NtaMarkedAndAnswered
           {...props}
           index={question?.question_id}
           question={question}
-          large={true}
           parentBackground={props?.colorCode?.sidebar_overview_background}
           handleClick={handleClick}
         >
           {i + 1}
-        </MarkedAndAnswered>
+        </NtaMarkedAndAnswered>
       );
     } else if (!question?.result?.solved_count && question?.review) {
       return (
-        <Marked
+        <NtaMarked
           {...props}
           index={question?.question_id}
           question={question}
-          large={true}
           parentBackground={props?.colorCode?.sidebar_overview_background}
           handleClick={handleClick}
         >
           {i + 1}
-        </Marked>
+        </NtaMarked>
       );
     } else if (question?.result?.solved_count && !question?.review) {
       return (
-        <Answered
+        <NtaAnswered
           {...props}
           index={question?.question_id}
           question={question}
-          large={true}
           parentBackground={props?.colorCode?.sidebar_overview_background}
           handleClick={handleClick}
         >
           {i + 1}
-        </Answered>
+        </NtaAnswered>
       );
     } else if (question?.visit && !question?.result?.solved_count) {
       return (
-        <NotAnswered
+        <NtaNotAnswered
           {...props}
           index={question?.question_id}
           question={question}
-          large={true}
           parentBackground={props?.colorCode?.sidebar_overview_background}
           handleClick={handleClick}
         >
           {i + 1}
-        </NotAnswered>
+        </NtaNotAnswered>
       );
     } else if (!question?.visit) {
       return (
-        <NotVisited
+        <NtaNotVisited
           {...props}
           index={question?.question_id}
           question={question}
-          large={true}
           parentBackground={props?.colorCode?.sidebar_overview_background}
           handleClick={handleClick}
         >
           {i + 1}
-        </NotVisited>
+        </NtaNotVisited>
       );
     }
   };
-  
   return (
     <Box
       sx={{
-        backgroundColor: props?.colorCode?.sidebar_overview_background,
         display: props?.selected ? "" : "none",
       }}
       id="acadlix_quiz_sidebar_question_overview"
     >
-      <Box>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            padding: "0px 8px 0px 10px",
-            height: "26px",
-            lineHeight: "26px",
-          }}
-          id={`acadlix_quiz_choose_question_${props?.s_index}`}
-        >
-          <b>Choose a Question</b>
-        </Typography>
-      </Box>
       <Box
         sx={{
           position: "relative",
@@ -142,11 +106,12 @@ const QuizSidebarQuestionOverview = (props) => {
           overflowX: "hidden",
           right: "-17px",
           left: "0",
-          padding: "5px",
+          paddingX: 3,
+          paddingTop: 2,
           display: "grid",
-          gridTemplateColumns: "auto auto auto auto",
-          gridTemplateRows: "53px",
-          height: `calc(100% - ${height}px)`,
+          gridTemplateColumns: "auto auto auto auto auto auto auto",
+          gridTemplateRows: "30px",
+          height: `300px`,
         }}
       >
         {props
@@ -171,4 +136,4 @@ const QuizSidebarQuestionOverview = (props) => {
   );
 };
 
-export default QuizSidebarQuestionOverview;
+export default NtaSidebarQuestionOverview;

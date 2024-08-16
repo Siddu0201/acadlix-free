@@ -58,6 +58,7 @@ const TypeMultipleChoice = (props) => {
   return (
     <FormControl
       sx={{
+        flexDirection: props?.nta ? "row" : "column",
         width: "100%",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,

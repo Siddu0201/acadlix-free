@@ -93,6 +93,7 @@ const TypeSingleChoice = (props) => {
         name="radio-buttons-group"
         onChange={handleChange}
         sx={{
+          flexDirection: props?.nta ? "row" : "column",
           gap: props?.watch("mode") !== "advance_mode" ? "6px" : 0,
         }}
       >
