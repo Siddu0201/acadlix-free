@@ -88,8 +88,9 @@ const CategoryTemplateSection = (props) => {
                 ].includes(key)
               ) {
                 if (window.tinymce) {
-                  const editor = window.tinymce.get("description");
+                  const editor = window.tinymce.get(key);
                   if (editor && editor.getContent() !== value) {
+                    console.log(key, value);
                     editor.setContent(value || "");
                   }
                 }
