@@ -1,10 +1,9 @@
 import React from 'react'
+import Nta from './nta/Nta'
 
-const Jee = () => {
+const Jee = (props) => {
   return (
-    <div>
-      
-    </div>
+    <Nta {...props} />
   )
 }
 

@@ -10,10 +10,15 @@ const AdvanceResultSection = (props) => {
   return (
     <Box
       sx={{
+        width: {
+          lg: '1100px',
+          md: "930px",
+          xs: "100%"
+        },
         marginY: 1,
         marginX: {
+          sm: "auto",
           xs: 2,
-          sm: 4,
         },
       }}
     >

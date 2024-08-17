@@ -171,8 +171,8 @@ const QuizContent = (props) => {
       // Language setting
       multi_language: Boolean(Number(props?.quiz?.multi_language)),
       // Instruction settings
-      instruction1: props?.quiz?.instruction1,
-      instruction2: props?.quiz?.instruction2,
+      instruction1: parse(props?.quiz?.instruction1),
+      instruction2: parse(props?.quiz?.instruction2),
       // Question Section
       subjects: [],
       subject_times: props?.quiz?.subject_times ?? [],

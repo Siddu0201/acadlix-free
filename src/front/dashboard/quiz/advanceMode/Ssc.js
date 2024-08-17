@@ -1,9 +1,9 @@
 import React from 'react'
-import Nta from './nta/Nta'
+import AdvancePanel from './AdvancePanel'
 
 const Ssc = (props) => {
   return (
-    <Nta {...props} />
+    <AdvancePanel {...props} />
   )
 }
 

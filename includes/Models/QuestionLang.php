@@ -64,7 +64,7 @@ if(!class_exists('QuestionLang')){
                     $opt['option'] = $this->helper->renderShortCode($opt["option"]);
                     $answer_data[$answer_type][$okey] = $opt;
                 }
-                return json_encode($answer_data);
+                return wp_json_encode($answer_data);
 
             }
             return $value;

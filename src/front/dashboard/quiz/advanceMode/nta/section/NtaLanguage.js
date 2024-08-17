@@ -57,7 +57,7 @@ const NtaLanguage = (props) => {
             m: 1,
             minWidth: {
               xs: 100,
-              sm: 160,
+              sm: props?.watch("view_instruction1") ? 220 :160,
             },
           }}
           size="small"

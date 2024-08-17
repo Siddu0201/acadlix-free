@@ -11,6 +11,7 @@ import Instruction1 from "./advanceMode/advance-instruction-section/Instruction1
 import Instruction2 from "./advanceMode/advance-instruction-section/Instruction2";
 import AdvanceResultSection from "./advanceMode/advance-result-section/AdvanceResultSection";
 import QuizError from "./QuizError";
+import NtaInstruction from "./advanceMode/nta/instruction/NtaInstruction";
 
 const AdvanceQuizMode = (props) => {
   const colorCode = {
@@ -125,6 +126,12 @@ const AdvanceQuizMode = (props) => {
 
   const ntaColorCode = {
     background: "#fff",
+    instruction_general_instruction: "#012B55",
+    instruction_button_color: "#fff",
+    instruction_button_border: "#4cae4c",
+    instruction_button_background: "#5cb85c",
+    instruction_button_hover_border: "#398439",
+    instruction_button_hover_background: "#449d44",
     // Top home
     top_home_background: "#286090",
     top_home_icon_color: "#ffffff",
@@ -192,7 +199,7 @@ const AdvanceQuizMode = (props) => {
     review_next_button_color: "#fff",
     // Submit button options
     submit_top_border: "#ddd",
-    submit_background: '#f5f5f5',
+    submit_background: "#f5f5f5",
     submit_button_background: "#5cb85c",
     submit_button_border: "#4cae4c",
     submit_button_hover_background: "#449d44",
@@ -209,7 +216,7 @@ const AdvanceQuizMode = (props) => {
     final_button_background: "#fff",
     final_button_hover_border: "#adadad",
     final_button_hover_background: "#e6e6e6",
-  }
+  };
 
   const [isOpen, setIsOpen] = React.useState(true);
   const [instructionIsOpen, setInstructionIsOpen] = React.useState(true);
@@ -255,7 +262,7 @@ const AdvanceQuizMode = (props) => {
         return (
           <Jee
             {...props}
-            colorCode={colorCode}
+            colorCode={ntaColorCode}
             sidebarWidth={sidebarWidth}
             isOpen={isOpen}
             handleToggle={handleToggle}
@@ -285,7 +292,7 @@ const AdvanceQuizMode = (props) => {
         return (
           <Ssc
             {...props}
-            colorCode={ntaColorCode}
+            colorCode={colorCode}
             sidebarWidth={sidebarWidth}
             isOpen={isOpen}
             handleToggle={handleToggle}
@@ -299,6 +306,83 @@ const AdvanceQuizMode = (props) => {
             sidebarWidth={sidebarWidth}
             isOpen={isOpen}
             handleToggle={handleToggle}
+          />
+        );
+    }
+  };
+
+  const checkInstructionAdvanceMode = () => {
+    switch (props?.watch("advance_mode_type")) {
+      case "advance_panel":
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      case "gate":
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      case "ibps":
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      case "jee":
+        return (
+          <NtaInstruction
+            {...props}
+            colorCode={ntaColorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      case "railway":
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      case "sbi":
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      case "ssc":
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
+          />
+        );
+      default:
+        return (
+          <Instruction1
+            {...props}
+            colorCode={colorCode}
+            sidebarWidth={sidebarWidth}
+            instructionIsOpen={instructionIsOpen}
           />
         );
     }
@@ -322,19 +406,17 @@ const AdvanceQuizMode = (props) => {
   }
 
   if (props?.watch("user_id") == 0) {
-    return <QuizError code="401" message="You are not allowed to access this page." />;
+    return (
+      <QuizError
+        code="401"
+        message="You are not allowed to access this page."
+      />
+    );
   }
 
   return (
     <>
-      {props?.watch("view_instruction1") && (
-        <Instruction1
-          {...props}
-          colorCode={colorCode}
-          sidebarWidth={sidebarWidth}
-          instructionIsOpen={instructionIsOpen}
-        />
-      )}
+      {props?.watch("view_instruction1") && checkInstructionAdvanceMode()}
       {props?.watch("view_instruction2") && (
         <Instruction2
           {...props}
