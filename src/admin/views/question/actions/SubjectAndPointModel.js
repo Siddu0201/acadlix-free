@@ -10,6 +10,7 @@ import {
   IconButton,
   Paper,
   TextField,
+  Typography,
   styled,
 } from "@mui/material";
 import React from "react";

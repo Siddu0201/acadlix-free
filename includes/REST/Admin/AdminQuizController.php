@@ -295,7 +295,7 @@ class AdminQuizController {
         $params = $request->get_json_params();
         $quiz = Quiz::find($params['quiz_id']);
         $quiz->update([
-            'quiz_timing_type' => $params['quiz_timing_type'] ?? $quiz->quiz_timing_type,
+            'quiz_timing_type' => $params['quiz_timing_type'] ? $params['quiz_timing_type'] : $quiz->quiz_timing_type,
             'subject_wise_question' => $params['subject_wise_question'],
             'optional_subject' => $params['optional_subject']
         ]);

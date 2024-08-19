@@ -79,7 +79,7 @@ const TypeSortingChoice = (props) => {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
       }}

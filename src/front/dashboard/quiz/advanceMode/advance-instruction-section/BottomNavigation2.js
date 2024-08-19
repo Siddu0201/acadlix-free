@@ -69,27 +69,32 @@ const BottomNavigation2 = (props) => {
           paddingRight: "0.10rem !important",
         }}
       >
-        <Box
-          sx={{
-            marginTop: 2,
-            marginBottom: 4,
-          }}
-        >
-          <FormControlLabel
-            control={<Checkbox />}
-            checked={props?.watch("ready_to_begin")}
-            onChange={handlelabelChange}
-            componentsProps={{
-              typography: {
-                variant: "body2",
-                sx: {
-                  color: "black",
-                },
-              },
-            }}
-            label="I have read and understood the instructions. All computer hardware allotted to me are in proper working condition. I declare that I am not in possession of / not wearing / not carrying any prohibited gadget like mobile phone, bluetooth devices etc. /any prohibited material with me into the Examination Hall.I agree that in case of not adhering to the instructions, I shall be liable to be debarred from this Test and/or to disciplinary action, which may include ban from future Tests / Examinations."
-          />
-        </Box>
+        {props?.watch("languages")?.length > 0 &&
+          props?.watch("languages")?.map((l, index) => (
+            <Box
+              key={index}
+              sx={{
+                display: l?.selected ? "" : "none",
+                marginTop: 2,
+                marginBottom: 4,
+              }}
+            >
+              <FormControlLabel
+                control={<Checkbox />}
+                checked={props?.watch("ready_to_begin")}
+                onChange={handlelabelChange}
+                componentsProps={{
+                  typography: {
+                    variant: "body2",
+                    sx: {
+                      color: "black",
+                    },
+                  },
+                }}
+                label={l?.term_and_condition_text}
+              />
+            </Box>
+          ))}
         <Box
           sx={{
             display: "flex",

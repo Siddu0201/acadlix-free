@@ -37,6 +37,7 @@ if(!class_exists('Migration')){
             QuizMigration::class,
             QuizLangMigration::class,
             SubjectTimeMigration::class,
+            ParagraphMigration::class,
             QuestionMigration::class,
             QuestionLangMigration::class,
             PrerequisiteMigration::class,
@@ -46,7 +47,6 @@ if(!class_exists('Migration')){
             QuizAttemptMigration::class,
             AnswerOptionMigration::class,
             QuizOptionMigration::class,
-            ParagraphMigration::class,
             ParagraphLangMigration::class,
         ];
     

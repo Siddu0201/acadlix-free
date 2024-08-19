@@ -38,7 +38,17 @@ const Instruction1 = (props) => {
         }}
       >
         <SkyBlueBox {...props} data="Instructions" />
-        <MainArea {...props} remainingHeight={remainingHeight} instruction={props?.watch("instruction1")} />
+        {props?.watch("languages")?.length > 0 &&
+          props?.watch("languages")?.map((l, index) => (
+            <React.Fragment key={index}>
+              <MainArea
+                {...props}
+                language={l}
+                remainingHeight={remainingHeight}
+                instruction={l?.instruction1}
+              />
+            </React.Fragment>
+          ))}
         <BottomNavigation {...props} />
       </Box>
     </Box>

@@ -15,9 +15,9 @@ const NtaInstruction = (props) => {
     }
   }
 
-  const handleProceed = () => {
+  const handleProceed = (msg="") => {
     if(!props.watch("ready_to_begin")){
-      alert('Please accept term and condition before proceeding.');
+      alert(msg);
       return;
     }
     props?.setValue("view_instruction1", false, { shouldDirty: true });
@@ -51,69 +51,76 @@ const NtaInstruction = (props) => {
       <NtaTopHome {...props} />
       <NtaLogo {...props} />
       <NtaGeneralInstructionLanguage {...props} />
-      <Box
-        sx={{
-          width: {
-            lg: "1170px",
-            md: "900px",
-            sm: "750px",
-            xs: "100%",
-          },
-          marginX: "auto",
-          marginY: 4,
-        }}
-      >
-        {props?.watch("instruction1")}
-        <Box
-          sx={{
-            marginY: 4,
-          }}
-        >
-          <FormControlLabel
-            control={<Checkbox />}
-            checked={props?.watch("ready_to_begin")}
-            onChange={handlelabelChange}
-            componentsProps={{
-              typography: {
-                variant: "body2",
-                sx: {
-                  color: "black",
-                },
-              },
-            }}
-            label="I have read and understood the instructions. All computer hardware allotted to me are in proper working condition. I declare that I am not in possession of / not wearing / not carrying any prohibited gadget like mobile phone, bluetooth devices etc. /any prohibited material with me into the Examination Hall.I agree that in case of not adhering to the instructions, I shall be liable to be debarred from this Test and/or to disciplinary action, which may include ban from future Tests / Examinations."
-          />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={handleProceed}
+      {
+        props?.watch("languages")?.length > 0 &&
+        props?.watch("languages")?.map((l, index) => (
+          <Box
+            key={index}
             sx={{
-              fontWeight: "bold",
-              letterSpacing: "1.28px",
-              borderRadius: 0,
-              paddingX: 8,
-              border: `1px solid ${props?.colorCode?.instruction_button_border}`,
-              backgroundColor: props?.colorCode?.instruction_button_background,
-              color: props?.colorCode?.instruction_button_color,
-              ":hover, :focus": {
-                border: `1px solid ${props?.colorCode?.instruction_button_hover_border}`,
-                backgroundColor:
-                  props?.colorCode?.instruction_button_hover_background,
-                color: props?.colorCode?.instruction_button_color,
-                boxShadow: "none",
+              display: l?.selected ? "" : "none",
+              width: {
+                lg: "1170px",
+                md: "900px",
+                sm: "750px",
+                xs: "100%",
               },
+              marginX: "auto",
+              marginY: 4,
             }}
           >
-            PROCEED
-          </Button>
-        </Box>
-      </Box>
+            {l?.instruction1?.length > 0 ? l?.instruction1 : ""}
+            <Box
+              sx={{
+                marginY: 4,
+              }}
+            >
+              <FormControlLabel
+                control={<Checkbox />}
+                checked={props?.watch("ready_to_begin")}
+                onChange={handlelabelChange}
+                componentsProps={{
+                  typography: {
+                    variant: "body2",
+                    sx: {
+                      color: "black",
+                    },
+                  },
+                }}
+                label={l?.term_and_condition_text}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleProceed.bind(this, l?.term_and_condition_warning_text)}
+                sx={{
+                  fontWeight: "bold",
+                  letterSpacing: "1.28px",
+                  borderRadius: 0,
+                  paddingX: 8,
+                  border: `1px solid ${props?.colorCode?.instruction_button_border}`,
+                  backgroundColor: props?.colorCode?.instruction_button_background,
+                  color: props?.colorCode?.instruction_button_color,
+                  ":hover, :focus": {
+                    border: `1px solid ${props?.colorCode?.instruction_button_hover_border}`,
+                    backgroundColor:
+                      props?.colorCode?.instruction_button_hover_background,
+                    color: props?.colorCode?.instruction_button_color,
+                    boxShadow: "none",
+                  },
+                }}
+              >
+                PROCEED
+              </Button>
+            </Box>
+          </Box>
+        ))
+      }
     </Box>
   );
 };

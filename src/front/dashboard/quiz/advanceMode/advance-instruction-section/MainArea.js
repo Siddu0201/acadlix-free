@@ -1,30 +1,17 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
 
 const MainArea = (props) => {
   return (
     <Box
       sx={{
+        display: props?.language?.selected ? "" : "none",
         padding: 4,
-        overflowY: "scroll",
-        maxHeight: `calc(100% - ${props?.remainingHeight}px)`,
+        overflowY: "auto",
+        height: `calc(100% - ${props?.remainingHeight}px)`,
       }}
     >
-      <Box
-        sx={{
-          textAlign: "center",
-          paddingY: 2,
-        }}
-      >
-        <Typography>Please read the instructions carefully</Typography>
-      </Box>
-
-      <Box>
-        <Typography>
-          {props?.instruction}
-        </Typography>
-      </Box>
+      {props?.instruction}
     </Box>
   );
 };

@@ -38,7 +38,7 @@ const NtaSidebar = (props) => {
           },
           position: "fixed",
           right: {
-            md: props?.isOpen ? `calc(33.33% + 40px)` : "40px",
+            md: props?.isOpen ? `calc(33.33% + 72px)` : "40px",
             xs: 0
           },
           zIndex: 999,

@@ -122,9 +122,9 @@ const NtaQuestionPanel = (props) => {
     idList.forEach((a, i) => {
       top += document.getElementById(a)?.clientHeight ?? 0;
     });
-    if (acadlixOptions?.is_admin_bar_showing) {
-      top += props?.isDesktop ? 32 : 46;
-    }
+    // if (acadlixOptions?.is_admin_bar_showing) {
+    //   top += props?.isDesktop ? 32 : 46;
+    // }
     setRemainingTop(top);
     let height = 0;
     height +=

@@ -28,8 +28,8 @@ const Nta = (props) => {
               width: {
                 xs: "100%",
                 md: props?.isOpen
-                  ? `calc(100% - calc(33.33% + 60px))`
-                  : `calc(100% - 60px)`,
+                  ? `calc(100% - calc(33.33% + 132px))`
+                  : `calc(100% - 100px)`,
               },
               background: props?.colorCode?.background,
               paddingLeft: "40px"

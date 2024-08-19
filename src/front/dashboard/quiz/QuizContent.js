@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControlLabel,
@@ -112,6 +113,7 @@ const QuizContent = (props) => {
         Number(props?.quiz?.hide_question_numbering)
       ),
       sort_by_subject: Boolean(Number(props?.quiz?.sort_by_subject)),
+      optional_subject: Boolean(Number(props?.quiz?.optional_subject)),
       subject_wise_question: Boolean(Number(props?.quiz?.subject_wise_question)),
       attempt_and_move_forward: Boolean(
         Number(props?.quiz?.attempt_and_move_forward)
@@ -170,7 +172,15 @@ const QuizContent = (props) => {
         : parse(props?.quiz?.result_text), // ""/[{percent: number, text: ""}]
       // Language setting
       multi_language: Boolean(Number(props?.quiz?.multi_language)),
-      languages: [],
+      languages: props?.quiz?.quiz_languages?.map(l => {
+        return {
+          ...l,
+          instruction1: parse(l?.instruction1),
+          instruction2: parse(l?.instruction2),
+          default: Boolean(Number(l?.default)),
+          selected: Boolean(Number(l?.default))
+        }
+      }) ?? [],
       // Question Section
       subjects: [],
       subject_times: props?.quiz?.subject_times ?? [],
@@ -440,6 +450,12 @@ const QuizContent = (props) => {
     });
   }, []);
 
+  if(methods?.watch("questions")?.length === 0){
+    return (
+      <Alert severity="error">No questions found</Alert>
+    );
+  }
+
   if (!methods?.watch("start")) {
     return (
       <>
@@ -447,6 +463,7 @@ const QuizContent = (props) => {
       </>
     );
   }
+
 
   return (
     <Box>

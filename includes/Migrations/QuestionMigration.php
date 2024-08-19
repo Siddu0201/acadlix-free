@@ -27,6 +27,7 @@ if(!class_exists('QuestionMigration')){
                     $table->boolean('different_incorrect_msg')->default(0);
                     $table->boolean('hint_enabled')->default(0);
                     $table->boolean('paragraph_enabled')->default(0);
+                    $table->foreignId('paragraph_id')->nullable()->constrained('paragraph')->nullOnDelete();
                     $table->string('answer_type');
                     $table->timestamps();
                 });

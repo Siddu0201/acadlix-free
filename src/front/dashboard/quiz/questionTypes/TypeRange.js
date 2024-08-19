@@ -43,7 +43,7 @@ const TypeRange = (props) => {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
         backgroundColor:
           props?.watch("mode") !== "advance_mode"
             ? props?.watch(`questions.${props?.index}.check`)

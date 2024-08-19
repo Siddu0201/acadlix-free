@@ -4,7 +4,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import NtaTexture from "../../../../../../images/nta-texture.jpg";
-import NtaLanguage from "../section/NtaLanguage";
+import NtaInstructionLanguage from "./NtaInstructionLanguage";
 
 const NtaGeneralInstructionLanguage = (props) => {
   return (
@@ -56,7 +56,7 @@ const NtaGeneralInstructionLanguage = (props) => {
         {!props?.watch("finish") && (
           <Box>
             <Typography>Choose Your Default Language</Typography>
-            <NtaLanguage {...props} />
+            <NtaInstructionLanguage {...props} />
           </Box>
         )}
       </Box>
