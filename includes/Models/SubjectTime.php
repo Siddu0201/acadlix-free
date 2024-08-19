@@ -18,6 +18,7 @@ if(!class_exists('SubjectTime')){
             "subject_id",
             "time",
             "specific_number_of_questions",
+            "optional",
         ];
 
         public function quiz(){

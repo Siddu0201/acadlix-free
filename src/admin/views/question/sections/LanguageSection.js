@@ -72,22 +72,6 @@ const LanguageSection = (props) => {
                           <>
                             {lang?.language_name}
                             {lang?.default ? "(default)" : ""}
-                            {/* <IconButton 
-                              aria-label="delete" 
-                              size="small" 
-                              color="error" 
-                              sx={{
-                                display: lang?.language_id !== props?.watch("default_language_id") && index +1 === props?.watch("language")?.length ? "" : "none"
-                              }}
-                              onClick={() => {
-                                if(props?.watch("selected_language_id") === lang?.language_id){
-                                  props?.setValue("selected_language_id", props?.watch("default_language_id"), {shouldDirty: true});
-                                }
-                                props?.setValue("language", [...props?.watch("language")?.filter((curr) => curr?.language_id !== lang?.language_id)], {shouldDirty: true});
-                              }}
-                            >
-                              <DeleteOutline fontSize="small" />
-                            </IconButton> */}
                           </>
                         }
                       />

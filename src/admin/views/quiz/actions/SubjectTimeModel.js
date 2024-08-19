@@ -16,21 +16,30 @@ import { IoClose } from "react-icons/io5";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
 import { useForm } from "react-hook-form";
-import { GetSubjectByQuizId, PostSetSubjectWiseTime } from "../../../../requests/admin/AdminQuizRequest";
+import {
+  GetSubjectByQuizId,
+  PostSetSubjectWiseTime,
+} from "../../../../requests/admin/AdminQuizRequest";
 
 const SubjectTimeModel = (props) => {
   const methods = useForm({
     defaultValues: {
       quiz_id: props?.watch("quiz_id"),
+      advance_mode_type: "",
       quiz_timing_type: "",
       subject_wise_question: false,
+      optional_subject: false,
       subjects: [],
     },
   });
   const getSubject = GetSubjectByQuizId(props?.watch("quiz_id"));
   React.useEffect(() => {
-    console.log(getSubject?.data?.data);
     if (getSubject?.data?.data?.quiz) {
+      methods?.setValue(
+        "advance_mode_type",
+        getSubject?.data?.data?.quiz?.advance_mode_type,
+        { shouldDirty: true }
+      );
       methods?.setValue(
         "quiz_timing_type",
         getSubject?.data?.data?.quiz?.quiz_timing_type === "subject_wise_time"
@@ -43,6 +52,11 @@ const SubjectTimeModel = (props) => {
         getSubject?.data?.data?.quiz?.subject_wise_question,
         { shouldDirty: true }
       );
+      methods?.setValue(
+        "optional_subject",
+        getSubject?.data?.data?.quiz?.optional_subject,
+        { shouldDirty: true }
+      );
     }
 
     if (getSubject?.data?.data?.subjects) {
@@ -52,14 +66,13 @@ const SubjectTimeModel = (props) => {
     }
   }, [getSubject?.data]);
 
-  console.log(methods?.formState?.errors?.subjects);
   const setSubjectWiseTime = PostSetSubjectWiseTime();
   const handleSubmit = (data) => {
     setSubjectWiseTime?.mutate(data, {
       onSuccess: () => {
         props?.handleClose();
-      }
-    })
+      },
+    });
   };
   return (
     <>
@@ -87,7 +100,16 @@ const SubjectTimeModel = (props) => {
           <CircularProgress size={20} />
         ) : (
           <Grid container gap={4}>
-            <Grid item xs={12} lg={12}>
+            <Grid
+              item
+              xs={12}
+              lg={12}
+              sx={{
+                display: ["jee"].includes(methods.watch("advance_mode_type"))
+                  ? "none"
+                  : "",
+              }}
+            >
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -136,10 +158,31 @@ const SubjectTimeModel = (props) => {
               />
             </Grid>
             <Grid item xs={12} lg={12}>
+              <FormControlLabel
+                control={
+                  <CustomSwitch
+                    checked={methods?.watch("optional_subject") ?? false}
+                    onChange={(e) => {
+                      methods?.setValue(
+                        "optional_subject",
+                        e?.target?.checked,
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                  />
+                }
+                label="Optional Subjects"
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
               <List dense component="div" role="list">
-                { methods?.watch("subjects")?.length > 0 &&
+                {methods?.watch("subjects")?.length > 0 &&
                   methods?.watch("subjects")?.map((s, s_index) => (
-                    <ListItem key={s_index}>
+                    <ListItem key={s_index} sx={{
+                      gap: 2,
+                    }}>
                       <ListItemText
                         primary={`${s?.subject_name} (${s?.number_of_question})`}
                       />
@@ -160,7 +203,11 @@ const SubjectTimeModel = (props) => {
                           }
                         }}
                         sx={{
-                          display: methods?.watch("quiz_timing_type") === "subject_wise_time" ? "" : "none",
+                          display:
+                            methods?.watch("quiz_timing_type") ===
+                            "subject_wise_time"
+                              ? ""
+                              : "none",
                           maxWidth: "30%",
                           marginX: 2,
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
@@ -176,8 +223,14 @@ const SubjectTimeModel = (props) => {
                         {...methods?.register(
                           `subjects.${s_index}.specific_number_of_questions`,
                           {
-                            min: {value: 0, message: "Value should not be less than 0."},
-                            max: {value: s?.number_of_question, message: `Value should not be more than ${s?.number_of_question}.`},
+                            min: {
+                              value: 0,
+                              message: "Value should not be less than 0.",
+                            },
+                            max: {
+                              value: s?.number_of_question,
+                              message: `Value should not be more than ${s?.number_of_question}.`,
+                            },
                           }
                         )}
                         label="No. of questions"
@@ -216,6 +269,27 @@ const SubjectTimeModel = (props) => {
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
+                        }}
+                      />
+                      <FormControlLabel
+                        control={
+                          <CustomSwitch
+                            checked={Boolean(s?.optional)}
+                            onChange={(e) => {
+                              methods?.setValue(
+                                `subjects.${s_index}.optional`,
+                                e?.target?.checked,
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+                            }}
+                          />
+                        }
+                        sx={{
+                          display: methods?.watch("optional_subject")
+                            ? ""
+                            : "none",
                         }}
                       />
                     </ListItem>

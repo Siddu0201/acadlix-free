@@ -1,4 +1,12 @@
-import { Box, Button, Card, CardContent, CircularProgress, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import CategoryTemplateSection from "./sections/CategoryTemplateSection";
@@ -75,7 +83,9 @@ const QuizContent = (props) => {
         props?.quiz?.login_register_type ?? "at_start_of_quiz", // at_start_of_quiz/at_finish_of_quiz
       per_user_allowed_attempt: props?.quiz?.per_user_allowed_attempt ?? 0, // 0 => infinity
       save_statistic: Boolean(Number(props?.quiz?.save_statistic)) ?? 0,
-      statistic_ip_lock: props?.quiz?.statistic_ip_lock ? Number(props?.quiz?.statistic_ip_lock) : 0,
+      statistic_ip_lock: props?.quiz?.statistic_ip_lock
+        ? Number(props?.quiz?.statistic_ip_lock)
+        : 0,
       save_statistic_number_of_times:
         props?.quiz?.save_statistic_number_of_times ?? 0, // 0 =>  infinity
       on_screen_calculator: Boolean(Number(props?.quiz?.on_screen_calculator)),
@@ -197,6 +207,11 @@ const QuizContent = (props) => {
               newData["language_id"] = val?.id;
               newData["language_name"] = val?.language_name;
               newData["default"] = Boolean(val?.default);
+              newData['selected'] = Boolean(val?.default);
+              newData["instruction1"] = "";
+              newData["instruction2"] = "";
+              newData["term_and_condition_text"] = "";
+              newData["term_and_condition_warning_text"] = "";
               return newData;
             })
         : props?.quiz?.quiz_languages?.map((val) => {
@@ -204,20 +219,23 @@ const QuizContent = (props) => {
             newData["language_id"] = val?.language_id;
             newData["language_name"] = val?.language?.language_name;
             newData["default"] = Boolean(val?.default);
+            newData['selected'] = Boolean(val?.default);
+            newData["instruction1"] = val?.instruction1 ?? "";
+            newData["instruction2"] = val?.instruction2 ?? "";
+            newData["term_and_condition_text"] = val?.term_and_condition_text ?? "";
+            newData["term_and_condition_warning_text"] = val?.term_and_condition_warning_text ?? "";
             return newData;
-          }), // [{language_id: 1, language_name: "", default: false}]
-      // Instruction settings
-      instruction1: props?.quiz?.instruction1 ?? "",
-      instruction2: props?.quiz?.instruction2 ?? "",
+          }),
+      // [{language_id: 1, language_name: "", default: false, instruction1: "", instruction2: "",
+      // term_and_condition_text: "", term_and_condition_warning: ""}]
     },
   });
-
 
   const navigate = useNavigate();
   const createMutation = PostCreateQuiz();
   const updateMutation = UpdateQuizById(props?.quiz_id);
   const onSubmit = (data) => {
-    if(data?.percent_based_result_text){
+    if (data?.percent_based_result_text) {
       data.result_text = JSON.stringify(data.result_text);
     }
     if (props?.create) {
@@ -235,7 +253,7 @@ const QuizContent = (props) => {
     }
   };
 
-  // console.log(methods.watch());
+  console.log(methods.watch());
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -325,22 +343,19 @@ const QuizContent = (props) => {
           <Grid item xs={12} sm={12}>
             <Card>
               <CardContent>
-                <Grid container spacing={{xs: 1, sm: 3}}>
+                <Grid container spacing={{ xs: 1, sm: 3 }}>
                   <Grid item xs={5} sm={3}>
                     <Button variant="contained" size="medium" type="submit">
-                      {
-                        createMutation?.isPending || updateMutation?.isPending ?
+                      {createMutation?.isPending ||
+                      updateMutation?.isPending ? (
                         <CircularProgress color="inherit" size={20} />
-                        :
+                      ) : (
                         "Save Change"
-                      }
+                      )}
                     </Button>
                   </Grid>
                   <Grid item xs={7} sm={9}>
-                    <SaveTemplateSection
-                      {...methods}
-                      {...props}
-                    />
+                    <SaveTemplateSection {...methods} {...props} />
                   </Grid>
                 </Grid>
               </CardContent>

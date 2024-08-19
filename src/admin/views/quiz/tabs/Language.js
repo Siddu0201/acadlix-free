@@ -20,14 +20,17 @@ import { MdAdd } from "react-icons/md";
 const Language = (props) => {
   const [language, setLanguage] = React.useState([
     ...props?.languages?.map((val) => {
-        return {
-          language_id: val?.id,
-          language_name: val?.language_name,
-          show: props?.watch('language_data')?.find(value => value?.language_id === val?.id) ? false : true,
-        };
+      return {
+        language_id: val?.id,
+        language_name: val?.language_name,
+        show: props
+          ?.watch("language_data")
+          ?.find((value) => value?.language_id === val?.id)
+          ? false
+          : true,
+      };
     }),
   ]);
-
 
   return (
     <Box sx={{ color: "black" }}>
@@ -132,6 +135,10 @@ const Language = (props) => {
                                 language_id: value?.language_id,
                                 language_name: value?.language_name,
                                 default: false,
+                                instruction1: "",
+                                instruction2: "",
+                                term_and_condition_text: "",
+                                term_and_condition_warning_text: "",
                               },
                             ],
                             { shouldDirty: true }
@@ -216,9 +223,14 @@ const Language = (props) => {
                           ".MuiButton-endIcon": {
                             margin: 0,
                           },
-                          display: value?.default  ? "none" : "",
+                          display: value?.default ? "none" : "",
                         }}
-                        disabled={props?.quiz?.questions_count > 0 && props?.quiz?.quiz_languages?.findIndex(lang => lang?.language_id === value?.language_id) !== -1}
+                        disabled={
+                          props?.quiz?.questions_count > 0 &&
+                          props?.quiz?.quiz_languages?.findIndex(
+                            (lang) => lang?.language_id === value?.language_id
+                          ) !== -1
+                        }
                         onClick={(e) => {
                           setLanguage(
                             language?.map((val) => {

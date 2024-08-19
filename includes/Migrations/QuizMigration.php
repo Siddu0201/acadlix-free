@@ -65,6 +65,8 @@ if(!class_exists('QuizMigration')){
                     $table->boolean('question_overview')->default(0);
                     $table->boolean('hide_question_numbering')->default(0);
                     $table->boolean('sort_by_subject')->default(0);
+                    $table->boolean('subject_wise_question')->default(0);
+                    $table->boolean('optional_subject')->default(0);
                     $table->boolean('attempt_and_move_forward')->default(0);
                     $table->boolean('force_user_to_answer_each_question')->default(0);
                     // Result settings
@@ -110,10 +112,7 @@ if(!class_exists('QuizMigration')){
                     $table->string('instructor_subject');
                     $table->mediumText('instructor_message');
                     // Language setting
-                    $table->boolean('multi_language')->default(false);
-                    // Instruction setting
-                    $table->longText('instruction1');
-                    $table->longText('instruction2');                    
+                    $table->boolean('multi_language')->default(false);                   
                     $table->timestamps();
                 });
             }
@@ -151,6 +150,26 @@ if(!class_exists('QuizMigration')){
                     $table->after('sort_by_subject', function($table){
                         $table->boolean('subject_wise_question')->default(0);
                     });
+                });
+            }
+
+            if(!Manager::schema()->hasColumn('quiz', 'optional_subject')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->after('subject_wise_question', function($table){
+                        $table->boolean('optional_subject')->default(0);
+                    });
+                });
+            }
+
+            if(Manager::schema()->hasColumn('quiz', 'instruction1')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->dropColumn('instruction1');
+                });
+            }
+
+            if(Manager::schema()->hasColumn('quiz', 'instruction2')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->dropColumn('instruction2');
                 });
             }
         }

@@ -67,6 +67,7 @@ if (!class_exists('Quiz')) {
             "hide_question_numbering",
             "sort_by_subject",
             "subject_wise_question",
+            "optional_subject",
             "attempt_and_move_forward",
             "force_user_to_answer_each_question",
             // Result
@@ -113,9 +114,6 @@ if (!class_exists('Quiz')) {
             "instructor_message",
             // Language
             "multi_language",
-            // Instruction
-            "instruction1",
-            "instruction2",
         ];
 
         protected $with = ["category", "quiz_languages"];

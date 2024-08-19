@@ -19,6 +19,8 @@ if(!class_exists('SubjectTimeMigration')){
                     $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
                     $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
                     $table->integer('time')->unsigned();
+                    $table->integer('specific_number_of_questions')->default(0);
+                    $table->boolean('optional')->default(0);
                     $table->timestamps();
                 });
             }
@@ -35,6 +37,14 @@ if(!class_exists('SubjectTimeMigration')){
                 Manager::schema()->table('subject_time', function($table){
                     $table->after('time', function($table){
                         $table->integer('specific_number_of_questions')->default(0);
+                    });
+                });
+            }
+
+            if(!Manager::schema()->hasColumn('subject_time', 'optional')){
+                Manager::schema()->table('subject_time', function($table){
+                    $table->after('specific_number_of_questions', function($table){
+                        $table->integer('optional')->default(0);
                     });
                 });
             }

@@ -274,7 +274,7 @@ class AdminQuizController {
     public function get_subject_by_quiz_id($request){
         $res = [];
         $quiz_id = $request['quiz_id'];
-        $res['quiz'] = Quiz::select('quiz_timing_type', 'subject_wise_question')->where('id', $quiz_id)->first();
+        $res['quiz'] = Quiz::select('quiz_timing_type', 'subject_wise_question', 'optional_subject', 'advance_mode_type')->where('id', $quiz_id)->first();
         $questions = Question::where('quiz_id', $quiz_id)->get();
         $grouped = $questions->groupBy('subject_id')->map(function ($group) use ($quiz_id) {
             return [
@@ -283,6 +283,7 @@ class AdminQuizController {
                 'subject_name' => $group->first()->subject->subject_name ?? "Uncategorized",
                 'time' => SubjectTime::where("quiz_id", $quiz_id)->where("subject_id", $group->first()->subject_id)->first()->time ?? 0,
                 'specific_number_of_questions' => SubjectTime::where("quiz_id", $quiz_id)->where("subject_id", $group->first()->subject_id)->first()->specific_number_of_questions ?? $group->count(),
+                'optional' => SubjectTime::where("quiz_id", $quiz_id)->where("subject_id", $group->first()->subject_id)->first()->optional ?? 0,
             ];
         })->values();
         $res['subjects'] = $grouped->toArray();
@@ -295,7 +296,8 @@ class AdminQuizController {
         $quiz = Quiz::find($params['quiz_id']);
         $quiz->update([
             'quiz_timing_type' => $params['quiz_timing_type'] ?? $quiz->quiz_timing_type,
-            'subject_wise_question' => $params['subject_wise_question']
+            'subject_wise_question' => $params['subject_wise_question'],
+            'optional_subject' => $params['optional_subject']
         ]);
         foreach($params['subjects'] as $subject){
             $subject_time = SubjectTime:: where("quiz_id", $params['quiz_id'])->where("subject_id", $subject['subject_id'])->first();
@@ -303,6 +305,7 @@ class AdminQuizController {
                 $subject_time->update([
                     'time' => $subject['time'],
                     'specific_number_of_questions' => $subject['specific_number_of_questions'],
+                    'optional' => $params['optional_subject'] ? $subject['optional'] : 0,
                 ]);
             }else{
                 SubjectTime::create([
@@ -310,6 +313,7 @@ class AdminQuizController {
                     'subject_id' => $subject['subject_id'],
                     'time' => $subject['time'],
                     'specific_number_of_questions' => $subject['specific_number_of_questions'],
+                    'optional' => $params['optional_subject'] ? $subject['optional'] : 0,
                 ]);
             }
         }

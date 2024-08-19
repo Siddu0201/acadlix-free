@@ -16,7 +16,11 @@ if(!class_exists('QuizLang')){
         protected $fillable = [
             "quiz_id",
             "language_id",
-            "default"
+            "default",
+            "instruction1",
+            "instruction2",
+            "term_and_condition_text",
+            "term_and_condition_warning_text",
         ];
 
         protected $with = ['language'];

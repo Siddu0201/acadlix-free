@@ -61,6 +61,7 @@ const TitleDescriptionSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch("description") ?? ""}
+                onChange={(e) => {e?.preventDefault()}}
               />
             </Grid>
           </Grid>
