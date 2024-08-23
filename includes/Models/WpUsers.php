@@ -3,10 +3,7 @@
 namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit();
 
 if (!class_exists('WpUsers')) {
 

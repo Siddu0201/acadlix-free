@@ -1,30 +1,19 @@
-import { Box, FormControl, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import React from "react";
 
-const NtaInstructionLanguage = (props) => {
+const QuestionLanguage = (props) => {
   const handleLanguageChange = (e) => {
-    console.log(e?.target?.value);
+    props?.setValue("selected_language_id", e?.target?.value, {shouldDirty: true});
     props?.setValue(
-      "languages",
-      props?.watch("languages")?.map((l) => {
-        if (l?.language_id === e?.target?.value) {
-          l.selected = true;
-        } else {
-          l.selected = false;
-        }
-        return l;
-      })
-    );
-
-    props?.setValue(
-      "questions",
-      props?.watch("questions")?.map((q) => {
+      `questions`,
+      props?.watch(`questions`)?.map((q) => {
         let selectedLang = q?.language?.find(
           (l) => l?.language_id === e?.target?.value
         );
         let selectedLangIndex = q?.language?.findIndex(
           (l) => l?.language_id === e?.target?.value
         );
+
         if (selectedLangIndex !== -1 && selectedLang?.question?.length > 0) {
           q?.language?.map((l, l_index) => {
             if (l_index === selectedLangIndex) {
@@ -50,7 +39,7 @@ const NtaInstructionLanguage = (props) => {
   };
   return (
     <Box
-      id="acadlix_nta_instruction_language"
+      id="acadlix_instruction_question_language"
       sx={{
         display: "flex",
       }}
@@ -58,16 +47,16 @@ const NtaInstructionLanguage = (props) => {
       <Box
         sx={{
           display: "flex",
-          marginLeft: "auto",
           alignItems: "center",
+          gap: 2,
         }}
       >
+        <Typography variant="body2" color="black">Choose your default language: </Typography>
         <FormControl
           sx={{
-            m: 1,
             minWidth: {
-              xs: 100,
-              sm: props?.watch("view_instruction1") ? 220 : 160,
+              xs: 90,
+              sm: 90,
             },
           }}
           size="small"
@@ -78,19 +67,19 @@ const NtaInstructionLanguage = (props) => {
             variant="outlined"
             displayEmpty
             value={
-              props?.watch("languages")?.filter((d) => d?.selected)?.[0]
-                ?.language_id ?? null
+              props?.watch("selected_language_id") ?? ''
             }
             onChange={handleLanguageChange}
             sx={{
               borderRadius: 0,
               "& .MuiSelect-select": {
-                borderRadius: 0,
-                padding: "5.5px 14px 5.5px 6px",
+                border: `1px solid black`,
+                borderRadius: "4px",
+                padding: "2.5px 14px 2.5px 6px",
                 backgroundColor: props?.colorCode?.language_dropdown_background,
                 "&:focus": {
                   borderColor: "green",
-                  borderRadius: 0,
+                  borderRadius: "4px",
                 },
                 "&:after": {
                   borderColor: "green",
@@ -101,6 +90,7 @@ const NtaInstructionLanguage = (props) => {
               },
             }}
           >
+            <MenuItem value=''>--Select--</MenuItem>
             {props?.watch("languages")?.length > 0 &&
               props?.watch("languages")?.map((lang, lang_index) => (
                 <MenuItem key={lang_index} value={lang?.language_id}>
@@ -114,4 +104,4 @@ const NtaInstructionLanguage = (props) => {
   );
 };
 
-export default NtaInstructionLanguage;
+export default QuestionLanguage;

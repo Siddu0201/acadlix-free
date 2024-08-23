@@ -28,6 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 #[\AllowDynamicProperties] class Api {
 
+    protected static $_instance = null;
+
     /**
      * Class dir and class name mapping.
      *
@@ -80,5 +82,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $this->$controller->register_routes();
             }
         }
+    }
+
+    public static function instance() {
+        if ( ! self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
     }
 }

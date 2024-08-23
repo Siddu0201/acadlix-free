@@ -1,6 +1,6 @@
 import React from "react";
 import SectionPopover from "./SectionPopover";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import { TiInfoLarge } from "react-icons/ti";
 
 const SubsectionButton = (props) => {
@@ -94,6 +94,25 @@ const SubsectionButton = (props) => {
           <TiInfoLarge onMouseEnter={handleClick} onMouseLeave={handleClose} />
         }
       >
+        {/* {
+          props?.watch("optional_subject") && props?.optional &&
+          <FormControlLabel
+            control={
+              <Checkbox 
+                checked={props?.optional_checked}
+                size="small"
+                onClick={(e) => e.stopPropagation()}
+                sx={{
+                  padding: 0
+                }}
+              />
+            }
+            sx={{
+              marginLeft: 0,
+              marginRight: 2
+            }}
+          />
+        } */}
         {props?.subject_name}
       </Button>
       <SectionPopover

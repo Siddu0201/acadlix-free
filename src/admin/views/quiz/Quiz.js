@@ -86,7 +86,12 @@ const Quiz = () => {
       minWidth: 130,
       renderCell: (params) => {
         return (
-          <div>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <Tooltip title="Copy Shortcode" arrow>
               <IconButton
                 onClick={() => {
@@ -98,8 +103,8 @@ const Quiz = () => {
                 <MdFileCopy />
               </IconButton>
             </Tooltip>
-            {params.value}
-          </div>
+            <Box>{params.value}</Box>
+          </Box>
         );
       },
     },

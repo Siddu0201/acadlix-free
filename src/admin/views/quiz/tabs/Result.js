@@ -522,7 +522,7 @@ const Result = (props) => {
           />
         </GridItem1>
 
-        {/* Option for Result Comparision with top 5 student    */}
+        {/* Option for Result Comparison with top 5 student    */}
         <GridItem1 xs={12} lg={4}>
           <FormControlLabel
             control={
@@ -549,7 +549,7 @@ const Result = (props) => {
                 }}
               />
             }
-            label="Result Comparison with topper"
+            label="Result comparison with topper"
             disabled={!props?.watch("leaderboard")}
           />
         </GridItem1>

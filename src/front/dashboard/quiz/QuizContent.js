@@ -1,16 +1,11 @@
 import {
   Alert,
   Box,
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import NormalQuizMode from "./NormalQuizMode";
 import AdvanceQuizMode from "./AdvanceQuizMode";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
 import {
   arrayRandomize,
@@ -181,9 +176,15 @@ const QuizContent = (props) => {
           selected: Boolean(Number(l?.default))
         }
       }) ?? [],
+      selected_language_id: '',
       // Question Section
       subjects: [],
-      subject_times: props?.quiz?.subject_times ?? [],
+      subject_times: props?.quiz?.subject_times?.map(s => {
+        return {
+          ...s,
+          optional: Boolean(Number(s?.optional))
+        }
+      }) ?? [],
       questions:
         updateQuestions(props?.quiz?.questions, props?.quiz)?.map(
           (question, index) => {

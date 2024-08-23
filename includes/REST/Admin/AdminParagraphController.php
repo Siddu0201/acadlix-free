@@ -6,10 +6,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 use Yuvayana\Acadlix\Models\Paragraph;
 use Yuvayana\Acadlix\Models\Quiz;
-
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit();
 
 class AdminParagraphController
 {

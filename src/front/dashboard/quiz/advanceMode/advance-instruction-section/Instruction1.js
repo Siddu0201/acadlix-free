@@ -18,6 +18,9 @@ const Instruction1 = (props) => {
     idList.forEach((a, i) => {
       total += document.getElementById(a)?.clientHeight ?? 0;
     });
+    if (acadlixOptions?.is_admin_bar_showing) {
+      total += props?.isDesktop ? 32 : 46;
+    }
     setRemainingHeight(total);
   });
 

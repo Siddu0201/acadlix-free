@@ -85,7 +85,6 @@ export const updateQuestions = (questions = [], quiz = {}) => {
 
   if(Boolean(Number(quiz?.optional_subject)) && quiz?.subject_times?.length > 0){
     const optional_subjects = quiz?.subject_times?.filter(s => s?.optional)?.map(s => s?.subject_id);
-    console.log(optional_subjects);
     questions = [
       ...questions?.filter(q => !optional_subjects?.includes(q?.subject_id)),
       ...questions?.filter(q => optional_subjects?.includes(q?.subject_id)),

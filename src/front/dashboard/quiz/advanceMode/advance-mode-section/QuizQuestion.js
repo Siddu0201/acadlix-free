@@ -105,6 +105,7 @@ const QuizQuestion = (props) => {
         );
     }
   };
+  
   return (
     <Box
       id="acadlix_quiz_question"

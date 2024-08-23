@@ -3,10 +3,7 @@
 namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
-
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit();
 
 class FrontUserController
 {

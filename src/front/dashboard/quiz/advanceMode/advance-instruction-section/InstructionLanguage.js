@@ -1,9 +1,8 @@
-import { Box, FormControl, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import React from "react";
 
-const NtaInstructionLanguage = (props) => {
+const InstructionLanguage = (props) => {
   const handleLanguageChange = (e) => {
-    console.log(e?.target?.value);
     props?.setValue(
       "languages",
       props?.watch("languages")?.map((l) => {
@@ -15,42 +14,10 @@ const NtaInstructionLanguage = (props) => {
         return l;
       })
     );
-
-    props?.setValue(
-      "questions",
-      props?.watch("questions")?.map((q) => {
-        let selectedLang = q?.language?.find(
-          (l) => l?.language_id === e?.target?.value
-        );
-        let selectedLangIndex = q?.language?.findIndex(
-          (l) => l?.language_id === e?.target?.value
-        );
-        if (selectedLangIndex !== -1 && selectedLang?.question?.length > 0) {
-          q?.language?.map((l, l_index) => {
-            if (l_index === selectedLangIndex) {
-              l.selected = true;
-            } else {
-              l.selected = false;
-            }
-            return l;
-          });
-        } else {
-          q?.language?.map((l) => {
-            if (l?.default) {
-              l.selected = true;
-            } else {
-              l.selected = false;
-            }
-            return l;
-          });
-        }
-        return q;
-      })
-    );
   };
   return (
     <Box
-      id="acadlix_nta_instruction_language"
+      id="acadlix_instruction_language"
       sx={{
         display: "flex",
       }}
@@ -60,14 +27,15 @@ const NtaInstructionLanguage = (props) => {
           display: "flex",
           marginLeft: "auto",
           alignItems: "center",
+          gap: 2,
         }}
       >
+        <Typography variant="body2">View in: </Typography>
         <FormControl
           sx={{
-            m: 1,
             minWidth: {
-              xs: 100,
-              sm: props?.watch("view_instruction1") ? 220 : 160,
+              xs: 90,
+              sm: 90,
             },
           }}
           size="small"
@@ -85,12 +53,13 @@ const NtaInstructionLanguage = (props) => {
             sx={{
               borderRadius: 0,
               "& .MuiSelect-select": {
-                borderRadius: 0,
-                padding: "5.5px 14px 5.5px 6px",
+                border: `1px solid black`,
+                borderRadius: '4px',
+                padding: "2.5px 14px 2.5px 6px",
                 backgroundColor: props?.colorCode?.language_dropdown_background,
                 "&:focus": {
                   borderColor: "green",
-                  borderRadius: 0,
+                  borderRadius: '4px',
                 },
                 "&:after": {
                   borderColor: "green",
@@ -114,4 +83,4 @@ const NtaInstructionLanguage = (props) => {
   );
 };
 
-export default NtaInstructionLanguage;
+export default InstructionLanguage;

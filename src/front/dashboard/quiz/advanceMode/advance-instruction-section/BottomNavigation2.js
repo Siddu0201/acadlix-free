@@ -1,47 +1,61 @@
 import {
   AppBar,
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import React from "react";
-import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
+import QuestionLanguage from "./QuestionLanguage";
 
 const BottomNavigation2 = (props) => {
   const handlePreviousClick = () => {
-      props?.setValue("view_instruction2", false, {shouldDirty: true});
-      props?.setValue("view_instruction1", true, {shouldDirty: true});
-  }  
+    props?.setValue("view_instruction2", false, { shouldDirty: true });
+    props?.setValue("view_instruction1", true, { shouldDirty: true });
+  };
 
   const handlelabelChange = (e) => {
-    if(e?.target?.checked != undefined){
-        props?.setValue("ready_to_begin", !props?.watch("ready_to_begin"), {shouldDirty: true});
+    if (e?.target?.checked != undefined) {
+      props?.setValue("ready_to_begin", !props?.watch("ready_to_begin"), {
+        shouldDirty: true,
+      });
     }
-  }
+  };
 
   const handleReadyToBegin = () => {
-    props?.setValue("view_instruction2", false, {shouldDirty: true});
-    props?.setValue("view_question", true, {shouldDirty: true});
+    if(props?.watch("selected_language_id") === ''){
+      alert("Please select the default language to procced further");
+      return;
+    }
+    props?.setValue("view_instruction2", false, { shouldDirty: true });
+    props?.setValue("view_question", true, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });
     props?.setValue("now", Date.now(), { shouldDirty: true });
-    const subject_data = props?.watch("questions")?.reduce((acc, curr, index) => {
-      const {subject_name, subject_id} = curr;
-      const existingSubject = acc.find(entry => entry.subject_name === subject_name);
-      if(!existingSubject){
-        acc.push({
-          subject_name: subject_name,
-          subject_id: subject_id,
-          selected: index === 0,
-          model: false,
-          submitModel: false,
-          submitted: false,
-        });
-      }
-      return acc;
-    },[]);
-    props?.setValue("subjects", subject_data, {shouldDirty: true});
-  }
+    const subject_data = props
+      ?.watch("questions")
+      ?.reduce((acc, curr, index) => {
+        const { subject_name, subject_id } = curr;
+        const existingSubject = acc.find(
+          (entry) => entry.subject_name === subject_name
+        );
+        if (!existingSubject) {
+          acc.push({
+            subject_name: subject_name,
+            subject_id: subject_id,
+            selected: index === 0,
+            model: false,
+            submitModel: false,
+            submitted: false,
+            optional: props?.watch("subject_times")?.find(s => subject_id === s?.subject_id)?.optional,
+            optional_selected: false,
+          });
+        }
+        return acc;
+      }, []);
+    props?.setValue("subjects", subject_data, { shouldDirty: true });
+  };
 
   return (
     <AppBar
@@ -69,6 +83,18 @@ const BottomNavigation2 = (props) => {
           paddingRight: "0.10rem !important",
         }}
       >
+        <QuestionLanguage {...props} />
+        <Box>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "red",
+            }}
+          >
+            Please note all questions will appear in your default language. This
+            language can be changed for a particular question later on.
+          </Typography>
+        </Box>
         {props?.watch("languages")?.length > 0 &&
           props?.watch("languages")?.map((l, index) => (
             <Box
@@ -99,20 +125,41 @@ const BottomNavigation2 = (props) => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            marginY: 2
+            marginY: 2,
           }}
         >
-          <CustomButton variant="contained" onClick={handlePreviousClick}>Previous</CustomButton>
-          <CustomButton
+          <Button
+            variant="outlined"
+            onClick={handlePreviousClick}
+            sx={{
+              margin: "auto 16px",
+              borderRadius: 0,
+              border: `1px solid ${props?.colorCode?.instruction_next_button_border}`,
+              backgroundColor:
+                props?.colorCode?.instruction_next_button_background,
+              color: props?.colorCode?.instruction_next_button_color,
+              ":hover, :focus": {
+                border: `1px solid ${props?.colorCode?.instruction_next_button_hover_border}`,
+                backgroundColor:
+                  props?.colorCode?.instruction_next_button_hover_background,
+                color: props?.colorCode?.instruction_next_button_color,
+                boxShadow: "none",
+              },
+            }}
+          >
+            {`< Previous`}
+          </Button>
+          <Button
             disabled={!props?.watch("ready_to_begin")}
             variant="contained"
             sx={{
               margin: "auto",
+              borderRadius: 0,
             }}
             onClick={handleReadyToBegin}
           >
             I am ready to begin
-          </CustomButton>
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>

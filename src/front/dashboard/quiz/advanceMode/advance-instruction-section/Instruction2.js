@@ -10,7 +10,7 @@ const Instruction2 = (props) => {
   const idList = [
     "acadlix_instruction_topbox",
     "acadlix_instruction_skybluebox",
-    "acadlix_instruction1_button_options",
+    "acadlix_instruction2_button_options",
   ];
   const [remainingHeight, setRemainingHeight] = React.useState(0);
   React.useLayoutEffect(() => {
@@ -18,6 +18,9 @@ const Instruction2 = (props) => {
     idList.forEach((a, i) => {
       total += document.getElementById(a)?.clientHeight ?? 0;
     });
+    if (acadlixOptions?.is_admin_bar_showing) {
+      total += props?.isDesktop ? 32 : 46;
+    }
     setRemainingHeight(total);
   });
 

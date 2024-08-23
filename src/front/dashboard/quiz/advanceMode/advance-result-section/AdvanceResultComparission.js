@@ -15,7 +15,7 @@ const AdvanceResultComparission = (props) => {
       <Grid item xs={12} sm={12}>
         <Card>
           <CardHeader
-            title="Result comparision with topper"
+            title="Result comparison with topper"
             titleTypographyProps={{
               sx: {
                 textAlign: "center",

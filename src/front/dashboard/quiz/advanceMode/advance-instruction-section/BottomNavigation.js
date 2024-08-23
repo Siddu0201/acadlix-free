@@ -2,13 +2,12 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { AppBar, Toolbar } from "@mui/material";
-import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
 
 const BottomNavigation = (props) => {
   const handleNextClick = () => {
-    props?.setValue("view_instruction1", false, {shouldDirty: true});
-    props?.setValue("view_instruction2", true, {shouldDirty: true});
-  }
+    props?.setValue("view_instruction1", false, { shouldDirty: true });
+    props?.setValue("view_instruction2", true, { shouldDirty: true });
+  };
   return (
     <AppBar
       position="fixed"
@@ -18,7 +17,9 @@ const BottomNavigation = (props) => {
         left: 0,
         right: "auto",
         backgroundColor: props?.colorCode?.button_option_background,
-        width: props?.instructionIsOpen ? `calc(100% - ${props?.sidebarWidth}px)` : "100%",
+        width: props?.instructionIsOpen
+          ? `calc(100% - ${props?.sidebarWidth}px)`
+          : "100%",
         border: `1px solid ${props?.colorCode?.button_option_border}`,
         margin: "1px",
       }}
@@ -41,15 +42,26 @@ const BottomNavigation = (props) => {
             justifyContent: "end",
           }}
         >
-          <CustomButton
-            variant="contained"
+          <Button
+            variant="outlined"
             sx={{
               margin: "auto 16px",
+              borderRadius: 0,
+              border: `1px solid ${props?.colorCode?.instruction_next_button_border}`,
+              backgroundColor: props?.colorCode?.instruction_next_button_background,
+              color: props?.colorCode?.instruction_next_button_color,
+              ":hover, :focus": {
+                border: `1px solid ${props?.colorCode?.instruction_next_button_hover_border}`,
+                backgroundColor:
+                  props?.colorCode?.instruction_next_button_hover_background,
+                color: props?.colorCode?.instruction_next_button_color,
+                boxShadow: "none",
+              },
             }}
             onClick={handleNextClick}
           >
-            Next →
-          </CustomButton>
+            {`Next >`}
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>

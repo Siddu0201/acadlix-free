@@ -157,7 +157,7 @@ const SubjectTimeModel = (props) => {
                 label="Subject wise specific number of questions"
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            {/* <Grid item xs={12} lg={12}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -175,7 +175,7 @@ const SubjectTimeModel = (props) => {
                 }
                 label="Optional Subjects"
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} lg={12}>
               <List dense component="div" role="list">
                 {methods?.watch("subjects")?.length > 0 &&

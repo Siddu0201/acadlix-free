@@ -2,10 +2,7 @@
 
 namespace Yuvayana\Acadlix\Assets;
 use Yuvayana\Acadlix\Models\Quiz;
-
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit();
 
 /**
  * Asset Manager class.
@@ -14,6 +11,7 @@ if (!defined('ABSPATH')) {
  */
 class Manager
 {
+    protected static $_instance = null;
 
     public function __construct()
     {
@@ -81,7 +79,7 @@ class Manager
         global $post;
 
         if (has_shortcode($post->post_content, 'Acadlix_Dashboard') || has_shortcode($post->post_content, 'Acadlix_Advance_Quiz')) {
-            $page_template = ACADLIX_TEMPLATE_PATH . '/dashboard.php';
+            $page_template = ACADLIX_TEMPLATE_PATH . 'dashboard.php';
         }
         return $page_template;
     }
@@ -96,12 +94,12 @@ class Manager
     {
         return [
             'acadlix-css' => [
-                'src' => ACADLIX_BUILD . '/index.css',
+                'src' => ACADLIX_BUILD_URL . 'index.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-front-css' => [
-                'src' => ACADLIX_BUILD . '/front.css',
+                'src' => ACADLIX_BUILD_URL . 'front.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
@@ -110,18 +108,18 @@ class Manager
 
     public function get_scripts(): array
     {
-        $dependency = require_once ACADLIX_DIR . '/build/index.asset.php';
-        $front_dependency = require_once ACADLIX_DIR . '/build/front.asset.php';
+        $dependency = require_once ACADLIX_BUILD_PATH . 'index.asset.php';
+        $front_dependency = require_once ACADLIX_BUILD_PATH . 'front.asset.php';
 
         return [
             'acadlix-app' => [
-                'src' => ACADLIX_BUILD . '/index.js',
+                'src' => ACADLIX_BUILD_URL . 'index.js',
                 'version' => $dependency['version'],
                 'deps' => $dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-front-app' => [
-                'src' => ACADLIX_BUILD . '/front.js',
+                'src' => ACADLIX_BUILD_URL . 'front.js',
                 'version' => $front_dependency['version'],
                 'deps' => $front_dependency['dependencies'],
                 'in_footer' => true,
@@ -170,8 +168,16 @@ class Manager
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'nonce' => wp_create_nonce('wp_rest'),
-            'advance_quiz_url' => get_option('acadlix_advance_quiz_page'),
+            'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
         ));
+    }
+
+    public static function instance() {
+        if ( ! self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
     }
 }

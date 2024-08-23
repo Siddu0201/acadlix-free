@@ -1,4 +1,3 @@
-import { Alert, Box } from "@mui/material";
 import React from "react";
 import AdvancePanel from "./advanceMode/AdvancePanel";
 import Gate from "./advanceMode/Gate";
@@ -15,6 +14,7 @@ import NtaInstruction from "./advanceMode/nta/instruction/NtaInstruction";
 
 const AdvanceQuizMode = (props) => {
   const colorCode = {
+    background: "#fff",
     // logo and title
     logo_and_title_background: "#ffffff",
     top_title_color: "#050650",
@@ -24,6 +24,16 @@ const AdvanceQuizMode = (props) => {
     instruction_color: "#fff",
     info_icon_background: "#5bb1fa",
     info_icon: "#fff",
+    instruction_next_button_color: "#333",
+    instruction_next_button_border: "#ccc",
+    instruction_next_button_background: "#fff",
+    instruction_next_button_hover_border: "#adadad",
+    instruction_next_button_hover_background: "#e6e6e6",
+    instruction_previous_button_color: "#333",
+    instruction_previous_button_border: "#ccc",
+    instruction_previous_button_background: "#fff",
+    instruction_previous_button_hover_border: "#adadad",
+    instruction_previous_button_hover_background: "#e6e6e6",
     // section
     section_background: "#eeeeee",
     top_subject_button_active_background: "#38a9eb",
