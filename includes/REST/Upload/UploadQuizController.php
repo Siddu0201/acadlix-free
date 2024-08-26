@@ -53,6 +53,7 @@ class UploadQuizController
             foreach ($params['questions'] as $qkey => $ques) {
                 $question = Question::create([
                     'sort' => $i++,
+                    "title" => "",
                     'quiz_id' => $params['quiz_id'],
                     'answer_type' => $ques['answer_type'],
                     'different_incorrect_msg' => $ques['different_incorrect_msg'],
