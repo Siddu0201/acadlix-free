@@ -22,9 +22,10 @@ use Yuvayana\Acadlix\REST\Admin\AdminTemplateController;
 use Yuvayana\Acadlix\REST\Front\FrontQuizController;
 use Yuvayana\Acadlix\REST\Front\FrontUserController;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+// Upoad API Controller
+use Yuvayana\Acadlix\REST\Upload\UploadQuizController;
+
+defined( 'ABSPATH' ) || exit();
 
 #[\AllowDynamicProperties] class Api {
 
@@ -62,7 +63,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 // Front Controllers
                 FrontQuizController::class,
-                FrontUserController::class
+                FrontUserController::class,
+
+                // Upload Controllers
+                UploadQuizController::class,
             ]
         );
 

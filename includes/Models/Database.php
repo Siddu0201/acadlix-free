@@ -6,9 +6,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 if(!class_exists('Database')){
     class Database 

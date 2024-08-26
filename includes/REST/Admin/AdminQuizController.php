@@ -12,9 +12,7 @@ use Yuvayana\Acadlix\Models\SubjectTime;
 use Illuminate\Contracts\Database\Query\Builder;
 use Yuvayana\Acadlix\Models\Template;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 class AdminQuizController {
 

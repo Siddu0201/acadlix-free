@@ -6,9 +6,7 @@ use WP_REST_Server;
 
 use Yuvayana\Acadlix\Models\Language;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 class AdminLanguageController
 {

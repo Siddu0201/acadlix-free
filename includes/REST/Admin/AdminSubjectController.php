@@ -6,9 +6,7 @@ use WP_REST_Server;
 
 use Yuvayana\Acadlix\Models\Subject;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 class AdminSubjectController {
 

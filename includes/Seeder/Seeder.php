@@ -4,9 +4,7 @@ namespace Yuvayana\Acadlix\Seeder;
 
 use Yuvayana\Acadlix\Seeder\LanguageSeeder;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 if(!class_exists('Seeder')){
     class Seeder 

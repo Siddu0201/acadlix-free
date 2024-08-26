@@ -4,9 +4,7 @@ namespace Yuvayana\Acadlix\Seeder;
 
 use Yuvayana\Acadlix\Models\Subject;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 if(!class_exists('SubjectSeeder')){
     class SubjectSeeder 

@@ -22,9 +22,7 @@ use Yuvayana\Acadlix\Migrations\QuizOptionMigration;
 use Yuvayana\Acadlix\Migrations\ParagraphMigration;
 use Yuvayana\Acadlix\Migrations\ParagraphLangMigration;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 if(!class_exists('Migration')){
     class Migration 

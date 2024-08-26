@@ -11,9 +11,7 @@ use Yuvayana\Acadlix\Models\QuizAttempt;
 use Yuvayana\Acadlix\Models\StatisticRef;
 use Yuvayana\Acadlix\Models\Toplist;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 class FrontQuizController
 {

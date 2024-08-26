@@ -4,9 +4,7 @@ namespace Yuvayana\Acadlix\Seeder;
 
 use Yuvayana\Acadlix\Models\Language;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 if(!class_exists('LanguageSeeder')){
     class LanguageSeeder 

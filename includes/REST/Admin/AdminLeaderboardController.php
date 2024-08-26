@@ -5,9 +5,7 @@ namespace Yuvayana\Acadlix\REST\Admin;
 use WP_REST_Server;
 use Yuvayana\Acadlix\Models\Toplist;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 class AdminLeaderboardController {
 

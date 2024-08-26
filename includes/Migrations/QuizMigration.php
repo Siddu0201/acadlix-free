@@ -4,9 +4,7 @@ namespace Yuvayana\Acadlix\Migrations;
 
 use Illuminate\Database\Capsule\Manager;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-} 
+defined( 'ABSPATH' ) || exit();
 
 if(!class_exists('QuizMigration')){
     class QuizMigration
