@@ -1,10 +1,9 @@
 import React from 'react'
+import AdvancePanel from './AdvancePanel'
 
-const Sbi = () => {
+const Sbi = (props) => {
   return (
-    <div>
-      
-    </div>
+    <AdvancePanel {...props} />
   )
 }
 

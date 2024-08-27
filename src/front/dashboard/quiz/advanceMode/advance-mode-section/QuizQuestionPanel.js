@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Backdrop, Box } from "@mui/material";
 import React from "react";
 import QuizQuestionNumber from "./QuizQuestionNumber";
 import QuizQuestion from "./QuizQuestion";
 import QuizButtonOptions from "./QuizButtonOptions";
+import toast from "react-hot-toast";
 
 const QuizQuestionPanel = (props) => {
   const idList = [
@@ -19,25 +20,35 @@ const QuizQuestionPanel = (props) => {
   ];
   const [remainingHeight, setRemainingHeight] = React.useState(0);
   React.useEffect(() => {
-      let total = 3;
-      idList.forEach((a, i) => {
-        total += document.getElementById(a)?.clientHeight ?? 0;
-      });
-      if (acadlixOptions?.is_admin_bar_showing) {
-        // total += props?.isDesktop ? 32 : 46;
-      }
-      setRemainingHeight(total);
-  },[props?.question?.selected]);
+    let total = 3;
+    idList.forEach((a, i) => {
+      total += document.getElementById(a)?.clientHeight ?? 0;
+    });
+    if (acadlixOptions?.is_admin_bar_showing) {
+      // total += props?.isDesktop ? 32 : 46;
+    }
+    setRemainingHeight(total);
+  }, [props?.question?.selected]);
 
-  React.useEffect(() => {
-    const disableScroll = (e) => {
+  let wheel_timer = 0;
+  const [hasTriggered, setHasTriggered] = React.useState(false);
+
+  const disableScroll = (e) => {
+    if (["ibps"]?.includes(props?.watch("advance_mode_type"))) {
       e.preventDefault();
-    };
-
-    window.addEventListener('wheel', disableScroll, { passive: false });
+      setHasTriggered(true);
+      // toast?.error("Scroll is disabled.");
+      // clearTimeout(wheel_timer);
+      setTimeout(function () {
+        setHasTriggered(false);
+      }, 2000);
+    }
+  };
+  React.useEffect(() => {
+    window.addEventListener("wheel", disableScroll, { passive: false });
 
     return () => {
-      window.removeEventListener('wheel', disableScroll);
+      window.removeEventListener("wheel", disableScroll);
     };
   }, []);
 
@@ -47,6 +58,13 @@ const QuizQuestionPanel = (props) => {
         display: props?.question?.selected ? " " : "none",
       }}
     >
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        open={hasTriggered}
+        onClick={() => setHasTriggered(false)}
+      >
+        Scroller is disabled.
+      </Backdrop>
       <Box
         sx={{
           margin: "1px",

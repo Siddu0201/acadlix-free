@@ -1,10 +1,9 @@
 import React from 'react'
+import AdvancePanel from './AdvancePanel'
 
-const Railway = () => {
+const Railway = (props) => {
   return (
-    <div>
-      
-    </div>
+    <AdvancePanel {...props} />
   )
 }
 
