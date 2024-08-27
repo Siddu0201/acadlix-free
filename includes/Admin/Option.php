@@ -53,6 +53,9 @@ if (!class_exists("Option")) {
                 $page_id = wp_insert_post($data);
                 // Optionally, you can store the page ID in an option or somewhere else for future reference
                 update_option($option, $page_id);
+            }else{
+                $page_id = $existing_page[0]?->ID;
+                update_option($option, $page_id);
             }
 
         }
