@@ -194,7 +194,7 @@ const Question = () => {
 
   const handleSetParagraph = () => {
     methods?.setValue("paragraph_model", true, { shouldDirty: true });
-  }
+  };
 
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
@@ -247,7 +247,7 @@ const Question = () => {
 
   const handleParagraphClose = () => {
     methods?.setValue("paragraph_model", false, { shouldDirty: true });
-  }
+  };
 
   return (
     <Box>
@@ -330,6 +330,19 @@ const Question = () => {
                   >
                     Add
                   </Button>
+                  {acadlixOptions?.is_abqu_active && (
+                    <Button
+                      variant="contained"
+                      LinkComponent="a"
+                      href={acadlixOptions?.abqu_url}
+                      sx={{
+                        marginRight: 2,
+                      }}
+                      color="primary"
+                    >
+                      Import from .docx
+                    </Button>
+                  )}
                 </Box>
               }
               sx={{

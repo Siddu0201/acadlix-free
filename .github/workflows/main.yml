@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
@@ -29,7 +29,10 @@ jobs:
       - name: Zip the plugin
         run: |
           zip -r plugin.zip . -x "node_modules/*" \
-                              -x ".gitignore"
+                              -x ".gitignore" \
+                              -x ".git/*" \
+                              -x ".github/*" \
+                              -x "src/*"
         working-directory: ./
 
       - name: Upload ZIP to server

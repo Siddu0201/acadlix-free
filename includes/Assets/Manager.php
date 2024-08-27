@@ -154,6 +154,8 @@ class Manager
         wp_localize_script('acadlix-app', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'nonce' => wp_create_nonce('wp_rest'),
+            'abqu_url' => admin_url('admin.php?page=abqu'),
+            'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
         ));
     }
 

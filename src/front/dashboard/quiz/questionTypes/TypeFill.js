@@ -1,6 +1,7 @@
 import { Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
+import parse from "html-react-parser";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;
@@ -129,7 +130,7 @@ const TypeFill = (props) => {
                   />
                 );
               }
-              return data;
+              return parse(data);
             })}
         </Box>
         {(props?.watch("view_answer") ||
@@ -177,7 +178,7 @@ const TypeFill = (props) => {
                     </React.Fragment>
                   );
                 }
-                return data;
+                return parse(data);
               })}
           </Box>
         </>

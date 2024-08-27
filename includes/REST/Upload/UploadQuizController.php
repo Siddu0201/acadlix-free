@@ -39,7 +39,7 @@ class UploadQuizController
     {
         $res = [];
         $params = $request->get_params();
-        $res['quizes'] = Quiz::select(['id', 'title'])->get();
+        $res['quizes'] = Quiz::select(['id', 'title'])->orderBy('created_at', 'desc')->get();
         return rest_ensure_response($res);
     }
 
@@ -48,7 +48,7 @@ class UploadQuizController
         $res = [];
         $params = $request->get_json_params();
         $i = 1;
-        $i += Question::latest()->first()->sort;
+        $i += Question::where('quiz_id', $params['quiz_id'])->latest()->first()->sort ?? 0;
         if (count($params['questions']) > 0) {
             foreach ($params['questions'] as $qkey => $ques) {
                 $question = Question::create([
@@ -57,6 +57,7 @@ class UploadQuizController
                     'quiz_id' => $params['quiz_id'],
                     'answer_type' => $ques['answer_type'],
                     'different_incorrect_msg' => $ques['different_incorrect_msg'],
+                    'hint_enabled' => $ques['hint_enabled'],
                 ]);
                 foreach($ques['language'] as $lkey => $lang){
                     $helper = new Helper();
