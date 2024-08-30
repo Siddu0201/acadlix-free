@@ -361,13 +361,13 @@ const QuestionContent = (props) => {
     if (props?.create) {
       createMutation.mutate(newData, {
         onSuccess: (data) => {
-          navigate(`/quiz/${props?.quiz_id}/question`);
+          navigate(`/${props?.quiz_id}/question`);
         },
       });
     } else {
       updateMutation.mutate(newData, {
         onSuccess: (data) => {
-          navigate(`/quiz/${props?.quiz_id}/question`);
+          navigate(`/${props?.quiz_id}/question`);
         },
       });
     }
@@ -404,7 +404,7 @@ const QuestionContent = (props) => {
                   width: "fit-content",
                 }}
                 LinkComponent={Link}
-                to={`/quiz/${props?.quiz_id}/question`}
+                to={`/${props?.quiz_id}/question`}
               >
                 Back
               </Button>

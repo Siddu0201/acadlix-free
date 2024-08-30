@@ -83,7 +83,7 @@ const Question = () => {
                 size="small"
                 color="primary"
                 LinkComponent={Link}
-                to={`/quiz/${quiz_id}/question/edit/${params?.id}`}
+                to={`/${quiz_id}/question/edit/${params?.id}`}
               >
                 <FaEdit />
               </IconButton>
@@ -297,7 +297,7 @@ const Question = () => {
               width: "fit-content",
             }}
             LinkComponent={Link}
-            to="/quiz"
+            to="/"
           >
             Back
           </Button>
@@ -322,7 +322,7 @@ const Question = () => {
                   <Button
                     variant="contained"
                     LinkComponent={Link}
-                    to={`/quiz/${quiz_id}/question/create`}
+                    to={`/${quiz_id}/question/create`}
                     sx={{
                       marginRight: 2,
                     }}

@@ -203,7 +203,7 @@ const QuizLeaderboard = () => {
               width: "fit-content",
             }}
             LinkComponent={Link}
-            to={`/quiz`}
+            to={`/`}
           >
             Back
           </Button>

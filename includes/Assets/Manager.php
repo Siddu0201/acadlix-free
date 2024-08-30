@@ -17,7 +17,7 @@ class Manager
     {
         add_action('init', [$this, 'register_all_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
         add_shortcode('Acadlix_Dashboard', [$this, 'acadlix_dashboard_shortcode']);
         add_shortcode('Acadlix_Advance_Quiz', [$this, 'acadlix_advance_quiz_shortcode']);
@@ -93,8 +93,8 @@ class Manager
     public function get_styles(): array
     {
         return [
-            'acadlix-css' => [
-                'src' => ACADLIX_BUILD_URL . 'index.css',
+            'acadlix-admin-quiz-css' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_quiz.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
@@ -103,19 +103,63 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+
         ];
     }
 
     public function get_scripts(): array
     {
-        $dependency = require_once ACADLIX_BUILD_PATH . 'index.asset.php';
+        $admin_course_dependency = require_once ACADLIX_BUILD_PATH . 'admin_course.asset.php';
+        $admin_home_dependency = require_once ACADLIX_BUILD_PATH . 'admin_home.asset.php';
+        $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . 'admin_lesson.asset.php';
+        $admin_order_dependency = require_once ACADLIX_BUILD_PATH . 'admin_order.asset.php';
+        $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . 'admin_quiz.asset.php';
+        $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . 'admin_setting.asset.php';
+        $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . 'admin_tool.asset.php';
+
         $front_dependency = require_once ACADLIX_BUILD_PATH . 'front.asset.php';
 
         return [
-            'acadlix-app' => [
-                'src' => ACADLIX_BUILD_URL . 'index.js',
-                'version' => $dependency['version'],
-                'deps' => $dependency['dependencies'],
+            'acadlix-admin-course' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_course.js',
+                'version' => $admin_course_dependency['version'],
+                'deps' => $admin_course_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-home' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_home.js',
+                'version' => $admin_home_dependency['version'],
+                'deps' => $admin_home_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-lesson' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_lesson.js',
+                'version' => $admin_lesson_dependency['version'],
+                'deps' => $admin_lesson_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-order' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_order.js',
+                'version' => $admin_order_dependency['version'],
+                'deps' => $admin_order_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-quiz' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_quiz.js',
+                'version' => $admin_quiz_dependency['version'],
+                'deps' => $admin_quiz_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-setting' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_setting.js',
+                'version' => $admin_setting_dependency['version'],
+                'deps' => $admin_setting_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-tool' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_tool.js',
+                'version' => $admin_tool_dependency['version'],
+                'deps' => $admin_tool_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-front-app' => [
@@ -139,24 +183,6 @@ class Manager
         foreach ($scripts as $handle => $script) {
             wp_register_script($handle, $script['src'], $script['deps'], $script['version'], $script['in_footer']);
         }
-    }
-
-    public function enqueue_admin_assets($hook)
-    {
-        // Check if we are on the admin page and page=acadlix.
-        if (!is_admin() || 'toplevel_page_' . ACADLIX_SLUG != $hook || !isset($_GET['page']) || sanitize_text_field(wp_unslash($_GET['page'])) !== ACADLIX_SLUG) {
-            return;
-        }
-        wp_enqueue_editor();
-        wp_enqueue_media();
-        wp_enqueue_style('acadlix-css');
-        wp_enqueue_script('acadlix-app');
-        wp_localize_script('acadlix-app', 'acadlixOptions', array(
-            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'nonce' => wp_create_nonce('wp_rest'),
-            'abqu_url' => admin_url('admin.php?page=abqu'),
-            'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
-        ));
     }
 
     public function enqueue_front_assets()

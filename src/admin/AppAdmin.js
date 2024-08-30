@@ -1,4 +1,3 @@
-import { ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { HashRouter, Route, Routes } from "react-router-dom";
@@ -8,7 +7,6 @@ import AdminLayout from "../layout/AdminLayout";
 import "react-datepicker/dist/react-datepicker.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import Quiz from "./views/quiz/Quiz";
 import CreateQuiz from "./views/quiz/CreateQuiz";
@@ -22,10 +20,10 @@ import QuizResult from "./views/quiz/quiz-result/QuizResult";
 import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerSheet";
 import Provider from "../provider/Provider";
 import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
-import AdminHome from "./views/home/AdminHome";
 import Paragraph from "./views/paragraph/Paragraph";
 import CreateParagraph from "./views/paragraph/CreateParagraph";
 import EditParagraph from "./views/paragraph/EditParagraph";
+import Home from "./views/home/Home";
 
 const AppAdmin = () => {
   return (
@@ -36,7 +34,7 @@ const AppAdmin = () => {
             <Toaster position="bottom-right" />
             <Routes>
               <Route element={<AdminLayout />}>
-                <Route index element={<AdminHome />} />
+                <Route index element={<Home />} />
                 <Route path="/quiz">
                   <Route index element={<Quiz />} />
                   <Route path="create" element={<CreateQuiz />} />

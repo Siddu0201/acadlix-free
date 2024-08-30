@@ -23,3 +23,5 @@ define('ACADLIX_BUILD_PATH', ACADLIX_PLUGIN_DIR . 'build/');
 
 // Custom post type constant
 const ACADLIX_COURSE_CPT = 'acadlix_course';
+const ACADLIX_COURSE_CATEGORY_TAXONOMY = 'acadlix_course_category';
+const ACADLIX_COURSE_TAG_TAXONOMY = 'acadlix_course_tag';

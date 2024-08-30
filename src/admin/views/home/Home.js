@@ -19,7 +19,7 @@ import { RiUserHeartFill } from "react-icons/ri";
 import { BiSolidCommentDetail } from "react-icons/bi";
 import { FaCog } from "react-icons/fa";
 
-const AdminHome = () => {
+const Home = () => {
   return (
     <Grid
       container
@@ -560,4 +560,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default Home;

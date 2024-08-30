@@ -55,7 +55,7 @@ const QuizResultAnswerSheet = () => {
               width: "fit-content",
             }}
             LinkComponent={Link}
-            to={`/quiz/${quiz_id}/result`}
+            to={`/${quiz_id}/result`}
           >
             Back
           </Button>

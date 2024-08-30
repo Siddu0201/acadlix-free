@@ -89,7 +89,7 @@ const QuizResult = () => {
               size="small"
               color="warning"
               LinkComponent={Link}
-              to={`/quiz/${quiz_id}/result/${params?.id}`}
+              to={`/${quiz_id}/result/${params?.id}`}
             >
               <FaExpandArrowsAlt fontSize="inherit" />
             </IconButton>
@@ -164,7 +164,7 @@ const QuizResult = () => {
               width: "fit-content",
             }}
             LinkComponent={Link}
-            to={`/quiz`}
+            to={`/`}
           >
             Back
           </Button>

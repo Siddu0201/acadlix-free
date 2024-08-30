@@ -273,7 +273,7 @@ class AdminQuizController {
         $res = [];
         $quiz_id = $request['quiz_id'];
         $res['quiz'] = Quiz::select('quiz_timing_type', 'subject_wise_question', 'optional_subject', 'advance_mode_type')->where('id', $quiz_id)->first();
-        $questions = Question::where('quiz_id', $quiz_id)->get();
+        $questions = Question::where('online', 1)->where('quiz_id', $quiz_id)->get();
         $grouped = $questions->groupBy('subject_id')->map(function ($group) use ($quiz_id) {
             return [
                 'subject_id' => $group->first()->subject_id,

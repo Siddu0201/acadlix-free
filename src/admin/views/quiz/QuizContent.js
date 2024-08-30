@@ -241,13 +241,13 @@ const QuizContent = (props) => {
     if (props?.create) {
       createMutation.mutate(data, {
         onSuccess: (data) => {
-          navigate("/quiz");
+          navigate("/");
         },
       });
     } else {
       updateMutation.mutate(data, {
         onSuccess: (data) => {
-          navigate("/quiz");
+          navigate("/");
         },
       });
     }
@@ -310,7 +310,7 @@ const QuizContent = (props) => {
                   width: "fit-content",
                 }}
                 LinkComponent={Link}
-                to="/quiz"
+                to="/"
               >
                 Back
               </Button>

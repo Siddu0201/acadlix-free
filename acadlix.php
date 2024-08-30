@@ -66,13 +66,13 @@ if (!class_exists('Acadlix')) {
             // Custom Post type
             Course::instance();
             
+            Manager::instance();
             if (is_admin()) {
                 Menu::instance();
             }
 
             UserRole::instance();
             Core::instance();
-            Manager::instance();
             Api::instance();
             
         }

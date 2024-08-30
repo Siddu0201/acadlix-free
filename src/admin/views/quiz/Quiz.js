@@ -95,8 +95,14 @@ const Quiz = () => {
             <Tooltip title="Copy Shortcode" arrow>
               <IconButton
                 onClick={() => {
-                  navigator.clipboard.writeText(params.value);
-                  toast.success("Shortcode copied to clipboard!");
+                  navigator.clipboard
+                    .writeText(params?.value)
+                    .then(function () {
+                      toast.success("Shortcode copied to clipboard!");
+                    })
+                    .catch(function (err) {
+                      console.error("Failed to copy text: ", err);
+                    });
                 }}
                 size="small"
               >
@@ -129,7 +135,7 @@ const Quiz = () => {
                 size="small"
                 color="primary"
                 LinkComponent={Link}
-                to={`/quiz/edit/${params?.id}`}
+                to={`/edit/${params?.id}`}
               >
                 <FaEdit />
               </IconButton>
@@ -150,7 +156,7 @@ const Quiz = () => {
                 size="small"
                 color="secondary"
                 LinkComponent={Link}
-                to={`/quiz/${params?.id}/question`}
+                to={`/${params?.id}/question`}
               >
                 <FaQuestion />
               </IconButton>
@@ -161,7 +167,7 @@ const Quiz = () => {
                 size="small"
                 color="grey"
                 LinkComponent={Link}
-                to={`/quiz/${params?.id}/paragraph`}
+                to={`/${params?.id}/paragraph`}
               >
                 <FaParagraph />
               </IconButton>
@@ -172,7 +178,7 @@ const Quiz = () => {
                 size="small"
                 color="info"
                 LinkComponent={Link}
-                to={`/quiz/${params?.id}/result`}
+                to={`/${params?.id}/result`}
               >
                 <LuFileBarChart2 />
               </IconButton>
@@ -183,7 +189,7 @@ const Quiz = () => {
                 size="small"
                 color="warning"
                 LinkComponent={Link}
-                to={`/quiz/${params?.id}/leaderboard`}
+                to={`/${params?.id}/leaderboard`}
               >
                 <FaRankingStar />
               </IconButton>
@@ -366,7 +372,7 @@ const Quiz = () => {
                   <Button
                     variant="contained"
                     LinkComponent={Link}
-                    to="/quiz/create"
+                    to="/create"
                     sx={{
                       marginRight: 2,
                     }}

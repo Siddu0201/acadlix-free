@@ -74,7 +74,7 @@ const Paragraph = () => {
                 size="small"
                 color="primary"
                 LinkComponent={Link}
-                to={`/quiz/${quiz_id}/paragraph/edit/${params?.id}`}
+                to={`/${quiz_id}/paragraph/edit/${params?.id}`}
               >
                 <FaEdit />
               </IconButton>
@@ -196,7 +196,7 @@ const Paragraph = () => {
               width: "fit-content",
             }}
             LinkComponent={Link}
-            to="/quiz"
+            to="/"
           >
             Back
           </Button>
@@ -221,7 +221,7 @@ const Paragraph = () => {
                   <Button
                     variant="contained"
                     LinkComponent={Link}
-                    to={`/quiz/${quiz_id}/paragraph/create`}
+                    to={`/${quiz_id}/paragraph/create`}
                     sx={{
                       marginRight: 2,
                     }}

@@ -112,14 +112,14 @@ const ParagraphContent = (props) => {
       createMutation.mutate(data, {
         onSuccess: () => {
           toast.success("Paragraph created successfully.");
-          navigate(`/quiz/${props?.quiz_id}/paragraph`);
+          navigate(`/${props?.quiz_id}/paragraph`);
         },
       });
     } else {
       updateMutation.mutate(data, {
         onSuccess: () => {
           toast.success("Paragraph updated successfully.");
-          navigate(`/quiz/${props?.quiz_id}/paragraph`);
+          navigate(`/${props?.quiz_id}/paragraph`);
         },
       });
     }
@@ -151,7 +151,7 @@ const ParagraphContent = (props) => {
                   width: "fit-content",
                 }}
                 LinkComponent={Link}
-                to={`/quiz/${props?.quiz_id}/paragraph`}
+                to={`/${props?.quiz_id}/paragraph`}
               >
                 Back
               </Button>

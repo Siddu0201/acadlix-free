@@ -8,7 +8,13 @@ module.exports = {
   entry: {
     ...defaultConfig.entry,
 
-    index: path.resolve(process.cwd(), "src", "index.js"),
+    admin_home: path.resolve(process.cwd(), "src", "admin-home.js"),
+    admin_course: path.resolve(process.cwd(), "src", "admin-course.js"),
+    admin_lesson: path.resolve(process.cwd(), "src", "admin-lesson.js"),
+    admin_quiz: path.resolve(process.cwd(), "src", "admin-quiz.js"),
+    admin_order: path.resolve(process.cwd(), "src", "admin-order.js"),
+    admin_setting: path.resolve(process.cwd(), "src", "admin-setting.js"),
+    admin_tool: path.resolve(process.cwd(), "src", "admin-tool.js"),
 
     front: path.resolve(process.cwd(), "src", "front.js"),
   },
