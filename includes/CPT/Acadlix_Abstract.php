@@ -54,6 +54,9 @@ abstract class Acadlix_Abstract
 
 		add_filter('manage_edit-' . $this->_post_type . '_sortable_columns', array($this, 'sortable_columns'));
 		add_filter('manage_' . $this->_post_type . '_posts_columns', array($this, 'columns_head'));
+		add_filter('manage_' . $this->_post_type . '_posts_custom_column', array($this, 'custom_column_content'), 10, 2 );
+
+		add_action( 'add_meta_boxes_'.$this->_post_type, array($this, 'render_meta_box') );
 	}
 
 	public function _do_register()
@@ -79,6 +82,16 @@ abstract class Acadlix_Abstract
 	public function columns_head($columns)
 	{
 		return $columns;
+	}
+
+	public function custom_column_content($column, $post_id = 0)
+	{
+		// Implement from child
+	}
+
+	public function render_meta_box()
+	{
+		// Implement from child
 	}
 }
 

@@ -77,7 +77,7 @@ class AdminQuizController {
                 ],
                 [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => [ $this, 'delete_quiz' ],
+                    'callback'            => [ $this, 'delete_quiz_by_id' ],
                     'permission_callback' => function (WP_REST_Request $request){
                         if(wp_verify_nonce( $request->get_header('X-WP-Nonce'), 'wp_rest' )){
                             return true;
@@ -191,14 +191,14 @@ class AdminQuizController {
 
     public function get_quiz_by_id($request) {
         $res = [];
-        $id = $request['quiz_id'];
+        $quiz_id = $request['quiz_id'];
         $res['quiz'] = Quiz::withCount(['questions' => function (Builder $query) {
             $query->where('online', 1);
-        }])->with(['prerequisites'])->find($id);
+        }])->with(['prerequisites'])->find($quiz_id);
         $res['categories'] = Category::get();
         $res['languages'] = Language::get();
         $res['templates'] = Template::where("type", "quiz")->get(["id", "name"]);
-        $res['quizes'] = Quiz::whereNot('id', $id)->get();
+        $res['quizes'] = Quiz::whereNot('id', $quiz_id)->get();
         return rest_ensure_response($res);
     }
     
@@ -234,7 +234,7 @@ class AdminQuizController {
         return rest_ensure_response($res);
     }
     
-    public function delete_quiz($request) {
+    public function delete_quiz_by_id($request) {
         $res = [];
         $quiz_id = $request['quiz_id'];
         $quiz = Quiz::find($quiz_id);

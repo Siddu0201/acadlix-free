@@ -1,0 +1,298 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  FormHelperText,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { DeleteBulkLesson, DeleteLessonById, GetLessons } from "../../../requests/admin/AdminLessonRequest";
+import { FaEdit, FaTrash } from "react-icons/fa";
+
+const Lesson = () => {
+  const methods = useForm({
+    defaultValues: {
+      rows: [],
+      lesson_ids: [],
+      action: "",
+    },
+  });
+  const [paginationModel, setPaginationModel] = React.useState({
+    pageSize: 10,
+    page: 0,
+  });
+
+  const deleteMutation = DeleteLessonById();
+  const deleteLessonById = (id) => {
+    if (confirm("Do you really want to delete this lesson?")) {
+      deleteMutation?.mutate(id);
+    }
+  };
+
+  const columns = [
+    { field: "id", headerName: "ID" },
+    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
+    { field: "type", headerName: "Type", flex: 2, minWidth: 100 },
+    {
+      field: "total_resources",
+      headerName: "No. of resources",
+      flex: 2,
+      minWidth: 130,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      sortable: false,
+      flex: 2,
+      minWidth: 100,
+      renderCell: (params) => {
+        return (
+          <>
+            <Tooltip title="Edit Lesson" arrow>
+              <IconButton
+                aria-label="edit"
+                size="small"
+                color="primary"
+                LinkComponent={Link}
+                to={`/edit/${params?.id}`}
+              >
+                <FaEdit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Lesson" arrow>
+              <IconButton
+                aria-label="delete"
+                size="small"
+                color="error"
+                onClick={deleteLessonById.bind(this, params?.id)}
+              >
+                <FaTrash />
+              </IconButton>
+            </Tooltip>
+          </>
+        );
+      },
+    },
+  ];
+
+  const { isFetching, data } = GetLessons(
+    paginationModel?.page,
+    paginationModel?.pageSize
+  );
+
+  React.useMemo(() => {
+    if (Array.isArray(data?.data?.lessons)) {
+      const newRows = data?.data?.lessons?.map((lesson) => {
+        return {
+          id: lesson?.id,
+          title: lesson?.title,
+          type: lesson?.type,
+          total_resources: lesson?.lesson_resources_count,
+        };
+      });
+      methods.setValue("rows", newRows, { shouldDirty: true });
+    }
+  }, [data]);
+
+  const rowCountRef = React.useRef(data?.data?.total || 0);
+
+  const rowCount = React.useMemo(() => {
+    if (data?.data?.total !== undefined) {
+      rowCountRef.current = data?.data?.total;
+    }
+    return rowCountRef.current;
+  }, [data?.data?.total]);
+
+  const deleteBulkMutation = DeleteBulkLesson();
+  const handleBulkDelete = () => {
+    if (confirm("Do you really want to delete these lesson(s)?")) {
+      deleteBulkMutation?.mutate(
+        {
+          lesson_ids: methods?.watch("lesson_ids"),
+        },
+        {
+          onSettled: () => {
+            methods?.setValue("action", "", { shouldDirty: true });
+            methods?.setValue("lesson_ids", [], { shouldDirty: true });
+          },
+        }
+      );
+    }
+  }
+
+  const handleActionChange = (e) => {
+    methods?.setValue("action", e?.target?.value, { shouldDirty: true });
+  };
+
+  const handleBulkAction = () => {
+    if (methods?.watch("action")) {
+      methods?.clearErrors("action");
+      if (methods?.watch("lesson_ids")?.length > 0) {
+        switch (methods?.watch("action")) {
+          case "delete":
+            handleBulkDelete();
+            break;
+          default:
+        }
+      } else {
+        toast.error("Please select atleast 1 entry.", {
+          position: "bottom-left",
+        });
+      }
+    } else {
+      methods?.setError("action", {
+        type: "custom",
+        message: "Action required",
+      });
+    }
+  };
+
+  return (
+    <Box>
+      <Grid
+        container
+        rowSpacing={3}
+        spacing={4}
+        sx={{
+          padding: 4,
+        }}
+      >
+        <Grid item xs={12} lg={12}>
+          <Card>
+            <CardHeader
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 4,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Lesson Overview
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    LinkComponent={Link}
+                    to="/create"
+                    sx={{
+                      marginRight: 2,
+                    }}
+                    color="primary"
+                  >
+                    Add
+                  </Button>
+                </Box>
+              }
+              sx={{
+                paddingX: 4,
+                paddingY: 2,
+                paddingBottom: 1,
+              }}
+            ></CardHeader>
+            <CardContent>
+              <Box
+                sx={{
+                  paddingBottom: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    alignItems: "baseline",
+                  }}
+                >
+                  <FormControl
+                    sx={{ minWidth: 150 }}
+                    size="small"
+                    error={Boolean(methods?.formState?.errors?.action)}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      Bulk Actions
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={methods?.watch("action")}
+                      label="Bulk Actions"
+                      onChange={handleActionChange}
+                    >
+                      <MenuItem value="">Bulk Actions</MenuItem>
+                      <MenuItem value="delete">Delete</MenuItem>
+                    </Select>
+                    <FormHelperText>
+                      {methods?.formState?.errors?.action?.message}
+                    </FormHelperText>
+                  </FormControl>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      marginRight: 2,
+                    }}
+                    onClick={handleBulkAction}
+                    color="primary"
+                  >
+                    Apply
+                  </Button>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                }}
+              >
+                <DataGrid
+                  rows={methods?.watch("rows")}
+                  columns={columns}
+                  rowCount={rowCount}
+                  paginationModel={paginationModel}
+                  onPaginationModelChange={setPaginationModel}
+                  paginationMode="server"
+                  pageSizeOptions={[10, 20, 50]}
+                  checkboxSelection
+                  disableRowSelectionOnClick
+                  onRowSelectionModelChange={(data) => {
+                    methods?.setValue("lesson_ids", data, {
+                      shouldDirty: true,
+                    });
+                  }}
+                  rowSelectionModel={methods?.watch("lesson_ids")}
+                  autoHeight
+                  loading={isFetching || deleteMutation?.isPending}
+                  columnVisibilityModel={{
+                    id: false,
+                  }}
+                  sx={{
+                    "& .PrivateSwitchBase-input": {
+                      height: "100% !important",
+                      width: "100% !important",
+                      margin: "0 !important",
+                    },
+                  }}
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default Lesson;

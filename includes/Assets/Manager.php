@@ -98,6 +98,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-lesson-css' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_lesson.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-css' => [
                 'src' => ACADLIX_BUILD_URL . 'front.css',
                 'version' => ACADLIX_VERSION,

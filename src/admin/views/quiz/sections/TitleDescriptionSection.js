@@ -8,8 +8,8 @@ const TitleDescriptionSection = (props) => {
   };
   
   React.useEffect(() => {
-    loadPage();
-    window.addEventListener("load", loadPage);
+      loadPage();
+      window.addEventListener("load", loadPage);
     
     return () => {
       props?.removeEditor("description");
@@ -61,7 +61,7 @@ const TitleDescriptionSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch("description") ?? ""}
-                onChange={(e) => {e?.preventDefault()}}
+                onChange={(e) => {e.preventDefault()}}
               />
             </Grid>
           </Grid>

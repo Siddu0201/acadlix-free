@@ -56,7 +56,7 @@ final class Course extends Acadlix_Abstract
             'show_in_admin_bar' => false,
             'show_in_nav_menus' => true,
             'show_in_rest' => $show_in_rest,
-            // 'taxonomies'         => array( 'course_category', 'course_tag' ),
+            'taxonomies'         => array( ACADLIX_COURSE_CATEGORY_TAXONOMY, ACADLIX_COURSE_TAG_TAXONOMY ),
             'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'comments', 'excerpt'),
             'hierarchical' => false,
             'rewrite' => !empty($course_permalink) ? array(
@@ -147,13 +147,53 @@ final class Course extends Acadlix_Abstract
         $new_order['cb'] = $columns['cb'];
         $new_order['title'] = $columns['title'];
         $new_order['author'] = esc_html__('Author', ACADLIX_TEXT_DOMAIN);
-        $new_order['taxonomy-course_category'] = esc_html__('Categories', ACADLIX_TEXT_DOMAIN);
-        $new_order['taxonomy-course_tag'] = esc_html__('Tags', ACADLIX_TEXT_DOMAIN);
+        $new_order['taxonomy-'.ACADLIX_COURSE_CATEGORY_TAXONOMY] = esc_html__('Categories', ACADLIX_TEXT_DOMAIN);
+        $new_order['taxonomy-'.ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', ACADLIX_TEXT_DOMAIN);
         $new_order['students'] = esc_html__('Students', ACADLIX_TEXT_DOMAIN);
         $new_order['price'] = esc_html__('Price', ACADLIX_TEXT_DOMAIN);
         $new_order['review'] = esc_html__('Review', ACADLIX_TEXT_DOMAIN);
         $new_order['date'] = $columns['date'];
         return $new_order;
+    }
+
+    public function custom_column_content($column, $post_id = 0)
+	{
+		switch ( $column ) {
+            case 'students':
+                $count = 0;
+                echo $count;
+                break;
+            case 'price':
+                echo 200;
+                break;
+            case 'review':
+                echo 1;
+                break;
+        }
+	}
+
+    public function render_meta_box()
+    {
+        add_meta_box(
+            'acadlix-course-content',          // Unique ID
+            esc_html__( 'Course Curriculam', ACADLIX_TEXT_DOMAIN ),      // Box title
+            array($this, 'admin_course_editor'),        // Content callback
+            $this->_post_type,          // Post type
+            'normal',                    // Context (normal, side, advanced)
+            'high'                  // Priority
+        );
+    }
+
+    public function admin_course_editor($post)
+    {
+        ?>
+        <script type="text/javascript">
+            window.acadlixCourseList = window.acadlixCourseList || [];
+
+            window.acadlixCourseList = <?php echo json_encode($post); ?>
+        </script>
+        <?php
+        echo '<div id="acadlix-admin-course-editor">Loading...</div>';
     }
 
     public static function instance()

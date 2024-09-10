@@ -8,7 +8,7 @@ const Provider = ({children}) => {
     <CustomQueryClientProvider>
         <CustomThemeProvider>
             {children}
-            <ReactQueryDevtools position='bottom-right' />
+            {/* <ReactQueryDevtools position='bottom-right' /> */}
         </CustomThemeProvider>
     </CustomQueryClientProvider>
   )

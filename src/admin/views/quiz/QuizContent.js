@@ -267,7 +267,8 @@ const QuizContent = (props) => {
           "styleselect,strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help",
         textarea_rows: 20,
         setup: function (editor) {
-          editor.on("input change", function () {
+          console.log(editor);
+          editor.on("input change", function (e) {
             methods.setValue(name, window.wp.editor.getContent(key), {
               shouldDirty: true,
             });

@@ -21,6 +21,8 @@ use Yuvayana\Acadlix\Migrations\AnswerOptionMigration;
 use Yuvayana\Acadlix\Migrations\QuizOptionMigration;
 use Yuvayana\Acadlix\Migrations\ParagraphMigration;
 use Yuvayana\Acadlix\Migrations\ParagraphLangMigration;
+use Yuvayana\Acadlix\Migrations\LessonMigration;
+use Yuvayana\Acadlix\Migrations\LessonResourceMigration;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -46,6 +48,8 @@ if(!class_exists('Migration')){
             AnswerOptionMigration::class,
             QuizOptionMigration::class,
             ParagraphLangMigration::class,
+            LessonMigration::class,
+            LessonResourceMigration::class,
         ];
     
     

@@ -28,20 +28,9 @@ import { FaMinus } from "react-icons/fa";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { BsQuestion } from "react-icons/bs";
 import { RiQuestionFill } from "react-icons/ri";
 
 const General = (props) => {
-  const [quiz, setQuiz] = React.useState([
-    { id: 1, title: "test quiz 1 fsdgffb  fgdfg dfg", show: true },
-    { id: 2, title: "test quiz 2", show: true },
-    { id: 3, title: "test quiz 3", show: true },
-    { id: 4, title: "test quiz 4", show: true },
-    { id: 5, title: "test quiz 5", show: true },
-    { id: 6, title: "test quiz 6", show: true },
-    { id: 7, title: "test quiz 7", show: true },
-  ]);
 
   return (
     <Box sx={{ color: "black" }}>
@@ -141,7 +130,7 @@ const General = (props) => {
             }}
           >
             <FormLabel
-              id="acadlix-genral-quiz-time-type"
+              id="acadlix-general-quiz-time-type"
               sx={{
                 marginRight: 4,
                 color: "black",
