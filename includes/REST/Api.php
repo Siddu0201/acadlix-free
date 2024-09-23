@@ -8,6 +8,7 @@ namespace Yuvayana\Acadlix\REST;
  * All API classes would be registered here
  */
 // Admin API Controller
+use Yuvayana\Acadlix\REST\Admin\AdminCourseController;
 use Yuvayana\Acadlix\REST\Admin\AdminLanguageController;
 use Yuvayana\Acadlix\REST\Admin\AdminCategoryController;
 use Yuvayana\Acadlix\REST\Admin\AdminLeaderboardController;
@@ -62,6 +63,7 @@ defined( 'ABSPATH' ) || exit();
                 AdminLeaderboardController::class,
                 AdminParagraphController::class,
                 AdminLessonController::class,
+                AdminCourseController::class,
 
                 // Front Controllers
                 FrontQuizController::class,

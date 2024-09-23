@@ -50,16 +50,17 @@ abstract class Acadlix_Abstract
 		if (!empty($post_type)) {
 			$this->_post_type = $post_type;
 		}
-		add_action('init', array($this, '_do_register'));
+		add_action('init', array($this, '_acadlix_register'));
+		add_action('before_delete_post', array($this, '_acadlix_before_delete_post'));
 
 		add_filter('manage_edit-' . $this->_post_type . '_sortable_columns', array($this, 'sortable_columns'));
 		add_filter('manage_' . $this->_post_type . '_posts_columns', array($this, 'columns_head'));
-		add_filter('manage_' . $this->_post_type . '_posts_custom_column', array($this, 'custom_column_content'), 10, 2 );
+		add_filter('manage_' . $this->_post_type . '_posts_custom_column', array($this, 'custom_column_content'), 10, 2);
 
-		add_action( 'add_meta_boxes_'.$this->_post_type, array($this, 'render_meta_box') );
+		add_action('add_meta_boxes_' . $this->_post_type, array($this, 'render_meta_box'));
 	}
 
-	public function _do_register()
+	public function _acadlix_register()
 	{
 		$args = $this->args_register_post_type();
 
@@ -67,6 +68,25 @@ abstract class Acadlix_Abstract
 			// print_r($args);
 			register_post_type($this->_post_type, $args);
 		}
+	}
+
+	final function _acadlix_before_delete_post(int $post_id, $post = null)
+	{
+		try {
+			$this->before_delete($post_id);
+		} catch (Throwable $e) {
+			error_log(__METHOD__ . ': ' . $e->getMessage());
+		}
+	}
+
+	public function before_delete(int $post_id)
+	{
+		// Implement from child
+	}
+
+	public function check_post()
+	{
+		return true;
 	}
 
 	public function args_register_post_type(): array

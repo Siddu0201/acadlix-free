@@ -1,6 +1,7 @@
 <?php
 
 namespace Yuvayana\Acadlix\CPT;
+
 use Yuvayana\Acadlix\CPT\Acadlix_Abstract;
 
 defined('ABSPATH') || exit();
@@ -18,7 +19,9 @@ final class Course extends Acadlix_Abstract
     {
         parent::__construct();
 
-        add_action( 'init', [$this, 'register_taxonomy']);
+        add_action('init', [$this, 'register_taxonomy']);
+
+        add_filter('wp_insert_post_empty_content', [$this, 'update_title'], 10, 2);
     }
 
     public function args_register_post_type(): array
@@ -56,7 +59,7 @@ final class Course extends Acadlix_Abstract
             'show_in_admin_bar' => false,
             'show_in_nav_menus' => true,
             'show_in_rest' => $show_in_rest,
-            'taxonomies'         => array( ACADLIX_COURSE_CATEGORY_TAXONOMY, ACADLIX_COURSE_TAG_TAXONOMY ),
+            'taxonomies' => array(ACADLIX_COURSE_CATEGORY_TAXONOMY, ACADLIX_COURSE_TAG_TAXONOMY),
             'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'comments', 'excerpt'),
             'hierarchical' => false,
             'rewrite' => !empty($course_permalink) ? array(
@@ -147,8 +150,8 @@ final class Course extends Acadlix_Abstract
         $new_order['cb'] = $columns['cb'];
         $new_order['title'] = $columns['title'];
         $new_order['author'] = esc_html__('Author', ACADLIX_TEXT_DOMAIN);
-        $new_order['taxonomy-'.ACADLIX_COURSE_CATEGORY_TAXONOMY] = esc_html__('Categories', ACADLIX_TEXT_DOMAIN);
-        $new_order['taxonomy-'.ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', ACADLIX_TEXT_DOMAIN);
+        $new_order['taxonomy-' . ACADLIX_COURSE_CATEGORY_TAXONOMY] = esc_html__('Categories', ACADLIX_TEXT_DOMAIN);
+        $new_order['taxonomy-' . ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', ACADLIX_TEXT_DOMAIN);
         $new_order['students'] = esc_html__('Students', ACADLIX_TEXT_DOMAIN);
         $new_order['price'] = esc_html__('Price', ACADLIX_TEXT_DOMAIN);
         $new_order['review'] = esc_html__('Review', ACADLIX_TEXT_DOMAIN);
@@ -157,8 +160,8 @@ final class Course extends Acadlix_Abstract
     }
 
     public function custom_column_content($column, $post_id = 0)
-	{
-		switch ( $column ) {
+    {
+        switch ($column) {
             case 'students':
                 $count = 0;
                 echo $count;
@@ -170,30 +173,90 @@ final class Course extends Acadlix_Abstract
                 echo 1;
                 break;
         }
-	}
+    }
 
     public function render_meta_box()
     {
+
+        // Course Builder
         add_meta_box(
             'acadlix-course-content',          // Unique ID
-            esc_html__( 'Course Curriculam', ACADLIX_TEXT_DOMAIN ),      // Box title
+            esc_html__('Course Builder', ACADLIX_TEXT_DOMAIN),      // Box title
             array($this, 'admin_course_editor'),        // Content callback
             $this->_post_type,          // Post type
             'normal',                    // Context (normal, side, advanced)
             'high'                  // Priority
         );
+        // Course Setting
+        add_meta_box(
+            'acadlix-course-settings',          // Unique ID
+            esc_html__('Course Settings', ACADLIX_TEXT_DOMAIN),      // Box title
+            array($this, 'admin_course_settings'),        // Content callback
+            $this->_post_type,          // Post type
+            'normal',                    // Context (normal, side, advanced)
+            'core'                  // Priority
+        );
     }
 
     public function admin_course_editor($post)
     {
+        $args = array(
+            'role__in' => array('Administrator', 'Author'), // Specify roles
+            'orderby' => 'user_nicename',
+            'order' => 'ASC'
+        );
+
+        $users = get_users($args);
+        $course_setting = \Yuvayana\Acadlix\Models\Course::find($post->ID);
         ?>
         <script type="text/javascript">
             window.acadlixCourseList = window.acadlixCourseList || [];
 
-            window.acadlixCourseList = <?php echo json_encode($post); ?>
+            window.acadlixCourseList = {
+                logged_in_user_id: <?php echo get_current_user_id(  ); ?>,
+                course: <?php echo json_encode($post); ?>,
+                users: <?php echo json_encode($users); ?>,
+                course_setting: <?php echo json_encode($course_setting); ?>,
+            };
         </script>
         <?php
         echo '<div id="acadlix-admin-course-editor">Loading...</div>';
+    }
+
+    public function admin_course_settings($post)
+    {
+        echo '<div id="acadlix-admin-course-settings">Loading...</div>';
+    }
+
+    public function update_title($maybe_empty, $post_acc)
+    {
+        if (isset($_POST['action']) && ($_POST['action'] === 'editpost' || $_POST['action'] === 'inline-save')) {
+            if ($post_acc['post_type'] === $this->_post_type) {
+                if ($maybe_empty && empty($post_acc['post_title'])) {
+                    $post_title = __('Draft Course', ACADLIX_TEXT_DOMAIN);
+                    wp_update_post(array(
+                        'ID' => $post_acc['ID'],
+                        'post_title' => $post_title,
+                        'post_status' => $post_acc['post_status'],
+                        'post_author' => $post_acc['post_author'],
+                    ));
+                }
+            }
+        }
+        return $maybe_empty;
+    }
+
+    public function before_delete(int $post_id)
+    {
+        global $post_type;
+
+        if ($post_type !== $this->_post_type) {
+            return;
+        }
+        $course = \Yuvayana\Acadlix\Models\Course::find($post_id);
+        if ($course) {
+            $course->delete();
+        }
     }
 
     public static function instance()

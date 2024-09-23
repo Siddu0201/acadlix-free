@@ -1,0 +1,32 @@
+import { DialogContent, DialogTitle, IconButton } from '@mui/material'
+import React from 'react'
+import { IoClose } from 'react-icons/io5'
+
+const SectionModal = (props) => {
+  return (
+    <>
+      <DialogTitle id="alert-section-title" sx={{ m: 0, p: 2 }}>
+        Add Section
+      </DialogTitle>
+      <IconButton
+        aria-label="close"
+        onClick={props?.handleSectionClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <IoClose />
+      </IconButton>
+      <DialogContent
+        sx={{
+          padding: "1rem !important",
+        }}
+      >Add/ edit</DialogContent>
+    </>
+  )
+}
+
+export default SectionModal

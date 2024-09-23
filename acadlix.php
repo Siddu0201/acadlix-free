@@ -24,11 +24,11 @@ use Yuvayana\Acadlix\Seeder\Seeder;
 use Yuvayana\Acadlix\Admin\Option;
 use Yuvayana\Acadlix\CPT\Course;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
-if ( ! defined( 'ACADLIX_PLUGIN_FILE' ) ) {
-	define( 'ACADLIX_PLUGIN_FILE', __FILE__ );
-	include_once 'includes/acadlix-contant.php';
+if (!defined('ACADLIX_PLUGIN_FILE')) {
+    define('ACADLIX_PLUGIN_FILE', __FILE__);
+    include_once 'includes/acadlix-contant.php';
 }
 
 if (!class_exists('Acadlix')) {
@@ -65,7 +65,7 @@ if (!class_exists('Acadlix')) {
         {
             // Custom Post type
             Course::instance();
-            
+
             Manager::instance();
             if (is_admin()) {
                 Menu::instance();
@@ -74,7 +74,7 @@ if (!class_exists('Acadlix')) {
             UserRole::instance();
             Core::instance();
             Api::instance();
-            
+
         }
 
         public static function activate()

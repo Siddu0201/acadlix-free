@@ -3,8 +3,14 @@ import { jsx as _jsx } from 'react/jsx-runtime'
 import { createRoot } from 'react-dom/client';
 import AdminCourse from './admin/AdminCourse';
 
-const acadlixElement = document.getElementById('acadlix-admin-course-editor');
-if (acadlixElement){
-    const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminCourse />);
+const acadlixCourseElement = document.getElementById('acadlix-admin-course-editor');
+if (acadlixCourseElement){
+    const acadlixCourseElementRoot = createRoot(acadlixCourseElement);
+    acadlixCourseElementRoot.render(<AdminCourse type="builder" />);
+}
+
+const acadlixCourseSettingElement = document.getElementById('acadlix-admin-course-settings');
+if (acadlixCourseSettingElement){
+    const acadlixCourseSettingElementRoot = createRoot(acadlixCourseSettingElement);
+    acadlixCourseSettingElementRoot.render(<AdminCourse type="settings" />);
 }

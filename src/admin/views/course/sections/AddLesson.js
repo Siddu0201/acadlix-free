@@ -1,0 +1,145 @@
+import { Box, Button } from "@mui/material";
+import React from "react";
+import BootstrapDialog from "../modals/BootstrapDialog";
+import { useForm } from "react-hook-form";
+import { FaPlus } from "react-icons/fa";
+import AddLessonModal from "../modals/AddLessonModal";
+import toast from "react-hot-toast";
+import { PostAddLesson } from "../../../../requests/admin/AdminCourseRequest";
+
+const AddLesson = (props) => {
+  const methods = useForm({
+    defaultValues: {
+      course_id: null,
+      lesson_type: "add_new", //add_new, existing
+      lesson_ids: [],
+      title: "",
+      lesson_content: "",
+      type: "",
+      duration: 0,
+      duration_type: "minute",
+      resources: [],
+      show: false,
+    },
+  });
+  // console.log(methods?.watch());
+
+  const handleAddLesson = () => {
+    methods?.reset({
+      course_id: props?.watch("id"),
+      lesson_type: "add_new", //add_new, existing
+      lesson_ids: [],
+      title: "",
+      lesson_content: "",
+      type: "",
+      duration: 0,
+      duration_type: "minute",
+      resources: [],
+      show: true,
+    });
+  };
+
+  const handleClose = () => {
+    methods?.setValue("show", false, { shouldDirty: true });
+  };
+
+  const addMutation = PostAddLesson(props?.s?.id);
+  const onSubmit = (data) => {
+    if (data?.lesson_type === "add_new" && data?.title === "") {
+      toast?.error("Title is required");
+      return;
+    }
+
+    if (data?.lesson_type === "existing" && data?.lesson_ids?.length === 0) {
+      toast?.error("Please select atleast 1 lesson.");
+      return;
+    }
+
+    addMutation?.mutate(data, {
+      onSuccess: (data) => {
+        handleClose();
+        props?.setValue(
+          `sections.${props?.id}.contents`,
+          data?.data?.section?.contents?.map((c) => {
+            return {
+              id: c?.id,
+              sort: c?.sort,
+              type:
+                c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
+                  ? "quiz"
+                  : "lesson",
+              title: c?.contentable?.title,
+              contentable_id: c?.contentable_id,
+              course_section_id: c?.course_section_id,
+            };
+          })
+        );
+      },
+    });
+  };
+
+  const loadEditor = (key, name = "") => {
+    window.wp.editor.initialize(key, {
+      tinymce: {
+        wpautop: true,
+        plugins:
+          "charmap colorpicker hr lists paste tabfocus textcolor fullscreen wordpress wpautoresize wpeditimage wpemoji wpgallery wplink wptextpattern",
+        toolbar1:
+          "formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,wp_more,spellchecker,fullscreen,wp_adv,listbuttons",
+        toolbar2:
+          "styleselect,strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help",
+        textarea_rows: 80,
+        setup: function (editor) {
+          editor.on("input change", function () {
+            methods.setValue(name, window.wp.editor.getContent(key), {
+              shouldDirty: true,
+            });
+          });
+        },
+      },
+      quicktags: true,
+      mediaButtons: true,
+    });
+  };
+
+  const removeEditor = (key) => {
+    window.wp.editor.remove(key);
+  };
+
+  return (
+    <Box>
+      <BootstrapDialog
+        open={methods?.watch("show")}
+        onClose={handleClose}
+        aria-labelledby="lesson-dialog-title"
+        aria-describedby="lesson-dialog-description"
+      >
+        <AddLessonModal
+          {...methods}
+          colorCode={props?.colorCode}
+          handleClose={handleClose}
+          onSubmit={onSubmit}
+          isPending={addMutation?.isPending}
+          create={true}
+          loadEditor={loadEditor}
+          removeEditor={removeEditor}
+        />
+      </BootstrapDialog>
+      <Button
+        variant="outlined"
+        color="primary"
+        size="small"
+        onClick={handleAddLesson}
+      >
+        <FaPlus
+          style={{
+            paddingRight: 4,
+          }}
+        />
+        Add Lesson
+      </Button>
+    </Box>
+  );
+};
+
+export default AddLesson;

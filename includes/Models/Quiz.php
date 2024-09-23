@@ -163,6 +163,10 @@ if (!class_exists('Quiz')) {
             }
         }
 
+        // public function content()
+        // {
+        //     return  $this->morphOne(CourseSectionContent::class, 'contentable');
+        // }
         
     }
 }

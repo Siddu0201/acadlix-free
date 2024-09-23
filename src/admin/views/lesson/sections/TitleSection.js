@@ -14,7 +14,7 @@ const TitleSection = (props) => {
               color: "black",
             }}
           >
-            <Grid item xs={12} lg={12}>
+            <Grid item xs={12} sm={12}>
               <Typography variant="h6">Lesson Title</Typography>
             </Grid>
             {/* Used to enter quiz title  */}
@@ -25,14 +25,14 @@ const TitleSection = (props) => {
                 required
                 name="title"
                 size="small"
-                label="Enter quiz title"
+                label="Enter lesson title"
                 value={props?.watch("title") ?? ""}
                 onChange={(e) => {
                   props?.setValue("title", e?.target?.value, {
                     shouldDirty: true,
                   });
                 }}
-                error={props?.formState?.errors?.title}
+                error={Boolean(props?.formState?.errors?.title)}
                 helperText={props?.formState?.errors?.title?.message}
               />
             </Grid>

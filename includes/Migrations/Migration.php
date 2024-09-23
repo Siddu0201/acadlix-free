@@ -23,6 +23,12 @@ use Yuvayana\Acadlix\Migrations\ParagraphMigration;
 use Yuvayana\Acadlix\Migrations\ParagraphLangMigration;
 use Yuvayana\Acadlix\Migrations\LessonMigration;
 use Yuvayana\Acadlix\Migrations\LessonResourceMigration;
+use Yuvayana\Acadlix\Migrations\CourseMigration;
+use Yuvayana\Acadlix\Migrations\CourseSectionMigration;
+use Yuvayana\Acadlix\Migrations\CourseSectionContentMigration;
+use Yuvayana\Acadlix\Migrations\CourseUserMigration;
+use Yuvayana\Acadlix\Migrations\CourseOutcomeMigration;
+use Yuvayana\Acadlix\Migrations\CourseFaqMigration;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -50,6 +56,12 @@ if(!class_exists('Migration')){
             ParagraphLangMigration::class,
             LessonMigration::class,
             LessonResourceMigration::class,
+            CourseMigration::class,
+            CourseSectionMigration::class,
+            CourseSectionContentMigration::class,
+            CourseUserMigration::class,
+            CourseOutcomeMigration::class,
+            CourseFaqMigration::class,
         ];
     
     

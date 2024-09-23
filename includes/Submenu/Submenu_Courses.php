@@ -21,7 +21,7 @@ class Submenu_Courses
             'callback' => '',
             'position' => 999
         ];
-        add_action( 'admin_enqueue_scripts', [$this, 'admin_print_scripts'] );
+        add_action('admin_enqueue_scripts', [$this, 'admin_print_scripts']);
     }
 
     public function add_submenu()
@@ -38,10 +38,19 @@ class Submenu_Courses
 
     }
 
-    public function admin_print_scripts() {
+    public function admin_print_scripts()
+    {
         $screen = get_current_screen();
-        if($screen->post_type === ACADLIX_COURSE_CPT){
-            wp_enqueue_script( 'acadlix-admin-course' );
+        if ($screen->post_type === ACADLIX_COURSE_CPT) {
+            wp_enqueue_editor();
+            wp_enqueue_media();
+            wp_enqueue_script('acadlix-admin-course');
+            wp_localize_script('acadlix-admin-course', 'acadlixOptions', array(
+                'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+                'nonce' => wp_create_nonce('wp_rest'),
+                'acadlix_quiz_url' => admin_url( 'admin.php?page=acadlix_quiz' ),
+                'acadlix_lesson_url' => admin_url( 'admin.php?page=acadlix_lesson' ),
+            ));
         }
     }
 

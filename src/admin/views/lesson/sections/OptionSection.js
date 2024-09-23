@@ -148,7 +148,7 @@ const OptionSection = (props) => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={12}>
+            {/* <Grid item xs={12} sm={12}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -162,7 +162,7 @@ const OptionSection = (props) => {
                 }
                 label="Preview"
               />
-            </Grid>
+            </Grid> */}
 
             {props?.watch("resources")?.length > 0 &&
               props
