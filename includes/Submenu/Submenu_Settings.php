@@ -40,6 +40,7 @@ class Submenu_Settings
 
     public function admin_print_scripts()
     {
+        wp_enqueue_style("acadlix-admin-setting-css");
         wp_enqueue_script( "acadlix-admin-setting" );
     }
 

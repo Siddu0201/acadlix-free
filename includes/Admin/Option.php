@@ -8,7 +8,7 @@ if (!class_exists("Option")) {
     class Option
     {
         private static $_instance = null;
-        public $pages = [];
+        protected $pages = [];
 
         public function __construct()
         {
@@ -27,16 +27,31 @@ if (!class_exists("Option")) {
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',
                 ],
+                'acadlix_all_courses_page_id' => [
+                    'post_title' => 'Acadlix All Courses',
+                    'post_content' => '[Acadlix_All_Courses]',
+                    'post_status' => 'publish',
+                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_type' => 'page',
+                ],
             ];
+
+            add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 1 );
         }
 
-        public function createOption()
+        public static function createOption()
         {
-            foreach ($this->pages as $key => $page) {
+            foreach ((new self())->pages as $key => $page) {
                 if (!get_option($key)) {
-                    $this->createPage($key, $page);
+                    self::instance()->createPage($key, $page);
                 }
             }
+
+            flush_rewrite_rules();
+            // Set permalink is "Post name".
+			if ( ! get_option( 'permalink_structure' ) ) {
+				update_option( 'permalink_structure', '/%postname%/' );
+			}
         }
 
         private function createPage($option = '', $data = [])
@@ -58,6 +73,23 @@ if (!class_exists("Option")) {
                 update_option($option, $page_id);
             }
 
+        }
+
+        public function update_option_rewrite_rules($wp_rules){
+            if ( ! is_array( $wp_rules ) ) {
+                return $wp_rules;
+            }
+            $rule = ["^courses/([^/]+)/?$" =>
+						'index.php?' . ACADLIX_COURSE_CPT . '=$matches[1]'];
+            try {
+                if(is_array($rule)){
+                    $wp_rules = array_merge( $rule, $wp_rules );
+                }
+            } catch ( Throwable $e ) {
+                error_log( sprintf( '%s:%s:%s', __FILE__, __LINE__, $e->getMessage() ) );
+            }
+    
+            return $wp_rules;
         }
 
         public static function instance()

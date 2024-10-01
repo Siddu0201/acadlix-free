@@ -103,6 +103,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-setting-css' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_setting.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-css' => [
                 'src' => ACADLIX_BUILD_URL . 'front.css',
                 'version' => ACADLIX_VERSION,

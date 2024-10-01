@@ -1,143 +1,186 @@
 import React from "react";
 import {
-  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
   Grid,
-  Button,
   TextField,
+  Button,
+  Box,
 } from "@mui/material";
-import GridItem1 from "../../../components/GridItem1";
-import User from "./User.png";
 
 const Profile = () => {
   return (
-    <Box>
-      <Grid container spacing={4}>
-        <GridItem1 lg={3} md={3} sm={12} xs={12}>
-          <GridItem1>
-            <img
-              src={User}
-              alt="User"
-              style={{
-                objectFit: "contain",
-                width: "70%",
+    <Box
+      sx={{
+        width: "100%",
+        ml: 5,
+        px: { xs: 2, lg: "0", xl: "0", md: "0" },
+        Width: { xs: "99%", sm: "1000px", md: "100%" },
+        margin: { xs: "auto", md: "0" },
+      }}
+    >
+      <Grid
+        container
+        spacing={2.5}
+        direction={{ xs: "column", sm: "column", md: "column", lg: "row" }}
+      >
+        <Grid item xs={12} md={4}>
+          <Card
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+
+              flexDirection: { xs: "row", sm: "row", md: "row", lg: "column" },
+            }}
+          >
+            <CardMedia
+              component="img"
+              image="https://via.placeholder.com/150"
+              alt="Profile"
+              sx={{
+                borderRadius: "8px",
+                width: { xs: "150px", sm: "200px", md: "200px", lg: "300px" },
+                height: { xs: "150px", sm: "150px", md: "151px", lg: "165px" },
+                margin: { lg: "20px auto", xs: "10px" },
               }}
             />
-          </GridItem1>
-          <GridItem1>
-            <TextField
-              label="New Password"
-              fullWidth
-              name="title"
-              size="small"
-            />
-          </GridItem1>
-          <GridItem1>
-            <TextField
-              label="Re-Enter New Password"
-              fullWidth
-              name="title"
-              size="small"
-            />
-          </GridItem1>
-          <GridItem1>
-            <Button variant="contained" color="success">
-              Update Password
-            </Button>
-          </GridItem1>
-        </GridItem1>
-        <GridItem1 lg={9} md={9} sm={12} xs={12}>
-          <Grid container>
-            <GridItem1 lg={6} md={6} sm={12} xs={12}>
-              <GridItem1>
-                <TextField
-                  label="First Name"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="Email"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="Address Line 1"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="City/Town"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="Country"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-            </GridItem1>
-            <GridItem1 lg={6} md={6} sm={12} xs={12}>
-              <GridItem1>
-                <TextField
-                  label="Last Name"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="Mobile Number"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="Address Line 2"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="State"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-              <GridItem1>
-                <TextField
-                  label="Pin Code/Zip"
-                  fullWidth
-                  name="title"
-                  size="small"
-                />
-              </GridItem1>
-            </GridItem1>
-          </Grid>
-          <div style={{ float: "right", marginTop: "10px" }}>
-            <Button variant="contained" color="success">
-              Update Details
-            </Button>
-          </div>
-        </GridItem1>
+            <CardContent
+              sx={{
+                textAlign: { xs: "left", sm: "left", lg: "center" },
+                mt: 2,
+              }}
+            >
+              <Typography variant="h5" component="div">
+                Jose Herman
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                username-here
+              </Typography>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                sx={{ marginTop: "15px" }}
+              >
+                Kimberly Light
+                <br />
+                Apt. 634
+                <br />
+                Buckinghamshire
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={8}>
+          <Card sx={{ mb: 2.5 }}>
+            <CardContent sx={{ mb: 4 }}>
+              <Typography variant="h6" component="div" gutterBottom>
+                Bio
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                Assumenda deleniti facere. Placeat dolorem officiis quis atque
+                pariatur vel sequi quisquam officiis. Libero similique natus
+                voluptas reiciendis voluptatem omnis est. Mollitia neque odit
+                aspernatur neque neque. Necessitatibus labore inventore
+                consequuntur ipsum saepe ab id qui. Numquam saepe rerum
+                quibusdam.
+              </Typography>
+            </CardContent>
+          </Card>
+
+          <Card sx={{ mb: 5 }}>
+            <CardContent>
+              <Typography variant="h6" component="div" gutterBottom>
+                Personal
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="First name"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Last name"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Email Address"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Phone / Mobile"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Address Line 1"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Address Line 2"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="City"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="State"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Country"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ width: { xs: "100%", sm: "50%", lg: "30%" } }} // Full width on mobile/tablet, smaller on large screens
+                  >
+                    Update Profile
+                  </Button>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </Box>
   );

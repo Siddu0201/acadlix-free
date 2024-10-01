@@ -120,56 +120,5 @@ if(!class_exists('QuizMigration')){
         {
             Manager::schema()->dropIfExists('quiz');
         }
-
-        public function update()
-        {
-            if(!Manager::schema()->hasColumn('quiz', 'statistic_ip_lock')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->after('save_statistic', function($table){
-                        $table->integer('statistic_ip_lock')->default(0);
-                    });
-                });
-            }
-
-            if(Manager::schema()->hasColumn('quiz', 'result_comparision_with_top_five_student')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->renameColumn('result_comparision_with_top_five_student', 'result_comparision_with_topper');
-                });
-            }
-
-            if(Manager::schema()->hasColumn('quiz', 'description')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->longText('description')->change();
-                });
-            }
-
-            if(!Manager::schema()->hasColumn('quiz', 'subject_wise_question')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->after('sort_by_subject', function($table){
-                        $table->boolean('subject_wise_question')->default(0);
-                    });
-                });
-            }
-
-            if(!Manager::schema()->hasColumn('quiz', 'optional_subject')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->after('subject_wise_question', function($table){
-                        $table->boolean('optional_subject')->default(0);
-                    });
-                });
-            }
-
-            if(Manager::schema()->hasColumn('quiz', 'instruction1')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->dropColumn('instruction1');
-                });
-            }
-
-            if(Manager::schema()->hasColumn('quiz', 'instruction2')){
-                Manager::schema()->table('quiz', function($table){
-                    $table->dropColumn('instruction2');
-                });
-            }
-        }
     }
 }

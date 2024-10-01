@@ -17,6 +17,8 @@ use Yuvayana\Acadlix\Admin\Core;
 use Yuvayana\Acadlix\Admin\Menu;
 use Yuvayana\Acadlix\Admin\UserRole;
 use Yuvayana\Acadlix\Assets\Manager;
+use Yuvayana\Acadlix\Controller\AllCourseController;
+use Yuvayana\Acadlix\Controller\SingleCourseController;
 use Yuvayana\Acadlix\Migrations\Migration;
 use Yuvayana\Acadlix\REST\Api;
 use Yuvayana\Acadlix\Seeder\Seeder;
@@ -47,9 +49,9 @@ if (!class_exists('Acadlix')) {
         {
             require 'bootstrap.php';
 
+            $this->init_plugin();
             register_activation_hook(__FILE__, [$this, 'activate']);
             register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-            $this->init_plugin();
         }
 
         public static function instance()
@@ -69,11 +71,16 @@ if (!class_exists('Acadlix')) {
             Manager::instance();
             if (is_admin()) {
                 Menu::instance();
+            }else{
+                AllCourseController::instance();
+                SingleCourseController::instance();
             }
 
             UserRole::instance();
             Core::instance();
             Api::instance();
+
+            Option::instance();
 
         }
 
@@ -81,8 +88,7 @@ if (!class_exists('Acadlix')) {
         {
             Migration::createTable();
             Seeder::seed();
-            Option::instance()->createOption();
-
+            Option::createOption();
         }
 
         public static function deactivate()

@@ -161,16 +161,18 @@ final class Course extends Acadlix_Abstract
 
     public function custom_column_content($column, $post_id = 0)
     {
+        $course = \Yuvayana\Acadlix\Models\Course::find($post_id);
+        $price = $course->sale_price == 0 ? $course->price == 0 ? "Free" : "$$course->price" : "<del>$$course->price</del> $$course->sale_price";
         switch ($column) {
             case 'students':
                 $count = 0;
                 echo $count;
                 break;
             case 'price':
-                echo 200;
+                echo $price;
                 break;
             case 'review':
-                echo 1;
+                echo 0;
                 break;
         }
     }
@@ -213,7 +215,7 @@ final class Course extends Acadlix_Abstract
             window.acadlixCourseList = window.acadlixCourseList || [];
 
             window.acadlixCourseList = {
-                logged_in_user_id: <?php echo get_current_user_id(  ); ?>,
+                logged_in_user_id: <?php echo get_current_user_id(); ?>,
                 course: <?php echo json_encode($post); ?>,
                 users: <?php echo json_encode($users); ?>,
                 course_setting: <?php echo json_encode($course_setting); ?>,

@@ -30,40 +30,5 @@ if(!class_exists('QuizLangMigration')){
         {
             Manager::schema()->dropIfExists('quiz_lang');
         }
-
-        public function update()
-        {
-            if(!Manager::schema()->hasColumn('quiz_lang', 'instruction1')){
-                Manager::schema()->table('quiz_lang', function($table){
-                    $table->after('default', function($table){
-                        $table->longText('instruction1')->nullable();
-                    });
-                });
-            }
-
-            if(!Manager::schema()->hasColumn('quiz_lang', 'instruction2')){
-                Manager::schema()->table('quiz_lang', function($table){
-                    $table->after('instruction1', function($table){
-                        $table->longText('instruction2')->nullable();
-                    });
-                });
-            }
-
-            if(!Manager::schema()->hasColumn('quiz_lang', 'term_and_condition_text')){
-                Manager::schema()->table('quiz_lang', function($table){
-                    $table->after('instruction2', function($table){
-                        $table->longText('term_and_condition_text')->nullable();
-                    });
-                });
-            }
-
-            if(!Manager::schema()->hasColumn('quiz_lang', 'term_and_condition_warning_text')){
-                Manager::schema()->table('quiz_lang', function($table){
-                    $table->after('term_and_condition_text', function($table){
-                        $table->longText('term_and_condition_warning_text')->nullable();
-                    });
-                });
-            }
-        }
     }
 }

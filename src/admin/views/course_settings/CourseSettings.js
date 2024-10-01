@@ -26,9 +26,9 @@ const CourseSettings = (props) => {
       sale_price: props?.course_setting?.sale_price ?? 0,
       validity: props?.course_setting?.validity ?? 0,
       validity_type: props?.course_setting?.validity_type ?? "day",
-      tax: props?.course_setting?.tax ?? false,
+      tax: Boolean(Number(props?.course_setting?.tax)) ?? false,
       tax_percent: props?.course_setting?.tax_percent ?? 0,
-      allow_repurchase: props?.course_setting?.allow_repurchase ?? false,
+      allow_repurchase: Boolean(Number(props?.course_setting?.allow_repurchase)) ?? false,
       user_ids:
         props?.course_setting?.users?.length > 0
           ? props?.course_setting?.users?.map((u) => u?.user_id)
@@ -81,6 +81,12 @@ const CourseSettings = (props) => {
   const handleTabChange = (tab) => {
     methods?.setValue("tab", tab, { shouldDirty: true });
   };
+
+  const handleKeyDown = (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+    }
+  }
 
   return (
     <Box
@@ -160,13 +166,13 @@ const CourseSettings = (props) => {
           marginY: 3,
         }}
       >
-        {methods?.watch("tab") === "general" && <General {...methods} />}
-        {methods?.watch("tab") === "payment" && <Payment {...methods} />}
-        {methods?.watch("tab") === "instructor" && <Instructor {...methods} />}
-        {methods?.watch("tab") === "outcome" && <Outcome {...methods} />}
-        {methods?.watch("tab") === "faq" && <Faq {...methods} />}
+        {methods?.watch("tab") === "general" && <General {...methods} handleKeyDown={handleKeyDown} />}
+        {methods?.watch("tab") === "payment" && <Payment {...methods} handleKeyDown={handleKeyDown} />}
+        {methods?.watch("tab") === "instructor" && <Instructor {...methods} handleKeyDown={handleKeyDown} />}
+        {methods?.watch("tab") === "outcome" && <Outcome {...methods} handleKeyDown={handleKeyDown} />}
+        {methods?.watch("tab") === "faq" && <Faq {...methods} handleKeyDown={handleKeyDown} />}
         {methods?.watch("tab") === "featured_video" && (
-          <FeaturedVideo {...methods} />
+          <FeaturedVideo {...methods} handleKeyDown={handleKeyDown} />
         )}
       </Box>
     </Box>

@@ -1,99 +1,174 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
-import { Typography, Card, CardContent, Box } from "@mui/material";
-import menus from "../menu/dashboardMenu";
+import { Typography, Box, Grid, styled } from "@mui/material";
+import Picture1 from "../images/dashboard.svg";
+import Picture2 from "../images/blob-4-light-teal.svg";
+import Picture3 from "../images/blob-5-blue.svg";
+import Picture4 from "../images/blob-4-safrron.svg";
+import { useTheme } from "@mui/material/styles";
 
 const DashboardHeader = () => {
-  const { pathname } = useLocation();
+  const HeaderContainer = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(1.5),
+    position: "relative",
+    boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)",
+    borderRadius: "16px",
+    backgroundColor: "white",
+    height: "168px",
+    [theme.breakpoints.down("sm")]: {
+      height: "150px",
+    },
+  }));
+
+  const StyledImage1 = styled("img")(({ theme }) => ({
+    position: "absolute",
+    right: theme.spacing(2),
+    top: theme.spacing(1),
+    height: "160px",
+    maxWidth: "100%",
+    zIndex: 1,
+  }));
+
+  const StyledImage2 = styled("img")(({ theme }) => ({
+    position: "absolute",
+    height: "60px",
+    maxWidth: "100%",
+    zIndex: 0,
+  }));
+
+  const theme = useTheme();
+
   return (
-    <Card
-      sx={{
-        borderRadius: 0,
-        bgcolor: "#2d2f31",
-      }}
-    >
-      <CardContent
+    <HeaderContainer sx={{ mt: 3, mx: { lg: 0, md: 0, sm: 0, xs: 2 } }}>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
         sx={{
-          paddingX: {
-            xs: 4,
-            md: 40,
-          },
-          paddingY: 0,
-          "&:last-child": {
-            paddingBottom: 0,
-          },
+          height: "100%",
         }}
       >
-        <Box
+        <Grid
+          item
           sx={{
-            paddingY: {
-              xs: 4,
-              md: 8,
-            },
+            width: "100%",
           }}
         >
-          <Typography
+          <Box
             sx={{
-              color: "white",
-              fontSize: {
-                xs: 26,
-                md: 34,
+              ml: {
+                sm: 8,
+                xs: 4,
               },
-              fontWeight: 700,
+              display: "flex",
+              flexDirection: "column",
+              gap: 5,
             }}
           >
-            My learning
-          </Typography>
-        </Box>
-        <Box
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: {
+                    sm: 15,
+                    xs: 1,
+                  },
+                  color: "black",
+                  fontWeight: 500,
+                  fontSize: {
+                    sm: "1rem",
+                    xs: "0.875rem",
+                  },
+                }}
+              >
+                September 4, 2024
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: {
+                    xs: "1.3rem",
+                    sm: "2rem",
+                  },
+                }}
+              >
+                Welcome back,{" "}
+                <Box
+                  component="span"
+                  sx={{ color: theme.palette.primary.main, fontWeight: 500 }}
+                >
+                  Jose Herman!
+                </Box>
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: theme.palette.text.secondary,
+                  fontSize: {
+                    xs: "0.875rem",
+                    sm: "1rem",
+                  },
+                }}
+              >
+                Unlock your potential and track your progress to success!
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              position: "relative",
+              mt: 2,
+              display: {
+                lg: "block",
+                xs: "none",
+              },
+            }}
+          >
+            <StyledImage2
+              src={Picture2}
+              alt="Header Image 2"
+              sx={{
+                position: "absolute",
+                right: "30%",
+                bottom: "65px",
+              }}
+            />
+            <StyledImage2
+              src={Picture3}
+              alt="Header Image 3"
+              sx={{
+                position: "absolute",
+                right: "75%",
+                bottom: "60px",
+              }}
+            />
+            <StyledImage2
+              src={Picture4}
+              alt="Header Image 4"
+              sx={{
+                position: "absolute",
+                right: "50%",
+                bottom: "0px",
+              }}
+            />
+          </Box>
+        </Grid>
+
+        <Grid
+          item
           sx={{
-            display: "grid",
-            gridAutoColumns: "max-content",
-            gridAutoFlow: "column",
-            gridGap: "1.6rem",
+            display:{
+              sm: "block",
+              xs: "none",
+            }
           }}
         >
-          {menus.length > 0 &&
-            menus.map((menu, index) => (
-              <Box
-                key={index}
-                sx={{
-                  height: {
-                    xs: "1.6rem",
-                    md: "2rem",
-                  },
-                  minWidth: "fit-content",
-                  marginY: 2,
-                  marginBottom: 0,
-                  borderBottom: {
-                    xs: menu?.path === pathname ? `0.3rem solid white` : "none",
-                    md: menu?.path === pathname ? `0.5rem solid white` : "none",
-                  },
-                  textDecoration: "none",
-                }}
-                component={Link}
-                to={menu?.path}
-              >
-                <Typography
-                  sx={{
-                    color: menu?.path === pathname ? "white" : "#d1d7dc",
-                    fontSize: {
-                      xs: "0.8rem",
-                      md: "1rem",
-                    },
-                    fontWeight: 500,
-                    "&:hover": {
-                      color: "white",
-                    },
-                  }}
-                >
-                  {menu.name}
-                </Typography>
-              </Box>
-            ))}
-        </Box>
-      </CardContent>
-    </Card>
+          <StyledImage1 src={Picture1} alt="Header Image 1" />
+        </Grid>
+      </Grid>
+    </HeaderContainer>
   );
 };
 

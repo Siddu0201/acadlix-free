@@ -19,21 +19,21 @@ const menus = [
     name: "Profile",
     path: "/profile",
   },
-  {
-    id: "advance-panel",
-    name: "Advance Panel",
-    path: "/advance_panel",
-  },
-  {
-    id: "ibps",
-    name: "Ibps",
-    path: "/ibps",
-  },
-  {
-    id: "normal-quiz",
-    name: "Normal Quiz",
-    path: "/normal",
-  },
+  // {
+  //   id: "advance-panel",
+  //   name: "Advance Panel",
+  //   path: "/advance_panel",
+  // },
+  // {
+  //   id: "ibps",
+  //   name: "Ibps",
+  //   path: "/ibps",
+  // },
+  // {
+  //   id: "normal-quiz",
+  //   name: "Normal Quiz",
+  //   path: "/normal",
+  // },
 ];
 
 export default menus;

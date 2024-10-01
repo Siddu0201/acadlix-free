@@ -26,14 +26,5 @@ if(!class_exists('TemplateMigration')){
         {
             Manager::schema()->dropIfExists('template');
         }
-
-        public function update()
-        {
-            if(Manager::schema()->hasColumn('template', 'type')){
-                Manager::schema()->table('template', function($table){
-                    $table->string('type')->default("quiz")->change();
-                });
-            }
-        }
     }
 }

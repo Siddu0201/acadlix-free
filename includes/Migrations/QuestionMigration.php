@@ -36,23 +36,5 @@ if(!class_exists('QuestionMigration')){
         {
             Manager::schema()->dropIfExists('question');
         }
-
-        public function update()
-        {
-            if(!Manager::schema()->hasColumn('question', 'paragraph_enabled')){
-                Manager::schema()->table('question', function($table){
-                    $table->after('hint_enabled', function($table){
-                        $table->boolean('paragraph_enabled')->default(0);
-                    });
-                });
-            }
-            if(!Manager::schema()->hasColumn('question', 'paragraph_id')){
-                Manager::schema()->table('question', function($table){
-                    $table->after('paragraph_enabled', function($table){
-                        $table->foreignId('paragraph_id')->nullable()->constrained('paragraph')->nullOnDelete();
-                    });
-                });
-            }
-        }
     }
 }

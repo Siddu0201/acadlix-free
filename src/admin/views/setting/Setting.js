@@ -24,7 +24,7 @@ import Certificate from "./section/Certificate";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 
-function Configuration() {
+function Setting() {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
@@ -100,4 +100,4 @@ function Configuration() {
   );
 }
 
-export default Configuration;
+export default Setting;

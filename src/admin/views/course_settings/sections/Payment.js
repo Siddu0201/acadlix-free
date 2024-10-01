@@ -38,6 +38,7 @@ const Payment = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                     {
@@ -80,6 +81,7 @@ const Payment = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                     {
@@ -122,6 +124,7 @@ const Payment = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                     {
@@ -196,6 +199,7 @@ const Payment = (props) => {
                     });
                   }
                 }}
+                onKeyDown={props?.handleKeyDown}
               />
             </Grid>
           </Grid>
@@ -222,6 +226,7 @@ const Payment = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                     {
@@ -265,6 +270,7 @@ const Payment = (props) => {
                     });
                   }
                 }}
+                onKeyDown={props?.handleKeyDown}
               />
             </Grid>
           </Grid>

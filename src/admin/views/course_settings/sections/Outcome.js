@@ -59,6 +59,7 @@ const Outcome = (props) => {
                     }
                   );
                 }}
+                onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                     {
