@@ -1,6 +1,7 @@
 <?php
 
 namespace Yuvayana\Acadlix\Assets;
+use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Quiz;
 defined( 'ABSPATH' ) || exit();
 
@@ -19,11 +20,11 @@ class Manager
         add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
 
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
-        add_shortcode('Acadlix_Dashboard', [$this, 'acadlix_dashboard_shortcode']);
-        add_shortcode('Acadlix_Advance_Quiz', [$this, 'acadlix_advance_quiz_shortcode']);
+        // add_shortcode('Acadlix_Dashboard', [$this, 'acadlix_dashboard_shortcode']);
+        // add_shortcode('Acadlix_Advance_Quiz', [$this, 'acadlix_advance_quiz_shortcode']);
 
-        add_filter('single_template', [$this, 'acadlix_template']);
-        add_filter('page_template', [$this, 'acadlix_template']);
+        // add_filter('single_template', [$this, 'acadlix_template']);
+        // add_filter('page_template', [$this, 'acadlix_template']);
     }
 
     public function add_shortcode_quiz($atts)
@@ -113,7 +114,21 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
-
+            'acadlix-front-all-course-css' => [
+                'src' => ACADLIX_ASSETS_CSS_URL . 'frontend/all_courses.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
+            'acadlix-front-font-awesome-css' => [
+                'src' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
+            'acadlix-front-line-awesome-css' => [
+                'src' => 'https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
         ];
     }
 
@@ -128,6 +143,9 @@ class Manager
         $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . 'admin_tool.asset.php';
 
         $front_dependency = require_once ACADLIX_BUILD_PATH . 'front.asset.php';
+        $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . 'front_checkout.asset.php';
+
+        $paypal_client_id = Helper::instance()->acadlix_get_option('acadlix_paypal_client_id');
 
         return [
             'acadlix-admin-course' => [
@@ -172,12 +190,30 @@ class Manager
                 'deps' => $admin_tool_dependency['dependencies'],
                 'in_footer' => true,
             ],
-            'acadlix-front-app' => [
+            'acadlix-front-js' => [
                 'src' => ACADLIX_BUILD_URL . 'front.js',
                 'version' => $front_dependency['version'],
                 'deps' => $front_dependency['dependencies'],
                 'in_footer' => true,
-            ]
+            ],
+            'acadlix-front-checkout-js' => [
+                'src' => ACADLIX_BUILD_URL . 'front_checkout.js',
+                'version' => $front_dependency['version'],
+                'deps' => $front_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-razorpay-js' => [
+                'src' => 'https://checkout.razorpay.com/v1/checkout.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+                'in_footer' => true,
+            ],
+            'acadlix-paypal-js' => [
+                'src' => "https://www.paypal.com/sdk/js?client-id=$paypal_client_id",
+                'version' => null,
+                'deps' => [],
+                'in_footer' => true,
+            ],
         ];
     }
 
@@ -201,8 +237,8 @@ class Manager
             return;
         }
         wp_enqueue_style('acadlix-front-css');
-        wp_enqueue_script('acadlix-front-app');
-        wp_localize_script('acadlix-front-app', 'acadlixOptions', array(
+        wp_enqueue_script('acadlix-front-js');
+        wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'nonce' => wp_create_nonce('wp_rest'),

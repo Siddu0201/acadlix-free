@@ -17,7 +17,7 @@ if (!class_exists("SingleCourseController")) {
         public function template_loader($template)
         {
             if(is_singular( ACADLIX_COURSE_CPT )){
-                $single_course_template = ACADLIX_VIEW_PATH.'/AllCourseView.php';
+                $single_course_template = ACADLIX_VIEW_PATH.'/SingleCourseView.php';
                 if($single_course_template){
                     return $single_course_template;
                 }

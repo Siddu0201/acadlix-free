@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\CPT;
 
 use Yuvayana\Acadlix\CPT\Acadlix_Abstract;
+use Yuvayana\Acadlix\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
@@ -41,10 +42,8 @@ final class Course extends Acadlix_Abstract
             'not_found' => sprintf(__('You have not had any courses yet. Click <a href="%s">Add new</a> to start', ACADLIX_TEXT_DOMAIN), admin_url('post-new.php?post_type=acadlix_course')),
             'not_found_in_trash' => __('There was no course found in the trash', ACADLIX_TEXT_DOMAIN),
         );
-        $course_base = '';
-        $course_permalink = empty($course_base) ? 'courses' : $course_base;
+        $course_permalink = Helper::instance()->acadlix_get_option('acadlix_course_base');
         $show_in_rest = false; // show in rest disable for classic editor
-
         $args = array(
             'labels' => $labels,
             'description' => __('Course custom post type for acadlix', ACADLIX_TEXT_DOMAIN),
@@ -73,6 +72,8 @@ final class Course extends Acadlix_Abstract
 
     public function register_taxonomy()
     {
+        $course_category_permalink = Helper::instance()->acadlix_get_option("acadlix_course_category_base");
+        $course_tag_permalink = Helper::instance()->acadlix_get_option("acadlix_course_tag_base");
         register_taxonomy(
             ACADLIX_COURSE_CATEGORY_TAXONOMY,
             array(ACADLIX_COURSE_CPT),
@@ -95,7 +96,7 @@ final class Course extends Acadlix_Abstract
                 'show_in_nav_menus' => true,
                 'show_in_rest' => true,
                 'rewrite' => array(
-                    'slug' => get_option('acadlix_course_category_base', 'course-category'),
+                    'slug' => $course_category_permalink,
                     'hierarchical' => true,
                     'with_front' => false,
                 ),
@@ -131,7 +132,7 @@ final class Course extends Acadlix_Abstract
                 'query_var' => true,
                 'show_in_rest' => true,
                 'rewrite' => array(
-                    'slug' => get_option('acadlix_course_tag_base', 'course-tag'),
+                    'slug' => $course_tag_permalink,
                     'with_front' => false,
                 ),
             )

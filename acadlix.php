@@ -13,12 +13,18 @@
  * Text Domain:       acadlix
  */
 
+use Yuvayana\Acadlix\Admin\Ajax;
 use Yuvayana\Acadlix\Admin\Core;
 use Yuvayana\Acadlix\Admin\Menu;
 use Yuvayana\Acadlix\Admin\UserRole;
 use Yuvayana\Acadlix\Assets\Manager;
+use Yuvayana\Acadlix\Controller\AdvanceQuizController;
 use Yuvayana\Acadlix\Controller\AllCourseController;
+use Yuvayana\Acadlix\Controller\CartController;
+use Yuvayana\Acadlix\Controller\CheckoutController;
+use Yuvayana\Acadlix\Controller\DashboardController;
 use Yuvayana\Acadlix\Controller\SingleCourseController;
+use Yuvayana\Acadlix\Controller\ThankyouController;
 use Yuvayana\Acadlix\Migrations\Migration;
 use Yuvayana\Acadlix\REST\Api;
 use Yuvayana\Acadlix\Seeder\Seeder;
@@ -74,8 +80,13 @@ if (!class_exists('Acadlix')) {
             }else{
                 AllCourseController::instance();
                 SingleCourseController::instance();
+                DashboardController::instance();
+                AdvanceQuizController::instance();
+                CartController::instance();     
+                CheckoutController::instance();
+                ThankyouController::instance();
             }
-
+            Ajax::instance();
             UserRole::instance();
             Core::instance();
             Api::instance();

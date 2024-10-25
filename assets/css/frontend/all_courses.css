@@ -1,0 +1,575 @@
+:root {
+  /* Primary */
+  --acadlix-primary-50: hsl(210, 100%, 96%);
+  --acadlix-primary-100: hsl(210, 100%, 90%);
+  --acadlix-primary-200: hsl(210, 100%, 80%);
+  --acadlix-primary-300: hsl(210, 100%, 70%);
+  --acadlix-primary-400: hsl(210, 100%, 60%);
+  --acadlix-primary-500: hsl(210, 100%, 45%);
+  --acadlix-primary-600: hsl(210, 100%, 42%);
+  --acadlix-primary-700: hsl(210, 100%, 38%);
+  --acadlix-primary-800: hsl(210, 100%, 30%);
+  --acadlix-primary-900: hsl(210, 100%, 23%);
+  --acadlix-primary-main: hsl(210, 100%, 45%);
+  --acadlix-primary-light: hsl(210, 100%, 70%);
+  --acadlix-primary-dark: hsl(210, 100%, 38%);
+  --acadlix-primary-contrastText: #fff;
+  /* Secondary  */
+  --acadlix-secondary-50: hsl(215, 15%, 97%);
+  --acadlix-secondary-100: hsl(215, 15%, 92%);
+  --acadlix-secondary-200: hsl(215, 15%, 89%);
+  --acadlix-secondary-300: hsl(215, 15%, 82%);
+  --acadlix-secondary-400: hsl(215, 15%, 75%);
+  --acadlix-secondary-500: hsl(215, 15%, 65%);
+  --acadlix-secondary-600: hsl(215, 15%, 50%);
+  --acadlix-secondary-700: hsl(215, 15%, 40%);
+  --acadlix-secondary-800: hsl(215, 15%, 22%);
+  --acadlix-secondary-900: hsl(215, 15%, 12%);
+  --acadlix-secondary-main: hsl(210, 14%, 87%);
+  --acadlix-secondary-contrastText: hsl(210, 14%, 22%);
+  --acadlix-secondary-light: hsl(210, 14%, 89.6%);
+  --acadlix-secondary-dark: hsl(210, 14%, 60.9%);
+  /* Success */
+  --acadlix-success-50: hsl(144, 72%, 95%);
+  --acadlix-success-100: hsl(144, 72%, 87%);
+  --acadlix-success-200: hsl(144, 72%, 77%);
+  --acadlix-success-300: hsl(144, 72%, 66%);
+  --acadlix-success-400: hsl(144, 72%, 56%);
+  --acadlix-success-500: hsl(144, 72%, 46%);
+  --acadlix-success-600: hsl(144, 72%, 41%);
+  --acadlix-success-700: hsl(144, 72%, 37%);
+  --acadlix-success-800: hsl(144, 72%, 32%);
+  --acadlix-success-900: hsl(144, 72%, 21%);
+  --acadlix-success-main: hsl(144, 72%, 37%);
+  --acadlix-success-light: hsl(144, 72%, 66%);
+  --acadlix-success-dark: hsl(144, 72%, 37%);
+  --acadlix-success-contrastText: #fff;
+  /* Error  */
+  --acadlix-error-50: hsl(355, 98%, 97%);
+  --acadlix-error-100: hsl(355, 98%, 93%);
+  --acadlix-error-200: hsl(355, 98%, 87%);
+  --acadlix-error-300: hsl(355, 98%, 80%);
+  --acadlix-error-400: hsl(355, 98%, 74%);
+  --acadlix-error-500: hsl(355, 98%, 66%);
+  --acadlix-error-600: hsl(355, 98%, 46%);
+  --acadlix-error-700: hsl(355, 98%, 39%);
+  --acadlix-error-800: hsl(355, 98%, 29%);
+  --acadlix-error-900: hsl(355, 98%, 17%);
+  --acadlix-error-main: hsl(355, 98%, 66%);
+  --acadlix-error-light: hsl(355, 98%, 80%);
+  --acadlix-error-dark: hsl(355, 98%, 39%);
+  --acadlix-error-contrastText: #fff;
+  /* Warning  */
+  --acadlix-warning-50: hsl(48, 100%, 96%);
+  --acadlix-warning-100: hsl(48, 100%, 88%);
+  --acadlix-warning-200: hsl(48, 100%, 82%);
+  --acadlix-warning-300: hsl(48, 100%, 64%);
+  --acadlix-warning-400: hsl(48, 100%, 48%);
+  --acadlix-warning-500: hsl(48, 100%, 44%);
+  --acadlix-warning-600: hsl(40, 100%, 40%);
+  --acadlix-warning-700: hsl(36, 100%, 34%);
+  --acadlix-warning-800: hsl(36, 100%, 27%);
+  --acadlix-warning-900: hsl(36, 100%, 18%);
+  --acadlix-warning-main: hsl(36, 100%, 50%);
+  --acadlix-warning-light: hsl(48, 100%, 64%);
+  --acadlix-warning-dark: hsl(36, 100%, 34%);
+  --acadlix-warning-contrastText: rgba(0, 0, 0, 0.87);
+  /* Grey  */
+  --acadlix-grey-50: hsl(215, 15%, 97%);
+  --acadlix-grey-100: hsl(215, 15%, 92%);
+  --acadlix-grey-200: hsl(215, 15%, 89%);
+  --acadlix-grey-300: hsl(215, 15%, 82%);
+  --acadlix-grey-400: hsl(215, 15%, 75%);
+  --acadlix-grey-500: hsl(215, 15%, 65%);
+  --acadlix-grey-600: hsl(215, 15%, 50%);
+  --acadlix-grey-700: hsl(215, 15%, 40%);
+  --acadlix-grey-800: hsl(215, 15%, 22%);
+  --acadlix-grey-900: hsl(215, 15%, 12%);
+  --acadlix-grey-main: hsl(215, 15%, 92%);
+  --acadlix-grey-contrastText: hsl(215, 15%, 50%);
+  --acadlix-grey-A100: #f5f5f5;
+  --acadlix-grey-A200: #eeeeee;
+  --acadlix-grey-A400: #bdbdbd;
+  --acadlix-grey-A700: #616161;
+  /* Info  */
+  --acadlix-info-main: #0288d1;
+  --acadlix-info-light: #03a9f4;
+  --acadlix-info-dark: #01579b;
+  --acadlix-info-contrastText: #fff;
+  /* Text  */
+  --acadlix-text-primary: hsl(215, 15%, 12%);
+  --acadlix-text-secondary: hsl(215, 15%, 22%);
+  --acadlix-text-tertiary: hsl(218, 10%, 55%);
+  --acadlix-text-disabled: rgba(0, 0, 0, 0.38);
+  --acadlix-text-white: #fff;
+  /* Background  */
+  --acadlix-background-paper: #fff;
+  --acadlix-background-default: #fff;
+}
+
+/* General styling */
+body,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Apply Roboto Medium 500 for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+/* Apply Roboto Light 300 for content */
+p,
+span,
+div {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Section styling */
+.acadlix_breadcrumb_area {
+  padding: 40px 0;
+  background-image: url("./images/breadcrumb-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Overlay styling */
+.acadlix_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Container styling */
+.acadlix_container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Breadcrumb content styling */
+.acadlix_breadcrumb_content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Heading styling */
+.acadlix_section_heading {
+  color: white;
+}
+
+.acadlix_section_title {
+  font-size: 36px;
+  color: white;
+  margin: 0;
+}
+
+/* Breadcrumb list styling */
+.acadlix_breadcrumb_list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.acadlix_breadcrumb_list li {
+  margin-right: 10px;
+  color: var(--acadlix-text-white);
+}
+
+.acadlix_breadcrumb_list li a {
+  color: var(--acadlix-text-white);
+  text-decoration: none;
+}
+
+.acadlix_breadcrumb_list li:not(:last-child)::after {
+  content: ">";
+  margin-left: 10px;
+  color: var(--acadlix-text-white);
+}
+.acadlix_filter_bar {
+  padding: 10px;
+  background-color: var(--acadlix-background-paper);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  margin-left: 7%;
+  margin-right: 7%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.acadlix_product_page_card_text {
+  font-size: 1em;
+  font-weight: 500;
+}
+.acadlix_filter_bar_inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.acadlix_filter_bar_inner h4 {
+  color: var(--acadlix-text-tertiary);
+  font-size: 14px;
+  margin: 0px;
+  margin-left: 4px;
+}
+
+.acadlix_filter_actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.acadlix_product_page_icon_element {
+  align-items: center;
+  border-radius: 50%; /* Creates a circular shape */
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  padding: 0.5rem;
+  font-size: 20px;
+  color: var(--acadlix-error-main);
+  cursor: pointer;
+}
+
+.acadlix_btn_loader {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--acadlix-text-primary);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.acadlix_select_container select {
+  padding: 10px 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 0;
+  color: var(--acadlix-text-primary);
+  font-size: 1em;
+
+  margin-right: 10px;
+}
+.filters {
+  display: none;
+  margin-top: 20px;
+}
+
+.filter-section {
+  margin-bottom: 15px;
+}
+
+.filter-btn-label {
+  display: inline-block;
+  color: rgb(5, 0, 0);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#filter-toggle:checked ~ .filters {
+  display: block;
+}
+
+#filter-toggle {
+  display: none;
+}
+
+.acadlix_filter_btn {
+  background-color: var(--acadlix-background-paper);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  padding: 9px;
+  width: 5em;
+  color: var(--acadlix-text-primary);
+}
+
+/* Container and Row styling */
+.acadlix_product_page_row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.acadlix_product_page_col_lg {
+  width: 29.5%;
+  padding: 15px;
+  position: relative;
+
+  box-sizing: border-box;
+}
+
+/* Card styles */
+
+.acadlix_product_page_card_image {
+  position: relative;
+}
+
+.acadlix_product_page_card_img_top {
+  border-radius: 10px 10px 0 0;
+}
+
+.acadlix_product_page_course_badge_labels {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+}
+
+.acadlix_product_page_course_badgebestseller {
+  background-color: var(--acadlix-warning-main);
+  color: var(--acadlix-warning-contrastText);
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.acadlix_product_page_blue {
+  background-color: var(--acadlix-info-main);
+  color: var(--acadlix-info-contrastText);
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+.acadlix_product_page_course_badgefree {
+  background-color: var(--acadlix-success-main);
+  color: var(--acadlix-success-contrastText);
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+.acadlix_product_page_course_badgehighestrated {
+  background-color: var(--acadlix-info-main);
+  color: var(--acadlix-info-contrastText);
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.acadlix_product_page_ribbon {
+  background-color: var(--acadlix-primary-100);
+  color: var(--acadlix-primary-main);
+
+  padding: 3px 10px;
+  border-radius: 3px;
+  border: 0;
+}
+.acadlix_product_page_card_text a {
+  color: var(--acadlix-text-tertiary);
+  font-weight: 600;
+}
+.acadlix_product_page_course_badgefeatured {
+  background-color: var(--acadlix-error-main);
+  color: var(--acadlix-error-contrastText);
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+.acadlix_product_page_card_title {
+    margin-top: 10px;
+    font-size: 1.17em;
+    font-weight: 500;
+}
+
+.acadlix_product_page_card_title a {
+  color: var(--acadlix-text-secondary);
+}
+
+.acadlix_product_page_before_price {
+  text-decoration: line-through;
+  color: var(--acadlix-text-tertiary);
+  font-weight: 500;
+}
+
+
+/* Responsive styles */
+@media (max-width: 991px) and (min-width: 761px) {
+  .acadlix_product_page_col_lg {
+    width: 45%;
+  }
+  .acadlix_filter_bar_inner h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 760px) {
+  .acadlix_product_page_col_lg {
+    width: 100%;
+  }
+  .acadlix_filter_bar {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+  .acadlix_filter_bar_inner h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+/* Utility classes */
+.acadlix_product_page_d_block {
+  display: block;
+}
+
+.acadlix_product_page_free{
+  background-color: var(--acadlix-success-main);
+  color: var(--acadlix-success-contrastText);
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.acadlix_product_page_card_price {
+  font-weight: bold;
+}
+
+.acadlix_product_page_add_to_cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.acadlix_product_page_component {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.acadlix_product_page_rating_total {
+  font-size: 13px;
+  padding-left: 5px;
+  font-weight: 500;
+  color: var(--acadlix-text-secondary);
+}
+.acadlix_pagination_container {
+  text-align: center;
+  padding-top: 16px;
+}
+
+.acadlix_pagination_nav {
+  display: inline-block;
+}
+
+.acadlix_product_page_review_stars {
+  color: var(--acadlix-warning-main);
+}
+.acadlix_product_page_rating_number {
+  color: var(--acadlix-text-secondary);
+  font-weight: 400;
+}
+.acadlix_pagination_list {
+  list-style: none;
+  padding: 15px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.acadlix_pagination_link {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: var(--acadlix-error-main);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.acadlix_product_page_card_body a {
+  text-decoration: none;
+}
+
+.acadlix_pagination_link:hover {
+  background-color: var(--acadlix-grey-A200);
+}
+
+.acadlix_pagination_item.acadlix_active .acadlix_pagination_link {
+  background-color: var(--acadlix-error-main);
+  color: var(--acadlix-error-contrastText);
+}
+
+.acadlix_arrow_left,
+.acadlix_arrow_right {
+  font-size: 16px;
+}
+
+.acadlix_results_info {
+  font-size: 14px;
+  color: var(--acadlix-text-tertiary);
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.acadlix_actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+}
+
+
+.acadlix_action_button{
+  background-color: var(--acadlix-error-main);
+  width: 100%;
+  font-size: 14px;
+  border-radius: 5px;
+  justify-content: center;
+  color: var(--acadlix-error-contrastText);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.acadlix_action_button i {
+  margin-right: 5px;
+}
+
+.acadlix_product_page_card {
+  height: 100%;
+  position: relative;
+  overflow: visible;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+}
+
+.acadlix_product_page_card_image img {
+  width: 100%;
+  height: auto;
+}
+
+.acadlix_product_page_card_body {
+  padding: 10px 20px;
+}
+

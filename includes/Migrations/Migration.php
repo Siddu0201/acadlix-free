@@ -29,6 +29,11 @@ use Yuvayana\Acadlix\Migrations\CourseSectionContentMigration;
 use Yuvayana\Acadlix\Migrations\CourseUserMigration;
 use Yuvayana\Acadlix\Migrations\CourseOutcomeMigration;
 use Yuvayana\Acadlix\Migrations\CourseFaqMigration;
+use Yuvayana\Acadlix\Migrations\CourseCartMigration;
+use Yuvayana\Acadlix\Migrations\OrderMigration;
+use Yuvayana\Acadlix\Migrations\OrderItemMigration;
+use Yuvayana\Acadlix\Migrations\OrderMetaMigration;
+use Yuvayana\Acadlix\Migrations\CourseWishlistMigration;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -62,6 +67,11 @@ if(!class_exists('Migration')){
             CourseUserMigration::class,
             CourseOutcomeMigration::class,
             CourseFaqMigration::class,
+            CourseCartMigration::class,
+            OrderMigration::class,
+            OrderItemMigration::class,
+            OrderMetaMigration::class,
+            CourseWishlistMigration::class,
         ];
     
     

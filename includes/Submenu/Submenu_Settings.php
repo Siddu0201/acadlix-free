@@ -1,6 +1,7 @@
 <?php
 
 namespace Yuvayana\Acadlix\Submenu;
+use Yuvayana\Acadlix\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
@@ -41,7 +42,15 @@ class Submenu_Settings
     public function admin_print_scripts()
     {
         wp_enqueue_style("acadlix-admin-setting-css");
-        wp_enqueue_script( "acadlix-admin-setting" );
+        wp_enqueue_script("acadlix-admin-setting");
+        wp_localize_script("acadlix-admin-setting", "acadlixOptions", array(
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'currecies_with_symbol' => Helper::instance()->acadlix_get_currency_with_symbols(),
+            'options' => Helper::instance()->acadlix_get_all_options(),
+            'all_pages' => get_pages(),
+            'user_id' => get_current_user_id(  ),
+        ));
     }
 
     public function setting_callback()

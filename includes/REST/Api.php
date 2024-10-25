@@ -14,6 +14,7 @@ use Yuvayana\Acadlix\REST\Admin\AdminCategoryController;
 use Yuvayana\Acadlix\REST\Admin\AdminLeaderboardController;
 use Yuvayana\Acadlix\REST\Admin\AdminLessonController;
 use Yuvayana\Acadlix\REST\Admin\AdminParagraphController;
+use Yuvayana\Acadlix\REST\Admin\AdminSettingController;
 use Yuvayana\Acadlix\REST\Admin\AdminStatisticController;
 use Yuvayana\Acadlix\REST\Admin\AdminSubjectController;
 use Yuvayana\Acadlix\REST\Admin\AdminQuizController;
@@ -21,6 +22,8 @@ use Yuvayana\Acadlix\REST\Admin\AdminQuestionController;
 use Yuvayana\Acadlix\REST\Admin\AdminTemplateController;
 
 // Front API Controller
+use Yuvayana\Acadlix\REST\Front\FrontCheckoutController;
+use Yuvayana\Acadlix\REST\Front\FrontCourseController;
 use Yuvayana\Acadlix\REST\Front\FrontQuizController;
 use Yuvayana\Acadlix\REST\Front\FrontUserController;
 
@@ -64,10 +67,13 @@ defined( 'ABSPATH' ) || exit();
                 AdminParagraphController::class,
                 AdminLessonController::class,
                 AdminCourseController::class,
+                AdminSettingController::class,
 
                 // Front Controllers
                 FrontQuizController::class,
                 FrontUserController::class,
+                FrontCourseController::class,
+                FrontCheckoutController::class,
 
                 // Upload Controllers
                 UploadQuizController::class,

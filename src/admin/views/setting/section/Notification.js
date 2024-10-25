@@ -5,88 +5,186 @@ import {
   FormControlLabel,
   Button,
   Typography,
+  Divider,
 } from "@mui/material";
-import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 
-function Notification() {
+function Notification(props) {
   return (
     <Box sx={{ color: "black" }}>
-      <h3>Email Settings</h3>
-      <Grid container>
-        <GridItem1 xs={12} lg={3}>
-          <Typography variant="body1" sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">Email Settings</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Grid item xs={12} lg={4}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
             Notify Course Purchase To
           </Typography>
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Student" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Instructor" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Admin" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <Typography variant="body1" sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Student"
+            value="yes"
+            checked={props?.watch("acadlix_notify_course_purchase_to_student") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_notify_course_purchase_to_student",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Admin"
+            value="yes"
+            checked={props?.watch("acadlix_notify_course_purchase_to_admin") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_notify_course_purchase_to_admin",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
             Notify Course Completion To
           </Typography>
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Student" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Instructor" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Admin" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <Typography variant="body1" sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Student"
+            value="yes"
+            checked={props?.watch("acadlix_notify_course_completion_to_student") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_notify_course_completion_to_student",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Admin"
+            value="yes"
+            checked={props?.watch("acadlix_notify_course_completion_to_admin") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_notify_course_completion_to_admin",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
             Notify Failed Transaction To
           </Typography>
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Student" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Instructor" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Admin" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={12}>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Student"
+            value="yes"
+            checked={props?.watch("acadlix_notify_failed_transation_to_student") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_notify_failed_transation_to_student",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Admin"
+            value="yes"
+            checked={props?.watch("acadlix_notify_failed_transation_to_admin") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_notify_failed_transation_to_admin",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
             label="Send Custom Notification"
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={12}>
-          <CustomTextField
-            fullWidth
-            size="small"
-            label="To"
-          />
-        </GridItem1>
-        <GridItem1 xs={12} lg={12}>
-          <CustomTextField
-            fullWidth
-            size="small"
-            label="Subject"
-          />
-        </GridItem1>
-        <GridItem1 xs={12} lg={12}>
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <CustomTextField fullWidth size="small" label="To" />
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <CustomTextField fullWidth size="small" label="Subject" />
+        </Grid>
+        <Grid item xs={12} lg={12}>
           <CustomTextField
             fullWidth
             size="small"
@@ -94,16 +192,12 @@ function Notification() {
             multiline
             rows={3}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={12}>
-          <Button
-            style={{ float: "right", margin: "10px" }}
-            variant="contained"
-            color="success"
-          >
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <Button variant="contained" color="primary">
             Send
           </Button>
-        </GridItem1>
+        </Grid>
       </Grid>
     </Box>
   );

@@ -29,7 +29,7 @@ if (!class_exists('Course')) {
             'featured_video',
         ];
 
-        protected $with = ['users', 'outcomes', 'faqs', 'sections'];
+        protected $with = ['users', 'outcomes', 'faqs', 'sections', 'post'];
 
         public function faqs()
         {
@@ -51,5 +51,24 @@ if (!class_exists('Course')) {
             return $this->hasMany(CourseSection::class, 'course_id', 'id')->orderBy("sort");
         }
 
+        public function post()
+        {
+            return $this->belongsTo(WpPosts::class, 'id', 'ID');
+        }
+
+        public function post_meta()
+        {
+            return $this->hasMany(WpPostMeta::class, 'post_id', 'id');
+        }
+
+        public function cart()
+        {
+            return $this->hasOne(CourseCart::class, 'course_id', 'id');
+        }
+
+        public function wishlist()
+        {
+            return $this->hasOne(CourseWishlist::class, 'course_id', 'id');
+        }
     }
 }

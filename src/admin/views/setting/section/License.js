@@ -1,26 +1,69 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
-import GridItem1 from "../../../../components/GridItem1";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 
-function License() {
+function License(props) {
   return (
     <Box sx={{ color: "black" }}>
-      <Grid container>
-        <GridItem1 xs={12} lg={3}>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">License Settings</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Grid item xs={12} sm={6} lg={3}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            Enter your email id
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6} lg={9}>
           <CustomTextField
             fullWidth
             size="small"
-            label="Email ID"
+            value={props?.watch("acadlix_license_email_id")}
+            onChange={(e) => {
+              props?.setValue("acadlix_license_email_id", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            Enter your license key
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6} lg={9}>
           <CustomTextField
             fullWidth
             size="small"
-            label="License Key"
+            value={props?.watch("acadlix_license_key")}
+            onChange={(e) => {
+              props?.setValue("acadlix_license_key", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
+        </Grid>
       </Grid>
     </Box>
   );

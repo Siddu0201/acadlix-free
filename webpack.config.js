@@ -17,6 +17,7 @@ module.exports = {
     admin_tool: path.resolve(process.cwd(), "src", "admin-tool.js"),
 
     front: path.resolve(process.cwd(), "src", "front.js"),
+    front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),
   },
 
   output: {

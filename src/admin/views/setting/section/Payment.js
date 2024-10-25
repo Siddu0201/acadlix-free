@@ -1,98 +1,224 @@
 import React from "react";
-import { Box, FormControlLabel, Grid } from "@mui/material";
-import GridItem1 from "../../../../components/GridItem1";
+import {
+  Box,
+  Divider,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 
-function Payment() {
+function Payment(props) {
   return (
     <Box sx={{ color: "black" }}>
-      <h3>Payment Gateway</h3>
-      <Grid container>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="RazorPay" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">Payment Gateway</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Grid item xs={12} lg={3}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="RazorPay"
+            value="yes"
+            checked={props?.watch("acadlix_razorpay_active") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue("acadlix_razorpay_active", e?.target?.checked ? e?.target?.value : "no", {
+                  shouldDirty: true,
+                });
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="text"
-            label="RazorPay Key"
+            label="RazorPay Client ID"
+            value={props?.watch("acadlix_razorpay_client_id")}
+            onChange={(e) => {
+              props?.setValue("acadlix_razorpay_client_id", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="text"
-            label="RazorPay Salt"
+            label="RazorPay Secret Key"
+            value={props?.watch("acadlix_razorpay_secret_key")}
+            onChange={(e) => {
+              props?.setValue("acadlix_razorpay_secret_key", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Sandbox" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="PayPal" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="PayPal"
+            value="yes"
+            checked={props?.watch("acadlix_paypal_active") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue("acadlix_paypal_active", e?.target?.checked ? e?.target?.value : "no", {
+                  shouldDirty: true,
+                });
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="text"
-            label="PayPal Key"
+            label="PayPal Client ID"
+            value={props?.watch("acadlix_paypal_client_id")}
+            onChange={(e) => {
+              props?.setValue("acadlix_paypal_client_id", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="text"
-            label="PayPal Salt"
+            label="PayPal Secret Key"
+            value={props?.watch("acadlix_paypal_secret_key")}
+            onChange={(e) => {
+              props?.setValue("acadlix_paypal_secret_key", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Sandbox" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="PayUMoney" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Sandbox"
+            value="yes"
+            checked={props?.watch("acadlix_paypal_sandbox") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue("acadlix_paypal_sandbox", e?.target?.checked ? e?.target?.value : "no", {
+                  shouldDirty: true,
+                });
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="PayU"
+            value="yes"
+            checked={props?.watch("acadlix_payu_active") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_payu_active",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="text"
-            label="PayUMoney Key"
+            label="PayU Merchant Key"
+            value={props?.watch("acadlix_payu_merchant_key")}
+            onChange={(e) => {
+              props?.setValue("acadlix_payu_merchant_key", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="text"
-            label="PayUMoney Salt"
+            label="PayU Salt"
+            value={props?.watch("acadlix_payu_salt")}
+            onChange={(e) => {
+              props?.setValue(
+                "acadlix_payu_salt",
+                e?.target?.value,
+                {
+                  shouldDirty: true,
+                }
+              );
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel control={<CustomSwitch />} label="Sandbox" />
-        </GridItem1>
-        <GridItem1 xs={12} lg={4}>
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            label="Sandbox"
+            value="yes"
+            checked={props?.watch("acadlix_payu_sandbox") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_payu_sandbox",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
             label="Offline Payment Method"
+            value="yes"
+            checked={props?.watch("acadlix_offline_payment") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_offline_payment",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  {
+                    shouldDirty: true,
+                  }
+                );
+              }
+            }}
           />
-        </GridItem1>
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label="Admin/Instructor Can Assign Courses To Student"
-          />
-        </GridItem1>
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label="Admin/Instructor Can Remove Student From Course"
-          />
-        </GridItem1>
+        </Grid>
       </Grid>
     </Box>
   );
