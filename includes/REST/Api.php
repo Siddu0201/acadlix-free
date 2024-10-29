@@ -13,6 +13,7 @@ use Yuvayana\Acadlix\REST\Admin\AdminLanguageController;
 use Yuvayana\Acadlix\REST\Admin\AdminCategoryController;
 use Yuvayana\Acadlix\REST\Admin\AdminLeaderboardController;
 use Yuvayana\Acadlix\REST\Admin\AdminLessonController;
+use Yuvayana\Acadlix\REST\Admin\AdminOrderController;
 use Yuvayana\Acadlix\REST\Admin\AdminParagraphController;
 use Yuvayana\Acadlix\REST\Admin\AdminSettingController;
 use Yuvayana\Acadlix\REST\Admin\AdminStatisticController;
@@ -68,6 +69,7 @@ defined( 'ABSPATH' ) || exit();
                 AdminLessonController::class,
                 AdminCourseController::class,
                 AdminSettingController::class,
+                AdminOrderController::class,
 
                 // Front Controllers
                 FrontQuizController::class,

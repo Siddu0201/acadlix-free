@@ -99,16 +99,12 @@ const Checkout = () => {
     switch (acadlixOptions?.settings?.acadlix_currency_position) {
       case "Left ( $99.99 )":
         return `${symbol}${newPrice}`;
-        break;
       case "Right ( 99.99$ )":
         return `${newPrice}${symbol}`;
-        break;
       case "Left with space ( $ 99.99 )":
         return `${symbol} ${newPrice}`;
-        break;
       case "Right with space ( 99.99 $ )":
         return `${newPrice} ${symbol}`;
-        break;
       default:
         return `${symbol}${price}`;
     }

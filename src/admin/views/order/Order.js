@@ -1,7 +1,18 @@
-import { Box, Button, Card, CardContent, CardHeader, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Grid,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { GetOrders } from "../../../requests/admin/AdminOrderRequest";
+import { currencyPosition } from "../../../helpers/util";
+import { dateI18n } from '@wordpress/date';
 
 const Order = () => {
   const methods = useForm({
@@ -19,15 +30,114 @@ const Order = () => {
 
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "order_id", headerName: "Order ID", flex: 2, minWidth: 130 },
     {
-      field: "action",
-      headerName: "Action",
-      sortable: false,
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params) => {
+        const { value } = params;
+
+        let color = "default";
+        if (value === "success") color = "success";
+        else if (value === "pending") color = "warning";
+        else if (value === "failed") color = "error";
+        return (
+          <Chip
+            label={value.charAt(0).toUpperCase() + value.slice(1)}
+            color={color}
+            variant="filled"
+          />
+        );
+      },
+    },
+    {
+      field: "payment_method",
+      headerName: "Method",
+      flex: 1,
+      minWidth: 100,
+    },
+    { field: "order_id", headerName: "Order/Txn ID", flex: 2, minWidth: 180 },
+    { field: "order_date", headerName: "Order Date", minWidth: 180 },
+    { field: "user_name", headerName: "Name", flex: 2, minWidth: 130 },
+    { field: "user_email", headerName: "Email", minWidth: 250 },
+    {
+      field: "order_items",
+      headerName: "Order Items",
       flex: 2,
-      minWidth: 180,
+      minWidth: 130,
+    },
+    {
+      field: "total_amount",
+      headerName: "Total amount",
+      flex: 2,
+      minWidth: 100,
     },
   ];
+
+  const { isFetching, data } = GetOrders(
+    paginationModel?.page,
+    paginationModel?.pageSize
+  );
+
+  const currentDate = new Date();
+  const formattedDate = dateI18n(acadlixOptions?.date_format, currentDate);
+
+  // console?.log(acadlixOptions?.date_format);
+  // console?.log(acadlixOptions?.time_format);
+
+  const getOrderMetaValue = (order_metas = [], meta_key = "") => {
+    return order_metas?.find((o) => o?.meta_key === meta_key)?.meta_value ?? "";
+  };
+
+  const getOrderId = (order_metas = []) => {
+    switch (getOrderMetaValue(order_metas, "payment_method")) {
+      case "razorpay":
+        return getOrderMetaValue(order_metas, "razorpay_order_id");
+      case "paypal":
+        return getOrderMetaValue(order_metas, "paypal_order_id");
+      case "payu":
+        return getOrderMetaValue(order_metas, "payu_txn_id");
+      default:
+        return "";
+    }
+  };
+
+  React.useLayoutEffect(() => {
+    if (Array.isArray(data?.data?.orders)) {
+      const newRows = data?.data?.orders?.map((order) => {
+        const currentDate = new Date(order?.created_at);
+        const formattedDate = dateI18n(acadlixOptions?.date_format, currentDate);
+        const formattedTime = dateI18n(acadlixOptions?.time_format, currentDate);
+        return {
+          id: order?.id,
+          status: order?.status,
+          payment_method: getOrderMetaValue(
+            order?.order_metas,
+            "payment_method"
+          )?.toUpperCase(),
+          order_id: getOrderId(order?.order_metas),
+          order_date: `${formattedDate} ${formattedTime}`,
+          user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
+          user_email: order?.user?.user_email,
+          total_amount: currencyPosition(order?.total_amount),
+          order_items: order?.order_items
+            ?.map((items) => items?.course?.post?.post_title)
+            ?.join(", "),
+        };
+      });
+      methods?.setValue("rows", newRows, { shouldDirty: true });
+    }
+  }, [data]);
+
+  const rowCountRef = React.useRef(data?.data?.total || 0);
+
+  const rowCount = React.useMemo(() => {
+    if (data?.data?.total !== undefined) {
+      rowCountRef.current = data?.data?.total;
+    }
+    return rowCountRef.current;
+  }, [data?.data?.total]);
 
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
@@ -54,7 +164,7 @@ const Order = () => {
               }}
             ></CardHeader>
             <CardContent>
-              <Box
+              {/* <Box
                 sx={{
                   paddingBottom: 2,
                 }}
@@ -98,7 +208,7 @@ const Order = () => {
                     Apply
                   </Button>
                 </Box>
-              </Box>
+              </Box> */}
               <Box
                 sx={{
                   width: "100%",
@@ -107,21 +217,21 @@ const Order = () => {
                 <DataGrid
                   rows={methods?.watch("rows")}
                   columns={columns}
-                  rowCount={0}
+                  rowCount={rowCount}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50]}
-                  checkboxSelection
+                  checkboxSelection={false}
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
-                    methods?.setValue("lesson_ids", data, {
+                    methods?.setValue("order_ids", data, {
                       shouldDirty: true,
                     });
                   }}
-                  rowSelectionModel={methods?.watch("lesson_ids")}
+                  rowSelectionModel={methods?.watch("order_ids")}
                   autoHeight
-                  loading={false}
+                  loading={isFetching}
                   columnVisibilityModel={{
                     id: false,
                   }}

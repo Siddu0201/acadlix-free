@@ -45,5 +45,10 @@ if (!class_exists('Order')) {
             );
         }
 
+        public function user()
+        {
+            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+        }
+
     }
 }

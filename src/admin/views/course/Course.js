@@ -25,8 +25,6 @@ import {
   CardContent,
   CardHeader,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import GridItem1 from "../../../components/GridItem1";
 import Card1 from "../../../components/Card1";
 

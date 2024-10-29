@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Submenu;
 
+use Yuvayana\Acadlix\Helper\Helper;
+
 defined('ABSPATH') || exit();
 
 class Submenu_Orders
@@ -40,7 +42,17 @@ class Submenu_Orders
 
     public function admin_print_scripts()
     {
+        wp_enqueue_script('wp-date'); 
         wp_enqueue_script( "acadlix-admin-order" );
+        wp_localize_script('acadlix-admin-order', 'acadlixOptions', array(
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'settings' => Helper::instance()->acadlix_get_all_options(),
+            'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
+            'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
+            'date_format' => Helper::instance()->acadlix_get_option("date_format"),
+            'time_format' => Helper::instance()->acadlix_get_option("time_format"),
+        ));
     }
 
     public function order_callback()
