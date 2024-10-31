@@ -5,6 +5,7 @@ import Picture2 from "../images/blob-4-light-teal.svg";
 import Picture3 from "../images/blob-5-blue.svg";
 import Picture4 from "../images/blob-4-safrron.svg";
 import { useTheme } from "@mui/material/styles";
+import {dateI18n} from "@wordpress/date";
 
 const DashboardHeader = () => {
   const HeaderContainer = styled(Box)(({ theme }) => ({
@@ -81,7 +82,7 @@ const DashboardHeader = () => {
                   },
                 }}
               >
-                September 4, 2024
+                {dateI18n(acadlixOptions?.date_format)} 
               </Typography>
             </Box>
             <Box>
@@ -98,7 +99,7 @@ const DashboardHeader = () => {
                   component="span"
                   sx={{ color: theme.palette.primary.main, fontWeight: 500 }}
                 >
-                  Jose Herman!
+                  {acadlixOptions?.user?.display_name}!
                 </Box>
               </Typography>
               <Typography

@@ -25,6 +25,7 @@ use Yuvayana\Acadlix\REST\Admin\AdminTemplateController;
 // Front API Controller
 use Yuvayana\Acadlix\REST\Front\FrontCheckoutController;
 use Yuvayana\Acadlix\REST\Front\FrontCourseController;
+use Yuvayana\Acadlix\REST\Front\FrontDashboardController;
 use Yuvayana\Acadlix\REST\Front\FrontQuizController;
 use Yuvayana\Acadlix\REST\Front\FrontUserController;
 
@@ -76,6 +77,7 @@ defined( 'ABSPATH' ) || exit();
                 FrontUserController::class,
                 FrontCourseController::class,
                 FrontCheckoutController::class,
+                FrontDashboardController::class,
 
                 // Upload Controllers
                 UploadQuizController::class,

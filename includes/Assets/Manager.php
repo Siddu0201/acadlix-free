@@ -236,7 +236,9 @@ class Manager
         if (is_admin()) {
             return;
         }
+        wp_enqueue_media();
         wp_enqueue_style('acadlix-front-css');
+        wp_enqueue_script('wp-date'); 
         wp_enqueue_script('acadlix-front-js');
         wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
@@ -244,6 +246,11 @@ class Manager
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+            'settings' => Helper::instance()->acadlix_get_all_options(),
+            'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
+            'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
+            'date_format' => Helper::instance()->acadlix_get_option("date_format"),
+            'time_format' => Helper::instance()->acadlix_get_option("time_format"),
         ));
     }
 

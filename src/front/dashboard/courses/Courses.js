@@ -12,9 +12,11 @@ import {
   LinearProgress,
   Stack,
   Pagination,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import { GetUserCourses } from "../../../requests/front/FrontDashboardRequest";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,6 +33,26 @@ const Courses = () => {
 
   const [page, setPage] = useState(1);
   const itemsPerPage = 8;
+
+  const [paginationModel, setPaginationModel] = React.useState({
+    pageSize: acadlixOptions?.settings?.acadlix_no_of_courses_per_page,
+    page: 0,
+  });
+
+  const { isFetching, data } = GetUserCourses(
+    acadlixOptions?.user?.ID,
+    paginationModel?.page,
+    paginationModel?.pageSize
+  );
+
+  const rowCountRef = React.useRef(data?.data?.total || 0);
+
+  const rowCount = React.useMemo(() => {
+    if (data?.data?.total !== undefined) {
+      rowCountRef.current = data?.data?.total;
+    }
+    return rowCountRef.current;
+  }, [data?.data?.total]);
 
   const courses = [
     {
@@ -239,22 +261,30 @@ const Courses = () => {
         spacing={3}
         sx={{ borderBottom: "1px solid #D3D3D3", pb: 5 }}
       >
-        {paginatedCourses.map((course, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            lg={3}
-            key={index}
-          >
+        {isFetching ? (
+          <Grid item xs={12} lg={12}>
+            <CircularProgress />
+          </Grid>
+        ) : data?.data?.order_items?.length > 0 ? (
+          data?.data?.order_items?.map((item, index) => (
+            <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+              <CourseCard {...item} />
+            </Grid>
+          ))
+        ) : (
+          <Grid item xs={12} lg={12}>
+            <Typography>No Course Found</Typography>
+          </Grid>
+        )}
+        {/* {paginatedCourses.map((course, index) => (
+          <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
             <CourseCard
               title={course.title}
               instructors={course.instructors}
               progress={course.progress}
             />
           </Grid>
-        ))}
+        ))} */}
       </Grid>
       <Box
         sx={{
@@ -279,8 +309,9 @@ const Courses = () => {
 
 export default Courses;
 
-const CourseCard = ({ title, instructors, progress }) => {
+const CourseCard = (props) => {
   const navigate = useNavigate();
+  console.log(props);
   return (
     <Card
       sx={{
@@ -293,29 +324,40 @@ const CourseCard = ({ title, instructors, progress }) => {
           boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)", // Optional: darker shadow on hover
         },
       }}
-      onClick={(e) => navigate("/content")}
+      onClick={(e) => navigate(`/content/${props?.course?.id}`)}
     >
       <CardMedia
         component="img"
         height="140"
-        image="https://via.placeholder.com/150"
-        alt="Digital Marketing"
+        image={props?.course?.post?.thumbnail_url}
+        alt={props?.course?.post?.post_title}
       />
-      <CardContent sx={{
-        flexGrow: 1
-      }}>
-        <Typography variant="h6" sx={{
-          lineHeight: "1.4"
-        }}>
-          {title?.length > 40 ? title?.substring(0, 40)+'...' : title}
+      <CardContent
+        sx={{
+          flexGrow: 1,
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            lineHeight: "1.4",
+          }}
+        >
+          {props?.course?.post?.post_title?.length > 40
+            ? props?.course?.post?.post_title?.substring(0, 40) + "..."
+            : props?.course?.post?.post_title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {instructors?.length > 20 ? instructors?.substring(0,20)+"..." : instructors}
+          {
+            props?.course?.users?.length > 0 ? 
+              props?.course?.users?.map(u => u?.author?.display_name)?.join(", ")
+            : props?.course?.post?.author?.display_name
+          }
         </Typography>
         <Box sx={{ mt: 5 }}>
-          <LinearProgress variant="determinate" value={progress} />
+          <LinearProgress variant="determinate" value={0} />
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {progress}% Complete
+            {0}% Complete
           </Typography>
         </Box>
       </CardContent>

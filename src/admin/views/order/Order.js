@@ -1,18 +1,10 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Chip,
-  Grid,
-} from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Chip, Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { GetOrders } from "../../../requests/admin/AdminOrderRequest";
 import { currencyPosition } from "../../../helpers/util";
-import { dateI18n } from '@wordpress/date';
+import { dateI18n } from "@wordpress/date";
 
 const Order = () => {
   const methods = useForm({
@@ -30,6 +22,22 @@ const Order = () => {
 
   const columns = [
     { field: "id", headerName: "ID" },
+    {
+      field: "order_items",
+      headerName: "Order Items",
+      flex: 2,
+      minWidth: 130,
+    },
+    {
+      field: "payment_method",
+      headerName: "Method",
+      flex: 1,
+      minWidth: 100,
+    },
+    { field: "order_id", headerName: "Order/Txn ID", flex: 2, minWidth: 180 },
+    { field: "order_date", headerName: "Order Date", minWidth: 180 },
+    { field: "user_name", headerName: "Name", flex: 2, minWidth: 130 },
+    { field: "user_email", headerName: "Email", minWidth: 250 },
     {
       field: "status",
       headerName: "Status",
@@ -52,22 +60,6 @@ const Order = () => {
       },
     },
     {
-      field: "payment_method",
-      headerName: "Method",
-      flex: 1,
-      minWidth: 100,
-    },
-    { field: "order_id", headerName: "Order/Txn ID", flex: 2, minWidth: 180 },
-    { field: "order_date", headerName: "Order Date", minWidth: 180 },
-    { field: "user_name", headerName: "Name", flex: 2, minWidth: 130 },
-    { field: "user_email", headerName: "Email", minWidth: 250 },
-    {
-      field: "order_items",
-      headerName: "Order Items",
-      flex: 2,
-      minWidth: 130,
-    },
-    {
       field: "total_amount",
       headerName: "Total amount",
       flex: 2,
@@ -79,12 +71,6 @@ const Order = () => {
     paginationModel?.page,
     paginationModel?.pageSize
   );
-
-  const currentDate = new Date();
-  const formattedDate = dateI18n(acadlixOptions?.date_format, currentDate);
-
-  // console?.log(acadlixOptions?.date_format);
-  // console?.log(acadlixOptions?.time_format);
 
   const getOrderMetaValue = (order_metas = [], meta_key = "") => {
     return order_metas?.find((o) => o?.meta_key === meta_key)?.meta_value ?? "";
@@ -107,8 +93,14 @@ const Order = () => {
     if (Array.isArray(data?.data?.orders)) {
       const newRows = data?.data?.orders?.map((order) => {
         const currentDate = new Date(order?.created_at);
-        const formattedDate = dateI18n(acadlixOptions?.date_format, currentDate);
-        const formattedTime = dateI18n(acadlixOptions?.time_format, currentDate);
+        const formattedDate = dateI18n(
+          acadlixOptions?.date_format,
+          currentDate
+        );
+        const formattedTime = dateI18n(
+          acadlixOptions?.time_format,
+          currentDate
+        );
         return {
           id: order?.id,
           status: order?.status,

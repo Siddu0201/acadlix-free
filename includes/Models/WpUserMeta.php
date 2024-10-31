@@ -3,22 +3,20 @@
 namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
-defined('ABSPATH') || exit();
+defined( 'ABSPATH' ) || exit();
 
-if (!class_exists('WpPostMeta')) {
+if (!class_exists('WpUserMeta')) {
 
-    class WpPostMeta extends Model
+    class WpUserMeta extends Model
     {
         protected $connection = 'wordpress';
-        protected $table = 'postmeta';
-        protected $primaryKey = 'meta_id';
+        protected $table = 'usermeta';
+        protected $primaryKey = 'umeta_id';
         public $timestamps = false;
 
         public function getMetaValueAttribute($value)
         {
             return maybe_unserialize($value);  // Unserialize if needed
         }
-
-
     }
 }

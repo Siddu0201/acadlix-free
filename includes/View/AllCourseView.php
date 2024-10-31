@@ -14,7 +14,7 @@ $per_page = Helper::instance()->acadlix_get_option("acadlix_no_of_courses_per_pa
 $one_click_checkout = Helper::instance()->acadlix_get_option('acadlix_one_click_checkout');
 
 $publishedPostIds = WpPosts::where('post_status', 'publish')->where('post_type', ACADLIX_COURSE_CPT)->pluck('ID');
-$courses = Course::withCount(['users', 'wishlist', 'cart'])->whereIn("id", $publishedPostIds);
+$courses = Course::withCount(['users', 'wishlist', 'cart'])->whereIn("id", $publishedPostIds)->orderBy("created_at", "desc");
 $course_count = $courses->count();
 $courses = $courses->skip(($page - 1) * $per_page)->take($per_page);
 $courses = $courses->get();

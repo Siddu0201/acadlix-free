@@ -31,7 +31,7 @@ const Checkout = () => {
         phonecode: null,
         phone_number: "",
         address: "",
-        company_url: "",
+        user_url: "",
         country: null,
         city: "",
         zip_code: "",

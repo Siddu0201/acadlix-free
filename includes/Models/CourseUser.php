@@ -16,5 +16,12 @@ if (!class_exists(class: 'CourseUser')) {
             'user_id',
         ];
 
+        protected $with = ['author'];
+
+        public function author()
+        {
+            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+        }
+
     }
 }

@@ -13,12 +13,19 @@ if (!class_exists('WpPosts')) {
         protected $table = 'posts';
         protected $primaryKey = 'ID';
 
+        protected $with = ['author'];
+
         protected $appends = ['thumbnail_url'];
 
         public function thumbnailMeta()
         {
             return $this->hasOne(WpPostMeta::class, 'post_id', 'ID')
                 ->where('meta_key', '_thumbnail_id');
+        }
+
+        public function author()
+        {
+            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
         }
 
         public function getThumbnailUrlAttribute()

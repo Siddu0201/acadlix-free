@@ -32,9 +32,9 @@ const BillingDetail = (props) => {
                 First Name
               </Typography>
               <CustomTextField
-                // {...props?.register("billing_info.first_name", {
-                //   required: "First name is required.",
-                // })}
+                {...props?.register("billing_info.first_name", {
+                  required: "First name is required.",
+                })}
                 required
                 fullWidth
                 size="small"
@@ -84,9 +84,9 @@ const BillingDetail = (props) => {
                 Email
               </Typography>
               <CustomTextField
-                // {...props?.register("billing_info.email", {
-                //   required: "Email is required.",
-                // })}
+                {...props?.register("billing_info.email", {
+                  required: "Email is required.",
+                })}
                 required
                 fullWidth
                 size="small"
@@ -210,16 +210,16 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Company URL
+                Website
               </Typography>
               <CustomTextField
                 fullWidth
                 size="small"
                 placeholder="e.g. www.acadlix.com"
                 type="text"
-                value={props?.watch("billing_info.company_url")}
+                value={props?.watch("billing_info.user_url")}
                 onChange={(e) => {
-                  props?.setValue("billing_info.company_url", e?.target?.value, {
+                  props?.setValue("billing_info.user_url", e?.target?.value, {
                     shouldDirty: true,
                   });
                 }}
