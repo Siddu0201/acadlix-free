@@ -14,8 +14,8 @@ class Submenu_Lessons
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Lessons', acadlix),
-            'menu_title' => __('Lessons', acadlix),
+            'page_title' => __('Acadlix Lessons', 'acadlix'),
+            'menu_title' => __('Lessons', 'acadlix'),
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix_lesson',
             'callback' => [$this, 'lesson_callback'],

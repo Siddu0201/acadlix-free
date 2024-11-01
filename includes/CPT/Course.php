@@ -167,10 +167,10 @@ final class Course extends Acadlix_Abstract
         switch ($column) {
             case 'students':
                 $count = 0;
-                echo $count;
+                echo esc_html($count);
                 break;
             case 'price':
-                echo $price;
+                echo esc_html($price);
                 break;
             case 'review':
                 echo 0;
@@ -216,10 +216,10 @@ final class Course extends Acadlix_Abstract
             window.acadlixCourseList = window.acadlixCourseList || [];
 
             window.acadlixCourseList = {
-                logged_in_user_id: <?php echo get_current_user_id(); ?>,
-                course: <?php echo json_encode($post); ?>,
-                users: <?php echo json_encode($users); ?>,
-                course_setting: <?php echo json_encode($course_setting); ?>,
+                logged_in_user_id: <?php echo esc_js(get_current_user_id()); ?>,
+                course: <?php echo wp_json_encode($post); ?>,
+                users: <?php echo wp_json_encode($users); ?>,
+                course_setting: <?php echo wp_json_encode($course_setting); ?>,
             };
         </script>
         <?php
@@ -233,7 +233,8 @@ final class Course extends Acadlix_Abstract
 
     public function update_title($maybe_empty, $post_acc)
     {
-        if (isset($_POST['action']) && ($_POST['action'] === 'editpost' || $_POST['action'] === 'inline-save')) {
+        $action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
+        if (isset($action) && ($action === 'editpost' || $action === 'inline-save')) {
             if ($post_acc['post_type'] === $this->_post_type) {
                 if ($maybe_empty && empty($post_acc['post_title'])) {
                     $post_title = __('Draft Course', "acadlix");

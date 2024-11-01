@@ -14,8 +14,8 @@ class Submenu_Quiz
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Quizzes', acadlix),
-            'menu_title' => __('Quizzes', acadlix),
+            'page_title' => __('Acadlix Quizzes', 'acadlix'),
+            'menu_title' => __('Quizzes', 'acadlix'),
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix_quiz',
             'callback' => [$this, 'quiz_callback'],

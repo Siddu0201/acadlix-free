@@ -31,7 +31,7 @@ class Menu
         if (isset($submenu['acadlix'])) { // 'courses_admin' is the top-level menu slug
             // Modify the first submenu item
             if (isset($submenu['acadlix'][0])) { // Index 0 for the first submenu item
-                $submenu['acadlix'][0][0] = __('Home', acadlix); // New title
+                $submenu['acadlix'][0][0] = __('Home', 'acadlix'); // New title
             }
         }
     }

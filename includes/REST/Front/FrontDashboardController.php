@@ -74,7 +74,7 @@ class FrontDashboardController
         $params = $request->get_params();
 
         if ($request->get_param("user_id") == 0) {
-            return new WP_Error(__('No data found', acadlix), __('Required user_id', acadlix), array('status' => 404));
+            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
         }
 
         $skip = $params['page'] * $params['pageSize'];
@@ -92,7 +92,7 @@ class FrontDashboardController
         $res = [];
         $params = $request->get_params();
         if ($request->get_param("user_id") == 0) {
-            return new WP_Error(__('No data found', acadlix), __('Required user_id', acadlix), array('status' => 404));
+            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $skip = $params['page'] * $params['pageSize'];
         $order = Order::with(['order_items', 'order_items.course', 'order_metas', 'user'])->where("user_id", $request->get_param("user_id"))->orderBy('created_at', 'desc');
@@ -105,7 +105,7 @@ class FrontDashboardController
     {
         $res = [];
         if ($request->get_param("user_id") == 0) {
-            return new WP_Error(__('No data found', acadlix), __('Required user_id', acadlix), array('status' => 404));
+            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $res['user'] = WpUsers::where('ID', $request->get_param("user_id"))->first();
         return rest_ensure_response($res);
@@ -117,7 +117,7 @@ class FrontDashboardController
         $params = $request->get_json_params();
         $user_id = $request->get_param("user_id");
         if ($user_id == 0) {
-            return new WP_Error(__('No data found', acadlix), __('Required user_id', acadlix), array('status' => 404));
+            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
         }
         wp_update_user([
             'ID' => $user_id,

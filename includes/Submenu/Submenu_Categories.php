@@ -14,8 +14,8 @@ class Submenu_Categories
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Course Category', acadlix),
-            'menu_title' => __('Categories', acadlix),
+            'page_title' => __('Acadlix Course Category', 'acadlix'),
+            'menu_title' => __('Categories', 'acadlix'),
             'capability' => 'manage_options',
             'menu_slug' => 'edit-tags.php?taxonomy=' . ACADLIX_COURSE_CATEGORY_TAXONOMY,
             'callback' => '',
