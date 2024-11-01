@@ -9,6 +9,20 @@ const CourseSidebar = () => {
   return (
     <Box>
       <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
+      <SidebarList />
     </Box>
   );
 };

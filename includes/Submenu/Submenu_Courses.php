@@ -14,8 +14,8 @@ class Submenu_Courses
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Courses', ACADLIX_TEXT_DOMAIN),
-            'menu_title' => __('Courses', ACADLIX_TEXT_DOMAIN),
+            'page_title' => __('Courses', acadlix),
+            'menu_title' => __('Courses', acadlix),
             'capability' => 'manage_options',
             'menu_slug' => 'edit.php?post_type=' . ACADLIX_COURSE_CPT,
             'callback' => '',

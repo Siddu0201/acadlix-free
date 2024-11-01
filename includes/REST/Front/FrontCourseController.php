@@ -87,14 +87,14 @@ class FrontCourseController
         $required_fields = array('course_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', ACADLIX_TEXT_DOMAIN), __('Required course id and user_id', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('No data found', acadlix), __('Required course id and user_id', acadlix), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN);
+                $errors[] = __("The {$field} parameter is required.", acadlix);
             }
         }
 
@@ -116,14 +116,14 @@ class FrontCourseController
         $required_fields = array('course_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', ACADLIX_TEXT_DOMAIN), __('Required course id and user_id', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('No data found', acadlix), __('Required course id and user_id', acadlix), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN);
+                $errors[] = __("The {$field} parameter is required.", acadlix);
             }
         }
 
@@ -133,7 +133,7 @@ class FrontCourseController
 
         if($params['user_id'] == 0){
             if (empty($request->get_param("cart_token"))) {
-                return new WP_Error('missing_params', __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN), array('status' => 400));
+                return new WP_Error('missing_params', __("The {$field} parameter is required.", acadlix), array('status' => 400));
             }
 
             $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
@@ -186,14 +186,14 @@ class FrontCourseController
         $required_fields = array('course_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', ACADLIX_TEXT_DOMAIN), __('Required course id and user_id', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('No data found', acadlix), __('Required course id and user_id', acadlix), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN);
+                $errors[] = __("The {$field} parameter is required.", acadlix);
             }
         }
 
@@ -203,7 +203,7 @@ class FrontCourseController
 
         if ($params['user_id'] == 0) {
             if (empty($request->get_param("cart_token"))) {
-                return new WP_Error('missing_params', __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN), array('status' => 400));
+                return new WP_Error('missing_params', __("The {$field} parameter is required.", acadlix), array('status' => 400));
             }
 
             $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
@@ -270,14 +270,14 @@ class FrontCourseController
         $required_fields = array('course_id', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', ACADLIX_TEXT_DOMAIN), __('Required course id and user_id', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('No data found', acadlix), __('Required course id and user_id', acadlix), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN);
+                $errors[] = __("The {$field} parameter is required.", acadlix);
             }
         }
 
@@ -286,7 +286,7 @@ class FrontCourseController
         }
         $course = Course::find($params['course_id']);
         if (!$course) {
-            return new WP_Error(__('Missing Course', ACADLIX_TEXT_DOMAIN), __('This Course is not available', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('Missing Course', acadlix), __('This Course is not available', acadlix), array('status' => 404));
         }
         $wishlist = $course->wishlist()->create(['user_id' => $params['user_id']]);
         $res = array(
@@ -304,14 +304,14 @@ class FrontCourseController
         $required_fields = array('course_id', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', ACADLIX_TEXT_DOMAIN), __('Required course id and user_id', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('No data found', acadlix), __('Required course id and user_id', acadlix), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", ACADLIX_TEXT_DOMAIN);
+                $errors[] = __("The {$field} parameter is required.", acadlix);
             }
         }
 
@@ -321,13 +321,13 @@ class FrontCourseController
 
         $wishlist = CourseWishlist::where('course_id', $params['course_id'])->where('user_id', $params['user_id'])->first();
         if (!$wishlist) {
-            return new WP_Error(__('Missing Course', ACADLIX_TEXT_DOMAIN), __('This Course is not available', ACADLIX_TEXT_DOMAIN), array('status' => 404));
+            return new WP_Error(__('Missing Course', acadlix), __('This Course is not available', acadlix), array('status' => 404));
         }
         $wishlist->delete();
         $res = array(
             'status' => 'success',
             'code' => array('status' => 200),
-            'message' => __('Course removed from the wishlist', ACADLIX_TEXT_DOMAIN)
+            'message' => __('Course removed from the wishlist', acadlix)
         );
         return rest_ensure_response($res);
     }

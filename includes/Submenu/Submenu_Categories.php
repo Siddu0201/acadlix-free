@@ -4,7 +4,7 @@ namespace Yuvayana\Acadlix\Submenu;
 
 defined('ABSPATH') || exit();
 
-class Submenu_Caterories
+class Submenu_Categories
 {
     private static $_instance = null;
 
@@ -14,8 +14,8 @@ class Submenu_Caterories
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Course Category', ACADLIX_TEXT_DOMAIN),
-            'menu_title' => __('Categories', ACADLIX_TEXT_DOMAIN),
+            'page_title' => __('Acadlix Course Category', acadlix),
+            'menu_title' => __('Categories', acadlix),
             'capability' => 'manage_options',
             'menu_slug' => 'edit-tags.php?taxonomy=' . ACADLIX_COURSE_CATEGORY_TAXONOMY,
             'callback' => '',

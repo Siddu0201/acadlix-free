@@ -16,8 +16,8 @@ class Submenu_Orders
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Orders', ACADLIX_TEXT_DOMAIN),
-            'menu_title' => __('Orders', ACADLIX_TEXT_DOMAIN),
+            'page_title' => __('Acadlix Orders', acadlix),
+            'menu_title' => __('Orders', acadlix),
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix_order',
             'callback' => [$this, 'order_callback'],

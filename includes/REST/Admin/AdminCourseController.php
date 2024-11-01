@@ -318,7 +318,7 @@ class AdminCourseController
         if ($course_post['post_title'] == 'Auto Draft' && $course_post['post_status'] == 'auto-draft') {
             wp_update_post(array(
                 'ID' => $course_id,
-                'post_title' => __('Draft Course', ACADLIX_TEXT_DOMAIN),
+                'post_title' => __('Draft Course', acadlix),
                 'post_status' => 'draft',
                 'post_author' => $params['logged_in_user_id'],
             ));
@@ -365,7 +365,7 @@ class AdminCourseController
         if ($section) {
             $section->delete();
         }
-        $res['message'] = __('Course section successfully deleted.', ACADLIX_TEXT_DOMAIN);
+        $res['message'] = __('Course section successfully deleted.', acadlix);
         return rest_ensure_response($res);
     }
 

@@ -15,8 +15,8 @@ class Submenu_Settings
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Settings', ACADLIX_TEXT_DOMAIN),
-            'menu_title' => __('Settings', ACADLIX_TEXT_DOMAIN),
+            'page_title' => __('Acadlix Settings', acadlix),
+            'menu_title' => __('Settings', acadlix),
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix_setting',
             'callback' => [$this, 'setting_callback'],

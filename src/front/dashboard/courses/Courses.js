@@ -324,7 +324,7 @@ const CourseCard = (props) => {
           boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)", // Optional: darker shadow on hover
         },
       }}
-      onClick={(e) => navigate(`/content/${props?.course?.id}`)}
+      onClick={(e) => navigate(`/course/content/${props?.course?.id}`)}
     >
       <CardMedia
         component="img"

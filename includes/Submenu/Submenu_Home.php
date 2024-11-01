@@ -13,8 +13,8 @@ class Submenu_Home
     public function __construct()
     {
         $this->_options = [
-            'page_title' => __('Acadlix', ACADLIX_TEXT_DOMAIN),
-            'menu_title' => __('Acadlix', ACADLIX_TEXT_DOMAIN),
+            'page_title' => __('Acadlix', acadlix),
+            'menu_title' => __('Acadlix', acadlix),
             'capability' => 'manage_options',
             'menu_slug' => ACADLIX_SLUG,
             'callback' => [$this, 'home_callback'],

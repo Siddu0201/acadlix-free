@@ -28,25 +28,25 @@ final class Course extends Acadlix_Abstract
     public function args_register_post_type(): array
     {
         $labels = array(
-            'name' => _x('Courses', 'Post Type General Name', ACADLIX_TEXT_DOMAIN),
-            'singular_name' => _x('Course', 'Post Type Singular Name', ACADLIX_TEXT_DOMAIN),
-            'menu_name' => __('Courses', ACADLIX_TEXT_DOMAIN),
-            'parent_item_colon' => __('Parent Item:', ACADLIX_TEXT_DOMAIN),
-            'all_items' => __('All Courses', ACADLIX_TEXT_DOMAIN),
-            'view_item' => __('View Course', ACADLIX_TEXT_DOMAIN),
-            'add_new_item' => __('Add a New Course', ACADLIX_TEXT_DOMAIN),
-            'add_new' => __('Add New', ACADLIX_TEXT_DOMAIN),
-            'edit_item' => __('Edit Course', ACADLIX_TEXT_DOMAIN),
-            'update_item' => __('Update Course', ACADLIX_TEXT_DOMAIN),
-            'search_items' => __('Search Courses', ACADLIX_TEXT_DOMAIN),
-            'not_found' => sprintf(__('You have not had any courses yet. Click <a href="%s">Add new</a> to start', ACADLIX_TEXT_DOMAIN), admin_url('post-new.php?post_type=acadlix_course')),
-            'not_found_in_trash' => __('There was no course found in the trash', ACADLIX_TEXT_DOMAIN),
+            'name' => _x('Courses', 'Post Type General Name', 'acadlix'),
+            'singular_name' => _x('Course', 'Post Type Singular Name', 'acadlix'),
+            'menu_name' => __('Courses', 'acadlix'),
+            'parent_item_colon' => __('Parent Item:', 'acadlix'),
+            'all_items' => __('All Courses', 'acadlix'),
+            'view_item' => __('View Course', 'acadlix'),
+            'add_new_item' => __('Add a New Course', 'acadlix'),
+            'add_new' => __('Add New', 'acadlix'),
+            'edit_item' => __('Edit Course', 'acadlix'),
+            'update_item' => __('Update Course', 'acadlix'),
+            'search_items' => __('Search Courses', 'acadlix'),
+            'not_found' => sprintf(__('You have not had any courses yet. Click <a href="%s">Add new</a> to start', 'acadlix'), admin_url('post-new.php?post_type=acadlix_course')),
+            'not_found_in_trash' => __('There was no course found in the trash', 'acadlix'),
         );
         $course_permalink = Helper::instance()->acadlix_get_option('acadlix_course_base');
         $show_in_rest = false; // show in rest disable for classic editor
         $args = array(
             'labels' => $labels,
-            'description' => __('Course custom post type for acadlix', ACADLIX_TEXT_DOMAIN),
+            'description' => __('Course custom post type for acadlix', 'acadlix'),
             'public' => true,
             'query_var' => true,
             'publicly_queryable' => true,
@@ -78,13 +78,13 @@ final class Course extends Acadlix_Abstract
             ACADLIX_COURSE_CATEGORY_TAXONOMY,
             array(ACADLIX_COURSE_CPT),
             array(
-                'label' => __('Course Categories', ACADLIX_TEXT_DOMAIN),
+                'label' => __('Course Categories', "acadlix"),
                 'labels' => array(
-                    'name' => __('Course Categories', ACADLIX_TEXT_DOMAIN),
-                    'menu_name' => __('Course Category', ACADLIX_TEXT_DOMAIN),
-                    'singular_name' => __('Category', ACADLIX_TEXT_DOMAIN),
-                    'add_new_item' => __('Add A New Course Category', ACADLIX_TEXT_DOMAIN),
-                    'all_items' => __('All Categories', ACADLIX_TEXT_DOMAIN),
+                    'name' => __('Course Categories', "acadlix"),
+                    'menu_name' => __('Course Category', "acadlix"),
+                    'singular_name' => __('Category', "acadlix"),
+                    'add_new_item' => __('Add A New Course Category', "acadlix"),
+                    'all_items' => __('All Categories', "acadlix"),
                 ),
                 'query_var' => true,
                 'public' => true,
@@ -108,21 +108,21 @@ final class Course extends Acadlix_Abstract
             array(ACADLIX_COURSE_CPT),
             array(
                 'labels' => array(
-                    'name' => __('Course Tags', ACADLIX_TEXT_DOMAIN),
-                    'singular_name' => __('Tag', ACADLIX_TEXT_DOMAIN),
-                    'search_items' => __('Search Course Tags', ACADLIX_TEXT_DOMAIN),
-                    'popular_items' => __('Popular Course Tags', ACADLIX_TEXT_DOMAIN),
-                    'all_items' => __('All Course Tags', ACADLIX_TEXT_DOMAIN),
+                    'name' => __('Course Tags', 'acadlix'),
+                    'singular_name' => __('Tag', 'acadlix'),
+                    'search_items' => __('Search Course Tags', 'acadlix'),
+                    'popular_items' => __('Popular Course Tags', 'acadlix'),
+                    'all_items' => __('All Course Tags', 'acadlix'),
                     'parent_item' => null,
                     'parent_item_colon' => null,
-                    'edit_item' => __('Edit Course Tag', ACADLIX_TEXT_DOMAIN),
-                    'update_item' => __('Update Course Tag', ACADLIX_TEXT_DOMAIN),
-                    'add_new_item' => __('Add A New Course Tag', ACADLIX_TEXT_DOMAIN),
-                    'new_item_name' => __('New Course Tag Name', ACADLIX_TEXT_DOMAIN),
-                    'separate_items_with_commas' => __('Separate tags with commas', ACADLIX_TEXT_DOMAIN),
-                    'add_or_remove_items' => __('Add or remove tags', ACADLIX_TEXT_DOMAIN),
-                    'choose_from_most_used' => __('Choose from the most used tags', ACADLIX_TEXT_DOMAIN),
-                    'menu_name' => __('Course Tags', ACADLIX_TEXT_DOMAIN),
+                    'edit_item' => __('Edit Course Tag', 'acadlix'),
+                    'update_item' => __('Update Course Tag', 'acadlix'),
+                    'add_new_item' => __('Add A New Course Tag', 'acadlix'),
+                    'new_item_name' => __('New Course Tag Name', 'acadlix'),
+                    'separate_items_with_commas' => __('Separate tags with commas', 'acadlix'),
+                    'add_or_remove_items' => __('Add or remove tags', 'acadlix'),
+                    'choose_from_most_used' => __('Choose from the most used tags', 'acadlix'),
+                    'menu_name' => __('Course Tags', 'acadlix'),
                 ),
                 'public' => true,
                 'hierarchical' => false,
@@ -150,12 +150,12 @@ final class Course extends Acadlix_Abstract
     {
         $new_order['cb'] = $columns['cb'];
         $new_order['title'] = $columns['title'];
-        $new_order['author'] = esc_html__('Author', ACADLIX_TEXT_DOMAIN);
-        $new_order['taxonomy-' . ACADLIX_COURSE_CATEGORY_TAXONOMY] = esc_html__('Categories', ACADLIX_TEXT_DOMAIN);
-        $new_order['taxonomy-' . ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', ACADLIX_TEXT_DOMAIN);
-        $new_order['students'] = esc_html__('Students', ACADLIX_TEXT_DOMAIN);
-        $new_order['price'] = esc_html__('Price', ACADLIX_TEXT_DOMAIN);
-        $new_order['review'] = esc_html__('Review', ACADLIX_TEXT_DOMAIN);
+        $new_order['author'] = esc_html__('Author', "acadlix");
+        $new_order['taxonomy-' . ACADLIX_COURSE_CATEGORY_TAXONOMY] = esc_html__('Categories', "acadlix");
+        $new_order['taxonomy-' . ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', "acadlix");
+        $new_order['students'] = esc_html__('Students', "acadlix");
+        $new_order['price'] = esc_html__('Price', "acadlix");
+        $new_order['review'] = esc_html__('Review', "acadlix");
         $new_order['date'] = $columns['date'];
         return $new_order;
     }
@@ -184,7 +184,7 @@ final class Course extends Acadlix_Abstract
         // Course Builder
         add_meta_box(
             'acadlix-course-content',          // Unique ID
-            esc_html__('Course Builder', ACADLIX_TEXT_DOMAIN),      // Box title
+            esc_html__('Course Builder', "acadlix"),      // Box title
             array($this, 'admin_course_editor'),        // Content callback
             $this->_post_type,          // Post type
             'normal',                    // Context (normal, side, advanced)
@@ -193,7 +193,7 @@ final class Course extends Acadlix_Abstract
         // Course Setting
         add_meta_box(
             'acadlix-course-settings',          // Unique ID
-            esc_html__('Course Settings', ACADLIX_TEXT_DOMAIN),      // Box title
+            esc_html__('Course Settings', "acadlix"),      // Box title
             array($this, 'admin_course_settings'),        // Content callback
             $this->_post_type,          // Post type
             'normal',                    // Context (normal, side, advanced)
@@ -236,7 +236,7 @@ final class Course extends Acadlix_Abstract
         if (isset($_POST['action']) && ($_POST['action'] === 'editpost' || $_POST['action'] === 'inline-save')) {
             if ($post_acc['post_type'] === $this->_post_type) {
                 if ($maybe_empty && empty($post_acc['post_title'])) {
-                    $post_title = __('Draft Course', ACADLIX_TEXT_DOMAIN);
+                    $post_title = __('Draft Course', "acadlix");
                     wp_update_post(array(
                         'ID' => $post_acc['ID'],
                         'post_title' => $post_title,

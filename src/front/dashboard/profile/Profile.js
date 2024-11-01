@@ -162,14 +162,6 @@ const Profile = () => {
                     margin: { lg: "20px auto", xs: "10px" },
                   }}
                 />
-                {/* <CardMedia
-                  component="img"
-                  image={
-                    methods?.watch("photo") !== ""
-                      ? methods?.watch("photo")
-                      : "https://via.placeholder.com/150"
-                  }
-                /> */}
                 <Box
                   sx={{
                     display: "flex",

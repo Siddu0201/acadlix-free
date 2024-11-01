@@ -1,7 +1,7 @@
 <?php
 
 namespace Yuvayana\Acadlix\Admin;
-use Yuvayana\Acadlix\Submenu\Submenu_Caterories;
+use Yuvayana\Acadlix\Submenu\Submenu_Categories;
 use Yuvayana\Acadlix\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Submenu\Submenu_Home;
 use Yuvayana\Acadlix\Submenu\Submenu_Lessons;
@@ -31,7 +31,7 @@ class Menu
         if (isset($submenu['acadlix'])) { // 'courses_admin' is the top-level menu slug
             // Modify the first submenu item
             if (isset($submenu['acadlix'][0])) { // Index 0 for the first submenu item
-                $submenu['acadlix'][0][0] = __('Home', ACADLIX_TEXT_DOMAIN); // New title
+                $submenu['acadlix'][0][0] = __('Home', acadlix); // New title
             }
         }
     }
@@ -43,7 +43,7 @@ class Menu
         Submenu_Lessons::instance()->add_submenu();
         Submenu_Quiz::instance()->add_submenu();
         Submenu_Orders::instance()->add_submenu();
-        Submenu_Caterories::instance()->add_submenu();
+        Submenu_Categories::instance()->add_submenu();
         Submenu_Tags::instance()->add_submenu();
         Submenu_Settings::instance()->add_submenu();
         Submenu_Tools::instance()->add_submenu();

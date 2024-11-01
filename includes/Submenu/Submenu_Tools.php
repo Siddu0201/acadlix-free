@@ -14,8 +14,8 @@ class Submenu_Tools
     {
         $this->_options = [
             'parent_slug' => ACADLIX_SLUG,
-            'page_title' => __('Acadlix Tools', ACADLIX_TEXT_DOMAIN),
-            'menu_title' => __('Tools', ACADLIX_TEXT_DOMAIN),
+            'page_title' => __('Acadlix Tools', acadlix),
+            'menu_title' => __('Tools', acadlix),
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix_tool',
             'callback' => [$this, 'tool_callback'],
