@@ -172,7 +172,7 @@ final class Course extends Acadlix_Abstract
                 echo esc_html($count);
                 break;
             case 'price':
-                echo esc_html($price);
+                echo wp_kses($price, array('del' => array()));
                 break;
             case 'review':
                 echo 0;
@@ -233,17 +233,18 @@ final class Course extends Acadlix_Abstract
         echo '<div id="acadlix-admin-course-settings">Loading...</div>';
     }
 
-    function add_nonce_field_to_edit_form() {
+    function add_nonce_field_to_edit_form()
+    {
         wp_nonce_field('acadlix_course_action', 'acadlix_course_field'); // Creates a nonce
     }
 
     public function update_title($maybe_empty, $post_acc)
     {
-        if (!isset($_POST['acadlix_course_field']) || !wp_verify_nonce($_POST['acadlix_course_field'], 'acadlix_course_action')) {
+        if (!isset($_POST['acadlix_course_field']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['acadlix_course_field'])), 'acadlix_course_action')) {
             return $maybe_empty; // If nonce verification fails, do nothing
         }
 
-        $action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
+        $action = isset($_POST['action']) ? sanitize_text_field(wp_unslash($_POST['action'])) : '';
         if ($action === 'editpost' || $action === 'inline-save') {
             if ($post_acc['post_type'] === $this->_post_type) {
                 if ($maybe_empty && empty($post_acc['post_title'])) {

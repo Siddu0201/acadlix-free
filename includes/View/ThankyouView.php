@@ -10,7 +10,7 @@ global $post, $wp_version;
 $success = false;
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- payerID for paypal
-$payerID = isset($_GET['payerID']) ? sanitize_text_field( $_GET['payerID'] ) : "";
+$payerID = isset($_GET['payerID']) ? sanitize_text_field(wp_unslash($_GET['payerID'])) : "";
 
 function capture_paypal_order($order_id)
 {
@@ -153,9 +153,9 @@ function capture_payu_order($txnid)
     }
 }
 
-if (isset($_GET['token'])) {
+if (isset($_GET['token'])) { //phpcs:ignore
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- token verification for payment
-    $token = sanitize_text_field($_GET['token']);
+    $token = sanitize_text_field(wp_unslash($_GET['token']));
     $order_meta = OrderMeta::where("meta_value", $token)->first();
     if ($order_meta) {
         $order = Order::find($order_meta->order_id);

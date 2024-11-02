@@ -93,7 +93,9 @@ if (!class_exists("Option")) {
                     $wp_rules = array_merge( $rules, $wp_rules );
                 }
             } catch ( Throwable $e ) {
-                error_log( sprintf( '%s:%s:%s', __FILE__, __LINE__, $e->getMessage() ) );
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log( sprintf( '%s:%s:%s', __FILE__, __LINE__, $e->getMessage() ) );
+                }
             }
     
             return $wp_rules;

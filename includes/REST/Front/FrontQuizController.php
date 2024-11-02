@@ -160,6 +160,7 @@ class FrontQuizController
             // Leaderboard/ Toplist
             if($quiz->leaderboard){
                 $toplist = Toplist::where("quiz_id", $quiz_id)->where("user_id", $params['user_id']);
+                $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? wp_unslash($_SERVER['REMOTE_ADDR']) : '';
                 $toplist_data = [
                     "quiz_id" => $quiz_id,
                     "user_id" => $params["user_id"],
@@ -167,7 +168,7 @@ class FrontQuizController
                     "email" => $params["email"],
                     "points" => $params["points"],
                     "result" => $params["result"],
-                    "ip" => filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP),
+                    "ip" => filter_var($remote_addr, FILTER_VALIDATE_IP),
                     "quiz_time" => $params["time_taken"],
                     "accuracy" => $params["accuracy"],
                     "status" => $params["status"],

@@ -33,8 +33,8 @@ class Ajax
         check_ajax_referer( "wp_rest", "nonce" );
 
         $creds = array(
-            'user_login'    => sanitize_user($_POST['username']),
-            'user_password' => $_POST['password'],
+            'user_login'    => isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "",
+            'user_password' => isset($_POST['password']) ? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : "",
             'remember'      => true
         );
         $user = wp_signon($creds, false);
@@ -51,9 +51,9 @@ class Ajax
     {
         check_ajax_referer( "wp_rest", "nonce" );
 
-        $username = sanitize_user($_POST['username']);
-        $email = sanitize_email($_POST['email']);
-        $password = $_POST['password'];
+        $username = isset($_POST['username']) ? sanitize_user($_POST['username']) : "";
+        $email = isset($_POST['email']) ? sanitize_email(wp_unslash($_POST['email'])) : "";
+        $password = isset($_POST['password']) ? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : "";
     
         // Ensure username, email, and password are provided
         if (empty($username) || empty($email) || empty($password)) {

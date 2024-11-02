@@ -32,7 +32,7 @@ if (is_user_logged_in()) {
     })->pluck('course_id')->toArray();
 } else {
     if (isset($_COOKIE['acadlix_cart_token'])) {
-        $cart = CourseCart::where('cart_token', $_COOKIE['acadlix_cart_token'])->pluck("course_id")->toArray();
+        $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash( $_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
     }
 }
 // echo "<pre>";
@@ -63,20 +63,20 @@ if (!function_exists('get_course_user')) {
         $course = Course::withCount('users')->find($course_id);
         if ($course->users_count > 0) {
             $i = 0;
-            $user = '';
+            $user_html = '';
             foreach ($course->users as $user) {
                 $user_info = get_userdata($user->user_id);
                 if ($i == 0) {
-                    $user = "<a href='" . get_author_posts_url($user->user_id) . "'>$user_info?->display_name</a>";
+                    $user_html = "<a href='" . esc_url(get_author_posts_url($user->user_id)) . "'>".esc_html($user_info?->display_name)."</a>";
                 } else {
-                    $user .= ", <a href='" . get_author_posts_url($user->user_id) . "'>$user_info?->display_name</a>";
+                    $user_html .= ", <a href='" . esc_url(get_author_posts_url($user->user_id)) . "'>".esc_html($user_info?->display_name)."</a>";
                 }
                 $i++;
             }
-            return $user;
+            return $user_html;
         } else {
             $user_info = get_userdata($course->post->post_author);
-            return "<a href='" . get_author_posts_url($course->post->post_author) . "'>$user_info?->display_name</a>";
+            return "<a href='" . esc_url(get_author_posts_url($course->post->post_author)) . "'>".esc_html($user_info?->display_name)."</a>";
         }
     }
 }
@@ -187,12 +187,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <h3 class="acadlix_product_page_card_title"><a
                                         href="<?php echo esc_url($course->post->guid); ?>"><?php echo esc_html($course?->post?->post_title); ?></a>
                                 </h3>
-                                <p class="acadlix_product_page_card_text"><?php echo wp_kses(get_course_user($course?->id), array(
-                                    'a' => array(
-                                        'href' => array(),
-                                        'title' => array()
-                                    ),
-                                )); ?></p>
+                                <p class="acadlix_product_page_card_text"><?php echo get_course_user($course?->id); // phpcs:ignore ?></p> 
                                 <div class=" acadlix_product_page_component">
                                     <div class="acadlix_product_page_review_stars">
                                         <span class="acadlix_product_page_rating_number">4.4</span>

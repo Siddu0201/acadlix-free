@@ -23,7 +23,8 @@ class Core
     
         // Check if the cookie exists
         if (isset($_COOKIE[$cookie_name])) {
-            $carts = CourseCart::where('cart_token', $_COOKIE[$cookie_name])->get();
+            $cookie = sanitize_text_field( wp_unslash( $_COOKIE[$cookie_name] ) );
+            $carts = CourseCart::where('cart_token', $cookie)->get();
             if($carts->count() > 0){
                 foreach($carts as $cart){
                     if(CourseCart::where("course_id", $cart->course_id)->where('user_id', $user->ID)->first()){
@@ -42,7 +43,7 @@ class Core
             
             // Optionally, unset it from the $_COOKIE superglobal to ensure it's gone during this request
             if ( array_key_exists( $cookie_name, $_COOKIE ) ) {
-                unset( $_COOKIE[ $cookie_name ] );
+                unset( $cookie );
             }
         }
     }
