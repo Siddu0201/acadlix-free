@@ -51,8 +51,8 @@ class Ajax
     {
         check_ajax_referer( "wp_rest", "nonce" );
 
-        $username = isset($_POST['username']) ? sanitize_user($_POST['username']) : "";
-        $email = isset($_POST['email']) ? sanitize_email(wp_unslash($_POST['email'])) : "";
+        $username = isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "";
+        $email = isset($_POST['email']) ? filter_var(sanitize_email(wp_unslash($_POST['email'])), FILTER_VALIDATE_EMAIL) : "";
         $password = isset($_POST['password']) ? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : "";
     
         // Ensure username, email, and password are provided

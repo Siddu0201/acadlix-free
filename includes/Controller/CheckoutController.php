@@ -48,7 +48,7 @@ if (!class_exists("CheckoutController")) {
                     'user_id' => get_current_user_id() ?? 0,
                     'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
                     'site_title' => get_bloginfo('name'),
-                    'cart_token' => sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])) ?? '',
+                    'cart_token' => isset($_COOKIE['acadlix_cart_token']) ? sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])) : '',
                     'settings' => Helper::instance()->acadlix_get_all_options(),
                     'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
                     'thankyou_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_thankyou_page_id"))),
