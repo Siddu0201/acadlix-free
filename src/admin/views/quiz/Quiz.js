@@ -83,7 +83,7 @@ const Quiz = () => {
       field: "shortcode",
       headerName: "Shortcode",
       flex: 1,
-      minWidth: 130,
+      minWidth: 150,
       renderCell: (params) => {
         return (
           <Box

@@ -18,9 +18,9 @@ $courses = Course::withCount(['users', 'wishlist', 'cart'])->whereIn("id", $publ
 $course_count = $courses->count();
 $courses = $courses->skip(($page - 1) * $per_page)->take($per_page);
 $courses = $courses->get();
-$courses_url = esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id")));
-$checkout_url = esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id")));
-$dashboard_url = esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id')));
+$courses_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id"));
+$checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
+$dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
 
 $cart = [];
 $order_item = [];
@@ -129,31 +129,16 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <?php
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
-            echo do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . $theme_slug . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->');
+            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
 } else {
     get_header();
 }
 ?>
-
-        <!-- <section class="acadlix_breadcrumb_area">
-            <div class="acadlix_overlay"></div>
-            <div class="acadlix_container">
-                <div class="acadlix_breadcrumb_content">
-                    <div class="acadlix_section_heading">
-                        <ul class="acadlix_breadcrumb_list">
-                            <li><a href="<?php echo home_url(); ?>">Home</a></li>
-                            <li>Courses</li>
-                        </ul>
-                        <h2 class="acadlix_section_title">Course Grid</h2>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
         <section id="acadlix_all_course_page">
             <div class="acadlix_filter_bar">
                 <div class="acadlix_filter_bar_inner">
-                    <h4>We found <span style="color: black;"><?php echo $course_count; ?></span> courses available
+                    <h4>We found <span style="color: black;"><?php echo esc_html($course_count); ?></span> courses
+                        available
                         for you</h4>
                     <div class="acadlix_filter_actions">
                         <div class="acadlix_select_container">
@@ -187,7 +172,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     <div class="acadlix_product_page_col_lg ">
                         <div class="acadlix_product_page_card  ">
                             <div class="acadlix_product_page_card_image">
-                                <a href="<?php echo $course->post->guid; ?>" class="acadlix_product_page_d_block">
+                                <a href="<?php echo esc_url($course->post->guid); ?>" class="acadlix_product_page_d_block">
                                     <img class="acadlix_product_page_card_img_top " loading="lazy"
                                         src="https://products-details-qwbp.vercel.app/images/img8.jpg" alt="Card image cap">
                                 </a>
@@ -198,11 +183,16 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             </div>
                             <div class="acadlix_product_page_card_body">
                                 <Button
-                                    class="acadlix_product_page_ribbon"><?php echo get_course_level($course->difficulty_level); ?></Button>
+                                    class="acadlix_product_page_ribbon"><?php echo esc_html(get_course_level($course->difficulty_level)); ?></Button>
                                 <h3 class="acadlix_product_page_card_title"><a
-                                        href="<?php echo $course->post->guid; ?>"><?php echo $course?->post?->post_title; ?></a>
+                                        href="<?php echo esc_url($course->post->guid); ?>"><?php echo esc_html($course?->post?->post_title); ?></a>
                                 </h3>
-                                <p class="acadlix_product_page_card_text"><?php echo get_course_user($course?->id); ?></p>
+                                <p class="acadlix_product_page_card_text"><?php echo wp_kses(get_course_user($course?->id), array(
+                                    'a' => array(
+                                        'href' => array(),
+                                        'title' => array()
+                                    ),
+                                )); ?></p>
                                 <div class=" acadlix_product_page_component">
                                     <div class="acadlix_product_page_review_stars">
                                         <span class="acadlix_product_page_rating_number">4.4</span>
@@ -223,12 +213,12 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                     } else {
                                         ?>
                                         <p class="acadlix_product_page_card_price ">
-                                            <?php echo get_course_price($course->sale_price == 0 ? $course->price : $course->sale_price); ?>
+                                            <?php echo esc_html(get_course_price($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
                                             <?php
                                             if ($course->sale_price != 0) {
                                                 ?>
                                                 <span class="acadlix_product_page_before_price ">
-                                                    <?php echo get_course_price($course->price); ?>
+                                                    <?php echo esc_html(get_course_price($course->price)); ?>
                                                 </span>
                                                 <?php
                                             } ?>
@@ -241,19 +231,19 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         if (is_course_free($course->price, $course->sale_price)) {
                                             if (in_array($course->id, $cart)) {
                                                 ?>
-                                                <a href="<?php echo $checkout_url; ?>" class="acadlix_action_button">Go to
+                                                <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix_action_button">Go to
                                                     Checkout</a>
                                                 <?php
                                             } else {
                                                 if (in_array($course->id, $order_item)) {
                                                     ?>
-                                                    <a href="<?php echo $dashboard_url; ?>" class="acadlix_action_button">Go to
+                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix_action_button">Go to
                                                         Course</a>
                                                     <?php
                                                 } else {
                                                     ?>
                                                     <button class="acadlix_action_button acadlix_start_now"
-                                                        data-id="<?php echo $course->id; ?>">
+                                                        data-id="<?php echo esc_attr($course->id); ?>">
                                                         <div class="acadlix_action_button_text">
                                                             Start Now
                                                         </div>
@@ -268,19 +258,19 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         } else {
                                             if (in_array($course->id, $cart)) {
                                                 ?>
-                                                <a href="<?php echo $checkout_url; ?>" class="acadlix_action_button">Go to
+                                                <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix_action_button">Go to
                                                     Checkout</a>
                                                 <?php
                                             } else {
                                                 if (in_array($course->id, $order_item)) {
                                                     ?>
-                                                    <a href="<?php echo $dashboard_url; ?>" class="acadlix_action_button">Go to
+                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix_action_button">Go to
                                                         Course</a>
                                                     <?php
                                                 } else {
                                                     ?>
                                                     <button class="acadlix_action_button acadlix_buy_now"
-                                                        data-id="<?php echo $course->id; ?>">
+                                                        data-id="<?php echo esc_attr($course->id); ?>">
                                                         <div class="acadlix_action_button_text">
                                                             <i class="fa fa-shopping-cart"></i> Buy Now
                                                         </div>
@@ -306,15 +296,15 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         if (is_user_logged_in()) {
                                             ?>
                                             <div class="acadlix_product_page_icon_element acadlix_add_to_wishlist"
-                                                id="add_to_wishlist_<?php echo $course->id; ?>" title="Add to Wishlist"
-                                                data-id="<?php echo $course->id; ?>"
+                                                id="add_to_wishlist_<?php echo esc_attr($course->id); ?>"
+                                                title="Add to Wishlist" data-id="<?php echo esc_attr($course->id); ?>"
                                                 style="display: <?php echo $course->wishlist_count == 0 ? 'flex' : 'none'; ?>">
                                                 <i class="la la-heart-o"></i>
                                                 <div class="acadlix_btn_loader" style="display: none;"></div>
                                             </div>
                                             <div class="acadlix_product_page_icon_element acadlix_remove_from_wishlist"
-                                                id="remove_from_wishlist_<?php echo $course->id; ?>"
-                                                title="Remove From Wishlist" data-id="<?php echo $course->id; ?>"
+                                                id="remove_from_wishlist_<?php echo esc_attr($course->id); ?>"
+                                                title="Remove From Wishlist" data-id="<?php echo esc_attr($course->id); ?>"
                                                 style="display: <?php echo $course->wishlist_count > 0 ? 'flex' : 'none'; ?>">
                                                 <i class="fa-solid fa-heart"></i>
                                                 <div class="acadlix_btn_loader" style="display: none;"></div>
@@ -346,7 +336,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             ?>
                             <li class="acadlix_pagination_item <?php echo $i == $page ? "acadlix_active" : ""; ?> ">
                                 <a class="acadlix_pagination_link"
-                                    href="<?php echo "$courses_url?paged=$i"; ?>"><?php echo $i; ?></a>
+                                    href="<?php echo esc_url(add_query_arg('paged', $i, $courses_url)); ?>"><?php echo esc_html($i); ?></a>
                             </li>
                             <?php
                         }
@@ -362,8 +352,11 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </ul>
                 </nav>
                 <p class="acadlix_results_info">Showing
-                    <?php echo (($page - 1) * $per_page) + 1; ?>-<?php echo ($page * $per_page) > $course_count ? $course_count : $page * $per_page; ?>
-                    of <?php echo $course_count; ?> results
+                    <?php 
+                        $start = (($page - 1) * $per_page) + 1; 
+                        $end = ($page * $per_page) > $course_count ? $course_count : $page * $per_page;
+                        echo esc_html($start) .'-'. esc_html( $end ); ?>
+                    of <?php echo esc_html($course_count); ?> results
                 </p>
             </div>
         </section>
@@ -373,7 +366,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
         if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
-            echo do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . esc_attr($theme_slug) . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->');
+            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . esc_attr($theme_slug) . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->'));
             echo '</div>';
             wp_footer();
             echo '</body>';

@@ -175,7 +175,7 @@ const CourseContent = () => {
                     fontWeight: 600,
                   }}
                 >
-                  Lesson name
+                  Course name
                 </Typography>
               </Box>
               <Box>

@@ -37,6 +37,7 @@ const Register = (props) => {
         acadlixOptions?.ajax_url,
         new URLSearchParams({
           action: "acadlix_register",
+          nonce: acadlixOptions?.nonce,
           ...data,
         })
       )

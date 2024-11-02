@@ -30,8 +30,10 @@ class Ajax
 
     public function acadlix_login()
     {
+        check_ajax_referer( "wp_rest", "nonce" );
+
         $creds = array(
-            'user_login'    => $_POST['username'],
+            'user_login'    => sanitize_user($_POST['username']),
             'user_password' => $_POST['password'],
             'remember'      => true
         );
@@ -47,6 +49,8 @@ class Ajax
 
     public function acadlix_register()
     {
+        check_ajax_referer( "wp_rest", "nonce" );
+
         $username = sanitize_user($_POST['username']);
         $email = sanitize_email($_POST['email']);
         $password = $_POST['password'];

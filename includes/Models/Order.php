@@ -40,7 +40,9 @@ if (!class_exists('Order')) {
         public function updateOrCreateMeta($metaKey, $metaValue)
         {
             return $this->order_metas()->updateOrCreate(
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Its custom order meta table
                 ['meta_key' => $metaKey], // Condition to check for existing meta_key
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Its custom order meta table
                 ['meta_value' => $metaValue] // Values to update or create
             );
         }

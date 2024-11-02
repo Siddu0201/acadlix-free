@@ -22,7 +22,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <?php
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
-            echo do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . $theme_slug . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->');
+            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
 } else {
     get_header();
 }
@@ -33,7 +33,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
         $theme = wp_get_theme();
         $theme_slug = $theme->get('TextDomain');
-        echo do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . $theme_slug . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->');
+        echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . esc_attr($theme_slug) . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->'));
         echo '</div>';
         wp_footer();
         echo '</body>';

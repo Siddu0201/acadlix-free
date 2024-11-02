@@ -33,6 +33,7 @@ const Login = (props) => {
         acadlixOptions?.ajax_url,
         new URLSearchParams({
           action: "acadlix_login",
+          nonce: acadlixOptions?.nonce,
           ...data,
         })
       )

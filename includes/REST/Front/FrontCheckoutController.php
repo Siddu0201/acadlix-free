@@ -126,7 +126,8 @@ class FrontCheckoutController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -150,7 +151,7 @@ class FrontCheckoutController
 
         $response = wp_remote_post($this->razorpay_url, [
             'headers' => $headers,
-            'body' => json_encode($order_data),
+            'body' => wp_json_encode($order_data),
             'method' => 'POST'
         ]);
 
@@ -182,7 +183,7 @@ class FrontCheckoutController
                     }
 
                     if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", json_encode($request->get_param("billing_info")));
+                        $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
                     }
 
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
@@ -207,7 +208,8 @@ class FrontCheckoutController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -266,7 +268,8 @@ class FrontCheckoutController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -283,7 +286,7 @@ class FrontCheckoutController
         $return_url = esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_thankyou_page_id'))); // Change to your success page URL
 
         // Create the order payload
-        $body = json_encode([
+        $body = wp_json_encode([
             'intent' => 'CAPTURE',
             'purchase_units' => [
                 [
@@ -342,7 +345,7 @@ class FrontCheckoutController
                 }
 
                 if (!empty($request->get_param("billing_info"))) {
-                    $order->updateOrCreateMeta("billing_info", json_encode($request->get_param("billing_info")));
+                    $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
                 }
 
                 $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
@@ -384,7 +387,8 @@ class FrontCheckoutController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -396,7 +400,7 @@ class FrontCheckoutController
         $email = empty($params['billing_info']['email']) ? "Email": $params['billing_info']['email'];
         $phone = empty($params['billing_info']['phone_number']) ? "First Name": $params['billing_info']['phone_number'];
         $amount = $request->get_param("total_amount");
-        $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+        $txnid = substr(hash('sha256', wp_rand() . microtime()), 0, 20);
         $hash_string = $merchant_key . '|' . $txnid . '|' . $amount . '|Product Info|'.$first_name.'|'.$email.'|||||||||||' . $salt;
         $hash = strtolower(hash('sha512', $hash_string));
 
@@ -437,7 +441,7 @@ class FrontCheckoutController
             }
 
             if (!empty($request->get_param("billing_info"))) {
-                $order->updateOrCreateMeta("billing_info", json_encode($request->get_param("billing_info")));
+                $order->updateOrCreateMeta("billing_info", wp_($request->get_param("billing_info")));
             }
 
                 $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));

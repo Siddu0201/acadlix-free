@@ -23,6 +23,7 @@ final class Course extends Acadlix_Abstract
         add_action('init', [$this, 'register_taxonomy']);
 
         add_filter('wp_insert_post_empty_content', [$this, 'update_title'], 10, 2);
+        add_action('edit_form_after_title', [$this, 'add_nonce_field_to_edit_form']);
     }
 
     public function args_register_post_type(): array
@@ -39,7 +40,8 @@ final class Course extends Acadlix_Abstract
             'edit_item' => __('Edit Course', 'acadlix'),
             'update_item' => __('Update Course', 'acadlix'),
             'search_items' => __('Search Courses', 'acadlix'),
-            'not_found' => sprintf(__('You have not had any courses yet. Click <a href="%s">Add new</a> to start', 'acadlix'), admin_url('post-new.php?post_type=acadlix_course')),
+            /* translators: %s is the URL to add a new course if no course found */
+            'not_found' => sprintf(__('You have not had any courses yet. Click <a href="%s">Add new</a> to start', 'acadlix'), esc_url(admin_url('post-new.php?post_type=acadlix_course'))),
             'not_found_in_trash' => __('There was no course found in the trash', 'acadlix'),
         );
         $course_permalink = Helper::instance()->acadlix_get_option('acadlix_course_base');
@@ -231,10 +233,18 @@ final class Course extends Acadlix_Abstract
         echo '<div id="acadlix-admin-course-settings">Loading...</div>';
     }
 
+    function add_nonce_field_to_edit_form() {
+        wp_nonce_field('acadlix_course_action', 'acadlix_course_field'); // Creates a nonce
+    }
+
     public function update_title($maybe_empty, $post_acc)
     {
+        if (!isset($_POST['acadlix_course_field']) || !wp_verify_nonce($_POST['acadlix_course_field'], 'acadlix_course_action')) {
+            return $maybe_empty; // If nonce verification fails, do nothing
+        }
+
         $action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
-        if (isset($action) && ($action === 'editpost' || $action === 'inline-save')) {
+        if ($action === 'editpost' || $action === 'inline-save') {
             if ($post_acc['post_type'] === $this->_post_type) {
                 if ($maybe_empty && empty($post_acc['post_title'])) {
                     $post_title = __('Draft Course', "acadlix");

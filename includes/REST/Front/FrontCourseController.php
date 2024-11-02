@@ -94,7 +94,8 @@ class FrontCourseController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -123,7 +124,8 @@ class FrontCourseController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -133,7 +135,8 @@ class FrontCourseController
 
         if($params['user_id'] == 0){
             if (empty($request->get_param("cart_token"))) {
-                return new WP_Error('missing_params', __("The {$field} parameter is required.", 'acadlix'), array('status' => 400));
+                /* translators: %s is the required field */
+                return new WP_Error('missing_params', sprintf(__('The %s parameter is required.', 'acadlix'), $field), array('status' => 400));
             }
 
             $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
@@ -193,7 +196,8 @@ class FrontCourseController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -203,7 +207,8 @@ class FrontCourseController
 
         if ($params['user_id'] == 0) {
             if (empty($request->get_param("cart_token"))) {
-                return new WP_Error('missing_params', __("The {$field} parameter is required.", 'acadlix'), array('status' => 400));
+                /* translators: %s is the required field */
+                return new WP_Error('missing_params', sprintf(__('The %s parameter is required.', 'acadlix'), $field), array('status' => 400));
             }
 
             $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
@@ -277,7 +282,8 @@ class FrontCourseController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 
@@ -311,7 +317,8 @@ class FrontCourseController
             $param = $request->get_param($field);
 
             if (empty($param)) {
-                $errors[] = __("The {$field} parameter is required.", 'acadlix');
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
             }
         }
 

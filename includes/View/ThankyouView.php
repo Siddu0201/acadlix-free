@@ -8,6 +8,10 @@ defined('ABSPATH') || exit();
 
 global $post, $wp_version;
 $success = false;
+
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- payerID for paypal
+$payerID = isset($_GET['payerID']) ? sanitize_text_field( $_GET['payerID'] ) : "";
+
 function capture_paypal_order($order_id)
 {
     $client_id = Helper::instance()->acadlix_get_option("acadlix_paypal_client_id"); // Your PayPal Client ID
@@ -60,8 +64,7 @@ function capture_paypal_order($order_id)
                     $cart->delete();
                 }
             }
-            if (isset($_GET['payerID'])) {
-                $payerID = sanitize_text_field($_GET['payerID']);
+            if (!empty($payerID)) {
                 $order->updateOrCreateMeta('payer_id', $payerID);
             }
         }
@@ -151,6 +154,7 @@ function capture_payu_order($txnid)
 }
 
 if (isset($_GET['token'])) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- token verification for payment
     $token = sanitize_text_field($_GET['token']);
     $order_meta = OrderMeta::where("meta_value", $token)->first();
     if ($order_meta) {
@@ -209,7 +213,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <?php
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
-            echo do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . $theme_slug . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->');
+            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
 } else {
     get_header();
 }
@@ -225,13 +229,13 @@ if ($success) {
 }
 ?>
 
-        <?php echo the_content(); ?>
+        <?php the_content(); ?>
         <?php
 
         if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
-            echo do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . $theme_slug . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->');
+            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . esc_attr($theme_slug) . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->'));
             echo '</div>';
             wp_footer();
             echo '</body>';

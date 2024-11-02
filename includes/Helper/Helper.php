@@ -14,10 +14,18 @@ if (!class_exists('Helper')) {
 
         public function upload_base64_image_to_wordpress($content)
         {
+
             $pattern = '/<img[^>]+src="data:image\/([^;]+);base64,([^"]+)"[^>]*>/i';
 
             // Callback function to handle each match
             $callback = function ($matches) {
+                require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+                // Initialize the filesystem
+                global $wp_filesystem;
+                if (empty($wp_filesystem)) {
+                    WP_Filesystem(); // This initializes the $wp_filesystem global
+                }
                 // Extract mime type and base64 data from matches
                 $mime_type = $matches[1];
                 $base64_data = $matches[2];
@@ -33,28 +41,33 @@ if (!class_exists('Helper')) {
                 $file_path = $upload_dir['path'] . '/' . $filename;
 
                 // Save the image data to a file
-                file_put_contents($file_path, $image_data);
+                if (!$wp_filesystem->put_contents($file_path, $image_data, FS_CHMOD_FILE)) {
+                    /* translators: %s is the filepath */
+                    return new WP_Error('failed', sprintf(__('Failed to write to file: %s', 'acadlix'), esc_html($file_path)), array('status' => 400));
+                }else{
+                    // Prepare file data for WP attachment
+                    $wp_file_type = wp_check_filetype($filename, null);
+                    $attachment = array(
+                        'guid' => $upload_dir['url'] . '/' . $filename,
+                        'post_mime_type' => $wp_file_type['type'],
+                        'post_title' => sanitize_file_name($filename),
+                        'post_content' => '',
+                        'post_status' => 'inherit'
+                    );
+    
+                    // // Insert the attachment into the media library
+                    $attach_id = wp_insert_attachment($attachment, $file_path);
+    
+                    // // Generate attachment metadata
+                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+                    $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
+                    wp_update_attachment_metadata($attach_id, $attach_data);
+    
+                    // Return the URL of the uploaded image
+                    return "<img src='" . $upload_dir['url'] . '/' . $filename . "' alt='" . $filename . "' />";
 
-                // Prepare file data for WP attachment
-                $wp_file_type = wp_check_filetype($filename, null);
-                $attachment = array(
-                    'guid' => $upload_dir['url'] . '/' . $filename,
-                    'post_mime_type' => $wp_file_type['type'],
-                    'post_title' => sanitize_file_name($filename),
-                    'post_content' => '',
-                    'post_status' => 'inherit'
-                );
+                }
 
-                // // Insert the attachment into the media library
-                $attach_id = wp_insert_attachment($attachment, $file_path);
-
-                // // Generate attachment metadata
-                require_once(ABSPATH . 'wp-admin/includes/image.php');
-                $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
-                wp_update_attachment_metadata($attach_id, $attach_data);
-
-                // Return the URL of the uploaded image
-                return "<img src='". $upload_dir['url'] . '/' . $filename. "' alt='". $filename."' />";
             };
 
             // Perform the replacement
@@ -66,165 +79,165 @@ if (!class_exists('Helper')) {
         public function acadlix_currencies()
         {
             $currencies = array(
-                'AFN' => __( 'Afghan afghani', 'acadlix' ),
-                'ALL' => __( 'Albanian lek', 'acadlix' ),
-                'AED' => __( 'United Arab Emirates dirham', 'acadlix' ),
-                'AOA' => __( 'Angolan kwanza', 'acadlix' ),
-                'ARS' => __( 'Argentine peso', 'acadlix' ),
-                'AMD' => __( 'Armenian dram', 'acadlix' ),
-                'ANG' => __( 'Netherlands Antilles guilder', 'acadlix' ),
-                'AWG' => __( 'Aruban florin', 'acadlix' ),
-                'AUD' => __( 'Australian dollar', 'acadlix' ),
-                'AZN' => __( 'Azerbaijani manat', 'acadlix' ),
-                'BSD' => __( 'Bahamian dollar', 'acadlix' ),
-                'BHD' => __( 'Bahraini dinar', 'acadlix' ),
-                'BDT' => __( 'Bangladeshi taka', 'acadlix' ),
-                'BBD' => __( 'Barbadian dollar', 'acadlix' ),
-                'BYR' => __( 'Belarusian ruble', 'acadlix' ),
-                'BZD' => __( 'Belizean dollar', 'acadlix' ),
-                'BMD' => __( 'Bermudian dollar', 'acadlix' ),
-                'BTN' => __( 'Bhutanese ngultrum', 'acadlix' ),
-                'BOB' => __( 'Bolivian boliviano', 'acadlix' ),
-                'BAM' => __( 'Bosnia and Herzegovina convertible mark', 'acadlix' ),
-                'BWP' => __( 'Botswana pula', 'acadlix' ),
-                'BRL' => __( 'Brazilian real', 'acadlix' ),
-                'BND' => __( 'Brunei dollar', 'acadlix' ),
-                'BGN' => __( 'Bulgarian lev', 'acadlix' ),
-                'BIF' => __( 'Burundian franc', 'acadlix' ),
-                'CAD' => __( 'Canadian dollar', 'acadlix' ),
-                'CVE' => __( 'Cape Verdean escudo', 'acadlix' ),
-                'CLP' => __( 'Chilean peso', 'acadlix' ),
-                'CNY' => __( 'Chinese renminbi', 'acadlix' ),
-                'COP' => __( 'Colombian peso', 'acadlix' ),
-                'CDF' => __( 'Congolese franc', 'acadlix' ),
-                'CHF' => __( 'Swiss franc', 'acadlix' ),
-                'CRC' => __( 'Costa Rican colón', 'acadlix' ),
-                'CUC' => __( 'Cuban peso', 'acadlix' ),
-                'CZK' => __( 'Czech koruna', 'acadlix' ),
-                'DKK' => __( 'Danish krone', 'acadlix' ),
-                'DJF' => __( 'Djiboutian franc', 'acadlix' ),
-                'DOP' => __( 'Dominican peso', 'acadlix' ),
-                'DZD' => __( 'Algerian dinar', 'acadlix' ),
-                'EGP' => __( 'Egyptian pound', 'acadlix' ),
-                'ERN' => __( 'Eritrean nakfa', 'acadlix' ),
-                'EUR' => __( 'Euro', 'acadlix' ),
-                'ETB' => __( 'Ethiopian birr', 'acadlix' ),
-                'FKP' => __( 'Falkland Islands pound', 'acadlix' ),
-                'FJD' => __( 'Fijian dollar', 'acadlix' ),
-                'GMD' => __( 'Gambian dalasi', 'acadlix' ),
-                'GEL' => __( 'Georgian lari', 'acadlix' ),
-                'GHS' => __( 'Ghanian cedi', 'acadlix' ),
-                'GIP' => __( 'Gibraltar pound', 'acadlix' ),
-                'GTQ' => __( 'Guatemalan quetzal', 'acadlix' ),
-                'GBP' => __( 'British pound', 'acadlix' ),
-                'GNF' => __( 'Guinean franc', 'acadlix' ),
-                'GYD' => __( 'Guyanese dollar', 'acadlix' ),
-                'HTG' => __( 'Haitian gourde', 'acadlix' ),
-                'HNL' => __( 'Honduran lempira', 'acadlix' ),
-                'HKD' => __( 'Hong Kong dollar', 'acadlix' ),
-                'HRK' => __( 'Croatian kuna', 'acadlix' ),
-                'HUF' => __( 'Hungarian forint', 'acadlix' ),
-                'ISK' => __( 'Icelandic króna', 'acadlix' ),
-                'INR' => __( 'Indian rupee', 'acadlix' ),
-                'IDR' => __( 'Indonesian rupiah', 'acadlix' ),
-                'IRR' => __( 'Iranian rial', 'acadlix' ),
-                'IQD' => __( 'Iraqi dinar', 'acadlix' ),
-                'ILS' => __( 'Israeli new sheqel', 'acadlix' ),
-                'JMD' => __( 'Jamaican dollar', 'acadlix' ),
-                'JPY' => __( 'Japanese yen ', 'acadlix' ),
-                'JEP' => __( 'Jersey pound', 'acadlix' ),
-                'JOD' => __( 'Jordanian dinar', 'acadlix' ),
-                'KZT' => __( 'Kazakhstani tenge', 'acadlix' ),
-                'KES' => __( 'Kenyan shilling', 'acadlix' ),
-                'KPW' => __( 'North Korean won', 'acadlix' ),
-                'KHR' => __( 'Cambodian riel', 'acadlix' ),
-                'KWD' => __( 'Kuwaiti dinar', 'acadlix' ),
-                'KGS' => __( 'Kyrgyzstani som', 'acadlix' ),
-                'KYD' => __( 'Cayman Islands dollar', 'acadlix' ),
-                'KMF' => __( 'Comorian franc', 'acadlix' ),
-                'KRW' => __( 'South Korean won', 'acadlix' ),
-                'LAK' => __( 'Lao kip', 'acadlix' ),
-                'LVL' => __( 'Latvian lats', 'acadlix' ),
-                'LBP' => __( 'Lebanese pound', 'acadlix' ),
-                'LSL' => __( 'Lesotho loti', 'acadlix' ),
-                'LRD' => __( 'Liberian dollar', 'acadlix' ),
-                'LD'  => __( 'Libyan dinar', 'acadlix' ),
-                'LYD' => __( 'Libyan dinar', 'acadlix' ),
-                'LKR' => __( 'Sri Lankan rupee', 'acadlix' ),
-                'LTL' => __( 'Lithuanian litas', 'acadlix' ),
-                'MOP' => __( 'Macanese pataca', 'acadlix' ),
-                'MKD' => __( 'Macedonian denar', 'acadlix' ),
-                'MGA' => __( 'Malagasy ariary', 'acadlix' ),
-                'MWK' => __( 'Malawian kwacha', 'acadlix' ),
-                'MYR' => __( 'Malaysian ringgit', 'acadlix' ),
-                'MVR' => __( 'Maldivian rufiyaa', 'acadlix' ),
-                'MRO' => __( 'Mauritanian ouguiya', 'acadlix' ),
-                'MUR' => __( 'Mauritian rupee', 'acadlix' ),
-                'MXN' => __( 'Mexican peso', 'acadlix' ),
-                'MDL' => __( 'Moldovan leu', 'acadlix' ),
-                'MNT' => __( 'Mongolian tugrik', 'acadlix' ),
-                'MAD' => __( 'Moroccan dirham', 'acadlix' ),
-                'MZN' => __( 'Mozambican metical', 'acadlix' ),
-                'MMK' => __( 'Burmese kyat', 'acadlix' ),
-                'NAD' => __( 'Namibian dollar', 'acadlix' ),
-                'NPR' => __( 'Nepalese rupee', 'acadlix' ),
-                'NIO' => __( 'Nicaraguan córdoba', 'acadlix' ),
-                'NGN' => __( 'Nigerian naira', 'acadlix' ),
-                'NOK' => __( 'Norwegian krone', 'acadlix' ),
-                'NZD' => __( 'New Zealand dollar', 'acadlix' ),
-                'OMR' => __( 'Omani rial', 'acadlix' ),
-                'PKR' => __( 'Pakistani rupee', 'acadlix' ),
-                'PAB' => __( 'Panamanian balboa', 'acadlix' ),
-                'PGK' => __( 'Papua New Guinea kina', 'acadlix' ),
-                'PYG' => __( 'Paraguayan guarani', 'acadlix' ),
-                'PEN' => __( 'Peruvian nuevo sol', 'acadlix' ),
-                'PHP' => __( 'Philippine peso', 'acadlix' ),
-                'PLN' => __( 'Polish zloty', 'acadlix' ),
-                'QAR' => __( 'Qatari riyal', 'acadlix' ),
-                'RON' => __( 'Romanian leu', 'acadlix' ),
-                'RUB' => __( 'Russian ruble', 'acadlix' ),
-                'RSD' => __( 'Serbian dinar', 'acadlix' ),
-                'RWF' => __( 'Rwandan franc', 'acadlix' ),
-                'SVC' => __( 'Salvadoran colón', 'acadlix' ),
-                'STD' => __( 'São Tomé and Príncipe dobra', 'acadlix' ),
-                'SAR' => __( 'Saudi riyal', 'acadlix' ),
-                'SCR' => __( 'Seychellois rupee', 'acadlix' ),
-                'SLL' => __( 'Sierra Leonean leone', 'acadlix' ),
-                'SGD' => __( 'Singapore dollar', 'acadlix' ),
-                'SBD' => __( 'Solomon Islands dollar', 'acadlix' ),
-                'SOS' => __( 'Somali shilling', 'acadlix' ),
-                'SHP' => __( 'St. Helena pound', 'acadlix' ),
-                'SDG' => __( 'Sudanese pound', 'acadlix' ),
-                'SRD' => __( 'Surinamese dollar', 'acadlix' ),
-                'SZL' => __( 'Swazi lilangeni', 'acadlix' ),
-                'SEK' => __( 'Swedish krona', 'acadlix' ),
-                'SYP' => __( 'Syrian pound', 'acadlix' ),
-                'TWD' => __( 'New Taiwan dollar', 'acadlix' ),
-                'TJS' => __( 'Tajikistani somoni', 'acadlix' ),
-                'TZS' => __( 'Tanzanian shilling', 'acadlix' ),
-                'THB' => __( 'Thai baht ', 'acadlix' ),
-                'TOP' => __( 'Tongan pa’anga', 'acadlix' ),
-                'TTD' => __( 'Trinidad and Tobago dollar', 'acadlix' ),
-                'TND' => __( 'Tunisian dinar', 'acadlix' ),
-                'TRY' => __( 'Turkish lira', 'acadlix' ),
-                'TMT' => __( 'Turkmenistani manat', 'acadlix' ),
-                'UGX' => __( 'Ugandan shilling', 'acadlix' ),
-                'UAH' => __( 'Ukrainian hryvnia', 'acadlix' ),
-                'USD' => __( 'US dollar', 'acadlix' ),
-                'UYU' => __( 'Uruguayan peso', 'acadlix' ),
-                'UZS' => __( 'Uzbekistani som', 'acadlix' ),
-                'VUV' => __( 'Vanuatu vatu', 'acadlix' ),
-                'VEF' => __( 'Venezuelan bolivar', 'acadlix' ),
-                'VND' => __( 'Vietnamese dong', 'acadlix' ),
-                'WST' => __( 'Samoan tālā', 'acadlix' ),
-                'XCD' => __( 'East Caribbean dollar', 'acadlix' ),
-                'XOF' => __( 'West African CFA franc', 'acadlix' ),
-                'XAF' => __( 'Central African CFA franc', 'acadlix' ),
-                'XPF' => __( 'CFP franc', 'acadlix' ),
-                'YER' => __( 'Yemeni rial', 'acadlix' ),
-                'ZAR' => __( 'South African rand', 'acadlix' ),
-                'ZMK' => __( 'Zambian kwacha', 'acadlix' ),
-                'ZWL' => __( 'Zimbabwean dollar', 'acadlix' ),
+                'AFN' => __('Afghan afghani', 'acadlix'),
+                'ALL' => __('Albanian lek', 'acadlix'),
+                'AED' => __('United Arab Emirates dirham', 'acadlix'),
+                'AOA' => __('Angolan kwanza', 'acadlix'),
+                'ARS' => __('Argentine peso', 'acadlix'),
+                'AMD' => __('Armenian dram', 'acadlix'),
+                'ANG' => __('Netherlands Antilles guilder', 'acadlix'),
+                'AWG' => __('Aruban florin', 'acadlix'),
+                'AUD' => __('Australian dollar', 'acadlix'),
+                'AZN' => __('Azerbaijani manat', 'acadlix'),
+                'BSD' => __('Bahamian dollar', 'acadlix'),
+                'BHD' => __('Bahraini dinar', 'acadlix'),
+                'BDT' => __('Bangladeshi taka', 'acadlix'),
+                'BBD' => __('Barbadian dollar', 'acadlix'),
+                'BYR' => __('Belarusian ruble', 'acadlix'),
+                'BZD' => __('Belizean dollar', 'acadlix'),
+                'BMD' => __('Bermudian dollar', 'acadlix'),
+                'BTN' => __('Bhutanese ngultrum', 'acadlix'),
+                'BOB' => __('Bolivian boliviano', 'acadlix'),
+                'BAM' => __('Bosnia and Herzegovina convertible mark', 'acadlix'),
+                'BWP' => __('Botswana pula', 'acadlix'),
+                'BRL' => __('Brazilian real', 'acadlix'),
+                'BND' => __('Brunei dollar', 'acadlix'),
+                'BGN' => __('Bulgarian lev', 'acadlix'),
+                'BIF' => __('Burundian franc', 'acadlix'),
+                'CAD' => __('Canadian dollar', 'acadlix'),
+                'CVE' => __('Cape Verdean escudo', 'acadlix'),
+                'CLP' => __('Chilean peso', 'acadlix'),
+                'CNY' => __('Chinese renminbi', 'acadlix'),
+                'COP' => __('Colombian peso', 'acadlix'),
+                'CDF' => __('Congolese franc', 'acadlix'),
+                'CHF' => __('Swiss franc', 'acadlix'),
+                'CRC' => __('Costa Rican colón', 'acadlix'),
+                'CUC' => __('Cuban peso', 'acadlix'),
+                'CZK' => __('Czech koruna', 'acadlix'),
+                'DKK' => __('Danish krone', 'acadlix'),
+                'DJF' => __('Djiboutian franc', 'acadlix'),
+                'DOP' => __('Dominican peso', 'acadlix'),
+                'DZD' => __('Algerian dinar', 'acadlix'),
+                'EGP' => __('Egyptian pound', 'acadlix'),
+                'ERN' => __('Eritrean nakfa', 'acadlix'),
+                'EUR' => __('Euro', 'acadlix'),
+                'ETB' => __('Ethiopian birr', 'acadlix'),
+                'FKP' => __('Falkland Islands pound', 'acadlix'),
+                'FJD' => __('Fijian dollar', 'acadlix'),
+                'GMD' => __('Gambian dalasi', 'acadlix'),
+                'GEL' => __('Georgian lari', 'acadlix'),
+                'GHS' => __('Ghanian cedi', 'acadlix'),
+                'GIP' => __('Gibraltar pound', 'acadlix'),
+                'GTQ' => __('Guatemalan quetzal', 'acadlix'),
+                'GBP' => __('British pound', 'acadlix'),
+                'GNF' => __('Guinean franc', 'acadlix'),
+                'GYD' => __('Guyanese dollar', 'acadlix'),
+                'HTG' => __('Haitian gourde', 'acadlix'),
+                'HNL' => __('Honduran lempira', 'acadlix'),
+                'HKD' => __('Hong Kong dollar', 'acadlix'),
+                'HRK' => __('Croatian kuna', 'acadlix'),
+                'HUF' => __('Hungarian forint', 'acadlix'),
+                'ISK' => __('Icelandic króna', 'acadlix'),
+                'INR' => __('Indian rupee', 'acadlix'),
+                'IDR' => __('Indonesian rupiah', 'acadlix'),
+                'IRR' => __('Iranian rial', 'acadlix'),
+                'IQD' => __('Iraqi dinar', 'acadlix'),
+                'ILS' => __('Israeli new sheqel', 'acadlix'),
+                'JMD' => __('Jamaican dollar', 'acadlix'),
+                'JPY' => __('Japanese yen ', 'acadlix'),
+                'JEP' => __('Jersey pound', 'acadlix'),
+                'JOD' => __('Jordanian dinar', 'acadlix'),
+                'KZT' => __('Kazakhstani tenge', 'acadlix'),
+                'KES' => __('Kenyan shilling', 'acadlix'),
+                'KPW' => __('North Korean won', 'acadlix'),
+                'KHR' => __('Cambodian riel', 'acadlix'),
+                'KWD' => __('Kuwaiti dinar', 'acadlix'),
+                'KGS' => __('Kyrgyzstani som', 'acadlix'),
+                'KYD' => __('Cayman Islands dollar', 'acadlix'),
+                'KMF' => __('Comorian franc', 'acadlix'),
+                'KRW' => __('South Korean won', 'acadlix'),
+                'LAK' => __('Lao kip', 'acadlix'),
+                'LVL' => __('Latvian lats', 'acadlix'),
+                'LBP' => __('Lebanese pound', 'acadlix'),
+                'LSL' => __('Lesotho loti', 'acadlix'),
+                'LRD' => __('Liberian dollar', 'acadlix'),
+                'LD' => __('Libyan dinar', 'acadlix'),
+                'LYD' => __('Libyan dinar', 'acadlix'),
+                'LKR' => __('Sri Lankan rupee', 'acadlix'),
+                'LTL' => __('Lithuanian litas', 'acadlix'),
+                'MOP' => __('Macanese pataca', 'acadlix'),
+                'MKD' => __('Macedonian denar', 'acadlix'),
+                'MGA' => __('Malagasy ariary', 'acadlix'),
+                'MWK' => __('Malawian kwacha', 'acadlix'),
+                'MYR' => __('Malaysian ringgit', 'acadlix'),
+                'MVR' => __('Maldivian rufiyaa', 'acadlix'),
+                'MRO' => __('Mauritanian ouguiya', 'acadlix'),
+                'MUR' => __('Mauritian rupee', 'acadlix'),
+                'MXN' => __('Mexican peso', 'acadlix'),
+                'MDL' => __('Moldovan leu', 'acadlix'),
+                'MNT' => __('Mongolian tugrik', 'acadlix'),
+                'MAD' => __('Moroccan dirham', 'acadlix'),
+                'MZN' => __('Mozambican metical', 'acadlix'),
+                'MMK' => __('Burmese kyat', 'acadlix'),
+                'NAD' => __('Namibian dollar', 'acadlix'),
+                'NPR' => __('Nepalese rupee', 'acadlix'),
+                'NIO' => __('Nicaraguan córdoba', 'acadlix'),
+                'NGN' => __('Nigerian naira', 'acadlix'),
+                'NOK' => __('Norwegian krone', 'acadlix'),
+                'NZD' => __('New Zealand dollar', 'acadlix'),
+                'OMR' => __('Omani rial', 'acadlix'),
+                'PKR' => __('Pakistani rupee', 'acadlix'),
+                'PAB' => __('Panamanian balboa', 'acadlix'),
+                'PGK' => __('Papua New Guinea kina', 'acadlix'),
+                'PYG' => __('Paraguayan guarani', 'acadlix'),
+                'PEN' => __('Peruvian nuevo sol', 'acadlix'),
+                'PHP' => __('Philippine peso', 'acadlix'),
+                'PLN' => __('Polish zloty', 'acadlix'),
+                'QAR' => __('Qatari riyal', 'acadlix'),
+                'RON' => __('Romanian leu', 'acadlix'),
+                'RUB' => __('Russian ruble', 'acadlix'),
+                'RSD' => __('Serbian dinar', 'acadlix'),
+                'RWF' => __('Rwandan franc', 'acadlix'),
+                'SVC' => __('Salvadoran colón', 'acadlix'),
+                'STD' => __('São Tomé and Príncipe dobra', 'acadlix'),
+                'SAR' => __('Saudi riyal', 'acadlix'),
+                'SCR' => __('Seychellois rupee', 'acadlix'),
+                'SLL' => __('Sierra Leonean leone', 'acadlix'),
+                'SGD' => __('Singapore dollar', 'acadlix'),
+                'SBD' => __('Solomon Islands dollar', 'acadlix'),
+                'SOS' => __('Somali shilling', 'acadlix'),
+                'SHP' => __('St. Helena pound', 'acadlix'),
+                'SDG' => __('Sudanese pound', 'acadlix'),
+                'SRD' => __('Surinamese dollar', 'acadlix'),
+                'SZL' => __('Swazi lilangeni', 'acadlix'),
+                'SEK' => __('Swedish krona', 'acadlix'),
+                'SYP' => __('Syrian pound', 'acadlix'),
+                'TWD' => __('New Taiwan dollar', 'acadlix'),
+                'TJS' => __('Tajikistani somoni', 'acadlix'),
+                'TZS' => __('Tanzanian shilling', 'acadlix'),
+                'THB' => __('Thai baht ', 'acadlix'),
+                'TOP' => __('Tongan pa’anga', 'acadlix'),
+                'TTD' => __('Trinidad and Tobago dollar', 'acadlix'),
+                'TND' => __('Tunisian dinar', 'acadlix'),
+                'TRY' => __('Turkish lira', 'acadlix'),
+                'TMT' => __('Turkmenistani manat', 'acadlix'),
+                'UGX' => __('Ugandan shilling', 'acadlix'),
+                'UAH' => __('Ukrainian hryvnia', 'acadlix'),
+                'USD' => __('US dollar', 'acadlix'),
+                'UYU' => __('Uruguayan peso', 'acadlix'),
+                'UZS' => __('Uzbekistani som', 'acadlix'),
+                'VUV' => __('Vanuatu vatu', 'acadlix'),
+                'VEF' => __('Venezuelan bolivar', 'acadlix'),
+                'VND' => __('Vietnamese dong', 'acadlix'),
+                'WST' => __('Samoan tālā', 'acadlix'),
+                'XCD' => __('East Caribbean dollar', 'acadlix'),
+                'XOF' => __('West African CFA franc', 'acadlix'),
+                'XAF' => __('Central African CFA franc', 'acadlix'),
+                'XPF' => __('CFP franc', 'acadlix'),
+                'YER' => __('Yemeni rial', 'acadlix'),
+                'ZAR' => __('South African rand', 'acadlix'),
+                'ZMK' => __('Zambian kwacha', 'acadlix'),
+                'ZWL' => __('Zimbabwean dollar', 'acadlix'),
             );
             asort($currencies);
             return $currencies;
@@ -407,8 +420,7 @@ if (!class_exists('Helper')) {
             $currencies = $this->acadlix_currencies();
             $symbol = $this->acadlix_currency_symbols();
             $i = 0;
-            foreach($currencies as $key => $currency)
-            {
+            foreach ($currencies as $key => $currency) {
                 $currency_symbol[$i]['short_name'] = $key;
                 $currency_symbol[$i]['name'] = $currency;
                 $currency_symbol[$i]['symbol'] = $symbol[$key] ?? '';
@@ -473,9 +485,9 @@ if (!class_exists('Helper')) {
         {
             $options = $this->acadlix_options();
             $new_options = [];
-            if(count($options) > 0){
-                foreach($options as $key => $option){
-                    $new_options[$key] = get_option( $key, $option );
+            if (count($options) > 0) {
+                foreach ($options as $key => $option) {
+                    $new_options[$key] = get_option($key, $option);
                 }
             }
             return $new_options;
@@ -484,16 +496,16 @@ if (!class_exists('Helper')) {
         public function acadlix_get_option($key = '', $default = false)
         {
             $options = $this->acadlix_options();
-            if(!empty($key) && is_array($options)){
-                return get_option( $key, $options[$key] ?? $default );
+            if (!empty($key) && is_array($options)) {
+                return get_option($key, $options[$key] ?? $default);
             }
             return $default;
         }
 
         public function acadlix_update_option($key = '', $value = '')
         {
-            if(!empty($key)){
-                update_option( $key, $value );
+            if (!empty($key)) {
+                update_option($key, $value);
             }
         }
 
