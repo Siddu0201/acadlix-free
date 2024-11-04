@@ -46,8 +46,12 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                error={Boolean(props?.formState?.errors?.billing_info?.first_name)}
-                helperText={props?.formState?.errors?.billing_info?.first_name?.message}
+                error={Boolean(
+                  props?.formState?.errors?.billing_info?.first_name
+                )}
+                helperText={
+                  props?.formState?.errors?.billing_info?.first_name?.message
+                }
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -99,7 +103,9 @@ const BillingDetail = (props) => {
                   });
                 }}
                 error={Boolean(props?.formState?.errors?.billing_info?.email)}
-                helperText={props?.formState?.errors?.billing_info?.email?.message}
+                helperText={
+                  props?.formState?.errors?.billing_info?.email?.message
+                }
               />
             </Grid>
             <Grid item xs={3} md={3}>
@@ -125,14 +131,19 @@ const BillingDetail = (props) => {
                   props.watch("billing_info.phonecode") !== null
                     ? Country?.getAllCountries()?.find(
                         (country) =>
-                          country?.phonecode === props?.watch("billing_info.phonecode")
+                          country?.phonecode ===
+                          props?.watch("billing_info.phonecode")
                       ) ?? null
                     : null
                 }
                 onChange={(_, newValue) => {
-                  props.setValue("billing_info.phonecode", newValue?.phonecode, {
-                    shouldDirty: true,
-                  });
+                  props.setValue(
+                    "billing_info.phonecode",
+                    newValue?.phonecode,
+                    {
+                      shouldDirty: true,
+                    }
+                  );
                 }}
                 renderOption={(props, option) => (
                   <Box
@@ -152,6 +163,11 @@ const BillingDetail = (props) => {
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "code",
+                    }}
+                    sx={{
+                      "& .MuiInputBase-input": {
+                        height: "auto", 
+                      },
                     }}
                   />
                 )}
@@ -173,9 +189,13 @@ const BillingDetail = (props) => {
                 type="tel"
                 value={props?.watch("billing_info.phone_number")}
                 onChange={(e) => {
-                  props?.setValue("billing_info.phone_number", e?.target?.value, {
-                    shouldDirty: true,
-                  });
+                  props?.setValue(
+                    "billing_info.phone_number",
+                    e?.target?.value,
+                    {
+                      shouldDirty: true,
+                    }
+                  );
                 }}
               />
             </Grid>
@@ -245,7 +265,8 @@ const BillingDetail = (props) => {
                 value={
                   props.watch("billing_info.country") !== null
                     ? Country.getAllCountries()?.find(
-                        (country) => country?.name === props.watch("billing_info.country")
+                        (country) =>
+                          country?.name === props.watch("billing_info.country")
                       ) ?? null
                     : null
                 }
@@ -272,6 +293,11 @@ const BillingDetail = (props) => {
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "country",
+                    }}
+                    sx={{
+                      "& .MuiInputBase-input": {
+                        height: "auto", 
+                      },
                     }}
                   />
                 )}

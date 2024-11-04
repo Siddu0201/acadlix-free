@@ -39,8 +39,8 @@ const PurchaseHistory = () => {
     {
       field: "order_items",
       headerName: "Order Items",
-      flex: 2,
-      minWidth: 130,
+      flex: 3,
+      minWidth: 180,
     },
     {
       field: "payment_method",
@@ -73,8 +73,8 @@ const PurchaseHistory = () => {
     },
     {
       field: "total_amount",
-      headerName: "Total amount",
-      flex: 2,
+      headerName: "Amount",
+      flex: 1,
       minWidth: 100,
     },
   ];
