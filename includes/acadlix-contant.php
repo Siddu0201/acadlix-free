@@ -23,6 +23,7 @@ define('ACADLIX_BUILD_URL', ACADLIX_PLUGIN_URL . 'build/');
 define('ACADLIX_BUILD_PATH', ACADLIX_PLUGIN_DIR . 'build/');
 define('ACADLIX_ASSETS_CSS_URL', ACADLIX_PLUGIN_URL . 'assets/css/');
 define('ACADLIX_ASSETS_JS_URL', ACADLIX_PLUGIN_URL . 'assets/js/');
+define('ACADLIX_ASSETS_IMAGE_URL', ACADLIX_PLUGIN_URL . 'assets/image/');
 
 // Custom post type constant
 const ACADLIX_COURSE_CPT = 'acadlix_course';

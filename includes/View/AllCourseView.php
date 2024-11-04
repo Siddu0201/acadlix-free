@@ -134,7 +134,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     get_header();
 }
 ?>
-        <section id="acadlix_all_course_page">
+        <section class="acadlix_all_course_page">
             <div class="acadlix_filter_bar">
                 <div class="acadlix_filter_bar_inner">
                     <h4>We found <span style="color: black;"><?php echo esc_html($course_count); ?></span> courses
@@ -167,14 +167,17 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <div class="acadlix_product_page_row">
                 <?php
                 foreach ($courses as $key => $course) {
-                    // print_r($course);
+                    // echo "<pre>";
+                    // print_r($course->post);
+                    // echo "</pre>";
                     ?>
                     <div class="acadlix_product_page_col_lg ">
                         <div class="acadlix_product_page_card  ">
                             <div class="acadlix_product_page_card_image">
                                 <a href="<?php echo esc_url($course->post->guid); ?>" class="acadlix_product_page_d_block">
                                     <img class="acadlix_product_page_card_img_top " loading="lazy"
-                                        src="https://products-details-qwbp.vercel.app/images/img8.jpg" alt="Card image cap">
+                                        src="<?php echo $course->post->getThumbnailUrlAttribute() ?? ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"; ?>" 
+                                        alt="<?php echo $course->post->getThumbnailAltAttribute() ?? $course?->post?->post_title; ?>">
                                 </a>
                                 <!-- <div class="acadlix_product_page_course_badge_labels">
                                     <div class="acadlix_product_page_course_badgebestseller">Bestseller</div>
@@ -226,14 +229,18 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         if (is_course_free($course->price, $course->sale_price)) {
                                             if (in_array($course->id, $cart)) {
                                                 ?>
-                                                <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix_action_button">Go to
-                                                    Checkout</a>
+                                                <button class="acadlix_action_button">
+                                                    <a href="<?php echo esc_url($checkout_url); ?>">Go to
+                                                        Checkout</a>
+                                                </button>
                                                 <?php
                                             } else {
                                                 if (in_array($course->id, $order_item)) {
                                                     ?>
-                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix_action_button">Go to
-                                                        Course</a>
+                                                    <button class="acadlix_action_button">
+                                                        <a href="<?php echo esc_url($dashboard_url); ?>">Go to
+                                                            Course</a>
+                                                    </button>
                                                     <?php
                                                 } else {
                                                     ?>
@@ -253,14 +260,18 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         } else {
                                             if (in_array($course->id, $cart)) {
                                                 ?>
-                                                <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix_action_button">Go to
-                                                    Checkout</a>
+                                                <button class="acadlix_action_button">
+                                                    <a href="<?php echo esc_url($checkout_url); ?>">Go to
+                                                        Checkout</a>
+                                                </button>
                                                 <?php
                                             } else {
                                                 if (in_array($course->id, $order_item)) {
                                                     ?>
-                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix_action_button">Go to
-                                                        Course</a>
+                                                    <button class="acadlix_action_button">
+                                                        <a href="<?php echo esc_url($dashboard_url); ?>">Go to
+                                                            Course</a>
+                                                    </button>
                                                     <?php
                                                 } else {
                                                     ?>

@@ -15,7 +15,7 @@ if (!class_exists('WpPosts')) {
 
         protected $with = ['author'];
 
-        protected $appends = ['thumbnail_url'];
+        protected $appends = ['thumbnail_url', 'thumbnail_alt'];
 
         public function thumbnailMeta()
         {
@@ -26,6 +26,15 @@ if (!class_exists('WpPosts')) {
         public function author()
         {
             return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+        }
+
+        public function getThumbnailAltAttribute()
+        {
+            $thumbnailId = $this->thumbnailMeta->meta_value ?? null;
+            if($thumbnailId){
+                return get_post_meta($thumbnailId, '_wp_attachment_image_alt', true);
+            }
+            return null;
         }
 
         public function getThumbnailUrlAttribute()
