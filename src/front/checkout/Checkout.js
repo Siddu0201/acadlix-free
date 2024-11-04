@@ -19,22 +19,26 @@ import toast from "react-hot-toast";
 import Register from "./modal/Register";
 
 const Checkout = () => {
+  const getUserMetaValue = ( key= "") => {
+    return acadlixOptions?.user?.user_metas?.find(m => m?.meta_key === key)?.meta_value;
+  }
+
   const methods = useForm({
     defaultValues: {
       is_checkout_loading: false,
       login_modal: false,
       login_modal_type: "login", // login/register
       billing_info: {
-        first_name: "",
-        last_name: "",
-        email: "",
-        phonecode: null,
-        phone_number: "",
-        address: "",
-        user_url: "",
-        country: null,
-        city: "",
-        zip_code: "",
+        first_name: getUserMetaValue("first_name") ?? "",
+        last_name: getUserMetaValue("last_name") ?? "",
+        email: acadlixOptions?.user?.email ?? "",
+        phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
+        phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
+        address: getUserMetaValue("_acadlix_profile_address") ?? "",
+        user_url: acadlixOptions?.user?.user_url ?? "",
+        country: getUserMetaValue("_acadlix_profile_country") ?? null,
+        city: getUserMetaValue("_acadlix_profile_city") ?? "",
+        zip_code: getUserMetaValue("_acadlix_profile_zip_code") ?? "",
       },
       payment_method: "",
       user_id: acadlixOptions?.user_id,

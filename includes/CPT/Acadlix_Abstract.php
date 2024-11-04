@@ -76,7 +76,7 @@ abstract class Acadlix_Abstract
 			$this->before_delete($post_id);
 		} catch (Throwable $e) {
 			if (defined('WP_DEBUG') && WP_DEBUG) {
-				error_log(__METHOD__ . ': ' . $e->getMessage());
+				error_log(__METHOD__ . ': ' . $e->getMessage()); // phpcs:ignore
 			}
 		}
 	}

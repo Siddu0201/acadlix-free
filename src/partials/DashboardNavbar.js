@@ -46,23 +46,40 @@ const DashboardNavbar = () => {
               gap: 2,
               justifyContent: "flex-start",
               marginLeft: 2,
+              overflowX: "auto"
             }}
           >
+            <Button
+              sx={{
+                my: 0,
+                color: "black",
+                display: "block",
+                padding: {
+                  sm: "6px 8px",
+                  xs: 0,
+                },
+                textDecoration: "none",
+              }}
+              component="a"
+              href={acadlixOptions?.home_url}
+            >
+              Home
+            </Button>
             {dashboardMenu.map((page) => (
               <Button
                 key={page?.id}
                 component={NavLink}
                 to={page?.path}
-                sx={{ 
-                    my: 0, 
-                    color: path?.pathname === page?.path ? "blue" :"black", 
-                    display: "block",
-                    padding: {
-                        sm: "6px 8px",
-                        xs: 0
-                    },
-                    textDecoration: "none"
-                 }}
+                sx={{
+                  my: 0,
+                  color: path?.pathname === page?.path ? "blue" : "black",
+                  display: "block",
+                  padding: {
+                    sm: "6px 8px",
+                    xs: 0,
+                  },
+                  textDecoration: "none",
+                }}
               >
                 {page?.name}
               </Button>

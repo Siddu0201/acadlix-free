@@ -31,9 +31,6 @@ const Courses = () => {
     { label: "category3" },
   ];
 
-  const [page, setPage] = useState(1);
-  const itemsPerPage = 8;
-
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: acadlixOptions?.settings?.acadlix_no_of_courses_per_page,
     page: 0,
@@ -54,127 +51,11 @@ const Courses = () => {
     return rowCountRef.current;
   }, [data?.data?.total]);
 
-  const courses = [
-    {
-      title: "Complete Digital Marketing ",
-      instructors: "John Doe, Angela uniliver ",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course",
-      instructors: "John Doe",
-      progress: 65,
-    },
-    {
-      title: " Zero to One",
-      instructors: "Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-    {
-      title: "Complete Digital Marketing Course: Zero to One",
-      instructors: "John Doe, Angela Yu",
-      progress: 65,
-    },
-  ];
-
-  const count = Math.ceil(courses.length / itemsPerPage);
-  const paginatedCourses = courses.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
-  );
-
   const handlePaginationChange = (event, value) => {
-    setPage(value);
+    console.log(value);
+    setPaginationModel((p) => {
+      return { ...p, page: value - 1 };
+    });
   };
 
   return (
@@ -267,7 +148,7 @@ const Courses = () => {
           </Grid>
         ) : data?.data?.order_items?.length > 0 ? (
           data?.data?.order_items?.map((item, index) => (
-            <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <CourseCard {...item} />
             </Grid>
           ))
@@ -297,8 +178,10 @@ const Courses = () => {
       >
         <Stack spacing={2}>
           <Pagination
-            count={count}
-            page={page}
+            count={
+              rowCount > 0 ? Math.ceil(rowCount / paginationModel?.pageSize) : 0
+            }
+            page={paginationModel?.page + 1}
             onChange={handlePaginationChange}
           />
         </Stack>
@@ -311,7 +194,6 @@ export default Courses;
 
 const CourseCard = (props) => {
   const navigate = useNavigate();
-  console.log(props);
   return (
     <Card
       sx={{
@@ -328,8 +210,12 @@ const CourseCard = (props) => {
     >
       <CardMedia
         component="img"
-        height="140"
-        image={props?.course?.post?.thumbnail_url}
+        sx={{
+          height: "140px",
+        }}
+        image={
+          props?.course?.post?.thumbnail_url ?? acadlixOptions?.default_img_url
+        }
         alt={props?.course?.post?.post_title}
       />
       <CardContent
@@ -348,11 +234,11 @@ const CourseCard = (props) => {
             : props?.course?.post?.post_title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {
-            props?.course?.users?.length > 0 ? 
-              props?.course?.users?.map(u => u?.author?.display_name)?.join(", ")
-            : props?.course?.post?.author?.display_name
-          }
+          {props?.course?.users?.length > 0
+            ? props?.course?.users
+                ?.map((u) => u?.author?.display_name)
+                ?.join(", ")
+            : props?.course?.post?.author?.display_name}
         </Typography>
         <Box sx={{ mt: 5 }}>
           <LinearProgress variant="determinate" value={0} />

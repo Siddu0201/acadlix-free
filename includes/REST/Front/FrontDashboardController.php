@@ -57,6 +57,18 @@ class FrontDashboardController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/post-update-user-photo',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_update_user_photo'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/post-update-user-profile',
             [
                 [
@@ -109,6 +121,57 @@ class FrontDashboardController
         }
         $res['user'] = WpUsers::where('ID', $request->get_param("user_id"))->first();
         return rest_ensure_response($res);
+    }
+
+    public function post_update_user_photo($request)
+    {
+        $files = $request->get_file_params();
+
+        if (empty($files['file'])) {
+            return new WP_Error('no_file', 'No file uploaded', array('status' => 400));
+        }
+
+        $file = $files['file'];
+
+        // Check if the upload is an image
+        if (!in_array($file['type'], array('image/jpeg', 'image/png', 'image/jpg'))) {
+            return new WP_Error('invalid_file_type', 'Only JPG and PNG files are allowed', array('status' => 400));
+        }
+
+        // Handle the upload using WordPress functions
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+        $upload_overrides = array(
+            'test_form' => false
+        );
+        $uploaded_file = wp_handle_upload($file, $upload_overrides);
+
+        if (isset($uploaded_file['error'])) {
+            return new WP_Error('upload_error', $uploaded_file['error'], array('status' => 500));
+        }
+
+        // Create attachment
+        $attachment_id = wp_insert_attachment(array(
+            'guid' => $uploaded_file['url'],
+            'post_mime_type' => $file['type'],
+            'post_title' => sanitize_file_name($file['name']),
+            'post_content' => '',
+            'post_status' => 'inherit'
+        ), $uploaded_file['file']);
+
+        // Generate metadata and update attachment
+        $attachment_data = wp_generate_attachment_metadata($attachment_id, $uploaded_file['file']);
+        wp_update_attachment_metadata($attachment_id, $attachment_data);
+
+        // Return the URL of the uploaded image
+        $image_url = wp_get_attachment_url($attachment_id);
+
+        // Update user image
+        update_user_meta( $request->get_param("user_id"),'_acadlix_profile_photo', $image_url );
+
+        return rest_ensure_response(array('success' => true, 'url' => $image_url));
     }
 
     public function post_update_user_profile($request)

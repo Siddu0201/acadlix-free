@@ -58,3 +58,12 @@ export const PostUpdateUserProfile = () => {
         }
     })
 }
+
+export const PostUpdateUserPhoto = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-update-user-photo`, data);
+        }
+    })
+}

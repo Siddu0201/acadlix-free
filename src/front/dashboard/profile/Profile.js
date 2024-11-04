@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import {
   GetUserProfile,
+  PostUpdateUserPhoto,
   PostUpdateUserProfile,
 } from "../../../requests/front/FrontDashboardRequest";
 import { useForm } from "react-hook-form";
@@ -84,13 +85,30 @@ const Profile = () => {
     }
   }, [data?.data]);
 
-  const handleMediaChange = (media) => {
-    methods?.setValue(`photo`, media?.url, { shouldDirty: true });
+  const inputRef = React.useRef(null);
+  const handleUploadPhoto = () => {
+    inputRef.current.click();
+  };
+
+  const updatePhotoMutation = PostUpdateUserPhoto();
+  const handleMediaChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("user_id", methods?.watch("user_id"));
+      updatePhotoMutation?.mutate(formData, {
+        onSuccess: (data) => {
+          if (data?.data?.success && data?.data?.url) {
+            methods?.setValue("photo", data?.data?.url, { shouldDirty: true });
+          }
+        },
+      });
+    }
   };
 
   const updateProfileMutation = PostUpdateUserProfile();
   const onSubmit = (data) => {
-    console.log(data);
     updateProfileMutation?.mutate(data, {
       onSuccess: (data) => {
         toast.success("Profile updated successfully.");
@@ -173,14 +191,22 @@ const Profile = () => {
                     },
                   }}
                 >
-                  <MediaUpload
-                    onSelect={handleMediaChange}
-                    render={({ open }) => (
-                      <Button variant="contained" onClick={open}>
-                        Upload Profile Photo
-                      </Button>
-                    )}
-                  />
+                  <>
+                    <input
+                      type="file"
+                      ref={inputRef}
+                      style={{ display: "none" }}
+                      onChange={handleMediaChange}
+                      accept=".jpg,.jpeg,.png"
+                    />
+                    <Button variant="contained" onClick={handleUploadPhoto}>
+                      {updatePhotoMutation?.isPending ? (
+                        <CircularProgress size={20} color="inherit" />
+                      ) : (
+                        "Upload Profile Photo"
+                      )}
+                    </Button>
+                  </>
                 </Box>
               </Box>
               <CardContent

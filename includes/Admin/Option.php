@@ -94,7 +94,7 @@ if (!class_exists("Option")) {
                 }
             } catch ( Throwable $e ) {
                 if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log( sprintf( '%s:%s:%s', __FILE__, __LINE__, $e->getMessage() ) );
+                    error_log( sprintf( '%s:%s:%s', __FILE__, __LINE__, $e->getMessage() ) ); // phpcs:ignore
                 }
             }
     

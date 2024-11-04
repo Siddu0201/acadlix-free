@@ -162,7 +162,7 @@ const PurchaseHistory = () => {
         <Grid item xs={12} lg={12}>
           <Card
             sx={{
-              boxShadow: "none",
+              boxShadow: (theme) => theme.shadows[4]
             }}
           >
             <CardHeader title="Purchase History" />
@@ -213,7 +213,6 @@ const PurchaseHistory = () => {
 export default PurchaseHistory;
 
 const MobileOnlyView = (props) => {
-  console.log(props?.watch("rows"));
   return (
     <Box>
       {props?.isFetching ? (

@@ -248,6 +248,7 @@ class Manager
         wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'home_url' => esc_url(home_url( )),
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
@@ -256,6 +257,7 @@ class Manager
             'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
             'date_format' => Helper::instance()->acadlix_get_option("date_format"),
             'time_format' => Helper::instance()->acadlix_get_option("time_format"),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
         ));
     }
 

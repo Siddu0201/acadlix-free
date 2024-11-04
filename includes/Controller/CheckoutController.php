@@ -2,6 +2,7 @@
 
 namespace Yuvayana\Acadlix\Controller;
 use Yuvayana\Acadlix\Helper\Helper;
+use Yuvayana\Acadlix\Models\WpUsers;
 
 defined('ABSPATH') || exit();
 
@@ -35,7 +36,7 @@ if (!class_exists("CheckoutController")) {
             if ($checkout_page_id && is_page($checkout_page_id)) {
                 wp_dequeue_style('acadlix-front-css');
                 wp_dequeue_script('acadlix-front-js');
-                wp_enqueue_style( 'acadlix-front-checkout-css');
+                wp_enqueue_style('acadlix-front-checkout-css');
                 wp_enqueue_script('acadlix-razorpay-js');
                 if ($paypal_active) {
                     wp_enqueue_script('acadlix-paypal-js');
@@ -47,14 +48,14 @@ if (!class_exists("CheckoutController")) {
                     'ajax_url' => esc_url(admin_url('admin-ajax.php')),
                     'nonce' => wp_create_nonce('wp_rest'),
                     'user_id' => get_current_user_id() ?? 0,
-                    'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+                    'user' => get_current_user_id() > 0 ? WpUsers::where('ID', get_current_user_id())->first() : [],
                     'site_title' => get_bloginfo('name'),
                     'cart_token' => isset($_COOKIE['acadlix_cart_token']) ? sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])) : '',
                     'settings' => Helper::instance()->acadlix_get_all_options(),
                     'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
                     'thankyou_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_thankyou_page_id"))),
                     'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
-                    'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
+                    'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
                 ));
             }
         }
