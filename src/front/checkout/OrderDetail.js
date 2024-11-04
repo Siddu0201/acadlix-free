@@ -46,7 +46,7 @@ const OrderDetail = (props) => {
                         height: 100,
                         width: 150,
                       }}
-                      image={c?.course?.post?.thumbnail_url ?? ""}
+                      image={c?.course?.post?.thumbnail_url ?? acadlixOptions?.default_img_url}
                       title="product image"
                     />
                     <CardContent
@@ -82,7 +82,7 @@ const OrderDetail = (props) => {
                                 : c?.course?.sale_price
                             )} `}</b>
                           </Typography>
-                          {c?.course?.price !== 0 && (
+                          {c?.course?.sale_price !== 0 && (
                             <Typography variant="body2">
                               <del>
                                 {props?.currencyPosition(c?.course?.price)}

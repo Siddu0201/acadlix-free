@@ -35,6 +35,7 @@ if (!class_exists("CheckoutController")) {
             if ($checkout_page_id && is_page($checkout_page_id)) {
                 wp_dequeue_style('acadlix-front-css');
                 wp_dequeue_script('acadlix-front-js');
+                wp_enqueue_style( 'acadlix-front-checkout-css');
                 wp_enqueue_script('acadlix-razorpay-js');
                 if ($paypal_active) {
                     wp_enqueue_script('acadlix-paypal-js');
@@ -53,6 +54,7 @@ if (!class_exists("CheckoutController")) {
                     'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
                     'thankyou_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_thankyou_page_id"))),
                     'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
+                    'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
                 ));
             }
         }

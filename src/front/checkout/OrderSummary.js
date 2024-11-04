@@ -151,7 +151,7 @@ const OrderSummary = (props) => {
                 </Grid>
                 <Grid item xs={12} lg={12}>
                   <Button
-                    color="error"
+                    color="success"
                     variant="contained"
                     fullWidth
                     onClick={props?.handleSubmit(props?.handleCheckout)}

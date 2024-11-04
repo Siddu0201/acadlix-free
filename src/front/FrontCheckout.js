@@ -2,6 +2,7 @@ import React from "react";
 import Provider from "../provider/Provider";
 import Checkout from "./checkout/Checkout";
 import { Toaster } from "react-hot-toast";
+import './FrontCheckout.css';
 
 const FrontCheckout = () => {
   return (

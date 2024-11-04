@@ -164,7 +164,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 </div>
             </div>
 
-            <div class="acadlix_product_page_row">
+            <div class="acadlix_product_page_row" id="acadlix_all_course_page">
                 <?php
                 foreach ($courses as $key => $course) {
                     // echo "<pre>";

@@ -114,6 +114,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-front-checkout-css' => [
+                'src' => ACADLIX_BUILD_URL . 'front_checkout.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-all-course-css' => [
                 'src' => ACADLIX_ASSETS_CSS_URL . 'frontend/all_courses.css',
                 'version' => ACADLIX_VERSION,

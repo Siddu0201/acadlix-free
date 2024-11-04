@@ -315,9 +315,9 @@ const BillingDetail = (props) => {
                 size="small"
                 placeholder="Postal/Zip Code"
                 type="text"
-                value={props?.watch("billing_info.city")}
+                value={props?.watch("billing_info.zip_code")}
                 onChange={(e) => {
-                  props?.setValue("billing_info.city", e?.target?.value, {
+                  props?.setValue("billing_info.zip_code", e?.target?.value, {
                     shouldDirty: true,
                   });
                 }}

@@ -151,51 +151,7 @@ const Checkout = () => {
       }
     }
   }, [getCart?.data?.data]);
-  //   window.paypal
-  //     .Buttons({
-  //       createOrder: (data, actions) => {
-  //         return actions.order.create({
-  //           purchase_units: [
-  //             {
-  //               amount: {
-  //                 value: "100.00", // Dynamic value based on cart or total amount
-  //                 currency_code: "USD", // Set the currency here
-  //               },
-  //             },
-  //           ],
-  //         });
-  //       },
-  //       onApprove: (data, actions) => {
-  //         return actions.order.capture().then(function (details) {
-  //           // Handle the response, send the orderID and payment details to backend
-  //           fetch("/wp-json/myplugin/v1/paypal/capture/", {
-  //             method: "POST",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify({
-  //               orderID: data.orderID,
-  //               payerID: details.payer.payer_id,
-  //             }),
-  //           })
-  //             .then((response) => response.json())
-  //             .then((data) => {
-  //               if (data.success) {
-  //                 alert("Payment successful!");
-  //               } else {
-  //                 setError("Payment failed");
-  //               }
-  //             });
-  //         });
-  //       },
-  //       onError: (err) => {
-  //         setError(err.message);
-  //       },
-  //     })
-  //     .render("#paypal-button-container"); // Render PayPal buttons
-  //     setPaypalButtonRendered(true);
-  // };
-
+  
   const convertToSmallestUnit = (amount = 0) => {
     return parseInt(
       amount
@@ -412,9 +368,10 @@ const Checkout = () => {
       sx={{
         width: {
           xs: "95%",
-          md: "80%",
+          md: "85%",
         },
         marginX: "auto",
+        marginY: 2
       }}
     >
       <BootstrapDialog
