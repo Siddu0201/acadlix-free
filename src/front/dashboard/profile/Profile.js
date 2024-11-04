@@ -331,6 +331,11 @@ const Profile = () => {
                             ...params.inputProps,
                             autoComplete: "code",
                           }}
+                          sx={{
+                            "& .MuiInputBase-input": {
+                              height: "auto",
+                            },
+                          }}
                         />
                       )}
                     />
@@ -417,6 +422,11 @@ const Profile = () => {
                             ...params.inputProps,
                             autoComplete: "country",
                           }}
+                          sx={{
+                            "& .MuiInputBase-input": {
+                              height: "auto",
+                            },
+                          }}
                         />
                       )}
                     />
@@ -460,6 +470,14 @@ const Profile = () => {
                         methods?.setValue("description", e?.target?.value, {
                           shouldDirty: true,
                         });
+                      }}
+                      sx={{
+                        "& .MuiInputBase-root": {
+                          padding: 0, // Set padding for the input to 0
+                        },
+                        "& .MuiInputBase-inputMultiline": {
+                          padding: "10px", // Set custom padding for the textarea
+                        },
                       }}
                     />
                   </Grid>
