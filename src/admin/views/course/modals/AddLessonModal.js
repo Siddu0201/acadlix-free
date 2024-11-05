@@ -204,7 +204,16 @@ const AddNewLesson = (props) => {
             }}
             value={props?.watch("lesson_content") ?? ""}
             onChange={(e) => {
-              e?.preventDefault();
+              let value = e?.target?.value;
+              if (window.tinymce) {
+                const editor = window.tinymce.get("lesson_content");
+                if (editor && editor.getContent() !== value) {
+                  editor.setContent(value || "");
+                }
+              }
+              props.setValue("lesson_content", value, {
+                shouldDirty: true,
+              });
             }}
           />
         </Grid>

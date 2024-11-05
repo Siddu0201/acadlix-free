@@ -18,6 +18,7 @@ import Paragraph from "./views/paragraph/Paragraph";
 import CreateParagraph from "./views/paragraph/CreateParagraph";
 import EditParagraph from "./views/paragraph/EditParagraph";
 import "./AdminQuiz.css";
+import ScrollToTop from "../helpers/ScrollToTop";
 
 const AdminQuiz = () => {
   return (
@@ -25,6 +26,7 @@ const AdminQuiz = () => {
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position="bottom-right" />
+          <ScrollToTop />
           <Routes>
             <Route element={<AdminLayout />}>
               <Route index element={<Quiz />} />

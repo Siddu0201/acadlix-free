@@ -35,12 +35,24 @@ const AdvanceViewAnswerSection = (props) => {
   let questionRef = React.useRef([]);
 
   const scrollToQuestion = (id) => {
-    if (questionRef?.current?.[id]) {
+    if (
+      document?.getElementById(`result_question_overview_${props?.watch("id")}`)
+    ) {
       setTimeout(() => {
-        questionRef?.current?.[id].scrollIntoView({
-          behavior: "smooth", // 'smooth' makes it animate smoothly
-        });
+        document
+          ?.getElementById(`result_question_overview_${props?.watch("id")}`)
+          .scrollIntoView({
+            behavior: "smooth", // 'smooth' makes it animate smoothly
+          });
       }, 10);
+    } else {
+      if (questionRef?.current?.[id]) {
+        setTimeout(() => {
+          questionRef?.current?.[id].scrollIntoView({
+            behavior: "smooth", // 'smooth' makes it animate smoothly
+          });
+        }, 10);
+      }
     }
   };
 
@@ -53,6 +65,7 @@ const AdvanceViewAnswerSection = (props) => {
           borderRadius: 1,
           boxShadow: (theme) => theme?.shadows[2],
         }}
+        id={`result_question_overview_${props?.watch("id")}`}
       >
         <Box
           sx={{
@@ -315,11 +328,9 @@ const ViewQuestionSection = (props) => {
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
-        {
-          props?.watch("multi_language") && 
-          props?.question?.selected &&
+        {props?.watch("multi_language") && props?.question?.selected && (
           <AdvanceLanguageSection {...props} />
-        }
+        )}
         <AdvanceQuestionSubjectAndPointSection {...props} />
 
         {props?.question?.language?.length > 0 &&
@@ -384,9 +395,12 @@ const ViewQuestionSection = (props) => {
         </Box>
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (
-            <Box key={index} sx={{
-              display: lang?.selected ? "" : "none"
-            }}>
+            <Box
+              key={index}
+              sx={{
+                display: lang?.selected ? "" : "none",
+              }}
+            >
               {props?.question?.result?.solved_count ? (
                 props?.question?.result?.correct_count ? (
                   <Box

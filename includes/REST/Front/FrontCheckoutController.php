@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
+use WP_REST_Request;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\CourseCart;
 use WP_Error;
@@ -33,6 +34,23 @@ class FrontCheckoutController
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_checkout_cart'],
                     'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/delete-course-from-cart',
+            [
+                [
+                    'methods' => WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_course_from_cart'],
+                    'permission_callback' => function (WP_REST_Request $request) {
+                        if (wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest')) {
+                            return true;
+                        }
+                        return false;
+                    },
                 ],
             ]
         );
@@ -101,6 +119,30 @@ class FrontCheckoutController
             }
         }
         return rest_ensure_response($res);
+    }
+
+    public function delete_course_from_cart($request)
+    {
+        $res = [];
+        $params = $request->get_params();
+
+        if ($request->get_param("id") == 0) {
+            return new WP_Error(__('Cart id is required.', 'acadlix'), __('Cart id is required.', 'acadlix'), array('status' => 404));
+        }
+
+        $cart = CourseCart::find($request->get_param("id"));
+        if(!$cart){
+            return new WP_Error(__('No course found.', 'acadlix'), __('No course found.', 'acadlix'), array('status' => 404));
+        }
+        $cart->delete();
+
+        if($cart->user_id != 0){
+            $res['cart'] = CourseCart::with(["course"])->where('user_id', $cart->user_id)->get();
+        }else{
+            $res['cart'] = CourseCart::with(["course"])->where("cart_token", $cart->cart_token)->get();
+        }
+        
+        return rest_ensure_response( $res);
     }
 
     public function post_checkout_razorpay($request)
@@ -396,12 +438,12 @@ class FrontCheckoutController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $first_name = empty($params['billing_info']['first_name']) ? "First Name": $params['billing_info']['first_name'];
-        $email = empty($params['billing_info']['email']) ? "Email": $params['billing_info']['email'];
-        $phone = empty($params['billing_info']['phone_number']) ? "First Name": $params['billing_info']['phone_number'];
+        $first_name = empty($params['billing_info']['first_name']) ? "First Name" : $params['billing_info']['first_name'];
+        $email = empty($params['billing_info']['email']) ? "Email" : $params['billing_info']['email'];
+        $phone = empty($params['billing_info']['phone_number']) ? "First Name" : $params['billing_info']['phone_number'];
         $amount = $request->get_param("total_amount");
         $txnid = substr(hash('sha256', wp_rand() . microtime()), 0, 20);
-        $hash_string = $merchant_key . '|' . $txnid . '|' . $amount . '|Product Info|'.$first_name.'|'.$email.'|||||||||||' . $salt;
+        $hash_string = $merchant_key . '|' . $txnid . '|' . $amount . '|Product Info|' . $first_name . '|' . $email . '|||||||||||' . $salt;
         $hash = strtolower(hash('sha512', $hash_string));
 
         $payu_url = $is_sandbox ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment'; // Use live URL for production
@@ -426,7 +468,7 @@ class FrontCheckoutController
             'total_amount' => $request->get_param('total_amount'),
         ]);
 
-        if($order){
+        if ($order) {
             foreach ($request->get_param("order_items") as $item) {
                 $order->order_items()->create([
                     'course_id' => $item['course_id'],
@@ -444,10 +486,10 @@ class FrontCheckoutController
                 $order->updateOrCreateMeta("billing_info", wp_($request->get_param("billing_info")));
             }
 
-                $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-                $order->updateOrCreateMeta('currency', $request->get_param("currency"));
-                $order->updateOrCreateMeta('payu_txn_id', $txnid);
-                $order->updateOrCreateMeta('payu_amount', $request->get_param('total_amount'));
+            $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
+            $order->updateOrCreateMeta('currency', $request->get_param("currency"));
+            $order->updateOrCreateMeta('payu_txn_id', $txnid);
+            $order->updateOrCreateMeta('payu_amount', $request->get_param('total_amount'));
         }
         return rest_ensure_response([
             'payment_url' => $payu_url,

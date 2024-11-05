@@ -211,6 +211,18 @@ const Option = (props) => {
                 width: "100%",
               }}
               value={props?.option?.option}
+              onChange={(e) => {
+                let value = e?.target?.value;
+                if (window.tinymce) {
+                  const editor = window.tinymce.get(props?.id);
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+                props.setValue(`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`, value, {
+                  shouldDirty: true,
+                });
+              }}
             />
             {Boolean(
               props.formState?.errors?.language?.[props?.language_index]

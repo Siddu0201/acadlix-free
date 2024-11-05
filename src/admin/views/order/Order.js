@@ -227,6 +227,7 @@ const Order = () => {
                   columnVisibilityModel={{
                     id: false,
                   }}
+                  getRowHeight={() => "auto"}
                   sx={{
                     "& .PrivateSwitchBase-input": {
                       height: "100% !important",

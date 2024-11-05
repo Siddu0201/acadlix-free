@@ -1,6 +1,7 @@
 import {
   Box,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -8,11 +9,27 @@ import {
   CircularProgress,
   Divider,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 import React from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import { DeleteCourseFromCart } from "../../requests/front/FrontCheckoutRequest";
 
 const OrderDetail = (props) => {
+  const removeCourseMutation = DeleteCourseFromCart();
+  const handleRemoveCourse = (id = 0) => {
+    removeCourseMutation?.mutate(
+      { id: id },
+      {
+        onSuccess: (data) => {
+          if (data?.data?.cart) {
+            props?.setCartData(data?.data?.cart);
+          }
+        },
+      }
+    );
+  };
   return (
     <Box>
       <Card>
@@ -46,7 +63,10 @@ const OrderDetail = (props) => {
                         height: 100,
                         width: 150,
                       }}
-                      image={c?.course?.post?.thumbnail_url ?? acadlixOptions?.default_img_url}
+                      image={
+                        c?.course?.post?.thumbnail_url ??
+                        acadlixOptions?.default_img_url
+                      }
                       title="product image"
                     />
                     <CardContent
@@ -92,6 +112,22 @@ const OrderDetail = (props) => {
                         </Box>
                       )}
                     </CardContent>
+                    <CardActions
+                      sx={{
+                        marginLeft: "auto",
+                      }}
+                    >
+                      <IconButton
+                        color="error"
+                        onClick={handleRemoveCourse.bind(this, c?.id)}
+                      >
+                        {removeCourseMutation?.isPending ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : (
+                          <FaTrashAlt />
+                        )}
+                      </IconButton>
+                    </CardActions>
                   </Card>
                 </Grid>
               ))

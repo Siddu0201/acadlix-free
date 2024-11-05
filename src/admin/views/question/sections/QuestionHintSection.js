@@ -63,6 +63,18 @@ const QuestionHintSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch(`language.${props?.index}.hint_msg`)}
+                onChange={(e) => {
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get(`hint_msg_${props?.lang?.language_id}`);
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue(`language.${props?.index}.hint_msg`, value, {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </Grid>
           </Grid>

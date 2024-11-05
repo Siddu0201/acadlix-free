@@ -34,6 +34,12 @@ const EditLessonModel = (props) => {
 
   React.useEffect(() => {
     if (data?.data?.lesson) {
+      if (window.tinymce) {
+        const editor = window.tinymce.get("lesson_content");
+        if (editor && editor.getContent() !== data?.data?.lesson?.content) {
+          editor.setContent(data?.data?.lesson?.content || "");
+        }
+      }
       props?.reset({
         ...props?.watch(),
         title: data?.data?.lesson?.title,
@@ -196,7 +202,16 @@ const AddNewLesson = (props) => {
             }}
             value={props?.watch("lesson_content") ?? ""}
             onChange={(e) => {
-              e?.preventDefault();
+              let value = e?.target?.value;
+              if (window.tinymce) {
+                const editor = window.tinymce.get("lesson_content");
+                if (editor && editor.getContent() !== value) {
+                  editor.setContent(value || "");
+                }
+              }
+              props.setValue("lesson_content", value, {
+                shouldDirty: true,
+              });
             }}
           />
         </Grid>

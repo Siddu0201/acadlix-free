@@ -123,7 +123,18 @@ const LangInstruction = (props) => {
             width: "100%",
           }}
           value={props?.lang?.instruction1}
-          onChange={(e) => e.preventDefault()}
+          onChange={(e) => {
+            let value = e?.target?.value;
+            if (window.tinymce) {
+              const editor = window.tinymce.get(`instruction1_${props?.index}`);
+              if (editor && editor.getContent() !== value) {
+                editor.setContent(value || "");
+              }
+            }
+            props.setValue(`language_data.${props?.index}.instruction1`, value, {
+              shouldDirty: true,
+            });
+          }}
         />
       </GridItem1>
       <GridItem1 xs={12} lg={12}>
@@ -136,7 +147,18 @@ const LangInstruction = (props) => {
             width: "100%",
           }}
           value={props?.lang?.instruction2}
-          onChange={(e) => e.preventDefault()}
+          onChange={(e) => {
+            let value = e?.target?.value;
+            if (window.tinymce) {
+              const editor = window.tinymce.get(`instruction2_${props?.index}`);
+              if (editor && editor.getContent() !== value) {
+                editor.setContent(value || "");
+              }
+            }
+            props.setValue(`language_data.${props?.index}.instruction2`, value, {
+              shouldDirty: true,
+            });
+          }}
         />
       </GridItem1>
       <GridItem1 xs={12} lg={12}>

@@ -39,7 +39,16 @@ const ContentSection = (props) => {
                 }}
                 value={props?.watch("content") ?? ""}
                 onChange={(e) => {
-                  e?.preventDefault();
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get("content");
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue("content", value, {
+                    shouldDirty: true,
+                  });
                 }}
               />
             </Grid>

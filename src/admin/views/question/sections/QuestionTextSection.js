@@ -55,6 +55,18 @@ const QuestionTextSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch(`language.${props?.index}.question`)}
+                onChange={(e) => {
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get(`question_${props?.lang?.language_id}`);
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue(`language.${props?.index}.question`, value, {
+                    shouldDirty: true,
+                  });
+                }}
               />
               {Boolean(props.formState?.errors?.language?.[props?.index]?.question) && (
                 <Alert severity="error" sx={{

@@ -19,9 +19,10 @@ import toast from "react-hot-toast";
 import Register from "./modal/Register";
 
 const Checkout = () => {
-  const getUserMetaValue = ( key= "") => {
-    return acadlixOptions?.user?.user_metas?.find(m => m?.meta_key === key)?.meta_value;
-  }
+  const getUserMetaValue = (key = "") => {
+    return acadlixOptions?.user?.user_metas?.find((m) => m?.meta_key === key)
+      ?.meta_value;
+  };
 
   const methods = useForm({
     defaultValues: {
@@ -31,7 +32,7 @@ const Checkout = () => {
       billing_info: {
         first_name: getUserMetaValue("first_name") ?? "",
         last_name: getUserMetaValue("last_name") ?? "",
-        email: acadlixOptions?.user?.email ?? "",
+        email: acadlixOptions?.user?.user_email ?? "",
         phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
         phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
         address: getUserMetaValue("_acadlix_profile_address") ?? "",
@@ -61,10 +62,8 @@ const Checkout = () => {
       payu: acadlixOptions?.settings?.acadlix_payu_active === "yes",
       acadlix_payu_merchant_key:
         acadlixOptions?.settings?.acadlix_payu_merchant_key,
-      payu_salt:
-        acadlixOptions?.settings?.acadlix_payu_salt,
-      payu_sandbox:
-        acadlixOptions?.settings?.acadlix_payu_sandbox === "yes",
+      payu_salt: acadlixOptions?.settings?.acadlix_payu_salt,
+      payu_sandbox: acadlixOptions?.settings?.acadlix_payu_sandbox === "yes",
     },
   });
 
@@ -114,48 +113,52 @@ const Checkout = () => {
     }
   };
 
+  const setCartData = (cart = []) => {
+    methods?.setValue("cart", [...cart], {
+      shouldDirty: true,
+    });
+
+    methods?.setValue(
+      "order_items",
+      cart?.map((c) => {
+        let price = formatPrice(
+          c?.course?.sale_price === 0 ? c?.course?.price : c?.course?.sale_price
+        );
+        let tax = 0;
+        if (c?.course?.tax !== 0 && c?.course?.tax_percent !== 0) {
+          tax = formatPrice((price * c?.course?.tax_percent) / 100);
+        }
+        return {
+          course_id: c?.course_id,
+          quantity: 1,
+          price: price,
+          discount: 0,
+          price_after_discount: 0,
+          tax: tax,
+          price_after_tax: price + tax,
+        };
+      })
+    );
+
+    methods?.setValue(
+      "total_amount",
+      formatPrice(
+        methods
+          ?.watch("order_items")
+          ?.reduce((total, c) => total + c?.price_after_tax, 0)
+      ),
+      { shouldDirty: true }
+    );
+  };
+
   useLayoutEffect(() => {
     if (!getCart?.isFetching) {
       if (getCart?.data?.data?.cart?.length > 0) {
-        methods?.setValue("cart", [...getCart?.data?.data?.cart], {
-          shouldDirty: true,
-        });
-
-        methods?.setValue(
-          "order_items",
-          getCart?.data?.data?.cart?.map((c) => {
-            let price = formatPrice(
-              c?.course?.sale_price === 0
-                ? c?.course?.price
-                : c?.course?.sale_price
-            );
-            let tax = 0;
-            if (c?.course?.tax !== 0 && c?.course?.tax_percent !== 0) {
-              tax = formatPrice((price * c?.course?.tax_percent) / 100);
-            }
-            return {
-              course_id: c?.course_id,
-              quantity: 1,
-              price: price,
-              discount: 0,
-              price_after_discount: 0,
-              tax: tax,
-              price_after_tax: price + tax,
-            };
-          })
-        );
-
-        methods?.setValue(
-          "total_amount",
-          methods
-            ?.watch("order_items")
-            ?.reduce((total, c) => total + c?.price_after_tax, 0),
-          { shouldDirty: true }
-        );
+        setCartData(getCart?.data?.data?.cart);
       }
     }
   }, [getCart?.data?.data]);
-  
+
   const convertToSmallestUnit = (amount = 0) => {
     return parseInt(
       amount
@@ -286,7 +289,7 @@ const Checkout = () => {
 
           document.body.appendChild(form);
           form.submit();
-          
+
           // window.location.href = data?.data?.payment_url;
         }
       },
@@ -375,7 +378,7 @@ const Checkout = () => {
           md: "85%",
         },
         marginX: "auto",
-        marginY: 2
+        marginY: 2,
       }}
     >
       <BootstrapDialog
@@ -408,6 +411,7 @@ const Checkout = () => {
                 {...methods}
                 isFetching={getCart?.isFetching}
                 currencyPosition={currencyPosition}
+                setCartData={setCartData}
               />
             </Grid>
             <Grid item xs={12} lg={12}>

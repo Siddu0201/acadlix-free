@@ -108,6 +108,18 @@ const Option = (props) => {
                 width: '100%'
               }}
               value={props?.option?.criteria}
+              onChange={(e) => {
+                let value = e?.target?.value;
+                if (window.tinymce) {
+                  const editor = window.tinymce.get(props?.criteria_id);
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+                props.setValue(`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.criteria`, value, {
+                  shouldDirty: true,
+                });
+              }}
             />
           </Grid>
           <Grid item xs={6} lg={6}>
@@ -123,6 +135,18 @@ const Option = (props) => {
                 width: '100%'
               }}
               value={props?.option?.element}
+              onChange={(e) => {
+                let value = e?.target?.value;
+                if (window.tinymce) {
+                  const editor = window.tinymce.get(props?.element_id);
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+                props.setValue(`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.element`, value, {
+                  shouldDirty: true,
+                });
+              }}
             />
           </Grid>
           <GridItem1 lg={12} xs={12}>

@@ -68,7 +68,7 @@ const Quiz = () => {
 
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
+    { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
     {
       field: "mode",
       headerName: "Mode",
@@ -82,7 +82,7 @@ const Quiz = () => {
     {
       field: "shortcode",
       headerName: "Shortcode",
-      flex: 1,
+      flex: 2,
       minWidth: 150,
       renderCell: (params) => {
         return (
@@ -95,8 +95,8 @@ const Quiz = () => {
             <Tooltip title="Copy Shortcode" arrow>
               <IconButton
                 onClick={() => {
-                  navigator.clipboard
-                    .writeText(params?.value)
+                  navigator?.clipboard
+                    ?.writeText(params?.value)
                     .then(function () {
                       toast.success("Shortcode copied to clipboard!");
                     })
@@ -116,7 +116,7 @@ const Quiz = () => {
     },
     {
       field: "total_questions",
-      headerName: "Total Questions",
+      headerName: "Questions",
       flex: 1,
       minWidth: 80,
     },
@@ -124,8 +124,7 @@ const Quiz = () => {
       field: "action",
       headerName: "Action",
       sortable: false,
-      flex: 3,
-      minWidth: 180,
+      minWidth: 210,
       renderCell: (params) => {
         return (
           <>

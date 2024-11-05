@@ -72,6 +72,18 @@ const ParagraphContentSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch(`language.${props?.index}.content`)}
+                onChange={(e) => {
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get(`content_${props?.lang?.language_id}`);
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue(`language.${props?.index}.content`, value, {
+                    shouldDirty: true,
+                  });
+                }}
               />
               {Boolean(
                 props.formState?.errors?.language?.[props?.index]?.content

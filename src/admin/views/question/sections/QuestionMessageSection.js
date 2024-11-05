@@ -78,6 +78,18 @@ const QuestionMessageSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch(`language.${props?.index}.correct_msg`)}
+                onChange={(e) => {
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get(`correct_msg_${props?.lang?.language_id}`);
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue(`language.${props?.index}.correct_msg`, value, {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </Grid>
             <Grid item xs={12} lg={12} sx={{
@@ -94,6 +106,18 @@ const QuestionMessageSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch(`language.${props?.index}.incorrect_msg`)}
+                onChange={(e) => {
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get(`incorrect_msg_${props?.lang?.language_id}`);
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue(`language.${props?.index}.incorrect_msg`, value, {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </Grid>
           </Grid>

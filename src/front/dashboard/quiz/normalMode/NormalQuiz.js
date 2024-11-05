@@ -49,12 +49,24 @@ const NormalQuiz = (props) => {
   let questionRef = React.useRef([]);
 
   const scrollToQuestion = (id) => {
-    if (questionRef?.current?.[id]) {
+    if (
+      document?.getElementById(`result_question_overview_${props?.watch("id")}`)
+    ) {
       setTimeout(() => {
-        questionRef?.current?.[id].scrollIntoView({
-          behavior: "smooth", // 'smooth' makes it animate smoothly
-        });
+        document
+          ?.getElementById(`result_question_overview_${props?.watch("id")}`)
+          .scrollIntoView({
+            behavior: "smooth", // 'smooth' makes it animate smoothly
+          });
       }, 10);
+    } else {
+      if (questionRef?.current?.[id]) {
+        setTimeout(() => {
+          questionRef?.current?.[id].scrollIntoView({
+            behavior: "smooth", // 'smooth' makes it animate smoothly
+          });
+        }, 10);
+      }
     }
   };
 

@@ -61,7 +61,18 @@ const TitleDescriptionSection = (props) => {
                   width: "100%",
                 }}
                 value={props?.watch("description") ?? ""}
-                onChange={(e) => {e.preventDefault()}}
+                onChange={(e) => {
+                  let value = e?.target?.value;
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get("description");
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue("description", value, {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </Grid>
           </Grid>

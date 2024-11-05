@@ -100,6 +100,18 @@ const Notification = (props) => {
               style={{
                 width: "100%",
               }}
+              onChange={(e) => {
+                let value = e?.target?.value;
+                if (window.tinymce) {
+                  const editor = window.tinymce.get("admin_message");
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+                props.setValue("admin_message", value, {
+                  shouldDirty: true,
+                });
+              }}
             />
           </GridItem1>
 
@@ -175,6 +187,18 @@ const Notification = (props) => {
               id="student_message"
               style={{
                 width: "100%",
+              }}
+              onChange={(e) => {
+                let value = e?.target?.value;
+                if (window.tinymce) {
+                  const editor = window.tinymce.get("student_message");
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+                props.setValue("student_message", value, {
+                  shouldDirty: true,
+                });
               }}
             />
           </GridItem1>
@@ -254,6 +278,18 @@ const Notification = (props) => {
               id="instructor_message"
               style={{
                 width: "100%",
+              }}
+              onChange={(e) => {
+                let value = e?.target?.value;
+                if (window.tinymce) {
+                  const editor = window.tinymce.get("instructor_message");
+                  if (editor && editor.getContent() !== value) {
+                    editor.setContent(value || "");
+                  }
+                }
+                props.setValue("instructor_message", value, {
+                  shouldDirty: true,
+                });
               }}
             />
           </GridItem1>

@@ -35,9 +35,7 @@ if (is_user_logged_in()) {
         $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash( $_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
     }
 }
-// echo "<pre>";
-// print_r(COOKIEPATH);
-// echo "</pre";
+
 
 if (!function_exists('get_course_level')) {
     function get_course_level($level = "")
@@ -176,8 +174,8 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             <div class="acadlix_product_page_card_image">
                                 <a href="<?php echo esc_url($course->post->guid); ?>" class="acadlix_product_page_d_block">
                                     <img class="acadlix_product_page_card_img_top " loading="lazy"
-                                        src="<?php echo esc_html($course->post->getThumbnailUrlAttribute()) ?? ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"; ?>" 
-                                        alt="<?php echo esc_attr($course->post->getThumbnailAltAttribute()) ?? esc_attr($course?->post?->post_title); ?>">
+                                        src="<?php echo $course->post->getThumbnailUrlAttribute() ? esc_html($course->post->getThumbnailUrlAttribute()) : ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"; ?>" 
+                                        alt="<?php echo $course->post->getThumbnailAltAttribute() ? esc_attr($course->post->getThumbnailAltAttribute()) : esc_attr($course?->post?->post_title); ?>">
                                 </a>
                                 <!-- <div class="acadlix_product_page_course_badge_labels">
                                     <div class="acadlix_product_page_course_badgebestseller">Bestseller</div>

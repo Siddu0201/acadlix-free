@@ -735,11 +735,18 @@ const Result = (props) => {
             style={{
               width: "100%",
             }}
-            onChange={(e) =>
-              props?.setValue("result_text", e?.target?.value, {
+            onChange={(e) => {
+              let value = e?.target?.value;
+              if (window.tinymce) {
+                const editor = window.tinymce.get("result_text");
+                if (editor && editor.getContent() !== value) {
+                  editor.setContent(value || "");
+                }
+              }
+              props.setValue("result_text", value, {
                 shouldDirty: true,
-              })
-            }
+              });
+            }}
           />
         </GridItem1>
         {Array.isArray(props?.watch("result_text")) &&

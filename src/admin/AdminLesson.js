@@ -9,6 +9,7 @@ import Lesson from "./views/lesson/Lesson";
 import CreateLesson from "./views/lesson/CreateLesson";
 import EditLesson from "./views/lesson/EditLesson";
 import "./AdminLesson.css";
+import ScrollToTop from "../helpers/ScrollToTop";
 
 const AdminLesson = () => {
   return (
@@ -16,6 +17,7 @@ const AdminLesson = () => {
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position="bottom-right" />
+          <ScrollToTop />
           <Routes>
             <Route element={<AdminLayout />}>
               <Route index element={<Lesson />} />
