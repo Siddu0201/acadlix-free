@@ -159,13 +159,18 @@ const Checkout = () => {
     }
   }, [getCart?.data?.data]);
 
-  const convertToSmallestUnit = (amount = 0) => {
-    return parseInt(
+  const convertToRazorpayUnit = (amount = 0) => {
+    if (isNaN(amount)) {
+      throw new Error("Invalid amount");
+    }
+    const decimalPlaces = acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
+    const multiplier = Math.pow(10, decimalPlaces);
+    return Math.round(Number(
       amount
         .toString()
-        .replace(acadlixOptions?.settings?.acadlix_decimal_seprator, "")
-        .replace(acadlixOptions?.settings?.acadlix_thousand_separator, "")
-    );
+        .replace(acadlixOptions?.settings?.acadlix_thousand_separator || "", "")
+    ) * multiplier);
+    
   };
 
   const razorpayMutation = PostCheckoutRazorpay();
@@ -174,18 +179,17 @@ const Checkout = () => {
     razorpayMutation?.mutate(
       {
         ...data,
-        amount: convertToSmallestUnit(methods?.watch("total_amount")),
+        amount: convertToRazorpayUnit(methods?.watch("total_amount")),
       },
       {
         onSuccess: (data) => {
-          console?.log(data?.data);
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
           if (data?.data?.success) {
             const options = {
               key: methods?.watch("razorpay_client_id"), // Replace with your Razorpay key ID
-              amount: convertToSmallestUnit(methods?.watch("total_amount")), // Amount in paise (1000 paise = INR 10)
+              amount: convertToRazorpayUnit(methods?.watch("total_amount")), // Amount in paise (1000 paise = INR 10)
               currency: methods?.watch("currency"),
               name: acadlixOptions?.site_title,
               description: "Buy now",
@@ -196,7 +200,6 @@ const Checkout = () => {
                 });
                 verifyRazorpayMutation?.mutate(response, {
                   onSuccess: (data) => {
-                    console.log(data?.data);
                     if (data?.data?.success) {
                       if (data?.data?.data?.razorpay_order_id) {
                         window.location.href = `${acadlixOptions?.thankyou_url}?token=${data?.data?.data?.razorpay_order_id}`;
@@ -207,7 +210,6 @@ const Checkout = () => {
                     });
                   },
                   onError: (data) => {
-                    console.log(data);
                     methods?.setValue("is_checkout_loading", false, {
                       shouldDirty: true,
                     });
@@ -231,7 +233,6 @@ const Checkout = () => {
           }
         },
         onError: (data) => {
-          console.log(data);
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
@@ -245,7 +246,6 @@ const Checkout = () => {
   const handlePaypal = (data = {}) => {
     paypalMutation?.mutate(data, {
       onSuccess: async (data) => {
-        console.log(data?.data);
         methods?.setValue("is_checkout_loading", false, {
           shouldDirty: true,
         });
@@ -255,7 +255,6 @@ const Checkout = () => {
         window.location.href = paypalUrl;
       },
       onError: (data) => {
-        console.error(data?.message);
         toast?.error("Opps! Something went wrong");
         methods?.setValue("is_checkout_loading", false, {
           shouldDirty: true,
@@ -268,7 +267,6 @@ const Checkout = () => {
   const handlePayu = (data = {}) => {
     payuMutation?.mutate(data, {
       onSuccess: (data) => {
-        console.log(data?.data);
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
         if (
           data?.data?.status === "success" &&
@@ -349,7 +347,6 @@ const Checkout = () => {
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
-          console.error(err);
         });
     }
   };

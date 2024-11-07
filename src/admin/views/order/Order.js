@@ -227,6 +227,7 @@ const Order = () => {
                   columnVisibilityModel={{
                     id: false,
                   }}
+                  getEstimatedRowHeight={() => 100}
                   getRowHeight={() => "auto"}
                   sx={{
                     "& .PrivateSwitchBase-input": {
@@ -234,6 +235,16 @@ const Order = () => {
                       width: "100% !important",
                       margin: "0 !important",
                     },
+                    "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
+                      py: 1,
+                    },
+                    "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+                      py: "15px",
+                    },
+                    "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell":
+                      {
+                        py: "22px",
+                      },
                   }}
                 />
               </Box>
