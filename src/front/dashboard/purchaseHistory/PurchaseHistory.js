@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { BiExpand, BiReceipt } from "react-icons/bi";
+import { MdRefresh } from "react-icons/md";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import {
@@ -39,8 +39,8 @@ const PurchaseHistory = () => {
     {
       field: "order_items",
       headerName: "Order Items",
-      flex: 3,
-      minWidth: 180,
+      flex: 2,
+      minWidth: 130,
     },
     {
       field: "payment_method",
@@ -84,7 +84,7 @@ const PurchaseHistory = () => {
     page: 0,
   });
 
-  const { isFetching, data } = GetUserPurchases(
+  const { isFetching, data, refetch } = GetUserPurchases(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
     paginationModel?.pageSize
@@ -162,10 +162,37 @@ const PurchaseHistory = () => {
         <Grid item xs={12} lg={12}>
           <Card
             sx={{
-              boxShadow: (theme) => theme.shadows[4]
+              boxShadow: (theme) => theme.shadows[4],
             }}
           >
-            <CardHeader title="Purchase History" />
+            <CardHeader
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Purchase History
+                  </Typography>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
+                </Box>
+              }
+              sx={{
+                paddingX: 4,
+                paddingY: 2,
+                paddingBottom: 1,
+              }}
+            />
             <CardContent>
               <Box
                 sx={{
@@ -193,6 +220,8 @@ const PurchaseHistory = () => {
                   columnVisibilityModel={{
                     id: false,
                   }}
+                  getEstimatedRowHeight={() => 100}
+                  getRowHeight={() => "auto"}
                   sx={{
                     "& .PrivateSwitchBase-input": {
                       height: "100% !important",

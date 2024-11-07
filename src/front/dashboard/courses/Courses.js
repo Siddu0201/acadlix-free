@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { GetUserCourses } from "../../../requests/front/FrontDashboardRequest";
+import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,7 +36,7 @@ const Courses = () => {
     page: 0,
   });
 
-  const { isFetching, data } = GetUserCourses(
+  const { isFetching, data } = GetUserOrders(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
     paginationModel?.pageSize
@@ -157,15 +157,6 @@ const Courses = () => {
             <Typography>No Course Found</Typography>
           </Grid>
         )}
-        {/* {paginatedCourses.map((course, index) => (
-          <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
-            <CourseCard
-              title={course.title}
-              instructors={course.instructors}
-              progress={course.progress}
-            />
-          </Grid>
-        ))} */}
       </Grid>
       <Box
         sx={{
@@ -206,7 +197,7 @@ const CourseCard = (props) => {
           boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)", // Optional: darker shadow on hover
         },
       }}
-      onClick={(e) => navigate(`/course/content/${props?.course?.id}`)}
+      onClick={(e) => navigate(`/course/content/${props.id}`)}
     >
       <CardMedia
         component="img"

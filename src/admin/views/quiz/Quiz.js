@@ -31,7 +31,7 @@ import CategoryModel from "./actions/CategoryModel";
 import { LuFileBarChart2, LuFileClock } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
 import SubjectTimeModel from "./actions/SubjectTimeModel";
-import { MdFileCopy } from "react-icons/md";
+import { MdFileCopy, MdRefresh } from "react-icons/md";
 
 const Quiz = () => {
   const methods = useForm({
@@ -211,7 +211,7 @@ const Quiz = () => {
     },
   ];
 
-  const { isFetching, data } = GetQuizes(
+  const { isFetching, data, refetch } = GetQuizes(
     paginationModel?.page,
     paginationModel?.pageSize
   );
@@ -358,7 +358,7 @@ const Quiz = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    gap: 4,
+                    gap: 2,
                   }}
                 >
                   <Typography
@@ -372,13 +372,15 @@ const Quiz = () => {
                     variant="contained"
                     LinkComponent={Link}
                     to="/create"
-                    sx={{
-                      marginRight: 2,
-                    }}
                     color="primary"
                   >
                     Add
                   </Button>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
                 </Box>
               }
               sx={{

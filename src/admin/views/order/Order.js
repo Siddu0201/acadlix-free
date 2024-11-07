@@ -1,10 +1,21 @@
-import { Box, Card, CardContent, CardHeader, Chip, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Grid,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { GetOrders } from "../../../requests/admin/AdminOrderRequest";
 import { currencyPosition } from "../../../helpers/util";
 import { dateI18n } from "@wordpress/date";
+import { MdRefresh } from "react-icons/md";
 
 const Order = () => {
   const methods = useForm({
@@ -67,7 +78,7 @@ const Order = () => {
     },
   ];
 
-  const { isFetching, data } = GetOrders(
+  const { isFetching, data, refetch } = GetOrders(
     paginationModel?.page,
     paginationModel?.pageSize
   );
@@ -148,7 +159,27 @@ const Order = () => {
         <Grid item xs={12} lg={12}>
           <Card>
             <CardHeader
-              title="Orders"
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Orders
+                  </Typography>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
+                </Box>
+              }
               sx={{
                 paddingX: 4,
                 paddingY: 2,

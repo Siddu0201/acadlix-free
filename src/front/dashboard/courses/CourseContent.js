@@ -16,7 +16,7 @@ import CourseOverview from "./contentTabs/CourseOverview";
 import Announcments from "./contentTabs/Announcments";
 import CourseSidebar from "./contentTabs/CourseSidebar";
 import { useParams } from "react-router-dom";
-import { GetUserCourseById } from "../../../requests/front/FrontDashboardRequest";
+import { GetUserOrderById } from "../../../requests/front/FrontDashboardRequest";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -24,9 +24,9 @@ const CourseContent = () => {
   const [open, setOpen] = useState(isDesktop ? true : false);
   const [sidebarHeight, setSidebarHeight] = useState(0);
 
-  const {courseId} = useParams();
+  const {orderItemId} = useParams();
 
-  const {data, isFetching} = GetUserCourseById(courseId, acadlixOptions?.user?.ID);
+  const {data, isFetching} = GetUserOrderById(orderItemId, acadlixOptions?.user?.ID);
 
   console.log(data);
 
@@ -50,9 +50,6 @@ const CourseContent = () => {
     }
     setSidebarHeight(total);
   });
-
-  console.log(acadlixOptions);
-  console.log(courseId);
 
   return (
     <Box>

@@ -30,7 +30,7 @@ const Dashbaord = () => {
             <Route path="/normal" element={<Quiz mode="normal" />} />
           </Route>
           <Route path="/course">
-              <Route path="content/:courseId" element={<CourseContent />} />
+              <Route path="content/:orderItemId" element={<CourseContent />} />
             </Route>
           <Route
             path="/ibps"

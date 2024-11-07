@@ -30,6 +30,7 @@ import {
 } from "../../../../requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
 import { TiArrowLeftThick } from "react-icons/ti";
+import { MdRefresh } from "react-icons/md";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -71,7 +72,10 @@ const QuizResult = () => {
       minWidth: 100,
       renderCell: (params) => {
         return (
-          <Chip color={params?.value === "Pass" ? "success" : "error"} label={params?.value} />
+          <Chip
+            color={params?.value === "Pass" ? "success" : "error"}
+            label={params?.value}
+          />
         );
       },
     },
@@ -110,7 +114,7 @@ const QuizResult = () => {
     },
   ];
 
-  const { data, isFetching } = GetStatisticByQuizId(
+  const { data, isFetching, refetch } = GetStatisticByQuizId(
     quiz_id,
     paginationModel?.page,
     paginationModel?.pageSize
@@ -126,7 +130,11 @@ const QuizResult = () => {
           score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
           minimum_percent_to_pass: data?.data?.quiz?.minimum_percent_to_pass,
-          status: stat_ref?.result?.toFixed(2) >= data?.data?.quiz?.minimum_percent_to_pass ? "Pass" : "Fail",
+          status:
+            stat_ref?.result?.toFixed(2) >=
+            data?.data?.quiz?.minimum_percent_to_pass
+              ? "Pass"
+              : "Fail",
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
@@ -171,7 +179,29 @@ const QuizResult = () => {
         </Grid>
         <Grid item xs={12} lg={12}>
           <Card>
-            <CardHeader title={methods?.watch("title")} />
+            <CardHeader
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    {methods?.watch("title")}
+                  </Typography>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
+                </Box>
+              }
+            />
             <CardContent>
               {/* Details Section */}
               <Box

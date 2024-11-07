@@ -22,11 +22,11 @@ class FrontDashboardController
     {
         register_rest_route(
             $this->namespace,
-            '/' . $this->base . '/get-user-courses',
+            '/' . $this->base . '/get-user-orders',
             [
                 [
                     'methods' => WP_REST_Server::READABLE,
-                    'callback' => [$this, 'get_user_courses'],
+                    'callback' => [$this, 'get_user_orders'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -34,11 +34,11 @@ class FrontDashboardController
 
         register_rest_route(
             $this->namespace,
-            '/' . $this->base . '/get-user-course-by-id',
+            '/' . $this->base . '/get-user-order-by-id',
             [
                 [
                     'methods' => WP_REST_Server::READABLE,
-                    'callback' => [$this, 'get_user_course_by_id'],
+                    'callback' => [$this, 'get_user_order_by_id'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -93,7 +93,7 @@ class FrontDashboardController
         );
     }
 
-    public function get_user_courses($request)
+    public function get_user_orders($request)
     {
         $res = [];
         $params = $request->get_params();
@@ -112,10 +112,10 @@ class FrontDashboardController
         return rest_ensure_response($res);
     }
 
-    public function get_user_course_by_id($request)
+    public function get_user_order_by_id($request)
     {
         $res = [];
-        $required_fields = array('course_id',  'user_id');
+        $required_fields = array('order_item_id',  'user_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -130,7 +130,7 @@ class FrontDashboardController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $res['course'] = Course::find($request->get_param("course_id"));
+        $res['order_item'] = OrderItem::with(["order", "course"])->find($request->get_param("order_item_id"));
 
         return rest_ensure_response( $res );
     }

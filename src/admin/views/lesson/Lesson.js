@@ -18,8 +18,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { DeleteBulkLesson, DeleteLessonById, GetLessons } from "../../../requests/admin/AdminLessonRequest";
+import {
+  DeleteBulkLesson,
+  DeleteLessonById,
+  GetLessons,
+} from "../../../requests/admin/AdminLessonRequest";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { MdRefresh } from "react-icons/md";
 
 const Lesson = () => {
   const methods = useForm({
@@ -87,7 +92,7 @@ const Lesson = () => {
     },
   ];
 
-  const { isFetching, data } = GetLessons(
+  const { isFetching, data, refetch } = GetLessons(
     paginationModel?.page,
     paginationModel?.pageSize
   );
@@ -130,7 +135,7 @@ const Lesson = () => {
         }
       );
     }
-  }
+  };
 
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
@@ -176,7 +181,7 @@ const Lesson = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    gap: 4,
+                    gap: 2,
                   }}
                 >
                   <Typography
@@ -190,13 +195,15 @@ const Lesson = () => {
                     variant="contained"
                     LinkComponent={Link}
                     to="/create"
-                    sx={{
-                      marginRight: 2,
-                    }}
                     color="primary"
                   >
                     Add
                   </Button>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
                 </Box>
               }
               sx={{

@@ -25,6 +25,7 @@ import {
 } from "../../../requests/admin/AdminParagraphRequest";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { TiArrowLeftThick } from "react-icons/ti";
+import { MdRefresh } from "react-icons/md";
 
 const Paragraph = () => {
   const methods = useForm({
@@ -95,7 +96,7 @@ const Paragraph = () => {
     },
   ];
 
-  const { isFetching, data } = GetQuizParagraphs(
+  const { isFetching, data, refetch } = GetQuizParagraphs(
     quiz_id,
     paginationModel?.page,
     paginationModel?.pageSize
@@ -208,7 +209,7 @@ const Paragraph = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    gap: 4,
+                    gap: 2,
                   }}
                 >
                   <Typography
@@ -222,13 +223,15 @@ const Paragraph = () => {
                     variant="contained"
                     LinkComponent={Link}
                     to={`/${quiz_id}/paragraph/create`}
-                    sx={{
-                      marginRight: 2,
-                    }}
                     color="primary"
                   >
                     Add
                   </Button>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
                 </Box>
               }
               sx={{

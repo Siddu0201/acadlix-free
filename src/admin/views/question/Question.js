@@ -31,6 +31,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
+import { MdRefresh } from "react-icons/md";
 
 const Question = () => {
   const methods = useForm({
@@ -104,7 +105,7 @@ const Question = () => {
     },
   ];
 
-  const { isFetching, data } = GetQuizQuestion(
+  const { isFetching, data, refetch } = GetQuizQuestion(
     quiz_id,
     paginationModel?.page,
     paginationModel?.pageSize
@@ -309,7 +310,7 @@ const Question = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    gap: 4,
+                    gap: 2,
                   }}
                 >
                   <Typography
@@ -323,21 +324,20 @@ const Question = () => {
                     variant="contained"
                     LinkComponent={Link}
                     to={`/${quiz_id}/question/create`}
-                    sx={{
-                      marginRight: 2,
-                    }}
                     color="primary"
                   >
                     Add
                   </Button>
+                  <Tooltip title="Refresh" arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <MdRefresh />
+                    </Button>
+                  </Tooltip>
                   {acadlixOptions?.is_abqu_active && (
                     <Button
                       variant="contained"
                       LinkComponent="a"
                       href={acadlixOptions?.abqu_url}
-                      sx={{
-                        marginRight: 2,
-                      }}
                       color="primary"
                     >
                       Import from .docx

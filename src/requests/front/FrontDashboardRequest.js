@@ -4,12 +4,12 @@ import { useInstance } from "../../helpers/util";
 
 const base = "/front-dashboard";
 
-export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10 ) => {
+export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10 ) => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getUserCourses", user_id, page, pageSize],
+        queryKey: ["getUserOrders", user_id, page, pageSize],
         queryFn: () => {
-            return instance.get(`${base}/get-user-courses`, {
+            return instance.get(`${base}/get-user-orders`, {
                 params: {
                     user_id: user_id,
                     page: page,
@@ -20,14 +20,14 @@ export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10 ) => {
     })
 }
 
-export const GetUserCourseById = (course_id = 0, user_id = 0) => {
+export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getUserCourseById", course_id, user_id],
+        queryKey: ["getUserOrderById", order_item_id, user_id],
         queryFn: () => {
-            return instance.get(`${base}/get-user-course-by-id`, {
+            return instance.get(`${base}/get-user-order-by-id`, {
                 params: {
-                    course_id: course_id,
+                    order_item_id: order_item_id,
                     user_id: user_id
                 }
             });
