@@ -15,12 +15,20 @@ import { FaAngleDown, FaArrowRight, FaTimes } from "react-icons/fa";
 import CourseOverview from "./contentTabs/CourseOverview";
 import Announcments from "./contentTabs/Announcments";
 import CourseSidebar from "./contentTabs/CourseSidebar";
+import { useParams } from "react-router-dom";
+import { GetUserCourseById } from "../../../requests/front/FrontDashboardRequest";
 
 const CourseContent = () => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const [open, setOpen] = useState(isDesktop ? true : false);
   const [sidebarHeight, setSidebarHeight] = useState(0);
+
+  const {courseId} = useParams();
+
+  const {data, isFetching} = GetUserCourseById(courseId, acadlixOptions?.user?.ID);
+
+  console.log(data);
 
   const [value, setValue] = useState(isDesktop ? "2" : "1");
 
@@ -43,7 +51,8 @@ const CourseContent = () => {
     setSidebarHeight(total);
   });
 
-  console.log(open);
+  console.log(acadlixOptions);
+  console.log(courseId);
 
   return (
     <Box>
@@ -74,6 +83,9 @@ const CourseContent = () => {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
+                  ":last-child": {
+                    padding: 0
+                  }
                 }}
               >
                 <Box

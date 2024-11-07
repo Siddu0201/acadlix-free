@@ -81,6 +81,18 @@ class FrontCheckoutController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/post-fail-razorpay-payment',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_fail_razorpay_payment'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/post-checkout-paypal',
             [
                 [
@@ -131,18 +143,18 @@ class FrontCheckoutController
         }
 
         $cart = CourseCart::find($request->get_param("id"));
-        if(!$cart){
+        if (!$cart) {
             return new WP_Error(__('No course found.', 'acadlix'), __('No course found.', 'acadlix'), array('status' => 404));
         }
         $cart->delete();
 
-        if($cart->user_id != 0){
+        if ($cart->user_id != 0) {
             $res['cart'] = CourseCart::with(["course"])->where('user_id', $cart->user_id)->get();
-        }else{
+        } else {
             $res['cart'] = CourseCart::with(["course"])->where("cart_token", $cart->cart_token)->get();
         }
-        
-        return rest_ensure_response( $res);
+
+        return rest_ensure_response($res);
     }
 
     public function post_checkout_razorpay($request)
@@ -284,6 +296,30 @@ class FrontCheckoutController
             $order->updateOrCreateMeta("message", 'Payment verification failed.');
             wp_send_json_error(['message' => 'Payment verification failed.']);
         }
+    }
+
+    public function post_fail_razorpay_payment($request)
+    {
+        $required_fields = array('razorpay_order_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $order_meta = OrderMeta::where("meta_value", $request->get_param("razorpay_order_id"))->first();
+        $order = Order::find($order_meta->order_id);
+        $order->update([
+            "status" => "failed"
+        ]);
+        return rest_ensure_response(["success" => true]);
     }
 
     public function post_checkout_paypal($request)

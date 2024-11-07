@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
 use WP_Error;
+use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\Order;
 use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\WpUsers;
@@ -26,6 +27,18 @@ class FrontDashboardController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_user_courses'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/get-user-course-by-id',
+            [
+                [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_user_course_by_id'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -99,6 +112,29 @@ class FrontDashboardController
         return rest_ensure_response($res);
     }
 
+    public function get_user_course_by_id($request)
+    {
+        $res = [];
+        $required_fields = array('course_id',  'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $res['course'] = Course::find($request->get_param("course_id"));
+
+        return rest_ensure_response( $res );
+    }
+
     public function get_user_purchases($request)
     {
         $res = [];
@@ -119,7 +155,7 @@ class FrontDashboardController
         if ($request->get_param("user_id") == 0) {
             return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
         }
-        $res['user'] = WpUsers::where('ID', $request->get_param("user_id"))->first();
+        $res['user'] = WpUsers::with('user_metas')->where('ID', $request->get_param("user_id"))->first();
         return rest_ensure_response($res);
     }
 
@@ -199,7 +235,7 @@ class FrontDashboardController
         update_user_meta($user_id, '_acadlix_profile_zip_code', sanitize_text_field($params['zip_code']));
         update_user_meta($user_id, '_acadlix_profile_photo', sanitize_text_field($params['photo']));
 
-        $res['user'] = WpUsers::where('ID', $user_id)->first();
+        $res['user'] = WpUsers::with('user_metas')->where('ID', $user_id)->first();
         return rest_ensure_response($res);
     }
 

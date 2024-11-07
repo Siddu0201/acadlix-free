@@ -112,7 +112,7 @@ const Profile = () => {
     updateProfileMutation?.mutate(data, {
       onSuccess: (data) => {
         toast.success("Profile updated successfully.");
-        handleReset(data?.data?.user);
+        window?.location?.reload();
       },
     });
   };

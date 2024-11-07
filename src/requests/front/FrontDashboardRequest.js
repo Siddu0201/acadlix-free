@@ -20,6 +20,21 @@ export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10 ) => {
     })
 }
 
+export const GetUserCourseById = (course_id = 0, user_id = 0) => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getUserCourseById", course_id, user_id],
+        queryFn: () => {
+            return instance.get(`${base}/get-user-course-by-id`, {
+                params: {
+                    course_id: course_id,
+                    user_id: user_id
+                }
+            });
+        }
+    });
+}
+
 export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
     const instance = useInstance();
     return useQuery({

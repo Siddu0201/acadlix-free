@@ -4,6 +4,7 @@ import {
   PostCheckoutPaypal,
   PostCheckoutPayu,
   PostCheckoutRazorpay,
+  PostFailRazorpayPayment,
   PostVerifyRazorpayPayment,
 } from "../../requests/front/FrontCheckoutRequest";
 import { Box, Dialog, Grid, styled } from "@mui/material";
@@ -163,18 +164,24 @@ const Checkout = () => {
     if (isNaN(amount)) {
       throw new Error("Invalid amount");
     }
-    const decimalPlaces = acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
+    const decimalPlaces =
+      acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
     const multiplier = Math.pow(10, decimalPlaces);
-    return Math.round(Number(
-      amount
-        .toString()
-        .replace(acadlixOptions?.settings?.acadlix_thousand_separator || "", "")
-    ) * multiplier);
-    
+    return Math.round(
+      Number(
+        amount
+          .toString()
+          .replace(
+            acadlixOptions?.settings?.acadlix_thousand_separator || "",
+            ""
+          )
+      ) * multiplier
+    );
   };
 
   const razorpayMutation = PostCheckoutRazorpay();
   const verifyRazorpayMutation = PostVerifyRazorpayPayment();
+  const failRazorpayMutation = PostFailRazorpayPayment();
   const handleRazorpay = (data = {}) => {
     razorpayMutation?.mutate(
       {
@@ -226,6 +233,29 @@ const Checkout = () => {
               },
               theme: {
                 color: "#F37254",
+              },
+              modal: {
+                ondismiss: function () {
+                  console.log(data?.data?.data?.id);
+                  methods?.setValue("is_checkout_loading", true, {
+                    shouldDirty: true,
+                  });
+                  failRazorpayMutation.mutate(
+                    {
+                      razorpay_order_id: data?.data?.data?.id,
+                    },
+                    {
+                      onSuccess: (data) => {
+                        toast.error("Payment failed.");
+                      },
+                      onSettled: () => {
+                        methods?.setValue("is_checkout_loading", false, {
+                          shouldDirty: true,
+                        });
+                      }
+                    }
+                  );
+                },
               },
             };
             const razorpay = new window.Razorpay(options);

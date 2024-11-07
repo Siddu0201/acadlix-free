@@ -48,7 +48,7 @@ if (!class_exists("CheckoutController")) {
                     'ajax_url' => esc_url(admin_url('admin-ajax.php')),
                     'nonce' => wp_create_nonce('wp_rest'),
                     'user_id' => get_current_user_id() ?? 0,
-                    'user' => get_current_user_id() > 0 ? WpUsers::where('ID', get_current_user_id())->first() : [],
+                    'user' => get_current_user_id() > 0 ? WpUsers::with('user_metas')->where('ID', get_current_user_id())->first() : [],
                     'site_title' => get_bloginfo('name'),
                     'cart_token' => isset($_COOKIE['acadlix_cart_token']) ? sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])) : '',
                     'settings' => Helper::instance()->acadlix_get_all_options(),
