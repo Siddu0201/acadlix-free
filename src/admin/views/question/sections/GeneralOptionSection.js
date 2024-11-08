@@ -21,10 +21,17 @@ const GeneralOptionSection = (props) => {
   const createSubjectMutation = PostCreateSubject();
 
   const createSubject = () => {
-    if(input){
-      if(subjects?.filter(d => d?.subject_name?.toLowerCase() === input?.toLowerCase())?.length > 0){
-        props?.setError(`subject_id`, { type: "custom", message: "Subject name is already exist"});
-      }else{
+    if (input) {
+      if (
+        subjects?.filter(
+          (d) => d?.subject_name?.toLowerCase() === input?.toLowerCase()
+        )?.length > 0
+      ) {
+        props?.setError(`subject_id`, {
+          type: "custom",
+          message: "Subject name is already exist",
+        });
+      } else {
         createSubjectMutation.mutate(
           { subject: input },
           {
@@ -38,8 +45,11 @@ const GeneralOptionSection = (props) => {
           }
         );
       }
-    }else{
-      props?.setError(`subject_id`, { type: "custom", message: "Subject cannot be empty"});
+    } else {
+      props?.setError(`subject_id`, {
+        type: "custom",
+        message: "Subject cannot be empty",
+      });
     }
   };
 
@@ -77,7 +87,19 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 label="+ Point"
                 type="number"
-                InputProps={{ inputProps: { min: 0, step: 0.01 } }}
+                InputProps={{
+                  inputProps: {
+                    min: 0,
+                    step: 0.01,
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  },
+                }}
+                onKeyDown={(event) => {
+                  if (['e', 'E', '+', '-'].includes(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
                 value={props?.watch("points")}
                 onChange={(e) => {
                   props?.setValue("points", e.target.value, {
@@ -101,8 +123,20 @@ const GeneralOptionSection = (props) => {
                 size="small"
                 label="- Point"
                 type="number"
-                InputProps={{ inputProps: { min: 0, step: 0.01 } }}
+                InputProps={{
+                  inputProps: {
+                    min: 0,
+                    step: 0.01,
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  },
+                }}
                 value={props?.watch("negative_points")}
+                onKeyDown={(event) => {
+                  if (['e', 'E', '+', '-'].includes(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
                 onChange={(e) => {
                   props?.setValue("negative_points", e.target.value, {
                     shouldDirty: true,
@@ -179,12 +213,11 @@ const GeneralOptionSection = (props) => {
                   );
                 }}
               />
-              {
-                Boolean(props?.formState?.errors?.subject_id) &&
+              {Boolean(props?.formState?.errors?.subject_id) && (
                 <Typography component="p" color="error">
                   {props?.formState?.errors?.subject_id?.message}
                 </Typography>
-              }
+              )}
             </Grid>
           </Grid>
         </CardContent>

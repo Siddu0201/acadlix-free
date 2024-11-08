@@ -10,7 +10,6 @@ const QuizSidebarQuestionOverview = (props) => {
   const idList = [
     `acadlix_quiz_sidebar_status_types_${props?.s_index}`,
     "acadlix_quiz_sidebar_section",
-    `acadlix_quiz_choose_question_${props?.s_index}`,
   ];
 
   const [height, setHeight] = React.useState(0);
@@ -119,6 +118,9 @@ const QuizSidebarQuestionOverview = (props) => {
       sx={{
         backgroundColor: props?.colorCode?.sidebar_overview_background,
         display: props?.selected ? "" : "none",
+        height: `calc(100% - ${height}px)`,
+        overflowX: 'hidden',
+        overflowY: "scroll",
       }}
       id="acadlix_quiz_sidebar_question_overview"
     >
@@ -138,15 +140,11 @@ const QuizSidebarQuestionOverview = (props) => {
       <Box
         sx={{
           position: "relative",
-          overflowY: "scroll",
-          overflowX: "hidden",
           right: "-17px",
           left: "0",
           padding: "5px",
           display: "grid",
           gridTemplateColumns: "auto auto auto auto",
-          gridTemplateRows: "53px",
-          height: `calc(100% - ${height}px)`,
         }}
       >
         {props

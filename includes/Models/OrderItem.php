@@ -32,5 +32,10 @@ if (!class_exists('OrderItem')) {
             return $this->belongsTo(Order::class, 'order_id', 'id');
         }
 
+        public function course_statistics()
+        {
+            return $this->hasMany(CourseStatistic::class, 'order_item_id', 'id');
+        }
+
     }
 }

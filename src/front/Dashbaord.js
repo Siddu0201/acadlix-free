@@ -10,6 +10,7 @@ import "./AppFront.css";
 import Quiz from "./dashboard/quiz/Quiz.js";
 import Provider from "../provider/Provider.js";
 import CourseContent from "./dashboard/courses/CourseContent.js";
+import CourseRedirect from "./dashboard/courses/CourseRedirect.js";
 
 const Dashbaord = () => {
   return (
@@ -29,8 +30,10 @@ const Dashbaord = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/normal" element={<Quiz mode="normal" />} />
           </Route>
-          <Route path="/course">
-              <Route path="content/:orderItemId" element={<CourseContent />} />
+          <Route path="/course/content/:orderItemId">
+              <Route index element={<CourseContent />} />
+              <Route path="lesson/:courseSectionContentId" element={<CourseContent />} />
+              <Route path="quiz/:courseSectionContentId" element={<CourseContent />} />
             </Route>
           <Route
             path="/ibps"
@@ -40,6 +43,7 @@ const Dashbaord = () => {
             path="/advance_panel"
             element={<Quiz mode="advance_mode" advance_mode="advance_panel" />}
           />
+          <Route path="*" element={<div>No path found</div>}></Route>
         </Routes>
       </HashRouter>
     </Provider>

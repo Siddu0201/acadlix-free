@@ -16,7 +16,10 @@ import {
 import React from "react";
 import { IoClose } from "react-icons/io5";
 import CustomTextField from "../../../../components/CustomTextField";
-import { GetSubjects, PostCreateSubject } from "../../../../requests/admin/AdminSubjectRequest";
+import {
+  GetSubjects,
+  PostCreateSubject,
+} from "../../../../requests/admin/AdminSubjectRequest";
 import { useForm } from "react-hook-form";
 import { PostSetSubjectAndPoint } from "../../../../requests/admin/AdminQuestionRequest";
 
@@ -68,25 +71,27 @@ const SubjectAndPointModel = (props) => {
   const getSubject = GetSubjects();
 
   React.useMemo(() => {
-    if(getSubject?.data?.data?.subjects?.length > 0){
-        setSubjects(getSubject?.data?.data?.subjects);
+    if (getSubject?.data?.data?.subjects?.length > 0) {
+      setSubjects(getSubject?.data?.data?.subjects);
     }
-  },[getSubject?.data?.data]);
-
+  }, [getSubject?.data?.data]);
 
   const setSubjectAndPointMutation = PostSetSubjectAndPoint(props?.quiz_id);
   const handleSubmit = (data) => {
-    setSubjectAndPointMutation?.mutate({
+    setSubjectAndPointMutation?.mutate(
+      {
         question_ids: props?.watch("question_ids"),
-        ...data
-    },{
+        ...data,
+      },
+      {
         onSettled: () => {
-            props?.setValue("action", "", {shouldDirty: true});
-            props?.setValue("question_ids", [], {shouldDirty: true});
-            props?.handleClose();
-        }
-    })
-  }
+          props?.setValue("action", "", { shouldDirty: true });
+          props?.setValue("question_ids", [], { shouldDirty: true });
+          props?.handleClose();
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -110,7 +115,7 @@ const SubjectAndPointModel = (props) => {
           <Grid item xs={12} lg={12}>
             <Autocomplete
               sx={{
-                width: "100%"
+                width: "100%",
               }}
               size="small"
               value={
@@ -179,7 +184,19 @@ const SubjectAndPointModel = (props) => {
               size="small"
               label="+ Point"
               type="number"
-              InputProps={{ inputProps: { min: 0, step: 0.01 } }}
+              InputProps={{
+                inputProps: {
+                  min: 0,
+                  step: 0.01,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                },
+              }}
+              onKeyDown={(event) => {
+                if (["e", "E", "+", "-"].includes(event.key)) {
+                  event.preventDefault();
+                }
+              }}
               value={methods?.watch("points")}
               onChange={(e) => {
                 methods?.setValue("points", e.target.value, {
@@ -203,7 +220,19 @@ const SubjectAndPointModel = (props) => {
               size="small"
               label="- Point"
               type="number"
-              InputProps={{ inputProps: { min: 0, step: 0.01 } }}
+              InputProps={{
+                inputProps: {
+                  min: 0,
+                  step: 0.01,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                },
+              }}
+              onKeyDown={(event) => {
+                if (["e", "E", "+", "-"].includes(event.key)) {
+                  event.preventDefault();
+                }
+              }}
               value={methods?.watch("negative_points")}
               onChange={(e) => {
                 methods?.setValue("negative_points", e.target.value, {

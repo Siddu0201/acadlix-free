@@ -26,5 +26,10 @@ if (!class_exists(class: 'CourseSectionContent')) {
             return $this->morphTo();
         }
 
+        public function course_statistics()
+        {
+            return $this->hasMany(CourseStatistic::class, 'course_section_content_id', 'id');
+        }
+
     }
 }

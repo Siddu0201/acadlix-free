@@ -72,7 +72,7 @@ const ResultSection = (props) => {
         sx={{
           color: "#fa7419",
           fontWeight: "500",
-          fontSize: 24,
+          fontSize: 18,
         }}
       >
         You have Completed "
@@ -81,7 +81,7 @@ const ResultSection = (props) => {
           sx={{
             color: "#64B335",
             fontWeight: "500",
-            fontSize: 24,
+            fontSize: 22,
           }}
         >
           {props?.watch("title")}
