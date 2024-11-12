@@ -7,28 +7,140 @@ import {
   Tab,
   useMediaQuery,
   useTheme,
-  AppBar,
   Typography,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { FaAngleDown, FaArrowRight, FaTimes } from "react-icons/fa";
 import CourseOverview from "./contentTabs/CourseOverview";
 import Announcments from "./contentTabs/Announcments";
 import CourseSidebar from "./contentTabs/CourseSidebar";
-import { useParams } from "react-router-dom";
-import { GetUserOrderById } from "../../../requests/front/FrontDashboardRequest";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {
+  GetUserOrderById,
+  PostSetActive,
+} from "../../../requests/front/FrontDashboardRequest";
+import { useForm } from "react-hook-form";
+import Content from "./content/Content";
+import ContentOptions from "./content/ContentOptions";
+import ContentHeader from "./content/ContentHeader";
 
 const CourseContent = () => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const [open, setOpen] = useState(isDesktop ? true : false);
   const [sidebarHeight, setSidebarHeight] = useState(0);
+  const methods = useForm({
+    defaultValues: {
+      order_item_id: null,
+      course_id: null,
+      order_id: null,
+      course_title: "",
+      course_content: "",
+      sections: [],
+    },
+  });
 
-  const {orderItemId} = useParams();
+  const { orderItemId, courseSectionContentId } = useParams();
 
-  const {data, isFetching} = GetUserOrderById(orderItemId, acadlixOptions?.user?.ID);
+  const { data, isFetching } = GetUserOrderById(
+    orderItemId,
+    acadlixOptions?.user?.ID
+  );
 
-  console.log(data);
+  React.useEffect(() => {
+    if (data?.data?.order_item) {
+      let item = data?.data?.order_item;
+      methods?.setValue("order_item_id", item?.id, { shouldDirty: true });
+      methods?.setValue("course_id", item?.course_id, { shouldDirty: true });
+      methods?.setValue("order_id", item?.order_id, { shouldDirty: true });
+      methods?.setValue("course_title", item?.course?.post?.post_title, {
+        shouldDirty: true,
+      });
+      methods?.setValue("course_content", item?.course?.post?.post_content, {
+        shouldDirty: true,
+      });
+      let i = 0;
+      methods?.setValue(
+        "sections",
+        item?.course?.sections?.map((s, index) => {
+          let open = false;
+          if (courseSectionContentId === undefined) {
+            if (data?.data?.course_statistic?.length > 0) {
+              open =
+                s?.contents?.findIndex(
+                  (c) =>
+                    c?.id ==
+                    data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                      ?.course_section_content_id
+                ) !== -1
+                  ? true
+                  : false;
+            } else {
+              open = index === 0 ? true : false;
+            }
+          } else {
+            open =
+              s?.contents?.findIndex((c) => c?.id == courseSectionContentId) !==
+              -1
+                ? true
+                : false;
+          }
+          return {
+            id: s?.id ?? null,
+            title: s?.title ?? "",
+            sort: s?.sort ?? "",
+            description: s?.description ?? "",
+            open: open,
+            active: open,
+            content:
+              s?.contents?.map((c, c_index) => {
+                let active = false;
+                if (courseSectionContentId === undefined) {
+                  if (data?.data?.course_statistic?.length > 0) {
+                    active =
+                      c?.id ==
+                      data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                        ?.course_section_content_id;
+                  } else {
+                    active = c_index === 0 ? true : false;
+                  }
+                } else {
+                  active = c?.id == courseSectionContentId;
+                }
+                let type =
+                  c?.contentable_type === "Yuvayana\\Acadlix\\Models\\Lesson"
+                    ? "lesson"
+                    : "quiz";
+                return {
+                  i: i++,
+                  id: c?.id ?? null,
+                  sort: c?.sort ?? "",
+                  content_type: c?.contentable_type ?? "", // lesson/quiz,
+                  content_type_id: c?.contentable_id ?? null,
+                  is_active: active,
+                  is_completed:
+                    data?.data?.course_statistic?.length > 0
+                      ? data?.data?.course_statistic?.find(
+                          (cs) => cs?.course_section_content_id === c?.id
+                        )?.is_completed
+                        ? true
+                        : false
+                      : false,
+                  type: type ?? "",
+                  lesson_type: c?.contentable?.type ?? "video",
+                  title: c?.contentable?.title ?? "",
+                  content: c?.contentable?.rendered_content ?? "",
+                  duration: c?.contentable?.duration ?? 1,
+                  duration_type: c?.contentable?.duration_type ?? "minute",
+                  lesson_resources: c?.contentable?.lesson_resources ?? [],
+                };
+              }) ?? [],
+          };
+        }) ?? []
+      );
+    }
+  }, [data?.data]);
 
   const [value, setValue] = useState(isDesktop ? "2" : "1");
 
@@ -51,8 +163,52 @@ const CourseContent = () => {
     setSidebarHeight(total);
   });
 
+  const activeMutation = PostSetActive();
+
+  const navigate = useNavigate();
+  const handleNavigate = (id = 0) => {
+    methods?.setValue(
+      `sections`,
+      methods?.watch("sections")?.map((s) => {
+        let target = s?.content?.find((c) => c?.id === id);
+        return {
+          ...s,
+          open: target ? true : s?.open,
+          active: target ? true : false,
+          content: s?.content?.map((c) => {
+            return {
+              ...c,
+              is_active: id === c?.id ? true : false,
+            };
+          }),
+        };
+      })
+    );
+    navigate(`/course/${methods?.watch("order_item_id")}/content/${id}`);
+    activeMutation?.mutate(
+      {
+        order_item_id: orderItemId,
+        course_section_content_id: id,
+        user_id: acadlixOptions?.user?.ID,
+      },
+      {
+        onSuccess: (data) => {
+          // console.log(data?.data);
+        },
+      }
+    );
+  };
+
   return (
     <Box>
+      {isFetching && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isFetching}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
       <Box>
         {/* Sidebar */}
         <Grid container>
@@ -81,8 +237,8 @@ const CourseContent = () => {
                   display: "flex",
                   flexDirection: "column",
                   ":last-child": {
-                    padding: 0
-                  }
+                    padding: 0,
+                  },
                 }}
               >
                 <Box
@@ -106,21 +262,13 @@ const CourseContent = () => {
                       Course content
                     </Typography>
                   </Box>
-                  <Box
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                    onClick={handleOpen}
-                  >
-                    <FaTimes />
-                  </Box>
                 </Box>
                 <Box
                   sx={{
-                    overflowY: "scroll",
+                    overflowY: "auto",
                   }}
                 >
-                  <CourseSidebar />
+                  <CourseSidebar {...methods} handleNavigate={handleNavigate} />
                 </Box>
               </CardContent>
             </Card>
@@ -128,67 +276,66 @@ const CourseContent = () => {
           <Grid item xs={12} sm={open ? 8 : 12} md={open ? 9 : 12}>
             <Box
               sx={{
-                display: {
-                  xs: "none",
-                  sm: open ? "none" : "flex",
-                },
-                position: "absolute",
-                zIndex: 6,
-                top: "45%",
-                left: 0,
-                border: "1px solid #6a6f73",
-                height: "2.5rem",
-                paddingRight: 4,
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-              onClick={handleOpen}
-            >
-              <FaArrowRight
-                style={{
-                  height: "1.5rem",
-                  width: "1.5rem",
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
                 minHeight: {
-                  xs: "15rem",
-                  sm: open ? "23rem" : "28rem",
+                  xs: "24rem",
+                  sm: open ? "25rem" : "28rem",
                 },
                 maxHeight: {
-                  xs: "15rem",
-                  sm: open ? "23rem" : "28rem",
+                  xs: "24rem",
+                  sm: open ? "25rem" : "28rem",
                 },
                 height: "100%",
                 borderBottom: "1px solid #d1d7dc",
+                display: "flex",
+                flexDirection: "column",
+                position: "relative",
               }}
             >
+              <ContentHeader {...methods} handleOpen={handleOpen} open={open} />
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingY: 3,
-                  paddingLeft: 5,
-                  paddingRight: 3,
-                  borderBottom: "1px solid #d1d7dc",
-                  backgroundColor: (theme) => theme.palette?.primary?.main,
-                  color: (theme) => theme?.palette?.primary?.contrastText,
+                  flexDirection: "column",
+                  flex: 1,
+                  overflowY: "auto",
+                  position: "relative",
+                  paddingBottom: 10,
+                  backgroundColor: "#fff",
                 }}
+                id={`acadlix_course_content`}
               >
-                <Typography
+                <Box
                   sx={{
-                    fontSize: 19,
-                    fontWeight: 600,
+                    flex: 1,
+                    overflowY: "auto",
                   }}
                 >
-                  Course name
-                </Typography>
-              </Box>
-              <Box>
-                hello
+                  {courseSectionContentId === undefined
+                    ? methods?.watch("sections")?.length > 0 && (
+                        <Navigate
+                          to={`/course/${orderItemId}/content/${
+                            methods
+                              ?.watch("sections")
+                              ?.find((s) => s?.active)
+                              ?.content?.find((c) => c?.is_active)?.id
+                          }`}
+                        />
+                      )
+                    : methods?.watch("sections")?.length > 0 && (
+                        <Content
+                          courseSectionContentId={courseSectionContentId}
+                          handleNavigate={handleNavigate}
+                          {...methods}
+                        />
+                      )}
+                </Box>
+                {methods?.watch("sections")?.length > 0 && (
+                  <ContentOptions
+                    {...methods}
+                    courseSectionContentId={courseSectionContentId}
+                    handleNavigate={handleNavigate}
+                  />
+                )}
               </Box>
             </Box>
             <Box
@@ -209,7 +356,6 @@ const CourseContent = () => {
                   >
                     {!open && <Tab label="Course Content" value="1" />}
                     <Tab label="Course Overview" value="2" />
-                    <Tab label="Announcements" value="3" />
                   </TabList>
                 </Box>
                 <Box
@@ -222,14 +368,14 @@ const CourseContent = () => {
                 >
                   {!open && (
                     <TabPanel value="1">
-                      <CourseSidebar />
+                      <CourseSidebar
+                        {...methods}
+                        handleNavigate={handleNavigate}
+                      />
                     </TabPanel>
                   )}
                   <TabPanel value="2">
-                    <CourseOverview />
-                  </TabPanel>
-                  <TabPanel value="3">
-                    <Announcments />
+                    <CourseOverview {...methods} />
                   </TabPanel>
                 </Box>
               </TabContext>

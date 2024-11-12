@@ -131,7 +131,10 @@ class AdminLessonController
     {
         $res = [];
         $lesson_id = $request['lesson_id'];
-        $res['lesson'] = Lesson::find($lesson_id);
+        $lesson = Lesson::find($lesson_id);
+        if($lesson){
+            $res['lesson'] = $lesson;
+        }
         return rest_ensure_response($res);
     }
 
@@ -161,6 +164,7 @@ class AdminLessonController
         $res = [];
         $lesson_id = $request['lesson_id'];
         $lesson = Lesson::find($lesson_id);
+        $lesson->contents()->delete();
         $lesson->delete();
         $res['lesson'] = $lesson;
         return rest_ensure_response($res);
@@ -173,6 +177,7 @@ class AdminLessonController
         if (count($params['lesson_ids']) > 0) {
             foreach ($params['lesson_ids'] as $lesson_id) {
                 $lesson = Lesson::find($lesson_id);
+                $lesson->contents()->delete();
                 $lesson->delete();
             }
         }

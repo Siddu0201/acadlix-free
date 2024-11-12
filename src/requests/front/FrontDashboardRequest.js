@@ -35,6 +35,34 @@ export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
     });
 }
 
+export const PostSetActive = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-set-active`, data);
+        }
+    })
+}
+
+export const PostMarkAsComplete = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-mark-as-complete`, data);
+        }
+    });
+}
+
+export const PostMarkAsIncomplete = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-mark-as-incomplete`, data);
+        }
+    });
+}
+
+
 export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
     const instance = useInstance();
     return useQuery({

@@ -20,7 +20,6 @@ import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -197,7 +196,7 @@ const CourseCard = (props) => {
           boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)", // Optional: darker shadow on hover
         },
       }}
-      onClick={(e) => navigate(`/course/content/${props.id}`)}
+      onClick={(e) => navigate(`/course/${props.id}`)}
     >
       <CardMedia
         component="img"

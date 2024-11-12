@@ -16,7 +16,7 @@ if (!class_exists(class: 'CourseStatistic')) {
             'course_section_content_id',
             'user_id',
             'is_active',
-            'status',
+            'is_completed',
         ];
 
         public function course_section_content()

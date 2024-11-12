@@ -46,7 +46,7 @@ const DashboardNavbar = () => {
               gap: 2,
               justifyContent: "flex-start",
               marginLeft: 2,
-              overflowX: "auto"
+              overflowX: "auto",
             }}
           >
             <Button
@@ -59,6 +59,8 @@ const DashboardNavbar = () => {
                   xs: 0,
                 },
                 textDecoration: "none",
+                whiteSpace: "nowrap",
+                minWidth: "auto",
               }}
               component="a"
               href={acadlixOptions?.home_url}
@@ -79,6 +81,8 @@ const DashboardNavbar = () => {
                     xs: 0,
                   },
                   textDecoration: "none",
+                  whiteSpace: "nowrap",
+                  minWidth: "auto",
                 }}
               >
                 {page?.name}

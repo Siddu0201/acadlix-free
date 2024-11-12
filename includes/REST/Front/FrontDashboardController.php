@@ -5,6 +5,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 use WP_REST_Server;
 use WP_Error;
 use Yuvayana\Acadlix\Models\Course;
+use Yuvayana\Acadlix\Models\CourseStatistic;
 use Yuvayana\Acadlix\Models\Order;
 use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\WpUsers;
@@ -39,6 +40,42 @@ class FrontDashboardController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_user_order_by_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-set-active',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_set_active'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-mark-as-complete',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_mark_as_complete'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-mark-as-incomplete',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_mark_as_incomplete'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -115,7 +152,7 @@ class FrontDashboardController
     public function get_user_order_by_id($request)
     {
         $res = [];
-        $required_fields = array('order_item_id',  'user_id');
+        $required_fields = array('order_item_id', 'user_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -130,9 +167,140 @@ class FrontDashboardController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $res['order_item'] = OrderItem::with(["order", "course"])->find($request->get_param("order_item_id"));
+        $orderItemId = $request->get_param('order_item_id');
+        $userId = $request->get_param('user_id');
 
-        return rest_ensure_response( $res );
+        // Retrieve the order item with associated order and course if conditions match
+        $orderItem = OrderItem::with(['order', 'course'])
+            ->whereHas('order', function ($query) use ($userId) {
+                $query->where('user_id', $userId)
+                    ->where('status', 'success');
+            })
+            ->find($orderItemId);
+
+        $res['order_item'] = $orderItem;
+
+        // Add course statistics if the order item exists
+        if ($orderItem) {
+            $res['course_statistic'] = CourseStatistic::where('order_item_id', $orderItemId)
+                ->where('user_id', $userId)
+                ->get();
+        }
+
+        return rest_ensure_response($res);
+    }
+
+    public function post_set_active($request)
+    {
+        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $userId = $request->get_param("user_id");
+        $orderItemId = $request->get_param("order_item_id");
+        $courseSectionContentId = $request->get_param("course_section_content_id");
+
+        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)->get();
+        if ($course_statistics->count() > 0) {
+            foreach ($course_statistics as $course_statistic) {
+                $course_statistic->update(['is_active' => false]);
+            }
+        }
+
+        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
+        if ($active_statistic) {
+            $active_statistic->update(['is_active' => true]);
+        } else {
+            CourseStatistic::create([
+                'order_item_id' => $orderItemId,
+                'course_section_content_id' => $courseSectionContentId,
+                'user_id' => $userId,
+                'is_active' => true,
+                'is_completed' => false,
+            ]);
+        }
+
+        return rest_ensure_response(['success' => true]);
+    }
+
+    public function post_mark_as_complete($request)
+    {
+        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $userId = $request->get_param("user_id");
+        $orderItemId = $request->get_param("order_item_id");
+        $courseSectionContentId = $request->get_param("course_section_content_id");
+
+        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
+        if ($active_statistic) {
+            $active_statistic->update(['is_completed' => true]);
+        } else {
+            CourseStatistic::create([
+                'order_item_id' => $orderItemId,
+                'course_section_content_id' => $courseSectionContentId,
+                'user_id' => $userId,
+                'is_active' => true,
+                'is_completed' => true,
+            ]);
+        }
+        return rest_ensure_response(['success' => true]);
+    }
+
+    public function post_mark_as_incomplete($request)
+    {
+        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $userId = $request->get_param("user_id");
+        $orderItemId = $request->get_param("order_item_id");
+        $courseSectionContentId = $request->get_param("course_section_content_id");
+
+        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
+        if ($active_statistic) {
+            $active_statistic->update(['is_completed' => false]);
+        } else {
+            CourseStatistic::create([
+                'order_item_id' => $orderItemId,
+                'course_section_content_id' => $courseSectionContentId,
+                'user_id' => $userId,
+                'is_active' => true,
+                'is_completed' => false,
+            ]);
+        }
+        return rest_ensure_response(['success' => true]);
     }
 
     public function get_user_purchases($request)
@@ -205,7 +373,7 @@ class FrontDashboardController
         $image_url = wp_get_attachment_url($attachment_id);
 
         // Update user image
-        update_user_meta( $request->get_param("user_id"),'_acadlix_profile_photo', $image_url );
+        update_user_meta($request->get_param("user_id"), '_acadlix_profile_photo', $image_url);
 
         return rest_ensure_response(array('success' => true, 'url' => $image_url));
     }

@@ -238,6 +238,7 @@ class AdminQuizController {
         $res = [];
         $quiz_id = $request['quiz_id'];
         $quiz = Quiz::find($quiz_id);
+        $quiz->content()->delete();
         $quiz->delete();
         $res['quiz'] = $quiz;
         return rest_ensure_response($res);
@@ -263,6 +264,7 @@ class AdminQuizController {
         if(count($params['quiz_ids']) > 0){
             foreach($params['quiz_ids'] as $quiz_id){
                 $quiz = Quiz::find($quiz_id);
+                $quiz->content()->delete();
                 $quiz->delete();
             }
         }

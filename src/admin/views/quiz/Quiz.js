@@ -194,7 +194,7 @@ const Quiz = () => {
               </IconButton>
             </Tooltip>
             {params?.row?.mode === "advance_mode" && (
-              <Tooltip title="Subject Timing" arrow>
+              <Tooltip title="Subject Wise Actions" arrow>
                 <IconButton
                   aria-label="subject_time"
                   size="small"

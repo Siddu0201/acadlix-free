@@ -18,7 +18,7 @@ if(!class_exists(('CourseStatisticMigration'))){
                     $table->foreignId('course_section_content_id')->constrained('course_section_contents')->cascadeOnDelete();
                     $table->integer('user_id')->unsigned()->nullable()->default(0);
                     $table->boolean('is_active')->nullable()->default(false);
-                    $table->string('status', 100)->nullable()->default('pending');
+                    $table->boolean('is_completed')->nullable()->default(false);
                     $table->timestamps();
                 });
             }

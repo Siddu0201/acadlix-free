@@ -5,9 +5,9 @@ namespace Yuvayana\Acadlix\Models;
 use Illuminate\Database\Eloquent\Model;
 use Yuvayana\Acadlix\Helper\Helper;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
-if(!class_exists('Lesson')){
+if (!class_exists('Lesson')) {
     class Lesson extends Model
     {
         protected $helper;
@@ -21,20 +21,32 @@ if(!class_exists('Lesson')){
             "duration",
             "duration_type",
             "preview",
-        ]; 
+        ];
 
         protected $with = ['lesson_resources'];
 
-        public function __construct(){
+        protected $appends = ['rendered_content'];
+
+        protected $renderShortcode = false;
+
+        public function __construct()
+        {
             $this->helper = new Helper();
         }
 
-        public function lesson_resources(){
+        public function lesson_resources()
+        {
             return $this->hasMany(LessonResource::class, 'lesson_id', 'id');
         }
 
-        public function getContentAttribute($value){
-            return $this->helper->renderShortCode($value);
+        public function getRenderedContentAttribute()
+        {
+            return $this->helper->renderShortCode($this->content);
+        }
+
+        public function contents()
+        {
+            return $this->morphMany(CourseSectionContent::class, 'contentable');
         }
     }
 }

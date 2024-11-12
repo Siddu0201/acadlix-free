@@ -10,13 +10,19 @@ import {
 import { FaAngleDown } from "react-icons/fa";
 import SidebarListItem from "./SidebarListItem";
 
-const SidebarList = () => {
+const SidebarList = (props) => {
+  // console.log(props);
+  const handleChange = () => {
+    props?.setValue(`sections.${props?.index}.open`, !props?.s?.open, {shouldDirty: true});
+  }
 
   return (
     <Accordion
       disableGutters
       elevation={0}
       square
+      expanded={props?.s?.open}
+      onChange={handleChange}
       sx={{
         border: `1px solid #d1d7dc`,
         "&:not(:last-child)": {
@@ -52,15 +58,15 @@ const SidebarList = () => {
               fontWeight: 700,
             }}
           >
-            Section 1: Intoduction
+            Section {props?.num}: {props?.s?.title}
           </Typography>
           <Typography
             sx={{
-              fontSize: "0.7rem",
+              fontSize: "0.8rem",
               fontWeight: 400,
             }}
           >
-            2/2 | 19min
+            {props?.s?.content?.filter(c => c?.is_completed)?.length}/{props?.s?.content?.length}
           </Typography>
         </Box>
       </AccordionSummary>
@@ -74,8 +80,20 @@ const SidebarList = () => {
             padding: 0,
           }}
         >
-          <SidebarListItem />
-          <SidebarListItem />
+          {
+            props?.watch(`sections.${props?.index}.content`)?.length > 0 &&
+            props?.watch(`sections.${props?.index}.content`)?.map((c, c_index, arr) => (
+              <SidebarListItem
+                key={c_index}
+                c_index={c_index}
+                c_num={c_index + 1}
+                c_first={c_index === 0}
+                c_last={arr?.length -1 === c_index}
+                c={c}
+                {...props}
+              />
+            ))
+          }
         </List>
       </AccordionDetails>
     </Accordion>
