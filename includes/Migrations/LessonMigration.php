@@ -15,10 +15,12 @@ if(!class_exists('LessonMigration')){
                 Manager::schema()->create('lessons', function($table){
                     $table->bigIncrements('id');
                     $table->text("title");
-                    $table->longText("content")->nullable();
                     $table->string("type")->nullable();
-                    $table->integer('duration')->unsigned()->nullable()->default(0);
-                    $table->string("duration_type")->nullable();
+                    $table->longText("content")->nullable();
+                    $table->longText("video")->nullable();
+                    $table->integer('hours')->unsigned()->nullable()->default(0);
+                    $table->integer('minutes')->unsigned()->nullable()->default(0);
+                    $table->integer('seconds')->unsigned()->nullable()->default(0);
                     $table->boolean('preview')->default(false);
                     $table->timestamps();
                 });

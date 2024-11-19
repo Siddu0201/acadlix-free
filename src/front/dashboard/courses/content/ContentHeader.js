@@ -26,7 +26,10 @@ const ContentHeader = (props) => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        minHeight: "52px",
+        minHeight: {
+          xs: "45px",
+          sm: "52px",
+        },
         paddingRight: 3,
         backgroundColor: (theme) => theme.palette?.primary?.main,
         color: (theme) => theme?.palette?.primary?.contrastText,

@@ -35,6 +35,15 @@ export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
     });
 }
 
+export const PostUpdateLessonTime = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-update-lesson-time`, data);
+        }
+    })
+}
+
 export const PostSetActive = () => {
     const instance = useInstance();
     return useMutation({

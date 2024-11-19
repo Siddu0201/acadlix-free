@@ -50,6 +50,7 @@
     "dateformat": "^5.0.3",
     "dayjs": "^1.11.10",
     "html-react-parser": "^5.1.10",
+    "plyr": "^3.7.8",
     "react-countdown": "^2.3.5",
     "react-datepicker": "^4.15.0",
     "react-hook-form": "^7.45.2",

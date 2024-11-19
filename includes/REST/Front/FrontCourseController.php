@@ -248,7 +248,7 @@ class FrontCourseController
                     'total_amount' => 0
                 ]);
     
-                $order->order_item()->create([
+                $order->order_items()->create([
                     'course_id' => $params['course_id'],
                     'quantity' => 1,
                     'price' => 0,

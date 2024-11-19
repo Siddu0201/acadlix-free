@@ -7,10 +7,11 @@ import {
 } from "../../../../requests/front/FrontDashboardRequest";
 
 const ContentOptions = (props) => {
-  const [isFullScreen, setIsFullScreen] = React.useState(false);
   React.useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullScreen(!!document.fullscreenElement);
+      props?.setValue("is_fullscreen", !!document.fullscreenElement, {
+        shouldDirty: true,
+      });
     };
 
     document.addEventListener("fullscreenchange", handleFullscreenChange);
@@ -43,13 +44,13 @@ const ContentOptions = (props) => {
         position: "absolute",
         bottom: 0,
         left: 0,
-        height: "auto",
+        height: "36px",
         width: "100%",
         borderTop: `1px solid #d1d7dc`,
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center",
-        gap: 1,
+        // gap: 1,
       }}
     >
       {props?.watch("sections")?.map((s, index) =>
@@ -81,8 +82,8 @@ const ContentOptions = (props) => {
                 color="error"
                 size="small"
                 sx={{
-                  height: 28,
                   display: c?.is_active ? "" : "none",
+                  marginRight: 1,
                 }}
               >
                 {incompleteMutation?.isPending ? (
@@ -126,8 +127,8 @@ const ContentOptions = (props) => {
                 variant="contained"
                 size="small"
                 sx={{
-                  height: 28,
                   display: c?.is_active ? "" : "none",
+                  marginRight: 1,
                 }}
               >
                 {completeMutation?.isPending ? (
@@ -137,71 +138,95 @@ const ContentOptions = (props) => {
                 )}
               </Button>
             )}
+            {props?.watch("is_fullscreen") ? (
+              <IconButton
+                onClick={() => {
+                  props?.setValue(
+                    "is_fullscreen",
+                    !props?.watch("is_fullscreen"),
+                    {
+                      shouldDirty: true,
+                    }
+                  );
+
+                  if (document?.fullscreenElement) {
+                    if (document?.exitFullscreen) {
+                      document?.exitFullscreen();
+                    } else if (document?.mozCancelFullScreen) {
+                      document?.mozCancelFullScreen(); // Firefox
+                    } else if (document?.webkitExitFullscreen) {
+                      document?.webkitExitFullscreen(); // Safari
+                    } else if (document?.msExitFullscreen) {
+                      document?.msExitFullscreen(); // IE/Edge
+                    }
+                  }
+                }}
+                sx={{
+                  display:
+                    c?.is_active &&
+                    (c?.type === "quiz" ||
+                      (c?.lesson_type !== "video" && c?.type === "lesson"))
+                      ? ""
+                      : "none",
+                  backgroundColor: "transparent",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  color: "inherit",
+                  ":hover, :focus": {
+                    backgroundColor: "transparent",
+                    borderRadius: 0,
+                    boxShadow: "none",
+                    color: "inherit",
+                  },
+                }}
+              >
+                <AiOutlineFullscreenExit />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={(e) => {
+                  let elem = document.getElementById("acadlix_course_content");
+                  props?.setValue(
+                    "is_fullscreen",
+                    !props?.watch("is_fullscreen"),
+                    {
+                      shouldDirty: true,
+                    }
+                  );
+                  if (elem?.requestFullscreen) {
+                    elem?.requestFullscreen();
+                  } else if (elem?.webkitRequestFullscreen) {
+                    /* Safari */
+                    elem?.webkitRequestFullscreen();
+                  } else if (elem?.msRequestFullscreen) {
+                    /* IE11 */
+                    elem?.msRequestFullscreen();
+                  }
+                }}
+                sx={{
+                  display:
+                    c?.is_active &&
+                    (c?.type === "quiz" ||
+                      (c?.lesson_type !== "video" && c?.type === "lesson"))
+                      ? ""
+                      : "none",
+                  backgroundColor: "transparent",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  color: "inherit",
+                  ":hover, :focus": {
+                    backgroundColor: "transparent",
+                    borderRadius: 0,
+                    boxShadow: "none",
+                    color: "inherit",
+                  },
+                }}
+              >
+                <AiOutlineFullscreen />
+              </IconButton>
+            )}
           </React.Fragment>
         ))
-      )}
-      {isFullScreen ? (
-        <IconButton
-          onClick={() => {
-            setIsFullScreen(!isFullScreen);
-
-            if (document?.fullscreenElement) {
-              if (document?.exitFullscreen) {
-                document?.exitFullscreen();
-              } else if (document?.mozCancelFullScreen) {
-                document?.mozCancelFullScreen(); // Firefox
-              } else if (document?.webkitExitFullscreen) {
-                document?.webkitExitFullscreen(); // Safari
-              } else if (document?.msExitFullscreen) {
-                document?.msExitFullscreen(); // IE/Edge
-              }
-            }
-          }}
-          sx={{
-            backgroundColor: "transparent",
-            borderRadius: 0,
-            boxShadow: "none",
-            color: "inherit",
-            ":hover, :focus": {
-              backgroundColor: "transparent",
-              borderRadius: 0,
-              boxShadow: "none",
-              color: "inherit",
-            },
-          }}
-        >
-          <AiOutlineFullscreenExit />
-        </IconButton>
-      ) : (
-        <IconButton
-          onClick={(e) => {
-            let elem = document.getElementById("acadlix_course_content");
-            setIsFullScreen(!isFullScreen);
-            if (elem?.requestFullscreen) {
-              elem?.requestFullscreen();
-            } else if (elem?.webkitRequestFullscreen) {
-              /* Safari */
-              elem?.webkitRequestFullscreen();
-            } else if (elem?.msRequestFullscreen) {
-              /* IE11 */
-              elem?.msRequestFullscreen();
-            }
-          }}
-          sx={{
-            backgroundColor: "transparent",
-            borderRadius: 0,
-            boxShadow: "none",
-            color: "inherit",
-            ":hover, :focus": {
-              backgroundColor: "transparent",
-              borderRadius: 0,
-              boxShadow: "none",
-              color: "inherit",
-            },
-          }}
-        >
-          <AiOutlineFullscreen />
-        </IconButton>
       )}
     </Box>
   );

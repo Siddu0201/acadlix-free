@@ -16,10 +16,12 @@ if (!class_exists('Lesson')) {
 
         protected $fillable = [
             "title",
-            "content",
             "type",
-            "duration",
-            "duration_type",
+            "content",
+            "video",
+            "hours",
+            "minutes",
+            "seconds",
             "preview",
         ];
 
@@ -37,6 +39,16 @@ if (!class_exists('Lesson')) {
         public function lesson_resources()
         {
             return $this->hasMany(LessonResource::class, 'lesson_id', 'id');
+        }
+
+        public function setVideoAttribute($value)
+        {
+            $this->attributes['video'] = maybe_serialize( $value );
+        }
+
+        public function getVideoAttribute($value)
+        {
+            return maybe_unserialize( $value );
         }
 
         public function getRenderedContentAttribute()

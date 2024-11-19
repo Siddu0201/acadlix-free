@@ -20,7 +20,7 @@ const General = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={3}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -28,7 +28,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Duration
+                Week(s)
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -36,9 +36,9 @@ const General = (props) => {
                 fullWidth
                 size="small"
                 type="number"
-                value={props?.watch("duration")}
+                value={props?.watch("weeks")}
                 onChange={(e) => {
-                  props?.setValue("duration", Number(e?.target?.value), {
+                  props?.setValue("weeks", Number(e?.target?.value), {
                     shouldDirty: true,
                   });
                 }}
@@ -63,7 +63,7 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={3}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -71,30 +71,124 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Duration type
+                Day(s)
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
-              <FormControl
+              <CustomTextField
                 fullWidth
                 size="small"
+                type="number"
+                value={props?.watch("days")}
+                onChange={(e) => {
+                  props?.setValue("days", Number(e?.target?.value), {
+                    shouldDirty: true,
+                  });
+                }}
+                onKeyDown={props?.handleKeyDown}
+                sx={{
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                }}
+                inputProps={{
+                  sx: {
+                    border: `0 !important`,
+                    boxShadow: `none !important`,
+                    minHeight: `auto !important`,
+                  },
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={3}>  
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                }}
               >
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={props?.watch("duration_type")}
-                  onChange={(e) => {
-                    props?.setValue("duration_type", e?.target?.value, {
-                      shouldDirty: true,
-                    });
-                  }}
-                >
-                  <MenuItem value="minute">Minute(s)</MenuItem>
-                  <MenuItem value="hour">Hour(s)</MenuItem>
-                  <MenuItem value="day">Day(s)</MenuItem>
-                  <MenuItem value="week">Week(s)</MenuItem>
-                </Select>
-              </FormControl>
+                Hour(s)
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <CustomTextField
+                fullWidth
+                size="small"
+                type="number"
+                value={props?.watch("hours")}
+                onChange={(e) => {
+                  props?.setValue("hours", Number(e?.target?.value), {
+                    shouldDirty: true,
+                  });
+                }}
+                onKeyDown={props?.handleKeyDown}
+                sx={{
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                }}
+                inputProps={{
+                  sx: {
+                    border: `0 !important`,
+                    boxShadow: `none !important`,
+                    minHeight: `auto !important`,
+                  },
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                }}
+              >
+                Minute(s)
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <CustomTextField
+                fullWidth
+                size="small"
+                type="number"
+                value={props?.watch("minutes")}
+                onChange={(e) => {
+                  props?.setValue("minutes", Number(e?.target?.value), {
+                    shouldDirty: true,
+                  });
+                }}
+                onKeyDown={props?.handleKeyDown}
+                sx={{
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                }}
+                inputProps={{
+                  sx: {
+                    border: `0 !important`,
+                    boxShadow: `none !important`,
+                    minHeight: `auto !important`,
+                  },
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>

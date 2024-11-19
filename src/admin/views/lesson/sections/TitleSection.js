@@ -22,14 +22,14 @@ const TitleSection = (props) => {
               <CustomTextField
                 {...props?.register("title", {required: "Title is required"})}
                 fullWidth
-                required
                 name="title"
                 size="small"
-                label="Enter lesson title"
+                label="Enter lesson title *"
                 value={props?.watch("title") ?? ""}
                 onChange={(e) => {
                   props?.setValue("title", e?.target?.value, {
                     shouldDirty: true,
+                    shouldValidate: true,
                   });
                 }}
                 error={Boolean(props?.formState?.errors?.title)}

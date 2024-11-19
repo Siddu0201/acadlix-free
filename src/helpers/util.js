@@ -183,3 +183,15 @@ export const currencyPosition = (price = 0, currency_symbol = '') => {
       return `${symbol}${price}`;
   }
 };
+
+export const convertTime = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.round(seconds % 60);
+
+  return {
+      hours: hours,
+      minutes: minutes,
+      seconds: secs
+  };
+}

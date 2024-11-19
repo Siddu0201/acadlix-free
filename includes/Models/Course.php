@@ -13,8 +13,10 @@ if (!class_exists('Course')) {
 
         protected $fillable = [
             'id',
-            'duration',
-            'duration_type',
+            'weeks',
+            'days',
+            'hours',
+            'minutes',
             'start_date',
             'end_date',
             'difficulty_level',
@@ -26,10 +28,20 @@ if (!class_exists('Course')) {
             'tax',
             'tax_percent',
             'allow_repurchase',
-            'featured_video',
+            'video',
         ];
 
         protected $with = ['users', 'outcomes', 'faqs', 'sections', 'post'];
+
+        public function setVideoAttribute($value)
+        {
+            $this->attributes['video'] = maybe_serialize($value);
+        }
+
+        public function getVideoAttribute($value)
+        {
+            return maybe_unserialize($value);
+        }
 
         public function faqs()
         {

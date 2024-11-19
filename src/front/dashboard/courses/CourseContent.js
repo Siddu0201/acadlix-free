@@ -32,6 +32,7 @@ const CourseContent = () => {
   const [sidebarHeight, setSidebarHeight] = useState(0);
   const methods = useForm({
     defaultValues: {
+      is_fullscreen: false,
       order_item_id: null,
       course_id: null,
       order_id: null,
@@ -131,8 +132,40 @@ const CourseContent = () => {
                   lesson_type: c?.contentable?.type ?? "video",
                   title: c?.contentable?.title ?? "",
                   content: c?.contentable?.rendered_content ?? "",
-                  duration: c?.contentable?.duration ?? 1,
-                  duration_type: c?.contentable?.duration_type ?? "minute",
+                  video: {
+                    video_type: c?.contentable?.video?.video_type ?? "",
+                    video_data: {
+                      html_5: c?.contentable?.video?.video_data?.html_5 ?? "",
+                      external_link:
+                        c?.contentable?.video?.video_data?.external_link ?? "",
+                      youtube: c?.contentable?.video?.video_data?.youtube ?? "",
+                      vimeo: c?.contentable?.video?.video_data?.vimeo ?? "",
+                      embedded:
+                        c?.contentable?.video?.video_data?.embedded ?? "",
+                      shortcode:
+                        c?.contentable?.video?.video_data?.shortcode ?? "",
+                    },
+                    video_thumbnail:
+                      c?.contentable?.video?.video_thumbnail ?? "",
+                  },
+                  hours:
+                    c?.contentable?.hours > 0
+                      ? c?.contentable?.hours < 10
+                        ? `0${c?.contentable?.hours}`
+                        : String(c?.contentable?.hours)
+                      : "00",
+                  minutes:
+                    c?.contentable?.minutes > 0
+                      ? c?.contentable?.minutes < 10
+                        ? `0${c?.contentable?.minutes}`
+                        : String(c?.contentable?.minutes)
+                      : "00",
+                  seconds:
+                    c?.contentable?.seconds > 0
+                      ? c?.contentable?.seconds < 10
+                        ? `0${c?.contentable?.seconds}`
+                        : String(c?.contentable?.seconds)
+                      : "00",
                   lesson_resources: c?.contentable?.lesson_resources ?? [],
                 };
               }) ?? [],
@@ -210,8 +243,13 @@ const CourseContent = () => {
         </Backdrop>
       )}
       <Box>
-        {/* Sidebar */}
-        <Grid container>
+        <Grid
+          container
+          sx={{
+            height: "100%",
+          }}
+        >
+          {/* Sidebar */}
           <Grid
             item
             xs={0}
@@ -222,12 +260,13 @@ const CourseContent = () => {
                 xs: "none",
                 sm: open ? "block" : "none",
               },
+              height: "100%",
             }}
           >
             <Card
               sx={{
                 borderRadius: 0,
-                height: `${sidebarHeight}px`,
+                borderRight: `1px solid #d1d7dc`,
               }}
             >
               <CardContent
@@ -273,24 +312,35 @@ const CourseContent = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={open ? 8 : 12} md={open ? 9 : 12}>
+          {/* Content */}
+          <Grid
+            item
+            xs={12}
+            sm={open ? 8 : 12}
+            md={open ? 9 : 12}
+            sx={{
+              height: "100%",
+              overflowY: "auto",
+            }}
+          >
             <Box
               sx={{
-                minHeight: {
-                  xs: "24rem",
-                  sm: open ? "25rem" : "28rem",
-                },
-                maxHeight: {
-                  xs: "24rem",
-                  sm: open ? "25rem" : "28rem",
-                },
-                height: "100%",
+                // minHeight: {
+                //   xs: "24rem",
+                //   sm: open ? "28rem" : "28rem",
+                // },
+                // maxHeight: {
+                //   xs: "24rem",
+                //   sm: open ? "28rem" : "28rem",
+                // },
+                // height: "100%",
                 borderBottom: "1px solid #d1d7dc",
                 display: "flex",
                 flexDirection: "column",
                 position: "relative",
               }}
             >
+              {/* Content Header  */}
               <ContentHeader {...methods} handleOpen={handleOpen} open={open} />
               <Box
                 sx={{

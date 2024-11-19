@@ -254,21 +254,8 @@ class AdminCourseController
             $course->update($params);
         } else {
             Course::create([
+                ...$params,
                 'id' => $course_id,
-                'duration' => $params['duration'],
-                'duration_type' => $params['duration_type'],
-                'start_date' => $params['start_date'],
-                'end_date' => $params['end_date'],
-                'difficulty_level' => $params['difficulty_level'],
-                'question_and_answer' => $params['question_and_answer'],
-                'price' => $params['price'],
-                'sale_price' => $params['sale_price'],
-                'validity' => $params['validity'],
-                'validity_type' => $params['validity_type'],
-                'tax' => $params['tax'],
-                'tax_percent' => $params['tax_percent'],
-                'allow_repurchase' => $params['allow_repurchase'],
-                'featured_video' => $params['featured_video'],
             ]);
         }
         $course = Course::find($course_id);
@@ -426,7 +413,6 @@ class AdminCourseController
         if ($params['lesson_type'] == 'add_new') {
             $lesson = Lesson::create([
                 ...$params,
-                'content' => $params['lesson_content']
             ]);
             if (count($params['resources']) > 0) {
                 foreach ($params['resources'] as $resource) {
@@ -472,7 +458,6 @@ class AdminCourseController
         $lesson = Lesson::find($lesson_id);
         $lesson->update([
             ...$params,
-            'content' => $params['lesson_content']
         ]);
         foreach ($params['resources'] as $resource) {
             if (($resource['type'] == 'upload' && $resource['filename'] !== '') || ($resource['type'] == 'link' && $resource['link'] != '')) {

@@ -47,6 +47,7 @@ class Submenu_Lessons
         wp_localize_script('acadlix-admin-lesson', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'nonce' => wp_create_nonce('wp_rest'),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
         ));
     }
 

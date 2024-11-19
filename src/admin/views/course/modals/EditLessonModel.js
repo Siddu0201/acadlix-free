@@ -28,6 +28,8 @@ import { IoClose } from "react-icons/io5";
 import CustomTextField from "../../../../components/CustomTextField";
 import { MediaUpload } from "@wordpress/media-utils";
 import { GetLessonById } from "../../../../requests/admin/AdminLessonRequest";
+import VideoUpload from "../../../../modules/video-upload/VideoUpload";
+import { convertTime } from "../../../../helpers/util";
 
 const EditLessonModel = (props) => {
   const { isFetching, data } = GetLessonById(props?.watch("lesson_id"));
@@ -42,11 +44,24 @@ const EditLessonModel = (props) => {
       }
       props?.reset({
         ...props?.watch(),
-        title: data?.data?.lesson?.title,
-        lesson_content: data?.data?.lesson?.content,
-        type: data?.data?.lesson?.type,
-        duration: data?.data?.lesson?.duration,
-        duration_type: data?.data?.lesson?.duration_type,
+        title: data?.data?.lesson?.title ?? "",
+        type: data?.data?.lesson?.type ?? "video",
+        content: data?.data?.lesson?.content ?? "",
+        video: {
+          video_type: data?.data?.lesson?.video?.video_type ?? "",
+          video_data: {
+            html_5: data?.data?.lesson?.video?.video_data?.html_5 ?? "",
+            external_link: data?.data?.lesson?.video?.video_data?.external_link ?? "",
+            youtube: data?.data?.lesson?.video?.video_data?.youtube ?? "",
+            vimeo: data?.data?.lesson?.video?.video_data?.vimeo ?? "",
+            embedded: data?.data?.lesson?.video?.video_data?.embedded ?? "",
+            shortcode: data?.data?.lesson?.video?.video_data?.shortcode ?? "",
+          },
+          video_thumbnail: data?.data?.lesson?.video?.video_thumbnail ?? "",
+        },
+        hours: data?.data?.lesson?.hours ?? 0,
+        minutes: data?.data?.lesson?.minutes ?? 0,
+        seconds: data?.data?.lesson?.seconds ?? 0,
         resources:
           data?.data?.lesson?.lesson_resources?.length > 0
             ? data.data?.lesson?.lesson_resources?.map((r) => {
@@ -102,7 +117,7 @@ const EditLessonModel = (props) => {
           {isFetching ? (
             <CircularProgress size={20} />
           ) : (
-            <AddNewLesson {...props} />
+            <EditExistingsLesson {...props} />
           )}
         </DialogContent>
         <DialogActions>
@@ -124,20 +139,7 @@ const EditLessonModel = (props) => {
 
 export default EditLessonModel;
 
-const AddNewLesson = (props) => {
-  const loadPage = () => {
-    props?.loadEditor("lesson_content", "lesson_content");
-  };
-
-  React.useEffect(() => {
-    loadPage();
-    window.addEventListener("load", loadPage);
-
-    return () => {
-      props?.removeEditor("lesson_content");
-      window.removeEventListener("load", loadPage);
-    };
-  }, []);
+const EditExistingsLesson = (props) => {
 
   const handleAddResoures = () => {
     props?.setValue(
@@ -156,6 +158,24 @@ const AddNewLesson = (props) => {
       { shouldDirty: true }
     );
   };
+  
+  const getVideoDuration = (videoUrl) => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      video.src = videoUrl;
+      video.preload = "metadata";
+
+      // Listen for loaded metadata to get the duration
+      video.onloadedmetadata = () => {
+        resolve(video.duration); // Duration in seconds
+      };
+
+      // Handle error if video fails to load
+      video.onerror = () => {
+        reject("Error loading video metadata.");
+      };
+    });
+  }
 
   return (
     <Box>
@@ -187,31 +207,6 @@ const AddNewLesson = (props) => {
                 boxShadow: `none !important`,
                 minHeight: `auto !important`,
               },
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <Typography variant="h6">Content</Typography>
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <textarea
-            id="lesson_content"
-            rows={8}
-            style={{
-              width: "100%",
-            }}
-            value={props?.watch("lesson_content") ?? ""}
-            onChange={(e) => {
-              let value = e?.target?.value;
-              if (window.tinymce) {
-                const editor = window.tinymce.get("lesson_content");
-                if (editor && editor.getContent() !== value) {
-                  editor.setContent(value || "");
-                }
-              }
-              props.setValue("lesson_content", value, {
-                shouldDirty: true,
-              });
             }}
           />
         </Grid>
@@ -270,67 +265,161 @@ const AddNewLesson = (props) => {
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <CustomTextField
-                    fullWidth
-                    label="Duration"
-                    size="small"
-                    type="number"
-                    value={props?.watch("duration") ?? 0}
-                    onChange={(e) => {
-                      props?.setValue("duration", e?.target?.value, {
-                        shouldDirty: true,
-                      });
-                    }}
-                    sx={{
-                      "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                        {
-                          display: "none",
-                        },
-                      "& input[type=number]": {
-                        MozAppearance: "textfield",
-                      },
-                    }}
-                    inputProps={{
-                      sx: {
-                        border: `0 !important`,
-                        boxShadow: `none !important`,
-                        minHeight: `auto !important`,
-                      },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    error={Boolean(props?.formState?.errors?.duration_type)}
-                  >
-                    <InputLabel id="demo-simple-select-label">
-                      Duration Type
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={props?.watch("duration_type")}
-                      label="Duration Type"
-                      onChange={(e) => {
-                        props?.setValue("duration_type", e?.target?.value, {
-                          shouldDirty: true,
-                        });
+                {props?.watch("type") === "video" && (
+                  <>
+                    <VideoUpload
+                      xs={12}
+                      sm={12}
+                      video={props?.watch("video")}
+                      onUpdate={(data) => {
+                        props?.setValue("video", data, { shouldDirty: true });
                       }}
-                    >
-                      <MenuItem value="second">Second(s)</MenuItem>
-                      <MenuItem value="minute">Minute(s)</MenuItem>
-                      <MenuItem value="hour">Hour(s)</MenuItem>
-                      <MenuItem value="day">Day(s)</MenuItem>
-                      <MenuItem value="week">Week(s)</MenuItem>
-                    </Select>
-                    <FormHelperText>
-                      {props?.formState?.errors?.duration_type?.message}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
+                      onMediaUpload={(media) => {
+                        if (media?.url && media?.url !== "") {
+                          getVideoDuration(media?.url)
+                            .then((duration) => {
+                              if (duration && duration > 0) {
+                                let { hours, minutes, seconds } =
+                                  convertTime(duration);
+                                props?.setValue("hours", hours, {
+                                  shouldDirty: true,
+                                });
+                                props?.setValue("minutes", minutes, {
+                                  shouldDirty: true,
+                                });
+                                props?.setValue("seconds", seconds, {
+                                  shouldDirty: true,
+                                });
+                              }
+                            })
+                            .catch((error) => {
+                              console.error(error);
+                            });
+                        }
+                      }}
+                      onVideoLinkDataChange={(type, data) => {
+                        if (type === "external_link" && data !== "") {
+                          getVideoDuration(data)
+                            .then((duration) => {
+                              if (duration && duration > 0) {
+                                let { hours, minutes, seconds } =
+                                  convertTime(duration);
+                                props?.setValue("hours", hours, {
+                                  shouldDirty: true,
+                                });
+                                props?.setValue("minutes", minutes, {
+                                  shouldDirty: true,
+                                });
+                                props?.setValue("seconds", seconds, {
+                                  shouldDirty: true,
+                                });
+                              }
+                            })
+                            .catch((error) => {
+                              console.error(error);
+                            });
+                        }
+                      }}
+                    />
+
+                    <Grid item xs={4} sm={4}>
+                      <CustomTextField
+                        fullWidth
+                        label="Hours"
+                        size="small"
+                        type="number"
+                        value={props?.watch("hours") ?? 0}
+                        onChange={(e) => {
+                          props?.setValue("hours", e?.target?.value, {
+                            shouldDirty: true,
+                          });
+                        }}
+                        inputProps={{
+                          sx: {
+                            border: `0 !important`,
+                            boxShadow: `none !important`,
+                            minHeight: `auto !important`,
+                          },
+                        }}
+                        sx={{
+                          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                            {
+                              display: "none",
+                            },
+                          "& input[type=number]": {
+                            MozAppearance: "textfield",
+                          },
+                        }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={4} sm={4}>
+                      <CustomTextField
+                        fullWidth
+                        label="Minutes"
+                        size="small"
+                        type="number"
+                        value={props?.watch("minutes") ?? 0}
+                        onChange={(e) => {
+                          props?.setValue("minutes", e?.target?.value, {
+                            shouldDirty: true,
+                          });
+                        }}
+                        inputProps={{
+                          sx: {
+                            border: `0 !important`,
+                            boxShadow: `none !important`,
+                            minHeight: `auto !important`,
+                          },
+                        }}
+                        sx={{
+                          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                            {
+                              display: "none",
+                            },
+                          "& input[type=number]": {
+                            MozAppearance: "textfield",
+                          },
+                        }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={4} sm={4}>
+                      <CustomTextField
+                        fullWidth
+                        label="Seconds"
+                        size="small"
+                        type="number"
+                        value={props?.watch("seconds") ?? 0}
+                        onChange={(e) => {
+                          props?.setValue("seconds", e?.target?.value, {
+                            shouldDirty: true,
+                          });
+                        }}
+                        inputProps={{
+                          sx: {
+                            border: `0 !important`,
+                            boxShadow: `none !important`,
+                            minHeight: `auto !important`,
+                          },
+                        }}
+                        sx={{
+                          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                            {
+                              display: "none",
+                            },
+                          "& input[type=number]": {
+                            MozAppearance: "textfield",
+                          },
+                        }}
+                      />
+                    </Grid>
+                  </>
+                )}
+
+                {props?.watch("type") === "text" && (
+                  <ContentSection {...props} />
+                )}
               </Grid>
             </CardContent>
           </Card>
@@ -354,6 +443,47 @@ const AddNewLesson = (props) => {
         </Grid>
       </Grid>
     </Box>
+  );
+};
+
+const ContentSection = (props) => {
+  const loadPage = () => {
+    props?.loadEditor("lesson_content", "content");
+  };
+
+  React.useEffect(() => {
+    loadPage();
+    window.addEventListener("load", loadPage);
+
+    return () => {
+      props?.removeEditor("lesson_content");
+      window.removeEventListener("load", loadPage);
+    };
+  }, []);
+
+  return (
+    <Grid item xs={12} sm={12}>
+      <textarea
+        id="lesson_content"
+        rows={12}
+        style={{
+          width: "100%",
+        }}
+        value={props?.watch("content") ?? ""}
+        onChange={(e) => {
+          let value = e?.target?.value;
+          if (window.tinymce) {
+            const editor = window.tinymce.get("lesson_content");
+            if (editor && editor.getContent() !== value) {
+              editor.setContent(value || "");
+            }
+          }
+          props.setValue("content", value, {
+            shouldDirty: true,
+          });
+        }}
+      />
+    </Grid>
   );
 };
 

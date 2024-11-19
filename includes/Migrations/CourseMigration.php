@@ -15,8 +15,10 @@ if (!class_exists(('CourseMigration'))) {
             if (!Manager::schema()->hasTable('courses')) {
                 Manager::schema()->create('courses', function ($table) {
                     $table->bigInteger('id')->unsigned()->primary();
-                    $table->integer('duration')->unsigned()->nullable()->default(0);
-                    $table->string('duration_type', 100)->nullable()->default('minute');
+                    $table->integer('weeks')->unsigned()->nullable()->default(0);
+                    $table->integer('days')->unsigned()->nullable()->default(0);
+                    $table->integer('hours')->unsigned()->nullable()->default(0);
+                    $table->integer('minutes')->unsigned()->nullable()->default(0);
                     $table->string('start_date')->nullable();
                     $table->string('end_date')->nullable();
                     $table->string('difficulty_level', 100)->nullable()->default('all_levels');
@@ -28,7 +30,7 @@ if (!class_exists(('CourseMigration'))) {
                     $table->boolean('tax')->nullable()->default(false);
                     $table->float('tax_percent')->nullable()->default(0.00);
                     $table->boolean('allow_repurchase')->nullable()->default(false);
-                    $table->text('featured_video')->nullable();
+                    $table->longText('video')->nullable();
                     $table->timestamps();
                 });
             }

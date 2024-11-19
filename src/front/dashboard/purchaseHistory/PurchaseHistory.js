@@ -90,8 +90,8 @@ const PurchaseHistory = () => {
     paginationModel?.pageSize
   );
 
-  const getOrderMetaValue = (order_metas = [], meta_key = "") => {
-    return order_metas?.find((o) => o?.meta_key === meta_key)?.meta_value ?? "";
+  const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
+    return order_metas?.find((o) => o?.meta_key === meta_key)?.meta_value ?? order_default;
   };
 
   const getOrderId = (order_metas = []) => {
@@ -103,7 +103,7 @@ const PurchaseHistory = () => {
       case "payu":
         return getOrderMetaValue(order_metas, "payu_txn_id");
       default:
-        return "";
+        return "N/A";
     }
   };
 
@@ -124,7 +124,8 @@ const PurchaseHistory = () => {
           status: order?.status,
           payment_method: getOrderMetaValue(
             order?.order_metas,
-            "payment_method"
+            "payment_method",
+            "Free"
           )?.toUpperCase(),
           order_id: getOrderId(order?.order_metas),
           order_date: `${formattedDate} ${formattedTime}`,

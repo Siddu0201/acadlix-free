@@ -7,6 +7,7 @@ import {
   FormHelperText,
   FormLabel,
   Grid,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
@@ -20,6 +21,11 @@ import { MediaUpload } from "@wordpress/media-utils";
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
+import { FaCloudUploadAlt, FaTrash } from "react-icons/fa";
+import ContentSection from "./ContentSection";
+import { convertTime } from "../../../../helpers/util";
+import toast from "react-hot-toast";
+import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 
 const OptionSection = (props) => {
   const handleAddResoures = () => {
@@ -27,10 +33,35 @@ const OptionSection = (props) => {
       "resources",
       [
         ...props?.watch("resources"),
-        { id: null, title: "", type: "upload", filename: "", file_url: "", link: "" },
+        {
+          id: null,
+          title: "",
+          type: "upload",
+          filename: "",
+          file_url: "",
+          link: "",
+        },
       ],
       { shouldDirty: true }
     );
+  };
+
+  const getVideoDuration = (videoUrl) => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      video.src = videoUrl;
+      video.preload = "metadata";
+
+      // Listen for loaded metadata to get the duration
+      video.onloadedmetadata = () => {
+        resolve(video.duration); // Duration in seconds
+      };
+
+      // Handle error if video fails to load
+      video.onerror = () => {
+        reject("Error loading video metadata.");
+      };
+    });
   };
 
   return (
@@ -39,7 +70,7 @@ const OptionSection = (props) => {
         <CardContent>
           <Grid
             container
-            spacing={4}
+            spacing={{ xs: 3, sm: 4 }}
             sx={{
               color: "black",
             }}
@@ -93,62 +124,140 @@ const OptionSection = (props) => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={3}>
-              <CustomTextField
-                fullWidth
-                label="Duration"
-                size="small"
-                type="number"
-                value={props?.watch("duration") ?? 0}
-                onChange={(e) => {
-                  props?.setValue("duration", e?.target?.value, {
-                    shouldDirty: true,
-                  });
-                }}
-                sx={{
-                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <FormControl
-                fullWidth
-                size="small"
-                error={Boolean(props?.formState?.errors?.duration_type)}
-              >
-                <InputLabel id="demo-simple-select-label">
-                  Duration Type
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={props?.watch("duration_type")}
-                  label="Duration Type"
-                  onChange={(e) => {
-                    props?.setValue("duration_type", e?.target?.value, {
-                      shouldDirty: true,
-                    });
+            {props?.watch("type") === "video" && (
+              <>
+                <VideoUpload
+                  xs={12}
+                  sm={6}
+                  video={props?.watch("video")}
+                  onUpdate={(data) => {
+                    props?.setValue("video", data, { shouldDirty: true });
                   }}
-                >
-                  <MenuItem value="second">Second(s)</MenuItem>
-                  <MenuItem value="minute">Minute(s)</MenuItem>
-                  <MenuItem value="hour">Hour(s)</MenuItem>
-                  <MenuItem value="day">Day(s)</MenuItem>
-                  <MenuItem value="week">Week(s)</MenuItem>
-                </Select>
-                <FormHelperText>
-                  {props?.formState?.errors?.duration_type?.message}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
+                  onMediaUpload={(media) => {
+                    if (media?.url && media?.url !== "") {
+                      getVideoDuration(media?.url)
+                        .then((duration) => {
+                          if (duration && duration > 0) {
+                            let { hours, minutes, seconds } =
+                              convertTime(duration);
+                            props?.setValue("hours", hours, {
+                              shouldDirty: true,
+                            });
+                            props?.setValue("minutes", minutes, {
+                              shouldDirty: true,
+                            });
+                            props?.setValue("seconds", seconds, {
+                              shouldDirty: true,
+                            });
+                          }
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        });
+                    }
+                  }}
+                  onVideoLinkDataChange={(type, data) => {
+                    if (type === "external_link" && data !== "") {
+                      getVideoDuration(data)
+                        .then((duration) => {
+                          if (duration && duration > 0) {
+                            let { hours, minutes, seconds } =
+                              convertTime(duration);
+                            props?.setValue("hours", hours, {
+                              shouldDirty: true,
+                            });
+                            props?.setValue("minutes", minutes, {
+                              shouldDirty: true,
+                            });
+                            props?.setValue("seconds", seconds, {
+                              shouldDirty: true,
+                            });
+                          }
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        });
+                    }
+                  }}
+                />
 
-            {/* <Grid item xs={12} sm={12}>
+                <Grid item xs={4} sm={2}>
+                  <CustomTextField
+                    fullWidth
+                    label="Hours"
+                    size="small"
+                    type="number"
+                    value={props?.watch("hours") ?? 0}
+                    onChange={(e) => {
+                      props?.setValue("hours", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                    sx={{
+                      "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                        {
+                          display: "none",
+                        },
+                      "& input[type=number]": {
+                        MozAppearance: "textfield",
+                      },
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={2}>
+                  <CustomTextField
+                    fullWidth
+                    label="Minutes"
+                    size="small"
+                    type="number"
+                    value={props?.watch("minutes") ?? 0}
+                    onChange={(e) => {
+                      props?.setValue("minutes", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                    sx={{
+                      "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                        {
+                          display: "none",
+                        },
+                      "& input[type=number]": {
+                        MozAppearance: "textfield",
+                      },
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={2}>
+                  <CustomTextField
+                    fullWidth
+                    label="Seconds"
+                    size="small"
+                    type="number"
+                    value={props?.watch("seconds") ?? 0}
+                    onChange={(e) => {
+                      props?.setValue("seconds", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                    sx={{
+                      "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                        {
+                          display: "none",
+                        },
+                      "& input[type=number]": {
+                        MozAppearance: "textfield",
+                      },
+                    }}
+                  />
+                </Grid>
+              </>
+            )}
+
+            {props?.watch("type") === "text" && <ContentSection {...props} />}
+
+            <Grid item xs={12} sm={12}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -162,7 +271,7 @@ const OptionSection = (props) => {
                 }
                 label="Preview"
               />
-            </Grid> */}
+            </Grid>
 
             {props?.watch("resources")?.length > 0 &&
               props
@@ -191,15 +300,13 @@ export default OptionSection;
 
 const Resources = (props) => {
   const handleMediaChange = (media) => {
-    props?.setValue(`resources.${props?.index}.filename`,
-      media?.filename,
-      {shouldDirty: true}
-    );
-    props?.setValue(`resources.${props?.index}.file_url`,
-      media?.url,
-      {shouldDirty: true}
-    );
-  }
+    props?.setValue(`resources.${props?.index}.filename`, media?.filename, {
+      shouldDirty: true,
+    });
+    props?.setValue(`resources.${props?.index}.file_url`, media?.url, {
+      shouldDirty: true,
+    });
+  };
   return (
     <Grid item xs={12} sm={12}>
       <Card>
@@ -265,7 +372,10 @@ const Resources = (props) => {
                 {props?.filename && (
                   <>
                     <Typography variant="body1" sx={{ marginTop: 2 }}>
-                      Selected file: <a href={props?.file_url} target="_blank">{props?.filename}</a>
+                      Selected file:{" "}
+                      <a href={props?.file_url} target="_blank">
+                        {props?.filename}
+                      </a>
                     </Typography>
                   </>
                 )}
@@ -278,9 +388,7 @@ const Resources = (props) => {
                   name="link"
                   size="small"
                   label="https://example.com/"
-                  value={
-                    props?.watch(`resources.${props?.index}.link`) ?? ""
-                  }
+                  value={props?.watch(`resources.${props?.index}.link`) ?? ""}
                   onChange={(e) => {
                     props?.setValue(
                       `resources.${props?.index}.link`,

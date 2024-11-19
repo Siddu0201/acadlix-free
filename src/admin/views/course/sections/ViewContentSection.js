@@ -245,7 +245,7 @@ const SortableSections = (props) => {
     props?.c?.id
   );
   const handleRemoveContent = () => {
-    if (confirm(`Are you sure you want to delete this ${props?.c?.type}?`)) {
+    if (confirm(`Are you sure you want to remove this ${props?.c?.type} from this section?`)) {
       removeContentMutation?.mutate(
         {},
         {

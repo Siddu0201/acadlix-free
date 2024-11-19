@@ -23,10 +23,23 @@ const LessonContent = (props) => {
   const methods = useForm({
     defaultValues: {
       title: props?.lesson?.title ?? "",
+      type: props?.lesson?.type ?? "video",
       content: props?.lesson?.content ?? "",
-      type: props?.lesson?.type ?? "",
-      duration: props?.lesson?.duration ?? 0,
-      duration_type: props?.lesson?.duration_type ?? "minute",
+      video: {
+        video_type: props?.lesson?.video?.video_type ?? "",
+        video_data: {
+          html_5: props?.lesson?.video?.video_data?.html_5 ?? "",
+          external_link: props?.lesson?.video?.video_data?.external_link ?? "",
+          youtube: props?.lesson?.video?.video_data?.youtube ?? "",
+          vimeo: props?.lesson?.video?.video_data?.vimeo ?? "",
+          embedded: props?.lesson?.video?.video_data?.embedded ?? "",
+          shortcode: props?.lesson?.video?.video_data?.shortcode ?? "",
+        },
+        video_thumbnail: props?.lesson?.video?.video_thumbnail ?? "",
+      },
+      hours: props?.lesson?.hours ?? 0,
+      minutes: props?.lesson?.minutes ?? 0,
+      seconds: props?.lesson?.seconds ?? 0,
       preview: Boolean(Number(props?.lesson?.preview)) ?? false,
       resources: props?.create
         ? []
@@ -42,6 +55,8 @@ const LessonContent = (props) => {
           }),
     },
   });
+
+  console.log(methods?.watch());
   const navigate = useNavigate();
   const createMutation = PostCreateLesson();
   const updateMutation = UpdateLessonById(props?.lesson_id);
@@ -129,14 +144,19 @@ const LessonContent = (props) => {
 
           <TitleSection {...methods} {...props} />
 
-          <ContentSection
+          {/* <ContentSection
+            {...methods}
+            {...props}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          /> */}
+
+          <OptionSection
             {...methods}
             {...props}
             loadEditor={loadEditor}
             removeEditor={removeEditor}
           />
-
-          <OptionSection {...methods} {...props} />
 
           <Grid item xs={12} sm={12}>
             <Card>

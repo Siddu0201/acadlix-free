@@ -50,6 +50,7 @@ class Submenu_Courses
                 'nonce' => wp_create_nonce('wp_rest'),
                 'acadlix_quiz_url' => admin_url( 'admin.php?page=acadlix_quiz' ),
                 'acadlix_lesson_url' => admin_url( 'admin.php?page=acadlix_lesson' ),
+                'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
             ));
         }
     }

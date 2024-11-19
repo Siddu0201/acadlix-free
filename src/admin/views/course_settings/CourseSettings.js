@@ -16,8 +16,10 @@ const CourseSettings = (props) => {
       post_status: props?.course?.post_status,
       users: props?.users ?? [],
       tab: "general",
-      duration: props?.course_setting?.duration ?? 0,
-      duration_type: props?.course_setting?.duration_type ?? "minute",
+      weeks: props?.course_setting?.weeks ?? 0,
+      days: props?.course_setting?.days ?? 0,
+      hours: props?.course_setting?.hours ?? 0,
+      minutes: props?.course_setting?.minutes ?? 0,
       start_date: props?.course_setting?.start_date ?? "",
       end_date: props?.course_setting?.end_date ?? "",
       difficulty_level: props?.course_setting?.difficulty_level ?? "all_levels",
@@ -45,9 +47,21 @@ const CourseSettings = (props) => {
               return { id: f?.id, question: f?.question, answer: f?.answer };
             })
           : [],
-      featured_video: props?.course_setting?.featured_video ?? "",
+      video: {
+        video_type: props?.course_setting?.video?.video_type ?? "",
+        video_data: {
+          html_5: props?.course_setting?.video?.video_data?.html_5 ?? "",
+          external_link: props?.course_setting?.video?.video_data?.external_link ?? "",
+          youtube: props?.course_setting?.video?.video_data?.youtube ?? "",
+          vimeo: props?.course_setting?.video?.video_data?.vimeo ?? "",
+          embedded: props?.course_setting?.video?.video_data?.embedded ?? "",
+          shortcode: props?.course_setting?.video?.video_data?.shortcode ?? "",
+        },
+        video_thumbnail: props?.course_setting?.video?.video_thumbnail ?? "",
+      },
     },
   });
+
 
   const courseMutation = PostCreateUpdateCourse();
   const handleSaveOrPublish = (e) => {

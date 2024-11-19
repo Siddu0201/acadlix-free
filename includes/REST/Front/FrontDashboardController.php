@@ -6,6 +6,7 @@ use WP_REST_Server;
 use WP_Error;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseStatistic;
+use Yuvayana\Acadlix\Models\Lesson;
 use Yuvayana\Acadlix\Models\Order;
 use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\WpUsers;
@@ -40,6 +41,18 @@ class FrontDashboardController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_user_order_by_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-update-lesson-time',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_update_lesson_time'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -188,6 +201,33 @@ class FrontDashboardController
         }
 
         return rest_ensure_response($res);
+    }
+
+    public function post_update_lesson_time($request)
+    {
+        $required_fields = array('lesson_id');
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $lessonId = $request->get_param("lesson_id");
+        $lesson = Lesson::find($lessonId);
+        if($lesson){
+            $lesson->update([
+                "hours" => $request->get_param("hours"),
+                "minutes" => $request->get_param("minutes"),
+                "seconds" => $request->get_param("seconds"),
+            ]);
+        }
+        return rest_ensure_response( ['success' => true, 'lesson' => Lesson::find($lessonId)] );
     }
 
     public function post_set_active($request)

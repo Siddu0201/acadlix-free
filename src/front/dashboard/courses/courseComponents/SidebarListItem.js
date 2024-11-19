@@ -66,7 +66,9 @@ const SidebarListItem = (props) => {
                     }}
                   />
                 )}
-                {`${props?.c?.duration} ${props?.c?.duration_type?.substr(0,3)}`}
+                {props?.c?.lesson_type === "video"
+                  ? `${props?.c?.hours}:${props?.c?.minutes}:${props?.c?.seconds}`
+                  : "1 min"}
               </Typography>
             </Box>
             {props?.c?.type === "lesson" &&

@@ -104,7 +104,7 @@ if (!class_exists('Acadlix')) {
 
         public static function deactivate()
         {
-            // Migration::removeTable();
+            Migration::removeTable();
         }
 
         public static function uninstall()
