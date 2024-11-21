@@ -1026,6 +1026,7 @@ a.plyr__control:before {
   background: #000;
   background: var(--plyr-video-background, var(--plyr-video-background, #000));
   overflow: hidden;
+  height: 100%;
 }
 .plyr--video.plyr--menu-open {
   overflow: visible;

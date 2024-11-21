@@ -18,6 +18,8 @@ import CourseSidebar from "./contentTabs/CourseSidebar";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   GetUserOrderById,
+  PostMarkAsComplete,
+  PostMarkAsIncomplete,
   PostSetActive,
 } from "../../../requests/front/FrontDashboardRequest";
 import { useForm } from "react-hook-form";
@@ -232,6 +234,106 @@ const CourseContent = () => {
     );
   };
 
+  const handleFullScreen = () => {
+    if (methods?.watch("is_fullscreen")) {
+      methods?.setValue("is_fullscreen", false, {
+        shouldDirty: true,
+      });
+
+      if (document?.fullscreenElement) {
+        if (document?.exitFullscreen) {
+          document?.exitFullscreen();
+        } else if (document?.mozCancelFullScreen) {
+          document?.mozCancelFullScreen(); // Firefox
+        } else if (document?.webkitExitFullscreen) {
+          document?.webkitExitFullscreen(); // Safari
+        } else if (document?.msExitFullscreen) {
+          document?.msExitFullscreen(); // IE/Edge
+        }
+      }
+    } else {
+      let elem = document.getElementById("acadlix_course_content");
+      methods?.setValue("is_fullscreen", true, {
+        shouldDirty: true,
+      });
+      if (elem?.requestFullscreen) {
+        elem?.requestFullscreen();
+      } else if (elem?.webkitRequestFullscreen) {
+        /* Safari */
+        elem?.webkitRequestFullscreen();
+      } else if (elem?.msRequestFullscreen) {
+        /* IE11 */
+        elem?.msRequestFullscreen();
+      }
+    }
+  };
+
+  const completeMutation = PostMarkAsComplete();
+  const incompleteMutation = PostMarkAsIncomplete();
+
+  const handleComplete = (
+    course_section_content_id = 0,
+    index = 0,
+    c_index = 0,
+    i = 0
+  ) => {
+    completeMutation?.mutate(
+      {
+        order_item_id: methods?.watch("order_item_id"),
+        course_section_content_id: course_section_content_id,
+        user_id: acadlixOptions?.user?.ID,
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.data?.success) {
+            methods?.setValue(
+              `sections.${index}.content.${c_index}.is_completed`,
+              true,
+              { shouldDirty: true }
+            );
+            const content = methods
+              ?.watch("sections")
+              ?.find((s) => s?.content?.find((co) => co?.i == i + 1))
+              ?.content?.find((co) => co?.i == i + 1);
+            if (content) {
+              handleNavigate(content?.id);
+            }
+          }
+        },
+      }
+    );
+  };
+
+  const handleIncomplete = (
+    course_section_content_id = 0,
+    index = 0,
+    c_index = 0
+  ) => {
+    incompleteMutation?.mutate(
+      {
+        order_item_id: methods?.watch("order_item_id"),
+        course_section_content_id: course_section_content_id,
+        user_id: acadlixOptions?.user?.ID,
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.data?.success) {
+            methods?.setValue(
+              `sections.${index}.content.${c_index}.is_completed`,
+              false,
+              { shouldDirty: true }
+            );
+          }
+        },
+      }
+    );
+  };
+
+  const active_content = methods
+    ?.watch("sections")
+    ?.find((s) => s?.active)
+    ?.content?.find((c) => c?.is_active);
+
   return (
     <Box>
       {isFetching && (
@@ -349,7 +451,11 @@ const CourseContent = () => {
                   flex: 1,
                   overflowY: "auto",
                   position: "relative",
-                  paddingBottom: 10,
+                  paddingBottom:
+                    active_content?.type === "lesson" &&
+                    active_content?.lesson_type === "video"
+                      ? 0
+                      : 10,
                   backgroundColor: "#fff",
                 }}
                 id={`acadlix_course_content`}
@@ -373,9 +479,15 @@ const CourseContent = () => {
                       )
                     : methods?.watch("sections")?.length > 0 && (
                         <Content
+                          {...methods}
                           courseSectionContentId={courseSectionContentId}
                           handleNavigate={handleNavigate}
-                          {...methods}
+                          handleFullScreen={handleFullScreen}
+                          active_content={active_content}
+                          handleComplete={handleComplete}
+                          handleIncomplete={handleIncomplete}
+                          completeMutation={completeMutation}
+                          incompleteMutation={incompleteMutation}
                         />
                       )}
                 </Box>
@@ -384,6 +496,12 @@ const CourseContent = () => {
                     {...methods}
                     courseSectionContentId={courseSectionContentId}
                     handleNavigate={handleNavigate}
+                    handleFullScreen={handleFullScreen}
+                    active_content={active_content}
+                    handleComplete={handleComplete}
+                    handleIncomplete={handleIncomplete}
+                    completeMutation={completeMutation}
+                    incompleteMutation={incompleteMutation}
                   />
                 )}
               </Box>

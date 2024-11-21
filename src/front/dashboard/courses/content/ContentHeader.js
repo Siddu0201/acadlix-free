@@ -1,9 +1,7 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
-import CircularProgress, {
-  circularProgressClasses,
-} from "@mui/material/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 
 const ContentHeader = (props) => {
@@ -39,13 +37,16 @@ const ContentHeader = (props) => {
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: {
-            xs: 1,
-            sm: 2,
-          },
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              sm: "block",
+            },
+          }}
+        >
           {props?.open ? (
             <IconButton
               onClick={props?.handleOpen}
@@ -86,14 +87,20 @@ const ContentHeader = (props) => {
             </IconButton>
           )}
         </Box>
-        <Typography
+        <Box
           sx={{
-            fontSize: 19,
-            fontWeight: 600,
+            paddingLeft: 2,
           }}
         >
-          {props?.watch("course_title")}
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: 19,
+              fontWeight: 600,
+            }}
+          >
+            {props?.watch("course_title")}
+          </Typography>
+        </Box>
       </Box>
       <Box
         sx={{

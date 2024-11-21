@@ -1,20 +1,12 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import parse from "html-react-parser";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 import AppFront from "../../../AppFront";
-// import VideoPlayer from "../courseComponents/VideoPlayer";
 import VideoPlyr from "../courseComponents/VideoPlyr";
 
 const Content = (props) => {
-  const navigate = useNavigate();
-  const content = props
-    ?.watch("sections")
-    ?.find((s) => s?.active)
-    ?.content?.find((c) => c?.id == props?.courseSectionContentId);
-
   return (
     <>
       {props?.watch("sections")?.length > 0 &&
@@ -23,7 +15,7 @@ const Content = (props) => {
             <React.Fragment key={c_index}>
               <Box
                 sx={{
-                  display: content?.i - 1 === c?.i ? "" : "none",
+                  display: props?.active_content?.i - 1 === c?.i ? "" : "none",
                   position: "absolute",
                   top: "50%",
                   left: 0,
@@ -53,7 +45,7 @@ const Content = (props) => {
               </Box>
               <Box
                 sx={{
-                  display: content?.i + 1 === c?.i ? "" : "none",
+                  display: props?.active_content?.i + 1 === c?.i ? "" : "none",
                   position: "absolute",
                   top: "50%",
                   right: 0,
@@ -89,10 +81,10 @@ const Content = (props) => {
         {props?.watch("sections")?.length > 0 &&
           props
             ?.watch("sections")
-            ?.map((s, index) =>
-              s?.content?.map((c, c_index) => (
+            ?.map((s, index, s_arr) =>
+              s?.content?.map((c, c_index, c_arr) => (
                 <React.Fragment key={c?.id}>
-                  {c?.id === content?.id && (
+                  {c?.id === props?.active_content?.id && (
                     <>
                       {c?.type === "lesson" ? (
                         c?.lesson_type === "video" ? (
@@ -102,6 +94,11 @@ const Content = (props) => {
                             c_index={c_index}
                             s={s}
                             index={index}
+                            first={index === 0 && c_index === 0}
+                            last={
+                              index === s_arr?.length - 1 &&
+                              c_index === c_arr?.length - 1
+                            }
                           />
                         ) : (
                           <LessonTextContent
@@ -197,10 +194,42 @@ const LessonVideoContent = (props) => {
       src = "";
   }
 
-  return <VideoPlyr {...props} src={src} />;
+  return (
+    <Box id="acadlix-video-player">
+      <VideoPlyr {...props} src={src} />
+    </Box>
+  );
 };
 
 const LessonTextContent = (props) => {
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      props?.setValue("is_fullscreen", !!document.fullscreenElement, {
+        shouldDirty: true,
+      });
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "MSFullscreenChange",
+        handleFullscreenChange
+      );
+    };
+  }, []);
   return (
     <Box
       sx={{
@@ -215,10 +244,12 @@ const LessonTextContent = (props) => {
         minHeight: {
           xs: props?.watch("is_fullscreen") ? "100%" : "22rem",
           sm: props?.watch("is_fullscreen") ? "100%" : "24rem",
+          xl: props?.watch("is_fullscreen") ? "100%" : "28rem",
         },
         maxHeight: {
           xs: "22rem",
           sm: "24rem",
+          xl: "28rem",
         },
         overflowY: "auto",
       }}
@@ -229,6 +260,34 @@ const LessonTextContent = (props) => {
 };
 
 const QuizContent = (props) => {
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      props?.setValue("is_fullscreen", !!document.fullscreenElement, {
+        shouldDirty: true,
+      });
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "MSFullscreenChange",
+        handleFullscreenChange
+      );
+    };
+  }, []);
   return (
     <Box
       sx={{
@@ -243,10 +302,12 @@ const QuizContent = (props) => {
         minHeight: {
           xs: props?.watch("is_fullscreen") ? "100%" : "22rem",
           sm: props?.watch("is_fullscreen") ? "100%" : "24rem",
+          xl: props?.watch("is_fullscreen") ? "100%" : "28rem",
         },
         maxHeight: {
           xs: "22rem",
           sm: "24rem",
+          xl: "28rem",
         },
         overflowY: "auto",
       }}
