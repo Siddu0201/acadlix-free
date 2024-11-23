@@ -15,8 +15,6 @@ import {
 import { PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
 import LoginModel from "./normalMode/normal-quiz-section/LoginModel";
-import { PostMarkAsComplete } from "../../../requests/front/FrontDashboardRequest";
-import { QueryClient } from "@tanstack/react-query";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -313,7 +311,6 @@ const QuizContent = (props) => {
   const handleCompleteCourseContent = () => {
     if (methods?.watch("mode") === "advance_mode") {
       const queryParams = getQueryParamsFromCurrentPage();
-      // const queryClient = new QueryClient();
       if (
         queryParams?.course_section_content_id !== undefined &&
         queryParams?.section_index !== undefined &&
@@ -340,7 +337,6 @@ const QuizContent = (props) => {
         props?.handleComplete !== undefined &&
         props?.is_completed !== undefined
       ) {
-        console.log(props);
         if (!props?.is_completed) {
           props?.handleComplete(
             props?.course_section_content_id,

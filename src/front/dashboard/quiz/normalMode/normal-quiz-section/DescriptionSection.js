@@ -27,32 +27,37 @@ const DescriptionSection = (props) => {
 
   const createQueryUrl = (baseUrl, params) => {
     const url = new URL(baseUrl);
-    
+
     // Append query parameters
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       url.searchParams.append(key, params[key]);
     });
-    
+
     return url.toString();
-  }
-  
+  };
+
   const handleStart = () => {
     props?.setValue("prerequisite_error_msg", "", { shouldDirty: true });
     if (props?.watch("mode") === "advance_mode") {
       const token = rand() + rand();
       localStorage?.setItem("acadlix_advance_quiz_token", token);
       let advance_quiz_url = acadlixOptions?.advance_quiz_url;
-      if(props?.order_item_id && props?.course_section_content_id && props?.user_id){
-        let queryParams={
+      if (
+        props?.order_item_id &&
+        props?.course_section_content_id &&
+        props?.user_id
+      ) {
+        let queryParams = {
           course_section_content_id: props?.course_section_content_id,
           section_index: props?.section_index,
           content_index: props?.content_index,
         };
         advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
-      } 
-      const link = `${
-        advance_quiz_url
-      }#/advance-quiz/${props?.watch("id")}/${token}`;
+      }
+      const link = `${advance_quiz_url}#/advance-quiz/${props?.watch(
+        "id"
+      )}/${token}`;
+      
       window.handleComplete = props?.handleComplete;
       window.open(
         link,

@@ -237,7 +237,7 @@ class FrontQuizController
 
         $quiz = Quiz::find($quiz_id);
         $quiz_allowed = QuizAttempt::where('quiz_id', $quiz_id)->where('user_id',$params['user_id']);
-        if($quiz->per_user_allowed_attempt > 0 && $quiz->per_user_allowed_attempt < $quiz_allowed->count()){
+        if($quiz->per_user_allowed_attempt > 0 && $quiz->per_user_allowed_attempt <= $quiz_allowed->count()){
             $res['user_allowed_attempt_error'] = 'You have reached your maximum limit of attempts.';
         }
         return rest_ensure_response( $res );
