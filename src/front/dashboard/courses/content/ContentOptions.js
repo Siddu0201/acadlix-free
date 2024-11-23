@@ -52,11 +52,7 @@ const ContentOptions = (props) => {
                       marginRight: 1,
                     }}
                   >
-                    {props?.incompleteMutation?.isPending ? (
-                      <CircularProgress size={15} color="inherit" />
-                    ) : (
-                      "Mark as incomplete"
-                    )}
+                    Mark as incomplete
                   </Button>
                 ) : (
                   <Button
@@ -75,11 +71,7 @@ const ContentOptions = (props) => {
                       marginRight: 1,
                     }}
                   >
-                    {props?.completeMutation?.isPending ? (
-                      <CircularProgress size={15} color="inherit" />
-                    ) : (
-                      "Mark as complete"
-                    )}
+                    Mark as complete
                   </Button>
                 )}
               </React.Fragment>

@@ -40,7 +40,7 @@ const VideoPlyr = (props) => {
         options: [1080, 720, 480, 360], // Available quality levels
         forced: true, // Force Plyr to use the quality options provided
         onChange: (quality) => {
-          // console.log(`Quality changed to: ${quality}p`);
+          // Handle quality change
         },
       },
       youtube: {
@@ -132,10 +132,16 @@ const VideoPlyr = (props) => {
     };
 
     const addPreviousButton = () => {
+      const previousContent = props
+        ?.watch("sections")
+        ?.find((s) => s?.content?.find((c) => c?.i === content?.i - 1))
+        ?.content?.find((c) => c?.i === content?.i - 1);
       const play = plyrInstance?.elements?.buttons?.play?.[0];
       const previousButton = document.createElement("button");
       previousButton.classList.add("plyr__control");
-      previousButton.title = "Previous Button";
+      if (previousContent) {
+        previousButton.title = previousContent?.title;
+      }
       previousButton.disabled = props?.first;
       createRoot(previousButton).render(<GiPreviousButton />);
 
@@ -160,10 +166,16 @@ const VideoPlyr = (props) => {
     };
 
     const addNextButton = () => {
+      const nextContent = props
+        ?.watch("sections")
+        ?.find((s) => s?.content?.find((c) => c?.i === content?.i + 1))
+        ?.content?.find((c) => c?.i === content?.i + 1);
       const play = plyrInstance?.elements?.buttons?.play?.[0];
       const nextButton = document.createElement("button");
       nextButton.classList.add("plyr__control");
-      nextButton.title = "Next";
+      if (nextContent) {
+        nextButton.title = nextContent?.title;
+      }
       nextButton.disabled = props?.last;
       createRoot(nextButton).render(<GiNextButton />);
 
@@ -235,11 +247,19 @@ const VideoPlyr = (props) => {
     };
 
     const handleEnded = () => {
-      props?.handleComplete(props?.c?.id, props?.index, props?.c_index, props?.c?.i);
-    }
+      props?.handleComplete(
+        props?.c?.id,
+        props?.index,
+        props?.c_index,
+        props?.c?.i
+      );
+    };
 
     const handleFullscreenChange = () => {
-      if (document.fullscreenElement === null) {
+      if (
+        document.fullscreenElement === null &&
+        props?.watch("is_fullscreen")
+      ) {
         handleFullScreen();
       }
     };

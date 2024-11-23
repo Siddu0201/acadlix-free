@@ -8,11 +8,9 @@ import {
 import React from "react";
 import ListItemResource from "./ListItemResource";
 import { FaFile, FaVideo } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { MdQuiz } from "react-icons/md";
 
 const SidebarListItem = (props) => {
-  // console.log(props);
   return (
     <ListItem
       sx={{
@@ -23,9 +21,18 @@ const SidebarListItem = (props) => {
         },
         paddingX: 1,
       }}
+      id={`acadlix_course_listitem_${props?.c?.id}`}
       onClick={props?.handleNavigate.bind(this, props?.c?.id)}
     >
-      <Checkbox checked={props?.c?.is_completed} disableRipple disabled />
+      <Checkbox
+        checked={props?.c?.is_completed}
+        disableRipple
+        disabled={!props?.c?.is_completed}
+        onClick={(e) => {
+          e?.stopPropagation();
+          props?.handleIncomplete(props?.c?.id, props?.index, props?.c_index);
+        }}
+      />
       <ListItemText
         primary={`${props?.c_num}. ${props?.c?.title}`}
         secondary={
@@ -66,12 +73,13 @@ const SidebarListItem = (props) => {
                     }}
                   />
                 )}
-                {props?.c?.lesson_type === "video" && props?.c?.type === "lesson"
+                {props?.c?.lesson_type === "video" &&
+                props?.c?.type === "lesson"
                   ? `${props?.c?.hours}:${props?.c?.minutes}:${props?.c?.seconds}`
                   : "1 min"}
               </Typography>
             </Box>
-            {props?.c?.type === "lesson" && 
+            {props?.c?.type === "lesson" &&
               props?.c?.lesson_resources?.length > 0 && (
                 <ListItemResource {...props} />
               )}

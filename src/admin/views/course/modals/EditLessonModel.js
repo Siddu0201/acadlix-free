@@ -51,7 +51,8 @@ const EditLessonModel = (props) => {
           video_type: data?.data?.lesson?.video?.video_type ?? "",
           video_data: {
             html_5: data?.data?.lesson?.video?.video_data?.html_5 ?? "",
-            external_link: data?.data?.lesson?.video?.video_data?.external_link ?? "",
+            external_link:
+              data?.data?.lesson?.video?.video_data?.external_link ?? "",
             youtube: data?.data?.lesson?.video?.video_data?.youtube ?? "",
             vimeo: data?.data?.lesson?.video?.video_data?.vimeo ?? "",
             embedded: data?.data?.lesson?.video?.video_data?.embedded ?? "",
@@ -140,7 +141,6 @@ const EditLessonModel = (props) => {
 export default EditLessonModel;
 
 const EditExistingsLesson = (props) => {
-
   const handleAddResoures = () => {
     props?.setValue(
       "resources",
@@ -158,7 +158,7 @@ const EditExistingsLesson = (props) => {
       { shouldDirty: true }
     );
   };
-  
+
   const getVideoDuration = (videoUrl) => {
     return new Promise((resolve, reject) => {
       const video = document.createElement("video");
@@ -175,52 +175,52 @@ const EditExistingsLesson = (props) => {
         reject("Error loading video metadata.");
       };
     });
-  }
+  };
 
   return (
     <Box>
       <Grid container gap={2}>
-        <Grid item xs={12} lg={12}>
-          <Typography variant="h6">
-            Lesson Title <span style={{ color: "red" }}>*</span>
-          </Typography>
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <CustomTextField
-            {...props?.register("title", {
-              required: "Title is required.",
-            })}
-            fullWidth
-            name="title"
-            size="small"
-            value={props?.watch("title") ?? ""}
-            onChange={(e) => {
-              props?.setValue("title", e?.target?.value, {
-                shouldDirty: true,
-              });
-            }}
-            error={Boolean(props?.formState?.errors?.title)}
-            helperText={props?.formState?.errors?.title?.message}
-            inputProps={{
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }}
-          />
-        </Grid>
-
         <Grid item xs={12} sm={12}>
           <Card>
             <CardContent>
               <Grid
                 container
-                spacing={4}
+                spacing={3}
                 sx={{
                   color: "black",
                 }}
               >
+                <Grid item xs={12} lg={12}>
+                  <Typography variant="h6">
+                    Lesson Title <span style={{ color: "red" }}>*</span>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <CustomTextField
+                    {...props?.register("title", {
+                      required: "Title is required.",
+                    })}
+                    fullWidth
+                    name="title"
+                    size="small"
+                    placeholder="Enter Title"
+                    value={props?.watch("title") ?? ""}
+                    onChange={(e) => {
+                      props?.setValue("title", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                    error={Boolean(props?.formState?.errors?.title)}
+                    helperText={props?.formState?.errors?.title?.message}
+                    inputProps={{
+                      sx: {
+                        border: `0 !important`,
+                        boxShadow: `none !important`,
+                        minHeight: `auto !important`,
+                      },
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControl
                     sx={{

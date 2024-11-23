@@ -77,6 +77,7 @@ const AddLessonModal = (props) => {
             sx={{
               display: "flex",
               gap: 2,
+              paddingBottom: 2
             }}
           >
             <Button
@@ -167,49 +168,50 @@ const AddNewLesson = (props) => {
         reject("Error loading video metadata.");
       };
     });
-  }
+  };
 
   return (
     <Box>
       <Grid container gap={2}>
-        <Grid item xs={12} lg={12}>
-          <Typography variant="h6">
-            Lesson Title <span style={{ color: "red" }}>*</span>
-          </Typography>
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <CustomTextField
-            fullWidth
-            name="title"
-            size="small"
-            value={props?.watch("title") ?? ""}
-            onChange={(e) => {
-              props?.setValue("title", e?.target?.value, {
-                shouldDirty: true,
-              });
-            }}
-            error={Boolean(props?.formState?.errors?.title)}
-            helperText={props?.formState?.errors?.title?.message}
-            inputProps={{
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }}
-          />
-        </Grid>
-
         <Grid item xs={12} sm={12}>
           <Card>
             <CardContent>
               <Grid
                 container
-                spacing={4}
+                spacing={3}
                 sx={{
                   color: "black",
                 }}
               >
+                <Grid item xs={12} sm={12}>
+                  <Typography variant="h6">
+                    Lesson Title <span style={{ color: "red" }}>*</span>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <CustomTextField
+                    fullWidth
+                    name="title"
+                    size="small"
+                    placeholder="Enter Title"
+                    value={props?.watch("title") ?? ""}
+                    onChange={(e) => {
+                      props?.setValue("title", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                    error={Boolean(props?.formState?.errors?.title)}
+                    helperText={props?.formState?.errors?.title?.message}
+                    inputProps={{
+                      sx: {
+                        border: `0 !important`,
+                        boxShadow: `none !important`,
+                        minHeight: `auto !important`,
+                        borderRadius: "6px !important",
+                      },
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControl
                     sx={{

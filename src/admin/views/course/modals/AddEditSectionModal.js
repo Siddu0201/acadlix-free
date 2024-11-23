@@ -62,6 +62,7 @@ const AddEditSectionModal = (props) => {
                   border: `0 !important`,
                   boxShadow: `none !important`,
                   minHeight: `auto !important`,
+                  borderRadius: "6px !important",
                 },
               }}
             />

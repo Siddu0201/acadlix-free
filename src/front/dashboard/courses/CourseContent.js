@@ -13,9 +13,8 @@ import {
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import CourseOverview from "./contentTabs/CourseOverview";
-import Announcments from "./contentTabs/Announcments";
 import CourseSidebar from "./contentTabs/CourseSidebar";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   GetUserOrderById,
   PostMarkAsComplete,
@@ -31,7 +30,6 @@ const CourseContent = () => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const [open, setOpen] = useState(isDesktop ? true : false);
-  const [sidebarHeight, setSidebarHeight] = useState(0);
   const methods = useForm({
     defaultValues: {
       is_fullscreen: false,
@@ -190,14 +188,6 @@ const CourseContent = () => {
     }
   };
 
-  React.useLayoutEffect(() => {
-    let total = window?.innerHeight;
-    if (acadlixOptions?.is_admin_bar_showing) {
-      total -= isDesktop ? 32 : 46;
-    }
-    setSidebarHeight(total);
-  });
-
   const activeMutation = PostSetActive();
 
   const navigate = useNavigate();
@@ -228,7 +218,7 @@ const CourseContent = () => {
       },
       {
         onSuccess: (data) => {
-          // console.log(data?.data);
+          // handle Success active
         },
       }
     );
@@ -334,12 +324,31 @@ const CourseContent = () => {
     ?.find((s) => s?.active)
     ?.content?.find((c) => c?.is_active);
 
+  const location = useLocation();
+  useEffect(() => {
+    const targetElement = document.getElementById(
+      `acadlix_course_listitem_${courseSectionContentId}`
+    );
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth", // Smooth scroll animation
+        block: "start", // Align the element in the center of the viewport
+      });
+    }
+  }, [location]);
+
   return (
     <Box>
-      {isFetching && (
+      {(isFetching ||
+        incompleteMutation?.isPending ||
+        completeMutation?.isPending) && (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={isFetching}
+          open={
+            isFetching ||
+            incompleteMutation?.isPending ||
+            completeMutation?.isPending
+          }
         >
           <CircularProgress color="inherit" />
         </Backdrop>
@@ -409,7 +418,12 @@ const CourseContent = () => {
                     overflowY: "auto",
                   }}
                 >
-                  <CourseSidebar {...methods} handleNavigate={handleNavigate} />
+                  <CourseSidebar
+                    {...methods}
+                    handleNavigate={handleNavigate}
+                    handleComplete={handleComplete}
+                    handleIncomplete={handleIncomplete}
+                  />
                 </Box>
               </CardContent>
             </Card>

@@ -1,5 +1,5 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import parse from "html-react-parser";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
@@ -7,6 +7,17 @@ import AppFront from "../../../AppFront";
 import VideoPlyr from "../courseComponents/VideoPlyr";
 
 const Content = (props) => {
+  useEffect(() => {
+    const targetElement = document.getElementById(
+      `acadlix_course_listitem_${props?.courseSectionContentId}`
+    );
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth", // Smooth scroll animation
+        block: "start", // Align the element in the center of the viewport
+      });
+    }
+  }, []);
   return (
     <>
       {props?.watch("sections")?.length > 0 &&
