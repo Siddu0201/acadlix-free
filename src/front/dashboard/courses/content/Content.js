@@ -325,6 +325,13 @@ const QuizContent = (props) => {
     >
       <AppFront
         quiz_id={props?.c?.content_type_id}
+        order_item_id={props?.watch("order_item_id")}
+        course_section_content_id={props?.c?.id}
+        section_index={props?.index}
+        content_index={props?.c_index}
+        is_completed={props?.c?.is_completed}
+        user_id={Number(acadlixOptions?.user?.ID)}
+        handleComplete={props?.handleComplete}
         start={false}
         advance={false}
       />

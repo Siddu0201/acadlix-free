@@ -1,7 +1,4 @@
-import {
-  Alert,
-  Box,
-} from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import React from "react";
 import NormalQuizMode from "./NormalQuizMode";
 import AdvanceQuizMode from "./AdvanceQuizMode";
@@ -18,6 +15,8 @@ import {
 import { PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
 import LoginModel from "./normalMode/normal-quiz-section/LoginModel";
+import { PostMarkAsComplete } from "../../../requests/front/FrontDashboardRequest";
+import { QueryClient } from "@tanstack/react-query";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -109,7 +108,9 @@ const QuizContent = (props) => {
       ),
       sort_by_subject: Boolean(Number(props?.quiz?.sort_by_subject)),
       optional_subject: Boolean(Number(props?.quiz?.optional_subject)),
-      subject_wise_question: Boolean(Number(props?.quiz?.subject_wise_question)),
+      subject_wise_question: Boolean(
+        Number(props?.quiz?.subject_wise_question)
+      ),
       attempt_and_move_forward: Boolean(
         Number(props?.quiz?.attempt_and_move_forward)
       ),
@@ -167,24 +168,26 @@ const QuizContent = (props) => {
         : parse(props?.quiz?.result_text), // ""/[{percent: number, text: ""}]
       // Language setting
       multi_language: Boolean(Number(props?.quiz?.multi_language)),
-      languages: props?.quiz?.quiz_languages?.map(l => {
-        return {
-          ...l,
-          instruction1: parse(l?.instruction1),
-          instruction2: parse(l?.instruction2),
-          default: Boolean(Number(l?.default)),
-          selected: Boolean(Number(l?.default))
-        }
-      }) ?? [],
-      selected_language_id: '',
+      languages:
+        props?.quiz?.quiz_languages?.map((l) => {
+          return {
+            ...l,
+            instruction1: parse(l?.instruction1),
+            instruction2: parse(l?.instruction2),
+            default: Boolean(Number(l?.default)),
+            selected: Boolean(Number(l?.default)),
+          };
+        }) ?? [],
+      selected_language_id: "",
       // Question Section
       subjects: [],
-      subject_times: props?.quiz?.subject_times?.map(s => {
-        return {
-          ...s,
-          optional: Boolean(Number(s?.optional))
-        }
-      }) ?? [],
+      subject_times:
+        props?.quiz?.subject_times?.map((s) => {
+          return {
+            ...s,
+            optional: Boolean(Number(s?.optional)),
+          };
+        }) ?? [],
       questions:
         updateQuestions(props?.quiz?.questions, props?.quiz)?.map(
           (question, index) => {
@@ -239,7 +242,12 @@ const QuizContent = (props) => {
                     language_name: lang?.language?.language_name,
                     default: Boolean(Number(lang?.default)),
                     selected: Boolean(Number(lang?.default)),
-                    paragraph: parse(question?.paragraph?.paragraph_languages?.find(p => p?.language_id === lang?.language_id)?.content ?? "") ?? "",
+                    paragraph:
+                      parse(
+                        question?.paragraph?.paragraph_languages?.find(
+                          (p) => p?.language_id === lang?.language_id
+                        )?.content ?? ""
+                      ) ?? "",
                     question: parse(lang?.question),
                     correct_msg: parse(lang?.correct_msg),
                     incorrect_msg: parse(lang?.incorrect_msg),
@@ -289,12 +297,69 @@ const QuizContent = (props) => {
     },
   });
 
-  console.log(methods?.watch());
+  // console.log(props);
   let [countdownApi, setCountDownApi] = React.useState(null);
 
+  function getQueryParamsFromCurrentPage() {
+    const params = new URLSearchParams(window.location.search);
+    const result = {};
+
+    for (const [key, value] of params.entries()) {
+      result[key] = value;
+    }
+
+    return result;
+  }
+  const handleCompleteCourseContent = () => {
+    if (methods?.watch("mode") === "advance_mode") {
+      const queryParams = getQueryParamsFromCurrentPage();
+      // const queryClient = new QueryClient();
+      if (
+        queryParams?.course_section_content_id !== undefined &&
+        queryParams?.section_index !== undefined &&
+        queryParams?.content_index !== undefined
+      ) {
+        if (
+          window.opener &&
+          typeof window.opener.handleComplete === "function"
+        ) {
+          window.opener.handleComplete(
+            queryParams?.course_section_content_id,
+            queryParams?.section_index,
+            queryParams?.content_index,
+            0,
+            false
+          );
+        }
+      }
+    } else {
+      if (
+        props?.course_section_content_id !== undefined &&
+        props?.section_index !== undefined &&
+        props?.content_index !== undefined &&
+        props?.handleComplete !== undefined &&
+        props?.is_completed !== undefined
+      ) {
+        console.log(props);
+        if (!props?.is_completed) {
+          props?.handleComplete(
+            props?.course_section_content_id,
+            props?.section_index,
+            props?.content_index,
+            0,
+            false
+          );
+        }
+      }
+    }
+  };
+
   const saveResultMutation = PostSaveResultById(props?.quiz?.id);
+
   const saveResult = () => {
-    console.log("save result");
+    // Complete course lesson
+    handleCompleteCourseContent();
+
     const points = methods?.watch("questions")?.reduce((total, d) => {
       if (d?.result?.solved_count && d?.result?.correct_count) {
         return total + Number(d?.points);
@@ -451,20 +516,21 @@ const QuizContent = (props) => {
     });
   }, []);
 
-  if(methods?.watch("questions")?.length === 0){
-    return (
-      <Alert severity="error">No questions found</Alert>
-    );
+  if (methods?.watch("questions")?.length === 0) {
+    return <Alert severity="error">No questions found</Alert>;
   }
 
   if (!methods?.watch("start")) {
     return (
       <>
-        <DescriptionSection {...methods} countdownApi={countdownApi} />
+        <DescriptionSection
+          {...methods}
+          {...props}
+          countdownApi={countdownApi}
+        />
       </>
     );
   }
-
 
   return (
     <Box>

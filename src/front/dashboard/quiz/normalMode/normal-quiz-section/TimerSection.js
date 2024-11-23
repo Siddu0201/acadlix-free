@@ -10,8 +10,6 @@ const TimerSection = (props) => {
     }
   }
 
-  console.log(props?.countdownApi);
-
   React.useEffect(() => {
     if(props?.watch("view_question")){
         props?.countdownApi?.start();
@@ -33,7 +31,6 @@ const TimerSection = (props) => {
         onComplete={() => {
           props?.setValue(
             "questions",
-            
             props.watch("questions")?.map((question, index) => {
               if(question.selected){
                 question.result.time = question.result.time + Math.round(((Date.now() - props?.watch("last"))/1000));

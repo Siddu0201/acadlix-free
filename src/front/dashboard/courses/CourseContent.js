@@ -265,7 +265,8 @@ const CourseContent = () => {
     course_section_content_id = 0,
     index = 0,
     c_index = 0,
-    i = 0
+    i = 0,
+    move_next = true,
   ) => {
     completeMutation?.mutate(
       {
@@ -281,12 +282,14 @@ const CourseContent = () => {
               true,
               { shouldDirty: true }
             );
-            const content = methods
-              ?.watch("sections")
-              ?.find((s) => s?.content?.find((co) => co?.i == i + 1))
-              ?.content?.find((co) => co?.i == i + 1);
-            if (content) {
-              handleNavigate(content?.id);
+            if(move_next){
+              const content = methods
+                ?.watch("sections")
+                ?.find((s) => s?.content?.find((co) => co?.i == i + 1))
+                ?.content?.find((co) => co?.i == i + 1);
+              if (content) {
+                handleNavigate(content?.id);
+              }
             }
           }
         },
