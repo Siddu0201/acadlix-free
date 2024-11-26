@@ -1,7 +1,9 @@
-import { Box, Chip, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import parse from "html-react-parser";
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;
@@ -13,7 +15,6 @@ const TypeFill = (props) => {
     found.push(currmatch[1]);
   }
 
-
   const handleChange = (index, e) => {
     props?.setValue(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption.${index}.yourAnswer`,
@@ -24,7 +25,7 @@ const TypeFill = (props) => {
     let data = props?.watch(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption`
     );
-    let answer_data =  props?.watch(
+    let answer_data = props?.watch(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`
     );
     props?.setValue(
@@ -42,7 +43,9 @@ const TypeFill = (props) => {
             ? 0
             : 1,
         solved_count: data?.filter((d) => d.yourAnswer).length ? 1 : 0,
-        answer_data: data?.filter((d) => d.yourAnswer).length ? answer_data : "",
+        answer_data: data?.filter((d) => d.yourAnswer).length
+          ? answer_data
+          : "",
       },
       { shouldDirty: true }
     );
@@ -73,22 +76,23 @@ const TypeFill = (props) => {
         backgroundColor:
           props?.watch("mode") !== "advance_mode"
             ? props?.watch(`questions.${props?.index}.check`)
-            ? props?.watch(`questions.${props?.index}.result.correct_count`)
-            ? (theme) => theme.palette.success.light
-            : (theme) => theme.palette.error.light
-            : ""
+              ? props?.watch(`questions.${props?.index}.result.correct_count`)
+                ? (theme) => theme.palette.success.light
+                : (theme) => theme.palette.error.light
+              : ""
             : "",
         border:
           props?.watch("mode") !== "advance_mode"
-          ? props?.watch(`questions.${props?.index}.check`)
-          ? props?.watch(`questions.${props?.index}.result.correct_count`)
-          ? (theme) => `1px solid ${theme.palette.success.dark}`
-          : (theme) => `1px solid ${theme.palette.error.dark}`
-          : (theme) => `1px solid ${theme.palette.grey[300]}`
-          : "none",
+            ? props?.watch(`questions.${props?.index}.check`)
+              ? props?.watch(`questions.${props?.index}.result.correct_count`)
+                ? (theme) => `1px solid ${theme.palette.success.dark}`
+                : (theme) => `1px solid ${theme.palette.error.dark}`
+              : (theme) => `1px solid ${theme.palette.grey[300]}`
+            : "none",
         borderRadius: 1,
         padding: props?.watch("mode") !== "advance_mode" ? 2 : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        overflow: "auto",
       }}
     >
       {(props?.watch("view_answer") ||
@@ -144,9 +148,33 @@ const TypeFill = (props) => {
             }}
           >
             {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-              <Chip label="Correct Answer" color="success" />
+              <Avatar
+                sx={{
+                  height: {
+                    xs: 24,
+                  },
+                  width: {
+                    xs: 24,
+                  },
+                  bgcolor: (theme) => theme?.palette?.success?.main,
+                }}
+              >
+                <TiTick />
+              </Avatar>
             ) : (
-              <Chip label="Your Answer" color="error" />
+              <Avatar
+                sx={{
+                  height: {
+                    xs: 24,
+                  },
+                  width: {
+                    xs: 24,
+                  },
+                  bgcolor: (theme) => theme.palette.error?.main,
+                }}
+              >
+                <RxCross2 />
+              </Avatar>
             )}
           </Box>
         )}

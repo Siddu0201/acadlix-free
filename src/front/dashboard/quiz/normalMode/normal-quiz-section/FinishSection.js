@@ -7,7 +7,6 @@ const FinishSection = (props) => {
   const handleFinishQuiz = (e) => {
     props?.saveResult();
     props?.countdownApi && props?.countdownApi?.stop();
-    console.log("finish");
     props?.setValue('finish', false, {shouldDirty: true});
     props?.setValue('view_result', true, {shouldDirty: true});
     props?.setValue('view_question', false, {shouldDirty: true});

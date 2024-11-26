@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Chip,
   FormControl,
@@ -8,6 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 const TypeTrueFalse = (props) => {
   const handleChange = (e) => {
@@ -57,6 +60,7 @@ const TypeTrueFalse = (props) => {
         width: "100%",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        overflow: "auto",
       }}
     >
       <RadioGroup
@@ -74,14 +78,16 @@ const TypeTrueFalse = (props) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                border: props?.watch("mode") !== "advance_mode" ? props?.watch(`questions.${props?.index}.check`)
-                  ? data?.isCorrect
-                    ? (theme) => `1px solid ${theme.palette.success.dark}`
-                    : data?.isChecked
-                    ? (theme) => `1px solid ${theme.palette.error.dark}`
-                    : (theme) => `1px solid ${theme.palette.grey[300]}`
-                  : (theme) => `1px solid ${theme.palette.grey[300]}`
-                  : "none",
+                border:
+                  props?.watch("mode") !== "advance_mode"
+                    ? props?.watch(`questions.${props?.index}.check`)
+                      ? data?.isCorrect
+                        ? (theme) => `1px solid ${theme.palette.success.dark}`
+                        : data?.isChecked
+                        ? (theme) => `1px solid ${theme.palette.error.dark}`
+                        : (theme) => `1px solid ${theme.palette.grey[300]}`
+                      : (theme) => `1px solid ${theme.palette.grey[300]}`
+                    : "none",
                 backgroundColor: props?.watch(`questions.${props?.index}.check`)
                   ? data?.isCorrect
                     ? (theme) => theme.palette.success.light
@@ -124,9 +130,33 @@ const TypeTrueFalse = (props) => {
                       {props?.watch("view_answer") ||
                       props?.watch(`questions.${props?.index}.check`) ? (
                         data?.isCorrect ? (
-                          <Chip label="Correct Answer" color="success" />
+                          <Avatar
+                            sx={{
+                              height: {
+                                xs: 24,
+                              },
+                              width: {
+                                xs: 24,
+                              },
+                              bgcolor: (theme) => theme?.palette?.success?.main,
+                            }}
+                          >
+                            <TiTick />
+                          </Avatar>
                         ) : data?.isChecked ? (
-                          <Chip label="Your Answer" color="error" />
+                          <Avatar
+                            sx={{
+                              height: {
+                                xs: 24,
+                              },
+                              width: {
+                                xs: 24,
+                              },
+                              bgcolor: (theme) => theme.palette.error?.main,
+                            }}
+                          >
+                            <RxCross2 />
+                          </Avatar>
                         ) : (
                           <></>
                         )
@@ -137,7 +167,8 @@ const TypeTrueFalse = (props) => {
                   </Box>
                 }
                 sx={{
-                  width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
+                  width:
+                    props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                   marginLeft: 0,
                   "& svg": {
                     height: "15px",

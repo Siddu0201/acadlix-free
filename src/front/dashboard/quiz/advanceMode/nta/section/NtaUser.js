@@ -21,7 +21,7 @@ const NtaUser = (props) => {
         display: {
           md: "block",
           xs: "none",
-        }
+        },
       }}
     >
       <Box
@@ -173,19 +173,23 @@ const NtaUser = (props) => {
                       padding: 0,
                     }}
                   >
-                    : <NtaTimer {...props} />
+                    :{" "}
+                    {props?.watch("quiz_time") > 0 ? (
+                      <NtaTimer {...props} />
+                    ) : (
+                      ""
+                    )}
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </Box>
         </Box>
-        {
-          !props?.watch("finish") &&
+        {!props?.watch("finish") && (
           <Box>
             <NtaLanguage {...props} />
           </Box>
-        }
+        )}
       </Box>
     </Box>
   );

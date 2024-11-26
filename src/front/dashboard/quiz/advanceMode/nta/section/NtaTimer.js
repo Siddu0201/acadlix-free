@@ -1,4 +1,4 @@
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import React from "react";
 import Countdown from "react-countdown";
 import { secondsToHms } from "../../../../../../helpers/util";

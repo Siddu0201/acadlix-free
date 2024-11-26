@@ -10,7 +10,6 @@ const QuizTimer = (props) => {
     }
   }
 
-
   React.useEffect(() => {
     if(props?.watch("view_question")){
         props?.countdownApi?.start();

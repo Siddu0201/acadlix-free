@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Chip,
   FormControl,
   FormControlLabel,
   Radio,
@@ -9,7 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { TiTick } from "react-icons/ti";
 import parse from "html-react-parser";
+import { RxCross2 } from "react-icons/rx";
 
 const TypeSingleChoice = (props) => {
   const handleChange = (e) => {
@@ -86,6 +87,7 @@ const TypeSingleChoice = (props) => {
         width: "100%",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        overflow: "auto",
       }}
     >
       <RadioGroup
@@ -201,9 +203,29 @@ const TypeSingleChoice = (props) => {
                       {props?.watch("view_answer") ||
                       props?.watch(`questions.${props?.index}.check`) ? (
                         data?.isCorrect ? (
-                          <Chip label="Correct Answer" color="success" />
+                          <Avatar sx={{
+                            height: {
+                              xs: 24,
+                            },
+                            width: {
+                              xs: 24
+                            },
+                            bgcolor: theme => theme?.palette?.success?.main
+                          }}>
+                            <TiTick />
+                          </Avatar>
                         ) : data?.isChecked ? (
-                          <Chip label="Your Answer" color="error" />
+                          <Avatar sx={{
+                            height: {
+                              xs: 24,
+                            },
+                            width: {
+                              xs: 24
+                            },
+                            bgcolor: theme => theme.palette.error?.main
+                          }}>
+                            <RxCross2 />
+                          </Avatar>
                         ) : (
                           <></>
                         )
@@ -216,6 +238,7 @@ const TypeSingleChoice = (props) => {
                 sx={{
                   width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                   marginLeft: 0,
+                  marginRight: 0,
                   "& svg": {
                     height: "15px",
                     width: "15px",

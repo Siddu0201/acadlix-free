@@ -1,5 +1,5 @@
 import { Alert, Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import NormalQuizMode from "./NormalQuizMode";
 import AdvanceQuizMode from "./AdvanceQuizMode";
 import { useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ const QuizContent = (props) => {
       id: props?.quiz?.id,
       category: props?.quiz?.category?.category_name ?? "Uncategorized",
       title: props?.quiz?.title,
-      description: parse(props?.quiz?.description),
+      description: parse(props?.quiz?.rendered_description),
       // Mode settings
       mode: props?.quiz?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
       enable_back_button: Boolean(Number(props?.quiz?.enable_back_button)),
@@ -162,8 +162,8 @@ const QuizContent = (props) => {
         Number(props?.quiz?.percent_based_result_text)
       ),
       result_text: Boolean(Number(props?.quiz?.percent_based_result_text))
-        ? JSON.parse(props?.quiz?.result_text)
-        : parse(props?.quiz?.result_text), // ""/[{percent: number, text: ""}]
+        ? JSON.parse(props?.quiz?.rendered_result_text)
+        : parse(props?.quiz?.rendered_result_text), // ""/[{percent: number, text: ""}]
       // Language setting
       multi_language: Boolean(Number(props?.quiz?.multi_language)),
       languages:
@@ -244,31 +244,31 @@ const QuizContent = (props) => {
                       parse(
                         question?.paragraph?.paragraph_languages?.find(
                           (p) => p?.language_id === lang?.language_id
-                        )?.content ?? ""
+                        )?.rendered_content ?? ""
                       ) ?? "",
-                    question: parse(lang?.question),
-                    correct_msg: parse(lang?.correct_msg),
-                    incorrect_msg: parse(lang?.incorrect_msg),
-                    hint_msg: parse(lang?.hint_msg),
+                    question: parse(lang?.rendered_question),
+                    correct_msg: parse(lang?.rendered_correct_msg),
+                    incorrect_msg: parse(lang?.rendered_incorrect_msg),
+                    hint_msg: parse(lang?.rendered_hint_msg),
                     answer_data: {
-                      singleChoice: JSON.parse(lang?.answer_data)?.singleChoice,
-                      multipleChoice: JSON.parse(lang?.answer_data)
+                      singleChoice: JSON.parse(lang?.rendered_answer_data)?.singleChoice,
+                      multipleChoice: JSON.parse(lang?.rendered_answer_data)
                         ?.multipleChoice,
-                      trueFalse: JSON.parse(lang?.answer_data)?.trueFalse,
+                      trueFalse: JSON.parse(lang?.rendered_answer_data)?.trueFalse,
                       sortingChoice:
                         question?.answer_type === "sortingChoice"
-                          ? JSON.parse(lang?.answer_data)?.sortingChoice
+                          ? JSON.parse(lang?.rendered_answer_data)?.sortingChoice
                           : [],
                       matrixSortingChoice:
                         question?.answer_type === "matrixSortingChoice"
                           ? randomizePosition(
-                              JSON.parse(lang?.answer_data)?.matrixSortingChoice
+                              JSON.parse(lang?.rendered_answer_data)?.matrixSortingChoice
                             )
                           : [],
-                      fillInTheBlank: JSON.parse(lang?.answer_data)
+                      fillInTheBlank: JSON.parse(lang?.rendered_answer_data)
                         ?.fillInTheBlank,
-                      numerical: JSON.parse(lang?.answer_data)?.numerical,
-                      rangeType: JSON.parse(lang?.answer_data)?.rangeType,
+                      numerical: JSON.parse(lang?.rendered_answer_data)?.numerical,
+                      rangeType: JSON.parse(lang?.rendered_answer_data)?.rangeType,
                     },
                   };
                 }) ?? [],
@@ -293,6 +293,13 @@ const QuizContent = (props) => {
       toplist: [],
       toplist_count: 0,
     },
+  });
+
+  useLayoutEffect(() => {
+    if (typeof window.wp !== "undefined" && window.wp.mediaelement) {
+      // Initialize mediaelement.js
+      window.wp.mediaelement.initialize();
+    }
   });
 
   // console.log(props);

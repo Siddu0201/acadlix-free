@@ -129,11 +129,8 @@ const NtaFinish = (props) => {
                 props?.watch("subjects")?.map((s, s_index) => (
                   <TableRow
                     key={s_index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell component="td" scope="row">
                       {s?.subject_name?.toUpperCase()}
                     </TableCell>
                     <TableCell>

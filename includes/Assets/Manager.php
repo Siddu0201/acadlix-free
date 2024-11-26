@@ -3,7 +3,7 @@
 namespace Yuvayana\Acadlix\Assets;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Quiz;
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
 /**
  * Asset Manager class.
@@ -241,14 +241,18 @@ class Manager
         if (is_admin()) {
             return;
         }
-        wp_enqueue_media();
+        if (function_exists('wp_enqueue_media')) {
+            wp_enqueue_media();
+            wp_enqueue_script('wp-mediaelement');
+            wp_enqueue_style('wp-mediaelement');
+        }
         wp_enqueue_style('acadlix-front-css');
-        wp_enqueue_script('wp-date'); 
+        wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-front-js');
         wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'home_url' => esc_url(home_url( )),
+            'home_url' => esc_url(home_url()),
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
@@ -257,12 +261,13 @@ class Manager
             'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
             'date_format' => Helper::instance()->acadlix_get_option("date_format"),
             'time_format' => Helper::instance()->acadlix_get_option("time_format"),
-            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
         ));
     }
 
-    public static function instance() {
-        if ( ! self::$_instance ) {
+    public static function instance()
+    {
+        if (!self::$_instance) {
             self::$_instance = new self();
         }
 

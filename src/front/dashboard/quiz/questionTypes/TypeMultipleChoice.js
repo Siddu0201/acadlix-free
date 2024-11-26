@@ -2,15 +2,14 @@ import {
   Avatar,
   Box,
   Checkbox,
-  Chip,
   FormControl,
   FormControlLabel,
   Typography,
 } from "@mui/material";
 import React from "react";
-import { ImCross } from "react-icons/im";
-import { SiTicktick } from "react-icons/si";
 import parse from "html-react-parser";
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 const TypeMultipleChoice = (props) => {
   const handleChange = (e) => {
@@ -63,6 +62,7 @@ const TypeMultipleChoice = (props) => {
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         gap: props?.watch("mode") !== "advance_mode" ? "6px" : 0,
+        overflow: "auto",
       }}
     >
       {props?.answer_data?.[props?.type]?.length > 0 &&
@@ -72,14 +72,16 @@ const TypeMultipleChoice = (props) => {
             sx={{
               display: "flex",
               alignItems: "center",
-              border: props?.watch("mode") !== "advance_mode" ? props?.watch(`questions.${props?.index}.check`)
-                ? data?.isCorrect
-                  ? (theme) => `1px solid ${theme.palette.success.dark}`
-                  : data?.isChecked
-                  ? (theme) => `1px solid ${theme.palette.error.dark}`
-                  : (theme) => `1px solid ${theme.palette.grey[300]}`
-                : (theme) => `1px solid ${theme.palette.grey[300]}`
-                : "none",
+              border:
+                props?.watch("mode") !== "advance_mode"
+                  ? props?.watch(`questions.${props?.index}.check`)
+                    ? data?.isCorrect
+                      ? (theme) => `1px solid ${theme.palette.success.dark}`
+                      : data?.isChecked
+                      ? (theme) => `1px solid ${theme.palette.error.dark}`
+                      : (theme) => `1px solid ${theme.palette.grey[300]}`
+                    : (theme) => `1px solid ${theme.palette.grey[300]}`
+                  : "none",
               backgroundColor: props?.watch(`questions.${props?.index}.check`)
                 ? data?.isCorrect
                   ? (theme) => theme.palette.success.light
@@ -166,9 +168,33 @@ const TypeMultipleChoice = (props) => {
                     {props?.watch("view_answer") ||
                     props?.watch(`questions.${props?.index}.check`) ? (
                       data?.isCorrect ? (
-                        <Chip label="Correct Answer" color="success" />
+                        <Avatar
+                          sx={{
+                            height: {
+                              xs: 24,
+                            },
+                            width: {
+                              xs: 24,
+                            },
+                            bgcolor: (theme) => theme?.palette?.success?.main,
+                          }}
+                        >
+                          <TiTick />
+                        </Avatar>
                       ) : data?.isChecked ? (
-                        <Chip label="Your Answer" color="error" />
+                        <Avatar
+                          sx={{
+                            height: {
+                              xs: 24,
+                            },
+                            width: {
+                              xs: 24,
+                            },
+                            bgcolor: (theme) => theme.palette.error?.main,
+                          }}
+                        >
+                          <RxCross2 />
+                        </Avatar>
                       ) : (
                         <></>
                       )
@@ -181,8 +207,10 @@ const TypeMultipleChoice = (props) => {
               onChange={handleChange}
               value={index}
               sx={{
-                width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
+                width:
+                  props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                 marginLeft: 0,
+                marginRight: 0,
                 "& svg": {
                   height: "20px",
                   width: "20px",

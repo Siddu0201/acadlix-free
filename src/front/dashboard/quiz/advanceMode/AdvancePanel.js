@@ -3,7 +3,6 @@ import QuizLogoAndTitle from "./advance-mode-section/QuizLogoAndTitle";
 import QuizTitleAndInstruction from "./advance-mode-section/QuizTitleAndInstruction";
 import { Box } from "@mui/material";
 import QuizSidebar from "./advance-mode-section/QuizSidebar";
-import QuizSection from "./advance-mode-section/QuizSection";
 import QuizTimer from "./advance-mode-section/QuizTimer";
 import QuizSubsection from "./advance-mode-section/QuizSubsection";
 import QuizQuestionTypeAndMarks from "./advance-mode-section/QuizQuestionTypeAndMarks";
@@ -31,10 +30,12 @@ const AdvancePanel = (props) => {
         }}
       >
         {/* <QuizSection {...props} /> */}
-        {props?.watch("quiz_timing_type") === "full_quiz_time" && (
-          <QuizTimer {...props} />
-        )}
-        {props?.watch("quiz_timing_type") === "per_question_time" &&
+        {props?.watch("quiz_time") > 0 &&
+          props?.watch("quiz_timing_type") === "full_quiz_time" && (
+            <QuizTimer {...props} />
+          )}
+        {props?.watch("quiz_time") > 0 &&
+          props?.watch("quiz_timing_type") === "per_question_time" &&
           props?.watch("subjects")?.length > 0 &&
           props?.watch("subjects")?.map((s, s_index) => (
             <React.Fragment key={s_index}>
@@ -71,7 +72,7 @@ const AdvancePanel = (props) => {
             ?.watch("subjects")
             ?.map((s, s_index) => (
               <React.Fragment key={s_index}>
-                {s?.selected && (
+                {s?.time > 0 && s?.selected && (
                   <SubjectWiseTiming
                     {...props}
                     subject={s}

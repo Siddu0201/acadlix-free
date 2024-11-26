@@ -23,6 +23,8 @@ if(!class_exists('ParagraphLang')){
         
         protected $with = ['language'];
 
+        protected $appends = ['rendered_content'];
+
         public function __construct(){
             $this->helper = new Helper();
         }
@@ -35,8 +37,8 @@ if(!class_exists('ParagraphLang')){
             return $this->belongsTo(Language::class, 'language_id', 'id');
         }
 
-        public function getContentAttribute($value){
-            return $this->helper->renderShortCode($value);
+        public function getRenderedContentAttribute(){
+            return $this->helper->renderShortCode($this->content);
         }
     }
 }

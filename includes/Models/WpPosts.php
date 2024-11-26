@@ -3,19 +3,32 @@
 namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Yuvayana\Acadlix\Helper\Helper;
 defined('ABSPATH') || exit();
 
 if (!class_exists('WpPosts')) {
 
     class WpPosts extends Model
     {
+        protected $helper;
+
         protected $connection = 'wordpress';
         protected $table = 'posts';
         protected $primaryKey = 'ID';
 
         protected $with = ['author'];
 
-        protected $appends = ['thumbnail_url', 'thumbnail_alt'];
+        protected $appends = ['thumbnail_url', 'thumbnail_alt', 'rendered_post_content'];
+
+        public function __construct()
+        {
+            $this->helper = new Helper();
+        }
+
+        public function getRenderedPostContentAttribute()
+        {
+            return $this->helper->renderShortCode($this->post_content);
+        }
 
         public function thumbnailMeta()
         {

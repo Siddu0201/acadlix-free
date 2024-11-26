@@ -7,9 +7,62 @@ if (!class_exists('Helper')) {
     {
         protected static $_instance = null;
 
-        public function renderShortCode($data)
+        public function acadlix_modify_video_shortcode($content)
         {
-            return do_shortcode(apply_filters('comment_text', $data));
+            if (empty($content)) {
+                return $content; // If content is empty, return it as-is
+            }
+            if (has_shortcode($content, 'video')) {
+                // Use regex to find all [video] shortcodes in the content
+                $pattern = get_shortcode_regex(['video']);
+                $content = preg_replace_callback("/$pattern/", function ($matches) {
+                    // Check if the matched shortcode is [video]
+                    if ($matches[2] === 'video') {
+                        // Parse shortcode attributes
+                        $attrs = shortcode_parse_atts($matches[3]);
+
+                        // Remove width and height if they exist
+                        unset($attrs['width'], $attrs['height']);
+
+                        // Rebuild the shortcode with the modified attributes
+                        $attr_string = '';
+                        if ($attrs) {
+                            foreach ($attrs as $key => $value) {
+                                $attr_string .= sprintf(' %s="%s"', $key, esc_attr($value));
+                            }
+                        }
+
+                        // Return the modified shortcode
+                        return sprintf('[%s%s]%s[/%s]', $matches[2], $attr_string, $matches[5], $matches[2]);
+                    }
+                    return $matches[0]; // Return original shortcode if not [video]
+                }, $content);
+            }
+            return $content;
+
+        }
+
+        public function renderShortCode($content)
+        {
+            // global $wp_embed;
+
+            // // Apply oEmbed auto-embeds
+            // $content = $wp_embed->autoembed($content);
+
+            // // Process shortcodes
+            // $content = do_shortcode($content);
+
+            // // Run oEmbed shortcodes
+            // $content = $wp_embed->run_shortcode($content);
+
+            // // Apply WordPress formatting (paragraphs, line breaks)
+            // $content = wpautop($content);
+            // $content = shortcode_unautop($content);
+
+            // return $content;
+            $content = $this->acadlix_modify_video_shortcode($content);
+            $content = apply_filters('the_content', $content);
+            return $content;
         }
 
         public function upload_base64_image_to_wordpress($content)
@@ -44,7 +97,7 @@ if (!class_exists('Helper')) {
                 if (!$wp_filesystem->put_contents($file_path, $image_data, FS_CHMOD_FILE)) {
                     /* translators: %s is the filepath */
                     return new WP_Error('failed', sprintf(__('Failed to write to file: %s', 'acadlix'), esc_html($file_path)), array('status' => 400));
-                }else{
+                } else {
                     // Prepare file data for WP attachment
                     $wp_file_type = wp_check_filetype($filename, null);
                     $attachment = array(
@@ -54,15 +107,15 @@ if (!class_exists('Helper')) {
                         'post_content' => '',
                         'post_status' => 'inherit'
                     );
-    
+
                     // // Insert the attachment into the media library
                     $attach_id = wp_insert_attachment($attachment, $file_path);
-    
+
                     // // Generate attachment metadata
                     require_once(ABSPATH . 'wp-admin/includes/image.php');
                     $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
                     wp_update_attachment_metadata($attach_id, $attach_data);
-    
+
                     // Return the URL of the uploaded image
                     return "<img src='" . $upload_dir['url'] . '/' . $filename . "' alt='" . $filename . "' />";
 

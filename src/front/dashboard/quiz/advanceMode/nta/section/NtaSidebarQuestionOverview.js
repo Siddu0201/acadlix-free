@@ -96,6 +96,7 @@ const NtaSidebarQuestionOverview = (props) => {
     <Box
       sx={{
         display: props?.selected ? "" : "none",
+        height: `300px`,
       }}
       id="acadlix_quiz_sidebar_question_overview"
     >
@@ -110,8 +111,7 @@ const NtaSidebarQuestionOverview = (props) => {
           paddingTop: 2,
           display: "grid",
           gridTemplateColumns: "auto auto auto auto auto auto auto",
-          gridTemplateRows: "30px",
-          height: `300px`,
+          // gridTemplateRows: "30px",
         }}
       >
         {props

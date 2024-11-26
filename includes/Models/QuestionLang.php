@@ -5,9 +5,9 @@ namespace Yuvayana\Acadlix\Models;
 use Illuminate\Database\Eloquent\Model;
 use Yuvayana\Acadlix\Helper\Helper;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
-if(!class_exists('QuestionLang')){
+if (!class_exists('QuestionLang')) {
     class QuestionLang extends Model
     {
         protected $helper;
@@ -26,39 +26,56 @@ if(!class_exists('QuestionLang')){
 
         protected $with = ['language'];
 
-        public function __construct(){
+        protected $appends = [
+            'rendered_question',
+            'rendered_correct_msg',
+            'rendered_incorrect_msg',
+            'rendered_hint_msg',
+            'rendered_answer_data',
+        ];
+
+        public function __construct()
+        {
             $this->helper = new Helper();
         }
 
-        public function question(){
+        public function question()
+        {
             return $this->belongsTo(Question::class, 'question_id', 'id');
         }
 
-        public function language(){
+        public function language()
+        {
             return $this->belongsTo(Language::class, 'language_id', 'id');
         }
 
-        public function getQuestionAttribute($value){
-           return $this->helper->renderShortCode($value);
-        }
-        
-        public function getCorrectMsgAttribute($value){
-            return $this->helper->renderShortCode($value);
+        public function getRenderedQuestionAttribute()
+        {
+            return $this->helper->renderShortCode($this->question);
         }
 
-        public function getIncorrectMsgAttribute($value){
-            return $this->helper->renderShortCode($value);
+        public function getRenderedCorrectMsgAttribute()
+        {
+            return $this->helper->renderShortCode($this->correct_msg);
         }
 
-        public function getHintAttribute($value){
-            return $this->helper->renderShortCode($value);
+        public function getRenderedIncorrectMsgAttribute()
+        {
+            return $this->helper->renderShortCode($this->incorrect_msg);
         }
 
-        public function getAnswerDataAttribute($value){
+        public function getRenderedHintMsgAttribute()
+        {
+            return $this->helper->renderShortCode($this->hint_msg);
+        }
+
+        public function getRenderedAnswerDataAttribute()
+        {
+            $value = $this->answer_data;
             $answer_type = $this->question()->first()->answer_type;
-            if(in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])){
+            if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
                 $answer_data = json_decode($value, true);
-                foreach($answer_data[$answer_type] as $okey => $opt){
+                foreach ($answer_data[$answer_type] as $okey => $opt) {
                     $opt['option'] = $this->helper->renderShortCode($opt["option"]);
                     $answer_data[$answer_type][$okey] = $opt;
                 }

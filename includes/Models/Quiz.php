@@ -115,6 +115,8 @@ if (!class_exists('Quiz')) {
 
         protected $with = ["category", "quiz_languages"];
 
+        protected $appends = ['rendered_description', 'rendered_result_text'];
+
         public function __construct()
         {
             $this->helper = new Helper();
@@ -149,17 +151,17 @@ if (!class_exists('Quiz')) {
             return $this->hasMany(SubjectTime::class, 'quiz_id', 'id');
         }
 
-        public function getDescriptionAttribute($value)
+        public function getRenderedDescriptionAttribute()
         {
-            return $this->helper->renderShortCode($value);
+            return $this->helper->renderShortCode($this->description);
         }
 
-        public function getResultTextAttribute($value)
+        public function getRenderedResultTextAttribute()
         {
             if ($this->percent_based_result_text) {
-                return $value;
+                return $this->result_text;
             } else {
-                return $this->helper->renderShortCode($value);
+                return $this->helper->renderShortCode($this->result_text);
             }
         }
 

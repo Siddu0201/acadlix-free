@@ -1,8 +1,10 @@
-import { Box, Chip, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { SiTicktick } from "react-icons/si";
 import { ImCross } from "react-icons/im";
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 const TypeNumerical = (props) => {
   const handleChange = (e) => {
@@ -39,23 +41,24 @@ const TypeNumerical = (props) => {
         backgroundColor:
           props?.watch("mode") !== "advance_mode"
             ? props?.watch(`questions.${props?.index}.check`)
-            ? props?.watch(`questions.${props?.index}.result.correct_count`)
-            ? (theme) => theme.palette.success.light
-            : (theme) => theme.palette.error.light
-            : ""
+              ? props?.watch(`questions.${props?.index}.result.correct_count`)
+                ? (theme) => theme.palette.success.light
+                : (theme) => theme.palette.error.light
+              : ""
             : "",
         border:
           props?.watch("mode") !== "advance_mode"
-          ? props?.watch(`questions.${props?.index}.check`)
-          ? props?.watch(`questions.${props?.index}.result.correct_count`)
-          ? (theme) => `1px solid ${theme.palette.success.dark}`
-          : (theme) => `1px solid ${theme.palette.error.dark}`
-          : (theme) => `1px solid ${theme.palette.grey[300]}`
-          : "none",
+            ? props?.watch(`questions.${props?.index}.check`)
+              ? props?.watch(`questions.${props?.index}.result.correct_count`)
+                ? (theme) => `1px solid ${theme.palette.success.dark}`
+                : (theme) => `1px solid ${theme.palette.error.dark}`
+              : (theme) => `1px solid ${theme.palette.grey[300]}`
+            : "none",
         borderRadius: 1,
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
         marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+        overflow: "auto",
       }}
     >
       {(props?.watch("view_answer") ||
@@ -72,12 +75,20 @@ const TypeNumerical = (props) => {
       >
         <CustomTextField
           type="number"
-          label={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`) ? "" : "Type your answer"}
+          label={
+            props?.watch("view_answer") ||
+            props?.watch(`questions.${props?.index}.check`)
+              ? ""
+              : "Type your answer"
+          }
           size="small"
           inputProps={{
             step: 0.01,
           }}
-          disabled={props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)}
+          disabled={
+            props?.watch("view_answer") ||
+            props?.watch(`questions.${props?.index}.check`)
+          }
           sx={{
             marginY: 2,
             "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
@@ -102,9 +113,33 @@ const TypeNumerical = (props) => {
             }}
           >
             {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-              <Chip label="Correct Answer" color="success" />
+              <Avatar
+                sx={{
+                  height: {
+                    xs: 24,
+                  },
+                  width: {
+                    xs: 24,
+                  },
+                  bgcolor: (theme) => theme?.palette?.success?.main,
+                }}
+              >
+                <TiTick />
+              </Avatar>
             ) : (
-              <Chip label="Your Answer" color="error" />
+              <Avatar
+                sx={{
+                  height: {
+                    xs: 24,
+                  },
+                  width: {
+                    xs: 24,
+                  },
+                  bgcolor: (theme) => theme.palette.error?.main,
+                }}
+              >
+                <RxCross2 />
+              </Avatar>
             )}
           </Box>
         )}

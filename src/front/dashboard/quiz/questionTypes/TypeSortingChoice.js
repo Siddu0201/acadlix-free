@@ -14,9 +14,11 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Box, Chip, List, ListItem, Typography } from "@mui/material";
+import { Avatar, Box, Chip, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import parse from "html-react-parser";
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 const TypeSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -33,7 +35,11 @@ const TypeSortingChoice = (props) => {
       props?.setValue(
         `questions.${props?.index}.language`,
         props?.watch(`questions.${props?.index}.language`).map((lang) => {
-          lang.answer_data[props?.type] = arrayMove(lang?.answer_data?.[props?.type], oldIndex, newIndex);
+          lang.answer_data[props?.type] = arrayMove(
+            lang?.answer_data?.[props?.type],
+            oldIndex,
+            newIndex
+          );
           return lang;
         })
       );
@@ -82,6 +88,7 @@ const TypeSortingChoice = (props) => {
         width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
         padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        overflow: "auto",
       }}
     >
       {(props?.watch("view_answer") ||
@@ -231,9 +238,33 @@ const SortableItem = (props) => {
           }}
         >
           {props?.id === props?.item?.position ? (
-            <Chip label="Correct Answer" color="success" />
+            <Avatar
+              sx={{
+                height: {
+                  xs: 24,
+                },
+                width: {
+                  xs: 24,
+                },
+                bgcolor: (theme) => theme?.palette?.success?.main,
+              }}
+            >
+              <TiTick />
+            </Avatar>
           ) : (
-            <Chip label="Your Answer" color="error" />
+            <Avatar
+              sx={{
+                height: {
+                  xs: 24,
+                },
+                width: {
+                  xs: 24,
+                },
+                bgcolor: (theme) => theme.palette.error?.main,
+              }}
+            >
+              <RxCross2 />
+            </Avatar>
           )}
         </Box>
       )}
