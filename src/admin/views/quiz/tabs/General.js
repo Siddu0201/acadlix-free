@@ -31,7 +31,6 @@ import dayjs from "dayjs";
 import { RiQuestionFill } from "react-icons/ri";
 
 const General = (props) => {
-
   return (
     <Box sx={{ color: "black" }}>
       <Grid container>
@@ -165,7 +164,7 @@ const General = (props) => {
                 }
                 disabled={
                   (props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel") ||
+                    props?.watch("advance_mode_type") !== "advance_panel") ||
                   props?.watch("mode") === "question_below_each_other"
                 }
               />
@@ -335,7 +334,7 @@ const General = (props) => {
         <GridItem1 xs={0} lg={4}></GridItem1>
 
         {/* Button to pause quiz */}
-        <GridItem1 xs={12} lg={12}>
+        <GridItem1 xs={12} lg={3}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -348,6 +347,27 @@ const General = (props) => {
               />
             }
             label="Pause Quiz"
+          />
+        </GridItem1>
+
+        {/* Button to review quiz  */}
+        <GridItem1 xs={12} lg={9}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={props?.watch("show_review_button") ?? false}
+                onChange={(e) => {
+                  props?.setValue("show_review_button", e?.target?.checked, {
+                    shouldDirty: true,
+                  });
+                }}
+              />
+            }
+            disabled={
+              props?.watch("mode") === "advance_mode" &&
+              props?.watch("advance_mode_type") !== "advance_panel"
+            }
+            label="Show Review Button"
           />
         </GridItem1>
 

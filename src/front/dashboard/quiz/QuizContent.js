@@ -58,6 +58,7 @@ const QuizContent = (props) => {
       quiz_timing_type: props?.quiz?.quiz_timing_type, // full_quiz_time/per_question_time
       quiz_time: props?.quiz?.quiz_time * 1000, // 0 => Infinity (no limit)
       pause_quiz: Boolean(Number(props?.quiz?.pause_quiz)),
+      show_review_button: Boolean(Number(props?.quiz?.show_review_button)),
       set_start_date: Boolean(Number(props?.quiz?.set_start_date)),
       start_date: props?.quiz?.start_date
         ? new Date(props?.quiz?.start_date)

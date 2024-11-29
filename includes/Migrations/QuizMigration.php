@@ -31,6 +31,7 @@ if(!class_exists('QuizMigration')){
                     $table->string('quiz_timing_type')->nullable()->default('full_quiz_time')->comment('full_quiz_time/per_question_time');
                     $table->integer('quiz_time')->unsigned()->default(0)->comment('0 => Infinity (no limit)');
                     $table->boolean('pause_quiz')->default(0);
+                    $table->boolean('show_review_button')->default(0);
                     $table->boolean('set_start_date')->default(0);
                     $table->string('start_date')->nullable();
                     $table->boolean('set_end_date')->default(0);
@@ -119,6 +120,17 @@ if(!class_exists('QuizMigration')){
         public function down()
         {
             Manager::schema()->dropIfExists('quiz');
+        }
+
+        public function update()
+        {
+            if(!Manager::schema()->hasColumn('quiz', 'show_review_button')){
+                Manager::schema()->table('quiz', function($table){
+                    $table->after('pause_quiz', function($table){
+                        $table->boolean('show_review_button')->default(0);
+                    });
+                });
+            }
         }
     }
 }

@@ -61,7 +61,7 @@ const QuestionSubjectAndPointSection = (props) => {
           </Typography>
         </Box>
         {
-          !props?.watch("view_answer") &&
+          !props?.watch("view_answer") && props?.watch("show_review_button") && 
           <Box>
             <CustomButton
               onClick={handleReview}

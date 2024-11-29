@@ -21,6 +21,7 @@ const QuizModeSection = (props) => {
     props?.setValue("quiz_timing_type", "full_quiz_time", {
       shouldDirty: true,
     });
+    props?.setValue("show_review_button", true, { shouldDirty: true });
     props?.setValue("prerequisite", false, { shouldDirty: true });
     props?.setValue("enable_login_register", true, { shouldDirty: true });
     props?.setValue("login_register_type", "at_start_of_quiz", {

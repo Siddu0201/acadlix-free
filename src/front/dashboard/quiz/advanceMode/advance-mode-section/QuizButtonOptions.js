@@ -286,33 +286,36 @@ const QuizButtonOptions = (props) => {
               />
             )}
         <Box>
-          <Button
-            size={props?.isDesktop ? "medium" : "small"}
-            variant="contained"
-            color="primary"
-            onClick={handleReviewAndNext}
-            sx={{
-              margin: `4px!important`,
-              borderRadius: 0,
-              fontSize: 13,
-              fontWeight: 400,
-              paddingX: "18px",
-              boxShadow: "none",
-              border: `1px solid ${props?.colorCode?.mark_for_review_and_next_border}`,
-              backgroundColor:
-                props?.colorCode?.mark_for_review_and_next_background,
-              color: `${props?.colorCode?.mark_for_review_and_next_color} !important`,
-              ":hover, :focus": {
-                border: `1px solid ${props?.colorCode?.mark_for_review_and_next_hover_border}`,
-                backgroundColor:
-                  props?.colorCode?.mark_for_review_and_next_hover_background,
-                color: `${props?.colorCode?.mark_for_review_and_next_hover_color} !important`,
-                boxShadow: "none",
-              },
-            }}
-          >
-            Mark for Review & Next
-          </Button>
+          {
+              props?.watch("show_review_button") &&
+              <Button
+                size={props?.isDesktop ? "medium" : "small"}
+                variant="contained"
+                color="primary"
+                onClick={handleReviewAndNext}
+                sx={{
+                  margin: `4px!important`,
+                  borderRadius: 0,
+                  fontSize: 13,
+                  fontWeight: 400,
+                  paddingX: "18px",
+                  boxShadow: "none",
+                  border: `1px solid ${props?.colorCode?.mark_for_review_and_next_border}`,
+                  backgroundColor:
+                    props?.colorCode?.mark_for_review_and_next_background,
+                  color: `${props?.colorCode?.mark_for_review_and_next_color} !important`,
+                  ":hover, :focus": {
+                    border: `1px solid ${props?.colorCode?.mark_for_review_and_next_hover_border}`,
+                    backgroundColor:
+                      props?.colorCode?.mark_for_review_and_next_hover_background,
+                    color: `${props?.colorCode?.mark_for_review_and_next_hover_color} !important`,
+                    boxShadow: "none",
+                  },
+                }}
+              >
+                Mark for Review & Next
+              </Button>
+          }
           <Button
             size={props?.isDesktop ? "medium" : "small"}
             variant="contained"

@@ -74,7 +74,7 @@ const QuestionOverviewSection = (props) => {
       sx={{
         border: `1px solid ${props?.colorCode?.overview_border}`,
         borderRadius: 1,
-        boxShadow: (theme) => theme?.shadows[2]
+        boxShadow: (theme) => theme?.shadows[2],
       }}
     >
       <Box
@@ -172,28 +172,32 @@ const QuestionOverviewSection = (props) => {
           }}
         ></Box>
         <Typography>Answered</Typography>
-        <Box
-          sx={{
-            marginTop: "5px",
-            backgroundColor: props?.colorCode?.review,
-            height: "15px",
-            width: "15px",
-            marginX: "5px",
-            display: "inline-block",
-          }}
-        ></Box>
-        <Typography>Review</Typography>
-        <Box
-          sx={{
-            marginTop: "5px",
-            backgroundColor: props?.colorCode?.answered_and_review,
-            height: "15px",
-            width: "15px",
-            marginX: "5px",
-            display: "inline-block",
-          }}
-        ></Box>
-        <Typography>Review and answered</Typography>
+        {props?.watch("show_review_button") && (
+          <>
+            <Box
+              sx={{
+                marginTop: "5px",
+                backgroundColor: props?.colorCode?.review,
+                height: "15px",
+                width: "15px",
+                marginX: "5px",
+                display: "inline-block",
+              }}
+            ></Box>
+            <Typography>Review</Typography>
+            <Box
+              sx={{
+                marginTop: "5px",
+                backgroundColor: props?.colorCode?.answered_and_review,
+                height: "15px",
+                width: "15px",
+                marginX: "5px",
+                display: "inline-block",
+              }}
+            ></Box>
+            <Typography>Review and answered</Typography>
+          </>
+        )}
       </Box>
       <Box
         sx={{

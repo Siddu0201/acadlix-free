@@ -11,6 +11,7 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       acadlix
+ * Doman Path:        /languages/
  */
 
 use Yuvayana\Acadlix\Admin\Ajax;
@@ -34,10 +35,16 @@ use Yuvayana\Acadlix\CPT\Course;
 
 defined('ABSPATH') || exit();
 
+add_action("init", function(){
+    load_plugin_textdomain( 'acadlix', false, basename( dirname( __FILE__ ) ) . '/languages' );
+});
+
+
 if (!defined('ACADLIX_PLUGIN_FILE')) {
     define('ACADLIX_PLUGIN_FILE', __FILE__);
     include_once 'includes/acadlix-contant.php';
 }
+
 
 if (!class_exists('Acadlix')) {
     class Acadlix

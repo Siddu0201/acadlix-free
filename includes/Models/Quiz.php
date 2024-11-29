@@ -31,6 +31,7 @@ if (!class_exists('Quiz')) {
             "quiz_timing_type",
             "quiz_time",
             "pause_quiz",
+            "show_review_button",
             "set_start_date",
             "start_date",
             "set_end_date",
