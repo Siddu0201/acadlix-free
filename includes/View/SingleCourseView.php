@@ -180,14 +180,14 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <?php echo acadlix_course_img(false, true); ?>
                 <div class="acadlix-card-body acadlix-course-header-body">
                     <?php echo acadlix_course_breadcrumb(true, false); ?>
-                    <h1 class="acadlix-course-header-title acadlix-fs-4 acadlix-my-8">
+                    <h1 class="acadlix-course-header-title acadlix-fs-4 acadlix-my-8 acadlix-text-primary">
                         Complete Website Responsive Design: from Figma to Webflow to Website Design</h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
                         Last updated 9/2024
                     </div>
                     <div class="acadlix-course-header-author">
-                        <div class="acadlix-course-header-created-at-text">Created by:</div>
+                        <div class="acadlix-course-header-created-at-text acadlix-text-tertiary">Created by:</div>
                         <strong>Dianne Russell</strong> + <strong>Kristin Watson</strong>
                     </div>
 
@@ -226,11 +226,6 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 </div>
             </section>
             <section class="acadlix-course-main-section">
-                <div class="acadlix-languagelastupdated-mobile-responsive">
-                    <li class="fa fa-exclamation-circle"> <span class="last-updated ">Last updated 9/2024</span>
-                    </li>
-                    <li class='fas fa-globe'> <span class="language">English</span></li>
-                </div>
                 <!-- navbar tabs  -->
                 <nav class="acadlix-course-main-navbar">
                     <ul class="acadlix-course-main-navbar-list">
@@ -250,7 +245,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-star-color acadlix-color-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
@@ -261,7 +256,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-star-color acadlix-color-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
@@ -272,7 +267,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-star-color acadlix-color-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -282,7 +277,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-star-color acadlix-color-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -292,7 +287,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-star-color acadlix-color-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -302,7 +297,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-star-color acadlix-color-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -347,6 +342,27 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     <div class="acadlix-d-flex acadlix-flex-column acadlix-gap-1 acadlix-card-body">
                         <div>
                             <details class="acadlix-curriculum-details" open>
+                                <summary class="acadlix-curriculum-summary">
+                                    <span role="term" aria-details="pure-css">Click to open and close smoothly with
+                                        pure CSS</span>
+                                </summary>
+                            </details>
+                            <div class="acadlix-curriculum-content">
+                                <div class="acadlix-curriculum-content-item">
+                                    <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
+                                        <span><i class="fas fa-video"></i></span>
+                                        <h5 class="acadlix-content-text acadlix-fs-6">
+                                            What's Webflow?
+                                        </h5>
+                                    </div>
+                                    <div class="acadlix-content-duration">
+                                        00:00:00
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <details class="acadlix-curriculum-details">
                                 <summary class="acadlix-curriculum-summary">
                                     <span role="term" aria-details="pure-css">Click to open and close smoothly with
                                         pure CSS</span>
