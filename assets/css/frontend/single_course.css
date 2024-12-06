@@ -1,0 +1,420 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+p,
+span,
+div {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  /* margin: 4px; */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: #333;
+}
+
+.acadlix-course-header-section {
+  /* background-color: rgb(215 209 209); */
+  position: relative;
+}
+
+.acadlix-course-header-body {
+  max-width: 73%;
+  border-radius: 0.5rem;
+  padding: 3rem;
+}
+
+.acadlix-course-header-title {
+  color: #000000;
+  font-weight: bold;
+}
+
+.acadlix-course-header-created-at-text {
+  color: grey;
+}
+
+.acadlix-course-aside {
+  max-width: 25%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 3rem;
+  right: 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+}
+
+/* .acadlix-course-featured-item {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+} */
+
+/* Price Section */
+.acadlix-mobile-price-info{
+  display: none;
+}
+
+.acadlix-pricing-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.acadlix-pricing {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.acadlix-course-sale-price {
+  font-size: 22px;
+  font-weight: normal;
+}
+
+.acadlix-course-price {
+  text-decoration: line-through;
+  font-size: 16px;
+  color: #7f8c8d;
+}
+
+.acadlix-discount-tag{
+  background-color: #f39c12;
+  color: white;
+  padding: 4px;
+}
+
+/* Course Details */
+.acadlix-course-aside-details {
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.acadlix-course-aside-details-option {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Purchase Section */
+.acadlix-course-aside-purchase-options {
+  text-align: center;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.acadlix-action-button {
+  background-color: var(--acadlix-error-main);
+  width: 100%;
+  font-size: 14px;
+  border-radius: 5px;
+  justify-content: center;
+  color: var(--acadlix-error-contrastText);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.acadlix-action-button a {
+  color: inherit;
+}
+
+.acadlix-action-button i {
+  margin-right: 5px;
+}
+
+.acadlix-product-page-icon-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; /* Creates a circular shape */
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  padding: 0.5rem;
+  font-size: 20px;
+  color: var(--acadlix-error-main);
+  cursor: pointer;
+}
+
+.acadlix-btn-loader {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--acadlix-text-primary);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: spin 1s linear infinite;
+}
+
+.acadlix-course-main-section {
+  max-width: 70%;
+}
+
+.acadlix-products-details-container {
+  width: 100%;
+}
+
+.acadlix-products-details-navbar-productpage a {
+  color: #747272;
+  text-decoration: none;
+}
+
+.acadlix-products-details-navbar-productpage {
+  display: none;
+}
+
+.acadlix-course-main-navbar {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.acadlix-course-main-navbar-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+}
+
+.acadlix-course-main-navbar-list li:hover {
+  border-bottom: 1px solid var(--acadlix-error-600);
+}
+
+.acadlix-course-main-navbar-list li a {
+  text-decoration: none;
+  color: black;
+  outline: none;
+}
+
+.acadlix-bg-star-color {
+  background-color: var(--acadlix-warning-main);
+}
+
+.acadlix-color-white {
+  color: var(--acadlix-text-white);
+}
+
+.acadlix-button-icon {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.acadlix-course-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Curriculum Section Styling */
+.acadlix-curriculum-details {
+  border: 2px solid #ddd;
+  overflow: hidden;
+  border-radius: var(--acadlix-border-radius-xl);
+}
+
+.acadlix-curriculum-summary {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 500;
+  padding: 8px 16px;
+}
+
+.acadlix-curriculum-summary:hover {
+  color: #cc3300;
+}
+
+.acadlix-curriculum-summary::-webkit-details-marker {
+  display: none;
+}
+
+.acadlix-curriculum-summary span {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.acadlix-curriculum-summary span:hover {
+  cursor: pointer;
+}
+
+.acadlix-curriculum-summary span::before {
+  content: "►";
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  transition: rotate 200ms 400ms ease-out;
+}
+
+.acadlix-curriculum-details[open] {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.acadlix-curriculum-details[open] .acadlix-curriculum-summary {
+  color: #e75538;
+}
+
+.acadlix-curriculum-details[open] span::before {
+  rotate: 90deg;
+  transition: rotate 400ms ease-out;
+}
+
+.acadlix-curriculum-content {
+  box-sizing: border-box;
+  max-height: 0;
+  overflow: hidden;
+  border: 0px;
+  animation: closeAnimation 0.4s ease forwards;
+}
+
+.acadlix-curriculum-details[open] + div.acadlix-curriculum-content {
+  max-height: 99rem;
+  border: 2px solid #ddd;
+  border-top: 0px;
+  border-radius: var(--acadlix-border-radius-xl);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  animation: openAnimation 0.4s ease forwards;
+}
+
+@keyframes openAnimation {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 99rem; /* Set high enough value for large content */
+    opacity: 1;
+  }
+}
+
+@keyframes closeAnimation {
+  from {
+    opacity: 1;
+    max-height: 99rem;
+  }
+  to {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+.acadlix-curriculum-content-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: inherit;
+  transition: background-color 300ms ease-in;
+}
+
+.acadlix-curriculum-content-item:hover {
+  cursor: pointer;
+  background-color: #eff1f6;
+}
+
+.acadlix-curriculum-content-item i {
+  color: lightgrey;
+}
+
+.acadlix-content-duration {
+  color: lightgrey;
+}
+
+/* Instructor Photo */
+.acadlix-course-instructor-img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+  border: 2px solid #f39c12; /* Added border for emphasis */
+}
+
+.acadlix-course-instructor-detail p {
+  margin-bottom: 10px;
+  color: #666; /* Slightly darkened for readability */
+  line-height: 1.5; /* Improved line height */
+}
+
+/* Stats Section */
+.acadlix-course-instructor-stats {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.acadlix-course-instructor-stats span {
+  margin-right: 10px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.acadlix-languagelastupdated-mobile-responsive {
+  display: none;
+}
+
+.fa-star:before {
+  color: var(--acadlix-warning-main);
+}
+
+.acadlix-mobile-sticky-footer {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-around;
+  background-color: #ffffff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 10px;
+  z-index: 1000;
+  gap: 0.25rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .acadlix-course-header-body {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .acadlix-course-aside {
+    display: none;
+  }
+
+  .acadlix-course-main-section {
+    max-width: 100%;
+  }
+
+  .acadlix-mobile-sticky-footer{
+    display: flex;
+  }
+
+  .acadlix-mobile-price-info{
+    display: block;
+  }
+  
+}

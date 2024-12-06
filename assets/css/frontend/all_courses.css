@@ -241,6 +241,7 @@ div {
 
 
 .acadlix_product_page_icon_element {
+  display: flex;
   align-items: center;
   border-radius: 50%; /* Creates a circular shape */
   box-shadow:

@@ -134,6 +134,16 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-front-single-course-css' => [
+                'src' => ACADLIX_ASSETS_CSS_URL . 'frontend/single_course.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
+            'acadlix-front-base-style-css' => [
+                'src' => ACADLIX_ASSETS_CSS_URL . 'acadlix_base_style.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
         ];
     }
 
@@ -215,10 +225,22 @@ class Manager
             ],
             'acadlix-paypal-js' => [
                 'src' => "https://www.paypal.com/sdk/js?client-id=$paypal_client_id",
-                'version' => null,
+                'version' => ACADLIX_VERSION,
                 'deps' => [],
                 'in_footer' => true,
             ],
+            'acadlix-front-all-course-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
+            // 'acadlix-front-all-course-js' => [
+            //     'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
+            //     'version' => ACADLIX_VERSION,
+            //     'deps' => ['jquery'],
+            //     'in_footer' => true,
+            // ],
         ];
     }
 
@@ -246,6 +268,7 @@ class Manager
             wp_enqueue_script('wp-mediaelement');
             wp_enqueue_style('wp-mediaelement');
         }
+        wp_enqueue_style( 'acadlix-front-base-style-css' );
         wp_enqueue_style('acadlix-front-css');
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-front-js');
