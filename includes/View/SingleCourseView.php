@@ -352,18 +352,18 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         <div class="acadlix-curriculum-item">
                             <details class="acadlix-curriculum-details" open>
                                 <summary class="acadlix-curriculum-summary">
-                                    <span role="term" aria-details="pure-css">
+                                    <h3 role="term" aria-details="pure-css">
                                         Click to open and close smoothly with pure CSS
-                                    </span>
+                                    </h3>
                                 </summary>
                             </details>
                             <div class="acadlix-curriculum-content">
                                 <div class="acadlix-curriculum-content-item">
                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
                                         <span class="acadlix-content-icon"><i class="fas fa-video"></i></span>
-                                        <h5 class="acadlix-content-text acadlix-fs-6">
+                                        <span class="acadlix-content-text acadlix-fs-6">
                                             What's Webflow?
-                                        </h5>
+                                        </span>
                                     </div>
                                     <div class="acadlix-content-duration">
                                         00:00:00
@@ -372,9 +372,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div class="acadlix-curriculum-content-item">
                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
                                         <span class="acadlix-content-icon"><i class="fas fa-video"></i></span>
-                                        <h5 class="acadlix-content-text acadlix-fs-6">
+                                        <span class="acadlix-content-text acadlix-fs-6">
                                             What's Webflow?
-                                        </h5>
+                                        </span>
                                     </div>
                                     <div class="acadlix-content-duration">
                                         00:00:00

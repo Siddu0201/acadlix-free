@@ -4,25 +4,6 @@
   box-sizing: border-box;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  margin-bottom: 0;
-}
-
-p,
-span,
-div {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  /* margin: 4px; */
-}
-
 body {
   font-family: Arial, sans-serif;
 }
@@ -226,29 +207,26 @@ body {
   padding: 8px 16px;
 }
 
-.acadlix-curriculum-summary:hover {
-  color: var(--acadlix-primary-main);
-}
-
 .acadlix-curriculum-summary::-webkit-details-marker {
   display: none;
 }
 
-.acadlix-curriculum-summary span {
+.acadlix-curriculum-summary h3 {
   position: relative;
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 600;
 }
 
-.acadlix-curriculum-summary span:hover {
+.acadlix-curriculum-summary h3:hover {
   cursor: pointer;
+  color: var(--acadlix-primary-main);
 }
 
-.acadlix-curriculum-summary span::before {
+.acadlix-curriculum-summary h3::before {
   content: "►";
-  font-size: 1rem;
+  font-size: 1.15rem;
   display: flex;
   align-items: center;
   margin-right: 0.5rem;
@@ -261,12 +239,15 @@ body {
 }
 
 .acadlix-curriculum-details[open] .acadlix-curriculum-summary {
-  color: var(--acadlix-primary-main);
   border-radius: var(--acadlix-border-radius);
   background-color: var(--acadlix-grey);
 }
 
-.acadlix-curriculum-details[open] span::before {
+.acadlix-curriculum-details[open] .acadlix-curriculum-summary h3{
+  color: var(--acadlix-primary-main);
+}
+
+.acadlix-curriculum-details[open] h3::before {
   rotate: 90deg;
   transition: rotate 200ms ease-out;
 }
@@ -315,7 +296,7 @@ body {
   justify-content: space-between;
   padding: 8px 16px;
   background-color: inherit;
-  transition: background-color 300ms ease-in;
+  transition: background-color 200ms ease-in;
 }
 
 .acadlix-curriculum-content-item:hover {
