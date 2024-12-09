@@ -2,7 +2,7 @@
 
 namespace Yuvayana\Acadlix\Controller;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
 if (!class_exists("SingleCourseController")) {
     class SingleCourseController
@@ -17,9 +17,9 @@ if (!class_exists("SingleCourseController")) {
 
         public function template_loader($template)
         {
-            if(is_singular( ACADLIX_COURSE_CPT )){
-                $single_course_template = ACADLIX_VIEW_PATH.'/SingleCourseView.php';
-                if($single_course_template){
+            if (is_singular(ACADLIX_COURSE_CPT)) {
+                $single_course_template = ACADLIX_VIEW_PATH . '/SingleCourseView.php';
+                if ($single_course_template) {
                     return $single_course_template;
                 }
             }
@@ -28,12 +28,25 @@ if (!class_exists("SingleCourseController")) {
 
         public function enqueue_front_single_course()
         {
-            if (is_singular( ACADLIX_COURSE_CPT )) {
-                wp_dequeue_style( 'acadlix-front-css' );
-                wp_dequeue_script( 'acadlix-front-js' );
+            if (is_singular(ACADLIX_COURSE_CPT)) {
+                wp_dequeue_style('acadlix-front-css');
+                wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_style('acadlix-front-single-course-css');
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
+
+                $custom_css = "
+                    :root {
+                        --acadlix-primary-main: hsl(210, 100%, 45%); 
+                        --acadlix-primary-dark: hsl(210, 100%, 38%);
+                        --acadlix-text-primary: hsl(215, 15%, 12%);
+                        --acadlix-text-tertiary: hsl(218, 10%, 55%);
+                        --acadlix-grey: hsl(215, 15%, 97%);
+                        --acadlix-border-color: hsl(2515, 15%, 82%);
+                    }
+                ";
+
+                wp_add_inline_style( 'acadlix-front-single-course-css', $custom_css );
 
                 // wp_enqueue_script('acadlix-front-single-course-js');
                 // wp_localize_script('acadlix-front-single-course-js', 'acadlixOptions', array(

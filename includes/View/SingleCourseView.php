@@ -35,8 +35,14 @@ function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true): s
         }
 
         .<?php echo $unique_class; ?> a {
-            color: #747272;
+            color: var(--acadlix-text-tertiary);
             text-decoration: none;
+        }
+
+        .<?php echo $unique_class; ?> a:hover {
+            color: var(--acadlix-primary-main);
+            text-decoration: none;
+            border-bottom: 1px solid var(--acadlix-primary-main);
         }
 
         @media (max-width: 768px) {
@@ -48,8 +54,8 @@ function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true): s
         }
     </style>
     <nav class="<?php echo $unique_class; ?>">
-        <a href="#">Home</a> >
-        <a href="#">Web Development</a> >
+        <a href="#">Home</a>&nbsp;>&nbsp;
+        <a href="#">Web Development</a> &nbsp;>&nbsp;
         <a href="#">Webflow</a>
     </nav>
     <?php
@@ -80,8 +86,8 @@ function acadlix_course_img(bool $desktop = true, bool $mobile = true): string
             display:
                 <?php echo $desktop ? "block" : "none"; ?>
             ;
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
+            border-top-left-radius: var(--acadlix-border-radius);
+            border-top-right-radius: var(--acadlix-border-radius);
         }
 
         @media (max-width: 768px) {
@@ -161,9 +167,10 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     <head>
         <meta charset="<?php bloginfo('charset'); ?>">
         <?php wp_head(); ?>
+        
     </head>
 
-    <body <?php body_class(); ?>>
+    <body <?php body_class(); ?> >
         <?php wp_body_open(); ?>
         <div class="wp-site-blocks">
             <?php
@@ -180,14 +187,16 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <?php echo acadlix_course_img(false, true); ?>
                 <div class="acadlix-card-body acadlix-course-header-body">
                     <?php echo acadlix_course_breadcrumb(true, false); ?>
-                    <h1 class="acadlix-course-header-title acadlix-fs-4 acadlix-my-8 acadlix-text-primary">
+                    <h1 class="acadlix-course-header-title acadlix-fs-4 acadlix-my-8">
                         Complete Website Responsive Design: from Figma to Webflow to Website Design</h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
                         Last updated 9/2024
                     </div>
                     <div class="acadlix-course-header-author">
-                        <div class="acadlix-course-header-created-at-text acadlix-text-tertiary">Created by:</div>
+                        <div class="acadlix-course-header-created-at-text">
+                            Created by:
+                        </div>
                         <strong>Dianne Russell</strong> + <strong>Kristin Watson</strong>
                     </div>
 
@@ -229,23 +238,23 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <!-- navbar tabs  -->
                 <nav class="acadlix-course-main-navbar">
                     <ul class="acadlix-course-main-navbar-list">
-                        <li><a href="#overview">Overview</a></li>
-                        <li><a href="#curriculum">Curriculum</a></li>
-                        <li><a href="#instructor">Instructor</a></li>
+                        <li><a href="#overview" class="acadlix-fs-6">Overview</a></li>
+                        <li><a href="#curriculum" class="acadlix-fs-6">Curriculum</a></li>
+                        <li><a href="#instructor" class="acadlix-fs-6">Instructor</a></li>
                     </ul>
                 </nav>
 
                 <div id="overview" class="acadlix-course-overview acadlix-mb-16">
                     <div class="acadlix-card acadlix-box-shadow-2">
-                        <div class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
+                        <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
                             What you will learn in this course
-                        </div>
+                        </h2>
                         <div class="acadlix-card-body">
                             <div class="acadlix-row">
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
@@ -256,7 +265,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
@@ -267,7 +276,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -277,7 +286,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -287,7 +296,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -297,7 +306,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
                                     <div
-                                        class="acadlix-button-icon acadlix-bg-warning-main acadlix-text-white acadlix-p-4">
+                                        class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -308,9 +317,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         </div>
                     </div>
                     <div class="acadlix-card acadlix-box-shadow-2">
-                        <div class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
+                        <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
                             Description
-                        </div>
+                        </h2>
                         <div class="acadlix-card-body acadlix-fs-7 acadlix-fw-lighter">
                             In this course, you'll master the entire process of turning
                             a concept into a fully functional, visually stunning website. You'll begin by designing
@@ -336,21 +345,22 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </div>
                 </div>
                 <div id="curriculum" class="acadlix-course-curriculum acadlix-card acadlix-mb-16 acadlix-box-shadow-2">
-                    <div class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
+                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
                         Curriculum
-                    </div>
+                    </h2>
                     <div class="acadlix-d-flex acadlix-flex-column acadlix-gap-1 acadlix-card-body">
-                        <div>
+                        <div class="acadlix-curriculum-item">
                             <details class="acadlix-curriculum-details" open>
                                 <summary class="acadlix-curriculum-summary">
-                                    <span role="term" aria-details="pure-css">Click to open and close smoothly with
-                                        pure CSS</span>
+                                    <span role="term" aria-details="pure-css">
+                                        Click to open and close smoothly with pure CSS
+                                    </span>
                                 </summary>
                             </details>
                             <div class="acadlix-curriculum-content">
                                 <div class="acadlix-curriculum-content-item">
                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
-                                        <span><i class="fas fa-video"></i></span>
+                                        <span class="acadlix-content-icon"><i class="fas fa-video"></i></span>
                                         <h5 class="acadlix-content-text acadlix-fs-6">
                                             What's Webflow?
                                         </h5>
@@ -359,19 +369,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         00:00:00
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div>
-                            <details class="acadlix-curriculum-details">
-                                <summary class="acadlix-curriculum-summary">
-                                    <span role="term" aria-details="pure-css">Click to open and close smoothly with
-                                        pure CSS</span>
-                                </summary>
-                            </details>
-                            <div class="acadlix-curriculum-content">
                                 <div class="acadlix-curriculum-content-item">
                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
-                                        <span><i class="fas fa-video"></i></span>
+                                        <span class="acadlix-content-icon"><i class="fas fa-video"></i></span>
                                         <h5 class="acadlix-content-text acadlix-fs-6">
                                             What's Webflow?
                                         </h5>
@@ -385,20 +385,21 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </div>
                 </div>
 
-                <div id="instructor" class="acadlix-course-instructor">
-                    <div class="acadlix-fs-4 acadlix-fw-bold">Course Instructor (02)</div>
-
-                    <div class="acadlix-card">
-                        <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
-                            <img src="<?php echo ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>" alt="Vako Shvili"
-                                class="acadlix-card-img acadlix-course-instructor-img">
-                            <div class="acadlix-course-instructor-detail">
-                                <div class="acadlix-fs-5 acadlix-fw-bold">Vako Shvili</div>
-                                <p>Web Designer & Best-Selling Instructor</p>
-                                <div class="acadlix-course-instructor-stats">
-                                    <span>⭐ 4.9 Course Rating</span> |
-                                    <span>👥 236,568 Students</span> |
-                                    <span>🎓 09 Courses</span>
+                <div id="instructor" class="acadlix-card acadlix-course-instructor acadlix-mb-16 acadlix-box-shadow-2">
+                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">Course Instructor (01)</h2>
+                    <div class="acadlix-card-body">
+                        <div class="acadlix-card">
+                            <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
+                                <img src="<?php echo ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>" alt="Vako Shvili"
+                                    class="acadlix-card-img acadlix-course-instructor-img">
+                                <div class="acadlix-course-instructor-detail">
+                                    <div class="acadlix-fs-5 acadlix-fw-bold">Vako Shvili</div>
+                                    <p>Web Designer & Best-Selling Instructor</p>
+                                    <div class="acadlix-course-instructor-stats">
+                                        <span>⭐ 4.9 Course Rating</span> |
+                                        <span>👥 236,568 Students</span> |
+                                        <span>🎓 09 Courses</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
