@@ -1,28 +1,41 @@
 (function ($) {
-  const $e = $(document).find("#acadlix_all_course_page");
-  const course_base = `${acadlixOptions?.api_url}/front-course`;
+  const $e = $(document).find("#acadlix-all-course-page");
+  const courseBase = `${acadlixOptions?.api_url}/front-course`;
 
   const course = {
-    user_id: acadlixOptions?.user_id ? Number(acadlixOptions?.user_id) : 0,
-    course_base: course_base,
-    ajax_url: `${acadlixOptions?.ajax_url}`,
-    checkout_url: acadlixOptions?.checkout_url,
-    add_to_cart_url: `${course_base}/add-to-cart`,
-    buy_now_url: `${course_base}/buy-now`,
-    start_now_url: `${course_base}/start-now`,
-    add_wishlist_url: `${course_base}/add-wishlist`,
-    remove_wishlist_url: `${course_base}/remove-wishlist`,
-    cookie_name: "acadlix_cart_token",
-    cookie_expiry_name: "acadlix_cart_token_expiry",
-    expiry_days: 7,
+    userId: acadlixOptions?.user_id ? Number(acadlixOptions?.user_id) : 0,
+    courseBase: courseBase,
+    ajaxUrl: `${acadlixOptions?.ajax_url}`,
+    checkoutUrl: acadlixOptions?.checkout_url,
+    addToCartUrl: `${courseBase}/add-to-cart`,
+    buyNowUrl: `${courseBase}/buy-now`,
+    startNowUrl: `${courseBase}/start-now`,
+    addWishlistUrl: `${courseBase}/add-wishlist`,
+    removeWishlistUrl: `${courseBase}/remove-wishlist`,
+    cookieName: "acadlix_cart_token",
+    cookieExpiryName: "acadlix_cart_token_expiry",
+    expiryDays: 7,
   };
 
   const methods = {
+    /**
+     * Sets a cookie with the given name, value, and expiration date.
+     * 
+     * @param {string} name - The name of the cookie to set.
+     * @param {*} value - The value of the cookie to set.
+     * @param {number} expiry - The number of days until the cookie expires.
+     */
     setCookie: (name, value, expiry) => {
       const expires = "expires=" + new Date(expiry).toUTCString();
       document.cookie = name + "=" + value + ";" + expires + ";path=/";
     },
 
+    /**
+     * Retrieves the value of a specified cookie from the browser.
+     * 
+     * @param {string} cname - The name of the cookie to retrieve.
+     * @returns {string} - The value of the cookie if found; otherwise, an empty string.
+     */
     getCookie: (cname) => {
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
@@ -39,62 +52,189 @@
       return "";
     },
 
-    deleteCookie: (name) => {
-      document.cookie =
-        name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    },
+    /**
+     * Deletes a cookie with the given name by setting its value to an empty string
+     * and the expiration date to a date in the past.
+     * @param {string} name - The name of the cookie to delete.
+     */
+    deleteCookie: (name) => document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`,
 
+    /**
+     * Gets the cart token with its expiry time in milliseconds.
+     * If the user is not logged in, it first checks if the cart token exists in the cookie.
+     * If it doesn't exist, it generates a new token and sets it as a cookie.
+     * If the user is logged in, the cart token is reset.
+     * @param {object} [res={}] - The response from the AJAX request.
+     * @returns {object} - An object containing the cart token and its expiry time in milliseconds.
+     */
     getTokenWithExpiry: (res = {}) => {
-      let cartToken = "",
-        tokenExpiry =
-          new Date().getTime() + course?.expiry_days * 24 * 60 * 60 * 1000;
-      if (res?.data?.user_id == 0) {
-        cartToken = methods?.getCookie(course?.cookie_name);
-        if (cartToken == "") {
-          cartToken = `${course?.cookie_name}_${tokenExpiry}`;
-          methods?.setCookie(course?.cookie_name, cartToken, tokenExpiry);
-        } else {
-          methods?.setCookie(course?.cookie_name, cartToken, tokenExpiry);
-        }
+      const tokenExpiry =
+        new Date().getTime() + course?.expiryDays * 24 * 60 * 60 * 1000;
+      const cartToken = res?.data?.user_id
+        ? ""
+        : methods?.getCookie(course?.cookieName) ||
+        `${course?.cookieName}_${tokenExpiry}`;
+      if (res?.data?.user_id == 0 && !methods?.getCookie(course?.cookieName)) {
+        methods?.setCookie(course?.cookieName, cartToken, tokenExpiry);
       }
       return { cartToken, tokenExpiry };
     },
 
-    is_user_logged_in: (
-      onSuccess = (response) => {},
-      onError = (error) => {}
-    ) => {
-      $.ajax({
-        url: course?.ajax_url, // Use WordPress AJAX endpoint
-        method: "POST",
-        data: {
+
+    /**
+     * Checks if the user is logged in using an AJAX request.
+     *
+     * @param {function} [onSuccess] - A callback function that will be called if the request is successful.
+     * @param {function} [onError] - A callback function that will be called if the request fails.
+     */
+    isUserLoggedIn(
+      onSuccess = (response) => { },
+      onError = (error) => { }
+    ) {
+      if (course.ajaxUrl) {
+        $.post(course.ajaxUrl, {
           action: "check_user_login_status",
-        },
+        })
+          .done((response) => {
+            if (response) {
+              onSuccess(response);
+            }
+          })
+          .fail((error) => {
+            if (error) {
+              onError(error);
+            }
+          });
+      } else {
+        console.error("No AJAX URL provided.");
+      }
+    },
+
+
+    /**
+     * Adds a course to the cart using an AJAX request.
+     *
+     * @param {number} [courseId=0] - The ID of the course to add to the cart.
+     * @param {number} [userId=0] - The ID of the user adding the course to the cart.
+     * @param {function} [callback=() => {}] - A callback function that will be called when the request is complete.
+     * @returns {void}
+     */
+    ajaxAddToCart: (courseId = 0, userId = 0, callback = () => { }) => {
+      if (courseId == null || userId == null || !course?.addToCartUrl) {
+        console.error("Missing required parameters.");
+        return;
+      }
+
+      try {
+        $.ajax({
+          url: course.addToCartUrl,
+          method: "POST",
+          data: JSON.stringify({ courseId, userId }),
+          contentType: "application/json",
+          success: (response) => {
+            if (response && response.status === "success") {
+              callback(response);
+            } else if (response) {
+              console.error("Unexpected response:", response);
+            } else {
+              console.error("No response received.");
+            }
+          },
+          error: (error) => {
+            console.error("Error occurred:", error.responseJSON || error);
+          },
+          complete: () => {
+            callback();
+          },
+        });
+      } catch (error) {
+        console.error("An unexpected error occurred:", error);
+      }
+    },
+
+    /**
+     * Adds a course to the cart and redirects to the checkout page if the operation is successful.
+     *
+     * @param {number} [courseId=0] - The ID of the course to add to the cart.
+     * @param {number} [userId=0] - The ID of the user adding the course to the cart.
+     * @param {string} [cartToken=""] - The cart token to add the course to.
+     * @param {number} [tokenExpiry=0] - The expiry time of the cart token in milliseconds.
+     * @param {function} [callback=() => {}] - A callback function that will be called after the AJAX request is complete.
+     */
+    ajaxBuyNow: (courseId = 0, userId = 0, cartToken = "", tokenExpiry = 0, callback = () => { }) => {
+      const data = {
+        course_id: courseId,
+        user_id: userId,
+        cart_token: cartToken,
+        token_expiry: tokenExpiry
+      };
+
+      try {
+        $.ajax({
+          url: course?.buyNowUrl,
+          method: "POST",
+          data: JSON.stringify(data),
+          contentType: "application/json",
+          success: (response) => {
+            if (response?.status === "success" && response?.redirect) {
+              if (typeof window !== "undefined" && window.location) {
+                window.location.href = response?.redirect;
+              }
+            }
+
+            callback();
+          },
+          error: (error) => {
+            if (error?.responseJSON) {
+              console.error("Error occurred:", error.responseJSON);
+            } else {
+              console.error("Error occurred:", error);
+            }
+            callback();
+          },
+        });
+      } catch (error) {
+        console.error("An unexpected error occurred:", error);
+      }
+    },
+
+    /**
+     * Makes an AJAX request to start a course.
+     *
+     * @param {number} [courseId=0] - The ID of the course to start.
+     * @param {number} [userId=0] - The ID of the user starting the course.
+     * @param {string} [cartToken=""] - The cart token to associate with the course.
+     * @param {number} [tokenExpiry=0] - The expiry time of the cart token in milliseconds.
+     * @param {function} [callback=() => {}] - A callback function that will be called after the AJAX request is complete.
+     * @returns {void}
+     */
+    ajaxStartNow: (
+      courseId = 0,
+      userId = 0,
+      cartToken = "",
+      tokenExpiry = 0,
+      callback = () => { }
+    ) => {
+
+      const data = {
+        course_id: courseId,
+        user_id: userId,
+        cart_token: cartToken,
+        token_expiry: tokenExpiry
+      }
+      $.ajax({
+        url: course?.startNowUrl,
+        method: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: (response) => {
-          onSuccess(response);
+          if (response && response?.status === "success" && response?.redirect) {
+            window.location.href = response?.redirect;
+          }
+          callback();
         },
         error: (error) => {
-          onError(error);
-        },
-      });
-    },
-
-    ajax_add_to_cart: (course_id = 0, user_id = 0, callback = () => {}) => {
-      $.ajax({
-        url: course?.add_to_cart_url,
-        method: "POST",
-        data: JSON.stringify({
-          course_id: course_id,
-          user_id: user_id,
-        }),
-        contentType: "application/json",
-        success: (res) => {
-          if ("success" === res?.status) {
-            console.log(res);
-          }
-        },
-        error: (err) => {
-          console.error(err?.responseJSON);
+          console.error("Error occurred:", error.responseJSON);
         },
         complete: () => {
           callback();
@@ -102,83 +242,18 @@
       });
     },
 
-    ajax_buy_now: (
-      course_id = 0,
-      user_id = 0,
-      cart_token = "",
-      token_expiry = 0,
-      callback = () => {}
-    ) => {
-      $.ajax({
-        url: course?.buy_now_url,
-        method: "POST",
-        data: JSON.stringify({
-          course_id: course_id,
-          user_id: user_id,
-          cart_token: cart_token,
-          token_expiry: token_expiry,
-        }),
-        contentType: "application/json",
-        success: (res) => {
-          if ("success" === res?.status) {
-            if (res?.redirect) {
-              window.location.href = res?.redirect;
-            }
-          }
-        },
-        error: (err) => {
-          console.error(err?.responseJSON);
-        },
-        complete: () => {
-          callback();
-        },
-      });
-    },
 
-    ajax_start_now: (
-      course_id = 0,
-      user_id = 0,
-      cart_token = "",
-      token_expiry = 0,
-      callback = () => {}
-    ) => {
-      $.ajax({
-        url: course?.start_now_url,
-        method: "POST",
-        data: JSON.stringify({
-          course_id: course_id,
-          user_id: user_id,
-          cart_token: cart_token,
-          token_expiry: token_expiry,
-        }),
-        contentType: "application/json",
-        success: (res) => {
-          if ("success" === res?.status) {
-            if (res?.redirect) {
-              window.location.href = res?.redirect;
-            }
-          }
-        },
-        error: (err) => {
-          console.error(err?.responseJSON);
-        },
-        complete: () => {
-          callback();
-        },
-      });
-    },
-
-    add_to_cart: (elm) => {
+    addToCart: (elm) => {
       const id = $(elm).data("id");
-      $(elm).find(".acadlix_action_button_text").hide();
-      $(elm).find(".acadlix_btn_loader").show();
+      $(elm).find(".acadlix-action-button-text").hide();
+      $(elm).find(".acadlix-btn-loader").show();
       if (course?.user_id == 0) {
-        methods?.is_user_logged_in(
+        methods?.isUserLoggedIn(
           (res) => {
             if (res?.success) {
-              methods?.ajax_add_to_cart(id, res?.data?.user_id, () => {
-                $(elm).find(".acadlix_action_button_text").show();
-                $(elm).find(".acadlix_btn_loader").hide();
+              methods?.ajaxAddToCart(id, res?.data?.user_id, () => {
+                $(elm).find(".acadlix-action-button-text").show();
+                $(elm).find(".acadlix-btn-loader").hide();
               });
             }
           },
@@ -187,142 +262,242 @@
           }
         );
       } else {
-        methods?.ajax_add_to_cart(id, course?.user_id);
+        methods?.ajaxAddToCart(id, course?.user_id);
       }
     },
 
-    buy_now: (elm) => {
-      const id = $(elm).data("id");
-      $(elm).find(".acadlix_action_button_text").hide();
-      $(elm).find(".acadlix_btn_loader").show();
+
+    /**
+     * Handles the click event of a "Buy Now" button.
+     * Checks if the user is logged in using an AJAX request.
+     * If the user is logged in, makes an AJAX request to add the course to cart.
+     * If the user is not logged in, makes an AJAX request to check the user's login status.
+     * If the user's login status is successful, makes an AJAX request to add the course to cart.
+     * @param {Object} element - The element that was clicked.
+     */
+    buyNow: (element) => {
+      const courseId = $(element)?.data("id");
+      if (courseId === undefined) {
+        console.error("Element does not have a 'data-id' attribute.");
+        return;
+      }
+
+      const $element = $(element);
+      if (!$element) {
+        console.error("Element is null or undefined.");
+        return;
+      }
+
+      const $btnText = $element.find(".acadlix-action-button-text");
+      const $btnLoader = $element.find(".acadlix-btn-loader");
+      $btnText.hide();
+      $btnLoader.show();
+
       const callback = () => {
-        $(elm).find(".acadlix_action_button_text").show();
-        $(elm).find(".acadlix_btn_loader").hide();
+        $btnText.show();
+        $btnLoader.hide();
       };
-      if (course?.user_id == 0) {
-        methods?.is_user_logged_in(
-          (res) => {
-            if (res?.success) {
-              let {cartToken, tokenExpiry} = methods?.getTokenWithExpiry(res);
-              methods?.ajax_buy_now(
-                id,
-                res?.data?.user_id,
-                cartToken,
-                tokenExpiry,
-                callback
-              );
+
+      if (course.userId === 0) {
+        methods?.isUserLoggedIn(
+          (response) => {
+            if (response && response.success) {
+              const { cartToken, tokenExpiry } = methods.getTokenWithExpiry(response);
+              if (cartToken === undefined || tokenExpiry === undefined) {
+                console.error("Failed to get cart token and expiry.");
+                return;
+              }
+
+              methods?.ajaxBuyNow(courseId, response.data.userId, cartToken, tokenExpiry, callback);
             }
           },
-          (err) => {
-            console.error(err?.responseJSON);
+          (error) => {
+            console.error(error?.responseJSON);
           }
         );
       } else {
-        methods?.ajax_buy_now(id, course?.user_id, "", 0, callback);
+        methods?.ajaxBuyNow(courseId, course.userId, "", 0, callback);
       }
     },
 
-    start_now: (elm) => {
-      const id = $(elm).data("id");
-      $(elm).find(".acadlix_action_button_text").hide();
-      $(elm).find(".acadlix_btn_loader").show();
+
+    /**
+     * Handles the click event of a "Start Now" button.
+     * Checks if the user is logged in using an AJAX request.
+     * If the user is logged in, makes an AJAX request to start the course.
+     * If the user is not logged in, makes an AJAX request to check the user's login status.
+     * If the user's login status is successful, makes an AJAX request to start the course.
+     * @param {Object} element - The element that was clicked.
+     */
+    startNow: (element) => {
+      const courseId = $(element)?.data("id");
+      if (courseId === undefined) {
+        console.error("Element does not have a 'data-id' attribute.");
+        return;
+      }
+
+      const $element = $(element);
+      if (!$element) {
+        console.error("Element is null or undefined.");
+        return;
+      }
+
+      const $btnText = $element.find(".acadlix-action-button-text");
+      const $btnLoader = $element.find(".acadlix-btn-loader");
+      $btnText.hide();
+      $btnLoader.show();
+
       const callback = () => {
-        $(elm).find(".acadlix_action_button_text").show();
-        $(elm).find(".acadlix_btn_loader").hide();
+        $btnText.show();
+        $btnLoader.hide();
       };
-      if (course?.user_id == 0) {
-        methods?.is_user_logged_in(
-          (res) => {
-            if (res?.success) {
-              let {cartToken, tokenExpiry} = methods?.getTokenWithExpiry(res);
-              methods?.ajax_start_now(
-                id,
-                res?.data?.user_id,
-                cartToken,
-                tokenExpiry,
-                callback
-              );
+
+      if (course.userId === 0) {
+        methods?.isUserLoggedIn(
+          (response) => {
+            if (response && response.success) {
+              const { cartToken, tokenExpiry } = methods?.getTokenWithExpiry(response);
+              if (cartToken === undefined || tokenExpiry === undefined) {
+                console.error("Failed to get cart token and expiry.");
+                return;
+              }
+
+              methods?.ajaxStartNow(courseId, response.data.userId, cartToken, tokenExpiry, callback);
             }
           },
-          (err) => {
-            console.error(err?.responseJSON);
+          (error) => {
+            console.error(error?.responseJSON);
           }
         );
       } else {
-        methods?.ajax_start_now(id, course?.user_id, "", 0, callback);
+        methods?.ajaxStartNow(courseId, course.userId, "", 0, callback);
       }
     },
 
-    add_to_wishlist: (elm) => {
-      const id = $(elm).data("id");
-      $(elm).find("i").hide();
-      $(elm).find(".acadlix_btn_loader").show();
+
+    /**
+     * Handles the click event of an "Add to Wishlist" button.
+     * Hides the wishlist icon and shows a loading spinner.
+     * Sends an AJAX POST request to add the course to the user's wishlist.
+     * On success, shows the wishlist icon, hides the loading spinner,
+     * and updates the display to show the remove from wishlist button.
+     * Logs any errors to the console.
+     * @param {Object} element - The element that was clicked.
+     */
+    addToWishlist: (element) => {
+      const courseId = $(element)?.data("id");
+      if (courseId === undefined) {
+        console.error("Element does not have a 'data-id' attribute.");
+        return;
+      }
+
+      const $element = $(element);
+      if (!$element) {
+        console.error("Element is null or undefined.");
+        return;
+      }
+
+      const $wishlistIcon = $element.find("i");
+      const $loader = $element.find(".acadlix-btn-loader");
+
+      if (!$wishlistIcon || !$loader) {
+        console.error("Element does not contain a wishlist icon or loader.");
+        return;
+      }
+
+      $wishlistIcon.hide();
+      $loader.show();
+
       $.ajax({
-        url: course?.add_wishlist_url,
+        url: course?.addWishlistUrl,
         method: "POST",
         data: JSON.stringify({
-          course_id: id,
-          user_id: course?.user_id,
+          course_id: courseId,
+          user_id: course?.userId,
         }),
         contentType: "application/json",
         success: () => {
-          $(elm).find("i").show();
-          $(elm).find(".acadlix_btn_loader").hide();
-          $(elm).css("display", "none");
-          $(`#remove_from_wishlist_${id}`).css("display", "flex");
+          $wishlistIcon.show();
+          $loader.hide();
+          $element.siblings(`#remove-from-wishlist-${courseId}`).css("display", "flex");
+          $element.css("display", "none");
         },
-        error: (err) => {
-          $(elm).find("i").show();
-          $(elm).find(".acadlix_btn_loader").hide();
-          console.error(err?.responseJSON);
+        error: (error) => {
+          $wishlistIcon.show();
+          $loader.hide();
+          console.error(error?.responseJSON);
         },
       });
     },
 
-    remove_from_wishlist: (elm) => {
-      const id = $(elm).data("id");
-      $(elm).find("i").hide();
-      $(elm).find(".acadlix_btn_loader").show();
+
+    /**
+     * Handles the click event of a "Remove from Wishlist" button.
+     * Hides the wishlist icon and shows a loading spinner.
+     * Sends an AJAX DELETE request to remove the course from the user's wishlist.
+     * On success, shows the wishlist icon, hides the loading spinner,
+     * and updates the display to show the add to wishlist button.
+     * @param {Object} element - The element that was clicked.
+     */
+    removeFromWishlist(element) {
+      const courseId = $(element)?.data("id");
+      if (courseId === undefined) {
+        throw new Error("Element does not contain a valid course ID.");
+      }
+
+      const $element = $(element);
+      if (!$element) {
+        console.error("Element is null or undefined.");
+        return;
+      }
+      const $icon = $element.find("i");
+      const $loader = $element.find(".acadlix-btn-loader");
+
+      $icon.hide();
+      $loader.show();
+
       $.ajax({
-        url: course?.remove_wishlist_url,
+        url: course?.removeWishlistUrl,
         method: "DELETE",
         data: JSON.stringify({
-          course_id: id,
-          user_id: course?.user_id,
+          course_id: courseId,
+          user_id: course.userId,
         }),
         contentType: "application/json",
         success: () => {
-          $(elm).find("i").show();
-          $(elm).find(".acadlix_btn_loader").hide();
-          $(elm).css("display", "none");
-          $(`#add_to_wishlist_${id}`).css("display", "flex");
+          $icon.show();
+          $loader.hide();
+          $element.siblings(`#add-to-wishlist-${courseId}`).css("display", "flex");
+          $element.css("display", "none");
         },
-        error: (err) => {
-          $(elm).find("i").show();
-          $(elm).find(".acadlix_btn_loader").hide();
-          console.error(err?.responseJSON);
+        error: (error) => {
+          $icon.show();
+          $loader.hide();
+          throw error;
         },
       });
     },
   };
 
-  $e.find(".acadlix_add_to_cart").click(function () {
-    methods?.add_to_cart(this);
+  $e.find(".acadlix-add-to-cart").click(function () {
+    methods?.addToCart(this);
   });
 
-  $e.find(".acadlix_buy_now").click(function () {
-    methods?.buy_now(this);
+  $e.find(".acadlix-buy-now").click(function () {
+    methods?.buyNow(this);
   });
 
-  $e.find(".acadlix_start_now").click(function () {
-    methods?.start_now(this);
+  $e.find(".acadlix-start-now").click(function () {
+    methods?.startNow(this);
   });
 
-  $e.find(".acadlix_add_to_wishlist").click(function () {
-    methods?.add_to_wishlist(this);
+  $e.find(".acadlix-add-to-wishlist").click(function () {
+    methods?.addToWishlist(this);
   });
 
-  $e.find(".acadlix_remove_from_wishlist").click(function () {
-    methods?.remove_from_wishlist(this);
+  $e.find(".acadlix-remove-from-wishlist").click(function () {
+    methods?.removeFromWishlist(this);
   });
 })(jQuery);
+
+

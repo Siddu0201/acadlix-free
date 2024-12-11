@@ -33,6 +33,8 @@ if (!class_exists('Course')) {
 
         protected $with = ['users', 'outcomes', 'faqs', 'sections', 'post'];
 
+        protected $withCount = ['users', 'outcomes', 'faqs', 'sections'];
+
         public function setVideoAttribute($value)
         {
             $this->attributes['video'] = maybe_serialize($value);

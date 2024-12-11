@@ -1227,7 +1227,7 @@
 }
 .acadlix-row {
   --acadlix-gutter-x: 1.5rem;
-  --acadlix-gutter-y: 0;
+  --acadlix-gutter-y: 1.5rem;
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(-1 * var(--acadlix-gutter-y));
@@ -4139,4 +4139,40 @@
 }
 .acadlix-fw-bolder {
   font-weight: bolder;
+}
+
+.acadlix-fw-100{
+  font-weight: 100;
+}
+
+.acadlix-fw-200{
+  font-weight: 200;
+}
+
+.acadlix-fw-300{
+  font-weight: 300;
+}
+
+.acadlix-fw-400{
+  font-weight: 400;
+}
+
+.acadlix-fw-500{
+  font-weight: 500;
+}
+
+.acadlix-fw-600{
+  font-weight: 600;
+}
+
+.acadlix-fw-700{
+  font-weight: 700;
+}
+
+.acadlix-fw-800{
+  font-weight: 800;
+}
+
+.acadlix-fw-900{
+  font-weight: 900;
 }

@@ -1,7 +1,7 @@
 <?php
 
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Models\Course;
-
 
 defined('ABSPATH') || exit();
 
@@ -9,18 +9,23 @@ global $post, $wp_version;
 
 $course = Course::find($post->ID);
 
+// echo "<pre>";
+// print_r($course);
+// echo "</pre>";
+
+
 /**
- * Output course breadcrumb
+ * Outputs the HTML for a course breadcrumb navigation with specific display settings.
  *
- * @param bool $desktop  whether to display the breadcrumb on desktop
- * @param bool $mobile   whether to display the breadcrumb on mobile
+ * @param bool $desktop Determines if the breadcrumb should be displayed on desktop.
+ * @param bool $mobile  Determines if the breadcrumb should be displayed on mobile.
  *
- * @return string the breadcrumb HTML
+ * @return string The HTML for a course breadcrumb navigation
  */
-function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true): string
+function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true)
 {
-    if (is_null($desktop) || is_null($mobile)) {
-        throw new TypeError('The parameters must be boolean values.');
+    if (!is_bool($desktop) || !is_bool($mobile)) {
+        error_log('The parameters must be boolean values.');
     }
 
     $unique_class = 'acadlix-course-breadcrumb-' . uniqid();
@@ -62,20 +67,19 @@ function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true): s
     return ob_get_clean();
 }
 
+
 /**
  * Outputs the HTML for a course image with specific display settings.
  *
- * @param bool $desktop Determines if the image should be displayed on desktop.
- * @param bool $mobile  Determines if the image should be displayed on mobile.
+ * @param bool $desktop Determines if the course image should be displayed on desktop.
+ * @param bool $mobile  Determines if the course image should be displayed on mobile.
  *
- * @throws TypeError If the parameters are not boolean values.
- *
- * @return string The HTML for the course image.
+ * @return string The HTML for a course image
  */
-function acadlix_course_img(bool $desktop = true, bool $mobile = true): string
+function acadlix_course_img(bool $desktop = true, bool $mobile = true)
 {
     if (is_null($desktop) || is_null($mobile)) {
-        throw new TypeError('The parameters must be boolean values.');
+        error_log('The parameters must be boolean values.');
     }
 
     $unique_class = 'acadlix-course-featured-item-' . uniqid();
@@ -111,7 +115,7 @@ function acadlix_course_img(bool $desktop = true, bool $mobile = true): string
  *
  * @return string The HTML for the course action buttons.
  */
-function acadlix_course_action_buttons(object $course): string
+function acadlix_course_action_buttons(Course $course): string
 {
     ob_start();
     ?>
@@ -122,14 +126,14 @@ function acadlix_course_action_buttons(object $course): string
         <div class="acadlix-btn-loader" style="display: none;"></div>
     </button>
 
-    <div class="acadlix-product-page-icon-element acadlix-add-to-wishlist"
+    <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
         id="add-to-wishlist-<?php echo esc_attr($course?->id); ?>" title="Add to Wishlist"
         data-id="<?php echo esc_attr($course?->id); ?>"
         style="display: <?php echo $course?->wishlist_count == 0 ? 'flex' : 'none'; ?>">
         <i class="la la-heart-o"></i>
         <div class="acadlix-btn-loader" style="display: none;"></div>
     </div>
-    <div class="acadlix-product-page-icon-element acadlix-remove-from-wishlist"
+    <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
         id="remove-from-wishlist-<?php echo esc_attr($course?->id); ?>" title="Remove From Wishlist"
         data-id="<?php echo esc_attr($course?->id); ?>"
         style="display: <?php echo $course?->wishlist_count > 0 ? 'flex' : 'none'; ?>">
@@ -145,18 +149,40 @@ function acadlix_course_action_buttons(object $course): string
  *
  * @return string
  */
-function acadlix_course_pricing()
+function acadlix_course_pricing(Course $course)
 {
+    ob_start();
     ?>
     <div class="acadlix-pricing-info">
-        <div class="acadlix-pricing">
-            <div class="acadlix-course-sale-price"> $14.00 </div>
-            <div class="acadlix-course-price">$26.00</div>
-        </div>
+        <?php
+        if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
+            ?>
+            <div class="acadlix-price-free acadlix-p-4">Free</div>
+            <?php
+        } else {
+            ?>
+            <div class="acadlix-pricing">
+                <div class="acadlix-course-sale-price">
+                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
+                </div>
+                <?php
+                if ($course->sale_price != 0) {
+                    ?>
+                    <div class="acadlix-course-price">
+                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
+                    </div>
+                    <?php
+                } 
+                ?>
+            </div>
 
-        <div class="acadlix-discount-tag">56% OFF</div>
+            <div class="acadlix-discount-tag">56% OFF</div>
+            <?php
+        }
+        ?>
     </div>
     <?php
+    return ob_get_clean();
 }
 
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
@@ -167,10 +193,10 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     <head>
         <meta charset="<?php bloginfo('charset'); ?>">
         <?php wp_head(); ?>
-        
+
     </head>
 
-    <body <?php body_class(); ?> >
+    <body <?php body_class(); ?>>
         <?php wp_body_open(); ?>
         <div class="wp-site-blocks">
             <?php
@@ -188,10 +214,11 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <div class="acadlix-card-body acadlix-course-header-body">
                     <?php echo acadlix_course_breadcrumb(true, false); ?>
                     <h1 class="acadlix-course-header-title acadlix-fs-4 acadlix-my-8">
-                        Complete Website Responsive Design: from Figma to Webflow to Website Design</h1>
+                        <?php echo $course->post->post_title; ?>
+                    </h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
-                        Last updated 9/2024
+                        Last updated: <?php echo $course->updated_at; ?>
                     </div>
                     <div class="acadlix-course-header-author">
                         <div class="acadlix-course-header-created-at-text">
@@ -201,7 +228,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </div>
 
                     <div class="acadlix-mobile-price-info">
-                        <?php echo acadlix_course_pricing(); ?>
+                        <?php echo acadlix_course_pricing($course); ?>
                     </div>
                 </div>
 
@@ -209,7 +236,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     <?php echo acadlix_course_img(true, false); ?>
                     <div class="acadlix-card-body acadlix-course-aside-body">
                         <!-- acadlix aside pricing  -->
-                        <?php echo acadlix_course_pricing(); ?>
+                        <?php echo acadlix_course_pricing($course); ?>
 
                         <!-- acadlix aside details  -->
                         <div class="acadlix-course-aside-details">
@@ -253,8 +280,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             <div class="acadlix-row">
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div
-                                        class="acadlix-button-icon acadlix-p-4">
+                                    <div class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
@@ -264,8 +290,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 </div>
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div
-                                        class="acadlix-button-icon acadlix-p-4">
+                                    <div class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
@@ -275,8 +300,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 </div>
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div
-                                        class="acadlix-button-icon acadlix-p-4">
+                                    <div class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -285,8 +309,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 </div>
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div
-                                        class="acadlix-button-icon acadlix-p-4">
+                                    <div class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -295,8 +318,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 </div>
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div
-                                        class="acadlix-button-icon acadlix-p-4">
+                                    <div class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
@@ -305,8 +327,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 </div>
                                 <div
                                     class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div
-                                        class="acadlix-button-icon acadlix-p-4">
+                                    <div class="acadlix-button-icon acadlix-p-4">
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to

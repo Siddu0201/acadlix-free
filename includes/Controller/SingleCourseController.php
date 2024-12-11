@@ -35,19 +35,6 @@ if (!class_exists("SingleCourseController")) {
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
 
-                $custom_css = "
-                    :root {
-                        --acadlix-primary-main: hsl(210, 100%, 45%); 
-                        --acadlix-primary-dark: hsl(210, 100%, 38%);
-                        --acadlix-text-primary: hsl(215, 15%, 12%);
-                        --acadlix-text-tertiary: hsl(218, 10%, 55%);
-                        --acadlix-grey: hsl(215, 15%, 97%);
-                        --acadlix-border-color: hsl(2515, 15%, 82%);
-                    }
-                ";
-
-                wp_add_inline_style( 'acadlix-front-single-course-css', $custom_css );
-
                 // wp_enqueue_script('acadlix-front-single-course-js');
                 // wp_localize_script('acadlix-front-single-course-js', 'acadlixOptions', array(
                 //     'is_admin_bar_showing' => is_admin_bar_showing(),

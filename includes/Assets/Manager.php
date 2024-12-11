@@ -269,6 +269,19 @@ class Manager
             wp_enqueue_style('wp-mediaelement');
         }
         wp_enqueue_style( 'acadlix-front-base-style-css' );
+        $custom_css = "
+                    :root {
+                        --acadlix-primary-main: hsl(210, 100%, 45%); 
+                        --acadlix-primary-dark: hsl(210, 100%, 38%);
+                        --acadlix-text-primary: hsl(215, 15%, 12%);
+                        --acadlix-text-tertiary: hsl(218, 10%, 55%);
+                        --acadlix-grey: hsl(215, 15%, 97%);
+                        --acadlix-border-color: hsl(2515, 15%, 82%);
+                    }
+                ";
+
+        wp_add_inline_style( 'acadlix-front-base-style-css', $custom_css );
+
         wp_enqueue_style('acadlix-front-css');
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-front-js');

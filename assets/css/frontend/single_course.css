@@ -9,7 +9,6 @@ body {
 }
 
 .acadlix-course-header-section {
-  /* background-color: rgb(215 209 209); */
   position: relative;
 }
 
@@ -41,6 +40,12 @@ body {
 /* Price Section */
 .acadlix-mobile-price-info {
   display: none;
+}
+
+.acadlix-price-free{
+  border-radius: var(--acadlix-border-radius);
+  background-color: var(--acadlix-success-main);
+  color: var(--acadlix-primary-contrastText);
 }
 
 .acadlix-pricing-info {
@@ -125,7 +130,7 @@ body {
   margin-right: 5px;
 }
 
-.acadlix-product-page-icon-element {
+.acadlix-course-page-icon-element {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,14 +142,14 @@ body {
   color: var(--acadlix-primary-main);
 }
 
-.acadlix-product-page-icon-element:hover{
+.acadlix-course-page-icon-element:hover{
   color: var(--acadlix-primary-dark);
   box-shadow: var(--acadlix-box-shadow-3);
 }
 
 .acadlix-btn-loader {
   border: 3px solid var(--acadlix-border-color);
-  border-top: 3px solid var(--acadlix-text-primary);
+  border-top: 3px solid var(--acadlix-primary-main);
   border-radius: 50%;
   width: 18px;
   height: 18px;
@@ -184,7 +189,10 @@ body {
   align-items: center;
   background-color: var(--acadlix-primary-main);
   color: var(--acadlix-text-white);
+  height: 22px;
+  width: 22px;
 }
+
 
 .acadlix-course-overview {
   display: flex;

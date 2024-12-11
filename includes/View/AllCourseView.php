@@ -1,5 +1,6 @@
 <?php
 
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
@@ -32,83 +33,10 @@ if (is_user_logged_in()) {
     })->pluck('course_id')->toArray();
 } else {
     if (isset($_COOKIE['acadlix_cart_token'])) {
-        $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash( $_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
+        $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
     }
 }
 
-
-if (!function_exists('get_course_level')) {
-    function get_course_level($level = "")
-    {
-        switch ($level) {
-            case "all_level":
-                return "All Level";
-            case "beginner":
-                return "Beginner";
-            case "intermediate":
-                return "Intermediate";
-            case "advance":
-                return "Advance";
-            default:
-                return "All Level";
-        }
-    }
-}
-
-if (!function_exists('get_course_user')) {
-    function get_course_user($course_id = 0)
-    {
-        $course = Course::withCount('users')->find($course_id);
-        if ($course->users_count > 0) {
-            $i = 0;
-            $user_html = '';
-            foreach ($course->users as $user) {
-                $user_info = get_userdata($user->user_id);
-                if ($i == 0) {
-                    $user_html = "<a href='" . esc_url(get_author_posts_url($user->user_id)) . "'>".esc_html($user_info?->display_name)."</a>";
-                } else {
-                    $user_html .= ", <a href='" . esc_url(get_author_posts_url($user->user_id)) . "'>".esc_html($user_info?->display_name)."</a>";
-                }
-                $i++;
-            }
-            return $user_html;
-        } else {
-            $user_info = get_userdata($course->post->post_author);
-            return "<a href='" . esc_url(get_author_posts_url($course->post->post_author)) . "'>".esc_html($user_info?->display_name)."</a>";
-        }
-    }
-}
-
-if (!function_exists("get_course_price")) {
-    function get_course_price($price = 0)
-    {
-        $currency = Helper::instance()->acadlix_get_option("acadlix_currency");
-        $currency_symbol = Helper::instance()->acadlix_currency_symbols()[$currency];
-        $curreny_position = Helper::instance()->acadlix_get_option("acadlix_currency_position");
-        switch ($curreny_position) {
-            case "Left ( $99.99 )":
-                return "$currency_symbol$price";
-            case "Right ( 99.99$ )":
-                return "$price$currency_symbol";
-            case "Left with space ( $ 99.99 )":
-                return "$currency_symbol $price";
-            case "Right with space ( 99.99 $ )":
-                return "$price $currency_symbol ";
-            default:
-                return "$currency_symbol$price";
-        }
-    }
-}
-
-if (!function_exists('is_course_free')) {
-    function is_course_free($price = 0, $sale_price = 0)
-    {
-        if ($price == 0 && $sale_price == 0) {
-            return true;
-        }
-        return false;
-    }
-}
 
 
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
@@ -132,102 +60,81 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     get_header();
 }
 ?>
-        <section class="acadlix_all_course_page">
-            <div class="acadlix_filter_bar">
-                <div class="acadlix_filter_bar_inner">
-                    <h4>We found <span style="color: black;"><?php echo esc_html($course_count); ?></span> courses
-                        available
-                        for you</h4>
-                    <div class="acadlix_filter_actions">
-                        <div class="acadlix_select_container">
-                            <select id="acadlix_course_filter_select" aria-label="Course Filter">
-                                <option value="all-category">All Category</option>
-                                <option value="newest">Newest courses</option>
-                                <option value="oldest">Oldest courses</option>
-                                <option value="high-rated">Highest rated</option>
-                                <option value="popular-courses">Popular courses</option>
-                                <option value="high-to-low">Price: high to low</option>
-                                <option value="low-to-high">Price: low to high</option>
-                            </select>
-
-                        </div>
-                        <!-- <div class="acadlix_filter_btn">
-                            <p style="display: flex; justify-content: space-around;">Filter
-                                <span>
-                                    <i class="la la-angle-down "></i>
-                                </span>
-                            </p>
-                        </div> -->
+        <main id="acadlix-all-course-page" class="acadlix-all-course-page">
+            <section class="acadlix-card acadlix-my-8">
+                <div class="acadlix-course-filter-bar-body acadlix-card-body">
+                    <div class="acadlix-course-filter-text">
+                        <h4 class="acadlix-fs-6 acadlix-fw-semibold">
+                            We found <span><?php echo esc_html($course_count); ?></span> courses
+                            available
+                            for you
+                        </h4>
+                    </div>
+                    <div class="acadlix-d-flex">
+                        <select class="acadlix-course-filter-select" aria-label="Course Filter">
+                            <option value="">All Category</option>
+                            <option value="newest">Newest courses</option>
+                            <option value="oldest">Oldest courses</option>
+                            <option value="popular-courses">Popular courses</option>
+                            <option value="high-to-low">Price: high to low</option>
+                            <option value="low-to-high">Price: low to high</option>
+                        </select>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="acadlix_product_page_row" id="acadlix_all_course_page">
+            <section class="acadlix-row" id="acadlix-all-course-page">
                 <?php
                 foreach ($courses as $key => $course) {
                     // echo "<pre>";
                     // print_r($course->post);
                     // echo "</pre>";
                     ?>
-                    <div class="acadlix_product_page_col_lg ">
-                        <div class="acadlix_product_page_card  ">
-                            <div class="acadlix_product_page_card_image">
-                                <a href="<?php echo esc_url($course->post->guid); ?>" class="acadlix_product_page_d_block">
-                                    <img class="acadlix_product_page_card_img_top " loading="lazy"
-                                        src="<?php echo $course->post->getThumbnailUrlAttribute() ? esc_html($course->post->getThumbnailUrlAttribute()) : ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"; ?>" 
-                                        alt="<?php echo $course->post->getThumbnailAltAttribute() ? esc_attr($course->post->getThumbnailAltAttribute()) : esc_attr($course?->post?->post_title); ?>">
-                                </a>
-                                <!-- <div class="acadlix_product_page_course_badge_labels">
-                                    <div class="acadlix_product_page_course_badgebestseller">Bestseller</div>
-                                    <div class=" acadlix_product_page_blue">-39%</div>
-                                </div> -->
-                            </div>
-                            <div class="acadlix_product_page_card_body">
-                                <Button
-                                    class="acadlix_product_page_ribbon"><?php echo esc_html(get_course_level($course->difficulty_level)); ?></Button>
-                                <h3 class="acadlix_product_page_card_title"><a
+                    <div class="acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12">
+                        <div class="acadlix-card  ">
+                            <a href="<?php echo esc_url($course->post->guid); ?>">
+                                <img class="acadlix-card-img-top" loading="lazy"
+                                    src="<?php echo $course->post->getThumbnailUrlAttribute() ? esc_html($course->post->getThumbnailUrlAttribute()) : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>"
+                                    alt="<?php echo $course->post->getThumbnailAltAttribute() ? esc_attr($course->post->getThumbnailAltAttribute()) : esc_attr($course?->post?->post_title); ?>">
+                            </a>
+                            <div class="acadlix-card-body">
+                                <div class="acadlix-course-page-chip acadlix-fs-7 acadlix-fw-medium">
+                                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->difficulty_level)); ?>
+                                </div>
+                                <h3 class="acadlix-course-page-card-title acadlix-mt-12 acadlix-fs-5 acadlix-fw-500"><a
                                         href="<?php echo esc_url($course->post->guid); ?>"><?php echo esc_html($course?->post?->post_title); ?></a>
                                 </h3>
-                                <p class="acadlix_product_page_card_text"><?php echo get_course_user($course?->id); // phpcs:ignore ?></p> 
-                                <div class=" acadlix_product_page_component">
-                                    <div class="acadlix_product_page_review_stars">
-                                        <span class="acadlix_product_page_rating_number">4.4</span>
-                                        <span class="la la-star"></span>
-                                        <span class="la la-star"></span>
-                                        <span class="la la-star"></span>
-                                        <span class="la la-star"></span>
-                                        <span class="la la-star-o"></span>
-                                    </div>
-                                    <!-- <span class="acadlix_product_page_rating_total">(20,230)</span> -->
+                                <div class="acadlix-course-user acadlix-fs-6 acadlix-fw-500 acadlix-pb-8">
+                                    <?php echo CourseHelper::instance()->getCourseUserHtml($course); // phpcs:ignore ?>
                                 </div>
-                                <div class="acadlix_product_page_add_to_cart ">
+                                <div class="acadlix-d-flex acadlix-justify-between acadlix-align-center">
                                     <?php
-                                    if (is_course_free($course->price, $course->sale_price)) {
+                                    if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
                                         ?>
-                                        <div class="acadlix_product_page_free">Free</div>
+                                        <div class="acadlix-course-page-free acadlix-p-4">Free</div>
                                         <?php
                                     } else {
                                         ?>
-                                        <p class="acadlix_product_page_card_price ">
-                                            <?php echo esc_html(get_course_price($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
+                                        <div class="acadlix-course-page-card-price ">
+                                            <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
                                             <?php
                                             if ($course->sale_price != 0) {
                                                 ?>
-                                                <span class="acadlix_product_page_before_price ">
-                                                    <?php echo esc_html(get_course_price($course->price)); ?>
+                                                <span class="acadlix-course-page-before-price ">
+                                                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
                                                 </span>
                                                 <?php
                                             } ?>
-                                        </p>
+                                        </div>
                                         <?php
                                     }
                                     ?>
-                                    <div class="acadlix_actions">
+                                    <div class="acadlix-d-flex acadlix-justify-end acadlix-align-content-end">
                                         <?php
-                                        if (is_course_free($course->price, $course->sale_price)) {
+                                        if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
                                             if (in_array($course->id, $cart)) {
                                                 ?>
-                                                <button class="acadlix_action_button">
+                                                <button class="acadlix-action-button">
                                                     <a href="<?php echo esc_url($checkout_url); ?>">Go to
                                                         Checkout</a>
                                                 </button>
@@ -235,19 +142,19 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                             } else {
                                                 if (in_array($course->id, $order_item)) {
                                                     ?>
-                                                    <button class="acadlix_action_button">
+                                                    <button class="acadlix-action-button">
                                                         <a href="<?php echo esc_url($dashboard_url); ?>">Go to
                                                             Course</a>
                                                     </button>
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <button class="acadlix_action_button acadlix_start_now"
+                                                    <button class="acadlix-action-button acadlix-start-now"
                                                         data-id="<?php echo esc_attr($course->id); ?>">
-                                                        <div class="acadlix_action_button_text">
+                                                        <div class="acadlix-action-button-text">
                                                             Start Now
                                                         </div>
-                                                        <div class="acadlix_btn_loader" style="display: none;"></div>
+                                                        <div class="acadlix-btn-loader" style="display: none;"></div>
                                                     </button>
                                                     <?php
                                                 }
@@ -258,7 +165,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         } else {
                                             if (in_array($course->id, $cart)) {
                                                 ?>
-                                                <button class="acadlix_action_button">
+                                                <button class="acadlix-action-button">
                                                     <a href="<?php echo esc_url($checkout_url); ?>">Go to
                                                         Checkout</a>
                                                 </button>
@@ -266,19 +173,19 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                             } else {
                                                 if (in_array($course->id, $order_item)) {
                                                     ?>
-                                                    <button class="acadlix_action_button">
+                                                    <button class="acadlix-action-button">
                                                         <a href="<?php echo esc_url($dashboard_url); ?>">Go to
                                                             Course</a>
                                                     </button>
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <button class="acadlix_action_button acadlix_buy_now"
+                                                    <button class="acadlix-action-button acadlix-buy-now"
                                                         data-id="<?php echo esc_attr($course->id); ?>">
-                                                        <div class="acadlix_action_button_text">
+                                                        <div class="acadlix-action-button-text">
                                                             <i class="fa fa-shopping-cart"></i> Buy Now
                                                         </div>
-                                                        <div class="acadlix_btn_loader" style="display: none;"></div>
+                                                        <div class="acadlix-btn-loader" style="display: none;"></div>
                                                     </button>
                                                     <?php
                                                 }
@@ -299,19 +206,19 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         <?php
                                         if (is_user_logged_in()) {
                                             ?>
-                                            <div class="acadlix_product_page_icon_element acadlix_add_to_wishlist"
-                                                id="add_to_wishlist_<?php echo esc_attr($course->id); ?>"
+                                            <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
+                                                id="add-to-wishlist-<?php echo esc_attr($course->id); ?>"
                                                 title="Add to Wishlist" data-id="<?php echo esc_attr($course->id); ?>"
                                                 style="display: <?php echo $course->wishlist_count == 0 ? 'flex' : 'none'; ?>">
                                                 <i class="la la-heart-o"></i>
-                                                <div class="acadlix_btn_loader" style="display: none;"></div>
+                                                <div class="acadlix-btn-loader" style="display: none;"></div>
                                             </div>
-                                            <div class="acadlix_product_page_icon_element acadlix_remove_from_wishlist"
-                                                id="remove_from_wishlist_<?php echo esc_attr($course->id); ?>"
+                                            <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
+                                                id="remove-from-wishlist-<?php echo esc_attr($course->id); ?>"
                                                 title="Remove From Wishlist" data-id="<?php echo esc_attr($course->id); ?>"
                                                 style="display: <?php echo $course->wishlist_count > 0 ? 'flex' : 'none'; ?>">
                                                 <i class="fa-solid fa-heart"></i>
-                                                <div class="acadlix_btn_loader" style="display: none;"></div>
+                                                <div class="acadlix-btn-loader" style="display: none;"></div>
                                             </div>
                                             <?php
                                         }
@@ -326,44 +233,45 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 }
                 ?>
 
-            </div>
-            <div class="acadlix_pagination_container">
-                <nav class="acadlix_pagination_nav">
-                    <ul class="acadlix_pagination_list">
-                        <li class="acadlix_pagination_item">
-                            <a class="acadlix_pagination_link" href="#" aria-label="Previous">
-                                <span aria-hidden="true" class="acadlix_arrow_left">&#8592;</span>
+            </section>
+            <section class="acadlix-course-pagination-container">
+                <nav class="acadlix-course-pagination-nav">
+                    <ul class="acadlix-course-pagination-list acadlix-box-shadow-2">
+                        <li class="acadlix-course-pagination-item">
+                            <a class="acadlix-course-pagination-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true"
+                                    class="acadlix-course-pagination-arrow-left acadlix-fs-6">&#8592;</span>
                             </a>
                         </li>
                         <?php
                         for ($i = 1; $i <= ceil($course_count / $per_page); $i++) {
                             ?>
-                            <li class="acadlix_pagination_item <?php echo $i == $page ? "acadlix_active" : ""; ?> ">
-                                <a class="acadlix_pagination_link"
+                            <li
+                                class="acadlix-course-pagination-item <?php echo $i == $page ? "acadlix-course-pagination-active" : ""; ?> ">
+                                <a class="acadlix-course-pagination-link"
                                     href="<?php echo esc_url(add_query_arg('paged', $i, $courses_url)); ?>"><?php echo esc_html($i); ?></a>
                             </li>
                             <?php
                         }
                         ?>
-                        <!-- <li class="acadlix_pagination_item"><a class="acadlix_pagination_link" href="#">2</a></li>
-                        <li class="acadlix_pagination_item"><a class="acadlix_pagination_link" href="#">3</a></li> -->
-                        <li class="acadlix_pagination_item">
-                            <a class="acadlix_pagination_link" href="#" aria-label="Next">
-                                <span aria-hidden="true" class="acadlix_arrow_right">&#8594;</span>
+                        <li class="acadlix-course-pagination-item">
+                            <a class="acadlix-course-pagination-link" href="#" aria-label="Next">
+                                <span aria-hidden="true"
+                                    class="acadlix-course-pagination-arrow-right acadlix-fs-6">&#8594;</span>
 
                             </a>
                         </li>
                     </ul>
                 </nav>
-                <p class="acadlix_results_info">Showing
-                    <?php 
-                        $start = (($page - 1) * $per_page) + 1; 
-                        $end = ($page * $per_page) > $course_count ? $course_count : $page * $per_page;
-                        echo esc_html($start) .'-'. esc_html( $end ); ?>
+                <p class="acadlix-course-pagination-info acadlix-fs-7">Showing
+                    <?php
+                    $start = (($page - 1) * $per_page) + 1;
+                    $end = ($page * $per_page) > $course_count ? $course_count : $page * $per_page;
+                    echo esc_html($start) . '-' . esc_html($end); ?>
                     of <?php echo esc_html($course_count); ?> results
                 </p>
-            </div>
-        </section>
+            </section>
+        </main>
 
         <?php
 
