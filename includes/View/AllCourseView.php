@@ -91,9 +91,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     // echo "</pre>";
                     ?>
                     <div class="acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12">
-                        <div class="acadlix-card  ">
+                        <div class="acadlix-card acadlix-all-course-card">
                             <a href="<?php echo esc_url($course->post->guid); ?>">
-                                <img class="acadlix-card-img-top" loading="lazy"
+                                <img class="acadlix-card-img-top acadlix-course-page-img" loading="lazy"
                                     src="<?php echo $course->post->getThumbnailUrlAttribute() ? esc_html($course->post->getThumbnailUrlAttribute()) : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>"
                                     alt="<?php echo $course->post->getThumbnailAltAttribute() ? esc_attr($course->post->getThumbnailAltAttribute()) : esc_attr($course?->post?->post_title); ?>">
                             </a>

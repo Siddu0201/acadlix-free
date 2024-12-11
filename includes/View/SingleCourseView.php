@@ -172,11 +172,17 @@ function acadlix_course_pricing(Course $course)
                         <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
                     </div>
                     <?php
-                } 
+                }
                 ?>
             </div>
-
-            <div class="acadlix-discount-tag">56% OFF</div>
+            <?php
+            if ($course->sale_price != 0 && $course->price != 0 && $course->price > $course->sale_price) {
+                ?>
+                <div class="acadlix-discount-tag">
+                    <?php echo ceil((($course->price - $course->sale_price) / $course->price) * 100); ?>% OFF</div>
+                <?php
+            }
+            ?>
             <?php
         }
         ?>
@@ -272,6 +278,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 </nav>
 
                 <div id="overview" class="acadlix-course-overview acadlix-mb-16">
+                    
                     <div class="acadlix-card acadlix-box-shadow-2">
                         <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
                             What you will learn in this course

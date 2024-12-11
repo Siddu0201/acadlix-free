@@ -1,3 +1,7 @@
+.acadlix-all-course-page {
+  width: 100%;
+}
+
 /* Course filter css */
 .acadlix-course-filter-bar-body {
   display: flex;
@@ -9,7 +13,7 @@
   color: var(--acadlix-text-tertiary);
 }
 
-.acadlix-course-filter-text h4 span { 
+.acadlix-course-filter-text h4 span {
   color: var(--acadlix-text-primary);
 }
 
@@ -18,6 +22,15 @@
 }
 
 /* Course Card css */
+.acadlix-all-course-card {
+  height: 100%;
+}
+
+.acadlix-course-page-img {
+  width: 100%;
+  height: 200px;
+}
+
 .acadlix-course-page-chip {
   width: fit-content;
   background-color: var(--acadlix-primary-100);
@@ -29,17 +42,25 @@
 
 .acadlix-course-page-card-title a {
   color: var(--acadlix-text-primary);
+  text-decoration: none;
+}
+
+.acadlix-course-page-card-title a:hover {
+  color: var(--acadlix-text-primary);
+  text-decoration: none;
 }
 
 .acadlix-course-user a {
   color: var(--acadlix-text-tertiary);
+  text-decoration: none;
 }
 
 .acadlix-course-user a:hover {
   color: var(--acadlix-primary-main);
+  text-decoration: none;
 }
 
-.acadlix-course-page-free{
+.acadlix-course-page-free {
   border-radius: var(--acadlix-border-radius);
   background-color: var(--acadlix-success-main);
   color: var(--acadlix-primary-contrastText);
@@ -73,6 +94,7 @@
 
 .acadlix-action-button:hover {
   background-color: var(--acadlix-primary-dark);
+  color: var(--acadlix-primary-contrastText);
   box-shadow: var(--acadlix-box-shadow-3);
 }
 
@@ -157,6 +179,6 @@
   color: var(--acadlix-primary-contrastText);
 }
 
-.acadlix-course-pagination-info{
+.acadlix-course-pagination-info {
   color: var(--acadlix-text-tertiary);
 }
