@@ -18,7 +18,12 @@ if (!class_exists('WpPosts')) {
 
         protected $with = ['author'];
 
-        protected $appends = ['thumbnail_url', 'thumbnail_alt', 'rendered_post_content'];
+        protected $appends = [
+            'thumbnail_url',
+            'thumbnail_alt',
+            'rendered_post_content',
+            'categories'
+        ];
 
         public function __construct()
         {
@@ -44,7 +49,7 @@ if (!class_exists('WpPosts')) {
         public function getThumbnailAltAttribute()
         {
             $thumbnailId = $this->thumbnailMeta->meta_value ?? null;
-            if($thumbnailId){
+            if ($thumbnailId) {
                 return get_post_meta($thumbnailId, '_wp_attachment_image_alt', true);
             }
             return null;
@@ -61,5 +66,13 @@ if (!class_exists('WpPosts')) {
             return null;  // Return null if no thumbnail is found
         }
 
+        public function getCategoriesAttribute()
+        {
+            $categories = get_the_terms($this->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY);
+            if ($categories) {
+                return $categories;
+            }
+            return [];
+        }
     }
 }

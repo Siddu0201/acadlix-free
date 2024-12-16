@@ -562,6 +562,21 @@ if (!class_exists('Helper')) {
             }
         }
 
+        /**
+         * Formats a date string according to the WordPress date format setting.
+         *
+         * @param string $dateStr The date string to format.
+         *
+         * @return string The formatted date string.
+         */
+        public function formatDate(string $dateStr): string
+        {
+            $dateFormat = get_option('date_format');
+            $dateObj = strtotime($dateStr);
+            $formattedDate = date($dateFormat, $dateObj);
+            return $formattedDate;
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {

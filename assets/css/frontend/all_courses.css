@@ -45,9 +45,11 @@
   text-decoration: none;
 }
 
-.acadlix-course-page-card-title a:hover {
+.acadlix-course-page-card-title a:hover,
+.acadlix-course-page-card-title a:focus {
   color: var(--acadlix-text-primary);
   text-decoration: none;
+  outline: none;
 }
 
 .acadlix-course-user a {
@@ -55,9 +57,11 @@
   text-decoration: none;
 }
 
-.acadlix-course-user a:hover {
+.acadlix-course-user a:hover,
+.acadlix-course-user a:focus {
   color: var(--acadlix-primary-main);
   text-decoration: none;
+  outline: none;
 }
 
 .acadlix-course-page-free {
@@ -79,11 +83,12 @@
 .acadlix-action-button {
   width: 100%;
   font-size: 14px;
+  font-weight: 500;
   justify-content: center;
   border: none;
-  padding: 10px;
+  padding: 0.5rem;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 0.5rem;
   display: inline-flex;
   align-items: center;
   background-color: var(--acadlix-primary-main);
@@ -93,13 +98,9 @@
 }
 
 .acadlix-action-button:hover {
-  background-color: var(--acadlix-primary-dark);
   color: var(--acadlix-primary-contrastText);
+  background-color: var(--acadlix-primary-dark);
   box-shadow: var(--acadlix-box-shadow-3);
-}
-
-.acadlix-action-button a {
-  color: inherit;
 }
 
 .acadlix-action-button i {
@@ -150,6 +151,7 @@
 
 .acadlix-course-pagination-nav {
   display: inline-block;
+  width: auto;
 }
 
 .acadlix-course-pagination-list {

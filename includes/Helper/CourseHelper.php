@@ -84,7 +84,7 @@ if (!class_exists('CourseHelper')) {
             return 0 == $price && 0 == $sale_price;
         }
 
-        
+
         /**
          * Generates an HTML string containing links to the profile pages of users enrolled in a course.
          *
@@ -124,7 +124,7 @@ if (!class_exists('CourseHelper')) {
          *
          * @return string An HTML link to the user's profile page.
          */
-        private function getUserLinkHtml(int $userId): string
+        public function getUserLinkHtml(int $userId): string
         {
             $userInfo = get_userdata($userId);
 
@@ -135,5 +135,47 @@ if (!class_exists('CourseHelper')) {
             );
         }
 
+        /**
+         * Converts an integer representation of time (hours, minutes, seconds) into a standardized string format (HH:MM:SS).
+         *
+         * @param int $hours   The number of hours.
+         * @param int $minutes The number of minutes.
+         * @param int $seconds The number of seconds.
+         *
+         * @return string The time in the standardized string format.
+         */
+        public function intToTimeFormat(int $hours, int $minutes, int $seconds): string
+        {
+            return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+        }
+
+        /**
+         * Converts an integer representation of time (weeks, days, hours, minutes) into a readable string format.
+         *
+         * @param int $weeks   The number of weeks.
+         * @param int $days    The number of days.
+         * @param int $hours   The number of hours.
+         * @param int $minutes The number of minutes.
+         *
+         * @return string The time in a readable string format.
+         */
+        public function getCourseDuration(int $weeks, int $days, int $hours, int $minutes): string
+        {
+            $parts = [];
+            $timeUnits = [
+                'week' => $weeks,
+                'day'  => $days,
+                'hour' => $hours,
+                'minute' => $minutes,
+            ];
+
+            foreach ($timeUnits as $unit => $value) {
+                if ($value > 0) {
+                    $parts[] = $value . ' ' . $unit . ($value > 1 ? 's' : '');
+                }
+            }
+
+            return implode(' ', $parts);
+        }
     }
 }

@@ -39,8 +39,8 @@ if (!class_exists("AllCourseController")) {
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
 
-                wp_enqueue_script('acadlix-front-all-course-js');
-                wp_localize_script('acadlix-front-all-course-js', 'acadlixOptions', array(
+                wp_enqueue_script('acadlix-front-action-button-course-js');
+                wp_localize_script('acadlix-front-action-button-course-js', 'acadlixOptions', array(
                     'is_admin_bar_showing' => is_admin_bar_showing(),
                     'api_url' => esc_url_raw(rest_url('acadlix/v1')),
                     'nonce' => wp_create_nonce('wp_rest'),

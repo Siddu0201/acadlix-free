@@ -20,6 +20,8 @@ if (!class_exists('CourseSection')) {
 
         protected $with = ['contents'];
 
+        protected $withCount = ['contents'];
+
         public function contents()
         {
             return $this->hasMany(CourseSectionContent::class, 'course_section_id', 'id')->orderBy("sort");

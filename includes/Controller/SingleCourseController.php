@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Controller;
 
+use Yuvayana\Acadlix\Helper\Helper;
+
 defined('ABSPATH') || exit();
 
 if (!class_exists("SingleCourseController")) {
@@ -35,17 +37,17 @@ if (!class_exists("SingleCourseController")) {
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
 
-                // wp_enqueue_script('acadlix-front-single-course-js');
-                // wp_localize_script('acadlix-front-single-course-js', 'acadlixOptions', array(
-                //     'is_admin_bar_showing' => is_admin_bar_showing(),
-                //     'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-                //     'nonce' => wp_create_nonce('wp_rest'),
-                //     'home_url' => esc_url(home_url( )),
-                //     'ajax_url' => esc_url(admin_url( 'admin-ajax.php' )),
-                //     'checkout_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id'))),
-                //     'cart_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_cart_page_id'))),
-                //     'user_id' => get_current_user_id() ?? 0 ,
-                // ));
+                wp_enqueue_script('acadlix-front-action-button-course-js');
+                wp_localize_script('acadlix-front-action-button-course-js', 'acadlixOptions', array(
+                    'is_admin_bar_showing' => is_admin_bar_showing(),
+                    'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+                    'nonce' => wp_create_nonce('wp_rest'),
+                    'home_url' => esc_url(home_url( )),
+                    'ajax_url' => esc_url(admin_url( 'admin-ajax.php' )),
+                    'checkout_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id'))),
+                    'cart_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_cart_page_id'))),
+                    'user_id' => get_current_user_id() ?? 0 ,
+                ));
             }
         }
 

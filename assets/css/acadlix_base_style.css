@@ -1227,7 +1227,7 @@
 }
 .acadlix-row {
   --acadlix-gutter-x: 1.5rem;
-  --acadlix-gutter-y: 1.5rem;
+  --acadlix-gutter-y: 1rem;
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(-1 * var(--acadlix-gutter-y));

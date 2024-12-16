@@ -229,8 +229,8 @@ class Manager
                 'deps' => [],
                 'in_footer' => true,
             ],
-            'acadlix-front-all-course-js' => [
-                'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
+            'acadlix-front-action-button-course-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'course-action-button.js',
                 'version' => ACADLIX_VERSION,
                 'deps' => ['jquery'],
                 'in_footer' => true,

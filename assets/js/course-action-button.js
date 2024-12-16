@@ -1,5 +1,5 @@
 (function ($) {
-  const $e = $(document).find("#acadlix-all-course-page");
+  const $e = $(document).find(".acadlix-course-action-buttons");
   const courseBase = `${acadlixOptions?.api_url}/front-course`;
 
   const course = {

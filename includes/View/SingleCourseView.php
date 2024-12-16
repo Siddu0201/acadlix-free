@@ -1,7 +1,11 @@
 <?php
 
 use Yuvayana\Acadlix\Helper\CourseHelper;
+use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Course;
+use Yuvayana\Acadlix\Models\CourseCart;
+use Yuvayana\Acadlix\Models\Lesson;
+use Yuvayana\Acadlix\Models\OrderItem;
 
 defined('ABSPATH') || exit();
 
@@ -9,187 +13,377 @@ global $post, $wp_version;
 
 $course = Course::find($post->ID);
 
+$courses_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id"));
+$checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
+$dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
+
+$cart = [];
+$order_item = [];
+if (is_user_logged_in()) {
+    $userId = get_current_user_id();
+    $cart = CourseCart::where([
+        ['user_id', '=', $userId],
+        ['course_id', '=', $post->ID],
+    ])->get();
+    $order_item = OrderItem::whereHas('order', function ($query) use ($userId) {
+        $query->where('user_id', $userId);
+    })->where('course_id', $post->ID)
+        ->get();
+} else {
+    if (isset($_COOKIE['acadlix_cart_token'])) {
+        $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
+            ->where('course_id', $post->ID)
+            ->get();
+    }
+}
+
 // echo "<pre>";
-// print_r($course);
+// print_r($cart);
+// echo "</pre>";
+
+// $category = get_the_terms( $post->ID, 'acadlix_course_category' );
+// echo "<pre>";
+// print_r($course->post->categories);
 // echo "</pre>";
 
 
-/**
- * Outputs the HTML for a course breadcrumb navigation with specific display settings.
- *
- * @param bool $desktop Determines if the breadcrumb should be displayed on desktop.
- * @param bool $mobile  Determines if the breadcrumb should be displayed on mobile.
- *
- * @return string The HTML for a course breadcrumb navigation
- */
-function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true)
-{
-    if (!is_bool($desktop) || !is_bool($mobile)) {
-        error_log('The parameters must be boolean values.');
-    }
-
-    $unique_class = 'acadlix-course-breadcrumb-' . uniqid();
-    ob_start();
-    ?>
-    <style>
-        .<?php echo $unique_class; ?> {
-            display:
-                <?php echo $desktop ? "flex" : "none"; ?>
-            ;
-            padding-bottom: 0.5rem;
+if (!function_exists('acadlix_course_breadcrumb')) {
+    /**
+     * Outputs the HTML for a course breadcrumb navigation with specific display settings.
+     *
+     * @param bool $desktop Determines if the breadcrumb should be displayed on desktop.
+     * @param bool $mobile  Determines if the breadcrumb should be displayed on mobile.
+     *
+     * @return string The HTML for a course breadcrumb navigation
+     */
+    function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true, Course $course = null)
+    {
+        if (!is_bool($desktop) || !is_bool($mobile)) {
+            error_log('The parameters must be boolean values.');
         }
 
-        .<?php echo $unique_class; ?> a {
-            color: var(--acadlix-text-tertiary);
-            text-decoration: none;
-        }
-
-        .<?php echo $unique_class; ?> a:hover {
-            color: var(--acadlix-primary-main);
-            text-decoration: none;
-            border-bottom: 1px solid var(--acadlix-primary-main);
-        }
-
-        @media (max-width: 768px) {
+        $unique_class = 'acadlix-course-breadcrumb-' . uniqid();
+        ob_start();
+        ?>
+        <style>
             .<?php echo $unique_class; ?> {
                 display:
-                    <?php echo $mobile ? "flex" : "none"; ?>
+                    <?php echo $desktop ? "flex" : "none"; ?>
                 ;
+                padding-bottom: 0.5rem;
             }
-        }
-    </style>
-    <nav class="<?php echo $unique_class; ?>">
-        <a href="#">Home</a>&nbsp;>&nbsp;
-        <a href="#">Web Development</a> &nbsp;>&nbsp;
-        <a href="#">Webflow</a>
-    </nav>
-    <?php
-    return ob_get_clean();
-}
 
-
-/**
- * Outputs the HTML for a course image with specific display settings.
- *
- * @param bool $desktop Determines if the course image should be displayed on desktop.
- * @param bool $mobile  Determines if the course image should be displayed on mobile.
- *
- * @return string The HTML for a course image
- */
-function acadlix_course_img(bool $desktop = true, bool $mobile = true)
-{
-    if (is_null($desktop) || is_null($mobile)) {
-        error_log('The parameters must be boolean values.');
-    }
-
-    $unique_class = 'acadlix-course-featured-item-' . uniqid();
-    ob_start();
-    ?>
-    <style>
-        .<?php echo $unique_class; ?> {
-            display:
-                <?php echo $desktop ? "block" : "none"; ?>
-            ;
-            border-top-left-radius: var(--acadlix-border-radius);
-            border-top-right-radius: var(--acadlix-border-radius);
-        }
-
-        @media (max-width: 768px) {
-            .<?php echo $unique_class; ?> {
-                display:
-                    <?php echo $mobile ? "block" : "none"; ?>
-                ;
+            .<?php echo $unique_class; ?> a {
+                color: var(--acadlix-text-tertiary);
+                text-decoration: none;
             }
-        }
-    </style>
-    <img class="<?php echo $unique_class; ?>" loading="lazy"
-        src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"); ?>" alt="Course Image">
-    <?php
-    return ob_get_clean();
-}
 
-/**
- * Outputs the HTML for the course action buttons.
- *
- * @param object $course The course object.
- *
- * @return string The HTML for the course action buttons.
- */
-function acadlix_course_action_buttons(Course $course): string
-{
-    ob_start();
-    ?>
-    <button class="acadlix-action-button acadlix-buy-now" data-id="<?php echo esc_attr($course?->id); ?>">
-        <div class="acadlix-action-button-text">
-            <i class="fa fa-shopping-cart"></i> Buy Now
-        </div>
-        <div class="acadlix-btn-loader" style="display: none;"></div>
-    </button>
+            .<?php echo $unique_class; ?> a:hover {
+                color: var(--acadlix-primary-main);
+                text-decoration: none;
+                border-bottom: 1px solid var(--acadlix-primary-main);
+            }
 
-    <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
-        id="add-to-wishlist-<?php echo esc_attr($course?->id); ?>" title="Add to Wishlist"
-        data-id="<?php echo esc_attr($course?->id); ?>"
-        style="display: <?php echo $course?->wishlist_count == 0 ? 'flex' : 'none'; ?>">
-        <i class="la la-heart-o"></i>
-        <div class="acadlix-btn-loader" style="display: none;"></div>
-    </div>
-    <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
-        id="remove-from-wishlist-<?php echo esc_attr($course?->id); ?>" title="Remove From Wishlist"
-        data-id="<?php echo esc_attr($course?->id); ?>"
-        style="display: <?php echo $course?->wishlist_count > 0 ? 'flex' : 'none'; ?>">
-        <i class="fa-solid fa-heart"></i>
-        <div class="acadlix-btn-loader" style="display: none;"></div>
-    </div>
-    <?php
-    return ob_get_clean();
-}
-
-/**
- * Function to display course pricing
- *
- * @return string
- */
-function acadlix_course_pricing(Course $course)
-{
-    ob_start();
-    ?>
-    <div class="acadlix-pricing-info">
-        <?php
-        if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
-            ?>
-            <div class="acadlix-price-free acadlix-p-4">Free</div>
+            @media (max-width: 768px) {
+                .<?php echo $unique_class; ?> {
+                    display:
+                        <?php echo $mobile ? "flex" : "none"; ?>
+                    ;
+                }
+            }
+        </style>
+        <nav class="<?php echo $unique_class; ?>">
+            <a href="<?php echo home_url(); ?>">Home</a>&nbsp;>&nbsp;
             <?php
-        } else {
+            if (count($course->post->categories) > 0) {
+                ?>
+                <a
+                    href="<?php echo esc_attr(get_term_link($course->post->categories[0]->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)); ?>">
+                    <?php echo esc_html($course->post->categories[0]->name); ?>
+                </a>
+                &nbsp;>&nbsp;
+            <?php }
             ?>
-            <div class="acadlix-pricing">
-                <div class="acadlix-course-sale-price">
-                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
+            <a href="#" disabled="true"><?php echo esc_html($course->post->post_title); ?></a>
+        </nav>
+        <?php
+        return ob_get_clean();
+    }
+}
+
+if (!function_exists('acadlix_course_img')) {
+    /**
+     * Outputs the HTML for a course image with specific display settings.
+     *
+     * @param bool $desktop Determines if the course image should be displayed on desktop.
+     * @param bool $mobile  Determines if the course image should be displayed on mobile.
+     *
+     * @return string The HTML for a course image
+     */
+    function acadlix_course_img(bool $desktop = true, bool $mobile = true, Course $course = null)
+    {
+        if (is_null($desktop) || is_null($mobile)) {
+            error_log('The parameters must be boolean values.');
+        }
+
+        $unique_class = 'acadlix-course-featured-item-' . uniqid();
+        ob_start();
+        ?>
+        <style>
+            .<?php echo $unique_class; ?> {
+                display:
+                    <?php echo $desktop ? "block" : "none"; ?>
+                ;
+                border-top-left-radius: var(--acadlix-border-radius);
+                border-top-right-radius: var(--acadlix-border-radius);
+                width: 100%;
+                height: 200px;
+            }
+
+            @media (max-width: 768px) {
+                .<?php echo $unique_class; ?> {
+                    display:
+                        <?php echo $mobile ? "block" : "none"; ?>
+                    ;
+                }
+            }
+        </style>
+        <img class="<?php echo $unique_class; ?>" loading="lazy"
+            src="<?php echo $course->post->getThumbnailUrlAttribute() ? esc_html($course->post->getThumbnailUrlAttribute()) : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>"
+            alt="<?php echo $course->post->getThumbnailAltAttribute() ? esc_attr($course->post->getThumbnailAltAttribute()) : esc_attr($course?->post?->post_title); ?>" />
+        <?php
+        return ob_get_clean();
+    }
+}
+
+if (!function_exists('acadlix_course_pricing')) {
+    /**
+     * Function to display course pricing
+     *
+     * @return string
+     */
+    function acadlix_course_pricing(Course $course)
+    {
+        ob_start();
+        ?>
+        <div class="acadlix-pricing-info">
+            <?php
+            if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
+                ?>
+                <div class="acadlix-price-free acadlix-p-4">Free</div>
+                <?php
+            } else {
+                ?>
+                <div class="acadlix-pricing">
+                    <div class="acadlix-course-sale-price">
+                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
+                    </div>
+                    <?php
+                    if ($course->sale_price != 0) {
+                        ?>
+                        <div class="acadlix-course-price">
+                            <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <?php
-                if ($course->sale_price != 0) {
+                if ($course->sale_price != 0 && $course->price != 0 && $course->price > $course->sale_price) {
                     ?>
-                    <div class="acadlix-course-price">
-                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
+                    <div class="acadlix-discount-tag">
+                        <?php echo ceil((($course->price - $course->sale_price) / $course->price) * 100); ?>% OFF
                     </div>
                     <?php
                 }
                 ?>
-            </div>
-            <?php
-            if ($course->sale_price != 0 && $course->price != 0 && $course->price > $course->sale_price) {
-                ?>
-                <div class="acadlix-discount-tag">
-                    <?php echo ceil((($course->price - $course->sale_price) / $course->price) * 100); ?>% OFF</div>
                 <?php
             }
             ?>
-            <?php
-        }
-        ?>
-    </div>
-    <?php
-    return ob_get_clean();
+        </div>
+        <?php
+        return ob_get_clean();
+    }
 }
+
+if (!function_exists('acadlix_mobile_course_price')) {
+    /**
+     * Displays the price of a course in a mobile-friendly format.
+     * 
+     * @param Course $course The course object to display the price for.
+     * 
+     * @return string The HTML content for the mobile price info.
+     */
+    function acadlix_mobile_course_price(Course $course)
+    {
+        ob_start();
+        ?>
+        <div class="acadlix-mobile-price-info">
+            <?php
+            if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
+                ?>
+                <div class="acadlix-price-free acadlix-p-4">Free</div>
+                <?php
+            } else {
+                ?>
+                <div class="acadlix-pricing">
+                    <div class="acadlix-course-sale-price">
+                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
+                    </div>
+                    <?php
+                    if ($course->sale_price != 0) {
+                        ?>
+                        <div class="acadlix-course-price">
+                            <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+}
+
+if (!function_exists('acadlix_basic_course_details')) {
+    function acadlix_basic_course_details(Course $course, bool $desktop = true, bool $mobile = true)
+    {
+        if (!is_bool($desktop) || !is_bool($mobile)) {
+            error_log('The parameters must be boolean values.');
+        }
+
+        $unique_class = 'acadlix-course-aside-details-' . uniqid();
+        ob_start();
+        ?>
+        <style>
+            .<?php echo $unique_class; ?> {
+                display:
+                    <?php echo $desktop ? "flex" : "none"; ?>
+                ;
+            }
+
+            @media (max-width: 768px) {
+                .<?php echo $unique_class; ?> {
+                    display:
+                        <?php echo $mobile ? "flex" : "none"; ?>
+                    ;
+                }
+            }
+        </style>
+        <div class="acadlix-course-aside-details <?php echo $unique_class; ?>">
+            <div class="acadlix-course-aside-details-option">
+                <div><strong>Course Duration:</strong></div>
+                <div><?php echo esc_html(CourseHelper::instance()->getCourseDuration(
+                    $course->weeks,
+                    $course->days,
+                    $course->hours,
+                    $course->minutes
+                )); ?></div>
+            </div>
+            <div class="acadlix-course-aside-details-option">
+                <div><strong>Course Level:</strong></div>
+                <div>
+                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->difficulty_level)); ?>
+                </div>
+            </div>
+            <div class="acadlix-course-aside-details-option">
+                <div><strong>Students Enrolled:</strong></div>
+                <div> 6</div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+}
+
+if (!function_exists('acadlix_course_action_buttons')) {
+    /**
+     * Outputs the HTML for the course action buttons.
+     * 
+     * @param object $cart The cart object.
+     * @param object $order_item The order item object.
+     * @param object $course The course object.
+     *
+     * @return string The HTML for the course action buttons.
+     */
+    function acadlix_course_action_buttons(Course $course, array|object $cart, array|object $order_item, string $dashboard_url, string $checkout_url): string
+    {
+        ob_start();
+        ?>
+        <div class="acadlix-course-action-buttons">
+            <?php
+            if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
+                if (count($cart) > 0) {
+                    ?>
+                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
+                        Checkout</a>
+                    <?php
+                } elseif (count($order_item) > 0) {
+                    ?>
+                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">
+                        Go to Course
+                    </a>
+                    <?php
+                } else {
+                    ?>
+                    <button class="acadlix-action-button acadlix-start-now" data-id="<?php echo esc_attr($course->id); ?>">
+                        <div class="acadlix-action-button-text">
+                            Start Now
+                        </div>
+                        <div class="acadlix-btn-loader" style="display: none;"></div>
+                    </button>
+                    <?php
+                }
+            } else {
+                if (count($cart) > 0) {
+                    ?>
+                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
+                        Checkout</a>
+                    <?php
+                } elseif (count($order_item) > 0) {
+                    ?>
+                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">
+                        Go to Course
+                    </a>
+                    <?php
+                } else {
+                    ?>
+                    <button class="acadlix-action-button acadlix-buy-now" data-id="<?php echo esc_attr($course->id); ?>">
+                        <div class="acadlix-action-button-text">
+                            <i class="fa fa-shopping-cart"></i> Buy Now
+                        </div>
+                        <div class="acadlix-btn-loader" style="display: none;"></div>
+                    </button>
+                    <?php
+                }
+            }
+            ?>
+
+            <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
+                id="add-to-wishlist-<?php echo esc_attr($course?->id); ?>" title="Add to Wishlist"
+                data-id="<?php echo esc_attr($course?->id); ?>"
+                style="display: <?php echo $course?->wishlist_count == 0 ? 'flex' : 'none'; ?>">
+                <i class="la la-heart-o"></i>
+                <div class="acadlix-btn-loader" style="display: none;"></div>
+            </div>
+            <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
+                id="remove-from-wishlist-<?php echo esc_attr($course?->id); ?>" title="Remove From Wishlist"
+                data-id="<?php echo esc_attr($course?->id); ?>"
+                style="display: <?php echo $course?->wishlist_count > 0 ? 'flex' : 'none'; ?>">
+                <i class="fa-solid fa-heart"></i>
+                <div class="acadlix-btn-loader" style="display: none;"></div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+}
+
+
 
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
     ?>
@@ -213,56 +407,47 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     get_header();
 }
 ?>
-        <main class="acadlix-course-page acadlix-my-16">
-            <?php echo acadlix_course_breadcrumb(false, true); ?>
+        <main class="acadlix-course-page acadlix-my-16" id="acadlix-single-course-page">
+            <?php echo acadlix_course_breadcrumb(false, true, $course); ?>
             <section class="acadlix-card acadlix-course-header-section acadlix-box-shadow-2">
-                <?php echo acadlix_course_img(false, true); ?>
+                <?php echo acadlix_course_img(false, true, $course); ?>
                 <div class="acadlix-card-body acadlix-course-header-body">
-                    <?php echo acadlix_course_breadcrumb(true, false); ?>
+                    <?php echo acadlix_course_breadcrumb(true, false, $course); ?>
                     <h1 class="acadlix-course-header-title acadlix-fs-4 acadlix-my-8">
-                        <?php echo $course->post->post_title; ?>
+                        <?php echo esc_html($course->post->post_title); ?>
                     </h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
-                        Last updated: <?php echo $course->updated_at; ?>
+                        Last updated: <?php echo esc_html(Helper::instance()->formatDate($course->updated_at)); ?>
                     </div>
                     <div class="acadlix-course-header-author">
                         <div class="acadlix-course-header-created-at-text">
                             Created by:
                         </div>
-                        <strong>Dianne Russell</strong> + <strong>Kristin Watson</strong>
+                        <div class="acadlix-course-author">
+                            <?php echo CourseHelper::instance()->getCourseUserHtml($course); ?>
+                        </div>
                     </div>
 
                     <div class="acadlix-mobile-price-info">
                         <?php echo acadlix_course_pricing($course); ?>
                     </div>
+
+                    <?php echo acadlix_basic_course_details($course, false, true); ?>
                 </div>
 
                 <div class="acadlix-course-aside acadlix-card">
-                    <?php echo acadlix_course_img(true, false); ?>
+                    <?php echo acadlix_course_img(true, false, $course); ?>
                     <div class="acadlix-card-body acadlix-course-aside-body">
                         <!-- acadlix aside pricing  -->
                         <?php echo acadlix_course_pricing($course); ?>
 
                         <!-- acadlix aside details  -->
-                        <div class="acadlix-course-aside-details">
-                            <div class="acadlix-course-aside-details-option">
-                                <div><strong>Course Duration:</strong></div>
-                                <div> 6 Months</div>
-                            </div>
-                            <div class="acadlix-course-aside-details-option">
-                                <div><strong>Course Level:</strong></div>
-                                <div> Beginner</div>
-                            </div>
-                            <div class="acadlix-course-aside-details-option">
-                                <div><strong>Students Enrolled:</strong></div>
-                                <div> 69,419,618</div>
-                            </div>
-                        </div>
+                        <?php echo acadlix_basic_course_details($course, true, false); ?>
 
                         <!-- acadlix aside button for purchase and whishlist -->
                         <div class="acadlix-course-aside-purchase-options">
-                            <?php echo acadlix_course_action_buttons($course); ?>
+                            <?php echo acadlix_course_action_buttons($course, $cart, $order_item, $dashboard_url, $checkout_url); ?>
                         </div>
                     </div>
                 </div>
@@ -276,170 +461,175 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         <li><a href="#instructor" class="acadlix-fs-6">Instructor</a></li>
                     </ul>
                 </nav>
-
                 <div id="overview" class="acadlix-course-overview acadlix-mb-16">
-                    
-                    <div class="acadlix-card acadlix-box-shadow-2">
-                        <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
-                            What you will learn in this course
-                        </h2>
-                        <div class="acadlix-card-body">
-                            <div class="acadlix-row">
-                                <div
-                                    class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div class="acadlix-button-icon acadlix-p-4">
-                                        <i class="fa fa-check"></i>
-                                    </div>
-                                    <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
-                                        designs and build them into powerful
-                                        websites using Webflow, a state of the art site builder used by teams at
-                                        Dell, NASA and more.</div>
-                                </div>
-                                <div
-                                    class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div class="acadlix-button-icon acadlix-p-4">
-                                        <i class="fa fa-check"></i>
-                                    </div>
-                                    <div class="acadlix-fs-7 acadlix-fw-lighter">You will learn how to take your
-                                        designs and build them into powerful
-                                        websites using Webflow, a state of the art site builder used by teams at
-                                        Dell, NASA and more.</div>
-                                </div>
-                                <div
-                                    class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div class="acadlix-button-icon acadlix-p-4">
-                                        <i class="fa fa-check"></i>
-                                    </div>
-                                    <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
-                                        create GUIs in the Jupyter Notebook
-                                        system!.</div>
-                                </div>
-                                <div
-                                    class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div class="acadlix-button-icon acadlix-p-4">
-                                        <i class="fa fa-check"></i>
-                                    </div>
-                                    <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
-                                        create GUIs in the Jupyter Notebook
-                                        system!.</div>
-                                </div>
-                                <div
-                                    class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div class="acadlix-button-icon acadlix-p-4">
-                                        <i class="fa fa-check"></i>
-                                    </div>
-                                    <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
-                                        create GUIs in the Jupyter Notebook
-                                        system!.</div>
-                                </div>
-                                <div
-                                    class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-py-8">
-                                    <div class="acadlix-button-icon acadlix-p-4">
-                                        <i class="fa fa-check"></i>
-                                    </div>
-                                    <div class="acadlix-fs-7 acadlix-fw-lighter"> Get an understanding of how to
-                                        create GUIs in the Jupyter Notebook
-                                        system!.</div>
+                    <!-- Add detailed outcomes for this course to enhance understanding and expectations -->
+                    <?php
+                    if ($course->outcomes_count > 0) {
+                        ?>
+                        <div class="acadlix-card acadlix-box-shadow-2">
+                            <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
+                                What you will learn in this course
+                            </h2>
+                            <div class="acadlix-card-body">
+                                <div class="acadlix-row">
+                                    <?php
+                                    foreach ($course->outcomes as $outcome) {
+                                        ?>
+                                        <div
+                                            class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-mt-8">
+                                            <div class="acadlix-button-icon acadlix-p-4">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                            <span class="acadlix-fs-6">
+                                                <?php echo esc_html($outcome->outcome); ?>
+                                            </span>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <?php
+                    }
+                    ?>
+                    <!-- Add Description to course page  -->
                     <div class="acadlix-card acadlix-box-shadow-2">
                         <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
                             Description
                         </h2>
-                        <div class="acadlix-card-body acadlix-fs-7 acadlix-fw-lighter">
-                            In this course, you'll master the entire process of turning
-                            a concept into a fully functional, visually stunning website. You'll begin by designing
-                            a responsive layout in Figma, a powerful and intuitive design tool. From there, you'll
-                            seamlessly transition to Webflow, where you'll bring your design to life without needing
-                            to write a single line of code.In this course, you'll master the entire process of
-                            turning
-                            a concept into a fully functional, visually stunning website. You'll begin by designing
-                            a responsive layout in Figma, a powerful and intuitive design tool. From there, you'll
-                            seamlessly transition to Webflow, where you'll bring your design to life without needing
-                            to write a single line of code.In this course, you'll master the entire process of
-                            turning
-                            a concept into a fully functional, visually stunning website. You'll begin by designing
-                            a responsive layout in Figma, a powerful and intuitive design tool. From there, you'll
-                            seamlessly transition to Webflow, where you'll bring your design to life without needing
-                            to write a single line of code.In this course, you'll master the entire process of
-                            turning
-                            a concept into a fully functional, visually stunning website. You'll begin by designing
-                            a responsive layout in Figma, a powerful and intuitive design tool. From there, you'll
-                            seamlessly transition to Webflow, where you'll bring your design to life without needing
-                            to write a single line of code.
+                        <div class="acadlix-card-body acadlix-fs-6">
+                            <?php
+                            echo $course->post->rendered_post_content; // phpcs:ignore
+                            ?>
                         </div>
                     </div>
                 </div>
+
+                <!-- Add Curriculum to course -->
                 <div id="curriculum" class="acadlix-course-curriculum acadlix-card acadlix-mb-16 acadlix-box-shadow-2">
                     <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
                         Curriculum
                     </h2>
                     <div class="acadlix-d-flex acadlix-flex-column acadlix-gap-1 acadlix-card-body">
-                        <div class="acadlix-curriculum-item">
-                            <details class="acadlix-curriculum-details" open>
-                                <summary class="acadlix-curriculum-summary">
-                                    <h3 role="term" aria-details="pure-css">
-                                        Click to open and close smoothly with pure CSS
-                                    </h3>
-                                </summary>
-                            </details>
-                            <div class="acadlix-curriculum-content">
-                                <div class="acadlix-curriculum-content-item">
-                                    <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
-                                        <span class="acadlix-content-icon"><i class="fas fa-video"></i></span>
-                                        <span class="acadlix-content-text acadlix-fs-6">
-                                            What's Webflow?
-                                        </span>
-                                    </div>
-                                    <div class="acadlix-content-duration">
-                                        00:00:00
+                        <?php
+                        if ($course->sections_count > 0) {
+                            foreach ($course->sections as $i => $section) {
+                                ?>
+                                <div class="acadlix-curriculum-item">
+                                    <details class="acadlix-curriculum-details" <?php echo $i == 0 ? 'open' : ''; ?>>
+                                        <summary class="acadlix-curriculum-summary">
+                                            <h3 role="term" aria-details="pure-css">
+                                                <?php echo esc_html($section->title); ?>
+                                            </h3>
+                                        </summary>
+                                    </details>
+                                    <div class="acadlix-curriculum-content">
+                                        <?php
+                                        if ($section->contents_count > 0) {
+                                            foreach ($section->contents as $content) {
+                                                ?>
+                                                <div class="acadlix-curriculum-content-item">
+                                                    <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
+                                                        <span class="acadlix-content-icon">
+                                                            <?php echo $content->contentable_type == Lesson::class
+                                                                ? $content->contentable->type == 'video'
+                                                                ? '<i class="fas fa-video"></i>'
+                                                                : '<i class="fas fa-file"></i>'
+                                                                : '<i class="fas fa-question"></i>'
+                                                            ; ?>
+                                                        </span>
+                                                        <span class="acadlix-content-text acadlix-fs-6">
+                                                            <?php echo $content->contentable->title; ?>
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        class="acadlix-content-duration-icon acadlix-d-flex acadlix-gap-1 acadlix-justify-center acadlix-align-center">
+                                                        <div class="acadlix-content-duration">
+                                                            <?php echo $content->contentable_type == Lesson::class
+                                                                ? $content->contentable->type == 'video'
+                                                                ? CourseHelper::instance()->intToTimeFormat(
+                                                                    $content->contentable->hours,
+                                                                    $content->contentable->minutes,
+                                                                    $content->contentable->seconds
+                                                                )
+                                                                : ''
+                                                                : ''
+                                                            ; ?>
+                                                            <?php
+                                                            ?>
+                                                        </div>
+                                                        <i class="fas fa-lock"></i>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
                                     </div>
                                 </div>
-                                <div class="acadlix-curriculum-content-item">
-                                    <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
-                                        <span class="acadlix-content-icon"><i class="fas fa-video"></i></span>
-                                        <span class="acadlix-content-text acadlix-fs-6">
-                                            What's Webflow?
-                                        </span>
-                                    </div>
-                                    <div class="acadlix-content-duration">
-                                        00:00:00
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                <?php
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
 
                 <div id="instructor" class="acadlix-card acadlix-course-instructor acadlix-mb-16 acadlix-box-shadow-2">
-                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">Course Instructor (01)</h2>
+                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">Course Instructor</h2>
                     <div class="acadlix-card-body">
-                        <div class="acadlix-card">
-                            <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
-                                <img src="<?php echo ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>" alt="Vako Shvili"
-                                    class="acadlix-card-img acadlix-course-instructor-img">
-                                <div class="acadlix-course-instructor-detail">
-                                    <div class="acadlix-fs-5 acadlix-fw-bold">Vako Shvili</div>
-                                    <p>Web Designer & Best-Selling Instructor</p>
-                                    <div class="acadlix-course-instructor-stats">
-                                        <span>⭐ 4.9 Course Rating</span> |
-                                        <span>👥 236,568 Students</span> |
-                                        <span>🎓 09 Courses</span>
+                        <div class="acadlix-row">
+                            <?php
+                            if ($course->users_count === 0) {
+                                ?>
+                                <div class="acadlix-col-12">
+                                    <div class="acadlix-card">
+                                        <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
+                                            <img src="<?php echo get_avatar_url($course->post->post_author, ['size' => 80]); ?>"
+                                                alt="<?php echo esc_attr(get_userdata($course->post->post_author)->display_name); ?>"
+                                                class="acadlix-card-img acadlix-course-instructor-img">
+                                            <div class="acadlix-course-instructor-detail">
+                                                <div class="acadlix-course-author acadlix-fs-5 acadlix-fw-bold">
+                                                    <?php echo CourseHelper::instance()->getUserLinkHtml($course->post->post_author); ?>
+                                                </div>
+                                                <p>
+                                                    <?php echo esc_html(get_user_meta($course->post->post_author, 'description', true)); ?>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <?php
+                            }
+                            foreach ($course->users as $user) {
+                                ?>
+                                <div class="acadlix-col-12">
+                                    <div class="acadlix-card">
+                                        <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
+                                            <img src="<?php echo get_avatar_url($user->user_id, ['size' => 80]); ?>"
+                                                alt="<?php echo esc_attr(get_userdata($user->user_id)->display_name); ?>"
+                                                class="acadlix-card-img acadlix-course-instructor-img">
+                                            <div class="acadlix-course-instructor-detail">
+                                                <div class="acadlix-course-author acadlix-fs-5 acadlix-fw-bold">
+                                                    <?php echo CourseHelper::instance()->getUserLinkHtml($user->user_id); ?>
+                                                </div>
+                                                <p>
+                                                    <?php echo esc_html(get_user_meta($user->user_id, 'description', true)); ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
             </section>
             <div class="acadlix-mobile-sticky-footer">
-                <div class="acadlix-pricing">
-                    <div class="acadlix-course-sale-price"> $16.00 </div>
-                    <div class="acadlix-course-price">$26.00</div>
-                </div>
-                <?php echo acadlix_course_action_buttons($course); ?>
+                <?php echo acadlix_mobile_course_price($course); ?>
+                <?php echo acadlix_course_action_buttons($course, $cart, $order_item, $dashboard_url, $checkout_url); ?>
             </div>
         </main>
 
