@@ -64,7 +64,7 @@ const HintAndMessageSection = (props) => {
               borderRadius: 1,
               backgroundColor: "transparent",
               boxShadow: theme?.shadows[1],
-              display: props?.lang?.different_points_for_each_answer
+              display: props?.question?.different_incorrect_msg
                 ? props?.lang?.incorrect_msg?.length > 0
                   ? ""
                   : "none"
@@ -80,7 +80,7 @@ const HintAndMessageSection = (props) => {
             </Box>
             <Box>
               <Typography component="div">
-                {props?.lang?.different_points_for_each_answer
+                {props?.question?.different_incorrect_msg
                   ? props?.lang?.incorrect_msg
                   : props?.lang?.correct_msg}
               </Typography>

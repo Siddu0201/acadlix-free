@@ -550,7 +550,7 @@ const Result = (props) => {
               />
             }
             label="Result comparison with topper"
-            disabled={!props?.watch("leaderboard")}
+            disabled={!props?.watch("leaderboard") && !props?.watch("save_statistic")}
           />
         </GridItem1>
 

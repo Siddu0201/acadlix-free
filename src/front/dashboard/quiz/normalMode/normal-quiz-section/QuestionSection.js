@@ -110,11 +110,20 @@ const QuestionSection = (props) => {
         );
     }
   };
+  
+  const questionBelowSx = {
+    boxShadow: (theme) => theme?.shadows[2],
+    paddingX: 2,
+    paddingY: 3,
+    marginTop: 3,
+    borderRadius: "6px",
+  }
 
   return (
     <Box
       sx={{
         display: props?.question?.selected ? "" : "none",
+        ...(props?.watch("mode") === "question_below_each_other" && questionBelowSx),
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
       ref={(elem) => (props.questionRef.current[props.index] = elem)}

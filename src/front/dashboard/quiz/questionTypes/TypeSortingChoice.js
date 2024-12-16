@@ -53,12 +53,12 @@ const TypeSortingChoice = (props) => {
           ...props?.watch(`questions.${props?.index}.result`),
           correct_count:
             data?.filter((d, index) => d.position === index).length ===
-            data.length
+              data.length
               ? 1
               : 0,
           incorrect_count:
             data?.filter((d, index) => d.position === index).length ===
-            data.length
+              data.length
               ? 0
               : 1,
           solved_count: 1,
@@ -86,21 +86,21 @@ const TypeSortingChoice = (props) => {
     <Box
       sx={{
         width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
-        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
+        padding: props?.watch("mode") !== "advance_mode" ? 0 : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
         overflow: "auto",
       }}
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <Typography
-          sx={{
-            paddingY: 2,
-          }}
-        >
-          <b>Your answer</b>
-        </Typography>
-      )}
+          <Typography
+            sx={{
+              paddingY: 2,
+            }}
+          >
+            <b>Your answer</b>
+          </Typography>
+        )}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -110,8 +110,9 @@ const TypeSortingChoice = (props) => {
         <List
           sx={{
             display: "grid",
-            gap: "10px",
-            padding: 0,
+            gap: "8px",
+            padding: `0 !important`,
+            marginY: `0 !important`,
           }}
         >
           <SortableContext
@@ -133,41 +134,43 @@ const TypeSortingChoice = (props) => {
       </DndContext>
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <>
-          <Typography
-            sx={{
-              paddingY: 2,
-            }}
-          >
-            <b>Correct answer</b>
-          </Typography>
-          <List
-            sx={{
-              display: "grid",
-              gap: "10px",
-              padding: 0,
-            }}
-          >
-            {props?.answer_data?.[props?.type]
-              ?.slice()
-              ?.sort((a, b) => a.position - b.position)
-              ?.map((item, index) => (
-                <ListItem
-                  key={index}
-                  sx={{
-                    border: "1px dotted black",
-                    borderRadius: 1,
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                    touchAction: "none",
-                  }}
-                >
-                  {parse(item?.option)}
-                </ListItem>
-              ))}
-          </List>
-        </>
-      )}
+          <>
+            <Typography
+              sx={{
+                paddingY: 2,
+              }}
+            >
+              <b>Correct answer</b>
+            </Typography>
+            <List
+              sx={{
+                display: "grid",
+                gap: "8px",
+                padding: `0 !important`,
+                marginY: `0 !important`,
+              }}
+            >
+              {props?.answer_data?.[props?.type]
+                ?.slice()
+                ?.sort((a, b) => a.position - b.position)
+                ?.map((item, index) => (
+                  <ListItem
+                    key={index}
+                    sx={{
+                      border: "1px dotted black",
+                      borderRadius: 1,
+                      backgroundColor: "white",
+                      cursor: "pointer",
+                      touchAction: "none",
+                      margin: `0 !important`,
+                    }}
+                  >
+                    {parse(item?.option)}
+                  </ListItem>
+                ))}
+            </List>
+          </>
+        )}
     </Box>
   );
 };
@@ -216,12 +219,13 @@ const SortableItem = (props) => {
           : "transparent",
         cursor:
           props?.watch("view_answer") ||
-          props?.watch(`questions.${props?.index}.check`)
+            props?.watch(`questions.${props?.index}.check`)
             ? "pointer"
             : "move",
         opacity: props?.item?.option === props?.activeId ? 0.4 : 1,
         touchAction: "none",
         justifyContent: "space-between",
+        margin: `0 !important`,
       }}
       {...attributes}
       {...listeners}
@@ -229,45 +233,45 @@ const SortableItem = (props) => {
       {parse(props?.item?.option)}
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <Box
-          sx={{
-            position: "relative",
-            marginLeft: "5px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {props?.id === props?.item?.position ? (
-            <Avatar
-              sx={{
-                height: {
-                  xs: 24,
-                },
-                width: {
-                  xs: 24,
-                },
-                bgcolor: (theme) => theme?.palette?.success?.main,
-              }}
-            >
-              <TiTick />
-            </Avatar>
-          ) : (
-            <Avatar
-              sx={{
-                height: {
-                  xs: 24,
-                },
-                width: {
-                  xs: 24,
-                },
-                bgcolor: (theme) => theme.palette.error?.main,
-              }}
-            >
-              <RxCross2 />
-            </Avatar>
-          )}
-        </Box>
-      )}
+          <Box
+            sx={{
+              position: "relative",
+              marginLeft: "5px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {props?.id === props?.item?.position ? (
+              <Avatar
+                sx={{
+                  height: {
+                    xs: 24,
+                  },
+                  width: {
+                    xs: 24,
+                  },
+                  bgcolor: (theme) => theme?.palette?.success?.main,
+                }}
+              >
+                <TiTick />
+              </Avatar>
+            ) : (
+              <Avatar
+                sx={{
+                  height: {
+                    xs: 24,
+                  },
+                  width: {
+                    xs: 24,
+                  },
+                  bgcolor: (theme) => theme.palette.error?.main,
+                }}
+              >
+                <RxCross2 />
+              </Avatar>
+            )}
+          </Box>
+        )}
     </ListItem>
   );
 };

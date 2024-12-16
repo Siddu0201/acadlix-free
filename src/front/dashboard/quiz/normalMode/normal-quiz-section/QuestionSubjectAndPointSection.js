@@ -1,8 +1,9 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
 import { FaRegBookmark } from "react-icons/fa6";
 import CustomButton from "../normal-quiz-component/CustomButton";
+import { MdOutlineReviews, MdReviews } from "react-icons/md";
 
 const QuestionSubjectAndPointSection = (props) => {
   const handleReview = () => {
@@ -19,6 +20,7 @@ const QuestionSubjectAndPointSection = (props) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
           marginY: "5px",
         }}
       >
@@ -43,11 +45,10 @@ const QuestionSubjectAndPointSection = (props) => {
                   {props?.watch("view_answer")
                     ? props?.question?.result?.solved_count
                       ? props?.question?.result?.correct_count
-                        ? `+${props?.question?.points}`
-                        : `-${props?.question?.negative_points}`
+                        ? `+${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`
+                        : `-${props?.question?.negative_points} Point${props?.question?.negative_points > 1 ? "s" : ""}`
                       : 0
-                    : props?.question?.points}{" "}
-                  Points
+                    : `${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`}
                 </b>{" "}
               </>
             )}
@@ -61,16 +62,51 @@ const QuestionSubjectAndPointSection = (props) => {
           </Typography>
         </Box>
         {
-          !props?.watch("view_answer") && props?.watch("show_review_button") && 
-          <Box>
-            <CustomButton
+          !props?.watch("view_answer") && props?.watch("show_review_button") &&
+          <Box sx={{
+            display: props?.watch("finish") ? "none" : "",
+          }}>
+            {
+              props?.question?.review ?
+                <Tooltip title="Remove from review">
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={handleReview}
+                    sx={{
+                      fontSize: {
+                        xs: 20,
+                        md: 18
+                      }
+                    }}
+                  >
+                    <MdReviews />
+                  </Button>
+                </Tooltip>
+                :
+                <Tooltip title="Mark as review">
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={handleReview}
+                    sx={{
+                      fontSize: {
+                        xs: 20,
+                        md: 18
+                      }
+                    }}>
+                    <MdOutlineReviews />
+                  </Button>
+                </Tooltip>
+            }
+            {/* <CustomButton
               onClick={handleReview}
               sx={{
                 display: props?.watch("finish") ? "none" : "",
               }}
             >
               Review Question
-            </CustomButton>
+            </CustomButton> */}
           </Box>
         }
       </Box>
@@ -78,6 +114,7 @@ const QuestionSubjectAndPointSection = (props) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center"
         }}
       >
         {props?.watch("display_subject") && (

@@ -363,13 +363,25 @@ class AdminCourseController
         $params = $request->get_json_params();
         $course = Course::find($course_id);
         if ($course) {
-            $active = $course->sections()->where("sort", $params['active_sort'])->first();
-            $over = $course->sections()->where("sort", $params['over_sort'])->first();
-            if ($active) {
-                $active->update(["sort" => $params['over_sort']]);
-            }
-            if ($over) {
-                $over->update(["sort" => $params['active_sort']]);
+            $sections = $course->sections()->get();
+            $active_sort = $params['active_sort'];
+            $over_sort = $params['over_sort'];
+            if ($active_sort < $over_sort) {
+                foreach ($sections as $section) {
+                    if ($section->sort == $active_sort) {
+                        $section->update(['sort' => $over_sort]);
+                    } else if ($section->sort > $active_sort && $section->sort <= $over_sort) {
+                        $section->update(['sort' => $section->sort - 1]);
+                    }
+                }
+            } else {
+                foreach ($sections as $section) {
+                    if ($section->sort == $active_sort) {
+                        $section->update(['sort' => $over_sort]);
+                    } else if ($section->sort < $active_sort && $section->sort >= $over_sort) {
+                        $section->update(['sort' => $section->sort + 1]);
+                    }
+                }
             }
         }
         $res['sections'] = $course->sections()->get();
@@ -383,13 +395,25 @@ class AdminCourseController
         $params = $request->get_json_params();
         $section = CourseSection::find($section_id);
         if($section){
-            $active = $section->contents()->where("sort", $params['active_sort'])->first();
-            $over = $section->contents()->where("sort", $params['over_sort'])->first();
-            if ($active) {
-                $active->update(["sort" => $params['over_sort']]);
-            }
-            if ($over) {
-                $over->update(["sort" => $params['active_sort']]);
+           $contents = $section->contents()->get();
+            $active_sort = $params['active_sort'];
+            $over_sort = $params['over_sort'];
+            if($active_sort < $over_sort){
+                foreach($contents as $content){
+                    if($content->sort == $active_sort){
+                        $content->update(['sort' => $over_sort]);
+                    }else if($content->sort > $active_sort && $content->sort <= $over_sort){
+                        $content->update(['sort' => $content->sort - 1]);
+                    }
+                }
+            }else{
+                foreach($contents as $content){
+                    if($content->sort == $active_sort){
+                        $content->update(['sort' => $over_sort]);
+                    }else if($content->sort < $active_sort && $content->sort >= $over_sort){
+                        $content->update(['sort' => $content->sort + 1]);
+                    }
+                }
             }
         }
         $res['contents'] = $section->contents()->get();

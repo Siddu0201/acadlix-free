@@ -58,7 +58,7 @@ const CourseContent = () => {
       methods?.setValue("course_title", item?.course?.post?.post_title, {
         shouldDirty: true,
       });
-      methods?.setValue("course_content", item?.course?.post?.post_content, {
+      methods?.setValue("course_content", item?.course?.post?.rendered_post_content, {
         shouldDirty: true,
       });
       let i = 0;
@@ -340,8 +340,9 @@ const CourseContent = () => {
     }
   }, [location]);
 
+
   return (
-    <Box>
+    <Box onContextMenu={(e) => e.preventDefault()}>
       {(isFetching ||
         incompleteMutation?.isPending ||
         completeMutation?.isPending) && (

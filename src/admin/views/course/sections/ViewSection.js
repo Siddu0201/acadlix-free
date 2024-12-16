@@ -56,6 +56,7 @@ const ViewSection = (props) => {
         ?.watch("sections")
         .findIndex((curr) => curr.sort === over?.id);
 
+      // console.log(arrayMove(props?.watch("sections"), oldIndex, newIndex));  
       props?.setValue(
         "sections",
         arrayMove(props?.watch("sections"), oldIndex, newIndex)
@@ -82,23 +83,25 @@ const ViewSection = (props) => {
                   contents:
                     s?.contents?.length > 0
                       ? s?.contents?.map((c) => {
-                          return {
-                            id: c?.id,
-                            sort: c?.sort,
-                            type:
-                              c?.contentable_type ===
+                        return {
+                          id: c?.id,
+                          sort: c?.sort,
+                          type:
+                            c?.contentable_type ===
                               `Yuvayana\\Acadlix\\Models\\Quiz`
-                                ? "quiz"
-                                : "lesson",
-                            title: c?.contentable?.title,
-                            contentable_id: c?.contentable_id,
-                            course_section_id: c?.course_section_id,
-                          };
-                        })
+                              ? "quiz"
+                              : "lesson",
+                          title: c?.contentable?.title,
+                          contentable_id: c?.contentable_id,
+                          course_section_id: c?.course_section_id,
+                        };
+                      })
                       : [],
                 };
               })
             );
+
+            // console.log(props?.watch("sections"));
           },
         }
       );

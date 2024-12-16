@@ -71,208 +71,210 @@ const Register = (props) => {
       >
         <IoClose />
       </IconButton>
-      <DialogContent>
-        <Grid container gap={4}>
-          <Grid item xs={12} lg={12}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 500,
-                paddingY: 1,
-              }}
-            >
-              Username <span style={{ color: "red" }}>*</span>
-            </Typography>
-            <CustomTextField
-              {...methods?.register("username", { required: "Username is required" })}
-              fullWidth
-              required
-              autoComplete="username"
-              autoCapitalize="off"
-              size="small"
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={methods?.watch("username")}
-              onChange={(e) => {
-                methods?.setValue("username", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-              error={Boolean(methods?.formState?.errors?.username)}
-              helperText={methods?.formState?.errors?.username?.message}
-            />
-          </Grid>
-          <Grid item xs={12} lg={12}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 500,
-                paddingY: 1,
-              }}
-            >
-              Email <span style={{ color: "red" }}>*</span>
-            </Typography>
-            <CustomTextField
-              {...methods?.register("email", { required: "Email is required" })}
-              fullWidth
-              required
-              autoComplete="email"
-              autoCapitalize="off"
-              size="small"
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={methods?.watch("email")}
-              onChange={(e) => {
-                methods?.setValue("email", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-              error={Boolean(methods?.formState?.errors?.email)}
-              helperText={methods?.formState?.errors?.email?.message}
-            />
-          </Grid>
-          <Grid item xs={12} lg={12}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 500,
-                paddingY: 1,
-              }}
-            >
-              Password <span style={{ color: "red" }}>*</span>
-            </Typography>
-            <CustomTextField
-              {...methods?.register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must have at least 8 characters",
-                },
-              })}
-              fullWidth
-              required
-              autoComplete="password"
-              autoCapitalize="off"
-              size="small"
-              name="password"
-              placeholder="Password"
-              value={methods?.watch("password")}
-              onChange={(e) => {
-                methods?.setValue("password", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-              type={showPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword((show) => !show)}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onMouseUp={(e) => e?.preventDefault()}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={Boolean(methods?.formState?.errors?.password)}
-              helperText={methods?.formState?.errors?.password?.message}
-            />
-          </Grid>
-          <Grid item xs={12} lg={12}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 500,
-                paddingY: 1,
-              }}
-            >
-              Confirm Password <span style={{ color: "red" }}>*</span>
-            </Typography>
-            <CustomTextField
-              {...methods?.register("confirm_password", {
-                required: "Confirm password is required",
-                minLength: {
-                  value: 8,
-                  message: "Confirm password must have at least 8 characters",
-                },
-                validate: (val) => {
-                  if (methods?.watch("password") != val) {
-                    return "Your passwords do no match";
-                  }
-                },
-              })}
-              fullWidth
-              required
-              autoComplete="confirm_password"
-              autoCapitalize="off"
-              size="small"
-              name="confirm_password"
-              placeholder="Confirm Password"
-              value={methods?.watch("confirm_password")}
-              onChange={(e) => {
-                methods?.setValue("confirm_password", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-              type={showConfirmPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowConfirmPassword((show) => !show)}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onMouseUp={(e) => e?.preventDefault()}
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={Boolean(methods?.formState?.errors?.confirm_password)}
-              helperText={methods?.formState?.errors?.confirm_password?.message}
-            />
-          </Grid>
-          <Grid item xs={12} lg={12}>
-            <Typography variant="body2">
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e?.preventDefault();
-                  props?.setValue("login_modal_type", "login", {
+      <form onSubmit={methods?.handleSubmit(handleSubmit)}>
+
+        <DialogContent>
+          <Grid container gap={4}>
+            <Grid item xs={12} lg={12}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  paddingY: 1,
+                }}
+              >
+                Username <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <CustomTextField
+                {...methods?.register("username", { required: "Username is required" })}
+                fullWidth
+                required
+                autoComplete="username"
+                autoCapitalize="off"
+                size="small"
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={methods?.watch("username")}
+                onChange={(e) => {
+                  methods?.setValue("username", e?.target?.value, {
                     shouldDirty: true,
                   });
                 }}
+                error={Boolean(methods?.formState?.errors?.username)}
+                helperText={methods?.formState?.errors?.username?.message}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  paddingY: 1,
+                }}
               >
-                Login
-              </Link>
-            </Typography>
+                Email <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <CustomTextField
+                {...methods?.register("email", { required: "Email is required" })}
+                fullWidth
+                required
+                autoComplete="email"
+                autoCapitalize="off"
+                size="small"
+                type="text"
+                name="email"
+                placeholder="Email"
+                value={methods?.watch("email")}
+                onChange={(e) => {
+                  methods?.setValue("email", e?.target?.value, {
+                    shouldDirty: true,
+                  });
+                }}
+                error={Boolean(methods?.formState?.errors?.email)}
+                helperText={methods?.formState?.errors?.email?.message}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  paddingY: 1,
+                }}
+              >
+                Password <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <CustomTextField
+                {...methods?.register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must have at least 8 characters",
+                  },
+                })}
+                fullWidth
+                required
+                autoComplete="password"
+                autoCapitalize="off"
+                size="small"
+                name="password"
+                placeholder="Password"
+                value={methods?.watch("password")}
+                onChange={(e) => {
+                  methods?.setValue("password", e?.target?.value, {
+                    shouldDirty: true,
+                  });
+                }}
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword((show) => !show)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onMouseUp={(e) => e?.preventDefault()}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={Boolean(methods?.formState?.errors?.password)}
+                helperText={methods?.formState?.errors?.password?.message}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  paddingY: 1,
+                }}
+              >
+                Confirm Password <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <CustomTextField
+                {...methods?.register("confirm_password", {
+                  required: "Confirm password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Confirm password must have at least 8 characters",
+                  },
+                  validate: (val) => {
+                    if (methods?.watch("password") != val) {
+                      return "Your passwords do no match";
+                    }
+                  },
+                })}
+                fullWidth
+                required
+                autoComplete="confirm_password"
+                autoCapitalize="off"
+                size="small"
+                name="confirm_password"
+                placeholder="Confirm Password"
+                value={methods?.watch("confirm_password")}
+                onChange={(e) => {
+                  methods?.setValue("confirm_password", e?.target?.value, {
+                    shouldDirty: true,
+                  });
+                }}
+                type={showConfirmPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowConfirmPassword((show) => !show)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onMouseUp={(e) => e?.preventDefault()}
+                        edge="end"
+                      >
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={Boolean(methods?.formState?.errors?.confirm_password)}
+                helperText={methods?.formState?.errors?.confirm_password?.message}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <Typography variant="body2">
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e?.preventDefault();
+                    props?.setValue("login_modal_type", "login", {
+                      shouldDirty: true,
+                    });
+                  }}
+                >
+                  Login
+                </Link>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
-        </Button>
-        <Button
-          variant="contained"
-          type="submit"
-          onClick={methods?.handleSubmit(handleSubmit)}
-        >
-          {isLoading ? (
-            <CircularProgress color="inherit" size={20} />
-          ) : (
-            "Register"
-          )}
-        </Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="error" onClick={props?.handleClose}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            type="submit"
+          >
+            {isLoading ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              "Register"
+            )}
+          </Button>
+        </DialogActions>
+      </form>
     </>
   );
 };

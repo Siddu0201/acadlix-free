@@ -48,7 +48,6 @@ const CourseBuilder = (props) => {
     view_section_background: "#f8f8f8",
     view_section_border: "black",
   };
-  console.log(methods?.watch());
 
   return (
     <Box

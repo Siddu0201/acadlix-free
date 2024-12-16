@@ -436,7 +436,7 @@ const ViewQuestionSection = (props) => {
                       borderRadius: 1,
                       backgroundColor: "transparent",
                       boxShadow: theme?.shadows[1],
-                      display: lang?.different_points_for_each_answer
+                      display: props?.question?.different_incorrect_msg
                         ? lang?.incorrect_msg?.length > 0
                           ? ""
                           : "none"
@@ -452,7 +452,7 @@ const ViewQuestionSection = (props) => {
                     </Box>
                     <Box>
                       <Typography component="div">
-                        {lang?.different_points_for_each_answer
+                        {props?.question?.different_incorrect_msg
                           ? lang?.incorrect_msg
                           : lang?.correct_msg}
                       </Typography>
@@ -468,7 +468,7 @@ const ViewQuestionSection = (props) => {
                     borderRadius: 1,
                     backgroundColor: "transparent",
                     boxShadow: theme?.shadows[1],
-                    display: lang?.different_points_for_each_answer
+                    display: props?.question?.different_incorrect_msg
                       ? lang?.incorrect_msg?.length > 0
                         ? ""
                         : "none"
@@ -484,7 +484,7 @@ const ViewQuestionSection = (props) => {
                   </Box>
                   <Box>
                     <Typography component="div">
-                      {lang?.different_points_for_each_answer
+                      {props?.question?.different_incorrect_msg
                         ? lang?.incorrect_msg
                         : lang?.correct_msg}
                     </Typography>

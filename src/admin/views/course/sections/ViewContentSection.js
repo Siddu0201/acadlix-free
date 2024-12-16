@@ -44,13 +44,13 @@ const ViewContentSection = (props) => {
       const newIndex = props?.s?.contents?.findIndex(
         (curr) => curr.sort === over?.id
       );
-      console.log(
-        arrayMove(
-          props?.watch(`sections.${props?.id}.contents`),
-          oldIndex,
-          newIndex
-        )
-      );
+      // console.log(
+      //   arrayMove(
+      //     props?.watch(`sections.${props?.id}.contents`),
+      //     oldIndex,
+      //     newIndex
+      //   )
+      // );
       props?.setValue(
         `sections.${props?.id}.contents`,
         arrayMove(
@@ -66,7 +66,6 @@ const ViewContentSection = (props) => {
         },
         {
           onSuccess: (data) => {
-            console.log(data);
             props?.setValue(
               `sections.${props?.id}.contents`,
               data?.data?.contents?.map((c) => {
@@ -83,6 +82,7 @@ const ViewContentSection = (props) => {
                 };
               })
             );
+            // console.log(props?.watch(`sections.${props?.id}.contents`));
           },
         }
       );
@@ -162,7 +162,7 @@ const ViewContentSection = (props) => {
 
 const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
   const c = props?.s?.contents?.find((c) => c?.sort === activeId);
-  console.log(activeId);
+  // console.log(activeId);
   return (
     <ListItem
       ref={ref}
