@@ -38,7 +38,6 @@ if (is_user_logged_in()) {
 }
 
 
-
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
     ?>
     <!doctype html>
