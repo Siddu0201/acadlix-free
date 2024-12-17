@@ -110,21 +110,25 @@ const AdvancePanel = (props) => {
                   ?.watch("questions")
                   ?.filter((q) => q?.subject_id === s?.subject_id)
                   ?.map((question, index, arr) => (
-                    <QuizQuestionPanel
-                      {...props}
-                      subject={s}
-                      key={index}
-                      index={i++}
-                      s_index={s_index}
-                      num={index + 1}
-                      question={question}
-                      first={index === 0}
-                      last={arr?.length - 1 === index}
-                      first_subject={s_index === 0}
-                      last_subject={
-                        props?.watch("subjects")?.length - 1 === s_index
-                      }
-                    />
+                    <React.Fragment key={index}>
+                      {question?.selected && (
+                        <QuizQuestionPanel
+                          {...props}
+                          subject={s}
+                          // key={index}
+                          index={i++}
+                          s_index={s_index}
+                          num={index + 1}
+                          question={question}
+                          first={index === 0}
+                          last={arr?.length - 1 === index}
+                          first_subject={s_index === 0}
+                          last_subject={
+                            props?.watch("subjects")?.length - 1 === s_index
+                          }
+                        />
+                      )}
+                    </React.Fragment>
                   ))}
             </Box>
           ))}

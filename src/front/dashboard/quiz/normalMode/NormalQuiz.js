@@ -105,7 +105,7 @@ const NormalQuiz = (props) => {
           )}
           {props?.watch("leaderboard") &&
             props?.watch("display_leaderboard_in_quiz_result") ===
-              "below_the_result" && (
+            "below_the_result" && (
               <LeaderboardSection
                 colorCode={colorCode}
                 isDesktop={isDesktop}
@@ -120,7 +120,7 @@ const NormalQuiz = (props) => {
           {props?.watch("leaderboard") &&
             props?.watch("view_leaderboard") &&
             props?.watch("display_leaderboard_in_quiz_result") ===
-              "in_the_button" && (
+            "in_the_button" && (
               <LeaderboardSection
                 colorCode={colorCode}
                 isDesktop={isDesktop}
@@ -178,18 +178,21 @@ const NormalQuiz = (props) => {
             props
               ?.watch("questions")
               ?.map((question, index) => (
-                <QuestionSection
-                  {...props}
-                  key={index}
-                  index={index}
-                  num={index + 1}
-                  colorCode={colorCode}
-                  isDesktop={isDesktop}
-                  question={question}
-                  first={index === 0}
-                  last={props?.watch("questions")?.length - 1 === index}
-                  questionRef={questionRef}
-                />
+                <React.Fragment key={index}>
+                  {question?.selected &&
+                    <QuestionSection
+                      {...props}
+                      // key={index}
+                      index={index}
+                      num={index + 1}
+                      colorCode={colorCode}
+                      isDesktop={isDesktop}
+                      question={question}
+                      first={index === 0}
+                      last={props?.watch("questions")?.length - 1 === index}
+                      questionRef={questionRef}
+                    />}
+                </React.Fragment>
               ))}
 
           {props?.watch("questions")?.length > 0 &&

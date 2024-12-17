@@ -122,7 +122,7 @@ const QuestionSection = (props) => {
   return (
     <Box
       sx={{
-        display: props?.question?.selected ? "" : "none",
+        // display: props?.question?.selected ? "" : "none",
         ...(props?.watch("mode") === "question_below_each_other" && questionBelowSx),
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}

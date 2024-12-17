@@ -69,32 +69,30 @@ const ViewAnswerSection = (props) => {
                 },
                 padding: "3px 3px",
                 margin: "3px",
-                border: `1px solid ${
-                  d?.selected
-                    ? props?.colorCode?.overview_button_active_border
-                    : props?.colorCode?.overview_button_border
-                }`,
+                border: `1px solid ${d?.selected
+                  ? props?.colorCode?.overview_button_active_border
+                  : props?.colorCode?.overview_button_border
+                  }`,
                 boxShadow: d?.selected ? theme.shadows[3] : "none",
                 backgroundColor:
                   d?.result?.correct_count && d?.result?.solved_count
                     ? (theme) => theme?.palette?.success?.main
                     : d?.result?.incorrect_count && d?.result?.solved_count
-                    ? (theme) => theme?.palette?.error?.main
-                    : (theme) => theme?.palette?.grey[300],
+                      ? (theme) => theme?.palette?.error?.main
+                      : (theme) => theme?.palette?.grey[300],
                 color: props?.colorCode?.overview_button_active_text,
                 ":hover, :focus": {
                   backgroundColor:
                     d?.result?.correct_count && d?.result?.solved_count
                       ? (theme) => theme?.palette?.success?.main
                       : d?.result?.incorrect_count && d?.result?.solved_count
-                      ? (theme) => theme?.palette?.error?.main
-                      : (theme) => theme?.palette?.grey[300],
+                        ? (theme) => theme?.palette?.error?.main
+                        : (theme) => theme?.palette?.grey[300],
                   color: props?.colorCode?.overview_button_active_text,
-                  border: `1px solid ${
-                    d?.selected
-                      ? props?.colorCode?.overview_button_active_border
-                      : props?.colorCode?.overview_button_border
-                  }`,
+                  border: `1px solid ${d?.selected
+                    ? props?.colorCode?.overview_button_active_border
+                    : props?.colorCode?.overview_button_border
+                    }`,
                 },
               }}
               onClick={handleClick.bind(this, index)}
@@ -152,15 +150,19 @@ const ViewAnswerSection = (props) => {
         props
           ?.watch("questions")
           ?.map((question, index) => (
-            <ViewQuestionSection
-              {...props}
-              key={index}
-              index={index}
-              num={index + 1}
-              question={question}
-              first={index === 0}
-              last={props?.watch("questions")?.length - 1 === index}
-            />
+            <React.Fragment key={index}>
+              {question?.selected && (
+                <ViewQuestionSection
+                  {...props}
+                  key={index}
+                  index={index}
+                  num={index + 1}
+                  question={question}
+                  first={index === 0}
+                  last={props?.watch("questions")?.length - 1 === index}
+                />
+              )}
+            </React.Fragment>
           ))}
     </Box>
   );
@@ -296,7 +298,7 @@ const ViewQuestionSection = (props) => {
   return (
     <Box
       sx={{
-        display: props?.question?.selected ? "" : "none",
+        // display: props?.question?.selected ? "" : "none",
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
@@ -402,8 +404,8 @@ const ViewQuestionSection = (props) => {
                           ? ""
                           : "none"
                         : lang?.correct_msg?.length > 0
-                        ? ""
-                        : "none",
+                          ? ""
+                          : "none",
                     }}
                   >
                     <Box>
@@ -434,8 +436,8 @@ const ViewQuestionSection = (props) => {
                         ? ""
                         : "none"
                       : lang?.correct_msg?.length > 0
-                      ? ""
-                      : "none",
+                        ? ""
+                        : "none",
                   }}
                 >
                   <Box>
@@ -447,7 +449,7 @@ const ViewQuestionSection = (props) => {
                     <Typography component="div">
                       {props?.question?.different_incorrect_msg
                         ? lang?.incorrect_msg
-                        : lang?.correct_msg} 
+                        : lang?.correct_msg}
                     </Typography>
                   </Box>
                 </Box>

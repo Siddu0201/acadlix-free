@@ -1,9 +1,10 @@
-import { Backdrop, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import QuizQuestionNumber from "./QuizQuestionNumber";
 import QuizQuestion from "./QuizQuestion";
 import QuizButtonOptions from "./QuizButtonOptions";
 import toast from "react-hot-toast";
+import DisableScroll from "../advance-mode-component/DisableScroll";
 
 const QuizQuestionPanel = (props) => {
   const idList = [
@@ -30,41 +31,15 @@ const QuizQuestionPanel = (props) => {
     setRemainingHeight(total);
   }, [props?.question?.selected]);
 
-  let wheel_timer = 0;
-  const [hasTriggered, setHasTriggered] = React.useState(false);
-
-  const disableScroll = (e) => {
-    if (["ibps"]?.includes(props?.watch("advance_mode_type"))) {
-      e.preventDefault();
-      setHasTriggered(true);
-      // toast?.error("Scroll is disabled.");
-      // clearTimeout(wheel_timer);
-      setTimeout(function () {
-        setHasTriggered(false);
-      }, 2000);
-    }
-  };
-  React.useEffect(() => {
-    window.addEventListener("wheel", disableScroll, { passive: false });
-
-    return () => {
-      window.removeEventListener("wheel", disableScroll);
-    };
-  }, []);
 
   return (
     <Box
       sx={{
-        display: props?.question?.selected ? " " : "none",
+        // display: props?.question?.selected ? " " : "none",
       }}
     >
-      <Backdrop
-        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-        open={hasTriggered}
-        onClick={() => setHasTriggered(false)}
-      >
-        Scroller is disabled.
-      </Backdrop>
+      {/* Disable scroll bar for ibps  */}
+      <DisableScroll {...props} />
       <Box
         sx={{
           margin: "1px",

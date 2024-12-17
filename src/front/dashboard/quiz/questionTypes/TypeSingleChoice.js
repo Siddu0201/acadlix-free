@@ -79,6 +79,8 @@ const TypeSingleChoice = (props) => {
     }
   };
 
+  console.log(props?.watch(`questions.${props?.index}.language`));
+
   const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
   return (

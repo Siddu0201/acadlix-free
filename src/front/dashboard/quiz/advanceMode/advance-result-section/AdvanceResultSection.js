@@ -17,7 +17,7 @@ const AdvanceResultSection = (props) => {
           xs: "100%",
         },
         marginY: 1,
-        marginX: {
+        paddingX: {
           sm: "auto",
           xs: 2,
         },

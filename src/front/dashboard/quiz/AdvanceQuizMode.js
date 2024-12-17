@@ -11,6 +11,7 @@ import Instruction2 from "./advanceMode/advance-instruction-section/Instruction2
 import AdvanceResultSection from "./advanceMode/advance-result-section/AdvanceResultSection";
 import QuizError from "./QuizError";
 import NtaInstruction from "./advanceMode/nta/instruction/NtaInstruction";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const AdvanceQuizMode = (props) => {
   const colorCode = {
@@ -228,8 +229,11 @@ const AdvanceQuizMode = (props) => {
     final_button_hover_background: "#e6e6e6",
   };
 
-  const [isOpen, setIsOpen] = React.useState(true);
-  const [instructionIsOpen, setInstructionIsOpen] = React.useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [isOpen, setIsOpen] = React.useState(isMobile ? false : true);
+  const [instructionIsOpen, setInstructionIsOpen] = React.useState(isMobile? false : true);
   const sidebarWidth = 250;
 
   const handleToggle = () => {
