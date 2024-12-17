@@ -16,12 +16,22 @@ if (!class_exists('Database')) {
             global $wpdb;
 
             $charset_collate = $wpdb->get_charset_collate();
-            $collate = ''; // Default collate value
 
-            // Extract collate if available
-            if (preg_match('/COLLATE\s+([^\s]+)/i', $charset_collate, $matches)) {
-                $collate = $matches[1];
+            $charset = '';
+            $collate = '';
+
+            // Extract charset and collate using regular expressions
+            if (preg_match('/CHARSET\s+([^\s]+)/i', $charset_collate, $charset_matches)) {
+                $charset = $charset_matches[1]; // Get the captured charset
             }
+
+            if (preg_match('/COLLATE\s+([^\s]+)/i', $charset_collate, $collate_matches)) {
+                $collate = $collate_matches[1]; // Get the captured collate
+            }
+
+            // Fallback defaults if charset or collate not found
+            $charset = $charset ?: 'utf8mb4';
+            $collate = $collate ?: 'utf8mb4_unicode_ci';
             $capsule = new Capsule;
             $capsule->addConnection([
                 'driver' => 'mysql',
@@ -29,7 +39,7 @@ if (!class_exists('Database')) {
                 'database' => DB_NAME,
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
-                'charset' => DB_CHARSET,
+                'charset' => $charset,
                 'collation' => $collate,
                 'prefix' => $wpdb->prefix . 'acadlix_', // prefix to avoid conflict with wordpress tables
             ]);
@@ -39,7 +49,7 @@ if (!class_exists('Database')) {
                 'database' => DB_NAME,
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
-                'charset' => DB_CHARSET,
+                'charset' => $charset,
                 'collation' => $collate,
                 'prefix' => $wpdb->prefix,
             ], 'wordpress');
