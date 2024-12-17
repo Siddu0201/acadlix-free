@@ -30,7 +30,7 @@ if (!class_exists('Database')) {
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
                 'charset' => DB_CHARSET,
-                // 'collation' => $collate,
+                'collation' => $collate,
                 'prefix' => $wpdb->prefix . 'acadlix_', // prefix to avoid conflict with wordpress tables
             ]);
             $capsule->addConnection([
@@ -40,7 +40,7 @@ if (!class_exists('Database')) {
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
                 'charset' => DB_CHARSET,
-                // 'collation' => $collate,
+                'collation' => $collate,
                 'prefix' => $wpdb->prefix,
             ], 'wordpress');
             // Set the event dispatcher used by Eloquent models... (optional)
