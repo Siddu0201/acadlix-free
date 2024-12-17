@@ -1,8 +1,7 @@
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
 import { FaRegBookmark } from "react-icons/fa6";
-import CustomButton from "../normal-quiz-component/CustomButton";
 import { MdOutlineReviews, MdReviews } from "react-icons/md";
 
 const QuestionSubjectAndPointSection = (props) => {

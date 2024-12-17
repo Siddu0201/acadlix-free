@@ -175,6 +175,11 @@ const TypeSingleChoice = (props) => {
                 checked={data?.isChecked}
                 control={
                   <Radio
+                    inputProps={{
+                      sx: {
+                        opacity: `0 !important`,
+                      }
+                    }}
                     disabled={
                       props?.watch("view_answer") ||
                       props?.watch(`questions.${props?.index}.check`)
