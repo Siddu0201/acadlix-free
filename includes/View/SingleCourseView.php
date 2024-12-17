@@ -392,6 +392,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
 
     <head>
         <meta charset="<?php bloginfo('charset'); ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?php wp_head(); ?>
 
     </head>

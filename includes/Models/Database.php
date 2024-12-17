@@ -41,7 +41,7 @@ if (!class_exists('Database')) {
                 'password' => DB_PASSWORD,
                 'charset' => $charset,
                 'collation' => $collate,
-                'prefix' => $wpdb->prefix . 'acadlix_', // prefix to avoid conflict with wordpress tables
+                'prefix' => "{$wpdb->prefix}acadlix_", // prefix to avoid conflict with wordpress tables
             ]);
             $capsule->addConnection([
                 'driver' => 'mysql',
