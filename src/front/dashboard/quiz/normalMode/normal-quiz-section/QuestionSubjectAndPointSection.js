@@ -44,9 +44,9 @@ const QuestionSubjectAndPointSection = (props) => {
                   {props?.watch("view_answer")
                     ? props?.question?.result?.solved_count
                       ? props?.question?.result?.correct_count
-                        ? `+${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`
-                        : `-${props?.question?.negative_points} Point${props?.question?.negative_points > 1 ? "s" : ""}`
-                      : 0
+                        ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`
+                        : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} Point${props?.question?.negative_points > 1 ? "s" : ""}`
+                      : `0 Point`
                     : `${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`}
                 </b>{" "}
               </>

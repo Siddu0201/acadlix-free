@@ -47,8 +47,10 @@ class UploadQuizController
     {
         $res = [];
         $params = $request->get_json_params();
-        $i = 1;
-        $i += Question::where('quiz_id', $params['quiz_id'])->latest()->first()->sort ?? 0;
+        $last_sort = Question::where('quiz_id', $params['quiz_id'])
+            ->orderBy('sort', 'desc')
+            ->value('sort');
+        $i = $last_sort ? $last_sort + 1 : 1;
         if (count($params['questions']) > 0) {
             foreach ($params['questions'] as $qkey => $ques) {
                 $question = Question::create([
@@ -83,6 +85,7 @@ class UploadQuizController
                 $question->question_languages()->createMany($ques['language']);
             }
         }
+        $res['last_sort'] = $last_sort;
         $res['quiz'] = Quiz::find($params['quiz_id']);
         return rest_ensure_response($res);
     }
