@@ -337,7 +337,7 @@ const Question = () => {
                     <Button
                       variant="contained"
                       LinkComponent="a"
-                      href={acadlixOptions?.abqu_url}
+                      href={`${acadlixOptions?.abqu_url}&quiz_id=${quiz_id}`}
                       color="primary"
                     >
                       Import from .docx

@@ -15,15 +15,17 @@ import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSecti
 import QuestionPaginationSection from "./normal-quiz-section/QuestionPaginationSection";
 
 const NormalQuiz = (props) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const colorCode = {
     button: "#13455b",
     timer: "#00f",
     answered: "#6ca54c",
     review: "#ffb800",
     answered_and_review: "#674787",
-    correct: "#56AB2F",
-    incorrect: "#FF6B6B",
-    skipped: "#8f83f7",
+    correct: theme?.palette?.success?.main,
+    incorrect: theme?.palette?.error?.main,
+    skipped: theme?.palette?.grey[300],
     radio: "#0075ff",
     incorrect_number: "#f00",
     correct_number: "#6ca54c",
@@ -42,9 +44,6 @@ const NormalQuiz = (props) => {
     leaderboard_header: "#9bbb59",
     leaderborad_text_background: "#f5faea",
   };
-
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   let questionRef = React.useRef([]);
 

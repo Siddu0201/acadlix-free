@@ -60,44 +60,44 @@ const AnswerSheetContent = (props) => {
                 language_name: lang?.language?.language_name,
                 default: Boolean(Number(lang?.default)),
                 selected: Boolean(Number(lang?.default)),
-                paragraph: parse(stat?.question?.paragraph?.paragraph_languages?.find(p => p?.language_id === lang?.language_id)?.content ?? "") ?? "",
-                question: parse(lang?.question),
-                correct_msg: parse(lang?.correct_msg),
-                incorrect_msg: parse(lang?.incorrect_msg),
-                hint_msg: parse(lang?.hint_msg),
+                paragraph: parse(stat?.question?.paragraph?.paragraph_languages?.find(p => p?.language_id === lang?.language_id)?.rendered_content ?? "") ?? "",
+                question: parse(lang?.rendered_question),
+                correct_msg: parse(lang?.rendered_correct_msg),
+                incorrect_msg: parse(lang?.rendered_incorrect_msg),
+                hint_msg: parse(lang?.rendered_hint_msg),
                 answer_data: {
                   singleChoice:
-                    stat?.question?.answer_type === "singleChoice" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.singleChoice,
+                    stat?.question?.answer_type === "singleChoice" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.singleChoice,
                   multipleChoice:
-                    stat?.question?.answer_type === "multipleChoice" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.multipleChoice,
+                    stat?.question?.answer_type === "multipleChoice" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.multipleChoice,
                   trueFalse:
-                    stat?.question?.answer_type === "trueFalse" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.trueFalse,
+                    stat?.question?.answer_type === "trueFalse" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.trueFalse,
                   sortingChoice:
-                    stat?.question?.answer_type === "sortingChoice" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.sortingChoice,
+                    stat?.question?.answer_type === "sortingChoice" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.sortingChoice,
                   matrixSortingChoice:
-                    stat?.question?.answer_type === "matrixSortingChoice" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.matrixSortingChoice,
+                    stat?.question?.answer_type === "matrixSortingChoice" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.matrixSortingChoice,
                   fillInTheBlank:
-                    stat?.question?.answer_type === "fillInTheBlank" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.fillInTheBlank,
+                    stat?.question?.answer_type === "fillInTheBlank" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.fillInTheBlank,
                   numerical:
-                    stat?.question?.answer_type === "numerical" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.numerical,
+                    stat?.question?.answer_type === "numerical" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.numerical,
                   rangeType:
-                    stat?.question?.answer_type === "rangeType" && JSON.parse(stat?.answer_data)
-                      ? JSON.parse(stat?.answer_data)
-                      : JSON.parse(lang?.answer_data)?.rangeType,
+                    stat?.question?.answer_type === "rangeType" && JSON.parse(stat?.rendered_answer_data)
+                      ? JSON.parse(stat?.rendered_answer_data)
+                      : JSON.parse(lang?.rendered_answer_data)?.rangeType,
                 },
               };
             }) ?? [],
@@ -106,7 +106,7 @@ const AnswerSheetContent = (props) => {
     },
   });
 
-  console.log(methods?.watch());
+  // console.log(methods?.watch());
 
   let questionRef = React.useRef([]);
 
@@ -348,9 +348,18 @@ const ViewQuestionSection = (props) => {
     }
   };
 
+  const questionBelowSx = {
+    boxShadow: (theme) => theme?.shadows[2],
+    paddingX: 2,
+    paddingY: 3,
+    marginTop: 3,
+    borderRadius: "6px",
+  };
+   
   return (
     <Box
       sx={{
+        ...questionBelowSx,
         display: props?.question?.selected ? "" : "none",
         marginBottom: 5,
       }}
