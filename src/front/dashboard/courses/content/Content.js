@@ -334,6 +334,8 @@ const QuizContent = (props) => {
         handleComplete={props?.handleComplete}
         start={false}
         advance={false}
+        hide_title={false} 
+        hide_description={false}
       />
     </Box>
   );

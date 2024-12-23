@@ -57,7 +57,7 @@ const DescriptionSection = (props) => {
       const link = `${advance_quiz_url}#/advance-quiz/${props?.watch(
         "id"
       )}/${token}`;
-      
+
       window.handleComplete = props?.handleComplete;
       window.open(
         link,
@@ -65,6 +65,12 @@ const DescriptionSection = (props) => {
         `scrollbars=yes,resizable=yes,top=0,left=0,fullscreen=yes,width=${screen.width},height=${screen.height}`
       );
     } else {
+      if(document.getElementById(`acadlix_front_quiz_title_${props?.watch("id")}`)){
+        document.getElementById(`acadlix_front_quiz_title_${props?.watch("id")}`).style.display = "none";
+      }
+      if(document.getElementById(`acadlix_front_quiz_description_${props?.watch("id")}`)){
+        document.getElementById(`acadlix_front_quiz_description_${props?.watch("id")}`).style.display = "none";
+      }
       props?.setValue("start", true, { shouldDirty: true });
       props?.setValue("view_question", true, { shouldDirty: true });
       props?.setValue("last", Date.now(), { shouldDirty: true });
@@ -127,7 +133,7 @@ const DescriptionSection = (props) => {
 
   return (
     <Box>
-      {!props?.watch("hide_quiz_title") && (
+      {!props?.watch("hide_quiz_title") && !props?.hide_title && (
         <Typography
           variant="h1"
           sx={{
@@ -140,13 +146,16 @@ const DescriptionSection = (props) => {
         </Typography>
       )}
 
-      <Typography
-        variant="body1"
-        sx={{ marginY: "9px !important" }}
-        component="div"
-      >
-        {props?.watch("description")}
-      </Typography>
+      {
+        !props?.hide_description &&
+        <Typography
+          variant="body1"
+          sx={{ marginY: "9px !important" }}
+          component="div"
+        >
+          {props?.watch("description")}
+        </Typography>
+      }
       <CustomButton
         onClick={() => {
           if (

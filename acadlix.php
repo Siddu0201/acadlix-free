@@ -50,12 +50,6 @@ if (!class_exists('Acadlix')) {
     class Acadlix
     {
 
-        const ACADLIX_VERSION = '0.0.1';
-
-        const ACADLIX_DB_VERSION = 1;
-
-        const SLUG = 'acadlix';
-
         private static $_instance = null;
 
         private function __construct()

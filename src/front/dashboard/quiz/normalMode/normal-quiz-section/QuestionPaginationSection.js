@@ -13,13 +13,14 @@ const QuestionPaginationSection = (props) => {
           question.selected = false;
         }
         return question;
-      }),
-      { shouldDirty: true }
+      })
     );
     props?.setValue("pagination_page", page, {shouldDirty: true});
-
-    props?.scrollToQuestion((page - 1) * perPage);
+    setTimeout(() => {
+      props?.scrollToQuestion((page - 1) * perPage);
+    }, 50);
   };
+  
   return (
     <Box
       sx={{

@@ -37,7 +37,50 @@ class Manager
             $quiz = Quiz::find($id);
             if ($quiz) {
                 ?>
-                <div class="acadlix-front" id="<?php echo esc_html($id); ?>"></div>
+                <style>
+                    .acadlix-front-quiz-button {
+                        height: 32px;
+                        width: 93px;
+                        display: block;
+                        background-color: rgba(0, 0, 0, 0.11);
+                        border-radius: 4px;
+                        animation: 2s ease-in-out 0.5s infinite normal none running animation-c7515d;
+                    }
+
+                    @keyframes animation-c7515d {
+                        0% {
+                            opacity: 1;
+                        }
+
+                        50% {
+                            opacity: 0.4;
+                        }
+
+                        100% {
+                            opacity: 1;
+                        }
+                    }
+
+                    .acadlix-front-quiz-button:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .acadlix-front-quiz-button:active {
+                        background-color: #ddd;
+                    }
+                </style>
+                <div class="acadlix-front-quiz-container">
+                    <h2 class="acadlix-front-quiz-title" id="acadlix_front_quiz_title_<?php echo esc_html($id); ?>">
+                        <?php echo esc_html($quiz->title); ?>
+                    </h2>
+                    <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($id); ?>">
+                        <?php echo do_shortcode(apply_filters('comment_text', $quiz->description)); ?>
+                    </div>
+                    <div class="acadlix-front" id="<?php echo esc_html($id); ?>">
+                        <div class="acadlix-front-quiz-button">
+                        </div>
+                    </div>
+                </div>
                 <?php
             } else {
                 echo "[Acadlix_Quiz " . esc_html($id) . "]";
@@ -268,7 +311,7 @@ class Manager
             wp_enqueue_script('wp-mediaelement');
             wp_enqueue_style('wp-mediaelement');
         }
-        wp_enqueue_style( 'acadlix-front-base-style-css' );
+        wp_enqueue_style('acadlix-front-base-style-css');
         $custom_css = "
                     :root {
                         --acadlix-primary-main: hsl(210, 100%, 45%); 
@@ -280,7 +323,7 @@ class Manager
                     }
                 ";
 
-        wp_add_inline_style( 'acadlix-front-base-style-css', $custom_css );
+        wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
 
         wp_enqueue_style('acadlix-front-css');
         wp_enqueue_script('wp-date');

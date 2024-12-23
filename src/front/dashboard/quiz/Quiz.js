@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Skeleton } from '@mui/material'
 import React from 'react'
 import QuizContent from './QuizContent';
 import { useTheme } from '@emotion/react';
@@ -12,7 +12,7 @@ const Quiz = (props) => {
   const {isFetching, data} = GetFrontQuizById(props?.quiz_id);
 
   if(isFetching){
-    return <Loader />;
+    return <Skeleton variant="rounded" height={32} width={93} />;
   }
 
   return (
