@@ -66,15 +66,15 @@ const EditLessonModel = (props) => {
         resources:
           data?.data?.lesson?.lesson_resources?.length > 0
             ? data.data?.lesson?.lesson_resources?.map((r) => {
-                return {
-                  id: r?.id,
-                  title: r?.title,
-                  type: r?.type,
-                  filename: r?.filename,
-                  file_url: r?.file_url,
-                  link: r?.link,
-                };
-              })
+              return {
+                id: r?.id,
+                title: r?.title,
+                type: r?.type,
+                filename: r?.filename,
+                file_url: r?.file_url,
+                link: r?.link,
+              };
+            })
             : [],
       });
     }
@@ -343,9 +343,9 @@ const EditExistingsLesson = (props) => {
                         }}
                         sx={{
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -374,9 +374,9 @@ const EditExistingsLesson = (props) => {
                         }}
                         sx={{
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -405,9 +405,9 @@ const EditExistingsLesson = (props) => {
                         }}
                         sx={{
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },

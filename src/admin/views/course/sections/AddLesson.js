@@ -65,6 +65,8 @@ const AddLesson = (props) => {
     });
   };
 
+  // console.log(methods?.watch());
+
   const handleClose = () => {
     methods?.setValue("show", false, { shouldDirty: true });
   };
@@ -90,6 +92,7 @@ const AddLesson = (props) => {
             return {
               id: c?.id,
               sort: c?.sort,
+              preview: Boolean(Number(c?.preview)),
               type:
                 c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
                   ? "quiz"

@@ -21,13 +21,15 @@ import {
   IconButton,
   List,
   ListItem,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { MdDragIndicator } from "react-icons/md";
+import { MdDragIndicator, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import {
   PostSortContent,
+  PostTooglePreviewContent,
   RemoveContentFromSection,
 } from "../../../../requests/admin/AdminCourseRequest";
 import EditLesson from "./EditLesson";
@@ -272,6 +274,37 @@ const SortableSections = (props) => {
     }
   };
 
+  const tooglePreviewMutation = PostTooglePreviewContent(props?.s?.id, props?.c?.id);
+
+  const handleTooglePreview = () => {
+    tooglePreviewMutation?.mutate(
+      {
+        preview: !props?.c?.preview,
+      },
+      {
+        onSuccess: (data) => {
+          props?.setValue(
+            `sections.${props?.id}.contents`,
+            data?.data?.section?.contents?.map((c) => {
+              return {
+                id: c?.id,
+                sort: c?.sort,
+                preview: Boolean(Number(c?.preview)),
+                type:
+                  c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
+                    ? "quiz"
+                    : "lesson",
+                title: c?.contentable?.title,
+                contentable_id: c?.contentable_id,
+                course_section_id: c?.course_section_id,
+              };
+            })
+          );
+        },
+      }
+    );
+  }
+
   return (
     <ListItem
       ref={setNodeRef}
@@ -279,9 +312,8 @@ const SortableSections = (props) => {
         transition: transition,
         padding: 0,
         display: "block",
-        border: `1px ${isOver ? "dotted" : "solid"} ${
-          props?.colorCode?.view_section_border
-        }`,
+        border: `1px ${isOver ? "dotted" : "solid"} ${props?.colorCode?.view_section_border
+          }`,
         borderRadius: "6px",
       }}
     >
@@ -334,20 +366,24 @@ const SortableSections = (props) => {
               justifyContent: "center",
             }}
           >
-            <IconButton
-              component="a"
-              target="_blank"
-              href={`${acadlixOptions?.acadlix_quiz_url}#/edit/${props?.c?.contentable_id}`}
-            >
-              <FaEdit style={{ fontSize: 14 }} />
-            </IconButton>
-            <IconButton onClick={handleRemoveContent}>
-              <FaTrash
-                style={{
-                  fontSize: 14,
-                }}
-              />
-            </IconButton>
+            <Tooltip title="Edit Quiz">
+              <IconButton
+                component="a"
+                target="_blank"
+                href={`${acadlixOptions?.acadlix_quiz_url}#/edit/${props?.c?.contentable_id}`}
+              >
+                <FaEdit style={{ fontSize: 14 }} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Quiz">
+              <IconButton onClick={handleRemoveContent}>
+                <FaTrash
+                  style={{
+                    fontSize: 14,
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
           </Box>
         )}
         {props?.c?.type === "lesson" && (
@@ -358,14 +394,34 @@ const SortableSections = (props) => {
               justifyContent: "center",
             }}
           >
+            <Tooltip title={props?.c?.preview ? "Remove from Preview" : "Add to Preview"}>
+              <IconButton onClick={handleTooglePreview}>
+                {
+                  tooglePreviewMutation?.isPending ?
+                    <CircularProgress size={14} color="inherit" />
+                    :
+                    props?.c?.preview ?
+                      <MdVisibility style={{
+                        fontSize: 14
+                      }} />
+                      :
+                      <MdVisibilityOff style={{
+                        fontSize: 14
+                      }} />
+
+                }
+              </IconButton>
+            </Tooltip>
             <EditLesson {...props} />
-            <IconButton onClick={handleRemoveContent}>
-              <FaTrash
-                style={{
-                  fontSize: 14,
-                }}
-              />
-            </IconButton>
+            <Tooltip title="Delete Lesson">
+              <IconButton onClick={handleRemoveContent}>
+                <FaTrash
+                  style={{
+                    fontSize: 14,
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
           </Box>
         )}
       </Box>

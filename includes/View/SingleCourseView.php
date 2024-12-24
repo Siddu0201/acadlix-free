@@ -41,11 +41,6 @@ if (is_user_logged_in()) {
 // print_r($cart);
 // echo "</pre>";
 
-// $category = get_the_terms( $post->ID, 'acadlix_course_category' );
-// echo "<pre>";
-// print_r($course->post->categories);
-// echo "</pre>";
-
 
 if (!function_exists('acadlix_course_breadcrumb')) {
     /**
@@ -560,7 +555,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                             <?php
                                                             ?>
                                                         </div>
-                                                        <i class="fas fa-lock"></i>
+                                                        <?php echo $content->preview ? 
+                                                            '<div><i class="fas fa-eye"></i></div>' 
+                                                            : '<i class="fas fa-lock"></i>'; ?>   
                                                     </div>
                                                 </div>
                                                 <?php

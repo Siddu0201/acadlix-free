@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\CPT;
 
 use Yuvayana\Acadlix\CPT\Acadlix_Abstract;
 use Yuvayana\Acadlix\Helper\Helper;
+use WP_Post;
 
 defined('ABSPATH') || exit();
 
@@ -105,6 +106,16 @@ final class Course extends Acadlix_Abstract
             )
         );
 
+        if (!term_exists('Uncategorized', ACADLIX_COURSE_CATEGORY_TAXONOMY)) {
+            wp_insert_term(
+                'Uncategorized',   // Term name
+                ACADLIX_COURSE_CATEGORY_TAXONOMY, // Taxonomy
+                array(
+                    'slug' => 'uncategorized'
+                )
+            );
+        }
+
         register_taxonomy(
             ACADLIX_COURSE_TAG_TAXONOMY,
             array(ACADLIX_COURSE_CPT),
@@ -139,6 +150,22 @@ final class Course extends Acadlix_Abstract
                 ),
             )
         );
+    }
+
+    public function save_post(int $postId = 0, WP_Post $post = null, bool $isUpdate = false): void
+    {
+        if ($post->post_type !== ACADLIX_COURSE_CPT) {
+            return;
+        }
+
+        $terms = wp_get_post_terms($postId, ACADLIX_COURSE_CATEGORY_TAXONOMY);
+
+        if (empty($terms)) {
+            $uncategorizedTerm = get_term_by('slug', 'uncategorized', ACADLIX_COURSE_CATEGORY_TAXONOMY);
+            $uncategorizedTermId = (int) $uncategorizedTerm->term_id;
+
+            wp_set_post_terms($postId, $uncategorizedTermId, ACADLIX_COURSE_CATEGORY_TAXONOMY, false);
+        }
     }
 
     public function sortable_columns($columns)

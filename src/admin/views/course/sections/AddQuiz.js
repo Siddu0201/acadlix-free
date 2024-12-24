@@ -40,6 +40,7 @@ const AddQuiz = (props) => {
               return {
                 id: c?.id,
                 sort: c?.sort,
+                preview: Boolean(Number(c?.preview)),
                 type:
                   c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
                     ? "quiz"

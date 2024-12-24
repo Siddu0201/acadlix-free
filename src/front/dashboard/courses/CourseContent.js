@@ -324,7 +324,7 @@ const CourseContent = () => {
 
   const active_content = methods
     ?.watch("sections")
-    ?.find((s) => s?.active)
+    ?.find((s) => s?.active) 
     ?.content?.find((c) => c?.is_active);
 
   const location = useLocation();

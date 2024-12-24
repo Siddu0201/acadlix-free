@@ -257,22 +257,6 @@ const OptionSection = (props) => {
 
             {props?.watch("type") === "text" && <ContentSection {...props} />}
 
-            <Grid item xs={12} sm={12}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch
-                    checked={props?.watch("preview") ?? false}
-                    onChange={(e) => {
-                      props?.setValue("preview", e?.target?.checked, {
-                        shouldDirty: true,
-                      });
-                    }}
-                  />
-                }
-                label="Preview"
-              />
-            </Grid>
-
             {props?.watch("resources")?.length > 0 &&
               props
                 ?.watch("resources")

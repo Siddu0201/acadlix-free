@@ -17,6 +17,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
             'contentable_type',
             'contentable_id',
             'sort',
+            'preview',
         ];
 
         protected $with = ['contentable'];

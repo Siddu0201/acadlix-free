@@ -4,6 +4,8 @@ namespace Yuvayana\Acadlix\CPT;
 
 defined('ABSPATH') || exit();
 
+use WP_Post;
+
 abstract class Acadlix_Abstract
 {
 	protected $_post_type = '';
@@ -51,13 +53,14 @@ abstract class Acadlix_Abstract
 			$this->_post_type = $post_type;
 		}
 		add_action('init', array($this, '_acadlix_register'));
+		add_action( 'save_post', array( $this, '_do_save_post' ), 10, 3 );
 		add_action('before_delete_post', array($this, '_acadlix_before_delete_post'));
 
-		add_filter('manage_edit-' . $this->_post_type . '_sortable_columns', array($this, 'sortable_columns'));
-		add_filter('manage_' . $this->_post_type . '_posts_columns', array($this, 'columns_head'));
-		add_filter('manage_' . $this->_post_type . '_posts_custom_column', array($this, 'custom_column_content'), 10, 2);
+		add_filter("manage_edit-{$this->_post_type}_sortable_columns", array($this, 'sortable_columns'));
+		add_filter("manage_{$this->_post_type}_posts_columns", array($this, 'columns_head'));
+		add_filter("manage_{$this->_post_type}_posts_custom_column", array($this, 'custom_column_content'), 10, 2);
 
-		add_action('add_meta_boxes_' . $this->_post_type, array($this, 'render_meta_box'));
+		add_action("add_meta_boxes_{$this->_post_type}", array($this, 'render_meta_box'));
 	}
 
 	public function _acadlix_register()
@@ -70,7 +73,16 @@ abstract class Acadlix_Abstract
 		}
 	}
 
-	final function _acadlix_before_delete_post(int $post_id, $post = null)
+	final public function _do_save_post( int $post_id = 0, WP_Post $post = null, bool $is_update = false ) {
+
+		$this->save_post( $post_id, $post, $is_update );
+	}
+
+	public function save_post( int $post_id = 0, WP_Post $post = null, bool $is_update = false ) {
+		// Implement from child
+	}
+
+	final public function _acadlix_before_delete_post(int $post_id, $post = null)
 	{
 		try {
 			$this->before_delete($post_id);

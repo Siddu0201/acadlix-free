@@ -133,7 +133,7 @@ const DescriptionSection = (props) => {
 
   return (
     <Box>
-      {!props?.watch("hide_quiz_title") && !props?.hide_title && (
+      {!(props?.watch("hide_quiz_title") || props?.hide_title) && (
         <Typography
           variant="h1"
           sx={{

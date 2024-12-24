@@ -62,6 +62,15 @@ export const PostSortContent = (section_id = 0) => {
   });
 }
 
+export const PostTooglePreviewContent = (section_id = 0, content_id = 0) => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/section/${section_id}/content/${content_id}/preview`, data);
+    },
+  });
+}
+
 export const GetLessonsForCourse = () => {
   const instance = useInstance();
   return useQuery({

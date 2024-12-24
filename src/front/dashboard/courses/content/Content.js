@@ -5,6 +5,8 @@ import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import AppFront from "../../../AppFront";
 import VideoPlyr from "../courseComponents/VideoPlyr";
+import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
+import { PostUpdateLessonTime } from "../../../../requests/front/FrontDashboardRequest";
 
 const Content = (props) => {
   useEffect(() => {
@@ -143,6 +145,9 @@ export default Content;
 
 const LessonVideoContent = (props) => {
   let src = "";
+  const content = props?.watch(
+    `sections.${props?.index}.content.${props?.c_index}`
+  );
 
   // Function to extract YouTube video ID
   const getYouTubeVideoId = (url = "") => {
@@ -167,16 +172,16 @@ const LessonVideoContent = (props) => {
       src =
         props?.c?.video?.video_data?.youtube !== ""
           ? `https://www.youtube.com/embed/${getYouTubeVideoId(
-              props?.c?.video?.video_data?.youtube
-            )}`
+            props?.c?.video?.video_data?.youtube
+          )}`
           : "";
       break;
     case "vimeo":
       src =
         props?.c?.video?.video_data?.vimeo !== ""
           ? `https://player.vimeo.com/video/${getVimeoVideoId(
-              props?.c?.video?.video_data?.vimeo
-            )}`
+            props?.c?.video?.video_data?.vimeo
+          )}`
           : "";
       break;
     case "external_link":
@@ -205,9 +210,95 @@ const LessonVideoContent = (props) => {
       src = "";
   }
 
+  const updateTimeMutation = PostUpdateLessonTime();
+  const updateDuration = ({ hours, minutes, seconds }) => {
+    console.log({ hours, minutes, seconds });
+    updateTimeMutation?.mutate({
+      lesson_id: props?.c?.content_type_id,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds
+    }, {
+      onSuccess: (data) => {
+        if (data?.data?.success && data?.data?.lesson) {
+          props?.setValue(
+            `sections.${props?.index}.content.${props?.c_index}.hours`,
+            String(data?.data?.lesson?.hours).padStart(2, '0'),
+            { shouldDirty: true }
+          );
+          props?.setValue(
+            `sections.${props?.index}.content.${props?.c_index}.minutes`,
+            String(data?.data?.lesson?.minutes).padStart(2, '0'),
+            { shouldDirty: true }
+          );
+          props?.setValue(
+            `sections.${props?.index}.content.${props?.c_index}.seconds`,
+            String(data?.data?.lesson?.seconds).padStart(2, '0'),
+            { shouldDirty: true }
+          )
+        }
+      }
+    });
+  }
+
+  const handleNext = () => {
+    if (!props?.last) {
+      const nextContent = props
+        ?.watch("sections")
+        ?.find((s) => s?.content?.find((c) => c?.i === content?.i + 1))
+        ?.content?.find((c) => c?.i === content?.i + 1);
+
+      if (nextContent) {
+        props?.handleNavigate(nextContent?.id);
+      }
+    }
+  }
+
+  const handlePrevious = () => {
+    if (!props?.first) {
+      const previousContent = props
+        ?.watch("sections")
+        ?.find((s) => s?.content?.find((c) => c?.i === content?.i - 1))
+        ?.content?.find((c) => c?.i === content?.i - 1);
+
+      if (previousContent) {
+        props?.handleNavigate(previousContent?.id);
+      }
+    }
+  }
+
+  const handleEnded = () => { 
+    props?.handleComplete(
+      props?.c?.id,
+      props?.index,
+      props?.c_index,
+      props?.c?.i
+    );
+  }
+
   return (
     <Box id="acadlix-video-player">
-      <VideoPlyr {...props} src={src} />
+      {/* <VideoPlyr {...props} src={src} /> */}
+      <VideoPlayer
+        src={src}
+        videoType={props?.c?.video?.video_type}
+        hours={props?.c?.hours}
+        minutes={props?.c?.minutes}
+        seconds={props?.c?.seconds}
+        onUpdateDuration={updateDuration}
+        isFirst={props?.first}
+        isLast={props?.last}
+        hasNext={true}
+        nextTitle=""
+        hasPrev={true}
+        previousTitle=""
+        onClickNext={handleNext}
+        onClickPrevious={handlePrevious}
+        hasExternalFullscreen={true}
+        onClickFullscreen={props?.handleFullScreen}
+        onEnded={handleEnded}
+        {...props}  
+      />
     </Box>
   );
 };
@@ -334,7 +425,7 @@ const QuizContent = (props) => {
         handleComplete={props?.handleComplete}
         start={false}
         advance={false}
-        hide_title={false} 
+        hide_title={false}
         hide_description={false}
       />
     </Box>

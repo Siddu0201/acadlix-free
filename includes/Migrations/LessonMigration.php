@@ -21,7 +21,6 @@ if(!class_exists('LessonMigration')){
                     $table->integer('hours')->unsigned()->nullable()->default(0);
                     $table->integer('minutes')->unsigned()->nullable()->default(0);
                     $table->integer('seconds')->unsigned()->nullable()->default(0);
-                    $table->boolean('preview')->default(false);
                     $table->timestamps();
                 });
             }

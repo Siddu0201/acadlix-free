@@ -125,6 +125,30 @@ class AdminCourseController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/section/(?P<section_id>[\d]+)/content/(?P<content_id>[\d]+)/preview',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_toogle_preview_content'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'section_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                        'content_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/get-lessons-for-course',
             [
                 [
@@ -394,29 +418,47 @@ class AdminCourseController
         $section_id = $request['section_id'];
         $params = $request->get_json_params();
         $section = CourseSection::find($section_id);
-        if($section){
-           $contents = $section->contents()->get();
+        if ($section) {
+            $contents = $section->contents()->get();
             $active_sort = $params['active_sort'];
             $over_sort = $params['over_sort'];
-            if($active_sort < $over_sort){
-                foreach($contents as $content){
-                    if($content->sort == $active_sort){
+            if ($active_sort < $over_sort) {
+                foreach ($contents as $content) {
+                    if ($content->sort == $active_sort) {
                         $content->update(['sort' => $over_sort]);
-                    }else if($content->sort > $active_sort && $content->sort <= $over_sort){
+                    } else if ($content->sort > $active_sort && $content->sort <= $over_sort) {
                         $content->update(['sort' => $content->sort - 1]);
                     }
                 }
-            }else{
-                foreach($contents as $content){
-                    if($content->sort == $active_sort){
+            } else {
+                foreach ($contents as $content) {
+                    if ($content->sort == $active_sort) {
                         $content->update(['sort' => $over_sort]);
-                    }else if($content->sort < $active_sort && $content->sort >= $over_sort){
+                    } else if ($content->sort < $active_sort && $content->sort >= $over_sort) {
                         $content->update(['sort' => $content->sort + 1]);
                     }
                 }
             }
         }
         $res['contents'] = $section->contents()->get();
+        return rest_ensure_response($res);
+    }
+
+    public function post_toogle_preview_content($request)
+    {
+        $res = [];
+        $section_id = $request['section_id'];
+        $content_id = $request['content_id'];
+        $section = CourseSection::find($section_id);
+        if ($section) {
+            $section_content = $section->contents()->find($content_id);
+            if ($section_content) {
+                $section_content->update([
+                    'preview' => $request->get_param('preview')
+                ]);
+            }
+        }
+        $res['section'] = CourseSection::find($section_id);
         return rest_ensure_response($res);
     }
 

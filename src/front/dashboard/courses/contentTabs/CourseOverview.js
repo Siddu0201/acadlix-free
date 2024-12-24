@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 const CourseOverview = (props) => {
   return (
     <Box>
-      <Typography>
+      <Typography component={"div"}>
         {parse(props?.watch("course_content"))}
       </Typography>
     </Box>

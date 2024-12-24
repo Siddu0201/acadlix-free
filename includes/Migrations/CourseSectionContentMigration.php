@@ -18,6 +18,7 @@ if(!class_exists(('CourseSectionContentMigration'))){
                     $table->foreignId('course_section_id')->constrained('course_sections')->cascadeOnDelete();
                     $table->morphs('contentable');
                     $table->integer('sort')->unsigned()->nullable()->default(0);
+                    $table->boolean('preview')->default(false);
                     $table->timestamps();
                 });
             }

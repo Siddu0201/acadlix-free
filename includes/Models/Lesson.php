@@ -22,7 +22,6 @@ if (!class_exists('Lesson')) {
             "hours",
             "minutes",
             "seconds",
-            "preview",
         ];
 
         protected $with = ['lesson_resources'];

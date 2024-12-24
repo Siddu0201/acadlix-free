@@ -40,7 +40,6 @@ const LessonContent = (props) => {
       hours: props?.lesson?.hours ?? 0,
       minutes: props?.lesson?.minutes ?? 0,
       seconds: props?.lesson?.seconds ?? 0,
-      preview: Boolean(Number(props?.lesson?.preview)) ?? false,
       resources: props?.create
         ? []
         : props?.lesson?.lesson_resources?.map((r) => {
