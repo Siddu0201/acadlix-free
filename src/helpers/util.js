@@ -75,7 +75,7 @@ export const updateQuestions = (questions = [], quiz = {}) => {
     questions = [
       ...questions
         ?.map((a) => {
-          let data = {...a};
+          let data = { ...a };
           data.subject_name = a?.subject?.subject_name ?? "Uncategorized";
           return data;
         })
@@ -83,16 +83,16 @@ export const updateQuestions = (questions = [], quiz = {}) => {
     ];
   }
 
-  if(Boolean(Number(quiz?.optional_subject)) && quiz?.subject_times?.length > 0){
+  if (Boolean(Number(quiz?.optional_subject)) && quiz?.subject_times?.length > 0) {
     const optional_subjects = quiz?.subject_times?.filter(s => s?.optional)?.map(s => s?.subject_id);
     questions = [
       ...questions?.filter(q => !optional_subjects?.includes(q?.subject_id)),
       ...questions?.filter(q => optional_subjects?.includes(q?.subject_id)),
     ];
   }
-  if(Boolean(Number(quiz?.subject_wise_question))){
-      let newQuestion = [];
-      quiz?.subject_times?.forEach(s => {
+  if (Boolean(Number(quiz?.subject_wise_question))) {
+    let newQuestion = [];
+    quiz?.subject_times?.forEach(s => {
       const filteredQuestion = questions?.filter(q => q?.subject_id === s?.subject_id);
       newQuestion = [...newQuestion, ...filteredQuestion?.slice(0, s?.specific_number_of_questions)];
     });
@@ -161,8 +161,8 @@ const formatPrice = (price = 0) => {
   return Number(
     decimalPart
       ? integerPart +
-          acadlixOptions?.settings?.acadlix_decimal_seprator +
-          decimalPart
+      acadlixOptions?.settings?.acadlix_decimal_seprator +
+      decimalPart
       : integerPart
   );
 };
@@ -190,8 +190,56 @@ export const convertTime = (seconds) => {
   const secs = Math.round(seconds % 60);
 
   return {
-      hours: hours,
-      minutes: minutes,
-      seconds: secs
+    hours: hours,
+    minutes: minutes,
+    seconds: secs
   };
+}
+
+/**
+ * Extracts the YouTube video ID from a given URL.
+ *
+ * @param {string} [url=""] - The URL to extract the ID from.
+ *
+ * @returns {string|null} - The YouTube video ID if found, otherwise null.
+ */
+export const getYouTubeVideoId = (url = "") => {
+  const youtubeRegex =
+    /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url?.match(youtubeRegex);
+  return match?.[1] ?? null;
+};
+
+/**
+ * Extracts the Vimeo video ID from a given URL.
+ *
+ * @param {string} [url=""] - The URL to extract the ID from.
+ *
+ * @returns {string|null} - The extracted video ID, or null if no match is found.
+ */
+export const getVimeoVideoId = (url = "") => {
+  const vimeoRegex = /(?:vimeo\.com\/)(\d+)/;
+  const match = url?.match(vimeoRegex);
+  return match?.[1] ?? null;
+};
+
+export const convertToPostDate = (obj) =>{
+  if (!obj || typeof obj !== "object" || !obj.$isDayjsObject) {
+    throw new Error("Invalid object. Ensure it's a Day.js object.");
+  }
+
+  if (isNaN(obj.$y) || isNaN(obj.$M) || isNaN(obj.$D) || isNaN(obj.$H) || isNaN(obj.$m) || isNaN(obj.$s)) {
+    return null;
+  }
+
+  // Extract year, month, day, hour, minute, second
+  const year = obj.$y; // Year
+  const month = String(obj.$M + 1).padStart(2, "0"); // Month (0-based, so +1)
+  const day = String(obj.$D).padStart(2, "0"); // Day
+  const hour = String(obj.$H).padStart(2, "0"); // Hour
+  const minute = String(obj.$m).padStart(2, "0"); // Minute
+  const second = String(obj.$s).padStart(2, "0"); // Second
+
+  // Construct WordPress post_date format
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }

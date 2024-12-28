@@ -37,57 +37,43 @@ const OrderDetail = (props) => {
         <Divider />
         <CardContent>
           <Grid container spacing={4}>
-            {props?.isFetching ? (
-              <Grid
-                item
-                xs={12}
-                md={12}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress />
-              </Grid>
-            ) : props?.watch("cart")?.length > 0 ? (
-              props?.watch("cart")?.map((c, index) => (
-                <Grid item xs={12} md={12} key={index}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
+            {
+              props?.watch("cart")?.length > 0 && (
+                props?.watch("cart")?.map((c, index) => (
+                  <Grid item xs={12} md={12} key={index}>
+                    <Card
                       sx={{
-                        height: 100,
-                        width: 150,
-                      }}
-                      image={
-                        c?.course?.post?.thumbnail_url ??
-                        acadlixOptions?.default_img_url
-                      }
-                      title="product image"
-                    />
-                    <CardContent
-                      sx={{
-                        paddingY: 2,
-                        ":last-child": {
-                          paddingY: 2,
-                        },
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
-                      <Typography
-                        variant="body1"
+                      <CardMedia
                         sx={{
-                          fontWeight: "bold",
+                          height: 100,
+                          width: 150,
+                        }}
+                        image={
+                          c?.course?.post?.thumbnail_url ??
+                          acadlixOptions?.default_img_url
+                        }
+                        title="product image"
+                      />
+                      <CardContent
+                        sx={{
+                          paddingY: 2,
+                          ":last-child": {
+                            paddingY: 2,
+                          },
                         }}
                       >
-                        {c?.course?.post?.post_title}
-                      </Typography>
-                      {c?.course?.sale_price === 0 && c?.course?.price === 0 ? (
-                        <Chip label="Free" color="success" />
-                      ) : (
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {c?.course?.post?.post_title}
+                        </Typography>
                         <Box
                           sx={{
                             display: "flex",
@@ -97,12 +83,12 @@ const OrderDetail = (props) => {
                         >
                           <Typography variant="body1">
                             <b>{`${props?.currencyPosition(
-                              c?.course?.sale_price === 0
-                                ? c?.course?.price
-                                : c?.course?.sale_price
+                              Boolean(Number(c?.course?.enable_sale_price))
+                                ? c?.course?.sale_price
+                                : c?.course?.price
                             )} `}</b>
                           </Typography>
-                          {c?.course?.sale_price !== 0 && (
+                          {Boolean(Number(c?.course?.enable_sale_price)) && (
                             <Typography variant="body2">
                               <del>
                                 {props?.currencyPosition(c?.course?.price)}
@@ -110,32 +96,27 @@ const OrderDetail = (props) => {
                             </Typography>
                           )}
                         </Box>
-                      )}
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        marginLeft: "auto",
-                      }}
-                    >
-                      <IconButton
-                        color="error"
-                        onClick={handleRemoveCourse.bind(this, c?.id)}
+                      </CardContent>
+                      <CardActions
+                        sx={{
+                          marginLeft: "auto",
+                        }}
                       >
-                        {removeCourseMutation?.isPending ? (
-                          <CircularProgress size={20} color="inherit" />
-                        ) : (
-                          <FaTrashAlt />
-                        )}
-                      </IconButton>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))
-            ) : (
-              <Grid item xs={12} md={12}>
-                <Typography variant="body1">No item in cart.</Typography>
-              </Grid>
-            )}
+                        <IconButton
+                          color="error"
+                          onClick={handleRemoveCourse.bind(this, c?.id)}
+                        >
+                          {removeCourseMutation?.isPending ? (
+                            <CircularProgress size={20} color="inherit" />
+                          ) : (
+                            <FaTrashAlt />
+                          )}
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))
+              )}
           </Grid>
         </CardContent>
       </Card>

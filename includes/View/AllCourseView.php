@@ -29,7 +29,7 @@ if (is_user_logged_in()) {
     $userId = get_current_user_id();
     $cart = CourseCart::where("user_id", $userId)->pluck("course_id")->toArray();
     $order_item = OrderItem::whereHas('order', function ($query) use ($userId) {
-        $query->where('user_id', $userId);
+        $query->where('user_id', $userId)->where('status', 'success');
     })->pluck('course_id')->toArray();
 } else {
     if (isset($_COOKIE['acadlix_cart_token'])) {
@@ -87,7 +87,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <?php
                 foreach ($courses as $key => $course) {
                     // echo "<pre>";
-                    // print_r($course->post);
+                    // print_r($course->start_date);
                     // echo "</pre>";
                     ?>
                     <div class="acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12">
@@ -108,75 +108,71 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                     <?php echo CourseHelper::instance()->getCourseUserHtml($course); // phpcs:ignore ?>
                                 </div>
                                 <div class="acadlix-d-flex acadlix-justify-between acadlix-align-center">
-                                    <?php
-                                    if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
-                                        ?>
-                                        <div class="acadlix-course-page-free acadlix-p-4">Free</div>
+
+                                    <div class="acadlix-course-page-card-price ">
+                                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->enable_sale_price ? $course->sale_price : $course->price)); ?>
                                         <?php
-                                    } else {
-                                        ?>
-                                        <div class="acadlix-course-page-card-price ">
-                                            <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->sale_price == 0 ? $course->price : $course->sale_price)); ?>
+                                        if ($course->enable_sale_price) {
+                                            ?>
+                                            <span class="acadlix-course-page-before-price ">
+                                                <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
+                                            </span>
                                             <?php
-                                            if ($course->sale_price != 0) {
-                                                ?>
-                                                <span class="acadlix-course-page-before-price ">
-                                                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->price)); ?>
-                                                </span>
-                                                <?php
-                                            } ?>
-                                        </div>
+                                        } ?>
+                                    </div>
+
+                                    <div
+                                        class="acadlix-d-flex acadlix-justify-end acadlix-align-content-end acadlix-course-action-buttons">
                                         <?php
-                                    }
-                                    ?>
-                                    <div class="acadlix-d-flex acadlix-justify-end acadlix-align-content-end acadlix-course-action-buttons">
-                                        <?php
-                                        if (CourseHelper::instance()->isCourseFree($course->price, $course->sale_price)) {
-                                            if (in_array($course->id, $cart, true)) {
-                                                ?>
-                                                <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
-                                                    Checkout</a>
-                                                </>
-                                                <?php
-                                            } elseif (in_array($course->id, $order_item, true)) {
-                                                ?>
-                                                <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">Go to
-                                                    Course</a>
-                                                </>
-                                                <?php
+                                        $check_registration_date = CourseHelper::instance()->checkRegistrationDate($course->start_date, $course->end_date);
+                                        if ($check_registration_date['status']) {
+                                            if (CourseHelper::instance()->isCourseFree($course->price, $course->enable_sale_price, $course->sale_price)) {
+                                                if (in_array($course->id, $cart, true)) {
+                                                    ?>
+                                                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
+                                                        Checkout</a>
+                                                    </>
+                                                    <?php
+                                                } elseif (in_array($course->id, $order_item, true)) {
+                                                    ?>
+                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">Go to
+                                                        Course</a>
+                                                    </>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <button class="acadlix-action-button acadlix-start-now"
+                                                        data-id="<?php echo esc_attr($course->id); ?>">
+                                                        <div class="acadlix-action-button-text">
+                                                            Start Now
+                                                        </div>
+                                                        <div class="acadlix-btn-loader" style="display: none;"></div>
+                                                    </button>
+                                                    <?php
+                                                }
                                             } else {
-                                                ?>
-                                                <button class="acadlix-action-button acadlix-start-now"
-                                                    data-id="<?php echo esc_attr($course->id); ?>">
-                                                    <div class="acadlix-action-button-text">
-                                                        Start Now
-                                                    </div>
-                                                    <div class="acadlix-btn-loader" style="display: none;"></div>
-                                                </button>
-                                                <?php
-                                            }
-                                        } else {
-                                            if (in_array($course->id, $cart, true)) {
-                                                ?>
-                                                <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
-                                                    Checkout</a>
-                                                </>
-                                                <?php
-                                            } elseif (in_array($course->id, $order_item, true)) {
-                                                ?>
-                                                <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">Go to
-                                                    Course</a>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <button class="acadlix-action-button acadlix-buy-now"
-                                                    data-id="<?php echo esc_attr($course->id); ?>">
-                                                    <div class="acadlix-action-button-text">
-                                                        <i class="fa fa-shopping-cart"></i> Buy Now
-                                                    </div>
-                                                    <div class="acadlix-btn-loader" style="display: none;"></div>
-                                                </button>
-                                                <?php
+                                                if (in_array($course->id, $cart, true)) {
+                                                    ?>
+                                                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
+                                                        Checkout</a>
+                                                    </>
+                                                    <?php
+                                                } elseif (in_array($course->id, $order_item, true)) {
+                                                    ?>
+                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">Go to
+                                                        Course</a>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <button class="acadlix-action-button acadlix-buy-now"
+                                                        data-id="<?php echo esc_attr($course->id); ?>">
+                                                        <div class="acadlix-action-button-text">
+                                                            <i class="fa fa-shopping-cart"></i> Buy Now
+                                                        </div>
+                                                        <div class="acadlix-btn-loader" style="display: none;"></div>
+                                                    </button>
+                                                    <?php
+                                                }
                                             }
                                         }
                                         ?>

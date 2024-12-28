@@ -54,6 +54,7 @@ if (!class_exists("CheckoutController")) {
                     'settings' => Helper::instance()->acadlix_get_all_options(),
                     'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
                     'thankyou_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_thankyou_page_id"))),
+                    'dashboard_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_dashboard_page_id"))),
                     'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
                     'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
                 ));

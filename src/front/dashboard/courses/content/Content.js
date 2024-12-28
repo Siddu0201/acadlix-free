@@ -4,9 +4,9 @@ import parse from "html-react-parser";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import AppFront from "../../../AppFront";
-import VideoPlyr from "../courseComponents/VideoPlyr";
 import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
 import { PostUpdateLessonTime } from "../../../../requests/front/FrontDashboardRequest";
+import { getVimeoVideoId, getYouTubeVideoId } from "../../../../helpers/util";
 
 const Content = (props) => {
   useEffect(() => {
@@ -149,20 +149,6 @@ const LessonVideoContent = (props) => {
     `sections.${props?.index}.content.${props?.c_index}`
   );
 
-  // Function to extract YouTube video ID
-  const getYouTubeVideoId = (url = "") => {
-    const youtubeRegex =
-      /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(youtubeRegex);
-    return match ? match[1] : null;
-  };
-
-  // Function to extract Vimeo video ID
-  const getVimeoVideoId = (url = "") => {
-    const vimeoRegex = /(?:vimeo\.com\/)(\d+)/;
-    const match = url.match(vimeoRegex);
-    return match ? match[1] : null;
-  };
 
   switch (props?.c?.video?.video_type) {
     case "html_5":
@@ -278,7 +264,6 @@ const LessonVideoContent = (props) => {
 
   return (
     <Box id="acadlix-video-player">
-      {/* <VideoPlyr {...props} src={src} /> */}
       <VideoPlayer
         src={src}
         videoType={props?.c?.video?.video_type}

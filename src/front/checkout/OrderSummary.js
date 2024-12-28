@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
@@ -150,22 +151,20 @@ const OrderSummary = (props) => {
                   <Divider />
                 </Grid>
                 <Grid item xs={12} lg={12}>
-                  <Button
+                  <LoadingButton
                     color="success"
                     variant="contained"
                     fullWidth
+                    loading={props?.watch("is_checkout_loading")}
                     onClick={props?.handleSubmit(props?.handleCheckout)}
                     disabled={
                       props?.watch("cart")?.length === 0 ||
-                      !is_payment_gateway_active()
+                      !is_payment_gateway_active() ||
+                      !props?.watch("is_user_logged_in")
                     }
                   >
-                    {props?.watch("is_checkout_loading") ? (
-                      <CircularProgress color="inherit" size={20} />
-                    ) : (
-                      "Checkout"
-                    )}
-                  </Button>
+                    Checkout
+                  </LoadingButton>
                 </Grid>
               </>
             )}

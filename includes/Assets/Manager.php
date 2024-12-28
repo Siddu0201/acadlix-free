@@ -202,6 +202,7 @@ class Manager
 
         $front_dependency = require_once ACADLIX_BUILD_PATH . 'front.asset.php';
         $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . 'front_checkout.asset.php';
+        $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . 'front_single_course.asset.php';
 
         $paypal_client_id = Helper::instance()->acadlix_get_option('acadlix_paypal_client_id');
 
@@ -256,8 +257,14 @@ class Manager
             ],
             'acadlix-front-checkout-js' => [
                 'src' => ACADLIX_BUILD_URL . 'front_checkout.js',
-                'version' => $front_dependency['version'],
-                'deps' => $front_dependency['dependencies'],
+                'version' => $front_checkout_dependency['version'],
+                'deps' => $front_checkout_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-front-single-course-js' => [
+                'src' => ACADLIX_BUILD_URL . 'front_single_course.js',
+                'version' => $front_single_course_dependency['version'],
+                'deps' => $front_single_course_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-razorpay-js' => [

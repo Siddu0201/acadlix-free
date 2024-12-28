@@ -108,6 +108,13 @@
   align-items: center;
 }
 
+.acadlix-course-action-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  gap: 0.25rem;
+}
+
 .acadlix-action-button {
   width: 100%;
   font-size: 14px;
@@ -133,6 +140,15 @@
 
 .acadlix-action-button i {
   margin-right: 5px;
+}
+
+.acadlix-action-error-message{
+  border: 1px solid var(--acadlix-error-dark);
+  background-color: var(--acadlix-error-main);
+  color: var(--acadlix-primary-contrastText);
+  padding: 0.25rem;
+  font-size: smaller;
+  text-align: center;
 }
 
 .acadlix-course-page-icon-element {
@@ -189,6 +205,7 @@
 
 .acadlix-course-main-navbar-list li a {
   color: var(--acadlix-text-primary);
+  text-decoration: none;
 }
 
 .acadlix-course-main-navbar-list li a:hover,
@@ -362,13 +379,6 @@
   margin-right: 10px;
   display: inline-block;
   white-space: nowrap;
-}
-
-.acadlix-course-action-buttons {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  gap: 0.25rem;
 }
 
 .acadlix-mobile-sticky-footer {

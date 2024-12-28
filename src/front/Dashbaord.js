@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import "../admin/AppAdmin.css";
 import DashboardLayout from "../layout/DashboardLayout";
@@ -42,6 +42,11 @@ const Dashbaord = () => {
   };
 
   if (acadlixOptions?.user?.ID === undefined) {
+    
+    useEffect(() => {
+      methods?.setValue("login_modal", true, { shouldDirty: true });
+    }, []);
+
     return (
       <Provider>
         <Box sx={{
@@ -55,6 +60,7 @@ const Dashbaord = () => {
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            maxWidth="xs"
           >
             {methods?.watch("login_modal_type") === "login" ? (
               <Login {...methods} handleClose={handleClose} />

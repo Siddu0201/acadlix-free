@@ -29,6 +29,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { RiQuestionFill } from "react-icons/ri";
+import { convertToPostDate } from "../../../../helpers/util";
 
 const General = (props) => {
   return (
@@ -251,7 +252,7 @@ const General = (props) => {
                   : null
               }
               onChange={(value) => {
-                props?.setValue("start_date", new Date(value?.$d), {
+                props?.setValue("start_date", convertToPostDate(value), {
                   shouldDirty: true,
                 });
               }}
@@ -317,7 +318,7 @@ const General = (props) => {
                   : null
               }
               onChange={(value) => {
-                props?.setValue("end_date", new Date(value?.$d), {
+                props?.setValue("end_date", convertToPostDate(value), {
                   shouldDirty: true,
                 });
               }}

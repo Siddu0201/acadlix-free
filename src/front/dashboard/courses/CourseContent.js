@@ -149,23 +149,11 @@ const CourseContent = () => {
                       c?.contentable?.video?.video_thumbnail ?? "",
                   },
                   hours:
-                    c?.contentable?.hours > 0
-                      ? c?.contentable?.hours < 10
-                        ? `0${c?.contentable?.hours}`
-                        : String(c?.contentable?.hours)
-                      : "00",
+                    (c?.contentable?.hours ?? 0).toString().padStart(2, '0'),
                   minutes:
-                    c?.contentable?.minutes > 0
-                      ? c?.contentable?.minutes < 10
-                        ? `0${c?.contentable?.minutes}`
-                        : String(c?.contentable?.minutes)
-                      : "00",
+                    (c?.contentable?.minutes ?? 0).toString().padStart(2, '0'),
                   seconds:
-                    c?.contentable?.seconds > 0
-                      ? c?.contentable?.seconds < 10
-                        ? `0${c?.contentable?.seconds}`
-                        : String(c?.contentable?.seconds)
-                      : "00",
+                    (c?.contentable?.seconds ?? 0).toString().padStart(2, '0'),
                   lesson_resources: c?.contentable?.lesson_resources ?? [],
                 };
               }) ?? [],

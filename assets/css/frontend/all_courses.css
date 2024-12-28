@@ -107,6 +107,15 @@
   margin-right: 5px;
 }
 
+.acadlix-action-error-message{
+  border: 1px solid var(--acadlix-error-dark);
+  background-color: var(--acadlix-error-main);
+  color: var(--acadlix-primary-contrastText);
+  padding: 0.25rem;
+  font-size: smaller;
+  text-align: center;
+}
+
 .acadlix-course-page-icon-element {
   display: flex;
   justify-content: center;

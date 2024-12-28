@@ -20,17 +20,18 @@ const CourseSettings = (props) => {
       days: props?.course_setting?.days ?? 0,
       hours: props?.course_setting?.hours ?? 0,
       minutes: props?.course_setting?.minutes ?? 0,
-      start_date: props?.course_setting?.start_date ?? "",
-      end_date: props?.course_setting?.end_date ?? "",
+      start_date: props?.course_setting?.start_date ?? null,
+      end_date: props?.course_setting?.end_date ?? null,
       difficulty_level: props?.course_setting?.difficulty_level ?? "all_levels",
       question_and_answer: props?.course_setting?.question_and_answer ?? false,
       price: props?.course_setting?.price ?? 0,
+      enable_sale_price: Boolean(Number(props?.course_setting?.enable_sale_price)),
       sale_price: props?.course_setting?.sale_price ?? 0,
       validity: props?.course_setting?.validity ?? 0,
       validity_type: props?.course_setting?.validity_type ?? "day",
-      tax: Boolean(Number(props?.course_setting?.tax)) ?? false,
+      tax: Boolean(Number(props?.course_setting?.tax)),
       tax_percent: props?.course_setting?.tax_percent ?? 0,
-      allow_repurchase: Boolean(Number(props?.course_setting?.allow_repurchase)) ?? false,
+      allow_repurchase: Boolean(Number(props?.course_setting?.allow_repurchase)),
       user_ids:
         props?.course_setting?.users?.length > 0
           ? props?.course_setting?.users?.map((u) => u?.user_id)
@@ -61,7 +62,6 @@ const CourseSettings = (props) => {
       },
     },
   });
-
 
   const courseMutation = PostCreateUpdateCourse();
   const handleSaveOrPublish = (e) => {
@@ -162,7 +162,7 @@ const CourseSettings = (props) => {
         >
           FAQ(s)
         </Button>
-        <Button
+        {/* <Button
           variant={
             methods?.watch("tab") === "featured_video"
               ? "contained"
@@ -173,7 +173,7 @@ const CourseSettings = (props) => {
           onClick={handleTabChange.bind(this, "featured_video")}
         >
           Featured Video
-        </Button>
+        </Button> */}
       </Box>
       <Box
         sx={{
@@ -185,9 +185,9 @@ const CourseSettings = (props) => {
         {methods?.watch("tab") === "instructor" && <Instructor {...methods} handleKeyDown={handleKeyDown} />}
         {methods?.watch("tab") === "outcome" && <Outcome {...methods} handleKeyDown={handleKeyDown} />}
         {methods?.watch("tab") === "faq" && <Faq {...methods} handleKeyDown={handleKeyDown} />}
-        {methods?.watch("tab") === "featured_video" && (
+        {/* {methods?.watch("tab") === "featured_video" && (
           <FeaturedVideo {...methods} handleKeyDown={handleKeyDown} />
-        )}
+        )} */}
       </Box>
     </Box>
   );

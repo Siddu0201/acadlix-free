@@ -1,14 +1,13 @@
 import {
-  Button,
-  CircularProgress,
-  DialogActions,
+  Box,
   DialogContent,
-  DialogTitle,
+  Divider,
   Grid,
   IconButton,
   InputAdornment,
   Link,
   Typography,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import { IoClose } from "react-icons/io5";
@@ -17,8 +16,10 @@ import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { LoadingButton } from "@mui/lab";
 
 const Register = (props) => {
+  const theme = useTheme();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -45,6 +46,9 @@ const Register = (props) => {
         if (res?.data?.success) {
           setIsLoading(false);
           window.location.reload();
+        } else {
+          setIsLoading(false);
+          toast.error(res?.data?.data?.message);
         }
       })
       .catch((err) => {
@@ -56,9 +60,6 @@ const Register = (props) => {
 
   return (
     <>
-      <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Register
-      </DialogTitle>
       <IconButton
         aria-label="close"
         onClick={props?.handleClose}
@@ -67,14 +68,49 @@ const Register = (props) => {
           right: 8,
           top: 8,
           color: (theme) => theme.palette.grey[500],
+          boxShadow: "none",
         }}
       >
-        <IoClose />
+        <IoClose style={{
+          fontSize: 20
+        }} />
       </IconButton>
-      <form onSubmit={methods?.handleSubmit(handleSubmit)}>
 
-        <DialogContent>
-          <Grid container gap={4}>
+      <DialogContent sx={{
+        paddingX: {
+          xs: `${theme.spacing(4)} !important`,
+          sm: `${theme.spacing(8)} !important`,
+        },
+        paddingY: {
+          xs: `${theme.spacing(8)} !important`,
+          sm: `${theme.spacing(4)} !important`
+        },
+      }}>
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: {
+            xs: 4,
+            sm: 2,
+          }
+        }}>
+          <Box>
+            <Typography variant="h5">Welcome back</Typography>
+          </Box>
+          <Box>
+            <Typography variant="body2">Please enter your detail to sign up.</Typography>
+          </Box>
+        </Box>
+        <Divider sx={{
+          marginBottom: {
+            xs: 4,
+            sm: 2,
+          }
+        }} />
+        <form onSubmit={methods?.handleSubmit(handleSubmit)}>
+          <Grid container gap={{ xs: 3, sm: 2 }}>
             <Grid item xs={12} lg={12}>
               <Typography
                 variant="body2"
@@ -176,6 +212,9 @@ const Register = (props) => {
                         onMouseDown={(e) => e.preventDefault()}
                         onMouseUp={(e) => e?.preventDefault()}
                         edge="end"
+                        sx={{
+                          boxShadow: "none",
+                        }}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -232,6 +271,9 @@ const Register = (props) => {
                         onMouseDown={(e) => e.preventDefault()}
                         onMouseUp={(e) => e?.preventDefault()}
                         edge="end"
+                        sx={{
+                          boxShadow: "none",
+                        }}
                       >
                         {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -243,7 +285,21 @@ const Register = (props) => {
               />
             </Grid>
             <Grid item xs={12} lg={12}>
+              <LoadingButton
+                loading={isLoading}
+                fullWidth
+                variant="contained"
+                type="submit"
+              >
+                Register
+              </LoadingButton>
+            </Grid>
+            <Grid item xs={12} lg={12} sx={{
+              display: "flex",
+              justifyContent: "center"
+            }}>
               <Typography variant="body2">
+                Already have account? {" "}
                 <Link
                   href="#"
                   onClick={(e) => {
@@ -258,23 +314,8 @@ const Register = (props) => {
               </Typography>
             </Grid>
           </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={props?.handleClose}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            type="submit"
-          >
-            {isLoading ? (
-              <CircularProgress color="inherit" size={20} />
-            ) : (
-              "Register"
-            )}
-          </Button>
-        </DialogActions>
-      </form>
+        </form>
+      </DialogContent>
     </>
   );
 };

@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Submenu;
 
+use Yuvayana\Acadlix\Helper\Helper;
+
 defined('ABSPATH') || exit();
 
 class Submenu_Courses
@@ -51,6 +53,9 @@ class Submenu_Courses
                 'acadlix_quiz_url' => admin_url( 'admin.php?page=acadlix_quiz' ),
                 'acadlix_lesson_url' => admin_url( 'admin.php?page=acadlix_lesson' ),
                 'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
+                'date_format' => Helper::instance()->acadlix_get_option("date_format"),
+                'time_format' => Helper::instance()->acadlix_get_option("time_format"),
+                'timezone_string' => Helper::instance()->acadlix_get_option("timezone_string"),
             ));
         }
     }

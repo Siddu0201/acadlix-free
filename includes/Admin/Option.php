@@ -61,7 +61,6 @@ if (!class_exists("Option")) {
                 self::instance()->createPage($key, $page);
             }
 
-            flush_rewrite_rules();
             // Set permalink is "Post name".
 			if ( ! get_option( 'permalink_structure' ) ) {
 				update_option( 'permalink_structure', '/%postname%/' );

@@ -18,6 +18,7 @@ module.exports = {
 
     front: path.resolve(process.cwd(), "src", "front.js"),
     front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),
+    front_single_course: path.resolve(process.cwd(), "src", "front-single-course.js"),
   },
 
   output: {

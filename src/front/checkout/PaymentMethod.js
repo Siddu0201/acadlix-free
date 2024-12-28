@@ -12,24 +12,51 @@ import {
 import React from "react";
 
 const PaymentMethod = (props) => {
+  const useActivePaymentGateways = (props) => {
+    const gateways = {
+      razorpay: ["razorpay_client_id", "razorpay_secret_key"],
+      paypal: ["paypal_client_id", "paypal_secret_key"],
+      payu: ["payu_merchant_key", "payu_salt"],
+    };
+
+    return React.useMemo(() => {
+      let activeGateways = 0;
+      let activeGatewayName = "";
+      Object.keys(gateways).forEach((gateway) => {
+        if (props.watch(gateway) && gateways[gateway].every(key => props.watch(key))) {
+          activeGateways++;
+          activeGatewayName = gateway;
+        }
+      });
+      return { activeGateways, activeGatewayName };
+    }, []);
+  };
+
+  const { activeGateways, activeGatewayName } = useActivePaymentGateways(props);
+
+  React.useEffect(() => {
+    if (activeGateways === 1) {
+      props.setValue("payment_method", activeGatewayName, { shouldDirty: true });
+    }
+  }, [activeGateways]);
   return (
     <Box>
       <Card>
-        <CardHeader title="Select Payment Method" />
+        <CardHeader title="Payment Method" />
         <Divider />
         <CardContent>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {props?.watch("razorpay") &&
-              props?.watch("razorpay_client_id") !== "" &&
-              props?.watch("razorpay_secret_key") !== "" && (
+              props?.watch("razorpay_client_id") &&
+              props?.watch("razorpay_secret_key") && (
                 <Grid item xs={12} lg={12}>
                   <Card>
                     <CardContent
                       sx={{
-                        paddingY: 2,
+                        paddingY: 1,
                         paddingX: 3,
                         ":last-child": {
-                          paddingY: 2,
+                          paddingY: 1,
                           paddingX: 3,
                         },
                         display: "flex",
@@ -45,7 +72,11 @@ const PaymentMethod = (props) => {
                             },
                           },
                         }}
+                        sx={{
+                          width: "100%"
+                        }}
                         label="Razorpay"
+                        disabled={!props?.watch("is_user_logged_in")}
                         control={
                           <Radio
                             size="small"
@@ -71,16 +102,16 @@ const PaymentMethod = (props) => {
                 </Grid>
               )}
             {props?.watch("paypal") &&
-              props?.watch("paypal_client_id") !== "" &&
-              props?.watch("paypal_secret_key") !== "" && (
+              props?.watch("paypal_client_id") &&
+              props?.watch("paypal_secret_key") && (
                 <Grid item xs={12} lg={12}>
                   <Card>
                     <CardContent
                       sx={{
-                        paddingY: 2,
+                        paddingY: 1,
                         paddingX: 3,
                         ":last-child": {
-                          paddingY: 2,
+                          paddingY: 1,
                           paddingX: 3,
                         },
                         display: "flex",
@@ -96,7 +127,11 @@ const PaymentMethod = (props) => {
                             },
                           },
                         }}
+                        sx={{
+                          width: "100%"
+                        }}
                         label="Paypal"
+                        disabled={!props?.watch("is_user_logged_in")}
                         control={
                           <Radio
                             size="small"
@@ -122,16 +157,16 @@ const PaymentMethod = (props) => {
                 </Grid>
               )}
             {props?.watch("payu") &&
-              props?.watch("acadlix_payu_merchant_key") !== "" &&
-              props?.watch("payu_salt") !== "" && (
+              props?.watch("payu_merchant_key") &&
+              props?.watch("payu_salt") && (
                 <Grid item xs={12} lg={12}>
                   <Card>
                     <CardContent
                       sx={{
-                        paddingY: 2,
+                        paddingY: 1,
                         paddingX: 3,
                         ":last-child": {
-                          paddingY: 2,
+                          paddingY: 1,
                           paddingX: 3,
                         },
                         display: "flex",
@@ -147,7 +182,11 @@ const PaymentMethod = (props) => {
                             },
                           },
                         }}
+                        sx={{
+                          width: "100%"
+                        }}
                         label="PayU"
+                        disabled={!props?.watch("is_user_logged_in")}
                         control={
                           <Radio
                             size="small"

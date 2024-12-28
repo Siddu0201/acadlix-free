@@ -39,6 +39,7 @@ export const GetLessonById = (lesson_id = '') => {
     return useQuery({
         queryKey: ["getLessonById", lesson_id],
         queryFn: () => {
+            if (!lesson_id) return {};
             return instance.get(`${base}/${lesson_id}`);
         }
     })

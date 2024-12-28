@@ -44,7 +44,7 @@ export default function Course() {
   const theme = useTheme();
   const showDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const {wp} = window;
-  console.log(wp);
+  // console.log(wp);
 
   const [open, setOpen] = React.useState(false);
 

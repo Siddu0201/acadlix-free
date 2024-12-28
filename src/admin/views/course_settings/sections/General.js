@@ -1,11 +1,7 @@
 import {
   Box,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormHelperText,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   Typography,
@@ -15,11 +11,22 @@ import CustomTextField from "../../../../components/CustomTextField";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { convertToPostDate } from "../../../../helpers/util";
 
 const General = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
+        <Grid item xs={12} sm={12}>
+          <Typography
+            sx={{
+              fontSize: "20px",
+              fontWeight: 700,
+            }}
+          >
+            Course Duration
+          </Typography>
+        </Grid>
         <Grid item xs={12} sm={3}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -45,9 +52,9 @@ const General = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -88,9 +95,9 @@ const General = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -106,7 +113,7 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={3}>  
+        <Grid item xs={12} sm={3}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -131,9 +138,9 @@ const General = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -174,9 +181,9 @@ const General = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -192,6 +199,16 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12} sm={12}>
+          <Typography
+            sx={{
+              fontSize: "20px",
+              fontWeight: 700,
+            }}
+          >
+            Registration Scheduling
+          </Typography>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -200,7 +217,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Start Date
+                Registration Start Date
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -237,7 +254,7 @@ const General = (props) => {
                       : null
                   }
                   onChange={(value) => {
-                    props?.setValue("start_date", new Date(value?.$d), {
+                    props?.setValue("start_date", convertToPostDate(value), {
                       shouldDirty: true,
                     });
                   }}
@@ -259,7 +276,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                End Date
+                Registration End Date
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -296,7 +313,7 @@ const General = (props) => {
                       : null
                   }
                   onChange={(value) => {
-                    props?.setValue("end_date", new Date(value?.$d), {
+                    props?.setValue("end_date", convertToPostDate(value), {
                       shouldDirty: true,
                     });
                   }}

@@ -18,11 +18,11 @@ class FrontCheckoutController
 
     protected $base = 'front-checkout';
 
-    protected $razorpay_url = 'https://api.razorpay.com/v1/orders';
+    private $razorpay_url = 'https://api.razorpay.com/v1/orders';
 
-    protected $paypal_sandbox_url = 'https://api-m.sandbox.paypal.com/v2/checkout/orders';
+    private $paypal_sandbox_url = 'https://api-m.sandbox.paypal.com/v2/checkout/orders';
 
-    protected $paypal_url = 'https://api-m.paypal.com/v2/checkout/orders';
+    private $paypal_url = 'https://api-m.paypal.com/v2/checkout/orders';
 
     public function register_routes()
     {
@@ -110,6 +110,18 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_checkout_payu'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-free-checkout',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_free_checkout'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -519,7 +531,7 @@ class FrontCheckoutController
             }
 
             if (!empty($request->get_param("billing_info"))) {
-                $order->updateOrCreateMeta("billing_info", wp_($request->get_param("billing_info")));
+                $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
             }
 
             $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
@@ -530,6 +542,72 @@ class FrontCheckoutController
         return rest_ensure_response([
             'payment_url' => $payu_url,
             'formData' => $payu_data,
+            'status' => 'success',
+        ]);
+    }
+
+    public function post_free_checkout($request)
+    {
+        $required_fields = array('currency', 'user_id');
+        $params = $request->get_json_params();
+        if (is_array($params) && count($params) == 0) {
+            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+        }
+
+        if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+            return new WP_Error(__('No order found', 'acadlix'), __('No order found', 'acadlix'), array('status' => 404));
+        }
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $order = Order::create([
+            'user_id' => $request->get_param('user_id'),
+            'status' => "pending",
+            'total_amount' => $request->get_param('total_amount'),
+        ]);
+
+        if ($order) {
+            foreach ($request->get_param("order_items") as $item) {
+                $order->order_items()->create([
+                    'course_id' => $item['course_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'discount' => $item['discount'],
+                    'price_after_discount' => $item['price_after_discount'],
+                    'tax' => $item['tax'],
+                    'price_after_tax' => $item['quantity'],
+
+                ]);
+            }
+
+            if (!empty($request->get_param("billing_info"))) {
+                $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+            }
+
+            $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
+            $order->updateOrCreateMeta('currency', $request->get_param("currency"));
+            $order->update([
+                'status' => 'success',
+            ]);
+            if ($order->order_items()->count() > 0) {
+                foreach ($order->order_items as $item) {
+                    $cart = CourseCart::where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                    $cart->delete();
+                }
+            }
+        }
+        return rest_ensure_response([
             'status' => 'success',
         ]);
     }

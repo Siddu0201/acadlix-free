@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Controller;
 
 use Yuvayana\Acadlix\Helper\Helper;
+use Yuvayana\Acadlix\Models\Course;
 
 defined('ABSPATH') || exit();
 
@@ -30,13 +31,19 @@ if (!class_exists("SingleCourseController")) {
 
         public function enqueue_front_single_course()
         {
+            global $post;
+            $course = Course::find($post->ID);
             if (is_singular(ACADLIX_COURSE_CPT)) {
-                wp_dequeue_style('acadlix-front-css');
+                // wp_dequeue_style('acadlix-front-css');
                 wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_style('acadlix-front-single-course-css');
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
 
+                wp_enqueue_script('acadlix-front-single-course-js');
+                wp_localize_script( 'acadlix-front-single-course-js', 'acadlixSingleCourse', array(
+                    'course' => wp_json_encode($course)
+                ) );
                 wp_enqueue_script('acadlix-front-action-button-course-js');
                 wp_localize_script('acadlix-front-action-button-course-js', 'acadlixOptions', array(
                     'is_admin_bar_showing' => is_admin_bar_showing(),

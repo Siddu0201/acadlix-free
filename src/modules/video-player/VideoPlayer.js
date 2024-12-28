@@ -9,6 +9,7 @@ import { convertTime } from "../../helpers/util";
 
 const VideoPlayer = ({
     src = '',
+    thumbnail = '',
     videoType = '',
     hours = 0,
     minutes = 0,
@@ -39,7 +40,6 @@ const VideoPlayer = ({
         // Initialize Plyr when the component mounts
         const plyrInstance = new Plyr(playerRef.current, {
             controls: [
-                ...controls,
                 "play",
                 "progress",
                 "current-time",
@@ -47,24 +47,25 @@ const VideoPlayer = ({
                 "mute",
                 "volume",
                 "settings",
+                ...controls,
             ],
             fullscreen: {
                 enabled: !hasExternalFullscreen,
             },
-            settings: [...settings, "quality", "speed"],
+            settings: ["quality", "speed", ...settings],
             keyboard: {
-                ...keyboard,
                 focused: true, // Enable keyboard controls only when the player is focused
                 global: true, // Allow keyboard controls even when the player is not focused
+                ...keyboard,
             },
             quality: {
-                ...quality,
                 default: 720, // Default quality (e.g., 720p)
                 options: [1080, 720, 480, 360], // Available quality levels
                 forced: true, // Force Plyr to use the quality options provided
                 onChange: (quality) => {
                     // Handle quality change
                 },
+                ...quality,
             },
             youtube: {
                 ...youtube,
@@ -282,6 +283,7 @@ const VideoPlayer = ({
                             src={src} // Dynamic video URL
                             playsInline
                             controls
+                            poster={thumbnail}
                         />
                     );
                 case "youtube":

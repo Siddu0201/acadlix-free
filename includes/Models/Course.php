@@ -22,6 +22,7 @@ if (!class_exists('Course')) {
             'difficulty_level',
             'question_and_answer',
             'price',
+            'enable_sale_price',
             'sale_price',
             'validity',
             'validity_type',
@@ -34,6 +35,18 @@ if (!class_exists('Course')) {
         protected $with = ['users', 'outcomes', 'faqs', 'sections', 'post'];
 
         protected $withCount = ['users', 'outcomes', 'faqs', 'sections'];
+        
+        public function getStartDateAttribute($value)
+        {
+            return $value === '0000-00-00 00:00:00' ? null : $value;
+
+        }
+            
+        public function getEndDateAttribute($value)
+        {
+            return $value === '0000-00-00 00:00:00' ? null : $value;
+
+        }
 
         public function setVideoAttribute($value)
         {

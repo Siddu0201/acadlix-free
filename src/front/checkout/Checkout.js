@@ -1,20 +1,20 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React from "react";
 import {
   GetCheckoutCart,
   PostCheckoutPaypal,
   PostCheckoutPayu,
   PostCheckoutRazorpay,
   PostFailRazorpayPayment,
+  PostFreeCheckout,
   PostVerifyRazorpayPayment,
 } from "../../requests/front/FrontCheckoutRequest";
-import { Box, Dialog, Grid, styled } from "@mui/material";
+import { Box, CircularProgress, Dialog, Grid, Link, styled, Typography } from "@mui/material";
 import BillingDetail from "./BillingDetail";
 import PaymentMethod from "./PaymentMethod";
 import OrderDetail from "./OrderDetail";
 import OrderSummary from "./OrderSummary";
 import { useForm } from "react-hook-form";
 import parse from "html-react-parser";
-import axios from "axios";
 import Login from "./modal/Login";
 import toast from "react-hot-toast";
 import Register from "./modal/Register";
@@ -44,6 +44,7 @@ const Checkout = () => {
       },
       payment_method: "",
       user_id: acadlixOptions?.user_id,
+      is_user_logged_in: acadlixOptions?.user_id > 0 ? true : false,
       cart_token: acadlixOptions?.cart_token,
       users_can_register: Boolean(Number(acadlixOptions?.users_can_register)),
       cart: [],
@@ -61,12 +62,13 @@ const Checkout = () => {
       paypal_sandbox:
         acadlixOptions?.settings?.acadlix_paypal_sandbox === "yes",
       payu: acadlixOptions?.settings?.acadlix_payu_active === "yes",
-      acadlix_payu_merchant_key:
+      payu_merchant_key:
         acadlixOptions?.settings?.acadlix_payu_merchant_key,
       payu_salt: acadlixOptions?.settings?.acadlix_payu_salt,
       payu_sandbox: acadlixOptions?.settings?.acadlix_payu_sandbox === "yes",
     },
   });
+  console.log(methods?.watch());
 
   const getCart = GetCheckoutCart(
     methods?.watch("user_id"),
@@ -91,8 +93,8 @@ const Checkout = () => {
     return Number(
       decimalPart
         ? integerPart +
-            acadlixOptions?.settings?.acadlix_decimal_seprator +
-            decimalPart
+        acadlixOptions?.settings?.acadlix_decimal_seprator +
+        decimalPart
         : integerPart
     );
   };
@@ -123,7 +125,7 @@ const Checkout = () => {
       "order_items",
       cart?.map((c) => {
         let price = formatPrice(
-          c?.course?.sale_price === 0 ? c?.course?.price : c?.course?.sale_price
+          Boolean(Number(c?.course?.enable_sale_price)) ? c?.course?.sale_price : c?.course?.price
         );
         let tax = 0;
         if (c?.course?.tax !== 0 && c?.course?.tax_percent !== 0) {
@@ -151,14 +153,12 @@ const Checkout = () => {
       { shouldDirty: true }
     );
   };
-
-  useLayoutEffect(() => {
-    if (!getCart?.isFetching) {
-      if (getCart?.data?.data?.cart?.length > 0) {
-        setCartData(getCart?.data?.data?.cart);
-      }
+ 
+  React.useLayoutEffect(() => {
+    if (!getCart?.isFetching && getCart?.data?.data?.cart?.length > 0) {
+      setCartData(getCart?.data?.data?.cart);
     }
-  }, [getCart?.data?.data]);
+  }, [getCart?.isFetching, getCart?.data?.data?.cart]);
 
   const convertToRazorpayUnit = (amount = 0) => {
     if (isNaN(amount)) {
@@ -328,56 +328,64 @@ const Checkout = () => {
     });
   };
 
-  const handlePaymentGatway = (data = {}) => {
-    switch (methods?.watch("payment_method")) {
-      case "razorpay":
-        handleRazorpay(data);
-        return;
-      case "paypal":
-        handlePaypal(data);
-        return;
-      case "payu":
-        handlePayu(data);
-        return;
-      default:
-        return;
+  const freeMutation = PostFreeCheckout();
+  const handleFreeCheckout = (data = {}) => {
+    freeMutation?.mutate(data, {
+      onSuccess: (data) => {
+        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+        window.location.href = `${acadlixOptions?.dashboard_url}`;
+      },
+      onError: (data) => {
+        toast?.error("Opps! Something went wrong");
+        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+      },
+    })
+  };
+
+  const paymentHandlers = {
+    razorpay: handleRazorpay,
+    paypal: handlePaypal,
+    payu: handlePayu,
+  };
+
+  const handlePaymentGateway = (data = {}) => {
+    const method = methods?.watch("payment_method");
+    if (paymentHandlers[method]) {
+      paymentHandlers[method](data);
     }
   };
 
+  /**
+   * Initiates the checkout process by setting the loading state and 
+   * validating the selected payment method. If no payment method is 
+   * selected, it displays an error message. If a payment method is 
+   * selected, it delegates the payment process to the appropriate 
+   * handler based on the selected payment gateway.
+   * 
+   * @param {Object} data - The data to be used in the checkout process.
+   */
   const handleCheckout = (data) => {
+    // Set the loading state to true to indicate that the checkout process is starting
     methods?.setValue("is_checkout_loading", true, { shouldDirty: true });
-
-    if (acadlixOptions?.user_id > 0) {
-      if (methods?.watch("payment_method") === "") {
-        toast.error("Please select payment gatway.");
+    const totalAmount = methods?.watch("total_amount");
+    if(totalAmount> 0){
+      const selectedPaymentMethod = methods.watch("payment_method");
+      // Check if a payment method has been selected
+      if (!selectedPaymentMethod) {
+        // If no payment method is selected, display an error message to the user
+        toast.error("Please select a payment gateway.");
+  
+        // Set the loading state back to false since the process cannot proceed
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-        return;
+        return; // Exit the function early
       }
-      handlePaymentGatway(data);
-    } else {
-      axios
-        .post(
-          acadlixOptions?.ajax_url,
-          new URLSearchParams({
-            action: "check_user_login_status",
-          })
-        )
-        .then((response) => {
-          if (response?.data?.success) {
-            if (response?.data?.data?.logged_id) {
-            } else {
-              methods?.setValue("login_modal", true, { shouldDirty: true });
-              methods?.setValue("is_checkout_loading", false, {
-                shouldDirty: true,
-              });
-            }
-          }
-        })
-        .catch((err) => {
-          methods?.setValue("is_checkout_loading", false, {
-            shouldDirty: true,
-          });
-        });
+  
+      // If a payment method is selected, proceed to handle the payment
+      // The appropriate payment handler is called based on the selected payment gateway
+      handlePaymentGateway(data);
+    }else{
+      // handle free checkout
+      handleFreeCheckout(data);
     }
   };
 
@@ -397,6 +405,20 @@ const Checkout = () => {
     methods?.setValue("login_modal", false, { shouldDirty: true });
   };
 
+  if (getCart?.isFetching) {
+    return (
+      <Box sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingY: 5
+      }}>
+        <CircularProgress size={30} />
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -413,6 +435,7 @@ const Checkout = () => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        maxWidth="xs"
       >
         {methods?.watch("login_modal_type") === "login" ? (
           <Login {...methods} handleClose={handleClose} />
@@ -420,38 +443,66 @@ const Checkout = () => {
           <Register {...methods} handleClose={handleClose} />
         )}
       </BootstrapDialog>
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={12} md={7}>
+      {
+        methods?.watch("cart")?.length > 0 ?
           <Grid container spacing={4}>
-            <Grid item xs={12} lg={12}>
-              <BillingDetail {...methods} />
+            <Grid item xs={12} sm={12} md={7}>
+              <Grid container spacing={4}>
+                {
+                  !methods?.watch("is_user_logged_in") &&
+                  <Grid item xs={12} lg={12}>
+                    <Typography>
+                      Please login/register to procced: {" "}
+                      <Link
+                        onClick={() => methods?.setValue("login_modal", true, { shouldDirty: true })}
+                        sx={{
+                          cursor: "pointer"
+                        }}
+                      >
+                        Login/Register
+                      </Link>
+                    </Typography>
+                  </Grid>
+                }
+                <Grid item xs={12} lg={12}>
+                  <BillingDetail {...methods} />
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <OrderDetail
+                    {...methods}
+                    isFetching={getCart?.isFetching}
+                    currencyPosition={currencyPosition}
+                    setCartData={setCartData}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12} lg={12}>
-              <PaymentMethod {...methods} />
+            <Grid item xs={12} sm={12} md={5}>
+              <Grid container spacing={4}>
+                {
+                  methods?.watch("total_amount") > 0 &&
+                  <Grid item xs={12} lg={12}>
+                    <PaymentMethod {...methods} />
+                  </Grid>
+                }
+                <Grid item xs={12} lg={12}>
+                  <OrderSummary
+                    {...methods}
+                    isFetching={getCart?.isFetching}
+                    handleCheckout={handleCheckout}
+                    currencyPosition={currencyPosition}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} sm={12} md={5}>
+          :
           <Grid container spacing={4}>
-            <Grid item xs={12} lg={12}>
-              <OrderDetail
-                {...methods}
-                isFetching={getCart?.isFetching}
-                currencyPosition={currencyPosition}
-                setCartData={setCartData}
-              />
-            </Grid>
-            <Grid item xs={12} lg={12}>
-              <OrderSummary
-                {...methods}
-                isFetching={getCart?.isFetching}
-                handleCheckout={handleCheckout}
-                currencyPosition={currencyPosition}
-              />
+            <Grid item xs={12} md={12}>
+              <Typography variant="body1">Your cart is currently empty.</Typography>
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+      }
     </Box>
   );
 };

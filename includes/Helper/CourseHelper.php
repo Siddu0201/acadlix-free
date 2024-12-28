@@ -79,9 +79,9 @@ if (!class_exists('CourseHelper')) {
          * 
          * @return bool True if both the price and sale price are zero, indicating the course is free; otherwise, false.
          */
-        public function isCourseFree(float $price, float $sale_price): bool
+        public function isCourseFree(float $price, bool $enable_sale_price, float $sale_price): bool
         {
-            return 0 == $price && 0 == $sale_price;
+            return $enable_sale_price ? 0 == $sale_price : 0 == $price;
         }
 
 
@@ -164,7 +164,7 @@ if (!class_exists('CourseHelper')) {
             $parts = [];
             $timeUnits = [
                 'week' => $weeks,
-                'day'  => $days,
+                'day' => $days,
                 'hour' => $hours,
                 'minute' => $minutes,
             ];
@@ -176,6 +176,49 @@ if (!class_exists('CourseHelper')) {
             }
 
             return implode(' ', $parts);
+        }
+
+        /**
+         * Checks if a course registration is open based on the given start and end dates.
+         * 
+         * @param string $start_date The start date of the registration period.
+         * @param string $end_date The end date of the registration period.
+         * 
+         * @return array An associative array containing the status of the registration (true or false) and a message.
+         */
+        public function checkRegistrationDate($start_date, $end_date)
+        {
+            // Initialize the response array
+            $response = [
+                'status' => true,
+                'message' => 'Registration is open.',
+            ];
+
+            // Check for null or empty values
+            if (empty($start_date) && empty($end_date)) {
+                return $response;
+            }
+
+            // Get current date/time in WordPress timezone
+            $current_timestamp = strtotime(wp_date('Y-m-d H:i:s'));
+            $dateTimeFormat = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+            // Check start_date
+            if (!empty($start_date) && $current_timestamp < strtotime($start_date)) {
+                return [
+                    'status' => false,
+                    'message' => "Registration open after: <br/>" .wp_date($dateTimeFormat, strtotime($start_date))." ". get_option('timezone_string' ),
+                ];
+            }
+
+            // Check end_date
+            if (!empty($end_date) && $current_timestamp > strtotime($end_date)) {
+                return [
+                    'status' => false,
+                    'message' => 'Registration is closed',
+                ];
+            }
+
+            return $response;
         }
     }
 }

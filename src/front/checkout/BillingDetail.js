@@ -46,6 +46,7 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
                 error={Boolean(
                   props?.formState?.errors?.billing_info?.first_name
                 )}
@@ -75,6 +76,7 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
             <Grid item xs={12} md={12}>
@@ -102,6 +104,7 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
                 error={Boolean(props?.formState?.errors?.billing_info?.email)}
                 helperText={
                   props?.formState?.errors?.billing_info?.email?.message
@@ -130,10 +133,10 @@ const BillingDetail = (props) => {
                 value={
                   props.watch("billing_info.phonecode") !== null
                     ? Country?.getAllCountries()?.find(
-                        (country) =>
-                          country?.phonecode ===
-                          props?.watch("billing_info.phonecode")
-                      ) ?? null
+                      (country) =>
+                        country?.phonecode ===
+                        props?.watch("billing_info.phonecode")
+                    ) ?? null
                     : null
                 }
                 onChange={(_, newValue) => {
@@ -145,6 +148,7 @@ const BillingDetail = (props) => {
                     }
                   );
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
                 renderOption={(props, option) => (
                   <Box
                     component="li"
@@ -166,7 +170,7 @@ const BillingDetail = (props) => {
                     }}
                     sx={{
                       "& .MuiInputBase-input": {
-                        height: "auto", 
+                        height: "auto",
                       },
                     }}
                   />
@@ -186,17 +190,21 @@ const BillingDetail = (props) => {
               <CustomTextField
                 fullWidth
                 size="small"
-                type="tel"
+                type="tel" // Input type for telephone numbers
                 value={props?.watch("billing_info.phone_number")}
                 onChange={(e) => {
-                  props?.setValue(
-                    "billing_info.phone_number",
-                    e?.target?.value,
-                    {
-                      shouldDirty: true,
-                    }
-                  );
+                  const inputValue = e?.target?.value;
+                  if(/^[0-9\-\(\) ]+$/.test(inputValue) || inputValue === ''){
+                    props?.setValue(
+                      "billing_info.phone_number",
+                      inputValue,
+                      {
+                        shouldDirty: true,
+                      }
+                    );
+                  }
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
             <Grid item xs={12} md={12}>
@@ -220,32 +228,10 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
-            <Grid item xs={12} md={12}>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 500,
-                  paddingY: 1,
-                }}
-              >
-                Website
-              </Typography>
-              <CustomTextField
-                fullWidth
-                size="small"
-                placeholder="e.g. www.acadlix.com"
-                type="text"
-                value={props?.watch("billing_info.user_url")}
-                onChange={(e) => {
-                  props?.setValue("billing_info.user_url", e?.target?.value, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <Typography
                 variant="body2"
                 sx={{
@@ -265,9 +251,9 @@ const BillingDetail = (props) => {
                 value={
                   props.watch("billing_info.country") !== null
                     ? Country.getAllCountries()?.find(
-                        (country) =>
-                          country?.name === props.watch("billing_info.country")
-                      ) ?? null
+                      (country) =>
+                        country?.name === props.watch("billing_info.country")
+                    ) ?? null
                     : null
                 }
                 onChange={(_, newValue) => {
@@ -275,6 +261,7 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
                 renderOption={(props, option) => (
                   <Box
                     component="li"
@@ -296,14 +283,14 @@ const BillingDetail = (props) => {
                     }}
                     sx={{
                       "& .MuiInputBase-input": {
-                        height: "auto", 
+                        height: "auto",
                       },
                     }}
                   />
                 )}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <Typography
                 variant="body2"
                 sx={{
@@ -324,9 +311,10 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={4}>
               <Typography
                 variant="body2"
                 sx={{
@@ -347,6 +335,7 @@ const BillingDetail = (props) => {
                     shouldDirty: true,
                   });
                 }}
+                disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
           </Grid>

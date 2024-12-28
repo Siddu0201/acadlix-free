@@ -16,7 +16,7 @@ const Payment = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -41,9 +41,9 @@ const Payment = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -59,7 +59,35 @@ const Payment = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                }}
+              >
+                Activate Sale Price
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControlLabel
+                label="Activate"
+                checked={props?.watch("enable_sale_price")}
+                control={<Checkbox />}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue("enable_sale_price", e?.target?.checked, {
+                      shouldDirty: true,
+                    });
+                  }
+                }}
+                onKeyDown={props?.handleKeyDown}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={4}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -82,11 +110,12 @@ const Payment = (props) => {
                   });
                 }}
                 onKeyDown={props?.handleKeyDown}
+                disabled={!props?.watch("enable_sale_price")}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -127,9 +156,9 @@ const Payment = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -229,9 +258,9 @@ const Payment = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },

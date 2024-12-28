@@ -4,7 +4,7 @@ namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Yuvayana\Acadlix\Helper\Helper;
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
 if (!class_exists('Quiz')) {
     class Quiz extends Model
@@ -166,10 +166,22 @@ if (!class_exists('Quiz')) {
             }
         }
 
+        public function getStartDateAttribute($value)
+        {
+            return $value === '0000-00-00 00:00:00' ? null : $value;
+
+        }
+
+        public function getEndDateAttribute($value)
+        {
+            return $value === '0000-00-00 00:00:00' ? null : $value;
+
+        }
+
         public function content()
         {
-            return  $this->morphMany(CourseSectionContent::class, 'contentable');
+            return $this->morphMany(CourseSectionContent::class, 'contentable');
         }
-        
+
     }
 }

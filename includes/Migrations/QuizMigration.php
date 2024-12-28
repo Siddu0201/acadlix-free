@@ -33,9 +33,9 @@ if(!class_exists('QuizMigration')){
                     $table->boolean('pause_quiz')->default(0);
                     $table->boolean('show_review_button')->default(0);
                     $table->boolean('set_start_date')->default(0);
-                    $table->string('start_date')->nullable();
+                    $table->dateTime('start_date')->nullable();
                     $table->boolean('set_end_date')->default(0);
-                    $table->string('end_date')->nullable();
+                    $table->dateTime('end_date')->nullable();
                     $table->boolean('prerequisite')->default(0);
                     $table->boolean('enable_login_register')->default(0);
                     $table->string('login_register_type')->nullable()->default('at_start_of_quiz')->comment('at_start_of_quiz/at_finish_of_quiz');

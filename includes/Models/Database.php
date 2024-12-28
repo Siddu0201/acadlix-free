@@ -32,6 +32,7 @@ if (!class_exists('Database')) {
             // Fallback defaults if charset or collate not found
             $charset = $charset ?: 'utf8mb4';
             $collate = $collate ?: 'utf8mb4_unicode_ci';
+
             $capsule = new Capsule;
             $capsule->addConnection([
                 'driver' => 'mysql',
@@ -53,6 +54,12 @@ if (!class_exists('Database')) {
                 'collation' => $collate,
                 'prefix' => $wpdb->prefix,
             ], 'wordpress');
+
+            $timezone_string = get_option('timezone_string');
+            if (!empty($timezone_string)) {
+                date_default_timezone_set($timezone_string);
+            }
+
             // Set the event dispatcher used by Eloquent models... (optional)
             $capsule->setEventDispatcher(new Dispatcher(new Container));
 

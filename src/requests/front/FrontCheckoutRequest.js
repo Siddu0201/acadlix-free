@@ -76,3 +76,12 @@ export const PostCheckoutPayu = () => {
     },
   });
 };
+
+export const PostFreeCheckout = () => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/post-free-checkout`, data);
+    },
+  });
+};
