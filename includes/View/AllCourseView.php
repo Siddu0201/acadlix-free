@@ -92,7 +92,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     ?>
                     <div class="acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12">
                         <div class="acadlix-card acadlix-all-course-card">
-                            <a href="<?php echo esc_url($course->post->guid); ?>">
+                            <a href="<?php echo esc_url(get_permalink($course->post->ID)); ?>">
                                 <img class="acadlix-card-img-top acadlix-course-page-img" loading="lazy"
                                     src="<?php echo $course->post->getThumbnailUrlAttribute() ? esc_html($course->post->getThumbnailUrlAttribute()) : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>"
                                     alt="<?php echo $course->post->getThumbnailAltAttribute() ? esc_attr($course->post->getThumbnailAltAttribute()) : esc_attr($course?->post?->post_title); ?>" />
@@ -102,7 +102,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                     <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->difficulty_level)); ?>
                                 </div>
                                 <h3 class="acadlix-course-page-card-title acadlix-mt-12 acadlix-fs-5 acadlix-fw-500"><a
-                                        href="<?php echo esc_url($course->post->guid); ?>"><?php echo esc_html($course?->post?->post_title); ?></a>
+                                        href="<?php echo esc_url(get_permalink($course->post->ID)); ?>"><?php echo esc_html($course?->post?->post_title); ?></a>
                                 </h3>
                                 <div class="acadlix-course-user acadlix-fs-6 acadlix-fw-500 acadlix-pb-8">
                                     <?php echo CourseHelper::instance()->getCourseUserHtml($course); // phpcs:ignore ?>
