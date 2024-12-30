@@ -201,12 +201,18 @@ if (!class_exists('CourseHelper')) {
 
             // Get current date/time in WordPress timezone
             $current_timestamp = strtotime(wp_date('Y-m-d H:i:s'));
-            $dateTimeFormat = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+            $dateTimeFormat = get_option('date_format') . ' ' . get_option('time_format');
             // Check start_date
             if (!empty($start_date) && $current_timestamp < strtotime($start_date)) {
+                if (empty(get_option('timezone_string'))) {
+                    $gmt_offset = get_option('gmt_offset');
+                    $start_date = strtotime($start_date) - $gmt_offset * HOUR_IN_SECONDS;
+                } else {
+                    $start_date = strtotime($start_date);
+                }
                 return [
                     'status' => false,
-                    'message' => "Registration open after: <br/>" .wp_date($dateTimeFormat, strtotime($start_date))." ". get_option('timezone_string' ),
+                    'message' => "Registration open after: <br/>" . wp_date($dateTimeFormat, $start_date) . " " . get_option('timezone_string'),
                 ];
             }
 
