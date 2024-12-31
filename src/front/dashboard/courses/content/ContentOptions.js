@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, IconButton } from "@mui/material";
 import React from "react";
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "../../../../helpers/icons";
 import {
   PostMarkAsComplete,
   PostMarkAsIncomplete,

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import NtaLanguage from "./NtaLanguage";
-import { FaUser } from "react-icons/fa";
+import { FaUser } from "../../../../../../helpers/icons";
 import NtaTimer from "./NtaTimer";
 import NtaTexture from "../../../../../../images/nta-texture.jpg";
 const NtaUser = (props) => {

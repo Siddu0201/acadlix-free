@@ -11,9 +11,8 @@ import {
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MediaUpload } from "@wordpress/media-utils";
-import { FaCloudUploadAlt, FaTrash } from "react-icons/fa";
+import { FaCloudUploadAlt, FaTrash, IoClose } from "../../helpers/icons";
 import CustomTextField from "../../components/CustomTextField";
-import { IoClose } from "react-icons/io5";
 
 const VideoUpload = ({
   xs = 12,

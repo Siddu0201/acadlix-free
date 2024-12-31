@@ -17,11 +17,11 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import {
-  FaCheckCircle,
   FaExpandArrowsAlt,
-  FaTimesCircle,
   FaTrash,
-} from "react-icons/fa";
+  TiArrowLeftThick,
+  IoMdRefresh
+} from "../../../../helpers/icons";
 import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -29,8 +29,6 @@ import {
   GetStatisticByQuizId,
 } from "../../../../requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
-import { TiArrowLeftThick } from "react-icons/ti";
-import { MdRefresh } from "react-icons/md";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -196,7 +194,7 @@ const QuizResult = () => {
                   </Typography>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                 </Box>

@@ -14,8 +14,7 @@ import {
 import React from "react";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomSwitch from "../../../../components/CustomSwitch";
-import { FaMinus } from "react-icons/fa";
-import { MdAdd } from "react-icons/md";
+import { FaMinus, FaPlus } from "../../../../helpers/icons";
 
 const Language = (props) => {
   const [language, setLanguage] = React.useState([
@@ -111,7 +110,7 @@ const Language = (props) => {
                       />
                       <Button
                         variant="contained"
-                        endIcon={<MdAdd />}
+                        endIcon={<FaPlus />}
                         size="medium"
                         sx={{
                           ".MuiButton-endIcon": {

@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { GetOrders } from "../../../requests/admin/AdminOrderRequest";
 import { currencyPosition } from "../../../helpers/util";
 import { dateI18n } from "@wordpress/date";
-import { MdRefresh } from "react-icons/md";
+import { IoMdRefresh } from "../../../helpers/icons";
 
 const Order = () => {
   const methods = useForm({
@@ -176,7 +176,7 @@ const Order = () => {
                   </Typography>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                 </Box>

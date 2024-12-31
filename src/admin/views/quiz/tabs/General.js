@@ -23,12 +23,10 @@ import {
 import CustomSwitch from "../../../../components/CustomSwitch";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
-import { MdAdd } from "react-icons/md";
-import { FaMinus } from "react-icons/fa";
+import { FaMinus, FaPlus, RiQuestionFill } from "../../../../helpers/icons";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { RiQuestionFill } from "react-icons/ri";
 import { convertToPostDate } from "../../../../helpers/util";
 
 const General = (props) => {
@@ -651,7 +649,7 @@ const General = (props) => {
                       />
                       <Button
                         variant="contained"
-                        endIcon={<MdAdd />}
+                        endIcon={<FaPlus />}
                         size="medium"
                         sx={{
                           ".MuiButton-endIcon": {

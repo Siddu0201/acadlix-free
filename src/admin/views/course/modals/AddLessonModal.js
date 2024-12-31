@@ -10,7 +10,6 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  FormHelperText,
   FormLabel,
   Grid,
   IconButton,
@@ -24,14 +23,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
 import CustomTextField from "../../../../components/CustomTextField";
 import { MediaUpload } from "@wordpress/media-utils";
 import { GetLessonsForCourse } from "../../../../requests/admin/AdminCourseRequest";
-import { IoMdRefresh } from "react-icons/io";
 import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 import { convertTime } from "../../../../helpers/util";
-import CustomSwitch from "../../../../components/CustomSwitch";
+import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
 
 const AddLessonModal = (props) => {
   const handleLessonTypeChange = (type = "") => {

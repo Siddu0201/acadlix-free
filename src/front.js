@@ -9,19 +9,19 @@ domReady(() => {
     if(shortcode.length > 0){
         shortcode.forEach((short, index) => {
             let shortcodeRoot = createRoot(short);
-            shortcodeRoot.render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} advance={false} hide_title={true} hide_description={true} />);
+            shortcodeRoot.render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} advance={false} hide_title={true} hide_description={true}></AppFront>);
         });
     }
     
     const dashboard = document.getElementById("acadlix_dashboard");
     if(dashboard){
         const dashboardRoot = createRoot(dashboard);
-        dashboardRoot.render(<Dashbaord />);
+        dashboardRoot.render(<Dashbaord ></Dashbaord>);
     }
     
     const advanceQuiz = document.getElementById("acadlix_advance_quiz");
     if(advanceQuiz){
         const advanceQuizRoot = createRoot(advanceQuiz);
-        advanceQuizRoot.render(<AppFront start={true} advance={true} hide_title={true} hide_description={true} />);
+        advanceQuizRoot.render(<AppFront start={true} advance={true} hide_title={true} hide_description={true}></AppFront>);
     }
 });

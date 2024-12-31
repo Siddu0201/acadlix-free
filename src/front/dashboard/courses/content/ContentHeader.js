@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import React from "react";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { FaAngleLeft, FaAngleRight } from "../../../../helpers/icons";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 

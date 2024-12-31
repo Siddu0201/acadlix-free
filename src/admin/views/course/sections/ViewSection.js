@@ -29,9 +29,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { IoMenu } from "react-icons/io5";
+import { FaEdit, FaPlus, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "../../../../helpers/icons";
 import EditSection from "./EditSection";
 import AddLesson from "./AddLesson";
 import AddQuiz from "./AddQuiz";

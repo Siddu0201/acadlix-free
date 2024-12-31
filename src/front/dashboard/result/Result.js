@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BiExpand } from "react-icons/bi";
+import { BiExpand } from "../../../helpers/icons";
 import {
   Box,
   Typography,

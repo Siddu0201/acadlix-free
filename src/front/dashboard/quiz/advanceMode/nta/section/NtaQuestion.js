@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
-import { FaArrowCircleDown, FaArrowCircleUp } from "react-icons/fa";
+import { FaArrowCircleDown, FaArrowCircleUp } from "../../../../../../helpers/icons";
 import TypeSingleChoice from "../../../questionTypes/TypeSingleChoice";
 import TypeMultipleChoice from "../../../questionTypes/TypeMultipleChoice";
 import TypeTrueFalse from "../../../questionTypes/TypeTrueFalse";

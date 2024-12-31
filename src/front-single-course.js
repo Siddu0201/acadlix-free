@@ -7,6 +7,6 @@ domReady(() => {
     const course = document.getElementById('acadlix-curriculam-react-preview');
     if (course) {
         let courseRoot = createRoot(course);
-        courseRoot.render(<Provider><FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}} /></Provider>);
+        courseRoot.render(<Provider><FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}}></FrontSingleCourse></Provider>);
     }
 })

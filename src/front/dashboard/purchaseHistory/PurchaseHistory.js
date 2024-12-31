@@ -6,8 +6,7 @@ import Typography from "@mui/material/Typography";
 import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { MdRefresh } from "react-icons/md";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { IoMdRefresh, FaMoneyBillTransfer } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -183,7 +182,7 @@ const PurchaseHistory = () => {
                   </Typography>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                 </Box>

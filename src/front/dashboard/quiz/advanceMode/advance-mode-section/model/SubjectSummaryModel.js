@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../../../helpers/icons";
 
 const SubjectSummaryModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({

@@ -1,6 +1,6 @@
 import { Box, Drawer, IconButton } from "@mui/material";
 import React from "react";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "../../../../../../helpers/icons";
 import NtaSidebarStatusTypes from "./NtaSidebarStatusTypes";
 import NtaSidebarQuestionOverview from "./NtaSidebarQuestionOverview";
 

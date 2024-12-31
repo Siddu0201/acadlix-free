@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../helpers/icons";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { useForm } from "react-hook-form";
 import { PostSetParagraph } from "../../../../requests/admin/AdminQuestionRequest";

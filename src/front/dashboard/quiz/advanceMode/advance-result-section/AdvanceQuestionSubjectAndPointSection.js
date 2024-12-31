@@ -1,7 +1,7 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
-import { FaRegBookmark } from "react-icons/fa6";
+import { FaRegBookmark } from "../../../../../helpers/icons";
 import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
 
 const AdvanceQuestionSubjectAndPointSection = (props) => {

@@ -20,7 +20,7 @@ import {
   PostCreateQuizQuestion,
   UpdateQuizQuestionById,
 } from "../../../requests/admin/AdminQuestionRequest";
-import { TiArrowLeftThick } from "react-icons/ti";
+import { TiArrowLeftThick } from "../../../helpers/icons";
 import QuestionParagraphSection from "./sections/QuestionParagraphSection";
 
 const QuestionContent = (props) => {

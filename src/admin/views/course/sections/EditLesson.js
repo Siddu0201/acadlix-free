@@ -1,7 +1,7 @@
 import React from "react";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import { IconButton } from "@mui/material";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit } from "../../../../helpers/icons";
 import EditLessonModel from "../modals/EditLessonModel";
 import { useForm } from "react-hook-form";
 import { PostUpdateLessonById } from "../../../../requests/admin/AdminCourseRequest";

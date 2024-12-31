@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { PostSaveTemplate } from "../../../../requests/admin/AdminTemplateRequest";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaCloudUploadAlt } from "../../../../helpers/icons";
 import toast from "react-hot-toast";
 
 const SaveTemplateSection = (props) => {

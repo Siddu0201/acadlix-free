@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
 import React from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit } from "../../../../helpers/icons";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import AddEditSectionModal from "../modals/AddEditSectionModal";
 import { useForm } from "react-hook-form";

@@ -25,8 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { MdDragIndicator, MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { FaEdit, FaTrash, MdDragIndicator, MdVisibility, MdVisibilityOff  } from "../../../../helpers/icons";
 import {
   PostSortContent,
   PostTooglePreviewContent,

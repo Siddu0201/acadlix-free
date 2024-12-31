@@ -9,9 +9,9 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
-
+ 
 const AddEditSectionModal = (props) => {
   return (
     <form onSubmit={props?.handleSubmit(props?.onSubmit)}>

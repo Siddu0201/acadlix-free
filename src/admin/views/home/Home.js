@@ -12,12 +12,14 @@ import {
 } from "@mui/material";
 import React from "react";
 import AcadlixLogo from "../../../images/acadlix_logo.png";
-import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import {
+  IoCheckmarkDoneSharp,
+  AiOutlineFileSearch,
+  RiUserHeartFill,
+  BiSolidCommentDetail,
+  FaCog
+} from "../../../helpers/icons";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import { AiOutlineFileSearch } from "react-icons/ai";
-import { RiUserHeartFill } from "react-icons/ri";
-import { BiSolidCommentDetail } from "react-icons/bi";
-import { FaCog } from "react-icons/fa";
 
 const Home = () => {
   return (

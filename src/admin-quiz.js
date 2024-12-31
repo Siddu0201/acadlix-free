@@ -6,5 +6,5 @@ import AdminQuiz from './admin/AdminQuiz';
 const acadlixElement = document.getElementById('acadlix-admin-quiz');
 if (acadlixElement){
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminQuiz />);
+    acadlixElementRoot.render(<AdminQuiz></AdminQuiz>);
 }

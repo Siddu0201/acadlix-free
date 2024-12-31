@@ -2,9 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { createRoot, createElement } from "@wordpress/element";
 import Plyr from "plyr";
 import parse from "html-react-parser";
-import { GiNextButton, GiPreviousButton } from "react-icons/gi";
-import { RiExpandDiagonalFill } from "react-icons/ri";
-import { MdCloseFullscreen } from "react-icons/md";
+import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "../../helpers/icons";
 import { convertTime } from "../../helpers/util";
 
 const VideoPlayer = ({

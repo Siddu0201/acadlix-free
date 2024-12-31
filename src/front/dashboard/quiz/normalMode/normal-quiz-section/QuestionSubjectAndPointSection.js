@@ -1,8 +1,7 @@
 import { Box, Button, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
-import { FaRegBookmark } from "react-icons/fa6";
-import { MdOutlineReviews, MdReviews } from "react-icons/md";
+import { MdOutlineReviews, MdReviews, FaRegBookmark } from "../../../../../helpers/icons";
 
 const QuestionSubjectAndPointSection = (props) => {
   const handleReview = () => {

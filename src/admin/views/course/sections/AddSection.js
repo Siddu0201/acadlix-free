@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, styled } from "@mui/material";
 import React from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus } from "../../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import AddEditSectionModal from "../modals/AddEditSectionModal";

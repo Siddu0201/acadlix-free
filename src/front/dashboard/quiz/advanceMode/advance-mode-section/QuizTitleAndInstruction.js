@@ -1,6 +1,6 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
-import { TiInfoLarge } from "react-icons/ti";
+import { TiInfoLarge } from "../../../../../helpers/icons";
 import InstructionModel from "./model/InstructionModel";
 
 const QuizTitleAndInstruction = (props) => {

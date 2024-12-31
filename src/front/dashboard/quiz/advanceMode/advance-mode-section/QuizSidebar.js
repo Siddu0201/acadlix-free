@@ -1,25 +1,15 @@
 import {
-  Avatar,
   Box,
-  Button,
   Drawer,
-  Grid,
   IconButton,
-  Typography,
 } from "@mui/material";
 import React from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import Answered from "../answer-type-buttons/Answered";
-import Marked from "../answer-type-buttons/Marked";
-import NotVisited from "../answer-type-buttons/NotVisited";
-import MarkedAndAnswered from "../answer-type-buttons/MarkedAndAnswered";
-import NotAnswered from "../answer-type-buttons/NotAnswered";
 import QuizSidebarUser from "./QuizSidebarUser";
 import QuizSidebarStatusTypes from "./QuizSidebarStatusTypes";
 import QuizSidebarSection from "./QuizSidebarSection";
 import QuizSidebarQuestionOverview from "./QuizSidebarQuestionOverview";
 import QuizSidebarSubmit from "./QuizSidebarSubmit";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "../../../../../helpers/icons";
 
 const QuizSidebar = (props) => {
   const [remainingHeight, setRemainingHeight] = React.useState(0);

@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";

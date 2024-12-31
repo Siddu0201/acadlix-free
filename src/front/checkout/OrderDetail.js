@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "../../helpers/icons";
 import { DeleteCourseFromCart } from "../../requests/front/FrontCheckoutRequest";
 
 const OrderDetail = (props) => {

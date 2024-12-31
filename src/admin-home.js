@@ -6,5 +6,5 @@ import AdminHome from './admin/AdminHome';
 const acadlixElement = document.getElementById('acadlix-admin-home');
 if (acadlixElement){
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminHome />);
+    acadlixElementRoot.render(<AdminHome></AdminHome>);
 }

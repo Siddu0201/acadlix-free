@@ -14,10 +14,9 @@ import {
   ListItem,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
 import { GetQuizzesForCourse } from "../../../../requests/admin/AdminCourseRequest";
-import { IoMdRefresh } from "react-icons/io";
 import CustomTextField from "../../../../components/CustomTextField";
+import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
 
 const AddQuizModel = (props) => {
   const { isFetching, data, refetch } = GetQuizzesForCourse();

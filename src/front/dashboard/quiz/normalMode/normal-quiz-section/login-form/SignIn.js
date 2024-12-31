@@ -15,9 +15,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../../../components/CustomTextField";
-import { IoClose } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { MdVisibility, MdVisibilityOff, IoClose } from "../../../../../../helpers/icons";
 import { PostUserLogin } from "../../../../../../requests/front/FrontUserRequest";
 import parse from "html-react-parser";
 

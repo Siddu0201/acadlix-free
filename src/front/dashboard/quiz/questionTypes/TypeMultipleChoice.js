@@ -8,8 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import parse from "html-react-parser";
-import { RxCross2 } from "react-icons/rx";
-import { TiTick } from "react-icons/ti";
+import { TiTick, RxCross2 } from "../../../../helpers/icons";
 
 const TypeMultipleChoice = (props) => {
   const handleChange = (e) => {

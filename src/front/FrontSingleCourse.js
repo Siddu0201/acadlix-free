@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Box, Dialog, DialogContent, DialogTitle, IconButton, styled } from '@mui/material';
-import { IoClose } from 'react-icons/io5';
+import { IoClose } from '../helpers/icons';
 import SingleCourse from './single_course/SingleCourse';
 import "./AppFront.css";
 

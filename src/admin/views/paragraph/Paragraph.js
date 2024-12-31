@@ -23,9 +23,7 @@ import {
   DeleteQuizParagraphById,
   GetQuizParagraphs,
 } from "../../../requests/admin/AdminParagraphRequest";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { TiArrowLeftThick } from "react-icons/ti";
-import { MdRefresh } from "react-icons/md";
+import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh } from "../../../helpers/icons";
 
 const Paragraph = () => {
   const methods = useForm({
@@ -229,7 +227,7 @@ const Paragraph = () => {
                   </Button>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                 </Box>

@@ -1,6 +1,6 @@
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import React from "react";
-import { FaAngleDown, FaFolderOpen } from "react-icons/fa";
+import { FaAngleDown, FaFolderOpen } from "../../../../helpers/icons";
 
 const ListItemResource = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);

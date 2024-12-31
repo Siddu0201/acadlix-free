@@ -1,7 +1,7 @@
 import React from "react";
 import SectionPopover from "./SectionPopover";
 import { Box, Button, Checkbox, FormControl, FormControlLabel } from "@mui/material";
-import { TiInfoLarge } from "react-icons/ti";
+import { TiInfoLarge } from "../../../../../helpers/icons";
 
 const SubsectionButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);

@@ -3,10 +3,8 @@ import Plyr from "plyr";
 import { convertTime } from "../../../../helpers/util";
 import parse from "html-react-parser";
 import { PostUpdateLessonTime } from "../../../../requests/front/FrontDashboardRequest";
-import { GiNextButton, GiPreviousButton } from "react-icons/gi";
+import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "../../../../helpers/icons";
 import { createRoot } from "react-dom/client";
-import { RiExpandDiagonalFill } from "react-icons/ri";
-import { MdCloseFullscreen } from "react-icons/md";
 
 const VideoPlyr = (props) => {
   const content = props?.watch(

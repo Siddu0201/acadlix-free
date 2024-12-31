@@ -1,10 +1,7 @@
-import { Avatar, Box, Chip, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
-import { SiTicktick } from "react-icons/si";
-import { ImCross } from "react-icons/im";
-import { TiTick } from "react-icons/ti";
-import { RxCross2 } from "react-icons/rx";
+import { TiTick, RxCross2 } from "../../../../helpers/icons";
 
 const TypeRange = (props) => {
   const handleChange = (e) => {

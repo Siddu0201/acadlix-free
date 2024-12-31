@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";

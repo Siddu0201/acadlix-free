@@ -6,5 +6,5 @@ import AdminTool from './admin/AdminTool';
 const acadlixElement = document.getElementById('acadlix-admin-tool');
 if (acadlixElement){
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminTool />);
+    acadlixElementRoot.render(<AdminTool></AdminTool>);
 }

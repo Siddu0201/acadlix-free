@@ -1,7 +1,7 @@
 import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
 import React from "react";
-import { FaPlus, FaTrash } from "react-icons/fa";
 import CustomTextField from "../../../../components/CustomTextField";
+import { FaPlus, FaTrash } from "../../../../helpers/icons";
 
 const Outcome = (props) => {
   const handleAddOutcome = () => {

@@ -17,7 +17,7 @@ import {
 import React from "react";
 import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequest";
 import toast from "react-hot-toast";
-import { FaCloudDownloadAlt } from "react-icons/fa";
+import { FaCloudDownloadAlt } from "../../../../helpers/icons";
 import { GetTemplateById } from "../../../../requests/admin/AdminTemplateRequest";
 
 const CategoryTemplateSection = (props) => {

@@ -1,8 +1,7 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import React, { useEffect } from "react";
 import parse from "html-react-parser";
-import { FaAngleLeft } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleLeft, FaAngleRight } from "../../../../helpers/icons";
 import AppFront from "../../../AppFront";
 import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
 import { PostUpdateLessonTime } from "../../../../requests/front/FrontDashboardRequest";

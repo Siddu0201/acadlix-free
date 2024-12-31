@@ -20,10 +20,8 @@ import {
 } from "../../../requests/front/FrontDashboardRequest";
 import { useForm } from "react-hook-form";
 import { Country } from "country-state-city";
-import { MediaUpload } from "@wordpress/media-utils";
 import toast from "react-hot-toast";
-import { GrUserManager } from "react-icons/gr";
-import { SlLocationPin } from "react-icons/sl";
+import { GrUserManager, SlLocationPin } from "../../../helpers/icons";
 
 const Profile = () => {
   const methods = useForm({

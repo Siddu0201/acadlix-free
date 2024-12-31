@@ -16,7 +16,7 @@ import First from "../../../../images/medal-1.svg";
 import Second from "../../../../images/medal-2.svg";
 import Third from "../../../../images/medal-3.svg";
 import { PostQuizLoadMoreLeaderderboard } from "../../../../requests/admin/AdminLeaderboardRequest";
-import { TiArrowLeftThick } from "react-icons/ti";
+import { TiArrowLeftThick } from "../../../../helpers/icons";
 
 const QuizLeaderboard = () => {
   const styles = {

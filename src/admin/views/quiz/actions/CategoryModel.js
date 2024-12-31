@@ -5,7 +5,7 @@ import {
   PostCreateCategory,
 } from "../../../../requests/admin/AdminCategoryRequest";
 import { useForm } from "react-hook-form";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../helpers/icons";
 import { PostSetCategory } from "../../../../requests/admin/AdminQuizRequest";
 
 const CategoryModel = (props) => {

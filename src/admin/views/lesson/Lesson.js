@@ -23,8 +23,7 @@ import {
   DeleteLessonById,
   GetLessons,
 } from "../../../requests/admin/AdminLessonRequest";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { MdRefresh } from "react-icons/md";
+import { FaEdit, FaTrash, IoMdRefresh } from "../../../helpers/icons";
 
 const Lesson = () => {
   const methods = useForm({
@@ -201,7 +200,7 @@ const Lesson = () => {
                   </Button>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                 </Box>

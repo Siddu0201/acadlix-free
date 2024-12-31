@@ -6,5 +6,5 @@ import AdminSetting from './admin/AdminSetting';
 const acadlixElement = document.getElementById('acadlix-admin-setting');
 if (acadlixElement){
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminSetting />);
+    acadlixElementRoot.render(<AdminSetting></AdminSetting>);
 }

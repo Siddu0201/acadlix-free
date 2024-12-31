@@ -13,7 +13,7 @@ import CategoryTemplateSection from "./sections/CategoryTemplateSection";
 import TitleDescriptionSection from "./sections/TitleDescriptionSection";
 import QuizModeSection from "./sections/QuizModeSection";
 import QuizSettingSection from "./sections/QuizSettingSection";
-import { TiArrowLeftThick } from "react-icons/ti";
+import { TiArrowLeftThick } from "../../../helpers/icons";
 import { Link, useNavigate } from "react-router-dom";
 import {
   PostCreateQuiz,

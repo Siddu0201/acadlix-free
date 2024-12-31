@@ -6,5 +6,5 @@ import AdminLesson from './admin/AdminLesson';
 const acadlixElement = document.getElementById('acadlix-admin-lesson');
 if (acadlixElement){
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminLesson />);
+    acadlixElementRoot.render(<AdminLesson></AdminLesson>);
 }

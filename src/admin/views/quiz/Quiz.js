@@ -24,14 +24,14 @@ import {
   DeleteQuizById,
   GetQuizes,
 } from "../../../requests/admin/AdminQuizRequest";
-import { FaEdit, FaParagraph, FaQuestion, FaTrash } from "react-icons/fa";
+import {
+  FaEdit,
+  FaParagraph, FaQuestion, FaTrash, FaRankingStar, MdFileCopy, IoMdRefresh, LuFileChartColumn, LuFileClock
+} from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import CategoryModel from "./actions/CategoryModel";
-import { LuFileBarChart2, LuFileClock } from "react-icons/lu";
-import { FaRankingStar } from "react-icons/fa6";
 import SubjectTimeModel from "./actions/SubjectTimeModel";
-import { MdFileCopy, MdRefresh } from "react-icons/md";
 
 const Quiz = () => {
   const methods = useForm({
@@ -179,7 +179,7 @@ const Quiz = () => {
                 LinkComponent={Link}
                 to={`/${params?.id}/result`}
               >
-                <LuFileBarChart2 />
+                <LuFileChartColumn />
               </IconButton>
             </Tooltip>
             <Tooltip title="Leaderboard" arrow>
@@ -378,7 +378,7 @@ const Quiz = () => {
                   </Button>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                 </Box>

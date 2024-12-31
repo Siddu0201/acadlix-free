@@ -14,8 +14,7 @@ import React from "react";
 import { PostUserRegister } from "../../../../../../requests/front/FrontUserRequest";
 import CustomTextField from "../../../../../../components/CustomTextField";
 import { useForm } from "react-hook-form";
-import { IoClose } from "react-icons/io5";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { MdVisibility, MdVisibilityOff, IoClose } from "../../../../../../helpers/icons";
 import parse from "html-react-parser"
 
 const SignUp = (props) => {

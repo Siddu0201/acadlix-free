@@ -7,7 +7,7 @@ import {
   Typography,
   AccordionDetails,
 } from "@mui/material";
-import { FaAngleDown } from "react-icons/fa";
+import { FaAngleDown } from "../../../../helpers/icons";
 import SidebarListItem from "./SidebarListItem";
 
 const SidebarList = (props) => {

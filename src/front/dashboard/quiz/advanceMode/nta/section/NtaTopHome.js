@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser } from "../../../../../../helpers/icons";
 
 const NtaTopHome = (props) => {
   return (

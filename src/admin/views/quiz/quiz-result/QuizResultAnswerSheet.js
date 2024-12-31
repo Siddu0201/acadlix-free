@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { GetStatisticById } from "../../../../requests/admin/AdminStatisticRequest";
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid } from "@mui/material";
 import AnswerSheetContent from "./AnswerSheetContent";
-import { TiArrowLeftThick } from "react-icons/ti";
+import { TiArrowLeftThick } from "../../../../helpers/icons";
 
 const QuizResultAnswerSheet = () => {
   const { statistic_ref_id, quiz_id } = useParams();

@@ -1,6 +1,6 @@
 import { DialogContent, DialogTitle, IconButton } from '@mui/material'
 import React from 'react'
-import { IoClose } from 'react-icons/io5'
+import { IoClose } from '../../../../helpers/icons'
 
 const SectionModal = (props) => {
   return (

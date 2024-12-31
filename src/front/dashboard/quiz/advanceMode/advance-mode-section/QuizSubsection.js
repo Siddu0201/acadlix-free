@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, IconButton } from "@mui/material";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import { FaCaretLeft, FaCaretRight } from "../../../../../helpers/icons";
 import SubsectionButton from "../advance-mode-component/SubsectionButton";
 
 const QuizSubsection = (props) => {

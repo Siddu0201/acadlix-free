@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { TiArrowLeftThick } from "react-icons/ti";
+import { TiArrowLeftThick } from "../../../helpers/icons";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "../../../components/CustomTextField";
 import toast from "react-hot-toast";

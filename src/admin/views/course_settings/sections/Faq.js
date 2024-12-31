@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus } from "../../../../helpers/icons";
 
 const Faq = (props) => {
   const handleAddFaq = () => {

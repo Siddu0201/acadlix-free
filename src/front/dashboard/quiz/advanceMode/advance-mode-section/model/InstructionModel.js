@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../../../helpers/icons";
 import InstructionLanguage from "../../advance-instruction-section/InstructionLanguage";
 
 const InstructionModel = (props) => {

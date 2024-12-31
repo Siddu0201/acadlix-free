@@ -19,19 +19,18 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
-import { TiArrowLeftThick } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 import {
   DeleteBulkQuestion,
   DeleteQuizQuestionById,
   GetQuizQuestion,
 } from "../../../requests/admin/AdminQuestionRequest";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, TiArrowLeftThick } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
-import { MdRefresh } from "react-icons/md";
+import { IoMdRefresh } from "../../../helpers/icons";
 
 const Question = () => {
   const methods = useForm({
@@ -330,7 +329,7 @@ const Question = () => {
                   </Button>
                   <Tooltip title="Refresh" arrow>
                     <Button variant="contained" onClick={refetch} size="large">
-                      <MdRefresh />
+                      <IoMdRefresh />
                     </Button>
                   </Tooltip>
                   {acadlixOptions?.is_abqu_active && (

@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import { useForm } from "react-hook-form";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus } from "../../../../helpers/icons";
 import AddLessonModal from "../modals/AddLessonModal";
 import toast from "react-hot-toast";
 import { PostAddLesson } from "../../../../requests/admin/AdminCourseRequest";

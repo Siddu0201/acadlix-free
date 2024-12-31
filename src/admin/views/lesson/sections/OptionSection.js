@@ -19,12 +19,9 @@ import {
 } from "@mui/material";
 import { MediaUpload } from "@wordpress/media-utils";
 import React from "react";
-import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
-import { FaCloudUploadAlt, FaTrash } from "react-icons/fa";
 import ContentSection from "./ContentSection";
 import { convertTime } from "../../../../helpers/util";
-import toast from "react-hot-toast";
 import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 
 const OptionSection = (props) => {

@@ -24,7 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
 import { MediaUpload } from "@wordpress/media-utils";
 import { GetLessonById } from "../../../../requests/admin/AdminLessonRequest";

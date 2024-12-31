@@ -6,5 +6,5 @@ import AdminOrder from './admin/AdminOrder';
 const acadlixElement = document.getElementById('acadlix-admin-order');
 if (acadlixElement){
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminOrder />);
+    acadlixElementRoot.render(<AdminOrder></AdminOrder>);
 }
