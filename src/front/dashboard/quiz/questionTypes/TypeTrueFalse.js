@@ -39,12 +39,12 @@ const TypeTrueFalse = (props) => {
         ...props?.watch(`questions.${props?.index}.result`),
         correct_count:
           data?.filter((d) => d.isChecked === d.isCorrect).length ===
-          data.length
+            data.length
             ? 1
             : 0,
         incorrect_count:
           data?.filter((d) => d.isChecked === d.isCorrect).length ===
-          data.length
+            data.length
             ? 0
             : 1,
         solved_count: data?.filter((d) => d.isChecked).length > 0 ? 1 : 0,
@@ -83,20 +83,18 @@ const TypeTrueFalse = (props) => {
                       ? data?.isCorrect
                         ? (theme) => `1px solid ${theme.palette.success.dark}`
                         : data?.isChecked
-                        ? (theme) => `1px solid ${theme.palette.error.dark}`
-                        : (theme) => `1px solid ${theme.palette.grey[300]}`
+                          ? (theme) => `1px solid ${theme.palette.error.dark}`
+                          : (theme) => `1px solid ${theme.palette.grey[300]}`
                       : (theme) => `1px solid ${theme.palette.grey[300]}`
                     : "none",
                 backgroundColor: props?.watch(`questions.${props?.index}.check`)
                   ? data?.isCorrect
                     ? (theme) => theme.palette.success.light
                     : data?.isChecked
-                    ? (theme) => theme.palette.error.light
-                    : "transparent"
+                      ? (theme) => theme.palette.error.light
+                      : "transparent"
                   : "transparent",
                 borderRadius: 1,
-                paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
-                paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
               }}
             >
               <FormControlLabel
@@ -127,7 +125,7 @@ const TypeTrueFalse = (props) => {
                       }}
                     >
                       {props?.watch("view_answer") ||
-                      props?.watch(`questions.${props?.index}.check`) ? (
+                        props?.watch(`questions.${props?.index}.check`) ? (
                         data?.isCorrect ? (
                           <Avatar
                             sx={{
@@ -166,6 +164,8 @@ const TypeTrueFalse = (props) => {
                   </Box>
                 }
                 sx={{
+                  paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+                  paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
                   width:
                     props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                   marginLeft: 0,

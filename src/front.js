@@ -9,7 +9,7 @@ domReady(() => {
     if(shortcode.length > 0){
         shortcode.forEach((short, index) => {
             let shortcodeRoot = createRoot(short);
-            shortcodeRoot.render(<AppFront key={index} quiz_id={short.getAttribute('id')} start={false} advance={false} hide_title={true} hide_description={true}></AppFront>);
+            shortcodeRoot.render(<AppFront quiz_elm={short} elm_index={index} key={index} quiz_id={short.getAttribute('id')} start={false} advance={false} hide_title={true} hide_description={true}></AppFront>);
         });
     }
     

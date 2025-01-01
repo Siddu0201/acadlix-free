@@ -61,10 +61,10 @@ const QuizContent = (props) => {
       show_review_button: Boolean(Number(props?.quiz?.show_review_button)),
       set_start_date: Boolean(Number(props?.quiz?.set_start_date)),
       start_date: props?.quiz?.start_date
-        ? new Date(props?.quiz?.start_date)
+        ? props?.quiz?.start_date
         : null, // null => indefinite
       set_end_date: Boolean(Number(props?.quiz?.set_end_date)),
-      end_date: props?.quiz?.end_date ? new Date(props?.quiz?.end_date) : null, // null => indefinite
+      end_date: props?.quiz?.end_date ? props?.quiz?.end_date : null, // null => indefinite
       prerequisite: Boolean(Number(props?.quiz?.prerequisite)),
       prerequisite_error_msg: "",
       enable_login_register: Boolean(

@@ -89,8 +89,6 @@ const TypeMultipleChoice = (props) => {
                     : "transparent"
                 : "transparent",
               borderRadius: 1,
-              paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
-              paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
             }}
           >
             {props?.watch("answer_bullet") ? (
@@ -211,6 +209,8 @@ const TypeMultipleChoice = (props) => {
               onChange={handleChange}
               value={index}
               sx={{
+                paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+                paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
                 width:
                   props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
                 marginLeft: 0,

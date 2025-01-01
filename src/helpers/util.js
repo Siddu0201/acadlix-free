@@ -223,7 +223,7 @@ export const getVimeoVideoId = (url = "") => {
   return match?.[1] ?? null;
 };
 
-export const convertToPostDate = (obj) =>{
+export const convertToPostDate = (obj) => {
   if (!obj || typeof obj !== "object" || !obj.$isDayjsObject) {
     throw new Error("Invalid object. Ensure it's a Day.js object.");
   }
@@ -242,4 +242,9 @@ export const convertToPostDate = (obj) =>{
 
   // Construct WordPress post_date format
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
+
+export const strtotime = (dateString) => {
+  const timestamp = Date.parse(dateString);
+  return isNaN(timestamp) ? false : timestamp;
 }

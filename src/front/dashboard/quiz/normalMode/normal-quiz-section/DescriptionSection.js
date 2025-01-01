@@ -4,20 +4,24 @@ import CustomButton from "../normal-quiz-component/CustomButton";
 import { PostCheckPrerequisite } from "../../../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
 import LoginModel from "./LoginModel";
-import dateFormat from "dateformat";
+import { dateI18n, format } from "@wordpress/date"
+import { strtotime } from "../../../../../helpers/util";
 
 const DescriptionSection = (props) => {
-  const current_date = new Date();
+  const current_date = strtotime(dateI18n(`${acadlixOptions?.date_format} ${acadlixOptions?.time_format}`));
+  const start_date = format(`${acadlixOptions?.date_format} ${acadlixOptions?.time_format}`, props?.watch("start_date"));
+  const end_date = format(`${acadlixOptions?.date_format} ${acadlixOptions?.time_format}`, props?.watch("end_date"));
+
   const ExpireDate = () => <Alert severity="error">Quiz has expired</Alert>;
 
   if (
     props?.watch("set_start_date") &&
-    current_date < props?.watch("start_date")
+    current_date < strtotime(start_date)
   ) {
-    return <NotStarted {...props} />;
+    return <NotStarted {...props} start_date={start_date} />;
   }
 
-  if (props?.watch("set_end_date") && current_date > props?.watch("end_date")) {
+  if (props?.watch("set_end_date") && current_date > strtotime(end_date)) {
     return <ExpireDate />;
   }
 
@@ -65,11 +69,11 @@ const DescriptionSection = (props) => {
         `scrollbars=yes,resizable=yes,top=0,left=0,fullscreen=yes,width=${screen.width},height=${screen.height}`
       );
     } else {
-      if(document.getElementById(`acadlix_front_quiz_title_${props?.watch("id")}`)){
-        document.getElementById(`acadlix_front_quiz_title_${props?.watch("id")}`).style.display = "none";
+      if (document.getElementsByClassName("acadlix-front-quiz-title")[props?.elm_index]) {
+        document.getElementsByClassName("acadlix-front-quiz-title")[props?.elm_index].style.display = "none";
       }
-      if(document.getElementById(`acadlix_front_quiz_description_${props?.watch("id")}`)){
-        document.getElementById(`acadlix_front_quiz_description_${props?.watch("id")}`).style.display = "none";
+      if (document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index]) {
+        document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index].style.display = "none";
       }
       props?.setValue("start", true, { shouldDirty: true });
       props?.setValue("view_question", true, { shouldDirty: true });
@@ -79,10 +83,6 @@ const DescriptionSection = (props) => {
   };
 
   const checkPrerequisite = PostCheckPrerequisite(props?.watch("id"));
-
-  // Tue Jul 02, 2024 7:00:00 PM IST
-  // console.log(props?.watch("start_date"));
-  // console.log(dateFormat(props?.watch("start_date"), "ddd, mmm dd, yyyy hh:MM:ss TT Z"));
 
   const handleStartWithPrerequisite = () => {
     if (props?.watch("user_id") > 0) {
@@ -212,9 +212,7 @@ const DescriptionSection = (props) => {
 
 const NotStarted = (props) => {
   return (
-    <Alert severity="error">{`Quiz will start on ${props?.watch(
-      "start_date"
-    )} `}</Alert>
+    <Alert severity="error">{`Quiz will start on ${props?.start_date} `}</Alert>
   );
 };
 
