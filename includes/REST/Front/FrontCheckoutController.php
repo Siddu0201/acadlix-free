@@ -596,7 +596,6 @@ class FrontCheckoutController
             }
 
             $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-            $order->updateOrCreateMeta('currency', $request->get_param("currency"));
             $order->update([
                 'status' => 'success',
             ]);

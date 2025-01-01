@@ -153,12 +153,18 @@ const Checkout = () => {
       { shouldDirty: true }
     );
   };
- 
+
   React.useLayoutEffect(() => {
     if (!getCart?.isFetching && getCart?.data?.data?.cart?.length > 0) {
       setCartData(getCart?.data?.data?.cart);
     }
   }, [getCart?.isFetching, getCart?.data?.data?.cart]);
+
+  React.useEffect(() => {
+    if (!methods?.watch("is_user_logged_in") && methods?.watch("cart")?.length > 0) {
+      methods?.setValue("login_modal", true, { shouldDirty: true });
+    }
+  }, [methods?.watch("cart")?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const convertToRazorpayUnit = (amount = 0) => {
     if (isNaN(amount)) {
@@ -368,22 +374,22 @@ const Checkout = () => {
     // Set the loading state to true to indicate that the checkout process is starting
     methods?.setValue("is_checkout_loading", true, { shouldDirty: true });
     const totalAmount = methods?.watch("total_amount");
-    if(totalAmount> 0){
+    if (totalAmount > 0) {
       const selectedPaymentMethod = methods.watch("payment_method");
       // Check if a payment method has been selected
       if (!selectedPaymentMethod) {
         // If no payment method is selected, display an error message to the user
         toast.error("Please select a payment gateway.");
-  
+
         // Set the loading state back to false since the process cannot proceed
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
         return; // Exit the function early
       }
-  
+
       // If a payment method is selected, proceed to handle the payment
       // The appropriate payment handler is called based on the selected payment gateway
       handlePaymentGateway(data);
-    }else{
+    } else {
       // handle free checkout
       handleFreeCheckout(data);
     }
@@ -418,6 +424,7 @@ const Checkout = () => {
       </Box>
     );
   }
+
 
   return (
     <Box

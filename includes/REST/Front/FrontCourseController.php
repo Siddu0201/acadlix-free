@@ -133,22 +133,22 @@ class FrontCourseController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        if($params['user_id'] == 0){
+        if ($params['user_id'] == 0) {
             if (empty($request->get_param("cart_token"))) {
                 /* translators: %s is the required field */
                 return new WP_Error('missing_params', sprintf(__('The %s parameter is required.', 'acadlix'), $field), array('status' => 400));
             }
 
             $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
-            if(count($cart_tokens) > 0){
-                foreach($cart_tokens as $cart_token){
+            if (count($cart_tokens) > 0) {
+                foreach ($cart_tokens as $cart_token) {
                     $cart_token->update([
                         'token_expiry' => $params['token_expiry'] ?? 0
                     ]);
                 }
             }
             $cart = CourseCart::where("cart_token", $params['cart_token'])->where('course_id', $params['course_id'])->first();
-            if(!$cart){
+            if (!$cart) {
                 $cart = CourseCart::create([
                     'cart_token' => $params['cart_token'],
                     'course_id' => $params['course_id'],
@@ -163,9 +163,9 @@ class FrontCourseController
                 'data' => $cart,
                 'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id')))
             );
-        }else{
+        } else {
             $cart = CourseCart::where('user_id', $params['user_id'])->where('course_id', $params['course_id'])->first();
-            if(!$cart){
+            if (!$cart) {
                 $cart = CourseCart::create([
                     'course_id' => $params['course_id'],
                     'user_id' => $params['user_id'],
@@ -212,15 +212,15 @@ class FrontCourseController
             }
 
             $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
-            if(count($cart_tokens) > 0){
-                foreach($cart_tokens as $cart_token){
+            if (count($cart_tokens) > 0) {
+                foreach ($cart_tokens as $cart_token) {
                     $cart_token->update([
                         'token_expiry' => $params['token_expiry'] ?? 0
                     ]);
                 }
             }
             $cart = CourseCart::where("cart_token", $params['cart_token'])->where('course_id', $params['course_id'])->first();
-            if(!$cart){
+            if (!$cart) {
                 $cart = CourseCart::create([
                     'cart_token' => $params['cart_token'],
                     'course_id' => $params['course_id'],
@@ -238,16 +238,16 @@ class FrontCourseController
         } else {
             $userId = $params['user_id'];
             $order_items = OrderItem::whereHas('order', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })->pluck('course_id')->toArray();
-            if(count($order_items) == 0){
+                $query->where('user_id', $userId)->where('status', 'success');
+            })->where('course_id', $params['course_id'])->get();
+            if (count($order_items) == 0) {
                 $order = Order::create([
                     'user_id' => $params['user_id'],
-                    'status' => 'success',
+                    'status' => 'pending',
                     'extra_charges' => 0,
                     'total_amount' => 0
                 ]);
-    
+
                 $order->order_items()->create([
                     'course_id' => $params['course_id'],
                     'quantity' => 1,
@@ -257,6 +257,17 @@ class FrontCourseController
                     'tax' => 0,
                     'price_after_tax' => 0
                 ]);
+
+                $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
+                $order->update([
+                    'status' => 'success',
+                ]);
+                $res = array(
+                    'status' => 'success',
+                    'code' => array('status' => 200),
+                    'data' => $order,
+                    'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id')))
+                );
             }
             $res = array(
                 'status' => 'success',

@@ -42,7 +42,6 @@ const Dashbaord = () => {
   };
 
   if (acadlixOptions?.user?.ID === undefined) {
-    
     useEffect(() => {
       methods?.setValue("login_modal", true, { shouldDirty: true });
     }, []);
