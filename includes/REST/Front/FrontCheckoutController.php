@@ -4,10 +4,12 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\CourseCart;
 use WP_Error;
 use Yuvayana\Acadlix\Models\Order;
+use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\OrderMeta;
 
 defined('ABSPATH') || exit();
@@ -128,13 +130,50 @@ class FrontCheckoutController
         );
     }
 
+
+    public function get_user_cart($userId)
+    {
+        $cart = CourseCart::with('course')
+            ->where('user_id', $userId)
+            ->get();
+
+        $result = [
+            'cart' => $cart,
+        ];
+
+        foreach ($cart as $key => $item) {
+            $errors = [];
+            $orderItem = OrderItem::whereHas('order', function ($query) use ($userId) {
+                $query->where('user_id', $userId)->where('status', 'success');
+            })->where('course_id', $item->course_id)
+                ->get();
+
+            if ($orderItem->count() > 0) {
+                $errors[] = __('Course already purchased.', 'acadlix');
+            }
+
+            $checkRegistrationDate = CourseHelper::instance()->checkRegistrationDate(
+                $item->course->start_date,
+                $item->course->end_date
+            );
+
+            if (!$checkRegistrationDate['status']) {
+                $errors[] = $checkRegistrationDate['message'];
+            }
+
+            $result['cart'][$key]['errors'] = $errors;
+        }
+
+        return $result;
+    }
+
     public function get_checkout_cart($request)
     {
         $res = [];
         $params = $request->get_params();
-
-        if ($params['user_id'] != 0) {
-            $res['cart'] = CourseCart::with(["course"])->where("user_id", $params['user_id'])->get();
+        $userId = $params['user_id'];
+        if ($userId != 0) {
+            $res = $this->get_user_cart($userId);
         } else {
             if (!empty($params['cart_token'])) {
                 $res['cart'] = CourseCart::with(["course"])->where("cart_token", $params['cart_token'])->get();
@@ -161,7 +200,7 @@ class FrontCheckoutController
         $cart->delete();
 
         if ($cart->user_id != 0) {
-            $res['cart'] = CourseCart::with(["course"])->where('user_id', $cart->user_id)->get();
+            $res = $this->get_user_cart($cart->user_id);
         } else {
             $res['cart'] = CourseCart::with(["course"])->where("cart_token", $cart->cart_token)->get();
         }

@@ -37,13 +37,6 @@ if (is_user_logged_in()) {
     }
 }
 
-// echo "<pre>";
-// echo $course->start_date . "<br />";
-// echo strtotime($course->start_date) . "<br/>";
-// echo wp_date('Y-m-d H:i:s') . "<br />";
-// echo strtotime(wp_date('Y-m-d H:i:s')) . "<br/>";
-// echo "</pre>";
-
 
 if (!function_exists('acadlix_course_breadcrumb')) {
     /**

@@ -18,15 +18,15 @@ export const GetCheckoutCart = (user_id = 0, cart_token = "") => {
   });
 };
 
-export const DeleteCourseFromCart = () => {
+export const DeleteCourseFromCart = (id) => {
   const instance = useInstance();
   return useMutation({
-    mutationFn: (data) => {
+    mutationFn: () => {
       return instance.delete(`${base}/delete-course-from-cart`, {
         headers: {
           "X-WP-Nonce": acadlixOptions?.nonce,
         },
-        data: data,
+        data: {id: id},
       });
     },
   });

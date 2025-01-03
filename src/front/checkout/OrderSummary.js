@@ -160,7 +160,8 @@ const OrderSummary = (props) => {
                     disabled={
                       props?.watch("cart")?.length === 0 ||
                       !is_payment_gateway_active() ||
-                      !props?.watch("is_user_logged_in")
+                      !props?.watch("is_user_logged_in") ||
+                      props?.watch("is_checkout_locked")
                     }
                   >
                     Checkout

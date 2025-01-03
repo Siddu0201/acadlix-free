@@ -28,6 +28,7 @@ const Checkout = () => {
 
   const methods = useForm({
     defaultValues: {
+      is_checkout_locked: false,
       is_checkout_loading: false,
       login_modal: false,
       login_modal_type: "login", // login/register
@@ -117,6 +118,7 @@ const Checkout = () => {
   };
 
   const setCartData = (cart = []) => {
+    methods?.setValue("is_checkout_locked", false, {shouldDirty: true});
     methods?.setValue("cart", [...cart], {
       shouldDirty: true,
     });
