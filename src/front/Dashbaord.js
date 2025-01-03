@@ -14,6 +14,7 @@ import { Box, Button, Dialog, styled } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Login from "./checkout/modal/Login.js";
 import Register from "./checkout/modal/Register.js";
+import ForgotPassword from "./checkout/modal/ForgotPassword.js";
 
 const Dashbaord = () => {
 
@@ -61,11 +62,20 @@ const Dashbaord = () => {
             aria-describedby="alert-dialog-description"
             maxWidth="xs"
           >
-            {methods?.watch("login_modal_type") === "login" ? (
+            {methods?.watch("login_modal_type") === "login" && (
               <Login {...methods} handleClose={handleClose} />
-            ) : (
-              <Register {...methods} handleClose={handleClose} />
-            )}
+            )
+            }
+            {methods?.watch("login_modal_type") === "register" &&
+              (
+                <Register {...methods} handleClose={handleClose} />
+              )}
+            {
+              methods?.watch("login_modal_type") === "forgot_password" &&
+              (
+                <ForgotPassword {...methods} handleClose={handleClose} />
+              )
+            }
           </BootstrapDialog>
           <h3>{`Please login: `}
             <Button

@@ -53,9 +53,8 @@ class Submenu_Courses
                 'acadlix_quiz_url' => admin_url( 'admin.php?page=acadlix_quiz' ),
                 'acadlix_lesson_url' => admin_url( 'admin.php?page=acadlix_lesson' ),
                 'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
-                'date_format' => Helper::instance()->acadlix_get_option("date_format"),
-                'time_format' => Helper::instance()->acadlix_get_option("time_format"),
-                'timezone_string' => Helper::instance()->acadlix_get_option("timezone_string"),
+                'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
+                'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
             ));
         }
     }

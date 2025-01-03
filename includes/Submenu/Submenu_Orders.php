@@ -50,8 +50,8 @@ class Submenu_Orders
             'settings' => Helper::instance()->acadlix_get_all_options(),
             'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
             'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
-            'date_format' => Helper::instance()->acadlix_get_option("date_format"),
-            'time_format' => Helper::instance()->acadlix_get_option("time_format"),
+            'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
+            'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
         ));
     }
 

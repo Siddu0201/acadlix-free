@@ -51,9 +51,8 @@ class Submenu_Quiz
             'nonce' => wp_create_nonce('wp_rest'),
             'abqu_url' => admin_url('admin.php?page=abqu'),
             'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
-            'date_format' => Helper::instance()->acadlix_get_option("date_format"),
-            'time_format' => Helper::instance()->acadlix_get_option("time_format"),
-            'timezone_string' => Helper::instance()->acadlix_get_option("timezone_string"),
+            'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
+            'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
         ));
     }
 

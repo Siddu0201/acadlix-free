@@ -109,14 +109,9 @@ const PurchaseHistory = () => {
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.orders)) {
       const newRows = data?.data?.orders?.map((order) => {
-        const currentDate = new Date(order?.created_at);
-        const formattedDate = dateI18n(
-          acadlixOptions?.date_format,
-          currentDate
-        );
-        const formattedTime = dateI18n(
-          acadlixOptions?.time_format,
-          currentDate
+        const formattedDateTime = dateI18n(
+          acadlixOptions?.date_time_format,
+          order?.created_at
         );
         return {
           id: order?.id,
@@ -127,7 +122,7 @@ const PurchaseHistory = () => {
             "Free"
           )?.toUpperCase(),
           order_id: getOrderId(order?.order_metas),
-          order_date: `${formattedDate} ${formattedTime}`,
+          order_date: formattedDateTime,
           user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
           user_email: order?.user?.user_email,
           total_amount: currencyPosition(order?.total_amount),

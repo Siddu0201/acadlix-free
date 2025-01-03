@@ -346,8 +346,7 @@ class Manager
             'settings' => Helper::instance()->acadlix_get_all_options(),
             'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
             'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
-            'date_format' => Helper::instance()->acadlix_get_option("date_format"),
-            'time_format' => Helper::instance()->acadlix_get_option("time_format"),
+            'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
         ));

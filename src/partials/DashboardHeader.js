@@ -82,7 +82,7 @@ const DashboardHeader = () => {
                   },
                 }}
               >
-                {dateI18n(acadlixOptions?.date_format)} 
+                {dateI18n(acadlixOptions?.date_time_format)} 
               </Typography>
             </Box>
             <Box>

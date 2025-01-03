@@ -258,7 +258,7 @@ class FrontCourseController
                     'price_after_tax' => 0
                 ]);
 
-                $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
+                $order->updateOrCreateMeta('payment_method', '');
                 $order->update([
                     'status' => 'success',
                 ]);

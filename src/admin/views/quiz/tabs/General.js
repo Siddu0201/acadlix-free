@@ -295,6 +295,9 @@ const General = (props) => {
               })}
               required={props?.watch("set_end_date")}
               label="Enter End Date*"
+              timeSteps={{
+                minutes: 1,
+              }}
               sx={{
                 ".MuiFormControl-root ": {
                   maxHeight: "42px",

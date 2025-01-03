@@ -8,9 +8,9 @@ import { dateI18n, format } from "@wordpress/date"
 import { strtotime } from "../../../../../helpers/util";
 
 const DescriptionSection = (props) => {
-  const current_date = strtotime(dateI18n(`${acadlixOptions?.date_format} ${acadlixOptions?.time_format}`));
-  const start_date = format(`${acadlixOptions?.date_format} ${acadlixOptions?.time_format}`, props?.watch("start_date"));
-  const end_date = format(`${acadlixOptions?.date_format} ${acadlixOptions?.time_format}`, props?.watch("end_date"));
+  const current_date = strtotime(dateI18n(acadlixOptions?.date_time_format));
+  const start_date = format(acadlixOptions?.date_time_format, props?.watch("start_date"));
+  const end_date = format(acadlixOptions?.date_time_format, props?.watch("end_date"));
 
   const ExpireDate = () => <Alert severity="error">Quiz has expired</Alert>;
 
@@ -212,7 +212,7 @@ const DescriptionSection = (props) => {
 
 const NotStarted = (props) => {
   return (
-    <Alert severity="error">{`Quiz will start on ${props?.start_date} `}</Alert>
+    <Alert severity="error">{`Quiz will start on ${props?.start_date} ${acadlixOptions?.timezone_string} `}</Alert>
   );
 };
 

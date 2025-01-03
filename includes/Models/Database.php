@@ -5,6 +5,7 @@ namespace Yuvayana\Acadlix\Models;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
+use Yuvayana\Acadlix\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
@@ -55,7 +56,7 @@ if (!class_exists('Database')) {
                 'prefix' => $wpdb->prefix,
             ], 'wordpress');
 
-            $timezone_string = get_option('timezone_string');
+            $timezone_string = Helper::instance()->acadlix_get_time_zone_string();
             if (!empty($timezone_string)) {
                 date_default_timezone_set($timezone_string);
             }

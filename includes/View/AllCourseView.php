@@ -86,9 +86,6 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <section class="acadlix-row" id="acadlix-all-course-page">
                 <?php
                 foreach ($courses as $key => $course) {
-                    // echo "<pre>";
-                    // print_r($course->start_date);
-                    // echo "</pre>";
                     ?>
                     <div class="acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12">
                         <div class="acadlix-card acadlix-all-course-card">

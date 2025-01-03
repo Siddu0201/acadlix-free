@@ -14,33 +14,34 @@ class Ajax
 
         add_action('wp_ajax_nopriv_acadlix_login', [$this, 'acadlix_login']);
         add_action('wp_ajax_nopriv_acadlix_register', [$this, 'acadlix_register']);
+        add_action('wp_ajax_nopriv_acadlix_forgot_password', [$this, 'acadlix_forgot_password']);
     }
 
     public function check_user_login_status()
     {
         if (is_user_logged_in()) {
-            wp_send_json_success(array('logged_in' => true, 'user_id' => get_current_user_id(  )));
+            wp_send_json_success(array('logged_in' => true, 'user_id' => get_current_user_id()));
         } else {
             wp_send_json_success(array('logged_in' => false, 'user_id' => 0));
         }
-    
+
         // Always die in AJAX functions
         wp_die();
     }
 
     public function acadlix_login()
     {
-        check_ajax_referer( "wp_rest", "nonce" );
+        check_ajax_referer("wp_rest", "nonce");
 
         $creds = array(
-            'user_login'    => isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "",
-            'user_password' => isset($_POST['password']) ? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : "",
-            'remember'      => true
+            'user_login' => isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "",
+            'user_password' => isset($_POST['password']) ? sanitize_text_field(wp_unslash($_POST['password'])) : "",
+            'remember' => true
         );
         $user = wp_signon($creds, false);
-    
+
         if (is_wp_error($user)) {
-            wp_send_json_error(['message' => $user->get_error_message()]);
+            wp_send_json_error(['message' => $user->get_error_message(), 'error_code' => $user->get_error_code()]);
         } else {
             wp_send_json_success(['message' => 'Login successful']);
         }
@@ -49,34 +50,34 @@ class Ajax
 
     public function acadlix_register()
     {
-        check_ajax_referer( "wp_rest", "nonce" );
+        check_ajax_referer("wp_rest", "nonce");
 
         $username = isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "";
         $email = isset($_POST['email']) ? filter_var(sanitize_email(wp_unslash($_POST['email'])), FILTER_VALIDATE_EMAIL) : "";
-        $password = isset($_POST['password']) ? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : "";
-    
+        $password = isset($_POST['password']) ? sanitize_text_field(wp_unslash($_POST['password'])) : "";
+
         // Ensure username, email, and password are provided
         if (empty($username) || empty($email) || empty($password)) {
             wp_send_json_error(['message' => 'All fields are required']);
             wp_die();
         }
-    
+
         // Register the user
         $user_id = wp_create_user($username, $password, $email);
-    
+
         if (is_wp_error($user_id)) {
             wp_send_json_error(['message' => $user_id->get_error_message()]);
             wp_die();
         } else {
             // Automatically log in the user
             $creds = array(
-                'user_login'    => $username,
+                'user_login' => $username,
                 'user_password' => $password,
-                'remember'      => true
+                'remember' => true
             );
-    
+
             $user = wp_signon($creds, false);
-    
+
             if (is_wp_error($user)) {
                 wp_send_json_error(['message' => $user->get_error_message()]);
             } else {
@@ -84,6 +85,37 @@ class Ajax
             }
         }
         wp_die();
+    }
+
+    public function acadlix_forgot_password()
+    {
+        check_ajax_referer("wp_rest", "nonce");
+
+        $user_identifier = isset($_POST['username']) ? sanitize_text_field($_POST['username']) : "";
+
+        if (is_email($user_identifier)) {
+            // If it's an email, get the user by email
+            $user = get_user_by('email', $user_identifier);
+            if (!$user) {
+                return wp_send_json_error(['message' => 'This email is not registered.']);
+            }
+        } else {
+            // Otherwise, assume it's a username
+            $user = get_user_by('login', $user_identifier);
+            if (!$user) {
+                return wp_send_json_error(['message' => 'This username is not registered.']);
+            }
+        }
+
+        // // Register the user
+        $result = retrieve_password($user->user_login);
+        if (is_wp_error($result)) {
+           return wp_send_json_error(['message' => $result->get_error_message()]);
+        } 
+
+        return wp_send_json_success(array(
+            'message' => 'Password reset email sent successfully.',
+        ));
     }
 
     public static function instance()

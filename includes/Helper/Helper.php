@@ -44,22 +44,6 @@ if (!class_exists('Helper')) {
 
         public function renderShortCode($content)
         {
-            // global $wp_embed;
-
-            // // Apply oEmbed auto-embeds
-            // $content = $wp_embed->autoembed($content);
-
-            // // Process shortcodes
-            // $content = do_shortcode($content);
-
-            // // Run oEmbed shortcodes
-            // $content = $wp_embed->run_shortcode($content);
-
-            // // Apply WordPress formatting (paragraphs, line breaks)
-            // $content = wpautop($content);
-            // $content = shortcode_unautop($content);
-
-            // return $content;
             $content = $this->acadlix_modify_video_shortcode($content);
             $content = apply_filters('the_content', $content);
             return $content;
@@ -575,6 +559,54 @@ if (!class_exists('Helper')) {
             $dateObj = strtotime($dateStr);
             $formattedDate = date($dateFormat, $dateObj);
             return $formattedDate;
+        }
+
+        public function acadlix_get_time_zone_string()
+        {
+            $timezone = get_option('timezone_string');
+            if ($timezone) {
+                return $timezone;
+            }
+
+            // get UTC offset, if it isn't set then return UTC
+            $utcOffset = get_option('gmt_offset', 0);
+            if ($utcOffset === 0) {
+                return 'UTC';
+            }
+
+            // Adjust UTC offset from hours to seconds
+            $utcOffset *= 3600;
+
+            // Attempt to guess the timezone string from the UTC offset
+            $timezone = timezone_name_from_abbr('', $utcOffset, 0);
+            if ($timezone) {
+                return $timezone;
+            }
+
+        }
+
+        public function acadlix_get_date_time_format()
+        {
+            return get_option('date_format') . ' ' . get_option('time_format');
+        }
+
+        public function acadlix_ddd($data)
+        {
+            foreach (func_get_args() as $arg) {
+                echo "<pre>";
+                print_r($arg);
+                echo "</pre>";
+            }
+        }
+
+        public function acadlix_dd($data)
+        {
+            foreach (func_get_args() as $arg) {
+                echo "<pre>";
+                print_r($arg); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo "</pre>";
+            }
+            die;
         }
 
         public static function instance()

@@ -18,6 +18,7 @@ import parse from "html-react-parser";
 import Login from "./modal/Login";
 import toast from "react-hot-toast";
 import Register from "./modal/Register";
+import ForgotPassword from "./modal/ForgotPassword";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -68,7 +69,6 @@ const Checkout = () => {
       payu_sandbox: acadlixOptions?.settings?.acadlix_payu_sandbox === "yes",
     },
   });
-  console.log(methods?.watch());
 
   const getCart = GetCheckoutCart(
     methods?.watch("user_id"),
@@ -444,11 +444,20 @@ const Checkout = () => {
         aria-describedby="alert-dialog-description"
         maxWidth="xs"
       >
-        {methods?.watch("login_modal_type") === "login" ? (
+        {methods?.watch("login_modal_type") === "login" && (
           <Login {...methods} handleClose={handleClose} />
-        ) : (
+        ) 
+        }
+        { methods?.watch("login_modal_type") === "register" &&
+        (
           <Register {...methods} handleClose={handleClose} />
         )}
+        {
+          methods?.watch("login_modal_type") === "forgot_password" &&
+          (
+            <ForgotPassword {...methods} handleClose={handleClose} />
+          )
+        }
       </BootstrapDialog>
       {
         methods?.watch("cart")?.length > 0 ?

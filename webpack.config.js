@@ -1,6 +1,7 @@
 const defaultConfig = require("./node_modules/@wordpress/scripts/config/webpack.config");
 
 const path = require("path");
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   ...defaultConfig,
@@ -28,7 +29,6 @@ module.exports = {
 
   optimization: {
     ...defaultConfig.optimization,
-    
     // splitChunks: {
     //   chunks: 'all',
     // },
@@ -44,4 +44,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    ...defaultConfig.plugins,
+    // new BundleAnalyzerPlugin({
+    //     analyzerMode: 'static', // Generate a report.html file
+    //     openAnalyzer: false,
+    // }),
+],
 };

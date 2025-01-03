@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Checkbox,
   DialogContent,
@@ -17,8 +18,8 @@ import { IoClose } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { LoadingButton } from "@mui/lab";
+import { RawHTML } from "@wordpress/element";
 
 const Login = (props) => {
   const theme = useTheme();
@@ -26,12 +27,17 @@ const Login = (props) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const methods = useForm({
-    username: "",
-    password: "",
-    rememberme: false,
+    defaultValues: {
+      username: "",
+      password: "",
+      rememberme: false,
+      error: "",
+      error_code: "",
+    }
   });
 
   const handleSubmit = (data) => {
+    methods?.setValue("error", "", { shouldDirty: true });
     setIsLoading(true);
     axios
       .post(
@@ -43,17 +49,17 @@ const Login = (props) => {
         })
       )
       .then((res) => {
+        setIsLoading(false);
         if (res?.data?.success) {
-          setIsLoading(false);
           window.location.reload();
         } else {
-          setIsLoading(false);
-          toast.error(res?.data?.data?.message);
+          methods?.setValue("error_code", res?.data?.data?.error_code ?? "", { shouldDirty: true });
+          methods?.setValue("error", res?.data?.data?.message, { shouldDirty: true });
         }
       })
       .catch((err) => {
         setIsLoading(false);
-        toast.error("Opps! Something went wrong.");
+        methods?.setValue("error", "Opps! Something went wrong.", { shouldDirty: true });
         console.error(err);
       });
   };
@@ -93,8 +99,34 @@ const Login = (props) => {
             <Typography variant="h5">Welcome back</Typography>
           </Box>
           <Box>
-            <Typography variant="body2">Please enter your detail to sign in.</Typography>
+            <Typography variant="body2">Please enter your details to sign in.</Typography>
           </Box>
+          {
+            methods?.watch("error") &&
+            <Alert severity="error" sx={{
+              alignItems: "center"
+            }}>
+              {
+                methods?.watch("error_code") && methods?.watch("error_code") === "incorrect_password" ?
+                  <>
+                    <strong>Error:</strong> The password you entered for the username <strong>siddu</strong> is incorrect.
+                    <Link
+                      href="#"
+                      onClick={(e) => {
+                        e?.preventDefault();
+                        props?.setValue("login_modal_type", "forgot_password", {
+                          shouldDirty: true,
+                        });
+                      }}
+                    >
+                      Lost your password?
+                    </Link>
+                  </>
+                  :
+                  <RawHTML>{methods?.watch("error")}</RawHTML>
+              }
+            </Alert>
+          }
         </Box>
         <Divider sx={{
           marginBottom: 4
@@ -178,14 +210,31 @@ const Login = (props) => {
               />
             </Grid>
             <Grid item xs={12} lg={12}>
-              <FormControlLabel
-                label="Remember me"
-                checked={methods?.watch("rememberme")}
-                onClick={(e) => {
-                  methods?.setValue("rememberme", !methods?.watch("rememberme"), { shouldDirty: true });
-                }}
-                control={<Checkbox />}
-              />
+              <Box sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}>
+                <FormControlLabel
+                  label="Remember me"
+                  checked={methods?.watch("rememberme")}
+                  onClick={(e) => {
+                    methods?.setValue("rememberme", !methods?.watch("rememberme"), { shouldDirty: true });
+                  }}
+                  control={<Checkbox />}
+                />
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e?.preventDefault();
+                    props?.setValue("login_modal_type", "forgot_password", {
+                      shouldDirty: true,
+                    });
+                  }}
+                >
+                  Lost your password?
+                </Link>
+              </Box>
             </Grid>
             <Grid item xs={12} lg={12}>
               <LoadingButton

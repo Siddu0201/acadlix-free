@@ -2,7 +2,6 @@ import {
   Autocomplete,
   Button,
   CircularProgress,
-  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -11,10 +10,9 @@ import {
   Paper,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
 import React from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
 import {
   GetSubjects,

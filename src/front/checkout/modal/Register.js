@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   DialogContent,
   Divider,
@@ -14,9 +15,9 @@ import { IoClose } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import toast from "react-hot-toast";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import { RawHTML } from "@wordpress/element";
 
 const Register = (props) => {
   const theme = useTheme();
@@ -25,13 +26,17 @@ const Register = (props) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const methods = useForm({
-    username: "",
-    email: "",
-    password: "",
-    confirm_password: "",
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+      error: "",
+    }
   });
 
   const handleSubmit = (data) => {
+    methods?.setValue("error", "", { shouldDirty: true });
     setIsLoading(true);
     axios
       .post(
@@ -43,17 +48,16 @@ const Register = (props) => {
         })
       )
       .then((res) => {
+        setIsLoading(false);
         if (res?.data?.success) {
-          setIsLoading(false);
           window.location.reload();
         } else {
-          setIsLoading(false);
-          toast.error(res?.data?.data?.message);
+          methods?.setValue("error", res?.data?.data?.message, { shouldDirty: true });
         }
       })
       .catch((err) => {
         setIsLoading(false);
-        toast.error("Opps!Something went wrong.");
+        methods?.setValue("error", "Opps!Something went wrong.", { shouldDirty: true });
         console.error(err);
       });
   };
@@ -100,8 +104,16 @@ const Register = (props) => {
             <Typography variant="h5">Welcome back</Typography>
           </Box>
           <Box>
-            <Typography variant="body2">Please enter your detail to sign up.</Typography>
+            <Typography variant="body2">Please enter your details to sign up.</Typography>
           </Box>
+          {
+            methods?.watch("error") &&
+            <Alert severity="error" sx={{
+              alignItems: "center"
+            }}>
+              <RawHTML>{methods?.watch("error")}</RawHTML>
+            </Alert>
+          }
         </Box>
         <Divider sx={{
           marginBottom: {
@@ -310,6 +322,18 @@ const Register = (props) => {
                   }}
                 >
                   Login
+                </Link>
+                {" | "}
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e?.preventDefault();
+                    props?.setValue("login_modal_type", "forgot_password", {
+                      shouldDirty: true,
+                    });
+                  }}
+                >
+                  Lost your password?
                 </Link>
               </Typography>
             </Grid>
