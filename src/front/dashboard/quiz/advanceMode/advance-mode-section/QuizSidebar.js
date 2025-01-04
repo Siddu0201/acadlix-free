@@ -63,10 +63,10 @@ const QuizSidebar = (props) => {
           backgroundColor: "#5a5c69",
           borderColor: "#5a5c69",
           color: "#fff",
-          width: "18px",
+          width: "22px",
           margin: "0px !important",
           padding: "8px 0px",
-          "&:hover": {
+          "&:hover, &:focus": {
             backgroundColor: "#5a5c69",
           },
         }}
@@ -74,13 +74,13 @@ const QuizSidebar = (props) => {
         {props?.isOpen ? (
           <MdKeyboardArrowRight
             style={{
-              width: "22px",
+              fontSize: "22px",
             }}
           />
         ) : (
           <MdKeyboardArrowLeft
             style={{
-              width: "22px",
+              fontSize: "22px",
             }}
           />
         )}

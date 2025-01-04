@@ -41,6 +41,7 @@ const SubjectWiseTiming = (props) => {
     <Box
     id={`acadlix_quiz_subject_wise_timer_${props?.subject?.subject_id}`}
       sx={{
+        flex: 0,
         display: "flex",
         justifyContent: "space-between",
         padding: 1,

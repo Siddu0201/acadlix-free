@@ -187,7 +187,6 @@ class FrontCheckoutController
     public function delete_course_from_cart($request)
     {
         $res = [];
-        $params = $request->get_params();
 
         if ($request->get_param("id") == 0) {
             return new WP_Error(__('Cart id is required.', 'acadlix'), __('Cart id is required.', 'acadlix'), array('status' => 404));

@@ -191,6 +191,7 @@ const QuizContent = (props) => {
         updateQuestions(props?.quiz?.questions, props?.quiz)?.map(
           (question, index) => {
             return {
+              index: index,
               selected:
                 props?.quiz?.mode === "question_below_each_other"
                   ? props?.quiz?.question_per_page > 0
@@ -296,8 +297,6 @@ const QuizContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
-
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {
       // Initialize mediaelement.js
@@ -305,7 +304,6 @@ const QuizContent = (props) => {
     }
   });
 
-  // console.log(props);
   let [countdownApi, setCountDownApi] = React.useState(null);
 
   function getQueryParamsFromCurrentPage() {

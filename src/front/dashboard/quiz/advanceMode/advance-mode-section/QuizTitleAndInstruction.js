@@ -9,6 +9,7 @@ const QuizTitleAndInstruction = (props) => {
     <Box
       id="acadlix_quiz_title_and_instruction"
       sx={{
+        flex: 0,
         display: "flex",
         justifyContent: "space-between",
         backgroundColor: props?.colorCode?.title_and_instruction_background,

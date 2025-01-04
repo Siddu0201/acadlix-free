@@ -3,7 +3,7 @@ import AdvanceResult from "./AdvanceResult";
 import AdvanceSubjectResultSection from "./AdvanceSubjectResultSection";
 import AdvanceLeaderboardSection from "./AdvanceLeaderboardSection";
 import AdvanceViewButtonSection from "./AdvanceViewButtonSection";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import AdvanceViewAnswerSection from "./AdvanceViewAnswerSection";
 
 const AdvanceResultSection = (props) => {
@@ -16,13 +16,25 @@ const AdvanceResultSection = (props) => {
           sm: "750px",
           xs: "100%",
         },
+        marginX: "auto",
         marginY: 1,
         paddingX: {
-          sm: "auto",
+          sm: 0,
           xs: 2,
         },
       }}
     >
+      <Button
+        variant="contained"
+        sx={{
+          marginY: 1
+        }}
+        onClick={() => {
+          window.close()
+        }}
+      >
+        Close
+      </Button>
       {!props?.watch("hide_result") && (
         <>
           <AdvanceResult {...props} />
@@ -33,14 +45,14 @@ const AdvanceResultSection = (props) => {
       )}
       {props?.watch("leaderboard") &&
         props?.watch("display_leaderboard_in_quiz_result") ===
-          "below_the_result" && <AdvanceLeaderboardSection {...props} />}
+        "below_the_result" && <AdvanceLeaderboardSection {...props} />}
 
       <AdvanceViewButtonSection {...props} />
 
       {props?.watch("leaderboard") &&
         props?.watch("view_leaderboard") &&
         props?.watch("display_leaderboard_in_quiz_result") ===
-          "in_the_button" && <AdvanceLeaderboardSection {...props} />}
+        "in_the_button" && <AdvanceLeaderboardSection {...props} />}
 
       {props?.watch("view_answer") && <AdvanceViewAnswerSection {...props} />}
     </Box>

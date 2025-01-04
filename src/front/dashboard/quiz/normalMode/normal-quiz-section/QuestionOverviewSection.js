@@ -1,8 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
-import { useTheme } from "@emotion/react";
-import { ElevenMp } from "@mui/icons-material";
 
 const QuestionOverviewSection = (props) => {
   const theme = useTheme();

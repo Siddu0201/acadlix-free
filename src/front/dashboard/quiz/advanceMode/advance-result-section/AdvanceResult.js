@@ -15,7 +15,6 @@ import Name from "../../../../../images/avatar-people-person-profile-user-svgrep
 import Result from "../../../../../images/certificate-manager-svgrepo-com.svg";
 import { secondsToHms } from "../../../../../helpers/util";
 import AdvanceResultComparission from "./AdvanceResultComparission";
-import AdvanceQuestionReportChart from "./charts/AdvanceQuestionReportChart";
 
 const AdvanceResult = (props) => {
   const result = props?.watch("questions")?.reduce((total, d) => {
@@ -288,51 +287,6 @@ const AdvanceResult = (props) => {
             Result={Result}
           />
         )}
-      <Grid
-        container
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-      >
-        <Grid item xs={12} md={12}>
-          <AdvanceQuestionReportChart
-            {...props}
-            skipped={(
-              (props
-                ?.watch("questions")
-                ?.filter((d) => !d?.result?.solved_count)?.length /
-                props?.watch("questions")?.length) *
-              100
-            ).toFixed(2)}
-            correct={(
-              (props
-                ?.watch("questions")
-                ?.filter(
-                  (d) => d?.result?.solved_count && d?.result?.correct_count
-                )?.length /
-                props?.watch("questions")?.length) *
-              100
-            ).toFixed(2)}
-            incorrect={(
-              (props
-                ?.watch("questions")
-                ?.filter(
-                  (d) => d?.result?.solved_count && d?.result?.incorrect_count
-                )?.length /
-                props?.watch("questions")?.length) *
-              100
-            ).toFixed(2)}
-          />
-        </Grid>
-        <Grid item xs={12} md={12}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Typography variant="h6">Question Report</Typography>
-          </Box>
-        </Grid>
-      </Grid>
     </Box>
   );
 };

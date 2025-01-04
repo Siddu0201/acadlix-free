@@ -1,14 +1,14 @@
-import { AppBar, Box, Button, Dialog, Toolbar } from "@mui/material";
+import { AppBar, Box, Button, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import {
   arrayRandomize,
   shuffleArrayBasedOnOrder,
 } from "../../../../../helpers/util";
-import SubjectSummaryModel from "./model/SubjectSummaryModel";
-import FinalSummaryModel from "./model/FinalSummaryModel";
 import LastQuestionModel from "./model/LastQuestionModel";
 
 const QuizButtonOptions = (props) => {
+  const them = useTheme();
+  const isMobile = useMediaQuery(them.breakpoints.down("md"));
   const currentIndex = props
     ?.watch("questions")
     ?.findIndex((q) => q?.question_id === props?.question?.question_id);
@@ -208,7 +208,7 @@ const QuizButtonOptions = (props) => {
   };
 
   const handleBackClick = () => {
-    if(props?.first){
+    if (props?.first) {
       props?.setValue(
         "subjects",
         props?.watch("subjects")?.map((s, s_index) => {
@@ -242,16 +242,18 @@ const QuizButtonOptions = (props) => {
 
   return (
     <AppBar
-      position="fixed"
+      position="sticky"
       sx={{
-        top: "auto",
+        flex: 0,
+        // top: "auto",
         bottom: 0,
         left: 0,
         right: "auto",
         backgroundColor: props?.colorCode?.button_option_background,
-        width: props?.isOpen ? `calc(100% - ${props?.sidebarWidth}px)` : "100%",
+        // width: props?.isOpen ? `calc(100% - ${props?.sidebarWidth}px)` : "100%",
+        width: "100%",
         border: `1px solid ${props?.colorCode?.button_option_border}`,
-        margin: "1px",
+        // margin: "1px",
       }}
       id={`acadlix_quiz_button_options_${props?.question?.question_id}`}
     >
@@ -261,60 +263,66 @@ const QuizButtonOptions = (props) => {
           justifyContent: "space-between",
           minHeight: "100% !important",
           paddingY: 1,
-          paddingLeft: "0.75rem !important",
-          paddingRight: "0.10rem !important",
+          paddingX: "0.10rem !important",
         }}
       >
         {props?.watch("quiz_timing_type") === "subject_wise_time"
           ? props?.last && (
-              <LastQuestionModel
-                {...props}
-                lastModel={lastModel}
-                setLastModel={setLastModel}
-                message="You have reached to the last question of this section. Please wait
+            <LastQuestionModel
+              {...props}
+              lastModel={lastModel}
+              setLastModel={setLastModel}
+              message="You have reached to the last question of this section. Please wait
             till the time allotted for this section is over or submit the
             section."
-              />
-            )
+            />
+          )
           : props?.last_subject && (
-              <LastQuestionModel
-                {...props}
-                lastModel={lastModel}
-                setLastModel={setLastModel}
-                message="You have reached to the last question. Please wait
+            <LastQuestionModel
+              {...props}
+              lastModel={lastModel}
+              setLastModel={setLastModel}
+              message="You have reached to the last question. Please wait
             till the time allotted for this section is over or submit test."
-              />
-            )}
+            />
+          )}
         <Box>
           {
-              props?.watch("show_review_button") &&
-              <Button
-                size={props?.isDesktop ? "medium" : "small"}
-                variant="contained"
-                color="primary"
-                onClick={handleReviewAndNext}
-                sx={{
-                  margin: `4px!important`,
-                  borderRadius: 0,
-                  fontSize: 13,
-                  fontWeight: 400,
-                  paddingX: "18px",
-                  boxShadow: "none",
-                  border: `1px solid ${props?.colorCode?.mark_for_review_and_next_border}`,
+            props?.watch("show_review_button") &&
+            <Button
+              size={props?.isDesktop ? "medium" : "small"}
+              variant="contained"
+              color="primary"
+              onClick={handleReviewAndNext}
+              sx={{
+                margin: `4px!important`,
+                borderRadius: 0,
+                fontSize: 13,
+                fontWeight: 400,
+                paddingX: {
+                  xs: "6px",
+                  md: "18px",
+                },
+                boxShadow: "none",
+                border: `1px solid ${props?.colorCode?.mark_for_review_and_next_border}`,
+                backgroundColor:
+                  props?.colorCode?.mark_for_review_and_next_background,
+                color: `${props?.colorCode?.mark_for_review_and_next_color} !important`,
+                ":hover, :focus": {
+                  border: `1px solid ${props?.colorCode?.mark_for_review_and_next_hover_border}`,
                   backgroundColor:
-                    props?.colorCode?.mark_for_review_and_next_background,
-                  color: `${props?.colorCode?.mark_for_review_and_next_color} !important`,
-                  ":hover, :focus": {
-                    border: `1px solid ${props?.colorCode?.mark_for_review_and_next_hover_border}`,
-                    backgroundColor:
-                      props?.colorCode?.mark_for_review_and_next_hover_background,
-                    color: `${props?.colorCode?.mark_for_review_and_next_hover_color} !important`,
-                    boxShadow: "none",
-                  },
-                }}
-              >
-                Mark for Review & Next
-              </Button>
+                    props?.colorCode?.mark_for_review_and_next_hover_background,
+                  color: `${props?.colorCode?.mark_for_review_and_next_hover_color} !important`,
+                  boxShadow: "none",
+                },
+              }}
+            >
+              {
+                isMobile ?
+                  'Review & Next' :
+                  'Mark for Review & Next'
+              }
+            </Button>
           }
           <Button
             size={props?.isDesktop ? "medium" : "small"}
@@ -326,7 +334,10 @@ const QuizButtonOptions = (props) => {
               borderRadius: 0,
               fontSize: 13,
               fontWeight: 400,
-              paddingX: "18px",
+              paddingX: {
+                xs: "6px",
+                md: "18px",
+              },
               boxShadow: "none",
               border: `1px solid ${props?.colorCode?.clear_response_border}`,
               backgroundColor: props?.colorCode?.clear_response_background,
@@ -340,7 +351,11 @@ const QuizButtonOptions = (props) => {
               },
             }}
           >
-            Clear Response
+            {
+              isMobile ?
+                'Clear' :
+                'Clear Response'
+            }
           </Button>
         </Box>
         <Box>
@@ -355,7 +370,10 @@ const QuizButtonOptions = (props) => {
               borderRadius: 0,
               fontSize: 13,
               fontWeight: 400,
-              paddingX: "18px",
+              paddingX: {
+                xs: "6px",
+                md: "18px",
+              },
               boxShadow: "none",
               border: `1px solid ${props?.colorCode?.previous_response_border}`,
               backgroundColor: props?.colorCode?.previous_response_background,
@@ -381,7 +399,10 @@ const QuizButtonOptions = (props) => {
               borderRadius: 0,
               fontSize: 13,
               fontWeight: 400,
-              paddingX: "18px",
+              paddingX: {
+                xs: "6px",
+                md: "18px",
+              },
               boxShadow: "none",
               border: `1px solid ${props?.colorCode?.save_and_next_border}`,
               backgroundColor: props?.colorCode?.save_and_next_background,

@@ -12,15 +12,21 @@ import PerQuestionQuizTimer from "./advance-mode-section/PerQuestionQuizTimer";
 import SubjectWiseTiming from "./advance-mode-section/SubjectWiseTiming";
 
 const AdvancePanel = (props) => {
-  let i = 0,
-    t = 0;
   return (
-    <Box>
+    <Box sx={{
+      height: "calc(100vh - 32px)",
+      display: "flex",
+      flexDirection: "column",
+    }}>
       <QuizLogoAndTitle {...props} />
       <QuizTitleAndInstruction {...props} />
       <QuizSidebar {...props} />
       <Box
         sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          height: 0,
           width: {
             xs: "100%",
             sm: props?.isOpen
@@ -100,7 +106,11 @@ const AdvancePanel = (props) => {
             <Box
               key={s_index}
               sx={{
-                display: s?.selected ? "" : "none",
+                flex: 1,
+                height: 0,
+                overflow: "auto",
+                display: s?.selected ? "flex" : "none",
+                flexDirection: "column",
               }}
             >
               {props
@@ -115,8 +125,7 @@ const AdvancePanel = (props) => {
                         <QuizQuestionPanel
                           {...props}
                           subject={s}
-                          // key={index}
-                          index={i++}
+                          index={question?.index}
                           s_index={s_index}
                           num={index + 1}
                           question={question}

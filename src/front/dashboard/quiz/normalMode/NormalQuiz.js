@@ -1,13 +1,11 @@
-import { Container, useMediaQuery } from "@mui/material";
+import { Container, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import ResultSection from "./normal-quiz-section/ResultSection";
-import AverageResultSection from "./normal-quiz-section/AverageResultSection";
 import SubjectResultSection from "./normal-quiz-section/SubjectResultSection";
 import LeaderboardSection from "./normal-quiz-section/LeaderboardSection";
 import ViewButtonSection from "./normal-quiz-section/ViewButtonSection";
 import QuestionOverviewSection from "./normal-quiz-section/QuestionOverviewSection";
 import QuestionSection from "./normal-quiz-section/QuestionSection";
-import { useTheme } from "@emotion/react";
 import TimerSection from "./normal-quiz-section/TimerSection";
 import FinishSection from "./normal-quiz-section/FinishSection";
 import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";

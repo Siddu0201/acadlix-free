@@ -13,6 +13,7 @@ import { TiTick, RxCross2 } from "../../../../helpers/icons";
 
 const TypeSingleChoice = (props) => {
   const handleChange = (e) => {
+    console.log(e?.target?.value);
     props?.setValue(
       `questions.${props?.index}.language`,
       props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
@@ -78,7 +79,7 @@ const TypeSingleChoice = (props) => {
     }
   };
 
-  // console.log(props?.watch(`questions.${props?.index}.language`));
+  // console.log(props?.answer_data?.[props?.type]);
 
   const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 

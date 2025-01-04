@@ -13,7 +13,6 @@ const Nta = (props) => {
     document.body.style.backgroundColor = props?.colorCode?.background;
   }, []);
 
-  let i = 0;
   return (
     <Box>
       <NtaTopHome {...props} />
@@ -55,7 +54,7 @@ const Nta = (props) => {
                           {...props}
                           subject={s}
                           key={index}
-                          index={i++}
+                          index={question?.index}
                           s_index={s_index}
                           num={index + 1}
                           question={question}

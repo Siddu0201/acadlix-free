@@ -154,14 +154,14 @@ const CourseSettings = (props) => {
         >
           Outcome
         </Button>
-        <Button
+        {/* <Button
           variant={methods?.watch("tab") === "faq" ? "contained" : "outlined"}
           color="primary"
           size="small"
           onClick={handleTabChange.bind(this, "faq")}
         >
           FAQ(s)
-        </Button>
+        </Button> */}
         {/* <Button
           variant={
             methods?.watch("tab") === "featured_video"
@@ -184,7 +184,7 @@ const CourseSettings = (props) => {
         {methods?.watch("tab") === "payment" && <Payment {...methods} handleKeyDown={handleKeyDown} />}
         {methods?.watch("tab") === "instructor" && <Instructor {...methods} handleKeyDown={handleKeyDown} />}
         {methods?.watch("tab") === "outcome" && <Outcome {...methods} handleKeyDown={handleKeyDown} />}
-        {methods?.watch("tab") === "faq" && <Faq {...methods} handleKeyDown={handleKeyDown} />}
+        {/* {methods?.watch("tab") === "faq" && <Faq {...methods} handleKeyDown={handleKeyDown} />} */}
         {/* {methods?.watch("tab") === "featured_video" && (
           <FeaturedVideo {...methods} handleKeyDown={handleKeyDown} />
         )} */}

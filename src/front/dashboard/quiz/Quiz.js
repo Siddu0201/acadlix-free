@@ -1,8 +1,7 @@
-import { Box, Skeleton } from '@mui/material'
+import { Box, CircularProgress, Skeleton } from '@mui/material'
 import React from 'react'
 import QuizContent from './QuizContent';
-import { useTheme } from '@emotion/react';
-import { useMediaQuery} from '@mui/material'
+import { useMediaQuery, useTheme} from '@mui/material'
 import { GetFrontQuizById } from '../../../requests/front/FrontQuizRequest';
 import Loader from '../../../components/Loader';
 
@@ -12,7 +11,11 @@ const Quiz = (props) => {
   const {isFetching, data} = GetFrontQuizById(props?.quiz_id);
 
   if(isFetching){
-    return <Skeleton variant="rounded" height={32} width={93} />;
+    if(props?.advance){
+      return <Loader />;
+    }else{
+      return <Skeleton variant="rounded" height={32} width={93} />;
+    }
   }
 
   return (

@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Chip,
   CircularProgress,
   Divider,
   Grid,

@@ -29,6 +29,7 @@ const QuizQuestionTypeAndMarks = (props) => {
     <Box
       id="acadlix_quiz_question_type_and_marks"
       sx={{
+        flex: 0,
         display: "flex",
         padding: 1,
         backgroundColor: props?.colorCode?.question_type_background,

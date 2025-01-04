@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import { Switch } from '@mui/material';
+import { styled, Switch } from '@mui/material';
 import React from 'react'
 
 const CustomSwitch = styled((props) => (

@@ -31,6 +31,7 @@ const PerQuestionQuizTimer = (props) => {
     <Box
       id={`acadlix_quiz_per_question_timer_${props?.question?.question_id}`}
       sx={{
+        flex: 0,
         display: "flex",
         justifyContent: "space-between",
         padding: 1,

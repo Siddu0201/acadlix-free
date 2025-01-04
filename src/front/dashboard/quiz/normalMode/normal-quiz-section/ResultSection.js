@@ -17,8 +17,6 @@ import Negative from "../../../../../images/wrong-way-svgrepo-com.svg";
 import Average from "../../../../../images/bars-graph-svgrepo-com.svg";
 import Name from "../../../../../images/avatar-people-person-profile-user-svgrepo-com.svg";
 import Result from "../../../../../images/certificate-manager-svgrepo-com.svg";
-import QuestionReportChart from "./charts/QuestionReportChart";
-import ScoreChart from "./charts/ScoreChart";
 import { secondsToHms } from "../../../../../helpers/util";
 import ResultComparisionSection from "./ResultComparisionSection";
 import ResultTextSection from "./ResultTextSection";
@@ -243,75 +241,6 @@ const ResultSection = (props) => {
           Result={Result}
         />
       )}
-      <Grid
-        container
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-      >
-        <Grid item xs={12} md={12}>
-          <QuestionReportChart
-            {...props}
-            skipped={(
-              (props
-                ?.watch("questions")
-                ?.filter((d) => !d?.result?.solved_count)?.length /
-                props?.watch("questions")?.length) *
-              100
-            ).toFixed(2)}
-            correct={(
-              (props
-                ?.watch("questions")
-                ?.filter(
-                  (d) => d?.result?.solved_count && d?.result?.correct_count
-                )?.length /
-                props?.watch("questions")?.length) *
-              100
-            ).toFixed(2)}
-            incorrect={(
-              (props
-                ?.watch("questions")
-                ?.filter(
-                  (d) => d?.result?.solved_count && d?.result?.incorrect_count
-                )?.length /
-                props?.watch("questions")?.length) *
-              100
-            ).toFixed(2)}
-          />
-        </Grid>
-        {/* <Grid md={2}></Grid> */}
-        {/* <Grid item xs={12} md={4}>
-          <ScoreChart
-            total={props?.watch("questions")?.length}
-            skipped={
-              props?.watch("questions")?.filter((d) => !d?.result?.solved_count)
-                ?.length
-            }
-            correct={
-              props
-                ?.watch("questions")
-                ?.filter(
-                  (d) => d?.result?.solved_count && d?.result?.correct_count
-                )?.length
-            }
-            incorrect={
-              props
-                ?.watch("questions")
-                ?.filter(
-                  (d) => d?.result?.solved_count && d?.result?.incorrect_count
-                )?.length
-            }
-          />
-        </Grid> */}
-        <Grid item xs={12} md={12}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Typography variant="h6">Question Report</Typography>
-          </Box>
-        </Grid>
-      </Grid>
     </Box>
   );
 };

@@ -9,6 +9,7 @@ const QuizSubsection = (props) => {
     <Box
       id="acadlix_quiz_subsection"
       sx={{
+        flex: 0,
         display: "flex",
         borderTop: "1px solid",
         borderBottom: "1px solid",

@@ -20,6 +20,7 @@ const QuizTimer = (props) => {
     <Box
       id="acadlix_quiz_timer"
       sx={{
+        flex: 0,
         display: "flex",
         justifyContent: "space-between",
         padding: 1,

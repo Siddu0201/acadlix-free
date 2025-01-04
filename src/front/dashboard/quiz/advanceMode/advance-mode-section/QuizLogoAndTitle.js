@@ -6,6 +6,7 @@ const QuizLogoAndTitle = (props) => {
     <Box
       id="acadlix_quiz_logo_and_title"
       sx={{
+        flex: 0,
         display: "grid",
         gridTemplateColumns: "auto auto",
         padding: 2,

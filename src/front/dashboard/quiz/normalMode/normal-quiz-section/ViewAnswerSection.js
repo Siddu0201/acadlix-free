@@ -1,5 +1,4 @@
-import { useTheme } from "@emotion/react";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import React from "react";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";

@@ -29,6 +29,15 @@ const BottomNavigation2 = (props) => {
       alert("Please select the default language to procced further");
       return;
     }
+    // Handle full screen
+    if (document.documentElement.requestFullscreen) {
+      // Prompt the user to click to enable fullscreen
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error("Failed to enable fullscreen mode:", err);
+      });
+    } else {
+      console.warn("Fullscreen API is not supported by this browser.");
+    }
     props?.setValue("view_instruction2", false, { shouldDirty: true });
     props?.setValue("view_question", true, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });

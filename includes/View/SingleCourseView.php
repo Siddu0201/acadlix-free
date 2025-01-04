@@ -4,6 +4,7 @@ use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
+use Yuvayana\Acadlix\Models\CourseWishlist;
 use Yuvayana\Acadlix\Models\Lesson;
 use Yuvayana\Acadlix\Models\OrderItem;
 
@@ -11,7 +12,7 @@ defined('ABSPATH') || exit();
 
 global $post, $wp_version;
 
-$course = Course::find($post->ID);
+$course = Course::withCount(['users', 'cart'])->find($post->ID);
 
 $courses_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id"));
 $checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
@@ -346,18 +347,22 @@ if (!function_exists('acadlix_course_action_buttons')) {
             }
 
             if (is_user_logged_in()) {
+                $course_wishlist_count = CourseWishlist::where([
+                    'course_id' => $course->id,
+                    'user_id' => get_current_user_id(),
+                ])->count();
                 ?>
                 <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
                     id="add-to-wishlist-<?php echo esc_attr($course?->id); ?>" title="Add to Wishlist"
                     data-id="<?php echo esc_attr($course?->id); ?>"
-                    style="display: <?php echo $course?->wishlist_count == 0 ? 'flex' : 'none'; ?>">
+                    style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
                     <i class="la la-heart-o"></i>
                     <div class="acadlix-btn-loader" style="display: none;"></div>
                 </div>
                 <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
                     id="remove-from-wishlist-<?php echo esc_attr($course?->id); ?>" title="Remove From Wishlist"
                     data-id="<?php echo esc_attr($course?->id); ?>"
-                    style="display: <?php echo $course?->wishlist_count > 0 ? 'flex' : 'none'; ?>">
+                    style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
                     <i class="fa-solid fa-heart"></i>
                     <div class="acadlix-btn-loader" style="display: none;"></div>
                 </div>
