@@ -14,7 +14,7 @@ import SubjectWiseTiming from "./advance-mode-section/SubjectWiseTiming";
 const AdvancePanel = (props) => {
   return (
     <Box sx={{
-      height: "calc(100vh - 32px)",
+      height: acadlixOptions?.is_admin_bar_showing ? "calc(100vh - 32px)" : "100vh",
       display: "flex",
       flexDirection: "column",
     }}>

@@ -1,10 +1,12 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "../../../../helpers/icons";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 
 const ContentHeader = (props) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const total = props
     ?.watch("sections")
     ?.reduce((total, obj) => total + obj.content.length, 0);
@@ -94,11 +96,24 @@ const ContentHeader = (props) => {
         >
           <Typography
             sx={{
-              fontSize: 19,
+              fontSize: {
+                xs: 14,
+                md: 18,
+              },
+              lineHeight: {
+                xs: 1.25,
+                md: 1.5
+              },
               fontWeight: 600,
             }}
           >
-            {props?.watch("course_title")}
+            {isMobile
+              ? props?.watch("course_title")?.length > 40
+                ? <Tooltip title={props?.watch("course_title")} arrow>
+                  {`${props?.watch("course_title").slice(0, 40)}...`}
+                </Tooltip>
+                : props?.watch("course_title")
+              : props?.watch("course_title")}
           </Typography>
         </Box>
       </Box>

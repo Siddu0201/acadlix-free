@@ -83,7 +83,7 @@ const CourseContent = () => {
           } else {
             open =
               s?.contents?.findIndex((c) => c?.id == courseSectionContentId) !==
-              -1
+                -1
                 ? true
                 : false;
           }
@@ -123,8 +123,8 @@ const CourseContent = () => {
                   is_completed:
                     data?.data?.course_statistic?.length > 0
                       ? data?.data?.course_statistic?.find(
-                          (cs) => cs?.course_section_content_id === c?.id
-                        )?.is_completed
+                        (cs) => cs?.course_section_content_id === c?.id
+                      )?.is_completed
                         ? true
                         : false
                       : false,
@@ -270,7 +270,7 @@ const CourseContent = () => {
               true,
               { shouldDirty: true }
             );
-            if(move_next){
+            if (move_next) {
               const content = methods
                 ?.watch("sections")
                 ?.find((s) => s?.content?.find((co) => co?.i == i + 1))
@@ -312,7 +312,7 @@ const CourseContent = () => {
 
   const active_content = methods
     ?.watch("sections")
-    ?.find((s) => s?.active) 
+    ?.find((s) => s?.active)
     ?.content?.find((c) => c?.is_active);
 
   const location = useLocation();
@@ -334,17 +334,17 @@ const CourseContent = () => {
       {(isFetching ||
         incompleteMutation?.isPending ||
         completeMutation?.isPending) && (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={
-            isFetching ||
-            incompleteMutation?.isPending ||
-            completeMutation?.isPending
-          }
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      )}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={
+              isFetching ||
+              incompleteMutation?.isPending ||
+              completeMutation?.isPending
+            }
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )}
       <Box>
         <Grid
           container
@@ -433,15 +433,6 @@ const CourseContent = () => {
           >
             <Box
               sx={{
-                // minHeight: {
-                //   xs: "24rem",
-                //   sm: open ? "28rem" : "28rem",
-                // },
-                // maxHeight: {
-                //   xs: "24rem",
-                //   sm: open ? "28rem" : "28rem",
-                // },
-                // height: "100%",
                 borderBottom: "1px solid #d1d7dc",
                 display: "flex",
                 flexDirection: "column",
@@ -459,7 +450,7 @@ const CourseContent = () => {
                   position: "relative",
                   paddingBottom:
                     active_content?.type === "lesson" &&
-                    active_content?.lesson_type === "video"
+                      active_content?.lesson_type === "video"
                       ? 0
                       : 10,
                   backgroundColor: "#fff",
@@ -474,28 +465,27 @@ const CourseContent = () => {
                 >
                   {courseSectionContentId === undefined
                     ? methods?.watch("sections")?.length > 0 && (
-                        <Navigate
-                          to={`/course/${orderItemId}/content/${
-                            methods
-                              ?.watch("sections")
-                              ?.find((s) => s?.active)
-                              ?.content?.find((c) => c?.is_active)?.id
+                      <Navigate
+                        to={`/course/${orderItemId}/content/${methods
+                          ?.watch("sections")
+                          ?.find((s) => s?.active)
+                          ?.content?.find((c) => c?.is_active)?.id
                           }`}
-                        />
-                      )
+                      />
+                    )
                     : methods?.watch("sections")?.length > 0 && (
-                        <Content
-                          {...methods}
-                          courseSectionContentId={courseSectionContentId}
-                          handleNavigate={handleNavigate}
-                          handleFullScreen={handleFullScreen}
-                          active_content={active_content}
-                          handleComplete={handleComplete}
-                          handleIncomplete={handleIncomplete}
-                          completeMutation={completeMutation}
-                          incompleteMutation={incompleteMutation}
-                        />
-                      )}
+                      <Content
+                        {...methods}
+                        courseSectionContentId={courseSectionContentId}
+                        handleNavigate={handleNavigate}
+                        handleFullScreen={handleFullScreen}
+                        active_content={active_content}
+                        handleComplete={handleComplete}
+                        handleIncomplete={handleIncomplete}
+                        completeMutation={completeMutation}
+                        incompleteMutation={incompleteMutation}
+                      />
+                    )}
                 </Box>
                 {methods?.watch("sections")?.length > 0 && (
                   <ContentOptions
@@ -528,8 +518,25 @@ const CourseContent = () => {
                     scrollButtons
                     allowScrollButtonsMobile
                   >
-                    {!open && <Tab label="Course Content" value="1" />}
-                    <Tab label="Course Overview" value="2" />
+                    {!open && <Tab label="Course Content" value="1"
+                      sx={{
+                        boxShadow: "none",
+                        "&.Mui-selected": {
+                          backgroundColor: "transparent",
+                          borderColor: "transparent",
+                        },
+                      }} />}
+                    <Tab
+                      label="Course Overview"
+                      value="2"
+                      sx={{
+                        boxShadow: "none",
+                        "&.Mui-selected": {
+                          backgroundColor: "transparent",
+                          borderColor: "transparent",
+                        },
+                      }}
+                    />
                   </TabList>
                 </Box>
                 <Box

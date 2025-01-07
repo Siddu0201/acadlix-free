@@ -15,8 +15,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
 import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
+import { FaSearch } from "../../../helpers/icons";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -125,7 +125,7 @@ const Courses = () => {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <SearchIcon />
+                          <FaSearch />
                         </InputAdornment>
                       ),
                     }}

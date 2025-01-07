@@ -14,9 +14,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IoClose } from "../../../helpers/icons";
+import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import { RawHTML } from "@wordpress/element";
@@ -201,7 +200,7 @@ const Login = (props) => {
                           boxShadow: "none",
                         }}
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                       </IconButton>
                     </InputAdornment>
                   ),

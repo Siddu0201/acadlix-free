@@ -264,8 +264,7 @@
   color: var(--acadlix-primary-main);
 }
 
-.acadlix-curriculum-summary h3::before {
-  content: "►";
+.acadlix-curriculum-summary h3 i {
   font-size: 1.15rem;
   display: flex;
   align-items: center;
@@ -287,7 +286,7 @@
   color: var(--acadlix-primary-main);
 }
 
-.acadlix-curriculum-details[open] h3::before {
+.acadlix-curriculum-details[open] h3 i {
   rotate: 90deg;
   transition: rotate 200ms ease-out;
 }

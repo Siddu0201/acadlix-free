@@ -516,6 +516,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                     <details class="acadlix-curriculum-details" <?php echo $i == 0 ? 'open' : ''; ?>>
                                         <summary class="acadlix-curriculum-summary">
                                             <h3 role="term" aria-details="pure-css">
+                                                <i class="fa-solid fa-caret-right"></i>
                                                 <?php echo esc_html($section->title); ?>
                                             </h3>
                                         </summary>

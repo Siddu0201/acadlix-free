@@ -99,10 +99,10 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 <div class="acadlix-course-page-chip acadlix-fs-7 acadlix-fw-medium">
                                     <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->difficulty_level)); ?>
                                 </div>
-                                <h3 class="acadlix-course-page-card-title acadlix-mt-12 acadlix-fs-5 acadlix-fw-500"><a
+                                <h3 class="acadlix-course-page-card-title acadlix-mt-12 acadlix-fs-6 acadlix-fw-700"><a
                                         href="<?php echo esc_url(get_permalink($course->post->ID)); ?>"><?php echo esc_html($course?->post?->post_title); ?></a>
                                 </h3>
-                                <div class="acadlix-course-user acadlix-fs-6 acadlix-fw-500 acadlix-pb-8">
+                                <div class="acadlix-course-user acadlix-fs-8 acadlix-fw-500 acadlix-pb-8">
                                     <?php echo CourseHelper::instance()->getCourseUserHtml($course); // phpcs:ignore ?>
                                 </div>
                                 <div class="acadlix-d-flex acadlix-justify-between acadlix-align-center">

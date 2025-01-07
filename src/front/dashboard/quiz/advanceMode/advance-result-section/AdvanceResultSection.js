@@ -17,7 +17,7 @@ const AdvanceResultSection = (props) => {
           xs: "100%",
         },
         marginX: "auto",
-        marginY: 1,
+        marginY: 4,
         paddingX: {
           sm: 0,
           xs: 2,
@@ -26,9 +26,6 @@ const AdvanceResultSection = (props) => {
     >
       <Button
         variant="contained"
-        sx={{
-          marginY: 1
-        }}
         onClick={() => {
           window.close()
         }}

@@ -17,9 +17,9 @@ import {
   AiOutlineFileSearch,
   RiUserHeartFill,
   BiSolidCommentDetail,
-  FaCog
+  FaCog,
+  MdOutlineSupportAgent
 } from "../../../helpers/icons";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
 const Home = () => {
   return (
@@ -411,7 +411,7 @@ const Home = () => {
                   gap: 2,
                 }}
               >
-                <SupportAgentIcon />
+                <MdOutlineSupportAgent />
                 <Typography
                   sx={{
                     fontSize: 16,

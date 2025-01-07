@@ -13,6 +13,7 @@ if (!class_exists("DashboardController")) {
         public function __construct()
         {
             add_filter("template_include", [$this, 'template_loader'], 10);
+            add_filter('show_admin_bar', [$this, 'disable_admin_bar_on_dashboard']);
         }
 
         public function template_loader($template)
@@ -25,6 +26,15 @@ if (!class_exists("DashboardController")) {
                 }
             }
             return $template;
+        }
+
+        public function disable_admin_bar_on_dashboard($show_admin_bar)
+        {
+            $dashboard_page_id = Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id');
+            if ($dashboard_page_id && is_page($dashboard_page_id)) {
+                return false;
+            }
+            return $show_admin_bar;
         }
 
         public static function instance()

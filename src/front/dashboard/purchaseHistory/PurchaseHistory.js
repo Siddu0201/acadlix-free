@@ -3,10 +3,9 @@ import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { IoMdRefresh, FaMoneyBillTransfer } from "../../../helpers/icons";
+import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -210,13 +209,13 @@ const PurchaseHistory = () => {
                     });
                   }}
                   rowSelectionModel={methods?.watch("purchase_ids")}
-                  autoHeight
                   loading={isFetching}
                   columnVisibilityModel={{
                     id: false,
                   }}
-                  getEstimatedRowHeight={() => 100}
-                  getRowHeight={() => "auto"}
+                  autoHeight
+                  // getRowHeight={() => "auto"}
+                  // getEstimatedRowHeight={() => 200}
                   sx={{
                     "& .PrivateSwitchBase-input": {
                       height: "100% !important",
@@ -274,7 +273,7 @@ const MobileOnlyView = (props) => {
               </Typography>
             </Box>
             <Box display="flex" alignItems="center" sx={{ marginY: "4px" }}>
-              <HistoryToggleOffIcon
+              <HistoryToggleOff
                 sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
               />
               <Typography

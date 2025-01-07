@@ -263,7 +263,10 @@ const QuizButtonOptions = (props) => {
           justifyContent: "space-between",
           minHeight: "100% !important",
           paddingY: 1,
-          paddingX: "0.10rem !important",
+          paddingX: {
+            xs: "0.20rem !important",
+            md: "0.10rem !important",
+          },
         }}
       >
         {props?.watch("quiz_timing_type") === "subject_wise_time"
@@ -308,7 +311,7 @@ const QuizButtonOptions = (props) => {
                 backgroundColor:
                   props?.colorCode?.mark_for_review_and_next_background,
                 color: `${props?.colorCode?.mark_for_review_and_next_color} !important`,
-                ":hover, :focus": {
+                ":hover": {
                   border: `1px solid ${props?.colorCode?.mark_for_review_and_next_hover_border}`,
                   backgroundColor:
                     props?.colorCode?.mark_for_review_and_next_hover_background,
@@ -342,13 +345,19 @@ const QuizButtonOptions = (props) => {
               border: `1px solid ${props?.colorCode?.clear_response_border}`,
               backgroundColor: props?.colorCode?.clear_response_background,
               color: `${props?.colorCode?.clear_response_color} !important`,
-              ":hover, :focus": {
+              ":hover": {
                 border: `1px solid ${props?.colorCode?.clear_response_hover_border}`,
                 backgroundColor:
                   props?.colorCode?.clear_response_hover_background,
                 color: `${props?.colorCode?.clear_response_hover_color} !important`,
                 boxShadow: "none",
               },
+              ":focus": {
+                boxShadow: "none",
+                border: `1px solid ${props?.colorCode?.clear_response_border}`,
+                backgroundColor: props?.colorCode?.clear_response_background,
+                color: `${props?.colorCode?.clear_response_color} !important`,
+              }
             }}
           >
             {

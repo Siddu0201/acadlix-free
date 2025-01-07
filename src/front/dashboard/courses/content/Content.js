@@ -328,14 +328,14 @@ const LessonTextContent = (props) => {
         display: "flex",
         flexDirection: "column",
         minHeight: {
-          xs: props?.watch("is_fullscreen") ? "100%" : "22rem",
-          sm: props?.watch("is_fullscreen") ? "100%" : "24rem",
-          xl: props?.watch("is_fullscreen") ? "100%" : "28rem",
+          xs: props?.watch("is_fullscreen") ? "100%" : "80vh",
+          sm: props?.watch("is_fullscreen") ? "100%" : "80vh",
+          xl: props?.watch("is_fullscreen") ? "100%" : "80vh",
         },
         maxHeight: {
-          xs: "22rem",
-          sm: "24rem",
-          xl: "28rem",
+          xs: "80vh",
+          sm: "80vh",
+          xl: "80vh",
         },
         overflowY: "auto",
       }}
@@ -386,14 +386,14 @@ const QuizContent = (props) => {
         display: "flex",
         flexDirection: "column",
         minHeight: {
-          xs: props?.watch("is_fullscreen") ? "100%" : "22rem",
-          sm: props?.watch("is_fullscreen") ? "100%" : "24rem",
-          xl: props?.watch("is_fullscreen") ? "100%" : "28rem",
+          xs: props?.watch("is_fullscreen") ? "100%" : "80vh",
+          sm: props?.watch("is_fullscreen") ? "100%" : "80vh",
+          xl: props?.watch("is_fullscreen") ? "100%" : "80vh",
         },
         maxHeight: {
-          xs: "22rem",
-          sm: "24rem",
-          xl: "28rem",
+          xs: "80vh",
+          sm: "80vh",
+          xl: "80vh",
         },
         overflowY: "auto",
       }}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BiExpand } from "../../../helpers/icons";
+import { BiExpand, HistoryToggleOff } from "../../../helpers/icons";
 import {
   Box,
   Typography,
@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import { useForm } from "react-hook-form";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -182,7 +181,7 @@ const MobileOnlyView = (props) => {
             {row?.action}
           </Box>
           <Box display="flex" alignItems="center" gap="4px">
-            <HistoryToggleOffIcon style={{ color: "gray" }} />
+            <HistoryToggleOff style={{ color: "gray" }} />
             <Typography
               variant="body2"
               color="textSecondary"

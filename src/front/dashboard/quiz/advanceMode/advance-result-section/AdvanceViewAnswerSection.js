@@ -92,32 +92,30 @@ const AdvanceViewAnswerSection = (props) => {
                 },
                 padding: "3px 3px",
                 margin: "3px",
-                border: `1px solid ${
-                  d?.selected
-                    ? props?.colorCode?.overview_button_active_border
-                    : props?.colorCode?.overview_button_border
-                }`,
+                border: `1px solid ${d?.selected
+                  ? props?.colorCode?.overview_button_active_border
+                  : props?.colorCode?.overview_button_border
+                  }`,
                 boxShadow: d?.selected ? theme.shadows[3] : "none",
                 backgroundColor:
                   d?.result?.correct_count && d?.result?.solved_count
                     ? (theme) => theme?.palette?.success?.main
                     : d?.result?.incorrect_count && d?.result?.solved_count
-                    ? (theme) => theme?.palette?.error?.main
-                    : (theme) => theme?.palette?.grey[300],
+                      ? (theme) => theme?.palette?.error?.main
+                      : (theme) => theme?.palette?.grey[300],
                 color: props?.colorCode?.overview_button_active_text,
                 ":hover, :focus": {
                   backgroundColor:
                     d?.result?.correct_count && d?.result?.solved_count
                       ? (theme) => theme?.palette?.success?.main
                       : d?.result?.incorrect_count && d?.result?.solved_count
-                      ? (theme) => theme?.palette?.error?.main
-                      : (theme) => theme?.palette?.grey[300],
+                        ? (theme) => theme?.palette?.error?.main
+                        : (theme) => theme?.palette?.grey[300],
                   color: props?.colorCode?.overview_button_active_text,
-                  border: `1px solid ${
-                    d?.selected
-                      ? props?.colorCode?.overview_button_active_border
-                      : props?.colorCode?.overview_button_border
-                  }`,
+                  border: `1px solid ${d?.selected
+                    ? props?.colorCode?.overview_button_active_border
+                    : props?.colorCode?.overview_button_border
+                    }`,
                 },
               }}
               onClick={handleClick.bind(this, index)}
@@ -175,23 +173,28 @@ const AdvanceViewAnswerSection = (props) => {
         props
           ?.watch("questions")
           ?.map((question, index) => (
-            <ViewQuestionSection
-              {...props}
-              key={index}
-              index={index}
-              num={index + 1}
-              question={question}
-              first={index === 0}
-              last={props?.watch("questions")?.length - 1 === index}
-              questionRef={questionRef}
-              scrollToQuestion={scrollToQuestion}
-            />
+            <React.Fragment key={index}>
+              {
+                question?.selected &&
+                <ViewQuestionSection
+                  {...props}
+                  index={index}
+                  num={index + 1}
+                  question={question}
+                  first={index === 0}
+                  last={props?.watch("questions")?.length - 1 === index}
+                  questionRef={questionRef}
+                  scrollToQuestion={scrollToQuestion}
+                />
+              }
+            </React.Fragment>
           ))}
     </Box>
   );
 };
 
 const ViewQuestionSection = (props) => {
+
   const theme = useTheme();
   const answerType = (data = {}, lang_index = 0) => {
     switch (props?.question?.answer_type) {
@@ -321,13 +324,13 @@ const ViewQuestionSection = (props) => {
   return (
     <Box
       sx={{
-        display: props?.question?.selected ? "" : "none",
+        // display: props?.question?.selected ? "" : "none",
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
     >
       <Box>
-        {props?.watch("multi_language") && props?.question?.selected && (
+        {props?.watch("multi_language") && (
           <AdvanceLanguageSection {...props} />
         )}
         <AdvanceQuestionSubjectAndPointSection {...props} />
@@ -337,13 +340,14 @@ const ViewQuestionSection = (props) => {
             <React.Fragment key={lang_index}>
               <Card
                 sx={{
-                  padding: {
-                    xs: 1,
+                  paddingX: 2,
+                  paddingY: {
+                    xs: 4,
                     sm: 2,
                   },
                   marginBottom: 2,
                   display:
-                    props?.question?.selected && lang?.selected
+                    lang?.selected
                       ? "block"
                       : "none",
                 }}
@@ -440,8 +444,8 @@ const ViewQuestionSection = (props) => {
                           ? ""
                           : "none"
                         : lang?.correct_msg?.length > 0
-                        ? ""
-                        : "none",
+                          ? ""
+                          : "none",
                     }}
                   >
                     <Box>
@@ -472,8 +476,8 @@ const ViewQuestionSection = (props) => {
                         ? ""
                         : "none"
                       : lang?.correct_msg?.length > 0
-                      ? ""
-                      : "none",
+                        ? ""
+                        : "none",
                   }}
                 >
                   <Box>

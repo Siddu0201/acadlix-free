@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import menus from "../menu/AdminMenu";
 import AcadlixLogo from "../images/acadlix_logo.png";
-import MenuIcon from "@mui/icons-material/Menu";
+import { IoMdMenu } from "../helpers/icons";
 
 const AdminHeader = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -122,7 +122,7 @@ const AdminHeader = () => {
                   onClick={handleOpenNavMenu}
                   color="primary"
                 >
-                  <MenuIcon />
+                  <IoMdMenu />
                 </IconButton>
                 <Menu
                   id="menu-appbar"
