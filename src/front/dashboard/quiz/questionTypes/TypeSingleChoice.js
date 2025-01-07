@@ -13,7 +13,6 @@ import { TiTick, RxCross2 } from "../../../../helpers/icons";
 
 const TypeSingleChoice = (props) => {
   const handleChange = (e) => {
-    console.log(e?.target?.value);
     props?.setValue(
       `questions.${props?.index}.language`,
       props?.watch(`questions.${props?.index}.language`)?.map((lang) => {

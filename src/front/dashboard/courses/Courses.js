@@ -201,7 +201,8 @@ const CourseCard = (props) => {
       <CardMedia
         component="img"
         sx={{
-          height: "140px",
+          height: "200px",
+          aspectRatio: "auto 240/135",
         }}
         image={
           props?.course?.post?.thumbnail_url ?? acadlixOptions?.default_img_url

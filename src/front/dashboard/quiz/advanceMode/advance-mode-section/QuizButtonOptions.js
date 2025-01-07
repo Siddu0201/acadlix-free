@@ -137,6 +137,29 @@ const QuizButtonOptions = (props) => {
 
   const [lastModel, setLastModel] = React.useState(false);
 
+  const handleSubjectScroll = (s_index = 0) => {
+    const scrollContainer = props.scrollContainerRef.current;
+    const subject = props?.subjectRefs.current[s_index];
+
+    if (scrollContainer && subject) {
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const subjectRect = subject.getBoundingClientRect();
+
+      // Check if the subject is visible in the scroll container
+      const isVisible =
+        subjectRect.left >= containerRect.left &&
+        subjectRect.right <= containerRect.right;
+
+      if (!isVisible) {
+        // Scroll the container to bring the subject into view
+        scrollContainer.scrollBy({
+          left: subjectRect.left - containerRect.left,
+          behavior: "smooth",
+        });
+      }
+    }
+  }
+
   const handleNextClick = () => {
     if (props?.last) {
       if (props?.watch("quiz_timing_type") === "subject_wise_time") {
@@ -156,6 +179,7 @@ const QuizButtonOptions = (props) => {
               return s;
             })
           );
+          handleSubjectScroll(props?.s_index + 1);
           let i = 0;
           const subject_id = props
             ?.watch("subjects")
@@ -220,6 +244,7 @@ const QuizButtonOptions = (props) => {
           return s;
         })
       );
+      handleSubjectScroll(props?.s_index - 1);
     }
     props?.setValue(
       "questions",
@@ -318,6 +343,13 @@ const QuizButtonOptions = (props) => {
                   color: `${props?.colorCode?.mark_for_review_and_next_hover_color} !important`,
                   boxShadow: "none",
                 },
+                ":focus": {
+                  boxShadow: "none",
+                  border: `1px solid ${props?.colorCode?.mark_for_review_and_next_border}`,
+                  backgroundColor:
+                    props?.colorCode?.mark_for_review_and_next_background,
+                  color: `${props?.colorCode?.mark_for_review_and_next_color} !important`,
+                }
               }}
             >
               {

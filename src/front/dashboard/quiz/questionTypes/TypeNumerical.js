@@ -34,14 +34,12 @@ const TypeNumerical = (props) => {
   return (
     <Box
       sx={{
-        width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
+        width: "auto",
         backgroundColor:
-          props?.watch("mode") !== "advance_mode"
-            ? props?.watch(`questions.${props?.index}.check`)
-              ? props?.watch(`questions.${props?.index}.result.correct_count`)
-                ? (theme) => theme.palette.success.light
-                : (theme) => theme.palette.error.light
-              : ""
+          props?.watch(`questions.${props?.index}.check`)
+            ? props?.watch(`questions.${props?.index}.result.correct_count`)
+              ? (theme) => theme.palette.success.light
+              : (theme) => theme.palette.error.light
             : "",
         border:
           props?.watch("mode") !== "advance_mode"
@@ -60,10 +58,10 @@ const TypeNumerical = (props) => {
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <Typography>
-          <b>Your answer</b>
-        </Typography>
-      )}
+          <Typography>
+            <b>Your answer</b>
+          </Typography>
+        )}
       <Box
         sx={{
           display: "flex",
@@ -74,7 +72,7 @@ const TypeNumerical = (props) => {
           type="number"
           label={
             props?.watch("view_answer") ||
-            props?.watch(`questions.${props?.index}.check`)
+              props?.watch(`questions.${props?.index}.check`)
               ? ""
               : "Type your answer"
           }
@@ -89,9 +87,9 @@ const TypeNumerical = (props) => {
           sx={{
             marginY: 2,
             "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-              {
-                display: "none",
-              },
+            {
+              display: "none",
+            },
             "& input[type=number]": {
               MozAppearance: "textfield",
             },
@@ -101,56 +99,56 @@ const TypeNumerical = (props) => {
         />
         {(props?.watch("view_answer") ||
           props?.watch(`questions.${props?.index}.check`)) && (
-          <Box
-            sx={{
-              position: "relative",
-              marginLeft: "5px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-              <Avatar
-                sx={{
-                  height: {
-                    xs: 24,
-                  },
-                  width: {
-                    xs: 24,
-                  },
-                  bgcolor: (theme) => theme?.palette?.success?.main,
-                }}
-              >
-                <TiTick />
-              </Avatar>
-            ) : (
-              <Avatar
-                sx={{
-                  height: {
-                    xs: 24,
-                  },
-                  width: {
-                    xs: 24,
-                  },
-                  bgcolor: (theme) => theme.palette.error?.main,
-                }}
-              >
-                <RxCross2 />
-              </Avatar>
-            )}
-          </Box>
-        )}
+            <Box
+              sx={{
+                position: "relative",
+                marginLeft: "5px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
+                <Avatar
+                  sx={{
+                    height: {
+                      xs: 24,
+                    },
+                    width: {
+                      xs: 24,
+                    },
+                    bgcolor: (theme) => theme?.palette?.success?.main,
+                  }}
+                >
+                  <TiTick />
+                </Avatar>
+              ) : (
+                <Avatar
+                  sx={{
+                    height: {
+                      xs: 24,
+                    },
+                    width: {
+                      xs: 24,
+                    },
+                    bgcolor: (theme) => theme.palette.error?.main,
+                  }}
+                >
+                  <RxCross2 />
+                </Avatar>
+              )}
+            </Box>
+          )}
       </Box>
 
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <>
-          <Typography>
-            <b>Correct answer</b>
-          </Typography>
-          <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
-        </>
-      )}
+          <>
+            <Typography>
+              <b>Correct answer</b>
+            </Typography>
+            <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
+          </>
+        )}
     </Box>
   );
 };

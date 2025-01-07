@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import QuizLogoAndTitle from "./advance-mode-section/QuizLogoAndTitle";
 import QuizTitleAndInstruction from "./advance-mode-section/QuizTitleAndInstruction";
 import { Box } from "@mui/material";
@@ -12,6 +12,8 @@ import PerQuestionQuizTimer from "./advance-mode-section/PerQuestionQuizTimer";
 import SubjectWiseTiming from "./advance-mode-section/SubjectWiseTiming";
 
 const AdvancePanel = (props) => {
+  const scrollContainerRef = useRef(null); 
+  const subjectRefs = useRef([]);
   return (
     <Box sx={{
       height: acadlixOptions?.is_admin_bar_showing ? "calc(100vh - 32px)" : "100vh",
@@ -98,7 +100,7 @@ const AdvancePanel = (props) => {
                 )}
               </React.Fragment>
             ))}
-        <QuizSubsection {...props} />
+        <QuizSubsection scrollContainerRef={scrollContainerRef} subjectRefs={subjectRefs} {...props} />
         <QuizQuestionTypeAndMarks {...props} />
         {props?.watch("multi_language") && <QuizLanguage {...props} />}
         {props?.watch("subjects")?.length > 0 &&
@@ -135,6 +137,8 @@ const AdvancePanel = (props) => {
                           last_subject={
                             props?.watch("subjects")?.length - 1 === s_index
                           }
+                          scrollContainerRef={scrollContainerRef}
+                          subjectRefs={subjectRefs}
                         />
                       )}
                     </React.Fragment>

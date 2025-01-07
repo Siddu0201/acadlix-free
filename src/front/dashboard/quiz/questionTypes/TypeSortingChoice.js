@@ -2,7 +2,9 @@ import {
   DndContext,
   DragOverlay,
   KeyboardSensor,
+  MouseSensor,
   PointerSensor,
+  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
@@ -71,12 +73,21 @@ const TypeSortingChoice = (props) => {
 
   const handleDragStart = (e) => {
     const { active } = e;
-
     setActiveId(active.id);
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 8,
+      },
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -160,7 +171,6 @@ const TypeSortingChoice = (props) => {
                       borderRadius: 1,
                       backgroundColor: "white",
                       cursor: "pointer",
-                      touchAction: "none",
                       margin: `0 !important`,
                     }}
                   >
@@ -222,7 +232,7 @@ const SortableItem = (props) => {
             ? "pointer"
             : "move",
         opacity: props?.item?.option === props?.activeId ? 0.4 : 1,
-        touchAction: "none",
+        // touchAction: "none",
         justifyContent: "space-between",
         margin: `0 !important`,
       }}

@@ -1,9 +1,45 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import { FaCaretLeft, FaCaretRight } from "../../../../../helpers/icons";
 import SubsectionButton from "../advance-mode-component/SubsectionButton";
 
 const QuizSubsection = (props) => {
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const scrollStep = 50; // Amount to scroll
+
+  const updateArrowStates = () => {
+    const scrollContainer = props?.scrollContainerRef.current;
+    if (scrollContainer) {
+      setCanScrollLeft(scrollContainer.scrollLeft > 0);
+      setCanScrollRight(
+        scrollContainer.scrollLeft + scrollContainer.offsetWidth <
+        scrollContainer.scrollWidth
+      );
+    }
+  };
+
+  const handleScrollLeft = () => {
+    const scrollContainer = props?.scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.scrollBy({
+        left: -scrollStep,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Scroll right
+  const handleScrollRight = () => {
+    const scrollContainer = props?.scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.scrollBy({
+        left: scrollStep,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <Box
@@ -11,6 +47,7 @@ const QuizSubsection = (props) => {
       sx={{
         flex: 0,
         display: "flex",
+        alignItems: "center",
         borderTop: "1px solid",
         borderBottom: "1px solid",
         borderColor: props?.colorCode?.subsection_border,
@@ -20,26 +57,39 @@ const QuizSubsection = (props) => {
       <Box>
         <IconButton
           size="small"
-          disabled
           sx={{
             marginBottom: "0px !important",
           }}
+          onClick={handleScrollLeft}
+          disabled={!canScrollLeft}
         >
           <FaCaretLeft />
         </IconButton>
       </Box>
-      {props?.watch("subjects")?.length > 0 &&
-        props
-          ?.watch("subjects")
-          ?.map((s, s_index) => (
-            <SubsectionButton
-              key={s_index}
-              s_index={s_index}
-              active={s?.selected}
-              {...props}
-              {...s}
-            />
-          ))}
+      <Box
+        ref={props?.scrollContainerRef}
+        onScroll={updateArrowStates}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          overflowX: "auto",
+          width: "100%",
+          whiteSpace: "nowrap",
+          scrollBehavior: "smooth",
+        }}>
+        {props?.watch("subjects")?.length > 0 &&
+          props
+            ?.watch("subjects")
+            ?.map((s, s_index) => (
+              <SubsectionButton
+                key={s_index}
+                s_index={s_index}
+                active={s?.selected}
+                {...props}
+                {...s}
+              />
+            ))}
+      </Box>
       <Box
         sx={{
           marginLeft: "auto",
@@ -47,7 +97,8 @@ const QuizSubsection = (props) => {
       >
         <IconButton
           size="small"
-          disabled
+          onClick={handleScrollRight}
+          disabled={!canScrollRight}
           sx={{
             marginBottom: "0px !important",
           }}

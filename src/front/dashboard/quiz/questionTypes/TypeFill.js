@@ -71,14 +71,12 @@ const TypeFill = (props) => {
   return (
     <Box
       sx={{
-        width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
+        width: "auto",
         backgroundColor:
-          props?.watch("mode") !== "advance_mode"
-            ? props?.watch(`questions.${props?.index}.check`)
-              ? props?.watch(`questions.${props?.index}.result.correct_count`)
-                ? (theme) => theme.palette.success.light
-                : (theme) => theme.palette.error.light
-              : ""
+          props?.watch(`questions.${props?.index}.check`)
+            ? props?.watch(`questions.${props?.index}.result.correct_count`)
+              ? (theme) => theme.palette.success.light
+              : (theme) => theme.palette.error.light
             : "",
         border:
           props?.watch("mode") !== "advance_mode"
@@ -120,6 +118,11 @@ const TypeFill = (props) => {
                       ".MuiInputBase-inputSizeSmall": {
                         padding: "0px 3px",
                       },
+                    }}
+                    inputProps={{
+                      sx: {
+                        height: "1.4375em !important",
+                      }
                     }}
                     value={
                       props?.answer_data?.[props?.type]?.correctOption?.[i]
@@ -198,6 +201,11 @@ const TypeFill = (props) => {
                           ".MuiInputBase-inputSizeSmall": {
                             padding: "0px 3px",
                           },
+                        }}
+                        inputProps={{
+                          sx: {
+                            height: "1.4375em !important",
+                          }
                         }}
                         value={getAnswerData(found[j])}
                         disabled

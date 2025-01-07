@@ -54,10 +54,12 @@ const SubsectionButton = (props) => {
   return (
     <Box>
       <Button
+        ref={(el) => (props.subjectRefs.current[props?.s_index] = el)}
         variant="contained"
         size="small"
         onClick={handleSubjectChange}
         sx={{
+          width: "max-content",
           borderRadius: 0,
           boxShadow: "none",
           marginBottom: "0px !important",
@@ -91,28 +93,20 @@ const SubsectionButton = (props) => {
         aria-owns="basic-menu"
         aria-haspopup="true"
         endIcon={
-          <TiInfoLarge onMouseEnter={handleClick} onMouseLeave={handleClose} />
-        }
-      >
-        {/* {
-          props?.watch("optional_subject") && props?.optional &&
-          <FormControlLabel
-            control={
-              <Checkbox 
-                checked={props?.optional_checked}
-                size="small"
-                onClick={(e) => e.stopPropagation()}
-                sx={{
-                  padding: 0
-                }}
-              />
-            }
-            sx={{
-              marginLeft: 0,
-              marginRight: 2
+          <TiInfoLarge 
+            onMouseEnter={handleClick} 
+            onMouseLeave={handleClose} 
+            onClick={(e) => {
+              e?.stopPropagation();
+              if(anchorEl === null){
+                handleClick(e);
+              }else{
+                handleClose(e);
+              }
             }}
           />
-        } */}
+        }
+      >
         {props?.subject_name}
       </Button>
       <SectionPopover
