@@ -59,6 +59,14 @@ const QuizSubsection = (props) => {
           size="small"
           sx={{
             marginBottom: "0px !important",
+            ":hover": {
+              color: "inherit !important"
+            },
+            ":focus": {
+              color: "inherit !important",
+              backgroundColor: "inherit !important",
+              borderColor: "inherit !important",
+            }
           }}
           onClick={handleScrollLeft}
           disabled={!canScrollLeft}
@@ -101,6 +109,14 @@ const QuizSubsection = (props) => {
           disabled={!canScrollRight}
           sx={{
             marginBottom: "0px !important",
+            ":hover": {
+              color: "inherit !important"
+            },
+            ":focus": {
+              color: "inherit !important",
+              backgroundColor: "inherit !important",
+              borderColor: "inherit !important",
+            }
           }}
         >
           <FaCaretRight />

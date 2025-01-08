@@ -17,7 +17,7 @@ const TypeFill = (props) => {
   const handleChange = (index, e) => {
     props?.setValue(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption.${index}.yourAnswer`,
-      e.target.value.trim(),
+      e.target.value,
       { shouldDirty: true }
     );
 
@@ -132,6 +132,11 @@ const TypeFill = (props) => {
                       props?.watch("view_answer") ||
                       props?.watch(`questions.${props?.index}.check`)
                     }
+                    onKeyPress={(e) => {
+                      if(e?.key === "Enter"){
+                        e?.target?.blur();
+                      }
+                    }}
                     onChange={handleChange.bind(this, i++)}
                   />
                 );

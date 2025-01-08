@@ -137,9 +137,9 @@ const QuizButtonOptions = (props) => {
 
   const [lastModel, setLastModel] = React.useState(false);
 
-  const handleSubjectScroll = (s_index = 0) => {
+  const handleSubjectScroll = (subjectIndex = 0, isMovingForward = false) => {
     const scrollContainer = props.scrollContainerRef.current;
-    const subject = props?.subjectRefs.current[s_index];
+    const subject = props?.subjectRefs.current[subjectIndex];
 
     if (scrollContainer && subject) {
       const containerRect = scrollContainer.getBoundingClientRect();
@@ -151,9 +151,15 @@ const QuizButtonOptions = (props) => {
         subjectRect.right <= containerRect.right;
 
       if (!isVisible) {
+        let scrollAmount;
+        if (isMovingForward) {
+          scrollAmount = subjectRect.right - containerRect.right;
+        } else {
+          scrollAmount = subjectRect.left - containerRect.left;
+        }
         // Scroll the container to bring the subject into view
         scrollContainer.scrollBy({
-          left: subjectRect.left - containerRect.left,
+          left: scrollAmount,
           behavior: "smooth",
         });
       }
@@ -179,7 +185,7 @@ const QuizButtonOptions = (props) => {
               return s;
             })
           );
-          handleSubjectScroll(props?.s_index + 1);
+          handleSubjectScroll(props?.s_index + 1, true);
           let i = 0;
           const subject_id = props
             ?.watch("subjects")
@@ -270,15 +276,12 @@ const QuizButtonOptions = (props) => {
       position="sticky"
       sx={{
         flex: 0,
-        // top: "auto",
         bottom: 0,
         left: 0,
         right: "auto",
         backgroundColor: props?.colorCode?.button_option_background,
-        // width: props?.isOpen ? `calc(100% - ${props?.sidebarWidth}px)` : "100%",
         width: "100%",
         border: `1px solid ${props?.colorCode?.button_option_border}`,
-        // margin: "1px",
       }}
       id={`acadlix_quiz_button_options_${props?.question?.question_id}`}
     >

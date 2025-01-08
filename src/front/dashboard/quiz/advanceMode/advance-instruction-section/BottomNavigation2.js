@@ -24,12 +24,7 @@ const BottomNavigation2 = (props) => {
     }
   };
 
-  const handleReadyToBegin = () => {
-    if(props?.watch("selected_language_id") === ''){
-      alert("Please select the default language to procced further");
-      return;
-    }
-    // Handle full screen
+  const handleFullScreen = () => {
     if (document.documentElement.requestFullscreen) {
       // Prompt the user to click to enable fullscreen
       document.documentElement.requestFullscreen().catch((err) => {
@@ -38,6 +33,15 @@ const BottomNavigation2 = (props) => {
     } else {
       console.warn("Fullscreen API is not supported by this browser.");
     }
+  }
+
+  const handleReadyToBegin = () => {
+    if(props?.watch("selected_language_id") === ''){
+      alert("Please select the default language to procced further");
+      return;
+    }
+    // Handle full screen
+    handleFullScreen();
     props?.setValue("view_instruction2", false, { shouldDirty: true });
     props?.setValue("view_question", true, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });

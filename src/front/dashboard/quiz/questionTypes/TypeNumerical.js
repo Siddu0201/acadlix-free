@@ -94,6 +94,11 @@ const TypeNumerical = (props) => {
               MozAppearance: "textfield",
             },
           }}
+          onKeyPress={(e) => {
+            if(e?.key === "Enter"){
+              e?.target?.blur();
+            }
+          }}
           onChange={handleChange}
           value={props?.answer_data?.[props?.type]?.yourAnswer}
         />

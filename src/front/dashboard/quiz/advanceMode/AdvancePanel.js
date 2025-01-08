@@ -10,16 +10,18 @@ import QuizLanguage from "./advance-mode-section/QuizLanguage";
 import QuizQuestionPanel from "./advance-mode-section/QuizQuestionPanel";
 import PerQuestionQuizTimer from "./advance-mode-section/PerQuestionQuizTimer";
 import SubjectWiseTiming from "./advance-mode-section/SubjectWiseTiming";
+import FullScreenModel from "./advance-mode-section/model/FullScreenModel";
 
 const AdvancePanel = (props) => {
   const scrollContainerRef = useRef(null); 
   const subjectRefs = useRef([]);
   return (
     <Box sx={{
-      height: acadlixOptions?.is_admin_bar_showing ? "calc(100vh - 32px)" : "100vh",
+      height: "100%",
       display: "flex",
       flexDirection: "column",
     }}>
+      <FullScreenModel {...props} />
       <QuizLogoAndTitle {...props} />
       <QuizTitleAndInstruction {...props} />
       <QuizSidebar {...props} />
