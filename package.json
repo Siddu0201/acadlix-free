@@ -48,6 +48,7 @@
     "dayjs": "^1.11.10",
     "html-react-parser": "^5.1.10",
     "plyr": "^3.7.8",
+    "prop-types": "^15.8.1",
     "react-countdown": "^2.3.5",
     "react-datepicker": "^4.15.0",
     "react-hook-form": "^7.45.2",

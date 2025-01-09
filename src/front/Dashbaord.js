@@ -10,37 +10,17 @@ import "./AppFront.css";
 import Quiz from "./dashboard/quiz/Quiz.js";
 import Provider from "../provider/Provider.js";
 import CourseContent from "./dashboard/courses/CourseContent.js";
-import { Box, Button, Dialog, styled } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
-import Login from "./checkout/modal/Login.js";
-import Register from "./checkout/modal/Register.js";
-import ForgotPassword from "./checkout/modal/ForgotPassword.js";
+import UserAuth from "../modules/user-auth/UserAuth.js";
 
 const Dashbaord = () => {
 
   const methods = useForm({
     defaultValues: {
       login_modal: false,
-      login_modal_type: "login", // login/register
-      users_can_register: Boolean(Number(acadlixOptions?.users_can_register)),
     }
   });
-
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-    "& .MuiPaper-root": {
-      width: "100%",
-    },
-  }));
-
-  const handleClose = () => {
-    methods?.setValue("login_modal", false, { shouldDirty: true });
-  };
 
   if (acadlixOptions?.user?.ID === undefined) {
     useEffect(() => {
@@ -55,28 +35,13 @@ const Dashbaord = () => {
           alignItems: "center",
           padding: 2
         }}>
-          <BootstrapDialog
-            open={methods?.watch("login_modal")}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            maxWidth="xs"
-          >
-            {methods?.watch("login_modal_type") === "login" && (
-              <Login {...methods} handleClose={handleClose} />
-            )
-            }
-            {methods?.watch("login_modal_type") === "register" &&
-              (
-                <Register {...methods} handleClose={handleClose} />
-              )}
-            {
-              methods?.watch("login_modal_type") === "forgot_password" &&
-              (
-                <ForgotPassword {...methods} handleClose={handleClose} />
-              )
-            }
-          </BootstrapDialog>
+          <UserAuth
+            login_modal={methods?.watch("login_modal")}
+            users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
+            ajax_url={acadlixOptions?.ajax_url}
+            nonce={acadlixOptions?.nonce}
+            handleClose={() => methods?.setValue("login_modal", false)}
+          />
           <h3>{`Please login: `}
             <Button
               variant="contained"

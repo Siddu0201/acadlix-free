@@ -4,32 +4,33 @@ import Plyr from "plyr";
 import parse from "html-react-parser";
 import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "../../helpers/icons";
 import { convertTime } from "../../helpers/util";
+import PropTypes from "prop-types";
 
 const VideoPlayer = ({
-    src = '',
-    thumbnail = '',
-    videoType = '',
-    hours = 0,
-    minutes = 0,
-    seconds = 0,
-    controls = [],
-    settings = [],
-    keyboard = {},
-    quality = {},
-    youtube = {},
-    vimeo = {},
-    onUpdateDuration = () => { },
-    isFirst = false,
-    isLast = false,
-    hasNext = false,
-    nextTitle = '',
-    hasPrev = false,
-    previousTitle = '',
-    onClickNext = () => { },
-    onClickPrevious = () => { },
-    hasExternalFullscreen = false,
-    onClickFullscreen = () => { },
-    onEnded = () => { },
+    src= '',
+    thumbnail= '',
+    videoType= '',
+    hours= 0,
+    minutes= 0,
+    seconds= 0,
+    controls= [],
+    settings= [],
+    keyboard= {},
+    quality= {},
+    youtube= {},
+    vimeo= {},
+    onUpdateDuration= null,
+    isFirst= false,
+    isLast= false,
+    hasNext= false,
+    nextTitle= '',
+    hasPrev= false,
+    previousTitle= '',
+    onClickNext= null,
+    onClickPrevious= null,
+    hasExternalFullscreen= false,
+    onClickFullscreen= null,
+    onEnded= null,
     ...props
 }) => {
     const playerRef = useRef(null);
@@ -92,7 +93,7 @@ const VideoPlayer = ({
                     currentMinutes !== convertedTime?.minutes ||
                     currentSeconds !== convertedTime?.seconds
                 ) {
-                    if (onUpdateDuration && typeof onUpdateDuration === "function") {
+                    if (onUpdateDuration) {
                         onUpdateDuration(convertedTime);
                     }
                 }
@@ -102,7 +103,7 @@ const VideoPlayer = ({
 
         const fetchVimeoDuration = (plyrInstance) => {
             const vimeoPlayer = plyrInstance.embed;
-            if (vimeoPlayer && typeof vimeoPlayer.getDuration === "function") {
+            if (vimeoPlayer) {
                 vimeoPlayer.getDuration().then((duration) => {
                     updateDuration(duration);
                 });
@@ -125,7 +126,7 @@ const VideoPlayer = ({
             }
 
             previousButton.addEventListener("click", () => {
-                if (hasPrev && onClickPrevious && typeof onClickPrevious === "function") {
+                if (hasPrev && onClickPrevious) {
                     onClickPrevious();
                 }
             });
@@ -146,14 +147,14 @@ const VideoPlayer = ({
             }
 
             nextButton.addEventListener("click", () => {
-                if (hasNext && onClickNext && typeof onClickNext === "function") {
+                if (hasNext && onClickNext) {
                     onClickNext();
                 }
             });
         };
 
         const handleFullScreen = () => {
-            if (hasExternalFullscreen && onClickFullscreen && typeof onClickFullscreen === "function") {
+            if (hasExternalFullscreen && onClickFullscreen) {
                 onClickFullscreen();
                 addFullscreenButton();
             }
@@ -225,7 +226,7 @@ const VideoPlayer = ({
         };
 
         const handleEnded = () => {
-            if (onEnded && typeof onEnded === "function") {
+            if (onEnded) {
                 onEnded();
             }
         };
@@ -310,6 +311,33 @@ const VideoPlayer = ({
     };
 
     return <div>{renderContent()}</div>;
+};
+
+VideoPlayer.prototype = {
+    src: PropTypes.string,
+    thumbnail: PropTypes.string,
+    videoType: PropTypes.string,
+    hours: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    minutes: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    seconds: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    controls: PropTypes.array,
+    settings: PropTypes.array,
+    keyboard: PropTypes.object,
+    quality: PropTypes.object,
+    youtube: PropTypes.object,
+    vimeo: PropTypes.object,
+    onUpdateDuration: PropTypes.func,
+    isFirst: PropTypes.bool,
+    isLast: PropTypes.bool,
+    hasNext: PropTypes.bool,
+    nextTitle: PropTypes.string,
+    hasPrev: PropTypes.bool,
+    previousTitle: PropTypes.string,
+    onClickNext: PropTypes.func,
+    onClickPrevious: PropTypes.func,
+    hasExternalFullscreen: PropTypes.bool,
+    onClickFullscreen: PropTypes.func,
+    onEnded: PropTypes.func,
 };
 
 export default VideoPlayer;

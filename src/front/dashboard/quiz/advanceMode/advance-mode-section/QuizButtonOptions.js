@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Toolbar } from "@mui/material";
 import React from "react";
 import {
   arrayRandomize,
@@ -7,8 +7,6 @@ import {
 import LastQuestionModel from "./model/LastQuestionModel";
 
 const QuizButtonOptions = (props) => {
-  const them = useTheme();
-  const isMobile = useMediaQuery(them.breakpoints.down("md"));
   const currentIndex = props
     ?.watch("questions")
     ?.findIndex((q) => q?.question_id === props?.question?.question_id);
@@ -356,7 +354,7 @@ const QuizButtonOptions = (props) => {
               }}
             >
               {
-                isMobile ?
+                !props?.isDesktop ?
                   'Review & Next' :
                   'Mark for Review & Next'
               }
@@ -396,7 +394,7 @@ const QuizButtonOptions = (props) => {
             }}
           >
             {
-              isMobile ?
+              !props?.isDesktop ?
                 'Clear' :
                 'Clear Response'
             }

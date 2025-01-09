@@ -43,7 +43,7 @@ class Ajax
         if (is_wp_error($user)) {
             wp_send_json_error(['message' => $user->get_error_message(), 'error_code' => $user->get_error_code()]);
         } else {
-            wp_send_json_success(['message' => 'Login successful']);
+            wp_send_json_success(['user' => $user, 'message' => 'Login successful']);
         }
         wp_die();
     }
@@ -81,7 +81,7 @@ class Ajax
             if (is_wp_error($user)) {
                 wp_send_json_error(['message' => $user->get_error_message()]);
             } else {
-                wp_send_json_success(['message' => 'Registration and login successful']);
+                wp_send_json_success(['user' => $user, 'message' => 'Registration and login successful']);
             }
         }
         wp_die();

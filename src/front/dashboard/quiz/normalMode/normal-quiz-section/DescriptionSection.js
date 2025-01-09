@@ -3,9 +3,9 @@ import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 import { PostCheckPrerequisite } from "../../../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
-import LoginModel from "./LoginModel";
 import { dateI18n, format } from "@wordpress/date"
 import { strtotime } from "../../../../../helpers/util";
+import UserAuth from "../../../../../modules/user-auth/UserAuth";
 
 const DescriptionSection = (props) => {
   const current_date = strtotime(dateI18n(acadlixOptions?.date_time_format));
@@ -131,6 +131,26 @@ const DescriptionSection = (props) => {
     }
   };
 
+  const handleUserLogin = (data) => {
+    if (data?.user?.data) {
+      props?.setValue("user_id", Number(data?.user?.data?.ID), {
+        shouldDirty: true,
+      });
+      props?.setValue("name", data?.user?.data?.display_name, {
+        shouldDirty: true,
+      });
+      props?.setValue("email", data?.user?.data?.user_email, {
+        shouldDirty: true,
+      });
+      props?.setValue("login_modal", false, { shouldDirty: true });
+      if (props?.watch("prerequisite") || props?.watch("per_user_allowed_attempt") > 0) {
+        handleStartWithPrerequisite();
+      } else {
+        handleStart();
+      }
+    }
+  }
+
   return (
     <Box>
       {!(props?.watch("hide_quiz_title") || props?.hide_title) && (
@@ -163,7 +183,7 @@ const DescriptionSection = (props) => {
             props?.watch("login_register_type") == "at_start_of_quiz" &&
             props?.watch("user_id") == 0
           ) {
-            props?.setValue("login_model", true, { shouldDirty: true });
+            props?.setValue("login_modal", true, { shouldDirty: true });
           } else {
             if (
               props?.watch("prerequisite") ||
@@ -179,10 +199,14 @@ const DescriptionSection = (props) => {
       >
         {checkPrerequisite?.isPending ? "Loading..." : "Start Quiz"}
       </CustomButton>
-      <LoginModel
-        {...props}
-        handleStart={handleStart}
-        handleStartWithPrerequisite={handleStartWithPrerequisite}
+      <UserAuth
+        login_modal={props?.watch("login_modal")}
+        users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
+        ajax_url={acadlixOptions?.ajax_url}
+        nonce={acadlixOptions?.nonce}
+        handleClose={() => props?.setValue("login_modal", false)}
+        onSuccessLogin={handleUserLogin}
+        onSuccessRegister={handleUserLogin}
       />
       {props?.watch("prerequisite_error_msg") && (
         <Box

@@ -18,13 +18,13 @@ const VideoUpload = ({
   xs = 12,
   sm = 12,
   video = {},
-  onUpdate = () => {},
-  onTypeChange = () => {},
-  onVideoLinkDataChange = () => {},
-  onMediaUpload = () => {},
-  onThumbnailUpload = () => {},
-  onRemoveMedia = () => {},
-  onRemoveThumbnail = () => {},
+  onUpdate = null,
+  onTypeChange = null,
+  onVideoLinkDataChange = null,
+  onMediaUpload = null,
+  onThumbnailUpload = null,
+  onRemoveMedia = null,
+  onRemoveThumbnail = null,
 }) => {
   const methods = useForm({
     defaultValues: {
@@ -42,7 +42,7 @@ const VideoUpload = ({
   });
 
   const handleOnUpdate = () => {
-    if (onUpdate && typeof onUpdate === "function") {
+    if (onUpdate) {
       onUpdate(methods?.watch());
     }
   };
@@ -50,7 +50,7 @@ const VideoUpload = ({
   const handleTypeChange = (e) => {
     methods.setValue("video_type", e?.target?.value, { shouldDirty: true });
 
-    if (onTypeChange && typeof onTypeChange === "function") {
+    if (onTypeChange) {
       onTypeChange(e);
     }
 
@@ -60,7 +60,7 @@ const VideoUpload = ({
   const handleVideoDataChange = (type = "", data = "") => {
     methods.setValue(`video_data.${type}`, data, { shouldDirty: true });
 
-    if (onVideoLinkDataChange && typeof onVideoLinkDataChange === "function") {
+    if (onVideoLinkDataChange) {
       onVideoLinkDataChange(type, data);
     }
 
@@ -71,7 +71,7 @@ const VideoUpload = ({
     if (media?.type === "video") {
       handleVideoDataChange("html_5", media?.url ?? "");
 
-      if (onMediaUpload && typeof onMediaUpload === "function") {
+      if (onMediaUpload) {
         onMediaUpload(media);
       }
     } else {
@@ -83,7 +83,7 @@ const VideoUpload = ({
     if (media?.type === "image") {
       methods?.setValue("video_thumbnail", media?.url, { shouldDirty: true });
 
-      if (onThumbnailUpload && typeof onThumbnailUpload === "function") {
+      if (onThumbnailUpload) {
         onThumbnailUpload(media);
       }
 
@@ -96,7 +96,7 @@ const VideoUpload = ({
   const handleRemoveMedia = () => {
     handleVideoDataChange("html_5", "");
 
-    if (onRemoveMedia && typeof onRemoveMedia === "function") {
+    if (onRemoveMedia) {
       onRemoveMedia();
     }
   };
@@ -104,7 +104,7 @@ const VideoUpload = ({
   const handleRemoveThumbnail = () => {
     methods?.setValue("video_thumbnail", "", { shouldDirty: true });
     handleOnUpdate();
-    if (onRemoveThumbnail && typeof onRemoveThumbnail === "function") {
+    if (onRemoveThumbnail) {
       onRemoveThumbnail();
     }
   };
@@ -326,6 +326,19 @@ const VideoUpload = ({
       )}
     </>
   );
+};
+
+VideoUpload.propTypes = {
+  xs: PropTypes.number,
+  sm: PropTypes.number,
+  video: PropTypes.object,
+  onUpdate: PropTypes.func,
+  onTypeChange: PropTypes.func,
+  onVideoLinkDataChange: PropTypes.func,
+  onMediaUpload: PropTypes.func,
+  onThumbnailUpload: PropTypes.func,
+  onRemoveMedia: PropTypes.func,
+  onRemoveThumbnail: PropTypes.func,
 };
 
 export default VideoUpload;

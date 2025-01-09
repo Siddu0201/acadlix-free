@@ -8,17 +8,15 @@ import {
   PostFreeCheckout,
   PostVerifyRazorpayPayment,
 } from "../../requests/front/FrontCheckoutRequest";
-import { Box, CircularProgress, Dialog, Grid, Link, styled, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Link, Typography } from "@mui/material";
 import BillingDetail from "./BillingDetail";
 import PaymentMethod from "./PaymentMethod";
 import OrderDetail from "./OrderDetail";
 import OrderSummary from "./OrderSummary";
 import { useForm } from "react-hook-form";
 import parse from "html-react-parser";
-import Login from "./modal/Login";
 import toast from "react-hot-toast";
-import Register from "./modal/Register";
-import ForgotPassword from "./modal/ForgotPassword";
+import UserAuth from "../../modules/user-auth/UserAuth";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -31,7 +29,6 @@ const Checkout = () => {
       is_checkout_locked: false,
       is_checkout_loading: false,
       login_modal: false,
-      login_modal_type: "login", // login/register
       billing_info: {
         first_name: getUserMetaValue("first_name") ?? "",
         last_name: getUserMetaValue("last_name") ?? "",
@@ -48,7 +45,6 @@ const Checkout = () => {
       user_id: acadlixOptions?.user_id,
       is_user_logged_in: acadlixOptions?.user_id > 0 ? true : false,
       cart_token: acadlixOptions?.cart_token,
-      users_can_register: Boolean(Number(acadlixOptions?.users_can_register)),
       cart: [],
       order_items: [],
       total_amount: 0,
@@ -395,23 +391,7 @@ const Checkout = () => {
       // handle free checkout
       handleFreeCheckout(data);
     }
-  };
-
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-    "& .MuiPaper-root": {
-      width: "100%",
-    },
-  }));
-
-  const handleClose = () => {
-    methods?.setValue("login_modal", false, { shouldDirty: true });
-  };
+  };  
 
   if (getCart?.isFetching) {
     return (
@@ -439,28 +419,13 @@ const Checkout = () => {
         marginY: 2,
       }}
     >
-      <BootstrapDialog
-        open={methods?.watch("login_modal")}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="xs"
-      >
-        {methods?.watch("login_modal_type") === "login" && (
-          <Login {...methods} handleClose={handleClose} />
-        ) 
-        }
-        { methods?.watch("login_modal_type") === "register" &&
-        (
-          <Register {...methods} handleClose={handleClose} />
-        )}
-        {
-          methods?.watch("login_modal_type") === "forgot_password" &&
-          (
-            <ForgotPassword {...methods} handleClose={handleClose} />
-          )
-        }
-      </BootstrapDialog>
+      <UserAuth
+        login_modal={methods?.watch("login_modal")}
+        users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
+        ajax_url={acadlixOptions?.ajax_url}
+        nonce={acadlixOptions?.nonce}
+        handleClose={() => methods?.setValue("login_modal", false)}
+      />
       {
         methods?.watch("cart")?.length > 0 ?
           <Grid container spacing={4}>

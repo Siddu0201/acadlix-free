@@ -1,5 +1,5 @@
 import { Alert, Box } from "@mui/material";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import NormalQuizMode from "./NormalQuizMode";
 import AdvanceQuizMode from "./AdvanceQuizMode";
 import { useForm } from "react-hook-form";
@@ -14,14 +14,11 @@ import {
 } from "../../../helpers/util";
 import { PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
-import LoginModel from "./normalMode/normal-quiz-section/LoginModel";
 
 const QuizContent = (props) => {
   const methods = useForm({
     defaultValues: {
-      login_model: false,
-      signin: true,
-      signup: false,
+      login_modal: false,
       start: props?.start ?? false,
       view_instruction1: props?.start ?? false,
       view_instruction2: false,
@@ -539,7 +536,6 @@ const QuizContent = (props) => {
   return (
     <Box>
       {checkMode()}
-      <LoginModel {...methods} />
     </Box>
   );
 };

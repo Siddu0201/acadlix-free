@@ -1,0 +1,284 @@
+import {
+  Alert,
+  Box,
+  Checkbox,
+  DialogContent,
+  Divider,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Link,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
+import axios from "axios";
+import { LoadingButton } from "@mui/lab";
+import { RawHTML } from "@wordpress/element";
+import CustomTextField from "../../../components/CustomTextField";
+
+const Login = (props) => {
+  const theme = useTheme();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const methods = useForm({
+    defaultValues: {
+      username: "",
+      password: "",
+      rememberme: false,
+      error: "",
+      error_code: "",
+    },
+  });
+
+  const handleSubmit = (data) => {
+    methods?.setValue("error", "", { shouldDirty: true });
+    setIsLoading(true);
+    axios
+      .post(
+        props?.ajax_url,
+        new URLSearchParams({
+          action: "acadlix_login",
+          nonce: props?.nonce,
+          ...data,
+        })
+      )
+      .then((res) => {
+        setIsLoading(false);
+        if (res?.data?.success) {
+          if (props?.onSuccessLogin) {
+            props?.onSuccessLogin(res?.data?.data);
+          } else {
+            window.location.reload();
+          }
+        } else {
+          methods?.setValue("error_code", res?.data?.data?.error_code ?? "", { shouldDirty: true });
+          methods?.setValue("error", res?.data?.data?.message, { shouldDirty: true });
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        methods?.setValue("error", "Opps! Something went wrong.", { shouldDirty: true });
+        console.error(err);
+      });
+  };
+
+  return (
+    <>
+      <IconButton
+        aria-label="close"
+        onClick={props?.handleClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+          boxShadow: "none",
+        }}
+      >
+        <IoClose style={{
+          fontSize: 20
+        }} />
+      </IconButton>
+      <DialogContent sx={{
+        paddingX: {
+          xs: `${theme.spacing(4)} !important`,
+          sm: `${theme.spacing(8)} !important`,
+        },
+        paddingY: `${theme.spacing(8)} !important`,
+      }}>
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 4
+        }}>
+          <Box>
+            <Typography variant="h5">Welcome back</Typography>
+          </Box>
+          <Box>
+            <Typography variant="body2">Please enter your details to sign in.</Typography>
+          </Box>
+          {
+            methods?.watch("error") &&
+            <Alert severity="error" sx={{
+              alignItems: "center"
+            }}>
+              {
+                methods?.watch("error_code") && methods?.watch("error_code") === "incorrect_password" ?
+                  <>
+                    <strong>Error:</strong> The password you entered for the username <strong>siddu</strong> is incorrect.
+                    <Link
+                      href="#"
+                      onClick={(e) => {
+                        e?.preventDefault();
+                        props?.setValue("login_modal_type", "forgot-password", {
+                          shouldDirty: true,
+                        });
+                      }}
+                    >
+                      Lost your password?
+                    </Link>
+                  </>
+                  :
+                  <RawHTML>{methods?.watch("error")}</RawHTML>
+              }
+            </Alert>
+          }
+        </Box>
+        <Divider sx={{
+          marginBottom: 4
+        }} />
+        <form onSubmit={methods?.handleSubmit(handleSubmit)}>
+          <Grid container gap={3}>
+            <Grid item xs={12} lg={12}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  paddingY: 1,
+                }}
+              >
+                Username/Email <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <CustomTextField
+                {...methods?.register("username", { required: true })}
+                fullWidth
+                required
+                autoComplete="username"
+                autoCapitalize="off"
+                size="small"
+                type="text"
+                name="username"
+                placeholder="Username/email"
+                value={methods?.watch("username")}
+                onChange={(e) => {
+                  methods?.setValue("username", e?.target?.value, {
+                    shouldDirty: true,
+                  });
+                }}
+                error={Boolean(methods?.formState?.errors?.username)}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  paddingY: 1,
+                }}
+              >
+                Password <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <CustomTextField
+                {...methods?.register("password", { required: true })}
+                fullWidth
+                required
+                autoComplete="password"
+                autoCapitalize="off"
+                size="small"
+                name="password"
+                placeholder="Password"
+                value={methods?.watch("password")}
+                onChange={(e) => {
+                  methods?.setValue("password", e?.target?.value, {
+                    shouldDirty: true,
+                  });
+                }}
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword((show) => !show)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onMouseUp={(e) => e?.preventDefault()}
+                        edge="end"
+                        sx={{
+                          boxShadow: "none",
+                        }}
+                      >
+                        {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={Boolean(methods?.formState?.errors?.password)}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <Box sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}>
+                <FormControlLabel
+                  label="Remember me"
+                  control={
+                  <Checkbox
+                    checked={methods?.watch("rememberme")}
+                    onClick={() => {
+                      methods?.setValue("rememberme", !methods?.watch("rememberme"), { shouldDirty: true });
+                    }} 
+                    />
+                  }
+                />
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e?.preventDefault();
+                    props?.setValue("login_modal_type", "forgot-password", {
+                      shouldDirty: true,
+                    });
+                  }}
+                >
+                  Lost your password?
+                </Link>
+              </Box>
+            </Grid>
+            <Grid item xs={12} lg={12}>
+              <LoadingButton
+                loading={isLoading}
+                fullWidth
+                variant="contained"
+                type="submit"
+              >
+                Login
+              </LoadingButton>
+            </Grid>
+            {
+              props?.watch("users_can_register") &&
+              <Grid item xs={12} lg={12} sx={{
+                display: "flex",
+                justifyContent: "center"
+              }}>
+                <Typography variant="body2">
+                  Don't have account yet? {" "}
+                  <Link
+                    href="#"
+                    onClick={(e) => {
+                      e?.preventDefault();
+                      props?.setValue("login_modal_type", "register", {
+                        shouldDirty: true,
+                      });
+                    }}
+                  >
+                    Register
+                  </Link>
+                </Typography>
+              </Grid>
+            }
+          </Grid>
+        </form>
+      </DialogContent>
+    </>
+  );
+};
+
+export default Login;
