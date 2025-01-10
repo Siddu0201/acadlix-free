@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { MediaUpload } from "@wordpress/media-utils";
 import { FaCloudUploadAlt, FaTrash, IoClose } from "../../helpers/icons";
 import CustomTextField from "../../components/CustomTextField";
+import PropTypes from "prop-types";
 
 const VideoUpload = ({
   xs = 12,
