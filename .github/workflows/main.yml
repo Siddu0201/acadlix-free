@@ -32,7 +32,8 @@ jobs:
                               -x ".gitignore" \
                               -x ".git/*" \
                               -x ".github/*" \
-                              -x "src/*"
+                              -x "src/*" \
+                              -x "package-lock.json"
         working-directory: ./
 
       - name: Upload ZIP to server
