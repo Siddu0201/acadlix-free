@@ -30,3 +30,12 @@ define('ACADLIX_ASSETS_IMAGE_URL', ACADLIX_PLUGIN_URL . 'assets/image/');
 const ACADLIX_COURSE_CPT = 'acadlix_course';
 const ACADLIX_COURSE_CATEGORY_TAXONOMY = 'acadlix_course_category';
 const ACADLIX_COURSE_TAG_TAXONOMY = 'acadlix_course_tag';
+
+const ACADLIX_COURSE_SECTION_CPT = 'acadlix_csection';
+
+const ACADLIX_QUIZ_CPT = 'acadlix_quiz';
+const ACADLIX_QUIZ_CATEGORY_TAXONOMY = 'acadlix_quiz_category';
+const ACADLIX_QUIZ_LANGUAGE_TAXONOMY = 'acadlix_quiz_language';
+
+const ACADLIX_LESSON_CPT = 'acadlix_lesson';
+const ACADLIX_PARAGRAPH_CPT = 'acadlix_paragraph';
