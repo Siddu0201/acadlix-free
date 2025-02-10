@@ -12,7 +12,7 @@ const ParagraphContentSection = (props) => {
   const loadPage = () => {
     props?.loadEditor(
       `content_${props?.lang?.language_id}`,
-      `language.${props?.index}.content`
+      `meta.language_data.${props?.index}.content`
     );
   };
 
@@ -53,7 +53,7 @@ const ParagraphContentSection = (props) => {
               >
                 *
               </span>{" "}
-              ({props?.lang?.language_name})
+              ({props?.quiz?.languages?.find((l) => l?.term_id === props?.lang?.language_id)?.name})
             </Typography>
           }
         />
@@ -61,9 +61,9 @@ const ParagraphContentSection = (props) => {
           <Grid container spacing={4}>
             <Grid item xs={12} lg={12}>
               <textarea
-                {...props?.register(`language.${props?.index}.content`, {
+                {...props?.register(`meta.language_data.${props?.index}.content`, {
                   required: {
-                    value: props?.watch(`language.${props?.index}.default`),
+                    value: props?.watch(`meta.language_data.${props?.index}.default`),
                     message: "Content is required",
                   },
                 })}
@@ -71,7 +71,7 @@ const ParagraphContentSection = (props) => {
                 style={{
                   width: "100%",
                 }}
-                value={props?.watch(`language.${props?.index}.content`)}
+                value={props?.watch(`meta.language_data.${props?.index}.content`)}
                 onChange={(e) => {
                   let value = e?.target?.value;
                   if (window.tinymce) {
@@ -80,13 +80,13 @@ const ParagraphContentSection = (props) => {
                       editor.setContent(value || "");
                     }
                   }
-                  props.setValue(`language.${props?.index}.content`, value, {
+                  props.setValue(`meta.language_data.${props?.index}.content`, value, {
                     shouldDirty: true,
                   });
                 }}
               />
               {Boolean(
-                props.formState?.errors?.language?.[props?.index]?.content
+                props.formState?.errors?.meta?.language_data?.[props?.index]?.content
               ) && (
                 <Alert
                   severity="error"
@@ -95,7 +95,7 @@ const ParagraphContentSection = (props) => {
                   }}
                 >
                   {
-                    props.formState.errors?.language?.[props?.index]?.content
+                    props.formState.errors?.meta?.language_data?.[props?.index]?.content
                       ?.message
                   }
                 </Alert>

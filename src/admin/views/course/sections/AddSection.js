@@ -9,8 +9,8 @@ import { PostCreateSection } from "../../../../requests/admin/AdminCourseRequest
 const AddSection = (props) => {
   const methods = useForm({
     defaultValues: {
-      title: "",
-      description: "",
+      post_title: "",
+      post_content: "",
       show: false,
     },
   });
@@ -27,31 +27,32 @@ const AddSection = (props) => {
   const onSubmit = (data) => {
     const newData = {
       ...data,
-      id: props?.watch("id"),
-      logged_in_user_id: props?.watch("logged_in_user_id"),
+      courseId: props?.watch("courseId"),
+      post_author: props?.watch("post_author"),
     };
 
     createMutation?.mutate(newData, {
       onSuccess: (data) => {
+        console.log(data?.data);
         props?.setValue(
           "sections",
           [
             ...props?.watch("sections"),
             {
-              id: data?.data?.section?.id,
-              title: data?.data?.section?.title,
-              description: data?.data?.section?.description,
+              id: data?.data?.course_section?.ID,
+              post_title: data?.data?.course_section?.post_title,
+              post_content: data?.data?.course_section?.post_content,
               show: false,
               open: true,
-              sort: data?.data?.section?.sort,
+              menu_order: data?.data?.course_section?.menu_order,
               contents: [],
             },
           ],
           { shouldDirty: true }
         );
         methods?.reset({
-          title: "",
-          description: "",
+          post_title: "",
+          post_content: "",
           show: false,
         });
       }

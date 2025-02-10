@@ -4,12 +4,27 @@ import {
   Divider,
   FormControlLabel,
   Grid,
+  IconButton,
+  InputAdornment,
   Typography,
 } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
+import { useForm } from "react-hook-form";
+import { MdVisibility, MdVisibilityOff } from "../../../../helpers/icons";
 
 function Payment(props) {
+  const methods = useForm({
+    defaultValues: {
+      showRazorpayClientID: false,
+      showRazorpaySecretKey: false,
+      showPaypalClientID: false,
+      showPaypalSecretKey: false,
+      showPayuMerchentKey: false,
+      showPayuSalt: false,
+    }
+  });
+
   return (
     <Box sx={{ color: "black" }}>
       <Box
@@ -46,7 +61,7 @@ function Payment(props) {
           <CustomTextField
             fullWidth
             size="small"
-            type="text"
+            type={methods?.watch("showRazorpayClientID") ? "text" : "password"}
             label="RazorPay Client ID"
             value={props?.watch("acadlix_razorpay_client_id")}
             onChange={(e) => {
@@ -54,19 +69,55 @@ function Payment(props) {
                 shouldDirty: true,
               });
             }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => methods?.setValue("showRazorpayClientID", !methods?.watch("showRazorpayClientID"))}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseUp={(e) => e?.preventDefault()}
+                    edge="end"
+                    sx={{
+                      boxShadow: "none",
+                    }}
+                  >
+                    {methods?.watch("showRazorpayClientID") ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
         <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
-            type="text"
+            type={methods?.watch("showRazorpaySecretKey") ? "text" : "password"}
             label="RazorPay Secret Key"
             value={props?.watch("acadlix_razorpay_secret_key")}
             onChange={(e) => {
               props?.setValue("acadlix_razorpay_secret_key", e?.target?.value, {
                 shouldDirty: true,
               });
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => methods?.setValue("showRazorpaySecretKey", !methods?.watch("showRazorpaySecretKey"))}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseUp={(e) => e?.preventDefault()}
+                    edge="end"
+                    sx={{
+                      boxShadow: "none",
+                    }}
+                  >
+                    {methods?.watch("showRazorpaySecretKey") ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
         </Grid>
@@ -91,7 +142,7 @@ function Payment(props) {
           <CustomTextField
             fullWidth
             size="small"
-            type="text"
+            type={methods?.watch("showPaypalClientID") ? "text" : "password"}
             label="PayPal Client ID"
             value={props?.watch("acadlix_paypal_client_id")}
             onChange={(e) => {
@@ -99,19 +150,55 @@ function Payment(props) {
                 shouldDirty: true,
               });
             }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => methods?.setValue("showPaypalClientID", !methods?.watch("showPaypalClientID"))}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseUp={(e) => e?.preventDefault()}
+                    edge="end"
+                    sx={{
+                      boxShadow: "none",
+                    }}
+                  >
+                    {methods?.watch("showPaypalClientID") ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
         <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
-            type="text"
+            type={methods?.watch("showPaypalSecretKey") ? "text" : "password"}
             label="PayPal Secret Key"
             value={props?.watch("acadlix_paypal_secret_key")}
             onChange={(e) => {
               props?.setValue("acadlix_paypal_secret_key", e?.target?.value, {
                 shouldDirty: true,
               });
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => methods?.setValue("showPaypalSecretKey", !methods?.watch("showPaypalSecretKey"))}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseUp={(e) => e?.preventDefault()}
+                    edge="end"
+                    sx={{
+                      boxShadow: "none",
+                    }}
+                  >
+                    {methods?.watch("showPaypalSecretKey") ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
         </Grid>
@@ -153,7 +240,7 @@ function Payment(props) {
           <CustomTextField
             fullWidth
             size="small"
-            type="text"
+            type={methods?.watch("showPayuMerchentKey") ? "text" : "password"}
             label="PayU Merchant Key"
             value={props?.watch("acadlix_payu_merchant_key")}
             onChange={(e) => {
@@ -161,13 +248,31 @@ function Payment(props) {
                 shouldDirty: true,
               });
             }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => methods?.setValue("showPayuMerchentKey", !methods?.watch("showPayuMerchentKey"))}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseUp={(e) => e?.preventDefault()}
+                    edge="end"
+                    sx={{
+                      boxShadow: "none",
+                    }}
+                  >
+                    {methods?.watch("showPayuMerchentKey") ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
         <Grid item xs={12} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
-            type="text"
+            type={methods?.watch("showPayuSalt") ? "text" : "password"}
             label="PayU Salt"
             value={props?.watch("acadlix_payu_salt")}
             onChange={(e) => {
@@ -178,6 +283,24 @@ function Payment(props) {
                   shouldDirty: true,
                 }
               );
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => methods?.setValue("showPayuSalt", !methods?.watch("showPayuSalt"))}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseUp={(e) => e?.preventDefault()}
+                    edge="end"
+                    sx={{
+                      boxShadow: "none",
+                    }}
+                  >
+                    {methods?.watch("showPayuSalt") ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
         </Grid>
@@ -200,7 +323,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
+        {/* <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
             label="Offline Payment Method"
@@ -218,7 +341,7 @@ function Payment(props) {
               }
             }}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );

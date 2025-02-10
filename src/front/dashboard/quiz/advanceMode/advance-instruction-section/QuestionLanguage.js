@@ -7,33 +7,17 @@ const QuestionLanguage = (props) => {
     props?.setValue(
       `questions`,
       props?.watch(`questions`)?.map((q) => {
-        let selectedLang = q?.language?.find(
-          (l) => l?.language_id === e?.target?.value
-        );
-        let selectedLangIndex = q?.language?.findIndex(
-          (l) => l?.language_id === e?.target?.value
-        );
-
-        if (selectedLangIndex !== -1 && selectedLang?.question?.length > 0) {
-          q?.language?.map((l, l_index) => {
-            if (l_index === selectedLangIndex) {
+        return {
+          ...q,
+          language: q?.language?.map((l) => {
+            if (l?.language_id === e?.target?.value) {
               l.selected = true;
             } else {
               l.selected = false;
             }
             return l;
-          });
-        } else {
-          q?.language?.map((l) => {
-            if (l?.default) {
-              l.selected = true;
-            } else {
-              l.selected = false;
-            }
-            return l;
-          });
+          })
         }
-        return q;
       })
     );
   };
@@ -93,8 +77,8 @@ const QuestionLanguage = (props) => {
             <MenuItem value=''>--Select--</MenuItem>
             {props?.watch("languages")?.length > 0 &&
               props?.watch("languages")?.map((lang, lang_index) => (
-                <MenuItem key={lang_index} value={lang?.language_id}>
-                  {lang?.language?.language_name}
+                <MenuItem key={lang_index} value={lang?.term_id}>
+                  {lang?.name}
                 </MenuItem>
               ))}
           </Select>

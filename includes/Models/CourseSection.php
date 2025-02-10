@@ -3,29 +3,147 @@
 namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Yuvayana\Acadlix\Helper\CptHelper;
+use Yuvayana\Acadlix\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
 if (!class_exists('CourseSection')) {
     class CourseSection extends Model
     {
-        protected $table = "course_sections";
-
-        protected $fillable = [
-            'course_id',
-            'title',
-            'description',
-            'sort',
+        protected $helper;
+        protected $connection = 'wordpress';
+        protected $table = 'posts'; // Posts table is used for all post types
+        protected $primaryKey = 'ID';
+        protected $with = ['author', 'metas', 'contents'];
+        protected $appends = [
+            'rendered_post_content',
+            'rendered_metas',
         ];
 
-        protected $with = ['contents'];
+        protected static $postType = ACADLIX_COURSE_SECTION_CPT;
 
-        protected $withCount = ['contents'];
+        public function __construct()
+        {
+            $this->helper = new Helper();
+        }
+
+        public function scopeOfCourseSection($query)
+        {
+            return $query->where('post_type', self::$postType);
+        }
+
+        public function getRenderedPostContentAttribute()
+        {
+            return $this->helper->renderShortCode($this->post_content);
+        }
+
+        public function metas()
+        {
+            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
+        }
+
+        public function getRenderedMetasAttribute()
+        {
+            $metas = $this->metas;
+            if (empty($metas)) {
+                return [];
+            }
+            $keyValueArray = [];
+
+            foreach ($metas as $meta) {
+                // Ensure meta_key and meta_value exist in the object
+                if (isset($meta['meta_key'], $meta['meta_value'])) {
+                    $key = $meta['meta_key'];
+                    $value = $meta['meta_value'];
+
+                    // Decode JSON if applicable
+                    if (is_string($value) && $decoded = json_decode($value, true)) {
+                        $value = $decoded;
+                    }
+
+                    $keyValueArray[$key] = $value;
+                }
+            }
+            $renderedMetas = !empty($keyValueArray) && is_array($keyValueArray)
+                ? CptHelper::instance()->acadlix_remome_prefix_meta_keys($keyValueArray, 'course_section')
+                : [];
+
+            return $renderedMetas;
+        }
+
+        public function author()
+        {
+            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+        }
+
+        public static function insertCourseSection(array $data, array $meta = [])
+        {
+            $data = wp_parse_args($data, [
+                'post_title' => '',
+                'post_content' => '',
+                'post_status' => 'publish',
+                'post_type' => self::$postType,
+                'post_author' => 1,
+            ]);
+
+            // Add meta data to the 'meta_input' argument for wp_insert_post.
+            if (!empty($meta)) {
+                $data['meta_input'] = $meta;
+            }
+
+            // Insert the post and return the ID or WP_Error.
+            $postId = wp_insert_post($data);
+
+            return $postId;
+        }
+
+        public static function updateCourseSection(int $postId, array $data = [], array $meta = [])
+        {
+            $data = wp_parse_args($data, [
+                'ID' => $postId,
+            ]);
+
+            // Add meta data to the 'meta_input' argument for wp_update_post.
+            if (!empty($meta)) {
+                $data['meta_input'] = $meta;
+            }
+
+            // Update the post and return the result or WP_Error.
+            $result = wp_update_post($data, true);
+
+            return $result;
+        }
+
+        public static function deleteCourseSection(int $postId)
+        {
+            // Check if post exists
+            $post = get_post($postId);
+            if (!$post || $post->post_type !== self::$postType) {
+                return new \WP_Error('invalid_post', 'Invalid post ID or not a course section post type.');
+            }
+
+            // Delete Course Section Content
+            $courseSectionContents = CourseSectionContent::where('post_parent', $postId)->get();
+            foreach ($courseSectionContents as $courseSectionContent) {
+                CourseSectionContent::deleteCourseSectionContent($courseSectionContent->ID);
+            }
+
+            // Delete post
+            $result = wp_delete_post($postId, true);
+
+            if (!$result) {
+                return new \WP_Error('delete_failed', 'Failed to delete course section.');
+            }
+
+            return true;
+        }
 
         public function contents()
         {
-            return $this->hasMany(CourseSectionContent::class, 'course_section_id', 'id')->orderBy("sort");
+            return $this->hasMany(CourseSectionContent::class, 'post_parent', 'ID')
+                ->ofCourseSectionContent()
+                ->orderBy("menu_order");
         }
-
     }
 }

@@ -26,6 +26,11 @@ use Yuvayana\Acadlix\Controller\CheckoutController;
 use Yuvayana\Acadlix\Controller\DashboardController;
 use Yuvayana\Acadlix\Controller\SingleCourseController;
 use Yuvayana\Acadlix\Controller\ThankyouController;
+use Yuvayana\Acadlix\CPT\CourseSection;
+use Yuvayana\Acadlix\CPT\CourseSectionContent;
+use Yuvayana\Acadlix\CPT\Lesson;
+use Yuvayana\Acadlix\CPT\Paragraph;
+use Yuvayana\Acadlix\CPT\Quiz;
 use Yuvayana\Acadlix\Migrations\Migration;
 use Yuvayana\Acadlix\REST\Api;
 use Yuvayana\Acadlix\Seeder\Seeder;
@@ -74,6 +79,13 @@ if (!class_exists('Acadlix')) {
         {
             // Custom Post type
             Course::instance();
+            CourseSection::instance();
+            CourseSectionContent::instance();
+            
+            Lesson::instance();
+
+            Quiz::instance();
+            Paragraph::instance();
 
             Manager::instance();
             if (is_admin()) {
@@ -105,7 +117,7 @@ if (!class_exists('Acadlix')) {
 
         public static function deactivate()
         {
-            // Migration::removeTable();
+            Migration::removeTable();
         }
 
         public static function uninstall()

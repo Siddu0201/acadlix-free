@@ -1,264 +1,357 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
   CardHeader,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
+  FormControl,
   FormControlLabel,
+  FormLabel,
   Grid,
+  IconButton,
   List,
   ListItem,
   ListItemText,
+  Radio,
+  RadioGroup,
+  styled,
+  TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { memo, useState } from "react";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomSwitch from "../../../../components/CustomSwitch";
-import { FaMinus, FaPlus } from "../../../../helpers/icons";
+import { FaMinus, FaPlus, FaTrash, IoClose } from "../../../../helpers/icons";
+import { LoadingButton } from "@mui/lab";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const Language = (props) => {
-  const [language, setLanguage] = React.useState([
-    ...props?.languages?.map((val) => {
-      return {
-        language_id: val?.id,
-        language_name: val?.language_name,
-        show: props
-          ?.watch("language_data")
-          ?.find((value) => value?.language_id === val?.id)
-          ? false
-          : true,
-      };
-    }),
-  ]);
+  const methods = useForm({
+    defaultValues: {
+      show_modal: false,
+      language_id: null,
+    },
+  });
+  const language_options = props?.languages?.filter((val) =>
+    !props?.watch("languages")?.includes(val?.term_id)
+  );
+
+
+  const handleSaveLanaguage = (copy_default_lanaguge = false) => {
+    // Check and add default langauge
+    if (!props?.watch("meta.default_language_id") && props?.watch("languages")?.length === 0) {
+      props?.setValue("meta.default_language_id", methods?.watch("language_id"), { shouldDirty: true });
+      // Set quiz language data to default language
+      props?.setValue("meta.quiz_language_data.0.language_id", methods?.watch("language_id"), { shouldDirty: true });
+    } else {
+      let newLangData = {
+        language_id: methods?.watch("language_id"),
+        default: false,
+        selected: false,
+        instruction1: "",
+        instruction2: "",
+        term_and_condition_text: "",
+        term_and_condition_warning_text: "",
+      }
+
+      if (copy_default_lanaguge) {
+        // Copy default langauge
+        const defaultLangData = props?.watch("meta.quiz_language_data")?.find(l => l?.default);
+        newLangData = {
+          ...defaultLangData,
+          language_id: methods?.watch("language_id"),
+          default: false,
+          selected: false,
+        };
+      }
+
+      props?.setValue("meta.quiz_language_data",
+        [
+          ...props?.watch("meta.quiz_language_data"),
+          newLangData
+        ], { shouldDirty: true });
+    }
+
+    // Add language
+    props?.setValue("languages", [...props?.watch("languages"), methods?.watch("language_id")], {
+      shouldDirty: true,
+    });
+
+    if (!props?.create) {
+      // add langauge to questions
+    }
+
+    methods?.setValue("language_id", null);
+  }
+
+  const handleAddLanguage = () => {
+    if (!methods?.watch("language_id")) {
+      toast.error("Please select language");
+      return;
+    }
+
+    if (props?.watch("languages")?.length > 0) {
+      methods?.setValue("show_modal", true);
+      return;
+    }
+    handleSaveLanaguage(false);
+  };
+
+  const handleSetDefaultLanguage = (language_id) => {
+    if (!language_id) {
+      toast.error("Please select language");
+      return;
+    }
+
+    if(confirm("Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.")){
+      props?.setValue("meta.default_language_id", language_id, { shouldDirty: true });
+      props?.setValue(
+        "meta.quiz_language_data", 
+        props?.watch("meta.quiz_language_data")?.map(l => {
+          if(l?.language_id === language_id){
+            l.default = true;
+            l.selected = true;
+          }else{
+            l.default = false;
+            l.selected = false;
+          }
+          return l;
+        })
+        , { shouldDirty: true });
+      if(!props?.create){
+        // update default langauge
+      }
+    }
+  }
+
+  const handleRemoveLanguage = (language_id) => {
+    if (!language_id) {
+      toast.error("Please select language");
+      return;
+    }
+
+    if(confirm("Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.")){
+      props?.setValue("languages", props?.watch("languages").filter(l => l !== language_id));
+      props?.setValue("meta quiz_language_data", props?.watch("meta quiz_language_data")?.filter(l => l?.language_id !== language_id), { shouldDirty: true });
+      if(!props?.create){
+        // update default langauge
+      }
+    }
+  }
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+    "& .MuiPaper-root": {
+      width: "100%",
+    },
+  }));
+
+  const handleClose = () => {
+    methods?.setValue("show_modal", false);
+  }
 
   return (
     <Box sx={{ color: "black" }}>
+      <BootstrapDialog
+        open={methods?.watch("show_modal")}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <CopyLanguageModel
+          {...methods}
+          handleClose={handleClose}
+          handleSaveLanaguage={handleSaveLanaguage}
+        />
+      </BootstrapDialog>
       <Grid container>
-        <GridItem1 xs={12} lg={12}>
-          <Typography variant="h6">Language Options</Typography>
-        </GridItem1>
-        <GridItem1 xs={12} lg={12}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props.watch("multi_language")}
-                onChange={(e) => {
-                  props?.setValue("multi_language", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
+        <Grid item xs={12} sm={6} lg={4}>
+          <Grid container>
+            <GridItem1 xs={12} lg={12}>
+              <Typography variant="h6">Language Options</Typography>
+            </GridItem1>
+            <GridItem1 xs={12} lg={12}>
+              <FormControlLabel
+                control={
+                  <CustomSwitch
+                    checked={props.watch("meta.multi_language")}
+                    onChange={(e) => {
+                      props?.setValue("meta.multi_language", e?.target?.checked, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                }
+                label="Multi Language"
+              />
+            </GridItem1>
+
+            <GridItem1
+              xs={12}
+              sm={12}
+              lg={12}
+              sx={{
+                display: props?.watch("meta.multi_language") ? "flex" : "none",
+                gap: 2
+              }}
+            >
+              <Autocomplete
+                size="small"
+                fullWidth
+                value={
+                  methods?.watch("language_id") !== null
+                    ? language_options?.find((val) =>
+                      val?.term_id === methods?.watch("language_id")
+                    )
+                    : null
+                }
+                options={language_options?.length > 0 ? language_options : []}
+                getOptionLabel={(option) => option?.name || ""}
+                isOptionEqualToValue={(option, value) => option?.term_id === value?.term_id}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Select Languages"
+                  />
+                )}
+                onChange={(_, newValue) => {
+                  if (!newValue) {
+                    methods?.setValue("language_id", null);
+                    return;
+                  }
+                  methods?.setValue("language_id", newValue?.term_id);
                 }}
               />
-            }
-            label="Multi Language"
-          />
-        </GridItem1>
-
-        <GridItem1
-          xs={12}
-          lg={12}
-          sx={{
-            display: {
-              xs: props?.watch("multi_language") ? "block" : "none",
-              sm: props?.watch("multi_language") ? "flex" : "none",
-            },
-          }}
-        >
-          <Card
-            sx={{
-              marginX: 2,
-              marginBottom: {
-                xs: 2,
-                md: 0,
-              },
-              width: "350px",
-            }}
-          >
-            <CardHeader
-              title="Language"
-              subheader={`${
-                language?.filter((val) => val?.show === true)?.length
-              } languages.`}
-            />
-            <Divider />
-            <List
-              dense
-              component="div"
-              role="list"
-              sx={{
-                width: 350,
-                height: 280,
-                overflow: "auto",
-              }}
+              <LoadingButton
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={handleAddLanguage}
+              >
+                Add
+              </LoadingButton>
+            </GridItem1>
+            <GridItem1
+              xs={12}
+              sm={12}
+              lg={12}
             >
-              {language?.length > 0 &&
-                language?.map((value, _) => {
-                  const labelId = `transfer-list-all-item-${value?.language_name}-label`;
-                  return (
-                    <ListItem
-                      key={value?.id}
-                      sx={{
-                        display: value?.show ? "" : "none",
-                      }}
-                    >
-                      <ListItemText
-                        id={labelId}
-                        primary={
-                          value?.language_name?.length > 20
-                            ? value?.language_name?.substring(0, 20) + "..."
-                            : value?.language_name
+              <List >
+                {props?.watch("languages").map((value, index) => (
+                  <ListItem
+                    key={index}
+                    disableGutters
+                    secondaryAction={
+                      <React.Fragment>
+                        {
+                          props?.watch("meta.default_language_id") !== value &&
+                          <Box sx={{
+                            display: "flex",
+                            gap: 1
+                          }}>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              size="small"
+                              onClick={handleSetDefaultLanguage.bind(this, value)}
+                            >
+                              Set Default
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              color="error"
+                              size="small"
+                              onClick={handleRemoveLanguage.bind(this, value)}
+                            >
+                              Delete
+                            </Button>
+                          </Box>
                         }
-                      />
-                      <Button
-                        variant="contained"
-                        endIcon={<FaPlus />}
-                        size="medium"
-                        sx={{
-                          ".MuiButton-endIcon": {
-                            margin: 0,
-                          },
-                        }}
-                        onClick={(e) => {
-                          setLanguage(
-                            language?.map((val) => {
-                              if (val?.language_id === value?.language_id) {
-                                val["show"] = false;
-                              }
-                              return val;
-                            })
-                          );
-                          props?.setValue(
-                            "language_data",
-                            [
-                              ...props?.watch("language_data"),
-                              {
-                                language_id: value?.language_id,
-                                language_name: value?.language_name,
-                                default: false,
-                                instruction1: "",
-                                instruction2: "",
-                                term_and_condition_text: "",
-                                term_and_condition_warning_text: "",
-                              },
-                            ],
-                            { shouldDirty: true }
-                          );
-                        }}
-                      ></Button>
-                    </ListItem>
-                  );
-                })}
-            </List>
-          </Card>
-
-          {/* Added Language  */}
-          <Card
-            sx={{
-              marginX: 2,
-              width: "350px",
-            }}
-          >
-            <CardHeader
-              title="Added Language"
-              subheader={`${props?.watch("language_data")?.length} languages.`}
-            />
-            <Divider />
-            <List
-              dense
-              component="div"
-              role="list"
-              sx={{
-                width: 350,
-                height: 230,
-                overflow: "auto",
-              }}
-            >
-              {props?.watch("language_data")?.length > 0 &&
-                props?.watch("language_data")?.map((value, index) => {
-                  const labelId = `transfer-list-all-item-${value?.language_name}-label`;
-                  return (
-                    <ListItem key={value?.language_id}>
-                      <ListItemText
-                        id={labelId}
-                        primary={`${
-                          value?.language_name?.length > 20
-                            ? value?.language_name?.substring(0, 20) + "..."
-                            : value?.language_name
-                        } ${value?.default ? "(Default)" : ""}`}
-                      />
-
-                      <Button
-                        variant="contained"
-                        size="medium"
-                        sx={{
-                          ".MuiButton-endIcon": {
-                            margin: 0,
-                          },
-                          marginRight: 1,
-                          display: value?.default ? "none" : "",
-                        }}
-                        onClick={(e) => {
-                          props?.setValue(
-                            "language_data",
-                            props?.watch("language_data")?.map((lang) => {
-                              if (lang?.language_id === value?.language_id) {
-                                lang["default"] = true;
-                              } else {
-                                lang["default"] = false;
-                              }
-                              return lang;
-                            }),
-                            { shouldDirty: true }
-                          );
-                        }}
-                      >
-                        Def.
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        endIcon={<FaMinus />}
-                        size="large"
-                        sx={{
-                          ".MuiButton-endIcon": {
-                            margin: 0,
-                          },
-                          display: value?.default ? "none" : "",
-                        }}
-                        disabled={
-                          props?.quiz?.questions_count > 0 &&
-                          props?.quiz?.quiz_languages?.findIndex(
-                            (lang) => lang?.language_id === value?.language_id
-                          ) !== -1
-                        }
-                        onClick={(e) => {
-                          setLanguage(
-                            language?.map((val) => {
-                              if (val?.language_id === value?.language_id) {
-                                val["show"] = true;
-                              }
-                              return val;
-                            })
-                          );
-                          props?.setValue(
-                            "language_data",
-                            props
-                              ?.watch("language_data")
-                              ?.filter(
-                                (val) => val?.language_id !== value?.language_id
-                              ),
-                            { shouldDirty: true }
-                          );
-                        }}
-                      ></Button>
-                    </ListItem>
-                  );
-                })}
-            </List>
-          </Card>
-        </GridItem1>
+                      </React.Fragment>
+                    }
+                  >
+                    <ListItemText
+                      primary={props?.languages?.find(l => l?.term_id === value)?.name}
+                      secondary={props?.watch("meta.default_language_id") === value ? "Default" : ""}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </GridItem1>
+          </Grid>
+        </Grid>
       </Grid>
     </Box>
   );
 };
+
+const CopyLanguageModel = memo((props) => {
+  const [copyDefaultLanguage, setCopyDefaultLanguage] = useState(false);
+  return (
+    <>
+      <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
+        Would like to copy data
+      </DialogTitle>
+      <IconButton
+        aria-label="close"
+        onClick={props?.handleClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <IoClose />
+      </IconButton>
+      <DialogContent>
+        <Grid container gap={4}>
+          <Grid item xs={12} lg={12}>
+            <FormControlLabel
+              control={
+                <CustomSwitch
+                  checked={copyDefaultLanguage}
+                  onChange={(e) => {
+                    console.log(e?.target?.checked);
+                    setCopyDefaultLanguage(e?.target?.checked);
+                  }}
+                />
+              }
+              label="Would you like to copy the default language's data, such as instructions, questions, and other relevant content, to the newly created language?"
+            />
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" color="error" onClick={props?.handleClose}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={() => {
+            props?.handleClose();
+            props?.handleSaveLanaguage(copyDefaultLanguage);
+          }}
+        >
+          Save
+        </Button>
+      </DialogActions>
+    </>
+  )
+})
 
 export default Language;

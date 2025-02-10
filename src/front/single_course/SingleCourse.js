@@ -71,7 +71,6 @@ const LessonVideoPreview = (props) => {
     default:
       src = "";
   }
-  console.log(props?.c?.video)
   return (
     <Box id="acadlix-video-player">
       <VideoPlayer

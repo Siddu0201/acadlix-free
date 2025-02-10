@@ -131,9 +131,6 @@ const LeaderboardSection = (props) => {
     },
   };
 
-  const topThree = props?.watch("toplist")?.slice(0, 3);
-  const rest = props?.watch("toplist")?.slice(3);
-
   const loadMoreMutation = PostLoadMoreLeaderboard(props?.watch("id"));
   const handleLoadMoreLeaderboard = () => {
     loadMoreMutation.mutate({
@@ -162,98 +159,15 @@ const LeaderboardSection = (props) => {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          width: {
-            md: "70%",
-            xs: "100%",
-          },
-          marginX: {
-            md: "auto",
-            xs: "0",
-          },
-          marginBottom: "20px",
-        }}
-      >
-        <Box sx={styles.topThreeContainer}>
-          {/* Third topper */}
-          <Box sx={styles.topItemWrapper}>
-            <Box sx={styles.topItem}>
-              <Box sx={styles.avatarContainer}>
-                <Avatar
-                  src={Third}
-                  sx={{
-                    width: "60px",
-                    height: "60px",
-                    borderColor: "#54cba1",
-                    borderWidth: "3px",
-                  }}
-                />
-              </Box>
-              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                {topThree[2]?.name}
-              </Typography>
-              <Typography variant="body1">
-                {topThree[2]?.result?.toFixed(2)}%
-              </Typography>
-            </Box>
-          </Box>
-          {/* First topper */}
-          <Box sx={styles.topItemWrapper}>
-            <Box sx={styles.topItem}>
-              <Box sx={styles.avatarContainer}>
-                <Avatar
-                  src={First}
-                  sx={{
-                    width: "100px",
-                    height: "100px",
-                    borderColor: "#e8df6a",
-                    borderWidth: "3px",
-                  }}
-                />
-              </Box>
-              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                {topThree[0]?.name}
-              </Typography>
-              <Typography variant="body1">
-                {topThree[0]?.result?.toFixed(2)}%
-              </Typography>
-            </Box>
-          </Box>
-          {/* Second topper  */}
-          <Box sx={styles.topItemWrapper}>
-            <Box sx={styles.topItem}>
-              <Box sx={styles.avatarContainer}>
-                <Avatar
-                  src={Second}
-                  sx={{
-                    width: "60px",
-                    height: "60px",
-                    borderColor: "#edbe86",
-                    borderWidth: "3px",
-                  }}
-                />
-              </Box>
-              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                {topThree[1]?.name}
-              </Typography>
-              <Typography variant="body1">
-                {topThree[1]?.result?.toFixed(2)}%
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-
       <Box sx={styles.leaderboardContainer}>
-        {rest.map((item, index) => (
+        {props?.watch("toplist").map((item, index) => (
           <Box key={index} sx={styles.leaderboardItem}>
             <Box sx={styles.rankNameContainer}>
               <Typography variant="body1" sx={styles.rank}>
-                {`${index + 4}. `}
+                {`${item?.rank}. `}
               </Typography>
               <Typography variant="body1" sx={styles.name}>
-                {item?.name}
+                {item?.name ?? "Anonymous"}
               </Typography>
             </Box>
             <Typography

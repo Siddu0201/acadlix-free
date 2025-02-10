@@ -21,12 +21,12 @@ if (!class_exists('QuestionLang')) {
             "correct_msg",
             "incorrect_msg",
             "hint_msg",
-            "answer_data"
+            "answer_data",
+            "meta",
         ];
 
-        protected $with = ['language'];
-
         protected $appends = [
+            'language',
             'rendered_question',
             'rendered_correct_msg',
             'rendered_incorrect_msg',
@@ -44,9 +44,12 @@ if (!class_exists('QuestionLang')) {
             return $this->belongsTo(Question::class, 'question_id', 'id');
         }
 
-        public function language()
+        public function getLanguageAttribute()
         {
-            return $this->belongsTo(Language::class, 'language_id', 'id');
+            if(!is_null($this->language_id)){
+                return Language::find($this->language_id);
+            }
+            return [];
         }
 
         public function getRenderedQuestionAttribute()
@@ -69,18 +72,38 @@ if (!class_exists('QuestionLang')) {
             return $this->helper->renderShortCode($this->hint_msg);
         }
 
+        public function setAnswerDataAttribute($value){
+            $this->attributes['answer_data'] = maybe_serialize($value);
+        }
+
+        public function getAnswerDataAttribute($value){
+            return maybe_unserialize( $value );
+        }
+
         public function getRenderedAnswerDataAttribute()
         {
             $value = $this->answer_data;
             $answer_type = $this->question()->first()->answer_type;
             if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
-                $answer_data = json_decode($value, true);
-                foreach ($answer_data[$answer_type] as $okey => $opt) {
+                foreach ($value[$answer_type] as $okey => $opt) {
                     $opt['option'] = $this->helper->renderShortCode($opt["option"]);
-                    $answer_data[$answer_type][$okey] = $opt;
+                    $value[$answer_type][$okey] = $opt;
                 }
-                return wp_json_encode($answer_data);
+                return $value;
+            }
+            return $value;
+        }
 
+        public function emptyAnswerData()
+        {
+            $value = $this->answer_data;
+            $answer_type = $this->question()->first()->answer_type;
+            if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
+                foreach ($value[$answer_type] as $okey => $opt) {
+                    $opt['option'] = "";
+                    $value[$answer_type][$okey] = $opt;
+                }
+                return $value;
             }
             return $value;
         }

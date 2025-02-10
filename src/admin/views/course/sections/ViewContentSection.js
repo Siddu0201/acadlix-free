@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash, MdDragIndicator, MdVisibility, MdVisibilityOff  } from "../../../../helpers/icons";
+import { FaEdit, FaTrash, MdDragIndicator, MdVisibility, MdVisibilityOff } from "../../../../helpers/icons";
 import {
   PostSortContent,
   PostTooglePreviewContent,
@@ -62,8 +62,8 @@ const ViewContentSection = (props) => {
       );
       sortMutation?.mutate(
         {
-          active_sort: active?.id,
-          over_sort: over?.id,
+          active_menu_order: active?.id,
+          over_menu_order: over?.id,
         },
         {
           onSuccess: (data) => {
@@ -71,15 +71,13 @@ const ViewContentSection = (props) => {
               `sections.${props?.id}.contents`,
               data?.data?.contents?.map((c) => {
                 return {
-                  id: c?.id,
-                  sort: c?.sort,
-                  type:
-                    c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
-                      ? "quiz"
-                      : "lesson",
+                  id: c?.ID,
+                  sort: c?.menu_order,
+                  preview: Boolean(Number(c?.rendered_metas?.preview)),
+                  type: c?.contentable?.type,
                   title: c?.contentable?.title,
-                  contentable_id: c?.contentable_id,
-                  course_section_id: c?.course_section_id,
+                  contentable_id: c?.contentable?.id,
+                  course_section_id: c?.post_parent,
                 };
               })
             );
@@ -255,15 +253,13 @@ const SortableSections = (props) => {
               `sections.${props?.id}.contents`,
               data?.data?.section?.contents?.map((c) => {
                 return {
-                  id: c?.id,
-                  sort: c?.sort,
-                  type:
-                    c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
-                      ? "quiz"
-                      : "lesson",
+                  id: c?.ID,
+                  sort: c?.menu_order,
+                  preview: Boolean(Number(c?.rendered_metas?.preview)),
+                  type: c?.contentable?.type,
                   title: c?.contentable?.title,
-                  contentable_id: c?.contentable_id,
-                  course_section_id: c?.course_section_id,
+                  contentable_id: c?.contentable?.id,
+                  course_section_id: c?.post_parent,
                 };
               })
             );
@@ -286,16 +282,13 @@ const SortableSections = (props) => {
             `sections.${props?.id}.contents`,
             data?.data?.section?.contents?.map((c) => {
               return {
-                id: c?.id,
-                sort: c?.sort,
-                preview: Boolean(Number(c?.preview)),
-                type:
-                  c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
-                    ? "quiz"
-                    : "lesson",
+                id: c?.ID,
+                sort: c?.menu_order,
+                preview: Boolean(Number(c?.rendered_metas?.preview)),
+                type: c?.contentable?.type,
                 title: c?.contentable?.title,
-                contentable_id: c?.contentable_id,
-                course_section_id: c?.course_section_id,
+                contentable_id: c?.contentable?.id,
+                course_section_id: c?.post_parent,
               };
             })
           );

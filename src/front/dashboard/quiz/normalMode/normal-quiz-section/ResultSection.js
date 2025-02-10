@@ -50,14 +50,14 @@ const ResultSection = (props) => {
       .reduce((total, d) => total + d?.result?.time, 0) ?? 0;
   const accuracy =
     props?.watch("questions")?.filter((d) => d?.result?.solved_count)?.length >
-    0
+      0
       ? (
-          (props?.watch("questions")?.filter((d) => d?.result?.correct_count)
-            ?.length /
-            props?.watch("questions")?.filter((d) => d?.result?.solved_count)
-              ?.length) *
-          100
-        )?.toFixed(2)
+        (props?.watch("questions")?.filter((d) => d?.result?.correct_count)
+          ?.length /
+          props?.watch("questions")?.filter((d) => d?.result?.solved_count)
+            ?.length) *
+        100
+      )?.toFixed(2)
       : 0;
 
   return (
@@ -120,7 +120,7 @@ const ResultSection = (props) => {
             </Box>
           </Grid>
         )}
-        {props?.watch("show_average_score") && (
+        {props?.watch("save_statistic") && props?.watch("show_average_score") && (
           <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Average} />
@@ -182,7 +182,7 @@ const ResultSection = (props) => {
             </Box>
           </Grid>
         )}
-        {props?.watch("show_rank") && (
+        {props?.watch("leaderboard") && props?.watch("show_rank") && (
           <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Rank} />
@@ -195,7 +195,7 @@ const ResultSection = (props) => {
             </Box>
           </Grid>
         )}
-        {props?.watch("show_percentile") && (
+        {props?.watch("save_statistic") && props?.watch("show_percentile") && (
           <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Percentile} />
@@ -225,22 +225,23 @@ const ResultSection = (props) => {
           </Grid>
         )}
       </Grid>
-      {props?.watch("result_comparision_with_topper") && (
-        <ResultComparisionSection
-          {...props}
-          result={percent}
-          accuracy={accuracy}
-          points={result}
-          time={secondsToHms(time)}
-          TickImage={TickImage}
-          ClockImage={ClockImage}
-          AccuracyImage={AccuracyImage}
-          Pass={Pass}
-          Fail={Fail}
-          Name={Name}
-          Result={Result}
-        />
-      )}
+      {props?.watch("leaderboard") &&
+        props?.watch("result_comparision_with_topper") && (
+          <ResultComparisionSection
+            {...props}
+            result={percent}
+            accuracy={accuracy}
+            points={result}
+            time={secondsToHms(time)}
+            TickImage={TickImage}
+            ClockImage={ClockImage}
+            AccuracyImage={AccuracyImage}
+            Pass={Pass}
+            Fail={Fail}
+            Name={Name}
+            Result={Result}
+          />
+        )}
     </Box>
   );
 };

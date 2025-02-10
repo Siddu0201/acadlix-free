@@ -40,9 +40,7 @@ const QuestionMessageSection = (props) => {
     >
       <Card>
         <CardHeader
-          title={`Explanation (${
-            props?.lang?.language_name
-          })`}
+          title={`Explanation ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -56,12 +54,12 @@ const QuestionMessageSection = (props) => {
           <Grid container spacing={4}>
             <Grid item xs={12} lg={12}>
               <FormControlLabel
-                control={<CustomSwitch 
+                control={<CustomSwitch
                   checked={props?.watch("different_incorrect_msg")}
-                  onChange={(e)=> {
-                    props?.setValue("different_incorrect_msg", e.target.checked, {shouldDirty: true});
-                  }} 
-                  />}
+                  onChange={(e) => {
+                    props?.setValue("different_incorrect_msg", e.target.checked, { shouldDirty: true });
+                  }}
+                />}
                 label="Different Explanation for correct and incorrect answer?"
               />
             </Grid>

@@ -2,6 +2,7 @@ import {
   Box,
   FormControl,
   Grid,
+  InputLabel,
   MenuItem,
   Select,
   Typography,
@@ -27,7 +28,7 @@ const General = (props) => {
             Course Duration
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -35,42 +36,36 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Week(s)
+                Duration Type
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
-              <CustomTextField
+              <FormControl
                 fullWidth
                 size="small"
-                type="number"
-                value={props?.watch("weeks")}
-                onChange={(e) => {
-                  props?.setValue("weeks", Number(e?.target?.value), {
-                    shouldDirty: true,
-                  });
-                }}
-                onKeyDown={props?.handleKeyDown}
-                sx={{
-                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
-              />
+              >
+                <InputLabel id="demo-simple-select-label">Select Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={props?.watch("meta.duration.type")}
+                  label="Select Type"
+                  onChange={(e) => {
+                    props?.setValue("meta.duration.type", e?.target?.value, {
+                      shouldDirty: true,
+                    });
+                  }}
+                >
+                  <MenuItem value="week">Week(s)</MenuItem>
+                  <MenuItem value="day">Day(s)</MenuItem>
+                  <MenuItem value="hour">Hour(s)</MenuItem>
+                  <MenuItem value="minute">Minute(s)</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography
@@ -78,7 +73,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Day(s)
+                Duration
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -86,95 +81,9 @@ const General = (props) => {
                 fullWidth
                 size="small"
                 type="number"
-                value={props?.watch("days")}
+                value={props?.watch("meta.duration.duration")}
                 onChange={(e) => {
-                  props?.setValue("days", Number(e?.target?.value), {
-                    shouldDirty: true,
-                  });
-                }}
-                onKeyDown={props?.handleKeyDown}
-                sx={{
-                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
-              >
-                Hour(s)
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="number"
-                value={props?.watch("hours")}
-                onChange={(e) => {
-                  props?.setValue("hours", Number(e?.target?.value), {
-                    shouldDirty: true,
-                  });
-                }}
-                onKeyDown={props?.handleKeyDown}
-                sx={{
-                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
-              >
-                Minute(s)
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="number"
-                value={props?.watch("minutes")}
-                onChange={(e) => {
-                  props?.setValue("minutes", Number(e?.target?.value), {
+                  props?.setValue("meta.duration.duration", Number(e?.target?.value), {
                     shouldDirty: true,
                   });
                 }}
@@ -249,20 +158,20 @@ const General = (props) => {
                     },
                   }}
                   value={
-                    props?.watch("start_date")
-                      ? dayjs(props?.watch("start_date"))
+                    props?.watch("meta.start_date")
+                      ? dayjs(props?.watch("meta.start_date"))
                       : null
                   }
                   onChange={(value) => {
-                    props?.setValue("start_date", convertToPostDate(value), {
+                    props?.setValue("meta.start_date", convertToPostDate(value), {
                       shouldDirty: true,
                     });
                   }}
                 />
               </DemoContainer>
-              {props?.formState?.errors?.start_date && (
+              {props?.formState?.errors?.meta?.start_date && (
                 <Typography component="p" color="error">
-                  {props?.formState?.errors?.start_date?.message}
+                  {props?.formState?.errors?.meta?.start_date?.message}
                 </Typography>
               )}
             </Grid>
@@ -308,20 +217,20 @@ const General = (props) => {
                     },
                   }}
                   value={
-                    props?.watch("end_date")
-                      ? dayjs(props?.watch("end_date"))
+                    props?.watch("meta.end_date")
+                      ? dayjs(props?.watch("meta.end_date"))
                       : null
                   }
                   onChange={(value) => {
-                    props?.setValue("end_date", convertToPostDate(value), {
+                    props?.setValue("meta.end_date", convertToPostDate(value), {
                       shouldDirty: true,
                     });
                   }}
                 />
               </DemoContainer>
-              {props?.formState?.errors?.end_date && (
+              {props?.formState?.errors?.meta?.end_date && (
                 <Typography component="p" color="error">
-                  {props?.formState?.errors?.end_date?.message}
+                  {props?.formState?.errors?.meta?.end_date?.message}
                 </Typography>
               )}
             </Grid>
@@ -346,9 +255,9 @@ const General = (props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={props?.watch("difficulty_level")}
+                  value={props?.watch("meta.difficulty_level")}
                   onChange={(e) => {
-                    props?.setValue("difficulty_level", e?.target?.value, {
+                    props?.setValue("meta.difficulty_level", e?.target?.value, {
                       shouldDirty: true,
                     });
                   }}

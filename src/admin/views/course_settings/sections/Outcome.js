@@ -6,16 +6,16 @@ import { FaPlus, FaTrash } from "../../../../helpers/icons";
 const Outcome = (props) => {
   const handleAddOutcome = () => {
     props?.setValue(
-      "outcomes",
-      [...props?.watch("outcomes"), { id: null, outcome: "" }],
+      "meta.outcomes",
+      [...props?.watch("meta.outcomes"), ""],
       { shouldDirty: true }
     );
   };
 
   const handleRemoveOutcome = (index) => {
     props?.setValue(
-      "outcomes",
-      props?.watch("outcomes")?.filter((o, i) => i !== index),
+      "meta.outcomes",
+      props?.watch("meta.outcomes")?.filter((o, i) => i !== index),
       { shouldDirty: true }
     );
   };
@@ -32,8 +32,8 @@ const Outcome = (props) => {
             What you Learn
           </Typography>
         </Grid>
-        {props?.watch("outcomes")?.length > 0 &&
-          props?.watch("outcomes")?.map((o, index) => (
+        {props?.watch("meta.outcomes")?.length > 0 &&
+          props?.watch("meta.outcomes")?.map((o, index) => (
             <Grid
               item
               xs={12}
@@ -49,10 +49,10 @@ const Outcome = (props) => {
                 size="small"
                 type="text"
                 label="Add Outcome"
-                value={o?.outcome}
+                value={o}
                 onChange={(e) => {
                   props?.setValue(
-                    `outcomes.${index}.outcome`,
+                    `meta.outcomes.${index}`,
                     e?.target?.value,
                     {
                       shouldDirty: true,

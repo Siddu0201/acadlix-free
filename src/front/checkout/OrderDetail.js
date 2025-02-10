@@ -80,7 +80,7 @@ const OrderItem = (props) => {
             width: 150,
           }}
           image={
-            props?.c?.course?.post?.thumbnail_url ??
+            props?.c?.course?.thumbnail?.url ??
             acadlixOptions?.default_img_url
           }
           title="product image"
@@ -121,7 +121,7 @@ const OrderItem = (props) => {
               fontWeight: "bold",
             }}
           >
-            {props?.c?.course?.post?.post_title}
+            {props?.c?.course?.post_title}
           </Typography>
           <Box
             sx={{
@@ -132,15 +132,15 @@ const OrderItem = (props) => {
           >
             <Typography variant="body1">
               <b>{`${props?.currencyPosition(
-                Boolean(Number(props?.c?.course?.enable_sale_price))
-                  ? props?.c?.course?.sale_price
-                  : props?.c?.course?.price
+                Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price))
+                  ? props?.c?.course?.rendered_metas?.sale_price
+                  : props?.c?.course?.rendered_metas?.price
               )} `}</b>
             </Typography>
-            {Boolean(Number(props?.c?.course?.enable_sale_price)) && (
+            {Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price)) && (
               <Typography variant="body2">
                 <del>
-                  {props?.currencyPosition(props?.c?.course?.price)}
+                  {props?.currencyPosition(props?.c?.course?.rendered_metas?.price)}
                 </del>
               </Typography>
             )}

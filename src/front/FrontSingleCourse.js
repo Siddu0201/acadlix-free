@@ -8,44 +8,40 @@ import "./AppFront.css";
 const FrontSingleCourse = (props) => {
     const methods = useForm({
         defaultValues: {
-            id: props?.course?.id,
+            id: props?.course?.ID,
             sections:
                 props?.course?.sections?.length > 0
                     ? props?.course?.sections?.map((s) => {
                         return {
-                            id: s?.id,
-                            title: s?.title,
+                            id: s?.ID,
+                            title: s?.post_title,
                             contents:
                                 s?.contents?.length > 0
                                     ? s?.contents?.map((c) => {
                                         return {
-                                            id: c?.id,
-                                            preview: Boolean(Number(c?.preview)),
+                                            id: c?.ID,
+                                            preview: Boolean(Number(c?.rendered_metas?.preview)),
                                             open: false,
-                                            type:
-                                                c?.contentable_type ===
-                                                    `Yuvayana\\Acadlix\\Models\\Quiz`
-                                                    ? "quiz"
-                                                    : "lesson",
-                                            lesson_type: c?.contentable?.type ?? "video",
-                                            title: c?.contentable?.title,
-                                            content_type_id: c?.contentable_id,
-                                            content: c?.contentable?.rendered_content ?? "",
+                                            type: c?.contentable?.type,
+                                            lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
+                                            title: c?.contentable_data?.post_title,
+                                            content_type_id: c?.contentable?.id,
+                                            content: c?.contentable_data?.post_content ?? "",
                                             video: {
-                                                video_type: c?.contentable?.video?.video_type ?? "",
+                                                video_type: c?.contentable_data?.rendered_metas?.video?.video_type ?? "",
                                                 video_data: {
-                                                    html_5: c?.contentable?.video?.video_data?.html_5 ?? "",
+                                                    html_5: c?.contentable_data?.rendered_metas?.video?.video_data?.html_5 ?? "",
                                                     external_link:
-                                                        c?.contentable?.video?.video_data?.external_link ?? "",
-                                                    youtube: c?.contentable?.video?.video_data?.youtube ?? "",
-                                                    vimeo: c?.contentable?.video?.video_data?.vimeo ?? "",
+                                                        c?.contentable_data?.rendered_metas?.video?.video_data?.external_link ?? "",
+                                                    youtube: c?.contentable_data?.rendered_metas?.video?.video_data?.youtube ?? "",
+                                                    vimeo: c?.contentable_data?.rendered_metas?.video?.video_data?.vimeo ?? "",
                                                     embedded:
-                                                        c?.contentable?.video?.video_data?.embedded ?? "",
+                                                        c?.contentable_data?.rendered_metas?.video?.video_data?.embedded ?? "",
                                                     shortcode:
-                                                        c?.contentable?.video?.video_data?.shortcode ?? "",
+                                                        c?.contentable_data?.rendered_metas?.video?.video_data?.shortcode ?? "",
                                                 },
                                                 video_thumbnail:
-                                                    c?.contentable?.video?.video_thumbnail ?? "",
+                                                    c?.contentable_data?.rendered_metas?.video?.video_thumbnail ?? "",
                                             },
                                         };
                                     })
@@ -55,6 +51,8 @@ const FrontSingleCourse = (props) => {
                     : [],
         }
     });
+
+    // console.log(methods?.watch("sections"));
 
     React.useEffect(() => {
         const items = document.querySelectorAll(".acadlix-curriculum-content-item");
@@ -115,7 +113,11 @@ const FrontSingleCourse = (props) => {
                                                         aria-labelledby="alert-dialog-title"
                                                         aria-describedby="alert-dialog-description"
                                                     >
-                                                        <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
+                                                        <DialogTitle id="alert-dialog-title" sx={{
+                                                            m: 0,
+                                                            p: 2,
+                                                            boxShadow: (theme) => theme.shadows[1],
+                                                        }}>
                                                             {c?.title}
                                                         </DialogTitle>
                                                         <IconButton
@@ -137,7 +139,7 @@ const FrontSingleCourse = (props) => {
                                                                 c={c}
                                                                 index={index}
                                                                 c_index={c_index}
-                                                                {...methods} 
+                                                                {...methods}
                                                             />
 
                                                         </DialogContent>

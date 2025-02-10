@@ -31,9 +31,7 @@ const QuestionHintSection = (props) => {
     >
       <Card>
         <CardHeader
-          title={`Hint (${
-            props?.lang?.language_name
-          })`}
+          title={`Hint ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,

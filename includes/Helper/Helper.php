@@ -113,6 +113,26 @@ if (!class_exists('Helper')) {
             return $new_content;
         }
 
+        public function acadlix_get_system_languages()
+        {
+            require_once ABSPATH . 'wp-admin/includes/translation-install.php';
+            $translations = wp_get_available_translations();
+
+            $language_map = [];
+
+            // Populate the language map with locale => native name
+            foreach ($translations as $locale => $details) {
+                $language_map[$locale] = $details['native_name'];
+            }
+
+            // Add the default locale (en_US) if not already in the list
+            if (!isset($language_map['en_US'])) {
+                $language_map['en_US'] = 'English';
+            }
+
+            return $language_map;
+        }
+
         public function acadlix_currencies()
         {
             $currencies = array(

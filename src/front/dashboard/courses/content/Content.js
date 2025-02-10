@@ -208,17 +208,17 @@ const LessonVideoContent = (props) => {
         if (data?.data?.success && data?.data?.lesson) {
           props?.setValue(
             `sections.${props?.index}.content.${props?.c_index}.hours`,
-            String(data?.data?.lesson?.hours).padStart(2, '0'),
+            String(data?.data?.lesson?.rendered_metas?.hours).padStart(2, '0'),
             { shouldDirty: true }
           );
           props?.setValue(
             `sections.${props?.index}.content.${props?.c_index}.minutes`,
-            String(data?.data?.lesson?.minutes).padStart(2, '0'),
+            String(data?.data?.lesson?.rendered_metas?.minutes).padStart(2, '0'),
             { shouldDirty: true }
           );
           props?.setValue(
             `sections.${props?.index}.content.${props?.c_index}.seconds`,
-            String(data?.data?.lesson?.seconds).padStart(2, '0'),
+            String(data?.data?.lesson?.rendered_metas?.seconds).padStart(2, '0'),
             { shouldDirty: true }
           )
         }

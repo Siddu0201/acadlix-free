@@ -108,8 +108,8 @@ const BottomNavigation2 = (props) => {
             language can be changed for a particular question later on.
           </Typography>
         </Box>
-        {props?.watch("languages")?.length > 0 &&
-          props?.watch("languages")?.map((l, index) => (
+        {props?.watch("language_data")?.length > 0 &&
+          props?.watch("language_data")?.map((l, index) => (
             <Box
               key={index}
               sx={{

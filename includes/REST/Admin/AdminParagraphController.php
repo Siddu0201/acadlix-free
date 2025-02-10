@@ -4,9 +4,11 @@ namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use WP_Error;
+use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Paragraph;
 use Yuvayana\Acadlix\Models\Quiz;
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
 class AdminParagraphController
 {
@@ -139,10 +141,16 @@ class AdminParagraphController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
+
+        if (empty($quiz_id)) {
+            return new WP_Error(
+                'missing_quiz_id',
+                __('Quiz id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
         $skip = $params['page'] * $params['pageSize'];
-        $paragraph = Paragraph::withCount(['questions' => function ($query){
-            $query->where('online', 1);
-        }])->where('quiz_id', $quiz_id)->orderBy('created_at', 'desc');
+        $paragraph = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->orderBy('ID', 'desc');
         $res['total'] = $paragraph->count();
         $res['paragraphs'] = $paragraph->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);
@@ -152,6 +160,13 @@ class AdminParagraphController
     {
         $res = [];
         $quiz_id = $request['quiz_id'];
+        if (empty($quiz_id)) {
+            return new WP_Error(
+                'missing_quiz_id',
+                __('Quiz id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
         $res['quiz'] = Quiz::find($quiz_id);
         return rest_ensure_response($res);
     }
@@ -160,10 +175,52 @@ class AdminParagraphController
     {
         $res = [];
         $params = $request->get_json_params();
-        $paragraph = Paragraph::create($params);
-        $paragraph->paragraph_languages()->createMany($params['language']);
-        $res['paragraph'] = $paragraph;
-        return rest_ensure_response($res);
+        // Validate required fields
+        if (empty($params['post_title'])) {
+            return new WP_Error(
+                'missing_title',
+                __('Paragraph title is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        // Prepare meta data
+        $meta = !empty($params['meta']) && is_array($params['meta'])
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'paragraph')
+            : [];
+        try {
+            $paragraphId = Paragraph::insertParagraph([
+                'post_title' => sanitize_text_field($params['post_title']),
+                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+                'post_parent' => (int) sanitize_text_field($params['post_parent']),
+            ], $meta);
+
+            if (is_wp_error($paragraphId)) {
+                return new WP_Error(
+                    'paragraph_creation_failed',
+                    __('Failed to create the paragraph.', 'acadlix'),
+                    ['status' => 500, 'error' => $paragraphId->get_error_message()]
+                );
+            }
+            // Retrieve and return the paragraph data
+            $paragraph = get_post($paragraphId);
+            if (!$paragraph) {
+                return new WP_Error(
+                    'paragraph_not_found',
+                    __('Created paragraph not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['paragraph'] = $paragraph;
+            return rest_ensure_response($res);
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
+        }
     }
 
     public function get_quiz_paragraph_by_id($request)
@@ -171,6 +228,22 @@ class AdminParagraphController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $paragraph_id = $request['paragraph_id'];
+        // Validate required fields
+        if (empty($quiz_id)) {
+            return new WP_Error(
+                'missing_quiz_id',
+                __('Quiz ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        // Validate required fields
+        if (empty($paragraph_id)) {
+            return new WP_Error(
+                'missing_paragraph_id',
+                __('Paragraph ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
         $res['quiz'] = Quiz::find($quiz_id);
         $res['paragraph'] = Paragraph::find($paragraph_id);
         return rest_ensure_response($res);
@@ -181,24 +254,81 @@ class AdminParagraphController
         $res = [];
         $paragraph_id = $request['paragraph_id'];
         $params = $request->get_json_params();
-        $paragraph = Paragraph::find($paragraph_id);
-        $paragraph->update($params);
-        foreach($params['language'] as $lang){
-            $paragraph->paragraph_languages()->updateOrCreate(
-                ['language_id' => $lang['language_id']],
-                $lang
+        // Validate required fields
+        if (empty($paragraph_id)) {
+            return new WP_Error(
+                'missing_paragraph_id',
+                __('Paragraph ID is required.', 'acadlix'),
+                ['status' => 400]
             );
         }
-        $res['paragraph'] = $paragraph;
-        return rest_ensure_response($res);
+
+        // Prepare meta data
+        $meta = !empty($params['meta']) && is_array($params['meta'])
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'paragraph')
+            : [];
+
+        try {
+            $paragraphId = Paragraph::updateParagraph(
+                $paragraph_id,
+                [
+                    'post_title' => sanitize_text_field($params['post_title']),
+                    'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+                    'post_parent' => (int) sanitize_text_field($params['post_parent']),
+                ],
+                $meta
+            );
+
+            if (is_wp_error($paragraphId)) {
+                return new WP_Error(
+                    'paragraph_updation_failed',
+                    __('Failed to update the paragraph.', 'acadlix'),
+                    ['status' => 500, 'error' => $paragraphId->get_error_message()]
+                );
+            }
+            // Retrieve and return the paragraph data
+            $paragraph = get_post($paragraphId);
+            if (!$paragraph) {
+                return new WP_Error(
+                    'paragraph_not_found',
+                    __('Created paragraph not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['paragraph'] = $paragraph;
+            return rest_ensure_response($res);
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
+        }
     }
 
     public function delete_quiz_paragraph_by_id($request)
     {
         $res = [];
         $paragraph_id = $request['paragraph_id'];
-        $paragraph = Paragraph::find($paragraph_id);
-        $paragraph->delete();
+
+        // Validate required fields
+        if (empty($paragraph_id)) {
+            return new WP_Error(
+                'missing_paragraph_id',
+                __('Paragraph ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $paragraph = Paragraph::deleteParagraph($paragraph_id);
+        if (is_wp_error($paragraph)) {
+            return new WP_Error(
+                'paragraph_deletion_failed',
+                __('Failed to delete the paragraph.', 'acadlix'),
+                ['status' => 500, 'error' => $paragraph->get_error_message()]
+            );
+        }
+        $res['message'] = __('Paragraph successfully deleted.', 'acadlix');
         return rest_ensure_response($res);
     }
 
@@ -206,12 +336,33 @@ class AdminParagraphController
     {
         $res = [];
         $params = $request->get_json_params();
-        if (count($params['paragraph_ids']) > 0) {
-            foreach ($params['paragraph_ids'] as $paragraph_id) {
-                $paragraph = Paragraph::find($paragraph_id);
-                $paragraph->delete();
+
+        // Validate required fields
+        if (!is_array($params['paragraph_ids']) || count($params['paragraph_ids']) == 0) {
+            return new WP_Error(
+                'missing_ids',
+                __('Paragraph ids is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        foreach ($params['paragraph_ids'] as $paragraph_id) {
+            if (empty($paragraph_id)) {
+                return new WP_Error(
+                    'missing_paragraph_id',
+                    __('Paragraph ID is required.', 'acadlix'),
+                    ['status' => 400]
+                );
+            }
+            $paragraph = Paragraph::deleteParagraph($paragraph_id);
+            if (is_wp_error($paragraph)) {
+                return new WP_Error(
+                    'paragraph_deletion_failed',
+                    __('Failed to delete the paragraph.', 'acadlix'),
+                    ['status' => 500, 'error' => $paragraph->get_error_message()]
+                );
             }
         }
+        $res['message'] = __('Paragraph successfully deleted', 'acadlix');
         return rest_ensure_response($res);
     }
 

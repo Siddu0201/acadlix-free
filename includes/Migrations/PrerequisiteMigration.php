@@ -14,8 +14,8 @@ if(!class_exists('PrerequisiteMigration')){
             if(!Manager::schema()->hasTable('prerequisite')){
                 Manager::schema()->create('prerequisite', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
-                    $table->foreignId('prerequisite_quiz_id')->constrained('quiz')->cascadeOnDelete();
+                    $table->bigInteger('quiz_id')->nullable();
+                    $table->bigInteger('prerequisite_quiz_id')->nullable();
                     $table->float('min_percentage');
                     $table->timestamps();
                 });

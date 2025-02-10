@@ -3,6 +3,8 @@
 namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
+use WP_REST_Request;
+use WP_Error;
 
 use Yuvayana\Acadlix\Models\Category;
 
@@ -64,7 +66,9 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_category_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function (WP_REST_Request $request) {
+                        return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest');
+                    },
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -80,7 +84,7 @@ class AdminCategoryController
     public function get_categories($request)
     {
         $res = [];
-        $res['categories'] = Category::get();
+        $res['categories'] = Category::all();
         return rest_ensure_response($res);
     }
 
@@ -88,9 +92,25 @@ class AdminCategoryController
     {
         $res = [];
         $params = $request->get_json_params();
-        $category = Category::create(["category_name" => $params["category"]]);
-        $res['category_id'] = $category->id;
-        $res['categories'] = Category::get();
+
+        if (empty($params["category_name"])) {
+            return new WP_Error(
+                'missing_category',
+                __('Category name is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $category = Category::create(["category_name" => $params["category_name"]]);
+
+        if (is_wp_error($category)) {
+            return new WP_Error(
+                'category_not_created',
+                __('Failed to create the category.', 'acadlix'),
+                ['status' => 500]
+            );
+        }
+        $res['category'] = $category;
+        $res['categories'] = Category::all();
         return rest_ensure_response($res);
     }
 
@@ -104,14 +124,55 @@ class AdminCategoryController
 
     public function update_category_by_id($request)
     {
+        $res = [];
         $category_id = $request['category_id'];
-        return rest_ensure_response("Update category by ID: $category_id");
+        $params = $request->get_json_params();
+        if (empty($category_id)) {
+            return new WP_Error(
+                'missing_category',
+                __('Category id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        if (empty($params["category_name"])) {
+            return new WP_Error(
+                'missing_category',
+                __('Category name is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $category = Category::update($category_id, [
+            "category_name" => $params["category_name"]
+        ]);
+
+        if (is_wp_error($category)) {
+            return new WP_Error(
+                'category_not_updated',
+                __('Failed to update the category.', 'acadlix'),
+                ['status' => 500]
+            );
+        }
+        $res['category'] = $category;
+        $res['categories'] = Category::all();
+        return rest_ensure_response($res);
     }
 
     public function delete_category_by_id($request)
     {
+        $res = [];
         $category_id = $request['category_id'];
-        return rest_ensure_response("Delete a category $category_id");
+        $category = Category::delete($category_id);
+        if (is_wp_error($category)) {
+            return new WP_Error(
+                'category_not_deleted',
+                __('Failed to delete the category.', 'acadlix'),
+                ['status' => 500]
+            );
+        }
+        $res['category'] = $category;
+        $res['categories'] = Category::all();
+        return rest_ensure_response($res);
     }
 
     public function check_permission()

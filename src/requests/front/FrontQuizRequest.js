@@ -9,7 +9,16 @@ export const GetFrontQuizById = (quiz_id = '') => {
         queryKey: ["getFrontQuizById", quiz_id],
         queryFn: () => {
             return instance.get(`${base}/${quiz_id}`);
-        }
+        },
+    })
+}
+
+export const PostSaveQuizAttemptById = (quiz_id = '') => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${quiz_id}/save-quiz-attempt`, data);
+        },
     })
 }
 
@@ -31,11 +40,11 @@ export const PostLoadMoreLeaderboard = (quiz_id = '') => {
     })
 }
 
-export const PostCheckPrerequisite = (quiz_id = 0) => {
+export const PostCheckQuizById = (quiz_id = 0) => {
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/check-prerequisite/${quiz_id}`, data);
+            return instance.post(`${base}/${quiz_id}/check-quiz`, data);
         }
     })
 }

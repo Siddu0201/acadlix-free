@@ -17,19 +17,15 @@ import {
 import {
   Backdrop,
   Box,
-  Button,
   CircularProgress,
   Collapse,
   IconButton,
   List,
   ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaPlus, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "../../../../helpers/icons";
+import { FaEdit, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "../../../../helpers/icons";
 import EditSection from "./EditSection";
 import AddLesson from "./AddLesson";
 import AddQuiz from "./AddQuiz";
@@ -43,16 +39,16 @@ import ViewContentSection from "./ViewContentSection";
 const ViewSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
 
-  const sortMutation = PostSortSection(props?.watch("id"));
+  const sortMutation = PostSortSection(props?.watch("courseId"));
   const handleDragEnd = (e) => {
     const { active, over } = e;
     if (active?.id !== over?.id) {
       const oldIndex = props
         ?.watch("sections")
-        .findIndex((curr) => curr.sort === active?.id);
+        .findIndex((curr) => curr.menu_order === active?.id);
       const newIndex = props
         ?.watch("sections")
-        .findIndex((curr) => curr.sort === over?.id);
+        .findIndex((curr) => curr.menu_order === over?.id);
 
       // console.log(arrayMove(props?.watch("sections"), oldIndex, newIndex));  
       props?.setValue(
@@ -61,8 +57,8 @@ const ViewSection = (props) => {
       );
       sortMutation?.mutate(
         {
-          active_sort: active?.id,
-          over_sort: over?.id,
+          active_menu_order: active?.id,
+          over_menu_order: over?.id,
         },
         {
           onSuccess: (data) => {
@@ -71,27 +67,24 @@ const ViewSection = (props) => {
               data?.data?.sections?.map((s) => {
                 return {
                   id: s?.id,
-                  title: s?.title,
-                  description: s?.description,
+                  post_title: s?.post_title,
+                  post_content: s?.post_content,
                   show: false,
                   open:
                     props?.watch(`sections`)?.find((sec) => sec?.id === s?.id)
                       ?.open ?? false,
-                  sort: s?.sort,
+                  menu_order: s?.menu_order,
                   contents:
                     s?.contents?.length > 0
                       ? s?.contents?.map((c) => {
                         return {
-                          id: c?.id,
-                          sort: c?.sort,
-                          type:
-                            c?.contentable_type ===
-                              `Yuvayana\\Acadlix\\Models\\Quiz`
-                              ? "quiz"
-                              : "lesson",
+                          id: c?.ID,
+                          sort: c?.menu_order,
+                          preview: Boolean(Number(c?.rendered_metas?.preview)),
+                          type: c?.contentable?.type,
                           title: c?.contentable?.title,
-                          contentable_id: c?.contentable_id,
-                          course_section_id: c?.course_section_id,
+                          contentable_id: c?.contentable?.id,
+                          course_section_id: c?.post_parent,
                         };
                       })
                       : [],
@@ -164,7 +157,7 @@ const ViewSection = (props) => {
 };
 
 const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
-  const s = props?.watch("sections")?.find((s) => id === s?.sort);
+  const s = props?.watch("sections")?.find((s) => id === s?.menu_order);
   return (
     <ListItem
       ref={ref}
@@ -211,7 +204,7 @@ const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
               cursor: "default",
             }}
           >
-            {s?.title}
+            {s?.post_title}
           </Typography>
         </Box>
         <Box
@@ -350,7 +343,7 @@ const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
 const SortableSections = (props) => {
   const { attributes, listeners, setNodeRef, transition, isOver } =
     useSortable({
-      id: props?.s?.sort,
+      id: props?.s?.menu_order,
     });
 
   const handleToggle = () => {
@@ -435,7 +428,7 @@ const SortableSections = (props) => {
               cursor: "default",
             }}
           >
-            {props?.s?.title}
+            {props?.s?.post_title}
           </Typography>
         </Box>
         <Box

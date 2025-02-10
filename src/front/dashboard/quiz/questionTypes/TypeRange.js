@@ -33,7 +33,7 @@ const TypeRange = (props) => {
             ? 0
             : 1,
         solved_count: data?.yourAnswer ? 1 : 0,
-        answer_data: data?.yourAnswer ? data : "",
+        answer_data: data?.yourAnswer ?? null,
       },
       { shouldDirty: true }
     );

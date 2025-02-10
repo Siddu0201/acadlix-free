@@ -24,12 +24,13 @@ import { TiArrowLeftThick } from "../../../helpers/icons";
 import QuestionParagraphSection from "./sections/QuestionParagraphSection";
 
 const QuestionContent = (props) => {
-  const getAnswerData = (type) => {
+  const getAnswerData = (type, position = 0) => {
     let answerData = {};
     switch (type) {
       case "singleChoice":
         answerData = [
           {
+            position: position,
             option: "",
             points: 0,
             negative_points: 0,
@@ -41,6 +42,7 @@ const QuestionContent = (props) => {
       case "multipleChoice":
         answerData = [
           {
+            position: position,
             option: "",
             points: 0,
             negative_points: 0,
@@ -59,7 +61,7 @@ const QuestionContent = (props) => {
         answerData = [
           {
             option: "",
-            position: 0,
+            position: position,
           },
         ];
         break;
@@ -67,7 +69,7 @@ const QuestionContent = (props) => {
         answerData = [
           {
             criteria: "",
-            position: 0,
+            position: position,
             element: "",
           },
         ];
@@ -114,7 +116,7 @@ const QuestionContent = (props) => {
       sort: props?.create
         ? props?.quiz?.questions_count + 1
         : props?.question?.sort,
-      multi_language: Boolean(Number(props?.quiz?.multi_language)),
+      multi_language: Boolean(Number(props?.quiz?.rendered_metas?.multi_language)),
       title: props?.question?.title ?? "",
       points: props?.question?.points ? Number(props?.question?.points) : 1,
       negative_points: props?.question?.negative_points
@@ -131,88 +133,56 @@ const QuestionContent = (props) => {
       paragraph_id: props?.question?.paragraph_id,
       answer_type: props?.question?.answer_type ?? "singleChoice",
       language: props?.create
-        ? props?.quiz?.quiz_languages?.map((lang) => {
-            return {
-              id: null,
-              language_id: lang?.language_id,
-              language_name: lang?.language?.language_name,
-              default: Boolean(Number(lang?.default)),
-              selected: Boolean(Number(lang?.default)),
-              question: "",
-              correct_msg: "",
-              incorrect_msg: "",
-              hint_msg: "",
-              answer_data: {
-                singleChoice: getAnswerData("singleChoice"),
-                multipleChoice: getAnswerData("multipleChoice"),
-                trueFalse: getAnswerData("trueFalse"),
-                sortingChoice: getAnswerData("sortingChoice"),
-                matrixSortingChoice: getAnswerData("matrixSortingChoice"),
-                fillInTheBlank: getAnswerData("fillInTheBlank"),
-                numerical: getAnswerData("numerical"),
-                rangeType: getAnswerData("rangeType"),
-                paragraph: getAnswerData("paragraph"),
-              },
-            };
-          })
-        : props?.quiz?.quiz_languages?.map((lang) => {
-            if (
-              props?.question?.question_languages?.findIndex(
-                (qlang) => qlang?.language_id === lang?.language_id
-              ) !== -1
-            ) {
-              let queslang = props?.question?.question_languages?.find(
-                (qlang) => qlang?.language_id === lang?.language_id
-              );
-              return {
-                id: queslang?.id,
-                language_id: queslang?.language_id,
-                language_name: queslang?.language?.language_name,
-                default: Boolean(Number(lang?.default)),
-                selected: Boolean(Number(lang?.default)),
-                question: queslang?.question,
-                correct_msg: queslang?.correct_msg,
-                incorrect_msg: queslang?.incorrect_msg,
-                hint_msg: queslang?.hint_msg,
-                answer_data: JSON.parse(queslang?.answer_data),
-              };
-            } else {
-              const queslang = props?.question?.question_languages[0];
-              return {
-                id: null,
-                language_id: lang?.language_id,
-                language_name: lang?.language?.language_name,
-                default: Boolean(Number(lang?.default)),
-                selected: Boolean(Number(lang?.default)),
-                question: "",
-                correct_msg: "",
-                incorrect_msg: "",
-                hint_msg: "",
-                answer_data: {
-                  singleChoice: JSON.parse(
-                    queslang?.answer_data
-                  )?.singleChoice?.map((s) => ({ ...s, option: "" })),
-                  multipleChoice: JSON.parse(
-                    queslang?.answer_data
-                  )?.multipleChoice?.map((m) => ({ ...m, option: "" })),
-                  trueFalse: JSON.parse(queslang?.answer_data)?.trueFalse,
-                  sortingChoice: JSON.parse(
-                    queslang?.answer_data
-                  )?.sortingChoice?.map((so) => ({ ...so, option: "" })),
-                  matrixSortingChoice: JSON.parse(
-                    queslang?.answer_data
-                  )?.matrixSortingChoice?.map((mx) => ({ ...mx, option: "" })),
-                  fillInTheBlank: JSON.parse(queslang?.answer_data)
-                    ?.fillInTheBlank,
-                  numerical: JSON.parse(queslang?.answer_data)?.numerical,
-                  rangeType: JSON.parse(queslang?.answer_data)?.rangeType,
-                  paragraph: JSON.parse(queslang?.answer_data)?.paragraph,
-                },
-              };
-            }
-          }),
+        ? props?.quiz?.languages?.map((lang) => {
+          return {
+            id: null,
+            language_id: lang?.term_id,
+            language_name: lang?.name,
+            default: Boolean(Number(lang?.term_id === props?.quiz?.rendered_metas?.default_language_id)),
+            selected: Boolean(Number(lang?.term_id === props?.quiz?.rendered_metas?.default_language_id)),
+            question: "",
+            correct_msg: "",
+            incorrect_msg: "",
+            hint_msg: "",
+            answer_data: {
+              singleChoice: getAnswerData("singleChoice"),
+              multipleChoice: getAnswerData("multipleChoice"),
+              trueFalse: getAnswerData("trueFalse"),
+              sortingChoice: getAnswerData("sortingChoice"),
+              matrixSortingChoice: getAnswerData("matrixSortingChoice"),
+              fillInTheBlank: getAnswerData("fillInTheBlank"),
+              numerical: getAnswerData("numerical"),
+              rangeType: getAnswerData("rangeType"),
+            },
+          };
+        })
+        : props?.question?.question_languages?.map((lang) => {
+          return {
+            id: lang?.id,
+            language_id: lang?.language_id,
+            language_name: lang?.language?.name,
+            default: Boolean(Number(lang?.default)),
+            selected: Boolean(Number(lang?.default)),
+            question: lang?.question,
+            correct_msg: lang?.correct_msg,
+            incorrect_msg: lang?.incorrect_msg,
+            hint_msg: lang?.hint_msg,
+            answer_data: lang?.answer_data ?? {
+              singleChoice: getAnswerData("singleChoice"),
+              multipleChoice: getAnswerData("multipleChoice"),
+              trueFalse: getAnswerData("trueFalse"),
+              sortingChoice: getAnswerData("sortingChoice"),
+              matrixSortingChoice: getAnswerData("matrixSortingChoice"),
+              fillInTheBlank: getAnswerData("fillInTheBlank"),
+              numerical: getAnswerData("numerical"),
+              rangeType: getAnswerData("rangeType"),
+            },
+          };
+        }),
     },
   });
+
+  console.log(methods?.watch("language"));
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -343,7 +313,7 @@ const QuestionContent = (props) => {
     }
   };
 
-  console.log(methods.watch());
+  // console.log(methods.watch());
   // console.log(props?.quiz);
 
   const navigate = useNavigate();
@@ -354,10 +324,6 @@ const QuestionContent = (props) => {
   );
   const onSubmit = (data) => {
     const newData = { ...data };
-    newData?.language?.map((lang) => {
-      lang.answer_data = JSON.stringify(lang.answer_data);
-      return lang;
-    });
     if (props?.create) {
       createMutation.mutate(newData, {
         onSuccess: (data) => {
@@ -419,7 +385,7 @@ const QuestionContent = (props) => {
           <QuestionParagraphSection {...methods} {...props} />
 
           {/* Language section */}
-          {Boolean(props?.quiz?.multi_language) && (
+          {methods?.watch("multi_language") && (
             <LanguageSection
               {...methods}
               removeEditor={removeEditor}
@@ -483,7 +449,7 @@ const QuestionContent = (props) => {
             ))}
 
           {/* Language section */}
-          {Boolean(props?.quiz?.multi_language) && (
+          {methods?.watch("multi_language") && (
             <LanguageSection
               {...methods}
               removeEditor={removeEditor}

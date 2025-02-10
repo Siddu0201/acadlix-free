@@ -100,10 +100,10 @@ const Lesson = () => {
     if (Array.isArray(data?.data?.lessons)) {
       const newRows = data?.data?.lessons?.map((lesson) => {
         return {
-          id: lesson?.id,
-          title: lesson?.title,
-          type: lesson?.type,
-          total_resources: lesson?.lesson_resources_count,
+          id: lesson?.ID,
+          title: lesson?.post_title,
+          type: lesson?.rendered_metas?.type,
+          total_resources: lesson?.resource_count,
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });

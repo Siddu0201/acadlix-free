@@ -55,10 +55,10 @@ const CourseContent = () => {
       methods?.setValue("order_item_id", item?.id, { shouldDirty: true });
       methods?.setValue("course_id", item?.course_id, { shouldDirty: true });
       methods?.setValue("order_id", item?.order_id, { shouldDirty: true });
-      methods?.setValue("course_title", item?.course?.post?.post_title, {
+      methods?.setValue("course_title", item?.course?.post_title, {
         shouldDirty: true,
       });
-      methods?.setValue("course_content", item?.course?.post?.rendered_post_content, {
+      methods?.setValue("course_content", item?.course?.rendered_post_content, {
         shouldDirty: true,
       });
       let i = 0;
@@ -71,7 +71,7 @@ const CourseContent = () => {
               open =
                 s?.contents?.findIndex(
                   (c) =>
-                    c?.id ==
+                    c?.ID ==
                     data?.data?.course_statistic?.find((cs) => cs?.is_active)
                       ?.course_section_content_id
                 ) !== -1
@@ -82,16 +82,16 @@ const CourseContent = () => {
             }
           } else {
             open =
-              s?.contents?.findIndex((c) => c?.id == courseSectionContentId) !==
+              s?.contents?.findIndex((c) => c?.ID == courseSectionContentId) !==
                 -1
                 ? true
                 : false;
           }
           return {
-            id: s?.id ?? null,
-            title: s?.title ?? "",
-            sort: s?.sort ?? "",
-            description: s?.description ?? "",
+            id: s?.ID ?? null,
+            title: s?.post_title ?? "",
+            sort: s?.menu_order ?? "",
+            description: s?.rendered_post_content ?? "",
             open: open,
             active: open,
             content:
@@ -100,61 +100,56 @@ const CourseContent = () => {
                 if (courseSectionContentId === undefined) {
                   if (data?.data?.course_statistic?.length > 0) {
                     active =
-                      c?.id ==
+                      c?.ID ==
                       data?.data?.course_statistic?.find((cs) => cs?.is_active)
                         ?.course_section_content_id;
                   } else {
                     active = c_index === 0 ? true : false;
                   }
                 } else {
-                  active = c?.id == courseSectionContentId;
+                  active = c?.ID == courseSectionContentId;
                 }
-                let type =
-                  c?.contentable_type === "Yuvayana\\Acadlix\\Models\\Lesson"
-                    ? "lesson"
-                    : "quiz";
                 return {
                   i: i++,
-                  id: c?.id ?? null,
-                  sort: c?.sort ?? "",
-                  content_type: c?.contentable_type ?? "", // lesson/quiz,
-                  content_type_id: c?.contentable_id ?? null,
+                  id: c?.ID ?? null,
+                  sort: c?.menu_order ?? "",
+                  content_type_id: c?.contentable?.id ?? null,
                   is_active: active,
                   is_completed:
                     data?.data?.course_statistic?.length > 0
                       ? data?.data?.course_statistic?.find(
-                        (cs) => cs?.course_section_content_id === c?.id
+                        (cs) => cs?.course_section_content_id === c?.ID
                       )?.is_completed
                         ? true
                         : false
                       : false,
-                  type: type ?? "",
-                  lesson_type: c?.contentable?.type ?? "video",
+                  type: c?.contentable?.type ?? "", // lesson/quiz,
+                  lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
                   title: c?.contentable?.title ?? "",
-                  content: c?.contentable?.rendered_content ?? "",
+                  content: c?.contentable_data?.rendered_post_content ?? "",
                   video: {
-                    video_type: c?.contentable?.video?.video_type ?? "",
+                    video_type: c?.contentable_data?.rendered_metas?.video?.video_type ?? "",
                     video_data: {
-                      html_5: c?.contentable?.video?.video_data?.html_5 ?? "",
+                      html_5: c?.contentable_data?.rendered_metas?.video?.video_data?.html_5 ?? "",
                       external_link:
-                        c?.contentable?.video?.video_data?.external_link ?? "",
-                      youtube: c?.contentable?.video?.video_data?.youtube ?? "",
-                      vimeo: c?.contentable?.video?.video_data?.vimeo ?? "",
+                        c?.contentable_data?.rendered_metas?.video?.video_data?.external_link ?? "",
+                      youtube: c?.contentable_data?.rendered_metas?.video?.video_data?.youtube ?? "",
+                      vimeo: c?.contentable_data?.rendered_metas?.video?.video_data?.vimeo ?? "",
                       embedded:
-                        c?.contentable?.video?.video_data?.embedded ?? "",
+                        c?.contentable_data?.rendered_metas?.video?.video_data?.embedded ?? "",
                       shortcode:
-                        c?.contentable?.video?.video_data?.shortcode ?? "",
+                        c?.contentable_data?.rendered_metas?.video?.video_data?.shortcode ?? "",
                     },
                     video_thumbnail:
-                      c?.contentable?.video?.video_thumbnail ?? "",
+                      c?.contentable_data?.rendered_metas?.video?.video_thumbnail ?? "",
                   },
                   hours:
-                    (c?.contentable?.hours ?? 0).toString().padStart(2, '0'),
+                    (c?.contentable_data?.rendered_metas?.hours ?? 0).toString().padStart(2, '0'),
                   minutes:
-                    (c?.contentable?.minutes ?? 0).toString().padStart(2, '0'),
+                    (c?.contentable_data?.rendered_metas?.minutes ?? 0).toString().padStart(2, '0'),
                   seconds:
-                    (c?.contentable?.seconds ?? 0).toString().padStart(2, '0'),
-                  lesson_resources: c?.contentable?.lesson_resources ?? [],
+                    (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
+                  lesson_resources: c?.contentable_data?.rendered_metas?.lesson_resources ?? [],
                 };
               }) ?? [],
           };
@@ -328,6 +323,15 @@ const CourseContent = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (courseSectionContentId === undefined && methods?.watch("sections")?.length > 0) {
+      handleNavigate(methods
+        ?.watch("sections")
+        ?.find((s) => s?.active)
+        ?.content?.find((c) => c?.is_active)?.id);
+    }
+  },[]);
+
 
   return (
     <Box onContextMenu={(e) => e.preventDefault()}>
@@ -463,17 +467,8 @@ const CourseContent = () => {
                     overflowY: "auto",
                   }}
                 >
-                  {courseSectionContentId === undefined
-                    ? methods?.watch("sections")?.length > 0 && (
-                      <Navigate
-                        to={`/course/${orderItemId}/content/${methods
-                          ?.watch("sections")
-                          ?.find((s) => s?.active)
-                          ?.content?.find((c) => c?.is_active)?.id
-                          }`}
-                      />
-                    )
-                    : methods?.watch("sections")?.length > 0 && (
+                  {courseSectionContentId !== undefined &&
+                    methods?.watch("sections")?.length > 0 && (
                       <Content
                         {...methods}
                         courseSectionContentId={courseSectionContentId}

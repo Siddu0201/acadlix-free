@@ -63,7 +63,7 @@ const TypeSortingChoice = (props) => {
               ? 0
               : 1,
           solved_count: 1,
-          answer_data: data,
+          answer_data: data?.map((d) => d.position),
         },
         { shouldDirty: true }
       );

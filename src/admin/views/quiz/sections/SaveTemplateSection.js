@@ -29,7 +29,7 @@ const SaveTemplateSection = (props) => {
           id: template_id,
           name: input,
           type: "quiz",
-          data: JSON.stringify(props?.watch()),
+          data: props?.watch(),
         },
         {
           onSuccess: (data) => {

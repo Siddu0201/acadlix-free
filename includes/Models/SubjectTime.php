@@ -19,9 +19,9 @@ if(!class_exists('SubjectTime')){
             "optional",
         ];
 
-        public function quiz(){
-            return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
-        }
+        // public function quiz(){
+        //     return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
+        // }
 
         public function subject(){
             return $this->belongsTo(Subject::class, 'subject_id', 'id');

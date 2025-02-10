@@ -14,7 +14,7 @@ if(!class_exists('QuizLangMigration')){
             if(!Manager::schema()->hasTable('quiz_lang')){
                 Manager::schema()->create('quiz_lang', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->onDelete('cascade');
+                    $table->bigInteger('quiz_id')->nullable();
                     $table->foreignId('language_id')->nullable()->constrained('language')->nullOnDelete();
                     $table->boolean('default')->default(false);
                     $table->longText('instruction1')->nullable();

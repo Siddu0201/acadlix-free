@@ -3,7 +3,7 @@ import React from "react";
 
 const QuestionTextSection = (props) => {
   const loadPage = () => {
-      props?.loadEditor(`question_${props?.lang?.language_id}`, `language.${props?.index}.question`);
+    props?.loadEditor(`question_${props?.lang?.language_id}`, `language.${props?.index}.question`);
   };
 
   React.useEffect(() => {
@@ -11,8 +11,8 @@ const QuestionTextSection = (props) => {
     window.addEventListener("load", loadPage);
 
     return () => {
-        props?.removeEditor(`question_${props?.lang?.language_id}`);
-        window.removeEventListener("load", loadPage);
+      props?.removeEditor(`question_${props?.lang?.language_id}`);
+      window.removeEventListener("load", loadPage);
     };
   }, []);
 
@@ -36,9 +36,9 @@ const QuestionTextSection = (props) => {
               color: "black",
               fontSize: '1.5rem',
             }}>
-              Question<span style={{color: "red"}}>*</span> ({props?.lang?.language_name})
+              Question<span style={{ color: "red" }}>*</span> {props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}
             </Typography>
-            )}
+          )}
         />
         <CardContent>
           <Grid container spacing={4}>

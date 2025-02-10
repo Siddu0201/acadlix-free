@@ -4,17 +4,13 @@ import {
   CardContent,
   FormControl,
   FormControlLabel,
-  FormHelperText,
   FormLabel,
   Grid,
-  IconButton,
-  Input,
   InputLabel,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
 import { MediaUpload } from "@wordpress/media-utils";
@@ -27,11 +23,10 @@ import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 const OptionSection = (props) => {
   const handleAddResoures = () => {
     props?.setValue(
-      "resources",
+      "meta.resources",
       [
-        ...props?.watch("resources"),
+        ...props?.watch("meta.resources"),
         {
-          id: null,
           title: "",
           type: "upload",
           filename: "",
@@ -51,7 +46,20 @@ const OptionSection = (props) => {
 
       // Listen for loaded metadata to get the duration
       video.onloadedmetadata = () => {
-        resolve(video.duration); // Duration in seconds
+        if (video.duration && video.duration > 0) {
+          let { hours, minutes, seconds } =
+            convertTime(video.duration);
+          props?.setValue("meta.hours", hours, {
+            shouldDirty: true,
+          });
+          props?.setValue("meta.minutes", minutes, {
+            shouldDirty: true,
+          });
+          props?.setValue("meta.seconds", seconds, {
+            shouldDirty: true,
+          });
+        }
+        resolve(true); // Duration in seconds
       };
 
       // Handle error if video fails to load
@@ -100,7 +108,7 @@ const OptionSection = (props) => {
                   row
                   aria-label="acadlix-option-lesson-type"
                   onChange={(e) => {
-                    props?.setValue("type", e?.target?.value, {
+                    props?.setValue("meta.type", e?.target?.value, {
                       shouldDirty: true,
                     });
                   }}
@@ -109,45 +117,30 @@ const OptionSection = (props) => {
                     value="video"
                     control={<Radio />}
                     label="Video"
-                    checked={props?.watch("type") === "video"}
+                    checked={props?.watch("meta.type") === "video"}
                   />
                   <FormControlLabel
                     value="text"
                     control={<Radio />}
                     label="Text"
-                    checked={props?.watch("type") === "text"}
+                    checked={props?.watch("meta.type") === "text"}
                   />
                 </RadioGroup>
               </FormControl>
             </Grid>
 
-            {props?.watch("type") === "video" && (
+            {props?.watch("meta.type") === "video" && (
               <>
                 <VideoUpload
                   xs={12}
                   sm={6}
-                  video={props?.watch("video")}
+                  video={props?.watch("meta.video")}
                   onUpdate={(data) => {
-                    props?.setValue("video", data, { shouldDirty: true });
+                    props?.setValue("meta.video", data, { shouldDirty: true });
                   }}
                   onMediaUpload={(media) => {
                     if (media?.url && media?.url !== "") {
                       getVideoDuration(media?.url)
-                        .then((duration) => {
-                          if (duration && duration > 0) {
-                            let { hours, minutes, seconds } =
-                              convertTime(duration);
-                            props?.setValue("hours", hours, {
-                              shouldDirty: true,
-                            });
-                            props?.setValue("minutes", minutes, {
-                              shouldDirty: true,
-                            });
-                            props?.setValue("seconds", seconds, {
-                              shouldDirty: true,
-                            });
-                          }
-                        })
                         .catch((error) => {
                           console.error(error);
                         });
@@ -156,21 +149,6 @@ const OptionSection = (props) => {
                   onVideoLinkDataChange={(type, data) => {
                     if (type === "external_link" && data !== "") {
                       getVideoDuration(data)
-                        .then((duration) => {
-                          if (duration && duration > 0) {
-                            let { hours, minutes, seconds } =
-                              convertTime(duration);
-                            props?.setValue("hours", hours, {
-                              shouldDirty: true,
-                            });
-                            props?.setValue("minutes", minutes, {
-                              shouldDirty: true,
-                            });
-                            props?.setValue("seconds", seconds, {
-                              shouldDirty: true,
-                            });
-                          }
-                        })
                         .catch((error) => {
                           console.error(error);
                         });
@@ -184,17 +162,17 @@ const OptionSection = (props) => {
                     label="Hours"
                     size="small"
                     type="number"
-                    value={props?.watch("hours") ?? 0}
+                    value={props?.watch("meta.hours") ?? 0}
                     onChange={(e) => {
-                      props?.setValue("hours", e?.target?.value, {
+                      props?.setValue("meta.hours", e?.target?.value, {
                         shouldDirty: true,
                       });
                     }}
                     sx={{
                       "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                        {
-                          display: "none",
-                        },
+                      {
+                        display: "none",
+                      },
                       "& input[type=number]": {
                         MozAppearance: "textfield",
                       },
@@ -208,17 +186,17 @@ const OptionSection = (props) => {
                     label="Minutes"
                     size="small"
                     type="number"
-                    value={props?.watch("minutes") ?? 0}
+                    value={props?.watch("meta.minutes") ?? 0}
                     onChange={(e) => {
-                      props?.setValue("minutes", e?.target?.value, {
+                      props?.setValue("meta.minutes", e?.target?.value, {
                         shouldDirty: true,
                       });
                     }}
                     sx={{
                       "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                        {
-                          display: "none",
-                        },
+                      {
+                        display: "none",
+                      },
                       "& input[type=number]": {
                         MozAppearance: "textfield",
                       },
@@ -232,17 +210,17 @@ const OptionSection = (props) => {
                     label="Seconds"
                     size="small"
                     type="number"
-                    value={props?.watch("seconds") ?? 0}
+                    value={props?.watch("meta.seconds") ?? 0}
                     onChange={(e) => {
-                      props?.setValue("seconds", e?.target?.value, {
+                      props?.setValue("meta.seconds", e?.target?.value, {
                         shouldDirty: true,
                       });
                     }}
                     sx={{
                       "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                        {
-                          display: "none",
-                        },
+                      {
+                        display: "none",
+                      },
                       "& input[type=number]": {
                         MozAppearance: "textfield",
                       },
@@ -252,11 +230,11 @@ const OptionSection = (props) => {
               </>
             )}
 
-            {props?.watch("type") === "text" && <ContentSection {...props} />}
+            {props?.watch("meta.type") === "text" && <ContentSection {...props} />}
 
-            {props?.watch("resources")?.length > 0 &&
+            {props?.watch("meta.resources")?.length > 0 &&
               props
-                ?.watch("resources")
+                ?.watch("meta.resources")
                 ?.map((r, index) => (
                   <Resources key={index} index={index} {...props} {...r} />
                 ))}
@@ -281,10 +259,10 @@ export default OptionSection;
 
 const Resources = (props) => {
   const handleMediaChange = (media) => {
-    props?.setValue(`resources.${props?.index}.filename`, media?.filename, {
+    props?.setValue(`meta.resources.${props?.index}.filename`, media?.filename, {
       shouldDirty: true,
     });
-    props?.setValue(`resources.${props?.index}.file_url`, media?.url, {
+    props?.setValue(`meta.resources.${props?.index}.file_url`, media?.url, {
       shouldDirty: true,
     });
   };
@@ -305,10 +283,10 @@ const Resources = (props) => {
                 name="title"
                 size="small"
                 label="Enter Title"
-                value={props?.watch(`resources.${props?.index}.title`) ?? ""}
+                value={props?.watch(`meta.resources.${props?.index}.title`) ?? ""}
                 onChange={(e) => {
                   props?.setValue(
-                    `resources.${props?.index}.title`,
+                    `meta.resources.${props?.index}.title`,
                     e?.target?.value,
                     {
                       shouldDirty: true,
@@ -323,11 +301,11 @@ const Resources = (props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={props?.watch(`resources.${props?.index}.type`)}
+                  value={props?.watch(`meta.resources.${props?.index}.type`)}
                   label="Type"
                   onChange={(e) => {
                     props?.setValue(
-                      `resources.${props?.index}.type`,
+                      `meta.resources.${props?.index}.type`,
                       e?.target?.value,
                       {
                         shouldDirty: true,
@@ -369,10 +347,10 @@ const Resources = (props) => {
                   name="link"
                   size="small"
                   label="https://example.com/"
-                  value={props?.watch(`resources.${props?.index}.link`) ?? ""}
+                  value={props?.watch(`meta.resources.${props?.index}.link`) ?? ""}
                   onChange={(e) => {
                     props?.setValue(
-                      `resources.${props?.index}.link`,
+                      `meta.resources.${props?.index}.link`,
                       e?.target?.value,
                       {
                         shouldDirty: true,
@@ -388,9 +366,9 @@ const Resources = (props) => {
                 color="error"
                 onClick={(e) => {
                   props?.setValue(
-                    "resources",
+                    "meta.resources",
                     props
-                      ?.watch("resources")
+                      ?.watch("meta.resources")
                       ?.filter((_, i) => i !== props?.index),
                     { shouldDirty: true }
                   );

@@ -2,8 +2,10 @@
 
 namespace Yuvayana\Acadlix\REST\Admin;
 
+use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
+use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseSection;
 use Yuvayana\Acadlix\Models\CourseSectionContent;
@@ -235,7 +237,7 @@ class AdminCourseController
 
         register_rest_route(
             $this->namespace,
-            '/' . $this->base . '/section/(?P<section_id>[\d]+)/content/(?P<section_content_id>[\d]+)',
+            '/' . $this->base . '/section/(?P<section_id>[\d]+)/content/(?P<content_id>[\d]+)',
             [
                 [
                     'methods' => WP_REST_Server::DELETABLE,
@@ -252,7 +254,7 @@ class AdminCourseController
                                 return is_numeric($param);
                             }
                         ),
-                        'section_content_id' => array(
+                        'content_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
                                 return is_numeric($param);
                             }
@@ -272,84 +274,129 @@ class AdminCourseController
     {
         $res = [];
         $params = $request->get_json_params();
-        $course_id = $params['id'];
-        $course = Course::find($course_id);
-        if ($course) {
-            $course->update($params);
-        } else {
-            Course::create([
-                ...$params,
-                'id' => $course_id,
-            ]);
-        }
-        $course = Course::find($course_id);
-        $course->users()->whereNotIn("user_id", $params['user_ids'])->delete();
-        if (count($params['user_ids']) > 0) {
-            foreach ($params['user_ids'] as $user_id) {
-                $course->users()->updateOrCreate(
-                    ['user_id' => $user_id],
-                    ['user_id' => $user_id]
-                );
-            }
-        }
-        $course->outcomes()->whereNotIn('id', array_column($params['outcomes'], 'id'))->delete();
-        if (count($params['outcomes']) > 0) {
-            foreach ($params['outcomes'] as $outcome) {
-                $course->outcomes()->updateOrCreate(
-                    ['id' => $outcome['id']],
-                    ['outcome' => $outcome['outcome']]
-                );
-            }
+        $courseId = $params['id'];
+
+        // Validate required fields
+        if (empty($courseId)) {
+            return new WP_Error(
+                'missing_id',
+                __('Course id is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
 
-        $course->faqs()->whereNotIn('id', array_column($params['faqs'], 'id'))->delete();
-        if (count($params['faqs']) > 0) {
-            foreach ($params['faqs'] as $faq) {
-                $course->faqs()->updateOrCreate(
-                    ['id' => $faq['id']],
-                    [
-                        'question' => $faq['question'],
-                        'answer' => $faq['answer']
-                    ]
+        // Prepare meta data
+        $meta = !empty($params['meta']) && is_array($params['meta'])
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'course')
+            : [];
+
+        try {
+            // Insert the lesson post
+            $courseId = Course::updateCourse($courseId, [], $meta);
+
+            if (is_wp_error($courseId)) {
+                return new WP_Error(
+                    'course_updation_failed',
+                    __('Failed to update the course.', 'acadlix'),
+                    ['status' => 500, 'error' => $courseId->get_error_message()]
                 );
             }
-        }
 
-        return rest_ensure_response($res);
+            // Retrieve and return the lesson data
+            $course = get_post($courseId);
+            if (!$course) {
+                return new WP_Error(
+                    'course_not_found',
+                    __('Updated course not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['course'] = $course;
+            return rest_ensure_response($res);
+
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
+        }
     }
 
     public function post_create_section($request)
     {
         $res = [];
         $params = $request->get_json_params();
-        $course_id = $params['id'];
+        $courseId = $params['courseId'];
 
-        // Change post status and title
-        $course_post = get_post($course_id, ARRAY_A);
-        if ($course_post['post_title'] == 'Auto Draft' && $course_post['post_status'] == 'auto-draft') {
-            wp_update_post(array(
-                'ID' => $course_id,
-                'post_title' => __('Draft Course', 'acadlix'),
-                'post_status' => 'draft',
-                'post_author' => $params['logged_in_user_id'],
-            ));
+        // Validate required fields
+        if (empty($courseId)) {
+            return new WP_Error(
+                'missing_id',
+                __('Course id is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
 
-        // Create course if not exist
-        $course = Course::find($course_id);
-        if (!$course) {
-            $course = Course::create([
-                'id' => $course_id
+        if (empty($params['post_title'])) {
+            return new WP_Error(
+                'missing_title',
+                __('Course section title is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        try {
+            // Change post status and title
+            $course_post = get_post($courseId, ARRAY_A);
+            if ($course_post['post_title'] == 'Auto Draft' && $course_post['post_status'] == 'auto-draft') {
+                Course::updateCourse(
+                    $courseId,
+                    [
+                        'post_title' => __('Draft Course', 'acadlix'),
+                        'post_status' => 'draft',
+                        'post_author' => $params['logged_in_user_id'],
+                    ],
+                );
+            }
+            $course = Course::ofCourse()->find($courseId);
+            // Insert the section post
+            $courseSectionId = CourseSection::insertCourseSection([
+                'post_title' => sanitize_text_field($params['post_title']),
+                'post_content' => wp_kses_post($params['post_content']),
+                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+                'post_parent' => $courseId,
+                'menu_order' => $course->sections()->max('menu_order') + 1 ?? 1,
             ]);
-        }
-        $course = Course::find($course_id);
-        $res['section'] = $course->sections()->create([
-            "title" => $params['title'],
-            "description" => $params['description'],
-            'sort' => $course->sections()->max('sort') + 1 ?? 1,
-        ]);
 
-        return rest_ensure_response($res);
+            if (is_wp_error($courseSectionId)) {
+                return new WP_Error(
+                    'course_section_creation_failed',
+                    __('Failed to create the course section.', 'acadlix'),
+                    ['status' => 500, 'error' => $courseSectionId->get_error_message()]
+                );
+            }
+
+            $course_section = get_post($courseSectionId);
+            if (!$course_section) {
+                return new WP_Error(
+                    'course_section_not_found',
+                    __('Created course section not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['course_section'] = $course_section;
+            return rest_ensure_response($res);
+
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
+        }
     }
 
     public function update_section_by_id($request)
@@ -357,25 +404,86 @@ class AdminCourseController
         $res = [];
         $section_id = $request['section_id'];
         $params = $request->get_json_params();
-        $section = CourseSection::find($section_id);
-        if ($section) {
-            $section->update([
-                "title" => $params['title'],
-                "description" => $params['description'],
-            ]);
+
+        // Validate required fields
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        $res['section'] = $section;
-        return rest_ensure_response($res);
+
+        if (empty($params['post_title'])) {
+            return new WP_Error(
+                'missing_title',
+                __('Course section title is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        try {
+            $courseSectionId = CourseSection::updateCourseSection(
+                $section_id,
+                [
+                    'post_title' => sanitize_text_field($params['post_title']),
+                    'post_content' => wp_kses_post($params['post_content']),
+                ]
+            );
+
+            if (is_wp_error($courseSectionId)) {
+                return new WP_Error(
+                    'course_section_updation_failed',
+                    __('Failed to create the course section.', 'acadlix'),
+                    ['status' => 500, 'error' => $courseSectionId->get_error_message()]
+                );
+            }
+
+            $course_section = get_post($courseSectionId);
+            if (!$course_section) {
+                return new WP_Error(
+                    'course_section_not_found',
+                    __('Updated course section not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['course_section'] = $course_section;
+            return rest_ensure_response($res);
+
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
+        }
     }
 
     public function delete_section_by_id($request)
     {
         $res = [];
         $section_id = $request['section_id'];
-        $section = CourseSection::find($section_id);
-        if ($section) {
-            $section->delete();
+
+        // Validate required fields
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
+
+        $section = CourseSection::deleteCourseSection($section_id);
+
+        if (is_wp_error($section)) {
+            return new WP_Error(
+                'course_section_deletion_failed',
+                __('Failed to delete the course section.', 'acadlix'),
+                ['status' => 500, 'error' => $section->get_error_message()]
+            );
+        }
+
         $res['message'] = __('Course section successfully deleted.', 'acadlix');
         return rest_ensure_response($res);
     }
@@ -383,28 +491,53 @@ class AdminCourseController
     public function post_sort_section($request)
     {
         $res = [];
-        $course_id = $request['course_id'];
+        $courseId = $request['course_id'];
         $params = $request->get_json_params();
-        $course = Course::find($course_id);
-        if ($course) {
-            $sections = $course->sections()->get();
-            $active_sort = $params['active_sort'];
-            $over_sort = $params['over_sort'];
-            if ($active_sort < $over_sort) {
-                foreach ($sections as $section) {
-                    if ($section->sort == $active_sort) {
-                        $section->update(['sort' => $over_sort]);
-                    } else if ($section->sort > $active_sort && $section->sort <= $over_sort) {
-                        $section->update(['sort' => $section->sort - 1]);
-                    }
+
+        // Validate required fields
+        if (empty($courseId)) {
+            return new WP_Error(
+                'missing_id',
+                __('Course id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $course = Course::ofCourse()->find($courseId);
+
+        if (!$course) {
+            return new WP_Error(
+                'missing_course',
+                __('Course with this doesnt exist. Course id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $sections = $course->sections()->get();
+        $active_menu_order = $params['active_menu_order'];
+        $over_menu_order = $params['over_menu_order'];
+
+        if (empty($active_menu_order) || empty($over_menu_order)) {
+            return new WP_Error(
+                'missing_menu_order',
+                __('active and over menu order is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        if ($active_menu_order < $over_menu_order) {
+            foreach ($sections as $section) {
+                if ($section->menu_order == $active_menu_order) {
+                    $section->updateCourseSection($section->ID, ['menu_order' => $over_menu_order]);
+                } else if ($section->menu_order > $active_menu_order && $section->menu_order <= $over_menu_order) {
+                    $section->updateCourseSection($section->ID, ['menu_order' => $section->menu_order - 1]);
                 }
-            } else {
-                foreach ($sections as $section) {
-                    if ($section->sort == $active_sort) {
-                        $section->update(['sort' => $over_sort]);
-                    } else if ($section->sort < $active_sort && $section->sort >= $over_sort) {
-                        $section->update(['sort' => $section->sort + 1]);
-                    }
+            }
+        } else {
+            foreach ($sections as $section) {
+                if ($section->menu_order == $active_menu_order) {
+                    $section->updateCourseSection($section->ID, ['menu_order' => $over_menu_order]);
+                } else if ($section->menu_order < $active_menu_order && $section->menu_order >= $over_menu_order) {
+                    $section->updateCourseSection($section->ID, ['menu_order' => $section->menu_order + 1]);
                 }
             }
         }
@@ -415,28 +548,53 @@ class AdminCourseController
     public function post_sort_content($request)
     {
         $res = [];
-        $section_id = $request['section_id'];
         $params = $request->get_json_params();
-        $section = CourseSection::find($section_id);
-        if ($section) {
-            $contents = $section->contents()->get();
-            $active_sort = $params['active_sort'];
-            $over_sort = $params['over_sort'];
-            if ($active_sort < $over_sort) {
-                foreach ($contents as $content) {
-                    if ($content->sort == $active_sort) {
-                        $content->update(['sort' => $over_sort]);
-                    } else if ($content->sort > $active_sort && $content->sort <= $over_sort) {
-                        $content->update(['sort' => $content->sort - 1]);
-                    }
+        $section_id = $request['section_id'];
+
+        // Validate required fields
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $section = CourseSection::ofCourseSection()->find($section_id);
+
+        if (!$section) {
+            return new WP_Error(
+                'missing_section',
+                __('Section with this doesnt exist. Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $contents = $section->contents()->get();
+        $active_menu_order = $params['active_menu_order'];
+        $over_menu_order = $params['over_menu_order'];
+
+        if(empty($params['active_menu_order']) || empty($params['over_menu_order'])){
+            return new WP_Error(
+                'missing_sort',
+                __('active and over menu order is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        if ($active_menu_order < $over_menu_order) {
+            foreach ($contents as $content) {
+                if ($content->menu_order == $active_menu_order) {
+                    $content->updateCourseSectionContent($content->ID, ['menu_order' => $over_menu_order]);
+                } else if ($content->menu_order > $active_menu_order && $content->menu_order <= $over_menu_order) {
+                    $content->updateCourseSectionContent($content->ID, ['menu_order' => $content->menu_order - 1]);
                 }
-            } else {
-                foreach ($contents as $content) {
-                    if ($content->sort == $active_sort) {
-                        $content->update(['sort' => $over_sort]);
-                    } else if ($content->sort < $active_sort && $content->sort >= $over_sort) {
-                        $content->update(['sort' => $content->sort + 1]);
-                    }
+            }
+        } else {
+            foreach ($contents as $content) {
+                if ($content->menu_order == $active_menu_order) {
+                    $content->updateCourseSectionContent($content->ID, ['menu_order' => $over_menu_order]);
+                } else if ($content->menu_order < $active_menu_order && $content->menu_order >= $over_menu_order) {
+                    $content->updateCourseSectionContent($content->ID, ['menu_order' => $content->menu_order + 1]);
                 }
             }
         }
@@ -449,69 +607,183 @@ class AdminCourseController
         $res = [];
         $section_id = $request['section_id'];
         $content_id = $request['content_id'];
-        $section = CourseSection::find($section_id);
-        if ($section) {
-            $section_content = $section->contents()->find($content_id);
-            if ($section_content) {
-                $section_content->update([
-                    'preview' => $request->get_param('preview')
-                ]);
-            }
+
+        // Validate required fields
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        $res['section'] = CourseSection::find($section_id);
+
+        if (empty($content_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Content id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $meta = [
+            'preview' => $request->get_param('preview')
+        ];
+        $meta = !empty($meta) && is_array($meta)
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($meta, 'course_section_content')
+            : [];
+
+        $section_content = CourseSectionContent::ofCourseSectionContent()->find($content_id);
+        if (!$section_content) {
+            return new WP_Error(
+                'missing_content',
+                __('Content not found.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $courseSectionContentId = CourseSectionContent::updateCourseSectionContent(
+            $content_id,
+            [],
+            $meta
+        );
+
+        if (is_wp_error($courseSectionContentId)) {
+            return new WP_Error(
+                'course_section_content_updation_failed',
+                __('Failed to update the content.', 'acadlix'),
+                ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+            );
+        }
+        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
     public function get_lessons_for_course()
     {
         $res = [];
-        $res['lessons'] = Lesson::select(["id", "title"])->get();
+        $res['lessons'] = Lesson::ofLesson()->select(["ID", "post_title"])->get();
         return rest_ensure_response($res);
     }
 
     public function post_add_create_lesson($request)
     {
         $res = [];
-        $section_id = $request['section_id'];
         $params = $request->get_json_params();
+        $section_id = $request['section_id'];
+
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
 
         $section = CourseSection::find($section_id);
         if ($params['lesson_type'] == 'add_new') {
-            $lesson = Lesson::create([
-                ...$params,
-            ]);
-            if (count($params['resources']) > 0) {
-                foreach ($params['resources'] as $resource) {
-                    if (($resource['type'] == 'upload' && $resource['filename'] !== '') || ($resource['type'] == 'link' && $resource['link'] != '')) {
-                        $lesson->lesson_resources()->create($resource);
-                    }
-
-                }
+            // Validate required fields
+            if (empty($params['title'])) {
+                return new WP_Error(
+                    'missing_title',
+                    __('Lesson title is required.', 'acadlix'),
+                    ['status' => 400]
+                );
             }
 
-            if ($lesson) {
-                $section->contents()->create([
-                    "course_id" => $params['course_id'],
-                    "contentable_type" => Lesson::class,
-                    "contentable_id" => $lesson['id'],
-                    "sort" => $section->contents()->max('sort') + 1 ?? 1,
-                ]);
+            // Prepare meta data
+            $meta = !empty($params['meta']) && is_array($params['meta'])
+                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+                : [];
+
+            // Insert the lesson post
+            $lessonId = Lesson::insertLesson([
+                'post_title' => sanitize_text_field($params['title']),
+                'post_content' => wp_kses_post($params['content']),
+                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+            ], $meta);
+
+            if (is_wp_error($lessonId)) {
+                return new WP_Error(
+                    'lesson_creation_failed',
+                    __('Failed to create the lesson.', 'acadlix'),
+                    ['status' => 500, 'error' => $lessonId->get_error_message()]
+                );
+            }
+            $courseSectionContentMetas = [
+                "type" => "lesson",
+                "lesson_id" => $lessonId
+            ];
+            // Prepare meta data
+            $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
+                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+                : [];
+
+            // add data to section content
+            $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
+                [
+                    'post_title' => sanitize_text_field($params['title']),
+                    'post_author' => (int) sanitize_text_field($params['post_author']),
+                    'post_parent' => $section_id,
+                    'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
+                ],
+                $meta
+            );
+
+            if (is_wp_error($courseSectionContentId)) {
+                return new WP_Error(
+                    'course_section_content_creation_failed',
+                    __('Failed to create the course section content.', 'acadlix'),
+                    ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+                );
             }
         }
 
         if ($params['lesson_type'] == 'existing') {
-            if (count($params['lesson_ids']) > 0) {
-                foreach ($params['lesson_ids'] as $lesson_id) {
-                    $section->contents()->create([
-                        "course_id" => $params['course_id'],
-                        "contentable_type" => Lesson::class,
-                        "contentable_id" => $lesson_id,
-                        "sort" => $section->contents()->max('sort') + 1 ?? 1,
-                    ]);
+            if (!is_array($params['lesson_ids']) || count($params['lesson_ids']) == 0) {
+                return new WP_Error(
+                    'missing_ids',
+                    __('Lesson ids is required.', 'acadlix'),
+                    ['status' => 400]
+                );
+            }
+            foreach ($params['lesson_ids'] as $lesson_id) {
+                $lesson = Lesson::ofLesson()->find($lesson_id);
+                if (!$lesson) {
+                    return new WP_Error(
+                        'lesson_not_found',
+                        __('Lesson not found.', 'acadlix'),
+                        ['status' => 500]
+                    );
+                }
+
+                $courseSectionContentMetas = [
+                    "type" => "lesson",
+                    "lesson_id" => $lesson_id
+                ];
+                // Prepare meta data
+                $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
+                    ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+                    : [];
+
+                // add data to section content
+                $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
+                    [
+                        'post_title' => sanitize_text_field($lesson['post_title']),
+                        'post_author' => (int) sanitize_text_field($lesson['post_author']),
+                        'post_parent' => $section_id,
+                        'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
+                    ],
+                    $meta
+                );
+
+                if (is_wp_error($courseSectionContentId)) {
+                    return new WP_Error(
+                        'course_section_content_creation_failed',
+                        __('Failed to create the course section content.', 'acadlix'),
+                        ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+                    );
                 }
             }
         }
-        $res['section'] = CourseSection::find($section_id);
+        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
@@ -521,47 +793,118 @@ class AdminCourseController
         $section_id = $request['section_id'];
         $lesson_id = $request['lesson_id'];
         $params = $request->get_json_params();
-        $lesson = Lesson::find($lesson_id);
-        $lesson->update([
-            ...$params,
-        ]);
-        foreach ($params['resources'] as $resource) {
-            if (($resource['type'] == 'upload' && $resource['filename'] !== '') || ($resource['type'] == 'link' && $resource['link'] != '')) {
-                $lesson->lesson_resources()->updateOrCreate(
-                    ['id' => $resource['id']],
-                    $resource
-                );
-            }
+
+        // Validate required fields
+        if (empty($params['title'])) {
+            return new WP_Error(
+                'missing_title',
+                __('Lesson title is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        $lesson->lesson_resources()->whereNotIn('id', array_column($params['resources'], 'id'))->delete();
-        $res['section'] = CourseSection::find($section_id);
+
+        // Validate required fields
+        if (empty($lesson_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Lesson id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        // Prepare meta data
+        $meta = !empty($params['meta']) && is_array($params['meta'])
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+            : [];
+
+        // Update the lesson post
+        $lessonId = Lesson::updateLesson($lesson_id, [
+            'post_title' => sanitize_text_field($params['title']),
+            'post_content' => wp_kses_post($params['content']),
+        ], $meta);
+
+        if (is_wp_error($lessonId)) {
+            return new WP_Error(
+                'lesson_updation_failed',
+                __('Failed to update the lesson.', 'acadlix'),
+                ['status' => 500, 'error' => $lessonId->get_error_message()]
+            );
+        }
+
+        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
     public function get_quizzes_for_course()
     {
         $res = [];
-        $res['quizzes'] = Quiz::select(["id", "title"])->get();
+        $res['quizzes'] = Quiz::ofQuiz()->select(["ID", "post_title"])->get();
         return rest_ensure_response($res);
     }
 
     public function post_add_quiz($request)
     {
         $res = [];
-        $section_id = $request['section_id'];
         $params = $request->get_json_params();
-        $section = CourseSection::find($section_id);
-        if (count($params['quiz_ids']) > 0) {
-            foreach ($params['quiz_ids'] as $quiz_id) {
-                $section->contents()->create([
-                    "course_id" => $params['course_id'],
-                    "contentable_type" => Quiz::class,
-                    "contentable_id" => $quiz_id,
-                    "sort" => $section->contents()->max('sort') + 1 ?? 1,
-                ]);
+        $section_id = $request['section_id'];
+
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        if (!is_array($params['quiz_ids']) || count($params['quiz_ids']) == 0) {
+            return new WP_Error(
+                'missing_ids',
+                __('Quiz ids is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $section = CourseSection::ofCourseSection()->find($section_id);
+
+        foreach ($params['quiz_ids'] as $quiz_id) {
+            $quiz = Quiz::ofQuiz()->find($quiz_id);
+            if (!$quiz) {
+                return new WP_Error(
+                    'quiz_not_found',
+                    __('Quiz not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $courseSectionContentMetas = [
+                "type" => "quiz",
+                "quiz_id" => $quiz_id
+            ];
+
+            // Prepare meta data
+            $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
+                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+                : [];
+
+            // add data to section content
+            $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
+                [
+                    'post_title' => sanitize_text_field($quiz['post_title']),
+                    'post_author' => (int) sanitize_text_field($quiz['post_author']),
+                    'post_parent' => $section_id,
+                    'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
+                ],
+                $meta
+            );
+
+            if (is_wp_error($courseSectionContentId)) {
+                return new WP_Error(
+                    'course_section_content_creation_failed',
+                    __('Failed to create the course section content.', 'acadlix'),
+                    ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+                );
             }
         }
-        $res['section'] = CourseSection::find($section_id);
+        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
@@ -569,12 +912,38 @@ class AdminCourseController
     {
         $res = [];
         $section_id = $request['section_id'];
-        $section_content_id = $request['section_content_id'];
-        $section_content = CourseSectionContent::find($section_content_id);
-        if ($section_content) {
-            $section_content->delete();
+        $content_id = $request['content_id'];
+
+        // Validate required fields
+        if (empty($section_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Section id is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        $res['section'] = CourseSection::find($section_id);
+
+        if (empty($content_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Content id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $section_content = CourseSectionContent::find($content_id);
+        if ($section_content) {
+            $content_id = CourseSectionContent::deleteCourseSectionContent($content_id);
+
+            if (is_wp_error($content_id)) {
+                return new WP_Error(
+                    'course_section_content_deletion_failed',
+                    __('Failed to delete the course section content.', 'acadlix'),
+                    ['status' => 500, 'error' => $content_id->get_error_message()]
+                );
+            }
+        }
+        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 

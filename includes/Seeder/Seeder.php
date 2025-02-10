@@ -2,7 +2,7 @@
 
 namespace Yuvayana\Acadlix\Seeder;
 
-use Yuvayana\Acadlix\Seeder\LanguageSeeder;
+use Yuvayana\Acadlix\Seeder\SubjectSeeder;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -12,7 +12,7 @@ if(!class_exists('Seeder')){
         public static function seed()
         {
             $seeder_classes = [
-                LanguageSeeder::class,
+                SubjectSeeder::class,
             ];
 
             foreach($seeder_classes as $seeder_class){

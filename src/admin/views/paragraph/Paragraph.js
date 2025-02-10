@@ -108,13 +108,16 @@ const Paragraph = () => {
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.paragraphs)) {
       const newRows = data?.data?.paragraphs?.map((paragraph) => {
-        let default_lang = paragraph?.paragraph_languages?.find(l => l?.default);
+        let default_lang = {};
+        default_lang = paragraph?.rendered_metas?.language_data?.find(
+          (l) => l?.default
+        );
         return {
-          id: paragraph?.id,
+          id: paragraph?.ID,
           title:
-            paragraph?.title?.length > 50
-              ? strip(paragraph?.title?.substring(0, 50))
-              : strip(paragraph?.title),
+            paragraph?.post_title?.length > 50
+              ? strip(paragraph?.post_title?.substring(0, 50))
+              : strip(paragraph?.post_title),
           content: default_lang?.content?.length > 50 ? strip(default_lang?.content?.substring(0,50)) : strip(default_lang?.content),
           no_of_questions: paragraph?.questions_count ?? 0,
         };

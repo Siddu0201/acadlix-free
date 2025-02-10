@@ -19,14 +19,14 @@ const ParagraphTitleSection = (props) => {
           <Grid container spacing={4}>
             <Grid item xs={12} sm={12}>
               <CustomTextField
-                {...props?.register("title", {required: "Title is required."})}
+                {...props?.register("post_title", {required: "Title is required."})}
                 required
                 fullWidth
                 size="small"
                 label="Paragraph Title"
-                value={props?.watch("title")}
+                value={props?.watch("post_title")}
                 onChange={(e) => {
-                  props?.setValue("title", e.target.value, {
+                  props?.setValue("post_title", e.target.value, {
                     shouldDirty: true,
                   });
                 }}

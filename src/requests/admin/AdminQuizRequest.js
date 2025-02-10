@@ -153,3 +153,30 @@ export const PostSetSubjectWiseTime = () => {
         }
     })
 }
+
+export const UpdateAddLanguageToQuiz = (quiz_id) => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${quiz_id}/update-add-language-to-quiz`, data);
+        }
+    })
+}
+
+export const UpdateSetDefaultLanguageToQuiz = (quiz_id) => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${quiz_id}/update-set-default-language-to-quiz`, data);
+        }
+    })
+}
+
+export const DeleteLanguageFromQuiz = (quiz_id) => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${quiz_id}/delete-language-from-quiz`, data);
+        }
+    })
+}

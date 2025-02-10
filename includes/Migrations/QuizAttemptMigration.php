@@ -14,7 +14,7 @@ if(!class_exists(('QuizAttemptMigration'))){
             if(!Manager::schema()->hasTable('quiz_attempt')){
                 Manager::schema()->create('quiz_attempt', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
+                    $table->bigInteger('quiz_id')->nullable();
                     $table->unsignedBigInteger('user_id');
                     $table->timestamps();
                 });

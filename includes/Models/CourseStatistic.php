@@ -19,16 +19,14 @@ if (!class_exists(class: 'CourseStatistic')) {
             'is_completed',
         ];
 
-        public function course_section_content()
+        public function getCourseSectionContentAttribute()
         {
-            return $this->belongsTo(CourseSectionContent::class, 'course_section_content_id', 'id');
+            return CourseSectionContent::ofCourseSectionContent()->find($this->course_section_content_id);
         }
 
         public function order_item()
         {
             return $this->belongsTo(OrderItem::class, 'order_item_id', 'id');
         }
-
-
     }
 }

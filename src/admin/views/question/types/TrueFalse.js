@@ -14,7 +14,7 @@ function TrueFalse(props) {
   return (
     <Card>
       <CardHeader
-        title="True/False"
+        title={`True/False ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -28,27 +28,28 @@ function TrueFalse(props) {
           props.formState?.errors?.language?.[props?.index]
             ?.answer_data?.[props?.type]?.length > 0
         ) && (
-          <Alert
-            severity="error"
-            sx={{
-              marginTop: 2,
-            }}
-          >
-            Please set atleast one correct option
-          </Alert>
-        )}
+            <Alert
+              severity="error"
+              sx={{
+                marginTop: 2,
+              }}
+            >
+              Please set atleast one correct option
+            </Alert>
+          )}
         <RadioGroup row>
           {props?.lang?.answer_data?.[props?.type]?.length > 0 &&
             props?.lang?.answer_data?.[props?.type]?.map(
               (option, option_index) => (
                 <Controller
+                  key={option_index}
                   rules={{
                     required: props?.watch(`language.${props?.index}.default`) &&
-                    props
-                      ?.watch(
-                        `language.${props?.index}.answer_data.${props?.type}`
-                      )
-                      .filter((d) => d?.isCorrect).length === 0
+                      props
+                        ?.watch(
+                          `language.${props?.index}.answer_data.${props?.type}`
+                        )
+                        .filter((d) => d?.isCorrect).length === 0
                   }}
                   control={props?.control}
                   name={`language.${props?.index}.answer_data.${props?.type}.${option_index}.isCorrect`}

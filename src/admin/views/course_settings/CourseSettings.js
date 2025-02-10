@@ -16,49 +16,45 @@ const CourseSettings = (props) => {
       post_status: props?.course?.post_status,
       users: props?.users ?? [],
       tab: "general",
-      weeks: props?.course_setting?.weeks ?? 0,
-      days: props?.course_setting?.days ?? 0,
-      hours: props?.course_setting?.hours ?? 0,
-      minutes: props?.course_setting?.minutes ?? 0,
-      start_date: props?.course_setting?.start_date ?? null,
-      end_date: props?.course_setting?.end_date ?? null,
-      difficulty_level: props?.course_setting?.difficulty_level ?? "all_levels",
-      question_and_answer: props?.course_setting?.question_and_answer ?? false,
-      price: props?.course_setting?.price ?? 0,
-      enable_sale_price: Boolean(Number(props?.course_setting?.enable_sale_price)),
-      sale_price: props?.course_setting?.sale_price ?? 0,
-      validity: props?.course_setting?.validity ?? 0,
-      validity_type: props?.course_setting?.validity_type ?? "day",
-      tax: Boolean(Number(props?.course_setting?.tax)),
-      tax_percent: props?.course_setting?.tax_percent ?? 0,
-      allow_repurchase: Boolean(Number(props?.course_setting?.allow_repurchase)),
-      user_ids:
-        props?.course_setting?.users?.length > 0
-          ? props?.course_setting?.users?.map((u) => u?.user_id)
-          : [],
-      outcomes:
-        props?.course_setting?.outcomes?.length > 0
-          ? props?.course_setting?.outcomes?.map((o) => {
-              return { id: o?.id, outcome: o?.outcome };
-            })
-          : [],
-      faqs:
-        props?.course_setting?.outcomes?.length > 0
-          ? props?.course_setting?.faqs?.map((f) => {
-              return { id: f?.id, question: f?.question, answer: f?.answer };
-            })
-          : [],
-      video: {
-        video_type: props?.course_setting?.video?.video_type ?? "",
-        video_data: {
-          html_5: props?.course_setting?.video?.video_data?.html_5 ?? "",
-          external_link: props?.course_setting?.video?.video_data?.external_link ?? "",
-          youtube: props?.course_setting?.video?.video_data?.youtube ?? "",
-          vimeo: props?.course_setting?.video?.video_data?.vimeo ?? "",
-          embedded: props?.course_setting?.video?.video_data?.embedded ?? "",
-          shortcode: props?.course_setting?.video?.video_data?.shortcode ?? "",
+      meta: {
+        duration: {
+          type: props?.course?.rendered_metas?.duration?.type ?? "", // week, day, hour, minute
+          duration: props?.course?.rendered_metas?.duration?.duration ?? 0,
         },
-        video_thumbnail: props?.course_setting?.video?.video_thumbnail ?? "",
+        start_date: props?.course?.rendered_metas?.start_date ?? null,
+        end_date: props?.course?.rendered_metas?.end_date ?? null,
+        difficulty_level: props?.course?.rendered_metas?.difficulty_level ?? "all_levels",
+        price: props?.course?.rendered_metas?.price ?? 0,
+        enable_sale_price: Boolean(Number(props?.course?.rendered_metas?.enable_sale_price)),
+        sale_price: props?.course?.rendered_metas?.sale_price ?? 0,
+        tax: Boolean(Number(props?.course?.rendered_metas?.tax)),
+        tax_percent: props?.course?.rendered_metas?.tax_percent ?? 0,
+        user_ids:
+          props?.course?.rendered_metas?.user_ids?.length > 0
+            ? props?.course?.rendered_metas?.user_ids
+            : [],
+        outcomes: 
+          props?.course?.rendered_metas?.outcomes?.length > 0
+            ? props?.course?.rendered_metas?.outcomes
+            : [],
+        // faqs:
+        //   props?.course_setting?.outcomes?.length > 0
+        //     ? props?.course_setting?.faqs?.map((f) => {
+        //         return { id: f?.id, question: f?.question, answer: f?.answer };
+        //       })
+        //     : [],
+        // video: {
+        //   video_type: props?.course_setting?.video?.video_type ?? "",
+        //   video_data: {
+        //     html_5: props?.course_setting?.video?.video_data?.html_5 ?? "",
+        //     external_link: props?.course_setting?.video?.video_data?.external_link ?? "",
+        //     youtube: props?.course_setting?.video?.video_data?.youtube ?? "",
+        //     vimeo: props?.course_setting?.video?.video_data?.vimeo ?? "",
+        //     embedded: props?.course_setting?.video?.video_data?.embedded ?? "",
+        //     shortcode: props?.course_setting?.video?.video_data?.shortcode ?? "",
+        //   },
+        //   video_thumbnail: props?.course_setting?.video?.video_thumbnail ?? "",
+        // },
       },
     },
   });
@@ -97,7 +93,7 @@ const CourseSettings = (props) => {
   };
 
   const handleKeyDown = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === 'Enter') {
       e.preventDefault();
     }
   }

@@ -35,6 +35,7 @@ use Yuvayana\Acadlix\Migrations\OrderItemMigration;
 use Yuvayana\Acadlix\Migrations\OrderMetaMigration;
 use Yuvayana\Acadlix\Migrations\CourseWishlistMigration;
 use Yuvayana\Acadlix\Migrations\CourseStatisticMigration;
+use Yuvayana\Acadlix\Migrations\UserActivityMetaMigration;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -74,6 +75,7 @@ if(!class_exists('Migration')){
             OrderMetaMigration::class,
             CourseWishlistMigration::class,
             CourseStatisticMigration::class,
+            UserActivityMetaMigration::class
         ];
     
     

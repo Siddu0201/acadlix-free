@@ -1,24 +1,106 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Card, Grid, Tab } from "@mui/material";
-import React from "react";
+import { Box, Card, CardContent, Grid, Tab, Tabs } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import General from "../tabs/General";
 import Question from "../tabs/Question";
 import Result from "../tabs/Result";
 import Notification from "../tabs/Notification";
 import Instruction from "../tabs/Instruction";
-import Language from "../tabs/Language";
 
 const QuizSettingSection = (props) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const sectionsRef = useRef([]);
+
+  const sectionIds = ["GENERAL", "QUESTION", "RESULT", "NOTIFICATION", "INSTRUCTION"];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Update active tab on scroll
+      sectionsRef.current.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          setActiveTab(index);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+    const section = sectionsRef.current[newValue];
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 60, // Adjust for sticky tab bar height
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <Grid item xs={12} sm={12}>
-      <Card>
+      <Box
+        sx={{
+          position: "sticky",
+          top: {
+            xs: 0,
+            sm: 46,
+            md: 32,
+          },
+          zIndex: 1000,
+          backgroundColor: "white",
+          borderBottom: "1px solid #ddd",
+          borderRadius: "4px",
+        }}>
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          {sectionIds.map((id, index) => (
+            <Tab
+              key={id}
+              label={id}
+              sx={{
+                display:
+                  index === 4 && props?.watch("meta.mode") !== "advance_mode" ? "none" : "",
+              }}
+            />
+          ))}
+        </Tabs>
+      </Box>
+      {/* Sections */}
+      {sectionIds.map((id, index) => (
+        <Card
+          key={id}
+          id={id}
+          ref={(el) => (sectionsRef.current[index] = el)}
+          sx={{
+            marginY: 3,
+            display:
+              index === 4 && props?.watch("meta.mode") !== "advance_mode" ? "none" : "",
+          }}
+        >
+          <CardContent>
+            {id === "GENERAL" && <General {...props} />}
+            {id === "QUESTION" && <Question {...props} />}
+            {id === "RESULT" && <Result {...props} />}
+            {id === "NOTIFICATION" && <Notification {...props} />}
+            {id === "INSTRUCTION" && <Instruction {...props} />}
+          </CardContent>
+        </Card>
+      ))}
+      {/* <Card>
         <Box sx={{ width: "100%" }}>
+
           <TabContext value={props?.watch("quiz_section") ?? "1"}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
                 onChange={(_, newValue) => {
-                  props?.setValue("quiz_section", newValue, {shouldDirty: true});
+                  props?.setValue("quiz_section", newValue, { shouldDirty: true });
                 }}
                 variant="scrollable"
                 allowScrollButtonsMobile
@@ -64,7 +146,7 @@ const QuizSettingSection = (props) => {
             </TabPanel>
           </TabContext>
         </Box>
-      </Card>
+      </Card> */}
     </Grid>
   );
 };

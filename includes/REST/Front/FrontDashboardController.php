@@ -4,7 +4,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
 use WP_Error;
-use Yuvayana\Acadlix\Models\Course;
+use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\CourseStatistic;
 use Yuvayana\Acadlix\Models\Lesson;
 use Yuvayana\Acadlix\Models\Order;
@@ -154,7 +154,7 @@ class FrontDashboardController
 
         $skip = $params['page'] * $params['pageSize'];
         $userId = $request->get_param("user_id");
-        $order_items = OrderItem::with(['order', 'course'])->whereHas('order', function ($query) use ($userId) {
+        $order_items = OrderItem::with(['order'])->whereHas('order', function ($query) use ($userId) {
             $query->where("user_id", $userId)->where("status", "success");
         })->orderByDesc("created_at");
         $res['total'] = $order_items->count();
@@ -184,7 +184,7 @@ class FrontDashboardController
         $userId = $request->get_param('user_id');
 
         // Retrieve the order item with associated order and course if conditions match
-        $orderItem = OrderItem::with(['order', 'course'])
+        $orderItem = OrderItem::with(['order'])
             ->whereHas('order', function ($query) use ($userId) {
                 $query->where('user_id', $userId)
                     ->where('status', 'success');
@@ -219,15 +219,21 @@ class FrontDashboardController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
         $lessonId = $request->get_param("lesson_id");
-        $lesson = Lesson::find($lessonId);
-        if($lesson){
-            $lesson->update([
-                "hours" => $request->get_param("hours"),
-                "minutes" => $request->get_param("minutes"),
-                "seconds" => $request->get_param("seconds"),
-            ]);
+        $meta = [
+            "hours" => $request->get_param("hours"),
+            "minutes" => $request->get_param("minutes"),
+            "seconds" => $request->get_param("seconds"),
+        ];
+
+        $meta = !empty($meta) && is_array($meta)
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($meta, 'lesson')
+            : [];
+
+        $lesson = Lesson::ofLesson()->find($lessonId);
+        if ($lesson) {
+            Lesson::updateLesson($lessonId, [], $meta);
         }
-        return rest_ensure_response( ['success' => true, 'lesson' => Lesson::find($lessonId)] );
+        return rest_ensure_response(['success' => true, 'lesson' => Lesson::ofLesson()->find($lessonId)]);
     }
 
     public function post_set_active($request)
@@ -253,13 +259,17 @@ class FrontDashboardController
         $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)->get();
         if ($course_statistics->count() > 0) {
             foreach ($course_statistics as $course_statistic) {
-                $course_statistic->update(['is_active' => false]);
+                $course_statistic->update([
+                    'is_active' => false
+                ]);
             }
         }
 
         $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
         if ($active_statistic) {
-            $active_statistic->update(['is_active' => true]);
+            $active_statistic->update([
+                'is_active' => true
+            ]);
         } else {
             CourseStatistic::create([
                 'order_item_id' => $orderItemId,
@@ -293,9 +303,14 @@ class FrontDashboardController
         $orderItemId = $request->get_param("order_item_id");
         $courseSectionContentId = $request->get_param("course_section_content_id");
 
-        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
+        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)
+            ->first();
         if ($active_statistic) {
-            $active_statistic->update(['is_completed' => true]);
+            $active_statistic->update([
+                'is_completed' => true
+            ]);
         } else {
             CourseStatistic::create([
                 'order_item_id' => $orderItemId,
@@ -328,9 +343,14 @@ class FrontDashboardController
         $orderItemId = $request->get_param("order_item_id");
         $courseSectionContentId = $request->get_param("course_section_content_id");
 
-        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
+        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)
+            ->first();
         if ($active_statistic) {
-            $active_statistic->update(['is_completed' => false]);
+            $active_statistic->update([
+                'is_completed' => false
+            ]);
         } else {
             CourseStatistic::create([
                 'order_item_id' => $orderItemId,
@@ -351,7 +371,7 @@ class FrontDashboardController
             return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $skip = $params['page'] * $params['pageSize'];
-        $order = Order::with(['order_items', 'order_items.course', 'order_metas', 'user'])->where("user_id", $request->get_param("user_id"))->orderBy('created_at', 'desc');
+        $order = Order::with(['order_items', 'order_metas', 'user'])->where("user_id", $request->get_param("user_id"))->orderBy('created_at', 'desc');
         $res['total'] = $order->count();
         $res['orders'] = $order->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);

@@ -17,6 +17,7 @@ import Permalink from "./section/Permalink";
 import { useForm } from "react-hook-form";
 import { PostUpdateSetting } from "../../../requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
+import QuizSettings from "./section/QuizSettings";
 
 function Setting() {
   const [value, setValue] = React.useState("1");
@@ -165,7 +166,8 @@ function Setting() {
                         <Tab label="Payment" value="2" />
                         <Tab label="Notification" value="3" />
                         <Tab label="Permalink" value="4" />
-                        <Tab label="License" value="5" />
+                        <Tab label="Quiz" value="5" />
+                        <Tab label="License" value="6" />
                       </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -186,6 +188,9 @@ function Setting() {
                       <Permalink {...methods} />
                     </TabPanel>
                     <TabPanel value="5">
+                      <QuizSettings {...methods} />
+                    </TabPanel>
+                    <TabPanel value="6">
                       <License {...methods} />
                     </TabPanel>
                   </TabContext>

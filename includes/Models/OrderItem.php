@@ -14,6 +14,7 @@ if (!class_exists('OrderItem')) {
         protected $fillable = [
             'course_id',
             'order_id',
+            'course_title',
             'quantity',
             'price',
             'discount',
@@ -22,9 +23,11 @@ if (!class_exists('OrderItem')) {
             'price_after_tax'
         ];
 
-        public function course()
+        protected $appends = ["course", "course_completion_percentage"];
+
+        public function getCourseAttribute()
         {
-            return $this->belongsTo(Course::class, 'course_id', 'id');
+            return Course::ofCourse()->find($this->course_id);
         }
 
         public function order()
@@ -37,5 +40,34 @@ if (!class_exists('OrderItem')) {
             return $this->hasMany(CourseStatistic::class, 'order_item_id', 'id');
         }
 
+        public function getCourseCompletionPercentageAttribute()
+        {
+            $course = $this->course;
+            $total_count = 0;
+            $completed_count = 0;
+            $statistics = $this->course_statistics;
+            if ($course) {
+                $sections = $course->sections;
+                foreach($sections as $section){
+                    if($section->contents){
+                        $total_count += $section->contents->count();
+                    }
+                }
+                foreach($statistics as $statistic){
+                    if($statistic->is_completed){
+                        $completed_count += 1;
+                    }
+                }
+            }
+            if($total_count == 0 || $completed_count == 0){
+                return 0;
+            }
+            return round($completed_count / $total_count * 100, 2);
+        }
+
+        public static function softDeleteByCourseId(int $courseId)
+        {
+            return OrderItem::where('course_id', $courseId)->update(['course_id' => null]);
+        }
     }
 }

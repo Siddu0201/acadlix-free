@@ -66,13 +66,13 @@ export const secondsToHms = (d) => {
 };
 
 export const updateQuestions = (questions = [], quiz = {}) => {
-  if (Boolean(Number(quiz?.random_question))) {
+  if (Boolean(Number(quiz?.rendered_metas?.quiz_settings?.random_question))) {
     for (let i = questions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [questions[i], questions[j]] = [questions[j], questions[i]];
     }
   }
-  if (Boolean(Number(quiz?.sort_by_subject))) {
+  if (Boolean(Number(quiz?.rendered_metas?.quiz_settings?.sort_by_subject))) {
     questions = [
       ...questions
         ?.map((a) => {
@@ -84,23 +84,23 @@ export const updateQuestions = (questions = [], quiz = {}) => {
     ];
   }
 
-  if (Boolean(Number(quiz?.optional_subject)) && quiz?.subject_times?.length > 0) {
-    const optional_subjects = quiz?.subject_times?.filter(s => s?.optional)?.map(s => s?.subject_id);
+  if (Boolean(Number(quiz?.rendered_metas?.quiz_settings?.optional_subject)) && quiz?.rendered_metas?.quiz_settings?.subject_times?.length > 0) {
+    const optional_subjects = quiz?.rendered_metas?.quiz_settings?.subject_times?.filter(s => s?.optional)?.map(s => s?.subject_id);
     questions = [
       ...questions?.filter(q => !optional_subjects?.includes(q?.subject_id)),
       ...questions?.filter(q => optional_subjects?.includes(q?.subject_id)),
     ];
   }
-  if (Boolean(Number(quiz?.subject_wise_question))) {
+  if (Boolean(Number(quiz?.rendered_metas?.quiz_settings?.subject_wise_question))) {
     let newQuestion = [];
-    quiz?.subject_times?.forEach(s => {
+    quiz?.rendered_metas?.quiz_settings?.subject_times?.forEach(s => {
       const filteredQuestion = questions?.filter(q => q?.subject_id === s?.subject_id);
       newQuestion = [...newQuestion, ...filteredQuestion?.slice(0, s?.specific_number_of_questions)];
     });
     questions = newQuestion;
   }
   return questions;
-};
+};  
 
 export const updateAnswer = (options = [], random = false, notlast = false) => {
   if (random) {
@@ -230,7 +230,7 @@ export const convertToPostDate = (obj) => {
   }
 
   if (isNaN(obj.$y) || isNaN(obj.$M) || isNaN(obj.$D) || isNaN(obj.$H) || isNaN(obj.$m) || isNaN(obj.$s)) {
-    return null;
+    return "";
   }
 
   // Extract year, month, day, hour, minute, second

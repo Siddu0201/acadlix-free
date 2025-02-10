@@ -9,19 +9,18 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const AdminCourse = (props) => {
   const course = window?.acadlixCourseList?.course;
   const users = window?.acadlixCourseList?.users;
-  const course_setting = window?.acadlixCourseList?.course_setting ?? {};
-  const logged_in_user_id = window?.acadlixCourseList?.logged_in_user_id ?? 0;
+  const user_id = window?.acadlixCourseList?.user_id ?? 0;
   return (
     <Provider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Toaster position="bottom-right" />
         {
           props?.type === "builder" &&
-          <CourseBuilder course={course} course_setting={course_setting} logged_in_user_id={logged_in_user_id} />
+          <CourseBuilder course={course} user_id={user_id} />
         }
         {
           props?.type === "settings" &&
-          <CourseSettings course={course} users={users} course_setting={course_setting} />
+          <CourseSettings course={course} users={users} />
         }
       </LocalizationProvider>
     </Provider>

@@ -22,40 +22,42 @@ import {
 const LessonContent = (props) => {
   const methods = useForm({
     defaultValues: {
-      title: props?.lesson?.title ?? "",
-      type: props?.lesson?.type ?? "video",
-      content: props?.lesson?.content ?? "",
-      video: {
-        video_type: props?.lesson?.video?.video_type ?? "",
-        video_data: {
-          html_5: props?.lesson?.video?.video_data?.html_5 ?? "",
-          external_link: props?.lesson?.video?.video_data?.external_link ?? "",
-          youtube: props?.lesson?.video?.video_data?.youtube ?? "",
-          vimeo: props?.lesson?.video?.video_data?.vimeo ?? "",
-          embedded: props?.lesson?.video?.video_data?.embedded ?? "",
-          shortcode: props?.lesson?.video?.video_data?.shortcode ?? "",
+      title: props?.lesson?.post_title ?? "",
+      content: props?.lesson?.post_content ?? "",
+      post_author: acadlixOptions?.user_id ?? 0,
+      meta: {
+        type: props?.lesson?.rendered_metas?.type ?? "video",
+        video: {
+          video_type: props?.lesson?.rendered_metas?.video?.video_type ?? "",
+          video_data: {
+            html_5: props?.lesson?.rendered_metas?.video?.video_data?.html_5 ?? "",
+            external_link: props?.lesson?.rendered_metas?.video?.video_data?.external_link ?? "",
+            youtube: props?.lesson?.rendered_metas?.video?.video_data?.youtube ?? "",
+            vimeo: props?.lesson?.rendered_metas?.video?.video_data?.vimeo ?? "",
+            embedded: props?.lesson?.rendered_metas?.video?.video_data?.embedded ?? "",
+            shortcode: props?.lesson?.rendered_metas?.video?.video_data?.shortcode ?? "",
+          },
+          video_thumbnail: props?.lesson?.rendered_metas?.video?.video_thumbnail ?? "",
         },
-        video_thumbnail: props?.lesson?.video?.video_thumbnail ?? "",
-      },
-      hours: props?.lesson?.hours ?? 0,
-      minutes: props?.lesson?.minutes ?? 0,
-      seconds: props?.lesson?.seconds ?? 0,
-      resources: props?.create
-        ? []
-        : props?.lesson?.lesson_resources?.map((r) => {
-            return {
-              id: r?.id,
-              title: r?.title,
-              type: r?.type,
-              filename: r?.filename,
-              file_url: r?.file_url,
-              link: r?.link,
-            };
-          }),
+        hours: props?.lesson?.rendered_metas?.hours ?? 0,
+        minutes: props?.lesson?.rendered_metas?.minutes ?? 0,
+        seconds: props?.lesson?.rendered_metas?.seconds ?? 0,
+        resources: props?.create
+          ? []
+          : props?.lesson?.rendered_metas?.resources?.map((r) => {
+              return {
+                title: r?.title,
+                type: r?.type,
+                filename: r?.filename,
+                file_url: r?.file_url,
+                link: r?.link,
+              };
+            }),
+      }
     },
   });
 
-  console.log(methods?.watch());
+  // console.log(methods?.watch());
   const navigate = useNavigate();
   const createMutation = PostCreateLesson();
   const updateMutation = UpdateLessonById(props?.lesson_id);

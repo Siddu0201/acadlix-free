@@ -233,7 +233,7 @@ const AdvanceQuizMode = (props) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [isOpen, setIsOpen] = React.useState(isMobile ? false : true);
-  const [instructionIsOpen, setInstructionIsOpen] = React.useState(isMobile? false : true);
+  const [instructionIsOpen, setInstructionIsOpen] = React.useState(isMobile ? false : true);
   const sidebarWidth = 250;
 
   const handleToggle = () => {
@@ -401,23 +401,6 @@ const AdvanceQuizMode = (props) => {
         );
     }
   };
-  const current_date = new Date();
-
-  if (
-    props?.watch("set_start_date") &&
-    current_date < props?.watch("start_date")
-  ) {
-    return (
-      <QuizError
-        code="404"
-        message={`Quiz will start on ${props?.watch("start_date")} `}
-      />
-    );
-  }
-
-  if (props?.watch("set_end_date") && current_date > props?.watch("end_date")) {
-    return <QuizError code="404" message="Quiz has expired." />;
-  }
 
   if (props?.watch("user_id") == 0) {
     return (

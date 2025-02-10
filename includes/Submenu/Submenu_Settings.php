@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Submenu;
 use Yuvayana\Acadlix\Helper\Helper;
+use Yuvayana\Acadlix\Models\Category;
+use Yuvayana\Acadlix\Models\Language;
 
 defined('ABSPATH') || exit();
 
@@ -42,6 +44,9 @@ class Submenu_Settings
     public function admin_print_scripts()
     {
         wp_enqueue_style("acadlix-admin-setting-css");
+
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-setting");
         wp_localize_script("acadlix-admin-setting", "acadlixOptions", array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
@@ -50,6 +55,8 @@ class Submenu_Settings
             'options' => Helper::instance()->acadlix_get_all_options(),
             'all_pages' => get_pages(),
             'user_id' => get_current_user_id(  ),
+            'quiz_categories' => Category::all(),
+            'quiz_languages' => Language::all(),
         ));
     }
 

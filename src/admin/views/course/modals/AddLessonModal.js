@@ -133,11 +133,10 @@ export default AddLessonModal;
 const AddNewLesson = (props) => {
   const handleAddResoures = () => {
     props?.setValue(
-      "resources",
+      "meta.resources",
       [
-        ...props?.watch("resources"),
+        ...props?.watch("meta.resources"),
         {
-          id: null,
           title: "",
           type: "upload",
           filename: "",
@@ -233,7 +232,7 @@ const AddNewLesson = (props) => {
                       row
                       aria-label="acadlix-option-lesson-type"
                       onChange={(e) => {
-                        props?.setValue("type", e?.target?.value, {
+                        props?.setValue("meta.type", e?.target?.value, {
                           shouldDirty: true,
                         });
                       }}
@@ -242,25 +241,25 @@ const AddNewLesson = (props) => {
                         value="video"
                         control={<Radio />}
                         label="Video"
-                        checked={props?.watch("type") === "video"}
+                        checked={props?.watch("meta.type") === "video"}
                       />
                       <FormControlLabel
                         value="text"
                         control={<Radio />}
                         label="Text"
-                        checked={props?.watch("type") === "text"}
+                        checked={props?.watch("meta.type") === "text"}
                       />
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                {props?.watch("type") === "video" && (
+                {props?.watch("meta.type") === "video" && (
                   <>
                     <VideoUpload
                       xs={12}
                       sm={12}
-                      video={props?.watch("video")}
+                      video={props?.watch("meta.video")}
                       onUpdate={(data) => {
-                        props?.setValue("video", data, { shouldDirty: true });
+                        props?.setValue("meta.video", data, { shouldDirty: true });
                       }}
                       onMediaUpload={(media) => {
                         if (media?.url && media?.url !== "") {
@@ -269,13 +268,13 @@ const AddNewLesson = (props) => {
                               if (duration && duration > 0) {
                                 let { hours, minutes, seconds } =
                                   convertTime(duration);
-                                props?.setValue("hours", hours, {
+                                props?.setValue("meta.hours", hours, {
                                   shouldDirty: true,
                                 });
-                                props?.setValue("minutes", minutes, {
+                                props?.setValue("meta.minutes", minutes, {
                                   shouldDirty: true,
                                 });
-                                props?.setValue("seconds", seconds, {
+                                props?.setValue("meta.seconds", seconds, {
                                   shouldDirty: true,
                                 });
                               }
@@ -292,13 +291,13 @@ const AddNewLesson = (props) => {
                               if (duration && duration > 0) {
                                 let { hours, minutes, seconds } =
                                   convertTime(duration);
-                                props?.setValue("hours", hours, {
+                                props?.setValue("meta.hours", hours, {
                                   shouldDirty: true,
                                 });
-                                props?.setValue("minutes", minutes, {
+                                props?.setValue("meta.minutes", minutes, {
                                   shouldDirty: true,
                                 });
-                                props?.setValue("seconds", seconds, {
+                                props?.setValue("meta.seconds", seconds, {
                                   shouldDirty: true,
                                 });
                               }
@@ -316,9 +315,9 @@ const AddNewLesson = (props) => {
                         label="Hours"
                         size="small"
                         type="number"
-                        value={props?.watch("hours") ?? 0}
+                        value={props?.watch("meta.hours") ?? 0}
                         onChange={(e) => {
-                          props?.setValue("hours", e?.target?.value, {
+                          props?.setValue("meta.hours", e?.target?.value, {
                             shouldDirty: true,
                           });
                         }}
@@ -331,9 +330,9 @@ const AddNewLesson = (props) => {
                         }}
                         sx={{
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -347,9 +346,9 @@ const AddNewLesson = (props) => {
                         label="Minutes"
                         size="small"
                         type="number"
-                        value={props?.watch("minutes") ?? 0}
+                        value={props?.watch("meta.minutes") ?? 0}
                         onChange={(e) => {
-                          props?.setValue("minutes", e?.target?.value, {
+                          props?.setValue("meta.minutes", e?.target?.value, {
                             shouldDirty: true,
                           });
                         }}
@@ -362,9 +361,9 @@ const AddNewLesson = (props) => {
                         }}
                         sx={{
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -378,9 +377,9 @@ const AddNewLesson = (props) => {
                         label="Seconds"
                         size="small"
                         type="number"
-                        value={props?.watch("seconds") ?? 0}
+                        value={props?.watch("meta.seconds") ?? 0}
                         onChange={(e) => {
-                          props?.setValue("seconds", e?.target?.value, {
+                          props?.setValue("meta.seconds", e?.target?.value, {
                             shouldDirty: true,
                           });
                         }}
@@ -393,9 +392,9 @@ const AddNewLesson = (props) => {
                         }}
                         sx={{
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -405,7 +404,7 @@ const AddNewLesson = (props) => {
                   </>
                 )}
 
-                {props?.watch("type") === "text" && (
+                {props?.watch("meta.type") === "text" && (
                   <ContentSection {...props} />
                 )}
               </Grid>
@@ -413,9 +412,9 @@ const AddNewLesson = (props) => {
           </Card>
         </Grid>
 
-        {props?.watch("resources")?.length > 0 &&
+        {props?.watch("meta.resources")?.length > 0 &&
           props
-            ?.watch("resources")
+            ?.watch("meta.resources")
             ?.map((r, index) => (
               <Resources key={index} index={index} {...props} {...r} />
             ))}
@@ -484,7 +483,7 @@ const AddFromExisting = (props) => {
       return data;
     } else {
       return data?.filter((d) =>
-        d?.title?.toLowerCase()?.includes(search?.toLowerCase())
+        d?.post_title?.toLowerCase()?.includes(search?.toLowerCase())
       );
     }
   };
@@ -557,38 +556,43 @@ const AddFromExisting = (props) => {
                     }}
                   >
                     <FormControlLabel
-                      value={l?.id}
-                      label={l?.title}
-                      control={<Checkbox />}
-                      onClick={(e) => {
-                        if (e?.target?.value !== undefined) {
-                          if (e?.target?.checked) {
-                            props?.setValue(
-                              "lesson_ids",
-                              [...props?.watch("lesson_ids"), e?.target?.value],
-                              {
-                                shouldDirty: true,
-                              }
+                      value={l?.ID}
+                      label={l?.post_title}
+                      control={
+                        <Checkbox
+                          checked={
+                            props?.watch("lesson_ids")?.find(
+                              (lesson_id) => lesson_id === l?.ID
+                            )
+                              ? true
+                              : false
+                          }
+                          onClick={(e) => {
+                            const found = props?.watch("lesson_ids")?.find(
+                              (lesson_id) => lesson_id === l?.ID
                             );
-                          } else {
-                            if (
-                              props
-                                ?.watch("lesson_ids")
-                                ?.includes(e?.target?.value)
-                            ) {
+                            if (e?.target?.checked && !found) {
+                              props?.setValue(
+                                "lesson_ids",
+                                [...props?.watch("lesson_ids"), l?.ID],
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+                            } else if (!e?.target?.checked && found) {
                               props?.setValue(
                                 "lesson_ids",
                                 props
                                   ?.watch("lesson_ids")
-                                  ?.filter((l) => l !== e?.target?.value),
+                                  ?.filter((lesson_id) => lesson_id !== l?.ID),
                                 {
                                   shouldDirty: true,
                                 }
                               );
                             }
-                          }
-                        }
-                      }}
+                          }}
+                        />
+                      }
                     />
                   </ListItem>
                 ))}
@@ -602,10 +606,10 @@ const AddFromExisting = (props) => {
 
 const Resources = (props) => {
   const handleMediaChange = (media) => {
-    props?.setValue(`resources.${props?.index}.filename`, media?.filename, {
+    props?.setValue(`meta.resources.${props?.index}.filename`, media?.filename, {
       shouldDirty: true,
     });
-    props?.setValue(`resources.${props?.index}.file_url`, media?.url, {
+    props?.setValue(`meta.resources.${props?.index}.file_url`, media?.url, {
       shouldDirty: true,
     });
   };
@@ -626,10 +630,10 @@ const Resources = (props) => {
                 name="title"
                 size="small"
                 label="Enter Title"
-                value={props?.watch(`resources.${props?.index}.title`) ?? ""}
+                value={props?.watch(`meta.resources.${props?.index}.title`) ?? ""}
                 onChange={(e) => {
                   props?.setValue(
-                    `resources.${props?.index}.title`,
+                    `meta.resources.${props?.index}.title`,
                     e?.target?.value,
                     {
                       shouldDirty: true,
@@ -651,11 +655,11 @@ const Resources = (props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={props?.watch(`resources.${props?.index}.type`)}
+                  value={props?.watch(`meta.resources.${props?.index}.type`)}
                   label="Type"
                   onChange={(e) => {
                     props?.setValue(
-                      `resources.${props?.index}.type`,
+                      `meta.resources.${props?.index}.type`,
                       e?.target?.value,
                       {
                         shouldDirty: true,
@@ -697,10 +701,10 @@ const Resources = (props) => {
                   name="link"
                   size="small"
                   label="https://example.com/"
-                  value={props?.watch(`resources.${props?.index}.link`) ?? ""}
+                  value={props?.watch(`meta.resources.${props?.index}.link`) ?? ""}
                   onChange={(e) => {
                     props?.setValue(
-                      `resources.${props?.index}.link`,
+                      `meta.resources.${props?.index}.link`,
                       e?.target?.value,
                       {
                         shouldDirty: true,
@@ -723,9 +727,9 @@ const Resources = (props) => {
                 color="error"
                 onClick={(e) => {
                   props?.setValue(
-                    "resources",
+                    "meta.resources",
                     props
-                      ?.watch("resources")
+                      ?.watch("meta.resources")
                       ?.filter((_, i) => i !== props?.index),
                     { shouldDirty: true }
                   );

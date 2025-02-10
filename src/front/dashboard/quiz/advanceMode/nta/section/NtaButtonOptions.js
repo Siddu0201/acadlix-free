@@ -16,35 +16,10 @@ const NtaButtonOptions = (props) => {
   };
 
   const handleClearResponse = () => {
+    let sortingOrder = null;
     switch (props?.question?.answer_type) {
       case "singleChoice":
-        props?.setValue(
-          `questions.${currentIndex}.language`,
-          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
-              props?.question?.answer_type
-            ]?.map((answer, index) => {
-              answer.isChecked = false;
-              return answer;
-            });
-            return lang;
-          })
-        );
-        break;
       case "multipleChoice":
-        props?.setValue(
-          `questions.${currentIndex}.language`,
-          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
-              props?.question?.answer_type
-            ]?.map((answer, index) => {
-              answer.isChecked = false;
-              return answer;
-            });
-            return lang;
-          })
-        );
-        break;
       case "trueFalse":
         props?.setValue(
           `questions.${currentIndex}.language`,
@@ -65,6 +40,7 @@ const NtaButtonOptions = (props) => {
         )?.length;
         const initialIndexArray = Array.from({ length }, (_, index) => index);
         const newIndex = arrayRandomize(initialIndexArray);
+        sortingOrder = newIndex;
         props?.setValue(
           `questions.${currentIndex}.language`,
           props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
@@ -95,14 +71,6 @@ const NtaButtonOptions = (props) => {
         );
         break;
       case "numerical":
-        props?.setValue(
-          `questions.${currentIndex}.language`,
-          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type].yourAnswer = "";
-            return lang;
-          })
-        );
-        break;
       case "rangeType":
         props?.setValue(
           `questions.${currentIndex}.language`,
@@ -121,7 +89,7 @@ const NtaButtonOptions = (props) => {
         correct_count: 0,
         incorrect_count: 0,
         solved_count: 0,
-        answer_data: "",
+        answer_data: sortingOrder ?? null,
       },
       { shouldDirty: true }
     );

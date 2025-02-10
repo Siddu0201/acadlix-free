@@ -14,8 +14,9 @@ if(!class_exists(('ToplistMigration'))){
             if(!Manager::schema()->hasTable('toplist')){
                 Manager::schema()->create('toplist', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
-                    $table->unsignedBigInteger('user_id');
+                    $table->bigInteger('quiz_id')->nullable();
+                    $table->string('user_token')->nullable();
+                    $table->unsignedBigInteger('user_id')->nullable();
                     $table->string('name', 100)->nullable();
                     $table->string('email', 100)->nullable();
                     $table->float('points')->nullable();

@@ -1,30 +1,13 @@
 import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
-import { PostCheckPrerequisite } from "../../../../../requests/front/FrontQuizRequest";
+import { PostCheckQuizById } from "../../../../../requests/front/FrontQuizRequest";
 import parse from "html-react-parser";
-import { dateI18n, format } from "@wordpress/date"
-import { strtotime } from "../../../../../helpers/util";
 import UserAuth from "../../../../../modules/user-auth/UserAuth";
+import { deleteCookie, getCookie, setCookie } from "../../../../../helpers/cookie";
+import toast from "react-hot-toast";
 
 const DescriptionSection = (props) => {
-  const current_date = strtotime(dateI18n(acadlixOptions?.date_time_format));
-  const start_date = format(acadlixOptions?.date_time_format, props?.watch("start_date"));
-  const end_date = format(acadlixOptions?.date_time_format, props?.watch("end_date"));
-
-  const ExpireDate = () => <Alert severity="error">Quiz has expired</Alert>;
-
-  if (
-    props?.watch("set_start_date") &&
-    current_date < strtotime(start_date)
-  ) {
-    return <NotStarted {...props} start_date={start_date} />;
-  }
-
-  if (props?.watch("set_end_date") && current_date > strtotime(end_date)) {
-    return <ExpireDate />;
-  }
-
   const rand = function () {
     return Math.random().toString(36).substring(2); // remove `0.`
   };
@@ -41,7 +24,7 @@ const DescriptionSection = (props) => {
   };
 
   const handleStart = () => {
-    props?.setValue("prerequisite_error_msg", "", { shouldDirty: true });
+    props?.setValue("quiz_error", "", { shouldDirty: true });
     if (props?.watch("mode") === "advance_mode") {
       const token = rand() + rand();
       localStorage?.setItem("acadlix_advance_quiz_token", token);
@@ -68,68 +51,70 @@ const DescriptionSection = (props) => {
         "_blank",
         `scrollbars=yes,resizable=yes,top=0,left=0,fullscreen=yes,width=${screen.width},height=${screen.height}`
       );
-    } else {
-      if (document.getElementsByClassName("acadlix-front-quiz-title")[props?.elm_index]) {
-        document.getElementsByClassName("acadlix-front-quiz-title")[props?.elm_index].style.display = "none";
-      }
-      if (document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index]) {
-        document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index].style.display = "none";
-      }
-      props?.setValue("start", true, { shouldDirty: true });
-      props?.setValue("view_question", true, { shouldDirty: true });
-      props?.setValue("last", Date.now(), { shouldDirty: true });
-      props?.setValue("now", Date.now(), { shouldDirty: true });
+      return;
     }
+
+    if (document.getElementsByClassName("acadlix-front-quiz-title")[props?.elm_index]) {
+      document.getElementsByClassName("acadlix-front-quiz-title")[props?.elm_index].style.display = "none";
+    }
+    if (document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index]) {
+      document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index].style.display = "none";
+    }
+    props?.handleQuizAttempt();
+    props?.setValue("start", true, { shouldDirty: true });
+    props?.setValue("view_question", true, { shouldDirty: true });
+    props?.setValue("last", Date.now(), { shouldDirty: true });
+    props?.setValue("now", Date.now(), { shouldDirty: true });
   };
 
-  const checkPrerequisite = PostCheckPrerequisite(props?.watch("id"));
+  const checkQuiz = PostCheckQuizById(props?.watch("id"));
 
-  const handleStartWithPrerequisite = () => {
-    if (props?.watch("user_id") > 0) {
-      checkPrerequisite.mutate(
-        { user_id: props?.watch("user_id") },
-        {
-          onSuccess: (data) => {
-            if (
-              data?.data?.prerequisite?.length > 0 ||
-              data?.data?.user_allowed_attempt_error
-            ) {
-              let msg = "";
-              data?.data?.prerequisite?.forEach((d, index) => {
-                msg += `<b>${d?.title} (with min ${d?.min_percentage}%)</b>`;
-                if (index + 1 !== data?.data?.length) {
-                  msg += ", ";
-                }
-              });
-              if (data?.data?.prerequisite?.length > 0) {
-                props?.setValue(
-                  "prerequisite_error_msg",
-                  `You must finish ${msg} to proceed.`,
-                  { shouldDirty: true }
-                );
-              }
+  const handleCheckQuiz = () => {
+    if (props?.watch("user_id") === 0) {
+      const tokenExpiry = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
+      const userTokenValue = getCookie(props?.userToken) || `${props?.userToken}_${tokenExpiry}`;
+      setCookie(props?.userToken, userTokenValue, tokenExpiry);
+      props?.setValue("user_token", getCookie(props?.userToken), { shouldDirty: true });
+    }
+    const data = {
+      user_id: props?.watch("user_id"),
+      user_token: props?.watch("user_token"),
+    };
 
-              if (data?.data?.user_allowed_attempt_error) {
-                props?.setValue(
-                  "user_allowed_attempt_error",
-                  data?.data?.user_allowed_attempt_error,
-                  { shouldDirty: true }
-                );
-              }
-            } else {
-              handleStart();
-            }
-          },
+    checkQuiz.mutate(data, {
+      onSuccess: (data) => {
+        if(data?.data?.errors){
+          console.log(data?.data?.errors);
+          props?.setValue("quiz_error", data?.data?.errors, {shouldDirty: true});
+          return;
         }
-      );
-    } else {
-      props?.setValue(
-        "prerequisite_error_msg",
-        "Please login to start the test.",
-        { shouldDirty: true }
-      );
-    }
+        handleStart();
+      },
+      onError: (data) => {
+        toast.error("Oops! Something went wrong.");
+      }
+    })
   };
+
+  const handleQuizStart = () => {
+    if (
+      props?.watch("enable_login_register") &&
+      props?.watch("user_id") == 0
+    ) {
+      props?.setValue("login_modal", true, { shouldDirty: true });
+      return;
+    }
+
+    if (
+      props?.watch("prerequisite") ||
+      props?.watch("per_user_allowed_attempt") > 0
+    ) {
+      handleCheckQuiz();
+      return;
+    }
+
+    handleStart();
+  }
 
   const handleUserLogin = (data) => {
     if (data?.user?.data) {
@@ -142,12 +127,11 @@ const DescriptionSection = (props) => {
       props?.setValue("email", data?.user?.data?.user_email, {
         shouldDirty: true,
       });
-      props?.setValue("login_modal", false, { shouldDirty: true });
-      if (props?.watch("prerequisite") || props?.watch("per_user_allowed_attempt") > 0) {
-        handleStartWithPrerequisite();
-      } else {
-        handleStart();
-      }
+      props?.setValue("user_token", "", {
+        shouldDirty: true,
+      });
+      deleteCookie(props?.userToken);
+      handleQuizStart();
     }
   }
 
@@ -177,27 +161,10 @@ const DescriptionSection = (props) => {
         </Typography>
       }
       <CustomButton
-        onClick={() => {
-          if (
-            props?.watch("enable_login_register") &&
-            props?.watch("login_register_type") == "at_start_of_quiz" &&
-            props?.watch("user_id") == 0
-          ) {
-            props?.setValue("login_modal", true, { shouldDirty: true });
-          } else {
-            if (
-              props?.watch("prerequisite") ||
-              props?.watch("per_user_allowed_attempt") > 0
-            ) {
-              handleStartWithPrerequisite();
-            } else {
-              handleStart();
-            }
-          }
-        }}
-        disabled={checkPrerequisite?.isPending}
+        onClick={handleQuizStart}
+        disabled={checkQuiz?.isPending}
       >
-        {checkPrerequisite?.isPending ? "Loading..." : "Start Quiz"}
+        {checkQuiz?.isPending ? "Loading..." : "Start Quiz"}
       </CustomButton>
       <UserAuth
         login_modal={props?.watch("login_modal")}
@@ -208,35 +175,20 @@ const DescriptionSection = (props) => {
         onSuccessLogin={handleUserLogin}
         onSuccessRegister={handleUserLogin}
       />
-      {props?.watch("prerequisite_error_msg") && (
+      {props?.watch("quiz_error") && (
         <Box
           sx={{
             marginY: 2,
           }}
         >
-          <Alert severity="error">
-            {parse(props?.watch("prerequisite_error_msg"))}
-          </Alert>
-        </Box>
-      )}
-      {props?.watch("user_allowed_attempt_error") && (
-        <Box
-          sx={{
-            marginY: 2,
-          }}
-        >
-          <Alert severity="error">
-            {props?.watch("user_allowed_attempt_error")}
+          <Alert severity="error" sx={{
+            alignItems: "center",
+          }}>
+            {parse(props?.watch("quiz_error"))}
           </Alert>
         </Box>
       )}
     </Box>
-  );
-};
-
-const NotStarted = (props) => {
-  return (
-    <Alert severity="error">{`Quiz will start on ${props?.start_date} ${acadlixOptions?.timezone_string} `}</Alert>
   );
 };
 

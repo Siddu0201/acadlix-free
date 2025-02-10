@@ -1,14 +1,8 @@
-import { Box, Button, CircularProgress, IconButton } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import React from "react";
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "../../../../helpers/icons";
-import {
-  PostMarkAsComplete,
-  PostMarkAsIncomplete,
-} from "../../../../requests/front/FrontDashboardRequest";
 
 const ContentOptions = (props) => {
-  const completeMutation = PostMarkAsComplete();
-  const incompleteMutation = PostMarkAsIncomplete();
 
   return (
     <>

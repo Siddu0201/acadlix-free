@@ -29,36 +29,36 @@ const CategoryTemplateSection = (props) => {
   const createCategoryMutation = PostCreateCategory();
 
   const createCategory = () => {
-    if (input) {
-      if (
-        categories?.filter(
-          (d) => d?.category_name?.toLowerCase() === input?.toLowerCase()
-        )?.length > 0
-      ) {
-        props?.setError(`category_id`, {
-          type: "custom",
-          message: "Category name is already exist",
-        });
-      } else {
-        createCategoryMutation.mutate(
-          { category: input },
-          {
-            onSuccess: (data) => {
-              props?.clearErrors("category_id");
-              setCategories(data?.data?.categories);
-              props?.setValue("category_id", data?.data?.category_id ?? null, {
-                shouldDirty: true,
-              });
-            },
-          }
-        );
-      }
-    } else {
+    if (!input) {
       props?.setError(`category_id`, {
         type: "custom",
         message: "Category cannot be empty",
       });
+      return;
     }
+
+    if (categories?.filter(
+      (d) => d?.name?.toLowerCase() === input?.toLowerCase()
+    )?.length > 0) {
+      props?.setError(`category_id`, {
+        type: "custom",
+        message: "Category name is already exist",
+      });
+      return;
+    }
+
+    createCategoryMutation.mutate(
+      { category_name: input },
+      {
+        onSuccess: (data) => {
+          props?.clearErrors("category_id");
+          setCategories(data?.data?.categories);
+          props?.setValue("category_id", data?.data?.category?.term_id ?? null, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
   };
 
   const getTemplateByIdMutation = GetTemplateById();
@@ -66,36 +66,48 @@ const CategoryTemplateSection = (props) => {
     "id",
     "load_template_id",
     "templates",
-    "non_prerequisite_quiz",
-    "prerquisite_data",
   ];
+
+  const handleEditorContent = (key, value) => {
+    if (window.tinymce) {
+      const editor = window.tinymce.get(key);
+      if (editor && editor.getContent() !== value) {
+        editor.setContent(value || "");
+      }
+    }
+  }
   const handleLoadTemplate = () => {
     if (props?.watch("load_template_id") !== null) {
       getTemplateByIdMutation?.mutate(props?.watch("load_template_id"), {
         onSuccess: (data) => {
           for (const [key, value] of Object.entries(
-            JSON.parse(data?.data?.template?.data)
+            data?.data?.template?.data
           )) {
-            if (!excludedField?.includes(key)) {
-              if (
-                [
-                  "description",
-                  "instruction1",
-                  "instruction2",
-                  "admin_message",
-                  "student_message",
-                  "instructor_message",
-                ].includes(key)
-              ) {
-                if (window.tinymce) {
-                  const editor = window.tinymce.get(key);
-                  if (editor && editor.getContent() !== value) {
-                    editor.setContent(value || "");
-                  }
-                }
-              }
-              props?.setValue(key, value, { shouldDirty: true });
+            if (excludedField?.includes(key)) {
+              continue;
             }
+            if (key === "meta") {
+              for (const [metaKey, metaValue] of Object.entries(value)) {
+                if (metaKey === "quiz_settings") {
+                  for (const [settingKey, settingValue] of Object.entries(metaValue)) {
+                    if(["result_text", "admin_message", "student_message"].includes(settingKey)) handleEditorContent(settingKey, settingValue);
+                    props?.setValue(`meta.${metaKey}.${settingKey}`, settingValue, { shouldDirty: true });
+                  }
+                  continue;
+                }
+
+                if(metaKey === "language_data") {
+                  metaValue.forEach((lang, index) => {
+                    handleEditorContent(`instruction1_${index}`, lang.instruction1);
+                    handleEditorContent(`instruction2_${index}`, lang.instruction2);
+                  })
+                }
+                props?.setValue(`meta.${metaKey}`, metaValue, { shouldDirty: true });
+              }
+              continue;
+            }
+            if (key === "post_content") handleEditorContent(key, value);
+            props?.setValue(key, value, { shouldDirty: true });
           }
         },
       });
@@ -122,14 +134,14 @@ const CategoryTemplateSection = (props) => {
                 value={
                   props?.watch("category_id") !== null
                     ? categories?.filter(
-                        (option) => props?.watch("category_id") === option?.id
-                      )?.[0]
+                      (option) => props?.watch("category_id") === option?.term_id
+                    )?.[0]
                     : null
                 }
                 options={categories ? categories : []}
-                getOptionLabel={(option) => option?.category_name || ""}
+                getOptionLabel={(option) => option?.name || ""}
                 isOptionEqualToValue={(option, value) =>
-                  option?.id === value?.id
+                  option?.term_id === value?.term_id
                 }
                 renderInput={(params) => (
                   <TextField
@@ -155,7 +167,7 @@ const CategoryTemplateSection = (props) => {
                 )}
                 onChange={(_, newValue) => {
                   props?.clearErrors("category_id");
-                  props?.setValue("category_id", newValue?.id ?? null, {
+                  props?.setValue("category_id", newValue?.term_id ?? null, {
                     shouldDirty: true,
                   });
                 }}
@@ -202,11 +214,11 @@ const CategoryTemplateSection = (props) => {
                   value={
                     props?.watch("load_template_id") !== null
                       ? props
-                          ?.watch("templates")
-                          ?.filter(
-                            (option) =>
-                              props?.watch("load_template_id") === option?.id
-                          )?.[0]
+                        ?.watch("templates")
+                        ?.filter(
+                          (option) =>
+                            props?.watch("load_template_id") === option?.id
+                        )?.[0]
                       : null
                   }
                   options={props?.watch("templates") ?? []}

@@ -13,6 +13,7 @@ import TypeRange from "../../../../front/dashboard/quiz/questionTypes/TypeRange"
 import QuestionSubjectAndPointSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
 import QuestionStatusSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import LanguageSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
+import { shuffleArrayBasedOnOrder } from "../../../../helpers/util";
 
 const AnswerSheetContent = (props) => {
   const theme = useTheme();
@@ -57,47 +58,50 @@ const AnswerSheetContent = (props) => {
             stat?.question?.question_languages?.map((lang) => {
               return {
                 language_id: lang?.language_id,
-                language_name: lang?.language?.language_name,
+                language_name: lang?.language?.name,
                 default: Boolean(Number(lang?.default)),
                 selected: Boolean(Number(lang?.default)),
-                paragraph: parse(stat?.question?.paragraph?.paragraph_languages?.find(p => p?.language_id === lang?.language_id)?.rendered_content ?? "") ?? "",
+                paragraph: parse(stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "") ?? "",
                 question: parse(lang?.rendered_question),
                 correct_msg: parse(lang?.rendered_correct_msg),
                 incorrect_msg: parse(lang?.rendered_incorrect_msg),
                 hint_msg: parse(lang?.rendered_hint_msg),
                 answer_data: {
                   singleChoice:
-                    stat?.question?.answer_type === "singleChoice" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.singleChoice,
+                    stat?.question?.answer_type === "singleChoice" && stat?.answer_data
+                      ? lang?.rendered_answer_data?.singleChoice?.map((answer) => ({...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false}))
+                      : lang?.rendered_answer_data?.singleChoice,
                   multipleChoice:
-                    stat?.question?.answer_type === "multipleChoice" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.multipleChoice,
+                    stat?.question?.answer_type === "multipleChoice" && stat?.answer_data
+                      ? lang?.rendered_answer_data?.multipleChoice?.map((answer) => ({...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false}))
+                      : lang?.rendered_answer_data?.multipleChoice,
                   trueFalse:
-                    stat?.question?.answer_type === "trueFalse" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.trueFalse,
+                    stat?.question?.answer_type === "trueFalse" && stat?.answer_data
+                      ? lang?.rendered_answer_data?.trueFalse?.map((answer, index) => ({...answer, isChecked: stat?.answer_data == index ?? false}))
+                      : lang?.rendered_answer_data?.trueFalse,
                   sortingChoice:
-                    stat?.question?.answer_type === "sortingChoice" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.sortingChoice,
+                    stat?.question?.answer_type === "sortingChoice" && stat?.answer_data
+                      ? shuffleArrayBasedOnOrder(lang?.rendered_answer_data?.sortingChoice, stat?.answer_data)
+                      : lang?.rendered_answer_data?.sortingChoice,
                   matrixSortingChoice:
-                    stat?.question?.answer_type === "matrixSortingChoice" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.matrixSortingChoice,
+                    stat?.question?.answer_type === "matrixSortingChoice" && stat?.answer_data
+                      ? lang?.rendered_answer_data?.matrixSortingChoice
+                      : lang?.rendered_answer_data?.matrixSortingChoice,
                   fillInTheBlank:
-                    stat?.question?.answer_type === "fillInTheBlank" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.fillInTheBlank,
+                    stat?.question?.answer_type === "fillInTheBlank" && stat?.answer_data
+                      ? {
+                          ...lang?.rendered_answer_data?.fillInTheBlank, 
+                          correctOption: lang?.rendered_answer_data?.fillInTheBlank?.correctOption?.map((c, index) => ({...c, yourAnswer: stat?.answer_data?.[index] ?? ''})),
+                        }
+                      : lang?.rendered_answer_data?.fillInTheBlank,
                   numerical:
-                    stat?.question?.answer_type === "numerical" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.numerical,
+                    stat?.question?.answer_type === "numerical" && stat?.answer_data
+                      ? {...lang?.rendered_answer_data?.numerical, yourAnswer: stat?.answer_data}
+                      : lang?.rendered_answer_data?.numerical,
                   rangeType:
-                    stat?.question?.answer_type === "rangeType" && JSON.parse(stat?.rendered_answer_data)
-                      ? JSON.parse(stat?.rendered_answer_data)
-                      : JSON.parse(lang?.rendered_answer_data)?.rangeType,
+                    stat?.question?.answer_type === "rangeType" && stat?.answer_data
+                      ? {...lang?.rendered_answer_data?.rangeType, yourAnswer: stat?.answer_data}
+                      : lang?.rendered_answer_data?.rangeType,
                 },
               };
             }) ?? [],
@@ -106,7 +110,7 @@ const AnswerSheetContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
+  // console.log(methods?.watch("questions"));
 
   let questionRef = React.useRef([]);
 

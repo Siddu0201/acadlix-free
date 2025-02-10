@@ -15,7 +15,7 @@ if(!class_exists('CourseCartMigration')){
                 Manager::schema()->create('course_cart', function($table){
                     $table->bigIncrements('id');
                     $table->string('cart_token')->nullable();
-                    $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
+                    $table->bigInteger('course_id')->nullable();
                     $table->unsignedBigInteger('user_id');
                     $table->integer('quantity')->default(1);
                     $table->bigInteger('token_expiry')->nullable()->default(0);

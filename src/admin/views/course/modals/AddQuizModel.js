@@ -125,10 +125,10 @@ const AddFromExisting = (props) => {
   }
 
   const handleSearch = (data) => {
-    if(search === ''){
+    if (search === '') {
       return data;
-    }else{
-      return data?.filter(d => d?.title?.toLowerCase()?.includes(search?.toLowerCase()));
+    } else {
+      return data?.filter(d => d?.post_title?.toLowerCase()?.includes(search?.toLowerCase()));
     }
   }
 
@@ -147,7 +147,7 @@ const AddFromExisting = (props) => {
               size="small"
               label="Search Quiz..."
               value={search}
-              onChange={(e) => {setSearch(e?.target?.value)}}
+              onChange={(e) => { setSearch(e?.target?.value) }}
               inputProps={{
                 sx: {
                   border: `0 !important`,
@@ -171,36 +171,43 @@ const AddFromExisting = (props) => {
                   }}
                 >
                   <FormControlLabel
-                    value={q?.id}
-                    label={q?.title}
-                    control={<Checkbox />}
-                    onClick={(e) => {
-                      if (e?.target?.value !== undefined) {
-                        if (e?.target?.checked) {
-                          props?.setValue(
-                            "quiz_ids",
-                            [...props?.watch("quiz_ids"), e?.target?.value],
-                            {
-                              shouldDirty: true,
-                            }
+                    value={q?.ID}
+                    label={q?.post_title}
+                    control={
+                      <Checkbox
+                        checked={
+                          props?.watch("quiz_ids")?.find(
+                            (quiz_id) => quiz_id === q?.ID
+                          )
+                            ? true
+                            : false
+                        }
+                        onClick={(e) => {
+                          const found = props?.watch("quiz_ids")?.find(
+                            (quiz_id) => quiz_id === q?.ID
                           );
-                        } else {
-                          if (
-                            props?.watch("quiz_ids")?.includes(e?.target?.value)
-                          ) {
+                          if (e?.target?.checked && !found) {
+                            props?.setValue(
+                              "quiz_ids",
+                              [...props?.watch("quiz_ids"), q?.ID],
+                              {
+                                shouldDirty: true,
+                              }
+                            );
+                          } else if (!e?.target?.checked && found) {
                             props?.setValue(
                               "quiz_ids",
                               props
                                 ?.watch("quiz_ids")
-                                ?.filter((l) => l !== e?.target?.value),
+                                ?.filter((quiz_id) => quiz_id !== q?.ID),
                               {
                                 shouldDirty: true,
                               }
                             );
                           }
-                        }
-                      }
-                    }}
+                        }}
+                      />
+                    }
                   />
                 </ListItem>
               ))}

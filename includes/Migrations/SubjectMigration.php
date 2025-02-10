@@ -15,6 +15,7 @@ if(!class_exists('SubjectMigration')){
                 Manager::schema()->create('subject', function($table){
                     $table->bigIncrements('id');
                     $table->string("subject_name");
+                    $table->boolean('default')->default(false);
                     $table->timestamps();
                 });
             }

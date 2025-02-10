@@ -37,13 +37,13 @@ const ParagraphLanguageSection = (props) => {
                   row
                   value={
                     props
-                      ?.watch("language")
+                      ?.watch("meta.language_data")
                       ?.filter((lang) => lang?.selected)?.[0]?.language_id
                   }
                   onChange={(e) => {
                     props?.setValue(
-                      "language",
-                      props?.watch("language")?.map((lang) => {
+                      "meta.language_data",
+                      props?.watch("meta.language_data")?.map((lang) => {
                         if (lang?.language_id === Number(e?.target?.value)) {
                           lang.selected = true;
                         } else {
@@ -55,16 +55,17 @@ const ParagraphLanguageSection = (props) => {
                     );
                   }}
                 >
-                  {props?.watch("language")?.length > 0 &&
-                    props?.watch("language")?.map((lang, index) => (
+                  {props?.watch("meta.language_data")?.length > 0 &&
+                    props?.watch("meta.language_data")?.map((lang, index) => (
                       <FormControlLabel
                         key={index}
                         control={<Radio />}
                         value={lang?.language_id}
                         label={
                           <>
-                            {lang?.language_name}
-                            {lang?.default ? "(default)" : ""}
+                            {`${props?.quiz?.languages?.find(
+                              (l) => l?.term_id === lang?.language_id
+                            )?.name} ${lang?.default ? "(default)" : ""}`}
                           </>
                         }
                       />

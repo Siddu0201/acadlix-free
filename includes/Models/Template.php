@@ -17,5 +17,17 @@ if(!class_exists('Template')){
             "data"
         ];
 
+        public function scopeOfQuiz($query){
+            return $query->where('type', 'quiz');
+        }
+
+        public function setDataAttribute($value){
+            $this->attributes['data'] = maybe_serialize($value);
+        }
+
+        public function getDataAttribute($value){
+            return maybe_unserialize($value);
+        }
+
     }
 }

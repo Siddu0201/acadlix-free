@@ -123,14 +123,15 @@ const Checkout = () => {
       "order_items",
       cart?.map((c) => {
         let price = formatPrice(
-          Boolean(Number(c?.course?.enable_sale_price)) ? c?.course?.sale_price : c?.course?.price
+          Boolean(Number(c?.course?.rendered_metas?.enable_sale_price)) ? c?.course?.rendered_metas?.sale_price : c?.course?.rendered_metas?.price
         );
         let tax = 0;
-        if (c?.course?.tax !== 0 && c?.course?.tax_percent !== 0) {
-          tax = formatPrice((price * c?.course?.tax_percent) / 100);
+        if (c?.course?.rendered_metas?.tax !== 0 && c?.course?.rendered_metas?.tax_percent !== 0) {
+          tax = formatPrice((price * c?.course?.rendered_metas?.tax_percent) / 100);
         }
         return {
           course_id: c?.course_id,
+          course_title: c?.course?.post_title,
           quantity: 1,
           price: price,
           discount: 0,

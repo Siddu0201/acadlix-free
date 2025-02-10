@@ -15,7 +15,7 @@ if(!class_exists(('CourseStatisticMigration'))){
                 Manager::schema()->create('course_statistics', function($table){
                     $table->bigIncrements('id');
                     $table->foreignId('order_item_id')->constrained('order_items')->cascadeOnDelete();
-                    $table->foreignId('course_section_content_id')->constrained('course_section_contents')->cascadeOnDelete();
+                    $table->bigInteger('course_section_content_id')->nullable();
                     $table->integer('user_id')->unsigned()->nullable()->default(0);
                     $table->boolean('is_active')->nullable()->default(false);
                     $table->boolean('is_completed')->nullable()->default(false);

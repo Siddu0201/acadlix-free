@@ -14,7 +14,7 @@ if(!class_exists('QuestionMigration')){
             if(!Manager::schema()->hasTable('question')){
                 Manager::schema()->create('question', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
+                    $table->bigInteger('quiz_id')->nullable();
                     $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
                     $table->integer('sort')->unsigned()->default(1);
@@ -25,8 +25,9 @@ if(!class_exists('QuestionMigration')){
                     $table->boolean('different_incorrect_msg')->default(0);
                     $table->boolean('hint_enabled')->default(0);
                     $table->boolean('paragraph_enabled')->default(0);
-                    $table->foreignId('paragraph_id')->nullable()->constrained('paragraph')->nullOnDelete();
+                    $table->bigInteger('paragraph_id')->nullable();
                     $table->string('answer_type');
+                    $table->text('meta')->nullable();
                     $table->timestamps();
                 });
             }

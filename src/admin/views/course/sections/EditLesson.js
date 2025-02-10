@@ -11,27 +11,31 @@ const EditLesson = (props) => {
     defaultValues: {
       lesson_id: props?.c?.contentable_id,
       title: "",
-      type: "",
       content: "",
-      video: {
-        video_type: "",
-        video_data: {
-          html_5: "",
-          external_link: "",
-          youtube: "",
-          vimeo: "",
-          embedded: "",
-          shortcode: "",
+      meta: {
+        type: "",
+        video: {
+          video_type: "",
+          video_data: {
+            html_5: "",
+            external_link: "",
+            youtube: "",
+            vimeo: "",
+            embedded: "",
+            shortcode: "",
+          },
+          video_thumbnail: "",
         },
-        video_thumbnail: "",
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        resources: [],
       },
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      resources: [],
       show: false,
     },
   });
+
+  // console.log(methods?.watch());
 
   const handleEditLesson = () => {
     methods?.setValue("show", true, { shouldDirty: true });
@@ -53,16 +57,13 @@ const EditLesson = (props) => {
           `sections.${props?.id}.contents`,
           data?.data?.section?.contents?.map((c) => {
             return {
-              id: c?.id,
-              sort: c?.sort,
-              preview: Boolean(Number(c?.preview)),
-              type:
-                c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
-                  ? "quiz"
-                  : "lesson",
+              id: c?.ID,
+              sort: c?.menu_order,
+              preview: Boolean(Number(c?.rendered_metas?.preview)),
+              type: c?.contentable?.type,
               title: c?.contentable?.title,
-              contentable_id: c?.contentable_id,
-              course_section_id: c?.course_section_id,
+              contentable_id: c?.contentable?.id,
+              course_section_id: c?.post_parent,
             };
           })
         );

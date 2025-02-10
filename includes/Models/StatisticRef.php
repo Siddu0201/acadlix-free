@@ -13,13 +13,24 @@ if(!class_exists('StatisticRef')){
 
         protected $fillable = [
             "quiz_id",
+            "user_token",
             "user_id",
             "points",
             "result",
-            "quiz_time"
+            "quiz_time",
+            "accuracy",
+            "status",
         ];
 
         protected $with = ['statistics', 'user'];
+
+        public function setUserIdAttribute($value){
+            $this->attributes['user_id'] = $value == 0 ? NULL : $value ;
+        }
+
+        public function setUserTokenAttribute($value){
+            $this->attributes['user_token'] = empty($value) ? NULL : $value ;
+        }
 
         public function quiz(){
             return $this->belongsTo(Quiz::class, 'quiz_id', 'id');

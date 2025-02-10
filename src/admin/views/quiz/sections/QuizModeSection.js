@@ -16,57 +16,54 @@ import CustomTextField from "../../../../components/CustomTextField";
 const QuizModeSection = (props) => {
   const setAdvanceModeDefaultSettings = () => {
     // default general setting
-    props?.setValue("hide_quiz_title", false, { shouldDirty: true });
-    props?.setValue("hide_restart_button", true, { shouldDirty: true });
-    props?.setValue("quiz_timing_type", "full_quiz_time", {
+    props?.setValue("meta.quiz_settings.hide_quiz_title", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.hide_restart_button", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.quiz_timing_type", "full_quiz_time", {
       shouldDirty: true,
     });
-    props?.setValue("show_review_button", true, { shouldDirty: true });
-    props?.setValue("prerequisite", false, { shouldDirty: true });
-    props?.setValue("enable_login_register", true, { shouldDirty: true });
-    props?.setValue("login_register_type", "at_start_of_quiz", {
+    props?.setValue("meta.quiz_settings.show_review_button", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.prerequisite", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.enable_login_register", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.login_register_type", "at_start_of_quiz", {
       shouldDirty: true,
     });
-    props?.setValue("save_statistic", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.save_statistic", true, { shouldDirty: true });
 
     // default question setting
-    props?.setValue("show_marks", true, { shouldDirty: true });
-    props?.setValue("display_subject", true, { shouldDirty: true });
-    props?.setValue("skip_question", false, { shouldDirty: true });
-    props?.setValue("answer_bullet", false, { shouldDirty: true });
-    props?.setValue("question_overview", true, { shouldDirty: true });
-    props?.setValue("question_overview", true, { shouldDirty: true });
-    props?.setValue("hide_question_numbering", false, { shouldDirty: true });
-    props?.setValue("sort_by_subject", true, {
+    props?.setValue("meta.quiz_settings.show_marks", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.display_subject", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.skip_question", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.answer_bullet", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.question_overview", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.question_overview", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.hide_question_numbering", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.sort_by_subject", true, {
       shouldDirty: true,
     });
-    props?.setValue("force_user_to_answer_each_question", false, {
+    props?.setValue("meta.quiz_settings.force_user_to_answer_each_question", false, {
       shouldDirty: true,
     });
 
     // default result setting
-    props?.setValue("hide_result", false, { shouldDirty: true });
-    props?.setValue("hide_negative_marks", true, { shouldDirty: true });
-    props?.setValue("hide_quiz_time", false, { shouldDirty: true });
-    props?.setValue("show_speed", true, { shouldDirty: true });
-    props?.setValue("show_percentile", false, { shouldDirty: true });
-    props?.setValue("show_accuracy", true, { shouldDirty: true });
-    props?.setValue("show_rank", false, { shouldDirty: true });
-    props?.setValue("show_average_score", true, { shouldDirty: true });
-    props?.setValue("show_subject_wise_analysis", false, { shouldDirty: true });
-    props?.setValue("show_marks_distribution", false, { shouldDirty: true });
-    props?.setValue("show_status_based_on_min_percent", false, {
+    props?.setValue("meta.quiz_settings.hide_result", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.hide_negative_marks", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.hide_quiz_time", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_speed", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_percentile", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_accuracy", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_rank", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_average_score", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_subject_wise_analysis", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_marks_distribution", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_status_based_on_min_percent", false, {
       shouldDirty: true,
     });
-    props?.setValue("result_comparision_with_top_five_student", false, {
+    props?.setValue("meta.quiz_settings.result_comparision_with_top_five_student", false, {
       shouldDirty: true,
     });
-    props?.setValue("hide_answer_sheet", false, { shouldDirty: true });
-    props?.setValue("show_per_question_time", true, { shouldDirty: true });
-    props?.setValue("was_the_solution_helpful", false, { shouldDirty: true });
-    props?.setValue("bookmark", false, { shouldDirty: true });
-    props?.setValue("report_question_answer", true, { shouldDirty: true });
-    props?.setValue("leaderboard", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.hide_answer_sheet", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_per_question_time", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.leaderboard", false, { shouldDirty: true });
   };
 
   return (
@@ -101,14 +98,14 @@ const QuizModeSection = (props) => {
                     }}
                   >
                     <Radio
-                      checked={props?.watch("mode") === "normal"}
+                      checked={props?.watch("meta.mode") === "normal"}
                       name="mode"
                       sx={{
                         padding: 1,
                       }}
                       value="normal"
                       onClick={() => {
-                        props?.setValue("mode", "normal", {
+                        props?.setValue("meta.mode", "normal", {
                           shouldDirty: true,
                         });
                         if (props?.watch("quiz_section") === "5") {
@@ -131,11 +128,11 @@ const QuizModeSection = (props) => {
                     <FormControlLabel
                       control={
                         <CustomSwitch
-                          checked={props?.watch("enable_back_button") ?? false}
-                          disabled={props?.watch("mode") !== "normal"}
+                          checked={props?.watch("meta.quiz_settings.enable_back_button") ?? false}
+                          disabled={props?.watch("meta.mode") !== "normal"}
                           onChange={(e) => {
                             props?.setValue(
-                              "enable_back_button",
+                              "meta.quiz_settings.enable_back_button",
                               e?.target?.checked,
                               { shouldDirty: true }
                             );
@@ -167,17 +164,17 @@ const QuizModeSection = (props) => {
                     }}
                   >
                     <Radio
-                      checked={props?.watch("mode") === "check_and_continue"}
+                      checked={props?.watch("meta.mode") === "check_and_continue"}
                       name="mode"
                       sx={{
                         padding: 1,
                       }}
                       value="check_and_continue"
                       onClick={() => {
-                        props?.setValue("mode", "check_and_continue", {
+                        props?.setValue("meta.mode", "check_and_continue", {
                           shouldDirty: true,
                         });
-                        props?.setValue("attempt_and_move_forward", false, {
+                        props?.setValue("meta.quiz_settings.attempt_and_move_forward", false, {
                           shouldDirty: true,
                         });
                         if (props?.watch("quiz_section") === "5") {
@@ -201,15 +198,15 @@ const QuizModeSection = (props) => {
                       control={
                         <CustomSwitch
                           checked={
-                            props?.watch("enable_check_on_option_selected") ??
+                            props?.watch("meta.quiz_settings.enable_check_on_option_selected") ??
                             false
                           }
                           disabled={
-                            props?.watch("mode") !== "check_and_continue"
+                            props?.watch("meta.mode") !== "check_and_continue"
                           }
                           onChange={(e) => {
                             props?.setValue(
-                              "enable_check_on_option_selected",
+                              "meta.quiz_settings.enable_check_on_option_selected",
                               e?.target?.checked,
                               { shouldDirty: true }
                             );
@@ -222,10 +219,10 @@ const QuizModeSection = (props) => {
                     <FormControlLabel
                       control={
                         <CustomSwitch
-                          checked={props?.watch("skip_question") ?? false}
+                          checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
                           onChange={(e) => {
                             props?.setValue(
-                              "skip_question",
+                              "meta.quiz_settings.skip_question",
                               e?.target?.checked,
                               {
                                 shouldDirty: true,
@@ -233,7 +230,7 @@ const QuizModeSection = (props) => {
                             );
                           }}
                           disabled={
-                            props?.watch("mode") !== "check_and_continue"
+                            props?.watch("meta.mode") !== "check_and_continue"
                           }
                         />
                       }
@@ -262,7 +259,7 @@ const QuizModeSection = (props) => {
                   >
                     <Radio
                       checked={
-                        props?.watch("mode") === "question_below_each_other"
+                        props?.watch("meta.mode") === "question_below_each_other"
                       }
                       name="mode"
                       sx={{
@@ -270,13 +267,13 @@ const QuizModeSection = (props) => {
                       }}
                       value="question_below_each_other"
                       onClick={() => {
-                        props?.setValue("mode", "question_below_each_other", {
+                        props?.setValue("meta.mode", "question_below_each_other", {
                           shouldDirty: true,
                         });
-                        props?.setValue("quiz_timing_type", "full_quiz_time", {
+                        props?.setValue("meta.quiz_settings.quiz_timing_type", "full_quiz_time", {
                           shouldDirty: true,
                         });
-                        props?.setValue("attempt_and_move_forward", false, {
+                        props?.setValue("meta.quiz_settings.attempt_and_move_forward", false, {
                           shouldDirty: true,
                         });
                         if (props?.watch("quiz_section") === "5") {
@@ -302,13 +299,13 @@ const QuizModeSection = (props) => {
                       fullWidth
                       type="number"
                       label="Question per page"
-                      value={props?.watch("question_per_page") ?? 10}
+                      value={props?.watch("meta.quiz_settings.question_per_page") ?? 10}
                       disabled={
-                        props?.watch("mode") !== "question_below_each_other"
+                        props?.watch("meta.mode") !== "question_below_each_other"
                       }
                       onChange={(e) => {
                         props?.setValue(
-                          "question_per_page",
+                          "meta.quiz_settings.question_per_page",
                           Number(e?.target?.value),
                           { shouldDirty: true }
                         );
@@ -351,14 +348,14 @@ const QuizModeSection = (props) => {
                     }}
                   >
                     <Radio
-                      checked={props?.watch("mode") === "advance_mode"}
+                      checked={props?.watch("meta.mode") === "advance_mode"}
                       name="mode"
                       sx={{
                         padding: 1,
                       }}
                       value="advance_mode"
                       onClick={() => {
-                        props?.setValue("mode", "advance_mode", {
+                        props?.setValue("meta.mode", "advance_mode", {
                           shouldDirty: true,
                         });
 
@@ -391,7 +388,7 @@ const QuizModeSection = (props) => {
                         row
                         name="advance_mode"
                         onChange={(e) => {
-                          props?.setValue("advance_mode_type", e.target.value, {
+                          props?.setValue("meta.advance_mode_type", e.target.value, {
                             shouldDirty: true,
                           });
 
@@ -399,7 +396,7 @@ const QuizModeSection = (props) => {
                         }}
                         sx={{
                           display:
-                            props?.watch("mode") === "advance_mode"
+                            props?.watch("meta.mode") === "advance_mode"
                               ? ""
                               : "none",
                         }}
@@ -409,7 +406,7 @@ const QuizModeSection = (props) => {
                           control={<Radio />}
                           label="Advance Panel"
                           checked={
-                            props?.watch("advance_mode_type") ===
+                            props?.watch("meta.advance_mode_type") ===
                             "advance_panel"
                           }
                         />
@@ -417,38 +414,38 @@ const QuizModeSection = (props) => {
                           value="ibps"
                           control={<Radio />}
                           label="IBPS"
-                          checked={props?.watch("advance_mode_type") === "ibps"}
+                          checked={props?.watch("meta.advance_mode_type") === "ibps"}
                         />
                         <FormControlLabel
                           value="ssc"
                           control={<Radio />}
                           label="SSC"
-                          checked={props?.watch("advance_mode_type") === "ssc"}
+                          checked={props?.watch("meta.advance_mode_type") === "ssc"}
                         />
                         <FormControlLabel
                           value="gate"
                           control={<Radio />}
                           label="GATE"
-                          checked={props?.watch("advance_mode_type") === "gate"}
+                          checked={props?.watch("meta.advance_mode_type") === "gate"}
                         />
                         <FormControlLabel
                           value="sbi"
                           control={<Radio />}
                           label="SBI"
-                          checked={props?.watch("advance_mode_type") === "sbi"}
+                          checked={props?.watch("meta.advance_mode_type") === "sbi"}
                         />
                         <FormControlLabel
                           value="jee"
                           control={<Radio />}
                           label="JEE"
-                          checked={props?.watch("advance_mode_type") === "jee"}
+                          checked={props?.watch("meta.advance_mode_type") === "jee"}
                         />
                         <FormControlLabel
                           value="railway"
                           control={<Radio />}
                           label="Railway"
                           checked={
-                            props?.watch("advance_mode_type") === "railway"
+                            props?.watch("meta.advance_mode_type") === "railway"
                           }
                         />
                       </RadioGroup>

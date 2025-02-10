@@ -2,8 +2,10 @@
 
 namespace Yuvayana\Acadlix\REST\Admin;
 
+use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
+use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Lesson;
 defined('ABSPATH') || exit();
 
@@ -104,7 +106,7 @@ class AdminLessonController
         $res = [];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
-        $lesson = Lesson::withCount(['lesson_resources'])->orderBy('created_at', 'desc');
+        $lesson = Lesson::ofLesson()->orderBy('id', 'desc');
         $res['total'] = $lesson->count();
         $res['lessons'] = $lesson->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);
@@ -114,25 +116,75 @@ class AdminLessonController
     {
         $res = [];
         $params = $request->get_json_params();
-        $lesson = Lesson::create($params);
-        if (count($params['resources']) > 0) {
-            foreach ($params['resources'] as $resource) {
-                if (($resource['type'] == 'upload' && $resource['filename'] !== '') || ($resource['type'] == 'link' && $resource['link'] != '')) {
-                    $lesson->lesson_resources()->create($resource);
-                }
 
-            }
+        // Validate required fields
+        if (empty($params['title'])) {
+            return new WP_Error(
+                'missing_title',
+                __('Lesson title is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        $res['lesson'] = $lesson;
-        return rest_ensure_response($res);
+
+        // Prepare meta data
+        $meta = !empty($params['meta']) && is_array($params['meta'])
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+            : [];
+
+        try {
+            // Insert the lesson post
+            $lessonId = Lesson::insertLesson([
+                'post_title' => sanitize_text_field($params['title']),
+                'post_content' => wp_kses_post($params['content']),
+                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+            ], $meta);
+
+            if (is_wp_error($lessonId)) {
+                return new WP_Error(
+                    'lesson_creation_failed',
+                    __('Failed to create the lesson.', 'acadlix'),
+                    ['status' => 500, 'error' => $lessonId->get_error_message()]
+                );
+            }
+
+            // Retrieve and return the lesson data
+            $lesson = get_post($lessonId);
+            if (!$lesson) {
+                return new WP_Error(
+                    'lesson_not_found',
+                    __('Created lesson not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['lesson'] = $lesson;
+            return rest_ensure_response($res);
+
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
+        }
     }
 
     public function get_lesson_by_id($request)
     {
         $res = [];
         $lesson_id = $request['lesson_id'];
+
+        // Validate required fields
+        if (empty($lesson_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Lesson id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
         $lesson = Lesson::find($lesson_id);
-        if($lesson){
+        if ($lesson) {
             $res['lesson'] = $lesson;
         }
         return rest_ensure_response($res);
@@ -141,21 +193,68 @@ class AdminLessonController
     public function update_lesson_by_id($request)
     {
         $res = [];
-        $lesson_id = $request['lesson_id'];
+        $lessonId = $request['lesson_id'];
         $params = $request->get_json_params();
-        $lesson = Lesson::find($lesson_id);
-        $lesson->update($params);
-        foreach ($params['resources'] as $resource) {
-            if (($resource['type'] == 'upload' && $resource['filename'] !== '') || ($resource['type'] == 'link' && $resource['link'] != '')) {
-                $lesson->lesson_resources()->updateOrCreate(
-                    ['id' => $resource['id']],
-                    $resource
+
+        // Validate required fields
+        if (empty($params['title'])) {
+            return new WP_Error(
+                'missing_title',
+                __('Lesson title is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        // Validate required fields
+        if (empty($lessonId)) {
+            return new WP_Error(
+                'missing_id',
+                __('Lesson id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        // Prepare meta data
+        $meta = !empty($params['meta']) && is_array($params['meta'])
+            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+            : [];
+
+        try {
+            // Update the lesson post
+            $lessonId = Lesson::updateLesson($lessonId, [
+                'post_title' => sanitize_text_field($params['title']),
+                'post_content' => wp_kses_post($params['content']),
+                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+            ], $meta);
+
+            if (is_wp_error($lessonId)) {
+                return new WP_Error(
+                    'lesson_updation_failed',
+                    __('Failed to update the lesson.', 'acadlix'),
+                    ['status' => 500, 'error' => $lessonId->get_error_message()]
                 );
             }
+
+            // Retrieve and return the lesson data
+            $lesson = get_post($lessonId);
+            if (!$lesson) {
+                return new WP_Error(
+                    'lesson_not_found',
+                    __('Updated lesson not found.', 'acadlix'),
+                    ['status' => 500]
+                );
+            }
+
+            $res['lesson'] = $lesson;
+            return rest_ensure_response($res);
+
+        } catch (Exception $e) {
+            return new WP_Error(
+                'exception_occurred',
+                $e->getMessage(),
+                ['status' => 500]
+            );
         }
-        $lesson->lesson_resources()->whereNotIn('id', array_column($params['resources'], 'id'))->delete();
-        $res['lesson'] = Lesson::find($lesson_id);
-        return rest_ensure_response($res);
 
     }
 
@@ -163,10 +262,25 @@ class AdminLessonController
     {
         $res = [];
         $lesson_id = $request['lesson_id'];
-        $lesson = Lesson::find($lesson_id);
-        $lesson->contents()->delete();
-        $lesson->delete();
-        $res['lesson'] = $lesson;
+
+        // Validate required fields
+        if (empty($lesson_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Lesson id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $lesson = Lesson::deleteLesson($lesson_id);
+
+        if (is_wp_error($lesson)) {
+            return new WP_Error(
+                'lesson_deletion_failed',
+                __('Failed to delete the lesson.', 'acadlix'),
+                ['status' => 500, 'error' => $lesson->get_error_message()]
+            );
+        }
+        $res['message'] = __('Lesson successfully deleted.', 'acadlix');
         return rest_ensure_response($res);
     }
 
@@ -174,13 +288,35 @@ class AdminLessonController
     {
         $res = [];
         $params = $request->get_json_params();
-        if (count($params['lesson_ids']) > 0) {
-            foreach ($params['lesson_ids'] as $lesson_id) {
-                $lesson = Lesson::find($lesson_id);
-                $lesson->contents()->delete();
-                $lesson->delete();
+
+        // Validate required fields
+        if (!is_array($params['lesson_ids']) || count($params['lesson_ids']) == 0) {
+            return new WP_Error(
+                'missing_ids',
+                __('Lesson ids is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        foreach ($params['lesson_ids'] as $lesson_id) {
+            if (empty($lesson_id)) {
+                return new WP_Error(
+                    'missing_id',
+                    __('Lesson id is required.', 'acadlix'),
+                    ['status' => 400]
+                );
+            }
+            $lesson = Lesson::deleteLesson($lesson_id);
+
+            if (is_wp_error($lesson)) {
+                return new WP_Error(
+                    'lesson_deletion_failed',
+                    __('Failed to delete the lesson.', 'acadlix'),
+                    ['status' => 500, 'error' => $lesson->get_error_message()]
+                );
             }
         }
+        $res['message'] = __('Lessons successfully deleted.', 'acadlix');
         return rest_ensure_response($res);
     }
 

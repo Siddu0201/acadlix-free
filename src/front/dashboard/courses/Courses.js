@@ -145,17 +145,20 @@ const Courses = () => {
           <Grid item xs={12} lg={12}>
             <CircularProgress />
           </Grid>
-        ) : data?.data?.order_items?.length > 0 ? (
+        ) : data?.data?.order_items?.length > 0 ?
           data?.data?.order_items?.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <CourseCard {...item} />
+            <React.Fragment key={index}>
+              {item?.course_id && (
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <CourseCard {...item} />
+                </Grid>
+              )}
+            </React.Fragment>
+          )) : (
+            <Grid item xs={12} lg={12}>
+              <Typography>No Course Found</Typography>
             </Grid>
-          ))
-        ) : (
-          <Grid item xs={12} lg={12}>
-            <Typography>No Course Found</Typography>
-          </Grid>
-        )}
+          )}
       </Grid>
       <Box
         sx={{
@@ -205,9 +208,9 @@ const CourseCard = (props) => {
           aspectRatio: "auto 240/135",
         }}
         image={
-          props?.course?.post?.thumbnail_url ?? acadlixOptions?.default_img_url
+          props?.course?.thumbnail?.url ?? acadlixOptions?.default_img_url
         }
-        alt={props?.course?.post?.post_title}
+        alt={props?.course?.thumbnail?.alt ?? props?.course?.post_title}
       />
       <CardContent
         sx={{
@@ -220,21 +223,21 @@ const CourseCard = (props) => {
             lineHeight: "1.4",
           }}
         >
-          {props?.course?.post?.post_title?.length > 40
-            ? props?.course?.post?.post_title?.substring(0, 40) + "..."
-            : props?.course?.post?.post_title}
+          {props?.course?.post_title?.length > 40
+            ? props?.course?.post_title?.substring(0, 40) + "..."
+            : props?.course?.post_title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {props?.course?.users?.length > 0
             ? props?.course?.users
-                ?.map((u) => u?.author?.display_name)
-                ?.join(", ")
-            : props?.course?.post?.author?.display_name}
+              ?.map((u) => u?.display_name)
+              ?.join(", ")
+            : props?.course?.author?.display_name}
         </Typography>
         <Box sx={{ mt: 5 }}>
-          <LinearProgress variant="determinate" value={0} />
+          <LinearProgress variant="determinate" value={props?.course_completion_percentage} />
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {0}% Complete
+            {props?.course_completion_percentage}% Complete
           </Typography>
         </Box>
       </CardContent>

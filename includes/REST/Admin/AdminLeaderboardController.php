@@ -37,9 +37,17 @@ class AdminLeaderboardController {
         $res = [];
         $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
-        $toplist = Toplist::where('quiz_id', $quiz_id)->orderBy("result", "desc")->orderBy("quiz_time", "asc")->orderBy('created_at', 'asc');
-        $res["toplist_count"] = $toplist->count();
-        $res["toplist"] = $toplist->skip($params["toplist_view_count"])->take(10)->get();
+
+        if (empty($quiz_id)) {
+            return new WP_Error(
+                'missing_quiz_id',
+                __('Quiz id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $toplist = new Toplist();
+        $res['toplist'] = $toplist->getTopList($quiz_id, $params['toplist_view_count'], 10);
+        $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
         return rest_ensure_response( $res ); 
     }
 

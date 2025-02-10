@@ -14,7 +14,7 @@ if(!class_exists('SubjectTimeMigration')){
             if(!Manager::schema()->hasTable('subject_time')){
                 Manager::schema()->create('subject_time', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
+                    $table->bigInteger('quiz_id')->nullable();
                     $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
                     $table->integer('time')->unsigned();
                     $table->integer('specific_number_of_questions')->default(0);

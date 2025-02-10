@@ -45,7 +45,7 @@ const TypeMultipleChoice = (props) => {
             ? 0
             : 1,
         solved_count: data?.filter((d) => d.isChecked).length > 0 ? 1 : 0,
-        answer_data: data?.filter((d) => d.isChecked).length > 0 ? data : "",
+        answer_data: data?.filter((d) => d.isChecked).length > 0 ? data?.filter((d) => d.isChecked)?.map((d) => d.position) : null,
       },
       { shouldDirty: true }
     );
@@ -89,53 +89,35 @@ const TypeMultipleChoice = (props) => {
                     : "transparent"
                 : "transparent",
               borderRadius: 1,
+              paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
             }}
           >
             {props?.watch("answer_bullet") ? (
-              props?.watch("answer_bullet_type") === "numeric" ? (
-                <Avatar
-                  sx={{
-                    height: 24,
-                    width: 24,
-                    fontSize: 14,
-                    fontWeight: "bold",
-                    backgroundColor: props?.watch(
-                      `questions.${props?.index}.check`
-                    )
-                      ? data?.isCorrect
-                        ? (theme) => theme.palette.success.main
-                        : data?.isChecked
-                          ? (theme) => theme.palette.error.main
-                          : (theme) => theme.palette.grey[500]
-                      : (theme) => theme.palette.grey[500],
-                  }}
-                >
-                  {index + 1}
-                </Avatar>
-              ) : (
-                <Avatar
-                  sx={{
-                    height: 24,
-                    width: 24,
-                    fontSize: 14,
-                    fontWeight: "bold",
-                    backgroundColor: props?.watch(
-                      `questions.${props?.index}.check`
-                    )
-                      ? data?.isCorrect
-                        ? (theme) => theme.palette.success.main
-                        : data?.isChecked
-                          ? (theme) => theme.palette.error.main
-                          : (theme) => theme.palette.grey[500]
-                      : (theme) => theme.palette.grey[500],
-                  }}
-                >
-                  {alphabate[index % 26]}
-                </Avatar>
-              )
-            ) : (
-              <></>
-            )}
+              <Avatar
+                sx={{
+                  height: 24,
+                  width: 24,
+                  fontSize: 14,
+                  fontWeight: "bold",
+                  backgroundColor: props?.watch(
+                    `questions.${props?.index}.check`
+                  )
+                    ? data?.isCorrect
+                      ? (theme) => theme.palette.success.main
+                      : data?.isChecked
+                        ? (theme) => theme.palette.error.main
+                        : (theme) => theme.palette.grey[500]
+                    : (theme) => theme.palette.grey[500],
+                }}
+              >
+                {props?.watch("answer_bullet_type") === "numeric"
+                  ? index + 1
+                  : alphabate[index % 26]}
+              </Avatar>
+            )
+              : (
+                <></>
+              )}
             <FormControlLabel
               checked={data?.isChecked}
               control={

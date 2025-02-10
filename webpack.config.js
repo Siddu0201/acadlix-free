@@ -1,7 +1,7 @@
 const defaultConfig = require("./node_modules/@wordpress/scripts/config/webpack.config");
 
 const path = require("path");
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   ...defaultConfig,
@@ -25,18 +25,33 @@ module.exports = {
   output: {
     ...defaultConfig.output,
     // chunkFilename: '[name].bundle.js'
-  },  
+    filename: "[name].js",
+    chunkFilename: "[name].[contenthash].bundle.js",
+    path: path.resolve(process.cwd(), "build"),
+  },
 
   optimization: {
     ...defaultConfig.optimization,
-    // splitChunks: {
-    //   chunks: 'all',
-    // },
+    runtimeChunk: "single",
+    splitChunks: {
+      chunks: "all", // Apply splitting to all chunks
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/, // Extract dependencies from node_modules
+          name: "vendors",
+          chunks: "all",
+          priority: -10,
+        },
+        default: false
+      },
+    },
   },
 
   devServer: {
     ...defaultConfig.devServer,
-    
+    hot: true,
+    watchFiles: ["src/**/*"],
+    liveReload: false,
     proxy: [
       {
         context: ['/api'],
@@ -47,8 +62,8 @@ module.exports = {
   plugins: [
     ...defaultConfig.plugins,
     // new BundleAnalyzerPlugin({
-    //     analyzerMode: 'static', // Generate a report.html file
-    //     openAnalyzer: false,
+    //   analyzerMode: 'static', // Generate a report.html file
+    //   openAnalyzer: false,
     // }),
-],
+  ],
 };

@@ -38,8 +38,7 @@ class UploadQuizController
     public function get_quizes($request)
     {
         $res = [];
-        $params = $request->get_params();
-        $res['quizes'] = Quiz::select(['id', 'title'])->orderBy('created_at', 'desc')->get();
+        $res['quizes'] = Quiz::ofQuiz()->select(['ID', 'post_title'])->orderBy('ID', 'desc')->get();
         return rest_ensure_response($res);
     }
 
@@ -47,7 +46,14 @@ class UploadQuizController
     {
         $res = [];
         $params = $request->get_json_params();
-        $last_sort = Question::where('quiz_id', $params['quiz_id'])
+        $quiz_id = $params['quiz_id'];
+        if(empty($quiz_id)){
+            return rest_ensure_response([
+                'status' => 'error',
+                'message' => 'Quiz ID is required',
+            ]);
+        }
+        $last_sort = Question::where('quiz_id', $quiz_id)
             ->orderBy('sort', 'desc')
             ->value('sort');
         $i = $last_sort ? $last_sort + 1 : 1;
@@ -56,10 +62,11 @@ class UploadQuizController
                 $question = Question::create([
                     'sort' => $i++,
                     "title" => "",
-                    'quiz_id' => $params['quiz_id'],
+                    'quiz_id' => $quiz_id,
                     'answer_type' => $ques['answer_type'],
                     'different_incorrect_msg' => $ques['different_incorrect_msg'],
                     'hint_enabled' => $ques['hint_enabled'],
+                    'subject_id' => null,
                 ]);
                 foreach($ques['language'] as $lkey => $lang){
                     $helper = new Helper();
@@ -69,24 +76,24 @@ class UploadQuizController
                     $ques['language'][$lkey]['hint_msg'] = $helper->upload_base64_image_to_wordpress($lang['hint_msg']);
                     $answer_type = $ques['answer_type'];
                     if(in_array($ques['answer_type'], ['singleChoice', 'multipleChoice', 'sortingChoice'])){
-                        $answer_data = json_decode($lang['answer_data'], true);
+                        $answer_data = $lang['answer_data'];
                         foreach($answer_data[$answer_type] as $okey => $opt){
                             $opt['option'] = $helper->upload_base64_image_to_wordpress($opt["option"]);
                             $answer_data[$answer_type][$okey] = $opt;
                         }
-                        $ques['language'][$lkey]['answer_data'] = wp_json_encode($answer_data);
+                        $ques['language'][$lkey]['answer_data'] = $answer_data;
                     }
                     if(in_array($ques['answer_type'], ['fillInTheBlank'])){
-                        $answer_data = json_decode($lang['answer_data'], true);
+                        $answer_data = $lang['answer_data'];
                         $answer_data[$answer_type]['option'] = $helper->upload_base64_image_to_wordpress($answer_data[$answer_type]['option']);
-                        $ques['language'][$lkey]['answer_data'] = wp_json_encode($answer_data);
+                        $ques['language'][$lkey]['answer_data'] = $answer_data;
                     }
                 }
                 $question->question_languages()->createMany($ques['language']);
             }
         }
         $res['last_sort'] = $last_sort;
-        $res['quiz'] = Quiz::find($params['quiz_id']);
+        $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
         return rest_ensure_response($res);
     }
 

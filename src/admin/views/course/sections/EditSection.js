@@ -10,8 +10,8 @@ const EditSection = (props) => {
   const methods = useForm({
     defaultValues: {
       id: null,
-      title: "",
-      description: "",
+      post_title: "",
+      post_content: "",
       show: false,
     },
   });
@@ -19,8 +19,8 @@ const EditSection = (props) => {
   const handleEditSection = () => {
     methods?.reset({
       id: props?.s?.id,
-      title: props?.s?.title,
-      description: props?.s?.description,
+      post_title: props?.s?.post_title,
+      post_content: props?.s?.post_content,
     });
     methods?.setValue("show", true, { shouldDirty: true });
   };
@@ -39,8 +39,8 @@ const EditSection = (props) => {
             if (index === props?.id) {
               return {
                 ...s,
-                title: data?.data?.section?.title,
-                description: data?.data?.section?.description,
+                post_title: data?.data?.course_section?.post_title,
+                post_content: data?.data?.course_section?.post_content,
               };
             }
             return s;

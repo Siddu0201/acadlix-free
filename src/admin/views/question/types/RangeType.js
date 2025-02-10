@@ -6,7 +6,7 @@ function RangeType(props) {
   return (
     <Card>
       <CardHeader
-        title={`Range Type (${props?.lang?.language_name})`}
+        title={`Range Type ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}

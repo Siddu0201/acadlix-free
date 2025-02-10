@@ -14,11 +14,14 @@ if(!class_exists('StatisticRefMigration')){
             if(!Manager::schema()->hasTable('statistic_ref')){
                 Manager::schema()->create('statistic_ref', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
-                    $table->unsignedBigInteger('user_id');
+                    $table->bigInteger('quiz_id')->nullable();
+                    $table->string('user_token')->nullable();
+                    $table->unsignedBigInteger('user_id')->nullable();
                     $table->float('points')->nullable();
                     $table->float('result')->nullable();
                     $table->integer("quiz_time")->nullable();
+                    $table->float('accuracy')->nullable();
+                    $table->string('status', 100)->nullable();
                     $table->timestamps();
                 });
             }

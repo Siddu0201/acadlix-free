@@ -16,7 +16,7 @@ const SingleChoice = (props) => {
   return (
     <Card>
       <CardHeader
-        title={`Single Choice (${props?.lang?.language_name})`}
+        title={`Single Choice ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -48,14 +48,14 @@ const SingleChoice = (props) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  props?.watch("language")?.forEach((_, lindex) => {
+                  props?.watch("language")?.forEach((_, index) => {
                     props?.setValue(
-                      `language.${lindex}.answer_data.${props?.type}`,
+                      `language.${index}.answer_data.${props?.type}`,
                       [
                         ...props?.watch(
-                          `language.${lindex}.answer_data.${props?.type}`
+                          `language.${index}.answer_data.${props?.type}`
                         ),
-                        ...props?.getAnswerData(props?.type),
+                        ...props?.getAnswerData(props?.type, props?.watch(`language.${index}.answer_data.${props?.type}`)?.length),
                       ],
                       { shouldDirty: true }
                     );

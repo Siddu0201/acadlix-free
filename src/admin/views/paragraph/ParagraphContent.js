@@ -12,7 +12,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { TiArrowLeftThick } from "../../../helpers/icons";
 import { Link, useNavigate } from "react-router-dom";
-import CustomTextField from "../../../components/CustomTextField";
 import toast from "react-hot-toast";
 import {
   PostCreateQuizParagraph,
@@ -25,48 +24,22 @@ import ParagraphTitleSection from "./sections/ParagraphTitleSection";
 const ParagraphContent = (props) => {
   const methods = useForm({
     defaultValues: {
-      id: props?.paragraph?.id ?? null,
-      quiz_id: Number(props?.quiz_id),
-      title: props?.paragraph?.title ?? "",
-      language: props?.create
-        ? props?.quiz?.quiz_languages?.map((lang) => {
+      id: props?.paragraph?.ID ?? null,
+      post_parent: props?.create ? Number(props?.quiz_id) : props?.paragraph?.post_parent,
+      post_title: props?.paragraph?.post_title ?? "",
+      post_author: acadlixOptions?.user_id ?? 0,
+      multi_language: Boolean(Number(props?.quiz?.rendered_metas?.multi_language)),
+      meta: {
+        language_data: props?.paragraph?.rendered_metas?.language_data ??
+          props?.quiz?.languages?.map((lang) => {
             return {
-              id: null,
-              language_id: lang?.language_id,
-              language_name: lang?.language?.language_name,
+              language_id: lang?.term_id,
               default: Boolean(Number(lang?.default)),
               selected: Boolean(Number(lang?.default)),
               content: "",
             };
-          })
-        : props?.quiz?.quiz_languages?.map((lang) => {
-            if (
-              props?.paragraph?.paragraph_languages?.findIndex(
-                (plang) => plang?.language_id === lang?.language_id
-              ) !== -1
-            ) {
-              let paralang = props?.paragraph?.paragraph_languages?.find(
-                (plang) => plang?.language_id === lang?.language_id
-              );
-              return {
-                id: paralang?.id,
-                language_id: paralang?.language_id,
-                language_name: paralang?.language?.language_name,
-                default: Boolean(Number(lang?.default)),
-                selected: Boolean(Number(lang?.default)),
-                content: paralang?.content,
-              };
-            } else {
-              return {
-                id: null,
-                language_id: lang?.language_id,
-                language_name: lang?.language?.language_name,
-                default: Boolean(Number(lang?.default)),
-                selected: Boolean(Number(lang?.default)),
-                content: "",
-              };
-            }
           }),
+      }
     },
   });
 
@@ -160,18 +133,19 @@ const ParagraphContent = (props) => {
               </Typography>
             </Box>
           </Grid>
-          
+
           <ParagraphTitleSection {...methods} />
 
-          {Boolean(props?.quiz?.multi_language) && (
-            <ParagraphLanguageSection {...methods} />
+          {methods?.watch("multi_language") && (
+            <ParagraphLanguageSection {...methods} {...props} />
           )}
 
-          {methods?.watch("language")?.length > 0 &&
-            methods?.watch("language")?.map((lang, index) => (
+          {methods?.watch("meta.language_data")?.length > 0 &&
+            methods?.watch("meta.language_data")?.map((lang, index) => (
               <React.Fragment key={index}>
                 {/* Section contain question */}
                 <ParagraphContentSection
+                  {...props}
                   {...methods}
                   loadEditor={loadEditor}
                   removeEditor={removeEditor}

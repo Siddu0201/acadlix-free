@@ -7,9 +7,9 @@ use WP_Error;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
-use Yuvayana\Acadlix\Models\CourseWishlist;
 use Yuvayana\Acadlix\Models\Order;
 use Yuvayana\Acadlix\Models\OrderItem;
+use Yuvayana\Acadlix\Models\UserActivityMeta;
 
 defined('ABSPATH') || exit();
 
@@ -247,9 +247,10 @@ class FrontCourseController
                     'extra_charges' => 0,
                     'total_amount' => 0
                 ]);
-
+                $course = Course::ofCourse()->find($params['course_id']);
                 $order->order_items()->create([
                     'course_id' => $params['course_id'],
+                    'course_title' => $course->post_title,
                     'quantity' => 1,
                     'price' => 0,
                     'discount' => 0,
@@ -258,7 +259,7 @@ class FrontCourseController
                     'price_after_tax' => 0
                 ]);
 
-                $order->updateOrCreateMeta('payment_method', '');
+                $order->updateOrCreateMeta('payment_method', 'free');
                 $order->update([
                     'status' => 'success',
                 ]);
@@ -305,11 +306,17 @@ class FrontCourseController
         if (!$course) {
             return new WP_Error(__('Missing Course', 'acadlix'), __('This Course is not available', 'acadlix'), array('status' => 404));
         }
-        $wishlist = $course->wishlist()->create(['user_id' => $params['user_id']]);
+        $user_meta = UserActivityMeta::create([
+            'user_id' => $params['user_id'],
+            'type' => "course",
+            'type_id' => $params['course_id'],
+            'meta_key' => "wishlist",
+            'meta_value' => 1
+        ]);
         $res = array(
             'status' => 'success',
             'code' => array('status' => 200),
-            'data' => $wishlist
+            'data' => $user_meta
         );
 
         return rest_ensure_response($res);
@@ -337,7 +344,11 @@ class FrontCourseController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $wishlist = CourseWishlist::where('course_id', $params['course_id'])->where('user_id', $params['user_id'])->first();
+        $wishlist = UserActivityMeta::ofCourse()
+            ->ofCourseWishlist()
+            ->where('type_id', $params['course_id'])
+            ->where('user_id', $params['user_id'])
+            ->first();
         if (!$wishlist) {
             return new WP_Error(__('Missing Course', 'acadlix'), __('This Course is not available', 'acadlix'), array('status' => 404));
         }

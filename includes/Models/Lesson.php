@@ -3,61 +3,149 @@
 namespace Yuvayana\Acadlix\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Helper\Helper;
-
 defined('ABSPATH') || exit();
 
 if (!class_exists('Lesson')) {
+
     class Lesson extends Model
     {
         protected $helper;
 
-        protected $table = "lessons";
+        protected $connection = 'wordpress';
+        protected $table = 'posts'; // Posts table is used for all post types
+        protected $primaryKey = 'ID';
 
-        protected $fillable = [
-            "title",
-            "type",
-            "content",
-            "video",
-            "hours",
-            "minutes",
-            "seconds",
+        protected $with = ['author', 'metas'];
+
+        protected $appends = [
+            'rendered_post_content',
+            'rendered_metas',
+            'resource_count',
         ];
 
-        protected $with = ['lesson_resources'];
-
-        protected $appends = ['rendered_content'];
-
-        protected $renderShortcode = false;
+        protected static $postType = ACADLIX_LESSON_CPT; // Custom post type identifier
 
         public function __construct()
         {
             $this->helper = new Helper();
         }
 
-        public function lesson_resources()
+        /**
+         * Boot method to automatically apply the post type condition.
+         */
+        public function scopeOfLesson($query)
         {
-            return $this->hasMany(LessonResource::class, 'lesson_id', 'id');
+            return $query->where('post_type', self::$postType);
         }
 
-        public function setVideoAttribute($value)
+        public function getRenderedPostContentAttribute()
         {
-            $this->attributes['video'] = maybe_serialize( $value );
+            return $this->helper->renderShortCode($this->post_content);
         }
 
-        public function getVideoAttribute($value)
+        public function metas()
         {
-            return maybe_unserialize( $value );
+            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
         }
 
-        public function getRenderedContentAttribute()
+        public function getRenderedMetasAttribute()
         {
-            return $this->helper->renderShortCode($this->content);
+            $metas = $this->metas;
+            if(empty($metas)) {
+                return [];
+            }
+            $keyValueArray = [];
+
+            foreach ($metas as $meta) {
+                // Ensure meta_key and meta_value exist in the object
+                if (isset($meta['meta_key'], $meta['meta_value'])) {
+                    $key = $meta['meta_key'];
+                    $value = $meta['meta_value'];
+
+                    // Decode JSON if applicable
+                    if (is_string($value) && $decoded = json_decode($value, true)) {
+                        $value = $decoded;
+                    }
+
+                    $keyValueArray[$key] = $value;
+                }
+            }
+            $renderedMetas = !empty($keyValueArray) && is_array($keyValueArray)
+                ? CptHelper::instance()->acadlix_remome_prefix_meta_keys($keyValueArray, 'lesson')
+                : [];
+
+            return $renderedMetas;
         }
 
-        public function contents()
+
+        public function getResourceCountAttribute()
         {
-            return $this->morphMany(CourseSectionContent::class, 'contentable');
+            $resources = $this->metas()->where('meta_key', '_acadlix_lesson_resources')->first();
+            return empty($resources) ? 0 : count($resources->meta_value);
+        }
+
+        public function author()
+        {
+            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+        }
+
+        public static function insertLesson(array $data, array $meta = [])
+        {
+            $data = wp_parse_args($data, [
+                'post_title' => '',
+                'post_content' => '',
+                'post_status' => 'publish',
+                'post_type' => self::$postType,
+                'post_author' => 1,
+            ]);
+
+            // Add meta data to the 'meta_input' argument for wp_insert_post.
+            if (!empty($meta)) {
+                $data['meta_input'] = $meta;
+            }
+
+            // Insert the post and return the ID or WP_Error.
+            $postId = wp_insert_post($data);
+
+            return $postId;
+        }
+
+        public static function updateLesson(int $postId, array $data = [], array $meta = [])
+        {
+            // Parse default arguments for the lesson update.
+            $data = wp_parse_args($data, [
+                'ID' => $postId,
+            ]);
+
+            // Add meta data to the 'meta_input' argument for wp_update_post.
+            if (!empty($meta)) {
+                $data['meta_input'] = $meta;
+            }
+
+            // Update the post and return the result or WP_Error.
+            $result = wp_update_post($data, true);
+
+            return $result;
+        }
+
+        public static function deleteLesson(int $postId)
+        {
+            // Check if post exists
+            $post = get_post($postId);
+            if (!$post || $post->post_type !== self::$postType) {
+                return new \WP_Error('invalid_post', 'Invalid post ID or not a lesson post type.');
+            }
+
+            // Delete post
+            $result = wp_delete_post($postId, true);
+
+            if (!$result) {
+                return new \WP_Error('delete_failed', 'Failed to delete lesson.');
+            }
+
+            return true;
         }
     }
 }

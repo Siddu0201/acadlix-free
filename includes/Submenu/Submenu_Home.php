@@ -40,6 +40,8 @@ class Submenu_Home
 
     public function admin_print_scripts()
     {
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-home");
     }
 

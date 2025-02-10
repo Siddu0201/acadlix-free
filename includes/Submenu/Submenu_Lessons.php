@@ -42,12 +42,15 @@ class Submenu_Lessons
     {
         wp_enqueue_editor();
         wp_enqueue_media();
+        wp_enqueue_script( 'acadlix-runtime-js' );
+        wp_enqueue_script( 'acadlix-vendors-js' );
         wp_enqueue_script( "acadlix-admin-lesson" );
         wp_enqueue_style( "acadlix-admin-lesson-css");
         wp_localize_script('acadlix-admin-lesson', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'nonce' => wp_create_nonce('wp_rest'),
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
+            'user_id' => get_current_user_id(),
         ));
     }
 

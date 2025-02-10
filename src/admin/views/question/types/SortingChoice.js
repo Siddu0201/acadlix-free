@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -12,12 +12,10 @@ function SortingChoice(props) {
 
   return (
     <Card>
-      <CardHeader title={`Sorting Choice (${
-        props?.lang?.language_name
-      })`}
-      titleTypographyProps={{
-        variant: 'h6'
-      }}
+      <CardHeader title={`Sorting Choice ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+        titleTypographyProps={{
+          variant: 'h6'
+        }}
       ></CardHeader>
       <CardContent>
         <Grid container spacing={4}>
@@ -25,9 +23,9 @@ function SortingChoice(props) {
             props?.lang?.answer_data?.[props?.type]?.length > 0 &&
             props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
               <Grid item xs={12} lg={12} key={index}>
-                <Option 
+                <Option
                   {...props}
-                  title={`Option${index + 1}`} 
+                  title={`Option${index + 1}`}
                   id={`opt_${props?.index}_${index}`}
                   loadEditor={props?.loadEditor}
                   removeEditor={props?.removeEditor}
@@ -40,20 +38,19 @@ function SortingChoice(props) {
             ))
           }
           <Grid item xs={12} lg={12}>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="success"
               onClick={() => {
                 props?.watch("language")?.forEach((_, index) => {
                   props?.setValue(
-                      `language.${index}.answer_data.${props?.type}`, 
-                      [...props?.watch(`language.${index}.answer_data.${props?.type}`), 
-                       ...props?.getAnswerData(props?.type)?.map((opt) => {
-                        return {...opt, position: props?.watch(`language.${index}.answer_data.${props?.type}`)?.length}
-                       })
-                      ], 
-                      {shouldDirty: true}
-                    );
+                    `language.${index}.answer_data.${props?.type}`,
+                    [
+                      ...props?.watch(`language.${index}.answer_data.${props?.type}`),
+                      ...props?.getAnswerData(props?.type, props?.watch(`language.${index}.answer_data.${props?.type}`)?.length)
+                    ],
+                    { shouldDirty: true }
+                  );
                 })
               }}
             >
@@ -66,7 +63,7 @@ function SortingChoice(props) {
   );
 }
 const Option = (props) => {
-  
+
   const loadPage = () => {
     props?.loadEditor(props?.id, `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`);
   }
@@ -74,23 +71,23 @@ const Option = (props) => {
   useEffect(() => {
     loadPage();
     window.addEventListener('load', loadPage);
-    
+
     return () => {
       props?.removeEditor(props?.id);
       window.removeEventListener('load', loadPage);
     }
-  },[]);
+  }, []);
 
   return (
     <Card>
       <CardHeader title={props?.title}
-      titleTypographyProps={{
-        variant: 'h6'
-      }}></CardHeader>
+        titleTypographyProps={{
+          variant: 'h6'
+        }}></CardHeader>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
-            <textarea 
+            <textarea
               {...props?.register(
                 `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`,
                 {
@@ -102,7 +99,7 @@ const Option = (props) => {
                   },
                 }
               )}
-              id={props?.id} 
+              id={props?.id}
               style={{
                 width: '100%'
               }}
@@ -124,23 +121,23 @@ const Option = (props) => {
               props.formState?.errors?.language?.[props?.language_index]
                 ?.answer_data?.[props?.type]?.[props?.option_index]?.option
             ) && (
-              <Alert
-                severity="error"
-                sx={{
-                  marginTop: 2,
-                }}
-              >
-                {
-                  props.formState.errors?.language?.[props?.language_index]
-                    ?.answer_data?.[props?.type]?.[props?.option_index]?.option
-                    ?.message
-                }
-              </Alert>
-            )}
+                <Alert
+                  severity="error"
+                  sx={{
+                    marginTop: 2,
+                  }}
+                >
+                  {
+                    props.formState.errors?.language?.[props?.language_index]
+                      ?.answer_data?.[props?.type]?.[props?.option_index]?.option
+                      ?.message
+                  }
+                </Alert>
+              )}
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="error"
               sx={{
                 display: props?.last ? "" : "none",
@@ -150,8 +147,8 @@ const Option = (props) => {
                   props?.setValue(
                     `language.${lindex}.answer_data.${props?.type}`,
                     props?.watch(`language.${lindex}.answer_data.${props?.type}`)?.filter((_, index) => index !== props?.option_index),
-                    {shouldDirty: true}
-                    );
+                    { shouldDirty: true }
+                  );
                 })
               }}
             >

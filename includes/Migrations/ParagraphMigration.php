@@ -14,7 +14,7 @@ if(!class_exists('ParagraphMigration')){
             if(!Manager::schema()->hasTable('paragraph')){
                 Manager::schema()->create('paragraph', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
+                    $table->bigInteger('quiz_id')->nullable();
                     $table->string("title");
                     $table->timestamps();
                 });

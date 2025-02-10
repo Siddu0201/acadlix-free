@@ -10,15 +10,15 @@ import { PostAddQuiz } from "../../../../requests/admin/AdminCourseRequest";
 const AddQuiz = (props) => {
   const methods = useForm({
     defaultValues: {
-      course_id: null,
       quiz_ids: [],
       show: false,
     },
   });
 
+  // console.log(methods?.watch());
+
   const handleAddQuiz = () => {
     methods?.reset({
-      course_id: props?.watch("id"),
       quiz_ids: [],
       show: true,
     });

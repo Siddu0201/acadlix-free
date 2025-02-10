@@ -15,13 +15,14 @@ if(!class_exists('QuestionLangMigration')){
                 Manager::schema()->create('question_lang', function($table){
                     $table->bigIncrements('id');
                     $table->foreignId('question_id')->constrained('question')->cascadeOnDelete();
-                    $table->foreignId('language_id')->nullable()->constrained('language')->nullOnDelete();
+                    $table->bigInteger('language_id')->nullable();
                     $table->boolean('default')->default(0);
                     $table->text("question")->nullable();
                     $table->text("correct_msg")->nullable();
                     $table->text("incorrect_msg")->nullable();
                     $table->text("hint_msg")->nullable();
                     $table->longText("answer_data")->nullable();
+                    $table->text("meta")->nullable();
                     $table->timestamps();
                 });
             }

@@ -7,111 +7,121 @@ import {
   RadioGroup,
   Radio,
   Typography,
-  FormLabel,
-  Card,
-  CardHeader,
   Divider,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListItem,
-  Button,
   Tooltip,
   IconButton,
 } from "@mui/material";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
-import { FaMinus, FaPlus, RiQuestionFill } from "../../../../helpers/icons";
+import { RiQuestionFill } from "../../../../helpers/icons";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { convertToPostDate } from "../../../../helpers/util";
+import CustomTypography from "../../../../components/CustomTypography";
 
 const General = (props) => {
   return (
     <Box sx={{ color: "black" }}>
-      <Grid container>
-        <GridItem1 xs={12} lg={12}>
-          <Typography variant="h6">General Options</Typography>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">General Options</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={3}
+        alignItems="center"
+      >
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Hide Quiz Title</CustomTypography>
         </GridItem1>
 
         {/* Used to hide quiz title in a quiz */}
-        <GridItem1 xs={12} lg={3}>
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={
-              <CustomSwitch
-                checked={props?.watch("hide_quiz_title") ?? false}
-                onChange={(e) => {
-                  props?.setValue("hide_quiz_title", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
-                }
-              />
+              <CustomSwitch />
             }
-            label="Hide Quiz Title"
+            checked={props?.watch("meta.quiz_settings.hide_quiz_title") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.hide_quiz_title", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" &&
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
+            }
+            label="Activate"
           />
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Hide Restart Button</CustomTypography>
         </GridItem1>
 
         {/* User can restart quiz after submittion */}
-        <GridItem1 xs={12} lg={3}>
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("hide_restart_button") ?? false}
-                onChange={(e) => {
-                  props?.setValue("hide_restart_button", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
-                }
-              />
+            control={<CustomSwitch />}
+            checked={props?.watch("meta.quiz_settings.hide_restart_button") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.hide_restart_button", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" &&
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Hide Restart Button"
+            label="Activate"
           />
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Show Clear Response Button</CustomTypography>
         </GridItem1>
 
         {/* Used to clear answer button to clear option selction */}
-        <GridItem1 xs={12} lg={3}>
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("show_clear_response_button") ?? false}
-                onChange={(e) => {
-                  props?.setValue(
-                    "show_clear_response_button",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-              />
-            }
-            label="Show Clear Response Button"
+            control={<CustomSwitch />}
+            checked={props?.watch("meta.quiz_settings.show_clear_response_button") ?? false}
+            onChange={(e) => {
+              props?.setValue(
+                "meta.quiz_settings.show_clear_response_button",
+                e?.target?.checked,
+                { shouldDirty: true }
+              );
+            }}
+            label="Activate"
           />
         </GridItem1>
 
-        <GridItem1 xs={12} lg={3}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Show Review Button</CustomTypography>
+        </GridItem1>
+
+        {/* Button to review quiz  */}
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("enable_check_button") ?? false}
-                disabled={props?.watch("mode") === "check_and_continue"}
-                onChange={(e) => {
-                  props?.setValue("enable_check_button", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
+            control={<CustomSwitch />}
+            checked={props?.watch("meta.quiz_settings.show_review_button") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.show_review_button", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" &&
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Enable Check Button"
+            label="Activate"
           />
         </GridItem1>
 
@@ -119,7 +129,11 @@ const General = (props) => {
           - full quiz time
           - per question time
         */}
-        <GridItem1 xs={12} lg={6}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Quiz Time Type</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControl
             sx={{
               display: "flex",
@@ -127,23 +141,12 @@ const General = (props) => {
               alignItems: "center",
             }}
           >
-            <FormLabel
-              id="acadlix-general-quiz-time-type"
-              sx={{
-                marginRight: 4,
-                color: "black",
-                fontWeight: 500,
-                fontSize: "1.1rem",
-              }}
-            >
-              Quiz time type
-            </FormLabel>
             <RadioGroup
               name="time"
               row
               aria-label="acadlix-genral-quiz-time-type"
               onChange={(e) => {
-                props?.setValue("quiz_timing_type", e?.target?.value, {
+                props?.setValue("meta.quiz_settings.quiz_timing_type", e?.target?.value, {
                   shouldDirty: true,
                 });
               }}
@@ -151,87 +154,84 @@ const General = (props) => {
               <FormControlLabel
                 value="full_quiz_time"
                 control={<Radio />}
-                label="Full Quiz Time"
-                checked={props?.watch("quiz_timing_type") === "full_quiz_time"}
+                label="Full Quiz"
+                checked={props?.watch("meta.quiz_settings.quiz_timing_type") === "full_quiz_time"}
+                componentsProps={{
+                  typography: {
+                    variant: "body2",
+                  }
+                }}
               />
               <FormControlLabel
                 value="per_question_time"
                 control={<Radio />}
-                label="Per Question Time"
+                label="Per Question"
                 checked={
-                  props?.watch("quiz_timing_type") === "per_question_time"
+                  props?.watch("meta.quiz_settings.quiz_timing_type") === "per_question_time"
                 }
                 disabled={
-                  (props?.watch("mode") === "advance_mode" &&
-                    props?.watch("advance_mode_type") !== "advance_panel") ||
-                  props?.watch("mode") === "question_below_each_other"
+                  (props?.watch("meta.mode") === "advance_mode" &&
+                    props?.watch("meta.advance_mode_type") !== "advance_panel") ||
+                  props?.watch("meta.mode") === "question_below_each_other"
                 }
+                componentsProps={{
+                  typography: {
+                    variant: "body2",
+                  }
+                }}
               />
             </RadioGroup>
           </FormControl>
         </GridItem1>
 
         {/* Timing in sec (0 => infinity) */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Quiz Timing</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
             fullWidth
             label="Timing (in sec, 0 => infinite)"
             size="small"
             type="number"
-            value={props?.watch("quiz_time") ?? 0}
+            value={props?.watch("meta.quiz_settings.quiz_time") ?? 0}
             onChange={(e) => {
-              props?.setValue("quiz_time", e?.target?.value, {
+              props?.setValue("meta.quiz_settings.quiz_time", Number(e?.target?.value), {
                 shouldDirty: true,
               });
             }}
             sx={{
               "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
+              {
+                display: "none",
+              },
               "& input[type=number]": {
                 MozAppearance: "textfield",
               },
             }}
           />
         </GridItem1>
-        <GridItem1 xs={12} lg={2}></GridItem1>
-
-        {/* Button to enable start date */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("set_start_date") ?? false}
-                onChange={(e) => {
-                  props?.setValue("set_start_date", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Enable Start Date"
-          />
-        </GridItem1>
 
         {/* Quiz start date */}
-        <GridItem1 xs={12} lg={4}>
-          <DemoContainer components={["DateTimePicker"]}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Start date</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <DemoContainer components={["DateTimePicker"]} sx={{
+            "& .MuiFormControl-root ": {
+              minWidth: "100% !important",
+            },
+          }}>
             <DateTimePicker
-              {...props?.register("start_date", {
-                required: {
-                  value: props?.watch("set_start_date"),
-                  message: "Start Date is required",
-                },
-              })}
-              required={props?.watch("set_start_date")}
               label="Enter Start Date*"
               format="DD/MM/YYYY hh:mm:a"
               timeSteps={{
                 minutes: 1,
               }}
               sx={{
-                ".MuiFormControl-root ": {
+                "& .MuiFormControl-root ": {
                   maxHeight: "42px",
                 },
                 ".MuiInputBase-input": {
@@ -245,55 +245,36 @@ const General = (props) => {
                 },
               }}
               value={
-                props?.watch("start_date")
-                  ? dayjs(props?.watch("start_date"))
+                props?.watch("meta.start_date")
+                  ? dayjs(props?.watch("meta.start_date"))
                   : null
               }
               onChange={(value) => {
-                props?.setValue("start_date", convertToPostDate(value), {
+                props?.setValue("meta.start_date", convertToPostDate(value), {
                   shouldDirty: true,
                 });
               }}
-              disabled={!props?.watch("set_start_date")}
             />
           </DemoContainer>
-          {props?.formState?.errors?.start_date && (
+          {props?.formState?.errors?.meta?.start_date && (
             <Typography component="p" color="error">
-              {props?.formState?.errors?.start_date?.message}
+              {props?.formState?.errors?.meta?.start_date?.message}
             </Typography>
           )}
         </GridItem1>
 
-        <GridItem1 xs={0} lg={4}></GridItem1>
-
-        {/* Button to enable end date */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("set_end_date") ?? false}
-                onChange={(e) => {
-                  props?.setValue("set_end_date", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Enable End Date"
-          />
+        {/* Quiz End Date */}
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>End date</CustomTypography>
         </GridItem1>
 
-        {/* Quiz End Date */}
-        <GridItem1 xs={12} lg={4}>
-          <DemoContainer components={["DateTimePicker"]}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <DemoContainer components={["DateTimePicker"]} sx={{
+            "& .MuiFormControl-root ": {
+              minWidth: "100% !important",
+            },
+          }}>
             <DateTimePicker
-              {...props?.register("end_date", {
-                required: {
-                  value: props?.watch("set_end_date"),
-                  message: "End Date is required",
-                },
-              })}
-              required={props?.watch("set_end_date")}
               label="Enter End Date*"
               timeSteps={{
                 minutes: 1,
@@ -314,133 +295,90 @@ const General = (props) => {
               }}
               format="DD/MM/YYYY hh:mm:a"
               value={
-                props?.watch("end_date")
-                  ? dayjs(props?.watch("end_date"))
+                props?.watch("meta.end_date")
+                  ? dayjs(props?.watch("meta.end_date"))
                   : null
               }
               onChange={(value) => {
-                props?.setValue("end_date", convertToPostDate(value), {
+                props?.setValue("meta.end_date", convertToPostDate(value), {
                   shouldDirty: true,
                 });
               }}
-              disabled={!props?.watch("set_end_date")}
             />
           </DemoContainer>
-          {props?.formState?.errors?.end_date && (
+          {props?.formState?.errors?.meta?.end_date && (
             <Typography component="p" color="error">
-              {props?.formState?.errors?.end_date?.message}
+              {props?.formState?.errors?.meta?.end_date?.message}
             </Typography>
           )}
         </GridItem1>
+      </Grid>
 
-        <GridItem1 xs={0} lg={4}></GridItem1>
-
-        {/* Button to pause quiz */}
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("pause_quiz") ?? false}
-                onChange={(e) => {
-                  props?.setValue("pause_quiz", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Pause Quiz"
-          />
-        </GridItem1>
-
-        {/* Button to review quiz  */}
-        <GridItem1 xs={12} lg={9}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("show_review_button") ?? false}
-                onChange={(e) => {
-                  props?.setValue("show_review_button", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            disabled={
-              props?.watch("mode") === "advance_mode" &&
-              props?.watch("advance_mode_type") !== "advance_panel"
-            }
-            label="Show Review Button"
-          />
-        </GridItem1>
-
-        <GridItem1 xs={12} lg={12}>
-          <Typography variant="h6">Login Options</Typography>
-        </GridItem1>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">Login Options</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={3}
+        alignItems="center"
+      >
 
         {/* If login is required for the quiz */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Enable login/register</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={
-              <CustomSwitch
-                checked={props?.watch("enable_login_register") ?? false}
-                onChange={(e) => {
-                  props?.setValue("enable_login_register", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
-                }
-              />
+              <CustomSwitch />
             }
-            label="Enable login/register"
+            checked={props?.watch("meta.quiz_settings.enable_login_register") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.enable_login_register", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" &&
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
+            }
+            label="Activate"
           />
         </GridItem1>
 
-        {/* Login position
-          - At Start of Quiz
-          - At Finish of Quiz
-        */}
-        {/* <GridItem1 xs={12} lg={8}>
-          <FormControl>
-            <RadioGroup
-              name="login"
-              row
-              onChange={(e) => {
-                props?.setValue("login_register_type", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-            >
-              <FormControlLabel
-                control={<Radio />}
-                label="At Start of Quiz"
-                value="at_start_of_quiz"
-                checked={
-                  props?.watch("login_register_type") === "at_start_of_quiz"
-                }
-                disabled={!props?.watch("enable_login_register")}
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="At Finish of Quiz"
-                value="at_finish_of_quiz"
-                checked={
-                  props?.watch("login_register_type") === "at_finish_of_quiz"
-                }
-                disabled={
-                  !props?.watch("enable_login_register") ||
-                  (props?.watch("mode") === "advance_mode" &&
-                    props?.watch("advance_mode_type") !== "advance_panel")
-                }
-              />
-            </RadioGroup>
-          </FormControl>
-        </GridItem1> */}
-
         {/* Per user allowed attempt to attent the quiz */}
-        <GridItem1 xs={12} lg={3}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Per User Allowed Attempt</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTextField
+            label="Per User Allowed Attempt"
+            variant="outlined"
+            size="small"
+            type="number"
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.per_user_allowed_attempt", Number(e?.target?.value), {
+                shouldDirty: true,
+              });
+            }}
+            value={props?.watch("meta.quiz_settings.per_user_allowed_attempt") ?? 0}
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+              {
+                display: "none",
+              },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
+          />
           <Tooltip
             title="Sets allowed attempts (0 = unlimited); requires login at quiz start."
             placement="right-start"
@@ -453,463 +391,94 @@ const General = (props) => {
               <RiQuestionFill />
             </IconButton>
           </Tooltip>
-          <CustomTextField
-            label="Per User Allowed Attempt"
-            variant="outlined"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              props?.setValue("per_user_allowed_attempt", e?.target?.value, {
-                shouldDirty: true,
-              });
-            }}
-            value={props?.watch("per_user_allowed_attempt") ?? 0}
-            disabled={
-              !props?.watch("enable_login_register") ||
-              props?.watch("login_register_type") === "at_finish_of_quiz"
-            }
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
         </GridItem1>
+      </Grid>
 
-        {/* Save Statistic */}
-        <GridItem1 xs={12} lg={3}>
-          <Tooltip title="Used to save statistic">
-            <IconButton
-              sx={{
-                fontSize: "1.25rem",
-              }}
-            >
-              <RiQuestionFill />
-            </IconButton>
-          </Tooltip>
+      {/* Quiz prerequisite */}
+      {/* <GridItem1 xs={12} lg={12}>
           <FormControlLabel
             control={
               <CustomSwitch
-                checked={props?.watch("save_statistic") ?? false}
+                checked={props?.watch("meta.quiz_settings.prerequisite") ?? false}
                 onChange={(e) => {
-                  props?.setValue("save_statistic", e?.target?.checked, {
+                  props?.setValue("meta.quiz_settings.prerequisite", e?.target?.checked, {
                     shouldDirty: true,
                   });
                 }}
                 disabled={
-                  props?.watch("mode") === "advance_mode" &&
-                  props?.watch("advance_mode_type") !== "advance_panel"
-                }
-              />
-            }
-            label="Save Statistics"
-            disabled={!props?.watch("enable_login_register")}
-          />
-        </GridItem1>
-
-        {/* Statistic ip Lock */}
-        <GridItem1 xs={12} lg={3}>
-          <CustomTextField
-            label="Statistic IP Lock"
-            variant="outlined"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              props?.setValue("statistic_ip_lock", e?.target?.value, {
-                shouldDirty: true,
-              });
-            }}
-            value={props?.watch("statistic_ip_lock") ?? 0}
-            disabled={
-              !props?.watch("enable_login_register") ||
-              !props?.watch("save_statistic")
-            }
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
-        </GridItem1>
-
-        {/* Number of time statistic saved per user (0 => infinity) */}
-        <GridItem1 xs={12} lg={3}>
-          <CustomTextField
-            label="Save statistic no. of times"
-            variant="outlined"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              props?.setValue(
-                "save_statistic_number_of_times",
-                e?.target?.value,
-                { shouldDirty: true }
-              );
-            }}
-            value={props?.watch("save_statistic_number_of_times") ?? 0}
-            disabled={
-              !props?.watch("enable_login_register") ||
-              !props?.watch("save_statistic")
-            }
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
-        </GridItem1>
-
-        {/* Quiz prerequisite */}
-        <GridItem1 xs={12} lg={12}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("prerequisite") ?? false}
-                onChange={(e) => {
-                  props?.setValue("prerequisite", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  (props?.watch("mode") === "advance_mode" &&
-                    props?.watch("advance_mode_type") !== "advance_panel") ||
-                  !props?.watch("enable_login_register") ||
-                  props?.watch("login_register_type") !== "at_start_of_quiz"
+                  (props?.watch("meta.mode") === "advance_mode" &&
+                    props?.watch("meta.advance_mode_type") !== "advance_panel")
                 }
               />
             }
             label="Prerequisite"
           />
-        </GridItem1>
-        <GridItem1
-          xs={12}
-          lg={12}
-          sx={{
-            display: {
-              xs: props?.watch("prerequisite") ? "block" : "none",
-              sm: props?.watch("prerequisite") ? "flex" : "none",
-            },
-          }}
-        >
-          <Card
-            sx={{
-              marginX: 2,
-              marginBottom: {
-                xs: 2,
-                md: 0,
-              },
-              width: "350px",
-            }}
-          >
-            <CardHeader
-              title="Quiz"
-              subheader={`${
-                props
-                  ?.watch("non_prerequisite_quiz")
-                  ?.filter((val) => val?.show === true)?.length
-              } quizzes.`}
-            />
-            <Divider />
-            <List
-              dense
-              component="div"
-              role="list"
-              sx={{
-                width: 350,
-                height: 280,
-                overflow: "auto",
-              }}
-            >
-              {props?.watch("non_prerequisite_quiz")?.length > 0 &&
-                props?.watch("non_prerequisite_quiz")?.map((value, _) => {
-                  const labelId = `transfer-list-all-item-${value?.title}-label`;
-                  return (
-                    <ListItem
-                      key={value?.id}
-                      sx={{
-                        display: value?.show ? "" : "none",
-                      }}
-                    >
-                      <ListItemText
-                        id={labelId}
-                        primary={
-                          value?.title?.length > 20
-                            ? value?.title?.substring(0, 20) + "..."
-                            : value?.title
-                        }
-                      />
-                      <Button
-                        variant="contained"
-                        endIcon={<FaPlus />}
-                        size="medium"
-                        sx={{
-                          ".MuiButton-endIcon": {
-                            margin: 0,
-                          },
-                        }}
-                        onClick={(e) => {
-                          props?.setValue(
-                            "non_prerequisite_quiz",
-                            props
-                              ?.watch("non_prerequisite_quiz")
-                              ?.map((val) => {
-                                if (val?.id === value?.id) {
-                                  val["show"] = false;
-                                }
-                                return val;
-                              }),
-                            { shouldDirty: true }
-                          );
-                          props?.setValue(
-                            "prerequisite_data",
-                            [
-                              ...props?.watch("prerequisite_data"),
-                              {
-                                prerequisite_quiz_id: value?.id,
-                                min_percentage: 0,
-                              },
-                            ],
-                            { shouldDirty: true }
-                          );
-                        }}
-                      ></Button>
-                    </ListItem>
-                  );
-                })}
-            </List>
-          </Card>
+        </GridItem1> */}
 
-          {/* Prerequisites quiz  */}
-          <Card
-            sx={{
-              marginX: 2,
-              width: "350px",
-            }}
-          >
-            <CardHeader
-              title="Prerequisites quiz"
-              subheader={`${
-                props?.watch("prerequisite_data")?.length
-              } quizzes. You can set a minimum % that a user has to score to attempt this quiz. By default it will be set to zero.`}
-            />
-            <Divider />
-            <List
-              dense
-              component="div"
-              role="list"
-              sx={{
-                width: 350,
-                height: 230,
-                overflow: "auto",
-              }}
-            >
-              {props?.watch("prerequisite_data")?.length > 0 &&
-                props?.watch("prerequisite_data")?.map((value, index) => {
-                  const labelId = `transfer-list-all-item-${value?.title}-label`;
-                  return (
-                    <ListItem key={value?.prerequisite_quiz_id}>
-                      <ListItemText
-                        id={labelId}
-                        primary={
-                          props
-                            ?.watch("non_prerequisite_quiz")
-                            ?.filter(
-                              (val) => val?.id === value?.prerequisite_quiz_id
-                            )?.[0]?.title?.length > 20
-                            ? props
-                                ?.watch("non_prerequisite_quiz")
-                                ?.filter(
-                                  (val) =>
-                                    val?.id === value?.prerequisite_quiz_id
-                                )?.[0]
-                                ?.title?.substring(0, 20) + "..."
-                            : props
-                                ?.watch("non_prerequisite_quiz")
-                                ?.filter(
-                                  (val) =>
-                                    val?.id === value?.prerequisite_quiz_id
-                                )?.[0]?.title
-                        }
-                      />
-                      <CustomTextField
-                        label="Min %"
-                        variant="outlined"
-                        size="small"
-                        type="number"
-                        sx={{
-                          maxWidth: "30%",
-                          marginX: 2,
-                          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
-                          "& input[type=number]": {
-                            MozAppearance: "textfield",
-                          },
-                        }}
-                        value={value?.min_percentage ?? 0}
-                        onChange={(e) => {
-                          props?.setValue(
-                            `prerequisite_data.${index}.min_percentage`,
-                            e?.target?.value,
-                            { shouldDirty: true }
-                          );
-                        }}
-                      />
-                      <Button
-                        variant="contained"
-                        color="error"
-                        endIcon={<FaMinus />}
-                        size="large"
-                        sx={{
-                          ".MuiButton-endIcon": {
-                            margin: 0,
-                          },
-                        }}
-                        onClick={(e) => {
-                          props?.setValue(
-                            "non_prerequisite_quiz",
-                            props
-                              ?.watch("non_prerequisite_quiz")
-                              ?.map((val) => {
-                                if (val?.id === value?.prerequisite_quiz_id) {
-                                  val["show"] = true;
-                                }
-                                return val;
-                              }),
-                            { shouldDirty: true }
-                          );
-                          props?.setValue(
-                            "prerequisite_data",
-                            props
-                              ?.watch("prerequisite_data")
-                              ?.filter(
-                                (val) =>
-                                  val?.prerequisite_quiz_id !==
-                                  value?.prerequisite_quiz_id
-                              ),
-                            { shouldDirty: true }
-                          );
-                        }}
-                      ></Button>
-                    </ListItem>
-                  );
-                })}
-            </List>
-          </Card>
-        </GridItem1>
-
-        <GridItem1 xs={12} lg={12}>
-          <Typography variant="h6">Advance Options</Typography>
-        </GridItem1>
-
-        {/* On screen calculator for complex calculation */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("on_screen_calculator") ?? false}
-                onChange={(e) => {
-                  props?.setValue("on_screen_calculator", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="On Screen Calculator"
-          />
-        </GridItem1>
-
-        {/* Used to generate quiz certificate */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("quiz_certificate") ?? false}
-                onChange={(e) => {
-                  props?.setValue("quiz_certificate", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Quiz Certificate"
-          />
-        </GridItem1>
-        {/* Used to resume unfinshed quiz */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("resume_unfinished_quiz") ?? false}
-                onChange={(e) => {
-                  props?.setValue(
-                    "resume_unfinished_quiz",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-              />
-            }
-            label="Resume Unfinished Quiz"
-          />
-        </GridItem1>
-
+      {/* Advance Options */}
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">Advance Options</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={3}
+        alignItems="center"
+      >
         {/* Used to set limited number of question in a quiz */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Show Only Specific Number of Questions</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={
-              <CustomSwitch
-                checked={
-                  props?.watch("show_only_specific_number_of_questions") ??
-                  false
-                }
-                onChange={(e) => {
-                  props?.setValue(
-                    "show_only_specific_number_of_questions",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-              />
+              <CustomSwitch />
             }
-            label="Show Only Specific Number of Questions"
+            checked={
+              props?.watch("meta.quiz_settings.show_only_specific_number_of_questions") ??
+              false
+            }
+            onChange={(e) => {
+              props?.setValue(
+                "meta.quiz_settings.show_only_specific_number_of_questions",
+                e?.target?.checked,
+                { shouldDirty: true }
+              );
+            }}
+            label="Activate"
           />
         </GridItem1>
 
         {/* Number of question to set in quiz */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Specific Number of Questions</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
             type="number"
             label="Specific Number of Questions"
-            value={props?.watch("specific_number_of_questions") ?? 0}
+            value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
             onChange={(e) => {
               props?.setValue(
-                "specific_number_of_questions",
-                e?.target?.value,
+                "meta.quiz_settings.specific_number_of_questions",
+                Number(e?.target?.value),
                 { shouldDirty: true }
               );
             }}
-            disabled={!props?.watch("show_only_specific_number_of_questions")}
+            disabled={!props?.watch("meta.quiz_settings.show_only_specific_number_of_questions")}
             sx={{
               "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
+              {
+                display: "none",
+              },
               "& input[type=number]": {
                 MozAppearance: "textfield",
               },
@@ -917,82 +486,23 @@ const General = (props) => {
           />
         </GridItem1>
 
-        {/* Rate quiz at the end of quiz */}
-        <GridItem1 xs={12} lg={3}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("rate_quiz") ?? false}
-                onChange={(e) => {
-                  props?.setValue("rate_quiz", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Rate Quiz"
-          />
+        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>Enable Check Button</CustomTypography>
         </GridItem1>
 
-        {/* Take feedback from user */}
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={
-              <CustomSwitch
-                checked={props?.watch("quiz_feedback") ?? false}
-                onChange={(e) => {
-                  props?.setValue("quiz_feedback", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
+              <CustomSwitch />
             }
-            label="Quiz Feedback"
-          />
-        </GridItem1>
-
-        {/* Used to set proctoring if used is clicking outside the quiz window */}
-        <GridItem1 xs={12} lg={4}>
-          <FormControlLabel
-            control={
-              <CustomSwitch
-                checked={props?.watch("proctoring") ?? false}
-                onChange={(e) => {
-                  props?.setValue("proctoring", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            }
-            label="Proctoring"
-          />
-        </GridItem1>
-
-        {/* Number of warning for proctoring allowed */}
-        <GridItem1 xs={12} lg={4}>
-          <CustomTextField
-            fullWidth
-            size="small"
-            type="number"
-            label="Max. Number of times Allowed (min 1)"
-            value={props?.watch("proctoring_max_number_of_time_allowed") ?? 3}
+            checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
+            disabled={props?.watch("meta.mode") === "check_and_continue"}
             onChange={(e) => {
-              props?.setValue(
-                "proctoring_max_number_of_time_allowed",
-                e?.target?.value,
-                { shouldDirty: true }
-              );
+              props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
+                shouldDirty: true,
+              });
             }}
-            disabled={!props?.watch("proctoring")}
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                {
-                  display: "none",
-                },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
+            label="Activate"
           />
         </GridItem1>
       </Grid>

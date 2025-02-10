@@ -6,7 +6,7 @@ function Numerical(props) {
   return (
     <Card>
       <CardHeader
-        title={`Numerical (${props?.lang?.language_name})`}
+        title={`Numerical ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}

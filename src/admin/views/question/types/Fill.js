@@ -44,7 +44,7 @@ function Fill(props) {
   return (
     <Card>
       <CardHeader
-        title={`Fill in the Blank (${props?.lang?.language_name})`}
+        title={`Fill in the Blank ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}

@@ -35,7 +35,7 @@ class AdminOrderController
         $res = [];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
-        $order = Order::with(['order_items', 'order_items.course', 'order_metas', 'user'])->orderBy('created_at', 'desc');
+        $order = Order::with(['order_items', 'order_metas', 'user'])->orderBy('created_at', 'desc');
         $res['total'] = $order->count();
         $res['orders'] = $order->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response( $res );

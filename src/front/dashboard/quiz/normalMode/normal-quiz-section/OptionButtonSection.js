@@ -1,43 +1,18 @@
 import { Box } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
-import { arrayRandomize } from "../../../../../helpers/util";
+import { arrayRandomize, shuffleArrayBasedOnOrder } from "../../../../../helpers/util";
 
 const OptionButtonSection = (props) => {
   const handleClearResponse = () => {
+    let sortingOrder = null;
     switch (props?.question?.answer_type) {
       case "singleChoice":
-        props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
-              props?.question?.answer_type
-            ]?.map((answer, index) => {
-              answer.isChecked = false;
-              return answer;
-            });
-            return lang;
-          })
-        );
-        break;
       case "multipleChoice":
-        props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = lang.answer_data[
-              props?.question?.answer_type
-            ]?.map((answer, index) => {
-              answer.isChecked = false;
-              return answer;
-            });
-            return lang;
-          })
-        );
-        break;
       case "trueFalse":
         props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+          `questions.${currentIndex}.language`,
+          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type] = lang.answer_data[
               props?.question?.answer_type
             ]?.map((answer, index) => {
@@ -49,12 +24,20 @@ const OptionButtonSection = (props) => {
         );
         break;
       case "sortingChoice":
+        const length = props?.watch(
+          `questions.${currentIndex}.language.0.answer_data.sortingChoice`
+        )?.length;
+        const initialIndexArray = Array.from({ length }, (_, index) => index);
+        const newIndex = arrayRandomize(initialIndexArray);
+        sortingOrder = newIndex;
         props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type] = arrayRandomize(
-              lang.answer_data[props?.question?.answer_type]
-            );
+          `questions.${currentIndex}.language`,
+          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
+            lang.answer_data[props?.question?.answer_type] =
+              shuffleArrayBasedOnOrder(
+                lang?.answer_data?.[props?.question?.answer_type],
+                newIndex
+              );
             return lang;
           })
         );
@@ -63,8 +46,8 @@ const OptionButtonSection = (props) => {
         break;
       case "fillInTheBlank":
         props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+          `questions.${currentIndex}.language`,
+          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].correctOption =
               lang.answer_data[props?.question?.answer_type].correctOption.map(
                 (correct) => {
@@ -77,18 +60,10 @@ const OptionButtonSection = (props) => {
         );
         break;
       case "numerical":
-        props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
-            lang.answer_data[props?.question?.answer_type].yourAnswer = "";
-            return lang;
-          })
-        );
-        break;
       case "rangeType":
         props?.setValue(
-          `questions.${props?.index}.language`,
-          props?.watch(`questions.${props?.index}.language`)?.map((lang) => {
+          `questions.${currentIndex}.language`,
+          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].yourAnswer = "";
             return lang;
           })
@@ -97,16 +72,19 @@ const OptionButtonSection = (props) => {
       default:
     }
     props?.setValue(
-      `questions.${props?.index}.result`,
+      `questions.${currentIndex}.result`,
       {
-        ...props?.watch(`questions.${props?.index}.result`),
+        ...props?.watch(`questions.${currentIndex}.result`),
         correct_count: 0,
         incorrect_count: 0,
         solved_count: 0,
-        answer_data: "",
+        answer_data: sortingOrder ?? null,
       },
       { shouldDirty: true }
     );
+    props?.setValue(`questions.${currentIndex}.review`, false, {
+      shouldDirty: true,
+    });
   };
 
   const handleNextClick = () => {
@@ -251,7 +229,7 @@ const OptionButtonSection = (props) => {
               sx={{
                 display:
                   props?.watch("enable_check_on_option_selected") &&
-                  !props?.question?.result?.solved_count
+                    !props?.question?.result?.solved_count
                     ? "none"
                     : "",
               }}
@@ -261,19 +239,19 @@ const OptionButtonSection = (props) => {
           )}
 
         {["normal", "check_and_continue"]?.includes(props?.watch("mode")) && (
-            <CustomButton
-              onClick={handleNextClick}
-              sx={{
-                display:
-                  props?.watch("mode") === "check_and_continue" &&
+          <CustomButton
+            onClick={handleNextClick}
+            sx={{
+              display:
+                props?.watch("mode") === "check_and_continue" &&
                   !props?.question?.check
-                    ? "none"
-                    : "",
-              }}
-            >
-              {props?.last ? "Quiz Summary" : "Next"}
-            </CustomButton>
-          )}
+                  ? "none"
+                  : "",
+            }}
+          >
+            {props?.last ? "Quiz Summary" : "Next"}
+          </CustomButton>
+        )}
 
         {["question_below_each_other"]?.includes(props?.watch("mode")) &&
           props?.last && (

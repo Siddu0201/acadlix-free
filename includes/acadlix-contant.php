@@ -32,6 +32,7 @@ const ACADLIX_COURSE_CATEGORY_TAXONOMY = 'acadlix_course_category';
 const ACADLIX_COURSE_TAG_TAXONOMY = 'acadlix_course_tag';
 
 const ACADLIX_COURSE_SECTION_CPT = 'acadlix_csection';
+const ACADLIX_COURSE_SECTION_CONTENT_CPT = 'acadlix_cs_content';
 
 const ACADLIX_QUIZ_CPT = 'acadlix_quiz';
 const ACADLIX_QUIZ_CATEGORY_TAXONOMY = 'acadlix_quiz_category';

@@ -235,11 +235,11 @@ const Quiz = () => {
     if (Array.isArray(data?.data?.quizes)) {
       const newRows = data?.data?.quizes?.map((quiz) => {
         return {
-          id: quiz?.id,
-          title: quiz?.title,
-          mode: quiz?.mode,
-          category: quiz?.category?.category_name ?? "Uncategorized",
-          shortcode: `[Acadlix_Quiz ${quiz?.id}]`,
+          id: quiz?.ID,
+          title: quiz?.post_title,
+          mode: quiz?.rendered_metas?.mode,
+          category: quiz?.category?.name ?? "Uncategorized",
+          shortcode: `[Acadlix_Quiz ${quiz?.ID}]`,
           total_questions: quiz?.questions_count,
         };
       });

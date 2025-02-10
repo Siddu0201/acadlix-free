@@ -40,6 +40,10 @@ const QuizResult = () => {
     defaultValues: {
       title: "",
       rows: [],
+      question_count: 0,
+      pass_count: 0,
+      fail_count: 0,
+      attempt_counts: 0,
       statistic_ref_ids: [],
       action: "",
     },
@@ -127,19 +131,18 @@ const QuizResult = () => {
           date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
           score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
-          minimum_percent_to_pass: data?.data?.quiz?.minimum_percent_to_pass,
-          status:
-            stat_ref?.result?.toFixed(2) >=
-            data?.data?.quiz?.minimum_percent_to_pass
-              ? "Pass"
-              : "Fail",
+          status: stat_ref?.status,
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
     }
     if (data?.data?.quiz) {
-      methods.setValue("title", data?.data?.quiz?.title, { shouldDirty: true });
+      methods.setValue("question_count", data?.data?.quiz?.questions_count, {shouldDirty: true});
+      methods.setValue("title", data?.data?.quiz?.post_title, { shouldDirty: true });
     }
+    methods?.setValue("pass_count", data?.data?.pass_count, {shouldDirty: true});
+    methods?.setValue("fail_count", data?.data?.fail_count, {shouldDirty: true});
+    methods?.setValue("attempt_counts", data?.data?.total, {shouldDirty: true});
   }, [data]);
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
@@ -203,7 +206,7 @@ const QuizResult = () => {
             <CardContent>
               {/* Details Section */}
               <Box
-                width={isMobile ? "90%" : "85%"}
+                width={isMobile ? "90%" : "100%"}
                 sx={{ marginBottom: "20px" }}
               >
                 <Grid container spacing={isMobile ? 2 : 3}>
@@ -220,7 +223,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        {isMobile ? "Qs: 10" : "Questions: 10"}
+                        {`${isMobile ? "Qs:" : "Questions:"} ${methods?.watch("question_count")}`}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -237,7 +240,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        {isMobile ? "Marks: 100" : "Maximum Marks: 100"}
+                        Pass: {methods?.watch("pass_count")}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -254,7 +257,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        Time: 30 mins
+                        Fail: {methods?.watch("fail_count")}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -271,7 +274,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        Passing %: 50%
+                        Total Attempt: {methods?.watch("attempt_counts")}
                       </Typography>
                     </Paper>
                   </Grid>

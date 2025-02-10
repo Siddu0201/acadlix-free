@@ -25,7 +25,7 @@ const TypeNumerical = (props) => {
         correct_count: data?.yourAnswer === data?.option ? 1 : 0,
         incorrect_count: data?.yourAnswer === data?.option ? 0 : 1,
         solved_count: data?.yourAnswer ? 1 : 0,
-        answer_data: data?.yourAnswer ? data : "",
+        answer_data: data?.yourAnswer ?? null,
       },
       { shouldDirty: true }
     );

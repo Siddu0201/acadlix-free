@@ -18,10 +18,12 @@ if (!class_exists('CourseCart')) {
             'quantity',
             'token_expiry',
         ];
+
+        protected $appends = ['course'];
       
-        public function course()
+        public function getCourseAttribute()
         {
-            return $this->belongsTo(Course::class, 'course_id', 'id');
+            return Course::ofCourse()->find($this->course_id);
         }
 
         public function user()

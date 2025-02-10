@@ -14,8 +14,9 @@ if(!class_exists('OrderItemMigration')){
             if(!Manager::schema()->hasTable('order_items')){
                 Manager::schema()->create('order_items', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
+                    $table->bigInteger('course_id')->nullable();
                     $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+                    $table->string('course_title')->nullable();
                     $table->integer('quantity')->nullable()->default(1);
                     $table->float('price')->nullable()->default(0);
                     $table->float('discount')->nullable()->default(0);

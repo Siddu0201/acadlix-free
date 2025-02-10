@@ -125,11 +125,11 @@ export const PostAddQuiz = (section_id = 0) => {
   });
 }
 
-export const RemoveContentFromSection = (section_id = 0, section_content_id = 0) => {
+export const RemoveContentFromSection = (section_id = 0, content_id = 0) => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.delete(`${base}/section/${section_id}/content/${section_content_id}`, {
+      return instance.delete(`${base}/section/${section_id}/content/${content_id}`, {
         headers: {
           "X-WP-Nonce": acadlixOptions?.nonce,
         },

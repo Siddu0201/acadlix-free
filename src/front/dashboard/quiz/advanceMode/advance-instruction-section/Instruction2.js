@@ -41,8 +41,8 @@ const Instruction2 = (props) => {
         }}
       >
         <SkyBlueBox {...props} data="Instructions" />
-        {props?.watch("languages")?.length > 0 &&
-          props?.watch("languages")?.map((l, index) => (
+        {props?.watch("language_data")?.length > 0 &&
+          props?.watch("language_data")?.map((l, index) => (
             <React.Fragment key={index}>
               <MainArea
                 {...props}

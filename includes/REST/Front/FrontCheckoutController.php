@@ -4,10 +4,10 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use WP_Error;
 use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\CourseCart;
-use WP_Error;
 use Yuvayana\Acadlix\Models\Order;
 use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\OrderMeta;
@@ -131,10 +131,16 @@ class FrontCheckoutController
     }
 
 
+    /**
+     * Get user cart.
+     *
+     * @param int $userId
+     *
+     * @return array
+     */
     public function get_user_cart($userId)
     {
-        $cart = CourseCart::with('course')
-            ->where('user_id', $userId)
+        $cart = CourseCart::where('user_id', $userId)
             ->get();
 
         $result = [
@@ -175,11 +181,7 @@ class FrontCheckoutController
         if ($userId != 0) {
             $res = $this->get_user_cart($userId);
         } else {
-            if (!empty($params['cart_token'])) {
-                $res['cart'] = CourseCart::with(["course"])->where("cart_token", $params['cart_token'])->get();
-            } else {
-                $res['cart'] = [];
-            }
+            $res['cart'] = !empty($params['cart_token']) ? CourseCart::where("cart_token", $params['cart_token'])->get() : [];
         }
         return rest_ensure_response($res);
     }
@@ -201,7 +203,7 @@ class FrontCheckoutController
         if ($cart->user_id != 0) {
             $res = $this->get_user_cart($cart->user_id);
         } else {
-            $res['cart'] = CourseCart::with(["course"])->where("cart_token", $cart->cart_token)->get();
+            $res['cart'] = CourseCart::where("cart_token", $cart->cart_token)->get();
         }
 
         return rest_ensure_response($res);
@@ -276,12 +278,13 @@ class FrontCheckoutController
                     foreach ($request->get_param("order_items") as $item) {
                         $order->order_items()->create([
                             'course_id' => $item['course_id'],
+                            'course_title' => $item['course_title'],
                             'quantity' => $item['quantity'],
                             'price' => $item['price'],
                             'discount' => $item['discount'],
                             'price_after_discount' => $item['price_after_discount'],
                             'tax' => $item['tax'],
-                            'price_after_tax' => $item['quantity'],
+                            'price_after_tax' => $item['price_after_tax'],
 
                         ]);
                     }
@@ -433,7 +436,7 @@ class FrontCheckoutController
         // Set up request arguments
         $args = [
             'headers' => [
-                'Authorization' => 'Basic ' . $credentials,
+                'Authorization' => "Basic {$credentials}",
                 'Content-Type' => 'application/json',
             ],
             'body' => $body,
@@ -462,12 +465,13 @@ class FrontCheckoutController
                 foreach ($request->get_param("order_items") as $item) {
                     $order->order_items()->create([
                         'course_id' => $item['course_id'],
+                        'course_title' => $item['course_title'],
                         'quantity' => $item['quantity'],
                         'price' => $item['price'],
                         'discount' => $item['discount'],
                         'price_after_discount' => $item['price_after_discount'],
                         'tax' => $item['tax'],
-                        'price_after_tax' => $item['quantity'],
+                        'price_after_tax' => $item['price_after_tax'],
 
                     ]);
                 }
@@ -558,12 +562,13 @@ class FrontCheckoutController
             foreach ($request->get_param("order_items") as $item) {
                 $order->order_items()->create([
                     'course_id' => $item['course_id'],
+                    'course_title' => $item['course_title'],
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                     'discount' => $item['discount'],
                     'price_after_discount' => $item['price_after_discount'],
                     'tax' => $item['tax'],
-                    'price_after_tax' => $item['quantity'],
+                    'price_after_tax' => $item['price_after_tax'],
 
                 ]);
             }
@@ -619,13 +624,13 @@ class FrontCheckoutController
             foreach ($request->get_param("order_items") as $item) {
                 $order->order_items()->create([
                     'course_id' => $item['course_id'],
+                    'course_title' => $item['course_title'],
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                     'discount' => $item['discount'],
                     'price_after_discount' => $item['price_after_discount'],
                     'tax' => $item['tax'],
-                    'price_after_tax' => $item['quantity'],
-
+                    'price_after_tax' => $item['price_after_tax'],
                 ]);
             }
 

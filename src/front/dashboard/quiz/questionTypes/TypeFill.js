@@ -24,9 +24,6 @@ const TypeFill = (props) => {
     let data = props?.watch(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption`
     );
-    let answer_data = props?.watch(
-      `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`
-    );
     props?.setValue(
       `questions.${props?.index}.result`,
       {
@@ -43,8 +40,8 @@ const TypeFill = (props) => {
             : 1,
         solved_count: data?.filter((d) => d.yourAnswer).length ? 1 : 0,
         answer_data: data?.filter((d) => d.yourAnswer).length
-          ? answer_data
-          : "",
+          ? data?.map((d) => d.yourAnswer)
+          : null,
       },
       { shouldDirty: true }
     );

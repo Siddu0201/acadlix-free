@@ -45,14 +45,14 @@ const AdvanceResult = (props) => {
       .reduce((total, d) => total + d?.result?.time, 0) ?? 0;
   const accuracy =
     props?.watch("questions")?.filter((d) => d?.result?.solved_count)?.length >
-    0
+      0
       ? (
-          (props?.watch("questions")?.filter((d) => d?.result?.correct_count)
-            ?.length /
-            props?.watch("questions")?.filter((d) => d?.result?.solved_count)
-              ?.length) *
-          100
-        )?.toFixed(2)
+        (props?.watch("questions")?.filter((d) => d?.result?.correct_count)
+          ?.length /
+          props?.watch("questions")?.filter((d) => d?.result?.solved_count)
+            ?.length) *
+        100
+      )?.toFixed(2)
       : 0;
 
   return (
@@ -123,7 +123,7 @@ const AdvanceResult = (props) => {
             </Card>
           </Grid>
         )}
-        {props?.watch("show_average_score") && (
+        {props?.watch("save_statistic") && props?.watch("show_average_score") && (
           <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
             <Card
               sx={{
@@ -228,7 +228,7 @@ const AdvanceResult = (props) => {
             </Card>
           </Grid>
         )}
-        {props?.watch("show_percentile") && (
+        {props?.watch("save_statistic") && props?.watch("show_percentile") && (
           <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
             <Card
               sx={{

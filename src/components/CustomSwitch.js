@@ -4,8 +4,8 @@ import React from 'react'
 const CustomSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
   ))(({ theme }) => ({
-    width: 42,
-    height: 26,
+    width: 36,
+    height: 20,
     padding: 0,
     marginRight: 10,
     marginLeft: 6,
@@ -40,8 +40,8 @@ const CustomSwitch = styled((props) => (
     },
     '& .MuiSwitch-thumb': {
       boxSizing: 'border-box',
-      width: 22,
-      height: 22,
+      width: 16,
+      height: 16,
     },
     '& .MuiSwitch-track': {
       borderRadius: 26 / 2,
@@ -51,6 +51,9 @@ const CustomSwitch = styled((props) => (
         duration: 500,
       }),
     },
+    '& .MuiSwitch-input': {
+      height: 0
+    }
   }));
 
 export default CustomSwitch

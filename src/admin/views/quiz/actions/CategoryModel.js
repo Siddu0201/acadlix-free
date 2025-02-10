@@ -19,40 +19,40 @@ const CategoryModel = (props) => {
   const createCategoryMutation = PostCreateCategory();
 
   const createCategory = () => {
-    if (input) {
-      if (
-        categories?.filter(
-          (d) => d?.category_name?.toLowerCase() === input?.toLowerCase()
-        )?.length > 0
-      ) {
-        methods?.setError(`category_id`, {
-          type: "custom",
-          message: "Category name is already exist",
-        });
-      } else {
-        createCategoryMutation.mutate(
-          { category: input },
-          {
-            onSuccess: (data) => {
-              methods?.clearErrors("category_id");
-              setCategories(data?.data?.categories);
-              methods?.setValue(
-                "category_id",
-                data?.data?.category_id ?? null,
-                {
-                  shouldDirty: true,
-                }
-              );
-            },
-          }
-        );
-      }
-    } else {
+    if (!input) {
       methods?.setError(`category_id`, {
         type: "custom",
         message: "Category cannot be empty",
       });
+      return;
     }
+
+    if (categories?.filter(
+      (d) => d?.name?.toLowerCase() === input?.toLowerCase()
+    )?.length > 0) {
+      methods?.setError(`category_id`, {
+        type: "custom",
+        message: "Category name is already exist",
+      });
+      return;
+    }
+
+    createCategoryMutation.mutate(
+      { category_name: input },
+      {
+        onSuccess: (data) => {
+          methods?.clearErrors("category_id");
+          setCategories(data?.data?.categories);
+          methods?.setValue(
+            "category_id",
+            data?.data?.category?.term_id ?? null,
+            {
+              shouldDirty: true,
+            }
+          );
+        },
+      }
+    );
   };
 
   const getCategories = GetCategories();
@@ -65,7 +65,13 @@ const CategoryModel = (props) => {
 
   const setCategory = PostSetCategory();
   const handleSubmit = (data) => {
-    console.log(data);
+    if(!data?.category_id){
+      methods?.setError(`category_id`, {
+        type: "custom",
+        message: "Category cannot be empty",
+      });
+      return;
+    }
     setCategory?.mutate(
       {
         quiz_ids: props?.watch("quiz_ids"),
@@ -105,20 +111,20 @@ const CategoryModel = (props) => {
               size="small"
               value={
                 methods?.watch("category_id") !== null
-                  ? categories?.filter(
-                      (option) => methods?.watch("category_id") === option?.id
-                    )?.[0]
+                  ? categories?.find(
+                    (option) => methods?.watch("category_id") === option?.term_id
+                  )
                   : null
               }
               options={categories ? categories : []}
-              getOptionLabel={(option) => option?.category_name || ""}
-              isOptionEqualToValue={(option, value) => option?.id === value?.id}
+              getOptionLabel={(option) => option?.name || ""}
+              isOptionEqualToValue={(option, value) => option?.term_id === value?.term_id}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   inputProps={{
                     ...params.inputProps,
-                    autoComplete: "spoc_category",
+                    autoComplete: "category",
                   }}
                   label="Select Quiz Category"
                   InputProps={{
@@ -136,7 +142,7 @@ const CategoryModel = (props) => {
                 />
               )}
               onChange={(_, newValue) => {
-                methods?.setValue("category_id", newValue?.id ?? null, {
+                methods?.setValue("category_id", newValue?.term_id ?? null, {
                   shouldDirty: true,
                 });
               }}

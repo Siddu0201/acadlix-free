@@ -32,29 +32,31 @@ const SubjectTimeModel = (props) => {
       subjects: [],
     },
   });
+
+  console.log(methods?.watch());
   const getSubject = GetSubjectByQuizId(props?.watch("quiz_id"));
   React.useEffect(() => {
     if (getSubject?.data?.data?.quiz) {
       methods?.setValue(
         "advance_mode_type",
-        getSubject?.data?.data?.quiz?.advance_mode_type,
+        getSubject?.data?.data?.quiz?.rendered_metas?.advance_mode_type,
         { shouldDirty: true }
       );
       methods?.setValue(
         "quiz_timing_type",
-        getSubject?.data?.data?.quiz?.quiz_timing_type === "subject_wise_time"
+        getSubject?.data?.data?.quiz?.rendered_metas?.quiz_settings?.quiz_timing_type === "subject_wise_time"
           ? "subject_wise_time"
           : "",
         { shouldDirty: true }
       );
       methods?.setValue(
         "subject_wise_question",
-        getSubject?.data?.data?.quiz?.subject_wise_question,
+        Boolean(getSubject?.data?.data?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question),
         { shouldDirty: true }
       );
       methods?.setValue(
         "optional_subject",
-        getSubject?.data?.data?.quiz?.optional_subject,
+        Boolean(getSubject?.data?.data?.quiz?.rendered_metas?.quiz_settings?.optional_subject),
         { shouldDirty: true }
       );
     }

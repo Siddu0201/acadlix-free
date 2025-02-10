@@ -49,21 +49,20 @@ const QuestionParagraphSection = (props) => {
                     props?.watch("paragraph_id") !== null
                       ? props?.paragraphs.filter(
                           (option) =>
-                            props?.watch("paragraph_id") === option?.id
+                            props?.watch("paragraph_id") === option?.ID
                         )?.[0]
                       : null
                   }
                   options={props?.paragraphs ? props?.paragraphs : []}
-                  getOptionLabel={(option) => option?.title || ""}
+                  getOptionLabel={(option) => option?.post_title || ""}
                   isOptionEqualToValue={(option, value) =>
-                    option?.id === value?.id
+                    option?.ID === value?.ID
                   }
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       inputProps={{
                         ...params.inputProps,
-                        autoComplete: "spoc_gender",
                       }}
                       label="Select Paragraph"
                       InputProps={{
@@ -72,7 +71,7 @@ const QuestionParagraphSection = (props) => {
                     />
                   )}
                   onChange={(_, newValue) => {
-                    props?.setValue("paragraph_id", newValue?.id ?? null, {
+                    props?.setValue("paragraph_id", newValue?.ID ?? null, {
                       shouldDirty: true,
                     });
                   }}

@@ -14,7 +14,7 @@ if(!class_exists(('AnswerOptionMigration'))){
             if(!Manager::schema()->hasTable('answer_option')){
                 Manager::schema()->create('answer_option', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
+                    $table->bigInteger('quiz_id')->nullable();
                     $table->foreignId('question_id')->constrained('question')->cascadeOnDelete();
                     $table->unsignedBigInteger('user_id');
                     $table->text('report_text')->nullable();

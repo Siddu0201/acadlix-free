@@ -5,7 +5,6 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  TextareaAutosize,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -44,19 +43,19 @@ const AddEditSectionModal = (props) => {
           </Grid>
           <Grid item xs={12} lg={12}>
             <CustomTextField
-              {...props?.register("title", { required: "Title is required" })}
+              {...props?.register("post_title", { required: "Title is required" })}
               fullWidth
               required
               name="title"
               size="small"
-              value={props?.watch("title") ?? ""}
+              value={props?.watch("post_title") ?? ""}
               onChange={(e) => {
-                props?.setValue("title", e?.target?.value, {
+                props?.setValue("post_title", e?.target?.value, {
                   shouldDirty: true,
                 });
               }}
-              error={Boolean(props?.formState?.errors?.title)}
-              helperText={props?.formState?.errors?.title?.message}
+              error={Boolean(props?.formState?.errors?.post_title)}
+              helperText={props?.formState?.errors?.post_title?.message}
               inputProps={{
                 sx: {
                   border: `0 !important`,
@@ -77,9 +76,9 @@ const AddEditSectionModal = (props) => {
                 width: "100%",
                 padding: "8.5px 14px",
               }}
-              value={props?.watch("description")}
+              value={props?.watch("post_content")}
               onChange={(e) => {
-                props?.setValue("description", e?.target?.value, {
+                props?.setValue("post_content", e?.target?.value, {
                   shouldDirty: true,
                 });
               }}

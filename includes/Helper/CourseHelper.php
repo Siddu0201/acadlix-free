@@ -100,8 +100,8 @@ if (!class_exists('CourseHelper')) {
                 return new WP_Error("invalid_course", __("The course object is invalid.", "acadlix"));
             }
 
-            if ($course->users_count === 0) {
-                return $this->getUserLinkHtml($course->post->post_author);
+            if (count($course->users) === 0) {
+                return $this->getUserLinkHtml($course->post_author);
             }
 
             $userLinks = [];
@@ -111,7 +111,7 @@ if (!class_exists('CourseHelper')) {
                     return new WP_Error("invalid_user", __("The user objects in the course object are invalid.", "acadlix"));
                 }
 
-                $userLinks[] = $this->getUserLinkHtml($user->user_id);
+                $userLinks[] = $this->getUserLinkHtml($user->ID);
             }
 
             return implode(', ', $userLinks);

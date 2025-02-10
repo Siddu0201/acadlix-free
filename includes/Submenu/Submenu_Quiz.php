@@ -45,11 +45,15 @@ class Submenu_Quiz
         wp_enqueue_editor();
         wp_enqueue_media();
         wp_enqueue_style("acadlix-admin-quiz-css");
+
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-quiz");
         wp_localize_script('acadlix-admin-quiz', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'nonce' => wp_create_nonce('wp_rest'),
             'abqu_url' => admin_url('admin.php?page=abqu'),
+            'user_id' => get_current_user_id(),
             'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
             'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),

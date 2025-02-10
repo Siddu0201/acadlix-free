@@ -3,8 +3,10 @@
 namespace Yuvayana\Acadlix\CPT;
 
 use Yuvayana\Acadlix\CPT\Acadlix_Abstract;
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use WP_Post;
+use Yuvayana\Acadlix\Models\OrderItem;
 
 defined('ABSPATH') || exit();
 
@@ -103,18 +105,12 @@ final class Course extends Acadlix_Abstract
                     'hierarchical' => true,
                     'with_front' => false,
                 ),
+                'default_term' => array(
+                    'name' => 'Uncategorized',
+                    'slug' => sanitize_title('Uncategorized'),
+                )
             )
         );
-
-        if (!term_exists('Uncategorized', ACADLIX_COURSE_CATEGORY_TAXONOMY)) {
-            wp_insert_term(
-                'Uncategorized',   // Term name
-                ACADLIX_COURSE_CATEGORY_TAXONOMY, // Taxonomy
-                array(
-                    'slug' => 'uncategorized'
-                )
-            );
-        }
 
         register_taxonomy(
             ACADLIX_COURSE_TAG_TAXONOMY,
@@ -158,13 +154,8 @@ final class Course extends Acadlix_Abstract
             return;
         }
 
-        $terms = wp_get_post_terms($postId, ACADLIX_COURSE_CATEGORY_TAXONOMY);
-
-        if (empty($terms)) {
-            $uncategorizedTerm = get_term_by('slug', 'uncategorized', ACADLIX_COURSE_CATEGORY_TAXONOMY);
-            $uncategorizedTermId = (int) $uncategorizedTerm->term_id;
-
-            wp_set_post_terms($postId, $uncategorizedTermId, ACADLIX_COURSE_CATEGORY_TAXONOMY, false);
+        if (!empty($post->post_title) && $postId) {
+            OrderItem::where("course_id", $postId)->update(["course_title" => $post->post_title]);
         }
     }
 
@@ -192,7 +183,9 @@ final class Course extends Acadlix_Abstract
     public function custom_column_content($column, $post_id = 0)
     {
         $course = \Yuvayana\Acadlix\Models\Course::find($post_id);
-        $price = $course->sale_price == 0 ? $course->price == 0 ? "Free" : "$$course->price" : "<del>$$course->price</del> $$course->sale_price";
+        $price = $course->rendered_metas['enable_sale_price']
+            ? ($course->rendered_metas['sale_price'] == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($course->rendered_metas['sale_price']) . " <del>" . CourseHelper::instance()->getCoursePrice($course->rendered_metas['price']) . "</del>")
+            : ($course->rendered_metas['price'] == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($course->rendered_metas['price']) . " " . $course->rendered_metas['price']);
         switch ($column) {
             case 'students':
                 $count = 0;
@@ -239,16 +232,15 @@ final class Course extends Acadlix_Abstract
         );
 
         $users = get_users($args);
-        $course_setting = \Yuvayana\Acadlix\Models\Course::find($post->ID);
+        $course = \Yuvayana\Acadlix\Models\Course::find($post->ID);
         ?>
         <script type="text/javascript">
             window.acadlixCourseList = window.acadlixCourseList || [];
 
             window.acadlixCourseList = {
-                logged_in_user_id: <?php echo esc_js(get_current_user_id()); ?>,
-                course: <?php echo wp_json_encode($post); ?>,
+                user_id: <?php echo esc_js(get_current_user_id()); ?>,
+                course: <?php echo wp_json_encode($course); ?>,
                 users: <?php echo wp_json_encode($users); ?>,
-                course_setting: <?php echo wp_json_encode($course_setting); ?>,
             };
         </script>
         <?php
@@ -297,10 +289,10 @@ final class Course extends Acadlix_Abstract
         }
         $course = \Yuvayana\Acadlix\Models\Course::find($post_id);
         if ($course) {
-            $course->delete();
+            \Yuvayana\Acadlix\Models\Course::deleteCourse($post_id);
         }
     }
-
+    
     public static function instance()
     {
         if (!self::$_instance) {

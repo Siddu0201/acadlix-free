@@ -4,11 +4,12 @@ namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use WP_Error;
 use Yuvayana\Acadlix\Models\Paragraph;
 use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Subject;
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
 class AdminQuestionController
 {
@@ -110,7 +111,7 @@ class AdminQuestionController
             ]
         );
 
-        
+
         register_rest_route(
             $this->namespace,
             '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/set-subject-and-point',
@@ -122,7 +123,7 @@ class AdminQuestionController
                 ],
             ]
         );
-        
+
         register_rest_route(
             $this->namespace,
             '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/set-paragraph',
@@ -134,7 +135,7 @@ class AdminQuestionController
                 ],
             ]
         );
-        
+
         register_rest_route(
             $this->namespace,
             '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/delete-bulk-question',
@@ -159,10 +160,10 @@ class AdminQuestionController
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
-        $question = Question::where('quiz_id', $quiz_id)->where('online', 1)->orderBy("sort");
+        $question = Question::ofOnline()->where('quiz_id', $quiz_id)->orderBy("sort");
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
-        $res['paragraphs'] = Paragraph::where('quiz_id', $quiz_id)->get();
+        $res['paragraphs'] = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -171,8 +172,8 @@ class AdminQuestionController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $res['subjects'] = Subject::get();
-        $res['quiz'] = Quiz::withCount('questions')->find($quiz_id);
-        $res['paragraphs'] = Paragraph::where('quiz_id', $quiz_id)->get();
+        $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
+        $res['paragraphs'] = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -193,8 +194,8 @@ class AdminQuestionController
         $question_id = $request['question_id'];
         $res['question'] = Question::find($question_id);
         $res['subjects'] = Subject::get();
-        $res['quiz'] = Quiz::withCount('questions')->find($quiz_id);
-        $res['paragraphs'] = Paragraph::where('quiz_id', $quiz_id)->get();
+        $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
+        $res['paragraphs'] = Paragraph::where('post_parent', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -203,8 +204,25 @@ class AdminQuestionController
         $res = [];
         $question_id = $request['question_id'];
         $params = $request->get_json_params();
+
+        if (empty($question_id)) {
+            return new WP_Error(
+                'missing_question_id',
+                __('Question id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        if (is_array($params['language']) && count($params['language']) == 0) {
+            return new WP_Error(
+                'missing_question_languages',
+                __('Question language is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
         $question = Question::find($question_id);
         $question->update($params);
+
         foreach ($params['language'] as $lang) {
             $question->question_languages()->updateOrCreate(
                 ['language_id' => $lang['language_id']],
@@ -229,45 +247,64 @@ class AdminQuestionController
     {
         $res = [];
         $params = $request->get_json_params();
-        if(count($params['question_ids']) > 0){
-            foreach($params['question_ids'] as $question_id){
-                $question = Question::find($question_id);
-                $question->update([
-                    'subject_id' => !empty($params['subject_id']) ? $params['subject_id'] : $question->subject_id,
-                    'points' => !empty($params['points']) ? $params['points'] : $question->points,
-                    'negative_points' => !empty($params['negative_points']) ? $params['negative_points'] : $question->negative_points,
-                ]);
-            }
+        if (is_array($params['question_ids']) && count($params['question_ids']) == 0) {
+            return new WP_Error(
+                'missing_question_ids',
+                __('Question ids is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        return rest_ensure_response( $res );
+        foreach ($params['question_ids'] as $question_id) {
+            $question = Question::find($question_id);
+            $question->update([
+                'subject_id' => !empty($params['subject_id']) ? $params['subject_id'] : $question->subject_id,
+                'points' => !empty($params['points']) ? $params['points'] : $question->points,
+                'negative_points' => !empty($params['negative_points']) ? $params['negative_points'] : $question->negative_points,
+            ]);
+        }
+        return rest_ensure_response($res);
     }
 
-    public function post_set_paragraph($request){
+    public function post_set_paragraph($request)
+    {
         $res = [];
         $params = $request->get_json_params();
-        if(count($params['question_ids']) > 0){
-            foreach($params['question_ids'] as $question_id){
-                $question = Question::find($question_id);
-                $question->update([
-                    'paragraph_enabled' => $params['paragraph_enabled'],
-                    'paragraph_id' => $params['paragraph_id'],
-                ]);
-            }
+        if (is_array($params['question_ids']) && count($params['question_ids']) == 0) {
+            return new WP_Error(
+                'missing_question_ids',
+                __('Question ids is required.', 'acadlix'),
+                ['status' => 400]
+            );
         }
-        return rest_ensure_response( $res );
+
+        foreach ($params['question_ids'] as $question_id) {
+            $question = Question::find($question_id);
+            $question->update([
+                'paragraph_enabled' => $params['paragraph_enabled'],
+                'paragraph_id' => $params['paragraph_id'],
+            ]);
+        }
+        return rest_ensure_response($res);
     }
 
     public function delete_bulk_question($request)
     {
         $res = [];
         $params = $request->get_json_params();
-        if(count($params['question_ids']) > 0){
-            foreach($params['question_ids'] as $question_id){
+        if (is_array($params['question_ids']) && count($params['question_ids']) == 0) {
+            return new WP_Error(
+                'missing_question_ids',
+                __('Question ids is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        if (count($params['question_ids']) > 0) {
+            foreach ($params['question_ids'] as $question_id) {
                 $question = Question::find($question_id);
                 $question->update(['online' => 0]);
             }
         }
-        return rest_ensure_response( $res );
+        return rest_ensure_response($res);
     }
 
     public function check_permission()
