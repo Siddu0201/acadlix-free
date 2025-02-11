@@ -133,9 +133,7 @@ const QuizContent = (props) => {
           percent_based_result_text: Boolean(
             Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text)
           ),
-          result_text: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text))
-            ? JSON.parse(props?.quiz?.rendered_metas?.quiz_settings?.result_text)
-            : props?.quiz?.rendered_metas?.quiz_settings?.result_text ?? "", // ""/[{percent: number, text: ""}]
+          result_text: props?.quiz?.rendered_metas?.quiz_settings?.result_text ?? "", // ""/[{percent: number, text: ""}]
           // Notification settings
           admin_email_notification: Boolean(
             Number(props?.quiz?.rendered_metas?.quiz_settings?.admin_email_notification)

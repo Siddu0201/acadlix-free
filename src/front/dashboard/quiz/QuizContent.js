@@ -140,7 +140,7 @@ const QuizContent = (props) => {
         Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text)
       ),
       result_text: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text))
-        ? JSON.parse(props?.quiz?.rendered_metas?.quiz_settings?.result_text)
+        ? props?.quiz?.rendered_metas?.quiz_settings?.result_text
         : parse(props?.quiz?.rendered_metas?.quiz_settings?.result_text), // ""/[{percent: number, text: ""}]
       // Language settings
       default_language_id: props?.quiz?.rendered_metas?.default_language_id
