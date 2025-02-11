@@ -4,6 +4,7 @@ import CustomButton from "../normal-quiz-component/CustomButton";
 import { arrayRandomize, shuffleArrayBasedOnOrder } from "../../../../../helpers/util";
 
 const OptionButtonSection = (props) => {
+  const currentIndex = props?.index;
   const handleClearResponse = () => {
     let sortingOrder = null;
     switch (props?.question?.answer_type) {
