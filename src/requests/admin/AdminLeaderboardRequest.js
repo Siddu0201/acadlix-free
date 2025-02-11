@@ -11,3 +11,12 @@ export const PostQuizLoadMoreLeaderderboard = (quiz_id = '') => {
         }
     })
 }
+
+export const PostResetLeaderboardByQuizId = (quiz_id) => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: () => {
+            return instance.post(`${base}/${quiz_id}/reset-leaderboard`);
+        }
+    })
+}

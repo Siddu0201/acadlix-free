@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const base = "/admin-statistic";
 
-export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize= 10) => {
+export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize = 10) => {
     const instance = useInstance();
     return useQuery({
         queryKey: ["getStatisticByQuizId", quiz_id, page, pageSize],
@@ -15,6 +15,25 @@ export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize= 10) => {
                     pageSize: pageSize
                 }
             });
+        }
+    });
+}
+
+export const PostResetStatisticByQuizId = (quiz_id = 0) => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => {
+            return instance.post(`${base}/${quiz_id}/reset-statistic`);
+        },
+        onSuccess: () => {
+            toast.success('Statistic successfully reset.');
+            queryClient.invalidateQueries({
+                queryKey: ["getStatisticByQuizId"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
         }
     });
 }
@@ -43,7 +62,7 @@ export const DeleteStatisticById = () => {
     });
 }
 
-export const GetStatisticById = (quiz_id ='',statistic_ref_id = '') => {
+export const GetStatisticById = (quiz_id = '', statistic_ref_id = '') => {
     const instance = useInstance();
     return useQuery({
         queryKey: ["getStatisticById", quiz_id, statistic_ref_id],

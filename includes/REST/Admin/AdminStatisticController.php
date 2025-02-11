@@ -42,6 +42,25 @@ class AdminStatisticController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/(?P<quiz_id>[\d]+)/reset-statistic',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_reset_statistic_by_quiz_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'quiz_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/(?P<statistic_ref_id>[\d]+)',
             [
                 [
@@ -109,12 +128,27 @@ class AdminStatisticController
         return rest_ensure_response($res);
     }
 
+    public function post_reset_statistic_by_quiz_id($request)
+    {
+        $res = [];
+        $quiz_id = $request['quiz_id'];
+        if (empty($quiz_id)) {
+            return new WP_Error(
+                'missing_quiz_id',
+                __('Quiz id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        StatisticRef::where('quiz_id', $quiz_id)->delete();
+        return rest_ensure_response($res);
+    }
+
     public function delete_statistic_by_id($request)
     {
         $res = [];
         $id = $request['statistic_ref_id'];
 
-        if(empty($id)) {
+        if (empty($id)) {
             return new WP_Error(
                 'missing_statistic_ref_id',
                 __('Statistic ref id is required.', 'acadlix'),

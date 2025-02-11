@@ -27,6 +27,7 @@ import { useForm } from "react-hook-form";
 import {
   DeleteStatisticById,
   GetStatisticByQuizId,
+  PostResetStatisticByQuizId,
 } from "../../../../requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
 
@@ -48,6 +49,17 @@ const QuizResult = () => {
       action: "",
     },
   });
+
+  const resetStatistic = PostResetStatisticByQuizId(quiz_id);
+  const handleResetStatistic = () => {
+    if (confirm("Do you really want to reset this statistic?")) {
+      resetStatistic?.mutate({}, {
+        onSuccess: (data) => {
+          console.log(data);
+        }
+      });
+    }
+  };
 
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 10,
@@ -137,12 +149,12 @@ const QuizResult = () => {
       methods.setValue("rows", newRows, { shouldDirty: true });
     }
     if (data?.data?.quiz) {
-      methods.setValue("question_count", data?.data?.quiz?.questions_count, {shouldDirty: true});
+      methods.setValue("question_count", data?.data?.quiz?.questions_count, { shouldDirty: true });
       methods.setValue("title", data?.data?.quiz?.post_title, { shouldDirty: true });
     }
-    methods?.setValue("pass_count", data?.data?.pass_count, {shouldDirty: true});
-    methods?.setValue("fail_count", data?.data?.fail_count, {shouldDirty: true});
-    methods?.setValue("attempt_counts", data?.data?.total, {shouldDirty: true});
+    methods?.setValue("pass_count", data?.data?.pass_count, { shouldDirty: true });
+    methods?.setValue("fail_count", data?.data?.fail_count, { shouldDirty: true });
+    methods?.setValue("attempt_counts", data?.data?.total, { shouldDirty: true });
   }, [data]);
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
@@ -176,6 +188,17 @@ const QuizResult = () => {
             to={`/`}
           >
             Back
+          </Button>
+          <Button
+            variant="contained"
+            size="medium"
+            sx={{
+              width: "fit-content",
+              marginLeft: "1rem",
+            }}
+            onClick={handleResetStatistic}
+          >
+            Reset Statistics
           </Button>
         </Grid>
         <Grid item xs={12} lg={12}>

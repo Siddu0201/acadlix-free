@@ -354,11 +354,7 @@ const QuizContent = (props) => {
       user_id: methods?.watch("user_id"),
       user_token: methods?.watch("user_token"),
     };
-    quizAttemptMutation.mutate(data, {
-      onSuccess: (data) => {
-        // console.log(data?.data);
-      }
-    });
+    quizAttemptMutation.mutate(data);
   }
 
   const saveResultMutation = PostSaveResultById(methods?.watch("id"));

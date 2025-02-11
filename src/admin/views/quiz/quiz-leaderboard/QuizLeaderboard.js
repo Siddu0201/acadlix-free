@@ -15,7 +15,7 @@ import { Link, useParams } from "react-router-dom";
 import First from "../../../../images/medal-1.svg";
 import Second from "../../../../images/medal-2.svg";
 import Third from "../../../../images/medal-3.svg";
-import { PostQuizLoadMoreLeaderderboard } from "../../../../requests/admin/AdminLeaderboardRequest";
+import { PostQuizLoadMoreLeaderderboard, PostResetLeaderboardByQuizId } from "../../../../requests/admin/AdminLeaderboardRequest";
 import { TiArrowLeftThick } from "../../../../helpers/icons";
 
 const QuizLeaderboard = () => {
@@ -147,11 +147,30 @@ const QuizLeaderboard = () => {
   const methods = useForm({
     defaultValues: {
       toplist: [],
-      topThree: [],
-      rest: [],
       toplist_count: 0,
     },
   });
+  const resetLeaderboardMutation = PostResetLeaderboardByQuizId(quiz_id);
+  const handleResetLeaderboard = () => {
+    if (confirm("Do you really want to reset this leaderboard?")) {
+      resetLeaderboardMutation.mutate({},
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            methods.setValue(
+              "toplist",
+              [],
+              { shouldDirty: true }
+            );
+            methods.setValue("toplist_count", 0, {
+              shouldDirty: true,
+            });
+          },
+        }
+      );
+    }
+  };
+
   const loadMoreMutation = PostQuizLoadMoreLeaderderboard(quiz_id);
   const handleLoadMoreLeaderboard = () => {
     loadMoreMutation.mutate(
@@ -167,12 +186,6 @@ const QuizLeaderboard = () => {
             { shouldDirty: true }
           );
           methods.setValue("toplist_count", data?.data?.toplist_count, {
-            shouldDirty: true,
-          });
-          methods.setValue("topThree", methods?.watch("toplist")?.slice(0, 3), {
-            shouldDirty: true,
-          });
-          methods.setValue("rest", methods?.watch("toplist")?.slice(3), {
             shouldDirty: true,
           });
         },
@@ -194,7 +207,10 @@ const QuizLeaderboard = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid item xs={12} lg={12} sx={{
+          display: "flex",
+          gap: 2
+        }}>
           <Button
             variant="contained"
             startIcon={<TiArrowLeftThick />}
@@ -206,6 +222,16 @@ const QuizLeaderboard = () => {
             to={`/`}
           >
             Back
+          </Button>
+          <Button
+            variant="contained"
+            size="medium"
+            sx={{
+              width: "fit-content",
+            }}
+            onClick={handleResetLeaderboard}
+          >
+            Reset Leaderboard
           </Button>
         </Grid>
       </Grid>
