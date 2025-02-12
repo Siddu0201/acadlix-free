@@ -188,7 +188,7 @@ final class Course extends Acadlix_Abstract
         $price = $course->rendered_metas['price'] ?? 0;
         $final_price = $enable_sale_price
             ? ($sale_price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($sale_price) . " <del>" . CourseHelper::instance()->getCoursePrice($price) . "</del>")
-            : ($price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($price) . " " . $price);
+            : ($price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($price));
         switch ($column) {
             case 'students':
                 $count = 0;
