@@ -505,8 +505,6 @@ if (!class_exists('Helper')) {
                 'acadlix_thousand_separator' => ",",
                 'acadlix_decimal_seprator' => ".",
                 'acadlix_number_of_decimals' => 2,
-                'acadlix_upload_logo_url' => "",
-                'acadlix_upload_mini_logo_url' => "",
                 // Payment option
                 'acadlix_razorpay_active' => "no",
                 'acadlix_razorpay_client_id' => "",
@@ -627,6 +625,11 @@ if (!class_exists('Helper')) {
                 echo "</pre>";
             }
             die;
+        }
+
+        public function acadlix_max_execution_time()
+        {
+            return ini_get('max_execution_time') * 1000;
         }
 
         public static function instance()

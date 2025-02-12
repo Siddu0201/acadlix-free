@@ -44,6 +44,40 @@ const CourseContent = () => {
 
   const { orderItemId, courseSectionContentId } = useParams();
 
+  const navigate = useNavigate();
+  const handleNavigate = (id = 0) => {
+    methods?.setValue(
+      `sections`,
+      methods?.watch("sections")?.map((s) => {
+        let target = s?.content?.find((c) => c?.id === id);
+        return {
+          ...s,
+          open: target ? true : s?.open,
+          active: target ? true : false,
+          content: s?.content?.map((c) => {
+            return {
+              ...c,
+              is_active: id === c?.id ? true : false,
+            };
+          }),
+        };
+      })
+    );
+    navigate(`/course/${methods?.watch("order_item_id")}/content/${id}`);
+    activeMutation?.mutate(
+      {
+        order_item_id: orderItemId,
+        course_section_content_id: id,
+        user_id: acadlixOptions?.user?.ID,
+      },
+      {
+        onSuccess: (data) => {
+          // handle Success active
+        },
+      }
+    );
+  };
+
   const { data, isFetching } = GetUserOrderById(
     orderItemId,
     acadlixOptions?.user?.ID
@@ -155,6 +189,12 @@ const CourseContent = () => {
           };
         }) ?? []
       );
+      if (courseSectionContentId === undefined && methods?.watch("sections")?.length > 0) {
+        handleNavigate(methods
+          ?.watch("sections")
+          ?.find((s) => s?.active)
+          ?.content?.find((c) => c?.is_active)?.id);
+      }
     }
   }, [data?.data]);
 
@@ -172,40 +212,6 @@ const CourseContent = () => {
   };
 
   const activeMutation = PostSetActive();
-
-  const navigate = useNavigate();
-  const handleNavigate = (id = 0) => {
-    methods?.setValue(
-      `sections`,
-      methods?.watch("sections")?.map((s) => {
-        let target = s?.content?.find((c) => c?.id === id);
-        return {
-          ...s,
-          open: target ? true : s?.open,
-          active: target ? true : false,
-          content: s?.content?.map((c) => {
-            return {
-              ...c,
-              is_active: id === c?.id ? true : false,
-            };
-          }),
-        };
-      })
-    );
-    navigate(`/course/${methods?.watch("order_item_id")}/content/${id}`);
-    activeMutation?.mutate(
-      {
-        order_item_id: orderItemId,
-        course_section_content_id: id,
-        user_id: acadlixOptions?.user?.ID,
-      },
-      {
-        onSuccess: (data) => {
-          // handle Success active
-        },
-      }
-    );
-  };
 
   const handleFullScreen = () => {
     if (methods?.watch("is_fullscreen")) {
@@ -322,15 +328,6 @@ const CourseContent = () => {
       });
     }
   }, [location]);
-
-  useEffect(() => {
-    if (courseSectionContentId === undefined && methods?.watch("sections")?.length > 0) {
-      handleNavigate(methods
-        ?.watch("sections")
-        ?.find((s) => s?.active)
-        ?.content?.find((c) => c?.is_active)?.id);
-    }
-  },[]);
 
 
   return (

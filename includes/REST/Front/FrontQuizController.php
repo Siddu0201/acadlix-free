@@ -5,6 +5,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 use WP_REST_Server;
 use WP_Error;
 use Illuminate\Contracts\Database\Query\Builder;
+use Yuvayana\Acadlix\Helper\EmailHelper;
 use Yuvayana\Acadlix\Models\Prerequisite;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\StatisticRef;
@@ -130,6 +131,8 @@ class FrontQuizController
             'subject_times',
             'rendered_questions',
         ]);
+        $custom_logo_id = get_theme_mod('custom_logo');
+        $res['logo'] = wp_get_attachment_image_url($custom_logo_id, 'full');
 
         $res['quiz'] = $quiz;
         return rest_ensure_response($res);
@@ -271,6 +274,8 @@ class FrontQuizController
             "accuracy" => $params["accuracy"],
             "status" => $params["status"],
         ];
+        $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
+        $ip = filter_var($remote_addr, FILTER_VALIDATE_IP);
         // Check and save statistic
         $save_statistic = $quiz->rendered_metas['quiz_settings']['save_statistic'] ?? false;
         $statistic_ip_lock = $quiz->rendered_metas['quiz_settings']['statistic_ip_lock'] ?? 0;
@@ -314,14 +319,13 @@ class FrontQuizController
                 ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
                 ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token))
                 ->count();
-            $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
             $check_multiple_leaderboard_entry = $leaderboard_user_can_apply_multiple_times && ($leaderboard_apply_multiple_number_of_times == 0 || $leaderboard_apply_multiple_number_of_times > $toplist_count);
             if ($toplist_count == 0 || $check_multiple_leaderboard_entry) {
                 $top = Toplist::create([
                     ...$data,
                     "name" => $params["name"],
                     "email" => $params["email"],
-                    "ip" => filter_var($remote_addr, FILTER_VALIDATE_IP),
+                    "ip" => $ip,
                 ]);
             }
             $show_rank = $quiz->rendered_metas['quiz_settings']['show_rank'] ?? false;
@@ -344,6 +348,47 @@ class FrontQuizController
         }
 
         // handle email
+        $quiz_name = $quiz->post_title ?? '';
+        $r = array(
+            '$userId' => $user_id,
+            '$username' => $params['name'] ?? "Anonymous",
+            '$quizname' => $quiz_name,
+            '$result' => $params['result'] . '%',
+            '$points' => $params['points'],
+            '$ip' => $ip,
+            '$categories' => "",
+        );
+        $admin_email = $quiz->rendered_metas['quiz_settings']['admin_email_notification'] ?? false;
+        if ($admin_email && $user_id > 0) {
+            $admin_to = $quiz->rendered_metas['quiz_settings']['admin_to'];
+            $admin_from = $quiz->rendered_metas['quiz_settings']['admin_from'];
+            $admin_subject = $quiz->rendered_metas['quiz_settings']['admin_subject'];
+            $admin_message = $quiz->rendered_metas['quiz_settings']['admin_message'];
+
+            $admin_msg = str_replace(array_keys($r), $r, $admin_message);
+            EmailHelper::instance()->sendEmail(
+                $admin_to,
+                $admin_subject,
+                $admin_msg,
+                $admin_from,
+            );
+        }
+
+        $student_email = $quiz->rendered_metas['quiz_settings']['student_email_notification'] ?? false;
+        if ($student_email && $user_id > 0) {
+            $student_to = $params["email"];
+            $student_from = $quiz->rendered_metas['quiz_settings']['student_from'];
+            $student_subject = $quiz->rendered_metas['quiz_settings']['student_subject'];
+            $student_message = $quiz->rendered_metas['quiz_settings']['student_message'];
+
+            $student_msg = str_replace(array_keys($r), $r, $student_message);
+            EmailHelper::instance()->sendEmail(
+                $student_to,
+                $student_subject,
+                $student_msg,
+                $student_from,
+            );
+        }
 
         return rest_ensure_response($res);
     }

@@ -38,16 +38,13 @@ const AddQuiz = (props) => {
             `sections.${props?.id}.contents`,
             data?.data?.section?.contents?.map((c) => {
               return {
-                id: c?.id,
-                sort: c?.sort,
-                preview: Boolean(Number(c?.preview)),
-                type:
-                  c?.contentable_type === `Yuvayana\\Acadlix\\Models\\Quiz`
-                    ? "quiz"
-                    : "lesson",
+                id: c?.ID,
+                sort: c?.menu_order,
+                preview: Boolean(Number(c?.rendered_metas?.preview)),
+                type: c?.contentable?.type,
                 title: c?.contentable?.title,
-                contentable_id: c?.contentable_id,
-                course_section_id: c?.course_section_id,
+                contentable_id: c?.contentable?.id,
+                course_section_id: c?.post_parent,
               };
             })
           );

@@ -1,10 +1,9 @@
-import { dateI18n, format } from "@wordpress/date";
 import axios from "axios";
 
 export const useInstance = () => {
   return axios.create({
     baseURL: acadlixOptions?.api_url,
-    timeout: 10000,
+    timeout: acadlixOptions?.max_execution_time ?? 10000,
     headers: {
       Accept: "application/json",
     },

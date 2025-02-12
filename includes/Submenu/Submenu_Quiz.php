@@ -51,6 +51,7 @@ class Submenu_Quiz
         wp_enqueue_script("acadlix-admin-quiz");
         wp_localize_script('acadlix-admin-quiz', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'abqu_url' => admin_url('admin.php?page=abqu'),
             'user_id' => get_current_user_id(),

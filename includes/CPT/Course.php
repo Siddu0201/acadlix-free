@@ -175,7 +175,7 @@ final class Course extends Acadlix_Abstract
         $new_order['taxonomy-' . ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', "acadlix");
         $new_order['students'] = esc_html__('Students', "acadlix");
         $new_order['price'] = esc_html__('Price', "acadlix");
-        $new_order['review'] = esc_html__('Review', "acadlix");
+        // $new_order['review'] = esc_html__('Review', "acadlix");
         $new_order['date'] = $columns['date'];
         return $new_order;
     }
@@ -183,20 +183,23 @@ final class Course extends Acadlix_Abstract
     public function custom_column_content($column, $post_id = 0)
     {
         $course = \Yuvayana\Acadlix\Models\Course::find($post_id);
-        $price = $course->rendered_metas['enable_sale_price']
-            ? ($course->rendered_metas['sale_price'] == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($course->rendered_metas['sale_price']) . " <del>" . CourseHelper::instance()->getCoursePrice($course->rendered_metas['price']) . "</del>")
-            : ($course->rendered_metas['price'] == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($course->rendered_metas['price']) . " " . $course->rendered_metas['price']);
+        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
+        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
+        $price = $course->rendered_metas['price'] ?? 0;
+        $final_price = $enable_sale_price
+            ? ($sale_price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($sale_price) . " <del>" . CourseHelper::instance()->getCoursePrice($price) . "</del>")
+            : ($price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($price) . " " . $price);
         switch ($column) {
             case 'students':
                 $count = 0;
                 echo esc_html($count);
                 break;
             case 'price':
-                echo wp_kses($price, array('del' => array()));
+                echo wp_kses($final_price, array('del' => array()));
                 break;
-            case 'review':
-                echo 0;
-                break;
+            // case 'review':
+            //     echo 0;
+            //     break;
         }
     }
 

@@ -45,7 +45,7 @@ const Notification = (props) => {
             />
           </GridItem1>
           <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
-          
+
           {
             props?.watch("meta.quiz_settings.admin_email_notification") && (
               <AdminNotification {...props} />
@@ -95,7 +95,7 @@ const Notification = (props) => {
             />
           </GridItem1>
           <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
-          
+
           {
             props?.watch("meta.quiz_settings.student_email_notification") && (
               <StudentNotification {...props} />
@@ -205,6 +205,18 @@ const AdminNotification = (props) => {
           }}
         />
       </GridItem1>
+      <GridItem1 xs={12} sm={6} lg={3}></GridItem1>
+      <GridItem1 xs={12} sm={6} lg={9}>
+        <Typography variant="body1"><b>Allowed variables.</b></Typography>
+        <Typography variant="body2">
+          $userId - User-ID <br />
+          $username - Username <br />
+          $quizname - Quiz-Name <br />
+          $result - Result in percent <br />
+          $points - Points <br />
+          $ip - IP-address of the user <br />
+        </Typography>
+      </GridItem1>
     </React.Fragment>
   )
 }
@@ -285,6 +297,18 @@ const StudentNotification = (props) => {
             });
           }}
         />
+      </GridItem1>
+      <GridItem1 xs={12} sm={6} lg={3}></GridItem1>
+      <GridItem1 xs={12} sm={6} lg={9}>
+        <Typography variant="body1"><b>Allowed variables.</b></Typography>
+        <Typography variant="body2">
+          $userId - User-ID <br />
+          $username - Username <br />
+          $quizname - Quiz-Name <br />
+          $result - Result in percent <br />
+          $points - Points <br />
+          $ip - IP-address of the user <br />
+        </Typography>
       </GridItem1>
     </React.Fragment>
   )

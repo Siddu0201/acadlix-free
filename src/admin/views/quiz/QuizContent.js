@@ -140,15 +140,17 @@ const QuizContent = (props) => {
           ),
           admin_to: props?.quiz?.rendered_metas?.quiz_settings?.admin_to ?? "",
           admin_from: props?.quiz?.rendered_metas?.quiz_settings?.admin_from ?? "",
-          admin_subject: props?.quiz?.rendered_metas?.quiz_settings?.admin_subject ?? "",
-          admin_message: props?.quiz?.rendered_metas?.quiz_settings?.admin_message ?? "",
+          admin_subject: props?.quiz?.rendered_metas?.quiz_settings?.admin_subject ?? "Acadlix: One user completed a quiz",
+          admin_message: props?.quiz?.rendered_metas?.quiz_settings?.admin_message
+            ?? `Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result`,
           student_email_notification: Boolean(
             Number(props?.quiz?.rendered_metas?.quiz_settings?.student_email_notification)
           ),
           student_to: props?.quiz?.rendered_metas?.quiz_settings?.student_to ?? "",
           student_from: props?.quiz?.rendered_metas?.quiz_settings?.student_from ?? "",
-          student_subject: props?.quiz?.rendered_metas?.quiz_settings?.student_subject ?? "",
-          student_message: props?.quiz?.rendered_metas?.quiz_settings?.student_message ?? "",
+          student_subject: props?.quiz?.rendered_metas?.quiz_settings?.student_subject ?? "Acadlix: One user completed a quiz",
+          student_message: props?.quiz?.rendered_metas?.quiz_settings?.student_message
+            ?? `Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result`,
           prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.prerequisite)),
           subject_wise_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question)),
         },
@@ -177,12 +179,12 @@ const QuizContent = (props) => {
   const updateMutation = UpdateQuizById(props?.quiz_id);
   const onSubmit = (data) => {
     // Set default category if not set
-    if(!methods?.watch("category_id")){
+    if (!methods?.watch("category_id")) {
       const category_id = props?.categories?.find(c => c?.default)?.term_id;
       methods?.setValue("category_id", category_id);
     }
     // Set default langauge if not set
-    if(!methods?.watch("meta.default_language_id") && methods?.watch("languages")?.length === 0){
+    if (!methods?.watch("meta.default_language_id") && methods?.watch("languages")?.length === 0) {
       const langauge_id = props?.languages?.find(l => l?.default)?.term_id;
       methods.setValue("meta.default_language_id", langauge_id);
       methods?.setValue("meta.language_data.0.language_id", langauge_id);

@@ -19,6 +19,7 @@ const QuizContent = (props) => {
   const userToken = "acadlix_user_token";
   const methods = useForm({
     defaultValues: {
+      logo: props?.logo,
       login_modal: false,
       start: props?.start ?? false,
       view_instruction1: props?.start ?? false,
@@ -278,7 +279,7 @@ const QuizContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch("questions"));
+  // console.log(methods?.watch());
 
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {

@@ -86,13 +86,7 @@ const AdvancePanel = (props) => {
                   <SubjectWiseTiming
                     {...props}
                     subject={s}
-                    time={
-                      props
-                        ?.watch("subject_times")
-                        ?.filter((t) => t?.subject_id == s?.subject_id)?.[0]
-                        ?.time
-                    }
-                    key={s_index}
+                    time={s?.time}
                     s_index={s_index}
                     first_subject={s_index === 0}
                     last_subject={

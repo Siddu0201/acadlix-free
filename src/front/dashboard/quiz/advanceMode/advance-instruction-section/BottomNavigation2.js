@@ -62,6 +62,7 @@ const BottomNavigation2 = (props) => {
             submitModel: false,
             submitted: false,
             optional: props?.watch("subject_times")?.find(s => subject_id === s?.subject_id)?.optional,
+            time: props?.watch("subject_times")?.find(s => subject_id === s?.subject_id)?.time,
             optional_selected: false,
           });
         }

@@ -2,7 +2,9 @@
 
 namespace Yuvayana\Acadlix\REST\Admin;
 
+use WP_Error;
 use WP_REST_Server;
+use Yuvayana\Acadlix\Helper\EmailHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 
 defined('ABSPATH') || exit();
@@ -17,7 +19,7 @@ class AdminSettingController
     {
         register_rest_route(
             $this->namespace,
-            '/' . $this->base .'/create-page',
+            '/' . $this->base . '/create-page',
             [
                 [
                     'methods' => WP_REST_Server::CREATABLE,
@@ -38,6 +40,18 @@ class AdminSettingController
                 ],
             ]
         );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/test-email',
+            [
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_test_email'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
     }
 
     public function post_create_page($request)
@@ -49,24 +63,38 @@ class AdminSettingController
             'post_status' => 'publish',
             'post_author' => $params['user_id'] ?? 0,
             'post_type' => 'page',
-        ] );
-        $res['all_pages'] = get_pages( );
-        return rest_ensure_response( $res );
+        ]);
+        $res['all_pages'] = get_pages();
+        return rest_ensure_response($res);
     }
 
     public function post_update_settings($request)
     {
         $res = [];
         $params = $request->get_json_params();
-        if(is_array($params)){
-            foreach($params as $key => $value){
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
                 Helper::instance()->acadlix_update_option($key, $value);
             }
         }
-        flush_rewrite_rules( );
+        flush_rewrite_rules();
         $res['options'] = Helper::instance()->acadlix_get_all_options();
-        return rest_ensure_response( $res );
+        return rest_ensure_response($res);
     }
+
+    public function post_test_email($request)
+    {
+        $res = [];
+        $params = $request->get_json_params();
+
+        $mail = EmailHelper::instance()->sendEmail($params['to'], $params['subject'], $params['message'], "siddu@gmail.com");
+        if (is_wp_error($mail)) {
+            return $mail;
+        }
+        $res['message'] = __('Email sent successfully', 'acadlix');
+        return rest_ensure_response($res);
+    }
+
 
     public function check_permission()
     {

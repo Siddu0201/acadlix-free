@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
+import parse from 'html-react-parser';
 
 const QuizLogoAndTitle = (props) => {
   return (
@@ -13,7 +14,13 @@ const QuizLogoAndTitle = (props) => {
         backgroundColor: props?.colorCode?.logo_and_title_background,
       }}>
       <Box>
-        <Typography>Logo</Typography>
+        <img 
+          src={props?.watch("logo")} 
+          alt="" 
+          style={{
+            maxHeight: "25px",
+          }}
+        />
       </Box>
       <Box>
         <Typography sx={{

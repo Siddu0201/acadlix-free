@@ -21,3 +21,12 @@ export const PostUpdateSetting = () => {
     });
 }
 
+export const PostTestEmail = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/test-email`, data);
+        }        
+    });
+}
+

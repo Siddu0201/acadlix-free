@@ -358,6 +358,7 @@ class Manager
         wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'home_url' => esc_url(home_url()),
             'nonce' => wp_create_nonce('wp_rest'),

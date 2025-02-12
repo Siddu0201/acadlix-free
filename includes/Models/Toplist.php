@@ -38,7 +38,7 @@ if (!class_exists('Toplist')) {
 
         public function getNameAttribute($value)
         {
-            $this->attribute['name'] = is_null($value) ? "Anonymous" : $value;
+           return is_null($value) ? "Anonymous" : $value;
         }
 
         public function getEntryRank($quiz_id, $entry_id)

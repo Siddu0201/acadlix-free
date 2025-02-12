@@ -48,6 +48,7 @@ class Submenu_Orders
         wp_enqueue_script("acadlix-admin-order");
         wp_localize_script('acadlix-admin-order', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'settings' => Helper::instance()->acadlix_get_all_options(),
             'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],

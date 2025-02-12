@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
+import { useForm } from "react-hook-form";
+import { PostTestEmail } from "../../../../requests/admin/AdminSettingRequest";
 
 function Notification(props) {
   return (
@@ -172,35 +174,54 @@ function Notification(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label="Send Custom Notification"
-          />
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <CustomTextField fullWidth size="small" label="To" />
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <CustomTextField fullWidth size="small" label="Subject" />
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <CustomTextField
-            fullWidth
-            size="small"
-            label="Message"
-            multiline
-            rows={3}
-          />
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <Button variant="contained" color="primary">
-            Send
-          </Button>
-        </Grid>
+        
+        <TestingEmail />
       </Grid>
     </Box>
   );
 }
 
 export default Notification;
+
+const TestingEmail = (props) => {
+  const methods = useForm({
+    defaultValues: {
+      to: "",
+      subject: "",
+      message: "",
+    }
+  });
+  const testingEmailMutation = PostTestEmail();
+  const handleSend = (data) => {
+    testingEmailMutation?.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data?.data);
+      }
+    });
+  }
+  return (
+    <React.Fragment>
+      <Grid item xs={12} lg={12}>
+        <CustomTextField {...methods?.register("to")} fullWidth size="small" label="To" />
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <CustomTextField {...methods?.register("subject")} fullWidth size="small" label="Subject" />
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <CustomTextField
+          {...methods?.register("message")}
+          fullWidth
+          size="small"
+          label="Message"
+          multiline
+          rows={3}
+        />
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <Button variant="contained" color="primary" onClick={methods?.handleSubmit(handleSend)}>
+          Send
+        </Button>
+      </Grid>
+    </React.Fragment>
+  )
+}

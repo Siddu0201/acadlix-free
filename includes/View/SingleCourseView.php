@@ -39,8 +39,6 @@ if (is_user_logged_in()) {
     }
 }
 
-// Helper::instance()->acadlix_ddd($course->rendered_metas);
-
 
 if (!function_exists('acadlix_course_breadcrumb')) {
     /**
@@ -160,14 +158,17 @@ if (!function_exists('acadlix_course_pricing')) {
     function acadlix_course_pricing(Course $course)
     {
         ob_start();
+        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
+        $price = $course->rendered_metas['price'] ?? 0;
+        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         ?>
         <div class="acadlix-pricing-info">
             <div class="acadlix-pricing">
                 <div class="acadlix-course-sale-price">
-                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['enable_sale_price'] ? $course->rendered_metas['sale_price'] : $course->rendered_metas['price'])); ?>
+                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
                 </div>
                 <?php
-                if ($course->rendered_metas['enable_sale_price']) {
+                if ($enable_sale_price) {
                     ?>
                     <div class="acadlix-course-price">
                         <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['price'])); ?>
@@ -177,10 +178,10 @@ if (!function_exists('acadlix_course_pricing')) {
                 ?>
             </div>
             <?php
-            if ($course->rendered_metas['enable_sale_price'] && $course->rendered_metas['price'] != 0 && $course->rendered_metas['price'] > $course->rendered_metas['sale_price']) {
+            if ($enable_sale_price && $price != 0 && $price > $sale_price) {
                 ?>
                 <div class="acadlix-discount-tag">
-                    <?php echo ceil((($course->rendered_metas['price'] - $course->rendered_metas['sale_price']) / $course->rendered_metas['price']) * 100); ?>%
+                    <?php echo ceil((($price - $sale_price) / $price) * 100); ?>%
                     OFF
                 </div>
                 <?php
@@ -204,17 +205,20 @@ if (!function_exists('acadlix_mobile_course_price')) {
     function acadlix_mobile_course_price(Course $course)
     {
         ob_start();
+        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
+        $price = $course->rendered_metas['price'] ?? 0;
+        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         ?>
         <div class="acadlix-mobile-price-info">
             <div class="acadlix-pricing">
                 <div class="acadlix-course-sale-price">
-                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['enable_sale_price'] ? $course->rendered_metas['sale_price'] : $course->rendered_metas['price'])); ?>
+                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
                 </div>
                 <?php
-                if ($course->rendered_metas['enable_sale_price']) {
+                if ($enable_sale_price) {
                     ?>
                     <div class="acadlix-course-price">
-                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['price'])); ?>
+                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($price)); ?>
                     </div>
                     <?php
                 }
@@ -236,6 +240,9 @@ if (!function_exists('acadlix_basic_course_details')) {
 
         $unique_class = 'acadlix-course-aside-details-' . uniqid();
         ob_start();
+        $duration = $course->rendered_metas['duration']['duration'] ?? 0;
+        $duration_type = $course->rendered_metas['duration']['type'] ?? '';
+        $difficulty_level = $course->rendered_metas['difficulty_level'] ?? '';
         ?>
         <style>
             .<?php echo $unique_class; ?> {
@@ -256,13 +263,13 @@ if (!function_exists('acadlix_basic_course_details')) {
             <div class="acadlix-course-aside-details-option">
                 <div><strong>Course Duration:</strong></div>
                 <div>
-                    <?php echo esc_html("{$course->rendered_metas['duration']['duration']} {$course->rendered_metas['duration']['type']}") . ($course->rendered_metas['duration']['type'] ? "(s)" : ""); ?>
+                    <?php echo esc_html("{$duration} {$duration_type}"); ?>
                 </div>
             </div>
             <div class="acadlix-course-aside-details-option">
                 <div><strong>Course Level:</strong></div>
                 <div>
-                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->rendered_metas['difficulty_level'])); ?>
+                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($difficulty_level)); ?>
                 </div>
             </div>
             <div class="acadlix-course-aside-details-option">
@@ -288,13 +295,21 @@ if (!function_exists('acadlix_course_action_buttons')) {
     function acadlix_course_action_buttons(Course $course, array|object $cart, array|object $order_item, string $dashboard_url, string $checkout_url): string
     {
         ob_start();
+        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
+        $price = $course->rendered_metas['price'] ?? 0;
+        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
+        $start_date = $course->rendered_metas['start_date'] ?? null;
+        $end_date = $course->rendered_metas['end_date'] ?? null;
+        if($course->post_status != 'publish') {
+            return "";
+        }
         ?>
         <div class="acadlix-course-action-buttons">
 
             <?php
-            $check_registration_date = CourseHelper::instance()->checkRegistrationDate($course->rendered_metas['start_date'] ?? null, $course->rendered_metas['end_date'] ?? null);
+            $check_registration_date = CourseHelper::instance()->checkRegistrationDate($start_date, $end_date);
             if ($check_registration_date['status']) {
-                if (CourseHelper::instance()->isCourseFree($course->rendered_metas['price'], $course->rendered_metas['enable_sale_price'], $course->rendered_metas['sale_price'])) {
+                if (CourseHelper::instance()->isCourseFree($price, $enable_sale_price, $sale_price)) {
                     if (count($cart) > 0) {
                         ?>
                         <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
@@ -462,7 +477,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <div id="overview" class="acadlix-course-overview acadlix-mb-16">
                     <!-- Add detailed outcomes for this course to enhance understanding and expectations -->
                     <?php
-                    $outcomes = $course->rendered_metas['outcomes'];
+                    $outcomes = $course->rendered_metas['outcomes'] ?? [];
                     if (isset($outcomes) && count($outcomes) > 0) {
                         ?>
                         <div class="acadlix-card acadlix-box-shadow-2">

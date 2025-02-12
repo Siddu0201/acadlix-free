@@ -48,6 +48,7 @@ if (!class_exists("SingleCourseController")) {
                 wp_localize_script('acadlix-front-action-button-course-js', 'acadlixOptions', array(
                     'is_admin_bar_showing' => is_admin_bar_showing(),
                     'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+                    'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
                     'nonce' => wp_create_nonce('wp_rest'),
                     'home_url' => esc_url(home_url( )),
                     'ajax_url' => esc_url(admin_url( 'admin-ajax.php' )),

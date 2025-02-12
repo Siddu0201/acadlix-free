@@ -51,6 +51,7 @@ class Submenu_Courses
             wp_enqueue_script('acadlix-admin-course');
             wp_localize_script('acadlix-admin-course', 'acadlixOptions', array(
                 'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+                'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
                 'nonce' => wp_create_nonce('wp_rest'),
                 'acadlix_quiz_url' => admin_url('admin.php?page=acadlix_quiz'),
                 'acadlix_lesson_url' => admin_url('admin.php?page=acadlix_lesson'),

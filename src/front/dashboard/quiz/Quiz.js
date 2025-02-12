@@ -22,6 +22,7 @@ const Quiz = (props) => {
     <Box>
       <QuizContent 
         {...props} 
+        logo={data?.data?.logo}
         start={props?.start ?? false}
         quiz={data?.data?.quiz}
         isDesktop={isDesktop} 

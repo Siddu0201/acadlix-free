@@ -50,6 +50,7 @@ class Submenu_Settings
         wp_enqueue_script("acadlix-admin-setting");
         wp_localize_script("acadlix-admin-setting", "acadlixOptions", array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'currecies_with_symbol' => Helper::instance()->acadlix_get_currency_with_symbols(),
             'options' => Helper::instance()->acadlix_get_all_options(),
