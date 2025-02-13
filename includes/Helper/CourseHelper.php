@@ -4,6 +4,8 @@ namespace Yuvayana\Acadlix\Helper;
 
 use Yuvayana\Acadlix\Models\Course;
 use WP_Error;
+use Yuvayana\Acadlix\Models\Order;
+use Yuvayana\Acadlix\Models\OrderItem;
 
 if (!class_exists('CourseHelper')) {
     class CourseHelper
@@ -219,6 +221,155 @@ if (!class_exists('CourseHelper')) {
             }
 
             return $response;
+        }
+
+        public function handleCoursePurchaseEmail($order_id = 0)
+        {
+            if ($order_id == 0) {
+                return;
+            }
+
+            $order = Order::find($order_id);
+            if (!$order || $order->status !== "success") {
+                return;
+            }
+            $r = [
+                '$order_id' => $order_id,
+                '$username' => $order->user->display_name ?? "",
+                '$course_names' => $order->getCourseNames(),
+                '$order_amount' => $this->getCoursePrice($order->total_amount),
+                '$payment_method' => $order->getMetaValue("payment_method") ?? "Free",
+                '$order_date' => Helper::instance()->formatDate($order->updated_at),
+                '$year' => date('Y'),
+                '$sitename' => get_bloginfo('name'),
+                '$admin_order_url' => admin_url('admin.php?page=acadlix_order')
+            ];
+            $student_email = $order->user->user_email;
+            $acadlix_notify_course_purchase_to_student = Helper::instance()->acadlix_get_option("acadlix_notify_course_purchase_to_student");
+            if ($acadlix_notify_course_purchase_to_student == "yes" && !empty($student_email)) {
+                $student_email_template = Helper::instance()->acadlix_get_email_template("CoursePurchase.html", "student");
+                $student_msg = str_replace(array_keys($r), $r, $student_email_template);
+                $student_subject = "Your order #{$order_id} confirmend!";
+                EmailHelper::instance()->sendEmail(
+                    $student_email,
+                    $student_subject,
+                    $student_msg
+                );
+            }
+
+            $acadlix_notify_course_purchase_to_admin = Helper::instance()->acadlix_get_option("acadlix_notify_course_purchase_to_admin");
+            $admins = get_users(['role' => 'administrator']);
+            $admin_emails = wp_list_pluck($admins, 'user_email');
+            if ($acadlix_notify_course_purchase_to_admin == "yes" && !empty($admin_emails)) {
+                $admin_email_template = Helper::instance()->acadlix_get_email_template("CoursePurchase.html", "admin");
+                $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
+                $admin_subject = "New order received #{$order_id}";
+                EmailHelper::instance()->sendEmail(
+                    $admin_emails,
+                    $admin_subject,
+                    $admin_msg
+                );
+            }
+        }
+
+        public function handleFailedTransationEmail($order_id = 0)
+        {
+            if ($order_id == 0) {
+                return;
+            }
+            $order = Order::find($order_id);
+            if (!$order || $order->status !== "failed") {
+                return;
+            }
+            $r = [
+                '$order_id' => $order_id,
+                '$username' => $order->user->display_name ?? "",
+                '$course_names' => $order->getCourseNames(),
+                '$order_amount' => $this->getCoursePrice($order->total_amount),
+                '$payment_method' => $order->getMetaValue("payment_method") ?? "Free",
+                '$order_date' => Helper::instance()->formatDate($order->updated_at),
+                '$year' => date('Y'),
+                '$sitename' => get_bloginfo('name'),
+                '$admin_order_url' => admin_url('admin.php?page=acadlix_order')
+            ];
+            $student_email = $order->user->user_email;
+            $acadlix_notify_failed_transation_to_student = Helper::instance()->acadlix_get_option("acadlix_notify_failed_transation_to_student");
+            if ($acadlix_notify_failed_transation_to_student == "yes" && !empty($student_email)) {
+                $student_email_template = Helper::instance()->acadlix_get_email_template("FailedTransation.html", "student");
+                $student_msg = str_replace(array_keys($r), $r, $student_email_template);
+                $student_subject = "Payement failed for order #{$order_id}";
+                EmailHelper::instance()->sendEmail(
+                    $student_email,
+                    $student_subject,
+                    $student_msg
+                );
+            }
+
+            $acadlix_notify_failed_transation_to_admin = Helper::instance()->acadlix_get_option("acadlix_notify_failed_transation_to_admin");
+            $admins = get_users(['role' => 'administrator']);
+            $admin_emails = wp_list_pluck($admins, 'user_email');
+            if ($acadlix_notify_failed_transation_to_admin == "yes" && !empty($admin_emails)) {
+                $admin_email_template = Helper::instance()->acadlix_get_email_template("FailedTransation.html", "admin");
+                $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
+                $admin_subject = "Payment failed for order #{$order_id}";
+                EmailHelper::instance()->sendEmail(
+                    $admin_emails,
+                    $admin_subject,
+                    $admin_msg
+                );
+            }
+        }
+
+
+        public function handleCourseCompletionEmail($order_item_id = 0)
+        {
+            if ($order_item_id == 0) {
+                return;
+            }
+            $order_item = OrderItem::find($order_item_id);
+            
+            if(!$order_item || empty($order_item->course_id)){
+                return "";
+            }
+            
+            $course_completion_percentage = $order_item->completion_percentage ?? 0;
+            if ($course_completion_percentage != 100) {
+                return "not completed";
+            }
+            $r = [
+                '$username' => $order_item->order->user->display_name ?? "",
+                '$coursename' => $order_item->course->title ?? $order_item->course_title ?? "",
+                '$date' => Helper::instance()->formatDate(current_time('mysql')),
+                '$year' => date('Y'),
+                '$sitename' => get_bloginfo('name'),
+            ];
+
+            $student_email = $order_item->order->user->user_email;  
+            $acadlix_notify_course_completion_to_student = Helper::instance()->acadlix_get_option("acadlix_notify_course_completion_to_student");
+            if ($acadlix_notify_course_completion_to_student == "yes" && !empty($student_email)) {
+                $student_email_template = Helper::instance()->acadlix_get_email_template("CourseCompletion.html", "student");
+                $student_msg = str_replace(array_keys($r), $r, $student_email_template);
+                $student_subject = "You have completed {$r['$coursename']}!";
+                EmailHelper::instance()->sendEmail(
+                    $student_email,
+                    $student_subject,
+                    $student_msg
+                );
+            }
+
+            $acadlix_notify_course_completion_to_admin = Helper::instance()->acadlix_get_option("acadlix_notify_course_completion_to_admin");
+            $admins = get_users(['role' => 'administrator']);
+            $admin_emails = wp_list_pluck($admins, 'user_email');
+            if ($acadlix_notify_course_completion_to_admin == "yes" && !empty($admin_emails)) {
+                $admin_email_template = Helper::instance()->acadlix_get_email_template("CourseCompletion.html", "admin");
+                $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
+                $admin_subject = "{$r['$username']} has completed {$r['$coursename']}";
+                EmailHelper::instance()->sendEmail(
+                    $admin_emails,
+                    $admin_subject,
+                    $admin_msg
+                );
+            }
         }
     }
 }

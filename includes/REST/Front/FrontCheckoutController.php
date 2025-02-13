@@ -338,6 +338,8 @@ class FrontCheckoutController
                         $cart->delete();
                     }
                 }
+                // send mail on success
+                CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
             }
             $order->updateOrCreateMeta("razorpay_payment_id", $request->get_param("razorpay_payment_id"));
             $order->updateOrCreateMeta("razorpay_signature", $request->get_param("razorpay_signature"));
@@ -347,6 +349,8 @@ class FrontCheckoutController
                 'status' => 'failed'
             ]);
             $order->updateOrCreateMeta("message", 'Payment verification failed.');
+            // send mail on failed
+            CourseHelper::instance()->handleFailedTransationEmail($order->id);
             wp_send_json_error(['message' => 'Payment verification failed.']);
         }
     }
@@ -372,6 +376,9 @@ class FrontCheckoutController
         $order->update([
             "status" => "failed"
         ]);
+        $order->updateOrCreateMeta("message", 'Payment verification failed.');
+        // send mail on failed
+        CourseHelper::instance()->handleFailedTransationEmail($order->id);
         return rest_ensure_response(["success" => true]);
     }
 
@@ -648,6 +655,8 @@ class FrontCheckoutController
                     $cart->delete();
                 }
             }
+            // send mail on success
+            CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
         }
         return rest_ensure_response([
             'status' => 'success',

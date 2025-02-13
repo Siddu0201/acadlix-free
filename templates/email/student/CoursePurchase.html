@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background: #0073e6;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 0;
+            background: #0073e6;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h2>✅ Your order #$order_id is confirmend</h2>
+        </div>
+        <!-- Content -->
+        <div class="content">
+            <p>Hi $username,</p>
+            <p>Thank you for your purchase! Your order #$order_id has been successfully placed. 🎉</p>
+            <p><strong>Order Details:</strong></p>
+            <ul>
+                <li><strong>Course Purchased:</strong> $course_names</li>
+                <li><strong>Amount Paid:</strong> $order_amount</li>
+                <li><strong>Payment Method:</strong> $payment_method</li>
+                <li><strong>Order Date:</strong> $order_date</li>
+            </ul>
+            <p>If you have any questions, feel free to reach out to our support team.</p>
+        </div>
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; $year $sitename. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -20,7 +20,13 @@ if (!class_exists('EmailHelper')) {
 
         public function sendEmail($to, $subject = '', $message = '', $from = '')
         {
-            if (!is_email($to)) {
+            if (is_array($to)) {
+                foreach ($to as $email) {
+                    if (!is_email($email)) {
+                        return new WP_Error('invalid_email', __('Invalid email address', 'acadlix'), ['status' => 400]);
+                    }
+                }
+            } elseif (!is_email($to)) {
                 return new WP_Error('invalid_email', __('Invalid email address', 'acadlix'), ['status' => 400]);
             }
 

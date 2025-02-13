@@ -42,7 +42,6 @@ if (is_user_logged_in()) {
         $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
     }
 }
-
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
     ?>
     <!doctype html>

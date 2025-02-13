@@ -24,6 +24,13 @@ if (!class_exists('Order')) {
             return $this->hasMany(OrderItem::class, 'order_id', 'id');
         }
 
+        public function getCourseNames()
+        {
+            return $this->order_items->map(fn($item) => $item->course->post_title ?? $item->course_title ?? "")
+                ->filter()
+                ->implode(', ');
+        }
+
         public function order_metas()
         {
             return $this->hasMany(OrderMeta::class, 'order_id', 'id');

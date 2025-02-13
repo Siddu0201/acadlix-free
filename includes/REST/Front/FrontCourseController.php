@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
 use WP_Error;
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
@@ -263,6 +264,8 @@ class FrontCourseController
                 $order->update([
                     'status' => 'success',
                 ]);
+                // send mail on success
+                CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
                 $res = array(
                     'status' => 'success',
                     'code' => array('status' => 200),

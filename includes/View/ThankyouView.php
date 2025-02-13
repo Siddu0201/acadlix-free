@@ -1,4 +1,5 @@
 <?php
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\CourseCart;
 use Yuvayana\Acadlix\Models\Order;
@@ -67,6 +68,8 @@ function capture_paypal_order($order_id)
             if (!empty($payerID)) {
                 $order->updateOrCreateMeta('payer_id', $payerID);
             }
+            // send mail on success
+            CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
         }
         return true; // Success message
     } else {
@@ -76,6 +79,8 @@ function capture_paypal_order($order_id)
                 'status' => 'failed'
             ]);
             $order->updateOrCreateMeta('message', $error_message);
+            // send mail on failed
+            CourseHelper::instance()->handleFailedTransationEmail($order->id);
         }
         return false; // Handle capture error
     }
@@ -140,6 +145,8 @@ function capture_payu_order($txnid)
                         $cart->delete();
                     }
                 }
+                // send mail on success
+                CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
             }
             return true;
         } else {
@@ -148,6 +155,8 @@ function capture_payu_order($txnid)
             ]);
             // Log failed transaction with error message
             $order->updateOrCreateMeta('message', $error_message);
+            // send mail on failure
+            CourseHelper::instance()->handleFailedTransationEmail($order->id);
             return false;
         }
     }

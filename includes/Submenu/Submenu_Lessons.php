@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Submenu;
 
+use Yuvayana\Acadlix\Helper\Helper;
+
 defined('ABSPATH') || exit();
 
 class Submenu_Lessons

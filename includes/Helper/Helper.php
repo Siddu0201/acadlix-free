@@ -632,6 +632,16 @@ if (!class_exists('Helper')) {
             return ini_get('max_execution_time') * 1000;
         }
 
+        public function acadlix_get_email_template($template_name, $type = "student")
+        {
+            $file_path = ACADLIX_TEMPLATE_PATH . 'email/' . $type . '/' . $template_name;
+            if (file_exists($file_path)) {
+                return file_get_contents($file_path);
+            }
+
+            return '';
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {
