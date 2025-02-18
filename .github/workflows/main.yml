@@ -26,15 +26,6 @@ jobs:
         run: npm run build
         working-directory: ./
 
-      - name: Generate WordPress language files
-        run: |
-          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-          chmod +x wp-cli.phar
-          sudo mv wp-cli.phar /usr/local/bin/wp
-          cd /home/bitnami/stack/wordpress
-          wp i18n make-pot . languages/acadlix.pot --exclude=src,node_modules,vendor
-        working-directory: ./
-
       - name: Zip the plugin
         run: |
           zip -r plugin.zip . -x "node_modules/*" \

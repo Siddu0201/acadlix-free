@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-16T13:10:22+01:00\n"
+"POT-Creation-Date: 2025-02-18T08:38:22+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: acadlix\n"
@@ -57,12 +57,7 @@ msgstr ""
 
 #: includes/Admin/Menu.php:34
 #: includes/View/SingleCourseView.php:89
-#: build/front.0a9f9bf470835aab6ca6.hot-update.js:59
-#: build/front.js:17510
-#: build/front.js:27417
-#: build/front.0a9f9bf470835aab6ca6.hot-update.js:30
-#: build/front.js:13933
-#: build/front.js:21802
+#: build/front.js:1
 msgid "Home"
 msgstr ""
 
@@ -80,8 +75,7 @@ msgid "Cart"
 msgstr ""
 
 #: includes/Admin/Option.php:36
-#: build/front_checkout.js:1344
-#: build/front_checkout.js:1230
+#: build/front_checkout.js:1
 msgid "Checkout"
 msgstr ""
 
@@ -128,34 +122,10 @@ msgstr ""
 #: includes/CPT/Lesson.php:33
 #: includes/CPT/Paragraph.php:33
 #: includes/CPT/Quiz.php:36
-#: build/admin_course.js:549
-#: build/admin_course.js:1227
-#: build/admin_course.js:4182
-#: build/admin_course.js:4867
-#: build/admin_quiz.js:3018
-#: build/admin_quiz.js:3362
-#: build/admin_quiz.js:6793
-#: build/admin_quiz.js:8694
-#: build/admin_setting.js:518
-#: build/admin_setting.js:589
-#: build/admin_setting.js:660
-#: build/admin_setting.js:731
-#: build/admin_setting.js:802
-#: build/admin_setting.js:873
-#: build/admin_course.js:309
-#: build/admin_course.js:1042
-#: build/admin_course.js:3687
-#: build/admin_course.js:4179
-#: build/admin_quiz.js:2361
-#: build/admin_quiz.js:2677
-#: build/admin_quiz.js:5562
-#: build/admin_quiz.js:7351
-#: build/admin_setting.js:385
-#: build/admin_setting.js:483
-#: build/admin_setting.js:580
-#: build/admin_setting.js:677
-#: build/admin_setting.js:774
-#: build/admin_setting.js:871
+#: build/admin_course.js:1
+#: build/admin_course.js:3
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
 msgid "Add New"
 msgstr ""
 
@@ -168,8 +138,7 @@ msgid "Update Course"
 msgstr ""
 
 #: includes/CPT/Course.php:45
-#: build/front.js:23737
-#: build/front.js:19463
+#: build/front.js:1
 msgid "Search Courses"
 msgstr ""
 
@@ -197,8 +166,7 @@ msgstr ""
 
 #: includes/CPT/Course.php:90
 #: includes/CPT/Quiz.php:69
-#: build/admin_quiz.js:5896
-#: build/admin_quiz.js:4668
+#: build/admin_quiz.js:1
 msgid "Category"
 msgstr ""
 
@@ -266,8 +234,7 @@ msgstr ""
 
 #: includes/CPT/Course.php:174
 #: includes/Submenu/Submenu_Categories.php:18
-#: build/front.js:2687
-#: build/front.js:2127
+#: build/front.js:1
 msgid "Categories"
 msgstr ""
 
@@ -425,12 +392,8 @@ msgid "Add a New Lesson"
 msgstr ""
 
 #: includes/CPT/Lesson.php:34
-#: build/admin_course.js:1574
-#: build/admin_lesson.js:411
-#: build/admin_lesson.js:805
-#: build/admin_course.js:1329
-#: build/admin_lesson.js:161
-#: build/admin_lesson.js:545
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Edit Lesson"
 msgstr ""
 
@@ -457,8 +420,7 @@ msgid "Paragraph"
 msgstr ""
 
 #: includes/CPT/Paragraph.php:28
-#: build/admin_quiz.js:5962
-#: build/admin_quiz.js:4750
+#: build/admin_quiz.js:1
 msgid "Paragraphs"
 msgstr ""
 
@@ -475,10 +437,7 @@ msgid "Add a New Paragraph"
 msgstr ""
 
 #: includes/CPT/Paragraph.php:34
-#: build/admin_quiz.js:699
-#: build/admin_quiz.js:1101
-#: build/admin_quiz.js:362
-#: build/admin_quiz.js:762
+#: build/admin_quiz.js:1
 msgid "Edit Paragraph"
 msgstr ""
 
@@ -522,10 +481,7 @@ msgid "Add a New Quiz"
 msgstr ""
 
 #: includes/CPT/Quiz.php:37
-#: build/admin_quiz.js:5936
-#: build/admin_quiz.js:6535
-#: build/admin_quiz.js:4718
-#: build/admin_quiz.js:5346
+#: build/admin_quiz.js:1
 msgid "Edit Quiz"
 msgstr ""
 
@@ -543,8 +499,7 @@ msgstr ""
 
 #: includes/CPT/Quiz.php:65
 #: includes/CPT/Quiz.php:67
-#: build/admin_setting.js:2315
-#: build/admin_setting.js:2116
+#: build/admin_setting.js:1
 msgid "Quiz Categories"
 msgstr ""
 
@@ -558,8 +513,7 @@ msgstr ""
 
 #: includes/CPT/Quiz.php:93
 #: includes/CPT/Quiz.php:95
-#: build/admin_setting.js:2498
-#: build/admin_setting.js:2352
+#: build/admin_setting.js:1
 msgid "Quiz Languages"
 msgstr ""
 
@@ -585,20 +539,17 @@ msgid "All Level"
 msgstr ""
 
 #: includes/Helper/CourseHelper.php:33
-#: build/admin_course.js:4597
-#: build/admin_course.js:3988
+#: build/admin_course.js:3
 msgid "Beginner"
 msgstr ""
 
 #: includes/Helper/CourseHelper.php:34
-#: build/admin_course.js:4599
-#: build/admin_course.js:3989
+#: build/admin_course.js:3
 msgid "Intermediate"
 msgstr ""
 
 #: includes/Helper/CourseHelper.php:35
-#: build/admin_course.js:4601
-#: build/admin_course.js:3990
+#: build/admin_course.js:3
 msgid "Advance"
 msgstr ""
 
@@ -633,8 +584,7 @@ msgstr ""
 
 #: includes/Helper/CourseHelper.php:243
 #: includes/Helper/CourseHelper.php:293
-#: build/admin_order.js:292
-#: build/admin_order.js:157
+#: build/admin_order.js:1
 msgid "Free"
 msgstr ""
 
@@ -1585,10 +1535,8 @@ msgid "Failed to delete the lesson."
 msgstr ""
 
 #: includes/REST/Admin/AdminLessonController.php:283
-#: build/admin_course.js:7918
-#: build/admin_lesson.js:4153
-#: build/admin_course.js:5872
-#: build/admin_lesson.js:2461
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Lesson successfully deleted."
 msgstr ""
 
@@ -1630,8 +1578,7 @@ msgid "Failed to delete the paragraph."
 msgstr ""
 
 #: includes/REST/Admin/AdminParagraphController.php:331
-#: build/admin_quiz.js:17117
-#: build/admin_quiz.js:14316
+#: build/admin_quiz.js:1
 msgid "Paragraph successfully deleted."
 msgstr ""
 
@@ -1851,20 +1798,8 @@ msgstr ""
 #: includes/Submenu/Submenu_Settings.php:67
 #: includes/Submenu/Submenu_Tools.php:51
 #: templates/app.php:4
-#: build/admin_quiz.js:7103
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:55
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:55
-#: build/front.9518202de5999f005adc.hot-update.js:173
-#: build/front.js:13101
-#: build/front.js:18673
-#: build/front.js:20554
-#: build/admin_quiz.js:5911
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:35
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:35
-#: build/front.9518202de5999f005adc.hot-update.js:168
-#: build/front.js:10269
-#: build/front.js:14826
-#: build/front.js:16390
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "Loading..."
 msgstr ""
 
@@ -1877,8 +1812,7 @@ msgid "Acadlix Orders"
 msgstr ""
 
 #: includes/Submenu/Submenu_Orders.php:20
-#: build/admin_order.js:339
-#: build/admin_order.js:211
+#: build/admin_order.js:1
 msgid "Orders"
 msgstr ""
 
@@ -2003,10 +1937,8 @@ msgid "Curriculum"
 msgstr ""
 
 #: includes/View/SingleCourseView.php:474
-#: build/admin_course.js:3988
-#: build/front.js:2709
-#: build/admin_course.js:3534
-#: build/front.js:2145
+#: build/admin_course.js:3
+#: build/front.js:1
 msgid "Instructor"
 msgstr ""
 
@@ -2034,4902 +1966,2782 @@ msgstr ""
 msgid "Payemnt Failed"
 msgstr ""
 
-#: build/admin_course.js:317
-#: build/admin_course.js:2572
-#: build/admin_course.js:130
-#: build/admin_course.js:2227
+#: build/admin_course.js:1
 msgid "Add Section"
 msgstr ""
 
-#: build/admin_course.js:317
-#: build/admin_course.js:130
+#: build/admin_course.js:1
 msgid "Edit Section"
 msgstr ""
 
-#: build/admin_course.js:340
-#: build/admin_course.js:153
+#: build/admin_course.js:1
 msgid "Section Title"
 msgstr ""
 
-#: build/admin_course.js:350
-#: build/admin_quiz.js:10099
-#: build/admin_course.js:158
-#: build/admin_quiz.js:8696
+#: build/admin_course.js:1
+#: build/admin_quiz.js:1
 msgid "Title is required"
 msgstr ""
 
-#: build/admin_course.js:378
-#: build/admin_course.js:182
+#: build/admin_course.js:1
 msgid "Section Description"
 msgstr ""
 
-#: build/admin_course.js:406
-#: build/admin_course.js:566
-#: build/admin_quiz.js:2805
-#: build/admin_quiz.js:3104
-#: build/admin_quiz.js:6807
-#: build/admin_course.js:210
-#: build/admin_course.js:342
-#: build/admin_quiz.js:2184
-#: build/admin_quiz.js:2458
-#: build/admin_quiz.js:5586
+#: build/admin_course.js:1
+#: build/admin_quiz.js:1
 msgid "...loading"
 msgstr ""
 
-#: build/admin_course.js:406
-#: build/admin_course.js:566
-#: build/admin_lesson.js:824
-#: build/admin_quiz.js:1125
-#: build/admin_quiz.js:2617
-#: build/admin_quiz.js:2805
-#: build/admin_quiz.js:3104
-#: build/admin_quiz.js:6574
-#: build/admin_quiz.js:6807
-#: build/admin_quiz.js:7103
-#: build/admin_course.js:210
-#: build/admin_course.js:342
-#: build/admin_lesson.js:573
-#: build/admin_quiz.js:792
-#: build/admin_quiz.js:2031
-#: build/admin_quiz.js:2185
-#: build/admin_quiz.js:2459
-#: build/admin_quiz.js:5384
-#: build/admin_quiz.js:5586
-#: build/admin_quiz.js:5911
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
 msgid "Save Change"
 msgstr ""
 
-#: build/admin_course.js:517
-#: build/admin_course.js:2280
-#: build/admin_course.js:266
-#: build/admin_course.js:2039
+#: build/admin_course.js:1
 msgid "Add Lesson"
 msgstr ""
 
-#: build/admin_course.js:554
-#: build/admin_course.js:321
+#: build/admin_course.js:1
 msgid "Add from existing"
 msgstr ""
 
-#: build/admin_course.js:562
-#: build/admin_course.js:1246
-#: build/admin_course.js:1603
-#: build/admin_quiz.js:2800
-#: build/admin_quiz.js:3099
-#: build/admin_quiz.js:6802
-#: build/admin_quiz.js:7098
-#: build/admin_quiz.js:9223
-#: build/front.js:11506
-#: build/front.js:12050
-#: build/admin_course.js:339
-#: build/admin_course.js:1067
-#: build/admin_course.js:1367
-#: build/admin_quiz.js:2175
-#: build/admin_quiz.js:2449
-#: build/admin_quiz.js:5578
-#: build/admin_quiz.js:5903
-#: build/admin_quiz.js:7889
-#: build/front.js:9051
-#: build/front.js:9456
+#: build/admin_course.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "Cancel"
 msgstr ""
 
-#: build/admin_course.js:596
-#: build/admin_course.js:1638
-#: build/admin_lesson.js:1054
-#: build/admin_course.js:383
-#: build/admin_course.js:1411
-#: build/admin_lesson.js:700
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Error loading video metadata."
 msgstr ""
 
-#: build/admin_course.js:619
-#: build/admin_course.js:1661
-#: build/admin_lesson.js:1416
-#: build/admin_course.js:403
-#: build/admin_course.js:1431
-#: build/admin_lesson.js:1040
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Lesson Title"
 msgstr ""
 
-#: build/admin_course.js:631
-#: build/admin_course.js:1006
-#: build/admin_course.js:1676
-#: build/admin_course.js:1963
-#: build/admin_lesson.js:1253
-#: build/admin_course.js:411
-#: build/admin_course.js:851
-#: build/admin_course.js:1442
-#: build/admin_course.js:1751
-#: build/admin_lesson.js:920
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Enter Title"
 msgstr ""
 
-#: build/admin_course.js:666
-#: build/admin_course.js:1029
-#: build/admin_course.js:1033
-#: build/admin_course.js:1710
-#: build/admin_course.js:1986
-#: build/admin_course.js:1990
-#: build/admin_lesson.js:395
-#: build/admin_lesson.js:1095
-#: build/admin_lesson.js:1269
-#: build/admin_lesson.js:1273
-#: build/admin_quiz.js:1805
-#: build/admin_course.js:447
-#: build/admin_course.js:874
-#: build/admin_course.js:880
-#: build/admin_course.js:1477
-#: build/admin_course.js:1774
-#: build/admin_course.js:1780
-#: build/admin_lesson.js:145
-#: build/admin_lesson.js:739
-#: build/admin_lesson.js:935
-#: build/admin_lesson.js:940
-#: build/admin_quiz.js:1171
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
 msgid "Type"
 msgstr ""
 
-#: build/admin_course.js:678
-#: build/admin_course.js:1722
-#: build/admin_lesson.js:1107
-#: build/admin_course.js:462
-#: build/admin_course.js:1492
-#: build/admin_lesson.js:754
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Video"
 msgstr ""
 
-#: build/admin_course.js:683
-#: build/admin_course.js:1727
-#: build/admin_lesson.js:1112
-#: build/admin_course.js:468
-#: build/admin_course.js:1498
-#: build/admin_lesson.js:760
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Text"
 msgstr ""
 
-#: build/admin_course.js:748
-#: build/admin_course.js:1792
-#: build/admin_lesson.js:1143
-#: build/admin_course.js:534
-#: build/admin_course.js:1564
-#: build/admin_lesson.js:797
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Hours"
 msgstr ""
 
-#: build/admin_course.js:778
-#: build/admin_course.js:1822
-#: build/admin_lesson.js:1166
-#: build/admin_course.js:565
-#: build/admin_course.js:1595
-#: build/admin_lesson.js:821
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Minutes"
 msgstr ""
 
-#: build/admin_course.js:808
-#: build/admin_course.js:1852
-#: build/admin_lesson.js:1189
-#: build/admin_course.js:596
-#: build/admin_course.js:1626
-#: build/admin_lesson.js:845
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Seconds"
 msgstr ""
 
-#: build/admin_course.js:847
-#: build/admin_course.js:1891
-#: build/admin_lesson.js:1221
-#: build/admin_course.js:647
-#: build/admin_course.js:1677
-#: build/admin_lesson.js:883
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Add Resources"
 msgstr ""
 
-#: build/admin_course.js:935
-#: build/admin_course.js:750
+#: build/admin_course.js:1
 msgid "Search Lesson..."
 msgstr ""
 
-#: build/admin_course.js:1041
-#: build/admin_course.js:1998
-#: build/admin_lesson.js:1281
-#: build/admin_course.js:891
-#: build/admin_course.js:1791
-#: build/admin_lesson.js:951
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Upload"
 msgstr ""
 
-#: build/admin_course.js:1043
-#: build/admin_course.js:2000
-#: build/admin_course.js:6908
-#: build/admin_lesson.js:1283
-#: build/admin_lesson.js:3424
-#: build/admin_course.js:892
-#: build/admin_course.js:1792
-#: build/admin_course.js:5185
-#: build/admin_lesson.js:952
-#: build/admin_lesson.js:1915
+#: build/admin_course.js:1
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Link"
 msgstr ""
 
-#: build/admin_course.js:1054
-#: build/admin_course.js:2011
-#: build/admin_lesson.js:1294
-#: build/admin_course.js:902
-#: build/admin_course.js:1802
-#: build/admin_lesson.js:962
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "Upload File"
 msgstr ""
 
-#: build/admin_course.js:1060
-#: build/admin_course.js:2017
-#: build/admin_course.js:6971
-#: build/admin_lesson.js:1300
-#: build/admin_lesson.js:3487
-#: build/admin_course.js:909
-#: build/admin_course.js:1809
-#: build/admin_course.js:5253
-#: build/admin_lesson.js:969
-#: build/admin_lesson.js:1983
+#: build/admin_course.js:1
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Selected file:"
 msgstr ""
 
-#: build/admin_course.js:1071
-#: build/admin_course.js:2028
-#: build/admin_lesson.js:1311
-#: build/admin_course.js:924
-#: build/admin_course.js:1824
-#: build/admin_lesson.js:984
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
 msgid "https://example.com/"
 msgstr ""
 
-#: build/admin_course.js:1097
-#: build/admin_course.js:2054
-#: build/admin_course.js:4169
-#: build/admin_lesson.js:1330
-#: build/admin_quiz.js:12322
-#: build/admin_course.js:959
-#: build/admin_course.js:1859
-#: build/admin_course.js:3675
-#: build/admin_lesson.js:1012
-#: build/admin_quiz.js:11051
+#: build/admin_course.js:1
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
 msgid "Remove"
 msgstr ""
 
-#: build/admin_course.js:1194
-#: build/admin_course.js:2426
-#: build/admin_course.js:1002
-#: build/admin_course.js:2133
-msgid "Add Quiz"
-msgstr ""
-
-#: build/admin_course.js:1282
-#: build/admin_course.js:1117
-msgid "Search Quiz..."
-msgstr ""
-
-#: build/admin_course.js:1671
-#: build/admin_quiz.js:1480
-#: build/admin_course.js:1437
-#: build/admin_quiz.js:1025
-msgid "Title is required."
-msgstr ""
-
-#: build/admin_course.js:2214
-#: build/admin_course.js:1956
+#: build/admin_course.js:1
 msgid "Please select at least 1 lesson."
 msgstr ""
 
-#: build/admin_course.js:2402
-#: build/admin_course.js:2101
+#: build/admin_course.js:1
+msgid "Add Quiz"
+msgstr ""
+
+#: build/admin_course.js:1
+msgid "Search Quiz..."
+msgstr ""
+
+#: build/admin_course.js:1
 msgid "Please select atleast 1 quiz."
 msgstr ""
 
+#: build/admin_course.js:1
+#: build/admin_quiz.js:1
+msgid "Title is required."
+msgstr ""
+
 #. translators: %s is the type of item being removed
-#: build/admin_course.js:3141
-#: build/admin_course.js:2699
+#: build/admin_course.js:3
 msgid "Are you sure you want to remove this %s from this section?"
 msgstr ""
 
-#: build/admin_course.js:3242
-#: build/admin_quiz.js:5945
-#: build/admin_course.js:2825
-#: build/admin_quiz.js:4729
+#: build/admin_course.js:3
+#: build/admin_quiz.js:1
 msgid "Delete Quiz"
 msgstr ""
 
-#: build/admin_course.js:3256
-#: build/admin_course.js:2844
+#: build/admin_course.js:3
 msgid "Remove from Preview"
 msgstr ""
 
-#: build/admin_course.js:3256
-#: build/admin_course.js:2844
+#: build/admin_course.js:3
 msgid "Add to Preview"
 msgstr ""
 
-#: build/admin_course.js:3273
-#: build/admin_lesson.js:420
-#: build/admin_course.js:2863
-#: build/admin_lesson.js:172
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Delete Lesson"
 msgstr ""
 
-#: build/admin_course.js:3635
-#: build/admin_course.js:3242
+#: build/admin_course.js:3
 msgid "Are you sure you want to delete this section, this will also remove related quizzes and lessons."
 msgstr ""
 
-#: build/admin_course.js:3978
-#: build/admin_setting.js:283
-#: build/admin_course.js:3514
-#: build/admin_setting.js:190
-msgid "General"
-msgstr ""
-
-#: build/admin_course.js:3983
-#: build/admin_setting.js:286
-#: build/admin_course.js:3524
-#: build/admin_setting.js:191
-msgid "Payment"
-msgstr ""
-
-#: build/admin_course.js:3993
-#: build/admin_course.js:3544
-msgid "Outcome"
-msgstr ""
-
-#: build/admin_course.js:4115
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:55
-#: build/admin_quiz.db5bf5fb38506e0899a5.hot-update.js:55
-#: build/admin_quiz.js:4163
-#: build/admin_quiz.js:13068
-#: build/front.36e080c1fb8b1a223758.hot-update.js:55
-#: build/front.ced1824cf0a2e440e97b.hot-update.js:161
-#: build/front.db5bf5fb38506e0899a5.hot-update.js:55
-#: build/front.js:16216
-#: build/front.js:20425
-#: build/admin_course.js:3622
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:35
-#: build/admin_quiz.db5bf5fb38506e0899a5.hot-update.js:35
-#: build/admin_quiz.js:3236
-#: build/admin_quiz.js:11422
-#: build/front.36e080c1fb8b1a223758.hot-update.js:35
-#: build/front.ced1824cf0a2e440e97b.hot-update.js:151
-#: build/front.db5bf5fb38506e0899a5.hot-update.js:35
-#: build/front.js:12851
-#: build/front.js:16243
-msgid "Question"
-msgstr ""
-
-#: build/admin_course.js:4145
-#: build/admin_course.js:3649
-msgid "Answer"
-msgstr ""
-
-#: build/admin_course.js:4354
-#: build/admin_course.js:3748
+#: build/admin_course.js:3
 msgid "Course Duration"
 msgstr ""
 
-#: build/admin_course.js:4369
-#: build/admin_course.js:3759
+#: build/admin_course.js:3
 msgid "Duration Type"
 msgstr ""
 
-#: build/admin_course.js:4378
-#: build/admin_course.js:4382
-#: build/admin_course.js:3768
-#: build/admin_course.js:3774
+#: build/admin_course.js:3
 msgid "Select Type"
 msgstr ""
 
-#: build/admin_course.js:4390
-#: build/admin_course.js:3781
+#: build/admin_course.js:3
 msgid "Week(s)"
 msgstr ""
 
-#: build/admin_course.js:4392
-#: build/admin_course.js:3782
+#: build/admin_course.js:3
 msgid "Day(s)"
 msgstr ""
 
-#: build/admin_course.js:4394
-#: build/admin_course.js:3783
+#: build/admin_course.js:3
 msgid "Hour(s)"
 msgstr ""
 
-#: build/admin_course.js:4396
-#: build/admin_course.js:3784
+#: build/admin_course.js:3
 msgid "Minute(s)"
 msgstr ""
 
-#: build/admin_course.js:4411
-#: build/admin_course.js:3798
+#: build/admin_course.js:3
 msgid "Duration"
 msgstr ""
 
-#: build/admin_course.js:4450
-#: build/admin_course.js:3840
+#: build/admin_course.js:3
 msgid "Registration Scheduling"
 msgstr ""
 
-#: build/admin_course.js:4465
-#: build/admin_course.js:3851
+#: build/admin_course.js:3
 msgid "Registration Start Date"
 msgstr ""
 
-#: build/admin_course.js:4521
-#: build/admin_course.js:3910
+#: build/admin_course.js:3
 msgid "Registration End Date"
 msgstr ""
 
-#: build/admin_course.js:4577
-#: build/admin_course.js:3969
+#: build/admin_course.js:3
 msgid "Difficulty Level"
 msgstr ""
 
-#: build/admin_course.js:4595
-#: build/admin_course.js:3987
+#: build/admin_course.js:3
 msgid "All Levels"
 msgstr ""
 
-#: build/admin_course.js:4711
-#: build/admin_course.js:4064
-msgid "Select Instructor"
-msgstr ""
-
-#: build/admin_course.js:4814
-#: build/admin_course.js:4115
-msgid "What you Learn"
-msgstr ""
-
-#: build/admin_course.js:4827
-#: build/admin_course.js:4134
-msgid "Add Outcome"
-msgstr ""
-
-#: build/admin_course.js:4956
-#: build/admin_course.js:4215
+#: build/admin_course.js:3
 msgid "Price (0 => Free)"
 msgstr ""
 
-#: build/admin_course.js:5001
-#: build/admin_course.js:4258
+#: build/admin_course.js:3
 msgid "Activate Sale Price"
 msgstr ""
 
-#: build/admin_course.js:5006
-#: build/admin_course.js:5083
-#: build/admin_quiz.js:9113
-#: build/admin_quiz.js:10267
-#: build/admin_quiz.js:10285
-#: build/admin_quiz.js:10302
-#: build/admin_quiz.js:10320
-#: build/admin_quiz.js:10507
-#: build/admin_quiz.js:10568
-#: build/admin_quiz.js:10614
-#: build/admin_quiz.js:10966
-#: build/admin_quiz.js:10999
-#: build/admin_quiz.js:11322
-#: build/admin_quiz.js:11347
-#: build/admin_quiz.js:11365
-#: build/admin_quiz.js:11422
-#: build/admin_quiz.js:11439
-#: build/admin_quiz.js:11456
-#: build/admin_quiz.js:11481
-#: build/admin_quiz.js:11499
-#: build/admin_quiz.js:11517
-#: build/admin_quiz.js:11535
-#: build/admin_quiz.js:11560
-#: build/admin_quiz.js:11686
-#: build/admin_quiz.js:11780
-#: build/admin_quiz.js:11797
-#: build/admin_quiz.js:11815
-#: build/admin_quiz.js:11833
-#: build/admin_quiz.js:11851
-#: build/admin_quiz.js:11869
-#: build/admin_quiz.js:11887
-#: build/admin_quiz.js:11906
-#: build/admin_quiz.js:11928
-#: build/admin_quiz.js:11984
-#: build/admin_quiz.js:12002
-#: build/admin_quiz.js:12041
-#: build/admin_quiz.js:12083
-#: build/admin_quiz.js:12101
-#: build/admin_quiz.js:12119
-#: build/admin_quiz.js:12242
-#: build/admin_setting.js:928
-#: build/admin_setting.js:956
-#: build/admin_setting.js:983
-#: build/admin_setting.js:1010
-#: build/admin_course.js:4263
-#: build/admin_course.js:4335
-#: build/admin_quiz.js:7737
-#: build/admin_quiz.js:8806
-#: build/admin_quiz.js:8828
-#: build/admin_quiz.js:8848
-#: build/admin_quiz.js:8870
-#: build/admin_quiz.js:9097
-#: build/admin_quiz.js:9199
-#: build/admin_quiz.js:9251
-#: build/admin_quiz.js:9523
-#: build/admin_quiz.js:9573
-#: build/admin_quiz.js:9843
-#: build/admin_quiz.js:9875
-#: build/admin_quiz.js:9895
-#: build/admin_quiz.js:9955
-#: build/admin_quiz.js:9974
-#: build/admin_quiz.js:9993
-#: build/admin_quiz.js:10029
-#: build/admin_quiz.js:10051
-#: build/admin_quiz.js:10071
-#: build/admin_quiz.js:10093
-#: build/admin_quiz.js:10129
-#: build/admin_quiz.js:10205
-#: build/admin_quiz.js:10316
-#: build/admin_quiz.js:10336
-#: build/admin_quiz.js:10360
-#: build/admin_quiz.js:10385
-#: build/admin_quiz.js:10409
-#: build/admin_quiz.js:10434
-#: build/admin_quiz.js:10458
-#: build/admin_quiz.js:10486
-#: build/admin_quiz.js:10519
-#: build/admin_quiz.js:10596
-#: build/admin_quiz.js:10621
-#: build/admin_quiz.js:10681
-#: build/admin_quiz.js:10733
-#: build/admin_quiz.js:10757
-#: build/admin_quiz.js:10784
-#: build/admin_quiz.js:10948
-#: build/admin_setting.js:932
-#: build/admin_setting.js:960
-#: build/admin_setting.js:987
-#: build/admin_setting.js:1016
+#: build/admin_course.js:3
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
 msgid "Activate"
 msgstr ""
 
-#: build/admin_course.js:5032
-#: build/admin_course.js:4286
+#: build/admin_course.js:3
 msgid "Sale Price"
 msgstr ""
 
-#: build/admin_course.js:5078
-#: build/admin_course.js:4330
+#: build/admin_course.js:3
 msgid "Tax"
 msgstr ""
 
-#: build/admin_course.js:5109
-#: build/admin_course.js:4358
+#: build/admin_course.js:3
 msgid "Tax (%)"
 msgstr ""
 
-#: build/admin_course.js:6627
-#: build/admin_lesson.js:3070
-#: build/admin_order.js:1813
-#: build/admin_quiz.js:16170
-#: build/admin_setting.js:4201
-#: build/front.js:25296
-#: build/front_checkout.js:3000
-#: build/front_single_course.js:1777
-#: build/admin_course.js:4938
-#: build/admin_lesson.js:1645
-#: build/admin_order.js:845
-#: build/admin_quiz.js:13770
-#: build/admin_setting.js:3093
-#: build/front.js:20096
-#: build/front_checkout.js:1992
-#: build/front_single_course.js:794
+#: build/admin_course.js:3
+msgid "Select Instructor"
+msgstr ""
+
+#: build/admin_course.js:3
+msgid "What you Learn"
+msgstr ""
+
+#: build/admin_course.js:3
+msgid "Add Outcome"
+msgstr ""
+
+#: build/admin_course.js:3
+#: build/admin_setting.js:1
+msgid "General"
+msgstr ""
+
+#: build/admin_course.js:3
+#: build/admin_setting.js:1
+msgid "Payment"
+msgstr ""
+
+#: build/admin_course.js:3
+msgid "Outcome"
+msgstr ""
+
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
+#: build/admin_order.js:1
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
+#: build/front.js:1
+#: build/front_checkout.js:1
+#: build/front_single_course.js:1
 msgid "Array length and order length must be the same."
 msgstr ""
 
-#: build/admin_course.js:6707
-#: build/admin_lesson.js:3150
-#: build/admin_order.js:1893
-#: build/admin_quiz.js:16250
-#: build/admin_setting.js:4281
-#: build/front.js:25376
-#: build/front_checkout.js:3080
-#: build/front_single_course.js:1857
-#: build/admin_course.js:5034
-#: build/admin_lesson.js:1741
-#: build/admin_order.js:941
-#: build/admin_quiz.js:13866
-#: build/admin_setting.js:3189
-#: build/front.js:20192
-#: build/front_checkout.js:2088
-#: build/front_single_course.js:890
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
+#: build/admin_order.js:1
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
+#: build/front.js:1
+#: build/front_checkout.js:1
+#: build/front_single_course.js:1
 msgid "Invalid object. Ensure it's a Day.js object."
 msgstr ""
 
-#: build/admin_course.js:6864
-#: build/admin_lesson.js:3380
-#: build/admin_course.js:5138
-#: build/admin_lesson.js:1868
-msgid "Only video files are allowed."
-msgstr ""
-
-#: build/admin_course.js:6877
-#: build/admin_lesson.js:3393
-#: build/admin_course.js:5152
-#: build/admin_lesson.js:1882
-msgid "Only image file is allowed."
-msgstr ""
-
-#: build/admin_course.js:6898
-#: build/admin_lesson.js:3414
-#: build/admin_course.js:5175
-#: build/admin_lesson.js:1905
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "External link"
 msgstr ""
 
-#: build/admin_course.js:6900
-#: build/admin_lesson.js:3416
-#: build/admin_course.js:5177
-#: build/admin_lesson.js:1907
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Youtube link"
 msgstr ""
 
-#: build/admin_course.js:6902
-#: build/admin_lesson.js:3418
-#: build/admin_course.js:5179
-#: build/admin_lesson.js:1909
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Vimeo link"
 msgstr ""
 
-#: build/admin_course.js:6904
-#: build/admin_lesson.js:3420
-#: build/admin_course.js:5181
-#: build/admin_lesson.js:1911
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Embedded code"
 msgstr ""
 
-#: build/admin_course.js:6906
-#: build/admin_course.js:6940
-#: build/admin_lesson.js:3422
-#: build/admin_lesson.js:3456
-#: build/admin_quiz.js:5901
-#: build/admin_course.js:5183
-#: build/admin_course.js:5209
-#: build/admin_lesson.js:1913
-#: build/admin_lesson.js:1939
-#: build/admin_quiz.js:4671
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
 msgid "Shortcode"
 msgstr ""
 
-#: build/admin_course.js:6920
-#: build/admin_course.js:6924
-#: build/admin_course.js:6928
-#: build/admin_lesson.js:3436
-#: build/admin_lesson.js:3440
-#: build/admin_lesson.js:3444
-#: build/admin_course.js:5194
-#: build/admin_course.js:5200
-#: build/admin_course.js:5203
-#: build/admin_lesson.js:1924
-#: build/admin_lesson.js:1930
-#: build/admin_lesson.js:1933
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Select Video Source"
 msgstr ""
 
-#: build/admin_course.js:6930
-#: build/admin_lesson.js:3446
-#: build/admin_course.js:5204
-#: build/admin_lesson.js:1934
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "HTML:5"
 msgstr ""
 
-#: build/admin_course.js:6932
-#: build/admin_lesson.js:3448
-#: build/admin_course.js:5205
-#: build/admin_lesson.js:1935
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "External Link"
 msgstr ""
 
-#: build/admin_course.js:6934
-#: build/admin_lesson.js:3450
-#: build/admin_course.js:5206
-#: build/admin_lesson.js:1936
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Youtube"
 msgstr ""
 
-#: build/admin_course.js:6936
-#: build/admin_lesson.js:3452
-#: build/admin_course.js:5207
-#: build/admin_lesson.js:1937
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Vimeo"
 msgstr ""
 
-#: build/admin_course.js:6938
-#: build/admin_lesson.js:3454
-#: build/admin_course.js:5208
-#: build/admin_lesson.js:1938
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Embedded"
 msgstr ""
 
-#: build/admin_course.js:6965
-#: build/admin_lesson.js:3481
-#: build/admin_course.js:5246
-#: build/admin_lesson.js:1976
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
+msgid "Only video files are allowed."
+msgstr ""
+
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Upload Video"
 msgstr ""
 
-#: build/admin_course.js:7029
-#: build/admin_lesson.js:3545
-#: build/admin_course.js:5335
-#: build/admin_lesson.js:2065
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
+msgid "Only image file is allowed."
+msgstr ""
+
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Upload Thumbnail"
 msgstr ""
 
-#: build/admin_course.js:7946
-#: build/admin_lesson.js:4181
-#: build/admin_course.js:5897
-#: build/admin_lesson.js:2486
+#: build/admin_course.js:3
+#: build/admin_lesson.js:1
 msgid "Lessons deleted successfully"
 msgstr ""
 
-#: build/admin_home.js:197
-#: build/admin_home.js:86
+#: build/admin_home.js:1
 msgid "Welcome to <b>Acadlix</b>"
 msgstr ""
 
-#: build/admin_lesson.js:125
-#: build/admin_order.js:111
-#: build/admin_quiz.js:383
-#: build/front.js:2032
-#: build/admin_lesson.js:37
-#: build/admin_order.js:31
-#: build/admin_quiz.js:224
-#: build/front.js:1474
-msgid "No path found"
-msgstr ""
-
-#: build/admin_lesson.js:381
-#: build/admin_lesson.js:137
+#: build/admin_lesson.js:1
 msgid "Do you really want to delete this lesson?"
 msgstr ""
 
-#: build/admin_lesson.js:387
-#: build/admin_order.js:212
-#: build/admin_quiz.js:673
-#: build/admin_quiz.js:1795
-#: build/admin_quiz.js:5880
-#: build/admin_quiz.js:8039
-#: build/front.js:4759
-#: build/front.js:23629
-#: build/admin_lesson.js:143
-#: build/admin_order.js:76
-#: build/admin_quiz.js:344
-#: build/admin_quiz.js:1169
-#: build/admin_quiz.js:4657
-#: build/admin_quiz.js:6810
-#: build/front.js:3911
-#: build/front.js:19361
+#: build/admin_lesson.js:1
+#: build/admin_order.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "ID"
 msgstr ""
 
-#: build/admin_lesson.js:390
-#: build/admin_quiz.js:678
-#: build/admin_quiz.js:1464
-#: build/admin_quiz.js:1800
-#: build/admin_quiz.js:5883
-#: build/front.js:23632
-#: build/admin_lesson.js:144
-#: build/admin_quiz.js:345
-#: build/admin_quiz.js:1012
-#: build/admin_quiz.js:1170
-#: build/admin_quiz.js:4658
-#: build/front.js:19362
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "Title"
 msgstr ""
 
-#: build/admin_lesson.js:400
-#: build/admin_lesson.js:148
+#: build/admin_lesson.js:1
 msgid "No. of resources"
 msgstr ""
 
-#: build/admin_lesson.js:405
-#: build/admin_quiz.js:693
-#: build/admin_quiz.js:1825
-#: build/admin_quiz.js:5931
-#: build/admin_quiz.js:8073
-#: build/front.js:23652
-#: build/admin_lesson.js:154
-#: build/admin_quiz.js:355
-#: build/admin_quiz.js:1182
-#: build/admin_quiz.js:4712
-#: build/admin_quiz.js:6831
-#: build/front.js:19378
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "Action"
 msgstr ""
 
-#: build/admin_lesson.js:459
-#: build/admin_lesson.js:220
-msgid "Do you really want to delete these lesson(s)?"
-msgstr ""
-
-#: build/admin_lesson.js:490
-#: build/admin_quiz.js:785
-#: build/admin_quiz.js:1957
-#: build/admin_quiz.js:6084
-#: build/admin_lesson.js:252
-#: build/admin_quiz.js:462
-#: build/admin_quiz.js:1329
-#: build/admin_quiz.js:4885
-msgid "Please select atleast 1 entry."
-msgstr ""
-
-#: build/admin_lesson.js:497
-#: build/admin_quiz.js:792
-#: build/admin_quiz.js:1964
-#: build/admin_quiz.js:6091
-#: build/admin_lesson.js:259
-#: build/admin_quiz.js:469
-#: build/admin_quiz.js:1336
-#: build/admin_quiz.js:4892
-msgid "Action required"
-msgstr ""
-
-#: build/admin_lesson.js:522
-#: build/admin_lesson.js:289
+#: build/admin_lesson.js:1
 msgid "Lesson Overview"
 msgstr ""
 
-#: build/admin_lesson.js:527
-#: build/admin_quiz.js:835
-#: build/admin_quiz.js:2049
-#: build/admin_quiz.js:6155
-#: build/admin_quiz.js:9153
-#: build/admin_setting.js:2401
-#: build/admin_setting.js:2584
-#: build/admin_lesson.js:297
-#: build/admin_quiz.js:521
-#: build/admin_quiz.js:1437
-#: build/admin_quiz.js:4964
-#: build/admin_quiz.js:7789
-#: build/admin_setting.js:2228
-#: build/admin_setting.js:2460
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
 msgid "Add"
 msgstr ""
 
-#: build/admin_lesson.js:528
-#: build/admin_order.js:340
-#: build/admin_quiz.js:836
-#: build/admin_quiz.js:2050
-#: build/admin_quiz.js:6156
-#: build/admin_quiz.js:8190
-#: build/front.js:4883
-#: build/admin_lesson.js:299
-#: build/admin_order.js:213
-#: build/admin_quiz.js:523
-#: build/admin_quiz.js:1439
-#: build/admin_quiz.js:4966
-#: build/admin_quiz.js:6954
-#: build/front.js:4052
+#: build/admin_lesson.js:1
+#: build/admin_order.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "Refresh"
 msgstr ""
 
-#: build/admin_lesson.js:558
-#: build/admin_lesson.js:562
-#: build/admin_lesson.js:566
-#: build/admin_quiz.js:866
-#: build/admin_quiz.js:870
-#: build/admin_quiz.js:874
-#: build/admin_quiz.js:2085
-#: build/admin_quiz.js:2089
-#: build/admin_quiz.js:2093
-#: build/admin_quiz.js:6186
-#: build/admin_quiz.js:6190
-#: build/admin_quiz.js:6194
-#: build/admin_lesson.js:331
-#: build/admin_lesson.js:337
-#: build/admin_lesson.js:340
-#: build/admin_quiz.js:555
-#: build/admin_quiz.js:561
-#: build/admin_quiz.js:564
-#: build/admin_quiz.js:1483
-#: build/admin_quiz.js:1489
-#: build/admin_quiz.js:1493
-#: build/admin_quiz.js:4998
-#: build/admin_quiz.js:5004
-#: build/admin_quiz.js:5007
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
 msgid "Bulk Actions"
 msgstr ""
 
-#: build/admin_lesson.js:568
-#: build/admin_quiz.js:876
-#: build/admin_quiz.js:2095
-#: build/admin_quiz.js:4558
-#: build/admin_quiz.js:4746
-#: build/admin_quiz.js:5238
-#: build/admin_quiz.js:5454
-#: build/admin_quiz.js:6196
-#: build/admin_quiz.js:8088
-#: build/admin_quiz.js:9175
-#: build/admin_setting.js:2411
-#: build/admin_lesson.js:341
-#: build/admin_quiz.js:565
-#: build/admin_quiz.js:1495
-#: build/admin_quiz.js:3545
-#: build/admin_quiz.js:3724
-#: build/admin_quiz.js:4199
-#: build/admin_quiz.js:4416
-#: build/admin_quiz.js:5008
-#: build/admin_quiz.js:6848
-#: build/admin_quiz.js:7824
-#: build/admin_setting.js:2246
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
 msgid "Delete"
 msgstr ""
 
-#: build/admin_lesson.js:575
-#: build/admin_quiz.js:883
-#: build/admin_quiz.js:2106
-#: build/admin_quiz.js:6205
-#: build/admin_lesson.js:355
-#: build/admin_quiz.js:579
-#: build/admin_quiz.js:1515
-#: build/admin_quiz.js:5023
+#: build/admin_lesson.js:1
+msgid "Do you really want to delete these lesson(s)?"
+msgstr ""
+
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+msgid "Please select atleast 1 entry."
+msgstr ""
+
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+msgid "Action required"
+msgstr ""
+
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
 msgid "Apply"
 msgstr ""
 
-#: build/admin_lesson.js:803
-#: build/admin_quiz.js:816
-#: build/admin_quiz.js:1099
-#: build/admin_quiz.js:2030
-#: build/admin_quiz.js:2559
-#: build/admin_quiz.js:6533
-#: build/admin_quiz.js:7384
-#: build/admin_quiz.js:8167
-#: build/admin_quiz.js:8443
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:163
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:304
-#: build/front.f645ee1164a1b54570a5.hot-update.js:330
-#: build/front.js:14005
-#: build/front.js:19538
-#: build/front.js:21800
-#: build/admin_lesson.js:542
-#: build/admin_quiz.js:495
-#: build/admin_quiz.js:757
-#: build/admin_quiz.js:1411
-#: build/admin_quiz.js:1941
-#: build/admin_quiz.js:5343
-#: build/admin_quiz.js:6148
-#: build/admin_quiz.js:6923
-#: build/admin_quiz.js:7141
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:182
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:350
-#: build/front.f645ee1164a1b54570a5.hot-update.js:388
-#: build/front.js:11101
-#: build/front.js:15522
-#: build/front.js:17452
-msgid "Back"
-msgstr ""
-
-#: build/admin_lesson.js:805
-#: build/admin_lesson.js:545
-msgid "Create Lesson"
-msgstr ""
-
-#: build/admin_lesson.js:1077
-#: build/admin_lesson.js:718
-msgid "Options"
-msgstr ""
-
-#: build/admin_lesson.js:1427
-#: build/admin_lesson.js:1049
+#: build/admin_lesson.js:1
 msgid "Enter lesson title"
 msgstr ""
 
-#: build/admin_order.js:215
-#: build/front.js:4762
-#: build/admin_order.js:79
-#: build/front.js:3914
+#: build/admin_lesson.js:1
+msgid "Options"
+msgstr ""
+
+#: build/admin_lesson.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Back"
+msgstr ""
+
+#: build/admin_lesson.js:1
+msgid "Create Lesson"
+msgstr ""
+
+#: build/admin_lesson.js:1
+#: build/admin_order.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "No path found"
+msgstr ""
+
+#: build/admin_order.js:1
+#: build/front.js:1
 msgid "Order Items"
 msgstr ""
 
-#: build/admin_order.js:220
-#: build/front.js:4767
-#: build/admin_order.js:85
-#: build/front.js:3920
+#: build/admin_order.js:1
+#: build/front.js:1
 msgid "Method"
 msgstr ""
 
-#: build/admin_order.js:225
-#: build/front.js:4772
-#: build/admin_order.js:89
-#: build/front.js:3924
+#: build/admin_order.js:1
+#: build/front.js:1
 msgid "Order/Txn ID"
 msgstr ""
 
-#: build/admin_order.js:230
-#: build/front.js:4777
-#: build/admin_order.js:90
-#: build/front.js:3925
+#: build/admin_order.js:1
+#: build/front.js:1
 msgid "Order Date"
 msgstr ""
 
-#: build/admin_order.js:234
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:93
-#: build/front.js:20592
-#: build/admin_order.js:91
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:73
-#: build/front.js:16428
+#: build/admin_order.js:1
+#: build/front.js:1
 msgid "Name"
 msgstr ""
 
-#: build/admin_order.js:239
-#: build/front.js:26530
-#: build/front.js:26545
-#: build/front_checkout.js:306
-#: build/front_checkout.js:4055
-#: build/front_checkout.js:4070
-#: build/admin_order.js:92
-#: build/front.js:21026
-#: build/front.js:21037
-#: build/front_checkout.js:138
-#: build/front_checkout.js:2850
-#: build/front_checkout.js:2861
+#: build/admin_order.js:1
+#: build/front.js:1
+#: build/front_checkout.js:1
 msgid "Email"
 msgstr ""
 
-#: build/admin_order.js:243
-#: build/admin_quiz.js:8062
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:221
-#: build/front.c647f2b7b566065686ba.hot-update.js:194
-#: build/front.ca7af2ff026563ad179d.hot-update.js:210
-#: build/front.js:4781
-#: build/front.js:12872
-#: build/front.js:20720
-#: build/front.js:20958
-#: build/front.js:23642
-#: build/admin_order.js:95
-#: build/admin_quiz.js:6817
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:222
-#: build/front.c647f2b7b566065686ba.hot-update.js:156
-#: build/front.ca7af2ff026563ad179d.hot-update.js:177
-#: build/front.js:3928
-#: build/front.js:10097
-#: build/front.js:16577
-#: build/front.js:16757
-#: build/front.js:19366
+#: build/admin_order.js:1
+#: build/admin_quiz.js:1
+#: build/front.js:1
 msgid "Status"
 msgstr ""
 
-#: build/admin_quiz.0c65ad04bd7142b6e37c.hot-update.js:98
-#: build/admin_quiz.9f697cfb407677047c44.hot-update.js:86
-#: build/admin_quiz.751f996881d61dbf1b9e.hot-update.js:62
-#: build/admin_quiz.ced9b343ed74e1af6f1c.hot-update.js:61
-#: build/admin_quiz.js:13228
-#: build/admin_quiz.js:13818
-#: build/admin_quiz.js:13971
-#: build/admin_quiz.js:14382
-#: build/front.0c65ad04bd7142b6e37c.hot-update.js:98
-#: build/front.9f697cfb407677047c44.hot-update.js:86
-#: build/front.751f996881d61dbf1b9e.hot-update.js:62
-#: build/front.ced9b343ed74e1af6f1c.hot-update.js:61
-#: build/front.js:22075
-#: build/front.js:22665
-#: build/front.js:22818
-#: build/front.js:23229
-#: build/admin_quiz.0c65ad04bd7142b6e37c.hot-update.js:112
-#: build/admin_quiz.9f697cfb407677047c44.hot-update.js:96
-#: build/admin_quiz.751f996881d61dbf1b9e.hot-update.js:63
-#: build/admin_quiz.ced9b343ed74e1af6f1c.hot-update.js:70
-#: build/admin_quiz.js:11630
-#: build/admin_quiz.js:12224
-#: build/admin_quiz.js:12394
-#: build/admin_quiz.js:12862
-#: build/front.0c65ad04bd7142b6e37c.hot-update.js:112
-#: build/front.9f697cfb407677047c44.hot-update.js:96
-#: build/front.751f996881d61dbf1b9e.hot-update.js:63
-#: build/front.ced9b343ed74e1af6f1c.hot-update.js:70
-#: build/front.js:17716
-#: build/front.js:18310
-#: build/front.js:18480
-#: build/front.js:18948
-msgid "Your answer"
-msgstr ""
-
-#: build/admin_quiz.9f697cfb407677047c44.hot-update.js:145
-#: build/admin_quiz.751f996881d61dbf1b9e.hot-update.js:118
-#: build/admin_quiz.ced9b343ed74e1af6f1c.hot-update.js:117
-#: build/admin_quiz.js:13287
-#: build/admin_quiz.js:13874
-#: build/admin_quiz.js:14027
-#: build/front.9f697cfb407677047c44.hot-update.js:145
-#: build/front.751f996881d61dbf1b9e.hot-update.js:118
-#: build/front.ced9b343ed74e1af6f1c.hot-update.js:117
-#: build/front.js:22134
-#: build/front.js:22721
-#: build/front.js:22874
-#: build/admin_quiz.9f697cfb407677047c44.hot-update.js:191
-#: build/admin_quiz.751f996881d61dbf1b9e.hot-update.js:153
-#: build/admin_quiz.ced9b343ed74e1af6f1c.hot-update.js:159
-#: build/admin_quiz.js:11725
-#: build/admin_quiz.js:12314
-#: build/admin_quiz.js:12483
-#: build/front.9f697cfb407677047c44.hot-update.js:191
-#: build/front.751f996881d61dbf1b9e.hot-update.js:153
-#: build/front.ced9b343ed74e1af6f1c.hot-update.js:159
-#: build/front.js:17811
-#: build/front.js:18400
-#: build/front.js:18569
-msgid "Correct answer"
-msgstr ""
-
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:55
-#: build/admin_quiz.js:13068
-#: build/front.36e080c1fb8b1a223758.hot-update.js:55
-#: build/front.826e46d0a501328de598.hot-update.js:54
-#: build/front.js:12612
-#: build/front.js:20425
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:47
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:48
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:49
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:50
-#: build/admin_quiz.js:11434
-#: build/admin_quiz.js:11435
-#: build/admin_quiz.js:11436
-#: build/admin_quiz.js:11437
-#: build/front.36e080c1fb8b1a223758.hot-update.js:47
-#: build/front.36e080c1fb8b1a223758.hot-update.js:48
-#: build/front.36e080c1fb8b1a223758.hot-update.js:49
-#: build/front.36e080c1fb8b1a223758.hot-update.js:50
-#: build/front.826e46d0a501328de598.hot-update.js:49
-#: build/front.826e46d0a501328de598.hot-update.js:50
-#: build/front.826e46d0a501328de598.hot-update.js:51
-#: build/front.826e46d0a501328de598.hot-update.js:52
-#: build/front.js:9857
-#: build/front.js:9858
-#: build/front.js:9859
-#: build/front.js:9860
-#: build/front.js:16255
-#: build/front.js:16256
-#: build/front.js:16257
-#: build/front.js:16258
-msgid "Point"
-msgstr ""
-
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:55
-#: build/admin_quiz.js:13068
-#: build/front.36e080c1fb8b1a223758.hot-update.js:55
-#: build/front.js:20425
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:48
-#: build/admin_quiz.js:11435
-#: build/front.36e080c1fb8b1a223758.hot-update.js:48
-#: build/front.js:16256
-msgid "s"
-msgstr ""
-
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:60
-#: build/admin_quiz.js:13073
-#: build/front.36e080c1fb8b1a223758.hot-update.js:60
-#: build/front.js:20430
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:70
-#: build/admin_quiz.js:11457
-#: build/front.36e080c1fb8b1a223758.hot-update.js:70
-#: build/front.js:16278
-msgid "Remove from review"
-msgstr ""
-
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:72
-#: build/admin_quiz.js:13085
-#: build/front.36e080c1fb8b1a223758.hot-update.js:72
-#: build/front.js:20442
-#: build/admin_quiz.36e080c1fb8b1a223758.hot-update.js:86
-#: build/admin_quiz.js:11473
-#: build/front.36e080c1fb8b1a223758.hot-update.js:86
-#: build/front.js:16294
-msgid "Mark as review"
-msgstr ""
-
-#: build/admin_quiz.751f996881d61dbf1b9e.hot-update.js:69
-#: build/admin_quiz.js:13825
-#: build/front.751f996881d61dbf1b9e.hot-update.js:69
-#: build/front.js:22672
-#: build/admin_quiz.751f996881d61dbf1b9e.hot-update.js:78
-#: build/admin_quiz.js:12239
-#: build/front.751f996881d61dbf1b9e.hot-update.js:78
-#: build/front.js:18325
-msgid "Type your answer"
-msgstr ""
-
-#: build/admin_quiz.5988161bf1ab31a41ad2.hot-update.js:34
-#: build/admin_quiz.js:4731
-#: build/admin_quiz.js:5223
-#: build/admin_quiz.js:7720
-#: build/admin_quiz.js:12969
-#: build/front.5c86692de34b9adb700e.hot-update.js:75
-#: build/front.9365b2aae7960f89dba7.hot-update.js:34
-#: build/front.724319bb8854d57e78f9.hot-update.js:75
-#: build/front.5988161bf1ab31a41ad2.hot-update.js:34
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:131
-#: build/front.f645ee1164a1b54570a5.hot-update.js:150
-#: build/front.js:12514
-#: build/front.js:13573
-#: build/front.js:13825
-#: build/front.js:20326
-#: build/front.js:21264
-#: build/front.js:21627
-#: build/admin_quiz.5988161bf1ab31a41ad2.hot-update.js:18
-#: build/admin_quiz.js:3704
-#: build/admin_quiz.js:4173
-#: build/admin_quiz.js:6444
-#: build/admin_quiz.js:11375
-#: build/front.5c86692de34b9adb700e.hot-update.js:54
-#: build/front.9365b2aae7960f89dba7.hot-update.js:18
-#: build/front.724319bb8854d57e78f9.hot-update.js:54
-#: build/front.5988161bf1ab31a41ad2.hot-update.js:18
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:123
-#: build/front.f645ee1164a1b54570a5.hot-update.js:147
-#: build/front.js:9796
-#: build/front.js:10634
-#: build/front.js:10860
-#: build/front.js:16196
-#: build/front.js:16942
-#: build/front.js:17225
-msgid "Correct"
-msgstr ""
-
-#: build/admin_quiz.5988161bf1ab31a41ad2.hot-update.js:37
-#: build/admin_quiz.js:7729
-#: build/admin_quiz.js:12972
-#: build/front.5c86692de34b9adb700e.hot-update.js:81
-#: build/front.9365b2aae7960f89dba7.hot-update.js:37
-#: build/front.724319bb8854d57e78f9.hot-update.js:81
-#: build/front.5988161bf1ab31a41ad2.hot-update.js:37
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:140
-#: build/front.f645ee1164a1b54570a5.hot-update.js:159
-#: build/front.js:12517
-#: build/front.js:13579
-#: build/front.js:13834
-#: build/front.js:20329
-#: build/front.js:21270
-#: build/front.js:21636
-#: build/admin_quiz.5988161bf1ab31a41ad2.hot-update.js:20
-#: build/admin_quiz.js:6455
-#: build/admin_quiz.js:11377
-#: build/front.5c86692de34b9adb700e.hot-update.js:60
-#: build/front.9365b2aae7960f89dba7.hot-update.js:20
-#: build/front.724319bb8854d57e78f9.hot-update.js:60
-#: build/front.5988161bf1ab31a41ad2.hot-update.js:20
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:134
-#: build/front.f645ee1164a1b54570a5.hot-update.js:158
-#: build/front.js:9798
-#: build/front.js:10640
-#: build/front.js:10871
-#: build/front.js:16198
-#: build/front.js:16948
-#: build/front.js:17236
-msgid "Incorrect"
-msgstr ""
-
-#: build/admin_quiz.5988161bf1ab31a41ad2.hot-update.js:40
-#: build/admin_quiz.js:12975
-#: build/front.5c86692de34b9adb700e.hot-update.js:87
-#: build/front.9365b2aae7960f89dba7.hot-update.js:40
-#: build/front.724319bb8854d57e78f9.hot-update.js:87
-#: build/front.5988161bf1ab31a41ad2.hot-update.js:40
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:149
-#: build/front.f645ee1164a1b54570a5.hot-update.js:168
-#: build/front.js:12520
-#: build/front.js:13585
-#: build/front.js:13843
-#: build/front.js:20332
-#: build/front.js:21276
-#: build/front.js:21645
-#: build/admin_quiz.5988161bf1ab31a41ad2.hot-update.js:23
-#: build/admin_quiz.js:11380
-#: build/front.5c86692de34b9adb700e.hot-update.js:66
-#: build/front.9365b2aae7960f89dba7.hot-update.js:23
-#: build/front.724319bb8854d57e78f9.hot-update.js:66
-#: build/front.5988161bf1ab31a41ad2.hot-update.js:23
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:145
-#: build/front.f645ee1164a1b54570a5.hot-update.js:169
-#: build/front.js:9801
-#: build/front.js:10646
-#: build/front.js:10882
-#: build/front.js:16201
-#: build/front.js:16954
-#: build/front.js:17247
-msgid "Skipped"
-msgstr ""
-
-#: build/admin_quiz.js:667
-#: build/admin_quiz.js:338
-msgid "Do you really want to delete this paragraph?"
-msgstr ""
-
-#: build/admin_quiz.js:683
-#: build/admin_quiz.js:1224
-#: build/admin_quiz.js:346
-#: build/admin_quiz.js:851
-msgid "Content"
-msgstr ""
-
-#: build/admin_quiz.js:688
-#: build/admin_quiz.js:349
-msgid "No. of assigned questions"
-msgstr ""
-
-#: build/admin_quiz.js:708
-#: build/admin_quiz.js:373
-msgid "Delete Paragraph"
-msgstr ""
-
-#: build/admin_quiz.js:754
-#: build/admin_quiz.js:432
-msgid "Do you really want to delete these paragraphs?"
-msgstr ""
-
-#: build/admin_quiz.js:830
-#: build/admin_quiz.js:513
-msgid "Paragraph Overview"
-msgstr ""
-
-#: build/admin_quiz.js:1058
-#: build/admin_quiz.js:715
-msgid "Paragraph created successfully."
-msgstr ""
-
-#: build/admin_quiz.js:1065
-#: build/admin_quiz.js:17385
-#: build/admin_quiz.js:722
-#: build/admin_quiz.js:14477
-msgid "Paragraph updated successfully."
-msgstr ""
-
-#: build/admin_quiz.js:1101
-#: build/admin_quiz.js:761
-msgid "Create Paragraph"
-msgstr ""
-
-#: build/admin_quiz.js:1241
-#: build/admin_quiz.js:871
-msgid "Content is required"
-msgstr ""
-
-#: build/admin_quiz.js:1344
-#: build/admin_quiz.js:3445
-#: build/admin_quiz.js:926
-#: build/admin_quiz.js:2718
-msgid "Language"
-msgstr ""
-
-#: build/admin_quiz.js:1370
-#: build/admin_quiz.js:951
-msgid "Change Language"
-msgstr ""
-
-#: build/admin_quiz.js:1484
-#: build/admin_quiz.js:1029
-msgid "Paragraph Title"
-msgstr ""
-
-#: build/admin_quiz.js:1789
-#: build/admin_quiz.js:1163
-msgid "Do you really want to delete this question?"
-msgstr ""
-
-#: build/admin_quiz.js:1810
-#: build/admin_quiz.js:11064
-#: build/admin_quiz.js:11071
-#: build/admin_quiz.js:11156
-#: build/admin_quiz.js:11163
-#: build/admin_setting.js:1561
-#: build/front.5c86692de34b9adb700e.hot-update.js:69
-#: build/front.724319bb8854d57e78f9.hot-update.js:69
-#: build/front.js:13567
-#: build/front.js:21258
-#: build/admin_quiz.js:1172
-#: build/admin_quiz.js:9646
-#: build/admin_quiz.js:9652
-#: build/admin_quiz.js:9739
-#: build/admin_quiz.js:9745
-#: build/admin_setting.js:1503
-#: build/front.5c86692de34b9adb700e.hot-update.js:48
-#: build/front.724319bb8854d57e78f9.hot-update.js:48
-#: build/front.js:10628
-#: build/front.js:16936
-msgid "Subject"
-msgstr ""
-
-#: build/admin_quiz.js:1815
-#: build/admin_quiz.js:11116
-#: build/admin_quiz.js:11208
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:143
-#: build/front.js:20642
-#: build/admin_quiz.js:1173
-#: build/admin_quiz.js:9695
-#: build/admin_quiz.js:9788
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:129
-#: build/front.js:16484
-msgid "Points"
-msgstr ""
-
-#: build/admin_quiz.js:1820
-#: build/admin_quiz.js:1176
-msgid "Negative Points"
-msgstr ""
-
-#: build/admin_quiz.js:1831
-#: build/admin_quiz.js:2561
-#: build/admin_quiz.js:1189
-#: build/admin_quiz.js:1944
-msgid "Edit Question"
-msgstr ""
-
-#: build/admin_quiz.js:1840
-#: build/admin_quiz.js:1200
-msgid "Delete Question"
-msgstr ""
-
-#: build/admin_quiz.js:1858
-#: build/admin_quiz.js:3585
-#: build/admin_quiz.js:5122
-#: build/admin_quiz.js:1225
-#: build/admin_quiz.js:2829
-#: build/admin_quiz.js:4020
-#: build/admin_quiz.js:4021
-msgid "Single Choice"
-msgstr ""
-
-#: build/admin_quiz.js:1860
-#: build/admin_quiz.js:3589
-#: build/admin_quiz.js:4635
-#: build/admin_quiz.js:1227
-#: build/admin_quiz.js:2834
-#: build/admin_quiz.js:3572
-msgid "Multiple Choice"
-msgstr ""
-
-#: build/admin_quiz.js:1862
-#: build/front.js:9653
-#: build/admin_quiz.js:1229
-#: build/front.js:7542
-msgid "True False"
-msgstr ""
-
-#: build/admin_quiz.js:1864
-#: build/admin_quiz.js:3597
-#: build/admin_quiz.js:5344
-#: build/admin_quiz.js:1231
-#: build/admin_quiz.js:2844
-#: build/admin_quiz.js:4276
-msgid "Sorting Choice"
-msgstr ""
-
-#: build/admin_quiz.js:1866
-#: build/admin_quiz.js:4414
-#: build/admin_quiz.js:1233
-#: build/admin_quiz.js:3392
-msgid "Matrix Sorting Choice"
-msgstr ""
-
-#: build/admin_quiz.js:1868
-#: build/admin_quiz.js:1235
-msgid "Fill in the blank"
-msgstr ""
-
-#: build/admin_quiz.js:1870
-#: build/admin_quiz.js:3605
-#: build/admin_quiz.js:4850
-#: build/front.js:9658
-#: build/admin_quiz.js:1237
-#: build/admin_quiz.js:2859
-#: build/admin_quiz.js:3797
-#: build/admin_quiz.js:3798
-#: build/front.js:7547
-msgid "Numerical"
-msgstr ""
-
-#: build/admin_quiz.js:1872
-#: build/admin_quiz.js:3609
-#: build/admin_quiz.js:4960
-#: build/admin_quiz.js:1239
-#: build/admin_quiz.js:2864
-#: build/admin_quiz.js:3874
-#: build/admin_quiz.js:3876
-msgid "Range Type"
-msgstr ""
-
-#: build/admin_quiz.js:1874
-#: build/admin_quiz.js:1241
-msgid "Paragraph"
-msgstr ""
-
-#: build/admin_quiz.js:1910
-#: build/admin_quiz.js:1285
-msgid "Do you really want to delete these questions?"
-msgstr ""
-
-#: build/admin_quiz.js:2044
-#: build/admin_quiz.js:11409
-#: build/admin_quiz.js:1429
-#: build/admin_quiz.js:9941
-msgid "Question Overview"
-msgstr ""
-
-#: build/admin_quiz.js:2061
-#: build/admin_quiz.js:1451
-msgid "Import from .docx"
-msgstr ""
-
-#: build/admin_quiz.js:2097
-#: build/admin_quiz.js:2961
-#: build/admin_quiz.js:1497
-#: build/admin_quiz.js:2291
-msgid "Set Subject and Points"
-msgstr ""
-
-#: build/admin_quiz.js:2099
-#: build/admin_quiz.js:2733
-#: build/admin_quiz.js:1500
-#: build/admin_quiz.js:2089
-msgid "Set Paragraph"
-msgstr ""
-
-#: build/admin_quiz.js:2561
-#: build/admin_quiz.js:1944
-msgid "Create Question"
-msgstr ""
-
-#: build/admin_quiz.js:2752
-#: build/admin_quiz.js:2107
-msgid "The existing paragraph assigned to the question will be removed if no paragraph is selected before saving."
-msgstr ""
-
-#: build/admin_quiz.js:2765
-#: build/admin_quiz.js:4036
-#: build/admin_quiz.js:2125
-#: build/admin_quiz.js:3142
-msgid "Enable Paragraph"
-msgstr ""
-
-#: build/admin_quiz.js:2782
-#: build/admin_quiz.js:4053
-#: build/admin_quiz.js:2152
-#: build/admin_quiz.js:3169
-msgid "Select Paragraph"
-msgstr ""
-
-#: build/admin_quiz.js:2909
-#: build/admin_quiz.js:3194
-#: build/admin_quiz.js:2239
-#: build/admin_quiz.js:2499
-msgid "Subject name is already exist"
-msgstr ""
-
-#: build/admin_quiz.js:2928
-#: build/admin_quiz.js:3213
-#: build/admin_quiz.js:2258
-#: build/admin_quiz.js:2518
-msgid "Subject cannot be empty"
-msgstr ""
-
-#: build/admin_quiz.js:2993
-#: build/admin_quiz.js:3336
-#: build/admin_quiz.js:2331
-#: build/admin_quiz.js:2646
-msgid "Select Subject"
-msgstr ""
-
-#: build/admin_quiz.js:3030
-#: build/admin_quiz.js:3254
-#: build/admin_quiz.js:2377
-#: build/admin_quiz.js:2555
-msgid "+ Point"
-msgstr ""
-
-#: build/admin_quiz.js:3066
-#: build/admin_quiz.js:3290
-#: build/admin_quiz.js:2413
-#: build/admin_quiz.js:2591
-msgid "- Point"
-msgstr ""
-
-#: build/admin_quiz.js:3222
-#: build/admin_quiz.js:10246
-#: build/admin_quiz.js:2527
-#: build/admin_quiz.js:8778
-msgid "General Options"
-msgstr ""
-
-#: build/admin_quiz.js:3240
-#: build/admin_quiz.js:2542
-msgid "Question Title"
-msgstr ""
-
-#: build/admin_quiz.js:3471
-#: build/admin_quiz.js:10711
-#: build/admin_quiz.js:2743
-#: build/admin_quiz.js:9294
-msgid "Change Language:"
-msgstr ""
-
-#: build/admin_quiz.js:3490
-#: build/admin_quiz.js:2772
-msgid " (default)"
-msgstr ""
-
-#: build/admin_quiz.js:3571
-#: build/admin_quiz.js:2812
-msgid "Answer Type"
-msgstr ""
-
-#: build/admin_quiz.js:3593
-#: build/admin_quiz.js:5529
-#: build/admin_quiz.js:2839
-#: build/admin_quiz.js:4443
-msgid "True/False"
-msgstr ""
-
-#: build/admin_quiz.js:3601
-#: build/admin_quiz.js:4317
-#: build/admin_quiz.js:2854
-#: build/admin_quiz.js:3332
-msgid "Fill in the Blank"
-msgstr ""
-
-#: build/admin_quiz.js:3701
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:180
-#: build/front.34deef680115b32403ba.hot-update.js:47
-#: build/front.js:18916
-#: build/front.js:19555
-#: build/admin_quiz.js:2911
-#: build/admin_quiz.js:2912
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:217
-#: build/front.34deef680115b32403ba.hot-update.js:27
-#: build/front.js:14963
-#: build/front.js:15557
-msgid "Hint"
-msgstr ""
-
-#: build/admin_quiz.js:3724
-#: build/admin_quiz.js:2931
-msgid "Enable Hint"
-msgstr ""
-
-#: build/admin_quiz.js:3845
-#: build/admin_quiz.js:7879
-#: build/admin_quiz.js:7891
-#: build/admin_quiz.js:7903
-#: build/front.34deef680115b32403ba.hot-update.js:59
-#: build/front.34deef680115b32403ba.hot-update.js:71
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:326
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:338
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:350
-#: build/front.f645ee1164a1b54570a5.hot-update.js:352
-#: build/front.f645ee1164a1b54570a5.hot-update.js:364
-#: build/front.f645ee1164a1b54570a5.hot-update.js:376
-#: build/front.js:14027
-#: build/front.js:14039
-#: build/front.js:14051
-#: build/front.js:18928
-#: build/front.js:18940
-#: build/front.js:21822
-#: build/front.js:21834
-#: build/front.js:21846
-#: build/admin_quiz.js:3011
-#: build/admin_quiz.js:3012
-#: build/admin_quiz.js:6650
-#: build/admin_quiz.js:6680
-#: build/admin_quiz.js:6712
-#: build/front.34deef680115b32403ba.hot-update.js:49
-#: build/front.34deef680115b32403ba.hot-update.js:78
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:383
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:413
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:445
-#: build/front.f645ee1164a1b54570a5.hot-update.js:424
-#: build/front.f645ee1164a1b54570a5.hot-update.js:454
-#: build/front.f645ee1164a1b54570a5.hot-update.js:486
-#: build/front.js:11137
-#: build/front.js:11167
-#: build/front.js:11199
-#: build/front.js:14985
-#: build/front.js:15014
-#: build/front.js:17485
-#: build/front.js:17515
-#: build/front.js:17547
-msgid "Explanation"
-msgstr ""
-
-#: build/admin_quiz.js:3872
-#: build/admin_quiz.js:3033
-msgid "Different Explanation for correct and incorrect answer?"
-msgstr ""
-
-#: build/admin_quiz.js:3879
-#: build/admin_quiz.js:3039
-msgid "Explanation for correct answer"
-msgstr ""
-
-#: build/admin_quiz.js:3910
-#: build/admin_quiz.js:3067
-msgid "Explanation for incorrect answer"
-msgstr ""
-
-#: build/admin_quiz.js:4013
-#: build/admin_quiz.js:3120
-msgid "Paragraph Options"
-msgstr ""
-
-#: build/admin_quiz.js:4179
-#: build/admin_quiz.js:3247
-msgid "Question is required"
-msgstr ""
-
-#: build/admin_quiz.js:4329
-#: build/admin_quiz.js:4980
-#: build/admin_quiz.js:5017
-#: build/admin_quiz.js:3351
-#: build/admin_quiz.js:3896
-#: build/admin_quiz.js:3945
-msgid "Required"
-msgstr ""
-
-#: build/admin_quiz.js:4428
-#: build/admin_quiz.js:4649
-#: build/admin_quiz.js:5136
-#: build/admin_quiz.js:5358
-#: build/admin_quiz.js:3407
-#: build/admin_quiz.js:3585
-#: build/admin_quiz.js:4035
-#: build/admin_quiz.js:4289
-msgid "Option"
-msgstr ""
-
-#: build/admin_quiz.js:4456
-#: build/admin_quiz.js:4671
-#: build/admin_quiz.js:5158
-#: build/admin_quiz.js:5380
-#: build/admin_quiz.js:12310
-#: build/admin_quiz.js:3438
-#: build/admin_quiz.js:3614
-#: build/admin_quiz.js:4068
-#: build/admin_quiz.js:4318
-#: build/admin_quiz.js:11030
-msgid "Add More"
-msgstr ""
-
-#: build/admin_quiz.js:4496
-#: build/admin_quiz.js:3479
-msgid "Criteria"
-msgstr ""
-
-#: build/admin_quiz.js:4524
-#: build/admin_quiz.js:3506
-msgid "Sort Element"
-msgstr ""
-
-#: build/admin_quiz.js:4712
-#: build/admin_quiz.js:3677
-msgid "Please set at least one correct option"
-msgstr ""
-
-#: build/admin_quiz.js:4754
-#: build/admin_quiz.js:5246
-#: build/admin_quiz.js:5412
-#: build/admin_quiz.js:3736
-#: build/admin_quiz.js:4211
-#: build/admin_quiz.js:4359
-msgid "Option is required"
-msgstr ""
-
-#: build/admin_quiz.js:4868
-#: build/admin_quiz.js:3822
-msgid "Enter number"
-msgstr ""
-
-#: build/admin_quiz.js:4985
-#: build/admin_quiz.js:3902
-msgid "Range From"
-msgstr ""
-
-#: build/admin_quiz.js:5019
-#: build/admin_quiz.js:3951
-msgid "Must be greater than from"
-msgstr ""
-
-#: build/admin_quiz.js:5023
-#: build/admin_quiz.js:3956
-msgid "Range To"
-msgstr ""
-
-#: build/admin_quiz.js:5199
-#: build/admin_quiz.js:5542
-#: build/admin_quiz.js:4137
-#: build/admin_quiz.js:4463
-msgid "Please set atleast one correct option"
-msgstr ""
-
-#: build/admin_quiz.js:5858
-#: build/admin_quiz.js:4641
-msgid "Do you really want to delete this quiz?"
-msgstr ""
-
-#: build/admin_quiz.js:5888
-#: build/admin_quiz.js:9417
-#: build/admin_quiz.js:4661
-#: build/admin_quiz.js:7981
-msgid "Mode"
-msgstr ""
-
-#: build/admin_quiz.js:5911
-#: build/admin_quiz.js:4682
-msgid "Copy Shortcode"
-msgstr ""
-
-#: build/admin_quiz.js:5916
-#: build/admin_quiz.js:4688
-msgid "Shortcode copied to clipboard!"
-msgstr ""
-
-#: build/admin_quiz.js:5918
-#: build/admin_quiz.js:4691
-msgid "Failed to copy text: "
-msgstr ""
-
-#: build/admin_quiz.js:5926
-#: build/admin_quiz.js:5953
-#: build/admin_quiz.js:4706
-#: build/admin_quiz.js:4739
-msgid "Questions"
-msgstr ""
-
-#: build/admin_quiz.js:5971
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:168
-#: build/front.js:20667
-#: build/front.js:23658
-#: build/admin_quiz.js:4761
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:155
-#: build/front.js:16510
-#: build/front.js:19385
-msgid "Result"
-msgstr ""
-
-#: build/admin_quiz.js:5980
-#: build/admin_quiz.js:7422
-#: build/admin_quiz.js:12018
-#: build/front.2b1bb4fefaa3501f318d.hot-update.js:187
-#: build/front.57cd6b14b33574656066.hot-update.js:65
-#: build/front.58adc17a7d9fa88d96ce.hot-update.js:65
-#: build/front.7110b5cf4f4ebd279bb7.hot-update.js:187
-#: build/front.js:12413
-#: build/front.js:14158
-#: build/front.js:21953
-#: build/admin_quiz.js:4772
-#: build/admin_quiz.js:6187
-#: build/admin_quiz.js:10656
-#: build/front.2b1bb4fefaa3501f318d.hot-update.js:163
-#: build/front.57cd6b14b33574656066.hot-update.js:47
-#: build/front.58adc17a7d9fa88d96ce.hot-update.js:46
-#: build/front.7110b5cf4f4ebd279bb7.hot-update.js:163
-#: build/front.js:9732
-#: build/front.js:11266
-#: build/front.js:17613
-msgid "Leaderboard"
-msgstr ""
-
-#: build/admin_quiz.js:5989
-#: build/admin_quiz.js:4784
-msgid "Subject Wise Actions"
-msgstr ""
-
-#: build/admin_quiz.js:6007
-#: build/admin_quiz.js:6015
-#: build/admin_quiz.js:9462
-#: build/admin_quiz.js:4809
-#: build/admin_quiz.js:4817
-#: build/admin_quiz.js:8032
-msgid "Normal"
-msgstr ""
-
-#: build/admin_quiz.js:6009
-#: build/admin_quiz.js:4811
-msgid "Check and continue"
-msgstr ""
-
-#: build/admin_quiz.js:6011
-#: build/admin_quiz.js:4813
-msgid "Question below each other"
-msgstr ""
-
-#: build/admin_quiz.js:6013
-#: build/admin_quiz.js:9625
-#: build/admin_quiz.js:4815
-#: build/admin_quiz.js:8279
-msgid "Advance mode"
-msgstr ""
-
-#: build/admin_quiz.js:6045
-#: build/admin_quiz.js:4848
-msgid "Do you really want to delete these quizzes?"
-msgstr ""
-
-#: build/admin_quiz.js:6150
-#: build/admin_quiz.js:4956
-msgid "Quiz Overview"
-msgstr ""
-
-#: build/admin_quiz.js:6198
-#: build/admin_quiz.js:6740
-#: build/admin_quiz.js:5009
-#: build/admin_quiz.js:5496
-msgid "Set Category"
-msgstr ""
-
-#: build/admin_quiz.js:6426
-#: build/admin_quiz.js:6431
-#: build/admin_quiz.js:5217
-#: build/admin_quiz.js:5228
-msgid "Acadlix <br/><br/>You have completed the quiz \"$quizname\".<br/><br/>Points: $points<br/>Result: $result"
-msgstr ""
-
-#: build/admin_quiz.js:6535
-#: build/admin_quiz.js:5346
-msgid "Create Quiz"
-msgstr ""
-
-#: build/admin_quiz.js:6680
-#: build/admin_quiz.js:6715
-#: build/admin_quiz.js:8556
-#: build/admin_quiz.js:5428
-#: build/admin_quiz.js:5474
-#: build/admin_quiz.js:7202
-msgid "Category cannot be empty"
-msgstr ""
-
-#: build/admin_quiz.js:6687
-#: build/admin_quiz.js:8563
-#: build/admin_quiz.js:5438
-#: build/admin_quiz.js:7212
+#: build/admin_quiz.js:1
 msgid "Category name is already exist"
 msgstr ""
 
-#: build/admin_quiz.js:6768
-#: build/admin_quiz.js:8668
-#: build/admin_quiz.js:5532
-#: build/admin_quiz.js:7320
-msgid "Select Quiz Category"
+#: build/admin_quiz.js:1
+msgid "Category cannot be empty"
 msgstr ""
 
-#: build/admin_quiz.js:6945
-#: build/admin_quiz.js:5677
-msgid "Set Subject Wise Actions"
-msgstr ""
-
-#: build/admin_quiz.js:6986
-#: build/admin_quiz.js:5735
-msgid "Subject wise timing"
-msgstr ""
-
-#: build/admin_quiz.js:7000
-#: build/admin_quiz.js:5754
-msgid "Subject wise specific number of questions"
-msgstr ""
-
-#: build/admin_quiz.js:7017
-#: build/admin_quiz.js:5787
-msgid "Time (in sec)"
-msgstr ""
-
-#: build/admin_quiz.js:7045
-#: build/admin_quiz.js:5825
-msgid "Value should not be less than 0."
-msgstr ""
-
-#: build/admin_quiz.js:7049
-#: build/admin_quiz.js:5829
-msgid "Value should not be more than"
-msgstr ""
-
-#: build/admin_quiz.js:7052
-#: build/admin_quiz.js:5833
-msgid "No. of questions"
-msgstr ""
-
-#: build/admin_quiz.js:7327
-#: build/admin_quiz.js:6079
-msgid "Do you really want to reset this leaderboard?"
-msgstr ""
-
-#: build/admin_quiz.js:7391
-#: build/admin_quiz.js:6158
-msgid "Reset Leaderboard"
-msgstr ""
-
-#: build/admin_quiz.js:7453
-#: build/front.2b1bb4fefaa3501f318d.hot-update.js:218
-#: build/front.fd10040657376b947fda.hot-update.js:222
-#: build/front.js:12444
-#: build/front.js:19339
-#: build/admin_quiz.js:6220
-#: build/front.2b1bb4fefaa3501f318d.hot-update.js:200
-#: build/front.fd10040657376b947fda.hot-update.js:193
-#: build/front.js:9769
-#: build/front.js:15331
-msgid "Load More"
-msgstr ""
-
-#: build/admin_quiz.js:7738
-#: build/admin_quiz.js:6466
-msgid "Skippeds"
-msgstr ""
-
-#: build/admin_quiz.js:8019
-#: build/admin_quiz.js:6788
-msgid "Do you really want to reset this statistic?"
-msgstr ""
-
-#: build/admin_quiz.js:8033
-#: build/admin_quiz.js:6804
-msgid "Do you really want to delete this result?"
-msgstr ""
-
-#: build/admin_quiz.js:8042
-#: build/admin_quiz.js:6811
-msgid "Name / Username"
-msgstr ""
-
-#: build/admin_quiz.js:8047
-#: build/admin_quiz.js:6812
-msgid "Date/Time"
-msgstr ""
-
-#: build/admin_quiz.js:8052
-#: build/front.5c86692de34b9adb700e.hot-update.js:99
-#: build/front.724319bb8854d57e78f9.hot-update.js:99
-#: build/front.js:13597
-#: build/front.js:21288
-#: build/front.js:23647
-#: build/admin_quiz.js:6813
-#: build/front.5c86692de34b9adb700e.hot-update.js:78
-#: build/front.724319bb8854d57e78f9.hot-update.js:78
-#: build/front.js:10658
-#: build/front.js:16966
-#: build/front.js:19372
-msgid "Score"
-msgstr ""
-
-#: build/admin_quiz.js:8057
-#: build/admin_quiz.js:6814
-msgid "Percentage"
-msgstr ""
-
-#: build/admin_quiz.js:8078
-#: build/admin_quiz.js:6837
-msgid "View Answersheet"
-msgstr ""
-
-#: build/admin_quiz.js:8175
-#: build/admin_quiz.js:6934
-msgid "Reset Statistics"
-msgstr ""
-
-#: build/admin_quiz.js:8222
-#: build/admin_quiz.js:6982
-msgid "Qs:"
-msgstr ""
-
-#: build/admin_quiz.js:8222
-#: build/admin_quiz.js:6982
-msgid "Questions:"
-msgstr ""
-
-#: build/admin_quiz.js:8239
-#: build/admin_quiz.js:6999
-msgid "Pass:"
-msgstr ""
-
-#: build/admin_quiz.js:8256
-#: build/admin_quiz.js:7016
-msgid "Fail:"
-msgstr ""
-
-#: build/admin_quiz.js:8273
-#: build/admin_quiz.js:7033
-msgid "Total Attempt:"
-msgstr ""
-
-#: build/admin_quiz.js:8448
-#: build/admin_quiz.js:7146
-msgid "AnswerSheet"
-msgstr ""
-
-#: build/admin_quiz.js:8629
-#: build/admin_quiz.js:7282
-msgid "Please select any template"
-msgstr ""
-
-#: build/admin_quiz.js:8736
-#: build/admin_quiz.js:7412
-msgid "Load Template"
-msgstr ""
-
-#: build/admin_quiz.js:8920
-#: build/admin_quiz.js:7555
-msgid "Language added successfully."
-msgstr ""
-
-#: build/admin_quiz.js:8924
-#: build/admin_quiz.js:8996
-#: build/admin_quiz.js:9033
-#: build/admin_quiz.js:7559
-#: build/admin_quiz.js:7630
-#: build/admin_quiz.js:7666
-msgid "Something went wrong."
-msgstr ""
-
-#: build/admin_quiz.js:8941
-#: build/admin_quiz.js:8952
-#: build/admin_quiz.js:9004
-#: build/admin_quiz.js:7572
-#: build/admin_quiz.js:7585
-#: build/admin_quiz.js:7639
-msgid "Please select language"
-msgstr ""
-
-#: build/admin_quiz.js:8955
-#: build/admin_quiz.js:7589
-msgid "Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default."
-msgstr ""
-
-#: build/admin_quiz.js:8986
-#: build/admin_quiz.js:7621
-msgid "Default language updated successfully."
-msgstr ""
-
-#: build/admin_quiz.js:9007
-#: build/admin_quiz.js:7643
-msgid "Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected."
-msgstr ""
-
-#: build/admin_quiz.js:9025
-#: build/admin_quiz.js:7660
-msgid "Language removed successfully."
-msgstr ""
-
-#: build/admin_quiz.js:9086
-#: build/admin_quiz.js:7717
-msgid "Language Options"
-msgstr ""
-
-#: build/admin_quiz.js:9101
-#: build/admin_quiz.js:7724
-msgid "Multi Language"
-msgstr ""
-
-#: build/admin_quiz.js:9121
-#: build/admin_quiz.js:7744
-msgid "Select language"
-msgstr ""
-
-#: build/admin_quiz.js:9139
-#: build/admin_quiz.js:7772
-msgid "Select Languages"
-msgstr ""
-
-#: build/admin_quiz.js:9170
-#: build/admin_setting.js:2598
-#: build/admin_quiz.js:7816
-#: build/admin_setting.js:2481
-msgid "Set Default"
-msgstr ""
-
-#: build/admin_quiz.js:9178
-#: build/admin_quiz.js:7833
-msgid "Default"
-msgstr ""
-
-#: build/admin_quiz.js:9194
-#: build/admin_quiz.js:7855
-msgid "Would like to copy data"
-msgstr ""
-
-#: build/admin_quiz.js:9218
-#: build/admin_quiz.js:7882
-msgid "Would you like to copy the default language's data, such as instructions, questions, and other relevant content, to the newly created language?"
-msgstr ""
-
-#: build/admin_quiz.js:9230
-#: build/admin_setting.js:337
-#: build/admin_quiz.js:7899
-#: build/admin_setting.js:238
-msgid "Save"
-msgstr ""
-
-#: build/admin_quiz.js:9472
-#: build/admin_quiz.js:8050
-msgid "Enable Back Button"
-msgstr ""
-
-#: build/admin_quiz.js:9511
-#: build/admin_quiz.js:8101
-msgid "Check And Continue"
-msgstr ""
-
-#: build/admin_quiz.js:9521
-#: build/admin_quiz.js:8124
-msgid "Show Check When Option Selected"
-msgstr ""
-
-#: build/admin_quiz.js:9532
-#: build/admin_quiz.js:8145
-msgid "Skip Question"
-msgstr ""
-
-#: build/admin_quiz.js:9574
-#: build/admin_quiz.js:8200
-msgid "Question Below Each Other"
-msgstr ""
-
-#: build/admin_quiz.js:9574
-#: build/admin_quiz.js:8204
-msgid "Question per page"
-msgstr ""
-
-#: build/admin_quiz.js:9629
-#: build/admin_quiz.js:8286
-msgid "Quiz Option will only set as per the exam"
-msgstr ""
-
-#: build/admin_quiz.js:9648
-#: build/admin_quiz.js:8315
-msgid "Advance Panel"
-msgstr ""
-
-#: build/admin_quiz.js:9653
-#: build/admin_quiz.js:8324
-msgid "IBPS"
-msgstr ""
-
-#: build/admin_quiz.js:9658
-#: build/admin_quiz.js:8330
-msgid "SSC"
-msgstr ""
-
-#: build/admin_quiz.js:9663
-#: build/admin_quiz.js:8336
-msgid "GATE"
-msgstr ""
-
-#: build/admin_quiz.js:9668
-#: build/admin_quiz.js:8342
-msgid "SBI"
-msgstr ""
-
-#: build/admin_quiz.js:9673
-#: build/admin_quiz.js:8348
-msgid "JEE"
-msgstr ""
-
-#: build/admin_quiz.js:9678
-#: build/admin_quiz.js:8354
-msgid "Railway"
-msgstr ""
-
-#: build/admin_quiz.js:9932
-#: build/admin_quiz.js:8570
-msgid "Template created successfully"
-msgstr ""
-
-#: build/admin_quiz.js:9964
-#: build/admin_quiz.js:8613
-msgid "Enter Template Name"
-msgstr ""
-
-#: build/admin_quiz.js:9984
-#: build/admin_quiz.js:8641
-msgid "Save Template"
-msgstr ""
-
-#: build/admin_quiz.js:10093
-#: build/admin_quiz.js:8691
-msgid "Quiz Title"
-msgstr ""
-
-#: build/admin_quiz.js:10105
-#: build/admin_quiz.js:8701
-msgid "Enter quiz title"
-msgstr ""
-
-#: build/admin_quiz.js:10120
-#: build/admin_quiz.js:8713
-msgid "Quiz Description"
-msgstr ""
-
-#: build/admin_quiz.js:10254
-#: build/admin_quiz.js:8787
-msgid "Hide Quiz Title"
-msgstr ""
-
-#: build/admin_quiz.js:10272
-#: build/admin_quiz.js:8811
-msgid "Hide Restart Button"
-msgstr ""
-
-#: build/admin_quiz.js:10290
-#: build/admin_quiz.js:8833
-msgid "Show Clear Response Button"
-msgstr ""
-
-#: build/admin_quiz.js:10307
-#: build/admin_quiz.js:8853
-msgid "Show Review Button"
-msgstr ""
-
-#: build/admin_quiz.js:10325
-#: build/admin_quiz.js:8879
-msgid "Quiz Time Type"
-msgstr ""
-
-#: build/admin_quiz.js:10347
-#: build/admin_quiz.js:8903
-msgid "Full Quiz"
-msgstr ""
-
-#: build/admin_quiz.js:10357
-#: build/admin_quiz.js:8914
-msgid "Per Question"
-msgstr ""
-
-#: build/admin_quiz.js:10369
-#: build/admin_quiz.js:8935
-msgid "Quiz Timing"
-msgstr ""
-
-#: build/admin_quiz.js:10375
-#: build/admin_quiz.js:8941
-msgid "Timing (in sec, 0 => infinite)"
-msgstr ""
-
-#: build/admin_quiz.js:10396
-#: build/admin_quiz.js:8964
-msgid "Start date"
-msgstr ""
-
-#: build/admin_quiz.js:10408
-#: build/admin_quiz.js:8974
-msgid "Enter Start Date*"
-msgstr ""
-
-#: build/admin_quiz.js:10440
-#: build/admin_quiz.js:9014
-msgid "End date"
-msgstr ""
-
-#: build/admin_quiz.js:10452
-#: build/admin_quiz.js:9024
-msgid "Enter End Date"
-msgstr ""
-
-#: build/admin_quiz.js:10486
-#: build/admin_quiz.js:9068
-msgid "Login Options"
-msgstr ""
-
-#: build/admin_quiz.js:10494
-#: build/admin_quiz.js:9079
-msgid "Enable login/register"
-msgstr ""
-
-#: build/admin_quiz.js:10512
-#: build/admin_quiz.js:10517
-#: build/admin_quiz.js:9103
-#: build/admin_quiz.js:9108
-msgid "Per User Allowed Attempt"
-msgstr ""
-
-#: build/admin_quiz.js:10536
-#: build/admin_quiz.js:9129
-msgid "Sets allowed attempts (0 = unlimited); requires login at quiz start."
-msgstr ""
-
-#: build/admin_quiz.js:10548
-#: build/admin_quiz.js:9170
-msgid "Advance Options"
-msgstr ""
-
-#: build/admin_quiz.js:10556
-#: build/admin_quiz.js:9180
-msgid "Show Only Specific Number of Questions"
-msgstr ""
-
-#: build/admin_quiz.js:10573
-#: build/admin_quiz.js:10581
-#: build/admin_quiz.js:9205
-#: build/admin_quiz.js:9213
-msgid "Specific Number of Questions"
-msgstr ""
-
-#: build/admin_quiz.js:10601
-#: build/admin_quiz.js:9236
-msgid "Enable Check Button"
-msgstr ""
-
-#: build/admin_quiz.js:10703
-#: build/admin_quiz.js:9286
-msgid "Instruction Options"
-msgstr ""
-
-#: build/admin_quiz.js:10770
-#: build/admin_quiz.js:9386
-msgid "Instruction 1"
-msgstr ""
-
-#: build/admin_quiz.js:10796
-#: build/admin_quiz.js:9410
-msgid "Instruction 2"
-msgstr ""
-
-#: build/admin_quiz.js:10822
-#: build/admin_quiz.js:10831
-#: build/admin_quiz.js:9434
-#: build/admin_quiz.js:9442
-msgid "Term and condition"
-msgstr ""
-
-#: build/admin_quiz.js:10841
-#: build/admin_quiz.js:10849
-#: build/admin_quiz.js:9455
-#: build/admin_quiz.js:9462
-msgid "Term and condition warning"
-msgstr ""
-
-#: build/admin_quiz.js:10946
-#: build/admin_quiz.js:9496
-msgid "Admin Email Notification"
-msgstr ""
-
-#: build/admin_quiz.js:10954
-#: build/admin_quiz.js:9508
-msgid "Enable Admin Email Notification"
-msgstr ""
-
-#: build/admin_quiz.js:10979
-#: build/admin_quiz.js:9540
-msgid "Student Email Notification"
-msgstr ""
-
-#: build/admin_quiz.js:10987
-#: build/admin_quiz.js:9558
-msgid "Enable Student Email Notification"
-msgstr ""
-
-#: build/admin_quiz.js:11028
-#: build/admin_quiz.js:11035
-#: build/admin_setting.js:1552
-#: build/admin_quiz.js:9609
-#: build/admin_quiz.js:9615
-#: build/admin_setting.js:1495
-msgid "To"
-msgstr ""
-
-#: build/admin_quiz.js:11046
-#: build/admin_quiz.js:11053
-#: build/admin_quiz.js:11138
-#: build/admin_quiz.js:11145
-#: build/admin_quiz.js:9627
-#: build/admin_quiz.js:9633
-#: build/admin_quiz.js:9721
-#: build/admin_quiz.js:9727
-msgid "From"
-msgstr ""
-
-#: build/admin_quiz.js:11082
-#: build/admin_quiz.js:11174
-#: build/admin_setting.js:1570
-#: build/admin_quiz.js:9664
-#: build/admin_quiz.js:9757
-#: build/admin_setting.js:1511
-msgid "Message"
-msgstr ""
-
-#: build/admin_quiz.js:11114
-#: build/admin_quiz.js:11206
-#: build/admin_quiz.js:9689
-#: build/admin_quiz.js:9782
-msgid "Allowed variables."
-msgstr ""
-
-#: build/admin_quiz.js:11116
-#: build/admin_quiz.js:11208
-#: build/admin_quiz.js:9691
-#: build/admin_quiz.js:9784
-msgid "User-ID"
-msgstr ""
-
-#: build/admin_quiz.js:11116
-#: build/admin_quiz.js:11208
-#: build/front.js:26496
-#: build/front.js:26511
-#: build/front_checkout.js:4021
-#: build/front_checkout.js:4036
-#: build/admin_quiz.js:9692
-#: build/admin_quiz.js:9785
-#: build/front.js:20996
-#: build/front.js:21007
-#: build/front_checkout.js:2820
-#: build/front_checkout.js:2831
-msgid "Username"
-msgstr ""
-
-#: build/admin_quiz.js:11116
-#: build/admin_quiz.js:11208
-#: build/admin_quiz.js:9693
-#: build/admin_quiz.js:9786
-msgid "Quiz-Name"
-msgstr ""
-
-#: build/admin_quiz.js:11116
-#: build/admin_quiz.js:11208
-#: build/admin_quiz.js:9694
-#: build/admin_quiz.js:9787
-msgid "Result in percent"
-msgstr ""
-
-#: build/admin_quiz.js:11116
-#: build/admin_quiz.js:11208
-#: build/admin_quiz.js:9696
-#: build/admin_quiz.js:9789
-msgid "IP-address of the user"
-msgstr ""
-
-#: build/admin_quiz.js:11301
-#: build/admin_quiz.js:9823
-msgid "Question Options"
-msgstr ""
-
-#: build/admin_quiz.js:11309
-#: build/admin_quiz.js:9829
-msgid "Show Marks"
-msgstr ""
-
-#: build/admin_quiz.js:11324
-#: build/admin_quiz.js:9846
-msgid "Show +point & -point"
-msgstr ""
-
-#: build/admin_quiz.js:11334
-#: build/admin_quiz.js:9861
-msgid "Display Subject"
-msgstr ""
-
-#: build/admin_quiz.js:11352
-#: build/admin_quiz.js:9881
-msgid "Answer Bullet"
-msgstr ""
-
-#: build/admin_quiz.js:11370
-#: build/admin_quiz.js:9901
-msgid "Answer Bullet Type"
-msgstr ""
-
-#: build/admin_quiz.js:11386
-#: build/admin_quiz.js:9915
-msgid "Numeric"
-msgstr ""
-
-#: build/admin_quiz.js:11397
-#: build/admin_quiz.js:9927
-msgid "Alphabet"
-msgstr ""
-
-#: build/admin_quiz.js:11427
-#: build/admin_quiz.js:9961
-msgid "Random Question"
-msgstr ""
-
-#: build/admin_quiz.js:11444
-#: build/admin_quiz.js:9980
-msgid "Random Option"
-msgstr ""
-
-#: build/admin_quiz.js:11458
-#: build/admin_quiz.js:9996
-msgid "Only for single and mulitple choice"
-msgstr ""
-
-#: build/admin_quiz.js:11468
-#: build/admin_quiz.js:10011
-msgid "Do not randomize last option"
-msgstr ""
-
-#: build/admin_quiz.js:11486
-#: build/admin_quiz.js:10035
-msgid "Hide Question Numbering"
-msgstr ""
-
-#: build/admin_quiz.js:11504
-#: build/admin_quiz.js:10057
-msgid "Sort Questions By Subject"
-msgstr ""
-
-#: build/admin_quiz.js:11522
-#: build/admin_quiz.js:10077
-msgid "Attempt & move forward automatically"
-msgstr ""
-
-#: build/admin_quiz.js:11537
-#: build/admin_quiz.js:10096
-msgid "This feature will only work for single choice questions in normal mode"
-msgstr ""
-
-#: build/admin_quiz.js:11547
-#: build/admin_quiz.js:10111
-msgid "Force User to Answer Each Question"
-msgstr ""
-
-#: build/admin_quiz.js:11657
-#: build/admin_quiz.js:10169
-msgid "Statistic Options"
-msgstr ""
-
-#: build/admin_quiz.js:11665
-#: build/admin_quiz.js:10179
-msgid "Save Statistics"
-msgstr ""
-
-#: build/admin_quiz.js:11688
-#: build/admin_quiz.js:10207
-msgid "Used to save statistic"
-msgstr ""
-
-#: build/admin_quiz.js:11701
-#: build/admin_quiz.js:11706
-#: build/admin_quiz.js:10221
-#: build/admin_quiz.js:10226
-msgid "Statistic IP Lock"
-msgstr ""
-
-#: build/admin_quiz.js:11729
-#: build/admin_quiz.js:11734
-#: build/admin_quiz.js:10253
-#: build/admin_quiz.js:10257
-msgid "Save statistic no. of times"
-msgstr ""
-
-#: build/admin_quiz.js:11759
-#: build/admin_quiz.js:10289
-msgid "Result Options"
-msgstr ""
-
-#: build/admin_quiz.js:11767
-#: build/admin_quiz.js:10298
-msgid "Hide Result"
-msgstr ""
-
-#: build/admin_quiz.js:11789
-#: build/admin_quiz.js:10324
-msgid "Hide Negative Marks"
-msgstr ""
-
-#: build/admin_quiz.js:11803
-#: build/admin_quiz.js:10347
-msgid "Hide Quiz Time"
-msgstr ""
-
-#: build/admin_quiz.js:11821
-#: build/admin_quiz.js:10371
-msgid "Show Speed"
-msgstr ""
-
-#: build/admin_quiz.js:11839
-#: build/admin_quiz.js:10396
-msgid "Show Percentile"
-msgstr ""
-
-#: build/admin_quiz.js:11857
-#: build/admin_quiz.js:10421
-msgid "Show Accuracy %"
-msgstr ""
-
-#: build/admin_quiz.js:11875
-#: build/admin_quiz.js:10445
-msgid "Show Average Score"
-msgstr ""
-
-#: build/admin_quiz.js:11893
-#: build/admin_quiz.js:10470
-msgid "Show Subject Wise Analysis"
-msgstr ""
-
-#: build/admin_quiz.js:11916
-#: build/admin_quiz.js:10502
-msgid "Show Status Based On Min % (Pass/Fail)"
-msgstr ""
-
-#: build/admin_quiz.js:11934
-#: build/admin_quiz.js:11941
-#: build/admin_quiz.js:10530
-#: build/admin_quiz.js:10536
-msgid "Minimum % to pass"
-msgstr ""
-
-#: build/admin_quiz.js:11964
-#: build/admin_quiz.js:10569
-msgid "Answer Sheet Options"
-msgstr ""
-
-#: build/admin_quiz.js:11972
-#: build/admin_quiz.js:10583
-msgid "Hide Answer Sheet"
-msgstr ""
-
-#: build/admin_quiz.js:11990
-#: build/admin_quiz.js:10606
-msgid "Show Per Question Time"
-msgstr ""
-
-#: build/admin_quiz.js:12010
-#: build/admin_quiz.js:10637
-msgid "Leaderboard Options"
-msgstr ""
-
-#: build/admin_quiz.js:12047
-#: build/admin_quiz.js:12050
-#: build/admin_quiz.js:10691
-#: build/admin_quiz.js:10695
-msgid "Total number of enteries"
-msgstr ""
-
-#: build/admin_quiz.js:12071
-#: build/admin_quiz.js:10720
-msgid "Show Rank"
-msgstr ""
-
-#: build/admin_quiz.js:12089
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:41
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:41
-#: build/front.js:13087
-#: build/front.js:20540
-#: build/admin_quiz.js:10740
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:19
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:19
-#: build/front.js:10253
-#: build/front.js:16374
-msgid "Result comparison with topper"
-msgstr ""
-
-#: build/admin_quiz.js:12107
-#: build/admin_quiz.js:10766
-msgid "User can apply multiple times"
-msgstr ""
-
-#: build/admin_quiz.js:12125
-#: build/admin_quiz.js:10793
-msgid "Number of times"
-msgstr ""
-
-#: build/admin_quiz.js:12132
-#: build/admin_quiz.js:10799
-msgid "Number of times (0 -> Infinity)"
-msgstr ""
-
-#: build/admin_quiz.js:12153
-#: build/admin_quiz.js:10833
-msgid "Automatically display leaderboard in quiz result"
-msgstr ""
-
-#: build/admin_quiz.js:12173
-#: build/admin_quiz.js:10856
-msgid "don't display"
-msgstr ""
-
-#: build/admin_quiz.js:12184
-#: build/admin_quiz.js:10871
-msgid "below the result"
-msgstr ""
-
-#: build/admin_quiz.js:12195
-#: build/admin_quiz.js:10886
-msgid "in the button"
-msgstr ""
-
-#: build/admin_quiz.js:12210
-#: build/admin_quiz.js:12345
-#: build/admin_quiz.js:10910
-#: build/admin_quiz.js:11086
-msgid "Result Text"
-msgstr ""
-
-#: build/admin_quiz.js:12218
-#: build/admin_quiz.js:10923
-msgid "% Based Result Text"
-msgstr ""
-
-#: build/admin_quiz.js:12258
-#: build/admin_quiz.js:10966
-msgid "Percentage (>=)"
-msgstr ""
-
-#: build/admin_quiz.js:12281
-#: build/admin_quiz.js:10992
-msgid "% text"
-msgstr ""
-
-#: build/admin_quiz.js:17145
-#: build/admin_quiz.js:14344
-msgid "Paragraphs deleted successfully"
-msgstr ""
-
-#: build/admin_quiz.js:17342
-#: build/admin_quiz.js:14440
-msgid "Question successfully deleted."
-msgstr ""
-
-#: build/admin_quiz.js:17365
-#: build/admin_quiz.js:14460
-msgid "Subject and points updated successfully."
-msgstr ""
-
-#: build/admin_quiz.js:17410
-#: build/admin_quiz.js:14500
-msgid "Questions deleted successfully"
-msgstr ""
-
-#: build/admin_quiz.js:17617
-#: build/admin_quiz.js:14595
-msgid "Quiz successfully deleted."
-msgstr ""
-
-#: build/admin_quiz.js:17645
-#: build/admin_quiz.js:14620
-msgid "Quizzes deleted successfully"
-msgstr ""
-
-#: build/admin_quiz.js:17668
-#: build/admin_setting.js:2281
-#: build/admin_quiz.js:14640
-#: build/admin_setting.js:2079
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
 msgid "Category updated successfully."
 msgstr ""
 
-#: build/admin_quiz.js:17854
-#: build/admin_quiz.js:14723
+#: build/admin_quiz.js:1
+msgid "Set Category"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Select Quiz Category"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Set Subject Wise Actions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Subject wise timing"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Subject wise specific number of questions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Time (in sec)"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Value should not be less than 0."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Value should not be more than"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "No. of questions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz successfully deleted."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete this quiz?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Mode"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Copy Shortcode"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Shortcode copied to clipboard!"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Failed to copy text: "
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Questions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Result"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Leaderboard"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Subject Wise Actions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Normal"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Check and continue"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question below each other"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Advance mode"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quizzes deleted successfully"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz Overview"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete these quizzes?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Please select any template"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Load Template"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz Title"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enter quiz title"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz Description"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable Back Button"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Check And Continue"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Check When Option Selected"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Skip Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question Below Each Other"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question per page"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz Option will only set as per the exam"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Advance Panel"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "IBPS"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "SSC"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "GATE"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "SBI"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "JEE"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Railway"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "General Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Quiz Title"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Restart Button"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Clear Response Button"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Review Button"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz Time Type"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Full Quiz"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Per Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz Timing"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Timing (in sec, 0 => infinite)"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Start date"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enter Start Date*"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "End date"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enter End Date"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Login Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable login/register"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Per User Allowed Attempt"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Sets allowed attempts (0 = unlimited); requires login at quiz start."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Advance Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Only Specific Number of Questions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Specific Number of Questions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable Check Button"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Marks"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show +point & -point"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Display Subject"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Answer Bullet"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Answer Bullet Type"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Numeric"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Alphabet"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question Overview"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Random Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Random Option"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Only for single and mulitple choice"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do not randomize last option"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Question Numbering"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Sort Questions By Subject"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Attempt & move forward automatically"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "This feature will only work for single choice questions in normal mode"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Force User to Answer Each Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Statistic Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Save Statistics"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Used to save statistic"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Statistic IP Lock"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Save statistic no. of times"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Result Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Result"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Negative Marks"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Quiz Time"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Speed"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Percentile"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Accuracy %"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Average Score"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Subject Wise Analysis"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Status Based On Min % (Pass/Fail)"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Minimum % to pass"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Answer Sheet Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Hide Answer Sheet"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Per Question Time"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Leaderboard Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Total number of enteries"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Show Rank"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Result comparison with topper"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "User can apply multiple times"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Number of times"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Number of times (0 -> Infinity)"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Automatically display leaderboard in quiz result"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "don't display"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "below the result"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "in the button"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Result Text"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "% Based Result Text"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Percentage (>=)"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "% text"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Add More"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Admin Email Notification"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable Admin Email Notification"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Student Email Notification"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable Student Email Notification"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "To"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "From"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Subject"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Message"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Allowed variables."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "User-ID"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Username"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Quiz-Name"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Result in percent"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Points"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "IP-address of the user"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Instruction Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Change Language:"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Instruction 1"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Instruction 2"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Term and condition"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Term and condition warning"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Template created successfully"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enter Template Name"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Save Template"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Would like to copy data"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Would you like to copy the default language's data, such as instructions, questions, and other relevant content, to the newly created language?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
+msgid "Save"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Language added successfully."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Something went wrong."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Default language updated successfully."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Please select language"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Language removed successfully."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Language Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Multi Language"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Select language"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Select Languages"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/admin_setting.js:1
+msgid "Set Default"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Default"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Acadlix <br/><br/>You have completed the quiz \"$quizname\".<br/><br/>Points: $points<br/>Result: $result"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Create Quiz"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Subject name is already exist"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Subject cannot be empty"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Subject and points updated successfully."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Set Subject and Points"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Select Subject"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "+ Point"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "- Point"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraph updated successfully."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Set Paragraph"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "The existing paragraph assigned to the question will be removed if no paragraph is selected before saving."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable Paragraph"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Select Paragraph"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question successfully deleted."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete this question?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Negative Points"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Edit Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Delete Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Single Choice"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Multiple Choice"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "True False"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Sorting Choice"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Matrix Sorting Choice"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Fill in the blank"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Numerical"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Range Type"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraph"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Questions deleted successfully"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Import from .docx"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete these questions?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Fill in the Blank"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Required"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Range From"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Must be greater than from"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Range To"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "True/False"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Please set atleast one correct option"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enter number"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Please set at least one correct option"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Correct"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Option is required"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Option"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Criteria"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Sort Element"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Language"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid " (default)"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question Title"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Question is required"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Explanation"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Different Explanation for correct and incorrect answer?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Explanation for correct answer"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Explanation for incorrect answer"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Hint"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Enable Hint"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Answer Type"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraph Options"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Create Question"
+msgstr ""
+
+#: build/admin_quiz.js:1
 msgid "Statistic successfully reset."
 msgstr ""
 
-#: build/admin_quiz.js:17881
-#: build/admin_quiz.js:14747
+#: build/admin_quiz.js:1
 msgid "Result successfully deleted."
 msgstr ""
 
-#: build/admin_setting.js:247
-#: build/admin_setting.js:162
-msgid "Settings saved successfully."
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete this result?"
 msgstr ""
 
-#: build/admin_setting.js:289
-#: build/admin_setting.js:192
-msgid "Notification"
+#: build/admin_quiz.js:1
+msgid "Name / Username"
 msgstr ""
 
-#: build/admin_setting.js:292
-#: build/admin_setting.js:193
-msgid "Permalink"
+#: build/admin_quiz.js:1
+msgid "Date/Time"
 msgstr ""
 
-#: build/admin_setting.js:295
-#: build/admin_setting.js:194
-msgid "Quiz"
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Score"
 msgstr ""
 
-#: build/admin_setting.js:298
-#: build/admin_setting.js:195
-msgid "License"
+#: build/admin_quiz.js:1
+msgid "Percentage"
 msgstr ""
 
-#: build/admin_setting.js:443
-#: build/admin_setting.js:285
+#: build/admin_quiz.js:1
+msgid "View Answersheet"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to reset this statistic?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Reset Statistics"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Qs:"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Questions:"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Pass:"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Fail:"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Total Attempt:"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Incorrect"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Skippeds"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "AnswerSheet"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to reset this leaderboard?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Reset Leaderboard"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Load More"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete this paragraph?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Content"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "No. of assigned questions"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Delete Paragraph"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraphs deleted successfully"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraph Overview"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Do you really want to delete these paragraphs?"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Change Language"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Content is required"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraph Title"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Paragraph created successfully."
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Create Paragraph"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Skipped"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Point"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "s"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Remove from review"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Mark as review"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Your answer"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Correct answer"
+msgstr ""
+
+#: build/admin_quiz.js:1
+#: build/front.js:1
+msgid "Type your answer"
+msgstr ""
+
+#: build/admin_setting.js:1
 msgid "Page Setup"
 msgstr ""
 
-#: build/admin_setting.js:459
-#: build/admin_setting.js:302
+#: build/admin_setting.js:1
 msgid "All courses page"
 msgstr ""
 
-#: build/admin_setting.js:503
-#: build/admin_setting.js:574
-#: build/admin_setting.js:645
-#: build/admin_setting.js:716
-#: build/admin_setting.js:787
-#: build/admin_setting.js:858
-#: build/admin_setting.js:364
-#: build/admin_setting.js:462
-#: build/admin_setting.js:559
-#: build/admin_setting.js:656
-#: build/admin_setting.js:753
-#: build/admin_setting.js:850
+#: build/admin_setting.js:1
 msgid "Title cannot be empty."
 msgstr ""
 
-#: build/admin_setting.js:530
-#: build/admin_setting.js:399
+#: build/admin_setting.js:1
 msgid "Student dashboard page"
 msgstr ""
 
-#: build/admin_setting.js:601
-#: build/admin_setting.js:497
+#: build/admin_setting.js:1
 msgid "Advance quiz page"
 msgstr ""
 
-#: build/admin_setting.js:672
-#: build/admin_setting.js:594
+#: build/admin_setting.js:1
 msgid "Cart page"
 msgstr ""
 
-#: build/admin_setting.js:743
-#: build/admin_setting.js:691
+#: build/admin_setting.js:1
 msgid "Checkout page"
 msgstr ""
 
-#: build/admin_setting.js:814
-#: build/admin_setting.js:788
+#: build/admin_setting.js:1
 msgid "Thankyou page"
 msgstr ""
 
-#: build/admin_setting.js:881
-#: build/admin_setting.js:885
+#: build/admin_setting.js:1
 msgid "Course Options"
 msgstr ""
 
-#: build/admin_setting.js:897
-#: build/admin_setting.js:902
+#: build/admin_setting.js:1
 msgid "No. of courses per page"
 msgstr ""
 
-#: build/admin_setting.js:922
-#: build/admin_setting.js:927
+#: build/admin_setting.js:1
 msgid "One Click Checkout"
 msgstr ""
 
-#: build/admin_setting.js:949
-#: build/admin_setting.js:954
+#: build/admin_setting.js:1
 msgid "Admin Auto Registration To Courses"
 msgstr ""
 
-#: build/admin_setting.js:976
-#: build/admin_setting.js:981
+#: build/admin_setting.js:1
 msgid "Admin Can Assign Courses To Student"
 msgstr ""
 
-#: build/admin_setting.js:1003
-#: build/admin_setting.js:1010
+#: build/admin_setting.js:1
 msgid "Admin Can Remove Student From Course"
 msgstr ""
 
-#: build/admin_setting.js:1026
-#: build/admin_setting.js:1039
+#: build/admin_setting.js:1
 msgid "Currency Options"
 msgstr ""
 
-#: build/admin_setting.js:1042
-#: build/admin_setting.js:1056
+#: build/admin_setting.js:1
 msgid "Currency"
 msgstr ""
 
-#: build/admin_setting.js:1076
-#: build/admin_setting.js:1103
+#: build/admin_setting.js:1
 msgid "Currency position"
 msgstr ""
 
-#: build/admin_setting.js:1107
-#: build/admin_setting.js:1139
+#: build/admin_setting.js:1
 msgid "Thousand separator"
 msgstr ""
 
-#: build/admin_setting.js:1132
-#: build/admin_setting.js:1162
+#: build/admin_setting.js:1
 msgid "Decimal separator"
 msgstr ""
 
-#: build/admin_setting.js:1157
-#: build/admin_setting.js:1185
+#: build/admin_setting.js:1
 msgid "The number of decimals"
 msgstr ""
 
-#: build/admin_setting.js:1252
-#: build/admin_setting.js:1225
-msgid "License Settings"
-msgstr ""
-
-#: build/admin_setting.js:1268
-#: build/admin_setting.js:1242
-msgid "Enter your email id"
-msgstr ""
-
-#: build/admin_setting.js:1292
-#: build/admin_setting.js:1264
-msgid "Enter your license key"
-msgstr ""
-
-#: build/admin_setting.js:1394
-#: build/admin_setting.js:1309
-msgid "Email Settings"
-msgstr ""
-
-#: build/admin_setting.js:1409
-#: build/admin_setting.js:1326
-msgid "Notify Course Purchase To"
-msgstr ""
-
-#: build/admin_setting.js:1415
-#: build/admin_setting.js:1456
-#: build/admin_setting.js:1497
-#: build/admin_setting.js:1332
-#: build/admin_setting.js:1380
-#: build/admin_setting.js:1428
-msgid "Student"
-msgstr ""
-
-#: build/admin_setting.js:1431
-#: build/admin_setting.js:1472
-#: build/admin_setting.js:1513
-#: build/admin_setting.js:1351
-#: build/admin_setting.js:1399
-#: build/admin_setting.js:1447
-msgid "Admin"
-msgstr ""
-
-#: build/admin_setting.js:1450
-#: build/admin_setting.js:1374
-msgid "Notify Course Completion To"
-msgstr ""
-
-#: build/admin_setting.js:1491
-#: build/admin_setting.js:1422
-msgid "Notify Failed Transaction To"
-msgstr ""
-
-#: build/admin_setting.js:1581
-#: build/admin_setting.js:1518
-msgid "Send"
-msgstr ""
-
-#: build/admin_setting.js:1684
-#: build/admin_setting.js:1560
+#: build/admin_setting.js:1
 msgid "Payment Gateway"
 msgstr ""
 
-#: build/admin_setting.js:1696
-#: build/admin_setting.js:1573
+#: build/admin_setting.js:1
 msgid "RazorPay"
 msgstr ""
 
-#: build/admin_setting.js:1714
-#: build/admin_setting.js:1590
+#: build/admin_setting.js:1
 msgid "RazorPay Client ID"
 msgstr ""
 
-#: build/admin_setting.js:1743
-#: build/admin_setting.js:1622
+#: build/admin_setting.js:1
 msgid "RazorPay Secret Key"
 msgstr ""
 
-#: build/admin_setting.js:1774
-#: build/admin_setting.js:1654
+#: build/admin_setting.js:1
 msgid "PayPal"
 msgstr ""
 
-#: build/admin_setting.js:1792
-#: build/admin_setting.js:1671
+#: build/admin_setting.js:1
 msgid "PayPal Client ID"
 msgstr ""
 
-#: build/admin_setting.js:1821
-#: build/admin_setting.js:1703
+#: build/admin_setting.js:1
 msgid "PayPal Secret Key"
 msgstr ""
 
-#: build/admin_setting.js:1848
-#: build/admin_setting.js:1938
-#: build/admin_setting.js:1733
-#: build/admin_setting.js:1835
+#: build/admin_setting.js:1
 msgid "Sandbox"
 msgstr ""
 
-#: build/admin_setting.js:1864
-#: build/front_checkout.js:1565
-#: build/admin_setting.js:1748
-#: build/front_checkout.js:1432
+#: build/admin_setting.js:1
+#: build/front_checkout.js:1
 msgid "PayU"
 msgstr ""
 
-#: build/admin_setting.js:1882
-#: build/admin_setting.js:1769
+#: build/admin_setting.js:1
 msgid "PayU Merchant Key"
 msgstr ""
 
-#: build/admin_setting.js:1911
-#: build/admin_setting.js:1801
+#: build/admin_setting.js:1
 msgid "PayU Salt"
 msgstr ""
 
-#: build/admin_setting.js:2027
-#: build/admin_setting.js:1889
+#: build/admin_setting.js:1
+msgid "Email Settings"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Notify Course Purchase To"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Student"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Admin"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Notify Course Completion To"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Notify Failed Transaction To"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "License Settings"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Enter your email id"
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Enter your license key"
+msgstr ""
+
+#: build/admin_setting.js:1
 msgid "Course Permalink"
 msgstr ""
 
-#: build/admin_setting.js:2043
-#: build/admin_setting.js:1906
+#: build/admin_setting.js:1
 msgid "Course base"
 msgstr ""
 
-#: build/admin_setting.js:2067
-#: build/admin_setting.js:1928
+#: build/admin_setting.js:1
 msgid "Category base"
 msgstr ""
 
-#: build/admin_setting.js:2091
-#: build/admin_setting.js:1950
+#: build/admin_setting.js:1
 msgid "Tag base"
 msgstr ""
 
-#: build/admin_setting.js:2240
-#: build/admin_setting.js:2263
-#: build/admin_setting.js:2032
-#: build/admin_setting.js:2058
-msgid "Please enter category name."
-msgstr ""
-
-#: build/admin_setting.js:2244
-#: build/admin_setting.js:2267
-#: build/admin_setting.js:2037
-#: build/admin_setting.js:2063
-msgid "Category name is already exist."
-msgstr ""
-
-#: build/admin_setting.js:2253
-#: build/admin_setting.js:2047
-msgid "Category added successfully."
-msgstr ""
-
-#: build/admin_setting.js:2271
-#: build/admin_setting.js:2291
-#: build/admin_setting.js:2068
-#: build/admin_setting.js:2090
-msgid "Please select category."
-msgstr ""
-
-#: build/admin_setting.js:2294
-#: build/admin_setting.js:2094
-msgid "Do you really want to delete this category?"
-msgstr ""
-
-#: build/admin_setting.js:2300
-#: build/admin_setting.js:2100
-msgid "Category deleted successfully."
-msgstr ""
-
-#: build/admin_setting.js:2338
-#: build/admin_setting.js:2356
-#: build/admin_setting.js:2135
-#: build/admin_setting.js:2164
+#: build/admin_setting.js:1
 msgid "Select Category"
 msgstr ""
 
-#: build/admin_setting.js:2346
-#: build/admin_setting.js:2529
-#: build/admin_setting.js:2152
-#: build/admin_setting.js:2388
+#: build/admin_setting.js:1
 msgid " (Default)"
 msgstr ""
 
-#: build/admin_setting.js:2376
-#: build/admin_setting.js:2194
+#: build/admin_setting.js:1
 msgid "Add Category"
 msgstr ""
 
-#: build/admin_setting.js:2376
-#: build/admin_setting.js:2198
+#: build/admin_setting.js:1
 msgid "Edit Category"
 msgstr ""
 
-#: build/admin_setting.js:2376
-#: build/admin_setting.js:2199
+#: build/admin_setting.js:1
 msgid "Edit/Delete Category"
 msgstr ""
 
-#: build/admin_setting.js:2389
-#: build/admin_setting.js:2212
+#: build/admin_setting.js:1
 msgid "Enter category name"
 msgstr ""
 
-#: build/admin_setting.js:2406
-#: build/admin_setting.js:2589
-#: build/admin_setting.js:2237
-#: build/admin_setting.js:2469
+#: build/admin_setting.js:1
+msgid "Category name is already exist."
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Category added successfully."
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Please enter category name."
+msgstr ""
+
+#: build/admin_setting.js:1
+msgid "Please select category."
+msgstr ""
+
+#: build/admin_setting.js:1
 msgid "Update"
 msgstr ""
 
-#: build/admin_setting.js:2423
-#: build/admin_setting.js:2446
-#: build/admin_setting.js:2267
-#: build/admin_setting.js:2293
-msgid "Please enter language name."
+#: build/admin_setting.js:1
+msgid "Do you really want to delete this category?"
 msgstr ""
 
-#: build/admin_setting.js:2427
-#: build/admin_setting.js:2450
-#: build/admin_setting.js:2272
-#: build/admin_setting.js:2298
-msgid "Language name is already exist."
+#: build/admin_setting.js:1
+msgid "Category deleted successfully."
 msgstr ""
 
-#: build/admin_setting.js:2436
-#: build/admin_setting.js:2282
-msgid "Langauge added successfully."
-msgstr ""
-
-#: build/admin_setting.js:2454
-#: build/admin_setting.js:2474
-#: build/admin_setting.js:2303
-#: build/admin_setting.js:2325
-msgid "Please select language."
-msgstr ""
-
-#: build/admin_setting.js:2464
-#: build/admin_setting.js:2314
-msgid "Language updated successfully."
-msgstr ""
-
-#: build/admin_setting.js:2477
-#: build/admin_setting.js:2329
-msgid "Are you sure you want to switch the default language?"
-msgstr ""
-
-#: build/admin_setting.js:2483
-#: build/admin_setting.js:2335
-msgid "Language set to default."
-msgstr ""
-
-#: build/admin_setting.js:2521
-#: build/admin_setting.js:2539
-#: build/admin_setting.js:2371
-#: build/admin_setting.js:2400
+#: build/admin_setting.js:1
 msgid "Select Language"
 msgstr ""
 
-#: build/admin_setting.js:2559
-#: build/admin_setting.js:2430
+#: build/admin_setting.js:1
 msgid "Add Language"
 msgstr ""
 
-#: build/admin_setting.js:2559
-#: build/admin_setting.js:2431
+#: build/admin_setting.js:1
 msgid "Edit Language"
 msgstr ""
 
-#: build/admin_setting.js:2572
-#: build/admin_setting.js:2444
+#: build/admin_setting.js:1
 msgid "Enter language name"
 msgstr ""
 
-#: build/front.0b6c10ad5949baa109a5.hot-update.js:87
-#: build/front.js:10973
-#: build/front.0b6c10ad5949baa109a5.hot-update.js:70
-#: build/front.js:8561
-msgid "View Instruction"
+#: build/admin_setting.js:1
+msgid "Language name is already exist."
 msgstr ""
 
-#: build/front.0d628f0fa081012d1ff0.hot-update.js:56
-#: build/front.b914cf270fa847e8f52d.hot-update.js:61
-#: build/front.js:8495
-#: build/front.js:10811
-#: build/front.js:11268
-#: build/front.0d628f0fa081012d1ff0.hot-update.js:32
-#: build/front.b914cf270fa847e8f52d.hot-update.js:53
-#: build/front.js:6583
-#: build/front.js:8435
-#: build/front.js:8801
-msgid "Sections"
+#: build/admin_setting.js:1
+msgid "Langauge added successfully."
 msgstr ""
 
-#: build/front.0d628f0fa081012d1ff0.hot-update.js:92
-#: build/front.b914cf270fa847e8f52d.hot-update.js:128
-#: build/front.js:8557
-#: build/front.js:10847
-#: build/front.js:11335
-#: build/front.0d628f0fa081012d1ff0.hot-update.js:76
-#: build/front.b914cf270fa847e8f52d.hot-update.js:127
-#: build/front.js:6655
-#: build/front.js:8479
-#: build/front.js:8875
-msgid "Time Left:"
+#: build/admin_setting.js:1
+msgid "Please enter language name."
 msgstr ""
 
-#: build/front.025ceb7faf866ed33ff3.hot-update.js:89
-#: build/front.4cac505fb74a0f0a8b4d.hot-update.js:89
-#: build/front.88bcef17b4929fdcd5dc.hot-update.js:89
-#: build/front.ca7af2ff026563ad179d.hot-update.js:89
-#: build/front.e301655234d1b67176f3.hot-update.js:89
-#: build/front.js:12751
-#: build/front.025ceb7faf866ed33ff3.hot-update.js:68
-#: build/front.4cac505fb74a0f0a8b4d.hot-update.js:68
-#: build/front.88bcef17b4929fdcd5dc.hot-update.js:68
-#: build/front.ca7af2ff026563ad179d.hot-update.js:68
-#: build/front.e301655234d1b67176f3.hot-update.js:68
-#: build/front.js:9988
-msgid "You have Completed "
+#: build/admin_setting.js:1
+msgid "Language updated successfully."
 msgstr ""
 
-#: build/front.043e849d6e38cb1e8f1a.hot-update.js:107
-#: build/front.a7e855ce4d8aa004882e.hot-update.js:81
-#: build/front.js:19712
-#: build/front.js:21447
-#: build/front.043e849d6e38cb1e8f1a.hot-update.js:94
-#: build/front.a7e855ce4d8aa004882e.hot-update.js:56
-#: build/front.js:15707
-#: build/front.js:17077
-msgid "Time Limit"
+#: build/admin_setting.js:1
+msgid "Please select language."
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:119
-#: build/front.js:15735
-#: build/front.1d14a25693dbf37c4189.hot-update.js:111
-#: build/front.js:12431
-msgid "Exam Summary"
+#: build/admin_setting.js:1
+msgid "Are you sure you want to switch the default language?"
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.1d14a25693dbf37c4189.hot-update.js:119
-#: build/front.js:8994
-#: build/front.js:9425
-#: build/front.js:12439
-msgid "Name of the Section"
+#: build/admin_setting.js:1
+msgid "Language set to default."
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.1d14a25693dbf37c4189.hot-update.js:120
-#: build/front.js:8995
-#: build/front.js:9426
-#: build/front.js:12440
-msgid "No. of Question"
+#: build/admin_setting.js:1
+msgid "Settings saved successfully."
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.4b9550e74d571f43d869.hot-update.js:135
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:153
-#: build/front.js:8188
-#: build/front.js:10247
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.js:16952
-#: build/front.js:19914
-#: build/front.1d14a25693dbf37c4189.hot-update.js:121
-#: build/front.4b9550e74d571f43d869.hot-update.js:146
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:173
-#: build/front.js:6321
-#: build/front.js:8008
-#: build/front.js:8996
-#: build/front.js:9427
-#: build/front.js:12441
-#: build/front.js:13528
-#: build/front.js:15902
-msgid "Answered"
+#: build/admin_setting.js:1
+msgid "Notification"
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.4b9550e74d571f43d869.hot-update.js:117
-#: build/front.js:8202
-#: build/front.js:10258
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.js:16934
-#: build/front.1d14a25693dbf37c4189.hot-update.js:122
-#: build/front.4b9550e74d571f43d869.hot-update.js:115
-#: build/front.js:6345
-#: build/front.js:8029
-#: build/front.js:8997
-#: build/front.js:9428
-#: build/front.js:12442
-#: build/front.js:13497
-msgid "Not Answered"
+#: build/admin_setting.js:1
+msgid "Permalink"
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.4b9550e74d571f43d869.hot-update.js:146
-#: build/front.js:8228
-#: build/front.js:10286
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.js:16963
-#: build/front.1d14a25693dbf37c4189.hot-update.js:123
-#: build/front.4b9550e74d571f43d869.hot-update.js:164
-#: build/front.js:6383
-#: build/front.js:8073
-#: build/front.js:8999
-#: build/front.js:9430
-#: build/front.js:12443
-#: build/front.js:13546
-msgid "Marked for Review"
+#: build/admin_setting.js:1
+msgid "Quiz"
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.1d14a25693dbf37c4189.hot-update.js:124
-#: build/front.js:9000
-#: build/front.js:9431
-#: build/front.js:12444
-msgid "Answered and Marked for Review"
+#: build/admin_setting.js:1
+msgid "License"
 msgstr ""
 
-#: build/front.1d14a25693dbf37c4189.hot-update.js:125
-#: build/front.4b9550e74d571f43d869.hot-update.js:106
-#: build/front.js:8215
-#: build/front.js:10275
-#: build/front.js:11492
-#: build/front.js:12037
-#: build/front.js:15741
-#: build/front.js:16923
-#: build/front.4b9550e74d571f43d869.hot-update.js:92
-#: build/front.js:6364
-#: build/front.js:8054
-#: build/front.js:8998
-#: build/front.js:9429
-#: build/front.js:12445
-#: build/front.js:13474
-msgid "Not Visited"
-msgstr ""
-
-#: build/front.1d14a25693dbf37c4189.hot-update.js:142
-#: build/front.js:15758
-#: build/front.1d14a25693dbf37c4189.hot-update.js:178
-#: build/front.js:12498
-msgid "Are you sure you want to submit for final marking?"
-msgstr ""
-
-#: build/front.1d14a25693dbf37c4189.hot-update.js:147
-#: build/front.js:15763
-#: build/front.1d14a25693dbf37c4189.hot-update.js:186
-#: build/front.js:12506
-msgid "No changes will be allowed after submission."
-msgstr ""
-
-#: build/front.1d14a25693dbf37c4189.hot-update.js:167
-#: build/front.js:15783
-#: build/front.1d14a25693dbf37c4189.hot-update.js:211
-#: build/front.js:12531
-msgid "YES"
-msgstr ""
-
-#: build/front.1d14a25693dbf37c4189.hot-update.js:182
-#: build/front.js:15798
-#: build/front.1d14a25693dbf37c4189.hot-update.js:229
-#: build/front.js:12549
-msgid "NO"
-msgstr ""
-
-#: build/front.4b9550e74d571f43d869.hot-update.js:164
-#: build/front.js:10303
-#: build/front.js:16981
-#: build/front.4b9550e74d571f43d869.hot-update.js:192
-#: build/front.js:8103
-#: build/front.js:13574
-msgid "Answered and Marked for Review (will be considered for evaluation)"
-msgstr ""
-
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:36
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:105
-#: build/front.js:15407
-#: build/front.js:15476
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:15
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:108
-#: build/front.js:12095
-#: build/front.js:12188
-msgid "Please choose an option."
-msgstr ""
-
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:143
-#: build/front.js:15514
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:153
-#: build/front.js:12233
-msgid "SAVE & NEXT"
-msgstr ""
-
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:165
-#: build/front.js:15536
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:179
-#: build/front.js:12259
-msgid "CLEAR"
-msgstr ""
-
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:187
-#: build/front.js:15558
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:206
-#: build/front.js:12286
-msgid "SAVE & MARK FOR REVIEW"
-msgstr ""
-
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:209
-#: build/front.js:15580
-#: build/front.5b28dcd51de322cb53c9.hot-update.js:233
-#: build/front.js:12313
-msgid "MARK FOR REVIEW & NEXT"
-msgstr ""
-
-#: build/front.5c86692de34b9adb700e.hot-update.js:93
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:118
-#: build/front.724319bb8854d57e78f9.hot-update.js:93
-#: build/front.js:13591
-#: build/front.js:20617
-#: build/front.js:21282
-#: build/front.5c86692de34b9adb700e.hot-update.js:72
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:100
-#: build/front.724319bb8854d57e78f9.hot-update.js:72
-#: build/front.js:10652
-#: build/front.js:16455
-#: build/front.js:16960
-msgid "Time"
-msgstr ""
-
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:168
-#: build/front.js:19543
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:193
-#: build/front.js:15533
-msgid "Skip"
-msgstr ""
-
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:173
-#: build/front.js:8909
-#: build/front.js:19548
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:203
-#: build/front.js:7036
-#: build/front.js:15543
-msgid "Clear Response"
-msgstr ""
-
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:182
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:187
-#: build/front.js:19557
-#: build/front.js:19562
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:224
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:240
-#: build/front.js:15564
-#: build/front.js:15580
-msgid "Check"
-msgstr ""
-
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:192
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:194
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:185
-#: build/front.js:19567
-#: build/front.js:19569
-#: build/front.js:19946
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:255
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:264
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:217
-#: build/front.js:15595
-#: build/front.js:15604
-#: build/front.js:15946
-msgid "Quiz Summary"
-msgstr ""
-
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:192
-#: build/front.580e981cc69207af55e4.hot-update.js:60
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:311
-#: build/front.f645ee1164a1b54570a5.hot-update.js:337
-#: build/front.js:14012
-#: build/front.js:19567
-#: build/front.js:20045
-#: build/front.js:21807
-#: build/front.6c4afb645a82081eb0f0.hot-update.js:255
-#: build/front.580e981cc69207af55e4.hot-update.js:42
-#: build/front.bb3b2ae763d496c5680f.hot-update.js:359
-#: build/front.f645ee1164a1b54570a5.hot-update.js:397
-#: build/front.js:11110
-#: build/front.js:15595
-#: build/front.js:15996
-#: build/front.js:17461
-msgid "Next"
-msgstr ""
-
-#: build/front.6d46971283ca50831c2c.hot-update.js:147
-#: build/front.js:15186
-#: build/front.6d46971283ca50831c2c.hot-update.js:119
-#: build/front.js:11951
-msgid "PROCEED"
-msgstr ""
-
-#: build/front.50b7d067b5598f8d60ad.hot-update.js:101
-#: build/front.d73836e137ed8cc4ebab.hot-update.js:104
-#: build/front.js:18830
-#: build/front.50b7d067b5598f8d60ad.hot-update.js:69
-#: build/front.d73836e137ed8cc4ebab.hot-update.js:70
-#: build/front.js:14925
-msgid "Go to First Question"
-msgstr ""
-
-#: build/front.50b7d067b5598f8d60ad.hot-update.js:104
-#: build/front.d73836e137ed8cc4ebab.hot-update.js:107
-#: build/front.js:18833
-#: build/front.50b7d067b5598f8d60ad.hot-update.js:73
-#: build/front.d73836e137ed8cc4ebab.hot-update.js:74
-#: build/front.js:14929
-msgid "Finish Quiz"
-msgstr ""
-
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:93
-#: build/front.js:17639
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:81
-#: build/front.js:14021
-msgid "Candidate Name"
-msgstr ""
-
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:110
-#: build/front.js:17656
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:109
-#: build/front.js:14049
-msgid "Exam Name"
-msgstr ""
-
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:127
-#: build/front.js:17673
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:137
-#: build/front.js:14077
-msgid "Subject Name"
-msgstr ""
-
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:144
-#: build/front.js:17690
-#: build/front.55d7088cdbbde7dde81c.hot-update.js:168
-#: build/front.js:14108
-msgid "Remaining Time"
-msgstr ""
-
-#: build/front.57cd6b14b33574656066.hot-update.js:61
-#: build/front.58adc17a7d9fa88d96ce.hot-update.js:61
-#: build/front.js:14154
-#: build/front.js:21949
-#: build/front.57cd6b14b33574656066.hot-update.js:39
-#: build/front.58adc17a7d9fa88d96ce.hot-update.js:38
-#: build/front.js:11258
-#: build/front.js:17605
-msgid "Restart Quiz"
-msgstr ""
-
-#: build/front.57cd6b14b33574656066.hot-update.js:63
-#: build/front.58adc17a7d9fa88d96ce.hot-update.js:63
-#: build/front.js:14156
-#: build/front.js:21951
-#: build/front.57cd6b14b33574656066.hot-update.js:43
-#: build/front.58adc17a7d9fa88d96ce.hot-update.js:42
-#: build/front.js:11262
-#: build/front.js:17609
-msgid "View Answer"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:72
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:72
-#: build/front.js:13118
-#: build/front.js:20571
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:49
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:49
-#: build/front.js:10283
-#: build/front.js:16404
+#: build/front.js:1
 msgid "You"
 msgstr ""
 
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:76
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:76
-#: build/front.js:13122
-#: build/front.js:20575
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:54
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:54
-#: build/front.js:10288
-#: build/front.js:16409
+#: build/front.js:1
 msgid "Topper"
 msgstr ""
 
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:93
-#: build/front.js:13139
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:73
-#: build/front.js:10307
-msgid "Name:"
+#: build/front.js:1
+msgid "Time"
 msgstr ""
 
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:118
-#: build/front.js:13164
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:100
-#: build/front.js:10334
-msgid "Time:"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:143
-#: build/front.js:13189
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:129
-#: build/front.js:10363
-msgid "Points:"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:168
-#: build/front.js:13214
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:155
-#: build/front.js:10389
-msgid "Result:"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:193
-#: build/front.js:13239
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:184
-#: build/front.js:10418
-msgid "Accuracy:"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:221
-#: build/front.js:13267
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:222
-#: build/front.js:10456
-msgid "Status:"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:225
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:225
-#: build/front.c647f2b7b566065686ba.hot-update.js:192
-#: build/front.ca7af2ff026563ad179d.hot-update.js:208
-#: build/front.js:12870
-#: build/front.js:13271
-#: build/front.js:20724
-#: build/front.js:20956
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:227
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:227
-#: build/front.c647f2b7b566065686ba.hot-update.js:153
-#: build/front.ca7af2ff026563ad179d.hot-update.js:173
-#: build/front.js:10093
-#: build/front.js:10461
-#: build/front.js:16582
-#: build/front.js:16754
-msgid "Pass"
-msgstr ""
-
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:225
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:225
-#: build/front.c647f2b7b566065686ba.hot-update.js:192
-#: build/front.ca7af2ff026563ad179d.hot-update.js:208
-#: build/front.js:12870
-#: build/front.js:13271
-#: build/front.js:20724
-#: build/front.js:20956
-#: build/front.74bc2db24b11ab6c3c8e.hot-update.js:228
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:228
-#: build/front.c647f2b7b566065686ba.hot-update.js:154
-#: build/front.ca7af2ff026563ad179d.hot-update.js:174
-#: build/front.js:10094
-#: build/front.js:10462
-#: build/front.js:16583
-#: build/front.js:16755
-msgid "Fail"
-msgstr ""
-
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:193
-#: build/front.c647f2b7b566065686ba.hot-update.js:215
-#: build/front.ca7af2ff026563ad179d.hot-update.js:235
-#: build/front.js:12897
-#: build/front.js:20692
-#: build/front.js:20979
-#: build/front.91a684d15ac32a69d8e4.hot-update.js:184
-#: build/front.c647f2b7b566065686ba.hot-update.js:169
-#: build/front.ca7af2ff026563ad179d.hot-update.js:198
-#: build/front.js:10118
-#: build/front.js:16539
-#: build/front.js:16770
+#: build/front.js:1
 msgid "Accuracy"
 msgstr ""
 
-#: build/front.357aad38a70a11f61638.hot-update.js:71
-#: build/front.js:15001
-#: build/front.357aad38a70a11f61638.hot-update.js:54
-#: build/front.js:11817
-msgid "GENERAL INSTRUCTION"
+#: build/front.js:1
+msgid "Pass"
 msgstr ""
 
-#: build/front.357aad38a70a11f61638.hot-update.js:71
-#: build/front.js:15001
-#: build/front.357aad38a70a11f61638.hot-update.js:59
-#: build/front.js:11822
-msgid "Choose Your Default Language"
+#: build/front.js:1
+msgid "Fail"
 msgstr ""
 
-#: build/front.580e981cc69207af55e4.hot-update.js:59
-#: build/front.js:7112
-#: build/front.js:8935
-#: build/front.js:20044
-#: build/front.580e981cc69207af55e4.hot-update.js:41
-#: build/front.js:5718
-#: build/front.js:7069
-#: build/front.js:15995
-msgid "Previous"
-msgstr ""
-
-#: build/front.826e46d0a501328de598.hot-update.js:59
-#: build/front.f73eb03074d96044f91f.hot-update.js:59
-#: build/front.js:12617
-#: build/front.826e46d0a501328de598.hot-update.js:73
-#: build/front.f73eb03074d96044f91f.hot-update.js:73
-#: build/front.js:9881
-msgid "Review Question"
-msgstr ""
-
-#: build/front.826e46d0a501328de598.hot-update.js:68
-#: build/front.f73eb03074d96044f91f.hot-update.js:68
-#: build/front.js:12626
-#: build/front.826e46d0a501328de598.hot-update.js:92
-#: build/front.f73eb03074d96044f91f.hot-update.js:92
-#: build/front.js:9900
-msgid "Subject: "
-msgstr ""
-
-#: build/front.7261e005ad6e15e7e4e1.hot-update.js:407
-#: build/front.js:5461
-#: build/front.7261e005ad6e15e7e4e1.hot-update.js:410
-#: build/front.js:4607
-msgid "You are not allowed to access this page."
-msgstr ""
-
-#: build/front.114466e5439eac0d52fc.hot-update.js:60
-#: build/front.js:6232
-#: build/front.114466e5439eac0d52fc.hot-update.js:34
-#: build/front.js:5258
-msgid "Page Not Found"
-msgstr ""
-
-#: build/front.9518202de5999f005adc.hot-update.js:121
-#: build/front.fc06e6fa2b5454001dc5.hot-update.js:121
-#: build/front.js:18621
-#: build/front.9518202de5999f005adc.hot-update.js:95
-#: build/front.fc06e6fa2b5454001dc5.hot-update.js:95
-#: build/front.js:14753
-msgid "Oops! Something went wrong."
-msgstr ""
-
-#: build/front.9518202de5999f005adc.hot-update.js:173
-#: build/front.js:18673
-#: build/front.9518202de5999f005adc.hot-update.js:168
-#: build/front.js:14826
-msgid "Start Quiz"
-msgstr ""
-
-#: build/front.68800967e883d1b7f1cf.hot-update.js:59
-#: build/front.js:11883
-#: build/front.js:13370
-#: build/front.68800967e883d1b7f1cf.hot-update.js:34
-#: build/front.js:9319
-#: build/front.js:10514
-msgid "Close"
-msgstr ""
-
-#: build/front.ae25412736d27da75f00.hot-update.js:124
-#: build/front.js:11134
-#: build/front.ae25412736d27da75f00.hot-update.js:121
-#: build/front.js:8690
-msgid "Submit Section"
-msgstr ""
-
-#: build/front.ae25412736d27da75f00.hot-update.js:161
-#: build/front.js:10454
-#: build/front.js:11171
-#: build/front.ae25412736d27da75f00.hot-update.js:170
-#: build/front.js:8214
-#: build/front.js:8739
-msgid "Submit"
-msgstr ""
-
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:162
-#: build/front.js:19923
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:186
-#: build/front.js:15915
-msgid "Review"
-msgstr ""
-
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:171
-#: build/front.js:19932
-#: build/front.b24c3d91c29dd0d1a365.hot-update.js:197
-#: build/front.js:15926
-msgid "Review and answered"
-msgstr ""
-
-#: build/front.c647f2b7b566065686ba.hot-update.js:92
-#: build/front.js:20856
-#: build/front.c647f2b7b566065686ba.hot-update.js:77
-#: build/front.js:16678
+#: build/front.js:1
 msgid "You have Completed"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:131
-#: build/front.ca7af2ff026563ad179d.hot-update.js:135
-#: build/front.js:12797
-#: build/front.js:20895
-#: build/front.c647f2b7b566065686ba.hot-update.js:108
-#: build/front.ca7af2ff026563ad179d.hot-update.js:105
-#: build/front.js:10025
-#: build/front.js:16709
+#: build/front.js:1
 msgid "Marks Obtained"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:152
-#: build/front.ca7af2ff026563ad179d.hot-update.js:160
-#: build/front.js:12822
-#: build/front.js:20916
-#: build/front.c647f2b7b566065686ba.hot-update.js:120
-#: build/front.ca7af2ff026563ad179d.hot-update.js:125
-#: build/front.js:10045
-#: build/front.js:16721
+#: build/front.js:1
 msgid "Negative Marks"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:171
-#: build/front.c647f2b7b566065686ba.hot-update.js:255
-#: build/front.c647f2b7b566065686ba.hot-update.js:276
-#: build/front.ca7af2ff026563ad179d.hot-update.js:183
-#: build/front.ca7af2ff026563ad179d.hot-update.js:283
-#: build/front.ca7af2ff026563ad179d.hot-update.js:308
-#: build/front.js:12845
-#: build/front.js:12945
-#: build/front.js:12970
-#: build/front.js:20935
-#: build/front.js:21019
-#: build/front.js:21040
-#: build/front.c647f2b7b566065686ba.hot-update.js:132
-#: build/front.c647f2b7b566065686ba.hot-update.js:193
-#: build/front.c647f2b7b566065686ba.hot-update.js:206
-#: build/front.ca7af2ff026563ad179d.hot-update.js:144
-#: build/front.ca7af2ff026563ad179d.hot-update.js:237
-#: build/front.ca7af2ff026563ad179d.hot-update.js:258
-#: build/front.js:10064
-#: build/front.js:10157
-#: build/front.js:10178
-#: build/front.js:16733
-#: build/front.js:16794
-#: build/front.js:16807
+#: build/front.js:1
 msgid "loading..."
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:173
-#: build/front.ca7af2ff026563ad179d.hot-update.js:185
-#: build/front.js:12847
-#: build/front.js:20937
-#: build/front.c647f2b7b566065686ba.hot-update.js:135
-#: build/front.ca7af2ff026563ad179d.hot-update.js:148
-#: build/front.js:10068
-#: build/front.js:16736
+#: build/front.js:1
 msgid "Average Score"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:236
-#: build/front.ca7af2ff026563ad179d.hot-update.js:260
-#: build/front.js:12922
-#: build/front.js:21000
-#: build/front.c647f2b7b566065686ba.hot-update.js:182
-#: build/front.ca7af2ff026563ad179d.hot-update.js:219
-#: build/front.js:10139
-#: build/front.js:16783
+#: build/front.js:1
 msgid "Time Taken"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:257
-#: build/front.ca7af2ff026563ad179d.hot-update.js:285
-#: build/front.js:12947
-#: build/front.js:21021
-#: build/front.c647f2b7b566065686ba.hot-update.js:195
-#: build/front.ca7af2ff026563ad179d.hot-update.js:240
-#: build/front.js:10160
-#: build/front.js:16796
+#: build/front.js:1
 msgid "Rank"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:278
-#: build/front.ca7af2ff026563ad179d.hot-update.js:310
-#: build/front.js:12972
-#: build/front.js:21042
-#: build/front.c647f2b7b566065686ba.hot-update.js:208
-#: build/front.ca7af2ff026563ad179d.hot-update.js:261
-#: build/front.js:10181
-#: build/front.js:16809
+#: build/front.js:1
 msgid "Percentile"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:297
-#: build/front.ca7af2ff026563ad179d.hot-update.js:333
-#: build/front.js:12995
-#: build/front.js:21061
-#: build/front.c647f2b7b566065686ba.hot-update.js:222
-#: build/front.ca7af2ff026563ad179d.hot-update.js:282
-#: build/front.js:10202
-#: build/front.js:16823
+#: build/front.js:1
 msgid "Q/min"
 msgstr ""
 
-#: build/front.c647f2b7b566065686ba.hot-update.js:299
-#: build/front.ca7af2ff026563ad179d.hot-update.js:335
-#: build/front.js:12997
-#: build/front.js:21063
-#: build/front.c647f2b7b566065686ba.hot-update.js:224
-#: build/front.ca7af2ff026563ad179d.hot-update.js:285
-#: build/front.js:10205
-#: build/front.js:16825
+#: build/front.js:1
 msgid "Speed"
 msgstr ""
 
-#: build/front.d420191257fdacadf56f.hot-update.js:73
-#: build/front.js:17090
-#: build/front.d420191257fdacadf56f.hot-update.js:53
-#: build/front.js:13637
-msgid "<< BACK"
+#: build/front.js:1
+msgid "Restart Quiz"
 msgstr ""
 
-#: build/front.d420191257fdacadf56f.hot-update.js:97
-#: build/front.js:17114
-#: build/front.d420191257fdacadf56f.hot-update.js:80
-#: build/front.js:13664
-msgid "NEXT >>"
+#: build/front.js:1
+msgid "View Answer"
 msgstr ""
 
-#: build/front.d420191257fdacadf56f.hot-update.js:119
-#: build/front.js:17136
-#: build/front.d420191257fdacadf56f.hot-update.js:107
-#: build/front.js:13691
-msgid "SUBMIT"
+#: build/front.js:1
+msgid "Answered"
 msgstr ""
 
-#: build/front.db0068731be21f1d9b2d.hot-update.js:41
-#: build/front.js:17213
-#: build/front.db0068731be21f1d9b2d.hot-update.js:19
-#: build/front.js:13718
-msgid "Subjects:"
+#: build/front.js:1
+msgid "Review"
 msgstr ""
 
-#: build/front.df1b08768313dd6d2f60.hot-update.js:436
-#: build/front.js:6112
-#: build/front.df1b08768313dd6d2f60.hot-update.js:510
-#: build/front.js:5191
-msgid "No questions found"
+#: build/front.js:1
+msgid "Review and answered"
 msgstr ""
 
-#: build/front.df1b08768313dd6d2f60.hot-update.js:441
-#: build/front.js:6117
-#: build/front.df1b08768313dd6d2f60.hot-update.js:514
-#: build/front.js:5195
-msgid "Quiz will start on"
+#: build/front.js:1
+msgid "Quiz Summary"
 msgstr ""
 
-#: build/front.df1b08768313dd6d2f60.hot-update.js:446
-#: build/front.js:6122
-#: build/front.df1b08768313dd6d2f60.hot-update.js:518
-#: build/front.js:5199
-msgid "Quiz has expired"
+#: build/front.js:1
+msgid "Skip"
 msgstr ""
 
-#: build/front.js:1850
-#: build/front.js:1373
-msgid "No Quiz Found"
+#: build/front.js:1
+msgid "Clear Response"
 msgstr ""
 
-#: build/front.js:1975
-#: build/front.js:1433
-msgid "Please login: "
+#: build/front.js:1
+msgid "Check"
 msgstr ""
 
-#: build/front.js:1980
-#: build/front.js:25954
-#: build/front.js:26274
-#: build/front.js:26690
-#: build/front_checkout.js:3479
-#: build/front_checkout.js:3799
-#: build/front_checkout.js:4215
-#: build/front.js:1437
-#: build/front.js:20543
-#: build/front.js:20825
-#: build/front.js:21186
-#: build/front_checkout.js:2367
-#: build/front_checkout.js:2649
-#: build/front_checkout.js:3010
-msgid "Login"
+#: build/front.js:1
+msgid "Next"
 msgstr ""
 
-#: build/front.js:2418
-#: build/front.js:1888
-msgid "Course content"
+#: build/front.js:1
+msgid "Time Limit"
 msgstr ""
 
-#: build/front.js:2498
-#: build/front.js:1996
-msgid "Course Content"
+#: build/front.js:1
+msgid "Go to First Question"
 msgstr ""
 
-#: build/front.js:2508
-#: build/front.js:2005
-msgid "Course Overview"
+#: build/front.js:1
+msgid "Finish Quiz"
 msgstr ""
 
-#: build/front.js:2698
-#: build/front.js:2136
-msgid "Progress"
+#: build/front.js:1
+msgid "Previous"
 msgstr ""
 
-#: build/front.js:2729
-#: build/front.js:2170
-msgid "Search"
-msgstr ""
-
-#: build/front.js:2762
-#: build/front.js:2207
-msgid "No Course Found"
-msgstr ""
-
-#: build/front.js:2831
-#: build/front.js:2288
-msgid "Complete"
-msgstr ""
-
-#: build/front.js:3562
-#: build/front.js:2925
-msgid "Dashboard"
-msgstr ""
-
-#: build/front.js:3660
-#: build/front.js:2984
-msgid "Mark as incomplete"
-msgstr ""
-
-#: build/front.js:3669
-#: build/front.js:3003
-msgid "Mark as complete"
-msgstr ""
-
-#: build/front.js:3777
-#: build/front.js:3080
-msgid "Resources"
-msgstr ""
-
-#: build/front.js:3934
-#: build/front.js:3196
-msgid "Section"
-msgstr ""
-
-#: build/front.js:4246
-#: build/front.js:3453
-msgid "Profile updated successfully."
-msgstr ""
-
-#: build/front.js:4347
-#: build/front.js:3545
-msgid "Upload Profile Photo"
-msgstr ""
-
-#: build/front.js:4389
-#: build/front.js:4613
-#: build/front.js:3588
-#: build/front.js:3832
-msgid "Bio"
-msgstr ""
-
-#: build/front.js:4401
-#: build/front.js:3599
-msgid "Personal"
-msgstr ""
-
-#: build/front.js:4414
-#: build/front.js:3609
-msgid "First name"
-msgstr ""
-
-#: build/front.js:4431
-#: build/front.js:3630
-msgid "Last name"
-msgstr ""
-
-#: build/front.js:4446
-#: build/front.js:3644
-msgid "Email Address"
-msgstr ""
-
-#: build/front.js:4482
-#: build/front_checkout.js:334
-#: build/front.js:3694
-#: build/front_checkout.js:170
-msgid "Code"
-msgstr ""
-
-#: build/front.js:4499
-#: build/front.js:3711
-msgid "Phone / Mobile"
-msgstr ""
-
-#: build/front.js:4514
-#: build/front_checkout.js:403
-#: build/front.js:3725
-#: build/front_checkout.js:266
-msgid "Address"
-msgstr ""
-
-#: build/front.js:4529
-#: build/front.js:3739
-msgid "Website"
-msgstr ""
-
-#: build/front.js:4581
-#: build/front_checkout.js:469
-#: build/front_checkout.js:472
-#: build/front.js:3802
-#: build/front_checkout.js:349
-#: build/front_checkout.js:354
-msgid "Town/City"
-msgstr ""
-
-#: build/front.js:4596
-#: build/front_checkout.js:491
-#: build/front_checkout.js:494
-#: build/front.js:3816
-#: build/front_checkout.js:373
-#: build/front_checkout.js:378
-msgid "Postal/Zip Code"
-msgstr ""
-
-#: build/front.js:4649
-#: build/front.js:3859
-msgid "Update Profile"
-msgstr ""
-
-#: build/front.js:4798
-#: build/front.js:3949
-msgid "Amount"
-msgstr ""
-
-#: build/front.js:4882
-#: build/front.js:25552
-#: build/front.js:4050
-#: build/front.js:20262
-msgid "Purchase History"
-msgstr ""
-
-#: build/front.js:6901
-#: build/front.js:5545
-msgid "Next >"
-msgstr ""
-
-#: build/front.js:6992
-#: build/front.js:5586
-msgid "Failed to enable fullscreen mode:"
-msgstr ""
-
-#: build/front.js:6995
-#: build/front.js:5589
-msgid "Fullscreen API is not supported by this browser."
-msgstr ""
-
-#: build/front.js:7000
-#: build/front.js:5595
-msgid "Please select the default language to procced further"
-msgstr ""
-
-#: build/front.js:7070
-#: build/front.js:5663
-msgid "Please note all questions will appear in your default language. This language can be changed for a particular question later on."
-msgstr ""
-
-#: build/front.js:7120
-#: build/front.js:5729
-msgid "I am ready to begin"
-msgstr ""
-
-#: build/front.js:7433
-#: build/front.js:9074
-#: build/front.js:5896
-#: build/front.js:7176
+#: build/front.js:1
 msgid "View in:"
 msgstr ""
 
-#: build/front.js:7644
-#: build/front.js:6017
-msgid "Choose your default language: "
+#: build/front.js:1
+msgid "Instruction"
 msgstr ""
 
-#: build/front.js:8020
-#: build/front.js:6198
-msgid "Scroller is disabled."
+#: build/front.js:1
+msgid "Note that timer is ticking while you read the instruction. Close this page to return to answering the question."
 msgstr ""
 
-#: build/front.js:8241
-#: build/front.js:6402
+#: build/front.js:1
+msgid "Instructions"
+msgstr ""
+
+#: build/front.js:1
+msgid "Other important instructions"
+msgstr ""
+
+#: build/front.js:1
+msgid "View Instruction"
+msgstr ""
+
+#: build/front.js:1
+msgid "Not Answered"
+msgstr ""
+
+#: build/front.js:1
+msgid "Not Visited"
+msgstr ""
+
+#: build/front.js:1
+msgid "Marked for Review"
+msgstr ""
+
+#: build/front.js:1
+msgid "Answered and Marked for Review (will be considered for evaluation)"
+msgstr ""
+
+#: build/front.js:1
+msgid "Choose a Question"
+msgstr ""
+
+#: build/front.js:1
+msgid "Sectional Summary"
+msgstr ""
+
+#: build/front.js:1
+msgid "Do you want to submit this section?"
+msgstr ""
+
+#: build/front.js:1
+msgid "Name of the Section"
+msgstr ""
+
+#: build/front.js:1
+msgid "No. of Question"
+msgstr ""
+
+#: build/front.js:1
+msgid "Answered and Marked for Review"
+msgstr ""
+
+#: build/front.js:1
+msgid "Submit Section"
+msgstr ""
+
+#: build/front.js:1
+msgid "Submit"
+msgstr ""
+
+#: build/front.js:1
+msgid "Summary"
+msgstr ""
+
+#: build/front.js:1
+msgid "Do you want to submit this test?"
+msgstr ""
+
+#: build/front.js:1
+msgid "Sections"
+msgstr ""
+
+#: build/front.js:1
+msgid "Time Left:"
+msgstr ""
+
+#: build/front.js:1
 msgid "Answered & Marked for Review"
 msgstr ""
 
-#: build/front.js:8241
-#: build/front.js:6404
+#: build/front.js:1
 msgid "(will also be evaluated)"
 msgstr ""
 
-#: build/front.js:8838
-#: build/front.js:6941
+#: build/front.js:1
+msgid "Question Type:"
+msgstr ""
+
+#: build/front.js:1
+msgid "Single Choice Question"
+msgstr ""
+
+#: build/front.js:1
+msgid "Multiple Choice Question"
+msgstr ""
+
+#: build/front.js:1
+msgid "Sorting Choice Question"
+msgstr ""
+
+#: build/front.js:1
+msgid "Range Type Question"
+msgstr ""
+
+#: build/front.js:1
+msgid "Question No. "
+msgstr ""
+
+#: build/front.js:1
+msgid "Close"
+msgstr ""
+
+#: build/front.js:1
 msgid ""
 "You have reached to the last question of this section. Please wait\n"
 "            till the time allotted for this section is over or submit the\n"
 "            section."
 msgstr ""
 
-#: build/front.js:8845
-#: build/front.js:6951
+#: build/front.js:1
 msgid ""
 "You have reached to the last question. Please wait\n"
 "            till the time allotted for this section is over or submit test."
 msgstr ""
 
-#: build/front.js:8878
-#: build/front.js:6995
-msgid "Review & Next"
-msgstr ""
-
-#: build/front.js:8878
-#: build/front.js:6996
+#: build/front.js:1
 msgid "Mark for Review & Next"
 msgstr ""
 
-#: build/front.js:8909
-#: build/front.js:7035
+#: build/front.js:1
+msgid "Review & Next"
+msgstr ""
+
+#: build/front.js:1
 msgid "Clear"
 msgstr ""
 
-#: build/front.js:8960
-#: build/front.js:7097
+#: build/front.js:1
 msgid "Save & Next"
 msgstr ""
 
-#: build/front.js:9461
-#: build/front.js:7455
-msgid "Question No. "
+#: build/front.js:1
+msgid "Scroller is disabled."
 msgstr ""
 
-#: build/front.js:9649
-#: build/front.js:9662
-#: build/front.js:7538
-#: build/front.js:7551
-msgid "Single Choice Question"
-msgstr ""
-
-#: build/front.js:9651
-#: build/front.js:7540
-msgid "Multiple Choice Question"
-msgstr ""
-
-#: build/front.js:9655
-#: build/front.js:7544
-msgid "Sorting Choice Question"
-msgstr ""
-
-#: build/front.js:9660
-#: build/front.js:7549
-msgid "Range Type Question"
-msgstr ""
-
-#: build/front.js:9678
-#: build/front.js:7567
-msgid "Question Type:"
-msgstr ""
-
-#: build/front.js:10016
-#: build/front.js:7856
-msgid "Choose a Question"
-msgstr ""
-
-#: build/front.js:11475
-#: build/front.js:8969
-msgid "Summary"
-msgstr ""
-
-#: build/front.js:11484
-#: build/front.js:8985
-msgid "Do you want to submit this test?"
-msgstr ""
-
-#: build/front.js:11626
-#: build/front.js:9125
+#: build/front.js:1
 msgid "Please click here to fullscreen."
 msgstr ""
 
-#: build/front.js:11734
-#: build/front.js:9178
-msgid "Instruction"
+#: build/front.js:1
+msgid "Candidate Name"
 msgstr ""
 
-#: build/front.js:11754
-#: build/front.js:9207
-msgid "Note that timer is ticking while you read the instruction. Close this page to return to answering the question."
+#: build/front.js:1
+msgid "Exam Name"
 msgstr ""
 
-#: build/front.js:11768
-#: build/front.js:9224
-msgid "Instructions"
+#: build/front.js:1
+msgid "Subject Name"
 msgstr ""
 
-#: build/front.js:11786
-#: build/front.js:9254
-msgid "Other important instructions"
+#: build/front.js:1
+msgid "Remaining Time"
 msgstr ""
 
-#: build/front.js:12020
-#: build/front.js:9403
-msgid "Sectional Summary"
+#: build/front.js:1
+msgid "Subjects:"
 msgstr ""
 
-#: build/front.js:12029
-#: build/front.js:9419
-msgid "Do you want to submit this section?"
+#: build/front.js:1
+msgid "Please choose an option."
 msgstr ""
 
-#: build/front.js:23637
-#: build/front.js:19363
-msgid "Date & Time"
+#: build/front.js:1
+msgid "SAVE & NEXT"
 msgstr ""
 
-#: build/front.js:23684
-#: build/front.js:25548
-#: build/front.js:19411
-#: build/front.js:20257
-msgid "My Result"
+#: build/front.js:1
+msgid "CLEAR"
 msgstr ""
 
-#: build/front.js:23788
-#: build/front.js:19522
-msgid "Score: "
+#: build/front.js:1
+msgid "SAVE & MARK FOR REVIEW"
 msgstr ""
 
-#: build/front.js:25544
-#: build/front.js:20252
-msgid "My Courses"
+#: build/front.js:1
+msgid "MARK FOR REVIEW & NEXT"
 msgstr ""
 
-#: build/front.js:25556
-#: build/front.js:20267
-msgid "Profile"
+#: build/front.js:1
+msgid "<< BACK"
 msgstr ""
 
-#: build/front.js:25833
-#: build/front.js:26095
-#: build/front_checkout.js:3358
-#: build/front_checkout.js:3620
-#: build/front.js:20425
-#: build/front.js:20638
-#: build/front_checkout.js:2249
-#: build/front_checkout.js:2462
-msgid "Opps! Something went wrong."
+#: build/front.js:1
+msgid "NEXT >>"
 msgstr ""
 
-#: build/front.js:25874
-#: build/front_checkout.js:3399
-#: build/front.js:20463
-#: build/front_checkout.js:2287
-msgid "Please enter your username or email address. You will receive an email message with instructions on how to reset your password."
+#: build/front.js:1
+msgid "SUBMIT"
 msgstr ""
 
-#: build/front.js:25898
-#: build/front.js:26167
-#: build/front_checkout.js:3423
-#: build/front_checkout.js:3692
-#: build/front.js:20490
-#: build/front.js:20720
-#: build/front_checkout.js:2314
-#: build/front_checkout.js:2544
-msgid "Username/Email"
+#: build/front.js:1
+msgid "Exam Summary"
 msgstr ""
 
-#: build/front.js:25913
-#: build/front.js:26182
-#: build/front_checkout.js:3438
-#: build/front_checkout.js:3707
-#: build/front.js:20501
-#: build/front.js:20731
-#: build/front_checkout.js:2325
-#: build/front_checkout.js:2555
-msgid "Username/email"
+#: build/front.js:1
+msgid "Are you sure you want to submit for final marking?"
 msgstr ""
 
-#: build/front.js:25930
-#: build/front_checkout.js:3455
-#: build/front.js:20518
-#: build/front_checkout.js:2342
-msgid "Get New Password"
+#: build/front.js:1
+msgid "No changes will be allowed after submission."
 msgstr ""
 
-#: build/front.js:25936
-#: build/front_checkout.js:3461
-#: build/front.js:20525
-#: build/front_checkout.js:2349
-msgid "Check your email for the confirmation link, then visit the login page."
+#: build/front.js:1
+msgid "YES"
 msgstr ""
 
-#: build/front.js:25962
-#: build/front.js:26292
-#: build/front.js:26672
-#: build/front_checkout.js:3487
-#: build/front_checkout.js:3817
-#: build/front_checkout.js:4197
-#: build/front.js:20558
-#: build/front.js:20845
-#: build/front.js:21168
-#: build/front_checkout.js:2382
-#: build/front_checkout.js:2669
-#: build/front_checkout.js:2992
-msgid "Register"
+#: build/front.js:1
+msgid "NO"
 msgstr ""
 
-#: build/front.js:26133
-#: build/front.js:26464
-#: build/front_checkout.js:3658
-#: build/front_checkout.js:3989
-#: build/front.js:20675
-#: build/front.js:20966
-#: build/front_checkout.js:2499
-#: build/front_checkout.js:2790
-msgid "Welcome back"
+#: build/front.js:1
+msgid "Next >"
 msgstr ""
 
-#: build/front.js:26135
-#: build/front_checkout.js:3660
-#: build/front.js:20678
-#: build/front_checkout.js:2502
-msgid "Please enter your details to sign in."
+#: build/front.js:1
+msgid "Choose your default language: "
 msgstr ""
 
-#: build/front.js:26140
-#: build/front_checkout.js:3665
-#: build/front.js:20688
-#: build/front_checkout.js:2512
-msgid "Error:"
+#: build/front.js:1
+msgid "Please note all questions will appear in your default language. This language can be changed for a particular question later on."
 msgstr ""
 
-#: build/front.js:26140
-#: build/front_checkout.js:3665
-#: build/front.js:20688
-#: build/front_checkout.js:2512
-msgid "The password you entered for the username"
+#: build/front.js:1
+msgid "Please select the default language to procced further"
 msgstr ""
 
-#: build/front.js:26140
-#: build/front_checkout.js:3665
-#: build/front.js:20688
-#: build/front_checkout.js:2512
-msgid "is incorrect."
+#: build/front.js:1
+msgid "Failed to enable fullscreen mode:"
 msgstr ""
 
-#: build/front.js:26148
-#: build/front.js:26265
-#: build/front.js:26698
-#: build/front_checkout.js:3673
-#: build/front_checkout.js:3790
-#: build/front_checkout.js:4223
-#: build/front.js:20698
-#: build/front.js:20814
-#: build/front.js:21198
-#: build/front_checkout.js:2522
-#: build/front_checkout.js:2638
-#: build/front_checkout.js:3022
-msgid "Lost your password?"
+#: build/front.js:1
+msgid "Fullscreen API is not supported by this browser."
 msgstr ""
 
-#: build/front.js:26200
-#: build/front.js:26214
-#: build/front.js:26564
-#: build/front.js:26582
-#: build/front_checkout.js:3725
-#: build/front_checkout.js:3739
-#: build/front_checkout.js:4089
-#: build/front_checkout.js:4107
-#: build/front.js:20749
-#: build/front.js:20759
-#: build/front.js:21056
-#: build/front.js:21072
-#: build/front_checkout.js:2573
-#: build/front_checkout.js:2583
-#: build/front_checkout.js:2880
-#: build/front_checkout.js:2896
-msgid "Password"
+#: build/front.js:1
+msgid "I am ready to begin"
 msgstr ""
 
-#: build/front.js:26248
-#: build/front_checkout.js:3773
-#: build/front.js:20795
-#: build/front_checkout.js:2619
-msgid "Remember me"
+#: build/front.js:1
+msgid "Name:"
 msgstr ""
 
-#: build/front.js:26284
-#: build/front_checkout.js:3809
-#: build/front.js:20835
-#: build/front_checkout.js:2659
-msgid "Don't have account yet?"
+#: build/front.js:1
+msgid "Time:"
 msgstr ""
 
-#: build/front.js:26420
-#: build/front_checkout.js:3945
-#: build/front.js:20922
-#: build/front_checkout.js:2746
-msgid "Opps!Something went wrong."
+#: build/front.js:1
+msgid "Points:"
 msgstr ""
 
-#: build/front.js:26466
-#: build/front_checkout.js:3991
-#: build/front.js:20969
-#: build/front_checkout.js:2793
-msgid "Please enter your details to sign up."
+#: build/front.js:1
+msgid "Result:"
 msgstr ""
 
-#: build/front.js:26502
-#: build/front_checkout.js:4027
-#: build/front.js:20999
-#: build/front_checkout.js:2823
-msgid "Username is required"
+#: build/front.js:1
+msgid "Accuracy:"
 msgstr ""
 
-#: build/front.js:26536
-#: build/front_checkout.js:4061
-#: build/front.js:21029
-#: build/front_checkout.js:2853
-msgid "Email is required"
+#: build/front.js:1
+msgid "Status:"
 msgstr ""
 
-#: build/front.js:26570
-#: build/front_checkout.js:4095
-#: build/front.js:21060
-#: build/front_checkout.js:2884
-msgid "Password is required"
+#: build/front.js:1
+msgid "You have Completed "
 msgstr ""
 
-#: build/front.js:26573
-#: build/front_checkout.js:4098
-#: build/front.js:21063
-#: build/front_checkout.js:2887
-msgid "Password must have at least 8 characters"
+#: build/front.js:1
+msgid "Review Question"
 msgstr ""
 
-#: build/front.js:26616
-#: build/front.js:26639
-#: build/front_checkout.js:4141
-#: build/front_checkout.js:4164
-#: build/front.js:21110
-#: build/front.js:21131
-#: build/front_checkout.js:2934
-#: build/front_checkout.js:2955
-msgid "Confirm Password"
+#: build/front.js:1
+msgid "Subject: "
 msgstr ""
 
-#: build/front.js:26622
-#: build/front_checkout.js:4147
-#: build/front.js:21114
-#: build/front_checkout.js:2938
-msgid "Confirm password is required"
+#: build/front.js:1
+msgid "Page Not Found"
 msgstr ""
 
-#: build/front.js:26625
-#: build/front_checkout.js:4150
-#: build/front.js:21117
-#: build/front_checkout.js:2941
-msgid "Confirm password must have at least 8 characters"
+#: build/front.js:1
+msgid "GENERAL INSTRUCTION"
 msgstr ""
 
-#: build/front.js:26629
-#: build/front_checkout.js:4154
-#: build/front.js:21121
-#: build/front_checkout.js:2945
-msgid "Your passwords do no match"
+#: build/front.js:1
+msgid "Choose Your Default Language"
 msgstr ""
 
-#: build/front.js:26682
-#: build/front_checkout.js:4207
-#: build/front.js:21176
-#: build/front_checkout.js:3000
-msgid "Already have account?"
+#: build/front.js:1
+msgid "PROCEED"
 msgstr ""
 
-#: build/front.js:26922
-#: build/front_single_course.js:2093
-#: build/front.js:21394
-#: build/front_single_course.js:1098
-msgid "Exit Fullscreeen"
+#: build/front.js:1
+msgid "You are not allowed to access this page."
 msgstr ""
 
-#: build/front.js:26925
-#: build/front_single_course.js:2096
-#: build/front.js:21397
-#: build/front_single_course.js:1101
-msgid "Fullscreeen"
+#: build/front.js:1
+msgid "Oops! Something went wrong."
 msgstr ""
 
-#: build/front.js:27222
-#: build/front.js:21653
+#: build/front.js:1
+msgid "Start Quiz"
+msgstr ""
+
+#: build/front.js:1
+msgid "No questions found"
+msgstr ""
+
+#: build/front.js:1
+msgid "Quiz will start on"
+msgstr ""
+
+#: build/front.js:1
+msgid "Quiz has expired"
+msgstr ""
+
+#: build/front.js:1
+msgid "No Quiz Found"
+msgstr ""
+
+#: build/front.js:1
 msgid "Welcome back,"
 msgstr ""
 
-#: build/front.js:27237
-#: build/front.js:21671
+#: build/front.js:1
 msgid "Unlock your potential and track your progress to success!"
 msgstr ""
 
-#: build/front.js:27248
-#: build/front.js:21688
+#: build/front.js:1
 msgid "Header Image 2"
 msgstr ""
 
-#: build/front.js:27256
-#: build/front.js:21697
+#: build/front.js:1
 msgid "Header Image 3"
 msgstr ""
 
-#: build/front.js:27264
-#: build/front.js:21706
+#: build/front.js:1
 msgid "Header Image 4"
 msgstr ""
 
-#: build/front.js:27280
-#: build/front.js:21725
+#: build/front.js:1
 msgid "Header Image 1"
 msgstr ""
 
-#: build/front_checkout.js:242
-#: build/front_checkout.js:68
+#: build/front.js:1
+msgid "My Courses"
+msgstr ""
+
+#: build/front.js:1
+msgid "My Result"
+msgstr ""
+
+#: build/front.js:1
+msgid "Purchase History"
+msgstr ""
+
+#: build/front.js:1
+msgid "Profile"
+msgstr ""
+
+#: build/front.js:1
+msgid "Progress"
+msgstr ""
+
+#: build/front.js:1
+msgid "Search"
+msgstr ""
+
+#: build/front.js:1
+msgid "No Course Found"
+msgstr ""
+
+#: build/front.js:1
+msgid "Complete"
+msgstr ""
+
+#: build/front.js:1
+msgid "Date & Time"
+msgstr ""
+
+#: build/front.js:1
+msgid "Score: "
+msgstr ""
+
+#: build/front.js:1
+msgid "Amount"
+msgstr ""
+
+#: build/front.js:1
+msgid "Profile updated successfully."
+msgstr ""
+
+#: build/front.js:1
+msgid "Upload Profile Photo"
+msgstr ""
+
+#: build/front.js:1
+msgid "Bio"
+msgstr ""
+
+#: build/front.js:1
+msgid "Personal"
+msgstr ""
+
+#: build/front.js:1
+msgid "First name"
+msgstr ""
+
+#: build/front.js:1
+msgid "Last name"
+msgstr ""
+
+#: build/front.js:1
+msgid "Email Address"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Code"
+msgstr ""
+
+#: build/front.js:1
+msgid "Phone / Mobile"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Address"
+msgstr ""
+
+#: build/front.js:1
+msgid "Website"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Town/City"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Postal/Zip Code"
+msgstr ""
+
+#: build/front.js:1
+msgid "Update Profile"
+msgstr ""
+
+#: build/front.js:1
+msgid "Resources"
+msgstr ""
+
+#: build/front.js:1
+msgid "Section"
+msgstr ""
+
+#: build/front.js:1
+msgid "Mark as incomplete"
+msgstr ""
+
+#: build/front.js:1
+msgid "Mark as complete"
+msgstr ""
+
+#: build/front.js:1
+msgid "Dashboard"
+msgstr ""
+
+#: build/front.js:1
+msgid "Course content"
+msgstr ""
+
+#: build/front.js:1
+msgid "Course Content"
+msgstr ""
+
+#: build/front.js:1
+msgid "Course Overview"
+msgstr ""
+
+#: build/front.js:1
+msgid "Please login: "
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Login"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Welcome back"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Please enter your details to sign in."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Error:"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "The password you entered for the username"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "is incorrect."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Lost your password?"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Opps! Something went wrong."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Username/Email"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Username/email"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Password"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Remember me"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Don't have account yet?"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Register"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Please enter your details to sign up."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Opps!Something went wrong."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Username is required"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Email is required"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Password is required"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Password must have at least 8 characters"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Confirm Password"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Confirm password is required"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Confirm password must have at least 8 characters"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Your passwords do no match"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Already have account?"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Please enter your username or email address. You will receive an email message with instructions on how to reset your password."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Check your email for the confirmation link, then visit the login page."
+msgstr ""
+
+#: build/front.js:1
+#: build/front_checkout.js:1
+msgid "Get New Password"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_single_course.js:1
+msgid "Exit Fullscreeen"
+msgstr ""
+
+#: build/front.js:1
+#: build/front_single_course.js:1
+msgid "Fullscreeen"
+msgstr ""
+
+#: build/front_checkout.js:1
 msgid "Billing Detail"
 msgstr ""
 
-#: build/front_checkout.js:256
-#: build/front_checkout.js:80
+#: build/front_checkout.js:1
 msgid "First Name"
 msgstr ""
 
-#: build/front_checkout.js:258
-#: build/front_checkout.js:84
+#: build/front_checkout.js:1
 msgid "First name is required."
 msgstr ""
 
-#: build/front_checkout.js:264
-#: build/front_checkout.js:90
+#: build/front_checkout.js:1
 msgid "e.g. Alex"
 msgstr ""
 
-#: build/front_checkout.js:284
-#: build/front_checkout.js:114
+#: build/front_checkout.js:1
 msgid "Last Name"
 msgstr ""
 
-#: build/front_checkout.js:288
-#: build/front_checkout.js:120
+#: build/front_checkout.js:1
 msgid "e.g. Smith"
 msgstr ""
 
-#: build/front_checkout.js:308
-#: build/front_checkout.js:142
+#: build/front_checkout.js:1
 msgid "Email is required."
 msgstr ""
 
-#: build/front_checkout.js:314
-#: build/front_checkout.js:148
+#: build/front_checkout.js:1
 msgid "e.g. alexsmith@gmail.com"
 msgstr ""
 
-#: build/front_checkout.js:378
-#: build/front_checkout.js:236
+#: build/front_checkout.js:1
 msgid "Phone Number"
 msgstr ""
 
-#: build/front_checkout.js:406
-#: build/front_checkout.js:271
+#: build/front_checkout.js:1
 msgid "e.g. 12345 Little baker St, Melbourne"
 msgstr ""
 
-#: build/front_checkout.js:425
-#: build/front_checkout.js:290
+#: build/front_checkout.js:1
 msgid "Country"
 msgstr ""
 
-#: build/front_checkout.js:707
-#: build/front_checkout.js:568
-msgid "Invalid amount"
-msgstr ""
-
-#: build/front_checkout.js:779
-#: build/front_checkout.js:652
-msgid "Payment failed."
-msgstr ""
-
-#: build/front_checkout.js:798
-#: build/front_checkout.js:813
-#: build/front_checkout.js:845
-#: build/front_checkout.js:862
-#: build/front_checkout.js:672
-#: build/front_checkout.js:691
-#: build/front_checkout.js:728
-#: build/front_checkout.js:742
-msgid "Opps! Something went wrong"
-msgstr ""
-
-#: build/front_checkout.js:901
-#: build/front_checkout.js:779
-msgid "Please select a payment gateway."
-msgstr ""
-
-#: build/front_checkout.js:961
-#: build/front_checkout.js:837
-msgid "Please login/register to proceed: "
-msgstr ""
-
-#: build/front_checkout.js:968
-#: build/front_checkout.js:844
-msgid "Login/Register"
-msgstr ""
-
-#: build/front_checkout.js:1015
-#: build/front_checkout.js:884
-msgid "Your cart is currently empty."
-msgstr ""
-
-#: build/front_checkout.js:1270
-#: build/front_checkout.js:1094
-msgid "Order Summary"
-msgstr ""
-
-#: build/front_checkout.js:1297
-#: build/front_checkout.js:1126
-msgid "Price:"
-msgstr ""
-
-#: build/front_checkout.js:1314
-#: build/front_checkout.js:1178
-msgid "Tax:"
-msgstr ""
-
-#: build/front_checkout.js:1331
-#: build/front_checkout.js:1204
-msgid "Total:"
-msgstr ""
-
-#: build/front_checkout.js:1454
-#: build/front_checkout.js:1289
+#: build/front_checkout.js:1
 msgid "Payment Method"
 msgstr ""
 
-#: build/front_checkout.js:1485
-#: build/front_checkout.js:1322
+#: build/front_checkout.js:1
 msgid "Razorpay"
 msgstr ""
 
-#: build/front_checkout.js:1525
-#: build/front_checkout.js:1377
+#: build/front_checkout.js:1
 msgid "Paypal"
 msgstr ""
 
-#: build/front_checkout.js:1584
-#: build/front_checkout.js:1463
+#: build/front_checkout.js:1
 msgid "No payment gatway is activated, contact admin."
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Order Summary"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Price:"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Tax:"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Total:"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Invalid amount"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Payment failed."
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Opps! Something went wrong"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Please login/register to proceed: "
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Login/Register"
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Please select a payment gateway."
+msgstr ""
+
+#: build/front_checkout.js:1
+msgid "Your cart is currently empty."
 msgstr ""
