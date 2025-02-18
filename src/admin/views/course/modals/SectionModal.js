@@ -1,12 +1,13 @@
 import { DialogContent, DialogTitle, IconButton } from '@mui/material'
 import React from 'react'
 import { IoClose } from '../../../../helpers/icons'
+import { __ } from '@wordpress/i18n'
 
 const SectionModal = (props) => {
   return (
     <>
       <DialogTitle id="alert-section-title" sx={{ m: 0, p: 2 }}>
-        Add Section
+        {__("Add Section", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -24,7 +25,7 @@ const SectionModal = (props) => {
         sx={{
           padding: "1rem !important",
         }}
-      >Add/ edit</DialogContent>
+      >{__("Add/ edit", "acadlix")}</DialogContent>
     </>
   )
 }

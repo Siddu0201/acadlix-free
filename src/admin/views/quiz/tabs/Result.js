@@ -17,6 +17,7 @@ import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTypography from "../../../../components/CustomTypography";
 import { RiQuestionFill } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Result = (props) => {
 
@@ -27,7 +28,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Statistic Options</Typography>
+        <Typography variant="h6">{__("Statistic Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -37,7 +38,7 @@ const Result = (props) => {
       >
         {/* Save Statistic */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Save Statistics</CustomTypography>
+          <CustomTypography>{__("Save Statistics", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -63,9 +64,9 @@ const Result = (props) => {
               (props?.watch("meta.mode") === "advance_mode" &&
                 props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
-          <Tooltip title="Used to save statistic">
+          <Tooltip title={__("Used to save statistic", "acadlix")}>
             <IconButton
               sx={{
                 fontSize: "1.25rem",
@@ -79,12 +80,12 @@ const Result = (props) => {
 
         {/* Statistic ip Lock */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Statistic IP Lock</CustomTypography>
+          <CustomTypography>{__("Statistic IP Lock", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
-            label="Statistic IP Lock"
+            label={__("Statistic IP Lock", "acadlix")}
             variant="outlined"
             size="small"
             type="number"
@@ -111,11 +112,11 @@ const Result = (props) => {
 
         {/* Number of time statistic saved per user (0 => infinity) */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Save statistic no. of times</CustomTypography>
+          <CustomTypography>{__("Save statistic no. of times", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
-            label="Save statistic no. of times"
+            label={__("Save statistic no. of times", "acadlix")}
             variant="outlined"
             size="small"
             type="number"
@@ -147,7 +148,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Result Options</Typography>
+        <Typography variant="h6">{__("Result Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -156,7 +157,7 @@ const Result = (props) => {
         alignItems="center"
       >
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Result</CustomTypography>
+          <CustomTypography>{__("Hide Result", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -174,7 +175,7 @@ const Result = (props) => {
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
@@ -182,10 +183,7 @@ const Result = (props) => {
 
         {/* Used to hide negative marks in result  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Negative Marks</CustomTypography>
-        </GridItem1>
-
-        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>{__("Hide Negative Marks", "acadlix")}</CustomTypography>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -197,7 +195,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -208,7 +206,7 @@ const Result = (props) => {
 
         {/* Used to hide quiz time in result  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Quiz Time</CustomTypography>
+          <CustomTypography>{__("Hide Quiz Time", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -221,7 +219,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -232,7 +230,7 @@ const Result = (props) => {
 
         {/* Its an average speed per question - total_time_taken/question  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Speed</CustomTypography>
+          <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -246,7 +244,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -257,7 +255,7 @@ const Result = (props) => {
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Percentile</CustomTypography>
+          <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -270,7 +268,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -282,7 +280,7 @@ const Result = (props) => {
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Accuracy %</CustomTypography>
+          <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -295,7 +293,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -306,7 +304,7 @@ const Result = (props) => {
 
         {/* Used to Show Average Score  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Average Score</CustomTypography>
+          <CustomTypography>{__("Show Average Score", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -319,7 +317,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -331,7 +329,7 @@ const Result = (props) => {
 
         {/* Used to show subject wise analysis of quiz  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Subject Wise Analysis</CustomTypography>
+          <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -347,7 +345,7 @@ const Result = (props) => {
                 }}
               />
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -363,7 +361,7 @@ const Result = (props) => {
           On check - Minimum % to pass option will open
            */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Status Based On Min % (Pass/Fail)</CustomTypography>
+          <CustomTypography>{__("Show Status Based On Min % (Pass/Fail)", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -380,7 +378,7 @@ const Result = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_result") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -391,13 +389,13 @@ const Result = (props) => {
 
         {/* Minimum marks to pass - default 0  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Minimum % to pass</CustomTypography>
+          <CustomTypography>{__("Minimum % to pass", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
-            label="Minimum % to pass"
+            label={__("Minimum % to pass", "acadlix")}
             type="number"
             value={props?.watch("meta.quiz_settings.minimum_percent_to_pass") ?? 0}
             onChange={(e) => {
@@ -430,7 +428,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Answer Sheet Options</Typography>
+        <Typography variant="h6">{__("Answer Sheet Options", "acadlix")}</Typography>
         <Divider />
       </Box>
 
@@ -444,7 +442,7 @@ const Result = (props) => {
            - Show Per Question Time
             */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Answer Sheet</CustomTypography>
+          <CustomTypography>{__("Hide Answer Sheet", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -457,7 +455,7 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
@@ -467,7 +465,7 @@ const Result = (props) => {
 
         {/* Used to show per question time in answer sheet  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Per Question Time</CustomTypography>
+          <CustomTypography>{__("Show Per Question Time", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -482,7 +480,7 @@ const Result = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.quiz_settings.hide_answer_sheet") ||
               (props?.watch("meta.mode") === "advance_mode" &&
@@ -498,7 +496,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Leaderboard Options</Typography>
+        <Typography variant="h6">{__("Leaderboard Options", "acadlix")}</Typography>
         <Divider />
       </Box>
 
@@ -517,7 +515,7 @@ const Result = (props) => {
             - automatically display leaderboard in quiz result - don't display(default) , below the result , in a button 
              */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Leaderboard</CustomTypography>
+          <CustomTypography>{__("Leaderboard", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -542,7 +540,7 @@ const Result = (props) => {
 
               }
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
@@ -552,13 +550,11 @@ const Result = (props) => {
 
         {/* Total number of entries to be displayed in leaderboard */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Total number of enteries</CustomTypography>
-        </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+          <CustomTypography>{__("Total number of enteries", "acadlix")}</CustomTypography>
           <CustomTextField
             fullWidth
             size="small"
-            label="Total number of enteries"
+            label={__("Total number of enteries", "acadlix")}
             type="number"
             value={props?.watch("meta.quiz_settings.leaderboard_total_number_of_entries") ?? 10}
             onChange={(e) => {
@@ -583,7 +579,7 @@ const Result = (props) => {
 
         {/* Used to show rank  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Rank</CustomTypography>
+          <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -596,14 +592,14 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={!props?.watch("meta.quiz_settings.leaderboard")}
           />
         </GridItem1>
 
         {/* Option for Result Comparison with topper    */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Result comparison with topper</CustomTypography>
+          <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -620,7 +616,7 @@ const Result = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               !props?.watch("meta.quiz_settings.leaderboard")
             }
@@ -629,7 +625,7 @@ const Result = (props) => {
 
         {/* User can apply multiple times for leaderboard */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>User can apply multiple times</CustomTypography>
+          <CustomTypography>{__("User can apply multiple times", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -647,7 +643,7 @@ const Result = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             disabled={
               !props?.watch("meta.quiz_settings.leaderboard")
             }
@@ -656,13 +652,13 @@ const Result = (props) => {
 
         {/* Number of times user can apply for leaderboard */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Number of times</CustomTypography>
+          <CustomTypography>{__("Number of times", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
             fullWidth
             size="small"
-            label="Number of times (0 -> Infinity)"
+            label={__("Number of times (0 -> Infinity)", "acadlix")}
             type="number"
             value={
               props?.watch("meta.quiz_settings.leaderboard_apply_multiple_number_of_times") ?? 0
@@ -696,7 +692,7 @@ const Result = (props) => {
             - in the button
           */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Automatically display leaderboard in quiz result</CustomTypography>
+          <CustomTypography>{__("Automatically display leaderboard in quiz result", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={9}>
           <FormControl
@@ -719,7 +715,7 @@ const Result = (props) => {
             >
               <FormControlLabel
                 value="do_not_display"
-                label="don't display"
+                label={__("don't display", "acadlix")}
                 control={<Radio />}
                 checked={
                   props?.watch("meta.quiz_settings.display_leaderboard_in_quiz_result") ===
@@ -734,7 +730,7 @@ const Result = (props) => {
               />
               <FormControlLabel
                 value="below_the_result"
-                label="below the result"
+                label={__("below the result", "acadlix")}
                 control={<Radio />}
                 checked={
                   props?.watch("meta.quiz_settings.display_leaderboard_in_quiz_result") ===
@@ -749,7 +745,7 @@ const Result = (props) => {
               />
               <FormControlLabel
                 value="in_the_button"
-                label="in the button"
+                label={__("in the button", "acadlix")}
                 control={<Radio />}
                 checked={
                   props?.watch("meta.quiz_settings.display_leaderboard_in_quiz_result") ===
@@ -773,7 +769,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Result Text</Typography>
+        <Typography variant="h6">{__("Result Text", "acadlix")}</Typography>
         <Divider />
       </Box>
 
@@ -786,7 +782,7 @@ const Result = (props) => {
             - show simple text or based on %
           */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>% Based Result Text</CustomTypography>
+          <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} lg={3}>
           <FormControlLabel
@@ -811,7 +807,7 @@ const Result = (props) => {
                 }}
               />
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
         <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
@@ -829,7 +825,7 @@ const Result = (props) => {
                         fullWidth
                         size="small"
                         type="number"
-                        label="Percentage (>=)"
+                        label={__("Percentage (>=)", "acadlix")}
                         value={val?.percent ?? 0}
                         onChange={(e) => {
                           props?.setValue(
@@ -855,7 +851,7 @@ const Result = (props) => {
                         size="small"
                         multiline
                         rows={3}
-                        label="% text"
+                        label={__("% text", "acadlix")}
                         value={val?.text ?? ""}
                         onChange={(e) => {
                           props?.setValue(
@@ -893,7 +889,7 @@ const Result = (props) => {
                     );
                   }}
                 >
-                  Add More
+                  {__("Add More", "acadlix")}
                 </Button>
                 <Button
                   sx={{
@@ -914,7 +910,7 @@ const Result = (props) => {
                     );
                   }}
                 >
-                  Remove
+                  {__("Remove", "acadlix")}
                 </Button>
               </GridItem1>
             </React.Fragment>
@@ -949,7 +945,7 @@ const ResultText = (props) => {
   return (
     <React.Fragment>
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>Result Text</CustomTypography>
+        <CustomTypography>{__("Result Text", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <textarea

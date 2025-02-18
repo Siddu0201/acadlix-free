@@ -2,6 +2,7 @@ import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const TypeNumerical = (props) => {
   const handleChange = (e) => {
@@ -59,7 +60,7 @@ const TypeNumerical = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <Typography>
-            <b>Your answer</b>
+            <b>{__("Your answer", "acadlix")}</b>
           </Typography>
         )}
       <Box
@@ -74,7 +75,7 @@ const TypeNumerical = (props) => {
             props?.watch("view_answer") ||
               props?.watch(`questions.${props?.index}.check`)
               ? ""
-              : "Type your answer"
+              : __("Type your answer", "acadlix")
           }
           size="small"
           inputProps={{
@@ -149,7 +150,7 @@ const TypeNumerical = (props) => {
         props?.watch(`questions.${props?.index}.check`)) && (
           <>
             <Typography>
-              <b>Correct answer</b>
+              <b>{__("Correct answer", "acadlix")}</b>
             </Typography>
             <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
           </>

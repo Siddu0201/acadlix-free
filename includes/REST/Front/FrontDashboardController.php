@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
 use WP_Error;
+use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\CourseStatistic;
 use Yuvayana\Acadlix\Models\Lesson;
@@ -149,7 +150,7 @@ class FrontDashboardController
         $params = $request->get_params();
 
         if ($request->get_param("user_id") == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
 
         $skip = $params['page'] * $params['pageSize'];
@@ -320,6 +321,10 @@ class FrontDashboardController
                 'is_completed' => true,
             ]);
         }
+
+        // send email for course completion
+        CourseHelper::instance()->handleCourseCompletionEmail($orderItemId);
+
         return rest_ensure_response(['success' => true]);
     }
 
@@ -368,7 +373,7 @@ class FrontDashboardController
         $res = [];
         $params = $request->get_params();
         if ($request->get_param("user_id") == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $skip = $params['page'] * $params['pageSize'];
         $order = Order::with(['order_items', 'order_metas', 'user'])->where("user_id", $request->get_param("user_id"))->orderBy('created_at', 'desc');
@@ -381,7 +386,7 @@ class FrontDashboardController
     {
         $res = [];
         if ($request->get_param("user_id") == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $res['user'] = WpUsers::with('user_metas')->where('ID', $request->get_param("user_id"))->first();
         return rest_ensure_response($res);
@@ -392,14 +397,14 @@ class FrontDashboardController
         $files = $request->get_file_params();
 
         if (empty($files['file'])) {
-            return new WP_Error('no_file', 'No file uploaded', array('status' => 400));
+            return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
         }
 
         $file = $files['file'];
 
         // Check if the upload is an image
         if (!in_array($file['type'], array('image/jpeg', 'image/png', 'image/jpg'))) {
-            return new WP_Error('invalid_file_type', 'Only JPG and PNG files are allowed', array('status' => 400));
+            return new WP_Error('invalid_file_type', __('Only JPG and PNG files are allowed', 'acadlix'), array('status' => 400));
         }
 
         // Handle the upload using WordPress functions
@@ -444,7 +449,7 @@ class FrontDashboardController
         $params = $request->get_json_params();
         $user_id = $request->get_param("user_id");
         if ($user_id == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
         wp_update_user([
             'ID' => $user_id,

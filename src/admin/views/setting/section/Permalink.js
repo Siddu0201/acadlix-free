@@ -10,7 +10,7 @@ const Permalink = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Course Permalink</Typography>
+        <Typography variant="h6">{__("Course Permalink", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -27,7 +27,7 @@ const Permalink = (props) => {
               fontWeight: 500,
             }}
           >
-            Course base
+            {__("Course base", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -49,7 +49,7 @@ const Permalink = (props) => {
               fontWeight: 500,
             }}
           >
-            Category base
+            {__("Category base", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -71,7 +71,7 @@ const Permalink = (props) => {
               fontWeight: 500,
             }}
           >
-            Tag base
+            {__("Tag base", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>

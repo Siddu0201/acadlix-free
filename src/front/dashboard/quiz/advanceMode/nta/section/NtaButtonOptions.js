@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import { arrayRandomize, shuffleArrayBasedOnOrder } from "../../../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const NtaButtonOptions = (props) => {
   const currentIndex = props
@@ -11,7 +12,7 @@ const NtaButtonOptions = (props) => {
     if (props?.question?.result?.solved_count) {
       props?.handleNext();
     } else {
-      alert("Please choose an option.");
+      alert(__("Please choose an option.", "acadlix"));
     }
   };
 
@@ -104,7 +105,7 @@ const NtaButtonOptions = (props) => {
         shouldDirty: true,
       });
     } else {
-      alert("Please choose an option.");
+      alert(__("Please choose an option.", "acadlix"));
     }
   };
 
@@ -149,7 +150,7 @@ const NtaButtonOptions = (props) => {
           },
         }}
       >
-        SAVE & NEXT
+        {__("SAVE & NEXT", "acadlix")}
       </Button>
       {/* Clear Button  */}
       <Button
@@ -175,7 +176,7 @@ const NtaButtonOptions = (props) => {
           },
         }}
       >
-        CLEAR
+        {__("CLEAR", "acadlix")}
       </Button>
       {/* Save and mark for review button  */}
       <Button
@@ -202,7 +203,7 @@ const NtaButtonOptions = (props) => {
           },
         }}
       >
-        SAVE & MARK FOR REVIEW
+        {__("SAVE & MARK FOR REVIEW", "acadlix")}
       </Button>
       {/* Mark for review and next button  */}
       <Button
@@ -229,7 +230,7 @@ const NtaButtonOptions = (props) => {
           },
         }}
       >
-        MARK FOR REVIEW & NEXT
+        {__("MARK FOR REVIEW & NEXT", "acadlix")}
       </Button>
     </Box>
   );

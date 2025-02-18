@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuizGeneralOptions = (props) => {
   return (
@@ -26,7 +27,7 @@ const QuizGeneralOptions = (props) => {
             }
           }}
         >
-          {props?.isDesktop ? 'Question No.' : 'Q.N.'} 1
+          {props?.isDesktop ? __('Question No.', 'acadlix') : __('Q.N.', 'acadlix')} 1
         </Typography>
       </Box>
       <Box
@@ -47,7 +48,7 @@ const QuizGeneralOptions = (props) => {
               }
             }}
           >
-            {`Marks | `}
+            {__('Marks | ', 'acadlix')}
           </Typography>
           <Typography
             sx={{
@@ -116,7 +117,7 @@ const QuizGeneralOptions = (props) => {
               }
             }}
           >
-            Report
+            {__('Report', 'acadlix')}
           </Button>
         </Box>
       </Box>

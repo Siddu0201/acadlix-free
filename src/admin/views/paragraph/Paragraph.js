@@ -24,6 +24,7 @@ import {
   GetQuizParagraphs,
 } from "../../../requests/admin/AdminParagraphRequest";
 import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Paragraph = () => {
   const methods = useForm({
@@ -43,31 +44,31 @@ const Paragraph = () => {
 
   const deleteMutation = DeleteQuizParagraphById(quiz_id);
   const deleteParagraphById = (id) => {
-    if (confirm("Do you really want to delete this paragraph?")) {
+    if (confirm(__("Do you really want to delete this paragraph?", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 1, minWidth: 130 },
-    { field: "content", headerName: "Content", flex: 2, minWidth: 180 },
+    { field: "id", headerName: __("ID", "acadlix"), flex: 1, minWidth: 80 },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 1, minWidth: 130 },
+    { field: "content", headerName: __("Content", "acadlix"), flex: 2, minWidth: 180 },
     {
       field: "no_of_questions",
-      headerName: "No. of assigned questions",
+      headerName: __("No. of assigned questions", "acadlix"),
       flex: 1,
       minWidth: 130,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 1,
       minWidth: 80,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title="Edit Paragraph" arrow>
+            <Tooltip title={__("Edit Paragraph", "acadlix")} arrow>
               <IconButton
                 aria-label="edit"
                 size="small"
@@ -78,7 +79,7 @@ const Paragraph = () => {
                 <FaEdit />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Paragraph" arrow>
+            <Tooltip title={__("Delete Paragraph", "acadlix")} arrow>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -137,7 +138,7 @@ const Paragraph = () => {
 
   const deleteBulkMutation = DeleteBulkParagraph(quiz_id);
   const handleBulkDelete = () => {
-    if (confirm("Do you really want to delete these paragraphs?")) {
+    if (confirm(__("Do you really want to delete these paragraphs?", "acadlix"))) {
       deleteBulkMutation?.mutate(
         {
           paragraph_ids: methods?.watch("paragraph_ids"),
@@ -167,14 +168,14 @@ const Paragraph = () => {
           default:
         }
       } else {
-        toast.error("Please select atleast 1 entry.", {
+        toast.error(__("Please select atleast 1 entry.", "acadlix"), {
           position: "bottom-left",
         });
       }
     } else {
       methods?.setError("action", {
         type: "custom",
-        message: "Action required",
+        message: __("Action required", "acadlix"),
       });
     }
   };
@@ -200,7 +201,7 @@ const Paragraph = () => {
             LinkComponent={Link}
             to="/"
           >
-            Back
+            {__("Back", "acadlix")}
           </Button>
         </Grid>
         <Grid item xs={12} lg={12}>
@@ -218,7 +219,7 @@ const Paragraph = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Paragraph Overview
+                    {__("Paragraph Overview", "acadlix")}
                   </Typography>
                   <Button
                     variant="contained"
@@ -226,9 +227,9 @@ const Paragraph = () => {
                     to={`/${quiz_id}/paragraph/create`}
                     color="primary"
                   >
-                    Add
+                    {__("Add", "acadlix")}
                   </Button>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>
@@ -260,17 +261,17 @@ const Paragraph = () => {
                     error={Boolean(methods?.formState?.errors?.action)}
                   >
                     <InputLabel id="demo-simple-select-label">
-                      Bulk Actions
+                      {__("Bulk Actions", "acadlix")}
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={methods?.watch("action")}
-                      label="Bulk Actions"
+                      label={__("Bulk Actions", "acadlix")}
                       onChange={handleActionChange}
                     >
-                      <MenuItem value="">Bulk Actions</MenuItem>
-                      <MenuItem value="delete">Delete</MenuItem>
+                      <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                      <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -284,7 +285,7 @@ const Paragraph = () => {
                     onClick={handleBulkAction}
                     color="primary"
                   >
-                    Apply
+                    {__("Apply", "acadlix")}
                   </Button>
                 </Box>
               </Box>

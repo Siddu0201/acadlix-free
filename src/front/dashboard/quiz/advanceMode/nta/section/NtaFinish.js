@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const NtaFinish = (props) => {
   const getData = (type = "", subject_id = 0) => {
@@ -107,7 +108,7 @@ const NtaFinish = (props) => {
             fontWeight: "bold",
           }}
         >
-          Exam Summary
+          {__("Exam Summary", "acadlix")}
         </Typography>
       </Box>
       <Box>
@@ -115,13 +116,13 @@ const NtaFinish = (props) => {
           <Table sx={{ width: "100%", margin: 0 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Name of the Section</TableCell>
-                <TableCell>No. of Question</TableCell>
-                <TableCell>Answered</TableCell>
-                <TableCell>Not Answered</TableCell>
-                <TableCell>Marked for Review</TableCell>
-                <TableCell>Answered and Marked for Review</TableCell>
-                <TableCell>Not Visited</TableCell>
+                <TableCell>{__("Name of the Section", "acadlix")}</TableCell>
+                <TableCell>{__("No. of Question", "acadlix")}</TableCell>
+                <TableCell>{__("Answered", "acadlix")}</TableCell>
+                <TableCell>{__("Not Answered", "acadlix")}</TableCell>
+                <TableCell>{__("Marked for Review", "acadlix")}</TableCell>
+                <TableCell>{__("Answered and Marked for Review", "acadlix")}</TableCell>
+                <TableCell>{__("Not Visited", "acadlix")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -174,7 +175,7 @@ const NtaFinish = (props) => {
             fontWeight: "bold",
           }}
         >
-          Are you sure you want to submit for final marking?
+          {__("Are you sure you want to submit for final marking?", "acadlix")}
         </Typography>
         <Typography
           variant="h6"
@@ -182,7 +183,7 @@ const NtaFinish = (props) => {
             fontWeight: "bold",
           }}
         >
-          No changes will be allowed after submission.
+          {__("No changes will be allowed after submission.", "acadlix")}
         </Typography>
       </Box>
       <Box
@@ -207,7 +208,7 @@ const NtaFinish = (props) => {
             },
           }}
         >
-          YES
+          {__("YES", "acadlix")}
         </Button>
         <Button
           varinat="outlined"
@@ -225,7 +226,7 @@ const NtaFinish = (props) => {
             },
           }}
         >
-          NO
+          {__("NO", "acadlix")}
         </Button>
       </Box>
     </Box>

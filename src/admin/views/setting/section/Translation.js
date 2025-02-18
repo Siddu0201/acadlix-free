@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, TextField, FormControlLabel, Autocomplete } from "@mui/material";
 import Row from "../../../../components/Row";
+import { __ } from "@wordpress/i18n";
 function Translation() {
   const Language = [
     { label: "Language1" },
@@ -17,7 +18,7 @@ function Translation() {
             id="combo-box-demo"
             options={Language}
             renderInput={(params) => (
-              <TextField {...params} label="Choose Language" />
+              <TextField {...params} label={__("Choose Language", "acadlix")} />
             )}
           />
         </Row>

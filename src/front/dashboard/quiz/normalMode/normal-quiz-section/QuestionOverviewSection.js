@@ -1,6 +1,7 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
+import { __ } from "@wordpress/i18n";
 
 const QuestionOverviewSection = (props) => {
   const theme = useTheme();
@@ -169,7 +170,7 @@ const QuestionOverviewSection = (props) => {
             display: "inline-block",
           }}
         ></Box>
-        <Typography>Answered</Typography>
+        <Typography>{__("Answered", "acadlix")}</Typography>
         {props?.watch("show_review_button") && (
           <>
             <Box
@@ -182,7 +183,7 @@ const QuestionOverviewSection = (props) => {
                 display: "inline-block",
               }}
             ></Box>
-            <Typography>Review</Typography>
+            <Typography>{__("Review", "acadlix")}</Typography>
             <Box
               sx={{
                 marginTop: "5px",
@@ -193,7 +194,7 @@ const QuestionOverviewSection = (props) => {
                 display: "inline-block",
               }}
             ></Box>
-            <Typography>Review and answered</Typography>
+            <Typography>{__("Review and answered", "acadlix")}</Typography>
           </>
         )}
       </Box>
@@ -213,7 +214,7 @@ const QuestionOverviewSection = (props) => {
             display: props?.watch("finish") ? "none" : "",
           }}
         >
-          Quiz Summary
+          {__("Quiz Summary", "acadlix")}
         </CustomButton>
       </Box>
     </Box>

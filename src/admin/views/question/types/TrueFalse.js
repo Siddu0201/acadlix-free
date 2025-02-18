@@ -9,12 +9,13 @@ import {
   Alert,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
+import { __ } from "@wordpress/i18n";
 
 function TrueFalse(props) {
   return (
     <Card>
       <CardHeader
-        title={`True/False ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+        title={__('True/False', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -34,7 +35,7 @@ function TrueFalse(props) {
                 marginTop: 2,
               }}
             >
-              Please set atleast one correct option
+              {__("Please set atleast one correct option", "acadlix")}
             </Alert>
           )}
         <RadioGroup row>

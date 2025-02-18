@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
 import { FaSearch } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -76,7 +77,7 @@ const Courses = () => {
                         size="small"
                         options={Categories}
                         renderInput={(params) => (
-                          <TextField {...params} label="Categories" />
+                          <TextField {...params} label={__("Categories", "acadlix")} />
                         )}
                       />
                     </Grid>
@@ -85,7 +86,7 @@ const Courses = () => {
                         size="small"
                         options={Categories}
                         renderInput={(params) => (
-                          <TextField {...params} label="Progress" />
+                          <TextField {...params} label={__("Progress", "acadlix")} />
                         )}
                       />
                     </Grid>
@@ -94,7 +95,7 @@ const Courses = () => {
                         size="small"
                         options={Categories}
                         renderInput={(params) => (
-                          <TextField {...params} label="Instructor" />
+                          <TextField {...params} label={__("Instructor", "acadlix")} />
                         )}
                       />
                     </Grid>
@@ -119,7 +120,7 @@ const Courses = () => {
                     size="small"
                     id="search"
                     type="search"
-                    label="Search"
+                    label={__("Search", "acadlix")}
                     value={searchTerm}
                     onChange={handleChange}
                     InputProps={{
@@ -156,7 +157,7 @@ const Courses = () => {
             </React.Fragment>
           )) : (
             <Grid item xs={12} lg={12}>
-              <Typography>No Course Found</Typography>
+              <Typography>{__("No Course Found", "acadlix")}</Typography>
             </Grid>
           )}
       </Grid>
@@ -237,7 +238,7 @@ const CourseCard = (props) => {
         <Box sx={{ mt: 5 }}>
           <LinearProgress variant="determinate" value={props?.course_completion_percentage} />
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {props?.course_completion_percentage}% Complete
+            {props?.course_completion_percentage}% {__("Complete", "acadlix")}
           </Typography>
         </Box>
       </CardContent>

@@ -8,6 +8,7 @@ import Outcome from "./sections/Outcome";
 import Faq from "./sections/Faq";
 import FeaturedVideo from "./sections/FeaturedVideo";
 import { PostCreateUpdateCourse } from "../../../requests/admin/AdminCourseRequest";
+import { __ } from "@wordpress/i18n";
 
 const CourseSettings = (props) => {
   const methods = useForm({
@@ -118,7 +119,7 @@ const CourseSettings = (props) => {
           size="small"
           onClick={handleTabChange.bind(this, "general")}
         >
-          General
+          {__("General", "acadlix")}
         </Button>
         <Button
           variant={
@@ -128,7 +129,7 @@ const CourseSettings = (props) => {
           size="small"
           onClick={handleTabChange.bind(this, "payment")}
         >
-          Payment
+          {__("Payment", "acadlix")}
         </Button>
         <Button
           variant={
@@ -138,7 +139,7 @@ const CourseSettings = (props) => {
           size="small"
           onClick={handleTabChange.bind(this, "instructor")}
         >
-          Instructor
+          {__("Instructor", "acadlix")}
         </Button>
         <Button
           variant={
@@ -148,7 +149,7 @@ const CourseSettings = (props) => {
           size="small"
           onClick={handleTabChange.bind(this, "outcome")}
         >
-          Outcome
+          {__("Outcome", "acadlix")}
         </Button>
         {/* <Button
           variant={methods?.watch("tab") === "faq" ? "contained" : "outlined"}
@@ -156,7 +157,7 @@ const CourseSettings = (props) => {
           size="small"
           onClick={handleTabChange.bind(this, "faq")}
         >
-          FAQ(s)
+          {__("FAQ(s)", "acadlix")}
         </Button> */}
         {/* <Button
           variant={
@@ -168,7 +169,7 @@ const CourseSettings = (props) => {
           size="small"
           onClick={handleTabChange.bind(this, "featured_video")}
         >
-          Featured Video
+          {__("Featured Video", "acadlix")}
         </Button> */}
       </Box>
       <Box

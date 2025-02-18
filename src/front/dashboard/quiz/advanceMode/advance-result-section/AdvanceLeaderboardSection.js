@@ -4,6 +4,7 @@ import First from "../../../../../images/medal-1.svg";
 import Second from "../../../../../images/medal-2.svg";
 import Third from "../../../../../images/medal-3.svg";
 import { PostLoadMoreLeaderboard } from "../../../../../requests/front/FrontQuizRequest";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceLeaderboardSection = (props) => {
   const styles = {
@@ -159,7 +160,7 @@ const AdvanceLeaderboardSection = (props) => {
     >
       <Box sx={styles.header}>
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
-          Leaderboard
+          {__("Leaderboard", "acadlix")}
         </Typography>
       </Box>
 
@@ -196,7 +197,7 @@ const AdvanceLeaderboardSection = (props) => {
             }}
           >
             <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
-              Load More
+              {__("Load More", "acadlix")}
             </Button>
           </Box>
         )}

@@ -1,5 +1,6 @@
 import { Alert, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuestionTextSection = (props) => {
   const loadPage = () => {
@@ -36,7 +37,7 @@ const QuestionTextSection = (props) => {
               color: "black",
               fontSize: '1.5rem',
             }}>
-              Question<span style={{ color: "red" }}>*</span> {props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}
+              {__("Question", "acadlix")}<span style={{ color: "red" }}>*</span> {props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}
             </Typography>
           )}
         />
@@ -47,7 +48,7 @@ const QuestionTextSection = (props) => {
                 {...props?.register(`language.${props?.index}.question`, {
                   required: {
                     value: props?.watch(`language.${props?.index}.default`),
-                    message: "Question is required"
+                    message: __("Question is required", "acadlix")
                   }
                 })}
                 id={`question_${props?.lang?.language_id}`}

@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { PostUpdateSetting } from "../../../requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import QuizSettings from "./section/QuizSettings";
+import { __ } from "@wordpress/i18n";
 
 function Setting() {
   const [value, setValue] = React.useState("1");
@@ -130,7 +131,7 @@ function Setting() {
   const onSubmit = (data) => {
     updateMutation?.mutate(data, {
       onSuccess: (data) => {
-        toast.success("Settings saved successfully.");
+        toast.success(__('Settings saved successfully.', 'acadlix'));
       },
     });
   };
@@ -158,12 +159,12 @@ function Setting() {
                         scrollButtons="auto"
                         aria-label="scrollable prevent tabs example"
                       >
-                        <Tab label="General" value="1" />
-                        <Tab label="Payment" value="2" />
-                        <Tab label="Notification" value="3" />
-                        <Tab label="Permalink" value="4" />
-                        <Tab label="Quiz" value="5" />
-                        <Tab label="License" value="6" />
+                        <Tab label={__("General", "acadlix")} value="1" />
+                        <Tab label={__("Payment", "acadlix")} value="2" />
+                        <Tab label={__("Notification", "acadlix")} value="3" />
+                        <Tab label={__("Permalink", "acadlix")} value="4" />
+                        <Tab label={__("Quiz", "acadlix")} value="5" />
+                        <Tab label={__("License", "acadlix")} value="6" />
                       </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -206,7 +207,7 @@ function Setting() {
           {updateMutation?.isPending ? (
             <CircularProgress color="inherit" size={20} />
           ) : (
-            "Save"
+            __("Save", "acadlix")
           )}
         </Button>
       </form>

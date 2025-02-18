@@ -10,6 +10,7 @@ import {
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
+import { __ } from "@wordpress/i18n";
 
 function Registration() {
   return (
@@ -17,17 +18,17 @@ function Registration() {
       <Grid container>
         <GridItem1 xs={3} lg={3}>
           <Typography variant="body1">
-            Enable
+            {__("Enable", "acadlix")}
           </Typography>
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
           <Typography variant="body1">
-            Required
+            {__("Required", "acadlix")}
           </Typography>
         </GridItem1>
         <GridItem1 xs={6} lg={4}>
           <Typography variant="body1">
-            Label
+            {__("Label", "acadlix")}
           </Typography>
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
@@ -40,7 +41,7 @@ function Registration() {
           <CustomTextField
             fullWidth
             size="small"
-            label="First name"
+            label={__("First name", "acadlix")}
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
@@ -53,7 +54,7 @@ function Registration() {
           <CustomTextField
             fullWidth
             size="small"
-            label="Last name"
+            label={__("Last name", "acadlix")}
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
@@ -66,7 +67,7 @@ function Registration() {
           <CustomTextField
             fullWidth
             size="small"
-            label="Email ID"
+            label={__("Email ID", "acadlix")}
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
@@ -79,7 +80,7 @@ function Registration() {
           <CustomTextField
             fullWidth
             size="small"
-            label="Choose Username"
+            label={__("Choose Username", "acadlix")}
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
@@ -92,7 +93,7 @@ function Registration() {
           <CustomTextField
             fullWidth
             size="small"
-            label="Mobile number"
+            label={__("Mobile number", "acadlix")}
           />
         </GridItem1>
         <GridItem1 xs={3} lg={3}>
@@ -105,7 +106,7 @@ function Registration() {
           <CustomTextField
             fullWidth
             size="small"
-            label="Highest Qualification"
+            label={__("Highest Qualification", "acadlix")}
           />
         </GridItem1>
       </Grid>

@@ -2,6 +2,7 @@ import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import dashboardMenu from "../menu/dashboardMenu";
+import { __ } from "@wordpress/i18n";
 
 const DashboardNavbar = () => {
   const path = useLocation();
@@ -65,7 +66,7 @@ const DashboardNavbar = () => {
               component="a"
               href={acadlixOptions?.home_url}
             >
-              Home
+              {__("Home", "acadlix")}
             </Button>
             {dashboardMenu.map((page) => (
               <Button

@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 function License(props) {
   return (
@@ -10,7 +11,7 @@ function License(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">License Settings</Typography>
+        <Typography variant="h6">{__("License Settings", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -27,7 +28,7 @@ function License(props) {
               fontWeight: 500,
             }}
           >
-            Enter your email id
+            {__("Enter your email id", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={9}>
@@ -49,7 +50,7 @@ function License(props) {
               fontWeight: 500,
             }}
           >
-            Enter your license key
+            {__("Enter your license key", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={9}>

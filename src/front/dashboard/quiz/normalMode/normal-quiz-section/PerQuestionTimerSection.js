@@ -2,6 +2,7 @@ import { Box, LinearProgress, Typography } from "@mui/material";
 import React from "react";
 import Countdown from "react-countdown";
 import { secondsToHms } from "../../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const PerQuestionTimerSection = (props) => {
   const [timer, setTimer] = React.useState(
@@ -90,7 +91,7 @@ const PerQuestionTimerSection = (props) => {
                   margin: 1,
                 }}
               >
-                Time Limit: {secondsToHms(Math.ceil(prop?.total / 1000))}
+                {__("Time Limit", "acadlix")}: {secondsToHms(Math.ceil(prop?.total / 1000))}
               </Typography>
               <LinearProgress
                 variant="determinate"

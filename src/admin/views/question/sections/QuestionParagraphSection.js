@@ -9,19 +9,20 @@ import {
 } from "@mui/material";
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
+import { __ } from "@wordpress/i18n";
 
 const QuestionParagraphSection = (props) => {
   return (
     <Grid item xs={12} sm={12}>
       <Card>
         <CardHeader
-          title="Paragraph Options"
+          title={__("Paragraph Options", "acadlix")}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
               color: "black",
             },
-          }}
+          }}  
         />
         <CardContent>
           <Grid container spacing={4}>
@@ -37,7 +38,7 @@ const QuestionParagraphSection = (props) => {
                     }}
                   />
                 }
-                label="Enable Paragraph"
+                label={__("Enable Paragraph", "acadlix")}
               />
             </Grid>
             {props?.watch("paragraph_enabled") && (
@@ -48,9 +49,9 @@ const QuestionParagraphSection = (props) => {
                   value={
                     props?.watch("paragraph_id") !== null
                       ? props?.paragraphs.filter(
-                          (option) =>
-                            props?.watch("paragraph_id") === option?.ID
-                        )?.[0]
+                        (option) =>
+                          props?.watch("paragraph_id") === option?.ID
+                      )?.[0]
                       : null
                   }
                   options={props?.paragraphs ? props?.paragraphs : []}
@@ -64,7 +65,7 @@ const QuestionParagraphSection = (props) => {
                       inputProps={{
                         ...params.inputProps,
                       }}
-                      label="Select Paragraph"
+                      label={__("Select Paragraph", "acadlix")}
                       InputProps={{
                         ...params.InputProps,
                       }}

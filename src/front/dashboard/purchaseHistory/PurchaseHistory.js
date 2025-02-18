@@ -21,6 +21,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { GetUserPurchases } from "../../../requests/front/FrontDashboardRequest";
 import { dateI18n } from "@wordpress/date";
 import { currencyPosition } from "../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const PurchaseHistory = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -33,24 +34,24 @@ const PurchaseHistory = () => {
   });
 
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "id", headerName: __("ID", "acadlix") },
     {
       field: "order_items",
-      headerName: "Order Items",
+      headerName: __("Order Items", "acadlix"),
       flex: 2,
       minWidth: 130,
     },
     {
       field: "payment_method",
-      headerName: "Method",
+      headerName: __("Method", "acadlix"),
       flex: 1,
       minWidth: 100,
     },
-    { field: "order_id", headerName: "Order/Txn ID", flex: 2, minWidth: 180 },
-    { field: "order_date", headerName: "Order Date", minWidth: 180 },
+    { field: "order_id", headerName: __("Order/Txn ID", "acadlix"), flex: 2, minWidth: 180 },
+    { field: "order_date", headerName: __("Order Date", "acadlix"), minWidth: 180 },
     {
       field: "status",
-      headerName: "Status",
+      headerName: __("Status", "acadlix"),
       flex: 1,
       minWidth: 100,
       renderCell: (params) => {
@@ -71,7 +72,7 @@ const PurchaseHistory = () => {
     },
     {
       field: "total_amount",
-      headerName: "Amount",
+      headerName: __("Amount", "acadlix"),
       flex: 1,
       minWidth: 100,
     },
@@ -172,9 +173,9 @@ const PurchaseHistory = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Purchase History
+                    {__("Purchase History", "acadlix")}
                   </Typography>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>

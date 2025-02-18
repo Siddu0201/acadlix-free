@@ -12,6 +12,7 @@ import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { useForm } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 function Payment(props) {
   const methods = useForm({
@@ -32,7 +33,7 @@ function Payment(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Payment Gateway</Typography>
+        <Typography variant="h6">{__("Payment Gateway", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -45,7 +46,7 @@ function Payment(props) {
         <Grid item xs={12} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="RazorPay"
+            label={__("RazorPay", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_razorpay_active") === "yes"}
             onClick={(e) => {
@@ -62,7 +63,7 @@ function Payment(props) {
             fullWidth
             size="small"
             type={methods?.watch("showRazorpayClientID") ? "text" : "password"}
-            label="RazorPay Client ID"
+            label={__("RazorPay Client ID", "acadlix")}
             value={props?.watch("acadlix_razorpay_client_id")}
             onChange={(e) => {
               props?.setValue("acadlix_razorpay_client_id", e?.target?.value, {
@@ -94,7 +95,7 @@ function Payment(props) {
             fullWidth
             size="small"
             type={methods?.watch("showRazorpaySecretKey") ? "text" : "password"}
-            label="RazorPay Secret Key"
+            label={__("RazorPay Secret Key", "acadlix")}
             value={props?.watch("acadlix_razorpay_secret_key")}
             onChange={(e) => {
               props?.setValue("acadlix_razorpay_secret_key", e?.target?.value, {
@@ -126,7 +127,7 @@ function Payment(props) {
         <Grid item xs={12} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="PayPal"
+            label={__("PayPal", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_paypal_active") === "yes"}
             onClick={(e) => {
@@ -143,7 +144,7 @@ function Payment(props) {
             fullWidth
             size="small"
             type={methods?.watch("showPaypalClientID") ? "text" : "password"}
-            label="PayPal Client ID"
+            label={__("PayPal Client ID", "acadlix")}
             value={props?.watch("acadlix_paypal_client_id")}
             onChange={(e) => {
               props?.setValue("acadlix_paypal_client_id", e?.target?.value, {
@@ -175,7 +176,7 @@ function Payment(props) {
             fullWidth
             size="small"
             type={methods?.watch("showPaypalSecretKey") ? "text" : "password"}
-            label="PayPal Secret Key"
+            label={__("PayPal Secret Key", "acadlix")}
             value={props?.watch("acadlix_paypal_secret_key")}
             onChange={(e) => {
               props?.setValue("acadlix_paypal_secret_key", e?.target?.value, {
@@ -205,7 +206,7 @@ function Payment(props) {
         <Grid item xs={12} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Sandbox"
+            label={__("Sandbox", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_paypal_sandbox") === "yes"}
             onClick={(e) => {
@@ -220,7 +221,7 @@ function Payment(props) {
         <Grid item xs={12} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="PayU"
+            label={__("PayU", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_payu_active") === "yes"}
             onClick={(e) => {
@@ -241,7 +242,7 @@ function Payment(props) {
             fullWidth
             size="small"
             type={methods?.watch("showPayuMerchentKey") ? "text" : "password"}
-            label="PayU Merchant Key"
+            label={__("PayU Merchant Key", "acadlix")}
             value={props?.watch("acadlix_payu_merchant_key")}
             onChange={(e) => {
               props?.setValue("acadlix_payu_merchant_key", e?.target?.value, {
@@ -273,7 +274,7 @@ function Payment(props) {
             fullWidth
             size="small"
             type={methods?.watch("showPayuSalt") ? "text" : "password"}
-            label="PayU Salt"
+            label={__("PayU Salt", "acadlix")}
             value={props?.watch("acadlix_payu_salt")}
             onChange={(e) => {
               props?.setValue(
@@ -307,7 +308,7 @@ function Payment(props) {
         <Grid item xs={12} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Sandbox"
+            label={__("Sandbox", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_payu_sandbox") === "yes"}
             onClick={(e) => {
@@ -326,7 +327,7 @@ function Payment(props) {
         {/* <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Offline Payment Method"
+            label={__("Offline Payment Method", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_offline_payment") === "yes"}
             onClick={(e) => {

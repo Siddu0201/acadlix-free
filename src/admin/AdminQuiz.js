@@ -19,6 +19,7 @@ import CreateParagraph from "./views/paragraph/CreateParagraph";
 import EditParagraph from "./views/paragraph/EditParagraph";
 import "./AdminQuiz.css";
 import ScrollToTop from "../helpers/ScrollToTop";
+import { __ } from "@wordpress/i18n";
 
 const AdminQuiz = () => {
   return (
@@ -53,7 +54,7 @@ const AdminQuiz = () => {
                 <Route path="edit/:paragraph_id" element={<EditParagraph />} />
               </Route>
             </Route>
-            <Route path="*" element={<div>No path found</div>}></Route>
+            <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
           </Routes>
         </LocalizationProvider>
       </HashRouter>

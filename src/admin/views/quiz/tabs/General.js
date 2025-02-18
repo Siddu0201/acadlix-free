@@ -20,6 +20,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { convertToPostDate } from "../../../../helpers/util";
 import CustomTypography from "../../../../components/CustomTypography";
+import { __ } from "@wordpress/i18n";
 
 const General = (props) => {
   return (
@@ -29,7 +30,7 @@ const General = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">General Options</Typography>
+        <Typography variant="h6">{__("General Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -38,7 +39,7 @@ const General = (props) => {
         alignItems="center"
       >
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Quiz Title</CustomTypography>
+          <CustomTypography>{__("Hide Quiz Title", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* Used to hide quiz title in a quiz */}
@@ -57,12 +58,12 @@ const General = (props) => {
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Restart Button</CustomTypography>
+          <CustomTypography>{__("Hide Restart Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* User can restart quiz after submittion */}
@@ -79,12 +80,12 @@ const General = (props) => {
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Clear Response Button</CustomTypography>
+          <CustomTypography>{__("Show Clear Response Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* Used to clear answer button to clear option selction */}
@@ -99,12 +100,12 @@ const General = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Review Button</CustomTypography>
+          <CustomTypography>{__("Show Review Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* Button to review quiz  */}
@@ -121,7 +122,7 @@ const General = (props) => {
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
@@ -130,7 +131,7 @@ const General = (props) => {
           - per question time
         */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Quiz Time Type</CustomTypography>
+          <CustomTypography>{__("Quiz Time Type", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -154,7 +155,7 @@ const General = (props) => {
               <FormControlLabel
                 value="full_quiz_time"
                 control={<Radio />}
-                label="Full Quiz"
+                label={__("Full Quiz", "acadlix")}
                 checked={props?.watch("meta.quiz_settings.quiz_timing_type") === "full_quiz_time"}
                 componentsProps={{
                   typography: {
@@ -165,7 +166,7 @@ const General = (props) => {
               <FormControlLabel
                 value="per_question_time"
                 control={<Radio />}
-                label="Per Question"
+                label={__("Per Question", "acadlix")}
                 checked={
                   props?.watch("meta.quiz_settings.quiz_timing_type") === "per_question_time"
                 }
@@ -186,13 +187,13 @@ const General = (props) => {
 
         {/* Timing in sec (0 => infinity) */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Quiz Timing</CustomTypography>
+          <CustomTypography>{__("Quiz Timing", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
             fullWidth
-            label="Timing (in sec, 0 => infinite)"
+            label={__("Timing (in sec, 0 => infinite)", "acadlix")}
             size="small"
             type="number"
             value={props?.watch("meta.quiz_settings.quiz_time") ?? 0}
@@ -215,7 +216,7 @@ const General = (props) => {
 
         {/* Quiz start date */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Start date</CustomTypography>
+          <CustomTypography>{__("Start date", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -225,7 +226,7 @@ const General = (props) => {
             },
           }}>
             <DateTimePicker
-              label="Enter Start Date*"
+              label={__("Enter Start Date*", "acadlix")}
               format="DD/MM/YYYY hh:mm:a"
               timeSteps={{
                 minutes: 1,
@@ -265,7 +266,7 @@ const General = (props) => {
 
         {/* Quiz End Date */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>End date</CustomTypography>
+          <CustomTypography>{__("End date", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -275,7 +276,7 @@ const General = (props) => {
             },
           }}>
             <DateTimePicker
-              label="Enter End Date*"
+              label={__("Enter End Date", "acadlix")}
               timeSteps={{
                 minutes: 1,
               }}
@@ -319,7 +320,7 @@ const General = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Login Options</Typography>
+        <Typography variant="h6">{__("Login Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -330,7 +331,7 @@ const General = (props) => {
 
         {/* If login is required for the quiz */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Enable login/register</CustomTypography>
+          <CustomTypography>{__("Enable login/register", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -348,18 +349,18 @@ const General = (props) => {
               props?.watch("meta.mode") === "advance_mode" &&
               props?.watch("meta.advance_mode_type") !== "advance_panel"
             }
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Per user allowed attempt to attent the quiz */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Per User Allowed Attempt</CustomTypography>
+          <CustomTypography>{__("Per User Allowed Attempt", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
           <CustomTextField
-            label="Per User Allowed Attempt"
+            label={__("Per User Allowed Attempt", "acadlix")}
             variant="outlined"
             size="small"
             type="number"
@@ -380,7 +381,7 @@ const General = (props) => {
             }}
           />
           <Tooltip
-            title="Sets allowed attempts (0 = unlimited); requires login at quiz start."
+            title={__("Sets allowed attempts (0 = unlimited); requires login at quiz start.", "acadlix")}
             placement="right-start"
           >
             <IconButton
@@ -421,7 +422,7 @@ const General = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Advance Options</Typography>
+        <Typography variant="h6">{__("Advance Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -431,7 +432,7 @@ const General = (props) => {
       >
         {/* Used to set limited number of question in a quiz */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Only Specific Number of Questions</CustomTypography>
+          <CustomTypography>{__("Show Only Specific Number of Questions", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -450,13 +451,13 @@ const General = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Number of question to set in quiz */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Specific Number of Questions</CustomTypography>
+          <CustomTypography>{__("Specific Number of Questions", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -464,7 +465,7 @@ const General = (props) => {
             fullWidth
             size="small"
             type="number"
-            label="Specific Number of Questions"
+            label={__("Specific Number of Questions", "acadlix")}
             value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
             onChange={(e) => {
               props?.setValue(
@@ -487,7 +488,7 @@ const General = (props) => {
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Enable Check Button</CustomTypography>
+          <CustomTypography>{__("Enable Check Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         <GridItem1 xs={12} sm={6} lg={3}>
@@ -502,7 +503,7 @@ const General = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
       </Grid>

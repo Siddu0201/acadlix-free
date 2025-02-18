@@ -1,28 +1,26 @@
 import React from 'react'
 import { Box, Typography } from "@mui/material"
+import { __ } from "@wordpress/i18n"
 
 const QuizQuestionTypeAndMarks = (props) => {
   const selectedQuestion = props?.watch("questions")?.filter(q => q?.selected)?.[0];
   const answerType = () => {
     switch (selectedQuestion?.answer_type) {
       case "singleChoice":
-        return "Single Choice Question";
+        return __("Single Choice Question", "acadlix");
       case "multipleChoice":
-        return "Multiple Choice Question";
+        return __("Multiple Choice Question", "acadlix");
       case "trueFalse":
-        return "True False";
+        return __("True False", "acadlix");
       case "sortingChoice":
-        return "Sorting Choice Question";
+        return __("Sorting Choice Question", "acadlix");
       case "matrixSortingChoice":
-        return "Matrix Sorting Choice Question";
-      case "fillInTheBlank":
-        return "Fill in the blank";
       case "numerical":
-        return "Numerical";
+        return __("Numerical", "acadlix");
       case "rangeType":
-        return "Range Type Question";
+        return __("Range Type Question", "acadlix");
       default:
-        return "Single Choice Question";
+        return __("Single Choice Question", "acadlix");
     }
   };
   return (
@@ -38,7 +36,7 @@ const QuizQuestionTypeAndMarks = (props) => {
         <Typography variant="subtitle2" sx={{
           fontSize: 12,
         }}>
-          Question Type: {answerType()} 
+          {__("Question Type:", "acadlix")} {answerType()} 
         </Typography>
       </Box>
     </Box>

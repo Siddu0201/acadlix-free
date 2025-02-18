@@ -1,22 +1,23 @@
+import { __ } from "@wordpress/i18n";
 const menus = [
   {
     id: "courses",
-    name: "My Courses",
+    name: __("My Courses", 'acadlix'),
     path: "/courses",
   },
   {
     id: "result",
-    name: "My Result",
+    name: __("My Result", 'acadlix'),
     path: "/result",
   },
   {
     id: "purcahse",
-    name: "Purchase History",
+    name: __("Purchase History", 'acadlix'),
     path: "/purchase",
   },
   {
     id: "profile",
-    name: "Profile",
+    name: __("Profile", 'acadlix'),
     path: "/profile",
   },
   // {

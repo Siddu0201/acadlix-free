@@ -31,6 +31,7 @@ import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
 import { IoMdRefresh } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Question = () => {
   const methods = useForm({
@@ -51,33 +52,33 @@ const Question = () => {
 
   const deleteMutation = DeleteQuizQuestionById(quiz_id);
   const deleteQuestionById = (question_id) => {
-    if (confirm("Do you really want to delete this question?")) {
+    if (confirm(__('Do you really want to delete this question?', 'acadlix'))) {
       deleteMutation?.mutate(question_id);
     }
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
-    { field: "type", headerName: "Type", flex: 1, minWidth: 100 },
-    { field: "subject", headerName: "Subject", flex: 1, minWidth: 100 },
-    { field: "points", headerName: "Points", flex: 1, minWidth: 100 },
+    { field: "id", headerName: __("ID", "acadlix"), flex: 1, minWidth: 50 },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
+    { field: "type", headerName: __("Type", "acadlix"), flex: 1, minWidth: 100 },
+    { field: "subject", headerName: __("Subject", "acadlix"), flex: 1, minWidth: 100 },
+    { field: "points", headerName: __("Points", "acadlix"), flex: 1, minWidth: 100 },
     {
       field: "negative_points",
-      headerName: "Negative Points",
+      headerName: __("Negative Points", "acadlix"),
       flex: 1,
       minWidth: 100,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 1,
       minWidth: 80,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title="Edit Question" arrow>
+            <Tooltip title={__("Edit Question", "acadlix")} arrow>
               <IconButton
                 aria-label="edit"
                 size="small"
@@ -88,7 +89,7 @@ const Question = () => {
                 <FaEdit />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Question" arrow>
+            <Tooltip title={__("Delete Question", "acadlix")} arrow>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -113,23 +114,23 @@ const Question = () => {
   const getType = (type = "") => {
     switch (type) {
       case "singleChoice":
-        return "Single Choice";
+        return __("Single Choice", "acadlix");
       case "multipleChoice":
-        return "Multiple Choice";
+        return __("Multiple Choice", "acadlix");
       case "trueFalse":
-        return "True False";
+        return __("True False", "acadlix");
       case "sortingChoice":
-        return "Sorting Choice";
+        return __("Sorting Choice", "acadlix");
       case "matrixSortingChoice":
-        return "Matrix Sorting Choice";
+        return __("Matrix Sorting Choice", "acadlix");
       case "fillInTheBlank":
-        return "Fill in the blank";
+        return __("Fill in the blank", "acadlix");
       case "numerical":
-        return "Numerical";
+        return __("Numerical", "acadlix");
       case "rangeType":
-        return "Range Type";
+        return __("Range Type", "acadlix");
       case "paragraph":
-        return "Paragraph";
+        return __("Paragraph", "acadlix");
       default:
         return "";
     }
@@ -173,7 +174,7 @@ const Question = () => {
 
   const deleteBulkMutation = DeleteBulkQuestion(quiz_id);
   const handleBulkDelete = () => {
-    if (confirm("Do you really want to delete these questions?")) {
+    if (confirm(__("Do you really want to delete these questions?", "acadlix"))) {
       deleteBulkMutation?.mutate(
         {
           question_ids: methods?.watch("question_ids"),
@@ -217,14 +218,14 @@ const Question = () => {
           default:
         }
       } else {
-        toast.error("Please select atleast 1 entry.", {
+        toast.error(__("Please select atleast 1 entry.", "acadlix"), {
           position: "bottom-left",
         });
       }
     } else {
       methods?.setError("action", {
         type: "custom",
-        message: "Action required",
+        message: __("Action required", "acadlix"),
       });
     }
   };
@@ -299,7 +300,7 @@ const Question = () => {
             LinkComponent={Link}
             to="/"
           >
-            Back
+            {__('Back', 'acadlix')}
           </Button>
         </Grid>
         <Grid item xs={12} lg={12}>
@@ -317,7 +318,7 @@ const Question = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Question Overview
+                    {__("Question Overview", "acadlix")}
                   </Typography>
                   <Button
                     variant="contained"
@@ -325,9 +326,9 @@ const Question = () => {
                     to={`/${quiz_id}/question/create`}
                     color="primary"
                   >
-                    Add
+                    {__("Add", "acadlix")}
                   </Button>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>
@@ -339,7 +340,7 @@ const Question = () => {
                       href={`${acadlixOptions?.abqu_url}&quiz_id=${quiz_id}`}
                       color="primary"
                     >
-                      Import from .docx
+                      {__("Import from .docx", "acadlix")}
                     </Button>
                   )}
                 </Box>
@@ -371,22 +372,24 @@ const Question = () => {
                         error={Boolean(methods?.formState?.errors?.action)}
                       >
                         <InputLabel id="demo-simple-select-label">
-                          Bulk Actions
+                          {__("Bulk Actions", "acadlix")}
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={methods?.watch("action")}
-                          label="Bulk Actions"
+                          label={__("Bulk Actions", "acadlix")}
                           onChange={handleActionChange}
                         >
-                          <MenuItem value="">Bulk Actions</MenuItem>
-                          <MenuItem value="delete">Delete</MenuItem>
+                          <MenuItem value="">
+                            {__("Bulk Actions", "acadlix")}
+                          </MenuItem>
+                          <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
                           <MenuItem value="set_subject_and_points">
-                            Set Subject and Points
+                            {__("Set Subject and Points", "acadlix")}
                           </MenuItem>
                           <MenuItem value="set_paragraph">
-                            Set Paragraph
+                            {__("Set Paragraph", "acadlix")}
                           </MenuItem>
                         </Select>
                         <FormHelperText>
@@ -401,7 +404,7 @@ const Question = () => {
                         onClick={handleBulkAction}
                         color="primary"
                       >
-                        Apply
+                        {__("Apply", "acadlix")}
                       </Button>
                     </Box>
                   </Box>

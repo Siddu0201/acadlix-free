@@ -31,6 +31,7 @@ import { FaMinus, FaPlus, FaTrash, IoClose } from "../../../../helpers/icons";
 import { LoadingButton } from "@mui/lab";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { __ } from "@wordpress/i18n";
 
 const Language = (props) => {
   const methods = useForm({
@@ -93,7 +94,7 @@ const Language = (props) => {
 
   const handleAddLanguage = () => {
     if (!methods?.watch("language_id")) {
-      toast.error("Please select language");
+      toast.error(__('Please select language', 'acadlix'));
       return;
     }
 
@@ -106,11 +107,11 @@ const Language = (props) => {
 
   const handleSetDefaultLanguage = (language_id) => {
     if (!language_id) {
-      toast.error("Please select language");
+      toast.error(__('Please select language', 'acadlix'));
       return;
     }
 
-    if(confirm("Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.")){
+    if(confirm(__('Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.', 'acadlix'))){
       props?.setValue("meta.default_language_id", language_id, { shouldDirty: true });
       props?.setValue(
         "meta.quiz_language_data", 
@@ -133,11 +134,11 @@ const Language = (props) => {
 
   const handleRemoveLanguage = (language_id) => {
     if (!language_id) {
-      toast.error("Please select language");
+      toast.error(__('Please select language', 'acadlix'));
       return;
     }
 
-    if(confirm("Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.")){
+    if(confirm(__('Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.', 'acadlix'))){
       props?.setValue("languages", props?.watch("languages").filter(l => l !== language_id));
       props?.setValue("meta quiz_language_data", props?.watch("meta quiz_language_data")?.filter(l => l?.language_id !== language_id), { shouldDirty: true });
       if(!props?.create){
@@ -180,7 +181,7 @@ const Language = (props) => {
         <Grid item xs={12} sm={6} lg={4}>
           <Grid container>
             <GridItem1 xs={12} lg={12}>
-              <Typography variant="h6">Language Options</Typography>
+              <Typography variant="h6">{__('Language Options', 'acadlix')}</Typography>
             </GridItem1>
             <GridItem1 xs={12} lg={12}>
               <FormControlLabel
@@ -194,7 +195,7 @@ const Language = (props) => {
                     }}
                   />
                 }
-                label="Multi Language"
+                label={__('Multi Language', 'acadlix')}
               />
             </GridItem1>
 
@@ -224,7 +225,7 @@ const Language = (props) => {
                   <TextField
                     {...params}
                     variant="outlined"
-                    label="Select Languages"
+                    label={__('Select Languages', 'acadlix')}
                   />
                 )}
                 onChange={(_, newValue) => {
@@ -241,7 +242,7 @@ const Language = (props) => {
                 size="small"
                 onClick={handleAddLanguage}
               >
-                Add
+                {__('Add', 'acadlix')}
               </LoadingButton>
             </GridItem1>
             <GridItem1
@@ -268,7 +269,7 @@ const Language = (props) => {
                               size="small"
                               onClick={handleSetDefaultLanguage.bind(this, value)}
                             >
-                              Set Default
+                              {__('Set Default', 'acadlix')}
                             </Button>
                             <Button
                               variant="outlined"
@@ -276,7 +277,7 @@ const Language = (props) => {
                               size="small"
                               onClick={handleRemoveLanguage.bind(this, value)}
                             >
-                              Delete
+                              {__('Delete', 'acadlix')}
                             </Button>
                           </Box>
                         }
@@ -285,7 +286,7 @@ const Language = (props) => {
                   >
                     <ListItemText
                       primary={props?.languages?.find(l => l?.term_id === value)?.name}
-                      secondary={props?.watch("meta.default_language_id") === value ? "Default" : ""}
+                      secondary={props?.watch("meta.default_language_id") === value ? __("Default", 'acadlix') : ""}
                     />
                   </ListItem>
                 ))}
@@ -303,7 +304,7 @@ const CopyLanguageModel = memo((props) => {
   return (
     <>
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Would like to copy data
+        {__('Would like to copy data', 'acadlix')}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -330,14 +331,14 @@ const CopyLanguageModel = memo((props) => {
                   }}
                 />
               }
-              label="Would you like to copy the default language's data, such as instructions, questions, and other relevant content, to the newly created language?"
+              label={__('Would you like to copy the default language\'s data, such as instructions, questions, and other relevant content, to the newly created language?', 'acadlix')}
             />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
+          {__('Cancel', 'acadlix')}
         </Button>
         <Button
           variant="contained"
@@ -347,7 +348,7 @@ const CopyLanguageModel = memo((props) => {
             props?.handleSaveLanaguage(copyDefaultLanguage);
           }}
         >
-          Save
+          {__('Save', 'acadlix')}
         </Button>
       </DialogActions>
     </>

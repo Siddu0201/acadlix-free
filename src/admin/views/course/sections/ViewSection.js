@@ -35,6 +35,7 @@ import {
 } from "../../../../requests/admin/AdminCourseRequest";
 import toast from "react-hot-toast";
 import ViewContentSection from "./ViewContentSection";
+import { __ } from "@wordpress/i18n";
 
 const ViewSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -358,7 +359,7 @@ const SortableSections = (props) => {
   const handleRemoveSection = (e) => {
     if (
       confirm(
-        "Are you sure you want to delete this section, this will also remove related quizzes and lessons."
+        __("Are you sure you want to delete this section, this will also remove related quizzes and lessons.", "acadlix")
       )
     ) {
       deleteMutation?.mutate(

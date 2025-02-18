@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuizHeader = (props) => {
   return (
@@ -15,7 +16,7 @@ const QuizHeader = (props) => {
     >
       <Box>
         <Typography variant="h6" sx={{ flexGrow: 1, color: "#FF0000" }}>
-          Acadlix
+          {__('Acadlix', 'acadlix')}
         </Typography>
       </Box>
       <Box>
@@ -28,7 +29,7 @@ const QuizHeader = (props) => {
             borderRadius: 0,
           }}
         >
-          Switch to full screen
+          {__('Switch to full screen', 'acadlix')}
         </Button>
         <Button
           variant="contained"
@@ -39,7 +40,7 @@ const QuizHeader = (props) => {
             borderRadius: 0 ,
           }}
         >
-          Pause
+          {__('Pause', 'acadlix')}
         </Button>
       </Box>
     </Box>

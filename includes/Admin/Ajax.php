@@ -43,7 +43,7 @@ class Ajax
         if (is_wp_error($user)) {
             wp_send_json_error(['message' => $user->get_error_message(), 'error_code' => $user->get_error_code()]);
         } else {
-            wp_send_json_success(['user' => $user, 'message' => 'Login successful']);
+            wp_send_json_success(['user' => $user, 'message' => __('Login successful', 'acadlix')]);
         }
         wp_die();
     }
@@ -58,7 +58,7 @@ class Ajax
 
         // Ensure username, email, and password are provided
         if (empty($username) || empty($email) || empty($password)) {
-            wp_send_json_error(['message' => 'All fields are required']);
+            wp_send_json_error(['message' => __('All fields are required', 'acadlix')]);
             wp_die();
         }
 
@@ -81,7 +81,7 @@ class Ajax
             if (is_wp_error($user)) {
                 wp_send_json_error(['message' => $user->get_error_message()]);
             } else {
-                wp_send_json_success(['user' => $user, 'message' => 'Registration and login successful']);
+                wp_send_json_success(['user' => $user, 'message' => __('Registration and login successful', 'acadlix')]);
             }
         }
         wp_die();
@@ -97,13 +97,13 @@ class Ajax
             // If it's an email, get the user by email
             $user = get_user_by('email', $user_identifier);
             if (!$user) {
-                return wp_send_json_error(['message' => 'This email is not registered.']);
+                return wp_send_json_error(['message' => __('This email is not registered.', 'acadlix')]);
             }
         } else {
             // Otherwise, assume it's a username
             $user = get_user_by('login', $user_identifier);
             if (!$user) {
-                return wp_send_json_error(['message' => 'This username is not registered.']);
+                return wp_send_json_error(['message' => __('This username is not registered.', 'acadlix')]);
             }
         }
 
@@ -114,7 +114,7 @@ class Ajax
         } 
 
         return wp_send_json_success(array(
-            'message' => 'Password reset email sent successfully.',
+            'message' => __('Password reset email sent successfully.', 'acadlix'),
         ));
     }
 

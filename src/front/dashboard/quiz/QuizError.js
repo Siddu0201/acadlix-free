@@ -1,6 +1,7 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 import QuizWarning from "../../../images/quiz_warning.svg";
+import { __ } from "@wordpress/i18n";
 
 const QuizError = (props) => {
   return (
@@ -30,7 +31,7 @@ const QuizError = (props) => {
           }}
         />
         <Typography variant="h3">{props?.code ?? "404"}</Typography>
-        <Typography variant="h6">{props?.message ?? "Page Not Found"}</Typography>
+        <Typography variant="h6">{props?.message ?? __("Page Not Found", "acadlix")}</Typography>
       </Box>
     </Box>
   );

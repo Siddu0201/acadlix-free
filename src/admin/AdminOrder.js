@@ -6,6 +6,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Order from "./views/order/Order";
+import { __ } from "@wordpress/i18n";
 
 const AdminOrder = () => {
   return (
@@ -17,7 +18,7 @@ const AdminOrder = () => {
           <Route element={<AdminLayout />}>
             <Route index element={<Order />} />
           </Route>
-          <Route path="*" element={<div>No path found</div>}></Route>
+          <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
         </Routes>
       </LocalizationProvider>
       </HashRouter>

@@ -13,6 +13,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { convertToPostDate } from "../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const General = (props) => {
   return (
@@ -25,7 +26,7 @@ const General = (props) => {
               fontWeight: 700,
             }}
           >
-            Course Duration
+            {__("Course Duration", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -36,7 +37,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Duration Type
+                {__("Duration Type", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -44,22 +45,24 @@ const General = (props) => {
                 fullWidth
                 size="small"
               >
-                <InputLabel id="demo-simple-select-label">Select Type</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  {__("Select Type", "acadlix")}
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={props?.watch("meta.duration.type")}
-                  label="Select Type"
+                  label={__("Select Type", "acadlix")}
                   onChange={(e) => {
                     props?.setValue("meta.duration.type", e?.target?.value, {
                       shouldDirty: true,
                     });
                   }}
                 >
-                  <MenuItem value="week">Week(s)</MenuItem>
-                  <MenuItem value="day">Day(s)</MenuItem>
-                  <MenuItem value="hour">Hour(s)</MenuItem>
-                  <MenuItem value="minute">Minute(s)</MenuItem>
+                  <MenuItem value="week">{__("Week(s)", "acadlix")}</MenuItem>
+                  <MenuItem value="day">{__("Day(s)", "acadlix")}</MenuItem>
+                  <MenuItem value="hour">{__("Hour(s)", "acadlix")}</MenuItem>
+                  <MenuItem value="minute">{__("Minute(s)", "acadlix")}</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -73,7 +76,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Duration
+                {__("Duration", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -115,7 +118,7 @@ const General = (props) => {
               fontWeight: 700,
             }}
           >
-            Registration Scheduling
+            {__("Registration Scheduling", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -126,7 +129,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Registration Start Date
+                {__("Registration Start Date", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -185,7 +188,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Registration End Date
+                {__("Registration End Date", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -244,7 +247,7 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Difficulty Level
+                {__("Difficulty Level", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -262,10 +265,10 @@ const General = (props) => {
                     });
                   }}
                 >
-                  <MenuItem value="all_levels">All Levels</MenuItem>
-                  <MenuItem value="beginner">Beginner</MenuItem>
-                  <MenuItem value="intermediate">Intermediate</MenuItem>
-                  <MenuItem value="advance">Advance</MenuItem>
+                  <MenuItem value="all_levels">{__("All Levels", "acadlix")}</MenuItem>
+                  <MenuItem value="beginner">{__("Beginner", "acadlix")}</MenuItem>
+                  <MenuItem value="intermediate">{__("Intermediate", "acadlix")}</MenuItem>
+                  <MenuItem value="advance">{__("Advance", "acadlix")}</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -279,11 +282,11 @@ const General = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Q&A
+                {__("Q&A", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
-              <FormControlLabel label="Activate" control={<Checkbox />} />
+              <FormControlLabel label={__("Activate", "acadlix")} control={<Checkbox />} />
             </Grid>
           </Grid>
         </Grid> */}

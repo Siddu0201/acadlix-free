@@ -2,6 +2,7 @@ import { Alert, Box } from '@mui/material'
 import React from 'react'
 import CustomButton from '../normal-quiz-component/CustomButton'
 import { PostSaveResultById } from '../../../../../requests/front/FrontQuizRequest';
+import { __ } from '@wordpress/i18n';
 
 const FinishSection = (props) => {
   const handleFinishQuiz = (e) => {
@@ -66,11 +67,11 @@ const FinishSection = (props) => {
       }}>
         <CustomButton
           onClick={handleGoToFirstQuestion}
-        >Go to First Question</CustomButton>
+        >{__("Go to First Question", "acadlix")}</CustomButton>
         <CustomButton
           disabled={props?.watch("force_user_to_answer_each_question") && solved_count !== total}
           onClick={handleFinishQuiz}
-        >Finish Quiz</CustomButton>
+        >{__("Finish Quiz", "acadlix")}</CustomButton>
       </Box>
     </Box>
   )

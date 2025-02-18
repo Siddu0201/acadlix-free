@@ -22,6 +22,7 @@ import {
 } from "../../../requests/admin/AdminQuestionRequest";
 import { TiArrowLeftThick } from "../../../helpers/icons";
 import QuestionParagraphSection from "./sections/QuestionParagraphSection";
+import { __ } from "@wordpress/i18n";
 
 const QuestionContent = (props) => {
   const getAnswerData = (type, position = 0) => {
@@ -182,7 +183,7 @@ const QuestionContent = (props) => {
     },
   });
 
-  console.log(methods?.watch("language"));
+  // console.log(methods?.watch("language"));
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -372,10 +373,10 @@ const QuestionContent = (props) => {
                 LinkComponent={Link}
                 to={`/${props?.quiz_id}/question`}
               >
-                Back
+                {__("Back", "acadlix")}
               </Button>
               <Typography variant="h6">
-                {props?.create ? "Create Question" : "Edit Question"}
+                {props?.create ? __("Create Question", "acadlix") : __("Edit Question", "acadlix")}
               </Typography>
             </Box>
           </Grid>
@@ -462,7 +463,7 @@ const QuestionContent = (props) => {
               {createMutation?.isPending || updateMutation?.isPending ? (
                 <CircularProgress color="inherit" size={20} />
               ) : (
-                "Save Change"
+                __("Save Change", "acadlix")
               )}
             </Button>
           </Grid>

@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import Content from "./content/Content";
 import ContentOptions from "./content/ContentOptions";
 import ContentHeader from "./content/ContentHeader";
+import { __ } from "@wordpress/i18n";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -402,7 +403,7 @@ const CourseContent = () => {
                         fontWeight: 600,
                       }}
                     >
-                      Course content
+                      {__("Course content", "acadlix")}
                     </Typography>
                   </Box>
                 </Box>
@@ -510,7 +511,7 @@ const CourseContent = () => {
                     scrollButtons
                     allowScrollButtonsMobile
                   >
-                    {!open && <Tab label="Course Content" value="1"
+                    {!open && <Tab label={__("Course Content", "acadlix")} value="1"
                       sx={{
                         boxShadow: "none",
                         "&.Mui-selected": {
@@ -519,7 +520,7 @@ const CourseContent = () => {
                         },
                       }} />}
                     <Tab
-                      label="Course Overview"
+                      label={__("Course Overview", "acadlix")}
                       value="2"
                       sx={{
                         boxShadow: "none",

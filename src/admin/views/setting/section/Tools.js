@@ -1,26 +1,27 @@
 import React from "react";
 import { Box, TextField, FormControlLabel, Button } from "@mui/material";
 import Row from "../../../../components/Row";
+import { __ } from "@wordpress/i18n";
 function Tools() {
   return (
     <div>
       <Box sx={{ color: "black" }}>
         <Row>
-          <h4>Export Settings</h4>
+          <h4>{__("Export Settings", "acadlix")}</h4>
           <FormControlLabel
             style={{ marginLeft: "10px" }}
             control={<TextField type="file" />}
           ></FormControlLabel>
         </Row>
         <Row>
-          <h4>Import Settings</h4>
+          <h4>{__("Import Settings", "acadlix")}</h4>
           <FormControlLabel
             style={{ marginLeft: "10px" }}
             control={<TextField type="file" />}
           ></FormControlLabel>
         </Row>
         <Button variant="contained" color="success">
-          Export Now
+          {__("Export Now", "acadlix")}
         </Button>
       </Box>
     </div>

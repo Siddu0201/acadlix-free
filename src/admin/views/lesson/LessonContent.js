@@ -18,6 +18,7 @@ import {
   PostCreateLesson,
   UpdateLessonById,
 } from "../../../requests/admin/AdminLessonRequest";
+import { __ } from "@wordpress/i18n";
 
 const LessonContent = (props) => {
   const methods = useForm({
@@ -135,10 +136,10 @@ const LessonContent = (props) => {
                 LinkComponent={Link}
                 to="/"
               >
-                Back
+                {__("Back", "acadlix")}
               </Button>
               <Typography variant="h6">
-                {props?.create ? "Create Lesson" : "Edit Lesson"}
+                {props?.create ? __("Create Lesson", "acadlix") : __("Edit Lesson", "acadlix")}
               </Typography>
             </Box>
           </Grid>
@@ -166,7 +167,7 @@ const LessonContent = (props) => {
                   {createMutation?.isPending || updateMutation?.isPending ? (
                     <CircularProgress color="inherit" size={20} />
                   ) : (
-                    "Save Change"
+                    __("Save Change", "acadlix")
                   )}
                 </Button>
               </CardContent>

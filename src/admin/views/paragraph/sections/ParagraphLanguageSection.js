@@ -1,12 +1,13 @@
 import { Card, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const ParagraphLanguageSection = (props) => {
   return (
     <Grid item xs={12} sm={12}>
       <Card>
         <CardHeader
-          title="Language"
+          title={__("Language", "acadlix")}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -31,7 +32,7 @@ const ParagraphLanguageSection = (props) => {
                     fontSize: "1.05rem",
                   }}
                 >
-                  Change Language:
+                  {__("Change Language", "acadlix")}
                 </FormLabel>
                 <RadioGroup
                   row

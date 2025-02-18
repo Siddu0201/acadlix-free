@@ -3,6 +3,7 @@ import React from "react";
 import NtaTopHome from "../section/NtaTopHome";
 import NtaLogo from "../section/NtaLogo";
 import NtaGeneralInstructionLanguage from "./NtaGeneralInstructionLanguage";
+import { __ } from "@wordpress/i18n";
 
 const NtaInstruction = (props) => {
   React.useEffect(() => {
@@ -115,7 +116,7 @@ const NtaInstruction = (props) => {
                   },
                 }}
               >
-                PROCEED
+                {__("PROCEED", "acadlix")}
               </Button>
             </Box>
           </Box>

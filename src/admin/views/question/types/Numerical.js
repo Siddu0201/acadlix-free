@@ -1,12 +1,17 @@
 import React from "react";
 import { CardHeader, CardContent, Card } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 function Numerical(props) {
   return (
     <Card>
       <CardHeader
-        title={`Numerical ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+        title={
+          props?.watch("multi_language")
+            ? __("Numerical", "acadlix") + ` (${props?.lang?.language_name})`
+            : __("Numerical", "acadlix")
+        }
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -29,7 +34,7 @@ function Numerical(props) {
           )}
           size="small"
           type="number"
-          label="Enter number"
+          label={__("Enter number", "acadlix")}
           inputProps={{
             step: 0.000001,
           }}

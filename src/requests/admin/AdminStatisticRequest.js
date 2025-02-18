@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useInstance } from "../../helpers/util";
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const base = "/admin-statistic";
 
@@ -27,7 +28,7 @@ export const PostResetStatisticByQuizId = (quiz_id = 0) => {
             return instance.post(`${base}/${quiz_id}/reset-statistic`);
         },
         onSuccess: () => {
-            toast.success('Statistic successfully reset.');
+            toast.success(__('Statistic successfully reset.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getStatisticByQuizId"]
             });
@@ -51,7 +52,7 @@ export const DeleteStatisticById = () => {
             });
         },
         onSuccess: () => {
-            toast.success('Result successfully deleted.');
+            toast.success(__('Result successfully deleted.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getStatisticByQuizId"]
             });

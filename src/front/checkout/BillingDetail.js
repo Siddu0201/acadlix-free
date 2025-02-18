@@ -12,12 +12,13 @@ import {
 import React from "react";
 import CustomTextField from "../../components/CustomTextField";
 import { Country } from "country-state-city";
+import { __ } from "@wordpress/i18n";
 
 const BillingDetail = (props) => {
   return (
     <Box>
       <Card>
-        <CardHeader title="Billing Detail" />
+        <CardHeader title={__( 'Billing Detail', 'acadlix' )} />
         <Divider />
         <CardContent>
           <Grid container spacing={4}>
@@ -29,17 +30,17 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                First Name
+                {__('First Name', 'acadlix')}
               </Typography>
               <CustomTextField
                 {...props?.register("billing_info.first_name", {
-                  required: "First name is required.",
+                  required: __("First name is required.", "acadlix"),
                 })}
                 required
                 fullWidth
                 size="small"
                 type="text"
-                placeholder="e.g. Alex"
+                placeholder={__('e.g. Alex', 'acadlix')}
                 value={props?.watch("billing_info.first_name")}
                 onChange={(e) => {
                   props?.setValue("billing_info.first_name", e?.target?.value, {
@@ -63,13 +64,13 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Last Name
+                {__('Last Name', 'acadlix')}
               </Typography>
               <CustomTextField
                 fullWidth
                 size="small"
                 type="text"
-                placeholder="e.g. Smith"
+                placeholder={__('e.g. Smith', 'acadlix')}
                 value={props?.watch("billing_info.last_name")}
                 onChange={(e) => {
                   props?.setValue("billing_info.last_name", e?.target?.value, {
@@ -87,17 +88,17 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Email
+                {__('Email', 'acadlix')}
               </Typography>
               <CustomTextField
                 {...props?.register("billing_info.email", {
-                  required: "Email is required.",
+                  required: __("Email is required.", "acadlix"),
                 })}
                 required
                 fullWidth
                 size="small"
                 type="email"
-                placeholder="e.g. alexsmith@gmail.com"
+                placeholder={__("e.g. alexsmith@gmail.com", "acadlix")}
                 value={props?.watch("billing_info.email")}
                 onChange={(e) => {
                   props?.setValue("billing_info.email", e?.target?.value, {
@@ -119,7 +120,7 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Code
+                {__('Code', 'acadlix')}
               </Typography>
               <Autocomplete
                 fullWidth
@@ -185,7 +186,7 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Phone Number
+                {__('Phone Number', 'acadlix')}
               </Typography>
               <CustomTextField
                 fullWidth
@@ -215,12 +216,12 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Address
+                {__('Address', 'acadlix')}
               </Typography>
               <CustomTextField
                 fullWidth
                 size="small"
-                placeholder="e.g. 12345 Little baker St, Melbourne"
+                placeholder={__("e.g. 12345 Little baker St, Melbourne", "acadlix")}
                 type="text"
                 value={props?.watch("billing_info.address")}
                 onChange={(e) => {
@@ -239,7 +240,7 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Country
+                {__('Country', 'acadlix')}
               </Typography>
               <Autocomplete
                 fullWidth
@@ -298,12 +299,12 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Town/City
+                {__("Town/City", "acadlix")}
               </Typography>
               <CustomTextField
                 fullWidth
                 size="small"
-                placeholder="Town/City"
+                placeholder={__("Town/City", "acadlix")}
                 type="text"
                 value={props?.watch("billing_info.city")}
                 onChange={(e) => {
@@ -322,12 +323,12 @@ const BillingDetail = (props) => {
                   paddingY: 1,
                 }}
               >
-                Postal/Zip Code
+                {__("Postal/Zip Code", "acadlix")}
               </Typography>
               <CustomTextField
                 fullWidth
                 size="small"
-                placeholder="Postal/Zip Code"
+                placeholder={__("Postal/Zip Code", "acadlix")}
                 type="text"
                 value={props?.watch("billing_info.zip_code")}
                 onChange={(e) => {

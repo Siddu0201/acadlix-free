@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import Countdown from "react-countdown";
 import { secondsToHms } from "../../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const PerQuestionQuizTimer = (props) => {
   const currentIndex = props?.watch("questions")?.findIndex(q => q?.question_id === props?.question?.question_id);
@@ -39,7 +40,9 @@ const PerQuestionQuizTimer = (props) => {
       }}
     >
       <Box>
-        <Typography variant="caption">Sections</Typography>
+        <Typography variant="caption">
+          {__("Sections", "acadlix")}
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -110,7 +113,8 @@ const PerQuestionQuizTimer = (props) => {
             return (
               <>
                 <Typography variant="subtitle2">
-                  Time Left: {secondsToHms(Math.ceil(prop?.total / 1000))}
+                  {__("Time Left:", "acadlix")}{" "}
+                  {secondsToHms(Math.ceil(prop?.total / 1000))}
                 </Typography>
               </>
             );

@@ -5,6 +5,7 @@ import NotAnswered from '../answer-type-buttons/NotAnswered'
 import NotVisited from '../answer-type-buttons/NotVisited'
 import Marked from '../answer-type-buttons/Marked'
 import MarkedAndAnswered from '../answer-type-buttons/MarkedAndAnswered'
+import { __ } from "@wordpress/i18n";
 
 const SectionPopover = (props) => {
   const getData = (type = '') => {
@@ -112,7 +113,7 @@ const SectionPopover = (props) => {
                     fontSize: "13px",
                   }}
                 >
-                  Answered
+                  {__("Answered", "acadlix")}
                 </Typography>
               </Box>
             </Box>
@@ -136,7 +137,7 @@ const SectionPopover = (props) => {
                     fontSize: "13px",
                   }}
                 >
-                  Not Answered
+                  {__("Not Answered", "acadlix")}
                 </Typography>
               </Box>
             </Box>
@@ -155,7 +156,7 @@ const SectionPopover = (props) => {
                     fontSize: "13px",
                   }}
                 >
-                  Not Visited
+                  {__("Not Visited", "acadlix")}
                 </Typography>
               </Box>
             </Box>
@@ -174,7 +175,7 @@ const SectionPopover = (props) => {
                     fontSize: "13px",
                   }}
                 >
-                  Marked for Review
+                  {__("Marked for Review", "acadlix")}
                 </Typography>
               </Box>
             </Box>
@@ -193,9 +194,9 @@ const SectionPopover = (props) => {
                     fontSize: "13px",
                   }}
                 >
-                  Answered & Marked for Review
+                  {__("Answered & Marked for Review", "acadlix")}
                   <br />
-                  (will also be evaluated)
+                  {__("(will also be evaluated)", "acadlix")}
                 </Typography>
               </Box>
             </Box>

@@ -1,6 +1,7 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 const TitleSection = (props) => {
   return (
@@ -15,16 +16,16 @@ const TitleSection = (props) => {
             }}
           >
             <Grid item xs={12} sm={12}>
-              <Typography variant="h6">Lesson Title</Typography>
+              <Typography variant="h6">{__("Lesson Title", "acadlix")}</Typography>
             </Grid>
             {/* Used to enter quiz title  */}
             <Grid item xs={12} sm={12}>
               <CustomTextField
-                {...props?.register("title", {required: "Title is required"})}
+                {...props?.register("title", {required: "Title is required."})}
                 fullWidth
                 name="title"
                 size="small"
-                label="Enter lesson title *"
+                label={__("Enter lesson title", "acadlix") + " *"}
                 value={props?.watch("title") ?? ""}
                 onChange={(e) => {
                   props?.setValue("title", e?.target?.value, {

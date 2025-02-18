@@ -86,7 +86,7 @@ if (!function_exists('acadlix_course_breadcrumb')) {
             }
         </style>
         <nav class="<?php echo $unique_class; ?>">
-            <a href="<?php echo home_url(); ?>">Home</a>&nbsp;>&nbsp;
+            <a href="<?php echo home_url(); ?>"><?php esc_html_e('Home', 'acadlix'); ?></a>&nbsp;>&nbsp;
             <?php
             $categories = get_the_terms($course->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY);
             if ($categories && !is_wp_error($categories)) {
@@ -182,7 +182,7 @@ if (!function_exists('acadlix_course_pricing')) {
                 ?>
                 <div class="acadlix-discount-tag">
                     <?php echo ceil((($price - $sale_price) / $price) * 100); ?>%
-                    OFF
+                    <?php esc_html_e('OFF', 'acadlix'); ?>
                 </div>
                 <?php
             }
@@ -261,19 +261,19 @@ if (!function_exists('acadlix_basic_course_details')) {
         </style>
         <div class="acadlix-course-aside-details <?php echo $unique_class; ?>">
             <div class="acadlix-course-aside-details-option">
-                <div><strong>Course Duration:</strong></div>
+                <div><strong><?php esc_html_e('Course Duration:', 'acadlix'); ?></strong></div>
                 <div>
                     <?php echo esc_html("{$duration} {$duration_type}"); ?>
                 </div>
             </div>
             <div class="acadlix-course-aside-details-option">
-                <div><strong>Course Level:</strong></div>
+                <div><strong><?php esc_html_e('Course Level:', 'acadlix'); ?></strong></div>
                 <div>
                     <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($difficulty_level)); ?>
                 </div>
             </div>
             <div class="acadlix-course-aside-details-option">
-                <div><strong>Students Enrolled:</strong></div>
+                <div><strong><?php esc_html_e('Students Enrolled:', 'acadlix'); ?></strong></div>
                 <div> 6</div>
             </div>
         </div>
@@ -300,7 +300,7 @@ if (!function_exists('acadlix_course_action_buttons')) {
         $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         $start_date = $course->rendered_metas['start_date'] ?? null;
         $end_date = $course->rendered_metas['end_date'] ?? null;
-        if($course->post_status != 'publish') {
+        if ($course->post_status != 'publish') {
             return "";
         }
         ?>
@@ -312,20 +312,20 @@ if (!function_exists('acadlix_course_action_buttons')) {
                 if (CourseHelper::instance()->isCourseFree($price, $enable_sale_price, $sale_price)) {
                     if (count($cart) > 0) {
                         ?>
-                        <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
-                            Checkout</a>
+                        <a href="<?php echo esc_url($checkout_url); ?>"
+                            class="acadlix-action-button"><?php esc_html_e('Go to Checkout', 'acadlix'); ?></a>
                         <?php
                     } elseif (count($order_item) > 0) {
                         ?>
                         <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">
-                            Go to Course
+                            <?php esc_html_e('Go to Course', 'acadlix'); ?>
                         </a>
                         <?php
                     } else {
                         ?>
                         <button class="acadlix-action-button acadlix-start-now" data-id="<?php echo esc_attr($course->ID); ?>">
                             <div class="acadlix-action-button-text">
-                                Start Now
+                                <?php esc_html_e('Start Now', 'acadlix'); ?>
                             </div>
                             <div class="acadlix-btn-loader" style="display: none;"></div>
                         </button>
@@ -334,20 +334,20 @@ if (!function_exists('acadlix_course_action_buttons')) {
                 } else {
                     if (count($cart) > 0) {
                         ?>
-                        <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
-                            Checkout</a>
+                        <a href="<?php echo esc_url($checkout_url); ?>"
+                            class="acadlix-action-button"><?php esc_html_e('Go to Checkout', 'acadlix'); ?></a>
                         <?php
                     } elseif (count($order_item) > 0) {
                         ?>
                         <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">
-                            Go to Course
+                            <?php esc_html_e('Go to Course', 'acadlix'); ?>
                         </a>
                         <?php
                     } else {
                         ?>
                         <button class="acadlix-action-button acadlix-buy-now" data-id="<?php echo esc_attr($course->ID); ?>">
                             <div class="acadlix-action-button-text">
-                                <i class="fa fa-shopping-cart"></i> Buy Now
+                                <i class="fa fa-shopping-cart"></i> <?php esc_html_e('Buy Now', 'acadlix'); ?>
                             </div>
                             <div class="acadlix-btn-loader" style="display: none;"></div>
                         </button>
@@ -371,14 +371,14 @@ if (!function_exists('acadlix_course_action_buttons')) {
                     ])->count();
                 ?>
                 <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
-                    id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>" title="Add to Wishlist"
+                    id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
                     data-id="<?php echo esc_attr($course?->ID); ?>"
                     style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
                     <i class="la la-heart-o"></i>
                     <div class="acadlix-btn-loader" style="display: none;"></div>
                 </div>
                 <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
-                    id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>" title="Remove From Wishlist"
+                    id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
                     data-id="<?php echo esc_attr($course?->ID); ?>"
                     style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
                     <i class="fa-solid fa-heart"></i>
@@ -431,11 +431,11 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
-                        Last updated: <?php echo esc_html(Helper::instance()->formatDate($course->post_date)); ?>
+                        <?php esc_html_e('Last updated', 'acadlix'); ?>: <?php echo esc_html(Helper::instance()->formatDate($course->post_date)); ?>
                     </div>
                     <div class="acadlix-course-header-author">
                         <div class="acadlix-course-header-created-at-text">
-                            Created by:
+                            <?php esc_html_e('Created by', 'acadlix'); ?>:
                         </div>
                         <div class="acadlix-course-author">
                             <?php echo CourseHelper::instance()->getCourseUserHtml($course); ?>
@@ -469,9 +469,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <!-- navbar tabs  -->
                 <nav class="acadlix-course-main-navbar">
                     <ul class="acadlix-course-main-navbar-list">
-                        <li><a href="#overview" class="acadlix-fs-6">Overview</a></li>
-                        <li><a href="#curriculum" class="acadlix-fs-6">Curriculum</a></li>
-                        <li><a href="#instructor" class="acadlix-fs-6">Instructor</a></li>
+                        <li><a href="#overview" class="acadlix-fs-6"><?php esc_html_e('Overview', 'acadlix'); ?></a></li>
+                        <li><a href="#curriculum" class="acadlix-fs-6"><?php esc_html_e('Curriculum', 'acadlix'); ?></a></li>
+                        <li><a href="#instructor" class="acadlix-fs-6"><?php esc_html_e('Instructor', 'acadlix'); ?></a></li>
                     </ul>
                 </nav>
                 <div id="overview" class="acadlix-course-overview acadlix-mb-16">
@@ -482,7 +482,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         ?>
                         <div class="acadlix-card acadlix-box-shadow-2">
                             <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
-                                What you will learn in this course
+                                <?php esc_html_e('What you will learn in this course', 'acadlix'); ?>
                             </h2>
                             <div class="acadlix-card-body">
                                 <div class="acadlix-row">
@@ -510,7 +510,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     <!-- Add Description to course page  -->
                     <div class="acadlix-card acadlix-box-shadow-2">
                         <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
-                            Description
+                            <?php esc_html_e('Description', 'acadlix'); ?>
                         </h2>
                         <div class="acadlix-card-body acadlix-fs-6">
                             <?php
@@ -523,7 +523,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <!-- Add Curriculum to course -->
                 <div id="curriculum" class="acadlix-course-curriculum acadlix-card acadlix-mb-16 acadlix-box-shadow-2">
                     <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
-                        Curriculum
+                        <?php esc_html_e('Curriculum', 'acadlix'); ?>
                     </h2>
                     <div class="acadlix-d-flex acadlix-flex-column acadlix-gap-1 acadlix-card-body">
                         <div id="acadlix-curriculam-react-preview"></div>
@@ -601,7 +601,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 </div>
 
                 <div id="instructor" class="acadlix-card acadlix-course-instructor acadlix-mb-16 acadlix-box-shadow-2">
-                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">Course Instructor</h2>
+                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold"><?php esc_html_e('Course Instructor', 'acadlix'); ?></h2>
                     <div class="acadlix-card-body">
                         <div class="acadlix-row">
                             <?php

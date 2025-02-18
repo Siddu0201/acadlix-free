@@ -14,6 +14,7 @@ import { MediaUpload } from "@wordpress/media-utils";
 import { FaCloudUploadAlt, FaTrash, IoClose } from "../../helpers/icons";
 import CustomTextField from "../../components/CustomTextField";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 const VideoUpload = ({
   xs = 12,
@@ -76,7 +77,7 @@ const VideoUpload = ({
         onMediaUpload(media);
       }
     } else {
-      console.error("Only video files are allowed.");
+      console.error(__('Only video files are allowed.', 'acadlix'));
     }
   };
 
@@ -90,7 +91,7 @@ const VideoUpload = ({
 
       handleOnUpdate();
     } else {
-      console.error("Only image file is allowed.");
+      console.error(__('Only image file is allowed.', 'acadlix'));
     }
   };
 
@@ -113,17 +114,17 @@ const VideoUpload = ({
   const getLinkName = () => {
     switch (methods?.watch("video_type")) {
       case "external_link":
-        return "External link";
+        return __("External link", 'acadlix');
       case "youtube":
-        return "Youtube link";
+        return __("Youtube link", 'acadlix');
       case "vimeo":
-        return "Vimeo link";
+        return __("Vimeo link", 'acadlix');
       case "embedded":
-        return "Embedded code";
+        return __("Embedded code", 'acadlix');
       case "shortcode":
-        return "Shortcode";
+        return __("Shortcode", 'acadlix');
       default:
-        return "Link";
+        return __("Link", 'acadlix');
     }
   };
 
@@ -132,22 +133,22 @@ const VideoUpload = ({
       <Grid item xs={xs} sm={sm}>
         <FormControl fullWidth size="small">
           <InputLabel id="acadlix-select-video-type">
-            Select Video Source
+            {__('Select Video Source', 'acadlix')}
           </InputLabel>
           <Select
             labelId="acadlix-select-video-type"
             id="acadlix-video-type"
             value={methods?.watch("video_type")}
-            label="Select Video Source"
+            label={__('Select Video Source', 'acadlix')}
             onChange={handleTypeChange}
           >
-            <MenuItem value="">Select Video Source</MenuItem>
-            <MenuItem value="html_5">HTML:5</MenuItem>
-            <MenuItem value="external_link">External Link</MenuItem>
-            <MenuItem value="youtube">Youtube</MenuItem>
-            <MenuItem value="vimeo">Vimeo</MenuItem>
-            <MenuItem value="embedded">Embedded</MenuItem>
-            <MenuItem value="shortcode">Shortcode</MenuItem>
+            <MenuItem value="">{__('Select Video Source', 'acadlix')}</MenuItem>
+            <MenuItem value="html_5">{__("HTML:5", 'acadlix')}</MenuItem>
+            <MenuItem value="external_link">{__("External Link", 'acadlix')}</MenuItem>
+            <MenuItem value="youtube">{__("Youtube", 'acadlix')}</MenuItem>
+            <MenuItem value="vimeo">{__("Vimeo", 'acadlix')}</MenuItem>
+            <MenuItem value="embedded">{__("Embedded", 'acadlix')}</MenuItem>
+            <MenuItem value="shortcode">{__("Shortcode", 'acadlix')}</MenuItem>
           </Select>
         </FormControl>
       </Grid>
@@ -184,14 +185,14 @@ const VideoUpload = ({
                   onClick={open}
                   startIcon={<FaCloudUploadAlt />}
                 >
-                  Upload Video
+                  {__('Upload Video', 'acadlix')}
                 </Button>
               )}
             />
             {methods?.watch("video_data.html_5") !== "" && (
               <>
                 <Typography variant="body1" sx={{ marginTop: 2 }}>
-                  <b>Selected file:</b>
+                  <b>{__('Selected file:', 'acadlix')}</b>
                   <br />
                   {methods?.watch("video_data.html_5")?.split("/").pop()}
                   <IconButton
@@ -273,7 +274,7 @@ const VideoUpload = ({
                   onClick={open}
                   startIcon={<FaCloudUploadAlt />}
                 >
-                  Upload Thumbnail
+                  {__("Upload Thumbnail", "acadlix")}
                 </Button>
               )}
             />

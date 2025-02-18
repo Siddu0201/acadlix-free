@@ -10,7 +10,7 @@ import CreateLesson from "./views/lesson/CreateLesson";
 import EditLesson from "./views/lesson/EditLesson";
 import "./AdminLesson.css";
 import ScrollToTop from "../helpers/ScrollToTop";
-
+import { __ } from "@wordpress/i18n";
 const AdminLesson = () => {
   return (
     <Provider>
@@ -24,6 +24,7 @@ const AdminLesson = () => {
               <Route path="create" element={<CreateLesson />} />
               <Route path="edit/:lesson_id" element={<EditLesson />} />
             </Route>
+            <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
           </Routes>
         </LocalizationProvider>
       </HashRouter>

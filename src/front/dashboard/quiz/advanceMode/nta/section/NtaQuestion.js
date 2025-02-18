@@ -9,6 +9,7 @@ import TypeMatrixSortingChoice from "../../../questionTypes/TypeMatrixSortingCho
 import TypeFill from "../../../questionTypes/TypeFill";
 import TypeNumerical from "../../../questionTypes/TypeNumerical";
 import TypeRange from "../../../questionTypes/TypeRange";
+import { __ } from "@wordpress/i18n";
 
 const NtaQuestion = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -147,7 +148,7 @@ const NtaQuestion = (props) => {
             fontWeight: 800,
           }}
         >
-          Question {props?.num}.
+          {__('Question', 'acadlix')} {props?.num}.
         </Typography>
         <FaArrowCircleDown
           onClick={moveDown}

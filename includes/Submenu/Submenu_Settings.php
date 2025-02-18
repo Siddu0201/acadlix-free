@@ -59,11 +59,12 @@ class Submenu_Settings
             'quiz_categories' => Category::all(),
             'quiz_languages' => Language::all(),
         ));
+        wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function setting_callback()
     {
-        echo '<div id="acadlix-admin-setting"><h2>Loading...</h2></div>';
+        echo '<div id="acadlix-admin-setting"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

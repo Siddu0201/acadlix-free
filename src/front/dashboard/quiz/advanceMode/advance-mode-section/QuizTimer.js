@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import Countdown from "react-countdown";
 import { secondsToHms } from "../../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const QuizTimer = (props) => {
   const setRef = (countdown) => {
@@ -28,7 +29,7 @@ const QuizTimer = (props) => {
       }}
     >
       <Box>
-        <Typography variant="caption">Sections</Typography>
+        <Typography variant="caption">{__("Sections", "acadlix")}</Typography>
       </Box>
       <Box
         sx={{
@@ -72,7 +73,7 @@ const QuizTimer = (props) => {
                 <Typography
                   variant="subtitle2"
                 >
-                  Time Left: {secondsToHms(Math.ceil(prop?.total / 1000))}
+                  {__("Time Left:", "acadlix")} {secondsToHms(Math.ceil(prop?.total / 1000))}
                 </Typography>
               </>
             );

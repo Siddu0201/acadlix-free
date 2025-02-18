@@ -81,7 +81,7 @@ if (!class_exists('Question')) {
             if ($this->question_languages()->where('language_id', $language_id)->exists()) {
                 return new \WP_Error(
                     'language_exist',
-                    'Language already exists for this question.',
+                    __('Language already exists for this question.', 'acadlix'),
                     ['status' => 400]
                 );
             }
@@ -90,7 +90,7 @@ if (!class_exists('Question')) {
             if (!$defaultLanguage) {
                 return new \WP_Error(
                     'default_language_doesnt_exist',
-                    'Default language data not found for this question.',
+                    __('Default language data not found for this question.', 'acadlix'),
                     ['status' => 400]
                 );
             }

@@ -20,6 +20,7 @@ import {
   GetSubjectByQuizId,
   PostSetSubjectWiseTime,
 } from "../../../../requests/admin/AdminQuizRequest";
+import { __ } from "@wordpress/i18n";
 
 const SubjectTimeModel = (props) => {
   const methods = useForm({
@@ -33,7 +34,7 @@ const SubjectTimeModel = (props) => {
     },
   });
 
-  console.log(methods?.watch());
+  // console.log(methods?.watch());
   const getSubject = GetSubjectByQuizId(props?.watch("quiz_id"));
   React.useEffect(() => {
     if (getSubject?.data?.data?.quiz) {
@@ -79,7 +80,7 @@ const SubjectTimeModel = (props) => {
   return (
     <>
       <DialogTitle id="alert-subject-title" sx={{ m: 0, p: 2 }}>
-        Set Subject Wise Actions
+        {__("Set Subject Wise Actions", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -137,7 +138,7 @@ const SubjectTimeModel = (props) => {
                     }}
                   />
                 }
-                label="Subject wise timing"
+                label={__("Subject wise timing", "acadlix")}
               />
             </Grid>
             <Grid item xs={12} lg={12}>
@@ -156,7 +157,7 @@ const SubjectTimeModel = (props) => {
                     }}
                   />
                 }
-                label="Subject wise specific number of questions"
+                label={__("Subject wise specific number of questions", "acadlix")}
               />
             </Grid>
             {/* <Grid item xs={12} lg={12}>
@@ -175,7 +176,7 @@ const SubjectTimeModel = (props) => {
                     }}
                   />
                 }
-                label="Optional Subjects"
+                label={__("Optional Subjects", "acadlix")}
               />
             </Grid> */}
             <Grid item xs={12} lg={12}>
@@ -189,7 +190,7 @@ const SubjectTimeModel = (props) => {
                         primary={`${s?.subject_name} (${s?.number_of_question})`}
                       />
                       <CustomTextField
-                        label="Time (in sec)"
+                        label={__("Time (in sec)", "acadlix")}
                         variant="outlined"
                         size="small"
                         type="number"
@@ -227,15 +228,15 @@ const SubjectTimeModel = (props) => {
                           {
                             min: {
                               value: 0,
-                              message: "Value should not be less than 0.",
+                              message: __("Value should not be less than 0.", "acadlix"),
                             },
                             max: {
                               value: s?.number_of_question,
-                              message: `Value should not be more than ${s?.number_of_question}.`,
+                              message: __("Value should not be more than", "acadlix") + ` ${s?.number_of_question}.`,
                             },
                           }
                         )}
-                        label="No. of questions"
+                        label={__("No. of questions", "acadlix")}
                         variant="outlined"
                         size="small"
                         type="number"
@@ -305,7 +306,7 @@ const SubjectTimeModel = (props) => {
                   color="error"
                   onClick={props?.handleClose}
                 >
-                  Cancel
+                  {__("Cancel", "acadlix")}
                 </Button>
                 <Button
                   variant="contained"
@@ -313,7 +314,7 @@ const SubjectTimeModel = (props) => {
                   onClick={methods?.handleSubmit(handleSubmit)}
                   disabled={setSubjectWiseTime?.isPending}
                 >
-                  {setSubjectWiseTime?.isPending ? "...loading" : "Save Change"}
+                  {setSubjectWiseTime?.isPending ? __("Loading...", "acadlix") : __("Save Change", "acadlix")}
                 </Button>
               </DialogActions>
             </Grid>

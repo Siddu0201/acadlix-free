@@ -6,6 +6,7 @@ import parse from "html-react-parser";
 import UserAuth from "../../../../../modules/user-auth/UserAuth";
 import { deleteCookie, getCookie, setCookie } from "../../../../../helpers/cookie";
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const DescriptionSection = (props) => {
   const rand = function () {
@@ -91,7 +92,7 @@ const DescriptionSection = (props) => {
         handleStart();
       },
       onError: (data) => {
-        toast.error("Oops! Something went wrong.");
+        toast.error(__("Oops! Something went wrong.", "acadlix"));
       }
     })
   };
@@ -164,7 +165,7 @@ const DescriptionSection = (props) => {
         onClick={handleQuizStart}
         disabled={checkQuiz?.isPending}
       >
-        {checkQuiz?.isPending ? "Loading..." : "Start Quiz"}
+        {checkQuiz?.isPending ? __("Loading...", "acadlix") : __("Start Quiz", "acadlix")}
       </CustomButton>
       <UserAuth
         login_modal={props?.watch("login_modal")}

@@ -5,6 +5,7 @@ import NtaNotAnswered from "../type-button/NtaNotAnswered";
 import NtaNotVisited from "../type-button/NtaNotVisited";
 import NtaMarked from "../type-button/NtaMarked";
 import NtaMarkedAndAnswered from "../type-button/NtaMarkedAndAnswered";
+import { __ } from "@wordpress/i18n";
 
 const NtaSidebarStatusTypes = (props) => {
   const getData = (type = "") => {
@@ -88,7 +89,7 @@ const NtaSidebarStatusTypes = (props) => {
                 lineHeight: "14px",
               }}
             >
-              Not Visited
+              {__("Not Visited", "acadlix")}
             </Typography>
           </Box>
 
@@ -111,7 +112,7 @@ const NtaSidebarStatusTypes = (props) => {
                 fontSize: "16px",
               }}
             >
-              Not Answered
+              {__("Not Answered", "acadlix")}
             </Typography>
           </Box>
         </Box>
@@ -142,7 +143,7 @@ const NtaSidebarStatusTypes = (props) => {
                 fontSize: "16px",
               }}
             >
-              Answered
+              {__("Answered", "acadlix")}
             </Typography>
           </Box>
           {/* Marked for review  */}
@@ -160,7 +161,7 @@ const NtaSidebarStatusTypes = (props) => {
                 lineHeight: "14px",
               }}
             >
-              Marked for Review
+              {__("Marked for Review", "acadlix")}
             </Typography>
           </Box>
         </Box>
@@ -188,7 +189,7 @@ const NtaSidebarStatusTypes = (props) => {
                 lineHeight: "14px",
               }}
             >
-              Answered and Marked for Review (will be considered for evaluation)
+              {__("Answered and Marked for Review (will be considered for evaluation)", "acadlix")}
             </Typography>
           </Box>
         </Box>

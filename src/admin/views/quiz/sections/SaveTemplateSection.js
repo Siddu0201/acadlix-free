@@ -12,6 +12,7 @@ import React from "react";
 import { PostSaveTemplate } from "../../../../requests/admin/AdminTemplateRequest";
 import { FaCloudUploadAlt } from "../../../../helpers/icons";
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const SaveTemplateSection = (props) => {
   const theme = useTheme();
@@ -38,7 +39,7 @@ const SaveTemplateSection = (props) => {
             props?.setValue("templates", data?.data?.templates, {
               shouldDirty: true,
             });
-            toast.success('Template created successfully');
+            toast.success(__('Template created successfully', 'acadlix'));
           },
         }
       );
@@ -81,7 +82,7 @@ const SaveTemplateSection = (props) => {
               ...params.inputProps,
               autoComplete: "template",
             }}
-            label="Enter Template Name"
+            label={__('Enter Template Name', 'acadlix')}
             InputProps={{
               ...params.InputProps,
               endAdornment: (
@@ -109,7 +110,7 @@ const SaveTemplateSection = (props) => {
           {saveTemplateMutation?.isPending ? (
             <CircularProgress color="inherit" size={20} />
           ) : (
-            "Save Template"
+            __("Save Template", "acadlix")
           )}
         </Button>
       ) : (

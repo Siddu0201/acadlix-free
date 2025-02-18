@@ -1,12 +1,18 @@
 import React from "react";
 import { CardHeader, CardContent, Grid, Card } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 function RangeType(props) {
   return (
     <Card>
       <CardHeader
-        title={`Range Type ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+        title={
+          props?.watch("multi_language")
+            ? __("Range Type", "acadlix") +
+              ` (${props?.lang?.language_name})`
+            : __("Range Type", "acadlix")
+        }
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -25,13 +31,13 @@ function RangeType(props) {
                   valueAsNumber: true,
                   required: {
                     value: props?.watch(`language.${props?.index}.default`),
-                    message: "Required",
+                    message: __("Required", "acadlix"),
                   },
                 }
               )}
               fullWidth
               size="small"
-              label="Range From"
+              label={__("Range From", "acadlix")}
               type="number"
               inputProps={{
                 step: 0.00001,
@@ -74,18 +80,18 @@ function RangeType(props) {
                   valueAsNumber: true,
                   required: {
                     value: props?.watch(`language.${props?.index}.default`),
-                    message: "Required",
+                    message: __("Required", "acadlix"),
                   },
                   validate: (value) =>
                     value >
                       props?.watch(
                         `language.${props?.index}.answer_data.${props?.type}.from`
-                      ) || "Must be greater than from",
+                      ) || __("Must be greater than from", "acadlix"),
                 }
               )}
               fullWidth
               size="small"
-              label="Range To"
+              label={__("Range To", "acadlix")}
               type="number"
               inputProps={{
                 step: 0.00001,

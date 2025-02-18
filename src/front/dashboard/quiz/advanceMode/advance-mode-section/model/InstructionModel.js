@@ -10,6 +10,7 @@ import {
 import React from "react";
 import { IoClose } from "../../../../../../helpers/icons";
 import InstructionLanguage from "../../advance-instruction-section/InstructionLanguage";
+import { __ } from "@wordpress/i18n";
 
 const InstructionModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -39,7 +40,7 @@ const InstructionModel = (props) => {
           id="alert-dialog-title"
           sx={{ m: 0, p: 2, fontSize: "14px", color: "white" }}
         >
-          Instruction
+          {__("Instruction", "acadlix")}
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -68,8 +69,7 @@ const InstructionModel = (props) => {
               fontSize: "24px",
             }}
           >
-            Note that timer is ticking while you read the instruction. Close
-            this page to return to answering the question.
+            {__("Note that timer is ticking while you read the instruction. Close this page to return to answering the question.", "acadlix")}
           </Typography>
           <Box sx={{
             paddingX: 4
@@ -86,7 +86,7 @@ const InstructionModel = (props) => {
                   fontWeight: "bold",
                 }}
               >
-                Instructions
+                {__("Instructions", "acadlix")}
               </Typography>
             </Box>
             <Box>
@@ -116,7 +116,7 @@ const InstructionModel = (props) => {
                   fontWeight: "bold",
                 }}
               >
-                Other important instructions
+                {__("Other important instructions", "acadlix")}
               </Typography>
             </Box>
             {props?.watch("languages")?.length > 0 &&

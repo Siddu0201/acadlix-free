@@ -12,6 +12,7 @@ import {
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 const QuizModeSection = (props) => {
   const setAdvanceModeDefaultSettings = () => {
@@ -70,7 +71,7 @@ const QuizModeSection = (props) => {
     <Grid item xs={12} sm={12}>
       <Card>
         <CardHeader
-          title="Mode"
+          title={__('Mode', 'acadlix')}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -121,7 +122,7 @@ const QuizModeSection = (props) => {
                         cursor: "pointer",
                       }}
                     >
-                      Normal
+                      {__("Normal", 'acadlix')}
                     </h3>
                   </Box>
                   <Box>
@@ -139,7 +140,7 @@ const QuizModeSection = (props) => {
                           }}
                         />
                       }
-                      label="Enable Back Button"
+                      label={__('Enable Back Button', 'acadlix')}
                     />
                   </Box>
                 </CardContent>
@@ -190,7 +191,7 @@ const QuizModeSection = (props) => {
                         cursor: "pointer",
                       }}
                     >
-                      Check And Continue
+                      {__("Check And Continue", 'acadlix')}
                     </h3>
                   </Box>
                   <Box>
@@ -213,7 +214,7 @@ const QuizModeSection = (props) => {
                           }}
                         />
                       }
-                      label="Show Check When Option Selected"
+                      label={__("Show Check When Option Selected", 'acadlix')}
                     />
 
                     <FormControlLabel
@@ -234,7 +235,7 @@ const QuizModeSection = (props) => {
                           }
                         />
                       }
-                      label="Skip Question"
+                      label={__("Skip Question", 'acadlix')}
                     />
                   </Box>
                 </CardContent>
@@ -289,11 +290,11 @@ const QuizModeSection = (props) => {
                         cursor: "pointer",
                       }}
                     >
-                      Question Below Each Other
+                      {__("Question Below Each Other", 'acadlix')}
                     </h3>
                   </Box>
                   <Box>
-                    <h3>Question per page</h3>
+                    <h3>{__("Question per page", 'acadlix')}</h3>
                     <CustomTextField
                       size="small"
                       fullWidth
@@ -368,14 +369,14 @@ const QuizModeSection = (props) => {
                         cursor: "pointer",
                       }}
                     >
-                      Advance mode
+                      {__("Advance mode", "acadlix")}
                     </h3>
                     <h5
                       style={{
                         margin: "5px 0",
                       }}
                     >
-                      (Quiz Option will only set as per the exam)
+                      ({__("Quiz Option will only set as per the exam", "acadlix")})
                     </h5>
                   </Box>
                   <Box
@@ -404,7 +405,7 @@ const QuizModeSection = (props) => {
                         <FormControlLabel
                           value="advance_panel"
                           control={<Radio />}
-                          label="Advance Panel"
+                          label={__("Advance Panel", "acadlix")}
                           checked={
                             props?.watch("meta.advance_mode_type") ===
                             "advance_panel"
@@ -413,37 +414,37 @@ const QuizModeSection = (props) => {
                         <FormControlLabel
                           value="ibps"
                           control={<Radio />}
-                          label="IBPS"
+                          label={__("IBPS", "acadlix")}
                           checked={props?.watch("meta.advance_mode_type") === "ibps"}
                         />
                         <FormControlLabel
                           value="ssc"
                           control={<Radio />}
-                          label="SSC"
+                          label={__("SSC", "acadlix")}
                           checked={props?.watch("meta.advance_mode_type") === "ssc"}
                         />
                         <FormControlLabel
                           value="gate"
                           control={<Radio />}
-                          label="GATE"
+                          label={__("GATE", "acadlix")}
                           checked={props?.watch("meta.advance_mode_type") === "gate"}
                         />
                         <FormControlLabel
                           value="sbi"
                           control={<Radio />}
-                          label="SBI"
+                          label={__("SBI", "acadlix")}
                           checked={props?.watch("meta.advance_mode_type") === "sbi"}
                         />
                         <FormControlLabel
                           value="jee"
                           control={<Radio />}
-                          label="JEE"
+                          label={__("JEE", "acadlix")}
                           checked={props?.watch("meta.advance_mode_type") === "jee"}
                         />
                         <FormControlLabel
                           value="railway"
                           control={<Radio />}
-                          label="Railway"
+                          label={__("Railway", "acadlix")}
                           checked={
                             props?.watch("meta.advance_mode_type") === "railway"
                           }

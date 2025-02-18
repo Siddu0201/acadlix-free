@@ -19,6 +19,7 @@ import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequ
 import toast from "react-hot-toast";
 import { FaCloudDownloadAlt } from "../../../../helpers/icons";
 import { GetTemplateById } from "../../../../requests/admin/AdminTemplateRequest";
+import { __ } from "@wordpress/i18n";
 
 const CategoryTemplateSection = (props) => {
   const theme = useTheme();
@@ -32,7 +33,7 @@ const CategoryTemplateSection = (props) => {
     if (!input) {
       props?.setError(`category_id`, {
         type: "custom",
-        message: "Category cannot be empty",
+        message: __("Category cannot be empty", "acadlix"),
       });
       return;
     }
@@ -42,7 +43,7 @@ const CategoryTemplateSection = (props) => {
     )?.length > 0) {
       props?.setError(`category_id`, {
         type: "custom",
-        message: "Category name is already exist",
+        message: __("Category name is already exist", "acadlix"),
       });
       return;
     }
@@ -112,7 +113,7 @@ const CategoryTemplateSection = (props) => {
         },
       });
     } else {
-      toast.error("Please select any template", { position: "bottom-right" });
+      toast.error(__("Please select any template", "acadlix"), { position: "bottom-right" });
     }
   };
 
@@ -150,7 +151,7 @@ const CategoryTemplateSection = (props) => {
                       ...params.inputProps,
                       autoComplete: "spoc_gender",
                     }}
-                    label="Select Quiz Category"
+                    label={__("Select Quiz Category", "acadlix")}
                     InputProps={{
                       ...params.InputProps,
                       endAdornment: (
@@ -181,7 +182,7 @@ const CategoryTemplateSection = (props) => {
                         sx={{ justifyContent: "flex-start", pl: 2 }}
                         onMouseDown={createCategory}
                       >
-                        + Add New
+                        + {__("Add New", "acadlix")}
                       </Button>
                     </Paper>
                   );
@@ -242,7 +243,7 @@ const CategoryTemplateSection = (props) => {
                     size="small"
                     onClick={handleLoadTemplate}
                   >
-                    Load Template
+                    {__("Load Template", "acadlix")}
                   </Button>
                 ) : (
                   <IconButton

@@ -1,5 +1,6 @@
 import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const InstructionLanguage = (props) => {
   const handleLanguageChange = (e) => {
@@ -30,7 +31,7 @@ const InstructionLanguage = (props) => {
           gap: 2,
         }}
       >
-        <Typography variant="body2">View in: </Typography>
+        <Typography variant="body2">{__("View in:", "acadlix")}</Typography>
         <FormControl
           sx={{
             minWidth: {

@@ -15,37 +15,31 @@ if (!class_exists("Option")) {
         {
             $this->pages = [
                 'acadlix_dashboard_page_id' => [
-                    'post_title' => 'Student Dashboard',
-                    'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
-                    'post_type' => 'page',
-                ],
-                'acadlix_advance_quiz_page_id' => [
-                    'post_title' => 'Advance Quiz',
+                    'post_title' => __('Student Dashboard', 'acadlix'),
                     'post_status' => 'publish',
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',
                 ],
                 'acadlix_all_courses_page_id' => [
-                    'post_title' => 'All Courses',
+                    'post_title' => __('All Courses', 'acadlix'),
                     'post_status' => 'publish',
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',
                 ],
                 'acadlix_cart_page_id' => [
-                    'post_title' => 'Cart',
+                    'post_title' => __('Cart', 'acadlix'),
                     'post_status' => 'publish',
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',
                 ],
                 'acadlix_checkout_page_id' => [
-                    'post_title' => 'Checkout',
+                    'post_title' => __('Checkout', 'acadlix'),
                     'post_status' => 'publish',
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',
                 ],
                 'acadlix_thankyou_page_id' => [
-                    'post_title' => 'Thankyou',
+                    'post_title' => __('Thankyou', 'acadlix'),
                     'post_status' => 'publish',
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',

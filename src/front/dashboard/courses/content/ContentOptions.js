@@ -1,6 +1,7 @@
 import { Box, Button, IconButton } from "@mui/material";
 import React from "react";
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const ContentOptions = (props) => {
 
@@ -46,7 +47,7 @@ const ContentOptions = (props) => {
                       marginRight: 1,
                     }}
                   >
-                    Mark as incomplete
+                    {__("Mark as incomplete", "acadlix")}
                   </Button>
                 ) : (
                   <Button
@@ -65,7 +66,7 @@ const ContentOptions = (props) => {
                       marginRight: 1,
                     }}
                   >
-                    Mark as complete
+                    {__("Mark as complete", "acadlix")}
                   </Button>
                 )}
               </React.Fragment>

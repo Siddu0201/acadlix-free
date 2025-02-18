@@ -6,6 +6,7 @@ import Picture3 from "../images/blob-5-blue.svg";
 import Picture4 from "../images/blob-4-safrron.svg";
 import { useTheme } from "@mui/material/styles";
 import {dateI18n} from "@wordpress/date";
+import { __ } from "@wordpress/i18n";
 
 const DashboardHeader = () => {
   const HeaderContainer = styled(Box)(({ theme }) => ({
@@ -94,7 +95,7 @@ const DashboardHeader = () => {
                   },
                 }}
               >
-                Welcome back,{" "}
+                {__("Welcome back,", 'acadlix')}{" "}
                 <Box
                   component="span"
                   sx={{ color: theme.palette.primary.main, fontWeight: 500 }}
@@ -112,7 +113,7 @@ const DashboardHeader = () => {
                   },
                 }}
               >
-                Unlock your potential and track your progress to success!
+                {__("Unlock your potential and track your progress to success!", 'acadlix')}
               </Typography>
             </Box>
           </Box>
@@ -129,7 +130,7 @@ const DashboardHeader = () => {
           >
             <StyledImage2
               src={Picture2}
-              alt="Header Image 2"
+              alt={__("Header Image 2", 'acadlix')}
               sx={{
                 position: "absolute",
                 right: "30%",
@@ -138,7 +139,7 @@ const DashboardHeader = () => {
             />
             <StyledImage2
               src={Picture3}
-              alt="Header Image 3"
+              alt={__("Header Image 3", 'acadlix')}
               sx={{
                 position: "absolute",
                 right: "75%",
@@ -147,7 +148,7 @@ const DashboardHeader = () => {
             />
             <StyledImage2
               src={Picture4}
-              alt="Header Image 4"
+              alt={__("Header Image 4", 'acadlix')}
               sx={{
                 position: "absolute",
                 right: "50%",
@@ -166,7 +167,7 @@ const DashboardHeader = () => {
             }
           }}
         >
-          <StyledImage1 src={Picture1} alt="Header Image 1" />
+          <StyledImage1 src={Picture1} alt={__("Header Image 1", 'acadlix')} />
         </Grid>
       </Grid>
     </HeaderContainer>

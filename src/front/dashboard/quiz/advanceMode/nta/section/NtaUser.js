@@ -11,6 +11,8 @@ import NtaLanguage from "./NtaLanguage";
 import { FaUser } from "../../../../../../helpers/icons";
 import NtaTimer from "./NtaTimer";
 import NtaTexture from "../../../../../../images/nta-texture.jpg";
+import { __ } from "@wordpress/i18n";
+
 const NtaUser = (props) => {
   return (
     <Box
@@ -76,7 +78,7 @@ const NtaUser = (props) => {
                       padding: 0,
                     }}
                   >
-                    Candidate Name
+                    {__("Candidate Name", "acadlix")}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -104,7 +106,7 @@ const NtaUser = (props) => {
                       padding: 0,
                     }}
                   >
-                    Exam Name
+                    {__("Exam Name", "acadlix")}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -132,7 +134,7 @@ const NtaUser = (props) => {
                       padding: 0,
                     }}
                   >
-                    Subject Name
+                    {__("Subject Name", "acadlix")}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -163,7 +165,7 @@ const NtaUser = (props) => {
                       padding: 0,
                     }}
                   >
-                    Remaining Time
+                    {__("Remaining Time", "acadlix")}
                   </TableCell>
                   <TableCell
                     sx={{

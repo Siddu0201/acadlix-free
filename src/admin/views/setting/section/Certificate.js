@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, TextField, FormControlLabel } from "@mui/material";
+import { __ } from "@wordpress/i18n";
 function Certificate() {
   return (
     <div>
       <Box sx={{ color: "black" }}>
-        <h3>Choose Certificate Template</h3>
+        <h3>{__("Choose Certificate Template", "acadlix")}</h3>
       </Box>
     </div>
   );

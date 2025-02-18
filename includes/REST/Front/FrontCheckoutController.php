@@ -191,12 +191,12 @@ class FrontCheckoutController
         $res = [];
 
         if ($request->get_param("id") == 0) {
-            return new WP_Error(__('Cart id is required.', 'acadlix'), __('Cart id is required.', 'acadlix'), array('status' => 404));
+            return new WP_Error("cart_id_not_found", __('Cart id is required.', 'acadlix'), array('status' => 404));
         }
 
         $cart = CourseCart::find($request->get_param("id"));
         if (!$cart) {
-            return new WP_Error(__('No course found.', 'acadlix'), __('No course found.', 'acadlix'), array('status' => 404));
+            return new WP_Error("cart_not_found", __('No course found.', 'acadlix'), array('status' => 404));
         }
         $cart->delete();
 
@@ -217,15 +217,15 @@ class FrontCheckoutController
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         if ($request->get_param("payment_method") != "razorpay") {
-            return new WP_Error(__('Unacceptable payment gateway', 'acadlix'), __('Unacceptable payment gateway', 'acadlix'), array('status' => 404));
+            return new WP_Error('unacceptable_payment_gateway', __('Unacceptable payment gateway', 'acadlix'), array('status' => 404));
         }
 
         if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
-            return new WP_Error(__('No order found', 'acadlix'), __('No order found', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -262,7 +262,7 @@ class FrontCheckoutController
         ]);
 
         if (is_wp_error($response)) {
-            wp_send_json_error(['message' => 'Error creating Razorpay order.']);
+            wp_send_json_error(['message' => __('Error creating Razorpay order.', 'acadlix')]);
         } else {
             $body = wp_remote_retrieve_body($response);
             $data = json_decode($body, true);
@@ -343,15 +343,15 @@ class FrontCheckoutController
             }
             $order->updateOrCreateMeta("razorpay_payment_id", $request->get_param("razorpay_payment_id"));
             $order->updateOrCreateMeta("razorpay_signature", $request->get_param("razorpay_signature"));
-            wp_send_json_success(['message' => 'Payment verified successfully.', 'razorpay_order_id' => $request->get_param("razorpay_order_id")]);
+            wp_send_json_success(['message' => __('Payment verified successfully.', 'acadlix'), 'razorpay_order_id' => $request->get_param("razorpay_order_id")]);
         } else {
             $order->update([
                 'status' => 'failed'
             ]);
-            $order->updateOrCreateMeta("message", 'Payment verification failed.');
+            $order->updateOrCreateMeta("message", __('Payment verification failed.', 'acadlix'));
             // send mail on failed
             CourseHelper::instance()->handleFailedTransationEmail($order->id);
-            wp_send_json_error(['message' => 'Payment verification failed.']);
+            wp_send_json_error(['message' => __('Payment verification failed.', 'acadlix')]);
         }
     }
 
@@ -376,7 +376,7 @@ class FrontCheckoutController
         $order->update([
             "status" => "failed"
         ]);
-        $order->updateOrCreateMeta("message", 'Payment verification failed.');
+        $order->updateOrCreateMeta("message", __('Payment verification failed.', 'acadlix'));
         // send mail on failed
         CourseHelper::instance()->handleFailedTransationEmail($order->id);
         return rest_ensure_response(["success" => true]);
@@ -391,15 +391,15 @@ class FrontCheckoutController
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         if ($request->get_param("payment_method") != "paypal") {
-            return new WP_Error(__('Unacceptable payment gateway', 'acadlix'), __('Unacceptable payment gateway', 'acadlix'), array('status' => 404));
+            return new WP_Error('unacceptable_payment_gateway', __('Unacceptable payment gateway', 'acadlix'), array('status' => 404));
         }
 
         if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
-            return new WP_Error(__('No order found', 'acadlix'), __('No order found', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -496,7 +496,7 @@ class FrontCheckoutController
             return rest_ensure_response(['orderId' => $data['id']]);
         } else {
             // Handle error in creating the order
-            return new WP_Error('Error', 'Error creating PayPal order', array('status' => 400));
+            return new WP_Error('error', __('Error creating PayPal order', 'acadlix'), array('status' => 400));
         }
     }
 
@@ -511,15 +511,15 @@ class FrontCheckoutController
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         if ($request->get_param("payment_method") != "payu") {
-            return new WP_Error(__('Unacceptable payment gateway', 'acadlix'), __('Unacceptable payment gateway', 'acadlix'), array('status' => 404));
+            return new WP_Error('unacceptable_payment_gateway', __('Unacceptable payment gateway', 'acadlix'), array('status' => 404));
         }
 
         if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
-            return new WP_Error(__('No order found', 'acadlix'), __('No order found', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -601,11 +601,11 @@ class FrontCheckoutController
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
-            return new WP_Error(__('No order found', 'acadlix'), __('No order found', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {

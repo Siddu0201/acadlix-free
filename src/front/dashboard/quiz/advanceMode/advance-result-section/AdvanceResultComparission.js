@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceResultComparission = (props) => {
   return (
@@ -15,7 +16,7 @@ const AdvanceResultComparission = (props) => {
       <Grid item xs={12} sm={12}>
         <Card>
           <CardHeader
-            title="Result comparison with topper"
+            title={__("Result comparison with topper", "acadlix")}
             titleTypographyProps={{
               sx: {
                 textAlign: "center",
@@ -31,7 +32,7 @@ const AdvanceResultComparission = (props) => {
             }}
           />
           {props?.isPending ? (
-            "Loading..."
+            __("Loading...", "acadlix")
           ) : (
             <Box
               sx={{
@@ -45,12 +46,12 @@ const AdvanceResultComparission = (props) => {
                 <Grid item md={4} xs={6}></Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>
-                    <b>You</b>
+                    <b>{__("You", "acadlix")}</b>
                   </Typography>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>
-                    <b>Topper</b>
+                    <b>{__("Topper", "acadlix")}</b>
                   </Typography>
                 </Grid>
               </Grid>
@@ -69,7 +70,7 @@ const AdvanceResultComparission = (props) => {
                   }}
                 >
                   <Avatar src={props?.Name} sx={{ width: 20, height: 20 }} />
-                  <b>Name:</b>
+                  <b>{__("Name:", "acadlix")}</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>{props?.watch("name")}</Typography>
@@ -96,7 +97,7 @@ const AdvanceResultComparission = (props) => {
                     src={props?.ClockImage}
                     sx={{ width: 20, height: 20 }}
                   />
-                  <b>Time:</b>
+                  <b>{__("Time:", "acadlix")}</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>{props?.time}</Typography>
@@ -125,7 +126,7 @@ const AdvanceResultComparission = (props) => {
                     src={props?.TickImage}
                     sx={{ width: 20, height: 20 }}
                   />
-                  <b>Points:</b>
+                  <b>{__("Points:", "acadlix")}</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>{props?.points?.toFixed(2)}</Typography>
@@ -151,7 +152,7 @@ const AdvanceResultComparission = (props) => {
                   }}
                 >
                   <Avatar src={props?.Result} sx={{ width: 20, height: 20 }} />
-                  <b>Result:</b>
+                  <b>{__("Result:", "acadlix")}</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>{props?.result?.toFixed(2)}%</Typography>
@@ -180,7 +181,7 @@ const AdvanceResultComparission = (props) => {
                     src={props?.AccuracyImage}
                     sx={{ width: 20, height: 20 }}
                   />
-                  <b>Accuracy:</b>
+                  <b>{__("Accuracy:", "acadlix")}</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>{props?.accuracy}%</Typography>
@@ -218,13 +219,13 @@ const AdvanceResultComparission = (props) => {
                     }
                     sx={{ width: 20, height: 20 }}
                   />
-                  <b>Status:</b>
+                  <b>{__("Status:", "acadlix")}</b>
                 </Grid>
                 <Grid item md={4} xs={3}>
                   <Typography>
                     {props?.result > props?.watch("minimum_percent_to_pass")
-                      ? "Pass"
-                      : "Fail"}
+                      ? __("Pass", "acadlix")
+                      : __("Fail", "acadlix")}
                   </Typography>
                 </Grid>
                 <Grid item md={4} xs={3}>

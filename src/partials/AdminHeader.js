@@ -13,6 +13,7 @@ import {
 import menus from "../menu/AdminMenu";
 import AcadlixLogo from "../images/acadlix_logo.png";
 import { IoMdMenu } from "../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const AdminHeader = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -79,7 +80,7 @@ const AdminHeader = () => {
                       xs: 30,
                     },
                   }}
-                  alt="Acadlix logo."
+                  alt={__('Acadlix logo.', 'acadlix')}
                   src={AcadlixLogo}
                 />
               </Button>

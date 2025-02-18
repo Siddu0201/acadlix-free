@@ -20,6 +20,7 @@ import { Avatar, Box, Chip, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import parse from "html-react-parser";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const TypeSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -108,7 +109,7 @@ const TypeSortingChoice = (props) => {
               paddingY: 2,
             }}
           >
-            <b>Your answer</b>
+            <b>{__("Your answer", "acadlix")}</b>
           </Typography>
         )}
       <DndContext

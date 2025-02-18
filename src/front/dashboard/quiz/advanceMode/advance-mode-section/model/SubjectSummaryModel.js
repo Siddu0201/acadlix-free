@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { IoClose } from "../../../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const SubjectSummaryModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -72,7 +73,7 @@ const SubjectSummaryModel = (props) => {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Sectional Summary
+        {__("Sectional Summary", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -88,19 +89,19 @@ const SubjectSummaryModel = (props) => {
       </IconButton>
       <DialogContent>
         <Box>
-          <Typography>Do you want to submit this section?</Typography>
+          <Typography>{__('Do you want to submit this section?', 'acadlix')}</Typography>
           <Box>
             <TableContainer component={Paper}>
               <Table sx={{ width: "100%", margin: 0 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name of the Section</TableCell>
-                    <TableCell>No. of Question</TableCell>
-                    <TableCell>Answered</TableCell>
-                    <TableCell>Not Answered</TableCell>
-                    <TableCell>Not Visited</TableCell>
-                    <TableCell>Marked for Review</TableCell>
-                    <TableCell>Answered and Marked for Review</TableCell>
+                    <TableCell>{__('Name of the Section', 'acadlix')}</TableCell>
+                    <TableCell>{__('No. of Question', 'acadlix')}</TableCell>
+                    <TableCell>{__('Answered', 'acadlix')}</TableCell>
+                    <TableCell>{__('Not Answered', 'acadlix')}</TableCell>
+                    <TableCell>{__('Not Visited', 'acadlix')}</TableCell>
+                    <TableCell>{__('Marked for Review', 'acadlix')}</TableCell>
+                    <TableCell>{__('Answered and Marked for Review', 'acadlix')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -125,7 +126,7 @@ const SubjectSummaryModel = (props) => {
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
+          {__('Cancel', 'acadlix')}
         </Button>
         <Button variant="contained" type="submit" onClick={() => props?.handleSubmit(props?.s_index)}>
           {props?.submitText}

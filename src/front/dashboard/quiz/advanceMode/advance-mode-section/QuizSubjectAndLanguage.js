@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuizSubjectAndLanguage = (props) => {
   const [language, setLanguage] = React.useState("");
@@ -51,7 +52,7 @@ const QuizSubjectAndLanguage = (props) => {
             },
           }}
         >
-          SUBJECT:
+          {__("SUBJECT:", "acadlix")}:
         </Typography>
         {props?.isDesktop ? (
           <Box
@@ -72,7 +73,7 @@ const QuizSubjectAndLanguage = (props) => {
                 margin: `4px !important`,
               }}
             >
-              Quantitative Aptitude
+              {__("Quantitative Aptitude", "acadlix")}
             </Button>
             <Button
               size={props?.isDesktop ? "medium" : "small"}
@@ -82,7 +83,7 @@ const QuizSubjectAndLanguage = (props) => {
                 margin: `4px !important`,
               }}
             >
-              English Language
+              {__("English Language", "acadlix")}
             </Button>
             <Button
               size={props?.isDesktop ? "medium" : "small"}
@@ -92,7 +93,7 @@ const QuizSubjectAndLanguage = (props) => {
                 margin: `4px !important`,
               }}
             >
-              GK
+              {__("GK", "acadlix")}
             </Button>
             <Button
               size={props?.isDesktop ? "medium" : "small"}
@@ -102,7 +103,7 @@ const QuizSubjectAndLanguage = (props) => {
                 margin: `4px !important`,
               }}
             >
-              Reasoning
+              {__("Reasoning", "acadlix")}
             </Button>
           </Box>
         ) : (
@@ -114,7 +115,9 @@ const QuizSubjectAndLanguage = (props) => {
               }}
               size="small"
             >
-              <InputLabel id="demo-select-small-label">Subj.</InputLabel>
+              <InputLabel id="demo-select-small-label">
+                {__("Subject", "acadlix")}
+              </InputLabel>
               <Select
                 labelId="demo-select-small-label"
                 id="demo-select-small"
@@ -123,11 +126,15 @@ const QuizSubjectAndLanguage = (props) => {
                 onChange={handleSubjectChange}
               >
                 <MenuItem value="Quantitative Aptitude">
-                  Quantitative Aptitude
+                  {__("Quantitative Aptitude", "acadlix")}
                 </MenuItem>
-                <MenuItem value="English Language">English Language</MenuItem>
-                <MenuItem value="GK">GK</MenuItem>
-                <MenuItem value="Reasoning">Reasoning</MenuItem>
+                <MenuItem value="English Language">
+                  {__("English Language", "acadlix")}
+                </MenuItem>
+                <MenuItem value="GK">{__("GK", "acadlix")}</MenuItem>
+                <MenuItem value="Reasoning">
+                  {__("Reasoning", "acadlix")}
+                </MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -145,17 +152,17 @@ const QuizSubjectAndLanguage = (props) => {
           size="small"
         >
           <InputLabel id="demo-select-small-label">
-            {props?.isDesktop ? "Select Language" : "Lang."}
+            {props?.isDesktop ? __("Select Language", "acadlix") : __("Lang.", "acadlix")}
           </InputLabel>
           <Select
             labelId="demo-select-small-label"
             id="demo-select-small"
             value={language}
-            label="Age"
+            label={__("Age", "acadlix")}
             onChange={handleLanguageChange}
           >
-            <MenuItem value="Hindi">Hindi</MenuItem>
-            <MenuItem value="English">English</MenuItem>
+            <MenuItem value="Hindi">{__("Hindi", "acadlix")}</MenuItem>
+            <MenuItem value="English">{__("English", "acadlix")}</MenuItem>
           </Select>
         </FormControl>
       </Box>

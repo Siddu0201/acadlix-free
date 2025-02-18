@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const LastQuestionModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -39,7 +40,7 @@ const LastQuestionModel = (props) => {
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={handleClose}>
-          Close
+          {__("Close", "acadlix")}
         </Button>
       </DialogActions>
     </BootstrapDialog>

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useInstance } from "../../helpers/util";
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const base = "/admin-paragraph";
 
@@ -83,7 +84,7 @@ export const DeleteQuizParagraphById = (quiz_id = '') => {
       });
     },
     onSuccess: (data) => {
-      toast.success("Paragraph successfully deleted.");
+      toast.success(__("Paragraph successfully deleted.", "acadlix"));
       queryClient.invalidateQueries({
         queryKey: ["getQuizParagraphs"],
       });
@@ -111,7 +112,7 @@ export const DeleteBulkParagraph = (quiz_id = '') => {
       );
     },
     onSuccess: () => {
-      toast.success("Paragraphs deleted successfully");
+      toast.success(__("Paragraphs deleted successfully", "acadlix"));
       queryClient.invalidateQueries({
         queryKey: ["getQuizParagraphs"],
       });

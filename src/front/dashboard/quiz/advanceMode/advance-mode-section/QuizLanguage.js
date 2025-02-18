@@ -7,6 +7,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import { __ } from "@wordpress/i18n";
 
 const QuizLanguage = (props) => {
   const selectedQuestion = props?.watch("questions")?.find((q) => q?.selected);
@@ -66,7 +67,7 @@ const QuizLanguage = (props) => {
             color: props?.colorCode?.langauge_text_color,
           }}
         >
-          View in:
+          {__("View in:", "acadlix")}
         </Typography>
         <FormControl
           sx={{

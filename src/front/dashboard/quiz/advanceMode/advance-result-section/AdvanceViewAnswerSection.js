@@ -12,6 +12,7 @@ import AdvanceQuestionStatusSection from "./AdvanceQuestionStatusSection";
 import AdvanceQuestionSubjectAndPointSection from "./AdvanceQuestionSubjectAndPointSection";
 import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
 import AdvanceLanguageSection from "./AdvanceLanguageSection";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -143,7 +144,7 @@ const AdvanceViewAnswerSection = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>Correct</Typography>
+          <Typography>{__('Correct', 'acadlix')}</Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -154,7 +155,7 @@ const AdvanceViewAnswerSection = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>Incorrect</Typography>
+          <Typography>{__('Incorrect', 'acadlix')}</Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -165,7 +166,7 @@ const AdvanceViewAnswerSection = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>Skippeds</Typography>
+          <Typography>{__('Skipped', 'acadlix')}</Typography>
         </Box>
       </Box>
 
@@ -384,7 +385,7 @@ const ViewQuestionSection = (props) => {
                 display: props?.first ? "none" : "",
               }}
             >
-              Back
+              {__("Back", "acadlix")}
             </CustomButton>
           </Box>
           <Box
@@ -393,7 +394,7 @@ const ViewQuestionSection = (props) => {
               columnGap: 1,
             }}
           >
-            <CustomButton onClick={handleNextClick}>Next</CustomButton>
+            <CustomButton onClick={handleNextClick}>{__("Next", "acadlix")}</CustomButton>
           </Box>
         </Box>
         {props?.question?.language?.length > 0 &&
@@ -420,7 +421,7 @@ const ViewQuestionSection = (props) => {
                   >
                     <Box>
                       <Typography>
-                        <b>Explanation</b>
+                        <b>{__("Explanation", "acadlix")}</b>
                       </Typography>
                     </Box>
                     <Box>
@@ -450,7 +451,7 @@ const ViewQuestionSection = (props) => {
                   >
                     <Box>
                       <Typography>
-                        <b>Explanation</b>
+                        <b>{__("Explanation", "acadlix")}</b>
                       </Typography>
                     </Box>
                     <Box>
@@ -482,7 +483,7 @@ const ViewQuestionSection = (props) => {
                 >
                   <Box>
                     <Typography>
-                      <b>Explanation</b>
+                      <b>{__("Explanation", "acadlix")}</b>
                     </Typography>
                   </Box>
                   <Box>

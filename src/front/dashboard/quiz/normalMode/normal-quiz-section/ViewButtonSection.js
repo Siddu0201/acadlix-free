@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
+import { __ } from "@wordpress/i18n";
 
 const ViewButtonSection = (props) => {
   const handleResetQuiz = () => {
@@ -34,15 +35,15 @@ const ViewButtonSection = (props) => {
     >
       {
         !props?.watch("hide_restart_button") &&
-        <CustomButton onClick={handleResetQuiz}>Restart Quiz</CustomButton>
+        <CustomButton onClick={handleResetQuiz}>{__("Restart Quiz", "acadlix")}</CustomButton>
       }
       {
         !props?.watch("hide_answer_sheet") &&
-        <CustomButton onClick={handleViewAnswer}>View Answer</CustomButton>
+        <CustomButton onClick={handleViewAnswer}>{__("View Answer", "acadlix")}</CustomButton>
       }
       {
         props?.watch("leaderboard") && props?.watch("display_leaderboard_in_quiz_result") === "in_the_button" &&
-        <CustomButton onClick={handleViewLeaderBoard}>Leaderboard</CustomButton>
+        <CustomButton onClick={handleViewLeaderBoard}>{__("Leaderboard", "acadlix")}</CustomButton>
       }
     </Box>
   );

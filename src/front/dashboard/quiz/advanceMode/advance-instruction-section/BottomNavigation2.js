@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import QuestionLanguage from "./QuestionLanguage";
+import { __ } from "@wordpress/i18n";
 
 const BottomNavigation2 = (props) => {
   const handlePreviousClick = () => {
@@ -28,16 +29,16 @@ const BottomNavigation2 = (props) => {
     if (document.documentElement.requestFullscreen) {
       // Prompt the user to click to enable fullscreen
       document.documentElement.requestFullscreen().catch((err) => {
-        console.error("Failed to enable fullscreen mode:", err);
+        console.error(__("Failed to enable fullscreen mode:", 'acadlix'), err);
       });
     } else {
-      console.warn("Fullscreen API is not supported by this browser.");
+      console.warn(__('Fullscreen API is not supported by this browser.', 'acadlix'));
     }
   }
 
   const handleReadyToBegin = () => {
     if(props?.watch("selected_language_id") === ''){
-      alert("Please select the default language to procced further");
+      alert(__('Please select the default language to procced further', 'acadlix'));
       return;
     }
     // Handle full screen
@@ -105,8 +106,7 @@ const BottomNavigation2 = (props) => {
               color: "red",
             }}
           >
-            Please note all questions will appear in your default language. This
-            language can be changed for a particular question later on.
+            {__("Please note all questions will appear in your default language. This language can be changed for a particular question later on.", 'acadlix')}
           </Typography>
         </Box>
         {props?.watch("language_data")?.length > 0 &&
@@ -161,7 +161,7 @@ const BottomNavigation2 = (props) => {
               },
             }}
           >
-            {`< Previous`}
+            {__('Previous', 'acadlix')}
           </Button>
           <Button
             disabled={!props?.watch("ready_to_begin")}
@@ -172,7 +172,7 @@ const BottomNavigation2 = (props) => {
             }}
             onClick={handleReadyToBegin}
           >
-            I am ready to begin
+            {__('I am ready to begin', 'acadlix')}
           </Button>
         </Box>
       </Toolbar>

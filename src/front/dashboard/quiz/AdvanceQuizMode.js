@@ -12,6 +12,7 @@ import AdvanceResultSection from "./advanceMode/advance-result-section/AdvanceRe
 import QuizError from "./QuizError";
 import NtaInstruction from "./advanceMode/nta/instruction/NtaInstruction";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceQuizMode = (props) => {
   const colorCode = {
@@ -406,7 +407,7 @@ const AdvanceQuizMode = (props) => {
     return (
       <QuizError
         code="401"
-        message="You are not allowed to access this page."
+        message={__('You are not allowed to access this page.', 'acadlix')}
       />
     );
   }

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Box } from "@mui/material";
 import { TiInfoLarge } from "../../../../../helpers/icons";
 import SectionPopover from "./SectionPopover";
+import { __ } from "@wordpress/i18n";
 
 const SectionButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,7 +62,7 @@ const SectionButton = (props) => {
           <TiInfoLarge onMouseEnter={handleClick} onMouseLeave={handleClose} />
         }
       >
-        GENERAL AWARENESS
+        {__("GENERAL AWARENESS", "acadlix")}
         <Box
           sx={{
             display: props?.active ? "" : "none",

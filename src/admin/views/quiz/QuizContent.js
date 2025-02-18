@@ -21,6 +21,7 @@ import {
 } from "../../../requests/admin/AdminQuizRequest";
 import SaveTemplateSection from "./sections/SaveTemplateSection";
 import LanguageSection from "./sections/LanguageSection";
+import { __ } from "@wordpress/i18n";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -142,7 +143,10 @@ const QuizContent = (props) => {
           admin_from: props?.quiz?.rendered_metas?.quiz_settings?.admin_from ?? "",
           admin_subject: props?.quiz?.rendered_metas?.quiz_settings?.admin_subject ?? "Acadlix: One user completed a quiz",
           admin_message: props?.quiz?.rendered_metas?.quiz_settings?.admin_message
-            ?? `Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result`,
+            ?? __(
+              'Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result',
+              'acadlix'
+            ),
           student_email_notification: Boolean(
             Number(props?.quiz?.rendered_metas?.quiz_settings?.student_email_notification)
           ),
@@ -150,7 +154,10 @@ const QuizContent = (props) => {
           student_from: props?.quiz?.rendered_metas?.quiz_settings?.student_from ?? "",
           student_subject: props?.quiz?.rendered_metas?.quiz_settings?.student_subject ?? "Acadlix: One user completed a quiz",
           student_message: props?.quiz?.rendered_metas?.quiz_settings?.student_message
-            ?? `Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result`,
+            ?? __(
+              'Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result',
+              'acadlix'
+            ),
           prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.prerequisite)),
           subject_wise_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question)),
         },
@@ -262,10 +269,10 @@ const QuizContent = (props) => {
                 LinkComponent={Link}
                 to="/"
               >
-                Back
+                {__('Back', 'acadlix')}
               </Button>
               <Typography variant="h6">
-                {props?.create ? "Create Quiz" : "Edit Quiz"}
+                {props?.create ? __('Create Quiz', 'acadlix') : __('Edit Quiz', 'acadlix')}
               </Typography>
             </Box>
           </Grid>
@@ -303,7 +310,7 @@ const QuizContent = (props) => {
                         updateMutation?.isPending ? (
                         <CircularProgress color="inherit" size={20} />
                       ) : (
-                        "Save Change"
+                        __('Save Change', 'acadlix')
                       )}
                     </Button>
                   </Grid>

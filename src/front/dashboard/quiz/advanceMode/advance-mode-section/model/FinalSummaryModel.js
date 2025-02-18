@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { IoClose } from "../../../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const FinalSummaryModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -78,7 +79,7 @@ const FinalSummaryModel = (props) => {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Summary
+        {__("Summary", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -94,7 +95,7 @@ const FinalSummaryModel = (props) => {
       </IconButton>
       <DialogContent>
         <Box>
-          <Typography>Do you want to submit this test?</Typography>
+          <Typography>{__("Do you want to submit this test?", "acadlix")}</Typography>
           <Box>
             <TableContainer component={Paper}>
               <Table
@@ -103,13 +104,13 @@ const FinalSummaryModel = (props) => {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name of the Section</TableCell>
-                    <TableCell>No. of Question</TableCell>
-                    <TableCell>Answered</TableCell>
-                    <TableCell>Not Answered</TableCell>
-                    <TableCell>Not Visited</TableCell>
-                    <TableCell>Marked for Review</TableCell>
-                    <TableCell>Answered and Marked for Review</TableCell>
+                    <TableCell>{__("Name of the Section", "acadlix")}</TableCell>
+                    <TableCell>{__("No. of Question", "acadlix")}</TableCell>
+                    <TableCell>{__("Answered", "acadlix")}</TableCell>
+                    <TableCell>{__("Not Answered", "acadlix")}</TableCell>
+                    <TableCell>{__("Not Visited", "acadlix")}</TableCell>
+                    <TableCell>{__("Marked for Review", "acadlix")}</TableCell>
+                    <TableCell>{__("Answered and Marked for Review", "acadlix")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -160,7 +161,7 @@ const FinalSummaryModel = (props) => {
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
+          {__('Cancel', 'acadlix')}
         </Button>
         <Button
           variant="contained"

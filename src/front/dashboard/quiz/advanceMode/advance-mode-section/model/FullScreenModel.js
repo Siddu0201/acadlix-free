@@ -1,5 +1,6 @@
 import { Box, Button, Dialog, DialogContent, styled, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
+import { __ } from "@wordpress/i18n";
 
 const FullScreenModel = (props) => {
     const [isFullscreen, setIsFullscreen] = useState(false);
@@ -55,7 +56,7 @@ const FullScreenModel = (props) => {
                     }}
                 >
                     <Typography>
-                        Please click here to fullscreen.
+                        {__("Please click here to fullscreen.", "acadlix")}
                     </Typography>
                     <Button variant='contained' onClick={handleFullscreen}>Fullscreen</Button>  
                 </Box>

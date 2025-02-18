@@ -30,6 +30,7 @@ import {
   PostResetStatisticByQuizId,
 } from "../../../../requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
+import { __ } from "@wordpress/i18n";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -52,7 +53,7 @@ const QuizResult = () => {
 
   const resetStatistic = PostResetStatisticByQuizId(quiz_id);
   const handleResetStatistic = () => {
-    if (confirm("Do you really want to reset this statistic?")) {
+    if (confirm(__("Do you really want to reset this statistic?", "acadlix"))) {
       resetStatistic?.mutate({}, {
         onSuccess: (data) => {
           console.log(data);
@@ -68,20 +69,20 @@ const QuizResult = () => {
 
   const deleteMutation = DeleteStatisticById();
   const deleteStatisticById = (id) => {
-    if (confirm("Do you really want to delete this result?")) {
+    if (confirm(__("Do you really want to delete this result?", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "name", headerName: "Name / Username", flex: 2, minWidth: 250 },
-    { field: "date", headerName: "Date/Time", flex: 1, minWidth: 250 },
-    { field: "score", headerName: "Score", flex: 1, minWidth: 100 },
-    { field: "percentage", headerName: "Percentage", flex: 1, minWidth: 100 },
+    { field: "id", headerName: __("ID", "acadlix") },
+    { field: "name", headerName: __("Name / Username", "acadlix"), flex: 2, minWidth: 250 },
+    { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 250 },
+    { field: "score", headerName: __("Score", "acadlix"), flex: 1, minWidth: 100 },
+    { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
     {
       field: "status",
-      headerName: "Status",
+      headerName: __("Status", "acadlix"),
       flex: 1,
       minWidth: 100,
       renderCell: (params) => {
@@ -95,13 +96,13 @@ const QuizResult = () => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 1,
       minWidth: 100,
       renderCell: (params) => (
         <Box>
-          <Tooltip title="View Answersheet">
+          <Tooltip title={__("View Answersheet", "acadlix")}>
             <IconButton
               aria-label="expand"
               size="small"
@@ -112,7 +113,7 @@ const QuizResult = () => {
               <FaExpandArrowsAlt fontSize="inherit" />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Delete">
+          <Tooltip title={__("Delete", "acadlix")}>
             <IconButton
               aria-label="delete"
               size="small"
@@ -187,7 +188,7 @@ const QuizResult = () => {
             LinkComponent={Link}
             to={`/`}
           >
-            Back
+            {__('Back', 'acadlix')}
           </Button>
           <Button
             variant="contained"
@@ -198,7 +199,7 @@ const QuizResult = () => {
             }}
             onClick={handleResetStatistic}
           >
-            Reset Statistics
+            {__('Reset Statistics', 'acadlix')}
           </Button>
         </Grid>
         <Grid item xs={12} lg={12}>
@@ -218,7 +219,7 @@ const QuizResult = () => {
                   >
                     {methods?.watch("title")}
                   </Typography>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>
@@ -246,7 +247,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        {`${isMobile ? "Qs:" : "Questions:"} ${methods?.watch("question_count")}`}
+                        {`${isMobile ? __("Qs:", "acadlix") : __("Questions:", "acadlix")} ${methods?.watch("question_count")}`}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -263,7 +264,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        Pass: {methods?.watch("pass_count")}
+                        {__("Pass:", "acadlix")} {methods?.watch("pass_count")}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -280,7 +281,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        Fail: {methods?.watch("fail_count")}
+                        {__("Fail:", "acadlix")} {methods?.watch("fail_count")}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -297,7 +298,7 @@ const QuizResult = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        Total Attempt: {methods?.watch("attempt_counts")}
+                        {__("Total Attempt:", "acadlix")} {methods?.watch("attempt_counts")}
                       </Typography>
                     </Paper>
                   </Grid>

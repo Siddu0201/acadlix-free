@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, FormControlLabel, Grid } from "@mui/material";
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
+import { __ } from "@wordpress/i18n";
 
 const QuestionHintSection = (props) => {
   const loadPage = () => {
@@ -31,7 +32,11 @@ const QuestionHintSection = (props) => {
     >
       <Card>
         <CardHeader
-          title={`Hint ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+          title={
+            props?.watch("multi_language")
+              ? __("Hint", "acadlix") + ` (${props?.lang?.language_name})`
+              : __("Hint", "acadlix")
+          }
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -49,7 +54,7 @@ const QuestionHintSection = (props) => {
                     props?.setValue("hint_enabled", e?.target?.checked, {shouldDirty: true});
                   }}  
                 />}
-                label="Enable Hint"
+                label={__("Enable Hint", "acadlix")}
               />
             </Grid>
             <Grid item xs={12} lg={12} sx={{

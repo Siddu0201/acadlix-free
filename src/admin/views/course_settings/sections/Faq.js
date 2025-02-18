@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import { FaPlus } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Faq = (props) => {
   const handleAddFaq = () => {
@@ -32,7 +33,7 @@ const Faq = (props) => {
                         fontWeight: 600,
                       }}
                     >
-                      Question
+                      {__("Question", "acadlix")}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={12}>
@@ -59,7 +60,7 @@ const Faq = (props) => {
                         fontWeight: 600,
                       }}
                     >
-                      Answer
+                      {__("Answer", "acadlix")}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={12}>
@@ -85,7 +86,7 @@ const Faq = (props) => {
                   size="small"
                   onClick={handleRemoveFaq.bind(this, index)}
                 >
-                  Remove
+                  {__("Remove", "acadlix")}
                 </Button>
               </Grid>
             </React.Fragment>
@@ -97,7 +98,7 @@ const Faq = (props) => {
             size="small"
             onClick={handleAddFaq}
           >
-            <FaPlus style={{ paddingRight: 2 }} /> Add New
+            <FaPlus style={{ paddingRight: 2 }} /> {__("Add New", "acadlix")}
           </Button>
         </Grid>
       </Grid>

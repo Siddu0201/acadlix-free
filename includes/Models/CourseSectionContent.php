@@ -204,14 +204,14 @@ if (!class_exists(class: 'CourseSectionContent')) {
             // Check if post exists
             $post = get_post($postId);
             if (!$post || $post->post_type !== self::$postType) {
-                return new \WP_Error('invalid_post', 'Invalid post ID or not a course section post type.');
+                return new \WP_Error('invalid_post', __('Invalid post ID or not a course section post type.', 'acadlix'));
             }
 
             // Delete post
             $result = wp_delete_post($postId, true);
 
             if (!$result) {
-                return new \WP_Error('delete_failed', 'Failed to delete course section.');
+                return new \WP_Error('delete_failed', __('Failed to delete course section.', 'acadlix'));
             }
 
             // Delete statistic

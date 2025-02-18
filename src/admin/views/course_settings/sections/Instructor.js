@@ -1,5 +1,6 @@
 import { Autocomplete, Box, Chip, Grid, TextField } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const Instructor = (props) => {
 
@@ -42,7 +43,7 @@ const Instructor = (props) => {
                     minHeight: `auto !important`,
                   },
                 }}
-                label="Select Instructor"
+                label={__('Select Instructor', 'acadlix')}
               />
             )}
             onChange={(_, newValue) => {

@@ -4,6 +4,7 @@ import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTypography from "../../../../components/CustomTypography";
+import { __ } from "@wordpress/i18n";
 
 const Notification = (props) => {
   return (
@@ -14,7 +15,7 @@ const Notification = (props) => {
             marginY: 2,
           }}
         >
-          <Typography variant="h6">Admin Email Notification</Typography>
+          <Typography variant="h6">{__("Admin Email Notification", "acadlix")}</Typography>
           <Divider />
         </Box>
         <Grid container spacing={3} alignItems="center">
@@ -26,7 +27,7 @@ const Notification = (props) => {
             - Message: Message you want to send in mail
           */}
           <GridItem1 xs={12} sm={6} lg={3}>
-            <CustomTypography>Enable Admin Email Notification</CustomTypography>
+            <CustomTypography>{__("Enable Admin Email Notification", "acadlix")}</CustomTypography>
           </GridItem1>
           <GridItem1 xs={12} sm={6} lg={3}>
             <FormControlLabel
@@ -41,7 +42,7 @@ const Notification = (props) => {
                   { shouldDirty: true }
                 );
               }}
-              label="Activate"
+              label={__("Activate", "acadlix")}
             />
           </GridItem1>
           <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
@@ -58,7 +59,7 @@ const Notification = (props) => {
             marginY: 2,
           }}
         >
-          <Typography variant="h6">Student Email Notification</Typography>
+          <Typography variant="h6">{__("Student Email Notification", "acadlix")}</Typography>
           <Divider />
         </Box>
         <Grid
@@ -76,7 +77,7 @@ const Notification = (props) => {
           */}
 
           <GridItem1 xs={12} sm={6} lg={3}>
-            <CustomTypography>Enable Student Email Notification</CustomTypography>
+            <CustomTypography>{__("Enable Student Email Notification", "acadlix")}</CustomTypography>
           </GridItem1>
           <GridItem1 xs={12} sm={6} lg={3}>
             <FormControlLabel
@@ -91,7 +92,7 @@ const Notification = (props) => {
                   { shouldDirty: true }
                 );
               }}
-              label="Activate"
+              label={__("Activate", "acadlix")}
             />
           </GridItem1>
           <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
@@ -127,13 +128,13 @@ const AdminNotification = (props) => {
     <React.Fragment>
       {/* Admin email id to whom you want to send email */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>To</CustomTypography>
+        <CustomTypography>{__("To", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <CustomTextField
           fullWidth
           size="small"
-          label="To"
+          label={__("To", "acadlix")}
           value={props?.watch("meta.quiz_settings.admin_to") ?? ""}
           onChange={(e) => {
             props?.setValue("meta.quiz_settings.admin_to", e?.target?.value, {
@@ -145,13 +146,13 @@ const AdminNotification = (props) => {
 
       {/* Student email id from whom you want to send email */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>From</CustomTypography>
+        <CustomTypography>{__("From", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <CustomTextField
           fullWidth
           size="small"
-          label="From"
+          label={__("From", "acadlix")}
           value={props?.watch("meta.quiz_settings.admin_from") ?? ""}
           onChange={(e) => {
             props?.setValue("meta.quiz_settings.admin_from", e?.target?.value, {
@@ -164,13 +165,13 @@ const AdminNotification = (props) => {
 
       {/* Subject of email */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>Subject</CustomTypography>
+        <CustomTypography>{__("Subject", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <CustomTextField
           fullWidth
           size="small"
-          label="Subject"
+          label={__("Subject", "acadlix")}
           value={props?.watch("meta.quiz_settings.admin_subject") ?? ""}
           onChange={(e) => {
             props?.setValue("meta.quiz_settings.admin_subject", e?.target?.value, {
@@ -182,7 +183,7 @@ const AdminNotification = (props) => {
 
       {/* Message of email */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>Message</CustomTypography>
+        <CustomTypography>{__("Message", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <textarea
@@ -207,14 +208,14 @@ const AdminNotification = (props) => {
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={3}></GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
-        <Typography variant="body1"><b>Allowed variables.</b></Typography>
+        <Typography variant="body1"><b>{__("Allowed variables.", "acadlix")}</b></Typography>
         <Typography variant="body2">
-          $userId - User-ID <br />
-          $username - Username <br />
-          $quizname - Quiz-Name <br />
-          $result - Result in percent <br />
-          $points - Points <br />
-          $ip - IP-address of the user <br />
+          $userId - {__("User-ID", "acadlix")} <br />
+          $username - {__("Username", "acadlix")} <br />
+          $quizname - {__("Quiz-Name", "acadlix")} <br />
+          $result - {__("Result in percent", "acadlix")} <br />
+          $points - {__("Points", "acadlix")} <br />
+          $ip - {__("IP-address of the user", "acadlix")} <br />
         </Typography>
       </GridItem1>
     </React.Fragment>
@@ -239,13 +240,13 @@ const StudentNotification = (props) => {
     <React.Fragment>
       {/* From which email id you want to send */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>From</CustomTypography>
+        <CustomTypography>{__("From", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <CustomTextField
           fullWidth
           size="small"
-          label="From"
+          label={__("From", "acadlix")}
           value={props?.watch("meta.quiz_settings.student_from") ?? ""}
           onChange={(e) => {
             props?.setValue("meta.quiz_settings.student_from", e?.target?.value, {
@@ -257,13 +258,13 @@ const StudentNotification = (props) => {
 
       {/* Subject of email */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>Subject</CustomTypography>
+        <CustomTypography>{__("Subject", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <CustomTextField
           fullWidth
           size="small"
-          label="Subject"
+          label={__("Subject", "acadlix")}
           value={props?.watch("meta.quiz_settings.student_subject") ?? ""}
           onChange={(e) => {
             props?.setValue("meta.quiz_settings.student_subject", e?.target?.value, {
@@ -275,7 +276,7 @@ const StudentNotification = (props) => {
 
       {/* Message of email */}
       <GridItem1 xs={12} sm={6} lg={3}>
-        <CustomTypography>Message</CustomTypography>
+        <CustomTypography>{__("Message", "acadlix")}</CustomTypography>
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
         <textarea
@@ -300,14 +301,14 @@ const StudentNotification = (props) => {
       </GridItem1>
       <GridItem1 xs={12} sm={6} lg={3}></GridItem1>
       <GridItem1 xs={12} sm={6} lg={9}>
-        <Typography variant="body1"><b>Allowed variables.</b></Typography>
+        <Typography variant="body1"><b>{__("Allowed variables.", "acadlix")}</b></Typography>
         <Typography variant="body2">
-          $userId - User-ID <br />
-          $username - Username <br />
-          $quizname - Quiz-Name <br />
-          $result - Result in percent <br />
-          $points - Points <br />
-          $ip - IP-address of the user <br />
+          $userId - {__("User-ID", "acadlix")} <br />
+          $username - {__("Username", "acadlix")} <br />
+          $quizname - {__("Quiz-Name", "acadlix")} <br />
+          $result - {__("Result in percent", "acadlix")} <br />
+          $points - {__("Points", "acadlix")} <br />
+          $ip - {__("IP-address of the user", "acadlix")} <br />
         </Typography>
       </GridItem1>
     </React.Fragment>

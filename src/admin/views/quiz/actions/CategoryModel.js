@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { IoClose } from "../../../../helpers/icons";
 import { PostSetCategory } from "../../../../requests/admin/AdminQuizRequest";
+import { __ } from "@wordpress/i18n";
 
 const CategoryModel = (props) => {
   const methods = useForm({
@@ -22,7 +23,7 @@ const CategoryModel = (props) => {
     if (!input) {
       methods?.setError(`category_id`, {
         type: "custom",
-        message: "Category cannot be empty",
+        message: __("Category cannot be empty", "acadlix"),
       });
       return;
     }
@@ -32,7 +33,7 @@ const CategoryModel = (props) => {
     )?.length > 0) {
       methods?.setError(`category_id`, {
         type: "custom",
-        message: "Category name is already exist",
+        message: __("Category name is already exist", "acadlix"),
       });
       return;
     }
@@ -68,7 +69,7 @@ const CategoryModel = (props) => {
     if(!data?.category_id){
       methods?.setError(`category_id`, {
         type: "custom",
-        message: "Category cannot be empty",
+        message: __("Category cannot be empty", "acadlix"),
       });
       return;
     }
@@ -90,7 +91,7 @@ const CategoryModel = (props) => {
   return (
     <>
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Set Category
+        {__("Set Category", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -126,7 +127,7 @@ const CategoryModel = (props) => {
                     ...params.inputProps,
                     autoComplete: "category",
                   }}
-                  label="Select Quiz Category"
+                  label={__("Select Quiz Category", "acadlix")}
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: (
@@ -156,7 +157,7 @@ const CategoryModel = (props) => {
                       sx={{ justifyContent: "flex-start", pl: 2 }}
                       onMouseDown={createCategory}
                     >
-                      + Add New
+                      + {__("Add New", "acadlix")}
                     </Button>
                   </Paper>
                 );
@@ -172,7 +173,7 @@ const CategoryModel = (props) => {
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
+          {__("Cancel", "acadlix")}
         </Button>
         <Button
           variant="contained"
@@ -180,7 +181,7 @@ const CategoryModel = (props) => {
           onClick={methods?.handleSubmit(handleSubmit)}
           disabled={setCategory?.isPending}
         >
-          {setCategory?.isPending ? "...loading" : "Save Change"}
+          {setCategory?.isPending ? __("...loading", "acadlix") : __("Save Change", "acadlix")}
         </Button>
       </DialogActions>
     </>

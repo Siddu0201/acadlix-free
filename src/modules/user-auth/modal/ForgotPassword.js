@@ -6,6 +6,7 @@ import CustomTextField from '../../../components/CustomTextField';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { RawHTML } from '@wordpress/element';
+import {__} from "@wordpress/i18n";
 
 const ForgotPassword = (props) => {
     const theme = useTheme();
@@ -41,7 +42,7 @@ const ForgotPassword = (props) => {
             })
             .catch((err) => {
                 setIsLoading(false);
-                methods?.setValue("error", "Opps! Something went wrong.", { shouldDirty: true });
+                methods?.setValue("error", __("Opps! Something went wrong.", 'acadlix'), { shouldDirty: true });
                 console.error(err);
             });
     }
@@ -79,7 +80,7 @@ const ForgotPassword = (props) => {
                     <Alert severity="info" sx={{
                         alignItems: "center"
                     }}>
-                        Please enter your username or email address. You will receive an email message with instructions on how to reset your password.
+                        {__("Please enter your username or email address. You will receive an email message with instructions on how to reset your password.", 'acadlix')}
                     </Alert>
                     {
                         methods?.watch("error") &&
@@ -106,7 +107,7 @@ const ForgotPassword = (props) => {
                                                 paddingY: 1,
                                             }}
                                         >
-                                            Username/Email <span style={{ color: "red" }}>*</span>
+                                            {__("Username/Email", 'acadlix')} <span style={{ color: "red" }}>*</span>
                                         </Typography>
                                         <CustomTextField
                                             {...methods?.register("username", { required: true })}
@@ -117,7 +118,7 @@ const ForgotPassword = (props) => {
                                             size="small"
                                             type="text"
                                             name="username"
-                                            placeholder="Username/email"
+                                            placeholder={__("Username/email", 'acadlix')}
                                             value={methods?.watch("username")}
                                             onChange={(e) => {
                                                 methods?.setValue("username", e?.target?.value, {
@@ -134,14 +135,14 @@ const ForgotPassword = (props) => {
                                             variant="contained"
                                             type="submit"
                                         >
-                                            Get New Password
+                                            {__("Get New Password", 'acadlix')}
                                         </LoadingButton>
                                     </Grid>
                                 </>
                                 :
                                 <Grid item xs={12} lg={12}>
                                     <Alert severity="success">
-                                        Check your email for the confirmation link, then visit the login page.
+                                        {__("Check your email for the confirmation link, then visit the login page.", 'acadlix')}
                                     </Alert>
                                 </Grid>
                         }
@@ -159,7 +160,7 @@ const ForgotPassword = (props) => {
                                         });
                                     }}
                                 >
-                                    Login
+                                    {__("Login", 'acadlix')}
                                 </Link>
 
                                 {props?.watch("users_can_register") &&
@@ -174,7 +175,7 @@ const ForgotPassword = (props) => {
                                                 });
                                             }}
                                         >
-                                            Register
+                                            {__("Register", 'acadlix')}
                                         </Link>
                                     </>
                                 }

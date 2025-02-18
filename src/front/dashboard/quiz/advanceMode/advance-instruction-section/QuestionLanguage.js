@@ -1,5 +1,6 @@
 import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuestionLanguage = (props) => {
   const handleLanguageChange = (e) => {
@@ -35,7 +36,9 @@ const QuestionLanguage = (props) => {
           gap: 2,
         }}
       >
-        <Typography variant="body2" color="black">Choose your default language: </Typography>
+        <Typography variant="body2" color="black">
+          {__('Choose your default language: ', 'acadlix')}
+        </Typography>
         <FormControl
           sx={{
             minWidth: {

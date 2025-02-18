@@ -4,6 +4,7 @@ import First from "../../../../../images/medal-1.svg";
 import Second from "../../../../../images/medal-2.svg";
 import Third from "../../../../../images/medal-3.svg";
 import { PostLoadMoreLeaderboard } from "../../../../../requests/front/FrontQuizRequest";
+import { __ } from "@wordpress/i18n";
 
 const LeaderboardSection = (props) => {
   const styles = {
@@ -189,7 +190,7 @@ const LeaderboardSection = (props) => {
           }}
         >
           <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
-            Load More
+            {__('Load More', 'acadlix')}
           </Button>
         </Box>
       }

@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const AverageResultSection = () => {
   return (
@@ -23,7 +24,7 @@ const AverageResultSection = () => {
             paddingX: 3,
           }}
         >
-          Average Score:
+          {__("Average Score:", "acadlix")}
         </Typography>
         <Typography>0%</Typography>
       </Box>
@@ -40,7 +41,7 @@ const AverageResultSection = () => {
             paddingX: 3,
           }}
         >
-          Your Score:
+          {__("Your Score:", "acadlix")}
         </Typography>
         <Typography>50%</Typography>
       </Box>

@@ -32,6 +32,7 @@ import {
   RemoveContentFromSection,
 } from "../../../../requests/admin/AdminCourseRequest";
 import EditLesson from "./EditLesson";
+import { __, sprintf } from "@wordpress/i18n";
 
 const ViewContentSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -244,7 +245,12 @@ const SortableSections = (props) => {
     props?.c?.id
   );
   const handleRemoveContent = () => {
-    if (confirm(`Are you sure you want to remove this ${props?.c?.type} from this section?`)) {
+    /* translators: %s is the type of item being removed */
+    const message = sprintf(
+      __('Are you sure you want to remove this %s from this section?', 'acadlix'),
+      props?.c?.type
+    );
+    if (confirm(message)) {
       removeContentMutation?.mutate(
         {},
         {
@@ -367,7 +373,7 @@ const SortableSections = (props) => {
                 <FaEdit style={{ fontSize: 14 }} />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Quiz">
+            <Tooltip title={__('Delete Quiz', 'acadlix')}>
               <IconButton onClick={handleRemoveContent}>
                 <FaTrash
                   style={{
@@ -386,7 +392,7 @@ const SortableSections = (props) => {
               justifyContent: "center",
             }}
           >
-            <Tooltip title={props?.c?.preview ? "Remove from Preview" : "Add to Preview"}>
+            <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
               <IconButton onClick={handleTooglePreview}>
                 {
                   tooglePreviewMutation?.isPending ?
@@ -405,8 +411,8 @@ const SortableSections = (props) => {
               </IconButton>
             </Tooltip>
             <EditLesson {...props} />
-            <Tooltip title="Delete Lesson">
-              <IconButton onClick={handleRemoveContent}>
+            <Tooltip title={__("Delete Lesson", "acadlix")}>
+            <IconButton onClick={handleRemoveContent}>
                 <FaTrash
                   style={{
                     fontSize: 14,

@@ -2,6 +2,7 @@ import React from "react";
 import Provider from "../provider/Provider";
 import Quiz from "./dashboard/quiz/Quiz";
 import QuizError from "./dashboard/quiz/QuizError";
+import { __ } from "@wordpress/i18n";
 
 const AppFront = (props) => {
   if (props?.advance && window?.location?.hash?.length == 0) {
@@ -22,7 +23,7 @@ const AppFront = (props) => {
     } else {
       return (
         <Provider>
-          <QuizError code="404" message="No Quiz Found" />
+          <QuizError code="404" message={__("No Quiz Found", "acadlix")} />
         </Provider>
       );
     }

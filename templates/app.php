@@ -1,6 +1,6 @@
 <?php
 
 echo  '<div id="acadlix-admin">
-    <h2>Loading...</h2>
+    <h2>' . __('Loading...', 'acadlix') . '</h2>
 </div>';
 

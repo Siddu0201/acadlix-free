@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { FaUser } from "../../../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const NtaTopHome = (props) => {
   return (
@@ -26,7 +27,7 @@ const NtaTopHome = (props) => {
         </Box>
         <Typography variant="body2" sx={{
           color: props?.colorCode?.top_home_text_color
-        }}>Home</Typography>
+        }}>{__("Home", "acadlix")}</Typography>
       </Box>
     </Box>
   );

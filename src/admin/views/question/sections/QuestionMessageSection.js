@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
+import { __ } from "@wordpress/i18n";
 
 const QuestionMessageSection = (props) => {
   const loadPage = () => {
@@ -40,7 +41,11 @@ const QuestionMessageSection = (props) => {
     >
       <Card>
         <CardHeader
-          title={`Explanation ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+          title={
+            props?.watch("multi_language")
+              ? __("Explanation", "acadlix") + ` (${props?.lang?.language_name})`
+              : __("Explanation", "acadlix")
+          }
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -60,13 +65,13 @@ const QuestionMessageSection = (props) => {
                     props?.setValue("different_incorrect_msg", e.target.checked, { shouldDirty: true });
                   }}
                 />}
-                label="Different Explanation for correct and incorrect answer?"
+                label={__("Different Explanation for correct and incorrect answer?", "acadlix")}
               />
             </Grid>
             {
               props?.watch("different_incorrect_msg") &&
               <Grid item xs={12} lg={12}>
-                <Typography variant="subtitle2">Explanation for correct answer</Typography>
+                <Typography variant="subtitle2">{__("Explanation for correct answer", "acadlix")}</Typography>
               </Grid>
             }
             <Grid item xs={12} lg={12}>
@@ -93,7 +98,9 @@ const QuestionMessageSection = (props) => {
             <Grid item xs={12} lg={12} sx={{
               display: props?.watch('different_incorrect_msg') ? "" : "none",
             }}>
-              <Typography variant="subtitle2">Explanation for incorrect answer</Typography>
+              <Typography variant="subtitle2">
+                {__("Explanation for incorrect answer", "acadlix")}
+                </Typography>
             </Grid>
             <Grid item xs={12} lg={12} sx={{
               display: props?.watch('different_incorrect_msg') ? "" : "none",

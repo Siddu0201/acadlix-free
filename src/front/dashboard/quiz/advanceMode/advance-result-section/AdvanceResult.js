@@ -15,6 +15,7 @@ import Name from "../../../../../images/avatar-people-person-profile-user-svgrep
 import Result from "../../../../../images/certificate-manager-svgrepo-com.svg";
 import { secondsToHms } from "../../../../../helpers/util";
 import AdvanceResultComparission from "./AdvanceResultComparission";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceResult = (props) => {
   const result = props?.watch("questions")?.reduce((total, d) => {
@@ -64,7 +65,7 @@ const AdvanceResult = (props) => {
           fontSize: 18,
         }}
       >
-        You have Completed "
+        { __("You have Completed ", "acadlix") }"
         <Typography
           component="span"
           sx={{
@@ -100,7 +101,9 @@ const AdvanceResult = (props) => {
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 {result?.toFixed(2)}/{total}
               </Typography>
-              <Typography variant="h7">Marks Obtained</Typography>
+              <Typography variant="subtitle2">
+                { __("Marks Obtained", "acadlix") }
+              </Typography>
             </Box>
           </Card>
         </Grid>
@@ -118,7 +121,9 @@ const AdvanceResult = (props) => {
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   {`-${negative_marks?.toFixed(2)}`}
                 </Typography>
-                <Typography variant="h7">Negative Marks</Typography>
+                <Typography variant="subtitle2">
+                  { __("Negative Marks", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -136,10 +141,12 @@ const AdvanceResult = (props) => {
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   {props?.isPending
-                    ? "loading..."
+                    ? __("loading...", "acadlix")
                     : props?.watch("average_score")}
                 </Typography>
-                <Typography variant="h7">Average Score</Typography>
+                <Typography variant="subtitle2">
+                  { __("Average Score", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -163,10 +170,12 @@ const AdvanceResult = (props) => {
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   {percent > props?.watch("minimum_percent_to_pass")
-                    ? "Pass"
-                    : "Fail"}
+                    ? __("Pass", "acadlix")
+                    : __("Fail", "acadlix")}
                 </Typography>
-                <Typography variant="h7">Status</Typography>
+                <Typography variant="subtitle2">
+                  { __("Status", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -185,7 +194,9 @@ const AdvanceResult = (props) => {
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   {`${accuracy}%`}
                 </Typography>
-                <Typography variant="h7">Accuracy</Typography>
+                <Typography variant="subtitle2">
+                  { __("Accuracy", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -204,7 +215,9 @@ const AdvanceResult = (props) => {
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   {secondsToHms(time)}
                 </Typography>
-                <Typography variant="h7">Time Taken</Typography>
+                <Typography variant="subtitle2">
+                  { __("Time Taken", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -221,9 +234,11 @@ const AdvanceResult = (props) => {
               </Box>
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  {props?.isPending ? "loading..." : props?.watch("rank")}
+                  {props?.isPending ? __("loading...", "acadlix") : props?.watch("rank")}
                 </Typography>
-                <Typography variant="h7">Rank</Typography>
+                <Typography variant="subtitle2">
+                  { __("Rank", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -240,9 +255,11 @@ const AdvanceResult = (props) => {
               </Box>
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  {props?.isPending ? "loading..." : props?.watch("percentile")}
+                  {props?.isPending ? __("loading...", "acadlix") : props?.watch("percentile")}
                 </Typography>
-                <Typography variant="h7">Percentile</Typography>
+                <Typography variant="subtitle2">
+                  { __("Percentile", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>
@@ -262,9 +279,11 @@ const AdvanceResult = (props) => {
                   {isNaN(solvedCount / (time / 60))
                     ? 0
                     : (solvedCount / (time / 60)).toFixed(2)}{" "}
-                  Q/min
+                  { __("Q/min", "acadlix") }
                 </Typography>
-                <Typography variant="h7">Speed</Typography>
+                <Typography variant="subtitle2">
+                  { __("Speed", "acadlix") }
+                </Typography>
               </Box>
             </Card>
           </Grid>

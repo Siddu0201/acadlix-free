@@ -3,6 +3,7 @@ import { Box, Button } from "@mui/material";
 import SubjectSummaryModel from "./model/SubjectSummaryModel";
 import SubjectWiseSubmitButton from "./SubjectWiseSubmitButton";
 import FinalSummaryModel from "./model/FinalSummaryModel";
+import { __ } from "@wordpress/i18n";
 
 const QuizSidebarSubmit = (props) => {
   const [submitModel, setSubmitModel] = React.useState(false);
@@ -96,7 +97,7 @@ const QuizSidebarSubmit = (props) => {
               },
             }}
           >
-            Submit
+            {__("Submit", "acadlix")}
           </Button>
         </>
       )}

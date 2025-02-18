@@ -55,11 +55,12 @@ class Submenu_Lessons
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
             'user_id' => get_current_user_id(),
         ));
+        wp_set_script_translations('acadlix-admin-lesson', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function lesson_callback()
     {
-        echo '<div id="acadlix-admin-lesson"><h2>Loading...</h2></div>';
+        echo '<div id="acadlix-admin-lesson"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

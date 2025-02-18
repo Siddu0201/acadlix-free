@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useInstance } from "../../helpers/util"
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const base = "/admin-quiz";
 
@@ -82,7 +83,7 @@ export const DeleteQuizQuestionById = (quiz_id = '') => {
             });
         },
         onSuccess: (data) => {
-            toast.success('Question successfully deleted.');
+            toast.success(__('Question successfully deleted.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizQuestion"]
             });
@@ -102,7 +103,7 @@ export const PostSetSubjectAndPoint = (quiz_id = '') => {
             return instance.post(`${base}/${quiz_id}/question/set-subject-and-point`, data);
         },
         onSuccess: () => {
-            toast.success('Subject and points updated successfully.');
+            toast.success(__('Subject and points updated successfully.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizQuestion"]
             });
@@ -119,7 +120,7 @@ export const PostSetParagraph = (quiz_id = '') => {
             return instance.post(`${base}/${quiz_id}/question/set-paragraph`, data);
         },
         onSuccess: () => {
-            toast.success('Paragraph updated successfully.');
+            toast.success(__('Paragraph updated successfully.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizQuestion"]
             });
@@ -142,7 +143,7 @@ export const DeleteBulkQuestion= (quiz_id = '') => {
             });
         },
         onSuccess: () => {
-            toast.success('Questions deleted successfully');
+            toast.success(__('Questions deleted successfully', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizQuestion"]
             });

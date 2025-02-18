@@ -6,6 +6,7 @@ import { FaPlus } from "../../../../helpers/icons";
 import AddLessonModal from "../modals/AddLessonModal";
 import toast from "react-hot-toast";
 import { PostAddLesson } from "../../../../requests/admin/AdminCourseRequest";
+import { __ } from "@wordpress/i18n";
 
 const AddLesson = (props) => {
   const methods = useForm({
@@ -84,7 +85,7 @@ const AddLesson = (props) => {
     }
 
     if (data?.lesson_type === "existing" && data?.lesson_ids?.length === 0) {
-      toast?.error("Please select atleast 1 lesson.");
+      toast?.error(__("Please select at least 1 lesson.", "acadlix"));
       return;
     }
 
@@ -167,7 +168,7 @@ const AddLesson = (props) => {
             paddingRight: 4,
           }}
         />
-        Add Lesson
+        {__("Add Lesson", "acadlix")}
       </Button>
     </Box>
   );

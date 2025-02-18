@@ -1,4 +1,5 @@
 import axios from "axios";
+import { __ } from "@wordpress/i18n";
 
 export const useInstance = () => {
   return axios.create({
@@ -129,7 +130,7 @@ export const updateAnswer = (options = [], random = false, notlast = false) => {
 
 export const shuffleArrayBasedOnOrder = (arr, order) => {
   if (arr.length !== order.length) {
-    throw new Error("Array length and order length must be the same.");
+    throw new Error(__('Array length and order length must be the same.', 'acadlix'));
   }
 
   // Create a new array to store shuffled objects
@@ -225,7 +226,7 @@ export const getVimeoVideoId = (url = "") => {
 
 export const convertToPostDate = (obj) => {
   if (!obj || typeof obj !== "object" || !obj.$isDayjsObject) {
-    throw new Error("Invalid object. Ensure it's a Day.js object.");
+    throw new Error(__('Invalid object. Ensure it\'s a Day.js object.', 'acadlix'));
   }
 
   if (isNaN(obj.$y) || isNaN(obj.$M) || isNaN(obj.$D) || isNaN(obj.$H) || isNaN(obj.$m) || isNaN(obj.$s)) {

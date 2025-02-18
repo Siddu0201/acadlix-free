@@ -10,6 +10,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const LanguageSection = (props) => {
 
@@ -17,7 +18,7 @@ const LanguageSection = (props) => {
     <Grid item xs={12} sm={12}>
       <Card>
         <CardHeader
-          title="Language"
+          title={__("Language", "acadlix")}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -42,7 +43,7 @@ const LanguageSection = (props) => {
                     fontSize: "1.05rem",
                   }}
                 >
-                  Change Language:
+                  {__("Change Language:", "acadlix")}
                 </FormLabel>
                 <RadioGroup 
                   row
@@ -71,7 +72,7 @@ const LanguageSection = (props) => {
                         label={
                           <>
                             {lang?.language_name}
-                            {lang?.default ? "(default)" : ""}
+                            {lang?.default ? __(" (default)", "acadlix") : ""}
                           </>
                         }
                       />

@@ -10,11 +10,12 @@ import {
   Alert,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
+import { __ } from "@wordpress/i18n";
 
 function MultipleChoice(props) {
   return (
     <Card>
-      <CardHeader title={`Multiple Choice ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+      <CardHeader title={__('Multiple Choice', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: 'h6'
         }}
@@ -27,7 +28,7 @@ function MultipleChoice(props) {
               <Grid item xs={12} lg={12} key={index}>
                 <Option
                   {...props}
-                  title={`Option${index + 1}`}
+                  title={__('Option', 'acadlix') + ` ${index + 1}`}
                   id={`opt_${props?.index}_${index}`}
                   loadEditor={props?.loadEditor}
                   removeEditor={props?.removeEditor}
@@ -56,7 +57,7 @@ function MultipleChoice(props) {
                 })
               }}
             >
-              Add More
+              {__('Add More', 'acadlix')}
             </Button>
           </Grid>
         </Grid>
@@ -119,7 +120,10 @@ const Option = (props) => {
                         `language.${props?.language_index}.answer_data.${props?.type}`
                       )
                       .filter((d) => d?.isCorrect).length === 0,
-                  message: "Please set atleast one correct option",
+                  message: __(
+                    "Please set at least one correct option",
+                    "acadlix"
+                  ),
                 },
               }}
               control={props.control}
@@ -143,7 +147,7 @@ const Option = (props) => {
                       }}
                     />
                   }
-                  label="Correct"
+                  label={__('Correct', 'acadlix')}
                 />
               )}
             />
@@ -163,7 +167,7 @@ const Option = (props) => {
                 })
               }}
             >
-              Delete
+              {__('Delete', 'acadlix')}
             </Button>
           </Grid>
           <Grid item xs={12} lg={10}>
@@ -175,10 +179,13 @@ const Option = (props) => {
                     value: props?.watch(
                       `language.${props?.language_index}.default`
                     ),
-                    message: "Option is required",
+                    message: __(
+                      "Option is required",
+                      "acadlix"
+                    ),
                   },
                 }
-              )}
+             )}
               id={props?.id}
               style={{
                 width: '100%'

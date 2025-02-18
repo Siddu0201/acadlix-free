@@ -1,5 +1,6 @@
 import { Backdrop } from '@mui/material';
 import React from 'react'
+import { __ } from "@wordpress/i18n";
 
 const DisableScroll = (props) => {
     const [hasTriggered, setHasTriggered] = React.useState(false);
@@ -27,7 +28,7 @@ const DisableScroll = (props) => {
                 open={hasTriggered}
                 onClick={() => setHasTriggered(false)}
             >
-                Scroller is disabled.
+                {__("Scroller is disabled.", "acadlix")}
             </Backdrop>
         </>
     )

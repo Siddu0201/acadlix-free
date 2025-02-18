@@ -12,6 +12,7 @@ import { PostSaveQuizAttemptById, PostSaveResultById } from "../../../requests/f
 import parse from "html-react-parser";
 import { dateI18n, format, getSettings } from "@wordpress/date";
 import { getCookie, setCookie } from "../../../helpers/cookie";
+import { __ } from "@wordpress/i18n";
 
 const QuizContent = (props) => {
   // console.log([...props?.quiz?.rendered_questions]);
@@ -506,15 +507,15 @@ const QuizContent = (props) => {
   const end_date = format(date_time_format, methods?.watch("end_date"));
 
   if (methods?.watch("questions")?.length === 0) {
-    return <Alert severity="error">No questions found</Alert>;
+    return <Alert severity="error">{__("No questions found", "acadlix")}</Alert>;
   }
 
   if (methods?.watch("start_date") && current_date < strtotime(start_date)) {
-    return <Alert severity="error">{`Quiz will start on ${start_date} ${date_settings?.timezone?.string} `}</Alert>;
+    return <Alert severity="error">{`${__('Quiz will start on', 'acadlix')} ${start_date} ${date_settings?.timezone?.string} `}</Alert>;
   }
 
   if (methods?.watch("end_date") && current_date > strtotime(end_date)) {
-    return <Alert severity="error">Quiz has expired</Alert>;
+    return <Alert severity="error">{__("Quiz has expired", "acadlix")}</Alert>;
   }
 
   if (!methods?.watch("start")) {

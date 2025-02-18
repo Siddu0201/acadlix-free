@@ -13,10 +13,10 @@ import {
 } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
-import { MediaUpload } from "@wordpress/media-utils";
 import parse from "html-react-parser";
 import { PostCreatePage } from "../../../../requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 function General(props) {
   const [courseInput, setCourseInput] = React.useState("");
@@ -35,7 +35,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Page Setup</Typography>
+        <Typography variant="h6">{__("Page Setup", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -52,7 +52,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            All courses page
+            {__("All courses page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -61,10 +61,10 @@ function General(props) {
             value={
               props?.watch("acadlix_all_courses_page_id") !== null
                 ? props?.pages?.find(
-                    (p) =>
-                      p?.ID ===
-                      Number(props?.watch("acadlix_all_courses_page_id"))
-                  )
+                  (p) =>
+                    p?.ID ===
+                    Number(props?.watch("acadlix_all_courses_page_id"))
+                )
                 : null
             }
             options={props?.pages?.length > 0 ? props?.pages : []}
@@ -114,7 +114,7 @@ function General(props) {
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (courseInput === "") {
-                        toast.error("Title cannot be empty.");
+                        toast.error(__("Title cannot be empty.", "acadlix"));
                         return;
                       }
                       createPageMutation?.mutate(
@@ -135,7 +135,7 @@ function General(props) {
                       );
                     }}
                   >
-                    + Add New
+                    + {__("Add New", "acadlix")}
                   </Button>
                 </Paper>
               );
@@ -149,7 +149,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Student dashboard page
+            {__("Student dashboard page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -158,10 +158,10 @@ function General(props) {
             value={
               props?.watch("acadlix_dashboard_page_id") !== null
                 ? props?.pages?.find(
-                    (p) =>
-                      p?.ID ===
-                      Number(props?.watch("acadlix_dashboard_page_id"))
-                  )
+                  (p) =>
+                    p?.ID ===
+                    Number(props?.watch("acadlix_dashboard_page_id"))
+                )
                 : null
             }
             options={props?.pages?.length > 0 ? props?.pages : []}
@@ -183,7 +183,7 @@ function General(props) {
                   endAdornment: (
                     <React.Fragment>
                       {dashboardInput !== "" &&
-                      createPageMutation?.isPending ? (
+                        createPageMutation?.isPending ? (
                         <CircularProgress color="inherit" size={20} />
                       ) : null}
                       {params.InputProps.endAdornment}
@@ -212,7 +212,7 @@ function General(props) {
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (dashboardInput === "") {
-                        toast.error("Title cannot be empty.");
+                        toast.error(__("Title cannot be empty.", "acadlix"));
                         return;
                       }
                       createPageMutation?.mutate(
@@ -233,7 +233,7 @@ function General(props) {
                       );
                     }}
                   >
-                    + Add New
+                    + {__("Add New", "acadlix")}
                   </Button>
                 </Paper>
               );
@@ -247,7 +247,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Advance quiz page
+            {__("Advance quiz page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -256,10 +256,10 @@ function General(props) {
             value={
               props?.watch("acadlix_advance_quiz_page_id") !== null
                 ? props?.pages?.find(
-                    (p) =>
-                      p?.ID ===
-                      Number(props?.watch("acadlix_advance_quiz_page_id"))
-                  )
+                  (p) =>
+                    p?.ID ===
+                    Number(props?.watch("acadlix_advance_quiz_page_id"))
+                )
                 : null
             }
             options={props?.pages?.length > 0 ? props?.pages : []}
@@ -309,7 +309,7 @@ function General(props) {
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (quizInput === "") {
-                        toast.error("Title cannot be empty.");
+                        toast.error(__("Title cannot be empty.", "acadlix"));
                         return;
                       }
                       createPageMutation?.mutate(
@@ -330,7 +330,7 @@ function General(props) {
                       );
                     }}
                   >
-                    + Add New
+                    + {__("Add New", "acadlix")}
                   </Button>
                 </Paper>
               );
@@ -344,7 +344,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Cart page
+            {__("Cart page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -353,10 +353,10 @@ function General(props) {
             value={
               props?.watch("acadlix_cart_page_id") !== null
                 ? props?.pages?.find(
-                    (p) =>
-                      p?.ID ===
-                      Number(props?.watch("acadlix_cart_page_id"))
-                  )
+                  (p) =>
+                    p?.ID ===
+                    Number(props?.watch("acadlix_cart_page_id"))
+                )
                 : null
             }
             options={props?.pages?.length > 0 ? props?.pages : []}
@@ -406,7 +406,7 @@ function General(props) {
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (cartInput === "") {
-                        toast.error("Title cannot be empty.");
+                        toast.error(__("Title cannot be empty.", "acadlix"));
                         return;
                       }
                       createPageMutation?.mutate(
@@ -427,7 +427,7 @@ function General(props) {
                       );
                     }}
                   >
-                    + Add New
+                    + {__("Add New", "acadlix")}
                   </Button>
                 </Paper>
               );
@@ -441,7 +441,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Checkout page
+            {__("Checkout page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -450,10 +450,10 @@ function General(props) {
             value={
               props?.watch("acadlix_checkout_page_id") !== null
                 ? props?.pages?.find(
-                    (p) =>
-                      p?.ID ===
-                      Number(props?.watch("acadlix_checkout_page_id"))
-                  )
+                  (p) =>
+                    p?.ID ===
+                    Number(props?.watch("acadlix_checkout_page_id"))
+                )
                 : null
             }
             options={props?.pages?.length > 0 ? props?.pages : []}
@@ -503,7 +503,7 @@ function General(props) {
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (checkoutInput === "") {
-                        toast.error("Title cannot be empty.");
+                        toast.error(__("Title cannot be empty.", "acadlix"));
                         return;
                       }
                       createPageMutation?.mutate(
@@ -524,7 +524,7 @@ function General(props) {
                       );
                     }}
                   >
-                    + Add New
+                    + {__("Add New", "acadlix")}
                   </Button>
                 </Paper>
               );
@@ -538,7 +538,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Thankyou page
+            {__("Thankyou page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -547,10 +547,10 @@ function General(props) {
             value={
               props?.watch("acadlix_thankyou_page_id") !== null
                 ? props?.pages?.find(
-                    (p) =>
-                      p?.ID ===
-                      Number(props?.watch("acadlix_thankyou_page_id"))
-                  )
+                  (p) =>
+                    p?.ID ===
+                    Number(props?.watch("acadlix_thankyou_page_id"))
+                )
                 : null
             }
             options={props?.pages?.length > 0 ? props?.pages : []}
@@ -600,7 +600,7 @@ function General(props) {
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (thankyouInput === "") {
-                        toast.error("Title cannot be empty.");
+                        toast.error(__("Title cannot be empty.", "acadlix"));
                         return;
                       }
                       createPageMutation?.mutate(
@@ -621,7 +621,7 @@ function General(props) {
                       );
                     }}
                   >
-                    + Add New
+                    + {__("Add New", "acadlix")}
                   </Button>
                 </Paper>
               );
@@ -635,7 +635,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Course Options</Typography>
+        <Typography variant="h6">{__("Course Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -652,7 +652,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            No. of courses per page
+            {__("No. of courses per page", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -677,12 +677,12 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            One Click Checkout
+            {__("One Click Checkout", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
           <FormControlLabel
-            label="Activate"
+            label={__("Activate", "acadlix")}
             control={<CustomSwitch />}
             value="yes"
             checked={props?.watch("acadlix_one_click_checkout") === "yes"}
@@ -704,13 +704,13 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Admin Auto Registration To Courses
+            {__("Admin Auto Registration To Courses", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_admin_auto_registration_to_courses") === "yes"}
             onClick={(e) => {
@@ -731,13 +731,13 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Admin Can Assign Courses To Student
+            {__("Admin Can Assign Courses To Student", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             value="yes"
             checked={props?.watch(
               "acadlix_admin_can_assign_courses_to_student"
@@ -760,13 +760,13 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Admin Can Remove Student From Course
+            {__("Admin Can Remove Student From Course", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Activate"
+            label={__("Activate", "acadlix")}
             value="yes"
             checked={props?.watch(
               "acadlix_admin_can_remove_student_from_course"
@@ -789,7 +789,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Currency Options</Typography>
+        <Typography variant="h6">{__("Currency Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -806,7 +806,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Currency
+            {__("Currency", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -815,8 +815,8 @@ function General(props) {
             value={
               props?.watch("acadlix_curreny") !== ""
                 ? props?.currencies?.find(
-                    (c) => c?.short_name === props?.watch("acadlix_currency")
-                  )
+                  (c) => c?.short_name === props?.watch("acadlix_currency")
+                )
                 : null
             }
             options={props?.currencies ?? []}
@@ -853,7 +853,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Currency position
+            {__("Currency position", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -889,7 +889,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Thousand separator
+            {__("Thousand separator", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -912,7 +912,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            Decimal separator
+            {__("Decimal separator", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -935,7 +935,7 @@ function General(props) {
               fontWeight: 500,
             }}
           >
-            The number of decimals
+            {__("The number of decimals", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>

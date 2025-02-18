@@ -1,6 +1,7 @@
 import React from "react";
 import SubjectSummaryModel from "./model/SubjectSummaryModel";
 import { Button } from "@mui/material";
+import { __ } from "@wordpress/i18n";
 
 const SubjectWiseSubmitButton = (props) => {
   const handleSubmitSection = (subject_index) => {
@@ -117,7 +118,7 @@ const SubjectWiseSubmitButton = (props) => {
               },
             }}
           >
-            Submit Section
+            {__("Submit Section", "acadlix")}
           </Button>
         </>
       )}
@@ -166,7 +167,7 @@ const SubjectWiseSubmitButton = (props) => {
               },
             }}
           >
-            Submit
+            {__("Submit", "acadlix")}
           </Button>
         </>
       )}

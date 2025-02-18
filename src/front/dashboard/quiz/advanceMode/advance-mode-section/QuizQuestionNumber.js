@@ -1,5 +1,6 @@
 import React from 'react'
 import {Box, Typography} from  "@mui/material";
+import { __ } from "@wordpress/i18n";
 
 const QuizQuestionNumber = (props) => {
   return (
@@ -12,7 +13,7 @@ const QuizQuestionNumber = (props) => {
     }}>
       <Box>
         <Typography variant="subtitle2">
-          Question No. {props?.num}
+          {__('Question No. ', 'acadlix')}{props?.num}
         </Typography>
       </Box>
     </Box>

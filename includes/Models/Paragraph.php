@@ -130,14 +130,14 @@ if (!class_exists('Paragraph')) {
             // Check if post exists
             $post = get_post($postId);
             if (!$post || $post->post_type !== self::$postType) {
-                return new \WP_Error('invalid_post', 'Invalid post ID or not a lesson post type.');
+                return new \WP_Error('invalid_post', __('Invalid post ID or not a paragraph post type.', 'acadlix'));
             }
 
             // Delete post
             $result = wp_delete_post($postId, true);
 
             if (!$result) {
-                return new \WP_Error('delete_failed', 'Failed to delete lesson.');
+                return new \WP_Error('delete_failed', __('Failed to delete paragraph.', 'acadlix'));
             }
 
             // unassign questions from this paragraph
@@ -174,7 +174,7 @@ if (!class_exists('Paragraph')) {
                 if (count($hasLanguageId) > 0) {
                     return new \WP_Error(
                         'language_exist',
-                        'Language already exists for this paragraph.',
+                        __('Language already exists for this paragraph.', 'acadlix'),
                         ['status' => 400]
                     );
                 }
@@ -185,7 +185,7 @@ if (!class_exists('Paragraph')) {
                 if (count($defaultLanguage) == 0) {
                     return new \WP_Error(
                         'default_language_doesnt_exist',
-                        'Default language data not found for this question.',
+                        __('Default language data not found for this paragraph.', 'acadlix'),
                         ['status' => 400]
                     );
                 }

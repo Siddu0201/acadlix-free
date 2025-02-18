@@ -120,7 +120,7 @@ if (!class_exists('Course')) {
 
         public static function updateCourse(int $postId, array $data = [], array $meta = [])
         {
-            // Parse default arguments for the lesson update.
+            // Parse default arguments for the course update.
             $data = wp_parse_args($data, [
                 'ID' => $postId,
             ]);
@@ -141,7 +141,7 @@ if (!class_exists('Course')) {
             // Check if post exists
             $post = get_post($postId);
             if (!$post || $post->post_type !== self::$postType) {
-                return new \WP_Error('invalid_post', 'Invalid post ID or not a lesson post type.');
+                return new \WP_Error('invalid_post', __('Invalid post ID or not a course post type.', 'acadlix'));
             }
 
             // Delete course section children

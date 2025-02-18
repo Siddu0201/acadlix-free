@@ -9,6 +9,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuestionAnswerTypeSection = (props) => {
   const handleTypeChange = (e) => {
@@ -19,7 +20,7 @@ const QuestionAnswerTypeSection = (props) => {
     <Grid item xs={12} sm={12}>
       <Card>
         <CardHeader
-          title="Answer Type"
+          title={__('Answer Type', 'acadlix')}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -36,48 +37,43 @@ const QuestionAnswerTypeSection = (props) => {
             <FormControlLabel
               value="singleChoice"
               control={<Radio />}
-              label="Single Choice"
+              label={__("Single Choice", "acadlix")}
             />
             <FormControlLabel
               value="multipleChoice"
               control={<Radio />}
-              label="Multiple Choice"
+              label={__("Multiple Choice", "acadlix")}
             />
             <FormControlLabel
               value="trueFalse"
               control={<Radio />}
-              label="True/False"
+              label={__("True/False", "acadlix")}
             />
             <FormControlLabel
               value="sortingChoice"
               control={<Radio />}
-              label="Sorting Choice"
+              label={__("Sorting Choice", "acadlix")}
             />
             {/* <FormControlLabel
               value="matrixSortingChoice"
               control={<Radio />}
-              label="Matrix Sorting Choice"
+              label={__('Matrix Sorting Choice', 'acadlix')}
             /> */}
             <FormControlLabel
               value="fillInTheBlank"
               control={<Radio />}
-              label="Fill in the Blank"
+              label={__("Fill in the Blank", "acadlix")}
             />
             <FormControlLabel
               value="numerical"
               control={<Radio />}
-              label="Numerical"
+              label={__("Numerical", "acadlix")}
             />
             <FormControlLabel
               value="rangeType"
               control={<Radio />}
-              label="Range Type"
+              label={__("Range Type", "acadlix")}
             />
-            {/* <FormControlLabel
-                  value="paragraph"
-                  control={<Radio />}
-                  label="Paragraph"
-                /> */}
           </RadioGroup>
         </CardContent>
       </Card>

@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 import { arrayRandomize, shuffleArrayBasedOnOrder } from "../../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const OptionButtonSection = (props) => {
   const currentIndex = props?.index;
@@ -9,6 +10,7 @@ const OptionButtonSection = (props) => {
     let sortingOrder = null;
     switch (props?.question?.answer_type) {
       case "singleChoice":
+      case "multipleChoice":
       case "multipleChoice":
       case "trueFalse":
         props?.setValue(
@@ -177,7 +179,7 @@ const OptionButtonSection = (props) => {
                 display: props?.first ? "none" : "",
               }}
             >
-              Back
+              {__("Back", "acadlix")}
             </CustomButton>
           )}
         {props?.watch("mode") === "check_and_continue" &&
@@ -188,7 +190,7 @@ const OptionButtonSection = (props) => {
                 display: props?.question?.check ? "none" : "",
               }}
             >
-              Skip
+              {__("Skip", "acadlix")}
             </CustomButton>
           )}
         {props?.watch("show_clear_response_button") && (
@@ -198,7 +200,7 @@ const OptionButtonSection = (props) => {
               display: props?.question?.check ? "none" : "",
             }}
           >
-            Clear Response
+            {__("Clear Response", "acadlix")}
           </CustomButton>
         )}
       </Box>
@@ -212,14 +214,14 @@ const OptionButtonSection = (props) => {
           props
             ?.watch(`questions.${props?.index}.language`)
             .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (
-            <CustomButton onClick={handleHintClick}>Hint</CustomButton>
+            <CustomButton onClick={handleHintClick}>{__("Hint", "acadlix")}</CustomButton>
           )}
 
         {/* check for normal mode */}
         {["normal", "question_below_each_other"]?.includes(props?.watch("mode")) &&
           props?.watch("enable_check_button") &&
           !props?.question?.check && (
-            <CustomButton onClick={handleCheckClick}>Check</CustomButton>
+            <CustomButton onClick={handleCheckClick}>{__("Check", "acadlix")}</CustomButton>
           )}
 
         {/* check for check and continue mode  */}
@@ -235,7 +237,7 @@ const OptionButtonSection = (props) => {
                     : "",
               }}
             >
-              Check
+              {__("Check", "acadlix")}
             </CustomButton>
           )}
 
@@ -250,7 +252,7 @@ const OptionButtonSection = (props) => {
                   : "",
             }}
           >
-            {props?.last ? "Quiz Summary" : "Next"}
+            {props?.last ? __("Quiz Summary", "acadlix") : __("Next", "acadlix")}
           </CustomButton>
         )}
 
@@ -259,7 +261,7 @@ const OptionButtonSection = (props) => {
             <CustomButton
               onClick={handleNextClick}
             >
-              Quiz Summary
+              {__("Quiz Summary", "acadlix")}
             </CustomButton>
           )}
       </Box>

@@ -27,6 +27,7 @@ import {
 } from "@mui/material";
 import GridItem1 from "../../../components/GridItem1";
 import Card1 from "../../../components/Card1";
+import { __ } from "@wordpress/i18n";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -43,8 +44,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Course() {
   const theme = useTheme();
   const showDesktop = useMediaQuery(theme.breakpoints.up("sm"));
-  const {wp} = window;
-  // console.log(wp);
 
   const [open, setOpen] = React.useState(false);
 

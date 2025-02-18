@@ -6,6 +6,7 @@ import { FaPlus } from "../../../../helpers/icons";
 import AddQuizModel from "../modals/AddQuizModel";
 import toast from "react-hot-toast";
 import { PostAddQuiz } from "../../../../requests/admin/AdminCourseRequest";
+import { __ } from "@wordpress/i18n";
 
 const AddQuiz = (props) => {
   const methods = useForm({
@@ -51,7 +52,7 @@ const AddQuiz = (props) => {
         },
       });
     } else {
-      toast?.error("Please select atleast 1 quiz.");
+      toast?.error(__("Please select atleast 1 quiz.", "acadlix"));
     }
   };
 
@@ -83,7 +84,7 @@ const AddQuiz = (props) => {
             paddingRight: 4,
           }}
         />
-        Add Quiz
+        {__("Add Quiz", "acadlix")}
       </Button>
     </Box>
   );

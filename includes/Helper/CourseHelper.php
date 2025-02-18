@@ -193,7 +193,7 @@ if (!class_exists('CourseHelper')) {
             // Initialize the response array
             $response = [
                 'status' => true,
-                'message' => 'Registration is open.',
+                'message' => __('Registration is open.', 'acadlix'),
             ];
 
             // Check for null or empty values
@@ -206,9 +206,11 @@ if (!class_exists('CourseHelper')) {
             $dateTimeFormat = Helper::instance()->acadlix_get_date_time_format();
             // Check start_date
             if (!empty($start_date) && $current_timestamp < strtotime($start_date)) {
+                /* translators: 1: Registration start date, 2: Timezone string */
+                $message = sprintf(esc_html__('Registration opens after: %1$s %2$s', 'acadlix'),date($dateTimeFormat, strtotime($start_date)), $timezone_string);
                 return [
                     'status' => false,
-                    'message' => "Registration open after: <br/>" . date($dateTimeFormat, strtotime($start_date)) . " " . $timezone_string,
+                    'message' => $message,
                 ];
             }
 
@@ -216,7 +218,7 @@ if (!class_exists('CourseHelper')) {
             if (!empty($end_date) && $current_timestamp > strtotime($end_date)) {
                 return [
                     'status' => false,
-                    'message' => 'Registration is closed',
+                    'message' => __('Registration is closed', 'acadlix'),
                 ];
             }
 
@@ -238,7 +240,7 @@ if (!class_exists('CourseHelper')) {
                 '$username' => $order->user->display_name ?? "",
                 '$course_names' => $order->getCourseNames(),
                 '$order_amount' => $this->getCoursePrice($order->total_amount),
-                '$payment_method' => $order->getMetaValue("payment_method") ?? "Free",
+                '$payment_method' => $order->getMetaValue("payment_method") ?? __("Free", 'acadlix'),
                 '$order_date' => Helper::instance()->formatDate($order->updated_at),
                 '$year' => date('Y'),
                 '$sitename' => get_bloginfo('name'),
@@ -249,7 +251,8 @@ if (!class_exists('CourseHelper')) {
             if ($acadlix_notify_course_purchase_to_student == "yes" && !empty($student_email)) {
                 $student_email_template = Helper::instance()->acadlix_get_email_template("CoursePurchase.html", "student");
                 $student_msg = str_replace(array_keys($r), $r, $student_email_template);
-                $student_subject = "Your order #{$order_id} confirmend!";
+                /* translators: %d is the order ID */
+                $student_subject = sprintf(esc_html__('Your order #%d confirmed!', 'acadlix'), $order_id);
                 EmailHelper::instance()->sendEmail(
                     $student_email,
                     $student_subject,
@@ -263,7 +266,8 @@ if (!class_exists('CourseHelper')) {
             if ($acadlix_notify_course_purchase_to_admin == "yes" && !empty($admin_emails)) {
                 $admin_email_template = Helper::instance()->acadlix_get_email_template("CoursePurchase.html", "admin");
                 $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
-                $admin_subject = "New order received #{$order_id}";
+                /* translators: %d is the order ID */
+                $admin_subject = sprintf(esc_html__('New order received #%d', 'acadlix'), $order_id);
                 EmailHelper::instance()->sendEmail(
                     $admin_emails,
                     $admin_subject,
@@ -286,7 +290,7 @@ if (!class_exists('CourseHelper')) {
                 '$username' => $order->user->display_name ?? "",
                 '$course_names' => $order->getCourseNames(),
                 '$order_amount' => $this->getCoursePrice($order->total_amount),
-                '$payment_method' => $order->getMetaValue("payment_method") ?? "Free",
+                '$payment_method' => $order->getMetaValue("payment_method") ?? __("Free", 'acadlix'),
                 '$order_date' => Helper::instance()->formatDate($order->updated_at),
                 '$year' => date('Y'),
                 '$sitename' => get_bloginfo('name'),
@@ -297,7 +301,8 @@ if (!class_exists('CourseHelper')) {
             if ($acadlix_notify_failed_transation_to_student == "yes" && !empty($student_email)) {
                 $student_email_template = Helper::instance()->acadlix_get_email_template("FailedTransation.html", "student");
                 $student_msg = str_replace(array_keys($r), $r, $student_email_template);
-                $student_subject = "Payement failed for order #{$order_id}";
+                /* translators: %d is the order ID */
+                $student_subject = sprintf(esc_html__('Payement failed for order #%d', 'acadlix'), $order_id);
                 EmailHelper::instance()->sendEmail(
                     $student_email,
                     $student_subject,
@@ -311,7 +316,8 @@ if (!class_exists('CourseHelper')) {
             if ($acadlix_notify_failed_transation_to_admin == "yes" && !empty($admin_emails)) {
                 $admin_email_template = Helper::instance()->acadlix_get_email_template("FailedTransation.html", "admin");
                 $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
-                $admin_subject = "Payment failed for order #{$order_id}";
+                /* translators: %d is the order ID */
+                $admin_subject = sprintf(esc_html__('Payment failed for order #%d', 'acadlix'), $order_id);
                 EmailHelper::instance()->sendEmail(
                     $admin_emails,
                     $admin_subject,
@@ -327,14 +333,14 @@ if (!class_exists('CourseHelper')) {
                 return;
             }
             $order_item = OrderItem::find($order_item_id);
-            
-            if(!$order_item || empty($order_item->course_id)){
+
+            if (!$order_item || empty($order_item->course_id)) {
                 return "";
             }
-            
+
             $course_completion_percentage = $order_item->completion_percentage ?? 0;
             if ($course_completion_percentage != 100) {
-                return "not completed";
+                return "";
             }
             $r = [
                 '$username' => $order_item->order->user->display_name ?? "",
@@ -344,12 +350,13 @@ if (!class_exists('CourseHelper')) {
                 '$sitename' => get_bloginfo('name'),
             ];
 
-            $student_email = $order_item->order->user->user_email;  
+            $student_email = $order_item->order->user->user_email;
             $acadlix_notify_course_completion_to_student = Helper::instance()->acadlix_get_option("acadlix_notify_course_completion_to_student");
             if ($acadlix_notify_course_completion_to_student == "yes" && !empty($student_email)) {
                 $student_email_template = Helper::instance()->acadlix_get_email_template("CourseCompletion.html", "student");
                 $student_msg = str_replace(array_keys($r), $r, $student_email_template);
-                $student_subject = "You have completed {$r['$coursename']}!";
+                /* translators: %s is the course name */
+                $student_subject = sprintf(esc_html__('You have completed %s!', 'acadlix'), $r['$coursename']);
                 EmailHelper::instance()->sendEmail(
                     $student_email,
                     $student_subject,
@@ -363,7 +370,8 @@ if (!class_exists('CourseHelper')) {
             if ($acadlix_notify_course_completion_to_admin == "yes" && !empty($admin_emails)) {
                 $admin_email_template = Helper::instance()->acadlix_get_email_template("CourseCompletion.html", "admin");
                 $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
-                $admin_subject = "{$r['$username']} has completed {$r['$coursename']}";
+                /* translators: 1: %s is the course name, 2: %s is the username */
+                $admin_subject = sprintf(esc_html__('%1$s has completed %2$s', 'acadlix'), $r['$username'], $r['$coursename']);
                 EmailHelper::instance()->sendEmail(
                     $admin_emails,
                     $admin_subject,

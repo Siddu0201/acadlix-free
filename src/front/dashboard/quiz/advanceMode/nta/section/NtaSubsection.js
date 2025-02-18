@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const NtaSubsection = (props) => {
   return (
@@ -15,7 +16,7 @@ const NtaSubsection = (props) => {
         alignItems: "center",
       }}
     >
-      <Typography>Subjects:</Typography>
+      <Typography>{__("Subjects:", "acadlix")}</Typography>
       {props?.watch("subjects")?.length > 0 &&
         props
           ?.watch("subjects")

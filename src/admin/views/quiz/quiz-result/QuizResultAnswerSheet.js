@@ -4,6 +4,7 @@ import { GetStatisticById } from "../../../../requests/admin/AdminStatisticReque
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid } from "@mui/material";
 import AnswerSheetContent from "./AnswerSheetContent";
 import { TiArrowLeftThick } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const QuizResultAnswerSheet = () => {
   const { statistic_ref_id, quiz_id } = useParams();
@@ -57,12 +58,12 @@ const QuizResultAnswerSheet = () => {
             LinkComponent={Link}
             to={`/${quiz_id}/result`}
           >
-            Back
+            {__("Back", "acadlix")}
           </Button>
         </Grid>
         <Grid item xs={12} lg={12}>
           <Card>
-            <CardHeader title="AnswerSheet" />
+            <CardHeader title={__("AnswerSheet", "acadlix")} />
             <CardContent>
               {isFetching ?
                 <CircularProgress color="inherit" size={20}  />

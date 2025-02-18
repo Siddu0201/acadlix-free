@@ -3,6 +3,7 @@ import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import parse from "html-react-parser";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;
@@ -92,7 +93,7 @@ const TypeFill = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
         <Typography>
-          <b>Your answer</b>
+          <b>{__("Your answer", "acadlix")}</b>
         </Typography>
       )}
       <Box
@@ -187,7 +188,7 @@ const TypeFill = (props) => {
         props?.watch(`questions.${props?.index}.check`)) && (
         <>
           <Typography>
-            <b>Correct answer</b>
+            <b>{__("Correct answer", "acadlix")}</b>
           </Typography>
           <Box>
             {props?.answer_data?.[props?.type]?.option

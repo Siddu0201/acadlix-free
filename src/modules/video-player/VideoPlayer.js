@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "../../helpers/icons";
 import { convertTime } from "../../helpers/util";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 const VideoPlayer = ({
     src= '',
@@ -180,10 +181,10 @@ const VideoPlayer = ({
             }
 
             if (props?.watch("is_fullscreen")) {
-                fullScreenButton.title = "Exit Fullscreeen";
+                fullScreenButton.title = __("Exit Fullscreeen", 'acadlix');
                 createRoot(fullScreenButton).render(<MdCloseFullscreen />);
             } else {
-                fullScreenButton.title = "Fullscreeen";
+                fullScreenButton.title = __("Fullscreeen", 'acadlix');
                 createRoot(fullScreenButton).render(<RiExpandDiagonalFill />);
             }
 

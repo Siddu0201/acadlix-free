@@ -1,27 +1,28 @@
 import React from "react";
 import { CardHeader, CardContent, Card } from "@mui/material";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 function Fill(props) {
   const fillChange = (e) => {
-    let rxp = /{([^}]+)}/g ;
+    let rxp = /{([^}]+)}/g;
     let currmatch;
     let found = [];
     let points = props?.watch(`points`);
-    while(currmatch = rxp.exec(e?.target?.value)){
+    while (currmatch = rxp.exec(e?.target?.value)) {
       let newrxp = /\[([^\][]*)]/g;
-      if(currmatch[1]?.includes('|')){
+      if (currmatch[1]?.includes('|')) {
         points = currmatch[1]?.split('|')?.[1];
         currmatch[1] = currmatch[1]?.split('|')?.[0];
       }
-      if(currmatch[1]?.match(newrxp)?.length > 0){
+      if (currmatch[1]?.match(newrxp)?.length > 0) {
         let newCurrMatch, newFound = [];
-        while(newCurrMatch = newrxp.exec(currmatch[1])){
+        while (newCurrMatch = newrxp.exec(currmatch[1])) {
           newFound.push(newCurrMatch[1]);
         }
-        found.push({option: newFound, points: Number(points), yourAnswer: ''});
-      }else{
-        found?.push({option: [currmatch[1]], points: Number(points), yourAnswer: ''});
+        found.push({ option: newFound, points: Number(points), yourAnswer: '' });
+      } else {
+        found?.push({ option: [currmatch[1]], points: Number(points), yourAnswer: '' });
       }
     }
     props?.watch("language")?.forEach((lang, lindex) => {
@@ -44,7 +45,7 @@ function Fill(props) {
   return (
     <Card>
       <CardHeader
-        title={`Fill in the Blank ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+        title={__('Fill in the Blank', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: "h6",
         }}
@@ -56,17 +57,17 @@ function Fill(props) {
       >
         <CustomTextField
           {
-            ...props?.register(
-              `language.${props?.index}.answer_data.${props?.type}.option`,
-              {
-                required: {
-                  value: props?.watch(
-                    `language.${props?.index}.default`
-                  ),
-                  message: "Required",
-                }
+          ...props?.register(
+            `language.${props?.index}.answer_data.${props?.type}.option`,
+            {
+              required: {
+                value: props?.watch(
+                  `language.${props?.index}.default`
+                ),
+                message: __("Required", "acadlix"),
               }
-            )
+            }
+          )
           }
           fullWidth
           size="small"
@@ -79,7 +80,7 @@ function Fill(props) {
             ?.answer_data?.[props?.type]?.option)}
           helperText={props.formState.errors?.language?.[props?.index]
             ?.answer_data?.[props?.type]?.option
-            ?.message}  
+            ?.message}
         />
       </CardContent>
     </Card>

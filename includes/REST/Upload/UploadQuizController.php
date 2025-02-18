@@ -50,7 +50,7 @@ class UploadQuizController
         if(empty($quiz_id)){
             return rest_ensure_response([
                 'status' => 'error',
-                'message' => 'Quiz ID is required',
+                'message' => __('Quiz ID is required', 'acadlix'),
             ]);
         }
         $last_sort = Question::where('quiz_id', $quiz_id)

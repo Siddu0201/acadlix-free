@@ -20,6 +20,7 @@ import {
 import ParagraphLanguageSection from "./sections/ParagraphLanguageSection";
 import ParagraphContentSection from "./sections/ParagraphContentSection";
 import ParagraphTitleSection from "./sections/ParagraphTitleSection";
+import  { __ } from "@wordpress/i18n";
 
 const ParagraphContent = (props) => {
   const methods = useForm({
@@ -84,14 +85,14 @@ const ParagraphContent = (props) => {
     if (props?.create) {
       createMutation.mutate(data, {
         onSuccess: () => {
-          toast.success("Paragraph created successfully.");
+          toast.success(__("Paragraph created successfully.", "acadlix"));
           navigate(`/${props?.quiz_id}/paragraph`);
         },
       });
     } else {
       updateMutation.mutate(data, {
         onSuccess: () => {
-          toast.success("Paragraph updated successfully.");
+          toast.success(__("Paragraph updated successfully.", "acadlix"));
           navigate(`/${props?.quiz_id}/paragraph`);
         },
       });
@@ -126,10 +127,12 @@ const ParagraphContent = (props) => {
                 LinkComponent={Link}
                 to={`/${props?.quiz_id}/paragraph`}
               >
-                Back
+                {__("Back", "acadlix")}
               </Button>
               <Typography variant="h6">
-                {props?.create ? "Create Paragraph" : "Edit Paragraph"}
+                {props?.create
+                  ? __("Create Paragraph", "acadlix")
+                  : __("Edit Paragraph", "acadlix")}
               </Typography>
             </Box>
           </Grid>
@@ -159,7 +162,7 @@ const ParagraphContent = (props) => {
               {createMutation?.isPending || updateMutation?.isPending ? (
                 <CircularProgress size={20} color="inherit" />
               ) : (
-                "Save Change"
+                __("Save Change", "acadlix")
               )}
             </Button>
           </Grid>

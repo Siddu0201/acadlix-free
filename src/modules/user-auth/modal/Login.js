@@ -19,6 +19,7 @@ import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import { RawHTML } from "@wordpress/element";
 import CustomTextField from "../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 const Login = (props) => {
   const theme = useTheme();
@@ -62,7 +63,7 @@ const Login = (props) => {
       })
       .catch((err) => {
         setIsLoading(false);
-        methods?.setValue("error", "Opps! Something went wrong.", { shouldDirty: true });
+        methods?.setValue("error", __("Opps! Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);
       });
   };
@@ -99,10 +100,10 @@ const Login = (props) => {
           marginBottom: 4
         }}>
           <Box>
-            <Typography variant="h5">Welcome back</Typography>
+            <Typography variant="h5">{__('Welcome back', 'acadlix')}</Typography>
           </Box>
           <Box>
-            <Typography variant="body2">Please enter your details to sign in.</Typography>
+            <Typography variant="body2">{__('Please enter your details to sign in.', 'acadlix')}</Typography>
           </Box>
           {
             methods?.watch("error") &&
@@ -112,7 +113,7 @@ const Login = (props) => {
               {
                 methods?.watch("error_code") && methods?.watch("error_code") === "incorrect_password" ?
                   <>
-                    <strong>Error:</strong> The password you entered for the username <strong>siddu</strong> is incorrect.
+                    <strong>{__('Error:', 'acadlix')}</strong> {__('The password you entered for the username', 'acadlix')} <strong>{methods?.watch("username")}</strong> {__('is incorrect.', 'acadlix')}
                     <Link
                       href="#"
                       onClick={(e) => {
@@ -122,7 +123,7 @@ const Login = (props) => {
                         });
                       }}
                     >
-                      Lost your password?
+                      {__("Lost your password?", 'acadlix')}
                     </Link>
                   </>
                   :
@@ -144,7 +145,7 @@ const Login = (props) => {
                   paddingY: 1,
                 }}
               >
-                Username/Email <span style={{ color: "red" }}>*</span>
+                {__('Username/Email', 'acadlix')} <span style={{ color: "red" }}>*</span>
               </Typography>
               <CustomTextField
                 {...methods?.register("username", { required: true })}
@@ -155,7 +156,7 @@ const Login = (props) => {
                 size="small"
                 type="text"
                 name="username"
-                placeholder="Username/email"
+                placeholder={__('Username/email', 'acadlix')}
                 value={methods?.watch("username")}
                 onChange={(e) => {
                   methods?.setValue("username", e?.target?.value, {
@@ -173,7 +174,7 @@ const Login = (props) => {
                   paddingY: 1,
                 }}
               >
-                Password <span style={{ color: "red" }}>*</span>
+                {__('Password', 'acadlix')} <span style={{ color: "red" }}>*</span>
               </Typography>
               <CustomTextField
                 {...methods?.register("password", { required: true })}
@@ -183,7 +184,7 @@ const Login = (props) => {
                 autoCapitalize="off"
                 size="small"
                 name="password"
-                placeholder="Password"
+                placeholder={__('Password', 'acadlix')}
                 value={methods?.watch("password")}
                 onChange={(e) => {
                   methods?.setValue("password", e?.target?.value, {
@@ -219,7 +220,7 @@ const Login = (props) => {
                 alignItems: "center"
               }}>
                 <FormControlLabel
-                  label="Remember me"
+                  label={__("Remember me", 'acadlix')}
                   control={
                   <Checkbox
                     checked={methods?.watch("rememberme")}
@@ -238,7 +239,7 @@ const Login = (props) => {
                     });
                   }}
                 >
-                  Lost your password?
+                  {__("Lost your password?", 'acadlix')}
                 </Link>
               </Box>
             </Grid>
@@ -249,7 +250,7 @@ const Login = (props) => {
                 variant="contained"
                 type="submit"
               >
-                Login
+                {__('Login', 'acadlix')}
               </LoadingButton>
             </Grid>
             {
@@ -259,7 +260,7 @@ const Login = (props) => {
                 justifyContent: "center"
               }}>
                 <Typography variant="body2">
-                  Don't have account yet? {" "}
+                  {__("Don't have account yet?", 'acadlix')}{" "}
                   <Link
                     href="#"
                     onClick={(e) => {
@@ -269,7 +270,7 @@ const Login = (props) => {
                       });
                     }}
                   >
-                    Register
+                    {__('Register', 'acadlix')}
                   </Link>
                 </Typography>
               </Grid>

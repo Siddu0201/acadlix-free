@@ -13,7 +13,7 @@ import {
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { PostCreateSubject } from "../../../../requests/admin/AdminSubjectRequest";
-import { useForm } from "react-hook-form";
+import { __ } from "@wordpress/i18n";
 
 const GeneralOptionSection = (props) => {
   const [input, setInput] = React.useState("");
@@ -29,7 +29,7 @@ const GeneralOptionSection = (props) => {
       ) {
         props?.setError(`subject_id`, {
           type: "custom",
-          message: "Subject name is already exist",
+          message: __("Subject name is already exist", "acadlix"),
         });
       } else {
         createSubjectMutation.mutate(
@@ -48,7 +48,7 @@ const GeneralOptionSection = (props) => {
     } else {
       props?.setError(`subject_id`, {
         type: "custom",
-        message: "Subject cannot be empty",
+        message: __("Subject cannot be empty", "acadlix"),
       });
     }
   };
@@ -57,7 +57,7 @@ const GeneralOptionSection = (props) => {
     <Grid item xs={12} sm={12}>
       <Card>
         <CardHeader
-          title="General Options"
+          title={__("General Options", "acadlix")}
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
@@ -72,7 +72,7 @@ const GeneralOptionSection = (props) => {
                 {...props?.register("title")}
                 fullWidth
                 size="small"
-                label="Question Title"
+                label={__("Question Title", "acadlix")}
                 value={props?.watch("title")}
                 onChange={(e) => {
                   props?.setValue("title", e.target.value, {
@@ -85,7 +85,7 @@ const GeneralOptionSection = (props) => {
               <CustomTextField
                 fullWidth
                 size="small"
-                label="+ Point"
+                label={__("+ Point", "acadlix")}
                 type="number"
                 InputProps={{
                   inputProps: {
@@ -121,7 +121,7 @@ const GeneralOptionSection = (props) => {
               <CustomTextField
                 fullWidth
                 size="small"
-                label="- Point"
+                label={__("- Point", "acadlix")}
                 type="number"
                 InputProps={{
                   inputProps: {
@@ -176,7 +176,7 @@ const GeneralOptionSection = (props) => {
                       ...params.inputProps,
                       autoComplete: "spoc_gender",
                     }}
-                    label="Select Subject"
+                    label={__("Select Subject", "acadlix")}
                     InputProps={{
                       ...params.InputProps,
                       endAdornment: (
@@ -207,7 +207,7 @@ const GeneralOptionSection = (props) => {
                         sx={{ justifyContent: "flex-start", pl: 2 }}
                         onMouseDown={createSubject}
                       >
-                        + Add New
+                        {__("Add New", "acadlix")}
                       </Button>
                     </Paper>
                   );

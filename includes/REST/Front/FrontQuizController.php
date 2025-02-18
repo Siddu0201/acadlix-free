@@ -351,7 +351,7 @@ class FrontQuizController
         $quiz_name = $quiz->post_title ?? '';
         $r = array(
             '$userId' => $user_id,
-            '$username' => $params['name'] ?? "Anonymous",
+            '$username' => $params['name'] ?? __('Anonymous' , 'acadlix'),
             '$quizname' => $quiz_name,
             '$result' => $params['result'] . '%',
             '$points' => $params['points'],

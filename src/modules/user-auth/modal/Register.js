@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import { RawHTML } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 
 const Register = (props) => {
   const theme = useTheme();
@@ -60,7 +61,7 @@ const Register = (props) => {
       })
       .catch((err) => {
         setIsLoading(false);
-        methods?.setValue("error", "Opps!Something went wrong.", { shouldDirty: true });
+        methods?.setValue("error", __("Opps!Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);
       });
   };
@@ -104,10 +105,10 @@ const Register = (props) => {
           }
         }}>
           <Box>
-            <Typography variant="h5">Welcome back</Typography>
+            <Typography variant="h5">{__('Welcome back', 'acadlix')}</Typography>
           </Box>
           <Box>
-            <Typography variant="body2">Please enter your details to sign up.</Typography>
+            <Typography variant="body2">{__('Please enter your details to sign up.', 'acadlix')}</Typography>
           </Box>
           {
             methods?.watch("error") &&
@@ -134,10 +135,10 @@ const Register = (props) => {
                   paddingY: 1,
                 }}
               >
-                Username <span style={{ color: "red" }}>*</span>
+                {__('Username', 'acadlix')} <span style={{ color: "red" }}>*</span>
               </Typography>
               <CustomTextField
-                {...methods?.register("username", { required: "Username is required" })}
+                {...methods?.register("username", { required: __('Username is required', 'acadlix') })}
                 fullWidth
                 required
                 autoComplete="username"
@@ -145,7 +146,7 @@ const Register = (props) => {
                 size="small"
                 type="text"
                 name="username"
-                placeholder="Username"
+                placeholder={__("Username", 'acadlix')}
                 value={methods?.watch("username")}
                 onChange={(e) => {
                   methods?.setValue("username", e?.target?.value, {
@@ -164,10 +165,10 @@ const Register = (props) => {
                   paddingY: 1,
                 }}
               >
-                Email <span style={{ color: "red" }}>*</span>
+                {__('Email', 'acadlix')} <span style={{ color: "red" }}>*</span>
               </Typography>
               <CustomTextField
-                {...methods?.register("email", { required: "Email is required" })}
+                {...methods?.register("email", { required: __('Email is required', 'acadlix') })}
                 fullWidth
                 required
                 autoComplete="email"
@@ -175,7 +176,7 @@ const Register = (props) => {
                 size="small"
                 type="text"
                 name="email"
-                placeholder="Email"
+                placeholder={__("Email", 'acadlix')}
                 value={methods?.watch("email")}
                 onChange={(e) => {
                   methods?.setValue("email", e?.target?.value, {
@@ -194,14 +195,14 @@ const Register = (props) => {
                   paddingY: 1,
                 }}
               >
-                Password <span style={{ color: "red" }}>*</span>
+                {__('Password', 'acadlix')} <span style={{ color: "red" }}>*</span>
               </Typography>
               <CustomTextField
                 {...methods?.register("password", {
-                  required: "Password is required",
+                  required: __('Password is required', 'acadlix'),
                   minLength: {
                     value: 8,
-                    message: "Password must have at least 8 characters",
+                    message: __('Password must have at least 8 characters', 'acadlix')
                   },
                 })}
                 fullWidth
@@ -210,7 +211,7 @@ const Register = (props) => {
                 autoCapitalize="off"
                 size="small"
                 name="password"
-                placeholder="Password"
+                placeholder={__("Password", 'acadlix')}
                 value={methods?.watch("password")}
                 onChange={(e) => {
                   methods?.setValue("password", e?.target?.value, {
@@ -248,18 +249,18 @@ const Register = (props) => {
                   paddingY: 1,
                 }}
               >
-                Confirm Password <span style={{ color: "red" }}>*</span>
+                {__('Confirm Password', 'acadlix')} <span style={{ color: "red" }}>*</span>
               </Typography>
               <CustomTextField
                 {...methods?.register("confirm_password", {
-                  required: "Confirm password is required",
+                  required: __('Confirm password is required', 'acadlix'),
                   minLength: {
                     value: 8,
-                    message: "Confirm password must have at least 8 characters",
+                    message: __('Confirm password must have at least 8 characters', 'acadlix')
                   },
                   validate: (val) => {
                     if (methods?.watch("password") != val) {
-                      return "Your passwords do no match";
+                      return __('Your passwords do no match', 'acadlix');
                     }
                   },
                 })}
@@ -269,7 +270,7 @@ const Register = (props) => {
                 autoCapitalize="off"
                 size="small"
                 name="confirm_password"
-                placeholder="Confirm Password"
+                placeholder={__("Confirm Password", 'acadlix')}
                 value={methods?.watch("confirm_password")}
                 onChange={(e) => {
                   methods?.setValue("confirm_password", e?.target?.value, {
@@ -306,7 +307,7 @@ const Register = (props) => {
                 variant="contained"
                 type="submit"
               >
-                Register
+                {__('Register', 'acadlix')}
               </LoadingButton>
             </Grid>
             <Grid item xs={12} lg={12} sx={{
@@ -314,7 +315,7 @@ const Register = (props) => {
               justifyContent: "center"
             }}>
               <Typography variant="body2">
-                Already have account? {" "}
+                {__("Already have account?", 'acadlix')} {" "}
                 <Link
                   href="#"
                   onClick={(e) => {
@@ -324,7 +325,7 @@ const Register = (props) => {
                     });
                   }}
                 >
-                  Login
+                  {__('Login', 'acadlix')}
                 </Link>
                 {" | "}
                 <Link
@@ -336,7 +337,7 @@ const Register = (props) => {
                     });
                   }}
                 >
-                  Lost your password?
+                  {__('Lost your password?', 'acadlix')}
                 </Link>
               </Typography>
             </Grid>

@@ -1,5 +1,6 @@
 import { Box, Pagination, PaginationItem, Typography } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuestionPaginationSection = (props) => {
   const handlePaginationChange = (_, page) => {
@@ -37,8 +38,8 @@ const QuestionPaginationSection = (props) => {
         renderItem={(item) => (
           <PaginationItem
             slots={{
-              previous: () => <Typography>Previous</Typography>,
-              next: () => <Typography>Next</Typography>,
+              previous: () => <Typography>{__("Previous", "acadlix")}</Typography>,
+              next: () => <Typography>{__("Next", "acadlix")}</Typography>,
             }}
             {...item}
           />

@@ -10,12 +10,13 @@ import {
 import React from "react";
 import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
- 
+import { __ } from '@wordpress/i18n'
+
 const AddEditSectionModal = (props) => {
   return (
     <form onSubmit={props?.handleSubmit(props?.onSubmit)}>
       <DialogTitle id="section-dialog-title" sx={{ m: 0, p: 2 }}>
-        {props?.create ? "Add" : "Edit"} Section
+        {props?.create ? __("Add Section", "acadlix") : __("Edit Section", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -38,12 +39,12 @@ const AddEditSectionModal = (props) => {
         <Grid container gap={2}>
           <Grid item xs={12} lg={12}>
             <Typography variant="h6">
-              Section Title <span style={{ color: "red" }}>*</span>
+              {__("Section Title", "acadlix")} <span style={{ color: "red" }}>*</span>
             </Typography>
           </Grid>
           <Grid item xs={12} lg={12}>
             <CustomTextField
-              {...props?.register("post_title", { required: "Title is required" })}
+              {...props?.register("post_title", { required: __("Title is required", "acadlix") })}
               fullWidth
               required
               name="title"
@@ -67,7 +68,7 @@ const AddEditSectionModal = (props) => {
             />
           </Grid>
           <Grid item xs={12} lg={12}>
-            <Typography variant="h6">Section Description</Typography>
+            <Typography variant="h6">{__("Section Description", "acadlix")}</Typography>
           </Grid>
           <Grid item xs={12} lg={12}>
             <textarea
@@ -95,7 +96,7 @@ const AddEditSectionModal = (props) => {
           Cancel
         </Button>
         <Button variant="contained" type="submit" disabled={props?.isPending}>
-          {props?.isPending ? "...loading" : "Save Change"}
+          {props?.isPending ? __("...loading", "acadlix") : __("Save Change", "acadlix")}
         </Button>
       </DialogActions>
     </form>

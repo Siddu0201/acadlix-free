@@ -5,6 +5,7 @@ import NotAnswered from "../answer-type-buttons/NotAnswered";
 import Answered from "../answer-type-buttons/Answered";
 import Marked from "../answer-type-buttons/Marked";
 import MarkedAndAnswered from "../answer-type-buttons/MarkedAndAnswered";
+import { __ } from "@wordpress/i18n";
 
 const QuizSidebarQuestionOverview = (props) => {
   const idList = [
@@ -112,7 +113,7 @@ const QuizSidebarQuestionOverview = (props) => {
       );
     }
   };
-  
+
   return (
     <Box
       sx={{
@@ -134,7 +135,7 @@ const QuizSidebarQuestionOverview = (props) => {
           }}
           id={`acadlix_quiz_choose_question_${props?.s_index}`}
         >
-          <b>Choose a Question</b>
+          <b>{__('Choose a Question', 'acadlix')}</b>
         </Typography>
       </Box>
       <Box

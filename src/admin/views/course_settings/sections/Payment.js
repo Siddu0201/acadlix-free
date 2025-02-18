@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 const Payment = (props) => {
   return (
@@ -23,7 +24,7 @@ const Payment = (props) => {
                   fontWeight: 600,
                 }}
               >
-                {`Price (0 => Free)`}
+                {__('Price (0 => Free)', 'acadlix')}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -66,12 +67,12 @@ const Payment = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Activate Sale Price
+                {__("Activate Sale Price", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormControlLabel
-                label="Activate"
+                label={__("Activate", "acadlix")}
                 checked={props?.watch("meta.enable_sale_price")}
                 control={<Checkbox />}
                 onClick={(e) => {
@@ -94,7 +95,7 @@ const Payment = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Sale Price
+                {__("Sale Price", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -138,12 +139,12 @@ const Payment = (props) => {
                   fontWeight: 600,
                 }}
               >
-                Tax
+                {__("Tax", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormControlLabel
-                label="Activate"
+                label={__("Activate", "acadlix")}
                 checked={props?.watch("meta.tax")}
                 control={<Checkbox />}
                 onClick={(e) => {
@@ -166,7 +167,7 @@ const Payment = (props) => {
                   fontWeight: 600,
                 }}
               >
-                {`Tax (%)`}
+                {__("Tax (%)", "acadlix")}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>

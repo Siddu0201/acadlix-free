@@ -11,6 +11,7 @@ import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { useForm } from "react-hook-form";
 import { PostTestEmail } from "../../../../requests/admin/AdminSettingRequest";
+import { __ } from "@wordpress/i18n";
 
 function Notification(props) {
   return (
@@ -20,7 +21,7 @@ function Notification(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Email Settings</Typography>
+        <Typography variant="h6">{__("Email Settings", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -37,13 +38,13 @@ function Notification(props) {
               fontWeight: 500,
             }}
           >
-            Notify Course Purchase To
+            {__("Notify Course Purchase To", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Student"
+            label={__("Student", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_notify_course_purchase_to_student") === "yes"}
             onClick={(e) => {
@@ -62,7 +63,7 @@ function Notification(props) {
         <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Admin"
+            label={__("Admin", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_notify_course_purchase_to_admin") === "yes"}
             onClick={(e) => {
@@ -85,13 +86,13 @@ function Notification(props) {
               fontWeight: 500,
             }}
           >
-            Notify Course Completion To
+            {__("Notify Course Completion To", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Student"
+            label={__("Student", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_notify_course_completion_to_student") === "yes"}
             onClick={(e) => {
@@ -110,7 +111,7 @@ function Notification(props) {
         <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Admin"
+            label={__("Admin", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_notify_course_completion_to_admin") === "yes"}
             onClick={(e) => {
@@ -133,13 +134,13 @@ function Notification(props) {
               fontWeight: 500,
             }}
           >
-            Notify Failed Transaction To
+            {__("Notify Failed Transaction To", "acadlix")}
           </Typography>
         </Grid>
         <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Student"
+            label={__("Student", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_notify_failed_transation_to_student") === "yes"}
             onClick={(e) => {
@@ -158,7 +159,7 @@ function Notification(props) {
         <Grid item xs={12} lg={4}>
           <FormControlLabel
             control={<CustomSwitch />}
-            label="Admin"
+            label={__("Admin", "acadlix")}
             value="yes"
             checked={props?.watch("acadlix_notify_failed_transation_to_admin") === "yes"}
             onClick={(e) => {
@@ -174,8 +175,8 @@ function Notification(props) {
             }}
           />
         </Grid>
-        
-        <TestingEmail />
+
+        {/* <TestingEmail /> */}
       </Grid>
     </Box>
   );
@@ -202,24 +203,34 @@ const TestingEmail = (props) => {
   return (
     <React.Fragment>
       <Grid item xs={12} lg={12}>
-        <CustomTextField {...methods?.register("to")} fullWidth size="small" label="To" />
+        <CustomTextField
+          {...methods?.register("to")}
+          fullWidth
+          size="small"
+          label={__("To", "acadlix")}
+        />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <CustomTextField {...methods?.register("subject")} fullWidth size="small" label="Subject" />
+        <CustomTextField
+          {...methods?.register("subject")}
+          fullWidth
+          size="small"
+          label={__("Subject", "acadlix")}
+        />
       </Grid>
       <Grid item xs={12} lg={12}>
         <CustomTextField
           {...methods?.register("message")}
           fullWidth
           size="small"
-          label="Message"
+          label={__("Message", "acadlix")}
           multiline
           rows={3}
         />
       </Grid>
       <Grid item xs={12} lg={12}>
         <Button variant="contained" color="primary" onClick={methods?.handleSubmit(handleSend)}>
-          Send
+          {__("Send", "acadlix")}
         </Button>
       </Grid>
     </React.Fragment>

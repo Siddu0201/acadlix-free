@@ -88,7 +88,7 @@ class FrontCourseController
         $required_fields = array('course_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -118,7 +118,7 @@ class FrontCourseController
         $required_fields = array('course_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -190,7 +190,7 @@ class FrontCourseController
         $required_fields = array('course_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -290,7 +290,7 @@ class FrontCourseController
         $required_fields = array('course_id', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -307,7 +307,7 @@ class FrontCourseController
         }
         $course = Course::find($params['course_id']);
         if (!$course) {
-            return new WP_Error(__('Missing Course', 'acadlix'), __('This Course is not available', 'acadlix'), array('status' => 404));
+            return new WP_Error('missing_course', __('This Course is not available', 'acadlix'), array('status' => 404));
         }
         $user_meta = UserActivityMeta::create([
             'user_id' => $params['user_id'],
@@ -331,7 +331,7 @@ class FrontCourseController
         $required_fields = array('course_id', 'user_id');
         $params = $request->get_json_params();
         if (is_array($params) && count($params) == 0) {
-            return new WP_Error(__('No data found', 'acadlix'), __('Required course id and user_id', 'acadlix'), array('status' => 404));
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
         foreach ($required_fields as $field) {
@@ -353,7 +353,7 @@ class FrontCourseController
             ->where('user_id', $params['user_id'])
             ->first();
         if (!$wishlist) {
-            return new WP_Error(__('Missing Course', 'acadlix'), __('This Course is not available', 'acadlix'), array('status' => 404));
+            return new WP_Error('missing_course', __('This Course is not available', 'acadlix'), array('status' => 404));
         }
         $wishlist->delete();
         $res = array(

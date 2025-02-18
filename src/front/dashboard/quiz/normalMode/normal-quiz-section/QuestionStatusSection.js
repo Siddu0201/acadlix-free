@@ -1,5 +1,6 @@
 import { Box, Chip } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const QuestionStatusSection = (props) => {
   return (
@@ -14,12 +15,12 @@ const QuestionStatusSection = (props) => {
     >
       {props?.watch(`questions.${props?.index}.result.solved_count`) ? (
         props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-          <Chip label="Correct" color="success" />
+          <Chip label={__('Correct', 'acadlix')} color="success" />
         ) : (
-          <Chip label="Incorrect" color="error" />
+          <Chip label={__('Incorrect', 'acadlix')} color="error" />
         )
       ) : (
-        <Chip label="Skipped" color="grey" />
+        <Chip label={__('Skipped', 'acadlix')} color="grey" />
       )}
     </Box>
   );

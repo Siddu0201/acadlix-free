@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { FaAngleDown } from "../../../../helpers/icons";
 import SidebarListItem from "./SidebarListItem";
+import { __ } from "@wordpress/i18n";
 
 const SidebarList = (props) => {
   // console.log(props);
@@ -58,7 +59,7 @@ const SidebarList = (props) => {
               fontWeight: 700,
             }}
           >
-            Section {props?.num}: {props?.s?.title}
+            {__("Section", "acadlix")} {props?.num}: {props?.s?.title}
           </Typography>
           <Typography
             sx={{

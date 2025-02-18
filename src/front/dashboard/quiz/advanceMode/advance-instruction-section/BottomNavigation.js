@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { AppBar, Toolbar } from "@mui/material";
+import { __ } from "@wordpress/i18n";
 
 const BottomNavigation = (props) => {
   const handleNextClick = () => {
@@ -60,7 +61,7 @@ const BottomNavigation = (props) => {
             }}
             onClick={handleNextClick}
           >
-            {`Next >`}
+            {__( 'Next >', 'acadlix' )}
           </Button>
         </Box>
       </Toolbar>

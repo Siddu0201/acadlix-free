@@ -36,6 +36,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import CustomTypography from "../../../../components/CustomTypography";
 import { DeleteLanguageFromQuiz, UpdateAddLanguageToQuiz, UpdateSetDefaultLanguageToQuiz } from "../../../../requests/admin/AdminQuizRequest";
+import { __ } from "@wordpress/i18n";
 
 const LanguageSection = (props) => {
     const methods = useForm({
@@ -118,11 +119,11 @@ const LanguageSection = (props) => {
 
             addLanguage?.mutate(data, {
                 onSuccess: (data) => {
-                    toast.success("Language added successfully.");
+                    toast.success(__('Language added successfully.', 'acadlix'));
                 },
                 onError: (data) => {
                     console.error(data?.data);
-                    toast.error("Something went wrong.");
+                    toast.error(__('Something went wrong.', 'acadlix'));
                     props?.setValue("meta.default_language_id", previousState.defaultLanguageId, { shouldDirty: true });
                     props?.setValue("meta.language_data", previousState.languageData, { shouldDirty: true });
                     props?.setValue("languages", previousState.languages, { shouldDirty: true });
@@ -135,7 +136,7 @@ const LanguageSection = (props) => {
 
     const handleAddLanguage = () => {
         if (!methods?.watch("language_id")) {
-            toast.error("Please select language");
+            toast.error(__('Please select language', 'acadlix'));
             return;
         }
 
@@ -148,11 +149,11 @@ const LanguageSection = (props) => {
 
     const handleSetDefaultLanguage = (language_id) => {
         if (!language_id) {
-            toast.error("Please select language");
+            toast.error(__('Please select language', 'acadlix'));
             return;
         }
 
-        if (confirm("Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.")) {
+        if (confirm(__('Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.', 'acadlix'))) {
             const data = {
                 language_id: language_id,
                 meta: {
@@ -184,7 +185,7 @@ const LanguageSection = (props) => {
                 setDefaultLanguage?.mutate(data, {
                     onSuccess: (_) => {
                         console.log(data);
-                        toast.success("Default language updated successfully.");
+                        toast.success(__('Default language updated successfully.', 'acadlix'));
                         props?.setValue("meta.default_language_id", data?.meta?.default_language_id, { shouldDirty: true });
                         props?.setValue(
                             "meta.language_data",
@@ -193,7 +194,7 @@ const LanguageSection = (props) => {
                     },
                     onError: (data) => {
                         console.error(data?.data);
-                        toast.error("Something went wrong.");
+                        toast.error(__('Something went wrong.', 'acadlix'));
                     }
                 })
             }
@@ -202,11 +203,11 @@ const LanguageSection = (props) => {
 
     const handleRemoveLanguage = (language_id) => {
         if (!language_id) {
-            toast.error("Please select language");
+            toast.error(__('Please select language', 'acadlix'));
             return;
         }
 
-        if (confirm("Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.")) {
+        if (confirm(__('Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.', 'acadlix'))) {
             const data = {
                 languages: props?.watch("languages").filter(l => l !== language_id),
                 language_id: language_id,
@@ -223,13 +224,13 @@ const LanguageSection = (props) => {
                 // update default langauge
                 deleteLanguage?.mutate(data, {
                     onSuccess: () => {
-                        toast.success("Language removed successfully.");
+                        toast.success(__('Language removed successfully.', 'acadlix'));
                         props?.setValue("languages", data?.languages);
                         props?.setValue("meta.language_data", data?.meta?.language_data, { shouldDirty: true });
                     },
                     onError: (data) => {
                         console.error(data?.data);
-                        toast.error("Something went wrong.");
+                        toast.error(__('Something went wrong.', 'acadlix'));
                     }
                 })
             }
@@ -280,14 +281,14 @@ const LanguageSection = (props) => {
                                 marginY: 2,
                             }}
                         >
-                            <Typography variant="h6">Language Options</Typography>
+                            <Typography variant="h6">{__('Language Options', 'acadlix')}</Typography>
                             <Divider />
                         </Box>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} lg={6}>
                                 <Grid container spacing={3}>
                                     <GridItem1 xs={12} sm={6} lg={6}>
-                                        <CustomTypography>Multi Language</CustomTypography>
+                                        <CustomTypography>{__('Multi Language', 'acadlix')}</CustomTypography>
                                     </GridItem1>
                                     <GridItem1 xs={12} sm={6} lg={6}>
                                         <FormControlLabel
@@ -300,14 +301,14 @@ const LanguageSection = (props) => {
                                                     shouldDirty: true,
                                                 });
                                             }}
-                                            label="Activate"
+                                            label={__('Activate', 'acadlix')}
                                         />
                                     </GridItem1>
 
                                     <GridItem1 xs={12} sm={6} lg={6} sx={{
                                         display: props?.watch("meta.multi_language") ? "flex" : "none",
                                     }}>
-                                        <CustomTypography>Select language</CustomTypography>
+                                        <CustomTypography>{__('Select language', 'acadlix')}</CustomTypography>
                                     </GridItem1>
                                     <GridItem1
                                         xs={12}
@@ -335,7 +336,7 @@ const LanguageSection = (props) => {
                                                 <TextField
                                                     {...params}
                                                     variant="outlined"
-                                                    label="Select Languages"
+                                                    label={__('Select Languages', 'acadlix')}
                                                 />
                                             )}
                                             onChange={(_, newValue) => {
@@ -352,7 +353,7 @@ const LanguageSection = (props) => {
                                             size="small"
                                             onClick={handleAddLanguage}
                                         >
-                                            Add
+                                            {__('Add', 'acadlix')}
                                         </LoadingButton>
                                     </GridItem1>
                                     <GridItem1
@@ -379,7 +380,7 @@ const LanguageSection = (props) => {
                                                                         size="small"
                                                                         onClick={handleSetDefaultLanguage.bind(this, value)}
                                                                     >
-                                                                        Set Default
+                                                                        {__('Set Default', 'acadlix')}
                                                                     </Button>
                                                                     <Button
                                                                         variant="outlined"
@@ -387,7 +388,7 @@ const LanguageSection = (props) => {
                                                                         size="small"
                                                                         onClick={handleRemoveLanguage.bind(this, value)}
                                                                     >
-                                                                        Delete
+                                                                        {__('Delete', 'acadlix')}
                                                                     </Button>
                                                                 </Box>
                                                             }
@@ -396,7 +397,7 @@ const LanguageSection = (props) => {
                                                 >
                                                     <ListItemText
                                                         primary={props?.languages?.find(l => l?.term_id === value)?.name}
-                                                        secondary={props?.watch("meta.default_language_id") === value ? "Default" : ""}
+                                                        secondary={props?.watch("meta.default_language_id") === value ? __("Default", 'acadlix') : ""}
                                                     />
                                                 </ListItem>
                                             ))}
@@ -418,7 +419,7 @@ const CopyLanguageModel = memo((props) => {
     return (
         <>
             <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-                Would like to copy data
+                {__('Would like to copy data', 'acadlix')}
             </DialogTitle>
             <IconButton
                 aria-label="close"
@@ -445,14 +446,14 @@ const CopyLanguageModel = memo((props) => {
                                     }}
                                 />
                             }
-                            label="Would you like to copy the default language's data, such as instructions, questions, and other relevant content, to the newly created language?"
+                            label={__('Would you like to copy the default language\'s data, such as instructions, questions, and other relevant content, to the newly created language?', 'acadlix')}
                         />
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" color="error" onClick={props?.handleClose}>
-                    Cancel
+                    {__('Cancel', 'acadlix')}
                 </Button>
                 <Button
                     variant="contained"
@@ -462,7 +463,7 @@ const CopyLanguageModel = memo((props) => {
                         props?.handleSaveLanaguage(copyDefaultLanguage);
                     }}
                 >
-                    Save
+                    {__('Save', 'acadlix')}
                 </Button>
             </DialogActions>
         </>

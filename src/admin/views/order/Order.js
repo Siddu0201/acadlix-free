@@ -16,6 +16,7 @@ import { GetOrders } from "../../../requests/admin/AdminOrderRequest";
 import { currencyPosition } from "../../../helpers/util";
 import { dateI18n } from "@wordpress/date";
 import { IoMdRefresh } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Order = () => {
   const methods = useForm({
@@ -32,26 +33,26 @@ const Order = () => {
   });
 
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "id", headerName: __("ID", "acadlix") },
     {
       field: "order_items",
-      headerName: "Order Items",
+      headerName: __("Order Items", "acadlix"),
       flex: 2,
       minWidth: 130,
     },
     {
       field: "payment_method",
-      headerName: "Method",
+      headerName: __("Method", "acadlix"),
       flex: 1,
       minWidth: 100,
     },
-    { field: "order_id", headerName: "Order/Txn ID", flex: 2, minWidth: 180 },
-    { field: "order_date", headerName: "Order Date", minWidth: 180 },
-    { field: "user_name", headerName: "Name", flex: 2, minWidth: 130 },
-    { field: "user_email", headerName: "Email", minWidth: 250 },
+    { field: "order_id", headerName: __("Order/Txn ID", "acadlix"), flex: 2, minWidth: 180 },
+    { field: "order_date", headerName: __("Order Date", "acadlix"), minWidth: 180 },
+    { field: "user_name", headerName: __("Name", "acadlix"), flex: 2, minWidth: 130 },
+    { field: "user_email", headerName: __("Email", "acadlix"), minWidth: 250 },
     {
       field: "status",
-      headerName: "Status",
+      headerName: __("Status", "acadlix"),
       flex: 1,
       minWidth: 100,
       renderCell: (params) => {
@@ -113,7 +114,7 @@ const Order = () => {
           payment_method: getOrderMetaValue(
             order?.order_metas,
             "payment_method",
-            "Free"
+            __("Free", "acadlix")
           )?.toUpperCase(),
           order_id: getOrderId(order?.order_metas),
           order_date: formattedDateTime,
@@ -167,9 +168,9 @@ const Order = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Orders
+                    {__("Orders", "acadlix")}
                   </Typography>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>

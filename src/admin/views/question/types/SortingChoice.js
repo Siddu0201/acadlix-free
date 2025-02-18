@@ -7,12 +7,13 @@ import {
   Grid,
   Alert,
 } from "@mui/material";
+import { __ } from "@wordpress/i18n";
 
 function SortingChoice(props) {
 
   return (
     <Card>
-      <CardHeader title={`Sorting Choice ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
+      <CardHeader title={__('Sorting Choice', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
         titleTypographyProps={{
           variant: 'h6'
         }}
@@ -25,7 +26,7 @@ function SortingChoice(props) {
               <Grid item xs={12} lg={12} key={index}>
                 <Option
                   {...props}
-                  title={`Option${index + 1}`}
+                  title={__('Option', 'acadlix') + ` ${index + 1}`}
                   id={`opt_${props?.index}_${index}`}
                   loadEditor={props?.loadEditor}
                   removeEditor={props?.removeEditor}
@@ -54,7 +55,7 @@ function SortingChoice(props) {
                 })
               }}
             >
-              Add More
+              {__('Add More', 'acadlix')}
             </Button>
           </Grid>
         </Grid>
@@ -95,7 +96,7 @@ const Option = (props) => {
                     value: props?.watch(
                       `language.${props?.language_index}.default`
                     ),
-                    message: "Option is required",
+                    message: __("Option is required", "acadlix"),
                   },
                 }
               )}
@@ -152,7 +153,7 @@ const Option = (props) => {
                 })
               }}
             >
-              Delete
+              {__('Delete', 'acadlix')}
             </Button>
           </Grid>
         </Grid>

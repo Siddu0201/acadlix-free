@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useInstance } from "../../helpers/util";
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const base = "/admin-lesson";
 
@@ -73,7 +74,7 @@ export const DeleteLessonById = () => {
             });
         },
         onSuccess: (data) => {
-            toast.success('Lesson successfully deleted.');
+            toast.success(__('Lesson successfully deleted.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getLessons"]
             });
@@ -98,7 +99,7 @@ export const DeleteBulkLesson = () => {
             });
         },
         onSuccess: () => {
-            toast.success('Lessons deleted successfully');
+            toast.success(__('Lessons deleted successfully', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getLessons"]
             });

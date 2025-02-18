@@ -17,6 +17,7 @@ import Second from "../../../../images/medal-2.svg";
 import Third from "../../../../images/medal-3.svg";
 import { PostQuizLoadMoreLeaderderboard, PostResetLeaderboardByQuizId } from "../../../../requests/admin/AdminLeaderboardRequest";
 import { TiArrowLeftThick } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const QuizLeaderboard = () => {
   const styles = {
@@ -152,7 +153,7 @@ const QuizLeaderboard = () => {
   });
   const resetLeaderboardMutation = PostResetLeaderboardByQuizId(quiz_id);
   const handleResetLeaderboard = () => {
-    if (confirm("Do you really want to reset this leaderboard?")) {
+    if (confirm(__("Do you really want to reset this leaderboard?", "acadlix"))) {
       resetLeaderboardMutation.mutate({},
         {
           onSuccess: (data) => {
@@ -221,7 +222,7 @@ const QuizLeaderboard = () => {
             LinkComponent={Link}
             to={`/`}
           >
-            Back
+            {__("Back", "acadlix")}
           </Button>
           <Button
             variant="contained"
@@ -231,7 +232,7 @@ const QuizLeaderboard = () => {
             }}
             onClick={handleResetLeaderboard}
           >
-            Reset Leaderboard
+            {__("Reset Leaderboard", "acadlix")}
           </Button>
         </Grid>
       </Grid>
@@ -260,7 +261,7 @@ const QuizLeaderboard = () => {
         </Backdrop>
         <Box sx={styles.header}>
           <Typography variant="h5" sx={{ fontWeight: "600" }}>
-            Leaderboard
+            {__("Leaderboard", "acadlix")}
           </Typography>
         </Box>
 
@@ -293,7 +294,7 @@ const QuizLeaderboard = () => {
             }}
           >
             <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
-              Load More
+              {__("Load More", "acadlix")}
             </Button>
           </Box>
         )}

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import AddEditSectionModal from "../modals/AddEditSectionModal";
 import { PostCreateSection } from "../../../../requests/admin/AdminCourseRequest";
+import { __ } from "@wordpress/i18n";
 
 const AddSection = (props) => {
   const methods = useForm({
@@ -83,7 +84,7 @@ const AddSection = (props) => {
             paddingRight: 4,
           }}
         />
-        Add Section
+        {__("Add Section", "acadlix")}
       </Button>
     </Box>
   );

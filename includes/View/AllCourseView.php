@@ -11,16 +11,11 @@ use Yuvayana\Acadlix\Models\WpPosts;
 
 defined('ABSPATH') || exit();
 
-// $system_languages = Helper::instance()->acadlix_get_system_languages();
-// Helper::instance()->acadlix_dd($system_languages);
-
 global $post, $wp_version;
 $page = (get_query_var('paged')) ? get_query_var('paged') : 1;
 $per_page = Helper::instance()->acadlix_get_option("acadlix_no_of_courses_per_page");
 $one_click_checkout = Helper::instance()->acadlix_get_option('acadlix_one_click_checkout');
 
-// $publishedPostIds = WpPosts::where('post_status', 'publish')->where('post_type', ACADLIX_COURSE_CPT)->pluck('ID');
-// $courses = Course::withCount(['users', 'cart'])->whereIn("id", $publishedPostIds)->orderBy("created_at", "desc");
 $courses = Course::ofCourse()->where("post_status", 'publish')->orderBy("ID", "desc");
 $course_count = $courses->count();
 $courses = $courses->skip(($page - 1) * $per_page)->take($per_page);
@@ -42,6 +37,7 @@ if (is_user_logged_in()) {
         $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
     }
 }
+
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
     ?>
     <!doctype html>
@@ -69,19 +65,21 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <div class="acadlix-course-filter-bar-body acadlix-card-body">
                     <div class="acadlix-course-filter-text">
                         <h4 class="acadlix-fs-6 acadlix-fw-semibold">
-                            We found <span><?php echo esc_html($course_count); ?></span> courses
-                            available
-                            for you
+                            <?php printf(
+                                /* translators: %s is the number of courses */
+                                __('We found <span>%s</span> courses available for you', 'acadlix'),
+                                esc_html($course_count)
+                            ); ?>
                         </h4>
                     </div>
                     <div class="acadlix-d-flex">
                         <select class="acadlix-course-filter-select" aria-label="Course Filter">
-                            <option value="">All Category</option>
-                            <option value="newest">Newest courses</option>
-                            <option value="oldest">Oldest courses</option>
-                            <option value="popular-courses">Popular courses</option>
-                            <option value="high-to-low">Price: high to low</option>
-                            <option value="low-to-high">Price: low to high</option>
+                            <option value=""><?php esc_html_e('All Category', 'acadlix'); ?></option>
+                            <option value="newest"><?php esc_html_e('Newest courses', 'acadlix'); ?></option>
+                            <option value="oldest"><?php esc_html_e('Oldest courses', 'acadlix'); ?></option>
+                            <option value="popular-courses"><?php esc_html_e('Popular courses', 'acadlix'); ?></option>
+                            <option value="high-to-low"><?php esc_html_e('Price: high to low', 'acadlix'); ?></option>
+                            <option value="low-to-high"><?php esc_html_e('Price: low to high', 'acadlix'); ?></option>
                         </select>
                     </div>
                 </div>
@@ -131,14 +129,16 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                             if (CourseHelper::instance()->isCourseFree($course->rendered_metas['price'], $course->rendered_metas['enable_sale_price'], $course->rendered_metas['sale_price'])) {
                                                 if (in_array($course->ID, $cart, true)) {
                                                     ?>
-                                                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
-                                                        Checkout</a>
+                                                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">
+                                                        <?php esc_html_e('Go to Checkout', 'acadlix'); ?>
+                                                    </a>
                                                     </>
                                                     <?php
                                                 } elseif (in_array($course->ID, $order_item, true)) {
                                                     ?>
-                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">Go to
-                                                        Course</a>
+                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">
+                                                        <?php esc_html_e('Go to Course', 'acadlix'); ?>
+                                                    </a>
                                                     </>
                                                     <?php
                                                 } else {
@@ -146,7 +146,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     <button class="acadlix-action-button acadlix-start-now"
                                                         data-id="<?php echo esc_attr($course->ID); ?>">
                                                         <div class="acadlix-action-button-text">
-                                                            Start Now
+                                                            <?php esc_html_e('Start Now', 'acadlix'); ?>
                                                         </div>
                                                         <div class="acadlix-btn-loader" style="display: none;"></div>
                                                     </button>
@@ -155,21 +155,22 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                             } else {
                                                 if (in_array($course->ID, $cart, true)) {
                                                     ?>
-                                                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">Go to
-                                                        Checkout</a>
-                                                    </>
+                                                    <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">
+                                                        <?php esc_html_e('Go to Checkout', 'acadlix'); ?>
+                                                    </a>
                                                     <?php
                                                 } elseif (in_array($course->ID, $order_item, true)) {
                                                     ?>
-                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">Go to
-                                                        Course</a>
+                                                    <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button">
+                                                        <?php esc_html_e('Go to Course', 'acadlix'); ?>
+                                                    </a>
                                                     <?php
                                                 } else {
                                                     ?>
                                                     <button class="acadlix-action-button acadlix-buy-now"
                                                         data-id="<?php echo esc_attr($course->ID); ?>">
                                                         <div class="acadlix-action-button-text">
-                                                            <i class="fa fa-shopping-cart"></i> Buy Now
+                                                            <i class="fa fa-shopping-cart"></i> <?php esc_html_e('Buy Now', 'acadlix'); ?>
                                                         </div>
                                                         <div class="acadlix-btn-loader" style="display: none;"></div>
                                                     </button>
@@ -189,14 +190,14 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                             ?>
                                             <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
                                                 id="add-to-wishlist-<?php echo esc_attr($course->ID); ?>"
-                                                title="Add to Wishlist" data-id="<?php echo esc_attr($course->ID); ?>"
+                                                title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>" data-id="<?php echo esc_attr($course->ID); ?>"
                                                 style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
                                                 <i class="la la-heart-o"></i>
                                                 <div class="acadlix-btn-loader" style="display: none;"></div>
                                             </div>
                                             <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
                                                 id="remove-from-wishlist-<?php echo esc_attr($course->ID); ?>"
-                                                title="Remove From Wishlist" data-id="<?php echo esc_attr($course->ID); ?>"
+                                                title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>" data-id="<?php echo esc_attr($course->ID); ?>"
                                                 style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
                                                 <i class="fa-solid fa-heart"></i>
                                                 <div class="acadlix-btn-loader" style="display: none;"></div>

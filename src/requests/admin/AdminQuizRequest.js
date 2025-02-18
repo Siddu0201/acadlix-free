@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useInstance } from "../../helpers/util"
 import toast from "react-hot-toast";
+import { __ } from "@wordpress/i18n";
 
 const base = "/admin-quiz";
 
@@ -82,7 +83,7 @@ export const DeleteQuizById = () => {
             });
         },
         onSuccess: (data) => {
-            toast.success('Quiz successfully deleted.');
+            toast.success(__('Quiz successfully deleted.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizes"]
             });
@@ -107,7 +108,7 @@ export const DeleteBulkQuiz = () => {
             });
         },
         onSuccess: () => {
-            toast.success('Quizzes deleted successfully');
+            toast.success(__('Quizzes deleted successfully', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizes"]
             });
@@ -127,7 +128,7 @@ export const PostSetCategory = () => {
             return instance.post(`${base}/set-category`, data);
         },
         onSuccess: () => {
-            toast.success('Category updated successfully.');
+            toast.success(__('Category updated successfully.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizes"]
             });

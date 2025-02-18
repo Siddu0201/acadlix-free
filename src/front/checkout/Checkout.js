@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import parse from "html-react-parser";
 import toast from "react-hot-toast";
 import UserAuth from "../../modules/user-auth/UserAuth";
+import { __ } from "@wordpress/i18n";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -167,7 +168,7 @@ const Checkout = () => {
 
   const convertToRazorpayUnit = (amount = 0) => {
     if (isNaN(amount)) {
-      throw new Error("Invalid amount");
+      throw new Error(__('Invalid amount', 'acadlix'));
     }
     const decimalPlaces =
       acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
@@ -251,7 +252,7 @@ const Checkout = () => {
                     },
                     {
                       onSuccess: (data) => {
-                        toast.error("Payment failed.");
+                        toast.error(__('Payment failed.', 'acadlix'));
                       },
                       onSettled: () => {
                         methods?.setValue("is_checkout_loading", false, {
@@ -271,7 +272,7 @@ const Checkout = () => {
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
-          toast?.error("Opps! Something went wrong");
+          toast?.error(__('Opps! Something went wrong', 'acadlix'));
         },
       }
     );
@@ -290,7 +291,7 @@ const Checkout = () => {
         window.location.href = paypalUrl;
       },
       onError: (data) => {
-        toast?.error("Opps! Something went wrong");
+        toast?.error(__('Opps! Something went wrong', 'acadlix'));
         methods?.setValue("is_checkout_loading", false, {
           shouldDirty: true,
         });
@@ -327,7 +328,7 @@ const Checkout = () => {
         }
       },
       onError: (data) => {
-        toast?.error("Opps! Something went wrong");
+        toast?.error(__("Opps! Something went wrong", "acadlix"));
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
       },
     });
@@ -341,7 +342,7 @@ const Checkout = () => {
         window.location.href = `${acadlixOptions?.dashboard_url}`;
       },
       onError: (data) => {
-        toast?.error("Opps! Something went wrong");
+        toast?.error(__('Opps! Something went wrong', 'acadlix'));
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
       },
     })
@@ -378,7 +379,7 @@ const Checkout = () => {
       // Check if a payment method has been selected
       if (!selectedPaymentMethod) {
         // If no payment method is selected, display an error message to the user
-        toast.error("Please select a payment gateway.");
+        toast.error(__('Please select a payment gateway.', 'acadlix'));
 
         // Set the loading state back to false since the process cannot proceed
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
@@ -436,14 +437,14 @@ const Checkout = () => {
                   !methods?.watch("is_user_logged_in") &&
                   <Grid item xs={12} lg={12}>
                     <Typography>
-                      Please login/register to procced: {" "}
+                      {__('Please login/register to proceed: ', 'acadlix')}
                       <Link
                         onClick={() => methods?.setValue("login_modal", true, { shouldDirty: true })}
                         sx={{
                           cursor: "pointer"
                         }}
                       >
-                        Login/Register
+                        {__('Login/Register', 'acadlix')}
                       </Link>
                     </Typography>
                   </Grid>
@@ -483,7 +484,7 @@ const Checkout = () => {
           :
           <Grid container spacing={4}>
             <Grid item xs={12} md={12}>
-              <Typography variant="body1">Your cart is currently empty.</Typography>
+              <Typography variant="body1">{__('Your cart is currently empty.', 'acadlix')}</Typography>
             </Grid>
           </Grid>
       }

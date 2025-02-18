@@ -16,6 +16,7 @@ import { IoClose } from "../../../../helpers/icons";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { useForm } from "react-hook-form";
 import { PostSetParagraph } from "../../../../requests/admin/AdminQuestionRequest";
+import { __ } from "@wordpress/i18n";
 
 const ParagraphModel = (props) => {
   const methods = useForm({
@@ -43,7 +44,7 @@ const ParagraphModel = (props) => {
   return (
     <>
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Set Paragraph
+        {__("Set Paragraph", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -61,8 +62,10 @@ const ParagraphModel = (props) => {
         <Grid container gap={4} spacing={4}>
           <Grid item xs={11} lg={11}>
             <Alert severity="warning">
-              The existing paragraph assigned to the question will be removed if
-              no paragraph is selected before saving.
+              {__(
+                "The existing paragraph assigned to the question will be removed if no paragraph is selected before saving.",
+                "acadlix"
+              )}
             </Alert>
           </Grid>
           <Grid item xs={12} lg={12}>
@@ -77,7 +80,7 @@ const ParagraphModel = (props) => {
                   }}
                 />
               }
-              label="Enable Paragraph"
+              label={__("Enable Paragraph", "acadlix")}
             />
           </Grid>
           {methods?.watch("paragraph_enabled") && (
@@ -104,7 +107,7 @@ const ParagraphModel = (props) => {
                     inputProps={{
                       ...params.inputProps,
                     }}
-                    label="Select Paragraph"
+                    label={__("Select Paragraph", "acadlix")}
                     InputProps={{
                       ...params.InputProps,
                     }}
@@ -127,7 +130,7 @@ const ParagraphModel = (props) => {
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
+          {__("Cancel", "acadlix")}
         </Button>
         <Button
           variant="contained"
@@ -135,7 +138,9 @@ const ParagraphModel = (props) => {
           onClick={methods?.handleSubmit(handleSubmit)}
           disabled={setParagraphMutation?.isPending}
         >
-          {setParagraphMutation?.isPending ? "...loading" : "Save Change"}
+          {setParagraphMutation?.isPending
+            ? __("...loading", "acadlix")
+            : __("Save Change", "acadlix")}
         </Button>
       </DialogActions>
     </>

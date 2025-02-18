@@ -5,6 +5,7 @@ import NotAnswered from "../answer-type-buttons/NotAnswered";
 import NotVisited from "../answer-type-buttons/NotVisited";
 import Marked from "../answer-type-buttons/Marked";
 import MarkedAndAnswered from "../answer-type-buttons/MarkedAndAnswered";
+import { __ } from "@wordpress/i18n";
 
 const QuizSidebarStatusTypes = (props) => {
   const getData = (type = "") => {
@@ -86,7 +87,7 @@ const QuizSidebarStatusTypes = (props) => {
                 fontSize: "12px",
               }}
             >
-              Answered
+              {__("Answered", "acadlix")}
             </Typography>
           </Box>
           <Box
@@ -107,7 +108,7 @@ const QuizSidebarStatusTypes = (props) => {
                 fontSize: "12px",
               }}
             >
-              Not Answered
+              {__("Not Answered", "acadlix")}
             </Typography>
           </Box>
         </Box>
@@ -132,7 +133,7 @@ const QuizSidebarStatusTypes = (props) => {
                 lineHeight: "14px",
               }}
             >
-              Not Visited
+              {__("Not Visited", "acadlix")}
             </Typography>
           </Box>
           {props?.watch("show_review_button") && (
@@ -151,7 +152,7 @@ const QuizSidebarStatusTypes = (props) => {
                     lineHeight: "14px",
                   }}
                 >
-                  Marked for Review
+                  {__("Marked for Review", "acadlix")}
                 </Typography>
               </Box>
             </>
@@ -181,8 +182,7 @@ const QuizSidebarStatusTypes = (props) => {
                   lineHeight: "14px",
                 }}
               >
-                Answered and Marked for Review (will be considered for
-                evaluation)
+                {__("Answered and Marked for Review (will be considered for evaluation)", "acadlix")}
               </Typography>
             </Box>
           </Box>

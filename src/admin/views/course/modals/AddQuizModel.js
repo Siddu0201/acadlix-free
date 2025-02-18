@@ -17,6 +17,7 @@ import React from "react";
 import { GetQuizzesForCourse } from "../../../../requests/admin/AdminCourseRequest";
 import CustomTextField from "../../../../components/CustomTextField";
 import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const AddQuizModel = (props) => {
   const { isFetching, data, refetch } = GetQuizzesForCourse();
@@ -30,7 +31,7 @@ const AddQuizModel = (props) => {
           p: 2,
         }}
       >
-        Add Quiz
+        {__("Add Quiz", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -70,7 +71,7 @@ const AddQuizModel = (props) => {
               target="_blank"
               href={`${acadlixOptions?.acadlix_quiz_url}#/create`}
             >
-              Add New
+              {__("Add New", "acadlix")}
             </Button>
             <Button
               color="primary"
@@ -95,7 +96,7 @@ const AddQuizModel = (props) => {
             color="error"
             onClick={props?.handleClose}
           >
-            Cancel
+            {__("Cancel", "acadlix")}
           </Button>
           <Button variant="contained" type="submit" disabled={props?.isPending}>
             {props?.isPending ? "...loading" : "Save Change"}
@@ -145,7 +146,7 @@ const AddFromExisting = (props) => {
               fullWidth
               name="title"
               size="small"
-              label="Search Quiz..."
+              label={__("Search Quiz...", "acadlix")}
               value={search}
               onChange={(e) => { setSearch(e?.target?.value) }}
               inputProps={{

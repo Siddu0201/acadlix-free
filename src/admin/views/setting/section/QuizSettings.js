@@ -6,6 +6,7 @@ import { DeleteCategoryById, GetCategories, PostCreateCategory, UpdateCategoryBy
 import toast from 'react-hot-toast';
 import { LoadingButton } from '@mui/lab';
 import { DefaultLanguageById, GetLanguages, PostCreateLanguage, UpdateLanguageById } from '../../../../requests/admin/AdminLanguageRequest';
+import { __ } from "@wordpress/i18n";
 
 const QuizSettings = (props) => {
     const methods = useForm({
@@ -57,12 +58,12 @@ const CategorySettings = ({ methods }) => {
 
     const handleAddCategory = () => {
         if (methods?.watch("category_name") === "") {
-            toast.error("Please enter category name.");
+            toast.error(__("Please enter category name.", "acadlix"));
             return;
         }
 
         if (methods?.watch("categories")?.find((c) => c?.name?.toLowerCase() === methods?.watch("category_name")?.toLowerCase())) {
-            toast.error("Category name is already exist.");
+            toast.error(__("Category name is already exist.", "acadlix"));
             return;
         }
 
@@ -72,7 +73,7 @@ const CategorySettings = ({ methods }) => {
             onSuccess: (data) => {
                 methods.setValue("category_name", "");
                 methods?.setValue("categories", data?.data?.categories);
-                toast.success("Category added successfully.");
+                toast.success(__("Category added successfully.", "acadlix"));
             },
             onError: (error) => {
                 toast.error(error?.response?.data?.message);
@@ -83,17 +84,17 @@ const CategorySettings = ({ methods }) => {
 
     const handleUpdateCategory = () => {
         if (methods?.watch("category_name") === "") {
-            toast.error("Please enter category name.");
+            toast.error(__("Please enter category name.", "acadlix"));
             return;
         }
 
         if (methods?.watch("categories")?.filter(c => c?.term_id !== methods?.watch("category_id"))?.find((c) => c?.name?.toLowerCase() === methods?.watch("category_name")?.toLowerCase())) {
-            toast.error("Category name is already exist.");
+            toast.error(__("Category name is already exist.", "acadlix"));
             return;
         }
 
         if (methods?.watch("category_id") === null) {
-            toast.error("Please select category.");
+            toast.error(__("Please select category.", "acadlix"));
             return;
         }
 
@@ -104,7 +105,7 @@ const CategorySettings = ({ methods }) => {
                 methods.setValue("category_name", "");
                 methods.setValue("category_id", null);
                 methods?.setValue("categories", data?.data?.categories);
-                toast.success("Category updated successfully.");
+                toast.success(__("Category updated successfully.", "acadlix"));
             },
             onError: (error) => {
                 toast.error(error?.response?.data?.message);
@@ -115,17 +116,17 @@ const CategorySettings = ({ methods }) => {
 
     const handleDeleteCategory = () => {
         if (methods?.watch("category_id") === null) {
-            toast.error("Please select category.");
+            toast.error(__("Please select category.", "acadlix"));
             return;
         }
 
-        if (confirm("Do you really want to delete this category?")) {
+        if (confirm(__("Do you really want to delete this category?", "acadlix"))) {
             deleteCategoryMutation?.mutate({}, {
                 onSuccess: (data) => {
                     methods.setValue("category_name", "");
                     methods.setValue("category_id", null);
                     methods?.setValue("categories", data?.data?.categories);
-                    toast.success("Category deleted successfully.");
+                    toast.success(__("Category deleted successfully.", "acadlix"));
                 },
                 onError: (error) => {
                     toast.error(error?.response?.data?.message);
@@ -141,7 +142,7 @@ const CategorySettings = ({ methods }) => {
                     marginY: 2,
                 }}
             >
-                <Typography variant="h6">Quiz Categories</Typography>
+                <Typography variant="h6">{__("Quiz Categories", "acadlix")}</Typography>
                 <Divider />
             </Box>
             <Grid container spacing={4}>
@@ -160,7 +161,7 @@ const CategorySettings = ({ methods }) => {
                                     fontWeight: 500,
                                 }}
                             >
-                                Select Category
+                                {__("Select Category", "acadlix")}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={8}>
@@ -177,7 +178,7 @@ const CategorySettings = ({ methods }) => {
                                 }
                                 options={methods?.watch("categories")?.length > 0 ? methods?.watch("categories") : []}
                                 getOptionLabel={(option) =>
-                                    `${option?.name} ${option?.default ? "(Default)" : ""}` || ""
+                                    `${option?.name} ${option?.default ? __(" (Default)", "acadlix") : ""}` || ""
                                 }
                                 isOptionEqualToValue={(option, value) => {
                                     return option?.term_id === value?.term_id;
@@ -189,7 +190,7 @@ const CategorySettings = ({ methods }) => {
                                             ...params.inputProps,
                                             autoComplete: "category",
                                         }}
-                                        label="Select Category"
+                                        label={__("Select Category", "acadlix")}
                                     />
                                 )}
                                 onChange={(_, newValue) => {
@@ -219,12 +220,12 @@ const CategorySettings = ({ methods }) => {
                                 }}
                             >
                                 {methods?.watch("category_id") === null
-                                    ? "Add Category"
+                                    ? __("Add Category", "acadlix")
                                     : methods?.watch("categories")?.find(
                                         (c) => c?.term_id === methods?.watch("category_id")
                                     )?.default
-                                        ? "Edit Category"
-                                        : "Edit/Delete Category"
+                                        ? __("Edit Category", "acadlix")
+                                        : __("Edit/Delete Category", "acadlix")
                                 }
                             </Typography>
                         </Grid>
@@ -237,7 +238,7 @@ const CategorySettings = ({ methods }) => {
                                     fullWidth
                                     name="category_name"
                                     size="small"
-                                    label="Enter category name *"
+                                    label={__("Enter category name", "acadlix") + " *"}
                                     value={methods?.watch("category_name") ?? ""}
                                     onChange={(e) => {
                                         methods?.setValue("category_name", e?.target?.value, {
@@ -253,7 +254,7 @@ const CategorySettings = ({ methods }) => {
                                                 variant="contained"
                                                 color="primary"
                                                 onClick={handleAddCategory}
-                                            >Add</LoadingButton>
+                                            >{__("Add", "acadlix")}</LoadingButton>
                                         )
                                         :
                                         <>
@@ -262,7 +263,7 @@ const CategorySettings = ({ methods }) => {
                                                 variant="contained"
                                                 color="primary"
                                                 onClick={handleUpdateCategory}
-                                            >Update</LoadingButton>
+                                            >{__("Update", "acadlix")}</LoadingButton>
                                             {!methods?.watch("categories")?.find(
                                                 (c) => c?.term_id === methods?.watch("category_id")
                                             )?.default && (
@@ -271,7 +272,7 @@ const CategorySettings = ({ methods }) => {
                                                         variant="contained"
                                                         color="error"
                                                         onClick={handleDeleteCategory}
-                                                    >Delete</LoadingButton>)
+                                                    >{__("Delete", "acadlix")}</LoadingButton>)
                                             }
                                         </>
                                 }
@@ -292,12 +293,12 @@ const LanguageSettings = ({ methods }) => {
 
     const handleAddLanguage = () => {
         if (methods?.watch("language_name") === "") {
-            toast.error("Please enter language name.");
+            toast.error(__('Please enter language name.', 'acadlix'));
             return;
         }
 
         if (methods?.watch("languages")?.find((c) => c?.name?.toLowerCase() === methods?.watch("language_name")?.toLowerCase())) {
-            toast.error("Language name is already exist.");
+            toast.error(__('Language name is already exist.', 'acadlix'));
             return;
         }
 
@@ -307,7 +308,7 @@ const LanguageSettings = ({ methods }) => {
             onSuccess: (data) => {
                 methods?.setValue("language_name", "");
                 methods?.setValue("languages", data?.data?.languages);
-                toast.success("Langauge added successfully.");
+                toast.success(__('Langauge added successfully.', 'acadlix'));
             },
             onError: (error) => {
                 toast.error(error?.response?.data?.message);
@@ -318,17 +319,17 @@ const LanguageSettings = ({ methods }) => {
 
     const handleUpdateLanguage = () => {
         if (methods?.watch("language_name") === "") {
-            toast.error("Please enter language name.");
+            toast.error(__('Please enter language name.', 'acadlix'));
             return;
         }
 
         if (methods?.watch("languages")?.filter(l => l?.term_id !== methods?.watch("language_id"))?.find((l) => l?.name?.toLowerCase() === methods?.watch("language_name")?.toLowerCase())) {
-            toast.error("Language name is already exist.");
+            toast.error(__('Language name is already exist.', 'acadlix'));
             return;
         }
 
         if (methods?.watch("language_id") === null) {
-            toast.error("Please select language.");
+            toast.error(__('Please select language.', 'acadlix'));
             return;
         }
 
@@ -339,7 +340,7 @@ const LanguageSettings = ({ methods }) => {
                 methods.setValue("language_name", "");
                 methods.setValue("language_id", null);
                 methods?.setValue("languages", data?.data?.languages);
-                toast.success("Language updated successfully.");
+                toast.success(__('Language updated successfully.', 'acadlix'));
             },
             onError: (error) => {
                 toast.error(error?.response?.data?.message);
@@ -350,17 +351,17 @@ const LanguageSettings = ({ methods }) => {
 
     const handleDefaultLanguage = () => {
         if (methods?.watch("language_id") === null) {
-            toast.error("Please select language.");
+            toast.error(__('Please select language.', 'acadlix'));
             return;
         }
 
-        if (confirm("Are you sure you want to switch the default language?")) {
+        if (confirm(__('Are you sure you want to switch the default language?', 'acadlix'))) {
             setDefaultLanguageMutation?.mutate({}, {
                 onSuccess: (data) => {
                     methods.setValue("language_name", "");
                     methods.setValue("language_id", null);
                     methods?.setValue("languages", data?.data?.languages);
-                    toast.success("Language set to default.");
+                    toast.success(__('Language set to default.', 'acadlix'));
                 },
                 onError: (error) => {
                     toast.error(error?.response?.data?.message);
@@ -377,7 +378,7 @@ const LanguageSettings = ({ methods }) => {
                     marginY: 2,
                 }}
             >
-                <Typography variant="h6">Quiz Languages</Typography>
+                <Typography variant="h6">{__('Quiz Languages', 'acadlix')}</Typography>
                 <Divider />
             </Box>
             <Grid container spacing={4}>
@@ -396,7 +397,7 @@ const LanguageSettings = ({ methods }) => {
                                     fontWeight: 500,
                                 }}
                             >
-                                Select Language
+                                {__('Select Language', 'acadlix')}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={8}>
@@ -413,7 +414,7 @@ const LanguageSettings = ({ methods }) => {
                                 }
                                 options={methods?.watch("languages")?.length > 0 ? methods?.watch("languages") : []}
                                 getOptionLabel={(option) =>
-                                    `${option?.name} ${option?.default ? "(Default)" : ""}` || ""
+                                    `${option?.name} ${option?.default ? __(" (Default)", 'acadlix') : ""}` || ""
                                 }
                                 isOptionEqualToValue={(option, value) => {
                                     return option?.term_id === value?.term_id;
@@ -425,7 +426,7 @@ const LanguageSettings = ({ methods }) => {
                                             ...params.inputProps,
                                             autoComplete: "language",
                                         }}
-                                        label="Select Language"
+                                        label={__('Select Language', 'acadlix')}
                                     />
                                 )}
                                 onChange={(_, newValue) => {
@@ -455,8 +456,8 @@ const LanguageSettings = ({ methods }) => {
                                 }}
                             >
                                 {methods?.watch("language_id") === null
-                                    ? "Add Language"
-                                    : "Edit Language"
+                                    ? __("Add Language", 'acadlix')
+                                    : __("Edit Language", 'acadlix')
                                 }
                             </Typography>
                         </Grid>
@@ -469,7 +470,7 @@ const LanguageSettings = ({ methods }) => {
                                     fullWidth
                                     name="language_name"
                                     size="small"
-                                    label="Enter language name *"
+                                    label={__("Enter language name", 'acadlix') + " *"}
                                     value={methods?.watch("language_name") ?? ""}
                                     onChange={(e) => {
                                         methods?.setValue("language_name", e?.target?.value, {
@@ -485,7 +486,7 @@ const LanguageSettings = ({ methods }) => {
                                                 variant="contained"
                                                 color="primary"
                                                 onClick={handleAddLanguage}
-                                            >Add</LoadingButton>
+                                            >{__("Add", 'acadlix')}</LoadingButton>
                                         )
                                         :
                                         <>
@@ -494,7 +495,7 @@ const LanguageSettings = ({ methods }) => {
                                                 variant="contained"
                                                 color="primary"
                                                 onClick={handleUpdateLanguage}
-                                            >Update</LoadingButton>
+                                            >{__("Update", 'acadlix')}</LoadingButton>
                                             {
                                                 !methods?.watch("languages")?.find(l => l?.term_id === methods?.watch("language_id"))?.default &&
                                                 <LoadingButton
@@ -506,7 +507,7 @@ const LanguageSettings = ({ methods }) => {
                                                         whiteSpace: "nowrap",
                                                         minWidth: "90px",
                                                     }}
-                                                >Set Default</LoadingButton>
+                                                >{__("Set Default", 'acadlix')}</LoadingButton>
                                             }
                                         </>
                                 }

@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const PaymentMethod = (props) => {
   const useActivePaymentGateways = (props) => {
@@ -42,7 +43,7 @@ const PaymentMethod = (props) => {
   return (
     <Box>
       <Card>
-        <CardHeader title="Payment Method" />
+        <CardHeader title={__("Payment Method", "acadlix")} />
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
@@ -75,7 +76,7 @@ const PaymentMethod = (props) => {
                         sx={{
                           width: "100%"
                         }}
-                        label="Razorpay"
+                        label={__('Razorpay', 'acadlix')}
                         disabled={!props?.watch("is_user_logged_in")}
                         control={
                           <Radio
@@ -130,7 +131,7 @@ const PaymentMethod = (props) => {
                         sx={{
                           width: "100%"
                         }}
-                        label="Paypal"
+                        label={__('Paypal', 'acadlix')}
                         disabled={!props?.watch("is_user_logged_in")}
                         control={
                           <Radio
@@ -185,7 +186,7 @@ const PaymentMethod = (props) => {
                         sx={{
                           width: "100%"
                         }}
-                        label="PayU"
+                        label={__("PayU", "acadlix")}
                         disabled={!props?.watch("is_user_logged_in")}
                         control={
                           <Radio
@@ -216,7 +217,7 @@ const PaymentMethod = (props) => {
               !props?.watch("payu") && (
                 <Grid item xs={12} lg={12}>
                   <Typography variant="body1">
-                    No payment gatway is activated, contact admin.
+                    {__("No payment gatway is activated, contact admin.", "acadlix")}
                   </Typography>
                 </Grid>
               )}

@@ -32,6 +32,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import CategoryModel from "./actions/CategoryModel";
 import SubjectTimeModel from "./actions/SubjectTimeModel";
+import { __ } from "@wordpress/i18n";
 
 const Quiz = () => {
   const methods = useForm({
@@ -51,7 +52,7 @@ const Quiz = () => {
 
   const deleteMutation = DeleteQuizById();
   const deleteQuizById = (id) => {
-    if (confirm("Do you really want to delete this quiz?")) {
+    if (confirm(__("Do you really want to delete this quiz?", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
   };
@@ -67,21 +68,21 @@ const Quiz = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 150 },
+    { field: "id", headerName: __("ID", "acadlix") },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 150 },
     {
       field: "mode",
-      headerName: "Mode",
+      headerName: __("Mode", "acadlix"),
       flex: 1,
       minWidth: 100,
       renderCell: (params) => {
         return <>{getMode(params?.value)}</>;
       },
     },
-    { field: "category", headerName: "Category", flex: 1, minWidth: 90 },
+    { field: "category", headerName: __("Category", "acadlix"), flex: 1, minWidth: 90 },
     {
       field: "shortcode",
-      headerName: "Shortcode",
+      headerName: __("Shortcode", "acadlix"),
       flex: 2,
       minWidth: 150,
       renderCell: (params) => {
@@ -92,16 +93,16 @@ const Quiz = () => {
               alignItems: "center",
             }}
           >
-            <Tooltip title="Copy Shortcode" arrow>
+            <Tooltip title={__("Copy Shortcode", "acadlix")} arrow>
               <IconButton
                 onClick={() => {
                   navigator?.clipboard
                     ?.writeText(params?.value)
                     .then(function () {
-                      toast.success("Shortcode copied to clipboard!");
+                      toast.success(__("Shortcode copied to clipboard!", "acadlix"));
                     })
                     .catch(function (err) {
-                      console.error("Failed to copy text: ", err);
+                      console.error(__("Failed to copy text: ", "acadlix"), err);
                     });
                 }}
                 size="small"
@@ -116,19 +117,19 @@ const Quiz = () => {
     },
     {
       field: "total_questions",
-      headerName: "Questions",
+      headerName: __("Questions", "acadlix"),
       flex: 1,
       minWidth: 80,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: __("Action", "acadlix"),
       sortable: false,
       minWidth: 210,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title="Edit Quiz" arrow>
+            <Tooltip title={__("Edit Quiz", "acadlix")} arrow>
               <IconButton
                 aria-label="edit"
                 size="small"
@@ -139,7 +140,7 @@ const Quiz = () => {
                 <FaEdit />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Quiz" arrow>
+            <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -149,7 +150,7 @@ const Quiz = () => {
                 <FaTrash />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Questions" arrow>
+            <Tooltip title={__("Questions", "acadlix")} arrow>
               <IconButton
                 aria-label="questions"
                 size="small"
@@ -160,7 +161,7 @@ const Quiz = () => {
                 <FaQuestion />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Paragraphs" arrow>
+            <Tooltip title={__("Paragraphs", "acadlix")} arrow>
               <IconButton
                 aria-label="paragraphs"
                 size="small"
@@ -171,7 +172,7 @@ const Quiz = () => {
                 <FaParagraph />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Result" arrow>
+            <Tooltip title={__("Result", "acadlix")} arrow>
               <IconButton
                 aria-label="result"
                 size="small"
@@ -182,7 +183,7 @@ const Quiz = () => {
                 <LuFileChartColumn />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Leaderboard" arrow>
+            <Tooltip title={__("Leaderboard", "acadlix")} arrow>
               <IconButton
                 aria-label="leaderboard"
                 size="small"
@@ -194,7 +195,7 @@ const Quiz = () => {
               </IconButton>
             </Tooltip>
             {params?.row?.mode === "advance_mode" && (
-              <Tooltip title="Subject Wise Actions" arrow>
+              <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
                 <IconButton
                   aria-label="subject_time"
                   size="small"
@@ -219,15 +220,15 @@ const Quiz = () => {
   const getMode = (mode = "") => {
     switch (mode) {
       case "normal":
-        return "Normal";
+        return __("Normal", "acadlix");
       case "check_and_continue":
-        return "Check and continue";
+        return __("Check and continue", "acadlix");
       case "question_below_each_other":
-        return "Question below each other";
+        return __("Question below each other", "acadlix");
       case "advance_mode":
-        return "Advance mode";
+        return __("Advance mode", "acadlix");
       default:
-        return "Normal";
+        return __("Normal", "acadlix");
     }
   };
 
@@ -258,7 +259,7 @@ const Quiz = () => {
 
   const deleteBulkMutation = DeleteBulkQuiz();
   const handleBulkDelete = () => {
-    if (confirm("Do you really want to delete these quizzes?")) {
+    if (confirm(__("Do you really want to delete these quizzes?", "acadlix"))) {
       deleteBulkMutation?.mutate(
         {
           quiz_ids: methods?.watch("quiz_ids"),
@@ -295,14 +296,14 @@ const Quiz = () => {
           default:
         }
       } else {
-        toast.error("Please select atleast 1 entry.", {
+        toast.error(__("Please select atleast 1 entry.", "acadlix"), {
           position: "bottom-left",
         });
       }
     } else {
       methods?.setError("action", {
         type: "custom",
-        message: "Action required",
+        message: __("Action required", "acadlix"),
       });
     }
   };
@@ -366,7 +367,7 @@ const Quiz = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Quiz Overview
+                    {__("Quiz Overview", "acadlix")}
                   </Typography>
                   <Button
                     variant="contained"
@@ -374,9 +375,9 @@ const Quiz = () => {
                     to="/create"
                     color="primary"
                   >
-                    Add
+                    {__("Add", "acadlix")}
                   </Button>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>
@@ -408,18 +409,18 @@ const Quiz = () => {
                     error={Boolean(methods?.formState?.errors?.action)}
                   >
                     <InputLabel id="demo-simple-select-label">
-                      Bulk Actions
+                      {__("Bulk Actions", "acadlix")}
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={methods?.watch("action")}
-                      label="Bulk Actions"
+                      label={__("Bulk Actions", "acadlix")}
                       onChange={handleActionChange}
                     >
-                      <MenuItem value="">Bulk Actions</MenuItem>
-                      <MenuItem value="delete">Delete</MenuItem>
-                      <MenuItem value="set_category">Set Category</MenuItem>
+                      <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                      <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                      <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -433,7 +434,7 @@ const Quiz = () => {
                     onClick={handleBulkAction}
                     color="primary"
                   >
-                    Apply
+                    {__("Apply", "acadlix")}
                   </Button>
                 </Box>
               </Box>

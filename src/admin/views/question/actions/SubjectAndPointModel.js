@@ -20,6 +20,7 @@ import {
 } from "../../../../requests/admin/AdminSubjectRequest";
 import { useForm } from "react-hook-form";
 import { PostSetSubjectAndPoint } from "../../../../requests/admin/AdminQuestionRequest";
+import { __ } from "@wordpress/i18n";
 
 const SubjectAndPointModel = (props) => {
   const methods = useForm({
@@ -42,7 +43,7 @@ const SubjectAndPointModel = (props) => {
       ) {
         methods?.setError(`subject_id`, {
           type: "custom",
-          message: "Subject name is already exist",
+          message: __("Subject name is already exist", "acadlix"),
         });
       } else {
         createSubjectMutation.mutate(
@@ -61,7 +62,7 @@ const SubjectAndPointModel = (props) => {
     } else {
       methods?.setError(`subject_id`, {
         type: "custom",
-        message: "Subject cannot be empty",
+        message: __("Subject cannot be empty", "acadlix"),
       });
     }
   };
@@ -94,7 +95,7 @@ const SubjectAndPointModel = (props) => {
   return (
     <>
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        Set Subject and Points
+        {__("Set Subject and Points", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -134,7 +135,7 @@ const SubjectAndPointModel = (props) => {
                     ...params.inputProps,
                     autoComplete: "spoc_gender",
                   }}
-                  label="Select Subject"
+                  label={__("Select Subject", "acadlix")}
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: (
@@ -164,7 +165,7 @@ const SubjectAndPointModel = (props) => {
                       sx={{ justifyContent: "flex-start", pl: 2 }}
                       onMouseDown={createSubject}
                     >
-                      + Add New
+                      {__("Add New", "acadlix")}
                     </Button>
                   </Paper>
                 );
@@ -180,7 +181,7 @@ const SubjectAndPointModel = (props) => {
             <CustomTextField
               fullWidth
               size="small"
-              label="+ Point"
+              label={__("+ Point", "acadlix")}
               type="number"
               InputProps={{
                 inputProps: {
@@ -216,7 +217,7 @@ const SubjectAndPointModel = (props) => {
             <CustomTextField
               fullWidth
               size="small"
-              label="- Point"
+              label={__("- Point", "acadlix")}
               type="number"
               InputProps={{
                 inputProps: {
@@ -252,7 +253,7 @@ const SubjectAndPointModel = (props) => {
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={props?.handleClose}>
-          Cancel
+          {__("Cancel", "acadlix")}
         </Button>
         <Button
           variant="contained"
@@ -260,7 +261,9 @@ const SubjectAndPointModel = (props) => {
           onClick={methods?.handleSubmit(handleSubmit)}
           disabled={setSubjectAndPointMutation?.isPending}
         >
-          {setSubjectAndPointMutation?.isPending ? "...loading" : "Save Change"}
+          {setSubjectAndPointMutation?.isPending
+            ? __("...loading", "acadlix")
+            : __("Save Change", "acadlix")}
         </Button>
       </DialogActions>
     </>

@@ -3,6 +3,7 @@ import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
 import { FaRegBookmark } from "../../../../../helpers/icons";
 import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceQuestionSubjectAndPointSection = (props) => {
   const handleReview = () => {
@@ -45,10 +46,10 @@ const AdvanceQuestionSubjectAndPointSection = (props) => {
                   {props?.watch("view_answer")
                     ? props?.question?.result?.solved_count
                       ? props?.question?.result?.correct_count
-                        ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`
-                        : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} Point${props?.question?.negative_points > 1 ? "s" : ""}`
-                      : `0 Point`
-                    : `${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`}
+                        ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`
+                        : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} ${__('Point', 'acadlix')}${props?.question?.negative_points > 1 ? "s" : ""}`
+                      : `0 ${__('Point', 'acadlix')}`
+                    : `${props?.question?.points} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? "s" : ""}`}
                 </b>{" "}
               </>
             )}
@@ -69,7 +70,7 @@ const AdvanceQuestionSubjectAndPointSection = (props) => {
                 display: props?.watch("finish") ? "none" : "",
               }}
             >
-              Review Question
+              {__("Review Question", "acadlix")}
             </CustomButton>
           </Box>
         )}
@@ -88,7 +89,7 @@ const AdvanceQuestionSubjectAndPointSection = (props) => {
           >
             <Typography>
               <b>
-                Subject:{" "}
+                {__("Subject: ", "acadlix")}
                 {props?.watch(`questions.${props?.index}.subject_name`)}
               </b>
             </Typography>

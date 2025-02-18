@@ -15,6 +15,8 @@ import GridItem1 from "../../../../components/GridItem1";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTypography from "../../../../components/CustomTypography";
 import { RiQuestionFill } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
+
 const Question = (props) => {
   return (
     <Box sx={{ color: "black" }}>
@@ -23,13 +25,13 @@ const Question = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">Question Options</Typography>
+        <Typography variant="h6">{__("Question Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid container spacing={3} alignItems="center">
         {/* Used to show morks - +points & -points in question */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Show Marks</CustomTypography>
+          <CustomTypography>{__("Show Marks", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -43,10 +45,10 @@ const Question = (props) => {
               });
             }}
             disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
           <Tooltip
-            title="Show +point & -point"
+            title={__("Show +point & -point", "acadlix")}
             placement="right-start"
           >
             <IconButton
@@ -61,7 +63,7 @@ const Question = (props) => {
 
         {/* Display subject in question */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Display Subject</CustomTypography>
+          <CustomTypography>{__("Display Subject", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -75,13 +77,13 @@ const Question = (props) => {
               });
             }}
             disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Show bullets in answer option- only for single and multiple choice */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Answer Bullet</CustomTypography>
+          <CustomTypography>{__("Answer Bullet", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -95,13 +97,13 @@ const Question = (props) => {
               });
             }}
             disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Type of bullets to show Numeric/Alphabatic */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Answer Bullet Type</CustomTypography>
+          <CustomTypography>{__("Answer Bullet Type", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <RadioGroup
@@ -115,7 +117,7 @@ const Question = (props) => {
             <FormControlLabel
               value="numeric"
               control={<Radio />}
-              label="Numeric"
+              label={__("Numeric", "acadlix")}
               checked={props?.watch("meta.quiz_settings.answer_bullet_type") === "numeric"}
               disabled={!props?.watch("meta.quiz_settings.answer_bullet")}
               componentsProps={{
@@ -127,7 +129,7 @@ const Question = (props) => {
             <FormControlLabel
               value="alphabet"
               control={<Radio />}
-              label="Alphabet"
+              label={__("Alphabet", "acadlix")}
               checked={props?.watch("meta.quiz_settings.answer_bullet_type") === "alphabet"}
               disabled={!props?.watch("meta.quiz_settings.answer_bullet")}
               componentsProps={{
@@ -141,7 +143,7 @@ const Question = (props) => {
 
         {/* Used to show question overview in top of quiz */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Question Overview</CustomTypography>
+          <CustomTypography>{__("Question Overview", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -155,13 +157,13 @@ const Question = (props) => {
               });
             }}
             disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Used to randomize question */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Random Question</CustomTypography>
+          <CustomTypography>{__("Random Question", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -174,13 +176,13 @@ const Question = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Used to randomize answer options - only for single and multiple choice */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Random Option</CustomTypography>
+          <CustomTypography>{__("Random Option", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -193,10 +195,10 @@ const Question = (props) => {
                 shouldDirty: true,
               });
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
           <Tooltip
-            title="Only for single and mulitple choice"
+            title={__("Only for single and mulitple choice", "acadlix")}
             placement="right-start"
           >
             <IconButton
@@ -211,7 +213,7 @@ const Question = (props) => {
 
         {/* Used to stop randomization of last option */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Do not randomize last option</CustomTypography>
+          <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -229,13 +231,13 @@ const Question = (props) => {
               );
             }}
             disabled={!props?.watch("meta.quiz_settings.random_option")}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Used to hide question numbering  */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Hide Question Numbering</CustomTypography>
+          <CustomTypography>{__("Hide Question Numbering", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -251,13 +253,13 @@ const Question = (props) => {
               );
             }}
             disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Sort question according to subject */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Sort Questions By Subject</CustomTypography>
+          <CustomTypography>{__("Sort Questions By Subject", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -271,13 +273,13 @@ const Question = (props) => {
               });
             }}
             disabled={props?.watch("meta.mode") === "advance_mode"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
 
         {/* Attempt question and move forward automatically- only for single choice */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Attempt & move forward automatically</CustomTypography>
+          <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -293,10 +295,10 @@ const Question = (props) => {
                 { shouldDirty: true }
               );
             }}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
           <Tooltip
-            title="This feature will only work for single choice questions in normal mode"
+            title={__("This feature will only work for single choice questions in normal mode", "acadlix")}
             placement="right-start"
           >
             <IconButton
@@ -311,7 +313,7 @@ const Question = (props) => {
 
         {/* Force user to answer each question */}
         <GridItem1 xs={12} sm={6} lg={3}>
-          <CustomTypography>Force User to Answer Each Question</CustomTypography>
+          <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>
         </GridItem1>
         <GridItem1 xs={12} sm={6} lg={3}>
           <FormControlLabel
@@ -329,7 +331,7 @@ const Question = (props) => {
               );
             }}
             disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
-            label="Activate"
+            label={__("Activate", "acadlix")}
           />
         </GridItem1>
       </Grid>

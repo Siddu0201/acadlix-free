@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const ParagraphContentSection = (props) => {
   const loadPage = () => {
@@ -44,7 +45,7 @@ const ParagraphContentSection = (props) => {
                 fontSize: "1.5rem",
               }}
             >
-              Content
+              {__("Content", "acadlix")}
               <span
                 style={{
                   color: "red",
@@ -64,7 +65,7 @@ const ParagraphContentSection = (props) => {
                 {...props?.register(`meta.language_data.${props?.index}.content`, {
                   required: {
                     value: props?.watch(`meta.language_data.${props?.index}.default`),
-                    message: "Content is required",
+                    message: __("Content is required", "acadlix"),
                   },
                 })}
                 id={`content_${props?.lang?.language_id}`}

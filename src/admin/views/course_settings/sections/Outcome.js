@@ -2,6 +2,7 @@ import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { FaPlus, FaTrash } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Outcome = (props) => {
   const handleAddOutcome = () => {
@@ -29,7 +30,7 @@ const Outcome = (props) => {
               fontWeight: 600,
             }}
           >
-            What you Learn
+            {__("What you Learn", "acadlix")}
           </Typography>
         </Grid>
         {props?.watch("meta.outcomes")?.length > 0 &&
@@ -48,7 +49,7 @@ const Outcome = (props) => {
                 fullWidth
                 size="small"
                 type="text"
-                label="Add Outcome"
+                label={__("Add Outcome", "acadlix")}
                 value={o}
                 onChange={(e) => {
                   props?.setValue(
@@ -93,7 +94,7 @@ const Outcome = (props) => {
             size="small"
             onClick={handleAddOutcome}
           >
-            <FaPlus style={{ paddingRight: 2 }} /> Add New
+            <FaPlus style={{ paddingRight: 2 }} /> {__("Add New", "acadlix")}
           </Button>
         </Grid>
       </Grid>

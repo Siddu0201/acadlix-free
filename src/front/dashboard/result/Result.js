@@ -18,6 +18,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 import { DataGrid } from "@mui/x-data-grid";
+import { __ } from "@wordpress/i18n";
 
 export default function Result() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -35,31 +36,31 @@ export default function Result() {
   });
 
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
-    { field: "date_time", headerName: "Date & Time", flex: 1, minWidth: 90 },
+    { field: "id", headerName: __("ID", "acadlix") },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
+    { field: "date_time", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 90 },
     {
       field: "status",
-      headerName: "Status",
+      headerName: __("Status", "acadlix"),
       flex: 1,
       minWidth: 130,
     },
     {
       field: "score",
-      headerName: "Score",
+      headerName: __("Score", "acadlix"),
       flex: 1,
       minWidth: 80,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 3,
       minWidth: 180,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title="Result" arrow>
+            <Tooltip title={__("Result", "acadlix")} arrow>
               <IconButton aria-label="edit" size="small" color="primary">
                 <BiExpand />
               </IconButton>
@@ -85,7 +86,7 @@ export default function Result() {
               boxShadow: "none",
             }}
           >
-            <CardHeader title="My Result" />
+            <CardHeader title={__("My Result", "acadlix")} />
             <CardContent>
               <Box
                 sx={{
@@ -137,7 +138,7 @@ const MobileOnlyView = (props) => {
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Search Courses"
+          placeholder={__("Search Courses", "acadlix")}
           sx={{
             "& .MuiInputBase-root": {
               height: "32px",
@@ -196,7 +197,7 @@ const MobileOnlyView = (props) => {
             alignItems="center"
           >
             <Typography variant="body2" fontSize={"10px"}>
-              Score: {row?.score}
+              {__("Score: ", "acadlix")}{row?.score}
             </Typography>
             <Button
               variant="contained"

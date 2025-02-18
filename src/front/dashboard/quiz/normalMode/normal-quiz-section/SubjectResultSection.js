@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const SubjectResultSection = (props) => {
   const subjects = props
@@ -44,37 +45,37 @@ const SubjectResultSection = (props) => {
           >
             <TableRow>
               <TableCell sx={{ fontWeight: "700", border: "2px solid black" }}>
-                Subject
+                {__("Subject", "acadlix")}
               </TableCell>
               <TableCell
                 sx={{ fontWeight: "700", border: "2px solid black" }}
                 align="center"
               >
-                Correct
+                {__("Correct", "acadlix")}
               </TableCell>
               <TableCell
                 sx={{ fontWeight: "700", border: "2px solid black" }}
                 align="center"
               >
-                Incorrect
+                {__("Incorrect", "acadlix")}
               </TableCell>
               <TableCell
                 sx={{ fontWeight: "700", border: "2px solid black" }}
                 align="center"
               >
-                Skipped
+                {__("Skipped", "acadlix")}
               </TableCell>
               <TableCell
                 sx={{ fontWeight: "700", border: "2px solid black" }}
                 align="center"
               >
-                Time
+                {__("Time", "acadlix")}
               </TableCell>
               <TableCell
                 sx={{ fontWeight: "700", border: "2px solid black" }}
                 align="center"
               >
-                Score
+                {__("Score", "acadlix")}
               </TableCell>
             </TableRow>
           </TableHead>

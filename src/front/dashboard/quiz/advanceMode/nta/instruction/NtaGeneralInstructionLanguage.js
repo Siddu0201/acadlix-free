@@ -5,6 +5,7 @@ import {
 import React from "react";
 import NtaTexture from "../../../../../../images/nta-texture.jpg";
 import NtaInstructionLanguage from "./NtaInstructionLanguage";
+import { __ } from "@wordpress/i18n";
 
 const NtaGeneralInstructionLanguage = (props) => {
   return (
@@ -50,12 +51,12 @@ const NtaGeneralInstructionLanguage = (props) => {
               color: props?.colorCode?.instruction_general_instruction,
             }}
           >
-            GENERAL INSTRUCTION
+            {__("GENERAL INSTRUCTION", "acadlix")}
           </Typography>
         </Box>
         {!props?.watch("finish") && (
           <Box>
-            <Typography>Choose Your Default Language</Typography>
+            <Typography>{__("Choose Your Default Language", "acadlix")}</Typography>
             <NtaInstructionLanguage {...props} />
           </Box>
         )}

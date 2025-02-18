@@ -29,6 +29,7 @@ import { GetLessonsForCourse } from "../../../../requests/admin/AdminCourseReque
 import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 import { convertTime } from "../../../../helpers/util";
 import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const AddLessonModal = (props) => {
   const handleLessonTypeChange = (type = "") => {
@@ -44,7 +45,7 @@ const AddLessonModal = (props) => {
           p: 2,
         }}
       >
-        Add Lesson
+        {__("Add Lesson", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -87,7 +88,7 @@ const AddLessonModal = (props) => {
               size="small"
               onClick={handleLessonTypeChange.bind(this, "add_new")}
             >
-              Add New
+              {__("Add New", "acadlix")}
             </Button>
             <Button
               variant={
@@ -99,7 +100,7 @@ const AddLessonModal = (props) => {
               size="small"
               onClick={handleLessonTypeChange.bind(this, "existing")}
             >
-              Add from existing
+              {__("Add from existing", "acadlix")}
             </Button>
           </Box>
 
@@ -117,10 +118,10 @@ const AddLessonModal = (props) => {
             color="error"
             onClick={props?.handleClose}
           >
-            Cancel
+            {__("Cancel", "acadlix")}
           </Button>
           <Button variant="contained" type="submit" disabled={props?.isPending}>
-            {props?.isPending ? "...loading" : "Save Change"}
+            {props?.isPending ? __("...loading", "acadlix") : __("Save Change", "acadlix")}
           </Button>
         </DialogActions>
       </form>
@@ -161,7 +162,7 @@ const AddNewLesson = (props) => {
 
       // Handle error if video fails to load
       video.onerror = () => {
-        reject("Error loading video metadata.");
+        reject(__('Error loading video metadata.', 'acadlix'));
       };
     });
   };
@@ -181,7 +182,7 @@ const AddNewLesson = (props) => {
               >
                 <Grid item xs={12} sm={12}>
                   <Typography variant="h6">
-                    Lesson Title <span style={{ color: "red" }}>*</span>
+                    {__('Lesson Title', 'acadlix')} <span style={{ color: "red" }}>*</span>
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -189,7 +190,7 @@ const AddNewLesson = (props) => {
                     fullWidth
                     name="title"
                     size="small"
-                    placeholder="Enter Title"
+                    placeholder={__('Enter Title', 'acadlix')}
                     value={props?.watch("title") ?? ""}
                     onChange={(e) => {
                       props?.setValue("title", e?.target?.value, {
@@ -225,7 +226,7 @@ const AddNewLesson = (props) => {
                         fontSize: "1.1rem",
                       }}
                     >
-                      Type
+                      {__("Type", "acadlix")}
                     </FormLabel>
                     <RadioGroup
                       name="type"
@@ -240,13 +241,13 @@ const AddNewLesson = (props) => {
                       <FormControlLabel
                         value="video"
                         control={<Radio />}
-                        label="Video"
+                        label={__("Video", "acadlix")}
                         checked={props?.watch("meta.type") === "video"}
                       />
                       <FormControlLabel
                         value="text"
                         control={<Radio />}
-                        label="Text"
+                        label={__("Text", "acadlix")}
                         checked={props?.watch("meta.type") === "text"}
                       />
                     </RadioGroup>
@@ -312,7 +313,7 @@ const AddNewLesson = (props) => {
                     <Grid item xs={4} sm={4}>
                       <CustomTextField
                         fullWidth
-                        label="Hours"
+                        label={__("Hours", "acadlix")}
                         size="small"
                         type="number"
                         value={props?.watch("meta.hours") ?? 0}
@@ -343,7 +344,7 @@ const AddNewLesson = (props) => {
                     <Grid item xs={4} sm={4}>
                       <CustomTextField
                         fullWidth
-                        label="Minutes"
+                        label={__("Minutes", "acadlix")}
                         size="small"
                         type="number"
                         value={props?.watch("meta.minutes") ?? 0}
@@ -374,7 +375,7 @@ const AddNewLesson = (props) => {
                     <Grid item xs={4} sm={4}>
                       <CustomTextField
                         fullWidth
-                        label="Seconds"
+                        label={__("Seconds", "acadlix")}
                         size="small"
                         type="number"
                         value={props?.watch("meta.seconds") ?? 0}
@@ -425,7 +426,7 @@ const AddNewLesson = (props) => {
             color="primary"
             onClick={handleAddResoures}
           >
-            Add Resources
+            {__("Add Resources", "acadlix")}
           </Button>
         </Grid>
       </Grid>
@@ -528,7 +529,7 @@ const AddFromExisting = (props) => {
                 fullWidth
                 name="title"
                 size="small"
-                label="Search Lesson..."
+                label={__("Search Lesson...", "acadlix")}
                 value={search}
                 onChange={(e) => {
                   setSearch(e?.target?.value);
@@ -629,7 +630,7 @@ const Resources = (props) => {
                 fullWidth
                 name="title"
                 size="small"
-                label="Enter Title"
+                label={__("Enter Title", "acadlix")}
                 value={props?.watch(`meta.resources.${props?.index}.title`) ?? ""}
                 onChange={(e) => {
                   props?.setValue(
@@ -651,12 +652,14 @@ const Resources = (props) => {
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  {__("Type", "acadlix")}
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={props?.watch(`meta.resources.${props?.index}.type`)}
-                  label="Type"
+                  label={__("Type", "acadlix")}
                   onChange={(e) => {
                     props?.setValue(
                       `meta.resources.${props?.index}.type`,
@@ -667,8 +670,8 @@ const Resources = (props) => {
                     );
                   }}
                 >
-                  <MenuItem value="upload">Upload</MenuItem>
-                  <MenuItem value="link">Link</MenuItem>
+                  <MenuItem value="upload">{__("Upload", "acadlix")}</MenuItem>
+                  <MenuItem value="link">{__("Link", "acadlix")}</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -678,14 +681,14 @@ const Resources = (props) => {
                   onSelect={handleMediaChange}
                   render={({ open }) => (
                     <Button variant="contained" onClick={open}>
-                      Upload File
+                      {__("Upload File", "acadlix")}
                     </Button>
                   )}
                 />
                 {props?.filename && (
                   <>
                     <Typography variant="body1" sx={{ marginTop: 2 }}>
-                      Selected file:{" "}
+                      {__("Selected file:", "acadlix")}{" "}
                       <a href={props?.file_url} target="_blank">
                         {props?.filename}
                       </a>
@@ -700,7 +703,7 @@ const Resources = (props) => {
                   fullWidth
                   name="link"
                   size="small"
-                  label="https://example.com/"
+                  label={__("https://example.com/", "acadlix")}
                   value={props?.watch(`meta.resources.${props?.index}.link`) ?? ""}
                   onChange={(e) => {
                     props?.setValue(
@@ -735,7 +738,7 @@ const Resources = (props) => {
                   );
                 }}
               >
-                Remove
+                {__("Remove", "acadlix")}
               </Button>
             </Grid>
           </Grid>

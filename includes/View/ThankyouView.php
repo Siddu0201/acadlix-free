@@ -133,7 +133,7 @@ function capture_payu_order($txnid)
         }
 
         $status = $data['transaction_details'][$txnid]['status'];
-        $error_message = $data['transaction_details'][$txnid]['error_Message'] ?? 'Unknown error';
+        $error_message = $data['transaction_details'][$txnid]['error_Message'] ?? __('Unknown error', 'acadlix');
         if ($status === 'success') {
             if ($order && $order->status == 'pending') {
                 $order->update([
@@ -230,11 +230,11 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
 
 if ($success) {
     ?>
-            <div>Payment Success</div>
+            <div><?php esc_html_e('Payment Success', 'acadlix'); ?></div>
             <?php
 } else {
     ?>
-            <div>Payemnt Failed</div>
+            <div><?php esc_html_e('Payemnt Failed', 'acadlix'); ?></div>
             <?php
 }
 ?>

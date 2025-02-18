@@ -13,6 +13,7 @@ import CourseContent from "./dashboard/courses/CourseContent.js";
 import { Box, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import UserAuth from "../modules/user-auth/UserAuth.js";
+import { __ } from "@wordpress/i18n";
 
 const Dashbaord = () => {
 
@@ -42,11 +43,11 @@ const Dashbaord = () => {
             nonce={acadlixOptions?.nonce}
             handleClose={() => methods?.setValue("login_modal", false)}
           />
-          <h3>{`Please login: `}
+          <h3>{__('Please login: ', 'acadlix')}
             <Button
               variant="contained"
               onClick={() => methods.setValue("login_modal", true, { shouldDirty: true })}>
-              Login
+              {__('Login', 'acadlix')}
             </Button>
           </h3>
         </Box>
@@ -83,7 +84,7 @@ const Dashbaord = () => {
             path="/advance_panel"
             element={<Quiz mode="advance_mode" advance_mode="advance_panel" />}
           />
-          <Route path="*" element={<div>No path found</div>}></Route>
+          <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
         </Routes>
       </HashRouter>
     </Provider>

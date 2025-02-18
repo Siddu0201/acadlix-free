@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const HintAndMessageSection = (props) => {
   const theme = useTheme();
@@ -23,7 +24,7 @@ const HintAndMessageSection = (props) => {
       >
         <Box>
           <Typography>
-            <b>Hint</b>
+            <b>{__('Hint', 'acadlix')}</b>
           </Typography>
         </Box>
         <Box>
@@ -45,7 +46,7 @@ const HintAndMessageSection = (props) => {
           >
             <Box>
               <Typography>
-                <b>Explanation</b>
+                <b>{__('Explanation', 'acadlix')}</b>
               </Typography>
             </Box>
             <Box>
@@ -74,7 +75,7 @@ const HintAndMessageSection = (props) => {
           >
             <Box>
               <Typography>
-                <b>Explanation</b>
+                <b>{__('Explanation', 'acadlix')}</b>
               </Typography>
             </Box>
             <Box>

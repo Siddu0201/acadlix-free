@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const NtaSubmitButtonOptions = (props) => {
   const handleSubmit = () => {
@@ -49,7 +50,7 @@ const NtaSubmitButtonOptions = (props) => {
             },
           }}
         >
-          {`<< BACK`}
+          {__('<< BACK', 'acadlix')}
         </Button>
         <Button
           variant="outlined"
@@ -76,7 +77,7 @@ const NtaSubmitButtonOptions = (props) => {
             },
           }}
         >
-          {`NEXT >>`}
+          {__('NEXT >>', 'acadlix')}
         </Button>
       </Box>
       <Box>
@@ -103,7 +104,7 @@ const NtaSubmitButtonOptions = (props) => {
             },
           }}
         >
-          SUBMIT
+          {__('SUBMIT', 'acadlix')}
         </Button>
       </Box>
     </Box>

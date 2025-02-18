@@ -3,6 +3,7 @@ import React from "react";
 import { FaAngleLeft, FaAngleRight } from "../../../../helpers/icons";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
+import { __ } from "@wordpress/i18n";
 
 const ContentHeader = (props) => {
   const theme = useTheme();
@@ -165,7 +166,7 @@ const ContentHeader = (props) => {
               },
             }}
           >
-            Dashboard
+            {__('Dashboard', 'acadlix')}
           </Button>
         </Box>
       </Box>

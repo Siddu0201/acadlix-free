@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import GridItem1 from "../../../../components/GridItem1";
+import { __ } from "@wordpress/i18n";
 
 function MatrixSortingChoice(props) {
 
   return (
     <Card>
-      <CardHeader title={`Matrix Sorting Choice (${
+      <CardHeader title={__('Matrix Sorting Choice', 'acadlix') + ` (${
         props?.lang?.language_name
       })`}
       titleTypographyProps={{
@@ -28,7 +29,7 @@ function MatrixSortingChoice(props) {
                 <Grid item xs={12} lg={12} key={index}>
                   <Option 
                     {...props}
-                    title={`Option${index + 1}`} 
+                    title={__('Option', 'acadlix') + ` ${index + 1}`} 
                     criteria_id={`crt_${props?.index}_${index}`}
                     element_id={`elm_${props?.index}_${index}`}
                     loadEditor={props?.loadEditor}
@@ -59,7 +60,7 @@ function MatrixSortingChoice(props) {
                 })
               }}
             >
-              Add More
+              {__('Add More', 'acadlix')}
             </Button>
           </Grid>
         </Grid>
@@ -100,7 +101,7 @@ const Option = (props) => {
               fontWeight: 500,
               marginY: 2
             }}>
-              Criteria
+              {__('Criteria', 'acadlix')}
             </Typography>
             <textarea 
               id={props?.criteria_id} 
@@ -127,7 +128,7 @@ const Option = (props) => {
               fontWeight: 500,
               marginY: 2
             }}>
-              Sort Element
+              {__('Sort Element', 'acadlix')}
             </Typography>
             <textarea 
               id={props?.element_id} 
@@ -166,7 +167,7 @@ const Option = (props) => {
                 })
               }}
             >
-              Delete
+              {__('Delete', 'acadlix')}
             </Button>
           </GridItem1>
         </Grid>

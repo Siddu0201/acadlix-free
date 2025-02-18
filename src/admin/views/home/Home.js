@@ -20,6 +20,8 @@ import {
   FaCog,
   MdOutlineSupportAgent
 } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n"; 
+import parse from "html-react-parser";
 
 const Home = () => {
   return (
@@ -52,7 +54,7 @@ const Home = () => {
                     paddingY: 3,
                   }}
                 >
-                  Welcome to <b>Acadlix</b>
+                  {parse(__("Welcome to <b>Acadlix</b>", "acadlix"))}
                 </Typography>
                 <Typography>The Smart Solution for Modern Educator.</Typography>
               </Box>

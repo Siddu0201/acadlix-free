@@ -1,18 +1,19 @@
+import { __ } from "@wordpress/i18n";
 const menus = [
   {
-    name: "Quiz",
+    name: __("Quiz", 'acadlix'),
     path: "/quiz",
   },
   {
-    name: "Course",
+    name: __("Course", 'acadlix'),
     path: "/course",
   },
   {
-    name: "Testing",
+    name: __("Testing", 'acadlix'),
     path: "/testing",
   },
   {
-    name: "Configuration",
+    name: __("Configuration", 'acadlix'),
     path: "/configuration",
   },
 ];

@@ -40,10 +40,6 @@ use Yuvayana\Acadlix\CPT\Course;
 
 defined('ABSPATH') || exit();
 
-add_action("init", function(){
-    load_plugin_textdomain( 'acadlix', false, basename( dirname( __FILE__ ) ) . '/languages' );
-});
-
 
 if (!defined('ACADLIX_PLUGIN_FILE')) {
     define('ACADLIX_PLUGIN_FILE', __FILE__);
@@ -64,6 +60,8 @@ if (!class_exists('Acadlix')) {
             $this->init_plugin();
             register_activation_hook(__FILE__, [$this, 'activate']);
             register_deactivation_hook(__FILE__, [$this, 'deactivate']);
+
+            add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
         }
 
         public static function instance()
@@ -81,7 +79,7 @@ if (!class_exists('Acadlix')) {
             Course::instance();
             CourseSection::instance();
             CourseSectionContent::instance();
-            
+
             Lesson::instance();
 
             Quiz::instance();
@@ -90,12 +88,12 @@ if (!class_exists('Acadlix')) {
             Manager::instance();
             if (is_admin()) {
                 Menu::instance();
-            }else{
+            } else {
                 AllCourseController::instance();
                 SingleCourseController::instance();
                 DashboardController::instance();
                 AdvanceQuizController::instance();
-                CartController::instance();     
+                CartController::instance();
                 CheckoutController::instance();
                 ThankyouController::instance();
             }
@@ -123,6 +121,11 @@ if (!class_exists('Acadlix')) {
         public static function uninstall()
         {
             Migration::removeTable();
+        }
+
+        public static function acadlix_load_textdomain()
+        {
+            load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
         }
     }
 

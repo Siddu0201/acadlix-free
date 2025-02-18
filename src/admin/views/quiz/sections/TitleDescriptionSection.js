@@ -1,6 +1,7 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
+import { __ } from "@wordpress/i18n";
 
 const TitleDescriptionSection = (props) => {
   const loadPage = () => {
@@ -29,17 +30,17 @@ const TitleDescriptionSection = (props) => {
             }}
           >
             <Grid item xs={12} lg={12}>
-              <Typography variant="h6">Quiz Title</Typography>
+              <Typography variant="h6">{__("Quiz Title", "acadlix")}</Typography>
             </Grid>
             {/* Used to enter quiz title  */}
             <Grid item xs={12} sm={12}>
               <CustomTextField
-                // {...props?.register("title", {required: "Title is required"})}
+                {...props?.register("title", {required: __("Title is required", "acadlix")})}
                 fullWidth
                 required
                 name="post_title"
                 size="small"
-                label="Enter quiz title"
+                label={__("Enter quiz title", "acadlix")}
                 value={props?.watch("post_title") ?? ""}
                 onChange={(e) => {
                   props?.setValue("post_title", e?.target?.value, {shouldDirty: true});
@@ -51,7 +52,7 @@ const TitleDescriptionSection = (props) => {
             </Grid>
             
             <Grid item xs={12} lg={12}>
-              <Typography variant="h6">Quiz Description</Typography>
+              <Typography variant="h6">{__("Quiz Description", "acadlix")}</Typography>
             </Grid>
             {/* Used to enter quiz decription, we replace textarea with tinymce editor  */}
             <Grid item xs={12} sm={12}>

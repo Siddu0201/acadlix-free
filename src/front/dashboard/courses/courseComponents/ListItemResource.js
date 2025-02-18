@@ -1,6 +1,7 @@
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { FaAngleDown, FaFolderOpen } from "../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const ListItemResource = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +34,7 @@ const ListItemResource = (props) => {
             fontSize: 16,
           }}
         />
-        Resources
+        {__("Resources", "acadlix")}
         <FaAngleDown
           style={{
             paddingLeft: 5,

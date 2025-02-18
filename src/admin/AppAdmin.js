@@ -24,6 +24,7 @@ import Paragraph from "./views/paragraph/Paragraph";
 import CreateParagraph from "./views/paragraph/CreateParagraph";
 import EditParagraph from "./views/paragraph/EditParagraph";
 import Home from "./views/home/Home";
+import { __ } from "@wordpress/i18n";
 
 const AppAdmin = () => {
   return (
@@ -82,7 +83,7 @@ const AppAdmin = () => {
                   }
                 />
               </Route>
-              <Route path="*" element={<div>No path found</div>}></Route>
+              <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
             </Routes>
             <ReactQueryDevtools position="bottom-right" />
           </LocalizationProvider>

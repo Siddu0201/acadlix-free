@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
 const OrderSummary = (props) => {
   const is_payment_gateway_active = () => {
@@ -28,7 +29,7 @@ const OrderSummary = (props) => {
   return (
     <Box>
       <Card>
-        <CardHeader title="Order Summary" />
+        <CardHeader title={__('Order Summary', 'acadlix')} />
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
@@ -60,7 +61,7 @@ const OrderSummary = (props) => {
                         fontWeight: "bold",
                       }}
                     >
-                      Price:
+                      {__('Price:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
                       {props?.currencyPosition(
@@ -86,7 +87,7 @@ const OrderSummary = (props) => {
                         fontWeight: "bold",
                       }}
                     >
-                      Discount:
+                      {__('Discount:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
                       {props?.currencyPosition(
@@ -112,7 +113,7 @@ const OrderSummary = (props) => {
                         fontWeight: "bold",
                       }}
                     >
-                      Tax:
+                      {__('Tax:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
                       {props?.currencyPosition(
@@ -138,7 +139,7 @@ const OrderSummary = (props) => {
                         fontWeight: "bold",
                       }}
                     >
-                      Total:
+                      {__('Total:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
                       {props?.currencyPosition(
@@ -164,7 +165,7 @@ const OrderSummary = (props) => {
                       props?.watch("is_checkout_locked")
                     }
                   >
-                    Checkout
+                    {__('Checkout', 'acadlix')}
                   </LoadingButton>
                 </Grid>
               </>

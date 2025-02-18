@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { Country } from "country-state-city";
 import toast from "react-hot-toast";
 import { GrUserManager, SlLocationPin } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Profile = () => {
   const methods = useForm({
@@ -109,7 +110,7 @@ const Profile = () => {
   const onSubmit = (data) => {
     updateProfileMutation?.mutate(data, {
       onSuccess: (data) => {
-        toast.success("Profile updated successfully.");
+        toast.success(__('Profile updated successfully.', 'acadlix'));
         window?.location?.reload();
       },
     });
@@ -201,7 +202,7 @@ const Profile = () => {
                       {updatePhotoMutation?.isPending ? (
                         <CircularProgress size={20} color="inherit" />
                       ) : (
-                        "Upload Profile Photo"
+                        __("Upload Profile Photo", "acadlix")
                       )}
                     </Button>
                   </>
@@ -244,7 +245,7 @@ const Profile = () => {
             <Card sx={{ mb: 2.5, boxShadow: (theme) => theme.shadows[1] }}>
               <CardContent sx={{ mb: 4 }}>
                 <Typography variant="h6" component="div" gutterBottom>
-                  Bio
+                  {__("Bio", "acadlix")}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {methods?.watch("description")}
@@ -255,7 +256,7 @@ const Profile = () => {
             <Card sx={{ mb: 5, boxShadow: (theme) => theme.shadows[1] }}>
               <CardContent>
                 <Typography variant="h6" component="div" gutterBottom>
-                  Personal
+                  {__("Personal", "acadlix")}
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
@@ -265,7 +266,7 @@ const Profile = () => {
                       })}
                       required
                       fullWidth
-                      label="First name"
+                      label={__('First name', 'acadlix')}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("first_name")}
@@ -286,7 +287,7 @@ const Profile = () => {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      label="Last name"
+                      label={__("Last name", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("last_name")}
@@ -300,7 +301,7 @@ const Profile = () => {
                   <Grid item xs={12} sm={12}>
                     <TextField
                       fullWidth
-                      label="Email Address"
+                      label={__("Email Address", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("email")}
@@ -350,7 +351,7 @@ const Profile = () => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Code"
+                          label={__("Code", "acadlix")}
                           inputProps={{
                             ...params.inputProps,
                             autoComplete: "code",
@@ -367,7 +368,7 @@ const Profile = () => {
                   <Grid item xs={9} sm={9}>
                     <TextField
                       fullWidth
-                      label="Phone / Mobile"
+                      label={__("Phone / Mobile", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("phone_number")}
@@ -381,7 +382,7 @@ const Profile = () => {
                   <Grid item xs={12} sm={12}>
                     <TextField
                       fullWidth
-                      label="Address"
+                      label={__("Address", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("address")}
@@ -395,7 +396,7 @@ const Profile = () => {
                   <Grid item xs={12} sm={12}>
                     <TextField
                       fullWidth
-                      label="Website"
+                      label={__("Website", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("user_url")}
@@ -458,7 +459,7 @@ const Profile = () => {
                   <Grid item xs={12} sm={4}>
                     <TextField
                       fullWidth
-                      label="Town/City"
+                      label={__("Town/City", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("city")}
@@ -472,7 +473,7 @@ const Profile = () => {
                   <Grid item xs={12} sm={4}>
                     <TextField
                       fullWidth
-                      label="Postal/Zip Code"
+                      label={__("Postal/Zip Code", "acadlix")}
                       variant="outlined"
                       size="small"
                       value={methods?.watch("zip_code")}
@@ -488,7 +489,7 @@ const Profile = () => {
                       fullWidth
                       multiline
                       rows={4}
-                      label="Bio"
+                      label={__("Bio", "acadlix")}
                       value={methods?.watch("description")}
                       onChange={(e) => {
                         methods?.setValue("description", e?.target?.value, {
@@ -515,7 +516,7 @@ const Profile = () => {
                       {updateProfileMutation?.isPending ? (
                         <CircularProgress size={20} color="inherit" />
                       ) : (
-                        "Update Profile"
+                        __("Update Profile", "acadlix")
                       )}
                     </Button>
                   </Grid>

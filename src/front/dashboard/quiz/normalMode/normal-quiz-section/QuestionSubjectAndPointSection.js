@@ -2,6 +2,7 @@ import { Box, Button, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "../../../../../helpers/util";
 import { MdOutlineReviews, MdReviews, FaRegBookmark } from "../../../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const QuestionSubjectAndPointSection = (props) => {
   const handleReview = () => {
@@ -31,7 +32,7 @@ const QuestionSubjectAndPointSection = (props) => {
             <Typography sx={{
               fontWeight: "bold"
             }}>
-              Question {props?.num} of {props?.watch("questions")?.length}
+              {__('Question', 'acadlix')} {props?.num} of {props?.watch("questions")?.length}
             </Typography>
           </Box>
         )}
@@ -43,10 +44,10 @@ const QuestionSubjectAndPointSection = (props) => {
                   {props?.watch("view_answer")
                     ? props?.question?.result?.solved_count
                       ? props?.question?.result?.correct_count
-                        ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`
-                        : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} Point${props?.question?.negative_points > 1 ? "s" : ""}`
-                      : `0 Point`
-                    : `${props?.question?.points} Point${props?.question?.points > 1 ? "s" : ""}`}
+                        ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`
+                        : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} ${__('Point', 'acadlix')}${props?.question?.negative_points > 1 ? __('s', 'acadlix') : ''}`
+                      : `0 ${__('Point', 'acadlix')}`
+                    : `${props?.question?.points} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`}
                 </b>{" "}
               </>
             )}
@@ -66,7 +67,7 @@ const QuestionSubjectAndPointSection = (props) => {
           }}>
             {
               props?.question?.review ?
-                <Tooltip title="Remove from review">
+                <Tooltip title={__('Remove from review', 'acadlix')}>
                   <Button
                     variant="contained"
                     size="medium"
@@ -82,7 +83,7 @@ const QuestionSubjectAndPointSection = (props) => {
                   </Button>
                 </Tooltip>
                 :
-                <Tooltip title="Mark as review">
+                <Tooltip title={__('Mark as review', 'acadlix')}>
                   <Button
                     variant="contained"
                     size="medium"

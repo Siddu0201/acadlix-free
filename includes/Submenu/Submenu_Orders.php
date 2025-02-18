@@ -56,11 +56,12 @@ class Submenu_Orders
             'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
         ));
+        wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function order_callback()
     {
-        echo '<div id="acadlix-admin-order"><h2>Loading...</h2></div>';
+        echo '<div id="acadlix-admin-order"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

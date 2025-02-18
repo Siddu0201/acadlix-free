@@ -24,6 +24,7 @@ import {
   GetLessons,
 } from "../../../requests/admin/AdminLessonRequest";
 import { FaEdit, FaTrash, IoMdRefresh } from "../../../helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const Lesson = () => {
   const methods = useForm({
@@ -40,31 +41,31 @@ const Lesson = () => {
 
   const deleteMutation = DeleteLessonById();
   const deleteLessonById = (id) => {
-    if (confirm("Do you really want to delete this lesson?")) {
+    if (confirm(__("Do you really want to delete this lesson?", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "title", headerName: "Title", flex: 2, minWidth: 130 },
-    { field: "type", headerName: "Type", flex: 2, minWidth: 100 },
+    { field: "id", headerName: __("ID", "acadlix") },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
+    { field: "type", headerName: __("Type", "acadlix"), flex: 2, minWidth: 100 },
     {
       field: "total_resources",
-      headerName: "No. of resources",
+      headerName: __("No. of resources", "acadlix"),
       flex: 2,
       minWidth: 130,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 2,
       minWidth: 100,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title="Edit Lesson" arrow>
+            <Tooltip title={__("Edit Lesson", "acadlix")} arrow>
               <IconButton
                 aria-label="edit"
                 size="small"
@@ -75,7 +76,7 @@ const Lesson = () => {
                 <FaEdit />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Lesson" arrow>
+            <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -121,7 +122,11 @@ const Lesson = () => {
 
   const deleteBulkMutation = DeleteBulkLesson();
   const handleBulkDelete = () => {
-    if (confirm("Do you really want to delete these lesson(s)?")) {
+    if (
+      confirm(
+        __("Do you really want to delete these lesson(s)?", "acadlix")
+      )
+    ) {
       deleteBulkMutation?.mutate(
         {
           lesson_ids: methods?.watch("lesson_ids"),
@@ -151,14 +156,14 @@ const Lesson = () => {
           default:
         }
       } else {
-        toast.error("Please select atleast 1 entry.", {
+        toast.error(__("Please select atleast 1 entry.", "acadlix"), {
           position: "bottom-left",
         });
       }
     } else {
       methods?.setError("action", {
         type: "custom",
-        message: "Action required",
+        message: __("Action required", "acadlix"),
       });
     }
   };
@@ -188,7 +193,7 @@ const Lesson = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    Lesson Overview
+                    {__("Lesson Overview", "acadlix")}
                   </Typography>
                   <Button
                     variant="contained"
@@ -196,9 +201,9 @@ const Lesson = () => {
                     to="/create"
                     color="primary"
                   >
-                    Add
+                    {__("Add", "acadlix")}
                   </Button>
-                  <Tooltip title="Refresh" arrow>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>
@@ -230,17 +235,17 @@ const Lesson = () => {
                     error={Boolean(methods?.formState?.errors?.action)}
                   >
                     <InputLabel id="demo-simple-select-label">
-                      Bulk Actions
+                      {__("Bulk Actions", "acadlix")}
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={methods?.watch("action")}
-                      label="Bulk Actions"
+                      label={__("Bulk Actions", "acadlix")}
                       onChange={handleActionChange}
                     >
-                      <MenuItem value="">Bulk Actions</MenuItem>
-                      <MenuItem value="delete">Delete</MenuItem>
+                      <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                      <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -254,7 +259,7 @@ const Lesson = () => {
                     onClick={handleBulkAction}
                     color="primary"
                   >
-                    Apply
+                    {__("Apply", "acadlix")}
                   </Button>
                 </Box>
               </Box>

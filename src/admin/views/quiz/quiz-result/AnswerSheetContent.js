@@ -14,6 +14,7 @@ import QuestionSubjectAndPointSection from "../../../../front/dashboard/quiz/nor
 import QuestionStatusSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import LanguageSection from "../../../../front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
 import { shuffleArrayBasedOnOrder } from "../../../../helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const AnswerSheetContent = (props) => {
   const theme = useTheme();
@@ -210,7 +211,7 @@ const AnswerSheetContent = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>Correct</Typography>
+          <Typography>{__("Correct", "acadlix")}</Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -221,7 +222,7 @@ const AnswerSheetContent = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>Incorrect</Typography>
+          <Typography>{__("Incorrect", "acadlix")}</Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -232,7 +233,7 @@ const AnswerSheetContent = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>Skippeds</Typography>
+          <Typography>{__("Skippeds", "acadlix")}</Typography>
         </Box>
       </Box>
 
@@ -416,7 +417,7 @@ const ViewQuestionSection = (props) => {
                   >
                     <Box>
                       <Typography>
-                        <b>Explanation</b>
+                        <b>{__("Explanation", "acadlix")}</b>
                       </Typography>
                     </Box>
                     <Box>
@@ -446,7 +447,7 @@ const ViewQuestionSection = (props) => {
                   >
                     <Box>
                       <Typography>
-                        <b>Explanation</b>
+                        <b>{__("Explanation", "acadlix")}</b>
                       </Typography>
                     </Box>
                     <Box>
@@ -478,7 +479,7 @@ const ViewQuestionSection = (props) => {
                 >
                   <Box>
                     <Typography>
-                      <b>Explanation</b>
+                      <b>{__("Explanation", "acadlix")}</b>
                     </Typography>
                   </Box>
                   <Box>

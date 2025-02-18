@@ -2,6 +2,7 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { TiInfoLarge } from "../../../../../helpers/icons";
 import InstructionModel from "./model/InstructionModel";
+import { __ } from "@wordpress/i18n";
 
 const QuizTitleAndInstruction = (props) => {
   const [showInstruction, setShowInstruction] = React.useState(false);
@@ -66,7 +67,7 @@ const QuizTitleAndInstruction = (props) => {
             fontSize: "11px",
           }}
         >
-          View Instruction
+          {__("View Instruction", "acadlix")}
         </Typography>
       </Box>
     </Box>

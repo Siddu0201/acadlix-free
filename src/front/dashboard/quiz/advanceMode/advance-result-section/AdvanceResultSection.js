@@ -5,6 +5,7 @@ import AdvanceLeaderboardSection from "./AdvanceLeaderboardSection";
 import AdvanceViewButtonSection from "./AdvanceViewButtonSection";
 import { Box, Button } from "@mui/material";
 import AdvanceViewAnswerSection from "./AdvanceViewAnswerSection";
+import { __ } from "@wordpress/i18n";
 
 const AdvanceResultSection = (props) => {
   return (
@@ -30,7 +31,7 @@ const AdvanceResultSection = (props) => {
           window.close()
         }}
       >
-        Close
+        {__('Close', 'acadlix')}
       </Button>
       {!props?.watch("hide_result") && (
         <>

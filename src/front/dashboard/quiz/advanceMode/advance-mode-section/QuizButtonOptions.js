@@ -5,6 +5,7 @@ import {
   shuffleArrayBasedOnOrder,
 } from "../../../../../helpers/util";
 import LastQuestionModel from "./model/LastQuestionModel";
+import { __ } from "@wordpress/i18n";
 
 const QuizButtonOptions = (props) => {
   const currentIndex = props
@@ -269,9 +270,9 @@ const QuizButtonOptions = (props) => {
               {...props}
               lastModel={lastModel}
               setLastModel={setLastModel}
-              message="You have reached to the last question of this section. Please wait
+              message={__(`You have reached to the last question of this section. Please wait
             till the time allotted for this section is over or submit the
-            section."
+            section.`, 'acadlix')}
             />
           )
           : props?.last_subject && (
@@ -279,8 +280,8 @@ const QuizButtonOptions = (props) => {
               {...props}
               lastModel={lastModel}
               setLastModel={setLastModel}
-              message="You have reached to the last question. Please wait
-            till the time allotted for this section is over or submit test."
+              message={__(`You have reached to the last question. Please wait
+            till the time allotted for this section is over or submit test.`, 'acadlix')}
             />
           )}
         <Box>
@@ -323,8 +324,8 @@ const QuizButtonOptions = (props) => {
             >
               {
                 !props?.isDesktop ?
-                  'Review & Next' :
-                  'Mark for Review & Next'
+                  __('Review & Next', 'acadlix') :
+                  __('Mark for Review & Next', 'acadlix')
               }
             </Button>
           }
@@ -363,8 +364,8 @@ const QuizButtonOptions = (props) => {
           >
             {
               !props?.isDesktop ?
-                'Clear' :
-                'Clear Response'
+                __('Clear', 'acadlix') :
+                __('Clear Response', 'acadlix')
             }
           </Button>
         </Box>
@@ -397,7 +398,7 @@ const QuizButtonOptions = (props) => {
               },
             }}
           >
-            Previous
+            {__('Previous', 'acadlix')}
           </Button>
           <Button
             size={props?.isDesktop ? "medium" : "small"}
@@ -425,7 +426,7 @@ const QuizButtonOptions = (props) => {
               },
             }}
           >
-            Save & Next
+            {__('Save & Next', 'acadlix')}
           </Button>
         </Box>
       </Toolbar>
