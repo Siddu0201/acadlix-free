@@ -5,6 +5,7 @@ import AdvanceQuizMode from "./AdvanceQuizMode";
 import { useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
 import {
+  arrayRandomize,
   secondsToHms,
   strtotime,
 } from "../../../helpers/util";
@@ -224,6 +225,14 @@ const QuizContent = (props) => {
                   ?.map((d) => d.position) 
                 : null,
             },
+            shuffle_order: question?.answer_type === "matrixSortingChoice"
+              ? arrayRandomize(question
+                ?.question_languages
+                ?.find((lang) => Boolean(Number(lang?.default)))
+                ?.rendered_answer_data
+                ?.matrixSortingChoice
+                ?.map((d) => String(d?.correctPosition)) ?? [])
+              : null,
             language:
               question?.question_languages?.map((lang) => {
                 return {
@@ -280,7 +289,6 @@ const QuizContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
 
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {

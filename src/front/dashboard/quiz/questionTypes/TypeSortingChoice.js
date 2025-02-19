@@ -6,6 +6,7 @@ import {
   PointerSensor,
   TouchSensor,
   closestCenter,
+  rectIntersection,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -45,6 +46,7 @@ const TypeSortingChoice = (props) => {
           return lang;
         })
       );
+    setActiveId(null);
 
       let data = props?.watch(
         `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`
@@ -69,7 +71,6 @@ const TypeSortingChoice = (props) => {
         { shouldDirty: true }
       );
     }
-    setActiveId(null);
   };
 
   const handleDragStart = (e) => {
@@ -114,7 +115,7 @@ const TypeSortingChoice = (props) => {
         )}
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
+        collisionDetection={rectIntersection}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
@@ -127,7 +128,7 @@ const TypeSortingChoice = (props) => {
           }}
         >
           <SortableContext
-            items={props?.answer_data?.[props?.type]}
+            items={props?.answer_data?.[props?.type]?.map((item, index) => item?.option)}
             strategy={verticalListSortingStrategy}
           >
             {props?.answer_data?.[props?.type]?.map((item, index) => (
@@ -204,18 +205,23 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
 });
 
 const SortableItem = (props) => {
-  const { attributes, listeners, setNodeRef, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transition, transform } = useSortable({
     id: props.item?.option,
     disabled:
       props?.watch("view_answer") ||
       props?.watch(`questions.${props?.index}.check`),
   });
 
+  const style = {
+    transform: `translate(0, ${transform?.y ?? 0}px)`,
+    transition,
+  };
+
   return (
     <ListItem
       ref={setNodeRef}
       sx={{
-        transition: transition,
+        ...style,
         borderRadius: 1,
         border: props?.watch(`questions.${props?.index}.check`)
           ? props?.id === props?.item?.position

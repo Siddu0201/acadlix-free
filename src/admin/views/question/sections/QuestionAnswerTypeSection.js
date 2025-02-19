@@ -54,11 +54,11 @@ const QuestionAnswerTypeSection = (props) => {
               control={<Radio />}
               label={__("Sorting Choice", "acadlix")}
             />
-            {/* <FormControlLabel
+            <FormControlLabel
               value="matrixSortingChoice"
               control={<Radio />}
               label={__('Matrix Sorting Choice', 'acadlix')}
-            /> */}
+            />
             <FormControlLabel
               value="fillInTheBlank"
               control={<Radio />}
