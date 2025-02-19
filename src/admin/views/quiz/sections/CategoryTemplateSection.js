@@ -228,7 +228,7 @@ const CategoryTemplateSection = (props) => {
                     option?.id === value?.id
                   }
                   renderInput={(params) => (
-                    <TextField {...params} label="Select Template" />
+                    <TextField {...params} label={__("Select Template", "acadlix")} />
                   )}
                   onChange={(_, newValue) => {
                     props?.setValue("load_template_id", newValue?.id ?? null, {

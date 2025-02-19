@@ -70,8 +70,9 @@ const QuestionContent = (props) => {
         answerData = [
           {
             criteria: "",
-            position: position,
             element: "",
+            correctPosition: position,
+            yourPosition: null,
           },
         ];
         break;

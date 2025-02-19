@@ -370,7 +370,7 @@ if (!class_exists('CourseHelper')) {
             if ($acadlix_notify_course_completion_to_admin == "yes" && !empty($admin_emails)) {
                 $admin_email_template = Helper::instance()->acadlix_get_email_template("CourseCompletion.html", "admin");
                 $admin_msg = str_replace(array_keys($r), $r, $admin_email_template);
-                /* translators: 1: %s is the course name, 2: %s is the username */
+                /* translators: 1: %s is the username, 2: %s is the coursename */
                 $admin_subject = sprintf(esc_html__('%1$s has completed %2$s', 'acadlix'), $r['$username'], $r['$coursename']);
                 EmailHelper::instance()->sendEmail(
                     $admin_emails,

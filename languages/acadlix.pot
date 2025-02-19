@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-18T08:38:22+01:00\n"
+"POT-Creation-Date: 2025-02-19T10:49:38+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: acadlix\n"
@@ -613,7 +613,7 @@ msgstr ""
 msgid "You have completed %s!"
 msgstr ""
 
-#. translators: 1: %s is the course name, 2: %s is the username
+#. translators: 1: %s is the username, 2: %s is the coursename
 #: includes/Helper/CourseHelper.php:374
 msgid "%1$s has completed %2$s"
 msgstr ""
@@ -2616,6 +2616,10 @@ msgstr ""
 
 #: build/admin_quiz.js:1
 msgid "Please select any template"
+msgstr ""
+
+#: build/admin_quiz.js:1
+msgid "Select Template"
 msgstr ""
 
 #: build/admin_quiz.js:1

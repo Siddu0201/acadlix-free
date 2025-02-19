@@ -52,7 +52,7 @@ function MatrixSortingChoice(props) {
                       `language.${index}.answer_data.${props?.type}`, 
                       [...props?.watch(`language.${index}.answer_data.${props?.type}`), 
                        ...props?.getAnswerData(props?.type)?.map((opt) => {
-                        return {...opt, position: props?.watch(`language.${index}.answer_data.${props?.type}`)?.length}
+                        return {...opt, correctPosition: props?.watch(`language.${index}.answer_data.${props?.type}`)?.length}
                        })
                       ], 
                       {shouldDirty: true}
