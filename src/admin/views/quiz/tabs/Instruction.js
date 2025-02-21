@@ -4,11 +4,11 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
   Radio,
   RadioGroup,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -30,10 +30,10 @@ const Instruction = (props) => {
         {
           props?.watch("languages")?.length > 0 &&
           <React.Fragment>
-            <GridItem1 xs={12} sm={6} lg={3}>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Change Language:", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 xs={12} sm={6} lg={9}>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
               <FormControl
                 sx={{
                   flexDirection: "row",
@@ -122,10 +122,10 @@ const LangInstruction = (props) => {
 
   return (
     <React.Fragment>
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Instruction 1", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <textarea
           id={`instruction1_${props?.index}`}
           style={{
@@ -146,10 +146,10 @@ const LangInstruction = (props) => {
           }}
         />
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Instruction 2", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <textarea
           id={`instruction2_${props?.index}`}
           style={{
@@ -170,10 +170,10 @@ const LangInstruction = (props) => {
           }}
         />
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Term and condition", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -191,10 +191,10 @@ const LangInstruction = (props) => {
           }
         />
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Term and condition warning", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"

@@ -1,5 +1,6 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Card, CardContent, Grid, Tab, Tabs } from "@mui/material";
+import { Box, Card, CardContent, Tab, Tabs } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React, { useEffect, useRef, useState } from "react";
 import General from "../tabs/General";
 import Question from "../tabs/Question";
@@ -40,7 +41,7 @@ const QuizSettingSection = (props) => {
   };
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Box
         sx={{
           position: "sticky",

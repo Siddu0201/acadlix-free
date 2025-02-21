@@ -1,4 +1,5 @@
-import { Avatar, Box, Card, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Card, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import AdvanceResultText from "./AdvanceResultText";
 import TickImage from "../../../../../images/icons8-correct-96.png";
@@ -65,7 +66,7 @@ const AdvanceResult = (props) => {
           fontSize: 18,
         }}
       >
-        { __("You have Completed ", "acadlix") }"
+        {__("You have Completed ", "acadlix")}"
         <Typography
           component="span"
           sx={{
@@ -88,7 +89,7 @@ const AdvanceResult = (props) => {
         }}
         spacing={{ xs: 2, sm: 4 }}
       >
-        <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+        <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
           <Card
             sx={{
               padding: 2,
@@ -102,13 +103,13 @@ const AdvanceResult = (props) => {
                 {result?.toFixed(2)}/{total}
               </Typography>
               <Typography variant="subtitle2">
-                { __("Marks Obtained", "acadlix") }
+                {__("Marks Obtained", "acadlix")}
               </Typography>
             </Box>
           </Card>
         </Grid>
         {!props?.watch("hide_negative_marks") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -122,14 +123,14 @@ const AdvanceResult = (props) => {
                   {`-${negative_marks?.toFixed(2)}`}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Negative Marks", "acadlix") }
+                  {__("Negative Marks", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {props?.watch("save_statistic") && props?.watch("show_average_score") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -145,14 +146,14 @@ const AdvanceResult = (props) => {
                     : props?.watch("average_score")}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Average Score", "acadlix") }
+                  {__("Average Score", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {props?.watch("show_status_based_on_min_percent") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -174,14 +175,14 @@ const AdvanceResult = (props) => {
                     : __("Fail", "acadlix")}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Status", "acadlix") }
+                  {__("Status", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {props?.watch("show_accuracy") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -195,14 +196,14 @@ const AdvanceResult = (props) => {
                   {`${accuracy}%`}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Accuracy", "acadlix") }
+                  {__("Accuracy", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {!props?.watch("hide_quiz_time") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -216,14 +217,14 @@ const AdvanceResult = (props) => {
                   {secondsToHms(time)}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Time Taken", "acadlix") }
+                  {__("Time Taken", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {props?.watch("leaderboard") && props?.watch("show_rank") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -237,14 +238,14 @@ const AdvanceResult = (props) => {
                   {props?.isPending ? __("loading...", "acadlix") : props?.watch("rank")}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Rank", "acadlix") }
+                  {__("Rank", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {props?.watch("save_statistic") && props?.watch("show_percentile") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -258,14 +259,14 @@ const AdvanceResult = (props) => {
                   {props?.isPending ? __("loading...", "acadlix") : props?.watch("percentile")}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Percentile", "acadlix") }
+                  {__("Percentile", "acadlix")}
                 </Typography>
               </Box>
             </Card>
           </Grid>
         )}
         {props?.watch("show_speed") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Card
               sx={{
                 padding: 2,
@@ -279,10 +280,10 @@ const AdvanceResult = (props) => {
                   {isNaN(solvedCount / (time / 60))
                     ? 0
                     : (solvedCount / (time / 60)).toFixed(2)}{" "}
-                  { __("Q/min", "acadlix") }
+                  {__("Q/min", "acadlix")}
                 </Typography>
                 <Typography variant="subtitle2">
-                  { __("Speed", "acadlix") }
+                  {__("Speed", "acadlix")}
                 </Typography>
               </Box>
             </Card>

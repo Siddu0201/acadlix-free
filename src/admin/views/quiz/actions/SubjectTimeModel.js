@@ -5,12 +5,12 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
-  Grid,
   IconButton,
   List,
   ListItem,
   ListItemText,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { IoClose } from "../../../../helpers/icons";
 import CustomSwitch from "../../../../components/CustomSwitch";
@@ -103,10 +103,7 @@ const SubjectTimeModel = (props) => {
           <CircularProgress size={20} />
         ) : (
           <Grid container gap={4}>
-            <Grid
-              item
-              xs={12}
-              lg={12}
+            <Grid size={{ xs: 12, sm: 12, lg: 12 }}
               sx={{
                 display: ["jee"].includes(methods.watch("advance_mode_type"))
                   ? "none"
@@ -119,7 +116,7 @@ const SubjectTimeModel = (props) => {
                     value="subject_wise_time"
                     checked={
                       methods?.watch("quiz_timing_type") ===
-                        "subject_wise_time" ?? false
+                      "subject_wise_time" ?? false
                     }
                     onChange={(e) => {
                       if (e?.target?.checked) {
@@ -141,7 +138,7 @@ const SubjectTimeModel = (props) => {
                 label={__("Subject wise timing", "acadlix")}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -160,7 +157,7 @@ const SubjectTimeModel = (props) => {
                 label={__("Subject wise specific number of questions", "acadlix")}
               />
             </Grid>
-            {/* <Grid item xs={12} lg={12}>
+            {/* <Grid size={{  xs: 12 ,  lg: 12  }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -179,7 +176,7 @@ const SubjectTimeModel = (props) => {
                 label={__("Optional Subjects", "acadlix")}
               />
             </Grid> */}
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <List dense component="div" role="list">
                 {methods?.watch("subjects")?.length > 0 &&
                   methods?.watch("subjects")?.map((s, s_index) => (
@@ -208,15 +205,15 @@ const SubjectTimeModel = (props) => {
                         sx={{
                           display:
                             methods?.watch("quiz_timing_type") ===
-                            "subject_wise_time"
+                              "subject_wise_time"
                               ? ""
                               : "none",
                           maxWidth: "30%",
                           marginX: 2,
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -266,9 +263,9 @@ const SubjectTimeModel = (props) => {
                           maxWidth: "30%",
                           marginX: 2,
                           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                            {
-                              display: "none",
-                            },
+                          {
+                            display: "none",
+                          },
                           "& input[type=number]": {
                             MozAppearance: "textfield",
                           },
@@ -299,7 +296,7 @@ const SubjectTimeModel = (props) => {
                   ))}
               </List>
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <DialogActions>
                 <Button
                   variant="contained"

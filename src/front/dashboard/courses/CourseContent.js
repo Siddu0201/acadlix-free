@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Grid,
   Card,
   CardContent,
   Tab,
@@ -11,6 +10,7 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import CourseOverview from "./contentTabs/CourseOverview";
 import CourseSidebar from "./contentTabs/CourseSidebar";
@@ -355,11 +355,7 @@ const CourseContent = () => {
           }}
         >
           {/* Sidebar */}
-          <Grid
-            item
-            xs={0}
-            sm={open ? 4 : 0}
-            md={open ? 3 : 0}
+          <Grid size={{ xs: 0, sm: open ? 4 : 0, md: open ? 3 : 0 }}
             sx={{
               display: {
                 xs: "none",
@@ -423,11 +419,7 @@ const CourseContent = () => {
             </Card>
           </Grid>
           {/* Content */}
-          <Grid
-            item
-            xs={12}
-            sm={open ? 8 : 12}
-            md={open ? 9 : 12}
+          <Grid size={{ xs: 12, sm: open ? 8 : 12, md: open ? 9 : 12 }}
             sx={{
               height: "100%",
               overflowY: "auto",

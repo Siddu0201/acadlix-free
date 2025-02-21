@@ -7,7 +7,6 @@ import {
   Dialog,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputLabel,
   MenuItem,
@@ -16,6 +15,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -352,7 +352,7 @@ const Quiz = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader
               title={

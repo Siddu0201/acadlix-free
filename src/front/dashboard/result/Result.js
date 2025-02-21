@@ -8,12 +8,12 @@ import {
   useMediaQuery,
   TextField,
   Card,
-  Grid,
   CardContent,
   Tooltip,
   IconButton,
   CardHeader,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
@@ -80,7 +80,7 @@ export default function Result() {
   ) : (
     <Box>
       <Grid container rowSpacing={3} spacing={4}>
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card
             sx={{
               boxShadow: "none",

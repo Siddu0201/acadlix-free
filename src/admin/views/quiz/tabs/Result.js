@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Grid,
   FormControlLabel,
   Button,
   FormControl,
@@ -12,6 +11,7 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
@@ -37,11 +37,11 @@ const Result = (props) => {
         alignItems="center"
       >
         {/* Save Statistic */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Save Statistics", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -76,14 +76,14 @@ const Result = (props) => {
             </IconButton>
           </Tooltip>
         </GridItem1>
-        <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
         {/* Statistic ip Lock */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Statistic IP Lock", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             label={__("Statistic IP Lock", "acadlix")}
             variant="outlined"
@@ -111,10 +111,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Number of time statistic saved per user (0 => infinity) */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Save statistic no. of times", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             label={__("Save statistic no. of times", "acadlix")}
             variant="outlined"
@@ -156,11 +156,11 @@ const Result = (props) => {
         spacing={3}
         alignItems="center"
       >
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Result", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -179,11 +179,13 @@ const Result = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
         {/* Used to hide negative marks in result  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Negative Marks", "acadlix")}</CustomTypography>
+        </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -205,10 +207,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to hide quiz time in result  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Quiz Time", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -229,10 +231,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Its an average speed per question - total_time_taken/question  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -254,10 +256,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -279,10 +281,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -303,10 +305,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to Show Average Score  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Average Score", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -328,10 +330,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show subject wise analysis of quiz  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -354,16 +356,16 @@ const Result = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
         {/* 
           Used to show Status - Pass /Fail on the basis of Percent 
           On check - Minimum % to pass option will open
            */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Status Based On Min % (Pass/Fail)", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -388,10 +390,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Minimum marks to pass - default 0  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Minimum % to pass", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -441,10 +443,10 @@ const Result = (props) => {
           Answer sheet option to hide answer sheet and options availbales are: 
            - Show Per Question Time
             */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Answer Sheet", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -464,10 +466,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show per question time in answer sheet  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Per Question Time", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -514,10 +516,10 @@ const Result = (props) => {
             - Number of times user can apply
             - automatically display leaderboard in quiz result - don't display(default) , below the result , in a button 
              */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Leaderboard", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -549,8 +551,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Total number of entries to be displayed in leaderboard */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Total number of enteries", "acadlix")}</CustomTypography>
+        </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -578,10 +582,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show rank  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -598,10 +602,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Option for Result Comparison with topper    */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -624,10 +628,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* User can apply multiple times for leaderboard */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("User can apply multiple times", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -651,10 +655,10 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Number of times user can apply for leaderboard */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Number of times", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -691,10 +695,10 @@ const Result = (props) => {
             - below the result
             - in the button
           */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Automatically display leaderboard in quiz result", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={9}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
           <FormControl
             sx={{
               display: "flex",
@@ -781,10 +785,10 @@ const Result = (props) => {
         {/* Show result Text
             - show simple text or based on %
           */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} lg={3}>
+        <GridItem1 size={{ xs: 12, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -810,7 +814,7 @@ const Result = (props) => {
             label={__("Activate", "acadlix")}
           />
         </GridItem1>
-        <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
         {/* Result Text - based on % */}
         {
@@ -820,7 +824,7 @@ const Result = (props) => {
                 Array.isArray(props?.watch("meta.quiz_settings.result_text")) &&
                 props?.watch("meta.quiz_settings.result_text")?.map((val, index) => (
                   <React.Fragment key={index}>
-                    <GridItem1 xs={12} lg={2}>
+                    <GridItem1 size={{ xs: 12, lg: 2 }}>
                       <CustomTextField
                         fullWidth
                         size="small"
@@ -845,7 +849,7 @@ const Result = (props) => {
                         }}
                       />
                     </GridItem1>
-                    <GridItem1 xs={12} lg={10}>
+                    <GridItem1 size={{ xs: 12, lg: 10 }}>
                       <CustomTextField
                         fullWidth
                         size="small"
@@ -944,10 +948,10 @@ const ResultText = (props) => {
 
   return (
     <React.Fragment>
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Result Text", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <textarea
           id="result_text"
           value={

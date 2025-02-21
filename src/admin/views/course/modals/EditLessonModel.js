@@ -12,7 +12,6 @@ import {
   FormControlLabel,
   FormHelperText,
   FormLabel,
-  Grid,
   IconButton,
   InputLabel,
   List,
@@ -23,6 +22,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -178,7 +178,7 @@ const EditExistingsLesson = (props) => {
   return (
     <Box>
       <Grid container gap={2}>
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Card>
             <CardContent>
               <Grid
@@ -188,12 +188,12 @@ const EditExistingsLesson = (props) => {
                   color: "black",
                 }}
               >
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <Typography variant="h6">
                     {__("Lesson Title", "acadlix")} <span style={{ color: "red" }}>*</span>
                   </Typography>
                 </Grid>
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <CustomTextField
                     {...props?.register("title", {
                       required: __("Title is required.", "acadlix"),
@@ -219,7 +219,7 @@ const EditExistingsLesson = (props) => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid size={{ xs: 12, sm: 12 }}>
                   <FormControl
                     sx={{
                       display: "flex",
@@ -320,7 +320,7 @@ const EditExistingsLesson = (props) => {
                       }}
                     />
 
-                    <Grid item xs={4} sm={4}>
+                    <Grid size={{ xs: 4, sm: 4 }}>
                       <CustomTextField
                         fullWidth
                         label={__("Hours", "acadlix")}
@@ -351,7 +351,7 @@ const EditExistingsLesson = (props) => {
                       />
                     </Grid>
 
-                    <Grid item xs={4} sm={4}>
+                    <Grid size={{ xs: 4, sm: 4 }}>
                       <CustomTextField
                         fullWidth
                         label={__("Minutes", "acadlix")}
@@ -382,7 +382,7 @@ const EditExistingsLesson = (props) => {
                       />
                     </Grid>
 
-                    <Grid item xs={4} sm={4}>
+                    <Grid size={{ xs: 4, sm: 4 }}>
                       <CustomTextField
                         fullWidth
                         label={__("Seconds", "acadlix")}
@@ -430,7 +430,7 @@ const EditExistingsLesson = (props) => {
               <Resources key={index} {...props} {...r} index={index} />
             ))}
 
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Button
             variant="contained"
             color="primary"
@@ -460,7 +460,7 @@ const ContentSection = (props) => {
   }, []);
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <textarea
         id="lesson_content"
         rows={12}
@@ -495,7 +495,7 @@ const Resources = (props) => {
     });
   };
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardContent>
           <Grid
@@ -505,7 +505,7 @@ const Resources = (props) => {
               color: "black",
             }}
           >
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 fullWidth
                 name="title"
@@ -530,7 +530,7 @@ const Resources = (props) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControl fullWidth size="small">
                 <InputLabel id="demo-simple-select-label">
                   {__("Type", "acadlix")}
@@ -556,7 +556,7 @@ const Resources = (props) => {
               </FormControl>
             </Grid>
             {props?.type === "upload" && (
-              <Grid item xs={12} sm={12}>
+              <Grid size={{ xs: 12, sm: 12 }}>
                 <MediaUpload
                   onSelect={handleMediaChange}
                   render={({ open }) => (
@@ -578,7 +578,7 @@ const Resources = (props) => {
               </Grid>
             )}
             {props?.type === "link" && (
-              <Grid item xs={12} sm={12}>
+              <Grid size={{ xs: 12, sm: 12 }}>
                 <CustomTextField
                   fullWidth
                   name="link"
@@ -604,7 +604,7 @@ const Resources = (props) => {
                 />
               </Grid>
             )}
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Button
                 variant="contained"
                 color="error"

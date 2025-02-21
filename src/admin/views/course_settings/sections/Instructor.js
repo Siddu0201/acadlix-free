@@ -1,4 +1,5 @@
-import { Autocomplete, Box, Chip, Grid, TextField } from "@mui/material";
+import { Autocomplete, Box, Chip, TextField } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
@@ -7,7 +8,7 @@ const Instructor = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Autocomplete
             sx={{
               width: "100%",
@@ -47,9 +48,9 @@ const Instructor = (props) => {
               />
             )}
             onChange={(_, newValue) => {
-              if(newValue?.length > 0){
+              if (newValue?.length > 0) {
                 props?.setValue("meta.user_ids", newValue?.map((v) => v?.ID) ?? []);
-              }else{
+              } else {
                 props?.setValue("meta.user_ids", []);
               }
             }}

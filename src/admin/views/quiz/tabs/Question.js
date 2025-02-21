@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Grid,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -11,6 +10,7 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import GridItem1 from "../../../../components/GridItem1";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTypography from "../../../../components/CustomTypography";
@@ -30,10 +30,10 @@ const Question = (props) => {
       </Box>
       <Grid container spacing={3} alignItems="center">
         {/* Used to show morks - +points & -points in question */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Marks", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -62,10 +62,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Display subject in question */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Display Subject", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -82,10 +82,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Show bullets in answer option- only for single and multiple choice */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Answer Bullet", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -102,10 +102,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Type of bullets to show Numeric/Alphabatic */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Answer Bullet Type", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -142,10 +142,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to show question overview in top of quiz */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Question Overview", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -162,10 +162,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to randomize question */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Random Question", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -181,10 +181,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to randomize answer options - only for single and multiple choice */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Random Option", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -212,10 +212,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to stop randomization of last option */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -236,10 +236,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to hide question numbering  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Question Numbering", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -258,10 +258,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Sort question according to subject */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Sort Questions By Subject", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -278,10 +278,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Attempt question and move forward automatically- only for single choice */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -312,10 +312,10 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Force user to answer each question */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>
         </GridItem1>
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />

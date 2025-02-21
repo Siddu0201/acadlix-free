@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { GetStatisticById } from "../../../../requests/admin/AdminStatisticRequest";
-import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, CircularProgress } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import AnswerSheetContent from "./AnswerSheetContent";
 import { TiArrowLeftThick } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
@@ -37,7 +38,7 @@ const QuizResultAnswerSheet = () => {
     leaderboard_header: "#9bbb59",
     leaderborad_text_background: "#f5faea",
   };
-  
+
   return (
     <Box>
       <Grid
@@ -47,7 +48,7 @@ const QuizResultAnswerSheet = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Button
             variant="contained"
             startIcon={<TiArrowLeftThick />}
@@ -61,19 +62,19 @@ const QuizResultAnswerSheet = () => {
             {__("Back", "acadlix")}
           </Button>
         </Grid>
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader title={__("AnswerSheet", "acadlix")} />
             <CardContent>
               {isFetching ?
-                <CircularProgress color="inherit" size={20}  />
-              : (
-                <AnswerSheetContent
-                  statistic={data?.data?.statistic}
-                  colorCode={colorCode}
-                  quiz={data?.data?.quiz}
-                />
-              )}
+                <CircularProgress color="inherit" size={20} />
+                : (
+                  <AnswerSheetContent
+                    statistic={data?.data?.statistic}
+                    colorCode={colorCode}
+                    quiz={data?.data?.quiz}
+                  />
+                )}
             </CardContent>
           </Card>
         </Grid>

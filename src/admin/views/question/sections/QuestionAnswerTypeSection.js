@@ -1,23 +1,22 @@
 import {
-  Alert,
   Card,
   CardContent,
   CardHeader,
   FormControlLabel,
-  Grid,
   Radio,
   RadioGroup,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const QuestionAnswerTypeSection = (props) => {
   const handleTypeChange = (e) => {
-    props?.setValue("answer_type", e.target.value, {shouldDirty: true});
+    props?.setValue("answer_type", e.target.value, { shouldDirty: true });
   }
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__('Answer Type', 'acadlix')}

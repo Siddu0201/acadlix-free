@@ -3,9 +3,9 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
@@ -27,10 +27,7 @@ const ParagraphContentSection = (props) => {
     };
   }, []);
   return (
-    <Grid
-      item
-      xs={12}
-      sm={12}
+    <Grid size={{ xs: 12, sm: 12, lg: 12 }}
       sx={{
         display: props?.lang?.selected ? "block" : "none",
       }}
@@ -60,7 +57,7 @@ const ParagraphContentSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <textarea
                 {...props?.register(`meta.language_data.${props?.index}.content`, {
                   required: {
@@ -89,18 +86,18 @@ const ParagraphContentSection = (props) => {
               {Boolean(
                 props.formState?.errors?.meta?.language_data?.[props?.index]?.content
               ) && (
-                <Alert
-                  severity="error"
-                  sx={{
-                    marginTop: 2,
-                  }}
-                >
-                  {
-                    props.formState.errors?.meta?.language_data?.[props?.index]?.content
-                      ?.message
-                  }
-                </Alert>
-              )}
+                  <Alert
+                    severity="error"
+                    sx={{
+                      marginTop: 2,
+                    }}
+                  >
+                    {
+                      props.formState.errors?.meta?.language_data?.[props?.index]?.content
+                        ?.message
+                    }
+                  </Alert>
+                )}
             </Grid>
           </Grid>
         </CardContent>

@@ -2,12 +2,12 @@ import React from "react";
 import {
   Tab,
   Box,
-  Grid,
   Card,
   CardContent,
   Button,
   CircularProgress,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import General from "./section/General";
 import Payment from "./section/Payment";
 import Notification from "./section/Notification";
@@ -147,7 +147,7 @@ function Setting() {
             padding: 4,
           }}
         >
-          <Grid item lg={12} md={12} sm={12} xs={12}>
+          <Grid size={{ lg: 12, md: 12, sm: 12, xs: 12 }}>
             <Card>
               <CardContent>
                 <Box sx={{ width: "100%" }}>

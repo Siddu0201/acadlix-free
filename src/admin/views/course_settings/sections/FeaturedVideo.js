@@ -1,4 +1,5 @@
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 

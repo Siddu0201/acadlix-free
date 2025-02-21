@@ -3,11 +3,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   IconButton,
   Typography,
 } from "@mui/material";
 import React from "react";
+import Grid from '@mui/material/Grid2';
 import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from '@wordpress/i18n'
@@ -37,12 +37,12 @@ const AddEditSectionModal = (props) => {
         }}
       >
         <Grid container gap={2}>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <Typography variant="h6">
               {__("Section Title", "acadlix")} <span style={{ color: "red" }}>*</span>
             </Typography>
           </Grid>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <CustomTextField
               {...props?.register("post_title", { required: __("Title is required", "acadlix") })}
               fullWidth
@@ -67,10 +67,10 @@ const AddEditSectionModal = (props) => {
               }}
             />
           </Grid>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <Typography variant="h6">{__("Section Description", "acadlix")}</Typography>
           </Grid>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <textarea
               rows={3}
               style={{

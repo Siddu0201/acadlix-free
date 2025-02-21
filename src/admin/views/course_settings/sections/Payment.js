@@ -3,11 +3,11 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  Grid,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
@@ -16,9 +16,9 @@ const Payment = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -27,7 +27,7 @@ const Payment = (props) => {
                 {__('Price (0 => Free)', 'acadlix')}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -59,9 +59,9 @@ const Payment = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -70,7 +70,7 @@ const Payment = (props) => {
                 {__("Activate Sale Price", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControlLabel
                 label={__("Activate", "acadlix")}
                 checked={props?.watch("meta.enable_sale_price")}
@@ -87,9 +87,9 @@ const Payment = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -98,7 +98,7 @@ const Payment = (props) => {
                 {__("Sale Price", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -131,9 +131,9 @@ const Payment = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -142,7 +142,7 @@ const Payment = (props) => {
                 {__("Tax", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControlLabel
                 label={__("Activate", "acadlix")}
                 checked={props?.watch("meta.tax")}
@@ -159,9 +159,9 @@ const Payment = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -170,7 +170,7 @@ const Payment = (props) => {
                 {__("Tax (%)", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 fullWidth
                 size="small"

@@ -4,9 +4,9 @@ import {
   Card,
   CardContent,
   CircularProgress,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import CategoryTemplateSection from "./sections/CategoryTemplateSection";
@@ -251,7 +251,7 @@ const QuizContent = (props) => {
             padding: 4,
           }}
         >
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12, lg: 12 }}>
             <Box
               sx={{
                 display: "flex",
@@ -300,11 +300,11 @@ const QuizContent = (props) => {
             removeEditor={removeEditor}
           />
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Card>
               <CardContent>
                 <Grid container spacing={{ xs: 1, sm: 3 }}>
-                  <Grid item xs={5} sm={3}>
+                  <Grid size={{ xs: 5, sm: 3 }}>
                     <Button variant="contained" size="medium" type="submit">
                       {createMutation?.isPending ||
                         updateMutation?.isPending ? (
@@ -314,7 +314,7 @@ const QuizContent = (props) => {
                       )}
                     </Button>
                   </Grid>
-                  <Grid item xs={7} sm={9}>
+                  <Grid size={{ xs: 7, sm: 9 }}>
                     <SaveTemplateSection {...methods} {...props} />
                   </Grid>
                 </Grid>

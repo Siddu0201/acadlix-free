@@ -6,7 +6,6 @@ import {
   CardHeader,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputLabel,
   MenuItem,
@@ -14,6 +13,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -119,7 +119,7 @@ const Paragraph = () => {
             paragraph?.post_title?.length > 50
               ? strip(paragraph?.post_title?.substring(0, 50))
               : strip(paragraph?.post_title),
-          content: default_lang?.content?.length > 50 ? strip(default_lang?.content?.substring(0,50)) : strip(default_lang?.content),
+          content: default_lang?.content?.length > 50 ? strip(default_lang?.content?.substring(0, 50)) : strip(default_lang?.content),
           no_of_questions: paragraph?.questions_count ?? 0,
         };
       });
@@ -190,7 +190,7 @@ const Paragraph = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Button
             variant="contained"
             startIcon={<TiArrowLeftThick />}
@@ -204,7 +204,7 @@ const Paragraph = () => {
             {__("Back", "acadlix")}
           </Button>
         </Grid>
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader
               title={

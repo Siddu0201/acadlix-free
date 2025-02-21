@@ -1,4 +1,5 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { FaPlus } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
@@ -16,7 +17,7 @@ const Faq = (props) => {
     props?.setValue(
       "faqs",
       props?.watch("faqs")?.filter((_, i) => i !== index),
-      {shouldDirty: true}
+      { shouldDirty: true }
     );
   };
   return (
@@ -25,9 +26,9 @@ const Faq = (props) => {
         {props?.watch("faqs")?.length > 0 &&
           props?.watch("faqs")?.map((f, index) => (
             <React.Fragment key={index}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <Typography
                       sx={{
                         fontWeight: 600,
@@ -36,7 +37,7 @@ const Faq = (props) => {
                       {__("Question", "acadlix")}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <textarea
                       style={{ width: "100%" }}
                       rows={3}
@@ -52,9 +53,9 @@ const Faq = (props) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <Typography
                       sx={{
                         fontWeight: 600,
@@ -63,7 +64,7 @@ const Faq = (props) => {
                       {__("Answer", "acadlix")}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <textarea
                       style={{ width: "100%" }}
                       rows={3}
@@ -79,7 +80,7 @@ const Faq = (props) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={12}>
+              <Grid size={{ xs: 12, sm: 12 }}>
                 <Button
                   color="error"
                   variant="contained"
@@ -91,7 +92,7 @@ const Faq = (props) => {
               </Grid>
             </React.Fragment>
           ))}
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Button
             color="primary"
             variant="contained"

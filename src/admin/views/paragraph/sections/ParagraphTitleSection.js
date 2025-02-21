@@ -1,11 +1,12 @@
-import { Card, CardContent, CardHeader, Grid } from "@mui/material";
+import { Card, CardContent, CardHeader } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
 const ParagraphTitleSection = (props) => {
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__("Title", "acadlix")}
@@ -18,7 +19,7 @@ const ParagraphTitleSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 {...props?.register("post_title", {
                   required: __("Title is required.", "acadlix"),

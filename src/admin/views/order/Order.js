@@ -5,10 +5,10 @@ import {
   CardContent,
   CardHeader,
   Chip,
-  Grid,
   Tooltip,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -153,7 +153,7 @@ const Order = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader
               title={
@@ -270,9 +270,9 @@ const Order = () => {
                       py: "15px",
                     },
                     "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell":
-                      {
-                        py: "22px",
-                      },
+                    {
+                      py: "22px",
+                    },
                   }}
                 />
               </Box>

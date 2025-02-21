@@ -8,7 +8,6 @@ import {
   Dialog,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputLabel,
   MenuItem,
@@ -17,6 +16,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -149,10 +149,10 @@ const Question = () => {
           title: question?.title
             ? question?.title
             : strip(
-                question?.question_languages
-                  ?.filter((d) => d?.default)?.[0]
-                  ?.question.substring(0, 50)
-              ),
+              question?.question_languages
+                ?.filter((d) => d?.default)?.[0]
+                ?.question.substring(0, 50)
+            ),
           type: getType(question?.answer_type),
           subject: question?.subject?.subject_name ?? "Uncategorized",
           points: question?.points,
@@ -289,7 +289,7 @@ const Question = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Button
             variant="contained"
             startIcon={<TiArrowLeftThick />}
@@ -303,7 +303,7 @@ const Question = () => {
             {__('Back', 'acadlix')}
           </Button>
         </Grid>
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader
               title={

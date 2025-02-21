@@ -1,4 +1,5 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
@@ -21,7 +22,7 @@ const Permalink = (props) => {
           alignItems: "center",
         }}
       >
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -31,7 +32,7 @@ const Permalink = (props) => {
             {__("Course base", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -43,7 +44,7 @@ const Permalink = (props) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -53,7 +54,7 @@ const Permalink = (props) => {
             {__("Category base", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -65,7 +66,7 @@ const Permalink = (props) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -75,7 +76,7 @@ const Permalink = (props) => {
             {__("Tag base", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"

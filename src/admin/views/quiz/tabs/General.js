@@ -1,7 +1,6 @@
 import React from "react";
 import {
   FormControlLabel,
-  Grid,
   Box,
   FormControl,
   RadioGroup,
@@ -11,6 +10,7 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CustomSwitch from "../../../../components/CustomSwitch";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -38,12 +38,12 @@ const General = (props) => {
         spacing={3}
         alignItems="center"
       >
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Quiz Title", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* Used to hide quiz title in a quiz */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -62,12 +62,12 @@ const General = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Hide Restart Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* User can restart quiz after submittion */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             checked={props?.watch("meta.quiz_settings.hide_restart_button") ?? false}
@@ -84,12 +84,12 @@ const General = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Clear Response Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* Used to clear answer button to clear option selction */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             checked={props?.watch("meta.quiz_settings.show_clear_response_button") ?? false}
@@ -104,12 +104,12 @@ const General = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Review Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
         {/* Button to review quiz  */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             checked={props?.watch("meta.quiz_settings.show_review_button") ?? false}
@@ -130,11 +130,11 @@ const General = (props) => {
           - full quiz time
           - per question time
         */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Quiz Time Type", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControl
             sx={{
               display: "flex",
@@ -186,11 +186,11 @@ const General = (props) => {
         </GridItem1>
 
         {/* Timing in sec (0 => infinity) */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Quiz Timing", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             label={__("Timing (in sec, 0 => infinite)", "acadlix")}
@@ -215,11 +215,11 @@ const General = (props) => {
         </GridItem1>
 
         {/* Quiz start date */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Start date", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <DemoContainer components={["DateTimePicker"]} sx={{
             "& .MuiFormControl-root ": {
               minWidth: "100% !important",
@@ -265,11 +265,11 @@ const General = (props) => {
         </GridItem1>
 
         {/* Quiz End Date */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("End date", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <DemoContainer components={["DateTimePicker"]} sx={{
             "& .MuiFormControl-root ": {
               minWidth: "100% !important",
@@ -325,16 +325,17 @@ const General = (props) => {
       </Box>
       <Grid
         container
+
         spacing={3}
         alignItems="center"
       >
 
         {/* If login is required for the quiz */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Enable login/register", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -354,11 +355,11 @@ const General = (props) => {
         </GridItem1>
 
         {/* Per user allowed attempt to attent the quiz */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Per User Allowed Attempt", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             label={__("Per User Allowed Attempt", "acadlix")}
             variant="outlined"
@@ -396,7 +397,7 @@ const General = (props) => {
       </Grid>
 
       {/* Quiz prerequisite */}
-      {/* <GridItem1 xs={12} lg={12}>
+      {/* <GridItem1 size={{  xs: 12 ,  lg: 12  }}>
           <FormControlLabel
             control={
               <CustomSwitch
@@ -427,15 +428,16 @@ const General = (props) => {
       </Box>
       <Grid
         container
+
         spacing={3}
         alignItems="center"
       >
         {/* Used to set limited number of question in a quiz */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Only Specific Number of Questions", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />
@@ -456,11 +458,11 @@ const General = (props) => {
         </GridItem1>
 
         {/* Number of question to set in quiz */}
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Specific Number of Questions", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -487,11 +489,11 @@ const General = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Enable Check Button", "acadlix")}</CustomTypography>
         </GridItem1>
 
-        <GridItem1 xs={12} sm={6} lg={3}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch />

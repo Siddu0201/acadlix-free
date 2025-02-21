@@ -1,12 +1,13 @@
 import React from "react";
-import { Box, Autocomplete, TextField, Grid } from "@mui/material";
+import { Box, Autocomplete, TextField } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import GridItem1 from "../../../../components/GridItem1";
 function Personalization() {
   const Color = [{ label: "Color1" }, { label: "Color2" }, { label: "Color3" }];
   return (
     <Box sx={{ color: "black" }}>
-      <Grid container>
-        <GridItem1 xs={12} lg={4}>
+      <Grid container >
+        <GridItem1 size={{ xs: 12, lg: 4 }}>
           <Autocomplete
             fullWidth
             size="small"
@@ -17,7 +18,7 @@ function Personalization() {
             )}
           />
         </GridItem1>
-        <GridItem1 xs={12} lg={4}>
+        <GridItem1 size={{ xs: 12, lg: 4 }}>
           <Autocomplete
             fullWidth
             size="small"

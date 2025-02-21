@@ -5,7 +5,6 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
   InputLabel,
   MenuItem,
   Radio,
@@ -13,6 +12,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { MediaUpload } from "@wordpress/media-utils";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -71,7 +71,7 @@ const OptionSection = (props) => {
   };
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardContent>
           <Grid
@@ -81,13 +81,13 @@ const OptionSection = (props) => {
               color: "black",
             }}
           >
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography variant="h6">
                 {__('Options', 'acadlix')}
               </Typography>
             </Grid>
 
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControl
                 sx={{
                   display: "flex",
@@ -159,7 +159,7 @@ const OptionSection = (props) => {
                   }}
                 />
 
-                <Grid item xs={4} sm={2}>
+                <Grid size={{ xs: 4, sm: 2 }}>
                   <CustomTextField
                     fullWidth
                     label={__("Hours", "acadlix")}
@@ -183,7 +183,7 @@ const OptionSection = (props) => {
                   />
                 </Grid>
 
-                <Grid item xs={4} sm={2}>
+                <Grid size={{ xs: 4, sm: 2 }}>
                   <CustomTextField
                     fullWidth
                     label={__('Minutes', 'acadlix')}
@@ -207,7 +207,7 @@ const OptionSection = (props) => {
                   />
                 </Grid>
 
-                <Grid item xs={4} sm={2}>
+                <Grid size={{ xs: 4, sm: 2 }}>
                   <CustomTextField
                     fullWidth
                     label={__('Seconds', 'acadlix')}
@@ -242,7 +242,7 @@ const OptionSection = (props) => {
                   <Resources key={index} index={index} {...props} {...r} />
                 ))}
 
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -270,7 +270,7 @@ const Resources = (props) => {
     });
   };
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardContent>
           <Grid
@@ -280,7 +280,7 @@ const Resources = (props) => {
               color: "black",
             }}
           >
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 fullWidth
                 name="title"
@@ -298,7 +298,7 @@ const Resources = (props) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControl fullWidth size="small">
                 <InputLabel id="demo-simple-select-label">{__("Type", "acadlix")}</InputLabel>
                 <Select
@@ -322,7 +322,7 @@ const Resources = (props) => {
               </FormControl>
             </Grid>
             {props?.type === "upload" && (
-              <Grid item xs={12} sm={12}>
+              <Grid size={{ xs: 12, sm: 12 }}>
                 <MediaUpload
                   onSelect={handleMediaChange}
                   render={({ open }) => (
@@ -344,7 +344,7 @@ const Resources = (props) => {
               </Grid>
             )}
             {props?.type === "link" && (
-              <Grid item xs={12} sm={12}>
+              <Grid size={{ xs: 12, sm: 12 }}>
                 <CustomTextField
                   fullWidth
                   name="link"
@@ -363,7 +363,7 @@ const Resources = (props) => {
                 />
               </Grid>
             )}
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Button
                 variant="contained"
                 color="error"

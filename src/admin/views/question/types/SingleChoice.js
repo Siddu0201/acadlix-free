@@ -7,9 +7,9 @@ import {
   Button,
   RadioGroup,
   Radio,
-  Grid,
   Alert,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { Controller } from "react-hook-form";
 import { __ } from "@wordpress/i18n";
 
@@ -31,7 +31,7 @@ const SingleChoice = (props) => {
           <Grid container spacing={4}>
             {props?.lang?.answer_data?.[props?.type]?.length > 0 &&
               props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
-                <Grid item xs={12} lg={12} key={index}>
+                <Grid size={{ xs: 12, lg: 12 }} key={index}>
                   <Option
                     {...props}
                     title={__("Option", "acadlix") + ` ${index + 1}`}
@@ -48,7 +48,7 @@ const SingleChoice = (props) => {
                   />
                 </Grid>
               ))}
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Button
                 variant="contained"
                 color="success"
@@ -93,7 +93,7 @@ const Option = (props) => {
       window.removeEventListener("load", loadPage);
     };
   }, []);
-  
+
   return (
     <Card>
       <CardHeader
@@ -108,24 +108,24 @@ const Option = (props) => {
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={2}>
+          <Grid size={{ xs: 12, lg: 2 }}>
             {Boolean(
               props.formState?.errors?.language?.[props?.language_index]
                 ?.answer_data?.[props?.type]?.[props?.option_index]?.isCorrect
             ) && (
-              <Alert
-                severity="error"
-                sx={{
-                  marginTop: 2,
-                }}
-              >
-                {
-                  props.formState.errors?.language?.[props?.language_index]
-                    ?.answer_data?.[props?.type]?.[props?.option_index]
-                    ?.isCorrect?.message
-                }
-              </Alert>
-            )}
+                <Alert
+                  severity="error"
+                  sx={{
+                    marginTop: 2,
+                  }}
+                >
+                  {
+                    props.formState.errors?.language?.[props?.language_index]
+                      ?.answer_data?.[props?.type]?.[props?.option_index]
+                      ?.isCorrect?.message
+                  }
+                </Alert>
+              )}
             <Controller
               rules={{
                 required: {
@@ -201,7 +201,7 @@ const Option = (props) => {
               {__("Delete", "acadlix")}
             </Button>
           </Grid>
-          <Grid item xs={12} lg={10}>
+          <Grid size={{ xs: 12, lg: 10 }}>
             <textarea
               {...props?.register(
                 `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`,
@@ -239,19 +239,19 @@ const Option = (props) => {
               props.formState?.errors?.language?.[props?.language_index]
                 ?.answer_data?.[props?.type]?.[props?.option_index]?.option
             ) && (
-              <Alert
-                severity="error"
-                sx={{
-                  marginTop: 2,
-                }}
-              >
-                {
-                  props.formState.errors?.language?.[props?.language_index]
-                    ?.answer_data?.[props?.type]?.[props?.option_index]?.option
-                    ?.message
-                }
-              </Alert>
-            )}
+                <Alert
+                  severity="error"
+                  sx={{
+                    marginTop: 2,
+                  }}
+                >
+                  {
+                    props.formState.errors?.language?.[props?.language_index]
+                      ?.answer_data?.[props?.type]?.[props?.option_index]?.option
+                      ?.message
+                  }
+                </Alert>
+              )}
           </Grid>
         </Grid>
       </CardContent>

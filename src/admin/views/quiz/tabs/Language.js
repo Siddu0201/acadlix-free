@@ -13,7 +13,6 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
   IconButton,
   List,
   ListItem,
@@ -24,6 +23,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React, { memo, useState } from "react";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomSwitch from "../../../../components/CustomSwitch";
@@ -111,22 +111,22 @@ const Language = (props) => {
       return;
     }
 
-    if(confirm(__('Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.', 'acadlix'))){
+    if (confirm(__('Are you sure you want to set this as the default language? This will update all associated data, including questions, instructions, and other content, to use this language as the default.', 'acadlix'))) {
       props?.setValue("meta.default_language_id", language_id, { shouldDirty: true });
       props?.setValue(
-        "meta.quiz_language_data", 
+        "meta.quiz_language_data",
         props?.watch("meta.quiz_language_data")?.map(l => {
-          if(l?.language_id === language_id){
+          if (l?.language_id === language_id) {
             l.default = true;
             l.selected = true;
-          }else{
+          } else {
             l.default = false;
             l.selected = false;
           }
           return l;
         })
         , { shouldDirty: true });
-      if(!props?.create){
+      if (!props?.create) {
         // update default langauge
       }
     }
@@ -138,10 +138,10 @@ const Language = (props) => {
       return;
     }
 
-    if(confirm(__('Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.', 'acadlix'))){
+    if (confirm(__('Are you sure you want to delete this language? This action will permanently remove all associated data, including questions, instructions, and other content in this language. Data in other languages will remain unaffected.', 'acadlix'))) {
       props?.setValue("languages", props?.watch("languages").filter(l => l !== language_id));
       props?.setValue("meta quiz_language_data", props?.watch("meta quiz_language_data")?.filter(l => l?.language_id !== language_id), { shouldDirty: true });
-      if(!props?.create){
+      if (!props?.create) {
         // update default langauge
       }
     }
@@ -177,13 +177,13 @@ const Language = (props) => {
           handleSaveLanaguage={handleSaveLanaguage}
         />
       </BootstrapDialog>
-      <Grid container>
-        <Grid item xs={12} sm={6} lg={4}>
-          <Grid container>
-            <GridItem1 xs={12} lg={12}>
+      <Grid container >
+        <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+          <Grid container >
+            <GridItem1 size={{ xs: 12, lg: 12 }}>
               <Typography variant="h6">{__('Language Options', 'acadlix')}</Typography>
             </GridItem1>
-            <GridItem1 xs={12} lg={12}>
+            <GridItem1 size={{ xs: 12, lg: 12 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -199,10 +199,7 @@ const Language = (props) => {
               />
             </GridItem1>
 
-            <GridItem1
-              xs={12}
-              sm={12}
-              lg={12}
+            <GridItem1 size={{ xs: 12, sm: 12, lg: 12 }}
               sx={{
                 display: props?.watch("meta.multi_language") ? "flex" : "none",
                 gap: 2
@@ -245,11 +242,7 @@ const Language = (props) => {
                 {__('Add', 'acadlix')}
               </LoadingButton>
             </GridItem1>
-            <GridItem1
-              xs={12}
-              sm={12}
-              lg={12}
-            >
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 6 }} >
               <List >
                 {props?.watch("languages").map((value, index) => (
                   <ListItem
@@ -320,7 +313,7 @@ const CopyLanguageModel = memo((props) => {
       </IconButton>
       <DialogContent>
         <Grid container gap={4}>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <FormControlLabel
               control={
                 <CustomSwitch

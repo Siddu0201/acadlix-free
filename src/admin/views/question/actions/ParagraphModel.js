@@ -6,11 +6,11 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
-  Grid,
   IconButton,
   TextField,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { IoClose } from "../../../../helpers/icons";
 import CustomSwitch from "../../../../components/CustomSwitch";
@@ -30,14 +30,14 @@ const ParagraphModel = (props) => {
 
   const handleSubmit = (data) => {
     setParagraphMutation?.mutate({
-        question_ids: props?.watch("question_ids"),
-        ...data
-    },{
-        onSettled: () => {
-            props?.setValue("action", "", {shouldDirty: true});
-            props?.setValue("question_ids", [], {shouldDirty: true});
-            props?.handleClose();
-        }
+      question_ids: props?.watch("question_ids"),
+      ...data
+    }, {
+      onSettled: () => {
+        props?.setValue("action", "", { shouldDirty: true });
+        props?.setValue("question_ids", [], { shouldDirty: true });
+        props?.handleClose();
+      }
     })
   }
 
@@ -60,7 +60,7 @@ const ParagraphModel = (props) => {
       </IconButton>
       <DialogContent>
         <Grid container gap={4} spacing={4}>
-          <Grid item xs={11} lg={11}>
+          <Grid size={{ xs: 11, lg: 11 }}>
             <Alert severity="warning">
               {__(
                 "The existing paragraph assigned to the question will be removed if no paragraph is selected before saving.",
@@ -68,7 +68,7 @@ const ParagraphModel = (props) => {
               )}
             </Alert>
           </Grid>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <FormControlLabel
               control={
                 <CustomSwitch
@@ -84,16 +84,16 @@ const ParagraphModel = (props) => {
             />
           </Grid>
           {methods?.watch("paragraph_enabled") && (
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Autocomplete
                 fullWidth
                 size="small"
                 value={
                   methods?.watch("paragraph_id") !== null
                     ? props?.paragraphs.filter(
-                        (option) =>
-                          methods?.watch("paragraph_id") === option?.ID
-                      )?.[0]
+                      (option) =>
+                        methods?.watch("paragraph_id") === option?.ID
+                    )?.[0]
                     : null
                 }
                 options={props?.paragraphs ? props?.paragraphs : []}

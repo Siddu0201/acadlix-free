@@ -5,10 +5,10 @@ import {
   CardHeader,
   Divider,
   FormControlLabel,
-  Grid,
   Radio,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
@@ -50,7 +50,7 @@ const PaymentMethod = (props) => {
             {props?.watch("razorpay") &&
               props?.watch("razorpay_client_id") &&
               props?.watch("razorpay_secret_key") && (
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
                       sx={{
@@ -105,7 +105,7 @@ const PaymentMethod = (props) => {
             {props?.watch("paypal") &&
               props?.watch("paypal_client_id") &&
               props?.watch("paypal_secret_key") && (
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
                       sx={{
@@ -160,7 +160,7 @@ const PaymentMethod = (props) => {
             {props?.watch("payu") &&
               props?.watch("payu_merchant_key") &&
               props?.watch("payu_salt") && (
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
                       sx={{
@@ -215,7 +215,7 @@ const PaymentMethod = (props) => {
             {!props?.watch("razorpay") &&
               !props?.watch("paypal") &&
               !props?.watch("payu") && (
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <Typography variant="body1">
                     {__("No payment gatway is activated, contact admin.", "acadlix")}
                   </Typography>

@@ -7,7 +7,8 @@ import MultipleChoice from "./types/MultipleChoice";
 import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
 import MatrixSortingChoice from "./types/MatrixSortingChoice";
-import { Button, Grid, Box, Typography, CircularProgress } from "@mui/material";
+import { Button, Box, Typography, CircularProgress } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { useForm } from "react-hook-form";
 import LanguageSection from "./sections/LanguageSection";
 import GeneralOptionSection from "./sections/GeneralOptionSection";
@@ -356,7 +357,7 @@ const QuestionContent = (props) => {
             padding: 4,
           }}
         >
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Box
               sx={{
                 display: "flex",
@@ -437,10 +438,7 @@ const QuestionContent = (props) => {
           {methods?.watch("language")?.length > 0 &&
             methods?.watch("language")?.map((lang, index) => (
               <React.Fragment key={index}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
+                <Grid size={{ xs: 12, sm: 12, lg: 12 }}
                   sx={{
                     display: lang?.selected ? "" : "none",
                   }}
@@ -459,7 +457,7 @@ const QuestionContent = (props) => {
             />
           )}
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Button variant="contained" type="submit">
               {createMutation?.isPending || updateMutation?.isPending ? (
                 <CircularProgress color="inherit" size={20} />

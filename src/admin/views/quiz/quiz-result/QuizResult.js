@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Grid,
   Typography,
   Paper,
   Avatar,
@@ -15,6 +14,7 @@ import {
   Button,
   Chip,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import {
   FaExpandArrowsAlt,
@@ -177,7 +177,7 @@ const QuizResult = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Button
             variant="contained"
             startIcon={<TiArrowLeftThick />}
@@ -202,7 +202,7 @@ const QuizResult = () => {
             {__('Reset Statistics', 'acadlix')}
           </Button>
         </Grid>
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader
               title={
@@ -234,7 +234,7 @@ const QuizResult = () => {
                 sx={{ marginBottom: "20px" }}
               >
                 <Grid container spacing={isMobile ? 2 : 3}>
-                  <Grid item xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Paper
                       sx={{
                         p: 2,
@@ -251,7 +251,7 @@ const QuizResult = () => {
                       </Typography>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Paper
                       sx={{
                         p: 2,
@@ -268,7 +268,7 @@ const QuizResult = () => {
                       </Typography>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Paper
                       sx={{
                         p: 2,
@@ -285,7 +285,7 @@ const QuizResult = () => {
                       </Typography>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Paper
                       sx={{
                         p: 2,

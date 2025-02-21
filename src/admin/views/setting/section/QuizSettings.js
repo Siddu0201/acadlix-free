@@ -1,4 +1,5 @@
-import { Autocomplete, Box, CircularProgress, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, CircularProgress, Divider, TextField, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from '../../../../components/CustomTextField';
@@ -146,7 +147,7 @@ const CategorySettings = ({ methods }) => {
                 <Divider />
             </Box>
             <Grid container spacing={4}>
-                <Grid item xs={12} sm={12} lg={7}>
+                <Grid size={{ xs: 12, sm: 12, lg: 7 }}>
                     <Grid
                         container
                         spacing={4}
@@ -154,7 +155,7 @@ const CategorySettings = ({ methods }) => {
                             alignItems: "center",
                         }}
                     >
-                        <Grid item xs={12} sm={4}>
+                        <Grid size={{ xs: 12, sm: 4 }}>
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -164,7 +165,7 @@ const CategorySettings = ({ methods }) => {
                                 {__("Select Category", "acadlix")}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={8}>
+                        <Grid size={{ xs: 12, sm: 8 }}>
                             <Autocomplete
                                 size="small"
                                 value={
@@ -212,7 +213,7 @@ const CategorySettings = ({ methods }) => {
 
                             />
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid size={{ xs: 12, sm: 4 }}>
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -229,7 +230,7 @@ const CategorySettings = ({ methods }) => {
                                 }
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={8}>
+                        <Grid size={{ xs: 12, sm: 8 }}>
                             <Box sx={{
                                 display: "flex",
                                 gap: 2,
@@ -382,7 +383,7 @@ const LanguageSettings = ({ methods }) => {
                 <Divider />
             </Box>
             <Grid container spacing={4}>
-                <Grid item xs={12} sm={12} lg={7}>
+                <Grid size={{ xs: 12, sm: 12, lg: 7 }}>
                     <Grid
                         container
                         spacing={4}
@@ -390,7 +391,7 @@ const LanguageSettings = ({ methods }) => {
                             alignItems: "center",
                         }}
                     >
-                        <Grid item xs={12} sm={4}>
+                        <Grid size={{ xs: 12, sm: 4 }}>
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -400,7 +401,7 @@ const LanguageSettings = ({ methods }) => {
                                 {__('Select Language', 'acadlix')}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={8}>
+                        <Grid size={{ xs: 12, sm: 8 }}>
                             <Autocomplete
                                 size="small"
                                 value={
@@ -448,7 +449,7 @@ const LanguageSettings = ({ methods }) => {
 
                             />
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid size={{ xs: 12, sm: 4 }}>
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -461,7 +462,7 @@ const LanguageSettings = ({ methods }) => {
                                 }
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={8}>
+                        <Grid size={{ xs: 12, sm: 8 }}>
                             <Box sx={{
                                 display: "flex",
                                 gap: 2,

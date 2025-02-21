@@ -1,12 +1,12 @@
 import React from "react";
 import {
-  Grid,
   Box,
   FormControlLabel,
   Button,
   Typography,
   Divider,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { useForm } from "react-hook-form";
@@ -31,7 +31,7 @@ function Notification(props) {
           alignItems: "center",
         }}
       >
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <Typography
             variant="body2"
             sx={{
@@ -41,7 +41,7 @@ function Notification(props) {
             {__("Notify Course Purchase To", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Student", "acadlix")}
@@ -60,7 +60,7 @@ function Notification(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Admin", "acadlix")}
@@ -79,7 +79,7 @@ function Notification(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <Typography
             variant="body2"
             sx={{
@@ -89,7 +89,7 @@ function Notification(props) {
             {__("Notify Course Completion To", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Student", "acadlix")}
@@ -108,7 +108,7 @@ function Notification(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Admin", "acadlix")}
@@ -127,7 +127,7 @@ function Notification(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <Typography
             variant="body2"
             sx={{
@@ -137,7 +137,7 @@ function Notification(props) {
             {__("Notify Failed Transaction To", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Student", "acadlix")}
@@ -156,7 +156,7 @@ function Notification(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Admin", "acadlix")}
@@ -202,7 +202,7 @@ const TestingEmail = (props) => {
   }
   return (
     <React.Fragment>
-      <Grid item xs={12} lg={12}>
+      <Grid size={{ xs: 12, lg: 12 }}>
         <CustomTextField
           {...methods?.register("to")}
           fullWidth
@@ -210,7 +210,7 @@ const TestingEmail = (props) => {
           label={__("To", "acadlix")}
         />
       </Grid>
-      <Grid item xs={12} lg={12}>
+      <Grid size={{ xs: 12, lg: 12 }}>
         <CustomTextField
           {...methods?.register("subject")}
           fullWidth
@@ -218,7 +218,7 @@ const TestingEmail = (props) => {
           label={__("Subject", "acadlix")}
         />
       </Grid>
-      <Grid item xs={12} lg={12}>
+      <Grid size={{ xs: 12, lg: 12 }}>
         <CustomTextField
           {...methods?.register("message")}
           fullWidth
@@ -228,7 +228,7 @@ const TestingEmail = (props) => {
           rows={3}
         />
       </Grid>
-      <Grid item xs={12} lg={12}>
+      <Grid size={{ xs: 12, lg: 12 }}>
         <Button variant="contained" color="primary" onClick={methods?.handleSubmit(handleSend)}>
           {__("Send", "acadlix")}
         </Button>

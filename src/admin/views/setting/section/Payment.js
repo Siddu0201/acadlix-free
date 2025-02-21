@@ -3,11 +3,11 @@ import {
   Box,
   Divider,
   FormControlLabel,
-  Grid,
   IconButton,
   InputAdornment,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { useForm } from "react-hook-form";
@@ -43,7 +43,7 @@ function Payment(props) {
           alignItems: "center",
         }}
       >
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("RazorPay", "acadlix")}
@@ -58,7 +58,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -90,7 +90,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -122,9 +122,9 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("PayPal", "acadlix")}
@@ -139,7 +139,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -171,7 +171,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -203,7 +203,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Sandbox", "acadlix")}
@@ -218,7 +218,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("PayU", "acadlix")}
@@ -237,7 +237,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -269,7 +269,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -305,7 +305,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Sandbox", "acadlix")}
@@ -324,7 +324,7 @@ function Payment(props) {
             }}
           />
         </Grid>
-        {/* <Grid item xs={12} lg={4}>
+        {/* <Grid size={{  xs: 12 ,  lg: 4  }}>
           <FormControlLabel
             control={<CustomSwitch />}
             label={__("Offline Payment Method", "acadlix")}

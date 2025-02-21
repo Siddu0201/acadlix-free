@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Box,
   Paper,
-  Grid,
   styled,
   useTheme,
   useMediaQuery,
@@ -25,6 +24,7 @@ import {
   CardContent,
   CardHeader,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import GridItem1 from "../../../components/GridItem1";
 import Card1 from "../../../components/Card1";
 import { __ } from "@wordpress/i18n";
@@ -63,8 +63,8 @@ export default function Course() {
   const styling = { p: 1, mb: "15px" };
   return (
     <Box>
-      <Grid container>
-        <GridItem1 lg={3} md={3} sm={3} xs={0}>
+      <Grid container >
+        <GridItem1 size={{ lg: 3, md: 3, sm: 3, xs: 0 }}>
           <Card
             sx={{
               height: "100%",
@@ -73,10 +73,10 @@ export default function Course() {
             <CardContent>Sidebar</CardContent>
           </Card>
         </GridItem1>
-        <Grid lg={9} md={9} sm={9} xs={12}>
+        <Grid size={{ lg: 9, md: 9, sm: 9, xs: 12 }}>
           <FormControl sx={{ width: "100%" }}>
-            <Grid container>
-              <GridItem1 lg={8} md={8} sm={8} xs={12}>
+            <Grid container >
+              <GridItem1 size={{ lg: 8, md: 8, sm: 8, xs: 12 }}>
                 <Item sx={{ boxShadow: 0, textAlign: "left" }}>
                   <Container maxWidth="100%" sx={styling}>
                     <h3>Add Course</h3>
@@ -87,7 +87,7 @@ export default function Course() {
                       Course Content
                     </Button>
                   </Container>
-                  
+
                   <Container maxWidth="100%" sx={styling}>
                     <h3>Course Name</h3>
                     <TextField fullWidth id="fullWidth" />
@@ -145,7 +145,7 @@ export default function Course() {
                   </Container>
                 </Item>
               </GridItem1>
-              <GridItem1 lg={4} md={4} sm={4} xs={12}>
+              <GridItem1 size={{ lg: 4, md: 4, sm: 4, xs: 12 }}>
                 <Card1 variant="outlined">
                   <CardHeader title="Draft" />
                   <CardContent>

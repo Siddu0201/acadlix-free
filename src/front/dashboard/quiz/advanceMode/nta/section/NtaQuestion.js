@@ -1,4 +1,5 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { FaArrowCircleDown, FaArrowCircleUp } from "../../../../../../helpers/icons";
 import TypeSingleChoice from "../../../questionTypes/TypeSingleChoice";
@@ -174,10 +175,7 @@ const NtaQuestion = (props) => {
                 >
                   {props?.question?.paragraph_enabled &&
                     props?.question?.paragraph_id !== null && (
-                      <Grid
-                        item
-                        xs={12}
-                        md={6}
+                      <Grid size={{ xs: 12, md: 6 }}
                         sx={{
                           borderRight: `1px solid grey`,
                           paddingRight: 1,
@@ -188,16 +186,7 @@ const NtaQuestion = (props) => {
                         </Typography>
                       </Grid>
                     )}
-                  <Grid
-                    item
-                    xs={12}
-                    md={
-                      props?.question?.paragraph_enabled &&
-                      props?.question?.paragraph_id !== null
-                        ? 6
-                        : 12
-                    }
-                  >
+                  <Grid size={{ xs: 12, md: props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null ? 6 : 12 }}>
                     <Typography
                       component="div"
                       sx={{

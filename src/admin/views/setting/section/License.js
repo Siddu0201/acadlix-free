@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
@@ -21,7 +22,7 @@ function License(props) {
           alignItems: "center",
         }}
       >
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -31,7 +32,7 @@ function License(props) {
             {__("Enter your email id", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} lg={9}>
+        <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
           <CustomTextField
             fullWidth
             size="small"
@@ -43,7 +44,7 @@ function License(props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -53,7 +54,7 @@ function License(props) {
             {__("Enter your license key", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} lg={9}>
+        <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
           <CustomTextField
             fullWidth
             size="small"

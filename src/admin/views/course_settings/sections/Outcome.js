@@ -1,4 +1,5 @@
-import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { FaPlus, FaTrash } from "../../../../helpers/icons";
@@ -24,7 +25,7 @@ const Outcome = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Typography
             sx={{
               fontWeight: 600,
@@ -35,10 +36,7 @@ const Outcome = (props) => {
         </Grid>
         {props?.watch("meta.outcomes")?.length > 0 &&
           props?.watch("meta.outcomes")?.map((o, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={12}
+            <Grid size={{ xs: 12, sm: 12, lg: 12 }}
               key={index}
               sx={{
                 display: "flex",
@@ -63,9 +61,9 @@ const Outcome = (props) => {
                 onKeyDown={props?.handleKeyDown}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
@@ -87,7 +85,7 @@ const Outcome = (props) => {
               </IconButton>
             </Grid>
           ))}
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Button
             color="primary"
             variant="contained"

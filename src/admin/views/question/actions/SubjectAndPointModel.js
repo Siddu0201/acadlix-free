@@ -5,12 +5,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   IconButton,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { IoClose } from "../../../../helpers/icons";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -111,7 +111,7 @@ const SubjectAndPointModel = (props) => {
       </IconButton>
       <DialogContent>
         <Grid container gap={4}>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <Autocomplete
               sx={{
                 width: "100%",
@@ -120,8 +120,8 @@ const SubjectAndPointModel = (props) => {
               value={
                 methods?.watch("subject_id") !== null
                   ? subjects.filter(
-                      (option) => methods?.watch("subject_id") === option?.id
-                    )?.[0]
+                    (option) => methods?.watch("subject_id") === option?.id
+                  )?.[0]
                   : null
               }
               disablePortal
@@ -177,7 +177,7 @@ const SubjectAndPointModel = (props) => {
               </Typography>
             )}
           </Grid>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <CustomTextField
               fullWidth
               size="small"
@@ -204,16 +204,16 @@ const SubjectAndPointModel = (props) => {
               }}
               sx={{
                 "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
+                {
+                  display: "none",
+                },
                 "& input[type=number]": {
                   MozAppearance: "textfield",
                 },
               }}
             />
           </Grid>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <CustomTextField
               fullWidth
               size="small"
@@ -240,9 +240,9 @@ const SubjectAndPointModel = (props) => {
               }}
               sx={{
                 "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
+                {
+                  display: "none",
+                },
                 "& input[type=number]": {
                   MozAppearance: "textfield",
                 },

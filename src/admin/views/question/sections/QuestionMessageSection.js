@@ -3,9 +3,9 @@ import {
   CardContent,
   CardHeader,
   FormControlLabel,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { __ } from "@wordpress/i18n";
@@ -28,10 +28,7 @@ const QuestionMessageSection = (props) => {
   }, []);
 
   return (
-    <Grid
-      item
-      xs={12}
-      sm={12}
+    <Grid size={{ xs: 12, sm: 12, lg: 12 }}
       sx={{
         display:
           props?.lang?.selected
@@ -57,7 +54,7 @@ const QuestionMessageSection = (props) => {
           color: "black"
         }}>
           <Grid container spacing={4}>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <FormControlLabel
                 control={<CustomSwitch
                   checked={props?.watch("different_incorrect_msg")}
@@ -70,11 +67,11 @@ const QuestionMessageSection = (props) => {
             </Grid>
             {
               props?.watch("different_incorrect_msg") &&
-              <Grid item xs={12} lg={12}>
+              <Grid size={{ xs: 12, lg: 12 }}>
                 <Typography variant="subtitle2">{__("Explanation for correct answer", "acadlix")}</Typography>
               </Grid>
             }
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <textarea
                 id={`correct_msg_${props?.lang?.language_id}`}
                 style={{
@@ -95,14 +92,14 @@ const QuestionMessageSection = (props) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} lg={12} sx={{
+            <Grid size={{ xs: 12, lg: 12 }} sx={{
               display: props?.watch('different_incorrect_msg') ? "" : "none",
             }}>
               <Typography variant="subtitle2">
                 {__("Explanation for incorrect answer", "acadlix")}
-                </Typography>
+              </Typography>
             </Grid>
-            <Grid item xs={12} lg={12} sx={{
+            <Grid size={{ xs: 12, lg: 12 }} sx={{
               display: props?.watch('different_incorrect_msg') ? "" : "none",
             }}>
               <textarea

@@ -4,9 +4,9 @@ import {
   Card,
   CardContent,
   CircularProgress,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { TiArrowLeftThick } from "../../../helpers/icons";
@@ -46,14 +46,14 @@ const LessonContent = (props) => {
         resources: props?.create
           ? []
           : props?.lesson?.rendered_metas?.resources?.map((r) => {
-              return {
-                title: r?.title,
-                type: r?.type,
-                filename: r?.filename,
-                file_url: r?.file_url,
-                link: r?.link,
-              };
-            }),
+            return {
+              title: r?.title,
+              type: r?.type,
+              filename: r?.filename,
+              file_url: r?.file_url,
+              link: r?.link,
+            };
+          }),
       }
     },
   });
@@ -118,7 +118,7 @@ const LessonContent = (props) => {
             padding: 4,
           }}
         >
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Box
               sx={{
                 display: "flex",
@@ -160,7 +160,7 @@ const LessonContent = (props) => {
             removeEditor={removeEditor}
           />
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Card>
               <CardContent>
                 <Button variant="contained" size="medium" type="submit">

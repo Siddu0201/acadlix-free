@@ -8,10 +8,10 @@ import {
   CardMedia,
   CircularProgress,
   Divider,
-  Grid,
   IconButton,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { FaTrashAlt } from "../../helpers/icons";
 import { DeleteCourseFromCart } from "../../requests/front/FrontCheckoutRequest";
@@ -49,7 +49,7 @@ const OrderItem = (props) => {
   const removeCourseMutation = DeleteCourseFromCart(props?.c?.id);
   const handleRemoveCourse = () => {
     removeCourseMutation?.mutate(
-      { },
+      {},
       {
         onSuccess: (data) => {
           if (data?.data?.cart) {
@@ -67,7 +67,7 @@ const OrderItem = (props) => {
   }, []);
 
   return (
-    <Grid item xs={12} md={12}>
+    <Grid size={{ xs: 12, md: 12 }}>
       <Card
         sx={{
           display: "flex",

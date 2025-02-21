@@ -5,9 +5,9 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { TiArrowLeftThick } from "../../../helpers/icons";
@@ -20,7 +20,7 @@ import {
 import ParagraphLanguageSection from "./sections/ParagraphLanguageSection";
 import ParagraphContentSection from "./sections/ParagraphContentSection";
 import ParagraphTitleSection from "./sections/ParagraphTitleSection";
-import  { __ } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
 const ParagraphContent = (props) => {
   const methods = useForm({
@@ -109,7 +109,7 @@ const ParagraphContent = (props) => {
             padding: 4,
           }}
         >
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Box
               sx={{
                 display: "flex",
@@ -157,7 +157,7 @@ const ParagraphContent = (props) => {
                 />
               </React.Fragment>
             ))}
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Button variant="contained" type="submit">
               {createMutation?.isPending || updateMutation?.isPending ? (
                 <CircularProgress size={20} color="inherit" />

@@ -1,4 +1,5 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import TypeMultipleChoice from "../../questionTypes/TypeMultipleChoice";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
@@ -105,7 +106,7 @@ const QuizQuestion = (props) => {
         );
     }
   };
-  
+
   return (
     <Box
       id="acadlix_quiz_question"
@@ -126,22 +127,14 @@ const QuizQuestion = (props) => {
               >
                 {props?.question?.paragraph_enabled &&
                   props?.question?.paragraph_id !== null && (
-                    <Grid item xs={12} md={6} sx={{
+                    <Grid size={{ xs: 12, md: 6 }} sx={{
                       borderRight: `1px solid grey`,
                       paddingRight: 1,
                     }}>
                       <Typography component="div">{lang?.paragraph}</Typography>
                     </Grid>
                   )}
-                <Grid
-                  item
-                  xs={12}
-                  md={
-                    props?.question?.paragraph_enabled &&
-                    props?.question?.paragraph_id !== null
-                      ? 6
-                      : 12
-                  }
+                <Grid size={{ xs: 12, md: props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null ? 6 : 12 }}
                 >
                   <Typography
                     component="div"

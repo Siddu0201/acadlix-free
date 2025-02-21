@@ -1,10 +1,11 @@
-import { Card, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from "@mui/material";
+import { Card, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const ParagraphLanguageSection = (props) => {
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__("Language", "acadlix")}
@@ -17,7 +18,7 @@ const ParagraphLanguageSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={9}>
+            <Grid size={{ xs: 12, sm: 9 }}>
               <FormControl
                 sx={{
                   flexDirection: "row",

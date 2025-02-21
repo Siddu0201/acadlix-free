@@ -5,13 +5,13 @@ import {
   DialogContent,
   Divider,
   FormControlLabel,
-  Grid,
   IconButton,
   InputAdornment,
   Link,
   Typography,
   useTheme,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
@@ -137,7 +137,7 @@ const Login = (props) => {
         }} />
         <form onSubmit={methods?.handleSubmit(handleSubmit)}>
           <Grid container gap={3}>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -166,7 +166,7 @@ const Login = (props) => {
                 error={Boolean(methods?.formState?.errors?.username)}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -213,7 +213,7 @@ const Login = (props) => {
                 error={Boolean(methods?.formState?.errors?.password)}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Box sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -222,11 +222,11 @@ const Login = (props) => {
                 <FormControlLabel
                   label={__("Remember me", 'acadlix')}
                   control={
-                  <Checkbox
-                    checked={methods?.watch("rememberme")}
-                    onClick={() => {
-                      methods?.setValue("rememberme", !methods?.watch("rememberme"), { shouldDirty: true });
-                    }} 
+                    <Checkbox
+                      checked={methods?.watch("rememberme")}
+                      onClick={() => {
+                        methods?.setValue("rememberme", !methods?.watch("rememberme"), { shouldDirty: true });
+                      }}
                     />
                   }
                 />
@@ -243,7 +243,7 @@ const Login = (props) => {
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <LoadingButton
                 loading={isLoading}
                 fullWidth
@@ -255,7 +255,7 @@ const Login = (props) => {
             </Grid>
             {
               props?.watch("users_can_register") &&
-              <Grid item xs={12} lg={12} sx={{
+              <Grid size={{ xs: 12, lg: 12 }} sx={{
                 display: "flex",
                 justifyContent: "center"
               }}>

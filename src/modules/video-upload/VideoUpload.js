@@ -1,13 +1,13 @@
 import {
   Button,
   FormControl,
-  Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MediaUpload } from "@wordpress/media-utils";
@@ -130,7 +130,7 @@ const VideoUpload = ({
 
   return (
     <>
-      <Grid item xs={xs} sm={sm}>
+      <Grid xs={xs} sm={sm}>
         <FormControl fullWidth size="small">
           <InputLabel id="acadlix-select-video-type">
             {__('Select Video Source', 'acadlix')}
@@ -154,9 +154,7 @@ const VideoUpload = ({
       </Grid>
 
       {sm < 12 && (
-        <Grid
-          item
-          sm={sm ? 12 - sm : 12}
+        <Grid size={{ sm: sm ? 12 - sm : 12 }}
           sx={{
             display: {
               xs: "none",
@@ -168,10 +166,7 @@ const VideoUpload = ({
 
       {methods?.watch("video_type") === "html_5" && (
         <>
-          <Grid
-            item
-            xs={xs}
-            sm={sm}
+          <Grid size={{ xs: xs, sm: sm }}
             sx={{
               display: "block",
             }}
@@ -210,9 +205,7 @@ const VideoUpload = ({
             )}
           </Grid>
           {sm < 12 && (
-            <Grid
-              item
-              sm={sm ? 12 - sm : 12}
+            <Grid size={{ sm: sm ? 12 - sm : 12 }}
               sx={{
                 display: {
                   xs: "none",
@@ -221,10 +214,7 @@ const VideoUpload = ({
               }}
             />
           )}
-          <Grid
-            item
-            xs={xs}
-            sm={sm}
+          <Grid size={{ xs: xs, sm: sm }}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -284,10 +274,7 @@ const VideoUpload = ({
 
       {["external_link", "youtube", "vimeo", "embedded", "shortcode"]?.map(
         (type, index) => (
-          <Grid
-            item
-            xs={xs}
-            sm={sm}
+          <Grid size={{ xs: xs, sm: sm }}
             key={index}
             sx={{
               display: methods?.watch("video_type") === type ? "" : "none",
@@ -315,9 +302,7 @@ const VideoUpload = ({
       )}
 
       {methods?.watch("video_type") !== "" && sm < 12 && (
-        <Grid
-          item
-          sm={sm ? 12 - sm : 12}
+        <Grid size={{ sm: sm ? 12 - sm : 12 }}
           sx={{
             display: {
               xs: "none",

@@ -1,11 +1,12 @@
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
 const TitleSection = (props) => {
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardContent>
           <Grid
@@ -15,13 +16,13 @@ const TitleSection = (props) => {
               color: "black",
             }}
           >
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography variant="h6">{__("Lesson Title", "acadlix")}</Typography>
             </Grid>
             {/* Used to enter quiz title  */}
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
-                {...props?.register("title", {required: "Title is required."})}
+                {...props?.register("title", { required: "Title is required." })}
                 fullWidth
                 name="title"
                 size="small"

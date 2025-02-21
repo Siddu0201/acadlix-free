@@ -4,7 +4,6 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Grid,
   TextField,
   Button,
   Box,
@@ -13,6 +12,7 @@ import {
   CircularProgress,
   Avatar,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import {
   GetUserProfile,
   PostUpdateUserPhoto,
@@ -133,7 +133,7 @@ const Profile = () => {
       </Backdrop>
       <form onSubmit={methods?.handleSubmit(onSubmit)}>
         <Grid container spacing={2.5}>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 display: "flex",
@@ -241,7 +241,7 @@ const Profile = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card sx={{ mb: 2.5, boxShadow: (theme) => theme.shadows[1] }}>
               <CardContent sx={{ mb: 4 }}>
                 <Typography variant="h6" component="div" gutterBottom>
@@ -259,7 +259,7 @@ const Profile = () => {
                   {__("Personal", "acadlix")}
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       {...methods?.register("first_name", {
                         required: "First name is required.",
@@ -284,7 +284,7 @@ const Profile = () => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label={__("Last name", "acadlix")}
@@ -298,7 +298,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <TextField
                       fullWidth
                       label={__("Email Address", "acadlix")}
@@ -313,7 +313,7 @@ const Profile = () => {
                       disabled={true}
                     />
                   </Grid>
-                  <Grid item xs={3} sm={3}>
+                  <Grid size={{ xs: 3, sm: 3 }}>
                     <Autocomplete
                       fullWidth
                       id="phonecode"
@@ -326,10 +326,10 @@ const Profile = () => {
                       value={
                         methods.watch("phonecode") !== null
                           ? Country?.getAllCountries()?.find(
-                              (country) =>
-                                country?.phonecode ===
-                                methods?.watch("phonecode")
-                            ) ?? null
+                            (country) =>
+                              country?.phonecode ===
+                              methods?.watch("phonecode")
+                          ) ?? null
                           : null
                       }
                       onChange={(_, newValue) => {
@@ -365,7 +365,7 @@ const Profile = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={9} sm={9}>
+                  <Grid size={{ xs: 9, sm: 9 }}>
                     <TextField
                       fullWidth
                       label={__("Phone / Mobile", "acadlix")}
@@ -379,7 +379,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <TextField
                       fullWidth
                       label={__("Address", "acadlix")}
@@ -393,7 +393,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <TextField
                       fullWidth
                       label={__("Website", "acadlix")}
@@ -407,7 +407,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid size={{ xs: 12, sm: 4 }}>
                     <Autocomplete
                       fullWidth
                       id="country"
@@ -418,9 +418,9 @@ const Profile = () => {
                       value={
                         methods.watch("country") !== null
                           ? Country.getAllCountries()?.find(
-                              (country) =>
-                                country?.name === methods.watch("country")
-                            ) ?? null
+                            (country) =>
+                              country?.name === methods.watch("country")
+                          ) ?? null
                           : null
                       }
                       onChange={(_, newValue) => {
@@ -456,7 +456,7 @@ const Profile = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid size={{ xs: 12, sm: 4 }}>
                     <TextField
                       fullWidth
                       label={__("Town/City", "acadlix")}
@@ -470,7 +470,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid size={{ xs: 12, sm: 4 }}>
                     <TextField
                       fullWidth
                       label={__("Postal/Zip Code", "acadlix")}
@@ -484,7 +484,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <TextField
                       fullWidth
                       multiline
@@ -506,7 +506,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
+                  <Grid size={{ xs: 12 }} sx={{ textAlign: "center", mt: 3 }}>
                     <Button
                       variant="contained"
                       color="primary"

@@ -1,5 +1,6 @@
 import React from "react";
-import { CardHeader, CardContent, Grid, Card } from "@mui/material";
+import { CardHeader, CardContent, Card } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
@@ -10,7 +11,7 @@ function RangeType(props) {
         title={
           props?.watch("multi_language")
             ? __("Range Type", "acadlix") +
-              ` (${props?.lang?.language_name})`
+            ` (${props?.lang?.language_name})`
             : __("Range Type", "acadlix")
         }
         titleTypographyProps={{
@@ -23,7 +24,7 @@ function RangeType(props) {
         }}
       >
         <Grid container spacing={4}>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <CustomTextField
               {...props?.register(
                 `language.${props?.index}.answer_data.${props?.type}.from`,
@@ -54,9 +55,9 @@ function RangeType(props) {
               }}
               sx={{
                 "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
+                {
+                  display: "none",
+                },
                 "& input[type=number]": {
                   MozAppearance: "textfield",
                 },
@@ -72,7 +73,7 @@ function RangeType(props) {
               }
             />
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <CustomTextField
               {...props?.register(
                 `language.${props?.index}.answer_data.${props?.type}.to`,
@@ -84,9 +85,9 @@ function RangeType(props) {
                   },
                   validate: (value) =>
                     value >
-                      props?.watch(
-                        `language.${props?.index}.answer_data.${props?.type}.from`
-                      ) || __("Must be greater than from", "acadlix"),
+                    props?.watch(
+                      `language.${props?.index}.answer_data.${props?.type}.from`
+                    ) || __("Must be greater than from", "acadlix"),
                 }
               )}
               fullWidth
@@ -108,9 +109,9 @@ function RangeType(props) {
               }}
               sx={{
                 "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
+                {
+                  display: "none",
+                },
                 "& input[type=number]": {
                   MozAppearance: "textfield",
                 },

@@ -4,11 +4,11 @@ import {
   Box,
   Button,
   CircularProgress,
-  Grid,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
@@ -208,7 +208,7 @@ const QuizLeaderboard = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12} sx={{
+        <Grid size={{ xs: 12, lg: 12 }} sx={{
           display: "flex",
           gap: 2
         }}>

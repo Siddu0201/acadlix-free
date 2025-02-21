@@ -1,12 +1,12 @@
 import {
   Box,
   FormControl,
-  Grid,
   InputLabel,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -19,7 +19,7 @@ const General = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Typography
             sx={{
               fontSize: "20px",
@@ -29,9 +29,9 @@ const General = (props) => {
             {__("Course Duration", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -40,7 +40,7 @@ const General = (props) => {
                 {__("Duration Type", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControl
                 fullWidth
                 size="small"
@@ -68,9 +68,9 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -79,7 +79,7 @@ const General = (props) => {
                 {__("Duration", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -111,7 +111,7 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Typography
             sx={{
               fontSize: "20px",
@@ -121,9 +121,9 @@ const General = (props) => {
             {__("Registration Scheduling", "acadlix")}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -132,7 +132,7 @@ const General = (props) => {
                 {__("Registration Start Date", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DateTimePicker
                   format="DD/MM/YYYY hh:mm:a"
@@ -180,9 +180,9 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -191,7 +191,7 @@ const General = (props) => {
                 {__("Registration End Date", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DateTimePicker
                   format="DD/MM/YYYY hh:mm:a"
@@ -239,9 +239,9 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -250,7 +250,7 @@ const General = (props) => {
                 {__("Difficulty Level", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <FormControl
                 fullWidth
                 size="small"
@@ -274,9 +274,9 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        {/* <Grid item xs={12} sm={6}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+        {/* <Grid size={{  xs: 12 ,  sm: 6  }}>
+          <Grid container  spacing={2}>
+            <Grid size={{  xs: 12 ,  sm: 12  }}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -285,7 +285,7 @@ const General = (props) => {
                 {__("Q&A", "acadlix")}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid size={{  xs: 12 ,  sm: 12  }}>
               <FormControlLabel label={__("Activate", "acadlix")} control={<Checkbox />} />
             </Grid>
           </Grid>

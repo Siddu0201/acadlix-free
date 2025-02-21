@@ -1,4 +1,5 @@
-import { Alert, Box, DialogContent, Divider, Grid, IconButton, Link, Typography, useTheme } from '@mui/material';
+import { Alert, Box, DialogContent, Divider, IconButton, Link, Typography, useTheme } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { IoClose } from '../../../helpers/icons';
@@ -6,7 +7,7 @@ import CustomTextField from '../../../components/CustomTextField';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { RawHTML } from '@wordpress/element';
-import {__} from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
 const ForgotPassword = (props) => {
     const theme = useTheme();
@@ -33,7 +34,7 @@ const ForgotPassword = (props) => {
                 setIsLoading(false);
                 if (res?.data?.success) {
                     methods?.setValue("submit", true, { shouldDirty: true });
-                    if(props?.onSuccessForgotPassword){
+                    if (props?.onSuccessForgotPassword) {
                         props?.onSuccessForgotPassword(res?.data?.data);
                     }
                 } else {
@@ -99,7 +100,7 @@ const ForgotPassword = (props) => {
                         {
                             !methods?.watch("submit") ?
                                 <>
-                                    <Grid item xs={12} lg={12}>
+                                    <Grid size={{ xs: 12, lg: 12 }}>
                                         <Typography
                                             variant="body2"
                                             sx={{
@@ -128,7 +129,7 @@ const ForgotPassword = (props) => {
                                             error={Boolean(methods?.formState?.errors?.username)}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} lg={12}>
+                                    <Grid size={{ xs: 12, lg: 12 }}>
                                         <LoadingButton
                                             loading={isLoading}
                                             fullWidth
@@ -140,13 +141,13 @@ const ForgotPassword = (props) => {
                                     </Grid>
                                 </>
                                 :
-                                <Grid item xs={12} lg={12}>
+                                <Grid size={{ xs: 12, lg: 12 }}>
                                     <Alert severity="success">
                                         {__("Check your email for the confirmation link, then visit the login page.", 'acadlix')}
                                     </Alert>
                                 </Grid>
                         }
-                        <Grid item xs={12} lg={12} sx={{
+                        <Grid size={{ xs: 12, lg: 12 }} sx={{
                             display: "flex",
                             justifyContent: "center"
                         }}>

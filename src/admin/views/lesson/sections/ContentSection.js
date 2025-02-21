@@ -1,4 +1,5 @@
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 
 const ContentSection = (props) => {
@@ -17,7 +18,7 @@ const ContentSection = (props) => {
   }, []);
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <textarea
         id="content"
         rows={12}

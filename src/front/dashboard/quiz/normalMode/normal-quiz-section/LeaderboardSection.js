@@ -1,4 +1,5 @@
-import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import First from "../../../../../images/medal-1.svg";
 import Second from "../../../../../images/medal-2.svg";
@@ -135,11 +136,11 @@ const LeaderboardSection = (props) => {
   const loadMoreMutation = PostLoadMoreLeaderboard(props?.watch("id"));
   const handleLoadMoreLeaderboard = () => {
     loadMoreMutation.mutate({
-      toplist_view_count : props?.watch("toplist")?.length,
+      toplist_view_count: props?.watch("toplist")?.length,
       leaderboard_total_number_of_entries: props?.watch('leaderboard_total_number_of_entries'),
     }, {
       onSuccess: (data) => {
-        props?.setValue("toplist", [...props?.watch("toplist"),... data?.data?.toplist], {shouldDirty: true});
+        props?.setValue("toplist", [...props?.watch("toplist"), ...data?.data?.toplist], { shouldDirty: true });
       }
     })
   }
@@ -147,12 +148,12 @@ const LeaderboardSection = (props) => {
   return (
     <Grid
       container
-      sx={{ 
-        backgroundColor: "#37afca", 
+      sx={{
+        backgroundColor: "#37afca",
         marginY: 2,
         justifyContent: "center",
         flexDirection: "column",
-       }}
+      }}
     >
       <Box sx={styles.header}>
         <Typography variant="h5" sx={{ fontWeight: "600" }}>

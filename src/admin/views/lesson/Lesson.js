@@ -6,7 +6,6 @@ import {
   CardHeader,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputLabel,
   MenuItem,
@@ -14,6 +13,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -178,7 +178,7 @@ const Lesson = () => {
           padding: 4,
         }}
       >
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
             <CardHeader
               title={

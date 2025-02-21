@@ -5,10 +5,10 @@ import {
   CardHeader,
   FormControl,
   FormControlLabel,
-  Grid,
   Radio,
   RadioGroup,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
@@ -68,7 +68,7 @@ const QuizModeSection = (props) => {
   };
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__('Mode', 'acadlix')}
@@ -85,7 +85,7 @@ const QuizModeSection = (props) => {
                 - contain enable back button
                 - contain enable check button
             */}
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Card
                 sx={{
                   height: "100%",
@@ -151,7 +151,7 @@ const QuizModeSection = (props) => {
                 - contain enable on option selected
                 - skip button
             */}
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Card
                 sx={{
                   height: "100%",
@@ -245,7 +245,7 @@ const QuizModeSection = (props) => {
             {/* Used to enable question below each other mode
                 - contain question per page textfield
             */}
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Card
                 sx={{
                   height: "100%",
@@ -313,9 +313,9 @@ const QuizModeSection = (props) => {
                       }}
                       sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                          {
-                            display: "none",
-                          },
+                        {
+                          display: "none",
+                        },
                         "& input[type=number]": {
                           MozAppearance: "textfield",
                         },
@@ -335,7 +335,7 @@ const QuizModeSection = (props) => {
                 - JEE
                 - Railway
             */}
-            <Grid item xs={12} sm={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Card
                 sx={{
                   height: "100%",

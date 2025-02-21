@@ -4,16 +4,16 @@ import {
   Card,
   CardHeader,
   Divider,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const AdvanceResultComparission = (props) => {
   return (
-    <Grid container>
-      <Grid item xs={12} sm={12}>
+    <Grid container >
+      <Grid size={{ xs: 12, sm: 12 }}>
         <Card>
           <CardHeader
             title={__("Result comparison with topper", "acadlix")}
@@ -42,14 +42,14 @@ const AdvanceResultComparission = (props) => {
                 },
               }}
             >
-              <Grid container>
-                <Grid item md={4} xs={6}></Grid>
-                <Grid item md={4} xs={3}>
+              <Grid container >
+                <Grid size={{ md: 4, xs: 6 }}></Grid>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     <b>{__("You", "acadlix")}</b>
                   </Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     <b>{__("Topper", "acadlix")}</b>
                   </Typography>
@@ -58,11 +58,8 @@ const AdvanceResultComparission = (props) => {
               <Divider />
 
               {/* Name */}
-              <Grid container>
-                <Grid
-                  item
-                  md={4}
-                  xs={6}
+              <Grid container >
+                <Grid size={{ xs: 6, md: 4 }}
                   sx={{
                     display: "flex",
                     gap: "8px",
@@ -72,21 +69,18 @@ const AdvanceResultComparission = (props) => {
                   <Avatar src={props?.Name} sx={{ width: 20, height: 20 }} />
                   <b>{__("Name:", "acadlix")}</b>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>{props?.watch("name")}</Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>{props?.watch("topper_result.name")}</Typography>
                 </Grid>
               </Grid>
               <Divider />
 
               {/* Time */}
-              <Grid container>
-                <Grid
-                  item
-                  md={4}
-                  xs={6}
+              <Grid container >
+                <Grid size={{ xs: 6, md: 4 }}
                   sx={{
                     display: "flex",
                     gap: "8px",
@@ -99,10 +93,10 @@ const AdvanceResultComparission = (props) => {
                   />
                   <b>{__("Time:", "acadlix")}</b>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>{props?.time}</Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     {props?.watch("topper_result.quiz_time")}
                   </Typography>
@@ -111,11 +105,8 @@ const AdvanceResultComparission = (props) => {
               <Divider />
 
               {/* Points */}
-              <Grid container>
-                <Grid
-                  item
-                  md={4}
-                  xs={6}
+              <Grid container >
+                <Grid size={{ xs: 6, md: 4 }}
                   sx={{
                     display: "flex",
                     gap: "8px",
@@ -128,10 +119,10 @@ const AdvanceResultComparission = (props) => {
                   />
                   <b>{__("Points:", "acadlix")}</b>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>{props?.points?.toFixed(2)}</Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     {props?.watch("topper_result.points")}
                   </Typography>
@@ -140,11 +131,8 @@ const AdvanceResultComparission = (props) => {
               <Divider />
 
               {/* Result */}
-              <Grid container>
-                <Grid
-                  item
-                  md={4}
-                  xs={6}
+              <Grid container >
+                <Grid size={{ xs: 6, md: 4 }}
                   sx={{
                     display: "flex",
                     gap: "8px",
@@ -154,10 +142,10 @@ const AdvanceResultComparission = (props) => {
                   <Avatar src={props?.Result} sx={{ width: 20, height: 20 }} />
                   <b>{__("Result:", "acadlix")}</b>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>{props?.result?.toFixed(2)}%</Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     {props?.watch("topper_result.result")}%
                   </Typography>
@@ -166,11 +154,8 @@ const AdvanceResultComparission = (props) => {
               <Divider />
 
               {/* Accuracy */}
-              <Grid container>
-                <Grid
-                  item
-                  md={4}
-                  xs={6}
+              <Grid container >
+                <Grid size={{ xs: 6, md: 4 }}
                   sx={{
                     display: "flex",
                     gap: "8px",
@@ -183,10 +168,10 @@ const AdvanceResultComparission = (props) => {
                   />
                   <b>{__("Accuracy:", "acadlix")}</b>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>{props?.accuracy}%</Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     {props?.watch("topper_result.accuracy")}%
                   </Typography>
@@ -201,10 +186,7 @@ const AdvanceResultComparission = (props) => {
                   marginBottom: "15px",
                 }}
               >
-                <Grid
-                  item
-                  md={4}
-                  xs={6}
+                <Grid size={{ xs: 6, md: 4 }}
                   sx={{
                     display: "flex",
                     gap: "8px",
@@ -221,14 +203,14 @@ const AdvanceResultComparission = (props) => {
                   />
                   <b>{__("Status:", "acadlix")}</b>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     {props?.result > props?.watch("minimum_percent_to_pass")
                       ? __("Pass", "acadlix")
                       : __("Fail", "acadlix")}
                   </Typography>
                 </Grid>
-                <Grid item md={4} xs={3}>
+                <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
                     {props?.watch("topper_result.status")}
                   </Typography>

@@ -4,9 +4,9 @@ import {
   CardHeader,
   CardContent,
   Button,
-  Grid,
   Alert,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { __ } from "@wordpress/i18n";
 
 function SortingChoice(props) {
@@ -23,7 +23,7 @@ function SortingChoice(props) {
           {
             props?.lang?.answer_data?.[props?.type]?.length > 0 &&
             props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
-              <Grid item xs={12} lg={12} key={index}>
+              <Grid size={{ xs: 12, lg: 12 }} key={index}>
                 <Option
                   {...props}
                   title={__('Option', 'acadlix') + ` ${index + 1}`}
@@ -38,7 +38,7 @@ function SortingChoice(props) {
               </Grid>
             ))
           }
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <Button
               variant="contained"
               color="success"
@@ -87,7 +87,7 @@ const Option = (props) => {
         }}></CardHeader>
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <textarea
               {...props?.register(
                 `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.option`,
@@ -136,7 +136,7 @@ const Option = (props) => {
                 </Alert>
               )}
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Button
               variant="contained"
               color="error"

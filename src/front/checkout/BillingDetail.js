@@ -5,10 +5,10 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Grid,
   TextField,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../components/CustomTextField";
 import { Country } from "country-state-city";
@@ -18,11 +18,11 @@ const BillingDetail = (props) => {
   return (
     <Box>
       <Card>
-        <CardHeader title={__( 'Billing Detail', 'acadlix' )} />
+        <CardHeader title={__('Billing Detail', 'acadlix')} />
         <Divider />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -56,7 +56,7 @@ const BillingDetail = (props) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -80,7 +80,7 @@ const BillingDetail = (props) => {
                 disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
-            <Grid item xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -112,7 +112,7 @@ const BillingDetail = (props) => {
                 }
               />
             </Grid>
-            <Grid item xs={3} md={3}>
+            <Grid size={{ xs: 3, md: 3 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -178,7 +178,7 @@ const BillingDetail = (props) => {
                 )}
               />
             </Grid>
-            <Grid item xs={9} md={9}>
+            <Grid size={{ xs: 9, md: 9 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -195,7 +195,7 @@ const BillingDetail = (props) => {
                 value={props?.watch("billing_info.phone_number")}
                 onChange={(e) => {
                   const inputValue = e?.target?.value;
-                  if(/^[0-9\-\(\) ]+$/.test(inputValue) || inputValue === ''){
+                  if (/^[0-9\-\(\) ]+$/.test(inputValue) || inputValue === '') {
                     props?.setValue(
                       "billing_info.phone_number",
                       inputValue,
@@ -208,7 +208,7 @@ const BillingDetail = (props) => {
                 disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
-            <Grid item xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -232,7 +232,7 @@ const BillingDetail = (props) => {
                 disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -291,7 +291,7 @@ const BillingDetail = (props) => {
                 )}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -315,7 +315,7 @@ const BillingDetail = (props) => {
                 disabled={!props?.watch("is_user_logged_in")}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Typography
                 variant="body2"
                 sx={{

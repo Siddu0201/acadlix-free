@@ -5,11 +5,11 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
-  Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { PostCreateSubject } from "../../../../requests/admin/AdminSubjectRequest";
@@ -54,7 +54,7 @@ const GeneralOptionSection = (props) => {
   };
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__("General Options", "acadlix")}
@@ -67,7 +67,7 @@ const GeneralOptionSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={5}>
+            <Grid size={{ xs: 12, sm: 5 }}>
               <CustomTextField
                 {...props?.register("title")}
                 fullWidth
@@ -81,7 +81,7 @@ const GeneralOptionSection = (props) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid size={{ xs: 12, sm: 2 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -108,16 +108,16 @@ const GeneralOptionSection = (props) => {
                 }}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid size={{ xs: 12, sm: 2 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -144,24 +144,24 @@ const GeneralOptionSection = (props) => {
                 }}
                 sx={{
                   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
+                  {
+                    display: "none",
+                  },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
                   },
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid size={{ xs: 12, sm: 3 }}>
               <Autocomplete
                 fullWidth
                 size="small"
                 value={
                   props?.watch("subject_id") !== null
                     ? subjects.filter(
-                        (option) => props?.watch("subject_id") === option?.id
-                      )?.[0]
+                      (option) => props?.watch("subject_id") === option?.id
+                    )?.[0]
                     : null
                 }
                 options={subjects ? subjects : []}

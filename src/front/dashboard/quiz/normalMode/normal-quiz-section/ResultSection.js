@@ -1,9 +1,9 @@
 import {
   Avatar,
   Box,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import TickImage from "../../../../../images/icons8-correct-96.png";
 import ClockImage from "../../../../../images/clock-svgrepo-com.png";
@@ -97,7 +97,7 @@ const ResultSection = (props) => {
         }}
         rowGap={2}
       >
-        <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+        <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Avatar src={TickImage} />
           </Box>
@@ -109,7 +109,7 @@ const ResultSection = (props) => {
           </Box>
         </Grid>
         {!props?.watch("hide_negative_marks") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Negative} />
             </Box>
@@ -122,7 +122,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {props?.watch("save_statistic") && props?.watch("show_average_score") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Average} />
             </Box>
@@ -137,7 +137,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {props?.watch("show_status_based_on_min_percent") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar
                 src={
@@ -158,7 +158,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {props?.watch("show_accuracy") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={AccuracyImage} />
             </Box>
@@ -171,7 +171,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {!props?.watch("hide_quiz_time") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={ClockImage} />
             </Box>
@@ -184,7 +184,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {props?.watch("leaderboard") && props?.watch("show_rank") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Rank} />
             </Box>
@@ -197,7 +197,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {props?.watch("save_statistic") && props?.watch("show_percentile") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Percentile} />
             </Box>
@@ -210,7 +210,7 @@ const ResultSection = (props) => {
           </Grid>
         )}
         {props?.watch("show_speed") && (
-          <Grid item xs={6} sm={4} sx={{ textAlign: "center" }}>
+          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar src={Speed} />
             </Box>

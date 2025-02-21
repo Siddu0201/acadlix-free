@@ -1,11 +1,12 @@
 import React from "react";
-import { Typography, Box, Grid, styled } from "@mui/material";
+import { Typography, Box, styled } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import Picture1 from "../images/dashboard.svg";
 import Picture2 from "../images/blob-4-light-teal.svg";
 import Picture3 from "../images/blob-5-blue.svg";
 import Picture4 from "../images/blob-4-safrron.svg";
 import { useTheme } from "@mui/material/styles";
-import {dateI18n} from "@wordpress/date";
+import { dateI18n } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
 
 const DashboardHeader = () => {
@@ -51,7 +52,6 @@ const DashboardHeader = () => {
         }}
       >
         <Grid
-          item
           sx={{
             width: "100%",
           }}
@@ -83,7 +83,7 @@ const DashboardHeader = () => {
                   },
                 }}
               >
-                {dateI18n(acadlixOptions?.date_time_format)} 
+                {dateI18n(acadlixOptions?.date_time_format)}
               </Typography>
             </Box>
             <Box>
@@ -159,9 +159,8 @@ const DashboardHeader = () => {
         </Grid>
 
         <Grid
-          item
           sx={{
-            display:{
+            display: {
               sm: "block",
               xs: "none",
             }

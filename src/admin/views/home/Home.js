@@ -5,11 +5,11 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Grid,
   List,
   ListItem,
   Typography,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import AcadlixLogo from "../../../images/acadlix_logo.png";
 import {
@@ -20,7 +20,7 @@ import {
   FaCog,
   MdOutlineSupportAgent
 } from "../../../helpers/icons";
-import { __ } from "@wordpress/i18n"; 
+import { __ } from "@wordpress/i18n";
 import parse from "html-react-parser";
 
 const Home = () => {
@@ -33,7 +33,7 @@ const Home = () => {
         padding: 4,
       }}
     >
-      <Grid item xs={12} md={12}>
+      <Grid size={{ xs: 12, md: 12 }}>
         <Card>
           <CardContent
             sx={{
@@ -73,7 +73,7 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={7 / 2}>
+      <Grid size={{ xs: 12 }} md={7 / 2}>
         <Card sx={{ height: "100%" }}>
           <CardHeader title="A demo text here" />
           <CardContent>
@@ -83,9 +83,9 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Grid container spacing={4} rowSpacing={3} sx={{ height: "100%" }}>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: "100%" }}>
               <CardHeader title="Quizes" />
               <CardContent>
@@ -95,7 +95,7 @@ const Home = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: "100%" }}>
               <CardHeader title="Questions" />
               <CardContent>
@@ -105,7 +105,7 @@ const Home = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: "100%" }}>
               <CardHeader title="Quizes" />
               <CardContent>
@@ -115,7 +115,7 @@ const Home = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: "100%" }}>
               <CardHeader title="Upcoming" />
               <CardContent>
@@ -125,7 +125,7 @@ const Home = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: "100%" }}>
               <CardHeader title="Past" />
               <CardContent>
@@ -135,7 +135,7 @@ const Home = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: "100%" }}>
               <CardHeader title="On Going" />
               <CardContent>
@@ -147,7 +147,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} md={5 / 2}>
+      <Grid size={{ xs: 12 }} md={5 / 2}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title="Get Pro!"
@@ -312,7 +312,7 @@ const Home = () => {
           </CardActions>
         </Card>
       </Grid>
-      <Grid item xs={12} md={9 / 2}>
+      <Grid size={{ xs: 12 }} md={9 / 2}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title={
@@ -357,7 +357,7 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={5}>
+      <Grid size={{ xs: 12, md: 5 }}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title={
@@ -402,7 +402,7 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={5 / 2}>
+      <Grid size={{ xs: 12 }} md={5 / 2}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title={
@@ -447,7 +447,7 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={19 / 2}>
+      <Grid size={{ xs: 12 }} md={19 / 2}>
         <Card
           sx={{
             height: "100%",
@@ -515,7 +515,7 @@ const Home = () => {
           </CardActions>
         </Card>
       </Grid>
-      <Grid item xs={12} md={5 / 2}>
+      <Grid size={{ xs: 12 }} md={5 / 2}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title={

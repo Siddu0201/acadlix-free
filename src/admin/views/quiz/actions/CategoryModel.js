@@ -1,5 +1,6 @@
-import { Autocomplete, Button, CircularProgress, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, CircularProgress, DialogActions, DialogContent, DialogTitle, IconButton, Paper, TextField, Typography } from "@mui/material";
 import React from "react";
+import Grid from '@mui/material/Grid2';
 import {
   GetCategories,
   PostCreateCategory,
@@ -66,7 +67,7 @@ const CategoryModel = (props) => {
 
   const setCategory = PostSetCategory();
   const handleSubmit = (data) => {
-    if(!data?.category_id){
+    if (!data?.category_id) {
       methods?.setError(`category_id`, {
         type: "custom",
         message: __("Category cannot be empty", "acadlix"),
@@ -107,7 +108,7 @@ const CategoryModel = (props) => {
       </IconButton>
       <DialogContent>
         <Grid container gap={4}>
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <Autocomplete
               size="small"
               value={

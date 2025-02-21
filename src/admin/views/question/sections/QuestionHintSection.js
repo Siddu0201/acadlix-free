@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, FormControlLabel, Grid } from "@mui/material";
+import { Card, CardContent, CardHeader, FormControlLabel } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { __ } from "@wordpress/i18n";
@@ -19,10 +20,7 @@ const QuestionHintSection = (props) => {
   }, []);
 
   return (
-    <Grid
-      item
-      xs={12}
-      sm={12}
+    <Grid size={{ xs: 12, sm: 12, lg: 12 }}
       sx={{
         display:
           props?.lang?.selected
@@ -46,18 +44,18 @@ const QuestionHintSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <FormControlLabel
-                control={<CustomSwitch 
+                control={<CustomSwitch
                   checked={props?.watch("hint_enabled")}
-                  onChange={(e)=> {
-                    props?.setValue("hint_enabled", e?.target?.checked, {shouldDirty: true});
-                  }}  
+                  onChange={(e) => {
+                    props?.setValue("hint_enabled", e?.target?.checked, { shouldDirty: true });
+                  }}
                 />}
                 label={__("Enable Hint", "acadlix")}
               />
             </Grid>
-            <Grid item xs={12} lg={12} sx={{
+            <Grid size={{ xs: 12, lg: 12 }} sx={{
               display: props?.watch("hint_enabled") ? "" : "none",
             }}>
               <textarea

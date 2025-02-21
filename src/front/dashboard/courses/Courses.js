@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Grid,
   Autocomplete,
   TextField,
   InputAdornment,
@@ -14,6 +13,7 @@ import {
   Pagination,
   CircularProgress,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { useNavigate } from "react-router-dom";
 import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
 import { FaSearch } from "../../../helpers/icons";
@@ -61,7 +61,7 @@ const Courses = () => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
           <Card
             sx={{
               marginBottom: 2,
@@ -70,9 +70,9 @@ const Courses = () => {
           >
             <CardContent>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={7}>
+                <Grid size={{ xs: 12, sm: 7 }}>
                   <Grid container spacing={3}>
-                    <Grid item xs={4} sm={4}>
+                    <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete
                         size="small"
                         options={Categories}
@@ -81,7 +81,7 @@ const Courses = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={4} sm={4}>
+                    <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete
                         size="small"
                         options={Categories}
@@ -90,7 +90,7 @@ const Courses = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={4} sm={4}>
+                    <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete
                         size="small"
                         options={Categories}
@@ -101,10 +101,7 @@ const Courses = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={5}
+                <Grid size={{ xs: 12, sm: 5 }}
                   sx={{
                     display: "flex",
                     justifyContent: "end",
@@ -143,20 +140,20 @@ const Courses = () => {
         sx={{ borderBottom: "1px solid #D3D3D3", pb: 5 }}
       >
         {isFetching ? (
-          <Grid item xs={12} lg={12}>
+          <Grid size={{ xs: 12, lg: 12 }}>
             <CircularProgress />
           </Grid>
         ) : data?.data?.order_items?.length > 0 ?
           data?.data?.order_items?.map((item, index) => (
             <React.Fragment key={index}>
               {item?.course_id && (
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                   <CourseCard {...item} />
                 </Grid>
               )}
             </React.Fragment>
           )) : (
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography>{__("No Course Found", "acadlix")}</Typography>
             </Grid>
           )}

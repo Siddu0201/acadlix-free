@@ -3,13 +3,13 @@ import {
   Box,
   DialogContent,
   Divider,
-  Grid,
   IconButton,
   InputAdornment,
   Link,
   Typography,
   useTheme,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
@@ -127,7 +127,7 @@ const Register = (props) => {
         }} />
         <form onSubmit={methods?.handleSubmit(handleSubmit)}>
           <Grid container gap={{ xs: 3, sm: 2 }}>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -157,7 +157,7 @@ const Register = (props) => {
                 helperText={methods?.formState?.errors?.username?.message}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -187,7 +187,7 @@ const Register = (props) => {
                 helperText={methods?.formState?.errors?.email?.message}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -241,7 +241,7 @@ const Register = (props) => {
                 helperText={methods?.formState?.errors?.password?.message}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -300,7 +300,7 @@ const Register = (props) => {
                 helperText={methods?.formState?.errors?.confirm_password?.message}
               />
             </Grid>
-            <Grid item xs={12} lg={12}>
+            <Grid size={{ xs: 12, lg: 12 }}>
               <LoadingButton
                 loading={isLoading}
                 fullWidth
@@ -310,7 +310,7 @@ const Register = (props) => {
                 {__('Register', 'acadlix')}
               </LoadingButton>
             </Grid>
-            <Grid item xs={12} lg={12} sx={{
+            <Grid size={{ xs: 12, lg: 12 }} sx={{
               display: "flex",
               justifyContent: "center"
             }}>

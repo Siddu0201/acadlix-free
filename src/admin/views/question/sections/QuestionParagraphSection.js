@@ -4,16 +4,16 @@ import {
   CardContent,
   CardHeader,
   FormControlLabel,
-  Grid,
   TextField,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { __ } from "@wordpress/i18n";
 
 const QuestionParagraphSection = (props) => {
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__("Paragraph Options", "acadlix")}
@@ -22,11 +22,11 @@ const QuestionParagraphSection = (props) => {
               fontWeight: 500,
               color: "black",
             },
-          }}  
+          }}
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -42,7 +42,7 @@ const QuestionParagraphSection = (props) => {
               />
             </Grid>
             {props?.watch("paragraph_enabled") && (
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <Autocomplete
                   fullWidth
                   size="small"

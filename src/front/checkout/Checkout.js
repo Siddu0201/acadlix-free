@@ -8,7 +8,8 @@ import {
   PostFreeCheckout,
   PostVerifyRazorpayPayment,
 } from "../../requests/front/FrontCheckoutRequest";
-import { Box, CircularProgress, Grid, Link, Typography } from "@mui/material";
+import { Box, CircularProgress, Link, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import BillingDetail from "./BillingDetail";
 import PaymentMethod from "./PaymentMethod";
 import OrderDetail from "./OrderDetail";
@@ -115,7 +116,7 @@ const Checkout = () => {
   };
 
   const setCartData = (cart = []) => {
-    methods?.setValue("is_checkout_locked", false, {shouldDirty: true});
+    methods?.setValue("is_checkout_locked", false, { shouldDirty: true });
     methods?.setValue("cart", [...cart], {
       shouldDirty: true,
     });
@@ -393,7 +394,7 @@ const Checkout = () => {
       // handle free checkout
       handleFreeCheckout(data);
     }
-  };  
+  };
 
   if (getCart?.isFetching) {
     return (
@@ -431,11 +432,11 @@ const Checkout = () => {
       {
         methods?.watch("cart")?.length > 0 ?
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={12} md={7}>
+            <Grid size={{ xs: 12, sm: 12, md: 7 }}>
               <Grid container spacing={4}>
                 {
                   !methods?.watch("is_user_logged_in") &&
-                  <Grid item xs={12} lg={12}>
+                  <Grid size={{ xs: 12, lg: 12 }}>
                     <Typography>
                       {__('Please login/register to proceed: ', 'acadlix')}
                       <Link
@@ -449,10 +450,10 @@ const Checkout = () => {
                     </Typography>
                   </Grid>
                 }
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <BillingDetail {...methods} />
                 </Grid>
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <OrderDetail
                     {...methods}
                     isFetching={getCart?.isFetching}
@@ -462,15 +463,15 @@ const Checkout = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={5}>
+            <Grid size={{ xs: 12, sm: 12, md: 5 }}>
               <Grid container spacing={4}>
                 {
                   methods?.watch("total_amount") > 0 &&
-                  <Grid item xs={12} lg={12}>
+                  <Grid size={{ xs: 12, lg: 12 }}>
                     <PaymentMethod {...methods} />
                   </Grid>
                 }
-                <Grid item xs={12} lg={12}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                   <OrderSummary
                     {...methods}
                     isFetching={getCart?.isFetching}
@@ -483,7 +484,7 @@ const Checkout = () => {
           </Grid>
           :
           <Grid container spacing={4}>
-            <Grid item xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Typography variant="body1">{__('Your cart is currently empty.', 'acadlix')}</Typography>
             </Grid>
           </Grid>

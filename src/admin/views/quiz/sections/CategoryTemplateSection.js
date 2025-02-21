@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CircularProgress,
-  Grid,
   IconButton,
   Paper,
   TextField,
@@ -14,6 +13,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequest";
 import toast from "react-hot-toast";
@@ -91,13 +91,13 @@ const CategoryTemplateSection = (props) => {
               for (const [metaKey, metaValue] of Object.entries(value)) {
                 if (metaKey === "quiz_settings") {
                   for (const [settingKey, settingValue] of Object.entries(metaValue)) {
-                    if(["result_text", "admin_message", "student_message"].includes(settingKey)) handleEditorContent(settingKey, settingValue);
+                    if (["result_text", "admin_message", "student_message"].includes(settingKey)) handleEditorContent(settingKey, settingValue);
                     props?.setValue(`meta.${metaKey}.${settingKey}`, settingValue, { shouldDirty: true });
                   }
                   continue;
                 }
 
-                if(metaKey === "language_data") {
+                if (metaKey === "language_data") {
                   metaValue.forEach((lang, index) => {
                     handleEditorContent(`instruction1_${index}`, lang.instruction1);
                     handleEditorContent(`instruction2_${index}`, lang.instruction2);
@@ -118,7 +118,7 @@ const CategoryTemplateSection = (props) => {
   };
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12, lg: 12 }}>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={getTemplateByIdMutation?.isPending}
@@ -129,7 +129,7 @@ const CategoryTemplateSection = (props) => {
         <CardContent>
           <Grid container spacing={{ xs: 1, sm: 3 }}>
             {/* Used to select category */}
-            <Grid item xs={5} sm={3}>
+            <Grid size={{ xs: 5, sm: 3, lg: 3 }}>
               <Autocomplete
                 size="small"
                 value={
@@ -196,7 +196,7 @@ const CategoryTemplateSection = (props) => {
             </Grid>
 
             {/* Used to load quiz data from template  */}
-            <Grid item xs={7} sm={9}>
+            <Grid size={{ xs: 9, sm: 9, lg: 9 }}>
               <Box
                 sx={{
                   display: "flex",

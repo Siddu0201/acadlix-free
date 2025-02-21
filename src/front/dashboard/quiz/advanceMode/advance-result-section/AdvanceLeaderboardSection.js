@@ -1,4 +1,5 @@
-import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import First from "../../../../../images/medal-1.svg";
 import Second from "../../../../../images/medal-2.svg";
@@ -164,7 +165,7 @@ const AdvanceLeaderboardSection = (props) => {
         </Typography>
       </Box>
 
-     
+
 
       <Box sx={styles.leaderboardContainer}>
         {props?.watch("toplist").map((item, index) => (

@@ -5,17 +5,17 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
   Radio,
   RadioGroup,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const LanguageSection = (props) => {
 
   return (
-    <Grid item xs={12} sm={12}>
+    <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
           title={__("Language", "acadlix")}
@@ -28,7 +28,7 @@ const LanguageSection = (props) => {
         />
         <CardContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={9}>
+            <Grid size={{ xs: 12, sm: 9 }}>
               <FormControl
                 sx={{
                   flexDirection: "row",
@@ -45,20 +45,20 @@ const LanguageSection = (props) => {
                 >
                   {__("Change Language:", "acadlix")}
                 </FormLabel>
-                <RadioGroup 
+                <RadioGroup
                   row
                   value={props?.watch("language")?.filter(lang => lang?.selected)?.[0]?.language_id}
                   onChange={(e) => {
-                    props?.setValue("language", 
+                    props?.setValue("language",
                       props?.watch("language")?.map(lang => {
-                        if(lang?.language_id === Number(e?.target?.value)){
+                        if (lang?.language_id === Number(e?.target?.value)) {
                           lang.selected = true;
-                        }else{
+                        } else {
                           lang.selected = false;
                         }
                         return lang;
                       }),
-                      {shouldDirty: true}
+                      { shouldDirty: true }
                     );
                   }}
                 >

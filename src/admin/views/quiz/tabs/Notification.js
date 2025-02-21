@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, FormControlLabel, Typography, Box, Divider } from "@mui/material";
+import { FormControlLabel, Typography, Box, Divider } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import GridItem1 from "../../../../components/GridItem1";
 import CustomTextField from "../../../../components/CustomTextField";
 import CustomSwitch from "../../../../components/CustomSwitch";
@@ -26,10 +27,10 @@ const Notification = (props) => {
             - Subject: Subject of the mail
             - Message: Message you want to send in mail
           */}
-          <GridItem1 xs={12} sm={6} lg={3}>
+          <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <CustomTypography>{__("Enable Admin Email Notification", "acadlix")}</CustomTypography>
           </GridItem1>
-          <GridItem1 xs={12} sm={6} lg={3}>
+          <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControlLabel
               control={
                 <CustomSwitch />
@@ -45,7 +46,7 @@ const Notification = (props) => {
               label={__("Activate", "acadlix")}
             />
           </GridItem1>
-          <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
           {
             props?.watch("meta.quiz_settings.admin_email_notification") && (
@@ -76,10 +77,10 @@ const Notification = (props) => {
             - Message: Message you want to send in mail
           */}
 
-          <GridItem1 xs={12} sm={6} lg={3}>
+          <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <CustomTypography>{__("Enable Student Email Notification", "acadlix")}</CustomTypography>
           </GridItem1>
-          <GridItem1 xs={12} sm={6} lg={3}>
+          <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControlLabel
               control={
                 <CustomSwitch />
@@ -95,7 +96,7 @@ const Notification = (props) => {
               label={__("Activate", "acadlix")}
             />
           </GridItem1>
-          <GridItem1 xs={12} sm={12} lg={6}></GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
           {
             props?.watch("meta.quiz_settings.student_email_notification") && (
@@ -127,10 +128,10 @@ const AdminNotification = (props) => {
   return (
     <React.Fragment>
       {/* Admin email id to whom you want to send email */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("To", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -145,10 +146,10 @@ const AdminNotification = (props) => {
       </GridItem1>
 
       {/* Student email id from whom you want to send email */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("From", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -164,10 +165,10 @@ const AdminNotification = (props) => {
 
 
       {/* Subject of email */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Subject", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -182,10 +183,10 @@ const AdminNotification = (props) => {
       </GridItem1>
 
       {/* Message of email */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Message", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <textarea
           id="admin_message"
           style={{
@@ -206,8 +207,8 @@ const AdminNotification = (props) => {
           }}
         />
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={3}></GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}></GridItem1>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <Typography variant="body1"><b>{__("Allowed variables.", "acadlix")}</b></Typography>
         <Typography variant="body2">
           $userId - {__("User-ID", "acadlix")} <br />
@@ -239,10 +240,10 @@ const StudentNotification = (props) => {
   return (
     <React.Fragment>
       {/* From which email id you want to send */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("From", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -257,10 +258,10 @@ const StudentNotification = (props) => {
       </GridItem1>
 
       {/* Subject of email */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Subject", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <CustomTextField
           fullWidth
           size="small"
@@ -275,10 +276,10 @@ const StudentNotification = (props) => {
       </GridItem1>
 
       {/* Message of email */}
-      <GridItem1 xs={12} sm={6} lg={3}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Message", "acadlix")}</CustomTypography>
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <textarea
           id="student_message"
           style={{
@@ -299,8 +300,8 @@ const StudentNotification = (props) => {
           }}
         />
       </GridItem1>
-      <GridItem1 xs={12} sm={6} lg={3}></GridItem1>
-      <GridItem1 xs={12} sm={6} lg={9}>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}></GridItem1>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
         <Typography variant="body1"><b>{__("Allowed variables.", "acadlix")}</b></Typography>
         <Typography variant="body2">
           $userId - {__("User-ID", "acadlix")} <br />

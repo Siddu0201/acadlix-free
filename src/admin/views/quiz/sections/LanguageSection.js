@@ -16,7 +16,6 @@ import {
     FormControl,
     FormControlLabel,
     FormLabel,
-    Grid,
     IconButton,
     List,
     ListItem,
@@ -28,10 +27,10 @@ import {
     Typography,
 } from "@mui/material";
 import React, { memo, useState } from "react";
+import Grid from "@mui/material/Grid2";
 import GridItem1 from "../../../../components/GridItem1";
 import CustomSwitch from "../../../../components/CustomSwitch";
 import { IoClose } from "../../../../helpers/icons";
-import { LoadingButton } from "@mui/lab";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import CustomTypography from "../../../../components/CustomTypography";
@@ -254,7 +253,7 @@ const LanguageSection = (props) => {
     }
 
     return (
-        <Grid item xs={12} sm={12}>
+        <Grid size={{ xs: 12, sm: 12 }}>
             <Card>
                 <CardContent>
                     <Box sx={{ color: "black" }}>
@@ -285,12 +284,12 @@ const LanguageSection = (props) => {
                             <Divider />
                         </Box>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12} lg={6}>
+                            <Grid size={{ xs: 12, sm: 12, lg: 6 }}>
                                 <Grid container spacing={3}>
-                                    <GridItem1 xs={12} sm={6} lg={6}>
+                                    <GridItem1 size={{ xs: 12, sm: 6, lg: 6 }}>
                                         <CustomTypography>{__('Multi Language', 'acadlix')}</CustomTypography>
                                     </GridItem1>
-                                    <GridItem1 xs={12} sm={6} lg={6}>
+                                    <GridItem1 size={{ xs: 12, sm: 6, lg: 6 }}>
                                         <FormControlLabel
                                             control={
                                                 <CustomSwitch />
@@ -305,15 +304,12 @@ const LanguageSection = (props) => {
                                         />
                                     </GridItem1>
 
-                                    <GridItem1 xs={12} sm={6} lg={6} sx={{
+                                    <GridItem1 size={{ xs: 12, sm: 6, lg: 6 }} sx={{
                                         display: props?.watch("meta.multi_language") ? "flex" : "none",
                                     }}>
                                         <CustomTypography>{__('Select language', 'acadlix')}</CustomTypography>
                                     </GridItem1>
-                                    <GridItem1
-                                        xs={12}
-                                        sm={6}
-                                        lg={6}
+                                    <GridItem1 size={{ xs: 12, sm: 6, lg: 6 }}
                                         sx={{
                                             display: props?.watch("meta.multi_language") ? "flex" : "none",
                                             gap: 2
@@ -347,20 +343,16 @@ const LanguageSection = (props) => {
                                                 methods?.setValue("language_id", newValue?.term_id);
                                             }}
                                         />
-                                        <LoadingButton
+                                        <Button
                                             variant="contained"
                                             color="primary"
                                             size="small"
                                             onClick={handleAddLanguage}
                                         >
                                             {__('Add', 'acadlix')}
-                                        </LoadingButton>
+                                        </Button>
                                     </GridItem1>
-                                    <GridItem1
-                                        xs={12}
-                                        sm={12}
-                                        lg={12}
-                                    >
+                                    <GridItem1 size={{ xs: 12, sm: 12, lg: 12 }}>
                                         <List >
                                             {props?.watch("languages").map((value, index) => (
                                                 <ListItem
@@ -435,7 +427,7 @@ const CopyLanguageModel = memo((props) => {
             </IconButton>
             <DialogContent>
                 <Grid container gap={4}>
-                    <Grid item xs={12} lg={12}>
+                    <Grid size={{ xs: 12, lg: 12 }}>
                         <FormControlLabel
                             control={
                                 <CustomSwitch

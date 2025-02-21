@@ -13,10 +13,10 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
-  Grid,
   IconButton,
   Tooltip,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import { GetUserPurchases } from "../../../requests/front/FrontDashboardRequest";
 import { dateI18n } from "@wordpress/date";
@@ -154,7 +154,7 @@ const PurchaseHistory = () => {
   ) : (
     <Box>
       <Grid container rowSpacing={3} spacing={4}>
-        <Grid item xs={12} lg={12}>
+        <Grid size={{ xs: 12, lg: 12 }}>
           <Card
             sx={{
               boxShadow: (theme) => theme.shadows[4],
