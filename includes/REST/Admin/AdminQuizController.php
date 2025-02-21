@@ -456,9 +456,9 @@ class AdminQuizController
             }
 
             // handle prerequisite
-            if (is_array($params['meta']['prerequisite_data']) && count($params['meta']['prerequisite_data']) > 0) {
+            // if (is_array($params['meta']['prerequisite_data']) && count($params['meta']['prerequisite_data']) > 0) {
                 // enable other quiz statistic
-            }
+            // }
 
             // Retrieve and return the quiz data
             $quiz = get_post($quizId);

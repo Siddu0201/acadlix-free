@@ -205,16 +205,15 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
 });
 
 const SortableItem = (props) => {
-  const { attributes, listeners, setNodeRef, transition, transform } = useSortable({
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: props.item?.option,
     disabled:
       props?.watch("view_answer") ||
       props?.watch(`questions.${props?.index}.check`),
   });
-
+ 
   const style = {
-    transform: `translate(0, ${transform?.y ?? 0}px)`,
-    transition,
+    transform: transform ? `translate(0, ${transform?.y}px)` : undefined,
   };
 
   return (

@@ -46,6 +46,25 @@ const OptionButtonSection = (props) => {
         );
         break;
       case "matrixSortingChoice":
+        let shuffle_order = arrayRandomize(props?.watch(
+          `questions.${currentIndex}.language`
+        )?.find((lang) => lang?.default)
+          ?.answer_data[props?.question?.answer_type]
+          ?.map((d) => String(d?.correctPosition)) ?? []
+        );
+        props?.setValue(
+          `questions.${currentIndex}.shuffle_order`,
+          shuffle_order
+        );
+        props?.setValue(
+          `questions.${currentIndex}.language`,
+          props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
+            lang.answer_data[props?.question?.answer_type] = lang.answer_data[props?.question?.answer_type]?.map(
+              (d) => ({ ...d, yourPosition: null })
+            );
+            return lang;
+          })
+        )
         break;
       case "fillInTheBlank":
         props?.setValue(

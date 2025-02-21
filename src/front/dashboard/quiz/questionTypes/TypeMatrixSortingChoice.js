@@ -14,6 +14,7 @@ import {
 } from "@dnd-kit/core";
 import {
   SortableContext,
+  arrayMove,
   horizontalListSortingStrategy,
   sortableKeyboardCoordinates,
   useSortable,
@@ -28,6 +29,38 @@ const TypeMatrixSortingChoice = (props) => {
   const handleDragEnd = (e) => {
     const { active, over } = e;
     console.log(active, over);
+    if (!active || !over) {
+      setActiveId(null);
+      return;
+    }
+
+    const active_id = active.id;
+    const over_id = over.id;
+    const active_type = active.data.current?.type; // "top" or "bottom"
+    const over_type = over.data.current?.type; // "top" or "bottom"
+
+    if (active_id === over_id) {
+      setActiveId(null);
+      return; // No movement
+    }
+
+    if (active_type === "top" && over_type === "top") {
+      // 🟢 Case 1: Shuffling within "top"
+      handleReorderTop(active_id, over_id);
+    } else if (active_type === "bottom" && over_type === "bottom") {
+      // 🔵 Case 2: Shuffling within "bottom"
+      handleReorderBottom(active_id, over_id);
+      handleResult(); // 🔥 Additional operations for bottom
+    } else if (active_type === "top" && over_type === "bottom") {
+      // 🟠 Case 3: Moving from "top" to "bottom"
+      handleMoveTopToBottom(active_id, over_id);
+      handleResult(); // 🔥 Additional operations for bottom
+    } else if (active_type === "bottom" && over_type === "top") {
+      // 🔴 Case 4: Moving from "bottom" to "top"
+      handleMoveBottomToTop(active_id, over_id);
+      handleResult(); // 🔥 Additional operations for bottom
+    }
+
     // if (active?.id !== over?.id) {
     //   const oldIndex = props?.answer_data?.[props?.type].findIndex(
     //     (curr) => curr.option === active.id
@@ -44,9 +77,69 @@ const TypeMatrixSortingChoice = (props) => {
     setActiveId(null);
   };
 
+  const handleReorderTop = (active_id, over_id) => {
+    const oldIndex = props?.watch(`questions.${props?.index}.shuffle_order`).findIndex(
+      (curr) => curr === active_id
+    );
+    const newIndex = props?.watch(`questions.${props?.index}.shuffle_order`).findIndex(
+      (curr) => curr === over_id
+    );
+    props?.setValue(
+      `questions.${props?.index}.shuffle_order`,
+      arrayMove(props?.watch(`questions.${props?.index}.shuffle_order`), oldIndex, newIndex),
+      { shouldDirty: true }
+    );
+  }
+
+  const handleReorderBottom = (active_id, over_id) => {
+    console.log("bottom");
+    props?.setValue(
+      `questions.${props?.index}.language`,
+      props?.watch(`questions.${props?.index}.language`).map((lang) => {
+        lang.answer_data[props?.type] = lang.answer_data[props?.type]?.map((d) => {
+          if (d.correctPosition === over_id) {
+            return { ...d, yourPosition: active_id };
+          }
+          if(d?.yourPosition === active_id){
+            return { ...d, yourPosition: null};
+          }
+          return d;
+        });
+        return lang;
+      }),
+    )
+  }
+
+  const handleMoveTopToBottom = (active_id, over_id) => {
+    props?.setValue(
+      `questions.${props?.index}.shuffle_order`,
+      props?.watch(`questions.${props?.index}.shuffle_order`)?.filter((d) => d !== active_id),
+      { shouldDirty: true }
+    );
+    props?.setValue(
+      `questions.${props?.index}.language`,
+      props?.watch(`questions.${props?.index}.language`).map((lang) => {
+        lang.answer_data[props?.type] = lang.answer_data[props?.type]?.map((d) => {
+          if (d.correctPosition === over_id) {
+            return { ...d, yourPosition: active_id };
+          }
+          return d;
+        });
+        return lang;
+      }),
+    )
+  }
+
+  const handleMoveBottomToTop = (active_id, over_id) => {
+    console.log("bottom to top");
+  }
+
+  const handleResult = () => {
+
+  }
+
   const handleDragStart = (e) => {
     const { active } = e;
-    // console.log(active);
     setActiveId(active?.id);
   };
 
@@ -157,6 +250,11 @@ const TypeMatrixSortingChoice = (props) => {
                 key={index}
                 id={item?.correctPosition}
                 item={item}
+                activeId={activeId}
+                element={item?.element}
+                yourPosition={item?.yourPosition}
+                yourElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item?.yourPosition)?.element}
+                activeElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
               />
             </ListItem>
           ))}
@@ -188,30 +286,30 @@ const SortableItem = (props) => {
   // const { attributes, listeners, setNodeRef, transition } = useDraggable({
   //   id: props.id,
   // });
-  const { attributes, listeners, setNodeRef, transition, transform } = useSortable({
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: props?.id,
     data: {
       type: props?.type ?? "top"
     }
   });
 
-
   const style = {
-    transform: `translate(${transform?.x ?? 0}px , 0)`,
-    transition,
+    transform: `translate(${transform?.x ?? 0}px , ${transform?.y ?? 0}px)`,
   };
+
+  console.log(props?.activeId);
 
   return (
     <ListItem
       ref={setNodeRef}
       sx={{
+        ...style,
         border: "1px dotted black",
         borderRadius: 1,
         backgroundColor: "white",
         cursor: "move",
         opacity: props?.id === props?.activeId ? 0.4 : 1,
         margin: `0 !important`,
-        ...style
       }}
       {...attributes}
       {...listeners}
@@ -226,8 +324,37 @@ const DroppableItem = (props) => {
     id: props.id,
     data: {
       type: "bottom"
-    }
+    },
+    disabled: props?.yourPosition !== null
   });
+
+  if (props?.yourPosition) {
+    return (
+      <List sx={{
+        paddingX: 1,
+      }}>
+        <SortableItem
+          id={props?.yourPosition}
+          element={props?.yourElement}
+          activeId={props?.activeId}
+          type="bottom"
+        />
+      </List>
+    )
+  }
+
+  if (isOver && props?.activeId !== null) {
+    return (
+      <List sx={{
+        paddingX: 1,
+      }}>
+        <Item
+          id={props?.activeId}
+          element={props?.activeElement}
+        />
+      </List>
+    )
+  }
 
   return (
     <Box
