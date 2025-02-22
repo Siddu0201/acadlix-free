@@ -245,7 +245,7 @@ const QuizContent = (props) => {
       <form onSubmit={methods?.handleSubmit(onSubmit)}>
         <Grid
           container
-          rowSpacing={3}
+          rowSpacing={2}
           spacing={4}
           sx={{
             padding: 4,

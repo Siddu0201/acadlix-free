@@ -35,8 +35,8 @@ const ParagraphContent = (props) => {
           props?.quiz?.languages?.map((lang) => {
             return {
               language_id: lang?.term_id,
-              default: Boolean(Number(lang?.default)),
-              selected: Boolean(Number(lang?.default)),
+              default: lang?.term_id === props?.quiz?.rendered_metas?.default_language_id,
+              selected: lang?.term_id === props?.quiz?.rendered_metas?.default_language_id,
               content: "",
             };
           }),
