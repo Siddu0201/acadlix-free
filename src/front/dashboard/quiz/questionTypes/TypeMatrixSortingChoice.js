@@ -1,13 +1,10 @@
 import {
-  closestCenter,
-  closestCorners,
   DndContext,
   DragOverlay,
   KeyboardSensor,
   MouseSensor,
   rectIntersection,
   TouchSensor,
-  useDraggable,
   useDroppable,
   useSensor,
   useSensors,
@@ -15,7 +12,6 @@ import {
 import {
   SortableContext,
   arrayMove,
-  horizontalListSortingStrategy,
   sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
@@ -23,6 +19,7 @@ import { Avatar, Box, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
 import { RxCross2, TiTick } from "../../../../helpers/icons";
+import parse from "html-react-parser";
 
 const TypeMatrixSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -302,7 +299,7 @@ const TypeMatrixSortingChoice = (props) => {
                   minWidth: "20%",
                 }}
               >
-                <Typography>{item?.criteria}</Typography>
+                <Typography>{parse(item?.criteria)}</Typography>
               </Box>
               <DroppableItem
                 key={index}
@@ -392,7 +389,7 @@ const TypeMatrixSortingChoice = (props) => {
                       minWidth: "20%",
                     }}
                   >
-                    <Typography>{item?.criteria}</Typography>
+                    <Typography>{parse(item?.criteria)}</Typography>
                   </Box>
                   <List sx={{
                     paddingY: 0,
@@ -408,7 +405,7 @@ const TypeMatrixSortingChoice = (props) => {
                         margin: `0 !important`,
                       }}
                     >
-                      {item?.element}
+                      {parse(item?.element)}
                     </ListItem>
                   </List>
                 </ListItem>
@@ -433,7 +430,7 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
         margin: `0 !important`,
       }}
     >
-      {props?.element}
+      {parse(props?.element)}
     </ListItem>
   );
 });
@@ -471,7 +468,7 @@ const SortableItem = (props) => {
       {...attributes}
       {...listeners}
     >
-      {props?.element}
+      {parse(props?.element)}
     </ListItem>
   );
 };

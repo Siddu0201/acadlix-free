@@ -98,7 +98,6 @@ if (!class_exists('Acadlix')) {
                 ThankyouController::instance();
             }
             Ajax::instance();
-            UserRole::instance();
             Core::instance();
             Api::instance();
 
