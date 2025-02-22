@@ -4,8 +4,8 @@ import React from 'react'
 const GridItem1 = (props) => {
   return (
     <Grid {...props} sx={{
-      paddingLeft: 4,
-      paddingTop: 4,
+      // paddingLeft: 4,
+      // paddingTop: 4,
       ...props.sx
     }}></Grid>
   )
