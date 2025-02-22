@@ -86,7 +86,7 @@ const AnswerSheetContent = (props) => {
                       : lang?.rendered_answer_data?.sortingChoice,
                   matrixSortingChoice:
                     stat?.question?.answer_type === "matrixSortingChoice" && stat?.answer_data
-                      ? lang?.rendered_answer_data?.matrixSortingChoice
+                      ? lang?.rendered_answer_data?.matrixSortingChoice?.map((c, index) => ({...c, yourPosition: stat?.answer_data?.[index] ?? null}))
                       : lang?.rendered_answer_data?.matrixSortingChoice,
                   fillInTheBlank:
                     stat?.question?.answer_type === "fillInTheBlank" && stat?.answer_data

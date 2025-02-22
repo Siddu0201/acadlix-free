@@ -497,6 +497,7 @@ const Profile = () => {
                         });
                       }}
                       sx={{
+                        height: "auto",
                         "& .MuiInputBase-root": {
                           padding: 0, // Set padding for the input to 0
                         },

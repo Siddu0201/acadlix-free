@@ -44,6 +44,12 @@ if (!class_exists("Option")) {
                     'post_author' => get_current_user_id(), // Change this to the desired author ID
                     'post_type' => 'page',
                 ],
+                'acadlix_advance_quiz_page_id' => [
+                    'post_title' => __('Advance Quiz', 'acadlix'),
+                    'post_status' => 'publish',
+                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_type' => 'page',
+                ],
             ];
 
             // add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 1 );

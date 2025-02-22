@@ -19,16 +19,17 @@ import {
   sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
-import { Box, List, ListItem, Typography } from "@mui/material";
+import { Avatar, Box, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
+import { RxCross2, TiTick } from "../../../../helpers/icons";
 
 const TypeMatrixSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
 
   const handleDragEnd = (e) => {
     const { active, over } = e;
-    console.log(active, over);
+    // console.log(active, over);
     if (!active || !over) {
       setActiveId(null);
       return;
@@ -49,31 +50,22 @@ const TypeMatrixSortingChoice = (props) => {
       handleReorderTop(active_id, over_id);
     } else if (active_type === "bottom" && over_type === "bottom") {
       // 🔵 Case 2: Shuffling within "bottom"
-      handleReorderBottom(active_id, over_id);
-      handleResult(); // 🔥 Additional operations for bottom
+      const result = handleReorderBottom(active_id, over_id);
+      if (result) {
+        handleResult(); // 🔥 Additional operations for bottom
+      }
     } else if (active_type === "top" && over_type === "bottom") {
       // 🟠 Case 3: Moving from "top" to "bottom"
-      handleMoveTopToBottom(active_id, over_id);
-      handleResult(); // 🔥 Additional operations for bottom
+      const result = handleMoveTopToBottom(active_id, over_id);
+      if (result) {
+        handleResult(); // 🔥 Additional operations for bottom
+      }
     } else if (active_type === "bottom" && over_type === "top") {
       // 🔴 Case 4: Moving from "bottom" to "top"
       handleMoveBottomToTop(active_id, over_id);
       handleResult(); // 🔥 Additional operations for bottom
     }
 
-    // if (active?.id !== over?.id) {
-    //   const oldIndex = props?.answer_data?.[props?.type].findIndex(
-    //     (curr) => curr.option === active.id
-    //   );
-    //   const newIndex = props?.answer_data?.[props?.type].findIndex(
-    //     (curr) => curr.option === over.id
-    //   );
-    //   props?.setValue(
-    //     `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`,
-    //     arrayMove(props?.answer_data?.[props?.type], oldIndex, newIndex),
-    //     { shouldDirty: true }
-    //   );
-    // }
     setActiveId(null);
   };
 
@@ -92,25 +84,53 @@ const TypeMatrixSortingChoice = (props) => {
   }
 
   const handleReorderBottom = (active_id, over_id) => {
-    console.log("bottom");
+    // console.log("bottom");
+    // check if over is not null
+    const isOverNull = props?.watch(`questions.${props?.index}.language`)
+      ?.find((l) => l?.default)
+      ?.answer_data[props?.type]
+      ?.find((d) => d?.correctPosition === over_id)
+      ?.yourPosition === null;
+
     props?.setValue(
       `questions.${props?.index}.language`,
       props?.watch(`questions.${props?.index}.language`).map((lang) => {
         lang.answer_data[props?.type] = lang.answer_data[props?.type]?.map((d) => {
-          if (d.correctPosition === over_id) {
-            return { ...d, yourPosition: active_id };
-          }
-          if(d?.yourPosition === active_id){
-            return { ...d, yourPosition: null};
+          if (isOverNull) {
+            if (d.correctPosition === over_id) {
+              return { ...d, yourPosition: active_id };
+            }
+            if (d?.yourPosition === active_id) {
+              return { ...d, yourPosition: null };
+            }
+          } else {
+            if (d?.yourPosition === active_id) {
+              return { ...d, yourPosition: over_id };
+            }
+            if (d?.yourPosition === over_id) {
+              return { ...d, yourPosition: active_id };
+            }
           }
           return d;
         });
         return lang;
       }),
-    )
+    );
+    return true;
   }
 
   const handleMoveTopToBottom = (active_id, over_id) => {
+    // console.log("top to bottom");
+
+    // check if over is not null
+    const over = props?.watch(`questions.${props?.index}.language`)
+      ?.find((l) => l?.default)
+      ?.answer_data[props?.type]
+      ?.find((d) => d?.correctPosition === over_id);
+
+    if (over?.yourPosition !== null) {
+      return false;
+    }
     props?.setValue(
       `questions.${props?.index}.shuffle_order`,
       props?.watch(`questions.${props?.index}.shuffle_order`)?.filter((d) => d !== active_id),
@@ -127,7 +147,8 @@ const TypeMatrixSortingChoice = (props) => {
         });
         return lang;
       }),
-    )
+    );
+    return true;
   }
 
   const handleMoveBottomToTop = (active_id, over_id) => {
@@ -135,7 +156,29 @@ const TypeMatrixSortingChoice = (props) => {
   }
 
   const handleResult = () => {
-
+    let data = props?.watch(`questions.${props?.index}.language`)
+      ?.find((l) => l?.default)
+      ?.answer_data[props?.type];
+    props?.setValue(
+      `questions.${props?.index}.result`,
+      {
+        ...props?.watch(`questions.${props?.index}.result`),
+        correct_count:
+          data?.filter((d, index) => d.yourPosition == d.correctPosition).length ===
+            data.length
+            ? 1
+            : 0,
+        incorrect_count:
+          data?.filter((d, index) => d.yourPosition == d.correctPosition).length ===
+            data.length
+            ? 0
+            : 1,
+        solved_count: 1,
+        answer_data: data?.map((d) => d.yourPosition),
+      },
+      { shouldDirty: true }
+    );
+    console.log(props?.watch(`questions.${props?.index}.result`));
   }
 
   const handleDragStart = (e) => {
@@ -159,14 +202,6 @@ const TypeMatrixSortingChoice = (props) => {
   return (
     <Box
       sx={{
-        // backgroundColor:
-        //   props?.watch("mode") !== "advance_mode"
-        //     ? props?.colorCode?.option_background
-        //     : "",
-        // border:
-        //   props?.watch("mode") !== "advance_mode"
-        //     ? `1px solid ${props?.colorCode?.option_border}`
-        //     : "",
         width: props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
         padding: props?.watch("mode") !== "advance_mode" ? 0 : 2,
         marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
@@ -189,40 +224,54 @@ const TypeMatrixSortingChoice = (props) => {
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
       >
-        <List
-          sx={{
-            display: "grid",
-            gap: "8px",
-            gridTemplateColumns: "repeat(5, 1fr)",
-            backgroundColor: "#fff",
-            borderRadius: 1,
-            border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-            boxShadow: (theme) => theme?.shadows[2],
-            paddingY: "10px !important",
-            marginY: "8px !important",
-          }}
-        >
-          <SortableContext
-            items={props?.watch(`questions.${props?.index}.shuffle_order`)}
-          >
-            {props?.watch(`questions.${props?.index}.shuffle_order`)?.map((item, index) => (
-              <SortableItem
-                key={index}
-                id={item}
-                element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
-                activeId={activeId}
-              />
-            ))}
-          </SortableContext>
-          <DragOverlay>
-            {activeId !== null && activeId !== undefined
-              ? <Item
-                id={activeId}
-                element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
-              />
-              : null}
-          </DragOverlay>
-        </List>
+        {!(props?.watch("view_answer") ||
+          props?.watch(`questions.${props?.index}.check`)) && (
+            <Box sx={{
+              backgroundColor: "#fff",
+              borderRadius: 1,
+              border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+              boxShadow: (theme) => theme?.shadows[2],
+              padding: "10px !important",
+              marginY: "8px !important",
+            }}>
+              <Typography variant="body2" sx={{
+                fontWeight: "bold"
+              }}>
+                {__("Pick Elements", "acadlix")}
+              </Typography>
+              <List
+                sx={{
+                  display: "grid",
+                  gap: "8px",
+                  gridTemplateColumns: "repeat(5, 1fr)",
+                }}
+              >
+                <SortableContext
+                  items={props?.watch(`questions.${props?.index}.shuffle_order`)}
+                >
+                  {props?.watch(`questions.${props?.index}.shuffle_order`)?.map((item, index) => (
+                    <SortableItem
+                      key={index}
+                      id={item}
+                      element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
+                      activeId={activeId}
+                      check={props?.watch(`questions.${props?.index}.check`)}
+                      view_answer={props?.watch("view_answer")}
+                    />
+                  ))}
+                </SortableContext>
+                <DragOverlay>
+                  {activeId !== null && activeId !== undefined
+                    ? <Item
+                      id={activeId}
+                      element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
+                    />
+                    : null}
+                </DragOverlay>
+              </List>
+            </Box>
+          )
+        }
         <List
           sx={{
             display: "grid",
@@ -234,8 +283,17 @@ const TypeMatrixSortingChoice = (props) => {
             <ListItem
               key={index}
               sx={{
-                border: "1px dotted black",
                 borderRadius: 1,
+                border: props?.watch(`questions.${props?.index}.check`)
+                  ? item?.correctPosition == item?.yourPosition
+                    ? (theme) => `1px solid ${theme.palette.success.dark}`
+                    : (theme) => `1px solid ${theme.palette.error.dark}`
+                  : (theme) => `1px solid ${theme.palette.grey[300]}`,
+                backgroundColor: props?.watch(`questions.${props?.index}.check`)
+                  ? item?.correctPosition == item?.yourPosition
+                    ? (theme) => theme.palette.success.light
+                    : (theme) => theme.palette.error.light
+                  : "transparent",
               }}
             >
               <Box
@@ -255,11 +313,109 @@ const TypeMatrixSortingChoice = (props) => {
                 yourPosition={item?.yourPosition}
                 yourElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item?.yourPosition)?.element}
                 activeElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
+                check={props?.watch(`questions.${props?.index}.check`)}
+                view_answer={props?.watch("view_answer")}
               />
+              {(props?.watch("view_answer") ||
+                props?.watch(`questions.${props?.index}.check`)) && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      right: "8px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item?.correctPosition == item?.yourPosition ? (
+                      <Avatar
+                        sx={{
+                          height: {
+                            xs: 24,
+                          },
+                          width: {
+                            xs: 24,
+                          },
+                          bgcolor: (theme) => theme?.palette?.success?.main,
+                        }}
+                      >
+                        <TiTick />
+                      </Avatar>
+                    ) : (
+                      <Avatar
+                        sx={{
+                          height: {
+                            xs: 24,
+                          },
+                          width: {
+                            xs: 24,
+                          },
+                          bgcolor: (theme) => theme.palette.error?.main,
+                        }}
+                      >
+                        <RxCross2 />
+                      </Avatar>
+                    )}
+                  </Box>
+                )}
             </ListItem>
           ))}
         </List>
       </DndContext>
+      {(props?.watch("view_answer") ||
+        props?.watch(`questions.${props?.index}.check`)) && (
+          <>
+            <Typography
+              sx={{
+                paddingY: 2,
+              }}
+            >
+              <b>{__("Correct answer", "acadlix")}</b>
+            </Typography>
+            <List
+              sx={{
+                display: "grid",
+                gap: "8px",
+                padding: "0px !important",
+              }}
+            >
+              {props?.answer_data?.[props?.type]?.map((item, index) => (
+                <ListItem
+                  key={index}
+                  sx={{
+                    border: "1px dotted black",
+                    borderRadius: 1,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      borderRight: "1px dotted black",
+                      minWidth: "20%",
+                    }}
+                  >
+                    <Typography>{item?.criteria}</Typography>
+                  </Box>
+                  <List sx={{
+                    paddingY: 0,
+                    paddingX: 1,
+                  }}>
+                    <ListItem
+                      sx={{
+                        border: "1px dotted black",
+                        borderRadius: 1,
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        opacity: 1,
+                        margin: `0 !important`,
+                      }}
+                    >
+                      {item?.element}
+                    </ListItem>
+                  </List>
+                </ListItem>
+              ))}
+            </List>
+          </>
+        )}
     </Box>
   );
 };
@@ -290,14 +446,15 @@ const SortableItem = (props) => {
     id: props?.id,
     data: {
       type: props?.type ?? "top"
-    }
+    },
+    disabled: props?.view_answer || props?.check
   });
 
   const style = {
     transform: `translate(${transform?.x ?? 0}px , ${transform?.y ?? 0}px)`,
   };
 
-  console.log(props?.activeId);
+  // console.log(props?.activeId);
 
   return (
     <ListItem
@@ -307,7 +464,7 @@ const SortableItem = (props) => {
         border: "1px dotted black",
         borderRadius: 1,
         backgroundColor: "white",
-        cursor: "move",
+        cursor: props?.view_answer || props?.check ? "pointer" : "move",
         opacity: props?.id === props?.activeId ? 0.4 : 1,
         margin: `0 !important`,
       }}
@@ -325,23 +482,7 @@ const DroppableItem = (props) => {
     data: {
       type: "bottom"
     },
-    disabled: props?.yourPosition !== null
   });
-
-  if (props?.yourPosition) {
-    return (
-      <List sx={{
-        paddingX: 1,
-      }}>
-        <SortableItem
-          id={props?.yourPosition}
-          element={props?.yourElement}
-          activeId={props?.activeId}
-          type="bottom"
-        />
-      </List>
-    )
-  }
 
   if (isOver && props?.activeId !== null) {
     return (
@@ -351,6 +492,24 @@ const DroppableItem = (props) => {
         <Item
           id={props?.activeId}
           element={props?.activeElement}
+        />
+      </List>
+    )
+  }
+
+  if (props?.yourPosition) {
+    return (
+      <List sx={{
+        paddingY: 0,
+        paddingX: 1,
+      }}>
+        <SortableItem
+          id={props?.yourPosition}
+          element={props?.yourElement}
+          activeId={props?.activeId}
+          type="bottom"
+          view_answer={props?.view_answer}
+          check={props?.check}
         />
       </List>
     )
