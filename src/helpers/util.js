@@ -11,6 +11,10 @@ export const useInstance = () => {
   });
 };
 
+export const hasCapability = (cap) => {
+  return window?.acadlixOptions?.capabilities?.[cap] ?? false;
+};
+
 export const arrayRandomize = (array) => {
   const shuffledArray = array.slice();
 

@@ -18,7 +18,7 @@ class Submenu_Quiz
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Quizzes', 'acadlix'),
             'menu_title' => __('Quizzes', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_quiz',
             'menu_slug' => 'acadlix_quiz',
             'callback' => [$this, 'quiz_callback'],
             'position' => 40
@@ -42,6 +42,9 @@ class Submenu_Quiz
 
     public function admin_print_scripts()
     {
+        $current_user = wp_get_current_user();
+        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
         wp_enqueue_editor();
         wp_enqueue_media();
         wp_enqueue_style("acadlix-admin-quiz-css");
@@ -58,6 +61,7 @@ class Submenu_Quiz
             'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
             'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
+            'capabilities' => $capabilities
         ));
         wp_set_script_translations('acadlix-admin-quiz', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

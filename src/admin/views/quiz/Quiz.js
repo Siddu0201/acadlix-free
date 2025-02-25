@@ -33,6 +33,7 @@ import toast from "react-hot-toast";
 import CategoryModel from "./actions/CategoryModel";
 import SubjectTimeModel from "./actions/SubjectTimeModel";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../helpers/util";
 
 const Quiz = () => {
   const methods = useForm({
@@ -129,83 +130,103 @@ const Quiz = () => {
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title={__("Edit Quiz", "acadlix")} arrow>
-              <IconButton
-                aria-label="edit"
-                size="small"
-                color="primary"
-                LinkComponent={Link}
-                to={`/edit/${params?.id}`}
-              >
-                <FaEdit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="error"
-                onClick={deleteQuizById.bind(this, params?.id)}
-              >
-                <FaTrash />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Questions", "acadlix")} arrow>
-              <IconButton
-                aria-label="questions"
-                size="small"
-                color="secondary"
-                LinkComponent={Link}
-                to={`/${params?.id}/question`}
-              >
-                <FaQuestion />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Paragraphs", "acadlix")} arrow>
-              <IconButton
-                aria-label="paragraphs"
-                size="small"
-                color="grey"
-                LinkComponent={Link}
-                to={`/${params?.id}/paragraph`}
-              >
-                <FaParagraph />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Result", "acadlix")} arrow>
-              <IconButton
-                aria-label="result"
-                size="small"
-                color="info"
-                LinkComponent={Link}
-                to={`/${params?.id}/result`}
-              >
-                <LuFileChartColumn />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Leaderboard", "acadlix")} arrow>
-              <IconButton
-                aria-label="leaderboard"
-                size="small"
-                color="warning"
-                LinkComponent={Link}
-                to={`/${params?.id}/leaderboard`}
-              >
-                <FaRankingStar />
-              </IconButton>
-            </Tooltip>
-            {params?.row?.mode === "advance_mode" && (
-              <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
+            {
+              hasCapability("acadlix_edit_quiz") &&
+              <Tooltip title={__("Edit Quiz", "acadlix")} arrow>
                 <IconButton
-                  aria-label="subject_time"
+                  aria-label="edit"
                   size="small"
-                  color="grey"
-                  onClick={handleSubjectTime.bind(this, params?.id)}
+                  color="primary"
+                  LinkComponent={Link}
+                  to={`/edit/${params?.id}`}
                 >
-                  <LuFileClock />
+                  <FaEdit />
                 </IconButton>
               </Tooltip>
-            )}
+            }
+            {
+              hasCapability("acadlix_delete_quiz") &&
+              <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteQuizById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_show_question") &&
+              <Tooltip title={__("Questions", "acadlix")} arrow>
+                <IconButton
+                  aria-label="questions"
+                  size="small"
+                  color="secondary"
+                  LinkComponent={Link}
+                  to={`/${params?.id}/question`}
+                >
+                  <FaQuestion />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_show_paragraph") &&
+              <Tooltip title={__("Paragraphs", "acadlix")} arrow>
+                <IconButton
+                  aria-label="paragraphs"
+                  size="small"
+                  color="grey"
+                  LinkComponent={Link}
+                  to={`/${params?.id}/paragraph`}
+                >
+                  <FaParagraph />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_show_statistic") &&
+              <Tooltip title={__("Result", "acadlix")} arrow>
+                <IconButton
+                  aria-label="result"
+                  size="small"
+                  color="info"
+                  LinkComponent={Link}
+                  to={`/${params?.id}/result`}
+                >
+                  <LuFileChartColumn />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_show_leaderboard") &&
+              <Tooltip title={__("Leaderboard", "acadlix")} arrow>
+                <IconButton
+                  aria-label="leaderboard"
+                  size="small"
+                  color="warning"
+                  LinkComponent={Link}
+                  to={`/${params?.id}/leaderboard`}
+                >
+                  <FaRankingStar />
+                </IconButton>
+              </Tooltip>
+            }
+            {params?.row?.mode === "advance_mode" &&
+              hasCapability("acadlix_subject_wise_action_quiz") &&
+              (
+                <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
+                  <IconButton
+                    aria-label="subject_time"
+                    size="small"
+                    color="grey"
+                    onClick={handleSubjectTime.bind(this, params?.id)}
+                  >
+                    <LuFileClock />
+                  </IconButton>
+                </Tooltip>
+              )}
           </>
         );
       },
@@ -369,14 +390,17 @@ const Quiz = () => {
                   >
                     {__("Quiz Overview", "acadlix")}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    LinkComponent={Link}
-                    to="/create"
-                    color="primary"
-                  >
-                    {__("Add", "acadlix")}
-                  </Button>
+                  {
+                    hasCapability("acadlix_add_quiz") &&
+                    <Button
+                      variant="contained"
+                      LinkComponent={Link}
+                      to="/create"
+                      color="primary"
+                    >
+                      {__("Add", "acadlix")}
+                    </Button>
+                  }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
@@ -391,18 +415,17 @@ const Quiz = () => {
               }}
             ></CardHeader>
             <CardContent>
-              <Box
-                sx={{
-                  paddingBottom: 2,
-                }}
-              >
+              {
+                hasCapability("acadlix_bulk_action_quiz") &&
                 <Box
                   sx={{
+                    paddingBottom: 2,
                     display: "flex",
                     gap: 2,
                     alignItems: "baseline",
                   }}
                 >
+
                   <FormControl
                     sx={{ minWidth: 150 }}
                     size="small"
@@ -419,8 +442,14 @@ const Quiz = () => {
                       onChange={handleActionChange}
                     >
                       <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
-                      <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                      <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
+                      {
+                        hasCapability("acadlix_bulk_delete_quiz") &&
+                        <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                      }
+                      {
+                        hasCapability("acadlix_bulk_set_category_quiz") &&
+                        <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
+                      }
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -437,7 +466,7 @@ const Quiz = () => {
                     {__("Apply", "acadlix")}
                   </Button>
                 </Box>
-              </Box>
+              }
               <Box
                 sx={{
                   width: "100%",

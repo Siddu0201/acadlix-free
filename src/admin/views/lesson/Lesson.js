@@ -25,6 +25,7 @@ import {
 } from "../../../requests/admin/AdminLessonRequest";
 import { FaEdit, FaTrash, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../helpers/util";
 
 const Lesson = () => {
   const methods = useForm({
@@ -65,27 +66,33 @@ const Lesson = () => {
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title={__("Edit Lesson", "acadlix")} arrow>
-              <IconButton
-                aria-label="edit"
-                size="small"
-                color="primary"
-                LinkComponent={Link}
-                to={`/edit/${params?.id}`}
-              >
-                <FaEdit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="error"
-                onClick={deleteLessonById.bind(this, params?.id)}
-              >
-                <FaTrash />
-              </IconButton>
-            </Tooltip>
+            {
+              hasCapability("acadlix_edit_lesson") &&
+              <Tooltip title={__("Edit Lesson", "acadlix")} arrow>
+                <IconButton
+                  aria-label="edit"
+                  size="small"
+                  color="primary"
+                  LinkComponent={Link}
+                  to={`/edit/${params?.id}`}
+                >
+                  <FaEdit />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_delete_lesson") &&
+              <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteLessonById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
           </>
         );
       },
@@ -195,14 +202,17 @@ const Lesson = () => {
                   >
                     {__("Lesson Overview", "acadlix")}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    LinkComponent={Link}
-                    to="/create"
-                    color="primary"
-                  >
-                    {__("Add", "acadlix")}
-                  </Button>
+                  {
+                    hasCapability("acadlix_add_lesson") &&
+                    <Button
+                      variant="contained"
+                      LinkComponent={Link}
+                      to="/create"
+                      color="primary"
+                    >
+                      {__("Add", "acadlix")}
+                    </Button>
+                  }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
@@ -217,52 +227,58 @@ const Lesson = () => {
               }}
             ></CardHeader>
             <CardContent>
-              <Box
-                sx={{
-                  paddingBottom: 2,
-                }}
-              >
+              {
+                hasCapability("acadlix_bulk_action_lesson") &&
                 <Box
                   sx={{
-                    display: "flex",
-                    gap: 2,
-                    alignItems: "baseline",
+                    paddingBottom: 2,
                   }}
                 >
-                  <FormControl
-                    sx={{ minWidth: 150 }}
-                    size="small"
-                    error={Boolean(methods?.formState?.errors?.action)}
-                  >
-                    <InputLabel id="demo-simple-select-label">
-                      {__("Bulk Actions", "acadlix")}
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={methods?.watch("action")}
-                      label={__("Bulk Actions", "acadlix")}
-                      onChange={handleActionChange}
-                    >
-                      <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
-                      <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                    </Select>
-                    <FormHelperText>
-                      {methods?.formState?.errors?.action?.message}
-                    </FormHelperText>
-                  </FormControl>
-                  <Button
-                    variant="contained"
+                  <Box
                     sx={{
-                      marginRight: 2,
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "baseline",
                     }}
-                    onClick={handleBulkAction}
-                    color="primary"
                   >
-                    {__("Apply", "acadlix")}
-                  </Button>
+                    <FormControl
+                      sx={{ minWidth: 150 }}
+                      size="small"
+                      error={Boolean(methods?.formState?.errors?.action)}
+                    >
+                      <InputLabel id="demo-simple-select-label">
+                        {__("Bulk Actions", "acadlix")}
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={methods?.watch("action")}
+                        label={__("Bulk Actions", "acadlix")}
+                        onChange={handleActionChange}
+                      >
+                        <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                        {
+                          hasCapability("acadlix_bulk_delete_lesson") &&
+                          <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                        }
+                      </Select>
+                      <FormHelperText>
+                        {methods?.formState?.errors?.action?.message}
+                      </FormHelperText>
+                    </FormControl>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        marginRight: 2,
+                      }}
+                      onClick={handleBulkAction}
+                      color="primary"
+                    >
+                      {__("Apply", "acadlix")}
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
+              }
               <Box
                 sx={{
                   width: "100%",

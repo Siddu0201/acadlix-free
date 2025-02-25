@@ -11,6 +11,7 @@ import EditLesson from "./views/lesson/EditLesson";
 import "./AdminLesson.css";
 import ScrollToTop from "../helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../helpers/util";
 const AdminLesson = () => {
   return (
     <Provider>
@@ -21,8 +22,14 @@ const AdminLesson = () => {
           <Routes>
             <Route element={<AdminLayout />}>
               <Route index element={<Lesson />} />
-              <Route path="create" element={<CreateLesson />} />
-              <Route path="edit/:lesson_id" element={<EditLesson />} />
+              {
+                hasCapability("acadlix_add_lesson") &&
+                <Route path="create" element={<CreateLesson />} />
+              }
+              {
+                hasCapability("acadlix_edit_lesson") &&
+                <Route path="edit/:lesson_id" element={<EditLesson />} />
+              }
             </Route>
             <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
           </Routes>

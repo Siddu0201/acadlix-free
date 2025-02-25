@@ -7,12 +7,13 @@ import AddLessonModal from "../modals/AddLessonModal";
 import toast from "react-hot-toast";
 import { PostAddLesson } from "../../../../requests/admin/AdminCourseRequest";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../../helpers/util";
 
 const AddLesson = (props) => {
   const methods = useForm({
     defaultValues: {
       course_id: props?.watch("courseId"),
-      lesson_type: "add_new", //add_new, existing
+      lesson_type: hasCapability("acadlix_add_lesson") ? "add_new" : "existing", //add_new, existing
       lesson_ids: [],
       title: "",
       content: "",
@@ -43,7 +44,7 @@ const AddLesson = (props) => {
   const handleAddLesson = () => {
     methods?.reset({
       course_id: props?.watch("courseId"),
-      lesson_type: "add_new", //add_new, existing
+      lesson_type: hasCapability("acadlix_add_lesson") ? "add_new" : "existing", //add_new, existing
       lesson_ids: [],
       title: "",
       content: "",

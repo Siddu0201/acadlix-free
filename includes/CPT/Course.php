@@ -108,7 +108,13 @@ final class Course extends Acadlix_Abstract
                 'default_term' => array(
                     'name' => 'Uncategorized',
                     'slug' => sanitize_title('Uncategorized'),
-                )
+                ),
+                'capabilities' => array(
+                    'manage_terms' => 'acadlix_manage_course_categories', // Edit in admin
+                    'edit_terms' => 'acadlix_edit_course_categories',   // Assign/edit
+                    'delete_terms' => 'acadlix_delete_course_categories', // Delete
+                    'assign_terms' => 'acadlix_assign_course_categories', // Assign to posts
+                ),
             )
         );
 
@@ -143,6 +149,12 @@ final class Course extends Acadlix_Abstract
                 'rewrite' => array(
                     'slug' => $course_tag_permalink,
                     'with_front' => false,
+                ),
+                'capabilities' => array(
+                    'manage_terms' => 'acadlix_manage_course_tag', // Edit in admin
+                    'edit_terms' => 'acadlix_edit_course_tag',   // Assign/edit
+                    'delete_terms' => 'acadlix_delete_course_tag', // Delete
+                    'assign_terms' => 'acadlix_assign_course_tag', // Assign to posts
                 ),
             )
         );
@@ -295,7 +307,7 @@ final class Course extends Acadlix_Abstract
             \Yuvayana\Acadlix\Models\Course::deleteCourse($post_id);
         }
     }
-    
+
     public static function instance()
     {
         if (!self::$_instance) {

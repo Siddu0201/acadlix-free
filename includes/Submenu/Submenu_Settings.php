@@ -19,7 +19,7 @@ class Submenu_Settings
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Settings', 'acadlix'),
             'menu_title' => __('Settings', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_setting',
             'menu_slug' => 'acadlix_setting',
             'callback' => [$this, 'setting_callback'],
             'position' => 40
@@ -43,6 +43,9 @@ class Submenu_Settings
 
     public function admin_print_scripts()
     {
+        $current_user = wp_get_current_user();
+        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
         wp_enqueue_style("acadlix-admin-setting-css");
 
         wp_enqueue_script('acadlix-runtime-js');
@@ -55,9 +58,10 @@ class Submenu_Settings
             'currecies_with_symbol' => Helper::instance()->acadlix_get_currency_with_symbols(),
             'options' => Helper::instance()->acadlix_get_all_options(),
             'all_pages' => get_pages(),
-            'user_id' => get_current_user_id(  ),
+            'user_id' => get_current_user_id(),
             'quiz_categories' => Category::all(),
             'quiz_languages' => Language::all(),
+            'capabilities' => $capabilities
         ));
         wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

@@ -20,6 +20,7 @@ import EditParagraph from "./views/paragraph/EditParagraph";
 import "./AdminQuiz.css";
 import ScrollToTop from "../helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../helpers/util";
 
 const AdminQuiz = () => {
   return (
@@ -30,28 +31,64 @@ const AdminQuiz = () => {
           <ScrollToTop />
           <Routes>
             <Route element={<AdminLayout />}>
-              <Route index element={<Quiz />} />
-              <Route path="create" element={<CreateQuiz />} />
-              <Route path="edit/:quiz_id" element={<EditQuiz />} />
+              {
+                hasCapability("acadlix_show_quiz") &&
+                <Route index element={<Quiz />} />
+              }
+              {
+                hasCapability("acadlix_add_quiz") &&
+                <Route path="create" element={<CreateQuiz />} />
+              }
+              {
+                hasCapability("acadlix_edit_quiz") &&
+                <Route path="edit/:quiz_id" element={<EditQuiz />} />
+              }
               <Route path=":quiz_id/question">
-                <Route index element={<Question />} />
-                <Route path="create" element={<CreateQuestion />} />
-                <Route path="edit/:question_id" element={<EditQuestion />} />
+                {
+                  hasCapability("acadlix_show_question") &&
+                  <Route index element={<Question />} />
+                }
+                {
+                  hasCapability("acadlix_add_question") &&
+                  <Route path="create" element={<CreateQuestion />} />
+                }
+                {
+                  hasCapability("acadlix_edit_question") &&
+                  <Route path="edit/:question_id" element={<EditQuestion />} />
+                }
               </Route>
               <Route path=":quiz_id/result">
-                <Route index element={<QuizResult />} />
-                <Route
-                  path=":statistic_ref_id"
-                  element={<QuizResultAnswerSheet />}
-                />
+                {
+                  hasCapability("acadlix_show_statistic") &&
+                  <Route index element={<QuizResult />} />
+                }
+                {
+                  hasCapability("acadlix_show_answersheet") &&
+                  <Route
+                    path=":statistic_ref_id"
+                    element={<QuizResultAnswerSheet />}
+                  />
+                }
               </Route>
               <Route path=":quiz_id/leaderboard">
-                <Route index element={<QuizLeaderboard />} />
+                {
+                  hasCapability("acadlix_show_leaderboard") &&
+                  <Route index element={<QuizLeaderboard />} />
+                }
               </Route>
               <Route path=":quiz_id/paragraph">
-                <Route index element={<Paragraph />} />
-                <Route path="create" element={<CreateParagraph />} />
-                <Route path="edit/:paragraph_id" element={<EditParagraph />} />
+                {
+                  hasCapability("acadlix_show_paragraph") &&
+                  <Route index element={<Paragraph />} />
+                }
+                {
+                  hasCapability("acadlix_add_paragraph") &&
+                  <Route path="create" element={<CreateParagraph />} />
+                }
+                {
+                  hasCapability("acadlix_edit_paragraph") &&
+                  <Route path="edit/:paragraph_id" element={<EditParagraph />} />
+                }
               </Route>
             </Route>
             <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>

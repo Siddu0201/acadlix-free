@@ -110,6 +110,7 @@ if (!class_exists('Acadlix')) {
             Migration::createTable();
             Seeder::seed();
             Option::createOption();
+            UserRole::addCapabilities();
         }
 
         public static function deactivate()

@@ -18,7 +18,7 @@ class Submenu_Courses
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Courses', 'acadlix'),
             'menu_title' => __('Courses', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'edit_acadlix_courses',
             'menu_slug' => 'edit.php?post_type=' . ACADLIX_COURSE_CPT,
             'callback' => '',
             'position' => 999
@@ -44,6 +44,9 @@ class Submenu_Courses
     {
         $screen = get_current_screen();
         if ($screen->post_type === ACADLIX_COURSE_CPT) {
+            $current_user = wp_get_current_user();
+            $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
             wp_enqueue_editor();
             wp_enqueue_media();
             wp_enqueue_script('acadlix-runtime-js');
@@ -59,6 +62,7 @@ class Submenu_Courses
                 'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
                 'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
                 'user_id' => get_current_user_id(),
+                'capabilities' => $capabilities,
             ));
 
             wp_set_script_translations('acadlix-admin-course', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');

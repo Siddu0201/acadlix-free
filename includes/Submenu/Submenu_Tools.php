@@ -16,7 +16,7 @@ class Submenu_Tools
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Tools', 'acadlix'),
             'menu_title' => __('Tools', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_tool',
             'menu_slug' => 'acadlix_tool',
             'callback' => [$this, 'tool_callback'],
             'position' => 40

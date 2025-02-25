@@ -36,6 +36,7 @@ import {
 import toast from "react-hot-toast";
 import ViewContentSection from "./ViewContentSection";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../../helpers/util";
 
 const ViewSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -215,14 +216,22 @@ const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
             justifyContent: "center",
           }}
         >
-          <EditSection {...props} />
-          <IconButton>
-            <FaTrash
-              style={{
-                fontSize: 14,
-              }}
-            />
-          </IconButton>
+          {
+            hasCapability("acadlix_edit_course_section") && (
+              <EditSection {...props} />
+            )
+          }
+          {
+            hasCapability("acadlix_delete_course_section") && (
+              <IconButton>
+                <FaTrash
+                  style={{
+                    fontSize: 14,
+                  }}
+                />
+              </IconButton>
+            )
+          }
           <IconButton>
             {s?.open ? (
               <IoIosArrowUp
@@ -440,20 +449,26 @@ const SortableSections = (props) => {
           }}
           onClick={(e) => e?.stopPropagation()}
         >
-          <EditSection {...props} />
+          {
+            hasCapability("acadlix_edit_course_section") &&
+            <EditSection {...props} />
+          }
           <Backdrop
             sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
             open={deleteMutation?.isPending}
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          <IconButton onClick={handleRemoveSection}>
-            <FaTrash
-              style={{
-                fontSize: 14,
-              }}
-            />
-          </IconButton>
+          {
+            hasCapability("acadlix_delete_course_section") &&
+            <IconButton onClick={handleRemoveSection}>
+              <FaTrash
+                style={{
+                  fontSize: 14,
+                }}
+              />
+            </IconButton>
+          }
           <IconButton onClick={handleToggle}>
             {props?.watch(`sections.${props?.id}.open`) ? (
               <IoIosArrowUp
@@ -487,8 +502,14 @@ const SortableSections = (props) => {
               gap: 2,
             }}
           >
-            <AddLesson {...props} />
-            <AddQuiz {...props} />
+            {
+              hasCapability("acadlix_add_course_section_lesson") &&
+              <AddLesson {...props} />
+            }
+            {
+              hasCapability("acadlix_add_course_section_quiz") &&
+              <AddQuiz {...props} />
+            }
           </Box>
         </Box>
       </Collapse>

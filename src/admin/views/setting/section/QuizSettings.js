@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { LoadingButton } from '@mui/lab';
 import { DefaultLanguageById, GetLanguages, PostCreateLanguage, UpdateLanguageById } from '../../../../requests/admin/AdminLanguageRequest';
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from '../../../../helpers/util';
 
 const QuizSettings = (props) => {
     const methods = useForm({
@@ -250,6 +251,7 @@ const CategorySettings = ({ methods }) => {
                                 {
                                     methods?.watch("category_id") === null
                                         ? (
+                                            hasCapability("acadlix_add_quiz_category") &&
                                             <LoadingButton
                                                 loading={addCategoryMutation?.isPending}
                                                 variant="contained"
@@ -259,21 +261,26 @@ const CategorySettings = ({ methods }) => {
                                         )
                                         :
                                         <>
-                                            <LoadingButton
-                                                loading={updateCategoryMutation?.isPending}
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={handleUpdateCategory}
-                                            >{__("Update", "acadlix")}</LoadingButton>
+                                            {
+                                                hasCapability("acadlix_edit_quiz_category") &&
+                                                <LoadingButton
+                                                    loading={updateCategoryMutation?.isPending}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleUpdateCategory}
+                                                >{__("Update", "acadlix")}</LoadingButton>
+                                            }
                                             {!methods?.watch("categories")?.find(
                                                 (c) => c?.term_id === methods?.watch("category_id")
                                             )?.default && (
+                                                    hasCapability("acadlix_delete_quiz_category") &&
                                                     <LoadingButton
                                                         loading={deleteCategoryMutation?.isPending}
                                                         variant="contained"
                                                         color="error"
                                                         onClick={handleDeleteCategory}
-                                                    >{__("Delete", "acadlix")}</LoadingButton>)
+                                                    >{__("Delete", "acadlix")}</LoadingButton>
+                                                )
                                             }
                                         </>
                                 }
@@ -482,6 +489,7 @@ const LanguageSettings = ({ methods }) => {
                                 {
                                     methods?.watch("language_id") === null
                                         ? (
+                                            hasCapability("acadlix_add_quiz_language") &&
                                             <LoadingButton
                                                 loading={addLanguageMutation?.isPending}
                                                 variant="contained"
@@ -491,14 +499,18 @@ const LanguageSettings = ({ methods }) => {
                                         )
                                         :
                                         <>
-                                            <LoadingButton
-                                                loading={updateLanguageMutation?.isPending}
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={handleUpdateLanguage}
-                                            >{__("Update", 'acadlix')}</LoadingButton>
+                                            {
+                                                hasCapability("acadlix_edit_quiz_language") &&
+                                                <LoadingButton
+                                                    loading={updateLanguageMutation?.isPending}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleUpdateLanguage}
+                                                >{__("Update", 'acadlix')}</LoadingButton>
+                                            }
                                             {
                                                 !methods?.watch("languages")?.find(l => l?.term_id === methods?.watch("language_id"))?.default &&
+                                                hasCapability("acadlix_default_quiz_language") &&
                                                 <LoadingButton
                                                     loading={setDefaultLanguageMutation?.isPending}
                                                     variant="contained"

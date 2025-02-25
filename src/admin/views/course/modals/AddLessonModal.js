@@ -27,7 +27,7 @@ import CustomTextField from "../../../../components/CustomTextField";
 import { MediaUpload } from "@wordpress/media-utils";
 import { GetLessonsForCourse } from "../../../../requests/admin/AdminCourseRequest";
 import VideoUpload from "../../../../modules/video-upload/VideoUpload";
-import { convertTime } from "../../../../helpers/util";
+import { convertTime, hasCapability } from "../../../../helpers/util";
 import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 
@@ -78,18 +78,21 @@ const AddLessonModal = (props) => {
               paddingBottom: 2
             }}
           >
-            <Button
-              variant={
-                props?.watch("lesson_type") === "add_new"
-                  ? "contained"
-                  : "outlined"
-              }
-              color="primary"
-              size="small"
-              onClick={handleLessonTypeChange.bind(this, "add_new")}
-            >
-              {__("Add New", "acadlix")}
-            </Button>
+            {
+              hasCapability("acadlix_add_lesson") &&
+              <Button
+                variant={
+                  props?.watch("lesson_type") === "add_new"
+                    ? "contained"
+                    : "outlined"
+                }
+                color="primary"
+                size="small"
+                onClick={handleLessonTypeChange.bind(this, "add_new")}
+              >
+                {__("Add New", "acadlix")}
+              </Button>
+            }
             <Button
               variant={
                 props?.watch("lesson_type") === "existing"

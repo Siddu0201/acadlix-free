@@ -32,6 +32,7 @@ import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
 import { IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../helpers/util";
 
 const Question = () => {
   const methods = useForm({
@@ -78,27 +79,33 @@ const Question = () => {
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title={__("Edit Question", "acadlix")} arrow>
-              <IconButton
-                aria-label="edit"
-                size="small"
-                color="primary"
-                LinkComponent={Link}
-                to={`/${quiz_id}/question/edit/${params?.id}`}
-              >
-                <FaEdit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Delete Question", "acadlix")} arrow>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="error"
-                onClick={deleteQuestionById.bind(this, params?.id)}
-              >
-                <FaTrash />
-              </IconButton>
-            </Tooltip>
+            {
+              hasCapability("acadlix_edit_question") &&
+              <Tooltip title={__("Edit Question", "acadlix")} arrow>
+                <IconButton
+                  aria-label="edit"
+                  size="small"
+                  color="primary"
+                  LinkComponent={Link}
+                  to={`/${quiz_id}/question/edit/${params?.id}`}
+                >
+                  <FaEdit />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_delete_question") &&
+              <Tooltip title={__("Delete Question", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteQuestionById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
           </>
         );
       },
@@ -320,20 +327,23 @@ const Question = () => {
                   >
                     {__("Question Overview", "acadlix")}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    LinkComponent={Link}
-                    to={`/${quiz_id}/question/create`}
-                    color="primary"
-                  >
-                    {__("Add", "acadlix")}
-                  </Button>
+                  {
+                    hasCapability("acadlix_add_question") &&
+                    <Button
+                      variant="contained"
+                      LinkComponent={Link}
+                      to={`/${quiz_id}/question/create`}
+                      color="primary"
+                    >
+                      {__("Add", "acadlix")}
+                    </Button>
+                  }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
                     </Button>
                   </Tooltip>
-                  {acadlixOptions?.is_abqu_active && (
+                  {acadlixOptions?.is_abqu_active && hasCapability("acadlix_import_question") && (
                     <Button
                       variant="contained"
                       LinkComponent="a"
@@ -352,15 +362,12 @@ const Question = () => {
               }}
             ></CardHeader>
             <CardContent>
-              {methods?.watch("rows")?.length > 0 && (
-                <>
-                  <Box
-                    sx={{
-                      paddingBottom: 2,
-                    }}
-                  >
+              {methods?.watch("rows")?.length > 0 &&
+                hasCapability("acadlix_bulk_action_question") && (
+                  <>
                     <Box
                       sx={{
+                        paddingBottom: 2,
                         display: "flex",
                         gap: 2,
                         alignItems: "baseline",
@@ -384,13 +391,22 @@ const Question = () => {
                           <MenuItem value="">
                             {__("Bulk Actions", "acadlix")}
                           </MenuItem>
-                          <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                          <MenuItem value="set_subject_and_points">
-                            {__("Set Subject and Points", "acadlix")}
-                          </MenuItem>
-                          <MenuItem value="set_paragraph">
-                            {__("Set Paragraph", "acadlix")}
-                          </MenuItem>
+                          {
+                            hasCapability("acadlix_bulk_delete_question") &&
+                            <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                          }
+                          {
+                            hasCapability("acadlix_bulk_set_subject_and_point_question") &&
+                            <MenuItem value="set_subject_and_points">
+                              {__("Set Subject and Points", "acadlix")}
+                            </MenuItem>
+                          }
+                          {
+                            hasCapability("acadlix_bulk_set_paragraph_question") &&
+                            <MenuItem value="set_paragraph">
+                              {__("Set Paragraph", "acadlix")}
+                            </MenuItem>
+                          }
                         </Select>
                         <FormHelperText>
                           {methods?.formState?.errors?.action?.message}
@@ -407,9 +423,8 @@ const Question = () => {
                         {__("Apply", "acadlix")}
                       </Button>
                     </Box>
-                  </Box>
-                </>
-              )}
+                  </>
+                )}
               <Box
                 sx={{
                   width: "100%",

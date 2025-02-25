@@ -18,7 +18,7 @@ class Submenu_Lessons
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Lessons', 'acadlix'),
             'menu_title' => __('Lessons', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_lesson',
             'menu_slug' => 'acadlix_lesson',
             'callback' => [$this, 'lesson_callback'],
             'position' => 40
@@ -42,18 +42,22 @@ class Submenu_Lessons
 
     public function admin_print_scripts()
     {
+        $current_user = wp_get_current_user();
+        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
         wp_enqueue_editor();
         wp_enqueue_media();
-        wp_enqueue_script( 'acadlix-runtime-js' );
-        wp_enqueue_script( 'acadlix-vendors-js' );
-        wp_enqueue_script( "acadlix-admin-lesson" );
-        wp_enqueue_style( "acadlix-admin-lesson-css");
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('acadlix-vendors-js');
+        wp_enqueue_script("acadlix-admin-lesson");
+        wp_enqueue_style("acadlix-admin-lesson-css");
         wp_localize_script('acadlix-admin-lesson', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
-            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL. "demo-course.jpg"),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'user_id' => get_current_user_id(),
+            'capabilities' => $capabilities,
         ));
         wp_set_script_translations('acadlix-admin-lesson', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

@@ -25,6 +25,7 @@ import {
 } from "../../../requests/admin/AdminParagraphRequest";
 import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../helpers/util";
 
 const Paragraph = () => {
   const methods = useForm({
@@ -68,27 +69,33 @@ const Paragraph = () => {
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title={__("Edit Paragraph", "acadlix")} arrow>
-              <IconButton
-                aria-label="edit"
-                size="small"
-                color="primary"
-                LinkComponent={Link}
-                to={`/${quiz_id}/paragraph/edit/${params?.id}`}
-              >
-                <FaEdit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Delete Paragraph", "acadlix")} arrow>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="error"
-                onClick={deleteParagraphById.bind(this, params?.id)}
-              >
-                <FaTrash />
-              </IconButton>
-            </Tooltip>
+            {
+              hasCapability("acadlix_edit_paragraph") &&
+              <Tooltip title={__("Edit Paragraph", "acadlix")} arrow>
+                <IconButton
+                  aria-label="edit"
+                  size="small"
+                  color="primary"
+                  LinkComponent={Link}
+                  to={`/${quiz_id}/paragraph/edit/${params?.id}`}
+                >
+                  <FaEdit />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_delete_paragraph") &&
+              <Tooltip title={__("Delete Paragraph", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteParagraphById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
           </>
         );
       },
@@ -221,14 +228,17 @@ const Paragraph = () => {
                   >
                     {__("Paragraph Overview", "acadlix")}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    LinkComponent={Link}
-                    to={`/${quiz_id}/paragraph/create`}
-                    color="primary"
-                  >
-                    {__("Add", "acadlix")}
-                  </Button>
+                  {
+                    hasCapability("acadlix_add_paragraph") &&
+                    <Button
+                      variant="contained"
+                      LinkComponent={Link}
+                      to={`/${quiz_id}/paragraph/create`}
+                      color="primary"
+                    >
+                      {__("Add", "acadlix")}
+                    </Button>
+                  }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
@@ -243,13 +253,11 @@ const Paragraph = () => {
               }}
             ></CardHeader>
             <CardContent>
-              <Box
-                sx={{
-                  paddingBottom: 2,
-                }}
-              >
+              {
+                hasCapability("acadlix_bulk_action_paragraph") &&
                 <Box
                   sx={{
+                    paddingBottom: 2,
                     display: "flex",
                     gap: 2,
                     alignItems: "baseline",
@@ -271,7 +279,10 @@ const Paragraph = () => {
                       onChange={handleActionChange}
                     >
                       <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
-                      <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                      {
+                        hasCapability("acadlix_bulk_delete_paragraph") &&
+                        <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                      }
                     </Select>
                     <FormHelperText>
                       {methods?.formState?.errors?.action?.message}
@@ -288,7 +299,7 @@ const Paragraph = () => {
                     {__("Apply", "acadlix")}
                   </Button>
                 </Box>
-              </Box>
+              }
               <Box
                 sx={{
                   width: "100%",

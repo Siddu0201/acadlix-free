@@ -130,7 +130,7 @@ const VideoUpload = ({
 
   return (
     <>
-      <Grid xs={xs} sm={sm}>
+      <Grid size={{xs: xs, sm: sm}}>
         <FormControl fullWidth size="small">
           <InputLabel id="acadlix-select-video-type">
             {__('Select Video Source', 'acadlix')}

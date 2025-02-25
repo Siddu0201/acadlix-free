@@ -40,7 +40,7 @@ const BillingDetail = (props) => {
                 fullWidth
                 size="small"
                 type="text"
-                placeholder={__('e.g. Alex', 'acadlix')}
+                placeholder={__('e.g. John', 'acadlix')}
                 value={props?.watch("billing_info.first_name")}
                 onChange={(e) => {
                   props?.setValue("billing_info.first_name", e?.target?.value, {
@@ -70,7 +70,7 @@ const BillingDetail = (props) => {
                 fullWidth
                 size="small"
                 type="text"
-                placeholder={__('e.g. Smith', 'acadlix')}
+                placeholder={__('e.g. Doe', 'acadlix')}
                 value={props?.watch("billing_info.last_name")}
                 onChange={(e) => {
                   props?.setValue("billing_info.last_name", e?.target?.value, {
@@ -98,7 +98,7 @@ const BillingDetail = (props) => {
                 fullWidth
                 size="small"
                 type="email"
-                placeholder={__("e.g. alexsmith@gmail.com", "acadlix")}
+                placeholder={__("e.g. example@example.com", "acadlix")}
                 value={props?.watch("billing_info.email")}
                 onChange={(e) => {
                   props?.setValue("billing_info.email", e?.target?.value, {

@@ -31,6 +31,7 @@ import {
 } from "../../../../requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../../helpers/util";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -102,28 +103,34 @@ const QuizResult = () => {
       minWidth: 100,
       renderCell: (params) => (
         <Box>
-          <Tooltip title={__("View Answersheet", "acadlix")}>
-            <IconButton
-              aria-label="expand"
-              size="small"
-              color="warning"
-              LinkComponent={Link}
-              to={`/${quiz_id}/result/${params?.id}`}
-            >
-              <FaExpandArrowsAlt fontSize="inherit" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={__("Delete", "acadlix")}>
-            <IconButton
-              aria-label="delete"
-              size="small"
-              color="error"
-              sx={{ ml: 1 }}
-              onClick={deleteStatisticById.bind(this, params?.id)}
-            >
-              <FaTrash fontSize="inherit" />
-            </IconButton>
-          </Tooltip>
+          {
+            hasCapability("acadlix_show_answersheet") &&
+            <Tooltip title={__("View Answersheet", "acadlix")}>
+              <IconButton
+                aria-label="expand"
+                size="small"
+                color="warning"
+                LinkComponent={Link}
+                to={`/${quiz_id}/result/${params?.id}`}
+              >
+                <FaExpandArrowsAlt fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          }
+          {
+            hasCapability("acadlix_delete_statistic") &&
+            <Tooltip title={__("Delete", "acadlix")}>
+              <IconButton
+                aria-label="delete"
+                size="small"
+                color="error"
+                sx={{ ml: 1 }}
+                onClick={deleteStatisticById.bind(this, params?.id)}
+              >
+                <FaTrash fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          }
         </Box>
       ),
     },
@@ -190,17 +197,20 @@ const QuizResult = () => {
           >
             {__('Back', 'acadlix')}
           </Button>
-          <Button
-            variant="contained"
-            size="medium"
-            sx={{
-              width: "fit-content",
-              marginLeft: "1rem",
-            }}
-            onClick={handleResetStatistic}
-          >
-            {__('Reset Statistics', 'acadlix')}
-          </Button>
+          {
+            hasCapability("acadlix_reset_statistic") &&
+            <Button
+              variant="contained"
+              size="medium"
+              sx={{
+                width: "fit-content",
+                marginLeft: "1rem",
+              }}
+              onClick={handleResetStatistic}
+            >
+              {__('Reset Statistics', 'acadlix')}
+            </Button>
+          }
         </Grid>
         <Grid size={{ xs: 12, lg: 12 }}>
           <Card>

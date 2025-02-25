@@ -214,7 +214,7 @@ const QuizModeSection = (props) => {
                           }}
                         />
                       }
-                      label={__("Show Check When Option Selected", 'acadlix')}
+                      label={__("Show Check Button When Option Selected", 'acadlix')}
                     />
 
                     <FormControlLabel

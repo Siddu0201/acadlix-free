@@ -18,6 +18,7 @@ import Third from "../../../../images/medal-3.svg";
 import { PostQuizLoadMoreLeaderderboard, PostResetLeaderboardByQuizId } from "../../../../requests/admin/AdminLeaderboardRequest";
 import { TiArrowLeftThick } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "../../../../helpers/util";
 
 const QuizLeaderboard = () => {
   const styles = {
@@ -224,16 +225,19 @@ const QuizLeaderboard = () => {
           >
             {__("Back", "acadlix")}
           </Button>
-          <Button
-            variant="contained"
-            size="medium"
-            sx={{
-              width: "fit-content",
-            }}
-            onClick={handleResetLeaderboard}
-          >
-            {__("Reset Leaderboard", "acadlix")}
-          </Button>
+          {
+            hasCapability("acadlix_reset_leaderboard") &&
+            <Button
+              variant="contained"
+              size="medium"
+              sx={{
+                width: "fit-content",
+              }}
+              onClick={handleResetLeaderboard}
+            >
+              {__("Reset Leaderboard", "acadlix")}
+            </Button>
+          }
         </Grid>
       </Grid>
       <Grid

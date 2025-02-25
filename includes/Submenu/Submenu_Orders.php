@@ -18,7 +18,7 @@ class Submenu_Orders
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Orders', 'acadlix'),
             'menu_title' => __('Orders', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_order',
             'menu_slug' => 'acadlix_order',
             'callback' => [$this, 'order_callback'],
             'position' => 40
@@ -42,6 +42,9 @@ class Submenu_Orders
 
     public function admin_print_scripts()
     {
+        $current_user = wp_get_current_user();
+        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('acadlix-vendors-js');
@@ -55,6 +58,7 @@ class Submenu_Orders
             'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
             'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
+            'capabilities' => $capabilities
         ));
         wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

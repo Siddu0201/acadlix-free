@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import AddSection from "./sections/AddSection";
 import ViewSection from "./sections/ViewSection";
 import TestingViewSection from "./testing/TestingViewSection";
+import { hasCapability } from "../../../helpers/util";
 
 const CourseBuilder = (props) => {
   const methods = useForm({
@@ -55,7 +56,10 @@ const CourseBuilder = (props) => {
     >
       <ViewSection {...methods} colorCode={colorCode} />
       {/* <TestingViewSection {...methods} colorCode={colorCode} /> */}
-      <AddSection {...methods} colorCode={colorCode} />
+      {
+        hasCapability("acadlix_add_course_section") &&
+        <AddSection {...methods} colorCode={colorCode} />
+      }
     </Box>
   );
 };

@@ -33,6 +33,7 @@ import {
 } from "../../../../requests/admin/AdminCourseRequest";
 import EditLesson from "./EditLesson";
 import { __, sprintf } from "@wordpress/i18n";
+import { hasCapability } from "../../../../helpers/util";
 
 const ViewContentSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -364,24 +365,30 @@ const SortableSections = (props) => {
               justifyContent: "center",
             }}
           >
-            <Tooltip title="Edit Quiz">
-              <IconButton
-                component="a"
-                target="_blank"
-                href={`${acadlixOptions?.acadlix_quiz_url}#/edit/${props?.c?.contentable_id}`}
-              >
-                <FaEdit style={{ fontSize: 14 }} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__('Delete Quiz', 'acadlix')}>
-              <IconButton onClick={handleRemoveContent}>
-                <FaTrash
-                  style={{
-                    fontSize: 14,
-                  }}
-                />
-              </IconButton>
-            </Tooltip>
+            {
+              hasCapability("acadlix_edit_course_section_quiz") &&
+              <Tooltip title="Edit Quiz">
+                <IconButton
+                  component="a"
+                  target="_blank"
+                  href={`${acadlixOptions?.acadlix_quiz_url}#/edit/${props?.c?.contentable_id}`}
+                >
+                  <FaEdit style={{ fontSize: 14 }} />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_delete_course_section_quiz") &&
+              <Tooltip title={__('Delete Quiz', 'acadlix')}>
+                <IconButton onClick={handleRemoveContent}>
+                  <FaTrash
+                    style={{
+                      fontSize: 14,
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            }
           </Box>
         )}
         {props?.c?.type === "lesson" && (
@@ -410,16 +417,22 @@ const SortableSections = (props) => {
                 }
               </IconButton>
             </Tooltip>
-            <EditLesson {...props} />
-            <Tooltip title={__("Delete Lesson", "acadlix")}>
-            <IconButton onClick={handleRemoveContent}>
-                <FaTrash
-                  style={{
-                    fontSize: 14,
-                  }}
-                />
-              </IconButton>
-            </Tooltip>
+            {
+              hasCapability("acadlix_edit_course_section_lesson") && hasCapability("acadlix_edit_lesson") &&
+              <EditLesson {...props} />
+            }
+            {
+              hasCapability("acadlix_delete_course_section_lesson") &&
+              <Tooltip title={__("Delete Lesson", "acadlix")}>
+                <IconButton onClick={handleRemoveContent}>
+                  <FaTrash
+                    style={{
+                      fontSize: 14,
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            }
           </Box>
         )}
       </Box>
