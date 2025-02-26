@@ -14,6 +14,7 @@ import { Box, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import UserAuth from "../modules/user-auth/UserAuth.js";
 import { __ } from "@wordpress/i18n";
+import ViewAnswersheet from "./dashboard/result/ViewAnswersheet.js";
 
 const Dashbaord = () => {
 
@@ -67,7 +68,10 @@ const Dashbaord = () => {
               />
             </Route>
             <Route index path="/courses" element={<Courses />} />
-            <Route path="/result" element={<Result />} />
+            <Route path="result">
+              <Route index element={<Result />} />
+              <Route path=":statistic_ref_id" element={<ViewAnswersheet />} />
+            </Route>
             <Route path="/purchase" element={<PurchaseHistory />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/normal" element={<Quiz mode="normal" />} />

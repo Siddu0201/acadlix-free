@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\REST\Front;
 
 use WP_REST_Server;
+use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\StatisticRef;
 
 defined('ABSPATH') || exit();
@@ -16,43 +17,45 @@ class FrontStatisticController
     public function register_routes()
     {
         register_rest_route(
-            $this->namespace, 
-            '/' . $this->base . '/(?P<user_id>[\d]+)', 
+            $this->namespace,
+            '/' . $this->base . '/(?P<user_id>[\d]+)',
             array(
-            array(
-                'methods' => WP_REST_Server::READABLE,
-                'callback' => array($this, 'get_statistic_by_user_id'),
-                'permission_callback' => array($this, 'check_permission'),
-                'args' => array(
-                    'user_id' => array(
-                        'validate_callback' => function ($param, $request, $key) {
-                            return is_numeric($param);
-                        }
+                array(
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => array($this, 'get_statistic_by_user_id'),
+                    'permission_callback' => array($this, 'check_permission'),
+                    'args' => array(
+                        'user_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
                     ),
-                ),
+                )
             )
-        ));
+        );
 
         register_rest_route(
-            $this->namespace, 
-            '/' . $this->base . '/(?P<statistic_id>[\d]+)/statistic', 
+            $this->namespace,
+            '/' . $this->base . '/(?P<statistic_id>[\d]+)/statistic',
             array(
-            array(
-                'methods' => WP_REST_Server::READABLE,
-                'callback' => array($this, 'get_statistic_by_statistic_id'),
-                'permission_callback' => array($this, 'check_permission'),
-                'args' => array(
-                    'statistic_id' => array(
-                        'validate_callback' => function ($param, $request, $key) {
-                            return is_numeric($param);
-                        }
+                array(
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => array($this, 'get_statistic_by_statistic_id'),
+                    'permission_callback' => array($this, 'check_permission'),
+                    'args' => array(
+                        'statistic_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
                     ),
-                ),
+                )
             )
-        ));
+        );
     }
 
-    public function get_statistic_by_user_id($request) 
+    public function get_statistic_by_user_id($request)
     {
         $res = [];
         $user_id = $request['user_id'];
@@ -87,7 +90,12 @@ class FrontStatisticController
             );
         }
 
-        return rest_ensure_response($statistic_id);
+        $stat_ref = StatisticRef::find($statistic_id);
+        $res['quiz'] = Quiz::ofQuiz()->find($stat_ref->quiz_id);
+        $res['statistic_ref'] = $stat_ref;
+        $res['statistic'] = $stat_ref->statistics()->with("question")->get();
+
+        return rest_ensure_response($res);
     }
 
     public function check_permission()

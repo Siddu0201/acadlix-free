@@ -41,7 +41,7 @@ export default function Result() {
 
   const columns = [
     { field: "id", headerName: __("ID", "acadlix") },
-    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 250 },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 3, minWidth: 250 },
     { field: "date", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 250 },
     {
       field: "score",
@@ -57,10 +57,16 @@ export default function Result() {
       minWidth: 100,
       renderCell: (params) => {
         return (
-          <Chip
-            color={params?.value === "Pass" ? "success" : "error"}
-            label={params?.value}
-          />
+          <div style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}>
+            <Chip
+              color={params?.value === "Pass" ? "success" : "error"}
+              label={params?.value}
+            />
+          </div>
         );
       },
     },
@@ -68,11 +74,15 @@ export default function Result() {
       field: "action",
       headerName: __("Action", "acadlix"),
       sortable: false,
-      flex: 3,
+      flex: 1,
       minWidth: 100,
       renderCell: (params) => {
         return (
-          <>
+          <div style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}>
             <Tooltip title={__("View Answersheet", "acadlix")} arrow>
               <IconButton
                 aria-label="expand"
@@ -84,7 +94,7 @@ export default function Result() {
                 <FaExpandArrowsAlt fontSize="inherit" />
               </IconButton>
             </Tooltip>
-          </>
+          </div>
         );
       },
     },
@@ -140,7 +150,7 @@ export default function Result() {
               <Box
                 sx={{
                   width: "100%",
-                  display: 'flex', 
+                  display: 'flex',
                   flexDirection: 'column',
                 }}
               >

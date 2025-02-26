@@ -18,7 +18,7 @@ import QuestionStatusSection from "../../front/dashboard/quiz/normalMode/normal-
 import PropTypes from "prop-types";
 
 const AnswerSheet = ({
-    statistic = {},
+    statistic = [],
     colorCode = {},
     quiz = {},
     ...props
