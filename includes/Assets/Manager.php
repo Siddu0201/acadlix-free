@@ -371,6 +371,7 @@ class Manager
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
         ));
+        wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public static function instance()

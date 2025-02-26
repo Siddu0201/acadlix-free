@@ -299,7 +299,7 @@ const TypeMatrixSortingChoice = (props) => {
                   minWidth: "20%",
                 }}
               >
-                <Typography>{parse(item?.criteria)}</Typography>
+                <Typography component="span">{parse(item?.criteria)}</Typography>
               </Box>
               <DroppableItem
                 key={index}
@@ -389,7 +389,7 @@ const TypeMatrixSortingChoice = (props) => {
                       minWidth: "20%",
                     }}
                   >
-                    <Typography>{parse(item?.criteria)}</Typography>
+                    <Typography component="span">{parse(item?.criteria)}</Typography>
                   </Box>
                   <List sx={{
                     paddingY: 0,
@@ -484,6 +484,7 @@ const DroppableItem = (props) => {
   if (isOver && props?.activeId !== null) {
     return (
       <List sx={{
+        paddingY: 0,
         paddingX: 1,
       }}>
         <Item
@@ -516,7 +517,6 @@ const DroppableItem = (props) => {
     <Box
       ref={setNodeRef}
       sx={{
-        backgroundColor: isOver ? "yellow" : "transparent",
         height: "30px",
         minWidth: "70%",
         marginX: "10px",
