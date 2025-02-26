@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BiExpand, HistoryToggleOff } from "../../../helpers/icons";
+import { BiExpand, FaExpandArrowsAlt, HistoryToggleOff } from "../../../helpers/icons";
 import {
   Box,
   Typography,
@@ -12,6 +12,7 @@ import {
   Tooltip,
   IconButton,
   CardHeader,
+  Chip,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import Pagination from "@mui/material/Pagination";
@@ -19,6 +20,9 @@ import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 import { DataGrid } from "@mui/x-data-grid";
 import { __ } from "@wordpress/i18n";
+import { Link } from "react-router-dom";
+import dateFormat from "dateformat";
+import { GetStatisticByUserId } from "../../../requests/front/FrontStatisticRequest";
 
 export default function Result() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -27,7 +31,7 @@ export default function Result() {
     defaultValues: {
       rows: [],
       action: "",
-      result_ids: [],
+      resstatistic_ref_idsult_ids: [],
     },
   });
   const [paginationModel, setPaginationModel] = React.useState({
@@ -37,32 +41,47 @@ export default function Result() {
 
   const columns = [
     { field: "id", headerName: __("ID", "acadlix") },
-    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
-    { field: "date_time", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 90 },
-    {
-      field: "status",
-      headerName: __("Status", "acadlix"),
-      flex: 1,
-      minWidth: 130,
-    },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 250 },
+    { field: "date", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 250 },
     {
       field: "score",
       headerName: __("Score", "acadlix"),
       flex: 1,
-      minWidth: 80,
+      minWidth: 100,
+    },
+    { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
+    {
+      field: "status",
+      headerName: __("Status", "acadlix"),
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params) => {
+        return (
+          <Chip
+            color={params?.value === "Pass" ? "success" : "error"}
+            label={params?.value}
+          />
+        );
+      },
     },
     {
       field: "action",
       headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 3,
-      minWidth: 180,
+      minWidth: 100,
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title={__("Result", "acadlix")} arrow>
-              <IconButton aria-label="edit" size="small" color="primary">
-                <BiExpand />
+            <Tooltip title={__("View Answersheet", "acadlix")} arrow>
+              <IconButton
+                aria-label="expand"
+                size="small"
+                color="warning"
+                LinkComponent={Link}
+                to={`/result/${params?.id}`}
+              >
+                <FaExpandArrowsAlt fontSize="inherit" />
               </IconButton>
             </Tooltip>
           </>
@@ -70,6 +89,36 @@ export default function Result() {
       },
     },
   ];
+
+  const { data, isFetching } = GetStatisticByUserId(
+    acadlixOptions?.user?.ID,
+    paginationModel?.page,
+    paginationModel?.pageSize);
+
+  React.useMemo(() => {
+    if (Array.isArray(data?.data?.stat_refs)) {
+      const newRows = data?.data?.stat_refs?.map((stat_ref) => {
+        return {
+          id: stat_ref?.id,
+          title: stat_ref?.quiz?.post_title,
+          date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
+          score: stat_ref?.points?.toFixed(2),
+          percentage: stat_ref?.result?.toFixed(2),
+          status: stat_ref?.status,
+        };
+      });
+      methods.setValue("rows", newRows, { shouldDirty: true });
+    }
+  }, [data]);
+
+  const rowCountRef = React.useRef(data?.data?.total || 0);
+
+  const rowCount = React.useMemo(() => {
+    if (data?.data?.total !== undefined) {
+      rowCountRef.current = data?.data?.total;
+    }
+    return rowCountRef.current;
+  }, [data?.data?.total]);
 
   return isMobile ? (
     <MobileOnlyView
@@ -91,12 +140,14 @@ export default function Result() {
               <Box
                 sx={{
                   width: "100%",
+                  display: 'flex', 
+                  flexDirection: 'column',
                 }}
               >
                 <DataGrid
                   rows={methods?.watch("rows")}
                   columns={columns}
-                  rowCount={methods?.watch("rows")?.length}
+                  rowCount={rowCount}
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   paginationMode="server"
@@ -104,13 +155,12 @@ export default function Result() {
                   checkboxSelection
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
-                    methods?.setValue("result_ids", data, {
+                    methods?.setValue("statistic_ref_ids", data, {
                       shouldDirty: true,
                     });
                   }}
-                  rowSelectionModel={methods?.watch("result_ids")}
-                  autoHeight
-                  loading={false}
+                  rowSelectionModel={methods?.watch("statistic_ref_ids")}
+                  loading={isFetching}
                   columnVisibilityModel={{
                     id: false,
                   }}

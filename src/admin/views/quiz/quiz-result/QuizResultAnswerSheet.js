@@ -3,9 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import { GetStatisticById } from "../../../../requests/admin/AdminStatisticRequest";
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import AnswerSheetContent from "./AnswerSheetContent";
 import { TiArrowLeftThick } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import AnswerSheet from "../../../../modules/answersheet/AnswerSheet";
 
 const QuizResultAnswerSheet = () => {
   const { statistic_ref_id, quiz_id } = useParams();
@@ -69,7 +69,7 @@ const QuizResultAnswerSheet = () => {
               {isFetching ?
                 <CircularProgress color="inherit" size={20} />
                 : (
-                  <AnswerSheetContent
+                  <AnswerSheet
                     statistic={data?.data?.statistic}
                     colorCode={colorCode}
                     quiz={data?.data?.quiz}

@@ -32,8 +32,8 @@ if(!class_exists('StatisticRef')){
             $this->attributes['user_token'] = empty($value) ? NULL : $value ;
         }
 
-        public function quiz(){
-            return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
+        public function getQuizAttribute(){
+            return Quiz::ofQuiz()->find($this->quiz_id);
         }
 
         public function statistics(){

@@ -27,6 +27,7 @@ use Yuvayana\Acadlix\REST\Front\FrontCheckoutController;
 use Yuvayana\Acadlix\REST\Front\FrontCourseController;
 use Yuvayana\Acadlix\REST\Front\FrontDashboardController;
 use Yuvayana\Acadlix\REST\Front\FrontQuizController;
+use Yuvayana\Acadlix\REST\Front\FrontStatisticController;
 use Yuvayana\Acadlix\REST\Front\FrontUserController;
 
 // Upoad API Controller
@@ -78,6 +79,7 @@ defined( 'ABSPATH' ) || exit();
                 FrontCourseController::class,
                 FrontCheckoutController::class,
                 FrontDashboardController::class,
+                FrontStatisticController::class,
 
                 // Upload Controllers
                 UploadQuizController::class,

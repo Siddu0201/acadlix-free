@@ -315,7 +315,11 @@ const QuizResult = () => {
                 </Grid>
               </Box>
 
-              <Box sx={{ width: "100%" }}>
+              <Box sx={{
+                width: "100%",
+                display: 'flex',
+                flexDirection: 'column',
+              }}>
                 <DataGrid
                   rows={methods.watch("rows")}
                   columns={columns}
@@ -332,7 +336,6 @@ const QuizResult = () => {
                     });
                   }}
                   rowSelectionModel={methods?.watch("statistic_ref_ids")}
-                  autoHeight
                   loading={isFetching || deleteMutation?.isPending}
                   columnVisibilityModel={{
                     id: false,
