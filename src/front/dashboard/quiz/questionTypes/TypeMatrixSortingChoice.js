@@ -236,36 +236,37 @@ const TypeMatrixSortingChoice = (props) => {
               }}>
                 {__("Pick Elements", "acadlix")}
               </Typography>
-              <List
-                sx={{
-                  display: "grid",
-                  gap: "8px",
-                  gridTemplateColumns: "repeat(5, 1fr)",
-                }}
-              >
-                <SortableContext
-                  items={props?.watch(`questions.${props?.index}.shuffle_order`)}
+                <List
+                  sx={{
+                    padding: `0px !important`,
+                    display: "grid",
+                    gap: "8px",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+                  }}
                 >
-                  {props?.watch(`questions.${props?.index}.shuffle_order`)?.map((item, index) => (
-                    <SortableItem
-                      key={index}
-                      id={item}
-                      element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
-                      activeId={activeId}
-                      check={props?.watch(`questions.${props?.index}.check`)}
-                      view_answer={props?.watch("view_answer")}
-                    />
-                  ))}
-                </SortableContext>
-                <DragOverlay>
-                  {activeId !== null && activeId !== undefined
-                    ? <Item
-                      id={activeId}
-                      element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
-                    />
-                    : null}
-                </DragOverlay>
-              </List>
+                  <SortableContext
+                    items={props?.watch(`questions.${props?.index}.shuffle_order`)}
+                  >
+                    {props?.watch(`questions.${props?.index}.shuffle_order`)?.map((item, index) => (
+                      <SortableItem
+                        key={index}
+                        id={item}
+                        element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
+                        activeId={activeId}
+                        check={props?.watch(`questions.${props?.index}.check`)}
+                        view_answer={props?.watch("view_answer")}
+                      />
+                    ))}
+                  </SortableContext>
+                  <DragOverlay>
+                    {activeId !== null && activeId !== undefined
+                      ? <Item
+                        id={activeId}
+                        element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
+                      />
+                      : null}
+                  </DragOverlay>
+                </List>
             </Box>
           )
         }
@@ -291,12 +292,16 @@ const TypeMatrixSortingChoice = (props) => {
                     ? (theme) => theme.palette.success.light
                     : (theme) => theme.palette.error.light
                   : "transparent",
+                paddingX: {
+                  xs: 2,
+                  sm: 4,
+                },
               }}
             >
               <Box
                 sx={{
                   borderRight: "1px dotted black",
-                  minWidth: "20%",
+                  paddingRight: 1,
                 }}
               >
                 <Typography component="span">{parse(item?.criteria)}</Typography>
