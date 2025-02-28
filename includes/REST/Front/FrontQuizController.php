@@ -172,10 +172,37 @@ class FrontQuizController
             }
         }
 
-        // check prerequisite for future
+        // check prerequisite 
+        $enable_prerequisite = $quiz->rendered_metas['quiz_settings']['enable_prerequisite'];
+        if ($enable_prerequisite) {
+            $prerquisites = Prerequisite::ofTypeQuiz()
+                ->ofPrerequisiteTypeQuiz()
+                ->where("type_id", $quiz_id)
+                ->get()
+                ->each
+                ->setAppends([
+                    'quiz_title'
+                ]);
+            if (count($prerquisites) > 0) {
+                foreach ($prerquisites as $prerequisite) {
+                    $user_attempts = UserActivityMeta::ofQuiz()
+                        ->ofQuizAttempt()
+                        ->where('type_id', $prerequisite->prerequisite_id)
+                        ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
+                        ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
+                        ->first();
 
+                    if (!$user_attempts || $user_attempts->meta_value == 0) {
+                        // translators: %s is the title of the quiz
+                        $errors[] = sprintf(__('You need to attempt %s to unlock this quiz.', 'acadlix'), $prerequisite->quiz_title);
+                    }
+                }
+            }
+
+        }
+
+        // handle when min percentage is added in future
         // $i = 0;
-        // $prerquisite_quizzes = Prerequisite::where("quiz_id", $quiz_id)->get();
         // if (count($prerquisite_quizzes) > 0) {
         //     foreach ($prerquisite_quizzes as $prerquisite_quiz) {
         //         $statistic_ref = StatisticRef::where('quiz_id', $prerquisite_quiz->prerequisite_quiz_id)->where('user_id', $params['user_id']);
@@ -351,7 +378,7 @@ class FrontQuizController
         $quiz_name = $quiz->post_title ?? '';
         $r = array(
             '$userId' => $user_id,
-            '$username' => $params['name'] ?? __('Anonymous' , 'acadlix'),
+            '$username' => $params['name'] ?? __('Anonymous', 'acadlix'),
             '$quizname' => $quiz_name,
             '$result' => $params['result'] . '%',
             '$points' => $params['points'],

@@ -35,6 +35,10 @@ const QuizContent = (props) => {
       templates: props?.templates ?? [],
       load_template_id: null,
       languages: props?.quiz?.languages?.map(l => l?.term_id) ?? [],
+      quizzes: props?.quizzes ?? [],
+      prerequisite: props?.prerequisites
+        ? props?.prerequisites?.map(p => ({ID: p?.prerequisite_id, post_title: p?.quiz_title}))
+       : [],
       meta: {
         mode: props?.quiz?.rendered_metas?.mode ?? "normal", // normal/check_and_continue/question_below_each_other/advance_mode
         advance_mode_type: props?.quiz?.rendered_metas?.advance_mode_type ?? "advance_panel", // advance_panel/ibps/ssc/gate/sbi/jee/railway
@@ -158,7 +162,7 @@ const QuizContent = (props) => {
               'Acadlix <br/><br/>You have completed the quiz "$quizname".<br/><br/>Points: $points<br/>Result: $result',
               'acadlix'
             ),
-          prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.prerequisite)),
+          enable_prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_prerequisite)),
           subject_wise_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question)),
         },
         default_language_id: props?.quiz?.rendered_metas?.default_language_id

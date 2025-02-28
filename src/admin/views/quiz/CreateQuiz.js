@@ -18,10 +18,11 @@ const CreateQuiz = () => {
         quiz_id={null}
         create={true}
         quiz={null}
+        prerequisites={null}
         categories={data?.data?.categories}
         templates={data?.data?.templates}
         languages={data?.data?.languages}
-        non_prerquisites={data?.data?.quizes}
+        quizzes={data?.data?.quizzes}
         isFetching={isFetching}
       />
     </>

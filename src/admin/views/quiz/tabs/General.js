@@ -9,6 +9,12 @@ import {
   Divider,
   Tooltip,
   IconButton,
+  Autocomplete,
+  TextField,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import CustomSwitch from "../../../../components/CustomSwitch";
@@ -23,6 +29,27 @@ import CustomTypography from "../../../../components/CustomTypography";
 import { __ } from "@wordpress/i18n";
 
 const General = (props) => {
+  const [prerequisite, setPrerequisite] = React.useState(null);
+
+  const handleAddPrerequisite = () => {
+    props?.setValue(
+      "prerequisite",
+      [
+        ...props?.watch("prerequisite"),
+        prerequisite,
+      ]
+    );
+    setPrerequisite(null);
+  }
+
+  const handleRemovePrerequisite = (index) => {
+    props?.setValue(
+      "prerequisite",
+      props?.watch("prerequisite").filter((_, i) => i !== index)
+    );
+  }
+
+
   return (
     <Box sx={{ color: "black" }}>
       <Box
@@ -394,28 +421,113 @@ const General = (props) => {
             </IconButton>
           </Tooltip>
         </GridItem1>
-      </Grid>
 
-      {/* Quiz prerequisite */}
-      {/* <GridItem1 size={{  xs: 12 ,  lg: 12  }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Enable Prerequisite", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        {/* Quiz prerequisite */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
             control={
               <CustomSwitch
-                checked={props?.watch("meta.quiz_settings.prerequisite") ?? false}
+                checked={props?.watch("meta.quiz_settings.enable_prerequisite") ?? false}
                 onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.prerequisite", e?.target?.checked, {
+                  props?.setValue("meta.quiz_settings.enable_prerequisite", e?.target?.checked, {
                     shouldDirty: true,
                   });
                 }}
-                disabled={
-                  (props?.watch("meta.mode") === "advance_mode" &&
-                    props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
               />
             }
-            label="Prerequisite"
+            label={__("Activate", "acadlix")}
           />
-        </GridItem1> */}
+        </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        {
+          props?.watch("meta.quiz_settings.enable_prerequisite") &&
+          <>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>{__("Select Prerequisite", "acadlix")}</CustomTypography>
+            </GridItem1>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }} sx={{
+              display: "flex",
+              gap: 2
+            }}>
+              <Autocomplete
+                size="small"
+                fullWidth
+                value={
+                  prerequisite !== null
+                    ? prerequisite
+                    : null
+                }
+                options={
+                  props?.watch("quizzes")?.length > 0
+                    ? props?.watch("quizzes")?.filter(val => !props?.watch("prerequisite")?.some(p => p?.ID === val?.ID))
+                    : []
+                }
+                getOptionLabel={(option) => option?.post_title || ""}
+                isOptionEqualToValue={(option, value) => option?.ID === value?.ID}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label={__('Select Quiz', 'acadlix')}
+                  />
+                )}
+                onChange={(_, newValue) => {
+                  if (!newValue) {
+                    setPrerequisite(null);
+                    return;
+                  }
+                  setPrerequisite(newValue);
+                }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={handleAddPrerequisite}
+              >
+                {__('Add', 'acadlix')}
+              </Button>
+            </GridItem1>
+            <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <List>
+                {props?.watch("prerequisite").map((value, index) => (
+                  <ListItem
+                    key={index}
+                    disableGutters
+                    secondaryAction={
+                      <React.Fragment>
+                        <Box sx={{
+                          display: "flex",
+                          gap: 1
+                        }}>
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            size="small"
+                            onClick={handleRemovePrerequisite.bind(this, index)}
+                          >
+                            {__('Delete', 'acadlix')}
+                          </Button>
+                        </Box>
+                      </React.Fragment>
+                    }
+                  >
+                    <ListItemText
+                      primary={value?.post_title}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </GridItem1>
+          </>
+        }
+      </Grid>
+
 
       {/* Advance Options */}
       <Box

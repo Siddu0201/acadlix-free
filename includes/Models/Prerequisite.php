@@ -12,18 +12,26 @@ if(!class_exists('Prerequisite')){
         protected $table = "prerequisite";
 
         protected $fillable = [
-            "quiz_id",
-            "prerequisite_quiz_id",
-            "min_percentage"
+            "type",
+            "type_id",
+            "prerequisite_type",
+            "prerequisite_id",
+            "meta"
         ];
 
-        public function quiz(){
-            return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
+        public function scopeOfTypeQuiz($query){
+            return $query->where("type", "quiz");
         }
 
-        public function prerequisite_quiz(){
-            return $this->belongsTo(Quiz::class, 'prerequisite_quiz_id', 'id');
+        public function scopeOfPrerequisiteTypeQuiz($query){
+            return $query->where("prerequisite_type", "quiz");
         }
 
+        public function getQuizTitleAttribute(){
+            if($this->type == "quiz" && $this->prerequisite_type == "quiz"){
+                $quiz = Quiz::ofQuiz()->find($this->prerequisite_id);
+                return $quiz->post_title;
+            }
+        }
     }
 }

@@ -508,6 +508,15 @@ if (!class_exists('Quiz')) {
                 }
             }
 
+            // Delete prerequisite
+            Prerequisite::ofTypeQuiz()
+                ->where("type_id", $postId)
+                ->delete();
+
+            Prerequisite::ofPreRequisiteTypeQuiz()
+                ->where("prerequisite_id", $postId)
+                ->delete();
+
             return true;
         }
 

@@ -69,6 +69,7 @@ const QuizContent = (props) => {
         Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
       ),
       per_user_allowed_attempt: Number(props?.quiz?.rendered_metas?.quiz_settings?.per_user_allowed_attempt), // 0 => infinity
+      enable_prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_prerequisite)),
       save_statistic: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.save_statistic)),
       statistic_ip_lock: Number(props?.quiz?.rendered_metas?.quiz_settings?.statistic_ip_lock),
       save_statistic_number_of_times:
@@ -288,6 +289,8 @@ const QuizContent = (props) => {
       quiz_error: "",
     },
   });
+
+  console.log(methods?.watch());
 
 
   useLayoutEffect(() => {

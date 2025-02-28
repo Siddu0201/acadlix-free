@@ -7,6 +7,7 @@ use WP_REST_Request;
 use WP_Error;
 use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Paragraph;
+use Yuvayana\Acadlix\Models\Prerequisite;
 use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Category;
@@ -246,7 +247,11 @@ class AdminQuizController
         $res = [];
         $res['categories'] = Category::all();
         $res['languages'] = Language::all();
-        $res['quizes'] = Quiz::ofQuiz()->get(["ID", "post_title"]);
+        $res['quizzes'] = Quiz::ofQuiz()
+            ->without(['author', 'metas'])
+            ->get(["ID", "post_title"])
+            ->each
+            ->setAppends([]);
         $res['templates'] = Template::where("type", "quiz")->get(["id", "name"]);
         return rest_ensure_response($res);
     }
@@ -328,8 +333,24 @@ class AdminQuizController
             }
 
             // handle prerequisite
-            if (is_array($params['meta']['prerequisite_data']) && count($params['meta']['prerequisite_data']) > 0) {
+            if (is_array($params['prerequisite']) && count($params['prerequisite']) > 0) {
                 // enable other quiz statistic
+                foreach ($params['prerequisite'] as $key => $prerequisite) {
+                    $prerequisite_id = $prerequisite['ID'];
+                    if (!$prerequisite_id) {
+                        continue;
+                    }
+                    Prerequisite::create([
+                        "type" => "quiz",
+                        "type_id" => $quizId,
+                        "prerequisite_type" => "quiz",
+                        "prerequisite_id" => $prerequisite_id
+                    ]);
+                    // Quiz::updateQuizSettings(
+                    //     $prerequisite_id,
+                    //     ["enable_quiz_statistic" => true]
+                    // );
+                }
             }
 
             // Retrieve and return the quiz data
@@ -368,7 +389,19 @@ class AdminQuizController
         $res['categories'] = Category::all();
         $res['languages'] = Language::all();
         $res['templates'] = Template::where("type", "quiz")->get(["id", "name"]);
-        $res['quizes'] = Quiz::ofQuiz()->whereNot('ID', $quiz_id)->get(["ID", "post_title"]);
+        $res['quizzes'] = Quiz::ofQuiz()
+            ->without(['author', 'metas'])
+            ->whereNot('ID', $quiz_id)
+            ->get(["ID", "post_title"])
+            ->each
+            ->setAppends([]);
+        $res['prerequisites'] = Prerequisite::ofTypeQuiz()
+            ->ofPrerequisiteTypeQuiz()
+            ->where("type_id", $quiz_id)
+            ->where("prerequisite_type", "quiz")
+            ->get()
+            ->each
+            ->setAppends(['quiz_title']);
         return rest_ensure_response($res);
     }
 
@@ -456,9 +489,38 @@ class AdminQuizController
             }
 
             // handle prerequisite
-            // if (is_array($params['meta']['prerequisite_data']) && count($params['meta']['prerequisite_data']) > 0) {
+            if (is_array($params['prerequisite']) && count($params['prerequisite']) > 0) {
                 // enable other quiz statistic
-            // }
+                foreach ($params['prerequisite'] as $key => $prerequisite) {
+                    $prerequisite_id = $prerequisite['ID'];
+                    if (!$prerequisite_id) {
+                        continue;
+                    }
+                    $prerequisite = Prerequisite::ofTypeQuiz()
+                                                ->ofPrerequisiteTypeQuiz()
+                                                ->where("type_id", $quizId)
+                                                ->where("prerequisite_id", $prerequisite_id)
+                                                ->first();
+                    if(!$prerequisite) {
+                        Prerequisite::create([
+                            "type" => "quiz",
+                            "type_id" => $quizId,
+                            "prerequisite_type" => "quiz",
+                            "prerequisite_id" => $prerequisite_id
+                        ]);
+                    }
+                    // Quiz::updateQuizSettings(
+                    //     $prerequisite_id,
+                    //     ["enable_quiz_statistic" => true]
+                    // );
+                }
+            }
+            // delete if not available
+            $rowToDelete = Prerequisite::ofTypeQuiz()
+                                ->ofPrerequisiteTypeQuiz()
+                                ->where("type_id", $quizId)
+                                ->whereNotIn('prerequisite_id', array_column($params['prerequisite'], 'ID'))->pluck('id');
+            Prerequisite::whereIn('id', $rowToDelete)->delete();
 
             // Retrieve and return the quiz data
             $quiz = get_post($quizId);

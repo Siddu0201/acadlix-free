@@ -14,9 +14,11 @@ if(!class_exists('PrerequisiteMigration')){
             if(!Manager::schema()->hasTable('prerequisite')){
                 Manager::schema()->create('prerequisite', function($table){
                     $table->bigIncrements('id');
-                    $table->bigInteger('quiz_id')->nullable();
-                    $table->bigInteger('prerequisite_quiz_id')->nullable();
-                    $table->float('min_percentage');
+                    $table->string('type')->nullable();
+                    $table->bigInteger('type_id')->nullable();
+                    $table->string('prerequisite_type')->nullable();
+                    $table->bigInteger('prerequisite_id')->nullable();
+                    $table->text("meta")->nullable();
                     $table->timestamps();
                 });
             }

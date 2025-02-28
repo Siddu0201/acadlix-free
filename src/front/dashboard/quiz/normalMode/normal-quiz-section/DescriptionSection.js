@@ -107,7 +107,7 @@ const DescriptionSection = (props) => {
     }
 
     if (
-      props?.watch("prerequisite") ||
+      props?.watch("enable_prerequisite") ||
       props?.watch("per_user_allowed_attempt") > 0
     ) {
       handleCheckQuiz();
