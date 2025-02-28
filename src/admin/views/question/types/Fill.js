@@ -1,7 +1,11 @@
 import React from "react";
-import { CardHeader, CardContent, Card } from "@mui/material";
+import { CardHeader, CardContent, Card, Box, Typography, FormControlLabel } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
+import GridItem1 from "../../../../components/GridItem1";
+import CustomTypography from "../../../../components/CustomTypography";
+import CustomSwitch from "../../../../components/CustomSwitch";
 
 function Fill(props) {
   const fillChange = (e) => {
@@ -40,7 +44,7 @@ function Fill(props) {
       );
     });
   };
-  // console.log(props?.lang);
+  console.log(props?.watch(`language.${props?.index}.answer_data.${props?.type}`));
 
   return (
     <Card>
@@ -55,33 +59,74 @@ function Fill(props) {
           paddingTop: 1,
         }}
       >
-        <CustomTextField
-          {
-          ...props?.register(
-            `language.${props?.index}.answer_data.${props?.type}.option`,
-            {
-              required: {
-                value: props?.watch(
-                  `language.${props?.index}.default`
-                ),
-                message: __("Required", "acadlix"),
+        <Grid container spacing={3}>
+          <GridItem1 size={{ xs: 12, sm: 12, lg: 12 }}>
+            <Typography variant="body2" sx={{
+              whiteSpace: "pre-line",
+            }}>
+              {__(
+                `To create a blank space for users to fill in, enclose the correct word(s) in curly brackets { }. For example:
+              "The sky is {blue}."
+              
+              If you want to allow multiple correct answers, use square brackets [ ] inside the curly brackets. For example:
+              "She {[runs][walks][jogs]} every morning."
+              
+              You can also add multiple blanks in a single question. For example:
+              "{Cats} and {dogs} are common pets."
+              `, 'acadlix')}
+            </Typography>
+          </GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 12, lg: 12 }}>
+            <CustomTextField
+              {
+              ...props?.register(
+                `language.${props?.index}.answer_data.${props?.type}.option`,
+                {
+                  required: {
+                    value: props?.watch(
+                      `language.${props?.index}.default`
+                    ),
+                    message: __("Required", "acadlix"),
+                  }
+                }
+              )
               }
-            }
-          )
-          }
-          fullWidth
-          size="small"
-          multiline
-          rows={4}
-          control={props?.control}
-          value={props?.lang?.answer_data?.[props?.type]?.option}
-          onChange={fillChange}
-          error={Boolean(props.formState?.errors?.language?.[props?.index]
-            ?.answer_data?.[props?.type]?.option)}
-          helperText={props.formState.errors?.language?.[props?.index]
-            ?.answer_data?.[props?.type]?.option
-            ?.message}
-        />
+              fullWidth
+              size="small"
+              multiline
+              rows={4}
+              control={props?.control}
+              value={props?.lang?.answer_data?.[props?.type]?.option}
+              onChange={fillChange}
+              error={Boolean(props.formState?.errors?.language?.[props?.index]
+                ?.answer_data?.[props?.type]?.option)}
+              helperText={props.formState.errors?.language?.[props?.index]
+                ?.answer_data?.[props?.type]?.option
+                ?.message}
+            />
+          </GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            <CustomTypography>{__("Case Sensitive", "acadlix")}</CustomTypography>
+          </GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            <FormControlLabel
+              control={
+                <CustomSwitch />
+              }
+              checked={props?.watch(`language.${props?.index}.answer_data.${props?.type}.caseSensitive`) ?? false}
+              onChange={(e) => {
+                props?.watch("language")?.forEach((_, lindex) => {
+                  props?.setValue(
+                    `language.${lindex}.answer_data.${props?.type}.caseSensitive`,
+                    e?.target?.checked,
+                    { shouldDirty: true }
+                  );
+                });
+              }}
+              label={__("Activate", "acadlix")}
+            />
+          </GridItem1>
+        </Grid>
       </CardContent>
     </Card>
   );

@@ -25,19 +25,20 @@ const TypeFill = (props) => {
     let data = props?.watch(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption`
     );
+    let caseSensitive = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.caseSensitive`);
     props?.setValue(
       `questions.${props?.index}.result`,
       {
         ...props?.watch(`questions.${props?.index}.result`),
         correct_count:
-          data?.filter((d) => d.option.includes(d.yourAnswer)).length ===
+          data?.filter((d) => caseSensitive ? d.option.includes(d.yourAnswer) : d.option.map((d) => d.toLowerCase()).includes(d.yourAnswer.toLowerCase())).length ===
           data.length
             ? 1
             : 0,
         incorrect_count:
-          data?.filter((d) => d.option.includes(d.yourAnswer)).length ===
+          data?.filter((d) => caseSensitive ? d.option.includes(d.yourAnswer) : d.option.map((d) => d.toLowerCase()).includes(d.yourAnswer.toLowerCase())).length ===
           data.length
-            ? 0
+            ? 0 
             : 1,
         solved_count: data?.filter((d) => d.yourAnswer).length ? 1 : 0,
         answer_data: data?.filter((d) => d.yourAnswer).length
