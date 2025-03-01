@@ -26,6 +26,7 @@ const DescriptionSection = (props) => {
 
   const handleStart = () => {
     props?.setValue("quiz_error", "", { shouldDirty: true });
+    props?.handleQuizAttempt();
     if (props?.watch("mode") === "advance_mode") {
       const token = rand() + rand();
       localStorage?.setItem("acadlix_advance_quiz_token", token);
@@ -61,7 +62,6 @@ const DescriptionSection = (props) => {
     if (document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index]) {
       document.getElementsByClassName("acadlix-front-quiz-description")[props?.elm_index].style.display = "none";
     }
-    props?.handleQuizAttempt();
     props?.setValue("start", true, { shouldDirty: true });
     props?.setValue("view_question", true, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });
