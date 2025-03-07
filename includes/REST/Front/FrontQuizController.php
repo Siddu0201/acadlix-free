@@ -384,6 +384,7 @@ class FrontQuizController
             '$points' => $params['points'],
             '$ip' => $ip,
             '$categories' => "",
+            '$subjects' => "",
         );
         $admin_email = $quiz->rendered_metas['quiz_settings']['admin_email_notification'] ?? false;
         if ($admin_email && $user_id > 0) {

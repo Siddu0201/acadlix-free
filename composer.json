@@ -3,7 +3,8 @@
     "description": "This is advance learning management system by yuvayana",
     "autoload": {
         "psr-4": {
-            "Yuvayana\\Acadlix\\": "includes/"
+            "Yuvayana\\Acadlix\\": "includes/",
+            "Yuvayana\\Acadlix\\Models\\": "includes/Models/"
         }
     },
     "authors": [

@@ -49,6 +49,11 @@ const QuestionAnswerTypeSection = (props) => {
               label={__("True/False", "acadlix")}
             />
             <FormControlLabel
+              value="freeChoice"
+              control={<Radio />}
+              label={__("Free Choice", "acadlix")}
+            />
+            <FormControlLabel
               value="sortingChoice"
               control={<Radio />}
               label={__("Sorting Choice", "acadlix")}

@@ -212,7 +212,9 @@ const AdvanceResultComparission = (props) => {
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
-                    {props?.watch("topper_result.status")}
+                    {props?.watch("topper_result.result") > props?.watch("minimum_percent_to_pass")
+                      ? __("Pass", "acadlix")
+                      : __("Fail", "acadlix")}
                   </Typography>
                 </Grid>
               </Grid>

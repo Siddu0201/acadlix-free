@@ -50,8 +50,10 @@ function Fill(props) {
     <Card>
       <CardHeader
         title={__('Fill in the Blank', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
-        titleTypographyProps={{
-          variant: "h6",
+        slotProps={{
+          title:{
+            variant: 'h6'
+          }
         }}
       ></CardHeader>
       <CardContent

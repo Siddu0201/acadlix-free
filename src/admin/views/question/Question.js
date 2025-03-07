@@ -126,6 +126,8 @@ const Question = () => {
         return __("Multiple Choice", "acadlix");
       case "trueFalse":
         return __("True False", "acadlix");
+      case "freeChoice":
+        return __("Free Choice", "acadlix");
       case "sortingChoice":
         return __("Sorting Choice", "acadlix");
       case "matrixSortingChoice":

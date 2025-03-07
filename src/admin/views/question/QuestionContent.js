@@ -24,6 +24,7 @@ import {
 import { TiArrowLeftThick } from "../../../helpers/icons";
 import QuestionParagraphSection from "./sections/QuestionParagraphSection";
 import { __ } from "@wordpress/i18n";
+import FreeChoice from "./types/FreeChoice";
 
 const QuestionContent = (props) => {
   const getAnswerData = (type, position = 0) => {
@@ -58,6 +59,14 @@ const QuestionContent = (props) => {
           { option: "True", isCorrect: false, isChecked: false },
           { option: "False", isCorrect: false, isChecked: false },
         ];
+        break;
+      case "freeChoice":
+        answerData = {
+          option: "",
+          correctOption: [],
+          caseSensitive: false,
+          yourAnswer: ""
+        };
         break;
       case "sortingChoice":
         answerData = [
@@ -151,6 +160,7 @@ const QuestionContent = (props) => {
               singleChoice: getAnswerData("singleChoice"),
               multipleChoice: getAnswerData("multipleChoice"),
               trueFalse: getAnswerData("trueFalse"),
+              freeChoice: getAnswerData("freeChoice"),
               sortingChoice: getAnswerData("sortingChoice"),
               matrixSortingChoice: getAnswerData("matrixSortingChoice"),
               fillInTheBlank: getAnswerData("fillInTheBlank"),
@@ -174,6 +184,7 @@ const QuestionContent = (props) => {
               singleChoice: getAnswerData("singleChoice"),
               multipleChoice: getAnswerData("multipleChoice"),
               trueFalse: getAnswerData("trueFalse"),
+              freeChoice: getAnswerData("freeChoice"),
               sortingChoice: getAnswerData("sortingChoice"),
               matrixSortingChoice: getAnswerData("matrixSortingChoice"),
               fillInTheBlank: getAnswerData("fillInTheBlank"),
@@ -248,6 +259,17 @@ const QuestionContent = (props) => {
             index={index}
             lang={lang}
             type="trueFalse"
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        );
+      case "freeChoice":
+        return (
+          <FreeChoice
+            {...methods}
+            index={index}
+            lang={lang}
+            type="freeChoice"
             loadEditor={loadEditor}
             removeEditor={removeEditor}
           />
