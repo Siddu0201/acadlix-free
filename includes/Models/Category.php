@@ -35,7 +35,7 @@ if (!class_exists('Category')) {
             $instance = static::instance();
             $term = get_term($id, $instance->taxonomy);
 
-            $default = (int) get_option( 'default_term_' . $instance->taxonomy );
+            $default = (int) get_option('default_term_' . $instance->taxonomy);
 
             if (!is_wp_error($term) && $term) {
                 return [
@@ -79,6 +79,13 @@ if (!class_exists('Category')) {
             $args = [
                 'slug' => sanitize_title($attributes['category_name']),
             ];
+
+            $existing_term = term_exists($args['slug'], $instance->taxonomy);
+
+            if ($existing_term && !is_wp_error($existing_term)) {
+                // Return the existing term
+                return static::find($existing_term['term_id']);
+            }
 
             $term = wp_insert_term($attributes['category_name'], $instance->taxonomy, $args);
 
@@ -129,13 +136,13 @@ if (!class_exists('Category')) {
 
         public static function get_quiz_category($quiz_id)
         {
-            if(empty($quiz_id)){
+            if (empty($quiz_id)) {
                 return null;
             }
 
             $instance = static::instance();
             $terms = get_the_terms($quiz_id, $instance->taxonomy);
-            if($terms){
+            if ($terms) {
                 return self::find($terms[0]->term_id);
             }
             return null;
