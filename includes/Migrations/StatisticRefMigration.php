@@ -11,8 +11,8 @@ if(!class_exists('StatisticRefMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('statistic_ref')){
-                Manager::schema()->create('statistic_ref', function($table){
+            if(!Manager::schema()->hasTable('acadlix_statistic_ref')){
+                Manager::schema()->create('acadlix_statistic_ref', function($table){
                     $table->bigIncrements('id');
                     $table->bigInteger('quiz_id')->nullable();
                     $table->string('user_token')->nullable();
@@ -29,7 +29,7 @@ if(!class_exists('StatisticRefMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('statistic_ref');
+            Manager::schema()->dropIfExists('acadlix_statistic_ref');
         }
     }
 }

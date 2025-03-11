@@ -9,7 +9,6 @@ if (!class_exists('WpUsers')) {
 
     class WpUsers extends Model
     {
-        protected $connection = 'wordpress';
         protected $table = 'users';
         protected $primaryKey = 'ID';
 

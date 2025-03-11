@@ -12,8 +12,6 @@ if (!class_exists('Lesson')) {
     class Lesson extends Model
     {
         protected $helper;
-
-        protected $connection = 'wordpress';
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
 

@@ -11,8 +11,8 @@ if(!class_exists('CourseCartMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('course_cart')){
-                Manager::schema()->create('course_cart', function($table){
+            if(!Manager::schema()->hasTable('acadlix_course_cart')){
+                Manager::schema()->create('acadlix_course_cart', function($table){
                     $table->bigIncrements('id');
                     $table->string('cart_token')->nullable();
                     $table->bigInteger('course_id')->nullable();
@@ -26,7 +26,7 @@ if(!class_exists('CourseCartMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('course_cart');
+            Manager::schema()->dropIfExists('acadlix_course_cart');
         }
     }
 }

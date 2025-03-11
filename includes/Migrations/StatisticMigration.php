@@ -11,11 +11,11 @@ if(!class_exists('StatisticMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('statistic')){
-                Manager::schema()->create('statistic', function($table){
+            if(!Manager::schema()->hasTable('acadlix_statistic')){
+                Manager::schema()->create('acadlix_statistic', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('statistic_ref_id')->constrained('statistic_ref')->cascadeOnDelete();
-                    $table->foreignId('question_id')->constrained('question')->cascadeOnDelete();
+                    $table->foreignId('statistic_ref_id')->constrained('acadlix_statistic_ref')->cascadeOnDelete();
+                    $table->foreignId('question_id')->constrained('acadlix_question')->cascadeOnDelete();
                     $table->boolean('correct_count');
                     $table->boolean('incorrect_count');
                     $table->boolean('hint_count');
@@ -31,7 +31,7 @@ if(!class_exists('StatisticMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('statistic');
+            Manager::schema()->dropIfExists('acadlix_statistic');
         }
     }
 }

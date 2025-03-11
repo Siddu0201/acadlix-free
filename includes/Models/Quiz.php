@@ -11,10 +11,9 @@ if (!class_exists('Quiz')) {
     class Quiz extends Model
     {
         protected $helper;
-        protected $connection = 'wordpress';
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
-        protected $with = ['author', 'metas'];
+        protected $with = ['author', 'metas', 'quiz_shortcode'];
         protected $appends = [
             'rendered_post_content',
             'rendered_metas',
@@ -161,31 +160,11 @@ if (!class_exists('Quiz')) {
             return $this->helper->renderShortCode($this->post_content);
         }
 
-        // public function getRenderedResultTextAttribute()
-        // {
-        //     if ($this->percent_based_result_text) {
-        //         return $this->result_text;
-        //     } else {
-        //         return $this->helper->renderShortCode($this->result_text);
-        //     }
-        // }
 
-        // public function getStartDateAttribute($value)
-        // {
-        //     return $value === '0000-00-00 00:00:00' ? null : $value;
-
-        // }
-
-        // public function getEndDateAttribute($value)
-        // {
-        //     return $value === '0000-00-00 00:00:00' ? null : $value;
-
-        // }
-
-        // public function content()
-        // {
-        //     return $this->morphMany(CourseSectionContent::class, 'contentable');
-        // }
+        public function quiz_shortcode()
+        {
+            return $this->hasOne(QuizShortcode::class, 'quiz_id', 'ID');
+        }
 
         public function metas()
         {
@@ -369,6 +348,7 @@ if (!class_exists('Quiz')) {
 
         public function getQuestionsAttribute()
         {
+            // return $this->hasMany(Question::class, "quiz_id", "ID");
             return Question::ofOnline()->where('quiz_id', $this->ID)->get();
         }
 

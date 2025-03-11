@@ -11,11 +11,11 @@ if(!class_exists('SubjectTimeMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('subject_time')){
-                Manager::schema()->create('subject_time', function($table){
+            if(!Manager::schema()->hasTable('acadlix_subject_time')){
+                Manager::schema()->create('acadlix_subject_time', function($table){
                     $table->bigIncrements('id');
                     $table->bigInteger('quiz_id')->nullable();
-                    $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
+                    $table->foreignId('subject_id')->nullable()->constrained('acadlix_subject')->nullOnDelete();
                     $table->integer('time')->unsigned();
                     $table->integer('specific_number_of_questions')->default(0);
                     $table->boolean('optional')->default(0);
@@ -26,7 +26,7 @@ if(!class_exists('SubjectTimeMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('subject_time');
+            Manager::schema()->dropIfExists('acadlix_subject_time');
         }
     }
 }

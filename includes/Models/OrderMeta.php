@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('OrderMeta')) {
     class OrderMeta extends Model
     {
-        protected $table = "order_meta";
+        protected $table = "acadlix_order_meta";
 
         protected $fillable = [
             'order_id',

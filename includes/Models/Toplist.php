@@ -10,7 +10,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Toplist')) {
     class Toplist extends Model
     {
-        protected $table = "toplist";
+        protected $table = "acadlix_toplist";
 
         protected $fillable = [
             "quiz_id",
@@ -26,6 +26,16 @@ if (!class_exists('Toplist')) {
             "status",
         ];
 
+        public function getPointsAttribute($value)
+        {
+            return floatval($value);
+        }
+
+        public function getResultAttribute($value)
+        {
+            return floatval($value);
+        }
+
         public function setUserIdAttribute($value)
         {
             $this->attributes['user_id'] = $value == 0 ? NULL : $value;
@@ -38,7 +48,7 @@ if (!class_exists('Toplist')) {
 
         public function getNameAttribute($value)
         {
-           return is_null($value) ? "Anonymous" : $value;
+            return is_null($value) ? "Anonymous" : $value;
         }
 
         public function getEntryRank($quiz_id, $entry_id)
@@ -70,7 +80,13 @@ if (!class_exists('Toplist')) {
                 ->where('quiz_id', $quiz_id)
                 ->skip($skip)
                 ->take($take)
-                ->get();
+                ->get()
+                ->map(function ($row) {
+                    // Convert to float in PHP after retrieval
+                    $row->points = (float) $row->points;
+                    $row->result = (float) $row->result;
+                    return $row;
+                });
         }
 
 

@@ -11,7 +11,7 @@ if (!class_exists('QuestionLang')) {
     class QuestionLang extends Model
     {
         protected $helper;
-        protected $table = "question_lang";
+        protected $table = "acadlix_question_lang";
 
         protected $fillable = [
             "question_id",

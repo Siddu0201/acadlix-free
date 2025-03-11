@@ -12,7 +12,6 @@ if (!class_exists('Course')) {
     class Course extends Model
     {
         protected $helper;
-        protected $connection = 'wordpress';
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas', 'sections'];
@@ -169,19 +168,6 @@ if (!class_exists('Course')) {
 
             return true;
         }
-
-        // public function getStartDateAttribute($value)
-        // {
-        //     return $value === '0000-00-00 00:00:00' ? null : $value;
-
-        // }
-
-
-        // public function getEndDateAttribute($value)
-        // {
-        //     return $value === '0000-00-00 00:00:00' ? null : $value;
-
-        // }
 
 
         public function sections()

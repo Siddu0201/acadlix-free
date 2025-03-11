@@ -11,8 +11,8 @@ if(!class_exists('TemplateMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('template')){
-                Manager::schema()->create('template', function($table){
+            if(!Manager::schema()->hasTable('acadlix_template')){
+                Manager::schema()->create('acadlix_template', function($table){
                     $table->bigIncrements('id');
                     $table->string("name")->nullable();
                     $table->string('type')->default("quiz");
@@ -24,7 +24,7 @@ if(!class_exists('TemplateMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('template');
+            Manager::schema()->dropIfExists('acadlix_template');
         }
     }
 }

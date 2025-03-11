@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('UserActivityMeta')) {
     class UserActivityMeta extends Model
     {
-        protected $table = "user_activity_meta";
+        protected $table = "acadlix_user_activity_meta";
 
         protected $fillable = [
             "user_token",

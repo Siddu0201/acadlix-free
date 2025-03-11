@@ -11,8 +11,8 @@ if(!class_exists('OrderMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('orders')){
-                Manager::schema()->create('orders', function($table){
+            if(!Manager::schema()->hasTable('acadlix_orders')){
+                Manager::schema()->create('acadlix_orders', function($table){
                     $table->bigIncrements('id');
                     $table->unsignedBigInteger('user_id');
                     $table->string('status')->nullable()->default('pending');
@@ -25,7 +25,7 @@ if(!class_exists('OrderMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('orders');
+            Manager::schema()->dropIfExists('acadlix_orders');
         }
     }
 }

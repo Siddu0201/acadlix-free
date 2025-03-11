@@ -3,39 +3,22 @@
 namespace Yuvayana\Acadlix\Migrations;
 
 use Illuminate\Database\Capsule\Manager;
-use Yuvayana\Acadlix\Migrations\LanguageMigration;
-use Yuvayana\Acadlix\Migrations\CategoryMigration;
 use Yuvayana\Acadlix\Migrations\SubjectMigration;
-use Yuvayana\Acadlix\Migrations\TemplateMigration;
-use Yuvayana\Acadlix\Migrations\QuizMigration;
-use Yuvayana\Acadlix\Migrations\QuizLangMigration;
 use Yuvayana\Acadlix\Migrations\SubjectTimeMigration;
+use Yuvayana\Acadlix\Migrations\TemplateMigration;
 use Yuvayana\Acadlix\Migrations\QuestionMigration;
 use Yuvayana\Acadlix\Migrations\QuestionLangMigration;
 use Yuvayana\Acadlix\Migrations\PrerequisiteMigration;
 use Yuvayana\Acadlix\Migrations\StatisticRefMigration;
 use Yuvayana\Acadlix\Migrations\StatisticMigration;
 use Yuvayana\Acadlix\Migrations\ToplistMigration;
-use Yuvayana\Acadlix\Migrations\QuizAttemptMigration;
-use Yuvayana\Acadlix\Migrations\AnswerOptionMigration;
-use Yuvayana\Acadlix\Migrations\QuizOptionMigration;
-use Yuvayana\Acadlix\Migrations\ParagraphMigration;
-use Yuvayana\Acadlix\Migrations\ParagraphLangMigration;
-use Yuvayana\Acadlix\Migrations\LessonMigration;
-use Yuvayana\Acadlix\Migrations\LessonResourceMigration;
-use Yuvayana\Acadlix\Migrations\CourseMigration;
-use Yuvayana\Acadlix\Migrations\CourseSectionMigration;
-use Yuvayana\Acadlix\Migrations\CourseSectionContentMigration;
-use Yuvayana\Acadlix\Migrations\CourseUserMigration;
-use Yuvayana\Acadlix\Migrations\CourseOutcomeMigration;
-use Yuvayana\Acadlix\Migrations\CourseFaqMigration;
 use Yuvayana\Acadlix\Migrations\CourseCartMigration;
 use Yuvayana\Acadlix\Migrations\OrderMigration;
 use Yuvayana\Acadlix\Migrations\OrderItemMigration;
 use Yuvayana\Acadlix\Migrations\OrderMetaMigration;
-use Yuvayana\Acadlix\Migrations\CourseWishlistMigration;
 use Yuvayana\Acadlix\Migrations\CourseStatisticMigration;
 use Yuvayana\Acadlix\Migrations\UserActivityMetaMigration;
+use Yuvayana\Acadlix\Migrations\QuizShortcodeMigration;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -44,38 +27,21 @@ if(!class_exists('Migration')){
     {   
         protected static $_tables = [
             SubjectMigration::class,
-            TemplateMigration::class,
             SubjectTimeMigration::class,
+            TemplateMigration::class,
             QuestionMigration::class,
             QuestionLangMigration::class,
             StatisticRefMigration::class,
             StatisticMigration::class,
             ToplistMigration::class,
             PrerequisiteMigration::class,
-            // LanguageMigration::class,
-            // CategoryMigration::class,
-            // QuizMigration::class,
-            // QuizLangMigration::class,
-            // ParagraphMigration::class,
-            // QuizAttemptMigration::class,
-            // AnswerOptionMigration::class,
-            // QuizOptionMigration::class,
-            // ParagraphLangMigration::class,
-            // LessonMigration::class,
-            // LessonResourceMigration::class,
-            // CourseMigration::class,
-            // CourseSectionMigration::class,
-            // CourseSectionContentMigration::class,
-            // CourseUserMigration::class,
-            // CourseOutcomeMigration::class,
-            // CourseFaqMigration::class,
-            // CourseWishlistMigration::class,
             CourseCartMigration::class,
             OrderMigration::class,
             OrderItemMigration::class,
             OrderMetaMigration::class,
             CourseStatisticMigration::class,
-            UserActivityMetaMigration::class
+            UserActivityMetaMigration::class,
+            QuizShortcodeMigration::class
         ];
     
         public static function createTable()

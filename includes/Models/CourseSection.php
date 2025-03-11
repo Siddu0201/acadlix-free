@@ -12,7 +12,6 @@ if (!class_exists('CourseSection')) {
     class CourseSection extends Model
     {
         protected $helper;
-        protected $connection = 'wordpress';
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas', 'contents'];

@@ -11,8 +11,8 @@ if(!class_exists(('ToplistMigration'))){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('toplist')){
-                Manager::schema()->create('toplist', function($table){
+            if(!Manager::schema()->hasTable('acadlix_toplist')){
+                Manager::schema()->create('acadlix_toplist', function($table){
                     $table->bigIncrements('id');
                     $table->bigInteger('quiz_id')->nullable();
                     $table->string('user_token')->nullable();
@@ -32,7 +32,7 @@ if(!class_exists(('ToplistMigration'))){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('toplist');
+            Manager::schema()->dropIfExists('acadlix_toplist');
         }
     }
 }

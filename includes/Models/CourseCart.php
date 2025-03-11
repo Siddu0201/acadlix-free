@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('CourseCart')) {
     class CourseCart extends Model
     {
-        protected $table = "course_cart";
+        protected $table = "acadlix_course_cart";
 
         protected $fillable = [
             'cart_token',

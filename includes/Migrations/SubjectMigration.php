@@ -11,8 +11,8 @@ if(!class_exists('SubjectMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('subject')){
-                Manager::schema()->create('subject', function($table){
+            if(!Manager::schema()->hasTable('acadlix_subject')){
+                Manager::schema()->create('acadlix_subject', function($table){
                     $table->bigIncrements('id');
                     $table->string("subject_name");
                     $table->boolean('default')->default(false);
@@ -23,7 +23,7 @@ if(!class_exists('SubjectMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('subject');
+            Manager::schema()->dropIfExists('acadlix_subject');
         }
     }
 }

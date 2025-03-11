@@ -9,7 +9,6 @@ if (!class_exists('WpPostMeta')) {
 
     class WpPostMeta extends Model
     {
-        protected $connection = 'wordpress';
         protected $table = 'postmeta';
         protected $primaryKey = 'meta_id';
         public $timestamps = false;

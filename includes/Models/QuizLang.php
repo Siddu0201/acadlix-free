@@ -12,7 +12,7 @@ if(!class_exists('QuizLang')){
     {
         protected $helper;
 
-        protected $table = "quiz_lang";
+        protected $table = "acadlix_quiz_lang";
 
         protected $fillable = [
             "quiz_id",

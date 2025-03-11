@@ -9,7 +9,6 @@ if (!class_exists('WpUserMeta')) {
 
     class WpUserMeta extends Model
     {
-        protected $connection = 'wordpress';
         protected $table = 'usermeta';
         protected $primaryKey = 'umeta_id';
         public $timestamps = false;

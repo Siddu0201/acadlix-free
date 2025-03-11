@@ -11,7 +11,7 @@ if (!class_exists('Statistic')) {
     class Statistic extends Model
     {
         protected $helper;
-        protected $table = "statistic";
+        protected $table = "acadlix_statistic";
 
         protected $fillable = [
             "statistic_ref_id",
@@ -24,6 +24,13 @@ if (!class_exists('Statistic')) {
             "negative_points",
             "question_time",
             "answer_data"
+        ];
+        
+        protected $casts = [
+            "correct_count" => "integer", // ✅ Ensures integer type
+            "incorrect_count" => "integer",
+            "hint_count" => "integer",
+            "solved_count" => "integer",
         ];
 
         public function __construct()
@@ -50,5 +57,11 @@ if (!class_exists('Statistic')) {
         {
             return maybe_unserialize($value);
         }
+        
+        public function getPointsAttribute($value)
+        {
+            return floatval($value);
+        }
+   
     }
 }

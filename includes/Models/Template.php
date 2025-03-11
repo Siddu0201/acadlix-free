@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('Template')){
     class Template extends Model
     {
-        protected $table = "template";
+        protected $table = "acadlix_template";
 
         protected $fillable = [
             "name",

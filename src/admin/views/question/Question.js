@@ -33,10 +33,12 @@ import ParagraphModel from "./actions/ParagraphModel";
 import { IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
+import CustomTextField from "../../../components/CustomTextField";
 
 const Question = () => {
   const methods = useForm({
     defaultValues: {
+      search: "",
       rows: [],
       question_ids: [],
       action: "",
@@ -45,7 +47,7 @@ const Question = () => {
     },
   });
   const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
+    pageSize: 20,
     page: 0,
   });
 
@@ -115,7 +117,8 @@ const Question = () => {
   const { isFetching, data, refetch } = GetQuizQuestion(
     quiz_id,
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    methods?.watch("search")
   );
 
   const getType = (type = "") => {
@@ -237,6 +240,10 @@ const Question = () => {
         message: __("Action required", "acadlix"),
       });
     }
+  };
+
+  const handleSearch = (e) => {
+    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
   };
 
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -364,8 +371,7 @@ const Question = () => {
               }}
             ></CardHeader>
             <CardContent>
-              {methods?.watch("rows")?.length > 0 &&
-                hasCapability("acadlix_bulk_action_question") && (
+              { hasCapability("acadlix_bulk_action_question") && (
                   <>
                     <Box
                       sx={{
@@ -373,57 +379,73 @@ const Question = () => {
                         display: "flex",
                         gap: 2,
                         alignItems: "baseline",
+                        justifyContent: "space-between"
                       }}
                     >
-                      <FormControl
-                        sx={{ minWidth: 150 }}
-                        size="small"
-                        error={Boolean(methods?.formState?.errors?.action)}
-                      >
-                        <InputLabel id="demo-simple-select-label">
-                          {__("Bulk Actions", "acadlix")}
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={methods?.watch("action")}
-                          label={__("Bulk Actions", "acadlix")}
-                          onChange={handleActionChange}
+                      <Box sx={{
+                        display: "flex",
+                        gap: 2,
+                        alignItems: "baseline",
+                      }}>
+                        <FormControl
+                          sx={{ minWidth: 150 }}
+                          size="small"
+                          error={Boolean(methods?.formState?.errors?.action)}
                         >
-                          <MenuItem value="">
+                          <InputLabel id="demo-simple-select-label">
                             {__("Bulk Actions", "acadlix")}
-                          </MenuItem>
-                          {
-                            hasCapability("acadlix_bulk_delete_question") &&
-                            <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                          }
-                          {
-                            hasCapability("acadlix_bulk_set_subject_and_point_question") &&
-                            <MenuItem value="set_subject_and_points">
-                              {__("Set Subject and Points", "acadlix")}
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={methods?.watch("action")}
+                            label={__("Bulk Actions", "acadlix")}
+                            onChange={handleActionChange}
+                          >
+                            <MenuItem value="">
+                              {__("Bulk Actions", "acadlix")}
                             </MenuItem>
-                          }
-                          {
-                            hasCapability("acadlix_bulk_set_paragraph_question") &&
-                            <MenuItem value="set_paragraph">
-                              {__("Set Paragraph", "acadlix")}
-                            </MenuItem>
-                          }
-                        </Select>
-                        <FormHelperText>
-                          {methods?.formState?.errors?.action?.message}
-                        </FormHelperText>
-                      </FormControl>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          marginRight: 2,
-                        }}
-                        onClick={handleBulkAction}
-                        color="primary"
-                      >
-                        {__("Apply", "acadlix")}
-                      </Button>
+                            {
+                              hasCapability("acadlix_bulk_delete_question") &&
+                              <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                            }
+                            {
+                              hasCapability("acadlix_bulk_set_subject_and_point_question") &&
+                              <MenuItem value="set_subject_and_points">
+                                {__("Set Subject and Points", "acadlix")}
+                              </MenuItem>
+                            }
+                            {
+                              hasCapability("acadlix_bulk_set_paragraph_question") &&
+                              <MenuItem value="set_paragraph">
+                                {__("Set Paragraph", "acadlix")}
+                              </MenuItem>
+                            }
+                          </Select>
+                          <FormHelperText>
+                            {methods?.formState?.errors?.action?.message}
+                          </FormHelperText>
+                        </FormControl>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            marginRight: 2,
+                          }}
+                          onClick={handleBulkAction}
+                          color="primary"
+                        >
+                          {__("Apply", "acadlix")}
+                        </Button>
+                      </Box>
+                      <Box>
+                        <CustomTextField
+                          label={__("Search (title)", "acadlix")}
+                          fullWidth
+                          size="small"
+                          value={methods?.watch("search")}
+                          onChange={handleSearch}
+                        />
+                      </Box>
                     </Box>
                   </>
                 )}
@@ -448,7 +470,6 @@ const Question = () => {
                     });
                   }}
                   rowSelectionModel={methods?.watch("question_ids")}
-                  autoHeight
                   loading={isFetching}
                   columnVisibilityModel={{
                     id: false,

@@ -34,7 +34,9 @@ class Manager
 
         if (is_numeric($id)) {
             ob_start();
-            $quiz = Quiz::ofQuiz()->find($id);
+            $quiz = Quiz::ofQuiz()->whereHas('quiz_shortcode', function ($query) use ($id) {
+                $query->where('id', $id);
+            })->first();
             if ($quiz) {
                 ?>
                 <style>
@@ -70,24 +72,21 @@ class Manager
                     }
                 </style>
                 <div class="acadlix-front-quiz-container">
-                    <h2 
-                        class="acadlix-front-quiz-title" 
-                        id="acadlix_front_quiz_title_<?php echo esc_html($id); ?>"
-                        style="display: <?php echo $quiz->rendered_metas['quiz_settings']['hide_quiz_title'] ? 'none' : 'block'; ?>;"
-                    >
+                    <h2 class="acadlix-front-quiz-title" id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>"
+                        style="display: <?php echo $quiz->rendered_metas['quiz_settings']['hide_quiz_title'] ? 'none' : 'block'; ?>;">
                         <?php echo esc_html($quiz->post_title); ?>
                     </h2>
-                    <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($id); ?>">
+                    <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
                         <?php echo do_shortcode(apply_filters('comment_text', $quiz->post_content)); ?>
                     </div>
-                    <div class="acadlix-front" id="<?php echo esc_html($id); ?>">
+                    <div class="acadlix-front" id="<?php echo esc_html($quiz->ID); ?>">
                         <div class="acadlix-front-quiz-button">
                         </div>
                     </div>
                 </div>
                 <?php
             } else {
-                echo "[Acadlix_Quiz " . esc_html($id) . "]";
+                echo "[Acadlix_Quiz " . esc_html($quiz->ID) . "]";
             }
             $content = ob_get_contents();
             ob_get_clean();
@@ -351,8 +350,8 @@ class Manager
         wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
 
         wp_enqueue_style('acadlix-front-css');
-        wp_enqueue_script( 'acadlix-runtime-js' );
-        wp_enqueue_script( 'acadlix-vendors-js' );
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-front-js');
         wp_localize_script('acadlix-front-js', 'acadlixOptions', array(

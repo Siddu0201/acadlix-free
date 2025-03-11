@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('SubjectTime')){
     class SubjectTime extends Model
     {
-        protected $table = "subject_time";
+        protected $table = "acadlix_subject_time";
 
         protected $fillable = [
             "quiz_id",

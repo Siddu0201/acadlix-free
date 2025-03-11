@@ -11,11 +11,11 @@ if(!class_exists('OrderItemMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('order_items')){
-                Manager::schema()->create('order_items', function($table){
+            if(!Manager::schema()->hasTable('acadlix_order_items')){
+                Manager::schema()->create('acadlix_order_items', function($table){
                     $table->bigIncrements('id');
                     $table->bigInteger('course_id')->nullable();
-                    $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+                    $table->foreignId('order_id')->constrained('acadlix_orders')->cascadeOnDelete();
                     $table->string('course_title')->nullable();
                     $table->integer('quantity')->nullable()->default(1);
                     $table->float('price')->nullable()->default(0);
@@ -30,7 +30,7 @@ if(!class_exists('OrderItemMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('order_items');
+            Manager::schema()->dropIfExists('acadlix_order_items');
         }
     }
 }

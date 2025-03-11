@@ -34,10 +34,12 @@ import CategoryModel from "./actions/CategoryModel";
 import SubjectTimeModel from "./actions/SubjectTimeModel";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
+import CustomTextField from "../../../components/CustomTextField";
 
 const Quiz = () => {
   const methods = useForm({
     defaultValues: {
+      search: "",
       rows: [],
       quiz_ids: [],
       action: "",
@@ -47,7 +49,7 @@ const Quiz = () => {
     },
   });
   const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
+    pageSize: 20,
     page: 0,
   });
 
@@ -235,7 +237,8 @@ const Quiz = () => {
 
   const { isFetching, data, refetch } = GetQuizes(
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    methods?.watch("search"),
   );
 
   const getMode = (mode = "") => {
@@ -261,7 +264,7 @@ const Quiz = () => {
           title: quiz?.post_title,
           mode: quiz?.rendered_metas?.mode,
           category: quiz?.category?.name ?? "Uncategorized",
-          shortcode: `[Acadlix_Quiz ${quiz?.ID}]`,
+          shortcode: `[Acadlix_Quiz ${quiz?.quiz_shortcode?.id}]`,
           total_questions: quiz?.questions_count,
         };
       });
@@ -328,6 +331,10 @@ const Quiz = () => {
       });
     }
   };
+
+  const handleSearch = ( e ) => {
+    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+  }
 
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -423,48 +430,64 @@ const Quiz = () => {
                     display: "flex",
                     gap: 2,
                     alignItems: "baseline",
+                    justifyContent: "space-between",
                   }}
                 >
-
-                  <FormControl
-                    sx={{ minWidth: 150 }}
-                    size="small"
-                    error={Boolean(methods?.formState?.errors?.action)}
-                  >
-                    <InputLabel id="demo-simple-select-label">
-                      {__("Bulk Actions", "acadlix")}
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={methods?.watch("action")}
-                      label={__("Bulk Actions", "acadlix")}
-                      onChange={handleActionChange}
+                  <Box sx={{
+                    display: "flex",
+                    gap: 2,
+                    alignItems: "baseline",
+                  }}>
+                    <FormControl
+                      sx={{ minWidth: 150 }}
+                      size="small"
+                      error={Boolean(methods?.formState?.errors?.action)}
                     >
-                      <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
-                      {
-                        hasCapability("acadlix_bulk_delete_quiz") &&
-                        <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                      }
-                      {
-                        hasCapability("acadlix_bulk_set_category_quiz") &&
-                        <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
-                      }
-                    </Select>
-                    <FormHelperText>
-                      {methods?.formState?.errors?.action?.message}
-                    </FormHelperText>
-                  </FormControl>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      marginRight: 2,
-                    }}
-                    onClick={handleBulkAction}
-                    color="primary"
-                  >
-                    {__("Apply", "acadlix")}
-                  </Button>
+                      <InputLabel id="demo-simple-select-label">
+                        {__("Bulk Actions", "acadlix")}
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={methods?.watch("action")}
+                        label={__("Bulk Actions", "acadlix")}
+                        onChange={handleActionChange}
+                      >
+                        <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                        {
+                          hasCapability("acadlix_bulk_delete_quiz") &&
+                          <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                        }
+                        {
+                          hasCapability("acadlix_bulk_set_category_quiz") &&
+                          <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
+                        }
+                      </Select>
+                      <FormHelperText>
+                        {methods?.formState?.errors?.action?.message}
+                      </FormHelperText>
+                    </FormControl>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        marginRight: 2,
+                      }}
+                      onClick={handleBulkAction}
+                      color="primary"
+                    >
+                      {__("Apply", "acadlix")}
+                    </Button>
+                  </Box>
+                  <Box>
+                      <CustomTextField
+                        fullWidth
+                        size="small"
+                        label={__("Search (Title, ID)", "acadlix")}
+                        name="search"
+                        value={methods?.watch("search") ?? ""}
+                        onChange={handleSearch}
+                      />
+                  </Box>
                 </Box>
               }
               <Box
@@ -479,7 +502,7 @@ const Quiz = () => {
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   paginationMode="server"
-                  pageSizeOptions={[10, 20, 50]}
+                  pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
@@ -488,7 +511,6 @@ const Quiz = () => {
                     });
                   }}
                   rowSelectionModel={methods?.watch("quiz_ids")}
-                  autoHeight
                   loading={isFetching}
                   columnVisibilityModel={{
                     id: false,

@@ -11,8 +11,8 @@ if(!class_exists('UserActivityMetaMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('user_activity_meta')){
-                Manager::schema()->create('user_activity_meta', function($table){
+            if(!Manager::schema()->hasTable('acadlix_user_activity_meta')){
+                Manager::schema()->create('acadlix_user_activity_meta', function($table){
                     $table->bigIncrements('id');
                     $table->string('user_token')->nullable();
                     $table->unsignedBigInteger('user_id')->nullable();
@@ -27,7 +27,7 @@ if(!class_exists('UserActivityMetaMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('user_activity_meta');
+            Manager::schema()->dropIfExists('acadlix_user_activity_meta');
         }
     }
 }

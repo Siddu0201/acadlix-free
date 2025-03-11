@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Order')) {
     class Order extends Model
     {
-        protected $table = "orders";
+        protected $table = "acadlix_orders";
 
         protected $fillable = [
             'user_id',

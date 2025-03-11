@@ -11,8 +11,6 @@ if (!class_exists('WpPosts')) {
     class WpPosts extends Model
     {
         protected $helper;
-
-        protected $connection = 'wordpress';
         protected $table = 'posts';
         protected $primaryKey = 'ID';
 

@@ -160,7 +160,16 @@ class AdminQuestionController
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
+        $search = $params['search'];
         $question = Question::ofOnline()->where('quiz_id', $quiz_id)->orderBy("sort");
+        if (!empty($search)) {
+            $question->where(function ($query) use ($search) {
+                $query->where('title', 'LIKE', "%{$search}%"); // Search in quiz title
+            })
+            ->orWhereHas('question_languages', function ($query) use ($search) {
+                $query->where('question', 'LIKE', "%{$search}%"); 
+            });
+        }
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
         $res['paragraphs'] = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->get();

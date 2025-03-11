@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('Prerequisite')){
     class Prerequisite extends Model
     {
-        protected $table = "prerequisite";
+        protected $table = "acadlix_prerequisite";
 
         protected $fillable = [
             "type",

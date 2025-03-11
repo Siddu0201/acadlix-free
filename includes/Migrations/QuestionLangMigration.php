@@ -11,10 +11,10 @@ if(!class_exists('QuestionLangMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('question_lang')){
-                Manager::schema()->create('question_lang', function($table){
+            if(!Manager::schema()->hasTable('acadlix_question_lang')){
+                Manager::schema()->create('acadlix_question_lang', function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('question_id')->constrained('question')->cascadeOnDelete();
+                    $table->foreignId('question_id')->constrained('acadlix_question')->cascadeOnDelete();
                     $table->bigInteger('language_id')->nullable();
                     $table->boolean('default')->default(0);
                     $table->text("question")->nullable();
@@ -30,7 +30,7 @@ if(!class_exists('QuestionLangMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('question_lang');
+            Manager::schema()->dropIfExists('acadlix_question_lang');
         }
     }
 }

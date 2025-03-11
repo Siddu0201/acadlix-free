@@ -4,7 +4,6 @@ use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\Helper;
 use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
-use Yuvayana\Acadlix\Models\CourseWishlist;
 use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\UserActivityMeta;
 use Yuvayana\Acadlix\Models\WpPosts;

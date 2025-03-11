@@ -11,11 +11,11 @@ if(!class_exists('QuestionMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('question')){
-                Manager::schema()->create('question', function($table){
+            if(!Manager::schema()->hasTable('acadlix_question')){
+                Manager::schema()->create('acadlix_question', function($table){
                     $table->bigIncrements('id');
                     $table->bigInteger('quiz_id')->nullable();
-                    $table->foreignId('subject_id')->nullable()->constrained('subject')->nullOnDelete();
+                    $table->foreignId('subject_id')->nullable()->constrained('acadlix_subject')->nullOnDelete();
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
                     $table->integer('sort')->unsigned()->default(1);
                     $table->string('title')->nullable();
@@ -35,7 +35,7 @@ if(!class_exists('QuestionMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('question');
+            Manager::schema()->dropIfExists('acadlix_question');
         }
     }
 }

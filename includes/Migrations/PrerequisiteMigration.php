@@ -11,8 +11,8 @@ if(!class_exists('PrerequisiteMigration')){
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('prerequisite')){
-                Manager::schema()->create('prerequisite', function($table){
+            if(!Manager::schema()->hasTable('acadlix_prerequisite')){
+                Manager::schema()->create('acadlix_prerequisite', function($table){
                     $table->bigIncrements('id');
                     $table->string('type')->nullable();
                     $table->bigInteger('type_id')->nullable();
@@ -26,7 +26,7 @@ if(!class_exists('PrerequisiteMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('prerequisite');
+            Manager::schema()->dropIfExists('acadlix_prerequisite');
         }
     }
 }

@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('Subject')){
     class Subject extends Model
     {
-        protected $table = "subject";
+        protected $table = "acadlix_subject";
 
         protected $fillable = ["subject_name", "default"];
 

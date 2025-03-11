@@ -10,7 +10,7 @@ if (!class_exists('Question')) {
     class Question extends Model
     {
         protected $connection = 'default';
-        protected $table = "question";
+        protected $table = "acadlix_question";
 
         protected $fillable = [
             "quiz_id",

@@ -13,7 +13,6 @@ if (!class_exists(class: 'CourseSectionContent')) {
     class CourseSectionContent extends Model
     {
         protected $helper;
-        protected $connection = 'wordpress';
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas'];
@@ -25,16 +24,6 @@ if (!class_exists(class: 'CourseSectionContent')) {
         ];
 
         protected static $postType = ACADLIX_COURSE_SECTION_CONTENT_CPT;
-        // protected $table = "course_section_contents";
-
-        // protected $fillable = [
-        //     'course_id',
-        //     'course_section_id',
-        //     'contentable_type',
-        //     'contentable_id',
-        //     'sort',
-        //     'preview',
-        // ];
 
         // protected $with = ['contentable'];
 

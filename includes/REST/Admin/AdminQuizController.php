@@ -12,6 +12,7 @@ use Yuvayana\Acadlix\Models\Question;
 use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\Category;
 use Yuvayana\Acadlix\Models\Language;
+use Yuvayana\Acadlix\Models\QuizShortcode;
 use Yuvayana\Acadlix\Models\SubjectTime;
 use Illuminate\Contracts\Database\Query\Builder;
 use Yuvayana\Acadlix\Models\Template;
@@ -233,7 +234,16 @@ class AdminQuizController
         $res = [];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
+        $search = $params['search'];
         $quiz = Quiz::ofQuiz()->orderBy('ID', 'desc');
+        if (!empty($search)) {
+            $quiz->where(function ($query) use ($search) {
+                $query->where('post_title', 'LIKE', "%{$search}%");
+            })
+            ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
+                $query->where('id', 'LIKE', "%{$search}%"); 
+            });
+        }
         $res['total'] = $quiz->count();
         $res['quizes'] = $quiz->skip($skip)->take($params['pageSize'])
             ->get(["ID", "post_title"])
@@ -307,6 +317,11 @@ class AdminQuizController
                     ['status' => 500, 'error' => $quizId->get_error_message()]
                 );
             }
+
+            // handle shortcode
+            QuizShortcode::create([
+                'quiz_id' => $quizId
+            ]);
 
             // handle category
             $term_id = $params['category_id'];
