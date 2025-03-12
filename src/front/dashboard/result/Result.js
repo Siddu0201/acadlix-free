@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BiExpand, FaExpandArrowsAlt, HistoryToggleOff } from "../../../helpers/icons";
+import { FaExpandArrowsAlt, HistoryToggleOff } from "../../../helpers/icons";
 import {
   Box,
   Typography,
@@ -13,6 +13,7 @@ import {
   IconButton,
   CardHeader,
   Chip,
+  TablePagination,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import Pagination from "@mui/material/Pagination";
@@ -90,6 +91,7 @@ export default function Result() {
                 color="warning"
                 LinkComponent={Link}
                 to={`/result/${params?.id}`}
+                disabled={params?.row?.hide_answer_sheet}
               >
                 <FaExpandArrowsAlt fontSize="inherit" />
               </IconButton>
@@ -115,6 +117,7 @@ export default function Result() {
           score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
           status: stat_ref?.status,
+          hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
@@ -161,8 +164,9 @@ export default function Result() {
                   paginationModel={paginationModel}
                   onPaginationModelChange={setPaginationModel}
                   paginationMode="server"
-                  pageSizeOptions={[10, 20, 50]}
+                  pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection
+                  disableColumnMenu
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("statistic_ref_ids", data, {
@@ -237,9 +241,20 @@ const MobileOnlyView = (props) => {
               fontWeight="bold"
               fontSize={"14px"}
             >
-              {row?.courseName}
+              {row?.title}
             </Typography>
-            {row?.action}
+            <Tooltip title={__("View Answersheet", "acadlix")} arrow>
+              <IconButton
+                aria-label="expand"
+                size="small"
+                color="warning"
+                LinkComponent={Link}
+                to={`/result/${row?.id}`}
+                disabled={row?.hide_answer_sheet}
+              >
+                <FaExpandArrowsAlt fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box display="flex" alignItems="center" gap="4px">
             <HistoryToggleOff style={{ color: "gray" }} />
@@ -248,7 +263,7 @@ const MobileOnlyView = (props) => {
               color="textSecondary"
               fontSize={"12px"}
             >
-              {row?.dateTime}
+              {row?.date}
             </Typography>
           </Box>
           <Box
@@ -259,24 +274,33 @@ const MobileOnlyView = (props) => {
             <Typography variant="body2" fontSize={"10px"}>
               {__("Score: ", "acadlix")}{row?.score}
             </Typography>
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: row.status === "pass" ? "green" : "red",
-                color: "white",
-                padding: "1px 4px",
-                fontSize: "8px",
-              }}
-            >
-              {row?.status?.toUpperCase()}
-            </Button>
+            <Chip
+              color={row?.status === "Pass" ? "success" : "error"}
+              label={row?.status}
+            />
           </Box>
         </Box>
       ))}
 
       <Box display="flex" justifyContent="center" padding={1}>
-        <Stack spacing={2}>
-          <Pagination
+        <TablePagination
+          component="div"
+          count={props?.watch("rows").length}
+          page={props?.paginationModel?.page}
+          onPageChange={(_, newPage) => props?.setPaginationModel(prev => ({ ...prev, page: newPage }))}
+          rowsPerPage={props?.paginationModel?.pageSize}
+          onRowsPerPageChange={(e) => {
+            const pageSize = parseInt(e?.target?.value);
+            const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
+            props?.setPaginationModel({
+              pageSize: pageSize,
+              page: page,
+            })
+          }}
+        />
+        {/* <Stack spacing={2}> */}
+        {/* <Pagination
+            shape="rounded"
             count={Math.ceil(
               props?.watch("rows").length / props?.paginationModel?.pageSize
             )}
@@ -284,8 +308,8 @@ const MobileOnlyView = (props) => {
             onChange={(e, value) =>
               props?.setPaginationModel((p) => ({ ...p, page: value }))
             }
-          />
-        </Stack>
+          /> */}
+        {/* </Stack> */}
       </Box>
     </Paper>
   );

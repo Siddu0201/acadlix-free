@@ -315,6 +315,7 @@ const Paragraph = () => {
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection
                   disableRowSelectionOnClick
+                  disableColumnMenu
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("paragraph_ids", data, {
                       shouldDirty: true,

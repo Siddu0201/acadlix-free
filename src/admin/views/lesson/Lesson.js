@@ -294,6 +294,7 @@ const Lesson = () => {
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection
                   disableRowSelectionOnClick
+                  disableColumnMenu
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("lesson_ids", data, {
                       shouldDirty: true,

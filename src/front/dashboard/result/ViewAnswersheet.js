@@ -65,6 +65,7 @@ const ViewAnswersheet = () => {
                             {isFetching ?
                                 <CircularProgress color="inherit" size={20} />
                                 : (
+                                    !data?.data?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet &&
                                     <AnswerSheet
                                         statistic={data?.data?.statistic}
                                         colorCode={colorCode}

@@ -244,6 +244,7 @@ const Order = () => {
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection={false}
                   disableRowSelectionOnClick
+                  disableColumnMenu
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("order_ids", data, {
                       shouldDirty: true,

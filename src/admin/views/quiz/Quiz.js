@@ -128,7 +128,8 @@ const Quiz = () => {
       field: "action",
       headerName: __("Action", "acadlix"),
       sortable: false,
-      minWidth: 210,
+      flex: 2,
+      minWidth: 200,
       renderCell: (params) => {
         return (
           <>
@@ -505,6 +506,7 @@ const Quiz = () => {
                   pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection
                   disableRowSelectionOnClick
+                  disableColumnMenu
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("quiz_ids", data, {
                       shouldDirty: true,

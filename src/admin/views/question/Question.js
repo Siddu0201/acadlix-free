@@ -464,6 +464,7 @@ const Question = () => {
                   pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection
                   disableRowSelectionOnClick
+                  disableColumnMenu
                   onRowSelectionModelChange={(data) => {
                     methods.setValue("question_ids", data, {
                       shouldDirty: true,

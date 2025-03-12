@@ -13,7 +13,6 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
-  IconButton,
   Tooltip,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
@@ -210,6 +209,7 @@ const PurchaseHistory = () => {
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection={false}
                   disableRowSelectionOnClick
+                  disableColumnMenu
                   onRowSelectionModelChange={(data) => {
                     methods?.setValue("purchase_ids", data, {
                       shouldDirty: true,
