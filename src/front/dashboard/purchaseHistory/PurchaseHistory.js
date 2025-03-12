@@ -62,11 +62,17 @@ const PurchaseHistory = () => {
         else if (value === "pending") color = "warning";
         else if (value === "failed") color = "error";
         return (
-          <Chip
-            label={value.charAt(0).toUpperCase() + value.slice(1)}
-            color={color}
-            variant="filled"
-          />
+          <div style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}>
+            <Chip
+              label={value.charAt(0).toUpperCase() + value.slice(1)}
+              color={color}
+              variant="filled"
+            />
+          </div>
         );
       },
     },
