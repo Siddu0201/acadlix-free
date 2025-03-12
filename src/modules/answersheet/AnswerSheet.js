@@ -16,6 +16,7 @@ import QuestionSubjectAndPointSection from "../../front/dashboard/quiz/normalMod
 import LanguageSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
 import QuestionStatusSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import PropTypes from "prop-types";
+import TypeFreeChoice from "../../front/dashboard/quiz/questionTypes/TypeFreeChoice";
 
 const AnswerSheet = ({
     statistic = [],
@@ -86,6 +87,10 @@ const AnswerSheet = ({
                                         stat?.question?.answer_type === "trueFalse" && stat?.answer_data
                                             ? lang?.rendered_answer_data?.trueFalse?.map((answer, index) => ({ ...answer, isChecked: stat?.answer_data == index ?? false }))
                                             : lang?.rendered_answer_data?.trueFalse,
+                                    freeChoice:
+                                        stat?.question?.answer_type === "freeChoice" && stat?.answer_data
+                                            ? { ...lang?.rendered_answer_data?.freeChoice, yourAnswer: stat?.answer_data }
+                                            : lang?.rendered_answer_data?.freeChoice,
                                     sortingChoice:
                                         stat?.question?.answer_type === "sortingChoice" && stat?.answer_data
                                             ? shuffleArrayBasedOnOrder(lang?.rendered_answer_data?.sortingChoice, stat?.answer_data)
@@ -294,6 +299,16 @@ const ViewQuestionSection = (props) => {
                 return (
                     <TypeTrueFalse
                         type="trueFalse"
+                        lang_index={lang_index}
+                        index={props?.index}
+                        {...props}
+                        {...data}
+                    />
+                );
+            case "freeChoice":
+                return (
+                    <TypeFreeChoice
+                        type="freeChoice"
                         lang_index={lang_index}
                         index={props?.index}
                         {...props}

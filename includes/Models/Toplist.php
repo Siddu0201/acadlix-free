@@ -26,15 +26,14 @@ if (!class_exists('Toplist')) {
             "status",
         ];
 
-        public function getPointsAttribute($value)
-        {
-            return floatval($value);
-        }
-
-        public function getResultAttribute($value)
-        {
-            return floatval($value);
-        }
+        protected $casts = [
+            "quiz_id" => "integer",
+            "user_id" => "integer",
+            "points" => "double",
+            "result" => "double",
+            "quiz_time" => "integer",
+            "accuracy" => "double",
+        ];
 
         public function setUserIdAttribute($value)
         {

@@ -19,6 +19,14 @@ if(!class_exists('SubjectTime')){
             "optional",
         ];
 
+        protected $casts = [
+            "quiz_id" => "integer",
+            "subject_id" => "integer",
+            "time" => "integer",
+            "specific_number_of_questions" => "integer",
+            "optional" => "integer",
+        ];
+
         // public function quiz(){
         //     return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
         // }

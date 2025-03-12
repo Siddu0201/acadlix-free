@@ -13,6 +13,7 @@ import CustomButton from "../normal-quiz-component/CustomButton";
 import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import { __ } from "@wordpress/i18n";
+import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -196,6 +197,16 @@ const ViewQuestionSection = (props) => {
         return (
           <TypeTrueFalse
             type="trueFalse"
+            lang_index={lang_index}
+            index={props?.index}
+            {...props}
+            {...data}
+          />
+        );
+      case "freeChoice":
+        return (
+          <TypeFreeChoice
+            type="freeChoice"
             lang_index={lang_index}
             index={props?.index}
             {...props}

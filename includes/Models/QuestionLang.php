@@ -25,6 +25,12 @@ if (!class_exists('QuestionLang')) {
             "meta",
         ];
 
+        protected $casts = [
+            "question_id" => "integer",
+            "language_id" => "integer",
+            "default" => "integer",
+        ];
+
         protected $appends = [
             'language',
             'rendered_question',

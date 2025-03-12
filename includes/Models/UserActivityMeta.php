@@ -20,6 +20,11 @@ if (!class_exists('UserActivityMeta')) {
             "meta_value"
         ];
 
+        protected $casts = [
+            "user_id" => "integer",
+            "type_id" => "integer",
+        ];
+
         public function scopeOfQuiz($query)
         {
             return $query->where("type", "quiz");

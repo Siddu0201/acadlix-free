@@ -17,6 +17,10 @@ if (!class_exists('QuizShortcode')) {
             "quiz_id",
         ];
 
+        protected $casts = [
+            "quiz_id" => "integer",
+        ];
+
         public $timestamps = false;
 
         public function quiz()

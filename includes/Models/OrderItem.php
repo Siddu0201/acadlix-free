@@ -23,6 +23,17 @@ if (!class_exists('OrderItem')) {
             'price_after_tax'
         ];
 
+        protected $casts = [
+            'course_id' => 'integer',
+            'order_id' => 'integer',
+            'quantity' => 'integer',
+            'price' => 'double',
+            'discount' => 'double',
+            'price_after_discount' => 'double',
+            'tax' => 'double',
+            'price_after_tax'=> 'double',
+        ];
+
         protected $appends = ["course", "course_completion_percentage"];
 
         public function getCourseAttribute()

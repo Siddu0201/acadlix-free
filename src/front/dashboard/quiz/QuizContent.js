@@ -256,6 +256,7 @@ const QuizContent = (props) => {
                     multipleChoice: lang?.rendered_answer_data
                       ?.multipleChoice,
                     trueFalse: lang?.rendered_answer_data?.trueFalse,
+                    freeChoice: lang?.rendered_answer_data?.freeChoice,
                     sortingChoice: lang?.rendered_answer_data?.sortingChoice ?? [],
                     matrixSortingChoice: lang?.rendered_answer_data?.matrixSortingChoice ?? [],
                     fillInTheBlank: lang?.rendered_answer_data
@@ -290,7 +291,7 @@ const QuizContent = (props) => {
     },
   });
 
-  console.log(methods?.watch());
+  // console.log(methods?.watch());
 
 
   useLayoutEffect(() => {

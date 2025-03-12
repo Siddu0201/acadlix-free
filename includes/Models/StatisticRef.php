@@ -23,16 +23,15 @@ if(!class_exists('StatisticRef')){
         ];
 
         protected $with = ['statistics', 'user'];
-        
-        public function getPointsAttribute($value)
-        {
-            return floatval($value);
-        }
-    
-        public function getResultAttribute($value)
-        {
-            return floatval($value);
-        }
+
+        protected $casts = [
+            "quiz_id" => "integer",
+            "user_id" => "integer",
+            "quiz_time" => "integer",
+            "points" => "double",
+            "result" => "double",
+            "accuracy" => "double",
+        ];
 
         public function setUserIdAttribute($value){
             $this->attributes['user_id'] = $value == 0 ? NULL : $value ;

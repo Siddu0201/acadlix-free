@@ -11,6 +11,7 @@ import TypeFill from "../../../questionTypes/TypeFill";
 import TypeNumerical from "../../../questionTypes/TypeNumerical";
 import TypeRange from "../../../questionTypes/TypeRange";
 import { __ } from "@wordpress/i18n";
+import TypeFreeChoice from "../../../questionTypes/TypeFreeChoice";
 
 const NtaQuestion = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -41,6 +42,16 @@ const NtaQuestion = (props) => {
         return (
           <TypeTrueFalse
             type="trueFalse"
+            lang_index={lang_index}
+            index={props?.index}
+            {...props}
+            {...data}
+          />
+        );
+      case "freeChoice":
+        return (
+          <TypeFreeChoice
+            type="freeChoice"
             lang_index={lang_index}
             index={props?.index}
             {...props}

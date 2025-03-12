@@ -27,10 +27,15 @@ if (!class_exists('Statistic')) {
         ];
         
         protected $casts = [
+            "statistic_ref_id" => "integer",
+            "question_id" => "integer",
             "correct_count" => "integer", // ✅ Ensures integer type
             "incorrect_count" => "integer",
             "hint_count" => "integer",
             "solved_count" => "integer",
+            "points" => "double",
+            "negative_points" => "double",
+            "question_time" => "integer",
         ];
 
         public function __construct()
@@ -56,11 +61,6 @@ if (!class_exists('Statistic')) {
         public function getAnswerDataAttribute($value)
         {
             return maybe_unserialize($value);
-        }
-        
-        public function getPointsAttribute($value)
-        {
-            return floatval($value);
         }
    
     }

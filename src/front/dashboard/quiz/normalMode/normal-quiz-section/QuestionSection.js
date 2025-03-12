@@ -13,6 +13,7 @@ import TypeRange from "../../questionTypes/TypeRange";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
+import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 
 const QuestionSection = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -48,6 +49,16 @@ const QuestionSection = (props) => {
             {...data}
           />
         );
+      case "freeChoice":
+        return (
+          <TypeFreeChoice
+            type="freeChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            {...props}
+            {...data}
+          />
+        )
       case "sortingChoice":
         return (
           <TypeSortingChoice
@@ -110,7 +121,7 @@ const QuestionSection = (props) => {
         );
     }
   };
-  
+
   const questionBelowSx = {
     boxShadow: (theme) => theme?.shadows[2],
     paddingX: 2,
@@ -151,7 +162,7 @@ const QuestionSection = (props) => {
             </React.Fragment>
           ))
         }
-        <QuestionStatusSection {...props} />   
+        <QuestionStatusSection {...props} />
         <OptionButtonSection {...props} />
         {props?.question?.language?.length > 0 &&
           props?.question?.language?.map((lang, index) => (

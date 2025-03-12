@@ -17,6 +17,10 @@ if (!class_exists('OrderMeta')) {
             'meta_value',
         ];
 
+        protected $casts = [
+            "order_id" => "integer",
+        ];
+
 
         public function order()
         {

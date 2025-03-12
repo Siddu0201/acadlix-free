@@ -292,13 +292,13 @@ class FrontQuizController
         $user_id = $params['user_id'];
         $user_token = $params['user_token'];
         $data = [
-            "quiz_id" => $quiz_id,
+            "quiz_id" => (int) $quiz_id,
             "user_token" => $params["user_token"],
-            "user_id" => $params["user_id"],
-            "points" => $params["points"],
-            "result" => $params["result"],
-            "quiz_time" => $params["time_taken"],
-            "accuracy" => $params["accuracy"],
+            "user_id" => (int) $params["user_id"],
+            "points" => (int) $params["points"],
+            "result" => (float) $params["result"],
+            "quiz_time" => (int) $params["time_taken"],
+            "accuracy" => (float) $params["accuracy"],
             "status" => $params["status"],
         ];
         $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
@@ -333,8 +333,8 @@ class FrontQuizController
             $show_average_score = $quiz->rendered_metas['quiz_settings']['show_average_score'] ?? false;
             $show_percentile = $quiz->rendered_metas['quiz_settings']['show_percentile'] ?? false;
             $statistic_ref = StatisticRef::where('quiz_id', $quiz_id);
-            $res['average_score'] = $statistic_ref->count() > 0 && $show_average_score ? $statistic_ref->avg('points') : 0;
-            $res['percentile'] = $statistic_ref->count() > 0 && $show_percentile ? round($params['result'] / $statistic_ref->max('result') * 100, 2) : 0;
+            $res['average_score'] = $statistic_ref->count() > 0 && $show_average_score ? (float) $statistic_ref->avg('points') : 0;
+            $res['percentile'] = $statistic_ref->count() > 0 && $show_percentile ? (float) round($data['result'] / ($statistic_ref->max('result') >= $data['result'] ? $statistic_ref->max('result') : $data['result']) * 100, 2) : 0;
         }
 
         // Check and save toplist
@@ -361,7 +361,7 @@ class FrontQuizController
             $res['toplist_id'] = $top->id;
             $toplist = new Toplist();
             if ($show_rank) {
-                $res['rank'] = $toplist->getEntryRank($quiz_id, $top->id);
+                $res['rank'] = (int) $toplist->getEntryRank($quiz_id, $top->id);
             }
             if ($result_comparision_with_topper) {
                 $res['topper'] = $toplist->getTopper($quiz_id);

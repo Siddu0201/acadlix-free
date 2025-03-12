@@ -33,7 +33,22 @@ if (!class_exists('Question')) {
             'subject',
         ];
 
+        protected $casts = [
+            "quiz_id" => "integer",
+            "subject_id" => "integer",
+            "online" => "integer",
+            "sort" => "integer",
+            "points" => "double",
+            "negative_points" => "double",
+            "different_points_for_each_answer" => "integer",
+            "different_incorrect_msg" => "integer",
+            "hint_enabled" => "integer",
+            "paragraph_enabled" => "integer",
+            "paragraph_id" => "integer",
+        ];
+
         protected $appends = ['paragraph'];
+
 
         public function scopeOfOnline($query)
         {

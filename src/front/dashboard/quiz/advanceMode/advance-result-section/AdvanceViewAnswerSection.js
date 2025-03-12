@@ -13,6 +13,7 @@ import AdvanceQuestionSubjectAndPointSection from "./AdvanceQuestionSubjectAndPo
 import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
 import AdvanceLanguageSection from "./AdvanceLanguageSection";
 import { __ } from "@wordpress/i18n";
+import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 
 const AdvanceViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -223,6 +224,16 @@ const ViewQuestionSection = (props) => {
         return (
           <TypeTrueFalse
             type="trueFalse"
+            lang_index={lang_index}
+            index={props?.index}
+            {...props}
+            {...data}
+          />
+        );
+      case "freeChoice":
+        return (
+          <TypeFreeChoice
+            type="freeChoice"
             lang_index={lang_index}
             index={props?.index}
             {...props}

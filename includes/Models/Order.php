@@ -18,6 +18,9 @@ if (!class_exists('Order')) {
             'total_amount'
         ];
 
+        protected $casts = [
+            'user_id' => 'integer',
+        ];
 
         public function order_items()
         {

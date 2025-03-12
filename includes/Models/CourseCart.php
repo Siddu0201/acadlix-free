@@ -19,6 +19,12 @@ if (!class_exists('CourseCart')) {
             'token_expiry',
         ];
 
+        protected $casts = [
+            'course_id' => "integer",
+            'user_id' => "integer",
+            'quantity' => "integer",
+        ];
+
         protected $appends = ['course'];
       
         public function getCourseAttribute()
