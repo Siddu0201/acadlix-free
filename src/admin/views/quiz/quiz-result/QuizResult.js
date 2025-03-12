@@ -147,7 +147,7 @@ const QuizResult = () => {
       const newRows = data?.data?.stat_refs?.map((stat_ref) => {
         return {
           id: stat_ref?.id,
-          name: `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})`,
+          name: stat_ref?.user ? `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})` : __("Anonymous", "acadlix"),
           date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
           score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
