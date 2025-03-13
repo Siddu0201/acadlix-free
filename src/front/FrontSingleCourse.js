@@ -6,6 +6,7 @@ import SingleCourse from './single_course/SingleCourse';
 import "./AppFront.css";
 
 const FrontSingleCourse = (props) => {
+    console.log(props);
     const methods = useForm({
         defaultValues: {
             id: props?.course?.ID,
@@ -26,7 +27,7 @@ const FrontSingleCourse = (props) => {
                                             lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
                                             title: c?.contentable_data?.post_title,
                                             content_type_id: c?.contentable?.id,
-                                            content: c?.contentable_data?.post_content ?? "",
+                                            content: c?.contentable_data?.rendered_post_content ?? "",
                                             video: {
                                                 video_type: c?.contentable_data?.rendered_metas?.video?.video_type ?? "",
                                                 video_data: {

@@ -268,7 +268,7 @@ class AdminQuestionController
             $question->update([
                 'subject_id' => !empty($params['subject_id']) ? $params['subject_id'] : $question->subject_id,
                 'points' => !empty($params['points']) ? $params['points'] : $question->points,
-                'negative_points' => !empty($params['negative_points']) ? $params['negative_points'] : $question->negative_points,
+                'negative_points' => $params['negative_points'] != "" ? (float) $params['negative_points'] : $question->negative_points,
             ]);
         }
         return rest_ensure_response($res);
