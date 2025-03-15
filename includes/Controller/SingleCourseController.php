@@ -35,7 +35,7 @@ if (!class_exists("SingleCourseController")) {
             $course = Course::ofCourse()->find($post->ID);
             if (is_singular(ACADLIX_COURSE_CPT)) {
                 // wp_dequeue_style('acadlix-front-css');
-                wp_dequeue_script('acadlix-front-js');
+                // wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_style('acadlix-front-single-course-css');
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
@@ -55,6 +55,7 @@ if (!class_exists("SingleCourseController")) {
                     'checkout_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id'))),
                     'cart_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_cart_page_id'))),
                     'user_id' => get_current_user_id() ?? 0 ,
+                    'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
                 ));
             }
         }

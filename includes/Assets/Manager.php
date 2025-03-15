@@ -84,9 +84,14 @@ class Manager
                         </div>
                     </div>
                 </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        document.dispatchEvent(new Event('shortcodeLoaded'));
+                    });
+                </script>
                 <?php
             } else {
-                echo "[Acadlix_Quiz " . esc_html($quiz->ID) . "]";
+                echo "[Acadlix_Quiz " . esc_html($id) . "]";
             }
             $content = ob_get_contents();
             ob_get_clean();

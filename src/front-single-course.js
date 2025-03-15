@@ -6,7 +6,14 @@ import Provider from './provider/Provider';
 domReady(() => {
     const course = document.getElementById('acadlix-curriculam-react-preview');
     if (course) {
-        let courseRoot = createRoot(course);
-        courseRoot.render(<Provider><FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}}></FrontSingleCourse></Provider>);
+        if (!course.__REACT_ROOT__) {
+            course.__REACT_ROOT__ = createRoot(course);
+        }
+
+        course.__REACT_ROOT__.render(
+            <Provider>
+                <FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}} />
+            </Provider>
+        );
     }
 })

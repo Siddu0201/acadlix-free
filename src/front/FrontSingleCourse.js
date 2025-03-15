@@ -6,7 +6,6 @@ import SingleCourse from './single_course/SingleCourse';
 import "./AppFront.css";
 
 const FrontSingleCourse = (props) => {
-    console.log(props);
     const methods = useForm({
         defaultValues: {
             id: props?.course?.ID,

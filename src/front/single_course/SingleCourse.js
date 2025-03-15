@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
-import React from 'react'
+import React, { useEffect } from 'react'
 import VideoPlayer from '../../modules/video-player/VideoPlayer';
 import {RawHTML} from '@wordpress/element';
 import { getVimeoVideoId, getYouTubeVideoId } from '../../helpers/util';
 
 const SingleCourse = (props) => {
+
   return (
     <Box>
       {
@@ -89,6 +90,9 @@ const LessonVideoPreview = (props) => {
 }
 
 const LessonTextPreview = (props) => {
+  // useEffect(() => {
+  //   document.dispatchEvent(new Event('shortcodeLoaded'));
+  // }, []);
   return (
       <RawHTML>
         {props?.c?.content}
