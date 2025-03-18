@@ -93,7 +93,7 @@ class FrontStatisticController
         $stat_ref = StatisticRef::find($statistic_id);
         $res['quiz'] = Quiz::ofQuiz()->find($stat_ref->quiz_id);
         $res['statistic_ref'] = $stat_ref;
-        $res['statistic'] = $stat_ref->statistics()->with("question")->get();
+        $res['statistic'] = $stat_ref ? $stat_ref->statistics()->with("question")->get() : [];
 
         return rest_ensure_response($res);
     }

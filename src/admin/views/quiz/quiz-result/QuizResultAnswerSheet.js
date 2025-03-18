@@ -64,7 +64,9 @@ const QuizResultAnswerSheet = () => {
         </Grid>
         <Grid size={{ xs: 12, lg: 12 }}>
           <Card>
-            <CardHeader title={__("AnswerSheet", "acadlix")} />
+            <CardHeader 
+              title={`${data?.data?.statistic_ref?.user?.display_name ? data?.data?.statistic_ref?.user?.display_name + "'s" : "Anonymous"} ${__("answersheet for", "acadlix")} ${data?.data?.quiz?.post_title}`}
+              />
             <CardContent>
               {isFetching ?
                 <CircularProgress color="inherit" size={20} />

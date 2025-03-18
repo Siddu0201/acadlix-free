@@ -171,7 +171,7 @@ class AdminStatisticController
         $stat_ref = StatisticRef::find($id);
         $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
         $res['statistic_ref'] = $stat_ref;
-        $res['statistic'] = $stat_ref->statistics()->with("question")->get();
+        $res['statistic'] = $stat_ref ? $stat_ref->statistics()->with("question")->get() : [];
         return rest_ensure_response($res);
     }
 
