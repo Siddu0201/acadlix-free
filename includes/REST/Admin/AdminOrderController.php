@@ -220,6 +220,7 @@ class AdminOrderController
             $errors[] = __('Order items is required.', 'acadlix');
         }
         foreach ($order_items as $order_item) {
+            if(!$order_item['course_id']) continue;
             $alreadyPurchased = OrderItem::whereHas('order', function ($query) use ($user_id) {
                 $query->ofSuccess()->where('user_id', $user_id);
             })->where('course_id', $order_item['course_id'])->exists();
@@ -298,6 +299,7 @@ class AdminOrderController
         }
 
         foreach ($order_items as $order_item) {
+            if(!$order_item['course_id']) continue;
             $alreadyPurchased = OrderItem::whereHas('order', function ($query) use ($user_id, $orderId) {
                 $query->ofSuccess()->where('user_id', $user_id)->whereNot('id', $orderId);
             })->where('course_id', $order_item['course_id'])->exists();
