@@ -122,7 +122,6 @@ class AdminStatisticController
 
         $stat_ref = StatisticRef::where('quiz_id', $quiz_id)->orderBy("id", "desc");
         $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
-        $res['total'] = (clone $stat_ref)->count();
         $res['pass_count'] = (clone $stat_ref)->where('status', 'Pass')->count();
         $res['fail_count'] = (clone $stat_ref)->where('status', 'Fail')->count();
 
@@ -133,7 +132,7 @@ class AdminStatisticController
                     ->orWhere('user_login', 'LIKE', "%{$search}%");
             });
         }
-
+        $res['total'] = $stat_ref->count();
         $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get()->toArray();
         return rest_ensure_response($res);
     }
