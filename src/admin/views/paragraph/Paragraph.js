@@ -7,6 +7,7 @@ import {
   FormControl,
   FormHelperText,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -23,13 +24,15 @@ import {
   DeleteQuizParagraphById,
   GetQuizParagraphs,
 } from "../../../requests/admin/AdminParagraphRequest";
-import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh } from "../../../helpers/icons";
+import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh, IoClose } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
+import CustomTextField from "../../../components/CustomTextField";
 
 const Paragraph = () => {
   const methods = useForm({
     defaultValues: {
+      search: "",
       rows: [],
       paragraph_ids: [],
       action: "",
@@ -105,7 +108,8 @@ const Paragraph = () => {
   const { isFetching, data, refetch } = GetQuizParagraphs(
     quiz_id,
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    methods?.watch("search")
   );
 
   function strip(html) {
@@ -187,6 +191,10 @@ const Paragraph = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+  }
+
   return (
     <Box>
       <Grid
@@ -253,53 +261,89 @@ const Paragraph = () => {
               }}
             ></CardHeader>
             <CardContent>
-              {
-                hasCapability("acadlix_bulk_action_paragraph") &&
-                <Box
-                  sx={{
-                    paddingBottom: 2,
-                    display: "flex",
-                    gap: 2,
-                    alignItems: "baseline",
-                  }}
-                >
-                  <FormControl
-                    sx={{ minWidth: 150 }}
-                    size="small"
-                    error={Boolean(methods?.formState?.errors?.action)}
-                  >
-                    <InputLabel id="demo-simple-select-label">
-                      {__("Bulk Actions", "acadlix")}
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={methods?.watch("action")}
-                      label={__("Bulk Actions", "acadlix")}
-                      onChange={handleActionChange}
-                    >
-                      <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
-                      {
-                        hasCapability("acadlix_bulk_delete_paragraph") &&
-                        <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                      }
-                    </Select>
-                    <FormHelperText>
-                      {methods?.formState?.errors?.action?.message}
-                    </FormHelperText>
-                  </FormControl>
-                  <Button
-                    variant="contained"
+              <Box
+                sx={{
+                  paddingBottom: 2,
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "baseline",
+                  justifyContent: hasCapability("acadlix_bulk_action_paragraph")
+                    ? "space-between"
+                    : "flex-end",
+                }}
+              >
+                {
+                  hasCapability("acadlix_bulk_action_paragraph") &&
+                  <Box
                     sx={{
-                      marginRight: 2,
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "baseline",
                     }}
-                    onClick={handleBulkAction}
-                    color="primary"
                   >
-                    {__("Apply", "acadlix")}
-                  </Button>
+                    <FormControl
+                      sx={{ minWidth: 150 }}
+                      size="small"
+                      error={Boolean(methods?.formState?.errors?.action)}
+                    >
+                      <InputLabel id="demo-simple-select-label">
+                        {__("Bulk Actions", "acadlix")}
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={methods?.watch("action")}
+                        label={__("Bulk Actions", "acadlix")}
+                        onChange={handleActionChange}
+                      >
+                        <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                        {
+                          hasCapability("acadlix_bulk_delete_paragraph") &&
+                          <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                        }
+                      </Select>
+                      <FormHelperText>
+                        {methods?.formState?.errors?.action?.message}
+                      </FormHelperText>
+                    </FormControl>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        marginRight: 2,
+                      }}
+                      onClick={handleBulkAction}
+                      color="primary"
+                    >
+                      {__("Apply", "acadlix")}
+                    </Button>
+                  </Box>
+                }
+                <Box>
+                  <CustomTextField
+                    label={__("Search", "acadlix")}
+                    helperText={__("Search by title", "acadlix")}
+                    fullWidth
+                    size="small"
+                    value={methods?.watch("search")}
+                    onChange={handleSearch}
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end"
+                            sx={{
+                              cursor: "pointer",
+                              display: methods?.watch("search") ? "block" : "none"
+                            }}
+                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                          >
+                            <IoClose />
+                          </InputAdornment>
+                        )
+                      }
+                    }}
+                  />
                 </Box>
-              }
+              </Box>
               <Box
                 sx={{
                   width: "100%",

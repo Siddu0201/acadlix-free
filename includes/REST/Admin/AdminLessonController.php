@@ -105,8 +105,12 @@ class AdminLessonController
     {
         $res = [];
         $params = $request->get_params();
+        $search = $params['search'];
         $skip = $params['page'] * $params['pageSize'];
         $lesson = Lesson::ofLesson()->orderBy('id', 'desc');
+        if(!empty($search)) {
+            $lesson->where('post_title', 'like', "%$search%");
+        }
         $res['total'] = $lesson->count();
         $res['lessons'] = $lesson->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);

@@ -425,17 +425,20 @@ const Quiz = () => {
               }}
             ></CardHeader>
             <CardContent>
-              {
-                hasCapability("acadlix_bulk_action_quiz") &&
-                <Box
-                  sx={{
-                    paddingBottom: 2,
-                    display: "flex",
-                    gap: 2,
-                    alignItems: "baseline",
-                    justifyContent: "space-between",
-                  }}
-                >
+
+              <Box
+                sx={{
+                  paddingBottom: 2,
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "baseline",
+                  justifyContent: hasCapability("acadlix_bulk_action_quiz")
+                    ? "space-between"
+                    : "flex-end",
+                }}
+              >
+                {
+                  hasCapability("acadlix_bulk_action_quiz") &&
                   <Box sx={{
                     display: "flex",
                     gap: 2,
@@ -481,34 +484,35 @@ const Quiz = () => {
                       {__("Apply", "acadlix")}
                     </Button>
                   </Box>
-                  <Box>
-                    <CustomTextField
-                      fullWidth
-                      size="small"
-                      label={__("Search", "acadlix")}
-                      helperText={__("Search by title, id", "acadlix")}
-                      name="search"
-                      value={methods?.watch("search") ?? ""}
-                      onChange={handleSearch}
-                      slotProps={{
-                        input: {
-                          endAdornment: (
-                            <InputAdornment position="end"
-                              sx={{
-                                cursor: "pointer",
-                                display: methods?.watch("search") ? "block" : "none"
-                              }}
-                              onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                            >
-                              <IoClose />
-                            </InputAdornment>
-                          )
-                        }
-                      }}
-                    />
-                  </Box>
+                }
+
+                <Box>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label={__("Search", "acadlix")}
+                    helperText={__("Search by title, id", "acadlix")}
+                    name="search"
+                    value={methods?.watch("search") ?? ""}
+                    onChange={handleSearch}
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end"
+                            sx={{
+                              cursor: "pointer",
+                              display: methods?.watch("search") ? "block" : "none"
+                            }}
+                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                          >
+                            <IoClose />
+                          </InputAdornment>
+                        )
+                      }
+                    }}
+                  />
                 </Box>
-              }
+              </Box>
               <Box
                 sx={{
                   width: "100%",

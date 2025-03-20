@@ -5,15 +5,16 @@ import { __ } from "@wordpress/i18n";
 
 const base = "/admin-lesson";
 
-export const GetLessons = (page = 0, pageSize = 10) => {
+export const GetLessons = (page = 0, pageSize = 10, search = '') => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getLessons", page, pageSize],
+        queryKey: ["getLessons", page, pageSize, search],
         queryFn: () => {
             return instance.get(base, {
                 params: {
                     page: page,
-                    pageSize: pageSize
+                    pageSize: pageSize,
+                    search: search
                 }
             });
         }

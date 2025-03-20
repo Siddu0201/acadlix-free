@@ -141,6 +141,7 @@ class AdminParagraphController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $params = $request->get_params();
+        $search = $params['search'];
 
         if (empty($quiz_id)) {
             return new WP_Error(
@@ -151,6 +152,11 @@ class AdminParagraphController
         }
         $skip = $params['page'] * $params['pageSize'];
         $paragraph = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->orderBy('ID', 'desc');
+        if (!empty($search)) {
+            $paragraph->where(function ($query) use ($search) {
+                $query->where('post_title', 'like', "%$search%");
+            });
+        }
         $res['total'] = $paragraph->count();
         $res['paragraphs'] = $paragraph->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);

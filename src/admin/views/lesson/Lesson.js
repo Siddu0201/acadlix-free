@@ -7,6 +7,7 @@ import {
   FormControl,
   FormHelperText,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -23,13 +24,15 @@ import {
   DeleteLessonById,
   GetLessons,
 } from "../../../requests/admin/AdminLessonRequest";
-import { FaEdit, FaTrash, IoMdRefresh } from "../../../helpers/icons";
+import { FaEdit, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
+import CustomTextField from "../../../components/CustomTextField";
 
 const Lesson = () => {
   const methods = useForm({
     defaultValues: {
+      search: "",
       rows: [],
       lesson_ids: [],
       action: "",
@@ -101,7 +104,8 @@ const Lesson = () => {
 
   const { isFetching, data, refetch } = GetLessons(
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    methods?.watch("search")
   );
 
   React.useMemo(() => {
@@ -175,6 +179,10 @@ const Lesson = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+  }
+
   return (
     <Box>
       <Grid
@@ -227,13 +235,20 @@ const Lesson = () => {
               }}
             ></CardHeader>
             <CardContent>
-              {
-                hasCapability("acadlix_bulk_action_lesson") &&
-                <Box
-                  sx={{
-                    paddingBottom: 2,
-                  }}
-                >
+
+              <Box
+                sx={{
+                  paddingBottom: 2,
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "baseline",
+                  justifyContent: hasCapability("acadlix_bulk_action_lesson")
+                    ? "space-between"
+                    : "flex-end"
+                }}
+              >
+                {
+                  hasCapability("acadlix_bulk_action_lesson") &&
                   <Box
                     sx={{
                       display: "flex",
@@ -277,8 +292,33 @@ const Lesson = () => {
                       {__("Apply", "acadlix")}
                     </Button>
                   </Box>
+                }
+                <Box>
+                  <CustomTextField
+                    label={__("Search", "acadlix")}
+                    helperText={__("Search by title", "acadlix")}
+                    fullWidth
+                    size="small"
+                    value={methods?.watch("search")}
+                    onChange={handleSearch}
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end"
+                            sx={{
+                              cursor: "pointer",
+                              display: methods?.watch("search") ? "block" : "none"
+                            }}
+                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                          >
+                            <IoClose />
+                          </InputAdornment>
+                        )
+                      }
+                    }}
+                  />
                 </Box>
-              }
+              </Box>
               <Box
                 sx={{
                   width: "100%",

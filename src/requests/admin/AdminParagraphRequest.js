@@ -5,15 +5,16 @@ import { __ } from "@wordpress/i18n";
 
 const base = "/admin-paragraph";
 
-export const GetQuizParagraphs = (quiz_id = '', page = 0, pageSize = 10) => {
+export const GetQuizParagraphs = (quiz_id = '', page = 0, pageSize = 10, search = '') => {
   const instance = useInstance();
   return useQuery({
-    queryKey: ["getQuizParagraphs", quiz_id, page, pageSize],
+    queryKey: ["getQuizParagraphs", quiz_id, page, pageSize, search],
     queryFn: () => {
       return instance.get(`${base}/${quiz_id}/paragraph`, {
         params: {
           page: page,
           pageSize: pageSize,
+          search: search
         },
       });
     },
