@@ -9,6 +9,7 @@ import {
   FormControl,
   FormHelperText,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -25,7 +26,7 @@ import {
   DeleteQuizQuestionById,
   GetQuizQuestion,
 } from "../../../requests/admin/AdminQuestionRequest";
-import { FaEdit, FaTrash, TiArrowLeftThick } from "../../../helpers/icons";
+import { FaEdit, FaTrash, IoClose, TiArrowLeftThick } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
@@ -371,84 +372,100 @@ const Question = () => {
               }}
             ></CardHeader>
             <CardContent>
-              { hasCapability("acadlix_bulk_action_question") && (
-                  <>
-                    <Box
-                      sx={{
-                        paddingBottom: 2,
-                        display: "flex",
-                        gap: 2,
-                        alignItems: "baseline",
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <Box sx={{
-                        display: "flex",
-                        gap: 2,
-                        alignItems: "baseline",
-                      }}>
-                        <FormControl
-                          sx={{ minWidth: 150 }}
-                          size="small"
-                          error={Boolean(methods?.formState?.errors?.action)}
+              {hasCapability("acadlix_bulk_action_question") && (
+                <>
+                  <Box
+                    sx={{
+                      paddingBottom: 2,
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "baseline",
+                      justifyContent: "space-between"
+                    }}
+                  >
+                    <Box sx={{
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "baseline",
+                    }}>
+                      <FormControl
+                        sx={{ minWidth: 150 }}
+                        size="small"
+                        error={Boolean(methods?.formState?.errors?.action)}
+                      >
+                        <InputLabel id="demo-simple-select-label">
+                          {__("Bulk Actions", "acadlix")}
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={methods?.watch("action")}
+                          label={__("Bulk Actions", "acadlix")}
+                          onChange={handleActionChange}
                         >
-                          <InputLabel id="demo-simple-select-label">
+                          <MenuItem value="">
                             {__("Bulk Actions", "acadlix")}
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={methods?.watch("action")}
-                            label={__("Bulk Actions", "acadlix")}
-                            onChange={handleActionChange}
-                          >
-                            <MenuItem value="">
-                              {__("Bulk Actions", "acadlix")}
+                          </MenuItem>
+                          {
+                            hasCapability("acadlix_bulk_delete_question") &&
+                            <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                          }
+                          {
+                            hasCapability("acadlix_bulk_set_subject_and_point_question") &&
+                            <MenuItem value="set_subject_and_points">
+                              {__("Set Subject and Points", "acadlix")}
                             </MenuItem>
-                            {
-                              hasCapability("acadlix_bulk_delete_question") &&
-                              <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                            }
-                            {
-                              hasCapability("acadlix_bulk_set_subject_and_point_question") &&
-                              <MenuItem value="set_subject_and_points">
-                                {__("Set Subject and Points", "acadlix")}
-                              </MenuItem>
-                            }
-                            {
-                              hasCapability("acadlix_bulk_set_paragraph_question") &&
-                              <MenuItem value="set_paragraph">
-                                {__("Set Paragraph", "acadlix")}
-                              </MenuItem>
-                            }
-                          </Select>
-                          <FormHelperText>
-                            {methods?.formState?.errors?.action?.message}
-                          </FormHelperText>
-                        </FormControl>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            marginRight: 2,
-                          }}
-                          onClick={handleBulkAction}
-                          color="primary"
-                        >
-                          {__("Apply", "acadlix")}
-                        </Button>
-                      </Box>
-                      <Box>
-                        <CustomTextField
-                          label={__("Search (title)", "acadlix")}
-                          fullWidth
-                          size="small"
-                          value={methods?.watch("search")}
-                          onChange={handleSearch}
-                        />
-                      </Box>
+                          }
+                          {
+                            hasCapability("acadlix_bulk_set_paragraph_question") &&
+                            <MenuItem value="set_paragraph">
+                              {__("Set Paragraph", "acadlix")}
+                            </MenuItem>
+                          }
+                        </Select>
+                        <FormHelperText>
+                          {methods?.formState?.errors?.action?.message}
+                        </FormHelperText>
+                      </FormControl>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          marginRight: 2,
+                        }}
+                        onClick={handleBulkAction}
+                        color="primary"
+                      >
+                        {__("Apply", "acadlix")}
+                      </Button>
                     </Box>
-                  </>
-                )}
+                    <Box>
+                      <CustomTextField
+                        label={__("Search", "acadlix")}
+                        helperText={__("Search by title, question", "acadlix")}
+                        fullWidth
+                        size="small"
+                        value={methods?.watch("search")}
+                        onChange={handleSearch}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end"
+                                sx={{
+                                  cursor: "pointer",
+                                  display: methods?.watch("search") ? "block" : "none"
+                                }}
+                                onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                              >
+                                <IoClose />
+                              </InputAdornment>
+                            )
+                          }
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                </>
+              )}
               <Box
                 sx={{
                   width: "100%",

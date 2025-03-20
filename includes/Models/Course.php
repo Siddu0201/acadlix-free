@@ -34,6 +34,11 @@ if (!class_exists('Course')) {
             return $query->where('post_type', self::$postType);
         }
 
+        public function scopeOfPublish($query)
+        {
+            return $query->where('post_status', 'publish');
+        }
+
         public function getRenderedPostContentAttribute()
         {
             return $this->helper->renderShortCode($this->post_content);

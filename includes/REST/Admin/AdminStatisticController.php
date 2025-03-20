@@ -118,11 +118,21 @@ class AdminStatisticController
         }
 
         $skip = $params['page'] * $params['pageSize'];
+        $search = $params['search'] ?? "";
+
         $stat_ref = StatisticRef::where('quiz_id', $quiz_id)->orderBy("id", "desc");
         $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
         $res['total'] = (clone $stat_ref)->count();
         $res['pass_count'] = (clone $stat_ref)->where('status', 'Pass')->count();
         $res['fail_count'] = (clone $stat_ref)->where('status', 'Fail')->count();
+
+        if(!empty($search)) {
+            $stat_ref->whereHas('user',function ($query) use ($search) {
+                $query->where('display_name', 'LIKE', "%{$search}%")
+                    ->orWhere('user_email', 'LIKE', "%{$search}%")
+                    ->orWhere('user_login', 'LIKE', "%{$search}%");
+            });
+        }
 
         $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get()->toArray();
         return rest_ensure_response($res);

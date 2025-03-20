@@ -155,6 +155,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-order-css' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_order.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-admin-setting-css' => [
                 'src' => ACADLIX_BUILD_URL . 'admin_setting.css',
                 'version' => ACADLIX_VERSION,

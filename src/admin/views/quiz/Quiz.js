@@ -8,6 +8,7 @@ import {
   FormControl,
   FormHelperText,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -26,7 +27,8 @@ import {
 } from "../../../requests/admin/AdminQuizRequest";
 import {
   FaEdit,
-  FaParagraph, FaQuestion, FaTrash, FaRankingStar, MdFileCopy, IoMdRefresh, LuFileChartColumn, LuFileClock
+  FaParagraph, FaQuestion, FaTrash, FaRankingStar, MdFileCopy, IoMdRefresh, LuFileChartColumn, LuFileClock,
+  IoClose
 } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -333,7 +335,7 @@ const Quiz = () => {
     }
   };
 
-  const handleSearch = ( e ) => {
+  const handleSearch = (e) => {
     methods?.setValue("search", e?.target?.value, { shouldDirty: true });
   }
 
@@ -480,14 +482,30 @@ const Quiz = () => {
                     </Button>
                   </Box>
                   <Box>
-                      <CustomTextField
-                        fullWidth
-                        size="small"
-                        label={__("Search (Title, ID)", "acadlix")}
-                        name="search"
-                        value={methods?.watch("search") ?? ""}
-                        onChange={handleSearch}
-                      />
+                    <CustomTextField
+                      fullWidth
+                      size="small"
+                      label={__("Search", "acadlix")}
+                      helperText={__("Search by title, id", "acadlix")}
+                      name="search"
+                      value={methods?.watch("search") ?? ""}
+                      onChange={handleSearch}
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position="end"
+                              sx={{
+                                cursor: "pointer",
+                                display: methods?.watch("search") ? "block" : "none"
+                              }}
+                              onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                            >
+                              <IoClose />
+                            </InputAdornment>
+                          )
+                        }
+                      }}
+                    />
                   </Box>
                 </Box>
               }

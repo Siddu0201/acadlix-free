@@ -358,6 +358,7 @@ class FrontCheckoutController
     public function post_fail_razorpay_payment($request)
     {
         $required_fields = array('razorpay_order_id');
+        $errors = [];
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);

@@ -22,6 +22,11 @@ if (!class_exists('Order')) {
             'user_id' => 'integer',
         ];
 
+        public function scopeOfSuccess($query)
+        {
+            return $query->where('status', 'success');
+        }
+
         public function order_items()
         {
             return $this->hasMany(OrderItem::class, 'order_id', 'id');

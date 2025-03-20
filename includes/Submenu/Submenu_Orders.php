@@ -49,6 +49,7 @@ class Submenu_Orders
         wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-order");
+        wp_enqueue_style("acadlix-admin-order-css");
         wp_localize_script('acadlix-admin-order', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),

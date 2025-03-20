@@ -13,6 +13,7 @@ import {
   Tooltip,
   Button,
   Chip,
+  InputAdornment,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
@@ -20,7 +21,8 @@ import {
   FaExpandArrowsAlt,
   FaTrash,
   TiArrowLeftThick,
-  IoMdRefresh
+  IoMdRefresh,
+  IoClose
 } from "../../../../helpers/icons";
 import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -32,6 +34,7 @@ import {
 import dateFormat from "dateformat";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../../helpers/util";
+import CustomTextField from "../../../../components/CustomTextField";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -41,6 +44,7 @@ const QuizResult = () => {
 
   const methods = useForm({
     defaultValues: {
+      search: "",
       title: "",
       rows: [],
       question_count: 0,
@@ -139,7 +143,8 @@ const QuizResult = () => {
   const { data, isFetching, refetch } = GetStatisticByQuizId(
     quiz_id,
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    methods?.watch("search"),
   );
 
   React.useMemo(() => {
@@ -173,6 +178,10 @@ const QuizResult = () => {
     }
     return rowCountRef.current;
   }, [data?.data?.total]);
+
+  const handleSearch = (e) => {
+    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+  }
 
   return (
     <Box>
@@ -311,6 +320,37 @@ const QuizResult = () => {
                         {__("Total Attempt:", "acadlix")} {methods?.watch("attempt_counts")}
                       </Typography>
                     </Paper>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                    <Box sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}>
+                      <CustomTextField
+                        size="small"
+                        label={__("Search", "acadlix")}
+                        helperText={__("Search by username", "acadlix")}
+                        name="search"
+                        value={methods?.watch("search") ?? ""}
+                        onChange={handleSearch}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end"
+                                sx={{
+                                  cursor: "pointer",
+                                  display: methods?.watch("search") ? "block" : "none"
+                                }}
+                                onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                              >
+                                <IoClose />
+                              </InputAdornment>
+                            )
+                          }
+                        }}
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
               </Box>

@@ -5,15 +5,16 @@ import { __ } from "@wordpress/i18n";
 
 const base = "/admin-statistic";
 
-export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize = 10) => {
+export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize = 10, search = '') => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getStatisticByQuizId", quiz_id, page, pageSize],
+        queryKey: ["getStatisticByQuizId", quiz_id, page, pageSize, search],
         queryFn: () => {
             return instance.get(`${base}/${quiz_id}`, {
                 params: {
                     page: page,
-                    pageSize: pageSize
+                    pageSize: pageSize,
+                    search: search
                 }
             });
         }

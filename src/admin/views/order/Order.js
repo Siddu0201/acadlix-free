@@ -5,6 +5,8 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  IconButton,
+  InputAdornment,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -12,15 +14,18 @@ import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { GetOrders } from "../../../requests/admin/AdminOrderRequest";
+import { DeleteOrderById, GetOrders } from "../../../requests/admin/AdminOrderRequest";
 import { currencyPosition } from "../../../helpers/util";
 import { dateI18n } from "@wordpress/date";
-import { IoMdRefresh } from "../../../helpers/icons";
+import { FaEdit, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import { Link } from "react-router-dom";
+import CustomTextField from "../../../components/CustomTextField";
 
 const Order = () => {
   const methods = useForm({
     defaultValues: {
+      search: "",
       rows: [],
       order_ids: [],
       action: "",
@@ -31,6 +36,13 @@ const Order = () => {
     pageSize: 10,
     page: 0,
   });
+
+  const deleteMutation = DeleteOrderById();
+  const deleteOrderById = (id) => {
+    if (confirm(__("If you delete this order, all associated data will also be removed, including order items, metadata, and the user's course progress.", "acadlix"))) {
+      deleteMutation?.mutate(id);
+    }
+  }
 
   const columns = [
     { field: "id", headerName: __("ID", "acadlix") },
@@ -46,7 +58,8 @@ const Order = () => {
       flex: 1,
       minWidth: 100,
     },
-    { field: "order_id", headerName: __("Order/Txn ID", "acadlix"), flex: 2, minWidth: 180 },
+    { field: "order_id", headerName: __("Order ID", "acadlix"), flex: 1, minWidth: 80 },
+    { field: "transaction_id", headerName: __("Txn ID", "acadlix"), flex: 1, minWidth: 120 },
     { field: "order_date", headerName: __("Order Date", "acadlix"), minWidth: 180 },
     { field: "user_name", headerName: __("Name", "acadlix"), flex: 2, minWidth: 130 },
     { field: "user_email", headerName: __("Email", "acadlix"), minWidth: 250 },
@@ -77,18 +90,52 @@ const Order = () => {
       flex: 2,
       minWidth: 100,
     },
+    {
+      field: "actions",
+      headerName: __("Actions", "acadlix"),
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params) => {
+        return (
+          <>
+            <Tooltip title={__("Edit Order", "acadlix")} arrow>
+              <IconButton
+                aria-label="edit"
+                size="small"
+                color="primary"
+                LinkComponent={Link}
+                to={`/edit/${params?.id}`}
+              >
+                <FaEdit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
+              <IconButton
+                aria-label="delete"
+                size="small"
+                color="error"
+                onClick={deleteOrderById.bind(this, params?.id)}
+              >
+                <FaTrash />
+              </IconButton>
+            </Tooltip>
+          </>
+        )
+      }
+    }
   ];
 
   const { isFetching, data, refetch } = GetOrders(
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    methods?.watch("search")
   );
 
   const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
     return order_metas?.find((o) => o?.meta_key === meta_key)?.meta_value ?? order_default;
   };
 
-  const getOrderId = (order_metas = []) => {
+  const getTransactionId = (order_metas = []) => {
     switch (getOrderMetaValue(order_metas, "payment_method")) {
       case "razorpay":
         return getOrderMetaValue(order_metas, "razorpay_order_id");
@@ -116,7 +163,8 @@ const Order = () => {
             "payment_method",
             __("Free", "acadlix")
           )?.toUpperCase(),
-          order_id: getOrderId(order?.order_metas),
+          order_id: `#${order?.id}`,
+          transaction_id: getTransactionId(order?.order_metas),
           order_date: formattedDateTime,
           user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
           user_email: order?.user?.user_email,
@@ -142,6 +190,10 @@ const Order = () => {
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
   };
+
+  const handleSearch = (e) => {
+    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+  }
 
   return (
     <Box>
@@ -170,6 +222,14 @@ const Order = () => {
                   >
                     {__("Orders", "acadlix")}
                   </Typography>
+                  <Button
+                    variant="contained"
+                    LinkComponent={Link}
+                    to="/create"
+                    color="primary"
+                  >
+                    {__("Add", "acadlix")}
+                  </Button>
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />
@@ -184,12 +244,16 @@ const Order = () => {
               }}
             ></CardHeader>
             <CardContent>
-              {/* <Box
+              <Box
                 sx={{
                   paddingBottom: 2,
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "baseline",
+                  justifyContent: "flex-end",
                 }}
               >
-                <Box
+                {/* <Box
                   sx={{
                     display: "flex",
                     gap: 2,
@@ -227,8 +291,34 @@ const Order = () => {
                   >
                     Apply
                   </Button>
+                </Box> */}
+                <Box>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    label={__("Search", "acadlix")}
+                    name="search"
+                    value={methods?.watch("search") ?? ""}
+                    onChange={handleSearch}
+                    helperText={__("Search by order items,txn id, name, email", "acadlix")}
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end"
+                            sx={{
+                              cursor: "pointer",
+                              display: methods?.watch("search") ? "block" : "none"
+                            }}
+                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
+                          >
+                            <IoClose />
+                          </InputAdornment>
+                        )
+                      }
+                    }}
+                  />
                 </Box>
-              </Box> */}
+              </Box>
               <Box
                 sx={{
                   width: "100%",
