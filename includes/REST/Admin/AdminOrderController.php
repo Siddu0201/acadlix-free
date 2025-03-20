@@ -323,6 +323,7 @@ class AdminOrderController
             $course_ids = array_column($order_items, 'course_id');
             $order->order_items()->whereNotIn('course_id', $course_ids)->delete();
             foreach ($order_items as $item) {
+                if(!$item['course_id']) continue;
                 $order->order_items()->updateOrCreate([
                     'course_id' => $item['course_id'],
                 ], [
