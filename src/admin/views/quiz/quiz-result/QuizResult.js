@@ -22,7 +22,8 @@ import {
   FaTrash,
   TiArrowLeftThick,
   IoMdRefresh,
-  IoClose
+  IoClose,
+  FaSearch
 } from "../../../../helpers/icons";
 import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -334,17 +335,12 @@ const QuizResult = () => {
                         name="search"
                         value={methods?.watch("search") ?? ""}
                         onChange={handleSearch}
+                        type="search"
                         slotProps={{
                           input: {
                             endAdornment: (
-                              <InputAdornment position="end"
-                                sx={{
-                                  cursor: "pointer",
-                                  display: methods?.watch("search") ? "block" : "none"
-                                }}
-                                onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                              >
-                                <IoClose />
+                              <InputAdornment position="end">
+                                <FaSearch />
                               </InputAdornment>
                             )
                           }

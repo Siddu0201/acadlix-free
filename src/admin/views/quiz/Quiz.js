@@ -28,7 +28,8 @@ import {
 import {
   FaEdit,
   FaParagraph, FaQuestion, FaTrash, FaRankingStar, MdFileCopy, IoMdRefresh, LuFileChartColumn, LuFileClock,
-  IoClose
+  IoClose,
+  FaSearch
 } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -495,17 +496,12 @@ const Quiz = () => {
                     name="search"
                     value={methods?.watch("search") ?? ""}
                     onChange={handleSearch}
+                    type="search"
                     slotProps={{
                       input: {
                         endAdornment: (
-                          <InputAdornment position="end"
-                            sx={{
-                              cursor: "pointer",
-                              display: methods?.watch("search") ? "block" : "none"
-                            }}
-                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                          >
-                            <IoClose />
+                          <InputAdornment position="end">
+                            <FaSearch />
                           </InputAdornment>
                         )
                       }

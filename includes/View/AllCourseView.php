@@ -11,17 +11,30 @@ use Yuvayana\Acadlix\Models\WpPosts;
 defined('ABSPATH') || exit();
 
 global $post, $wp_version;
-$page = (get_query_var('paged')) ? get_query_var('paged') : 1;
-$per_page = Helper::instance()->acadlix_get_option("acadlix_no_of_courses_per_page");
-$one_click_checkout = Helper::instance()->acadlix_get_option('acadlix_one_click_checkout');
-
-$courses = Course::ofCourse()->where("post_status", 'publish')->orderBy("ID", "desc");
-$course_count = $courses->count();
-$courses = $courses->skip(($page - 1) * $per_page)->take($per_page);
-$courses = $courses->get();
 $courses_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id"));
 $checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
 $dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
+
+$search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+$page = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+$per_page = Helper::instance()->acadlix_get_option("acadlix_no_of_courses_per_page");
+// $per_page = 1;
+$one_click_checkout = Helper::instance()->acadlix_get_option('acadlix_one_click_checkout');
+
+$courses = Course::ofCourse()->where("post_status", 'publish')->orderBy("ID", "desc");
+
+if (!empty($search)) {
+    $courses->where('post_title', 'like', "%$search%");
+}
+$course_count = $courses->count();
+
+if($course_count <= $per_page){
+    $page = 1;
+}
+
+$courses = $courses->skip(($page - 1) * $per_page)->take($per_page);
+$courses = $courses->get();
 
 $cart = [];
 $order_item = [];
@@ -72,14 +85,19 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         </h4>
                     </div>
                     <div class="acadlix-d-flex">
-                        <select class="acadlix-course-filter-select" aria-label="Course Filter">
+                        <form method="GET">
+                            <input type="text" name="search" value="<?php echo esc_attr($search); ?>"
+                                placeholder="Search...">
+                            <button type="submit">Search</button>
+                        </form>
+                        <!-- <select class="acadlix-course-filter-select" aria-label="Course Filter">
                             <option value=""><?php esc_html_e('All Category', 'acadlix'); ?></option>
                             <option value="newest"><?php esc_html_e('Newest courses', 'acadlix'); ?></option>
                             <option value="oldest"><?php esc_html_e('Oldest courses', 'acadlix'); ?></option>
                             <option value="popular-courses"><?php esc_html_e('Popular courses', 'acadlix'); ?></option>
                             <option value="high-to-low"><?php esc_html_e('Price: high to low', 'acadlix'); ?></option>
                             <option value="low-to-high"><?php esc_html_e('Price: low to high', 'acadlix'); ?></option>
-                        </select>
+                        </select> -->
                     </div>
                 </div>
             </section>
@@ -169,7 +187,8 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     <button class="acadlix-action-button acadlix-buy-now"
                                                         data-id="<?php echo esc_attr($course->ID); ?>">
                                                         <div class="acadlix-action-button-text">
-                                                            <i class="fa fa-shopping-cart"></i> <?php esc_html_e('Buy Now', 'acadlix'); ?>
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            <?php esc_html_e('Buy Now', 'acadlix'); ?>
                                                         </div>
                                                         <div class="acadlix-btn-loader" style="display: none;"></div>
                                                     </button>
@@ -189,14 +208,16 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                             ?>
                                             <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
                                                 id="add-to-wishlist-<?php echo esc_attr($course->ID); ?>"
-                                                title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>" data-id="<?php echo esc_attr($course->ID); ?>"
+                                                title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
+                                                data-id="<?php echo esc_attr($course->ID); ?>"
                                                 style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
                                                 <i class="la la-heart-o"></i>
                                                 <div class="acadlix-btn-loader" style="display: none;"></div>
                                             </div>
                                             <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
                                                 id="remove-from-wishlist-<?php echo esc_attr($course->ID); ?>"
-                                                title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>" data-id="<?php echo esc_attr($course->ID); ?>"
+                                                title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
+                                                data-id="<?php echo esc_attr($course->ID); ?>"
                                                 style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
                                                 <i class="fa-solid fa-heart"></i>
                                                 <div class="acadlix-btn-loader" style="display: none;"></div>
@@ -218,25 +239,44 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <section class="acadlix-course-pagination-container">
                 <nav class="acadlix-course-pagination-nav">
                     <ul class="acadlix-course-pagination-list acadlix-box-shadow-2">
+                        <?php
+                        $page_url = add_query_arg(array(
+                            'paged' => $page - 1,
+                            'search' => $search
+                        ), $courses_url);
+                        ?>
                         <li class="acadlix-course-pagination-item">
-                            <a class="acadlix-course-pagination-link" href="#" aria-label="Previous">
+                            <a class="acadlix-course-pagination-link <?php echo 1 == $page ? "acadlix-course-pagination-disabled" : ""; ?>"
+                                href="<?php echo esc_url($page_url); ?>" aria-label="Previous">
                                 <span aria-hidden="true"
                                     class="acadlix-course-pagination-arrow-left acadlix-fs-6">&#8592;</span>
                             </a>
                         </li>
+
                         <?php
                         for ($i = 1; $i <= ceil($course_count / $per_page); $i++) {
+                            $page_url = add_query_arg(array(
+                                'paged' => $i,
+                                'search' => $search
+                            ), $courses_url);
                             ?>
                             <li
                                 class="acadlix-course-pagination-item <?php echo $i == $page ? "acadlix-course-pagination-active" : ""; ?> ">
                                 <a class="acadlix-course-pagination-link"
-                                    href="<?php echo esc_url(add_query_arg('paged', $i, $courses_url)); ?>"><?php echo esc_html($i); ?></a>
+                                    href="<?php echo esc_url($page_url); ?>"><?php echo esc_html($i); ?></a>
                             </li>
                             <?php
                         }
                         ?>
+                        <?php
+                        $page_url = add_query_arg(array(
+                            'paged' => $page + 1,
+                            'search' => $search
+                        ), $courses_url);
+                        ?>
                         <li class="acadlix-course-pagination-item">
-                            <a class="acadlix-course-pagination-link" href="#" aria-label="Next">
+                            <a class="acadlix-course-pagination-link <?php echo ceil($course_count / $per_page) == $page ? "acadlix-course-pagination-disabled" : ""; ?>" 
+                                href="<?php echo esc_url($page_url) ;?>" aria-label="Next">
                                 <span aria-hidden="true"
                                     class="acadlix-course-pagination-arrow-right acadlix-fs-6">&#8594;</span>
 

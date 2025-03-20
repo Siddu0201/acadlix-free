@@ -24,7 +24,7 @@ import {
   DeleteQuizParagraphById,
   GetQuizParagraphs,
 } from "../../../requests/admin/AdminParagraphRequest";
-import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh, IoClose } from "../../../helpers/icons";
+import { FaEdit, FaTrash, TiArrowLeftThick, IoMdRefresh, IoClose, FaSearch } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
 import CustomTextField from "../../../components/CustomTextField";
@@ -326,17 +326,12 @@ const Paragraph = () => {
                     size="small"
                     value={methods?.watch("search")}
                     onChange={handleSearch}
+                    type="search"
                     slotProps={{
                       input: {
                         endAdornment: (
-                          <InputAdornment position="end"
-                            sx={{
-                              cursor: "pointer",
-                              display: methods?.watch("search") ? "block" : "none"
-                            }}
-                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                          >
-                            <IoClose />
+                          <InputAdornment position="end">
+                            <FaSearch />
                           </InputAdornment>
                         )
                       }

@@ -186,6 +186,12 @@
   background-color: var(--acadlix-grey);
 }
 
+.acadlix-course-pagination-disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.4;
+}
+
 .acadlix-course-pagination-item.acadlix-course-pagination-active .acadlix-course-pagination-link {
   background-color: var(--acadlix-primary-main);
   color: var(--acadlix-primary-contrastText);

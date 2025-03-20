@@ -24,7 +24,7 @@ import {
   DeleteLessonById,
   GetLessons,
 } from "../../../requests/admin/AdminLessonRequest";
-import { FaEdit, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
+import { FaEdit, FaSearch, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
 import CustomTextField from "../../../components/CustomTextField";
@@ -299,19 +299,14 @@ const Lesson = () => {
                     helperText={__("Search by title", "acadlix")}
                     fullWidth
                     size="small"
+                    type="search"
                     value={methods?.watch("search")}
                     onChange={handleSearch}
                     slotProps={{
                       input: {
                         endAdornment: (
-                          <InputAdornment position="end"
-                            sx={{
-                              cursor: "pointer",
-                              display: methods?.watch("search") ? "block" : "none"
-                            }}
-                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                          >
-                            <IoClose />
+                          <InputAdornment position="end">
+                            <FaSearch />
                           </InputAdornment>
                         )
                       }

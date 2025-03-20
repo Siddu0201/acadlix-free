@@ -26,7 +26,7 @@ import {
   DeleteQuizQuestionById,
   GetQuizQuestion,
 } from "../../../requests/admin/AdminQuestionRequest";
-import { FaEdit, FaTrash, IoClose, TiArrowLeftThick } from "../../../helpers/icons";
+import { FaEdit, FaSearch, FaTrash, IoClose, TiArrowLeftThick } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
@@ -451,17 +451,12 @@ const Question = () => {
                       size="small"
                       value={methods?.watch("search")}
                       onChange={handleSearch}
+                      type="search"
                       slotProps={{
                         input: {
                           endAdornment: (
-                            <InputAdornment position="end"
-                              sx={{
-                                cursor: "pointer",
-                                display: methods?.watch("search") ? "block" : "none"
-                              }}
-                              onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                            >
-                              <IoClose />
+                            <InputAdornment position="end">
+                              <FaSearch />
                             </InputAdornment>
                           )
                         }

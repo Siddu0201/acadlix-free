@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { DeleteOrderById, GetOrders } from "../../../requests/admin/AdminOrderRequest";
 import { currencyPosition } from "../../../helpers/util";
 import { dateI18n } from "@wordpress/date";
-import { FaEdit, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
+import { FaEdit, FaSearch, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import CustomTextField from "../../../components/CustomTextField";
@@ -301,17 +301,12 @@ const Order = () => {
                     value={methods?.watch("search") ?? ""}
                     onChange={handleSearch}
                     helperText={__("Search by order items,txn id, name, email", "acadlix")}
+                    type="search"
                     slotProps={{
                       input: {
                         endAdornment: (
-                          <InputAdornment position="end"
-                            sx={{
-                              cursor: "pointer",
-                              display: methods?.watch("search") ? "block" : "none"
-                            }}
-                            onClick={() => methods?.setValue("search", "", { shouldDirty: true })}
-                          >
-                            <IoClose />
+                          <InputAdornment position="end">
+                            <FaSearch />
                           </InputAdornment>
                         )
                       }

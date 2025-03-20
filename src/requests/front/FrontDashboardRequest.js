@@ -4,16 +4,17 @@ import { useInstance } from "../../helpers/util";
 
 const base = "/front-dashboard";
 
-export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10 ) => {
+export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10, search = '' ) => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getUserOrders", user_id, page, pageSize],
+        queryKey: ["getUserOrders", user_id, page, pageSize, search],
         queryFn: () => {
             return instance.get(`${base}/get-user-orders`, {
                 params: {
                     user_id: user_id,
                     page: page,
                     pageSize: pageSize,
+                    search: search
                 }
             });
         }

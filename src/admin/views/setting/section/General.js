@@ -670,7 +670,7 @@ function General(props) {
             }}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -781,7 +781,7 @@ function General(props) {
               }
             }}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
       {/* Currency options */}
       <Box

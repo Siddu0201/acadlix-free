@@ -34,11 +34,15 @@ if (!class_exists('OrderItem')) {
             'price_after_tax'=> 'double',
         ];
 
-        protected $appends = ["course", "course_completion_percentage"];
+        protected $with = ["course"];
 
-        public function getCourseAttribute()
+        protected $appends = [
+            "course_completion_percentage"
+        ];
+
+        public function course()
         {
-            return Course::ofCourse()->find($this->course_id);
+            return $this->belongsTo(Course::class, 'course_id', 'ID')->ofCourse();
         }
 
         public function order()

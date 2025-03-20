@@ -148,6 +148,7 @@ class FrontDashboardController
     {
         $res = [];
         $params = $request->get_params();
+        $search = $params['search'];
 
         if ($request->get_param("user_id") == 0) {
             return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
@@ -155,9 +156,16 @@ class FrontDashboardController
 
         $skip = $params['page'] * $params['pageSize'];
         $userId = $request->get_param("user_id");
-        $order_items = OrderItem::with(['order'])->whereHas('order', function ($query) use ($userId) {
+        $order_items = OrderItem::with(['order', 'course'])->whereHas('order', function ($query) use ($userId) {
             $query->where("user_id", $userId)->where("status", "success");
         })->orderByDesc("created_at");
+
+        if(!empty($search)){
+            $order_items->whereHas('course', function ($query) use ($search) {
+                $query->where('post_title', 'like', "%$search%");
+            });
+        }
+
         $res['total'] = $order_items->count();
         $res['order_items'] = $order_items->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);

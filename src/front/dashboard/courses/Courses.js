@@ -39,7 +39,8 @@ const Courses = () => {
   const { isFetching, data } = GetUserOrders(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
-    paginationModel?.pageSize
+    paginationModel?.pageSize,
+    searchTerm
   );
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
@@ -68,10 +69,15 @@ const Courses = () => {
               boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)",
             }}
           >
-            <CardContent>
+            <CardContent sx={{
+              padding: 4,
+              ":last-child": {
+                padding: 4
+              }
+            }}>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 7 }}>
-                  <Grid container spacing={3}>
+                  {/* <Grid container spacing={3}>
                     <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete
                         size="small"
@@ -99,12 +105,12 @@ const Courses = () => {
                         )}
                       />
                     </Grid>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <Grid size={{ xs: 12, sm: 5 }}
                   sx={{
                     display: "flex",
-                    justifyContent: "end",
+                    justifyContent: "flex-end",
                   }}
                 >
                   <TextField
@@ -120,12 +126,14 @@ const Courses = () => {
                     label={__("Search", "acadlix")}
                     value={searchTerm}
                     onChange={handleChange}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <FaSearch />
-                        </InputAdornment>
-                      ),
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <FaSearch />
+                          </InputAdornment>
+                        ),
+                      }
                     }}
                   />
                 </Grid>
