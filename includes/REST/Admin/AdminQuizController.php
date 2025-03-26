@@ -310,12 +310,12 @@ class AdminQuizController
                 'post_author' => (int) sanitize_text_field($params['post_author']),
                 'post_status' => "draft",
             ], $meta);
-
-            if (is_wp_error($quizId) && $quizId > 0) {
+            
+            if (is_wp_error($quizId) || $quizId == 0) {
                 return new WP_Error(
                     'quiz_creation_failed',
                     __('Failed to create the quiz.', 'acadlix'),
-                    ['status' => 500, 'error' => $quizId->get_error_message()]
+                    ['status' => 500]
                 );
             }
 

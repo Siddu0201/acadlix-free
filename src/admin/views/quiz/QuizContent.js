@@ -22,6 +22,7 @@ import {
 import SaveTemplateSection from "./sections/SaveTemplateSection";
 import LanguageSection from "./sections/LanguageSection";
 import { __ } from "@wordpress/i18n";
+import toast from "react-hot-toast";
 
 const QuizContent = (props) => {
   const methods = useForm({
@@ -206,12 +207,18 @@ const QuizContent = (props) => {
         onSuccess: (data) => {
           navigate("/");
         },
+        onError: (error) => {
+          toast.error(error?.response?.data?.message);
+        }
       });
     } else {
       updateMutation.mutate(methods?.watch(), {
         onSuccess: (data) => {
           navigate("/");
         },
+        onError: (error) => {
+          toast.error(error?.response?.data?.message);
+        }
       });
     }
   };
