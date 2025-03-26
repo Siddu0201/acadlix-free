@@ -308,9 +308,10 @@ class AdminQuizController
                 'post_title' => sanitize_text_field($params['post_title']),
                 'post_content' => wp_kses_post($params['post_content']),
                 'post_author' => (int) sanitize_text_field($params['post_author']),
+                'post_status' => "draft",
             ], $meta);
 
-            if (is_wp_error($quizId)) {
+            if (is_wp_error($quizId) && $quizId > 0) {
                 return new WP_Error(
                     'quiz_creation_failed',
                     __('Failed to create the quiz.', 'acadlix'),
@@ -318,16 +319,12 @@ class AdminQuizController
                 );
             }
 
-            // handle shortcode
-            QuizShortcode::create([
-                'quiz_id' => $quizId
-            ]);
-
             // handle category
             $term_id = $params['category_id'];
             $result = Quiz::assignCategory($quizId, $term_id);
 
             if (is_wp_error($result)) {
+                Quiz::deleteQuiz($quizId);
                 return new WP_Error(
                     'category_assign_creation_failed',
                     __('Cannot assign category to quiz.', 'acadlix'),
@@ -340,6 +337,7 @@ class AdminQuizController
 
             $result = Quiz::assignLanguage($quizId, $languages);
             if (is_wp_error($result)) {
+                Quiz::deleteQuiz($quizId);
                 return new WP_Error(
                     'language_assign_creation_failed',
                     __('Cannot assign language to quiz.', 'acadlix'),
@@ -371,11 +369,22 @@ class AdminQuizController
             // Retrieve and return the quiz data
             $quiz = get_post($quizId);
             if (!$quiz) {
+                Quiz::deleteQuiz($quizId);
                 return new WP_Error(
                     'quiz_not_found',
                     __('Created quiz not found.', 'acadlix'),
                     ['status' => 500]
                 );
+            }else{
+                // handle shortcode
+                QuizShortcode::create([
+                    'quiz_id' => $quizId
+                ]);
+
+                wp_update_post([
+                    'ID'          => $quizId,
+                    'post_status' => 'publish'
+                ]);
             }
 
             $res['quiz'] = $quiz;
