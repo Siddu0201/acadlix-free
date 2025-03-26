@@ -57,7 +57,7 @@ final class Course extends Acadlix_Abstract
             'publicly_queryable' => true,
             'show_ui' => true,
             'has_archive' => true,
-            'capability_type' => $this->_post_type,
+            'capability_type' => 'acadlix_course',
             'map_meta_cap' => true,
             'show_in_menu' => false,
             'show_in_admin_bar' => false,
@@ -70,6 +70,21 @@ final class Course extends Acadlix_Abstract
                 'slug' => untrailingslashit($course_permalink),
                 'with_front' => false,
             ) : false,
+            'capabilities' => array(
+                'edit_post' => 'edit_acadlix_course',
+                'read_post' => 'read_acadlix_course',
+                'delete_post' => 'delete_acadlix_course',
+                'edit_posts' => 'edit_acadlix_courses',
+                'edit_others_posts' => 'edit_others_acadlix_courses',
+                'publish_posts' => 'publish_acadlix_courses',
+                'read_private_posts' => 'read_private_acadlix_courses',
+                'delete_posts' => 'delete_acadlix_courses',
+                'delete_private_posts' => 'delete_private_acadlix_courses',
+                'delete_published_posts' => 'delete_published_acadlix_courses',
+                'delete_others_posts' => 'delete_others_acadlix_courses',
+                'edit_private_posts' => 'edit_private_acadlix_courses',
+                'edit_published_posts' => 'edit_published_acadlix_courses',
+            ),
         );
 
         return $args;
