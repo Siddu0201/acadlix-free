@@ -12,6 +12,7 @@ if (!class_exists("AdvanceQuizController")) {
 
         public function __construct()
         {
+            if(is_admin(  ))return; 
             add_filter("template_include", [$this, 'template_loader'], 10);
             add_filter('show_admin_bar', [$this, 'disable_admin_bar_on_advance_quiz']);
         }

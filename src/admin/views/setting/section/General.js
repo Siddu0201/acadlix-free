@@ -670,7 +670,8 @@ function General(props) {
             }}
           />
         </Grid>
-        {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        {/* 
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"
             sx={{
@@ -952,6 +953,49 @@ function General(props) {
                   shouldDirty: true,
                 }
               );
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">{__("Data Management", "acadlix")}</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Delete Data on Plugin Uninstall", "acadlix")}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            label={__("Activate", "acadlix")}
+            control={<CustomSwitch />}
+            value="yes"
+            checked={props?.watch("acadlix_delete_data_on_plugin_uninstall") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_delete_data_on_plugin_uninstall",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  { shouldDirty: true }
+                );
+              }
             }}
           />
         </Grid>

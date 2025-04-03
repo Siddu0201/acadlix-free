@@ -235,7 +235,8 @@ class AdminQuizController
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
         $search = $params['search'];
-        $quiz = Quiz::ofQuiz()->orderBy('ID', 'desc');
+        $quiz = Quiz::ofQuiz()->whereHas('quiz_shortcode')->orderBy('ID', 'desc');
+        // $quiz = Quiz::ofQuiz()->orderBy('ID', 'desc');
         if (!empty($search)) {
             $quiz->where(function ($query) use ($search) {
                 $query->where('post_title', 'LIKE', "%{$search}%");
@@ -310,7 +311,7 @@ class AdminQuizController
                 'post_author' => (int) sanitize_text_field($params['post_author']),
                 'post_status' => "draft",
             ], $meta);
-            
+
             if (is_wp_error($quizId) || $quizId == 0) {
                 return new WP_Error(
                     'quiz_creation_failed',
@@ -482,9 +483,9 @@ class AdminQuizController
 
             if (is_wp_error($quizId)) {
                 return new WP_Error(
-                    'quiz_creation_failed',
-                    __('Failed to create the quiz.', 'acadlix'),
-                    ['status' => 500, 'error' => $quizId->get_error_message()]
+                    'quiz_updation_failed',
+                    __('Failed to update the quiz.', 'acadlix'),
+                    ['status' => 500]
                 );
             }
 

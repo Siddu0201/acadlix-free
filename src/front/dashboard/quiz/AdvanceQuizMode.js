@@ -61,6 +61,11 @@ const AdvanceQuizMode = (props) => {
     langauge_text_color: "#ffffff",
     language_dropdown_background: "#fff",
     language_dropdown_color: "#3c4447",
+    // Marks
+    points_background: "#56AB2F",
+    points_color: "#ffffff",
+    negative_points_background: "#FF6B6B",
+    negative_points_color: "#ffffff",
     // Question Number
     question_number_background: "#ffffff",
     quesiton_number_border_bottom: "#f9f9f9",

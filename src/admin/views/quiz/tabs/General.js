@@ -81,10 +81,10 @@ const General = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={
-              props?.watch("meta.mode") === "advance_mode" &&
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
-            }
+            // disabled={
+            //   props?.watch("meta.mode") === "advance_mode" &&
+            //   props?.watch("meta.advance_mode_type") !== "advance_panel"
+            // }
             label={__("Activate", "acadlix")}
           />
         </GridItem1>
@@ -104,8 +104,7 @@ const General = (props) => {
               });
             }}
             disabled={
-              props?.watch("meta.mode") === "advance_mode" &&
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
+              props?.watch("meta.mode") === "advance_mode"
             }
             label={__("Activate", "acadlix")}
           />
@@ -611,13 +610,60 @@ const General = (props) => {
               <CustomSwitch />
             }
             checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
-            disabled={props?.watch("meta.mode") === "check_and_continue"}
+            disabled={["check_and_continue", "advance_mode"]?.includes(props?.watch("meta.mode"))}
             onChange={(e) => {
               props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
                 shouldDirty: true,
               });
             }}
             label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Result Feedback By AI", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch />
+            }
+            checked={props?.watch("meta.quiz_settings.result_feedback_by_ai") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.result_feedback_by_ai", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
+          <CustomTextField
+            fullWidth
+            multiline
+            rows={4}
+            label={__("Prompt (Optional)", "acadlix")}
+            value={props?.watch("meta.quiz_settings.result_feedback_additional_prompt")}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.result_feedback_additional_prompt", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+            slotProps={{
+              htmlInput: {
+                sx: {
+                  border: `0 !important`,
+                  boxShadow: `none !important`,
+                  minHeight: `auto !important`,
+                },
+              }
+            }}
           />
         </GridItem1>
       </Grid>

@@ -14,6 +14,8 @@ import parse from "html-react-parser";
 import { dateI18n, format, getSettings } from "@wordpress/date";
 import { getCookie, setCookie } from "../../../helpers/cookie";
 import { __ } from "@wordpress/i18n";
+import { PostResultFeedback } from "../../../requests/ai/AiCommonRequest";
+import toast from "react-hot-toast";
 
 const QuizContent = (props) => {
   // console.log([...props?.quiz?.rendered_questions]);
@@ -78,6 +80,8 @@ const QuizContent = (props) => {
         Number(props?.quiz?.rendered_metas?.quiz_settings?.show_only_specific_number_of_questions)
       ),
       specific_number_of_questions: props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions, // 0 => all
+      result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
+      result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
       // Question settings
       show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
       display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
@@ -217,13 +221,13 @@ const QuizContent = (props) => {
               solved_count: 0,
               hint_count: 0,
               time: 0,
-              answer_data: question?.answer_type === "sortingChoice" 
+              answer_data: question?.answer_type === "sortingChoice"
                 ? question
                   ?.question_languages
                   ?.find((lang) => Boolean(Number(lang?.default)))
                   ?.rendered_answer_data
                   ?.sortingChoice
-                  ?.map((d) => d.position) 
+                  ?.map((d) => d.position)
                 : null,
             },
             shuffle_order: question?.answer_type === "matrixSortingChoice"
@@ -247,6 +251,7 @@ const QuizContent = (props) => {
                         (p) => p?.language_id === lang?.language_id
                       )?.content ?? ""
                     ) ?? "",
+                  question_unparsed: lang?.rendered_question,
                   question: parse(lang?.rendered_question),
                   correct_msg: parse(lang?.rendered_correct_msg),
                   incorrect_msg: parse(lang?.rendered_incorrect_msg),
@@ -288,6 +293,8 @@ const QuizContent = (props) => {
       toplist: [],
       toplist_count: 0,
       quiz_error: "",
+      // ai
+      result_ai_response: "",
     },
   });
 
@@ -355,6 +362,54 @@ const QuizContent = (props) => {
     }
   };
 
+  const resultFeedbackMutation = PostResultFeedback();
+
+  const handleGenerateResultFeedback = () => {
+    if (!methods?.watch("result_feedback_by_ai")) {
+      return;
+    }
+    let question = methods?.watch("questions");
+    const points = question?.reduce((total, d) => {
+      if (d?.result?.solved_count && d?.result?.correct_count) {
+        return total + Number(d?.points);
+      } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
+        return total - Number(d?.negative_points);
+      } else {
+        return total;
+      }
+    }, 0);
+    const total = question
+      ?.reduce((total, d) => total + Number(d?.points), 0);
+    
+    const data = {
+      quiz_title: methods?.watch("title"),
+      correct_count: question?.filter((d) => d?.result?.correct_count)?.length,
+      incorrect_count: question?.filter((d) => d?.result?.incorrect_count)?.length,
+      skipped_count: question?.filter((d) => d?.result?.solved_count === 0)?.length,
+      total_question: question?.length,
+      time_taken: question?.reduce((total, d) => total + d?.result?.time, 0),
+      result: total > 0 ? ((points / total) * 100).toFixed(2) : "0.00",
+      questions: question?.map(q => {
+        return {
+          question: q?.language?.find(l => l?.default)?.question_unparsed,
+          isCorrect: q?.result?.correct_count,
+          isIncorrect: q?.result?.incorrect_count,
+          isSolved: q?.result?.solved_count,
+          answer_type: q?.answer_type
+        }
+      }),
+      prompt: methods?.watch("result_feedback_additional_prompt"),
+    };
+    resultFeedbackMutation?.mutate(data, {
+      onSuccess: (data) => {
+        methods?.setValue("result_ai_response", data?.data?.feedback, { shouldDirty: true });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message);
+      }
+    });
+  }
+
   const quizAttemptMutation = PostSaveQuizAttemptById(methods?.watch("id"));
 
   const handleQuizAttempt = () => {
@@ -374,8 +429,12 @@ const QuizContent = (props) => {
   const saveResultMutation = PostSaveResultById(methods?.watch("id"));
 
   const saveResult = () => {
+
     // Complete course lesson
     handleCompleteCourseContent();
+
+    // Result AI Feedback
+    handleGenerateResultFeedback();
 
     if (methods?.watch("user_id") === 0) {
       const tokenExpiry = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
@@ -426,7 +485,7 @@ const QuizContent = (props) => {
           result: d?.result,
           points: d?.points,
           negative_points: d?.negative_points,
-          answer_data: d?.answer_data,
+          answer_data: d?.result?.answer_data,
         };
       }),
     };
@@ -466,7 +525,7 @@ const QuizContent = (props) => {
           email: topper?.email ?? "",
         };
         methods?.setValue("topper_result", topper_data, { shouldDirty: true });
-        methods?.setValue("toplist_id", data?.data?.toplist_id ?? 0, {shouldDirty: true});
+        methods?.setValue("toplist_id", data?.data?.toplist_id ?? 0, { shouldDirty: true });
       },
     });
   };
@@ -484,6 +543,7 @@ const QuizContent = (props) => {
             setCountDownApi={setCountDownApi}
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
+            isPendingResultFeedback={resultFeedbackMutation?.isPending}
           />
         );
       case "advance_mode":
@@ -495,6 +555,7 @@ const QuizContent = (props) => {
             setCountDownApi={setCountDownApi}
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
+            isPendingResultFeedback={resultFeedbackMutation?.isPending}
           />
         );
       default:
@@ -506,6 +567,7 @@ const QuizContent = (props) => {
             setCountDownApi={setCountDownApi}
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
+            isPendingResultFeedback={resultFeedbackMutation?.isPending}
           />
         );
     }

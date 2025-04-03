@@ -5,6 +5,7 @@ import CourseBuilder from './views/course/CourseBuilder';
 import CourseSettings from './views/course_settings/CourseSettings';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import CourseAi from './views/course_ai/CourseAi';
 
 const AdminCourse = (props) => {
   const course = window?.acadlixCourseList?.course;
@@ -21,6 +22,10 @@ const AdminCourse = (props) => {
         {
           props?.type === "settings" &&
           <CourseSettings course={course} users={users} />
+        }
+        {
+          props?.type === "ai-content" &&
+          <CourseAi />
         }
       </LocalizationProvider>
     </Provider>

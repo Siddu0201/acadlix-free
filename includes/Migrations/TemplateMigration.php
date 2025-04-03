@@ -15,7 +15,7 @@ if(!class_exists('TemplateMigration')){
                 Manager::schema()->create('acadlix_template', function($table){
                     $table->bigIncrements('id');
                     $table->string("name")->nullable();
-                    $table->string('type')->default("quiz");
+                    $table->string('type')->default("quiz")->index();
                     $table->longText('data')->nullable();
                     $table->timestamps();
                 });

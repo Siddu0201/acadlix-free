@@ -3,6 +3,7 @@ import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 import Grid from "@mui/material/Grid2";
+import AiDescription from "../../../../modules/ai/AiDescription";
 
 const TitleDescriptionSection = (props) => {
   const loadPage = () => {
@@ -51,8 +52,30 @@ const TitleDescriptionSection = (props) => {
               />
             </Grid>
 
-            <Grid size={{ xs: 12, lg: 12 }}>
+            <Grid size={{ xs: 12, lg: 12 }} sx={{
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
+            }}>
               <Typography variant="h6">{__("Quiz Description", "acadlix")}</Typography>
+
+              {/* handle Ai for generating description */}
+              <AiDescription 
+                title={props?.watch("post_title") ?? ""}
+                description={props?.watch("post_content") ?? ""}
+                type="quiz"
+                handleAddDescription={(value) => {
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get("post_content");
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue("post_content", value, {
+                    shouldDirty: true,
+                  });
+                }}
+              />
             </Grid>
             {/* Used to enter quiz decription, we replace textarea with tinymce editor  */}
             <Grid size={{ xs: 12, sm: 12 }}>

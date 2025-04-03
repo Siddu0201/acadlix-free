@@ -25,10 +25,12 @@ if(!class_exists('QuestionMigration')){
                     $table->boolean('different_incorrect_msg')->default(0);
                     $table->boolean('hint_enabled')->default(0);
                     $table->boolean('paragraph_enabled')->default(0);
-                    $table->bigInteger('paragraph_id')->nullable();
+                    $table->bigInteger('paragraph_id')->nullable()->index();
                     $table->string('answer_type');
                     $table->text('meta')->nullable();
                     $table->timestamps();
+
+                    $table->index(['quiz_id', "online"]);
                 });
             }
         }

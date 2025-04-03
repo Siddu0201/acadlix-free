@@ -14,29 +14,6 @@
  * Doman Path:        /languages/
  */
 
-use Yuvayana\Acadlix\Admin\Ajax;
-use Yuvayana\Acadlix\Admin\Core;
-use Yuvayana\Acadlix\Admin\Menu;
-use Yuvayana\Acadlix\Admin\UserRole;
-use Yuvayana\Acadlix\Assets\Manager;
-use Yuvayana\Acadlix\Controller\AdvanceQuizController;
-use Yuvayana\Acadlix\Controller\AllCourseController;
-use Yuvayana\Acadlix\Controller\CartController;
-use Yuvayana\Acadlix\Controller\CheckoutController;
-use Yuvayana\Acadlix\Controller\DashboardController;
-use Yuvayana\Acadlix\Controller\SingleCourseController;
-use Yuvayana\Acadlix\Controller\ThankyouController;
-use Yuvayana\Acadlix\CPT\CourseSection;
-use Yuvayana\Acadlix\CPT\CourseSectionContent;
-use Yuvayana\Acadlix\CPT\Lesson;
-use Yuvayana\Acadlix\CPT\Paragraph;
-use Yuvayana\Acadlix\CPT\Quiz;
-use Yuvayana\Acadlix\Migrations\Migration;
-use Yuvayana\Acadlix\REST\Api;
-use Yuvayana\Acadlix\Seeder\Seeder;
-
-use Yuvayana\Acadlix\Admin\Option;
-use Yuvayana\Acadlix\CPT\Course;
 
 defined('ABSPATH') || exit();
 
@@ -46,96 +23,9 @@ if (!defined('ACADLIX_PLUGIN_FILE')) {
     include_once 'includes/acadlix-contant.php';
 }
 
-
-if (!class_exists('Acadlix')) {
-    class Acadlix
-    {
-
-        private static $_instance = null;
-
-        private function __construct()
-        {
-            require 'bootstrap.php';
-
-            $this->init_plugin();
-            register_activation_hook(__FILE__, [$this, 'activate']);
-            register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-
-            add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
-        }
-
-        public static function instance()
-        {
-            if (is_null(self::$_instance)) {
-                self::$_instance = new self();
-            }
-
-            return self::$_instance;
-        }
-
-        public function init_plugin()
-        {
-            // Custom Post type
-            Course::instance();
-            CourseSection::instance();
-            CourseSectionContent::instance();
-
-            Lesson::instance();
-
-            Quiz::instance();
-            Paragraph::instance();
-
-            Manager::instance();
-            if (is_admin()) {
-                Menu::instance();
-            } else {
-                AllCourseController::instance();
-                SingleCourseController::instance();
-                DashboardController::instance();
-                AdvanceQuizController::instance();
-                CartController::instance();
-                CheckoutController::instance();
-                ThankyouController::instance();
-            }
-            Ajax::instance();
-            Core::instance();
-            Api::instance();
-
-            Option::instance();
-
-        }
-
-        public static function activate()
-        {
-            Migration::createTable();
-            Seeder::seed();
-            Option::createOption();
-            UserRole::addCapabilities();
-        }
-
-        public static function deactivate()
-        {
-            Migration::removeTable();
-        }
-
-        public static function uninstall()
-        {
-            Migration::removeTable();
-        }
-
-        public static function acadlix_load_textdomain()
-        {
-            load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
-        }
-    }
-
+if(function_exists('acadlix')){
+    return;
 }
 
-function acadlix()
-{
-    return Acadlix::instance();
-
-}
+require_once dirname( __FILE__ ) .'/includes/Acadlix.php';
 acadlix();
-
-register_uninstall_hook(__FILE__, 'Acadlix::uninstall');

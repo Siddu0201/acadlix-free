@@ -6,6 +6,7 @@ import AdvanceViewButtonSection from "./AdvanceViewButtonSection";
 import { Box, Button } from "@mui/material";
 import AdvanceViewAnswerSection from "./AdvanceViewAnswerSection";
 import { __ } from "@wordpress/i18n";
+import AiResultFeedback from "../../ai/AiResultFeedback";
 
 const AdvanceResultSection = (props) => {
   return (
@@ -27,6 +28,7 @@ const AdvanceResultSection = (props) => {
     >
       <Button
         variant="contained"
+        color="error"
         onClick={() => {
           window.close()
         }}
@@ -44,6 +46,14 @@ const AdvanceResultSection = (props) => {
       {props?.watch("leaderboard") &&
         props?.watch("display_leaderboard_in_quiz_result") ===
         "below_the_result" && <AdvanceLeaderboardSection {...props} />}
+      
+      {
+        props?.watch("result_feedback_by_ai") &&
+        <AiResultFeedback 
+          isPending={props?.isPendingResultFeedback}
+          response={props?.watch("result_ai_response")}
+        />
+      }
 
       <AdvanceViewButtonSection {...props} />
 

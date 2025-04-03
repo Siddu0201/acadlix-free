@@ -43,7 +43,14 @@ jobs:
                               -x ".git/*" \
                               -x ".github/*" \
                               -x "src/*" \
-                              -x "package-lock.json"
+                              -x "package-lock.json" \
+                              -x "package.json" \
+                              -x "README.md" \
+                              -x "composer.json" \
+                              -x "composer.lock" \
+                              -x "webpack.config.js" \
+                              -x "test.json" \
+                              -x "api.txt" \
         working-directory: ./
 
       - name: Upload ZIP to server

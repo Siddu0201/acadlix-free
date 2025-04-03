@@ -2,6 +2,7 @@
 
 namespace Yuvayana\Acadlix\Assets;
 use Yuvayana\Acadlix\Helper\Helper;
+use Yuvayana\Acadlix\Helper\QueryLogger;
 use Yuvayana\Acadlix\Models\Quiz;
 defined('ABSPATH') || exit();
 
@@ -16,6 +17,9 @@ class Manager
 
     public function __construct()
     {
+        add_action('init', function () {
+            QueryLogger::enable();
+        });
         add_action('init', [$this, 'register_all_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
 

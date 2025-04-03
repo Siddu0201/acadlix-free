@@ -1,0 +1,22 @@
+<?php
+
+namespace Yuvayana\Acadlix\Helper;
+use Illuminate\Database\Capsule\Manager as DB;
+
+if (!class_exists('QueryLogger')) {
+    class QueryLogger
+    {
+        public static function enable() {
+            DB::listen(function ($query) {
+                $logMessage = sprintf(
+                    "SQL: %s | Bindings: %s | Time: %sms",
+                    $query->sql,
+                    json_encode($query->bindings),
+                    $query->time
+                );
+
+                // error_log($logMessage);
+            });
+        }
+    }
+}

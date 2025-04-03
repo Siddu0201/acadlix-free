@@ -282,8 +282,12 @@ final class Course extends Acadlix_Abstract
         echo '<div id="acadlix-admin-course-settings">Loading...</div>';
     }
 
-    function add_nonce_field_to_edit_form()
+    public function add_nonce_field_to_edit_form($post)
     {
+        if ($post->post_type !== ACADLIX_COURSE_CPT)
+            return;
+        echo   '<div id="acadlix-admin-course-ai-content" style="padding-bottom: 4px;">
+                </div>';
         wp_nonce_field('acadlix_course_action', 'acadlix_course_field'); // Creates a nonce
     }
 

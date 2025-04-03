@@ -348,45 +348,48 @@ const QuizButtonOptions = (props) => {
               }
             </Button>
           }
-          <Button
-            size={props?.isDesktop ? "medium" : "small"}
-            variant="contained"
-            color="primary"
-            onClick={handleClearResponse}
-            sx={{
-              margin: `4px!important`,
-              borderRadius: 0,
-              fontSize: 13,
-              fontWeight: 400,
-              paddingX: {
-                xs: "6px",
-                md: "18px",
-              },
-              boxShadow: "none",
-              border: `1px solid ${props?.colorCode?.clear_response_border}`,
-              backgroundColor: props?.colorCode?.clear_response_background,
-              color: `${props?.colorCode?.clear_response_color} !important`,
-              ":hover": {
-                border: `1px solid ${props?.colorCode?.clear_response_hover_border}`,
-                backgroundColor:
-                  props?.colorCode?.clear_response_hover_background,
-                color: `${props?.colorCode?.clear_response_hover_color} !important`,
-                boxShadow: "none",
-              },
-              ":focus": {
+          {
+            props?.watch("show_clear_response_button") &&
+            <Button
+              size={props?.isDesktop ? "medium" : "small"}
+              variant="contained"
+              color="primary"
+              onClick={handleClearResponse}
+              sx={{
+                margin: `4px!important`,
+                borderRadius: 0,
+                fontSize: 13,
+                fontWeight: 400,
+                paddingX: {
+                  xs: "6px",
+                  md: "18px",
+                },
                 boxShadow: "none",
                 border: `1px solid ${props?.colorCode?.clear_response_border}`,
                 backgroundColor: props?.colorCode?.clear_response_background,
                 color: `${props?.colorCode?.clear_response_color} !important`,
+                ":hover": {
+                  border: `1px solid ${props?.colorCode?.clear_response_hover_border}`,
+                  backgroundColor:
+                    props?.colorCode?.clear_response_hover_background,
+                  color: `${props?.colorCode?.clear_response_hover_color} !important`,
+                  boxShadow: "none",
+                },
+                ":focus": {
+                  boxShadow: "none",
+                  border: `1px solid ${props?.colorCode?.clear_response_border}`,
+                  backgroundColor: props?.colorCode?.clear_response_background,
+                  color: `${props?.colorCode?.clear_response_color} !important`,
+                }
+              }}
+            >
+              {
+                !props?.isDesktop ?
+                  __('Clear', 'acadlix') :
+                  __('Clear Response', 'acadlix')
               }
-            }}
-          >
-            {
-              !props?.isDesktop ?
-                __('Clear', 'acadlix') :
-                __('Clear Response', 'acadlix')
-            }
-          </Button>
+            </Button>
+          }
         </Box>
         <Box>
           <Button

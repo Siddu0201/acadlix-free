@@ -82,6 +82,8 @@ function Setting() {
         acadlixOptions?.options?.acadlix_decimal_seprator ?? ".",
       acadlix_number_of_decimals:
         acadlixOptions?.options?.acadlix_number_of_decimals ?? 2,
+      acadlix_delete_data_on_plugin_uninstall:
+        acadlixOptions?.options?.acadlix_delete_data_on_plugin_uninstall ?? "no",
       // Payment option
       acadlix_razorpay_active:
         acadlixOptions?.options?.acadlix_razorpay_active ?? "no",

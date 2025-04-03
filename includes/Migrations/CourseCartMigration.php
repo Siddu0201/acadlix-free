@@ -4,26 +4,26 @@ namespace Yuvayana\Acadlix\Migrations;
 
 use Illuminate\Database\Capsule\Manager;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
-if(!class_exists('CourseCartMigration')){
+if (!class_exists('CourseCartMigration')) {
     class CourseCartMigration
     {
         public function up()
         {
-            if(!Manager::schema()->hasTable('acadlix_course_cart')){
-                Manager::schema()->create('acadlix_course_cart', function($table){
+            if (!Manager::schema()->hasTable('acadlix_course_cart')) {
+                Manager::schema()->create('acadlix_course_cart', function ($table) {
                     $table->bigIncrements('id');
-                    $table->string('cart_token')->nullable();
-                    $table->bigInteger('course_id')->nullable();
-                    $table->unsignedBigInteger('user_id');
+                    $table->string('cart_token')->nullable()->index();
+                    $table->bigInteger('course_id')->nullable()->index(); // Index for filtering courses
+                    $table->unsignedBigInteger('user_id')->nullable()->index(); // Index for user lookup
                     $table->integer('quantity')->default(1);
-                    $table->bigInteger('token_expiry')->nullable()->default(0);
+                    $table->bigInteger('token_expiry')->nullable()->default(0); // Index for expiring carts
                     $table->timestamps();
                 });
             }
         }
-    
+
         public function down()
         {
             Manager::schema()->dropIfExists('acadlix_course_cart');

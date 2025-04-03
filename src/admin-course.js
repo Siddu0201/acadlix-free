@@ -14,3 +14,9 @@ if (acadlixCourseSettingElement){
     const acadlixCourseSettingElementRoot = createRoot(acadlixCourseSettingElement);
     acadlixCourseSettingElementRoot.render(<AdminCourse type="settings"></AdminCourse>);
 }
+
+const acadlixCourseAiContentElement = document.getElementById('acadlix-admin-course-ai-content');
+if (acadlixCourseAiContentElement){
+    const acadlixCourseAiContentElementRoot = createRoot(acadlixCourseAiContentElement);
+    acadlixCourseAiContentElementRoot.render(<AdminCourse type="ai-content"></AdminCourse>);
+}

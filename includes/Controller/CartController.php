@@ -12,6 +12,7 @@ if (!class_exists("CartController")) {
 
         public function __construct()
         {
+            if(is_admin(  ))return;
             add_filter("template_include", [$this, 'template_loader'], 10);
         }
 

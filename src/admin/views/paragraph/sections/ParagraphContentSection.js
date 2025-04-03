@@ -1,5 +1,6 @@
 import {
   Alert,
+  Box,
   Card,
   CardContent,
   CardHeader,
@@ -8,6 +9,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
+import AiDescription from "../../../../modules/ai/AiDescription";
 
 const ParagraphContentSection = (props) => {
   const loadPage = () => {
@@ -35,24 +37,48 @@ const ParagraphContentSection = (props) => {
       <Card>
         <CardHeader
           title={
-            <Typography
-              sx={{
-                fontWeight: 500,
-                color: "black",
-                fontSize: "1.5rem",
-              }}
-            >
-              {__("Content", "acadlix")}
-              <span
-                style={{
-                  color: "red",
-                  display: props?.lang?.default ? "" : "none",
+            <Box sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2
+            }}>
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  color: "black",
+                  fontSize: "1.5rem",
                 }}
               >
-                *
-              </span>{" "}
-              ({props?.quiz?.languages?.find((l) => l?.term_id === props?.lang?.language_id)?.name})
-            </Typography>
+                {__("Content", "acadlix")}
+                <span
+                  style={{
+                    color: "red",
+                    display: props?.lang?.default ? "" : "none",
+                  }}
+                >
+                  *
+                </span>{" "}
+                ({props?.quiz?.languages?.find((l) => l?.term_id === props?.lang?.language_id)?.name})
+              </Typography>
+
+              {/* handle Ai for generating content */}
+              {/* <AiDescription
+                title={props?.watch("post_title") ?? ""}
+                type="paragraph"
+                language={props?.quiz?.languages?.find((l) => l?.term_id === props?.lang?.language_id)?.name ?? ""}
+                handleAddDescription={(value) => {
+                  if (window.tinymce) {
+                    const editor = window.tinymce.get(`content_${props?.lang?.language_id}`);
+                    if (editor && editor.getContent() !== value) {
+                      editor.setContent(value || "");
+                    }
+                  }
+                  props.setValue(`meta.language_data.${props?.index}.content`, value, {
+                    shouldDirty: true,
+                  });
+                }}
+              /> */}
+            </Box>
           }
         />
         <CardContent>

@@ -150,26 +150,32 @@ if (!class_exists('Course')) {
 
             // Delete course section children
             $courseSections = CourseSection::where('post_parent', $postId)->get();
-            foreach ($courseSections as $courseSection) {
-                CourseSection::deleteCourseSection($courseSection->ID);
+            if($courseSections->count() > 0){
+                foreach ($courseSections as $courseSection) {
+                    CourseSection::deleteCourseSection($courseSection->ID);
+                }
             }
 
             // Delete other course related data like user activity meta
-            $userMetas = UserActivityMeta::ofCourse()
+            UserActivityMeta::ofCourse()
                 ->where("type_id", $postId)
-                ->get();
-            foreach($userMetas as $userMeta){
-                $userMeta->delete();
-            }
+                ->delete();
+            // if($userMetas->count() > 0){
+            //     foreach($userMetas as $userMeta){
+            //         $userMeta->delete();
+            //     }
+            // }
 
             // Remove course id from order items
             OrderItem::softDeleteByCourseId($postId);
 
             // Remove cart items course
-            $courseCarts = CourseCart::where('course_id', $postId)->get();
-            foreach ($courseCarts as $courseCart) {
-                $courseCart->delete();
-            }
+            CourseCart::where('course_id', $postId)->delete();
+            // if($courseCarts->count() > 0){
+            //     foreach ($courseCarts as $courseCart) {
+            //         $courseCart->delete();
+            //     }
+            // }
 
             return true;
         }

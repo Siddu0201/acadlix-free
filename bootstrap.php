@@ -1,8 +1,8 @@
 <?php
 
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-}
+// if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+//     require_once __DIR__ . '/vendor/autoload.php';
+// }
 
 // function acadlix_load_all_classes() {
 //     $classMap = require __DIR__ . '/vendor/composer/autoload_classmap.php';

@@ -15,7 +15,7 @@ if(!class_exists('QuestionLangMigration')){
                 Manager::schema()->create('acadlix_question_lang', function($table){
                     $table->bigIncrements('id');
                     $table->foreignId('question_id')->constrained('acadlix_question')->cascadeOnDelete();
-                    $table->bigInteger('language_id')->nullable();
+                    $table->bigInteger('language_id')->nullable()->index();
                     $table->boolean('default')->default(0);
                     $table->text("question")->nullable();
                     $table->text("correct_msg")->nullable();

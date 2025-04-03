@@ -44,7 +44,10 @@ const Question = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" &&
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
+            }
             label={__("Activate", "acadlix")}
           />
           <Tooltip
@@ -76,7 +79,7 @@ const Question = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
+            disabled={props?.watch("meta.mode") === "advance_mode"}
             label={__("Activate", "acadlix")}
           />
         </GridItem1>
@@ -120,7 +123,7 @@ const Question = (props) => {
               label={__("Numeric", "acadlix")}
               checked={props?.watch("meta.quiz_settings.answer_bullet_type") === "numeric"}
               disabled={!props?.watch("meta.quiz_settings.answer_bullet")}
-              componentsProps={{
+              slotProps={{
                 typography: {
                   variant: "body2",
                 }
@@ -132,7 +135,7 @@ const Question = (props) => {
               label={__("Alphabet", "acadlix")}
               checked={props?.watch("meta.quiz_settings.answer_bullet_type") === "alphabet"}
               disabled={!props?.watch("meta.quiz_settings.answer_bullet")}
-              componentsProps={{
+              slotProps={{
                 typography: {
                   variant: "body2",
                 }
@@ -156,7 +159,7 @@ const Question = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
+            disabled={props?.watch("meta.mode") === "advance_mode"}
             label={__("Activate", "acadlix")}
           />
         </GridItem1>
@@ -272,7 +275,9 @@ const Question = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={props?.watch("meta.mode") === "advance_mode"}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode"
+            }
             label={__("Activate", "acadlix")}
           />
         </GridItem1>
@@ -287,7 +292,9 @@ const Question = (props) => {
               <CustomSwitch />
             }
             checked={props?.watch("meta.quiz_settings.attempt_and_move_forward") ?? false}
-            disabled={["question_below_each_other", "check_and_continue"].includes(props?.watch("meta.mode"))}
+            disabled={
+              ["question_below_each_other", "check_and_continue", "advance_mode"].includes(props?.watch("meta.mode"))
+            }
             onChange={(e) => {
               props?.setValue(
                 "meta.quiz_settings.attempt_and_move_forward",
@@ -330,7 +337,10 @@ const Question = (props) => {
                 { shouldDirty: true }
               );
             }}
-            disabled={props?.watch("meta.mode") === "advance_mode" && props?.watch("meta.advance_mode_type") !== "advance_panel"}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" && 
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
+            }
             label={__("Activate", "acadlix")}
           />
         </GridItem1>

@@ -6,7 +6,6 @@ use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
 use Yuvayana\Acadlix\Models\OrderItem;
 use Yuvayana\Acadlix\Models\UserActivityMeta;
-use Yuvayana\Acadlix\Models\WpPosts;
 
 defined('ABSPATH') || exit();
 

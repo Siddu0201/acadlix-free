@@ -448,36 +448,43 @@ if (!class_exists('Quiz')) {
             }
 
             // Delete Question
-            $question = Question::where("quiz_id", $postId)->get();
-            foreach ($question as $q) {
-                $q->delete();
-            }
+            Question::where("quiz_id", $postId)->delete();
+            // if($question->count() > 0)
+            // {
+            //     foreach ($question as $q) {
+            //         $q->delete();
+            //     }
+            // }
 
             // Delete Paragraph
             $paragraph = Paragraph::where("post_parent", $postId)->get();
-            foreach ($paragraph as $p) {
-                Paragraph::deleteParagraph($p->ID);
+            if($paragraph->count() > 0){
+                foreach ($paragraph as $p) {
+                    Paragraph::deleteParagraph($p->ID);
+                }
             }
 
             // Delete Statistic
-            $statistic_ref = StatisticRef::where("quiz_id", $postId)->get();
-            foreach ($statistic_ref as $sr) {
-                $sr->delete();
-            }
+            StatisticRef::where("quiz_id", $postId)->delete();
+            // if($statistic_ref->count() > 0)
+            //     foreach ($statistic_ref as $sr) {
+            //         $sr->delete();
+            //     }
+            // }
 
             // Delete Toplist
-            $toplist = Toplist::where("quiz_id", $postId)->get();
-            foreach ($toplist as $t) {
-                $t->delete();
-            }
+            Toplist::where("quiz_id", $postId)->delete();
+            // foreach ($toplist as $t) {
+            //     $t->delete();
+            // }
 
             // Delete User Meta Activity data
-            $userMetas = UserActivityMeta::ofQuiz()
+            UserActivityMeta::ofQuiz()
                 ->where("type_id", $postId)
-                ->get();
-            foreach ($userMetas as $userMeta) {
-                $userMeta->delete();
-            }
+                ->delete();
+            // foreach ($userMetas as $userMeta) {
+            //     $userMeta->delete();
+            // }
 
             // Delete Course Section Content
             $courseSectionContent = new CourseSectionContent();

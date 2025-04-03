@@ -42,8 +42,35 @@ class Submenu_Quiz
 
     public function admin_print_scripts()
     {
+        // $manifest = include ACADLIX_PLUGIN_DIR . 'build/manifest.php';
+
+        // if (!isset($manifest['admin_quiz.js'])) {
+        //     return; // Avoid errors if the manifest is missing or incorrect
+        // }
+
+        // $adminManifest = $manifest['admin_quiz.js'];
+
         $current_user = wp_get_current_user();
         $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
+        // if (!empty($adminManifest['imports'])) {
+        //     foreach ($adminManifest['imports'] as $importScript) {
+        //         wp_enqueue_script(
+        //             sanitize_title($importScript),
+        //             ACADLIX_PLUGIN_URL . "build/$importScript",
+        //             [],
+        //             null,
+        //             true
+        //         );
+        //     }
+        // }
+        // wp_enqueue_script(
+        //     'acadlix-admin-quiz',
+        //     ACADLIX_PLUGIN_URL . 'build/admin_quiz.js',
+        //     !empty($adminManifest['imports']) ? array_map(fn($s) => sanitize_title($s), $adminManifest['imports']) : [],
+        //     null,
+        //     true
+        // );
 
         wp_enqueue_editor();
         wp_enqueue_media();

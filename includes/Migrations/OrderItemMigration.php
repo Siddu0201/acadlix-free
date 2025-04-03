@@ -14,7 +14,7 @@ if(!class_exists('OrderItemMigration')){
             if(!Manager::schema()->hasTable('acadlix_order_items')){
                 Manager::schema()->create('acadlix_order_items', function($table){
                     $table->bigIncrements('id');
-                    $table->bigInteger('course_id')->nullable();
+                    $table->bigInteger('course_id')->nullable()->index();
                     $table->foreignId('order_id')->constrained('acadlix_orders')->cascadeOnDelete();
                     $table->string('course_title')->nullable();
                     $table->integer('quantity')->nullable()->default(1);

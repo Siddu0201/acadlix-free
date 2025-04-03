@@ -505,6 +505,7 @@ if (!class_exists('Helper')) {
                 'acadlix_thousand_separator' => ",",
                 'acadlix_decimal_seprator' => ".",
                 'acadlix_number_of_decimals' => 2,
+                'acadlix_delete_data_on_plugin_uninstall' => "no",  
                 // Payment option
                 'acadlix_razorpay_active' => "no",
                 'acadlix_razorpay_client_id' => "",
@@ -640,6 +641,24 @@ if (!class_exists('Helper')) {
             }
 
             return '';
+        }
+
+        public function acadlix_preload_scripts($script = '')
+        {
+            $manifest_path = ACADLIX_BUILD_PATH . '/manifest.php';
+
+            if (file_exists($manifest_path)) {
+                $manifest = include $manifest_path;
+
+                // Preload dependencies
+                if(!empty($script) && is_array($manifest[$script]['imports'])){ 
+                    foreach ($manifest[$script]['imports'] as $name => $file) {
+                        if (strpos($name, 'vendor-') === 0) {
+                            echo '<link rel="preload" as="script" href="' . ACADLIX_BUILD_URL . esc_attr($file) . '">' . "\n";
+                        }
+                    }
+                }
+            }
         }
 
         public static function instance()

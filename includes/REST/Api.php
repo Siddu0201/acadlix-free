@@ -33,6 +33,9 @@ use Yuvayana\Acadlix\REST\Front\FrontUserController;
 // Upoad API Controller
 use Yuvayana\Acadlix\REST\Upload\UploadQuizController;
 
+// AI API Controller
+use Yuvayana\Acadlix\REST\AI\AICommonController;
+
 defined( 'ABSPATH' ) || exit();
 
 #[\AllowDynamicProperties] class Api {
@@ -83,6 +86,9 @@ defined( 'ABSPATH' ) || exit();
 
                 // Upload Controllers
                 UploadQuizController::class,
+
+                // AI Controllers
+                AICommonController::class
             ]
         );
 

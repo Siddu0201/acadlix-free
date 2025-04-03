@@ -17,23 +17,23 @@ import { __ } from "@wordpress/i18n";
 const QuizModeSection = (props) => {
   const setAdvanceModeDefaultSettings = () => {
     // default general setting
-    props?.setValue("meta.quiz_settings.hide_quiz_title", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.hide_quiz_title", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.hide_restart_button", true, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.show_review_button", true, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.quiz_timing_type", "full_quiz_time", {
       shouldDirty: true,
     });
-    props?.setValue("meta.quiz_settings.show_review_button", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.prerequisite", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.enable_login_register", true, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.login_register_type", "at_start_of_quiz", {
       shouldDirty: true,
     });
-    props?.setValue("meta.quiz_settings.save_statistic", true, { shouldDirty: true });
-
+    // props?.setValue("meta.quiz_settings.prerequisite", false, { shouldDirty: true });
+    props?.setValue("meta.quiz_settings.enable_check_button", false, { shouldDirty: true });
+    
     // default question setting
+    // props?.setValue("meta.quiz_settings.skip_question", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.show_marks", true, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.display_subject", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.skip_question", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.answer_bullet", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.question_overview", true, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.question_overview", true, { shouldDirty: true });
@@ -41,30 +41,34 @@ const QuizModeSection = (props) => {
     props?.setValue("meta.quiz_settings.sort_by_subject", true, {
       shouldDirty: true,
     });
+    props?.setValue("meta.quiz_settings.attempt_and_move_forward", false, {
+      shouldDirty: true,
+    });
     props?.setValue("meta.quiz_settings.force_user_to_answer_each_question", false, {
       shouldDirty: true,
     });
-
+    
     // default result setting
-    props?.setValue("meta.quiz_settings.hide_result", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.hide_negative_marks", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.hide_quiz_time", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_speed", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_percentile", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_accuracy", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_rank", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_average_score", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_subject_wise_analysis", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_marks_distribution", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_status_based_on_min_percent", false, {
-      shouldDirty: true,
-    });
-    props?.setValue("meta.quiz_settings.result_comparision_with_top_five_student", false, {
-      shouldDirty: true,
-    });
-    props?.setValue("meta.quiz_settings.hide_answer_sheet", false, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.show_per_question_time", true, { shouldDirty: true });
-    props?.setValue("meta.quiz_settings.leaderboard", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.save_statistic", true, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.hide_result", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.hide_negative_marks", true, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.hide_quiz_time", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_speed", true, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_percentile", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_accuracy", true, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_rank", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_average_score", true, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_subject_wise_analysis", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_marks_distribution", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_status_based_on_min_percent", false, {
+    //   shouldDirty: true,
+    // });
+    // props?.setValue("meta.quiz_settings.result_comparision_with_top_five_student", false, {
+    //   shouldDirty: true,
+    // });
+    // props?.setValue("meta.quiz_settings.hide_answer_sheet", false, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.show_per_question_time", true, { shouldDirty: true });
+    // props?.setValue("meta.quiz_settings.leaderboard", false, { shouldDirty: true });
   };
 
   return (

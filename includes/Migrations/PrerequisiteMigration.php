@@ -15,11 +15,14 @@ if(!class_exists('PrerequisiteMigration')){
                 Manager::schema()->create('acadlix_prerequisite', function($table){
                     $table->bigIncrements('id');
                     $table->string('type')->nullable();
-                    $table->bigInteger('type_id')->nullable();
+                    $table->bigInteger('type_id')->nullable()->index();
                     $table->string('prerequisite_type')->nullable();
-                    $table->bigInteger('prerequisite_id')->nullable();
+                    $table->bigInteger('prerequisite_id')->nullable()->index();
                     $table->text("meta")->nullable();
                     $table->timestamps();
+
+                    $table->index(['type', 'type_id']);
+                    $table->index(['prerequisite_type', 'prerequisite_id']);
                 });
             }
         }

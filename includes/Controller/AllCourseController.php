@@ -12,6 +12,7 @@ if (!class_exists("AllCourseController")) {
 
         public function __construct()
         {
+            if(is_admin(  ))return;
             add_action('wp_enqueue_scripts', [$this, 'enqueue_front_all_course']);
 
             add_filter("template_include", [$this, 'template_loader'], 10);

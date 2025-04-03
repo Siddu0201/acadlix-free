@@ -14,7 +14,7 @@ if(!class_exists('QuizShortcodeMigration')){
             if(!Manager::schema()->hasTable('acadlix_quiz_shortcode')){
                 Manager::schema()->create('acadlix_quiz_shortcode', function($table){
                     $table->bigIncrements('id');
-                    $table->bigInteger('quiz_id')->nullable();
+                    $table->bigInteger('quiz_id')->nullable()->index();
                 });
             }
         }

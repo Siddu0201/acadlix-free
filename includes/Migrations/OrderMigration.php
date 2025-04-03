@@ -14,8 +14,8 @@ if(!class_exists('OrderMigration')){
             if(!Manager::schema()->hasTable('acadlix_orders')){
                 Manager::schema()->create('acadlix_orders', function($table){
                     $table->bigIncrements('id');
-                    $table->unsignedBigInteger('user_id');
-                    $table->string('status')->nullable()->default('pending');
+                    $table->unsignedBigInteger('user_id')->index();
+                    $table->string('status')->nullable()->default('pending')->index();
                     $table->float('extra_charges')->nullable()->default(0);
                     $table->float('total_amount')->nullable()->default(0);
                     $table->timestamps();

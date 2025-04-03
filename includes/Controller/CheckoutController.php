@@ -13,6 +13,7 @@ if (!class_exists("CheckoutController")) {
 
         public function __construct()
         {
+            if(is_admin(  ))return;
             add_filter("template_include", [$this, 'template_loader'], 10);
             add_action("wp_enqueue_scripts", [$this, 'enqueue_front_checkout']);
         }

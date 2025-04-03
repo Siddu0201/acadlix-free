@@ -2,9 +2,13 @@
 
 namespace Yuvayana\Acadlix\Admin;
 
+use Yuvayana\Acadlix\Models\Course;
 use Yuvayana\Acadlix\Models\CourseCart;
 
 use WP_User;
+use Yuvayana\Acadlix\Models\Lesson;
+use Yuvayana\Acadlix\Models\Paragraph;
+use Yuvayana\Acadlix\Models\Quiz;
 use Yuvayana\Acadlix\Models\StatisticRef;
 use Yuvayana\Acadlix\Models\Toplist;
 use Yuvayana\Acadlix\Models\UserActivityMeta;
@@ -70,7 +74,7 @@ class Core
                         'meta_value' => $userQuiz->meta_value + $userActivityMetas->meta_value
                     ]);
                     $userActivityMetas->delete();
-                }else{
+                } else {
                     $userActivityMetas->update([
                         'user_token' => null,
                         'user_id' => $user->ID
@@ -116,6 +120,65 @@ class Core
             $use_block_editor = false;
         }
         return $use_block_editor;
+    }
+
+    public static function acadlix_delete_post_type_data()
+    {
+        global $wpdb;
+        $post_types = [
+            ACADLIX_COURSE_CPT,
+            ACADLIX_QUIZ_CPT,
+            ACADLIX_LESSON_CPT,
+            ACADLIX_PARAGRAPH_CPT
+        ];
+        foreach ($post_types as $post_type) {
+            // Get all post IDs of this post type
+            $post_ids = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", $post_type));
+
+            if (!empty($post_ids)) {
+                foreach ($post_ids as $post_id) {
+                    switch ($post_type) {
+                        case ACADLIX_COURSE_CPT:
+                            Course::deleteCourse($post_id);
+                            wp_delete_post($post_id, true);
+                            break;
+                        case ACADLIX_QUIZ_CPT:
+                            Quiz::deleteQuiz($post_id);
+                            break;
+                        case ACADLIX_LESSON_CPT:
+                            Lesson::deleteLesson($post_id);
+                            break;
+                        case ACADLIX_PARAGRAPH_CPT:
+                            Paragraph::deleteParagraph($post_id);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            unregister_post_type( $post_type );
+        }
+
+        $taxonomies = [
+            ACADLIX_COURSE_CATEGORY_TAXONOMY,
+            ACADLIX_COURSE_TAG_TAXONOMY,
+            ACADLIX_QUIZ_CATEGORY_TAXONOMY,
+            ACADLIX_QUIZ_LANGUAGE_TAXONOMY
+        ];
+        foreach($taxonomies as $taxonomy) {
+            $terms = get_terms([
+                'taxonomy'   => $taxonomy,
+                'hide_empty' => false,
+            ]);
+        
+            if (!is_wp_error($terms) && !empty($terms)) {
+                foreach ($terms as $term) {
+                    wp_delete_term($term->term_id, $taxonomy);
+                }
+            }
+            unregister_taxonomy($taxonomy);
+        }
     }
 
     public static function instance()

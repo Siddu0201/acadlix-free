@@ -31,14 +31,42 @@ const QuizQuestionTypeAndMarks = (props) => {
         display: "flex",
         padding: 1,
         backgroundColor: props?.colorCode?.question_type_background,
+        justifyContent: "space-between",
+        alignItems: "center"
       }}>
       <Box>
         <Typography variant="subtitle2" sx={{
           fontSize: 12,
         }}>
-          {__("Question Type:", "acadlix")} {answerType()} 
+          {__("Question Type:", "acadlix")} {answerType()}
         </Typography>
       </Box>
+      {
+        props?.watch("show_marks") &&
+        <Box sx={{
+          display: "flex",
+          gap: 2
+        }}>
+          <Box sx={{
+            backgroundColor: props?.colorCode?.correct,
+            borderRadius: (theme) => theme?.shape,
+            paddingX: 2,
+            paddingY: 1 / 2,
+            color: props?.colorCode?.points_color
+          }}><Typography variant="subtitle2">
+              +{selectedQuestion?.points}
+            </Typography></Box>
+          <Box sx={{
+            backgroundColor: props?.colorCode?.incorrect,
+            borderRadius: (theme) => theme?.shape,
+            paddingX: 2,
+            paddingY: 1 / 2,
+            color: props?.colorCode?.negative_points_color
+          }}><Typography variant="subtitle2">
+              -{selectedQuestion?.negative_points}
+            </Typography></Box>
+        </Box>
+      }
     </Box>
   )
 }

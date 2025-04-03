@@ -60,10 +60,10 @@ const Result = (props) => {
                 });
               }
             }}
-            disabled={
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
-            }
+            // disabled={
+            //   (props?.watch("meta.mode") === "advance_mode" &&
+            //     props?.watch("meta.advance_mode_type") !== "advance_panel")
+            // }
             label={__("Activate", "acadlix")}
           />
           <Tooltip title={__("Used to save statistic", "acadlix")}>
@@ -171,10 +171,10 @@ const Result = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={
-              props?.watch("meta.mode") === "advance_mode" &&
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
-            }
+            // disabled={
+            //   props?.watch("meta.mode") === "advance_mode" &&
+            //   props?.watch("meta.advance_mode_type") !== "advance_panel"
+            // }
             label={__("Activate", "acadlix")}
           />
         </GridItem1>
@@ -199,9 +199,10 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -223,9 +224,10 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -248,9 +250,10 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -272,9 +275,11 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel") ||
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel") 
+                ||
               !props?.watch("meta.quiz_settings.save_statistic")
             }
           />
@@ -297,9 +302,10 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -321,9 +327,11 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel") ||
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel") 
+                ||
               !props?.watch("meta.quiz_settings.save_statistic")
             }
           />
@@ -349,9 +357,10 @@ const Result = (props) => {
             }
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -382,9 +391,10 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_result") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_result") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -458,10 +468,10 @@ const Result = (props) => {
               });
             }}
             label={__("Activate", "acadlix")}
-            disabled={
-              props?.watch("meta.mode") === "advance_mode" &&
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
-            }
+            // disabled={
+            //   props?.watch("meta.mode") === "advance_mode" &&
+            //   props?.watch("meta.advance_mode_type") !== "advance_panel"
+            // }
           />
         </GridItem1>
 
@@ -484,9 +494,10 @@ const Result = (props) => {
             }}
             label={__("Activate", "acadlix")}
             disabled={
-              props?.watch("meta.quiz_settings.hide_answer_sheet") ||
-              (props?.watch("meta.mode") === "advance_mode" &&
-                props?.watch("meta.advance_mode_type") !== "advance_panel")
+              props?.watch("meta.quiz_settings.hide_answer_sheet") 
+              // ||
+              // (props?.watch("meta.mode") === "advance_mode" &&
+              //   props?.watch("meta.advance_mode_type") !== "advance_panel")
             }
           />
         </GridItem1>
@@ -543,10 +554,10 @@ const Result = (props) => {
               }
             }}
             label={__("Activate", "acadlix")}
-            disabled={
-              props?.watch("meta.mode") === "advance_mode" &&
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
-            }
+            // disabled={
+            //   props?.watch("meta.mode") === "advance_mode" &&
+            //   props?.watch("meta.advance_mode_type") !== "advance_panel"
+            // }
           />
         </GridItem1>
 
@@ -726,7 +737,7 @@ const Result = (props) => {
                   "do_not_display"
                 }
                 disabled={!props?.watch("meta.quiz_settings.leaderboard")}
-                componentsProps={{
+                slotProps={{
                   typography: {
                     variant: "body2",
                   }
@@ -741,7 +752,7 @@ const Result = (props) => {
                   "below_the_result"
                 }
                 disabled={!props?.watch("meta.quiz_settings.leaderboard")}
-                componentsProps={{
+                slotProps={{
                   typography: {
                     variant: "body2",
                   }
@@ -756,7 +767,7 @@ const Result = (props) => {
                   "in_the_button"
                 }
                 disabled={!props?.watch("meta.quiz_settings.leaderboard")}
-                componentsProps={{
+                slotProps={{
                   typography: {
                     variant: "body2",
                   }
