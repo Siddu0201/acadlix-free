@@ -11,7 +11,7 @@ const AiResultFeedback = ({
     return (
         <Box>
             <Typography variant='h6'>
-                {__('Response', 'acadlix')}
+                {__('AI-Powered Insights: Personalized Feedback & Suggestions', 'acadlix')}
             </Typography>
             {
                 isPending &&

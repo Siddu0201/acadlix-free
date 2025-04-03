@@ -105,15 +105,7 @@ class AICommonController
         $totalQuestion = $request->get_param('total_question') ?? 0;
         $result = $request->get_param('result') ?? 0;
         $prompt = $request->get_param('prompt') ?? "";
-        // return rest_ensure_response(AiHelper::instance()->getResultFeedbackUserInput(
-        //     $quizTitle,
-        //     $questions,            
-        //     $correctCount,
-        //     $incorrectCount,            
-        //     $skippedCount,
-        //     $totalQuestion,
-        //     $result
-        // ));
+        
         $ai = new Ai();
         $suggestions = $ai->getSuggestions(
             AiHelper::instance()->getResultFeedbackInstruction(),
