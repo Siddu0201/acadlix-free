@@ -14,7 +14,8 @@ import CustomButton from "../../normalMode/normal-quiz-component/CustomButton";
 import AdvanceLanguageSection from "./AdvanceLanguageSection";
 import { __ } from "@wordpress/i18n";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const AdvanceViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -369,17 +370,17 @@ const ViewQuestionSection = (props) => {
                   props?.question?.paragraph_id !== null && (
                     <Box>
                       <Typography component="div">
-                        <Latex>
+                        <CustomLatex>
                           {lang?.paragraph}
-                        </Latex>
+                        </CustomLatex>
                       </Typography>
                       <Divider />
                     </Box>
                   )}
                 <Typography component="div">
-                  <Latex>
+                  <CustomLatex>
                     {lang?.question}
-                  </Latex>
+                  </CustomLatex>
                 </Typography>
                 {answerType(lang, lang_index)}
               </Card>
@@ -446,9 +447,9 @@ const ViewQuestionSection = (props) => {
                     </Box>
                     <Box>
                       <Typography component="div">
-                        <Latex>
+                        <CustomLatex>
                           {lang?.correct_msg}
-                        </Latex>
+                        </CustomLatex>
                       </Typography>
                     </Box>
                   </Box>
@@ -478,11 +479,11 @@ const ViewQuestionSection = (props) => {
                     </Box>
                     <Box>
                       <Typography component="div">
-                        <Latex>
+                        <CustomLatex>
                           {props?.question?.different_incorrect_msg
                             ? lang?.incorrect_msg
                             : lang?.correct_msg}
-                        </Latex>
+                        </CustomLatex>
                       </Typography>
                     </Box>
                   </Box>
@@ -512,11 +513,11 @@ const ViewQuestionSection = (props) => {
                   </Box>
                   <Box>
                     <Typography component="div">
-                      <Latex>
+                      <CustomLatex>
                         {props?.question?.different_incorrect_msg
                           ? lang?.incorrect_msg
                           : lang?.correct_msg}
-                      </Latex>
+                      </CustomLatex>
                     </Typography>
                   </Box>
                 </Box>

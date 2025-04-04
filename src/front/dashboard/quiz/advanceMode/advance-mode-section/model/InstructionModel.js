@@ -11,7 +11,8 @@ import React from "react";
 import { IoClose } from "../../../../../../helpers/icons";
 import InstructionLanguage from "../../advance-instruction-section/InstructionLanguage";
 import { __ } from "@wordpress/i18n";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../../modules/latex/CustomLatex";
 
 const InstructionModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -101,9 +102,9 @@ const InstructionModel = (props) => {
                     display: l?.selected ? "" : "none",
                   }}
                 >
-                  <Latex>
+                  <CustomLatex>
                     {l?.instruction1}
-                  </Latex>
+                  </CustomLatex>
                 </Box>
               ))}
             <Box
@@ -130,9 +131,9 @@ const InstructionModel = (props) => {
                     display: l?.selected ? "" : "none",
                   }}
                 >
-                  <Latex>
+                  <CustomLatex>
                     {l?.instruction2}
-                  </Latex>
+                  </CustomLatex>
                 </Box>
               ))}
           </Box>

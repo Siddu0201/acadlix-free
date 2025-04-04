@@ -15,6 +15,7 @@ import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 import Latex from 'react-latex-next';
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const QuestionSection = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -154,17 +155,17 @@ const QuestionSection = (props) => {
                   props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null &&
                   <Box>
                     <Typography component="div">
-                      <Latex>
+                      <CustomLatex>
                         {lang?.paragraph}
-                      </Latex>
+                      </CustomLatex>
                     </Typography>
                     <Divider />
                   </Box>
                 }
                 <Typography component="div">
-                  <Latex>
+                  <CustomLatex>
                       {lang?.question}
-                  </Latex>
+                  </CustomLatex>
                 </Typography>
                 {answerType(lang, lang_index)}
               </Box>

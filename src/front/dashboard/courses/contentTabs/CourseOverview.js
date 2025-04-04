@@ -1,14 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../modules/latex/CustomLatex";
 
 const CourseOverview = (props) => {
   return (
     <Box>
       <Typography component={"div"}>
-        <Latex>
+        <CustomLatex>
           {props?.watch("course_content")}
-        </Latex>
+        </CustomLatex>
       </Typography>
     </Box>
   );

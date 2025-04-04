@@ -21,7 +21,8 @@ import { Avatar, Box, Chip, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../modules/latex/CustomLatex";
 
 const TypeSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -176,9 +177,9 @@ const TypeSortingChoice = (props) => {
                       margin: `0 !important`,
                     }}
                   >
-                    <Latex>
+                    <CustomLatex>
                       {item?.option}
-                    </Latex>
+                    </CustomLatex>
                   </ListItem>
                 ))}
             </List>
@@ -201,9 +202,9 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
         cursor: "move",
       }}
     >
-      <Latex>
+      <CustomLatex>
         {id}
-      </Latex>
+      </CustomLatex>
     </ListItem>
   );
 });
@@ -249,9 +250,9 @@ const SortableItem = (props) => {
       {...attributes}
       {...listeners}
     >
-      <Latex>
+      <CustomLatex>
         {props?.item?.option}
-      </Latex>
+      </CustomLatex>
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <Box

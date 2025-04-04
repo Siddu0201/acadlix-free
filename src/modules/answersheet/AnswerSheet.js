@@ -16,7 +16,8 @@ import LanguageSection from "../../front/dashboard/quiz/normalMode/normal-quiz-s
 import QuestionStatusSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import PropTypes from "prop-types";
 import TypeFreeChoice from "../../front/dashboard/quiz/questionTypes/TypeFreeChoice";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../latex/CustomLatex";
 
 const AnswerSheet = ({
     statistic = [],
@@ -412,17 +413,17 @@ const ViewQuestionSection = (props) => {
                                     props?.question?.paragraph_id !== null && (
                                         <Box>
                                             <Typography component="div">
-                                                <Latex>
+                                                <CustomLatex>
                                                     {lang?.paragraph}
-                                                </Latex>
+                                                </CustomLatex>
                                             </Typography>
                                             <Divider />
                                         </Box>
                                     )}
                                 <Typography component="div">
-                                    <Latex>
+                                    <CustomLatex>
                                         {lang?.question}
-                                    </Latex>
+                                    </CustomLatex>
                                 </Typography>
                                 {answerType(lang, lang_index)}
                             </Box>
@@ -455,9 +456,9 @@ const ViewQuestionSection = (props) => {
                                         </Box>
                                         <Box>
                                             <Typography component="div">
-                                                <Latex>
+                                                <CustomLatex>
                                                     {lang?.correct_msg}
-                                                </Latex>
+                                                </CustomLatex>
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -487,11 +488,11 @@ const ViewQuestionSection = (props) => {
                                         </Box>
                                         <Box>
                                             <Typography component="div">
-                                                <Latex>
+                                                <CustomLatex>
                                                     {props?.question?.different_incorrect_msg
                                                         ? lang?.incorrect_msg
                                                         : lang?.correct_msg}
-                                                </Latex>
+                                                </CustomLatex>
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -521,11 +522,11 @@ const ViewQuestionSection = (props) => {
                                     </Box>
                                     <Box>
                                         <Typography component="div">
-                                            <Latex>
+                                            <CustomLatex>
                                                 {props?.question?.different_incorrect_msg
                                                     ? lang?.incorrect_msg
                                                     : lang?.correct_msg}
-                                            </Latex>
+                                            </CustomLatex>
                                         </Typography>
                                     </Box>
                                 </Box>

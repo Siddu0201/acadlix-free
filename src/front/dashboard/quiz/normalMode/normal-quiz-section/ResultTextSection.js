@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const ResultTextSection = (props) => {
   const getGradeText = (result_array = [], percent = 0) => {
@@ -8,7 +9,7 @@ const ResultTextSection = (props) => {
 
     for (let i = 0; i < sortedGrades.length; i++) {
       if (percent >= sortedGrades[i].percent) {
-        return (<Latex>{sortedGrades[i].text}</Latex>);
+        return (<CustomLatex>{sortedGrades[i].text}</CustomLatex>);
       }
     }
     return;
@@ -26,9 +27,9 @@ const ResultTextSection = (props) => {
             ?
             getGradeText(props?.watch("result_text"), props?.percent)
             :
-            <Latex>
+            <CustomLatex>
               {props?.watch("result_text")}
-            </Latex>
+            </CustomLatex>
         }
       </Typography>
     </Box>

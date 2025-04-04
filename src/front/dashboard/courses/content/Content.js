@@ -5,7 +5,8 @@ import AppFront from "../../../AppFront";
 import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
 import { PostUpdateLessonTime } from "../../../../requests/front/FrontDashboardRequest";
 import { getVimeoVideoId, getYouTubeVideoId } from "../../../../helpers/util";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../modules/latex/CustomLatex";
 
 const Content = (props) => {
   useEffect(() => {
@@ -340,9 +341,9 @@ const LessonTextContent = (props) => {
         overflowY: "auto",
       }}
     >
-      <Latex>
+      <CustomLatex>
         {props?.c?.content}
-      </Latex>
+      </CustomLatex>
     </Box>
   );
 };

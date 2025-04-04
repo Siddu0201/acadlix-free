@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const AdvanceResultText = (props) => {
   const findResultIndex = (result_array = [], percent = 0) => {
@@ -28,15 +29,15 @@ const AdvanceResultText = (props) => {
       <Typography component="div">
         {props?.watch("percent_based_result_text")
           ?
-          <Latex>
+          <CustomLatex>
             {props?.watch("result_text")?.[
               findResultIndex(props?.watch("result_text"), props?.percent)
             ]?.text}
-          </Latex>
+          </CustomLatex>
           :
-          <Latex>
+          <CustomLatex>
             {props?.watch("result_text")}
-          </Latex>
+          </CustomLatex>
         }
       </Typography>
     </Box>

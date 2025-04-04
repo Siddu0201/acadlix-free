@@ -3,7 +3,8 @@ import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../modules/latex/CustomLatex";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;
@@ -140,7 +141,7 @@ const TypeFill = (props) => {
                   />
                 );
               }
-              return (<Latex>{data}</Latex>);
+              return (<CustomLatex>{data}</CustomLatex>);
             })}
         </Box>
         {(props?.watch("view_answer") ||
@@ -217,7 +218,7 @@ const TypeFill = (props) => {
                     </React.Fragment>
                   );
                 }
-                return (<Latex>{data}</Latex>);
+                return (<CustomLatex>{data}</CustomLatex>);
               })}
           </Box>
         </>

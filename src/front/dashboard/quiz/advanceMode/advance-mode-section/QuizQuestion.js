@@ -10,7 +10,8 @@ import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const QuizQuestion = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -144,9 +145,9 @@ const QuizQuestion = (props) => {
                       paddingRight: 1,
                     }}>
                       <Typography component="div">
-                        <Latex>
+                        <CustomLatex>
                           {lang?.paragraph}
-                        </Latex>
+                        </CustomLatex>
                       </Typography>
                     </Grid>
                   )}
@@ -158,9 +159,9 @@ const QuizQuestion = (props) => {
                       paddingX: 2,
                     }}
                   >
-                    <Latex>
+                    <CustomLatex>
                       {lang?.question}
-                    </Latex>
+                    </CustomLatex>
                   </Typography>
                   {answerType(lang, lang_index)}
                 </Grid>

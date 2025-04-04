@@ -1,7 +1,8 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const HintAndMessageSection = (props) => {
   const theme = useTheme();
@@ -30,9 +31,9 @@ const HintAndMessageSection = (props) => {
         </Box>
         <Box>
           <Typography component="div">
-            <Latex>
+            <CustomLatex>
               {props?.lang?.hint_msg}
-            </Latex>
+            </CustomLatex>
           </Typography>
         </Box>
       </Box>
@@ -56,9 +57,9 @@ const HintAndMessageSection = (props) => {
             </Box>
             <Box>
               <Typography component="div">
-                <Latex>
+                <CustomLatex>
                   {props?.lang?.correct_msg}
-                </Latex>
+                </CustomLatex>
               </Typography>
             </Box>
           </Box>
@@ -87,11 +88,11 @@ const HintAndMessageSection = (props) => {
             </Box>
             <Box>
               <Typography component="div">
-                <Latex>
+                <CustomLatex>
                   {props?.question?.different_incorrect_msg
                     ? props?.lang?.incorrect_msg
                     : props?.lang?.correct_msg}
-                </Latex>
+                </CustomLatex>
               </Typography>
             </Box>
           </Box>

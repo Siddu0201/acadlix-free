@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../modules/latex/CustomLatex";
 
 const TypeMultipleChoice = (props) => {
   const handleChange = (e) => {
@@ -141,9 +142,9 @@ const TypeMultipleChoice = (props) => {
                   }}
                 >
                   <Typography component="div">
-                    <Latex>
+                    <CustomLatex>
                       {data?.option}
-                    </Latex>
+                    </CustomLatex>
                     </Typography>
                   <Box
                     sx={{

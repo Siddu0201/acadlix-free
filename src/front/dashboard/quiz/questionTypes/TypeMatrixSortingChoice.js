@@ -19,7 +19,8 @@ import { Avatar, Box, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
 import { RxCross2, TiTick } from "../../../../helpers/icons";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../modules/latex/CustomLatex";
 
 const TypeMatrixSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -305,9 +306,9 @@ const TypeMatrixSortingChoice = (props) => {
                 }}
               >
                 <Typography component="span">
-                  <Latex>
+                  <CustomLatex>
                     {item?.criteria}
-                  </Latex>
+                  </CustomLatex>
                 </Typography>
               </Box>
               <DroppableItem
@@ -399,9 +400,9 @@ const TypeMatrixSortingChoice = (props) => {
                     }}
                   >
                     <Typography component="span">
-                      <Latex>
+                      <CustomLatex>
                         {item?.criteria}
-                      </Latex>
+                      </CustomLatex>
                     </Typography>
                   </Box>
                   <List sx={{
@@ -418,9 +419,9 @@ const TypeMatrixSortingChoice = (props) => {
                         margin: `0 !important`,
                       }}
                     >
-                      <Latex>
+                      <CustomLatex>
                         {item?.element}
-                      </Latex>
+                      </CustomLatex>
                     </ListItem>
                   </List>
                 </ListItem>
@@ -445,9 +446,9 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
         margin: `0 !important`,
       }}
     >
-      <Latex>
+      <CustomLatex>
         {props?.element}
-      </Latex>
+      </CustomLatex>
     </ListItem>
   );
 });
@@ -485,9 +486,9 @@ const SortableItem = (props) => {
       {...attributes}
       {...listeners}
     >
-      <Latex>
+      <CustomLatex>
         {props?.element}
-      </Latex>
+      </CustomLatex>
     </ListItem>
   );
 };

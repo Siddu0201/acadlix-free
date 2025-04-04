@@ -6,8 +6,9 @@ import UserAuth from "../../../../../modules/user-auth/UserAuth";
 import { deleteCookie, getCookie, setCookie } from "../../../../../helpers/cookie";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
-import Latex from "react-latex-next";
+
 import { RawHTML } from "@wordpress/element";
+import CustomLatex from "../../../../../modules/latex/CustomLatex";
 
 const DescriptionSection = (props) => {
   const rand = function () {
@@ -159,9 +160,9 @@ const DescriptionSection = (props) => {
           sx={{ marginY: "9px !important" }}
           component="div"
         >
-          <Latex>
+          <CustomLatex>
             {props?.watch("description")}
-          </Latex>
+          </CustomLatex>
         </Typography>
       }
       <CustomButton

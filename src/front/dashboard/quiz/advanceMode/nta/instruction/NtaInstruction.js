@@ -4,7 +4,8 @@ import NtaTopHome from "../section/NtaTopHome";
 import NtaLogo from "../section/NtaLogo";
 import NtaGeneralInstructionLanguage from "./NtaGeneralInstructionLanguage";
 import { __ } from "@wordpress/i18n";
-import Latex from "react-latex-next";
+
+import CustomLatex from "../../../../../../modules/latex/CustomLatex";
 
 const NtaInstruction = (props) => {
   React.useEffect(() => {
@@ -70,9 +71,9 @@ const NtaInstruction = (props) => {
               marginY: 4,
             }}
           >
-            <Latex>
+            <CustomLatex>
               {l?.instruction1?.length > 0 ? l?.instruction1 : ""}
-            </Latex>
+            </CustomLatex>
             <Box
               sx={{
                 marginY: 4,
