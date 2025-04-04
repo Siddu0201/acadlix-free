@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import parse from "html-react-parser";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import Latex from "react-latex-next";
 
 const TypeSingleChoice = (props) => {
   const handleChange = (e) => {
@@ -176,7 +176,9 @@ const TypeSingleChoice = (props) => {
                     }}
                   >
                     <Typography component="div">
-                      {parse(data?.option)}
+                      <Latex>
+                        {data?.option}
+                      </Latex>
                     </Typography>
                     <Box
                       sx={{

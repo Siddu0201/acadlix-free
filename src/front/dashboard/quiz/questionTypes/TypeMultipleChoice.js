@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import parse from "html-react-parser";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import Latex from "react-latex-next";
 
 const TypeMultipleChoice = (props) => {
   const handleChange = (e) => {
@@ -140,7 +140,11 @@ const TypeMultipleChoice = (props) => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <Typography component="div">{parse(data?.option)}</Typography>
+                  <Typography component="div">
+                    <Latex>
+                      {data?.option}
+                    </Latex>
+                    </Typography>
                   <Box
                     sx={{
                       position: "relative",

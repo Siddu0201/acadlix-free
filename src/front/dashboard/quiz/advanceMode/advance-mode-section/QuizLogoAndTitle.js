@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import parse from 'html-react-parser';
 
 const QuizLogoAndTitle = (props) => {
   return (

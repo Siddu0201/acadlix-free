@@ -1,12 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import parse from "html-react-parser";
+import Latex from "react-latex-next";
 
 const CourseOverview = (props) => {
   return (
     <Box>
       <Typography component={"div"}>
-        {parse(props?.watch("course_content"))}
+        <Latex>
+          {props?.watch("course_content")}
+        </Latex>
       </Typography>
     </Box>
   );

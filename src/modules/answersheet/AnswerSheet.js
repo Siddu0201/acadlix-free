@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import parse from "html-react-parser";
 import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import { __ } from "@wordpress/i18n";
 import { shuffleArrayBasedOnOrder } from "../../helpers/util";
@@ -17,6 +16,7 @@ import LanguageSection from "../../front/dashboard/quiz/normalMode/normal-quiz-s
 import QuestionStatusSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import PropTypes from "prop-types";
 import TypeFreeChoice from "../../front/dashboard/quiz/questionTypes/TypeFreeChoice";
+import Latex from "react-latex-next";
 
 const AnswerSheet = ({
     statistic = [],
@@ -69,11 +69,11 @@ const AnswerSheet = ({
                                 language_name: lang?.language?.name,
                                 default: Boolean(Number(lang?.default)),
                                 selected: Boolean(Number(lang?.default)),
-                                paragraph: parse(stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "") ?? "",
-                                question: parse(lang?.rendered_question),
-                                correct_msg: parse(lang?.rendered_correct_msg),
-                                incorrect_msg: parse(lang?.rendered_incorrect_msg),
-                                hint_msg: parse(lang?.rendered_hint_msg),
+                                paragraph: stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "" ?? "",
+                                question: lang?.rendered_question,
+                                correct_msg: lang?.rendered_correct_msg,
+                                incorrect_msg: lang?.rendered_incorrect_msg,
+                                hint_msg: lang?.rendered_hint_msg,
                                 answer_data: {
                                     singleChoice:
                                         stat?.question?.answer_type === "singleChoice" && stat?.answer_data
@@ -411,11 +411,19 @@ const ViewQuestionSection = (props) => {
                                 {props?.question?.paragraph_enabled &&
                                     props?.question?.paragraph_id !== null && (
                                         <Box>
-                                            <Typography component="div">{lang?.paragraph}</Typography>
+                                            <Typography component="div">
+                                                <Latex>
+                                                    {lang?.paragraph}
+                                                </Latex>
+                                            </Typography>
                                             <Divider />
                                         </Box>
                                     )}
-                                <Typography component="div">{lang?.question}</Typography>
+                                <Typography component="div">
+                                    <Latex>
+                                        {lang?.question}
+                                    </Latex>
+                                </Typography>
                                 {answerType(lang, lang_index)}
                             </Box>
                         </React.Fragment>
@@ -447,7 +455,9 @@ const ViewQuestionSection = (props) => {
                                         </Box>
                                         <Box>
                                             <Typography component="div">
-                                                {lang?.correct_msg}
+                                                <Latex>
+                                                    {lang?.correct_msg}
+                                                </Latex>
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -477,9 +487,11 @@ const ViewQuestionSection = (props) => {
                                         </Box>
                                         <Box>
                                             <Typography component="div">
-                                                {props?.question?.different_incorrect_msg
-                                                    ? lang?.incorrect_msg
-                                                    : lang?.correct_msg}
+                                                <Latex>
+                                                    {props?.question?.different_incorrect_msg
+                                                        ? lang?.incorrect_msg
+                                                        : lang?.correct_msg}
+                                                </Latex>
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -509,9 +521,11 @@ const ViewQuestionSection = (props) => {
                                     </Box>
                                     <Box>
                                         <Typography component="div">
-                                            {props?.question?.different_incorrect_msg
-                                                ? lang?.incorrect_msg
-                                                : lang?.correct_msg}
+                                            <Latex>
+                                                {props?.question?.different_incorrect_msg
+                                                    ? lang?.incorrect_msg
+                                                    : lang?.correct_msg}
+                                            </Latex>
                                         </Typography>
                                     </Box>
                                 </Box>

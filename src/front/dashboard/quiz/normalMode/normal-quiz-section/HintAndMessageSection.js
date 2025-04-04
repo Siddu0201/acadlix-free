@@ -1,6 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
+import Latex from "react-latex-next";
 
 const HintAndMessageSection = (props) => {
   const theme = useTheme();
@@ -28,7 +29,11 @@ const HintAndMessageSection = (props) => {
           </Typography>
         </Box>
         <Box>
-          <Typography component="div">{props?.lang?.hint_msg}</Typography>
+          <Typography component="div">
+            <Latex>
+              {props?.lang?.hint_msg}
+            </Latex>
+          </Typography>
         </Box>
       </Box>
       {props?.question?.check ? (
@@ -51,7 +56,9 @@ const HintAndMessageSection = (props) => {
             </Box>
             <Box>
               <Typography component="div">
-                {props?.lang?.correct_msg}
+                <Latex>
+                  {props?.lang?.correct_msg}
+                </Latex>
               </Typography>
             </Box>
           </Box>
@@ -69,8 +76,8 @@ const HintAndMessageSection = (props) => {
                   ? ""
                   : "none"
                 : props?.lang?.correct_msg?.length > 0
-                ? ""
-                : "none",
+                  ? ""
+                  : "none",
             }}
           >
             <Box>
@@ -80,9 +87,11 @@ const HintAndMessageSection = (props) => {
             </Box>
             <Box>
               <Typography component="div">
-                {props?.question?.different_incorrect_msg
-                  ? props?.lang?.incorrect_msg
-                  : props?.lang?.correct_msg}
+                <Latex>
+                  {props?.question?.different_incorrect_msg
+                    ? props?.lang?.incorrect_msg
+                    : props?.lang?.correct_msg}
+                </Latex>
               </Typography>
             </Box>
           </Box>

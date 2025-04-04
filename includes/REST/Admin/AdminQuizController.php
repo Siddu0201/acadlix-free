@@ -14,7 +14,6 @@ use Yuvayana\Acadlix\Models\Category;
 use Yuvayana\Acadlix\Models\Language;
 use Yuvayana\Acadlix\Models\QuizShortcode;
 use Yuvayana\Acadlix\Models\SubjectTime;
-use Illuminate\Contracts\Database\Query\Builder;
 use Yuvayana\Acadlix\Models\Template;
 
 defined('ABSPATH') || exit();
@@ -435,7 +434,7 @@ class AdminQuizController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
-
+        
         // Validate required fields
         if (empty($params['post_title'])) {
             return new WP_Error(

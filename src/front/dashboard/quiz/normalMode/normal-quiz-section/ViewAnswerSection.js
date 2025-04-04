@@ -14,6 +14,7 @@ import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import { __ } from "@wordpress/i18n";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
+import Latex from "react-latex-next";
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -329,11 +330,19 @@ const ViewQuestionSection = (props) => {
                 {props?.question?.paragraph_enabled &&
                   props?.question?.paragraph_id !== null && (
                     <Box>
-                      <Typography component="div">{lang?.paragraph}</Typography>
+                      <Typography component="div">
+                        <Latex>
+                          {lang?.paragraph}
+                        </Latex>
+                      </Typography>
                       <Divider />
                     </Box>
                   )}
-                <Typography component="div">{lang?.question}</Typography>
+                <Typography component="div">
+                  <Latex>
+                    {lang?.question}
+                  </Latex>
+                </Typography>
                 {answerType(lang, lang_index)}
               </Box>
             </React.Fragment>
@@ -396,7 +405,9 @@ const ViewQuestionSection = (props) => {
                     </Box>
                     <Box>
                       <Typography component="div">
-                        {lang?.correct_msg}
+                        <Latex>
+                          {lang?.correct_msg}
+                        </Latex>
                       </Typography>
                     </Box>
                   </Box>
@@ -426,9 +437,11 @@ const ViewQuestionSection = (props) => {
                     </Box>
                     <Box>
                       <Typography component="div">
-                        {props?.question?.different_incorrect_msg
-                          ? lang?.incorrect_msg
-                          : lang?.correct_msg}
+                        <Latex>
+                          {props?.question?.different_incorrect_msg
+                            ? lang?.incorrect_msg
+                            : lang?.correct_msg}
+                        </Latex>
                       </Typography>
                     </Box>
                   </Box>
@@ -458,9 +471,11 @@ const ViewQuestionSection = (props) => {
                   </Box>
                   <Box>
                     <Typography component="div">
-                      {props?.question?.different_incorrect_msg
-                        ? lang?.incorrect_msg
-                        : lang?.correct_msg}
+                      <Latex>
+                        {props?.question?.different_incorrect_msg
+                          ? lang?.incorrect_msg
+                          : lang?.correct_msg}
+                      </Latex>
                     </Typography>
                   </Box>
                 </Box>

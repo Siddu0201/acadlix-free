@@ -19,7 +19,7 @@ import { Avatar, Box, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
 import { RxCross2, TiTick } from "../../../../helpers/icons";
-import parse from "html-react-parser";
+import Latex from "react-latex-next";
 
 const TypeMatrixSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -304,7 +304,11 @@ const TypeMatrixSortingChoice = (props) => {
                   paddingRight: 1,
                 }}
               >
-                <Typography component="span">{parse(item?.criteria)}</Typography>
+                <Typography component="span">
+                  <Latex>
+                    {item?.criteria}
+                  </Latex>
+                </Typography>
               </Box>
               <DroppableItem
                 key={index}
@@ -394,7 +398,11 @@ const TypeMatrixSortingChoice = (props) => {
                       minWidth: "20%",
                     }}
                   >
-                    <Typography component="span">{parse(item?.criteria)}</Typography>
+                    <Typography component="span">
+                      <Latex>
+                        {item?.criteria}
+                      </Latex>
+                    </Typography>
                   </Box>
                   <List sx={{
                     paddingY: 0,
@@ -410,7 +418,9 @@ const TypeMatrixSortingChoice = (props) => {
                         margin: `0 !important`,
                       }}
                     >
-                      {parse(item?.element)}
+                      <Latex>
+                        {item?.element}
+                      </Latex>
                     </ListItem>
                   </List>
                 </ListItem>
@@ -435,7 +445,9 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
         margin: `0 !important`,
       }}
     >
-      {parse(props?.element)}
+      <Latex>
+        {props?.element}
+      </Latex>
     </ListItem>
   );
 });
@@ -473,7 +485,9 @@ const SortableItem = (props) => {
       {...attributes}
       {...listeners}
     >
-      {parse(props?.element)}
+      <Latex>
+        {props?.element}
+      </Latex>
     </ListItem>
   );
 };

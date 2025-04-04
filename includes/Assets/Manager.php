@@ -29,6 +29,7 @@ class Manager
 
         // add_filter('single_template', [$this, 'acadlix_template']);
         // add_filter('page_template', [$this, 'acadlix_template']);
+        add_action('wp_footer', [$this, 'acadlix_front_footer']);
     }
 
     public function add_shortcode_quiz($atts)
@@ -349,6 +350,8 @@ class Manager
             wp_enqueue_script('wp-mediaelement');
             wp_enqueue_style('wp-mediaelement');
         }
+        wp_enqueue_style('katex-css', 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css');
+        // wp_enqueue_script( 'mathjsx', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=default&ver=1.3.13', false , null, true );
         wp_enqueue_style('acadlix-front-base-style-css');
         $custom_css = "
                     :root {
@@ -385,6 +388,36 @@ class Manager
             'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
         ));
         wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+
+        wp_enqueue_script('acadlix-katex-js', 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js', false, null, true);
+        wp_enqueue_script(
+            'katex-auto-render',
+            'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js',
+            ['acadlix-katex-js'], // depends on main katex
+            null,
+            true // load in footer
+          );
+
+    }
+
+    public function acadlix_front_footer()
+    {
+        if(is_admin(  ))return;
+        ?>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false }
+              ],
+              throwOnError: false
+            });
+          });
+        </script>
+        <?php
     }
 
     public static function instance()

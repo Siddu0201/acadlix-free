@@ -1,9 +1,9 @@
 import { Avatar, Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
-import parse from "html-react-parser";
 import { TiTick, RxCross2 } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
+import Latex from "react-latex-next";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;
@@ -140,7 +140,7 @@ const TypeFill = (props) => {
                   />
                 );
               }
-              return parse(data);
+              return (<Latex>{data}</Latex>);
             })}
         </Box>
         {(props?.watch("view_answer") ||
@@ -217,7 +217,7 @@ const TypeFill = (props) => {
                     </React.Fragment>
                   );
                 }
-                return parse(data);
+                return (<Latex>{data}</Latex>);
               })}
           </Box>
         </>

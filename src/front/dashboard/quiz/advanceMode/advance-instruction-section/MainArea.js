@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import InstructionLanguage from "./InstructionLanguage";
+import Latex from "react-latex-next";
 
 const MainArea = (props) => {
   return (
@@ -17,7 +18,9 @@ const MainArea = (props) => {
         <InstructionLanguage {...props} />
       </Box>
       <Box>
-        {props?.instruction}
+        <Latex>
+          {props?.instruction}
+        </Latex>
       </Box>
     </Box>
   );

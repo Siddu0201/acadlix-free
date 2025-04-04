@@ -4,6 +4,7 @@ import NtaTopHome from "../section/NtaTopHome";
 import NtaLogo from "../section/NtaLogo";
 import NtaGeneralInstructionLanguage from "./NtaGeneralInstructionLanguage";
 import { __ } from "@wordpress/i18n";
+import Latex from "react-latex-next";
 
 const NtaInstruction = (props) => {
   React.useEffect(() => {
@@ -53,8 +54,8 @@ const NtaInstruction = (props) => {
       <NtaLogo {...props} />
       <NtaGeneralInstructionLanguage {...props} />
       {
-        props?.watch("languages")?.length > 0 &&
-        props?.watch("languages")?.map((l, index) => (
+        props?.watch("language_data")?.length > 0 &&
+        props?.watch("language_data")?.map((l, index) => (
           <Box
             key={index}
             sx={{
@@ -69,7 +70,9 @@ const NtaInstruction = (props) => {
               marginY: 4,
             }}
           >
-            {l?.instruction1?.length > 0 ? l?.instruction1 : ""}
+            <Latex>
+              {l?.instruction1?.length > 0 ? l?.instruction1 : ""}
+            </Latex>
             <Box
               sx={{
                 marginY: 4,

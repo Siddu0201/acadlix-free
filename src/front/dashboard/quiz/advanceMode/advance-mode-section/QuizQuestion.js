@@ -10,6 +10,7 @@ import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
+import Latex from "react-latex-next";
 
 const QuizQuestion = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -142,7 +143,11 @@ const QuizQuestion = (props) => {
                       borderRight: `1px solid grey`,
                       paddingRight: 1,
                     }}>
-                      <Typography component="div">{lang?.paragraph}</Typography>
+                      <Typography component="div">
+                        <Latex>
+                          {lang?.paragraph}
+                        </Latex>
+                      </Typography>
                     </Grid>
                   )}
                 <Grid size={{ xs: 12, md: props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null ? 6 : 12 }}
@@ -153,7 +158,9 @@ const QuizQuestion = (props) => {
                       paddingX: 2,
                     }}
                   >
-                    {lang?.question}
+                    <Latex>
+                      {lang?.question}
+                    </Latex>
                   </Typography>
                   {answerType(lang, lang_index)}
                 </Grid>

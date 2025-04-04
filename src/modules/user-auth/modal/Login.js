@@ -100,7 +100,7 @@ const Login = (props) => {
           marginBottom: 4
         }}>
           <Box>
-            <Typography variant="h5">{__('Welcome back', 'acadlix')}</Typography>
+            <Typography variant="h5">{__('Welcome Back', 'acadlix')}</Typography>
           </Box>
           <Box>
             <Typography variant="body2">{__('Please enter your details to sign in.', 'acadlix')}</Typography>

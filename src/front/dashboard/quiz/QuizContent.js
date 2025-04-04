@@ -10,7 +10,6 @@ import {
   strtotime,
 } from "../../../helpers/util";
 import { PostSaveQuizAttemptById, PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
-import parse from "html-react-parser";
 import { dateI18n, format, getSettings } from "@wordpress/date";
 import { getCookie, setCookie } from "../../../helpers/cookie";
 import { __ } from "@wordpress/i18n";
@@ -41,7 +40,7 @@ const QuizContent = (props) => {
       id: props?.quiz?.ID,
       category: props?.quiz?.category?.name ?? "Uncategorized",
       title: props?.quiz?.post_title,
-      description: parse(props?.quiz?.rendered_post_content ?? ""),
+      description: props?.quiz?.rendered_post_content ?? "",
       // Mode settings
       mode: props?.quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
       advance_mode_type: props?.quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
@@ -149,7 +148,7 @@ const QuizContent = (props) => {
       ),
       result_text: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text))
         ? props?.quiz?.rendered_metas?.quiz_settings?.result_text
-        : parse(props?.quiz?.rendered_metas?.quiz_settings?.result_text), // ""/[{percent: number, text: ""}]
+        : props?.quiz?.rendered_metas?.quiz_settings?.result_text, // ""/[{percent: number, text: ""}]
       // Language settings
       default_language_id: props?.quiz?.rendered_metas?.default_language_id
         ? Number(props?.quiz?.rendered_metas?.default_language_id)
@@ -159,8 +158,8 @@ const QuizContent = (props) => {
           return {
             ...l,
             language_name: props?.quiz?.languages?.find((d) => d?.term_id === l?.language_id)?.name,
-            instruction1: parse(l?.instruction1),
-            instruction2: parse(l?.instruction2),
+            instruction1: l?.instruction1,
+            instruction2: l?.instruction2,
             default: Boolean(Number(l?.default)),
             selected: Boolean(Number(l?.default)),
           };
@@ -246,16 +245,14 @@ const QuizContent = (props) => {
                   default: Boolean(Number(lang?.default)),
                   selected: Boolean(Number(lang?.default)),
                   paragraph:
-                    parse(
-                      question?.paragraph?.rendered_metas?.language_data?.find(
-                        (p) => p?.language_id === lang?.language_id
-                      )?.content ?? ""
-                    ) ?? "",
-                  question_unparsed: lang?.rendered_question,
-                  question: parse(lang?.rendered_question),
-                  correct_msg: parse(lang?.rendered_correct_msg),
-                  incorrect_msg: parse(lang?.rendered_incorrect_msg),
-                  hint_msg: parse(lang?.rendered_hint_msg),
+                    question?.paragraph?.rendered_metas?.language_data?.find(
+                      (p) => p?.language_id === lang?.language_id
+                    )?.content ?? ""
+                    ?? "",
+                  question: lang?.rendered_question,
+                  correct_msg: lang?.rendered_correct_msg,
+                  incorrect_msg: lang?.rendered_incorrect_msg,
+                  hint_msg: lang?.rendered_hint_msg,
                   answer_data: {
                     singleChoice: lang?.rendered_answer_data?.singleChoice,
                     multipleChoice: lang?.rendered_answer_data
@@ -380,7 +377,7 @@ const QuizContent = (props) => {
     }, 0);
     const total = question
       ?.reduce((total, d) => total + Number(d?.points), 0);
-    
+
     const data = {
       quiz_title: methods?.watch("title"),
       correct_count: question?.filter((d) => d?.result?.correct_count)?.length,
@@ -391,7 +388,7 @@ const QuizContent = (props) => {
       result: total > 0 ? ((points / total) * 100).toFixed(2) : "0.00",
       questions: question?.map(q => {
         return {
-          question: q?.language?.find(l => l?.default)?.question_unparsed,
+          question: q?.language?.find(l => l?.default)?.question,
           isCorrect: q?.result?.correct_count,
           isIncorrect: q?.result?.incorrect_count,
           isSolved: q?.result?.solved_count,

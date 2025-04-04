@@ -11,6 +11,7 @@ import React from "react";
 import { IoClose } from "../../../../../../helpers/icons";
 import InstructionLanguage from "../../advance-instruction-section/InstructionLanguage";
 import { __ } from "@wordpress/i18n";
+import Latex from "react-latex-next";
 
 const InstructionModel = (props) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -92,15 +93,17 @@ const InstructionModel = (props) => {
             <Box>
               <InstructionLanguage {...props} />
             </Box>
-            {props?.watch("languages")?.length > 0 &&
-              props?.watch("languages")?.map((l, index) => (
+            {props?.watch("language_data")?.length > 0 &&
+              props?.watch("language_data")?.map((l, index) => (
                 <Box
                   key={index}
                   sx={{
                     display: l?.selected ? "" : "none",
                   }}
                 >
-                  {l?.instruction1}
+                  <Latex>
+                    {l?.instruction1}
+                  </Latex>
                 </Box>
               ))}
             <Box
@@ -119,15 +122,17 @@ const InstructionModel = (props) => {
                 {__("Other important instructions", "acadlix")}
               </Typography>
             </Box>
-            {props?.watch("languages")?.length > 0 &&
-              props?.watch("languages")?.map((l, index) => (
+            {props?.watch("language_data")?.length > 0 &&
+              props?.watch("language_data")?.map((l, index) => (
                 <Box
                   key={index}
                   sx={{
                     display: l?.selected ? "" : "none",
                   }}
                 >
-                  {l?.instruction2}
+                  <Latex>
+                    {l?.instruction2}
+                  </Latex>
                 </Box>
               ))}
           </Box>

@@ -21,7 +21,8 @@ import {
   MdOutlineSupportAgent
 } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
-import parse from "html-react-parser";
+import { RawHTML } from "@wordpress/element";
+
 
 const Home = () => {
   return (
@@ -54,7 +55,9 @@ const Home = () => {
                     paddingY: 3,
                   }}
                 >
-                  {parse(__("Welcome to <b>Acadlix</b>", "acadlix"))}
+                  <RawHTML>
+                    {__("Welcome to <b>Acadlix</b>", "acadlix")}
+                  </RawHTML>
                 </Typography>
                 <Typography>The Smart Solution for Modern Educator.</Typography>
               </Box>

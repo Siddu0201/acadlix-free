@@ -370,6 +370,7 @@ if (!class_exists('Quiz')) {
 
         public static function insertQuiz(array $data, array $meta = [])
         {
+            $data['post_content'] = $data['post_content'] ? wp_slash($data['post_content']) : '';
             $data = wp_parse_args($data, [
                 'post_title' => '',
                 'post_content' => '',
@@ -392,9 +393,11 @@ if (!class_exists('Quiz')) {
         public static function updateQuiz(int $postId, array $data = [], array $meta = [])
         {
             // Parse default arguments for the quiz update.
+            $data['post_content'] = $data['post_content'] ? wp_slash($data['post_content']) : '';
             $data = wp_parse_args($data, [
                 'ID' => $postId,
             ]);
+            // return $data;
 
             // Add meta data to the 'meta_input' argument for wp_update_post.
             if (!empty($meta)) {

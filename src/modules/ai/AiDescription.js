@@ -23,9 +23,9 @@ import { IoClose } from '../../helpers/icons';
 import PropTypes from 'prop-types';
 import { PostGenerateDescription, PostImproveDescription } from '../../requests/ai/AiCommonRequest';
 import toast from 'react-hot-toast';
-import parse from 'html-react-parser';
 import CustomTypography from '../../components/CustomTypography';
 import CustomTextField from '../../components/CustomTextField';
+import { RawHTMl } from "@wordpress/element";
 
 const AiDescription = ({
     title = '',
@@ -353,7 +353,7 @@ const DescriptionModel = ({
                             {
                                 (generateMutation?.isPending || improveMutation?.isPending) ?
                                     __('Generating...', 'acadlix') :
-                                    parse(response)
+                                    <RawHTML>{response}</RawHTML>
                             }
                         </Typography>
                         {

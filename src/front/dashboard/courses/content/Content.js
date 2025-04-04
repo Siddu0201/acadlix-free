@@ -1,11 +1,11 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import React, { useEffect } from "react";
-import parse from "html-react-parser";
 import { FaAngleLeft, FaAngleRight } from "../../../../helpers/icons";
 import AppFront from "../../../AppFront";
 import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
 import { PostUpdateLessonTime } from "../../../../requests/front/FrontDashboardRequest";
 import { getVimeoVideoId, getYouTubeVideoId } from "../../../../helpers/util";
+import Latex from "react-latex-next";
 
 const Content = (props) => {
   useEffect(() => {
@@ -340,7 +340,9 @@ const LessonTextContent = (props) => {
         overflowY: "auto",
       }}
     >
-      {parse(props?.c?.content)}
+      <Latex>
+        {props?.c?.content}
+      </Latex>
     </Box>
   );
 };

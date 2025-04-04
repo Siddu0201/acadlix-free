@@ -95,7 +95,7 @@ const DashboardHeader = () => {
                   },
                 }}
               >
-                {__("Welcome back,", 'acadlix')}{" "}
+                {__("Welcome Back,", 'acadlix')}{" "}
                 <Box
                   component="span"
                   sx={{ color: theme.palette.primary.main, fontWeight: 500 }}

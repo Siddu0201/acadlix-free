@@ -2,11 +2,12 @@ import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
 import CustomButton from "../normal-quiz-component/CustomButton";
 import { PostCheckQuizById } from "../../../../../requests/front/FrontQuizRequest";
-import parse from "html-react-parser";
 import UserAuth from "../../../../../modules/user-auth/UserAuth";
 import { deleteCookie, getCookie, setCookie } from "../../../../../helpers/cookie";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
+import Latex from "react-latex-next";
+import { RawHTML } from "@wordpress/element";
 
 const DescriptionSection = (props) => {
   const rand = function () {
@@ -158,7 +159,9 @@ const DescriptionSection = (props) => {
           sx={{ marginY: "9px !important" }}
           component="div"
         >
-          {props?.watch("description")}
+          <Latex>
+            {props?.watch("description")}
+          </Latex>
         </Typography>
       }
       <CustomButton
@@ -185,7 +188,9 @@ const DescriptionSection = (props) => {
           <Alert severity="error" sx={{
             alignItems: "center",
           }}>
-            {parse(props?.watch("quiz_error"))}
+            <RawHTML>
+              {props?.watch("quiz_error")}
+            </RawHTML>
           </Alert>
         </Box>
       )}

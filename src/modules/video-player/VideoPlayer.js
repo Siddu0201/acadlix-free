@@ -1,37 +1,37 @@
 import React, { useEffect, useRef } from "react";
 import { createRoot, createElement } from "@wordpress/element";
 import Plyr from "plyr";
-import parse from "html-react-parser";
+import { RawHTML } from "@wordpress/element";
 import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "../../helpers/icons";
 import { convertTime } from "../../helpers/util";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 const VideoPlayer = ({
-    src= '',
-    thumbnail= '',
-    videoType= '',
-    hours= 0,
-    minutes= 0,
-    seconds= 0,
-    controls= [],
-    settings= [],
-    keyboard= {},
-    quality= {},
-    youtube= {},
-    vimeo= {},
-    onUpdateDuration= null,
-    isFirst= false,
-    isLast= false,
-    hasNext= false,
-    nextTitle= '',
-    hasPrev= false,
-    previousTitle= '',
-    onClickNext= null,
-    onClickPrevious= null,
-    hasExternalFullscreen= false,
-    onClickFullscreen= null,
-    onEnded= null,
+    src = '',
+    thumbnail = '',
+    videoType = '',
+    hours = 0,
+    minutes = 0,
+    seconds = 0,
+    controls = [],
+    settings = [],
+    keyboard = {},
+    quality = {},
+    youtube = {},
+    vimeo = {},
+    onUpdateDuration = null,
+    isFirst = false,
+    isLast = false,
+    hasNext = false,
+    nextTitle = '',
+    hasPrev = false,
+    previousTitle = '',
+    onClickNext = null,
+    onClickPrevious = null,
+    hasExternalFullscreen = false,
+    onClickFullscreen = null,
+    onEnded = null,
     ...props
 }) => {
     const playerRef = useRef(null);
@@ -300,7 +300,9 @@ const VideoPlayer = ({
                 case "embedded":
                     return (
                         <div className="plyr__video-embed" ref={playerRef}>
-                            {parse(src)}
+                            <RawHTML>
+                                {src}
+                            </RawHTML>
                         </div>
                     );
                 default:

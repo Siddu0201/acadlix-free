@@ -14,6 +14,7 @@ import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
+import Latex from 'react-latex-next';
 
 const QuestionSection = (props) => {
   const answerType = (data = {}, lang_index = 0) => {
@@ -152,11 +153,19 @@ const QuestionSection = (props) => {
                 {
                   props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null &&
                   <Box>
-                    <Typography component="div">{lang?.paragraph}</Typography>
+                    <Typography component="div">
+                      <Latex>
+                        {lang?.paragraph}
+                      </Latex>
+                    </Typography>
                     <Divider />
                   </Box>
                 }
-                <Typography component="div">{lang?.question}</Typography>
+                <Typography component="div">
+                  <Latex>
+                      {lang?.question}
+                  </Latex>
+                </Typography>
                 {answerType(lang, lang_index)}
               </Box>
             </React.Fragment>

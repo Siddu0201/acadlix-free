@@ -3,10 +3,9 @@ import React from "react";
 
 const NtaInstructionLanguage = (props) => {
   const handleLanguageChange = (e) => {
-    console.log(e?.target?.value);
     props?.setValue(
-      "languages",
-      props?.watch("languages")?.map((l) => {
+      "language_data",
+      props?.watch("language_data")?.map((l) => {
         if (l?.language_id === e?.target?.value) {
           l.selected = true;
         } else {
@@ -78,7 +77,7 @@ const NtaInstructionLanguage = (props) => {
             variant="outlined"
             displayEmpty
             value={
-              props?.watch("languages")?.filter((d) => d?.selected)?.[0]
+              props?.watch("language_data")?.filter((d) => d?.selected)?.[0]
                 ?.language_id ?? null
             }
             onChange={handleLanguageChange}
@@ -101,10 +100,10 @@ const NtaInstructionLanguage = (props) => {
               },
             }}
           >
-            {props?.watch("languages")?.length > 0 &&
-              props?.watch("languages")?.map((lang, lang_index) => (
+            {props?.watch("language_data")?.length > 0 &&
+              props?.watch("language_data")?.map((lang, lang_index) => (
                 <MenuItem key={lang_index} value={lang?.language_id}>
-                  {lang?.language?.language_name}
+                  {lang?.language_name}
                 </MenuItem>
               ))}
           </Select>

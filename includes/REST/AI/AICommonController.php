@@ -107,7 +107,7 @@ class AICommonController
         $prompt = $request->get_param('prompt') ?? "";
         
         $ai = new Ai();
-        $suggestions = $ai->getSuggestions(
+        $feedback = $ai->getSuggestions(
             AiHelper::instance()->getResultFeedbackInstruction(),
             AiHelper::instance()->getResultFeedbackUserInput(
                 $quizTitle,
@@ -120,10 +120,10 @@ class AICommonController
                 $prompt,
             )
         );
-        if (is_wp_error($suggestions)) {
-            return $suggestions;
+        if (is_wp_error($feedback)) {
+            return $feedback;
         }
-        $res['feedback'] = $suggestions;
+        $res['feedback'] = $feedback;
         return rest_ensure_response($res);
     }
 

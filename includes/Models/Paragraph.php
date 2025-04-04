@@ -86,6 +86,7 @@ if (!class_exists('Paragraph')) {
 
         public static function insertParagraph(array $data, array $meta = [])
         {
+            $data['post_content'] = $data['post_content'] ? wp_slash($data['post_content']) : '';
             $data = wp_parse_args($data, [
                 'post_title' => '',
                 'post_content' => '',
@@ -107,6 +108,7 @@ if (!class_exists('Paragraph')) {
 
         public static function updateParagraph(int $postId, array $data = [], array $meta = [])
         {
+            $data['post_content'] = $data['post_content'] ? wp_slash($data['post_content']) : '';
             // Parse default arguments for the lesson update.
             $data = wp_parse_args($data, [
                 'ID' => $postId,
