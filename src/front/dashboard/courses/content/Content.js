@@ -341,6 +341,7 @@ const LessonTextContent = (props) => {
         overflowY: "auto",
       }}
     >
+      
       <CustomLatex>
         {props?.c?.content}
       </CustomLatex>

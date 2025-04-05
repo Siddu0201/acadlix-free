@@ -333,7 +333,7 @@ const CourseContent = () => {
 
   return (
     <Box 
-      // onContextMenu={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
     >
       {(isFetching ||
         incompleteMutation?.isPending ||
@@ -442,7 +442,7 @@ const CourseContent = () => {
                   display: "flex",
                   flexDirection: "column",
                   flex: 1,
-                  overflowY: "auto",
+                  // overflowY: "auto",
                   position: "relative",
                   paddingBottom:
                     active_content?.type === "lesson" &&

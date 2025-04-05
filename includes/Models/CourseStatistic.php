@@ -18,7 +18,9 @@ if (!class_exists(class: 'CourseStatistic')) {
             'is_active',
             'is_completed',
         ];
-
+        
+        public $timestamps = false;
+        
         public function getCourseSectionContentAttribute()
         {
             return CourseSectionContent::ofCourseSectionContent()->find($this->course_section_content_id);
