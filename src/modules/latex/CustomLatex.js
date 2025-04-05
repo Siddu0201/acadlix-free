@@ -1,6 +1,6 @@
 import React from 'react'
 import Latex from 'react-latex-next'
-// import 'katex/dist/katex.min.css';
+import 'katex/dist/katex.min.css';
 
 const fixLatexString = (input) => {
     // console.log("Original LaTeX:", input);
@@ -10,6 +10,7 @@ const fixLatexString = (input) => {
         .replace(/\n\n/g, '<br/>')
         .replace(/\u2013/g, '-') // en-dash (–)
         .replace(/&#8211;/g, "-")
+        .replace(/&amp;/g, '&')
         .replace(/\u2014/g, '-') // em-dash (—)
         .replace(/\u2212/g, '-') // unicode minus (−)
         .replace(/\u201C/g, '"') // Replace left curly quote
