@@ -1,5 +1,6 @@
 import React from 'react'
 import Latex from 'react-latex-next'
+// import 'katex/dist/katex.min.css';
 
 const fixLatexString = (input) => {
     // console.log("Original LaTeX:", input);
@@ -46,7 +47,7 @@ const CustomLatex = ({
 
     // console.log("Processed LaTeX:", processedLatex);
     return (
-        <Latex strict options={{ displayMode: true }}>
+        <Latex options={{ displayMode: true, throwOnError: false, strict: false }}>
             {processedLatex}
         </Latex>
     );

@@ -150,6 +150,11 @@ class Manager
     public function get_styles(): array
     {
         return [
+            'acadlix-vendor-css' => [
+                'src' => ACADLIX_BUILD_URL . 'vendors.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-admin-quiz-css' => [
                 'src' => ACADLIX_BUILD_URL . 'admin_quiz.css',
                 'version' => ACADLIX_VERSION,
@@ -350,7 +355,9 @@ class Manager
             wp_enqueue_script('wp-mediaelement');
             wp_enqueue_style('wp-mediaelement');
         }
-        wp_enqueue_style('katex-css', 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css');
+
+        // wp_enqueue_style( 'acadlix-vendor-css' );
+        // wp_enqueue_style('katex-css', 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css');
         // wp_enqueue_script( 'mathjsx', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=default&ver=1.3.13', false , null, true );
         wp_enqueue_style('acadlix-front-base-style-css');
         $custom_css = "
