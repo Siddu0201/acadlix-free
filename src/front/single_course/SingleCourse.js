@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import React, { useEffect } from 'react'
 import VideoPlayer from '../../modules/video-player/VideoPlayer';
-import {RawHTML} from '@wordpress/element';
 import { getVimeoVideoId, getYouTubeVideoId } from '../../helpers/util';
+import CustomLatex from '../../modules/latex/CustomLatex';
 
 const SingleCourse = (props) => {
 
@@ -94,9 +94,9 @@ const LessonTextPreview = (props) => {
   //   document.dispatchEvent(new Event('shortcodeLoaded'));
   // }, []);
   return (
-      <RawHTML>
+      <CustomLatex>
         {props?.c?.content}
-      </RawHTML>
+      </CustomLatex>
   )
 }
 

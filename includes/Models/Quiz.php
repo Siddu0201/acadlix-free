@@ -381,7 +381,7 @@ if (!class_exists('Quiz')) {
 
             // Add meta data to the 'meta_input' argument for wp_insert_post.
             if (!empty($meta)) {
-                $data['meta_input'] = $meta;
+                $data['meta_input'] = wp_slash($meta);
             }
 
             // Insert the post and return the ID or WP_Error.
@@ -401,7 +401,7 @@ if (!class_exists('Quiz')) {
 
             // Add meta data to the 'meta_input' argument for wp_update_post.
             if (!empty($meta)) {
-                $data['meta_input'] = $meta;
+                $data['meta_input'] = wp_slash($meta);
             }
 
             // Update the post and return the result or WP_Error.
@@ -430,7 +430,7 @@ if (!class_exists('Quiz')) {
             }
 
             // Serialize and save the updated settings
-            $updated = update_post_meta($postId, $setting_name, $quizSettings);
+            $updated = update_post_meta($postId, $setting_name, wp_slash($quizSettings));
 
             return (bool) $updated;
         }

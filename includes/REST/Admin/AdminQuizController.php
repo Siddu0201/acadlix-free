@@ -555,6 +555,7 @@ class AdminQuizController
                     ['status' => 500]
                 );
             }
+            $quiz = Quiz::ofQuiz()->find($quizId);
 
             $res['quiz'] = $quiz;
             return rest_ensure_response($res);

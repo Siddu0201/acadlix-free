@@ -332,7 +332,9 @@ const CourseContent = () => {
 
 
   return (
-    <Box onContextMenu={(e) => e.preventDefault()}>
+    <Box 
+      // onContextMenu={(e) => e.preventDefault()}
+    >
       {(isFetching ||
         incompleteMutation?.isPending ||
         completeMutation?.isPending) && (

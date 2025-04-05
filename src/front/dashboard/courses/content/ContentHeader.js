@@ -64,6 +64,7 @@ const ContentHeader = (props) => {
                   boxShadow: "none",
                   color: "white",
                   backgroundColor: "transparent",
+                  outline: "none",
                 },
               }}
             >
@@ -83,6 +84,7 @@ const ContentHeader = (props) => {
                   boxShadow: "none",
                   color: "white",
                   backgroundColor: "transparent",
+                  outline: "none",
                 },
               }}
             >
@@ -106,6 +108,7 @@ const ContentHeader = (props) => {
                 md: 1.5
               },
               fontWeight: 600,
+              color: "#fff",
             }}
           >
             {isMobile

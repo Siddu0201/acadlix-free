@@ -18,14 +18,14 @@ import {
     useTheme
 } from '@mui/material'
 import React from 'react'
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 import { IoClose } from '../../helpers/icons';
 import PropTypes from 'prop-types';
 import { PostGenerateDescription, PostImproveDescription } from '../../requests/ai/AiCommonRequest';
 import toast from 'react-hot-toast';
 import CustomTypography from '../../components/CustomTypography';
 import CustomTextField from '../../components/CustomTextField';
-import { RawHTMl } from "@wordpress/element";
+import { RawHTML } from "@wordpress/element";
 
 const AiDescription = ({
     title = '',
@@ -155,10 +155,39 @@ const DescriptionModel = ({
 
     }
 
+    const generateType = () => {
+        let s = '';
+        switch (type) {
+            case "quiz":
+                s = "Quiz Description";
+                break;
+            case "lesson":
+                s = "Lesson Content";
+                break;
+            case "course":
+                s = "Course Description";
+                break;
+            case "article":
+                s = "Article";
+                break;
+            case "video":
+                s = "Video";
+                break;
+            default:
+                s = "Quiz";
+                break;
+        }
+        /* translators: %s is the type of item */
+        return sprintf(
+            __('Generate %s From AI', 'acadlix'),
+            s
+        );
+    }
+
     return (
         <>
             <DialogTitle id="alert-dialog-title">
-                {__("Generate Quiz Description From AI", "acadlix")}
+                {generateType()}
             </DialogTitle>
             <IconButton
                 aria-label="close"

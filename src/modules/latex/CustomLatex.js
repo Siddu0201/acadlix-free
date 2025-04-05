@@ -5,6 +5,7 @@ const fixLatexString = (input) => {
     // console.log("Original LaTeX:", input);
 
     return input
+        .replace(/\n\n/g, '<br/>')
         .replace(/\u2013/g, '-') // en-dash (–)
         .replace(/&#8211;/g, "-")
         .replace(/\u2014/g, '-') // em-dash (—)
@@ -23,7 +24,7 @@ const CustomLatex = ({
 
     // console.log("Processed LaTeX:", processedLatex);
     return (
-        <Latex options={{ throwOnError: false, strict: false }}>
+        <Latex>
             {processedLatex}
         </Latex>
     );

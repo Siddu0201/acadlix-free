@@ -46,10 +46,14 @@ const SidebarList = (props) => {
           backgroundColor: "#f7f9fa",
           paddingX: 3,
           paddingY: 2,
+          marginBottom: `0 !important`,
           "& .MuiAccordionSummary-content": {
             marginY: 2,
             marginRight: 2,
           },
+          ":hover, :focus": {
+            outline: "none",
+          }
         }}
       >
         <Box>
