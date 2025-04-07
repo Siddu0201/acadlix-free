@@ -264,9 +264,12 @@ const Paragraph = () => {
               <Box
                 sx={{
                   paddingBottom: 2,
-                  display: "flex",
+                  display: {
+                    xs: "block",
+                    sm: "flex",
+                  },
                   gap: 2,
-                  alignItems: "baseline",
+                  alignItems: "flex-start",
                   justifyContent: hasCapability("acadlix_bulk_action_paragraph")
                     ? "space-between"
                     : "flex-end",
