@@ -38,7 +38,14 @@ class UploadQuizController
     public function get_quizes($request)
     {
         $res = [];
-        $res['quizes'] = Quiz::ofQuiz()->select(['ID', 'post_title'])->orderBy('ID', 'desc')->get();
+        $res['quizes'] = Quiz::ofQuiz()
+            ->without(['author', 'metas'])
+            ->whereHas("quiz_shortcode")
+            ->select(['ID', 'post_title'])
+            ->orderBy('ID', 'desc')
+            ->get()
+            ->each
+            ->setAppends([]);
         return rest_ensure_response($res);
     }
 
@@ -47,7 +54,7 @@ class UploadQuizController
         $res = [];
         $params = $request->get_json_params();
         $quiz_id = $params['quiz_id'];
-        if(empty($quiz_id)){
+        if (empty($quiz_id)) {
             return rest_ensure_response([
                 'status' => 'error',
                 'message' => __('Quiz ID is required', 'acadlix'),
@@ -68,22 +75,22 @@ class UploadQuizController
                     'hint_enabled' => $ques['hint_enabled'],
                     'subject_id' => null,
                 ]);
-                foreach($ques['language'] as $lkey => $lang){
+                foreach ($ques['language'] as $lkey => $lang) {
                     $helper = new Helper();
                     $ques['language'][$lkey]['question'] = $helper->upload_base64_image_to_wordpress($lang['question']);
                     $ques['language'][$lkey]['correct_msg'] = $helper->upload_base64_image_to_wordpress($lang['correct_msg']);
                     $ques['language'][$lkey]['incorrect_msg'] = $helper->upload_base64_image_to_wordpress($lang['incorrect_msg']);
                     $ques['language'][$lkey]['hint_msg'] = $helper->upload_base64_image_to_wordpress($lang['hint_msg']);
                     $answer_type = $ques['answer_type'];
-                    if(in_array($ques['answer_type'], ['singleChoice', 'multipleChoice', 'sortingChoice'])){
+                    if (in_array($ques['answer_type'], ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
                         $answer_data = $lang['answer_data'];
-                        foreach($answer_data[$answer_type] as $okey => $opt){
+                        foreach ($answer_data[$answer_type] as $okey => $opt) {
                             $opt['option'] = $helper->upload_base64_image_to_wordpress($opt["option"]);
                             $answer_data[$answer_type][$okey] = $opt;
                         }
                         $ques['language'][$lkey]['answer_data'] = $answer_data;
                     }
-                    if(in_array($ques['answer_type'], ['fillInTheBlank'])){
+                    if (in_array($ques['answer_type'], ['fillInTheBlank'])) {
                         $answer_data = $lang['answer_data'];
                         $answer_data[$answer_type]['option'] = $helper->upload_base64_image_to_wordpress($answer_data[$answer_type]['option']);
                         $ques['language'][$lkey]['answer_data'] = $answer_data;

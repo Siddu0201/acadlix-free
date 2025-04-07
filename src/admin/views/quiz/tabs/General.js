@@ -470,6 +470,12 @@ const General = (props) => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        autoComplete: "prerequisite",
+                      }
+                    }}
                     variant="outlined"
                     label={__('Select Quiz', 'acadlix')}
                   />

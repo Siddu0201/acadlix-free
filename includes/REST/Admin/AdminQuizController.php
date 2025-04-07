@@ -240,9 +240,9 @@ class AdminQuizController
             $quiz->where(function ($query) use ($search) {
                 $query->where('post_title', 'LIKE', "%{$search}%");
             })
-            ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
-                $query->where('id', 'LIKE', "%{$search}%"); 
-            });
+                ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
+                    $query->where('id', 'LIKE', "%{$search}%");
+                });
         }
         $res['total'] = $quiz->count();
         $res['quizes'] = $quiz->skip($skip)->take($params['pageSize'])
@@ -259,6 +259,8 @@ class AdminQuizController
         $res['languages'] = Language::all();
         $res['quizzes'] = Quiz::ofQuiz()
             ->without(['author', 'metas'])
+            ->whereHas("quiz_shortcode")
+            ->orderBy('ID', 'desc')
             ->get(["ID", "post_title"])
             ->each
             ->setAppends([]);
@@ -375,14 +377,14 @@ class AdminQuizController
                     __('Created quiz not found.', 'acadlix'),
                     ['status' => 500]
                 );
-            }else{
+            } else {
                 // handle shortcode
                 QuizShortcode::create([
                     'quiz_id' => $quizId
                 ]);
 
                 wp_update_post([
-                    'ID'          => $quizId,
+                    'ID' => $quizId,
                     'post_status' => 'publish'
                 ]);
             }
@@ -415,7 +417,9 @@ class AdminQuizController
         $res['templates'] = Template::where("type", "quiz")->get(["id", "name"]);
         $res['quizzes'] = Quiz::ofQuiz()
             ->without(['author', 'metas'])
+            ->whereHas("quiz_shortcode")
             ->whereNot('ID', $quiz_id)
+            ->orderBy('ID', 'desc')
             ->get(["ID", "post_title"])
             ->each
             ->setAppends([]);
@@ -434,7 +438,7 @@ class AdminQuizController
         $res = [];
         $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
-        
+
         // Validate required fields
         if (empty($params['post_title'])) {
             return new WP_Error(
@@ -521,11 +525,11 @@ class AdminQuizController
                         continue;
                     }
                     $prerequisite = Prerequisite::ofTypeQuiz()
-                                                ->ofPrerequisiteTypeQuiz()
-                                                ->where("type_id", $quizId)
-                                                ->where("prerequisite_id", $prerequisite_id)
-                                                ->first();
-                    if(!$prerequisite) {
+                        ->ofPrerequisiteTypeQuiz()
+                        ->where("type_id", $quizId)
+                        ->where("prerequisite_id", $prerequisite_id)
+                        ->first();
+                    if (!$prerequisite) {
                         Prerequisite::create([
                             "type" => "quiz",
                             "type_id" => $quizId,
@@ -541,9 +545,9 @@ class AdminQuizController
             }
             // delete if not available
             $rowToDelete = Prerequisite::ofTypeQuiz()
-                                ->ofPrerequisiteTypeQuiz()
-                                ->where("type_id", $quizId)
-                                ->whereNotIn('prerequisite_id', array_column($params['prerequisite'], 'ID'))->pluck('id');
+                ->ofPrerequisiteTypeQuiz()
+                ->where("type_id", $quizId)
+                ->whereNotIn('prerequisite_id', array_column($params['prerequisite'], 'ID'))->pluck('id');
             Prerequisite::whereIn('id', $rowToDelete)->delete();
 
             // Retrieve and return the quiz data
@@ -979,7 +983,6 @@ class AdminQuizController
                     $p->deleteLanguageParagraph($language_id);
                 }
             }
-
             $res['message'] = __("Language removed successfully", "acadlix");
             return rest_ensure_response($res);
         } catch (Exception $e) {

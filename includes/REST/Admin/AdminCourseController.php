@@ -574,7 +574,7 @@ class AdminCourseController
         $active_menu_order = $params['active_menu_order'];
         $over_menu_order = $params['over_menu_order'];
 
-        if(empty($params['active_menu_order']) || empty($params['over_menu_order'])){
+        if (empty($params['active_menu_order']) || empty($params['over_menu_order'])) {
             return new WP_Error(
                 'missing_sort',
                 __('active and over menu order is required.', 'acadlix'),
@@ -659,7 +659,12 @@ class AdminCourseController
     public function get_lessons_for_course()
     {
         $res = [];
-        $res['lessons'] = Lesson::ofLesson()->select(["ID", "post_title"])->get();
+        $res['lessons'] = Lesson::ofLesson()
+            ->without(['author', 'metas'])
+            ->select(["ID", "post_title"])
+            ->get()
+            ->each
+            ->setAppends([]);
         return rest_ensure_response($res);
     }
 
@@ -838,7 +843,15 @@ class AdminCourseController
     public function get_quizzes_for_course()
     {
         $res = [];
-        $res['quizzes'] = Quiz::ofQuiz()->select(["ID", "post_title"])->get();
+        $res['quizzes'] = Quiz::ofQuiz()
+            ->without(['author', 'metas', 'quiz_shortcode'])
+            ->whereHas("quiz_shortcode")
+            ->orderBy('ID', 'desc')
+            ->select(["ID", "post_title"])
+            // ->limit(50)
+            ->get()
+            ->each
+            ->setAppends([]);
         return rest_ensure_response($res);
     }
 

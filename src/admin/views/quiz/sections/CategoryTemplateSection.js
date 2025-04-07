@@ -147,22 +147,21 @@ const CategoryTemplateSection = (props) => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "spoc_gender",
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        autoComplete: "category",
+                        endAdornment: (
+                          <React.Fragment>
+                            {createCategoryMutation?.isPending ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </React.Fragment>
+                        ),
+                      }
                     }}
                     label={__("Select Quiz Category", "acadlix")}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {createCategoryMutation?.isPending ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
                     onChange={(e) => setInput(e.target.value)}
                   />
                 )}

@@ -172,7 +172,9 @@ class AdminQuestionController
         }
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
-        $res['paragraphs'] = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->get();
+        $res['paragraphs'] = Paragraph::ofParagraph()
+                                ->where('post_parent', $quiz_id)
+                                ->get();
         return rest_ensure_response($res);
     }
 
