@@ -3,7 +3,7 @@
 namespace Yuvayana\Acadlix\Admin;
 use Yuvayana\Acadlix\Helper\Helper;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
 if (!class_exists("Option")) {
     class Option
@@ -13,46 +13,90 @@ if (!class_exists("Option")) {
 
         public function __construct()
         {
+            // $this->pages = [
+            //     'acadlix_dashboard_page_id' => [
+            //         'post_title' => __('Dashboard', 'acadlix'),
+            //         'post_status' => 'publish',
+            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
+            //         'post_type' => 'page',
+            //     ],
+            //     'acadlix_all_courses_page_id' => [
+            //         'post_title' => __('Courses', 'acadlix'),
+            //         'post_status' => 'publish',
+            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
+            //         'post_type' => 'page',
+            //     ],
+            //     'acadlix_cart_page_id' => [
+            //         'post_title' => __('Cart', 'acadlix'),
+            //         'post_status' => 'publish',
+            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
+            //         'post_type' => 'page',
+            //     ],
+            //     'acadlix_checkout_page_id' => [
+            //         'post_title' => __('Checkout', 'acadlix'),
+            //         'post_status' => 'publish',
+            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
+            //         'post_type' => 'page',
+            //     ],
+            //     'acadlix_thankyou_page_id' => [
+            //         'post_title' => __('Thankyou', 'acadlix'),
+            //         'post_status' => 'publish',
+            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
+            //         'post_type' => 'page',
+            //     ],
+            //     'acadlix_advance_quiz_page_id' => [
+            //         'post_title' => __('Advance Quiz', 'acadlix'),
+            //         'post_status' => 'publish',
+            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
+            //         'post_type' => 'page',
+            //     ],
+            // ];
+
+            add_action('init', [$this, 'init_options']);
+
+            // add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 1 );
+        }
+
+        public function init_options()
+        {
             $this->pages = [
                 'acadlix_dashboard_page_id' => [
                     'post_title' => __('Dashboard', 'acadlix'),
                     'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
                 'acadlix_all_courses_page_id' => [
                     'post_title' => __('Courses', 'acadlix'),
                     'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
                 'acadlix_cart_page_id' => [
                     'post_title' => __('Cart', 'acadlix'),
                     'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
                 'acadlix_checkout_page_id' => [
                     'post_title' => __('Checkout', 'acadlix'),
                     'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
                 'acadlix_thankyou_page_id' => [
                     'post_title' => __('Thankyou', 'acadlix'),
                     'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
                 'acadlix_advance_quiz_page_id' => [
                     'post_title' => __('Advance Quiz', 'acadlix'),
                     'post_status' => 'publish',
-                    'post_author' => get_current_user_id(), // Change this to the desired author ID
+                    'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
             ];
-
-            // add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 1 );
         }
 
         public static function createOption()
@@ -62,15 +106,15 @@ if (!class_exists("Option")) {
             }
 
             // Set permalink is "Post name".
-			if ( ! get_option( 'permalink_structure' ) ) {
-				update_option( 'permalink_structure', '/%postname%/' );
-			}
+            if (!get_option('permalink_structure')) {
+                update_option('permalink_structure', '/%postname%/');
+            }
         }
 
         public static function removeOption()
         {
             $options = Helper::instance()->acadlix_options();
-            if(count($options) > 0){
+            if (count($options) > 0) {
                 foreach ($options as $key => $option) {
                     delete_option($key);
                 }
@@ -79,9 +123,9 @@ if (!class_exists("Option")) {
 
         private function createPage($option = '', $data = [])
         {
-            if (get_option( $option )) {
-                update_option($option, get_option( $option ));
-            }else{
+            if (get_option($option)) {
+                update_option($option, get_option($option));
+            } else {
                 // Insert the page into the database
                 $page_id = wp_insert_post($data);
                 // Optionally, you can store the page ID in an option or somewhere else for future reference
@@ -91,24 +135,27 @@ if (!class_exists("Option")) {
 
 
 
-        public function update_option_rewrite_rules($wp_rules){
-            if ( ! is_array( $wp_rules ) ) {
+        public function update_option_rewrite_rules($wp_rules)
+        {
+            if (!is_array($wp_rules)) {
                 return $wp_rules;
             }
             $course_permalink = Helper::instance()->acadlix_get_option('acadlix_course_base', 'courses');
             $rules = array();
-            $rules = ["^$course_permalink/([^/]+)/?$" =>
-						'index.php?' . ACADLIX_COURSE_CPT . '=$matches[1]'];
+            $rules = [
+                "^$course_permalink/([^/]+)/?$" =>
+                    'index.php?' . ACADLIX_COURSE_CPT . '=$matches[1]'
+            ];
             try {
-                if(is_array($rules)){
-                    $wp_rules = array_merge( $rules, $wp_rules );
+                if (is_array($rules)) {
+                    $wp_rules = array_merge($rules, $wp_rules);
                 }
-            } catch ( Throwable $e ) {
+            } catch (Throwable $e) {
                 if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log( sprintf( '%s:%s:%s', __FILE__, __LINE__, $e->getMessage() ) ); // phpcs:ignore
+                    error_log(sprintf('%s:%s:%s', __FILE__, __LINE__, $e->getMessage())); // phpcs:ignore
                 }
             }
-    
+
             return $wp_rules;
         }
 

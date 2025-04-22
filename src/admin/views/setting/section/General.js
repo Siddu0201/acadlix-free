@@ -17,6 +17,7 @@ import parse from "html-react-parser";
 import { PostCreatePage } from "../../../../requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
+import { DynamicMUIRenderer, renderMUIComponent } from "../../../../modules/extensions/muiRecursiveRenderer";
 
 function General(props) {
   const [courseInput, setCourseInput] = React.useState("");
@@ -27,6 +28,48 @@ function General(props) {
   const [thankyouInput, setThankyouInput] = React.useState("");
 
   const createPageMutation = PostCreatePage();
+  const general_page_setup_after = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.settings.general.page_setup.after",
+    [],
+    {
+      register: props?.register,
+      control: props?.control,
+      watch: props?.watch,
+      setValue: props?.setValue,
+    }
+  ) ?? [];
+
+
+  // window.acadlixHooks.addFilter(
+  //   "acadlix.admin.settings.general.page_setup.after",
+  //   "acadlix/add-setting",
+  //   (fields) => {
+  //     fields.push({
+  //       component: "Fragment",
+  //       children: [
+  //         {
+  //           component: "Grid",
+  //           props: {
+  //             size: { xs: 12, sm: 6, lg: 3 },
+  //           },
+  //           children: [
+  //             {
+  //               component: "Typography",
+  //               props: {
+  //                 variant: "body2",
+  //                 sx: {
+  //                   fontWeight: 500,
+  //                 },
+  //               },
+  //               value: "Add Fields",
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     });
+  //     return fields;
+  //   }
+  // );
   return (
     <Box sx={{ color: "black" }}>
       {/* Page Setup  */}
@@ -628,6 +671,40 @@ function General(props) {
             }}
           />
         </Grid>
+
+        {/* {general_page_setup_after.map((field, i) => {
+          try {
+            return (
+              <React.Fragment key={`field-${i}`}>
+                {renderMUIComponent(
+                  field, 
+                  { register: props?.register, 
+                    setValue: props?.setValue, 
+                    watch: props.watch 
+                  }
+                )
+                }
+              </React.Fragment>
+            );
+          } catch (error) {
+            console.error(`Error rendering field at index ${i}:`, error);
+            return null;
+          }
+        })} */}
+        {general_page_setup_after.map((field, i) => (
+          <React.Fragment key={`field-${i}`}>
+            <DynamicMUIRenderer
+              item={field}
+              index={i}
+              formProps={{
+                register: props?.register,
+                setValue: props?.setValue,
+                watch: props?.watch,
+                control: props?.control,
+              }}
+            />
+          </React.Fragment>
+        ))}
       </Grid>
       {/* Course options */}
       <Box

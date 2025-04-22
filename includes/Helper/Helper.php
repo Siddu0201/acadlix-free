@@ -534,6 +534,10 @@ if (!class_exists('Helper')) {
                 'acadlix_license_email_id' => "",
                 'acadlix_license_key' => "",
             ];
+
+            // Filter options
+            $options = apply_filters('acadlix_options', $options);
+
             return $options;
         }
 

@@ -19,7 +19,7 @@ class Activator
         register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
-        add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
+        add_action('init', [$this, 'acadlix_load_textdomain']);
     }
 
 
@@ -59,6 +59,6 @@ class Activator
 
     public function acadlix_load_textdomain()
     {
-        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
+        // load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
     }
 }

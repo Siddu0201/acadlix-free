@@ -205,21 +205,23 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     'user_id' => get_current_user_id(),
                                                 ])->count();
                                             ?>
-                                            <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
-                                                id="add-to-wishlist-<?php echo esc_attr($course->ID); ?>"
-                                                title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
-                                                data-id="<?php echo esc_attr($course->ID); ?>"
-                                                style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
-                                                <i class="la la-heart-o"></i>
-                                                <div class="acadlix-btn-loader" style="display: none;"></div>
-                                            </div>
-                                            <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
-                                                id="remove-from-wishlist-<?php echo esc_attr($course->ID); ?>"
-                                                title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
-                                                data-id="<?php echo esc_attr($course->ID); ?>"
-                                                style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <div class="acadlix-btn-loader" style="display: none;"></div>
+                                            <div class="acadlix-course-wishlist">
+                                                <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
+                                                    id="add-to-wishlist-<?php echo esc_attr($course->ID); ?>"
+                                                    title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
+                                                    data-id="<?php echo esc_attr($course->ID); ?>"
+                                                    style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                    <div class="acadlix-btn-loader" style="display: none;"></div>
+                                                </div>
+                                                <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
+                                                    id="remove-from-wishlist-<?php echo esc_attr($course->ID); ?>"
+                                                    title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
+                                                    data-id="<?php echo esc_attr($course->ID); ?>"
+                                                    style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                    <div class="acadlix-btn-loader" style="display: none;"></div>
+                                                </div>
                                             </div>
                                             <?php
                                         }

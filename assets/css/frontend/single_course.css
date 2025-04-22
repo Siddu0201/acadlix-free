@@ -330,7 +330,7 @@
   }
 }
 
-.acadlix-curriculum-content-item {
+.acadlix-curriculum-content-section-item {
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
@@ -339,6 +339,10 @@
 }
 
 .acadlix-curriculum-content-item:hover {
+  cursor: pointer;
+}
+
+.acadlix-curriculum-content-section-item:hover {
   cursor: pointer;  
   background-color: var(--acadlix-grey);
 }

@@ -7,7 +7,8 @@
  * Requires PHP:      7.4
  * Version:           0.0.1
  * Tested upto:       6.1.1
- * Author:            sudhanshu agarwal<sudhanshuag02012000@gmail.com>
+ * Author:            Team Acadlix
+ * Author URI:        https://acadlix.com/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       acadlix

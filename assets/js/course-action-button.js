@@ -1,5 +1,6 @@
 (function ($) {
   const $e = $(document).find(".acadlix-course-action-buttons");
+  const $wishlist = $(document).find(".acadlix-course-wishlist");
   const courseBase = `${acadlixOptions?.api_url}/front-course`;
 
   const course = {
@@ -491,11 +492,11 @@
     methods?.startNow(this);
   });
 
-  $e.find(".acadlix-add-to-wishlist").click(function () {
+  $wishlist.find(".acadlix-add-to-wishlist").click(function () {
     methods?.addToWishlist(this);
   });
 
-  $e.find(".acadlix-remove-from-wishlist").click(function () {
+  $wishlist.find(".acadlix-remove-from-wishlist").click(function () {
     methods?.removeFromWishlist(this);
   });
 })(jQuery);

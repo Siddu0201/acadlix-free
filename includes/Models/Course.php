@@ -20,6 +20,7 @@ if (!class_exists('Course')) {
             'rendered_metas',
             'thumbnail',
             'users',
+            'student_count',
         ];
 
         protected static $postType = ACADLIX_COURSE_CPT;
@@ -99,6 +100,11 @@ if (!class_exists('Course')) {
                 return $thumbnail;
             }
             return [];
+        }
+
+        public function getStudentCountAttribute()
+        {
+            return 0;
         }
 
         /**

@@ -21,6 +21,7 @@ class Manager
             QueryLogger::enable();
         });
         add_action('init', [$this, 'register_all_scripts']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
 
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
@@ -322,6 +323,12 @@ class Manager
                 'deps' => ['jquery'],
                 'in_footer' => true,
             ],
+            'acadlix-global-hooks' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['wp-hooks'],
+                'in_footer' => true,
+            ],
             // 'acadlix-front-all-course-js' => [
             //     'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
             //     'version' => ACADLIX_VERSION,
@@ -343,6 +350,14 @@ class Manager
         foreach ($scripts as $handle => $script) {
             wp_register_script($handle, $script['src'], $script['deps'], $script['version'], $script['in_footer']);
         }
+    }
+
+    public function enqueue_admin_scripts() 
+    {
+        if (!is_admin()) {
+            return;
+        }
+         wp_enqueue_script( 'acadlix-global-hooks' );
     }
 
     public function enqueue_front_assets()

@@ -274,7 +274,7 @@ if (!function_exists('acadlix_basic_course_details')) {
             </div>
             <div class="acadlix-course-aside-details-option">
                 <div><strong><?php esc_html_e('Students Enrolled:', 'acadlix'); ?></strong></div>
-                <div> 6</div>
+                <div> <?php echo esc_html($course->student_count); ?></div>
             </div>
         </div>
         <?php
@@ -370,19 +370,21 @@ if (!function_exists('acadlix_course_action_buttons')) {
                         'user_id' => get_current_user_id(),
                     ])->count();
                 ?>
-                <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
-                    id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
-                    data-id="<?php echo esc_attr($course?->ID); ?>"
-                    style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
-                    <i class="la la-heart-o"></i>
-                    <div class="acadlix-btn-loader" style="display: none;"></div>
-                </div>
-                <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
-                    id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
-                    data-id="<?php echo esc_attr($course?->ID); ?>"
-                    style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
-                    <i class="fa-solid fa-heart"></i>
-                    <div class="acadlix-btn-loader" style="display: none;"></div>
+                <div class="acadlix-course-wishlist">
+                    <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
+                        id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
+                        data-id="<?php echo esc_attr($course?->ID); ?>"
+                        style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
+                        <i class="fa-regular fa-heart"></i>
+                        <div class="acadlix-btn-loader" style="display: none;"></div>
+                    </div>
+                    <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
+                        id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
+                        data-id="<?php echo esc_attr($course?->ID); ?>"
+                        style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
+                        <i class="fa-solid fa-heart"></i>
+                        <div class="acadlix-btn-loader" style="display: none;"></div>
+                    </div>
                 </div>
                 <?php
             }
@@ -549,7 +551,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                 // Helper::instance()->acadlix_dd($content->contentable_data?->rendered_metas);
                                                 $preview = $content->rendered_metas['preview'] ?? false;
                                                 ?>
-                                                <div class="acadlix-curriculum-content-item"
+                                                <div class="acadlix-curriculum-content-item acadlix-curriculum-content-section-item"
                                                     data-section-index="<?php echo esc_attr($i); ?>"
                                                     data-content-index="<?php echo esc_attr($c_index); ?>"
                                                     data-is-preview="<?php echo esc_attr($preview); ?>">
