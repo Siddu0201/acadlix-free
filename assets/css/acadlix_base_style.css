@@ -4176,3 +4176,23 @@
 .acadlix-fw-900{
   font-weight: 900;
 }
+
+.acadlix-ht-100{
+  height: 100%;
+}
+
+.acadlix-of-hidden{
+  overflow: hidden;
+}
+
+.acadlix-of-auto{
+  overflow: auto;
+}
+
+.acadlix-of-scroll{
+  overflow: scroll;
+}
+
+.acadlix-of-visible{
+  overflow: visible;
+}

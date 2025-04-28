@@ -12,6 +12,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
+import { currencyPosition } from "../../helpers/util";
 
 const OrderSummary = (props) => {
   const is_payment_gateway_active = () => {
@@ -61,7 +62,7 @@ const OrderSummary = (props) => {
                       {__('Price:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
-                      {props?.currencyPosition(
+                      {currencyPosition(
                         props
                           ?.watch("order_items")
                           ?.reduce((total, c) => total + c?.price, 0)
@@ -87,7 +88,7 @@ const OrderSummary = (props) => {
                       {__('Discount:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
-                      {props?.currencyPosition(
+                      {currencyPosition(
                         props
                           ?.watch("order_items")
                           ?.reduce((total, c) => total + c?.discount, 0)
@@ -113,7 +114,7 @@ const OrderSummary = (props) => {
                       {__('Tax:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
-                      {props?.currencyPosition(
+                      {currencyPosition(
                         props
                           ?.watch("order_items")
                           ?.reduce((total, c) => total + c?.tax, 0)
@@ -139,7 +140,7 @@ const OrderSummary = (props) => {
                       {__('Total:', 'acadlix')}
                     </Typography>
                     <Typography variant="body2">
-                      {props?.currencyPosition(
+                      {currencyPosition(
                         props
                           ?.watch("order_items")
                           ?.reduce((total, c) => total + c?.price_after_tax, 0)

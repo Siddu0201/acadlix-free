@@ -16,6 +16,7 @@ import React from "react";
 import { FaTrashAlt } from "../../helpers/icons";
 import { DeleteCourseFromCart } from "../../requests/front/FrontCheckoutRequest";
 import { RawHTML } from "@wordpress/element";
+import { currencyPosition } from "../../helpers/util";
 
 const OrderDetail = (props) => {
   return (
@@ -131,7 +132,7 @@ const OrderItem = (props) => {
             }}
           >
             <Typography variant="body1">
-              <b>{`${props?.currencyPosition(
+              <b>{`${currencyPosition(
                 Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price))
                   ? props?.c?.course?.rendered_metas?.sale_price
                   : props?.c?.course?.rendered_metas?.price
@@ -140,7 +141,7 @@ const OrderItem = (props) => {
             {Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price)) && (
               <Typography variant="body2">
                 <del>
-                  {props?.currencyPosition(props?.c?.course?.rendered_metas?.price)}
+                  {currencyPosition(props?.c?.course?.rendered_metas?.price)}
                 </del>
               </Typography>
             )}

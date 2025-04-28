@@ -20,12 +20,6 @@ if (!class_exists("Option")) {
             //         'post_author' => get_current_user_id(), // Change this to the desired author ID
             //         'post_type' => 'page',
             //     ],
-            //     'acadlix_all_courses_page_id' => [
-            //         'post_title' => __('Courses', 'acadlix'),
-            //         'post_status' => 'publish',
-            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
-            //         'post_type' => 'page',
-            //     ],
             //     'acadlix_cart_page_id' => [
             //         'post_title' => __('Cart', 'acadlix'),
             //         'post_status' => 'publish',
@@ -62,12 +56,6 @@ if (!class_exists("Option")) {
             $this->pages = [
                 'acadlix_dashboard_page_id' => [
                     'post_title' => __('Dashboard', 'acadlix'),
-                    'post_status' => 'publish',
-                    'post_author' => get_current_user_id(),
-                    'post_type' => 'page',
-                ],
-                'acadlix_all_courses_page_id' => [
-                    'post_title' => __('Courses', 'acadlix'),
                     'post_status' => 'publish',
                     'post_author' => get_current_user_id(),
                     'post_type' => 'page',

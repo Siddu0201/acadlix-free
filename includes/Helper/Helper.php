@@ -489,7 +489,6 @@ if (!class_exists('Helper')) {
         public function acadlix_options()
         {
             $options = [
-                'acadlix_all_courses_page_id' => null,
                 'acadlix_dashboard_page_id' => null,
                 'acadlix_advance_quiz_page_id' => null,
                 'acadlix_cart_page_id' => null,

@@ -48,8 +48,6 @@ function Setting() {
 
   const baseDefaults = {
     // General Options
-    acadlix_all_courses_page_id:
-      acadlixOptions?.options?.acadlix_all_courses_page_id ?? null,
     acadlix_dashboard_page_id:
       acadlixOptions?.options?.acadlix_dashboard_page_id ?? null,
     acadlix_advance_quiz_page_id:

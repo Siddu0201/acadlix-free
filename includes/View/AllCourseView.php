@@ -101,7 +101,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 </div>
             </section>
 
-            <section class="acadlix-row" id="acadlix-all-course-page">
+            <section class="acadlix-row">
                 <?php
                 foreach ($courses as $key => $course) {
                     // Helper::instance()->acadlix_ddd($course->rendered_metas);

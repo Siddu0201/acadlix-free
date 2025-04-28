@@ -19,6 +19,7 @@ import parse from "html-react-parser";
 import toast from "react-hot-toast";
 import UserAuth from "../../modules/user-auth/UserAuth";
 import { __ } from "@wordpress/i18n";
+import { formatPrice } from "../../helpers/util";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -73,47 +74,6 @@ const Checkout = () => {
     methods?.watch("user_id"),
     methods?.watch("cart_token")
   );
-
-  const formatPrice = (price = 0) => {
-    if (isNaN(price)) return price;
-
-    // Split the number into the integer and decimal parts
-    let [integerPart, decimalPart] = parseFloat(price)
-      .toFixed(acadlixOptions?.settings?.acadlix_number_of_decimals)
-      .split(".");
-
-    // Add thousand separators to the integer part
-    integerPart = integerPart.replace(
-      /\B(?=(\d{3})+(?!\d))/g,
-      acadlixOptions?.settings?.acadlix_thousand_separator
-    );
-
-    // Join the integer and decimal parts with the custom decimal separator
-    return Number(
-      decimalPart
-        ? integerPart +
-        acadlixOptions?.settings?.acadlix_decimal_seprator +
-        decimalPart
-        : integerPart
-    );
-  };
-
-  const currencyPosition = (price = 0) => {
-    let symbol = parse(acadlixOptions?.currency_symbol);
-    let newPrice = formatPrice(price);
-    switch (acadlixOptions?.settings?.acadlix_currency_position) {
-      case "Left ( $99.99 )":
-        return `${symbol}${newPrice}`;
-      case "Right ( 99.99$ )":
-        return `${newPrice}${symbol}`;
-      case "Left with space ( $ 99.99 )":
-        return `${symbol} ${newPrice}`;
-      case "Right with space ( 99.99 $ )":
-        return `${newPrice} ${symbol}`;
-      default:
-        return `${symbol}${price}`;
-    }
-  };
 
   const setCartData = (cart = []) => {
     methods?.setValue("is_checkout_locked", false, { shouldDirty: true });
@@ -457,7 +417,6 @@ const Checkout = () => {
                   <OrderDetail
                     {...methods}
                     isFetching={getCart?.isFetching}
-                    currencyPosition={currencyPosition}
                     setCartData={setCartData}
                   />
                 </Grid>
@@ -476,7 +435,6 @@ const Checkout = () => {
                     {...methods}
                     isFetching={getCart?.isFetching}
                     handleCheckout={handleCheckout}
-                    currencyPosition={currencyPosition}
                   />
                 </Grid>
               </Grid>

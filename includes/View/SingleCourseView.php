@@ -14,7 +14,6 @@ global $post, $wp_version;
 // $course = Course::withCount(['users', 'cart'])->find($post->ID);
 $course = Course::ofCourse()->find($post->ID);
 
-$courses_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id"));
 $checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
 $dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
 

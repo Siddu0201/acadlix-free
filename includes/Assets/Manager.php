@@ -352,12 +352,12 @@ class Manager
         }
     }
 
-    public function enqueue_admin_scripts() 
+    public function enqueue_admin_scripts()
     {
         if (!is_admin()) {
             return;
         }
-         wp_enqueue_script( 'acadlix-global-hooks' );
+        wp_enqueue_script('acadlix-global-hooks');
     }
 
     public function enqueue_front_assets()
@@ -371,7 +371,7 @@ class Manager
             wp_enqueue_style('wp-mediaelement');
         }
 
-        wp_enqueue_style( 'acadlix-vendor-css' );
+        wp_enqueue_style('acadlix-vendor-css');
         // wp_enqueue_style('katex-css', 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css');
         wp_enqueue_style('acadlix-front-base-style-css');
         $custom_css = "
@@ -417,26 +417,41 @@ class Manager
             ['acadlix-katex-js'], // depends on main katex
             null,
             true // load in footer
-          );
+        );
+
+        wp_enqueue_script('acadlix-front-action-button-course-js');
+        wp_localize_script('acadlix-front-action-button-course-js', 'acadlixOptions', array(
+            'is_admin_bar_showing' => is_admin_bar_showing(),
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'home_url' => esc_url(home_url()),
+            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
+            'checkout_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id'))),
+            'cart_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_cart_page_id'))),
+            'user_id' => get_current_user_id() ?? 0,
+            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+        ));
 
     }
 
     public function acadlix_front_footer()
     {
-        if(is_admin(  ))return;
+        if (is_admin())
+            return;
         ?>
         <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-              delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "\\[", right: "\\]", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false }
-              ],
-              throwOnError: false
+            document.addEventListener("DOMContentLoaded", function () {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "\\[", right: "\\]", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false }
+                    ],
+                    throwOnError: false
+                });
             });
-          });
         </script>
         <?php
     }

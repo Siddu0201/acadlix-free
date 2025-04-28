@@ -148,7 +148,7 @@ export const shuffleArrayBasedOnOrder = (arr, order) => {
   return shuffledArray;
 };
 
-const formatPrice = (price = 0) => {
+export const formatPrice = (price = 0) => {
   if (isNaN(price)) return price;
 
   // Split the number into the integer and decimal parts
@@ -163,13 +163,14 @@ const formatPrice = (price = 0) => {
   );
 
   // Join the integer and decimal parts with the custom decimal separator
-  return Number(
-    decimalPart
-      ? integerPart +
+  return decimalPart
+      ? isNaN(integerPart +
       acadlixOptions?.settings?.acadlix_decimal_seprator +
-      decimalPart
-      : integerPart
-  );
+      decimalPart)
+          ? integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart
+          : Number(integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart)
+      : Number(integerPart)
+  ;
 };
 
 export const currencyPosition = (price = 0, currency_symbol = '') => {
