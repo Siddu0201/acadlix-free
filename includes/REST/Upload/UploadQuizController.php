@@ -45,7 +45,9 @@ class UploadQuizController
             ->orderBy('ID', 'desc')
             ->get()
             ->each
-            ->setAppends([]);
+            ->setAppends([
+                "rendered_metas",
+            ]);
         return rest_ensure_response($res);
     }
 
