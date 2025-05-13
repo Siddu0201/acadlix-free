@@ -28,7 +28,6 @@ import {
 import {
   FaEdit,
   FaParagraph, FaQuestion, FaTrash, FaRankingStar, MdFileCopy, IoMdRefresh, LuFileChartColumn, LuFileClock,
-  IoClose,
   FaSearch
 } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";

@@ -81,6 +81,7 @@ module.exports = {
     admin_course: path.resolve(process.cwd(), "src", "admin-course.js"),
     admin_lesson: path.resolve(process.cwd(), "src", "admin-lesson.js"),
     admin_quiz: path.resolve(process.cwd(), "src", "admin-quiz.js"),
+    admin_assignment: path.resolve(process.cwd(), "src", "admin-assignment.js"),
     admin_order: path.resolve(process.cwd(), "src", "admin-order.js"),
     admin_setting: path.resolve(process.cwd(), "src", "admin-setting.js"),
     admin_tool: path.resolve(process.cwd(), "src", "admin-tool.js"),

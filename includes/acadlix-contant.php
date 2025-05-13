@@ -40,3 +40,5 @@ const ACADLIX_QUIZ_LANGUAGE_TAXONOMY = 'acadlix_quiz_language';
 
 const ACADLIX_LESSON_CPT = 'acadlix_lesson';
 const ACADLIX_PARAGRAPH_CPT = 'acadlix_paragraph';
+
+const ACADLIX_ASSIGNMENT_CPT = 'acadlix_assignment';

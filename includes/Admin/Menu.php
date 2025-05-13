@@ -7,6 +7,7 @@ use Yuvayana\Acadlix\Submenu\Submenu_Home;
 use Yuvayana\Acadlix\Submenu\Submenu_Lessons;
 use Yuvayana\Acadlix\Submenu\Submenu_Orders;
 use Yuvayana\Acadlix\Submenu\Submenu_Quiz;
+use Yuvayana\Acadlix\Submenu\Submenu_Assignments;
 use Yuvayana\Acadlix\Submenu\Submenu_Settings;
 use Yuvayana\Acadlix\Submenu\Submenu_Tags;
 use Yuvayana\Acadlix\Submenu\Submenu_Tools;
@@ -43,6 +44,7 @@ class Menu
         Submenu_Courses::instance()->add_submenu();
         Submenu_Lessons::instance()->add_submenu();
         Submenu_Quiz::instance()->add_submenu();
+        Submenu_Assignments::instance()->add_submenu();
         Submenu_Orders::instance()->add_submenu();
         Submenu_Categories::instance()->add_submenu();
         Submenu_Tags::instance()->add_submenu();

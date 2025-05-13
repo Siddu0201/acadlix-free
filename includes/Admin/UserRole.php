@@ -42,6 +42,13 @@ class UserRole
                 'acadlix_delete_lesson' => true,
                 'acadlix_bulk_action_lesson' => true,
                 'acadlix_bulk_delete_lesson' => true,
+                // assignment capabilities
+                'acadlix_show_assignment' => true,
+                'acadlix_add_assignment' => true,
+                'acadlix_edit_assignment' => true,
+                'acadlix_delete_assignment' => true,
+                'acadlix_bulk_action_assignment' => true,
+                'acadlix_bulk_delete_assignment' => true,
                 // quiz capabilites
                 'acadlix_show_quiz' => true,
                 'acadlix_add_quiz' => true,

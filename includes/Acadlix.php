@@ -96,6 +96,7 @@ namespace Yuvayana\Acadlix {
             new CPT\Lesson();
             new CPT\Paragraph();
             new CPT\Quiz();
+            new CPT\Assignment();
             
             new Assets\Manager();
             
