@@ -166,6 +166,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-assignment-css' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_assignment.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-admin-order-css' => [
                 'src' => ACADLIX_BUILD_URL . 'admin_order.css',
                 'version' => ACADLIX_VERSION,
@@ -223,6 +228,7 @@ class Manager
         $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . 'admin_lesson.asset.php';
         $admin_order_dependency = require_once ACADLIX_BUILD_PATH . 'admin_order.asset.php';
         $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . 'admin_quiz.asset.php';
+        $admin_assignment_dependency = require_once ACADLIX_BUILD_PATH . 'admin_assignment.asset.php';
         $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . 'admin_setting.asset.php';
         $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . 'admin_tool.asset.php';
 
@@ -261,6 +267,12 @@ class Manager
                 'src' => ACADLIX_BUILD_URL . 'admin_lesson.js',
                 'version' => $admin_lesson_dependency['version'],
                 'deps' => $admin_lesson_dependency['dependencies'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-assignment' => [
+                'src' => ACADLIX_BUILD_URL . 'admin_assignment.js',
+                'version' => $admin_assignment_dependency['version'],
+                'deps' => $admin_assignment_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-order' => [
@@ -420,7 +432,7 @@ class Manager
         );
 
         wp_enqueue_script('acadlix-front-action-button-course-js');
-        wp_localize_script('acadlix-front-action-button-course-js', 'acadlixOptions', array(
+        wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),

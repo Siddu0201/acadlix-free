@@ -1,13 +1,13 @@
 (function ($) {
   const $e = $(document).find(".acadlix-course-action-buttons");
   const $wishlist = $(document).find(".acadlix-course-wishlist");
-  const courseBase = `${acadlixOptions?.api_url}/front-course`;
+  const courseBase = `${acadlixButton?.api_url}/front-course`;
 
   const course = {
-    userId: acadlixOptions?.user_id ? Number(acadlixOptions?.user_id) : 0,
+    userId: acadlixButton?.user_id ? Number(acadlixButton?.user_id) : 0,
     courseBase: courseBase,
-    ajaxUrl: `${acadlixOptions?.ajax_url}`,
-    checkoutUrl: acadlixOptions?.checkout_url,
+    ajaxUrl: `${acadlixButton?.ajax_url}`,
+    checkoutUrl: acadlixButton?.checkout_url,
     addToCartUrl: `${courseBase}/add-to-cart`,
     buyNowUrl: `${courseBase}/buy-now`,
     startNowUrl: `${courseBase}/start-now`,
