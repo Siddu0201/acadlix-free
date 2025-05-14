@@ -1,8 +1,16 @@
 import React from 'react'
+import AssignmentContent from './AssignmentContent'
 
 const CreateAssignment = () => {
   return (
-    <div>CreateAssignment</div>
+    <>
+      <AssignmentContent
+        assignment_id={null}
+        create={true}
+        assignment={null}
+        isFetching={false}
+      />
+    </>
   )
 }
 

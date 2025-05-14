@@ -21,6 +21,55 @@ export const GetAssignments = (page = 0, pageSize = 10, search = '') => {
     });
 }
 
+export const PostCreateAssignment = () => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(base, data);
+        },
+        onSuccess: () => {
+            toast.success(__('Assignment successfully created.', 'acadlix'));
+            queryClient.invalidateQueries({
+                queryKey: ["getAssignments"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    })
+}
+
+export const GetAssignmentById = (assignment_id = '') => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getAssignmentById", assignment_id],
+        queryFn: () => {
+            if (!assignment_id) return {};
+            return instance.get(`${base}/${assignment_id}`);
+        }
+    });
+}
+
+export const UpdateAssignmentById = (assignment_id = '') => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.put(`${base}/${assignment_id}`, data);
+        },
+        onSuccess: () => {
+            toast.success(__('Assignment successfully updated.', 'acadlix'));
+            queryClient.invalidateQueries({
+                queryKey: ["getAssignments"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    })
+}
+
 export const DeleteAssignmentById = () => {
     const instance = useInstance();
     const queryClient = useQueryClient();
@@ -32,8 +81,8 @@ export const DeleteAssignmentById = () => {
                 }
             });
         },
-        onSuccess: () => {
-            toast.success(__('Assignment successfully deleted.', 'acadlix'));
+        onSuccess: (data) => {
+            toast.success(data?.data?.message);
             queryClient.invalidateQueries({
                 queryKey: ["getAssignments"]
             });
@@ -42,4 +91,28 @@ export const DeleteAssignmentById = () => {
             toast.error(error?.response?.data?.message);
         }
     })
+}
+
+export const DeleteBulkAssignment = () => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.delete(`${base}/delete-bulk-assignment`, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions?.nonce,
+                },
+                data: data
+            });
+        },
+        onSuccess: (data) => {
+            toast.success(data?.data?.message);
+            queryClient.invalidateQueries({
+                queryKey: ["getAssignments"]
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    });
 }

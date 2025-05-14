@@ -1,13 +1,14 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { FaEdit, FaTrash, IoMdRefresh } from '../../../helpers/icons';
+import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from '../../../helpers/icons';
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
 import { Link } from "react-router-dom";
-import { Box, Button, Card, CardContent, CardHeader, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { DeleteAssignmentById, GetAssignments } from "../../../requests/admin/AdminAssignmentRequest";
+import { DeleteAssignmentById, DeleteBulkAssignment, GetAssignments } from "../../../requests/admin/AdminAssignmentRequest";
 import { DataGrid } from '@mui/x-data-grid';
+import CustomTextField from '../../../components/CustomTextField';
 
 const Assignment = () => {
     const methods = useForm({
@@ -86,12 +87,21 @@ const Assignment = () => {
 
     React.useMemo(() => {
         if (Array.isArray(data?.data?.assignments)) {
+            const assignmentType = (type) => {
+                switch (type) {
+                    case "writing":
+                        return __("Writing", "acadlix");
+                    case "file_upload":
+                        return __("File Upload", "acadlix");
+                    default:
+                        return __("Other", "acadlix");
+                }
+            }
             const newRows = data?.data?.assignments?.map((assignment) => {
                 return {
                     id: assignment?.ID,
                     title: assignment?.post_title,
-                    type: assignment?.rendered_metas?.type,
-                    total_resources: assignment?.resource_count,
+                    type: assignmentType(assignment?.rendered_metas?.assignment_type),
                 };
             });
             methods.setValue("rows", newRows, { shouldDirty: true });
@@ -106,6 +116,59 @@ const Assignment = () => {
         }
         return rowCountRef.current;
     }, [data?.data?.total]);
+
+    const deleteBulkMutation = DeleteBulkAssignment();
+    const handleBulkDelete = () => {
+        if (
+            confirm(
+                __("Do you really want to delete these assignment(s)?", "acadlix")
+            )
+        ) {
+            deleteBulkMutation?.mutate(
+                {
+                    assignment_ids: methods?.watch("assignment_ids"),
+                },
+                {
+                    onSettled: () => {
+                        refetch();
+                        methods?.reset();
+                    },
+                }
+            );
+        }
+    };
+
+    const handleActionChange = (e) => {
+        methods?.setValue("action", e?.target?.value, { shouldDirty: true });
+    };
+
+    const handleBulkAction = () => {
+        if (!methods?.watch("action")) {
+            methods?.setError("action", {
+                type: "custom",
+                message: __("Action required", "acadlix"),
+            });
+            return;
+        }
+
+        methods?.clearErrors("action");
+        if (methods?.watch("assignment_ids")?.length > 0) {
+            switch (methods?.watch("action")) {
+                case "delete":
+                    handleBulkDelete();
+                    break;
+                default:
+            }
+        } else {
+            toast.error(__("Please select atleast 1 entry.", "acadlix"), {
+                position: "bottom-left",
+            });
+        }
+    };
+
+    const handleSearch = (e) => {
+        methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+    };
 
     return (
         <Box>
@@ -158,6 +221,87 @@ const Assignment = () => {
                             }}
                         />
                         <CardContent>
+                            <Box
+                                sx={{
+                                    paddingBottom: 2,
+                                    display: {
+                                        xs: "block",
+                                        sm: "flex",
+                                    },
+                                    gap: 2,
+                                    alignItems: "flex-start",
+                                    justifyContent: hasCapability("acadlix_bulk_action_assignment")
+                                        ? "space-between"
+                                        : "flex-end"
+                                }}
+                            >
+                                {
+                                    hasCapability("acadlix_bulk_action_assignment") &&
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            gap: 2,
+                                            alignItems: "baseline",
+                                        }}
+                                    >
+                                        <FormControl
+                                            sx={{ minWidth: 150 }}
+                                            size="small"
+                                            error={Boolean(methods?.formState?.errors?.action)}
+                                        >
+                                            <InputLabel id="demo-simple-select-label">
+                                                {__("Bulk Actions", "acadlix")}
+                                            </InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={methods?.watch("action")}
+                                                label={__("Bulk Actions", "acadlix")}
+                                                onChange={handleActionChange}
+                                            >
+                                                <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                                                {
+                                                    hasCapability("acadlix_bulk_delete_assignment") &&
+                                                    <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                                                }
+                                            </Select>
+                                            <FormHelperText>
+                                                {methods?.formState?.errors?.action?.message}
+                                            </FormHelperText>
+                                        </FormControl>
+                                        <Button
+                                            variant="contained"
+                                            sx={{
+                                                marginRight: 2,
+                                            }}
+                                            onClick={handleBulkAction}
+                                            color="primary"
+                                        >
+                                            {__("Apply", "acadlix")}
+                                        </Button>
+                                    </Box>
+                                }
+                                <Box>
+                                    <CustomTextField
+                                        label={__("Search", "acadlix")}
+                                        helperText={__("Search by title", "acadlix")}
+                                        fullWidth
+                                        size="small"
+                                        type="search"
+                                        value={methods?.watch("search")}
+                                        onChange={handleSearch}
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <FaSearch />
+                                                    </InputAdornment>
+                                                )
+                                            }
+                                        }}
+                                    />
+                                </Box>
+                            </Box>
                             <Box
                                 sx={{
                                     width: "100%",
