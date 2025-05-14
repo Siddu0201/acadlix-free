@@ -207,7 +207,7 @@ const OptionSection = (props) => {
                                 },
                             }}>
                                 <DateTimePicker
-                                    label={__("Enter Start Date*", "acadlix")}
+                                    label={__("Enter Start Date", "acadlix")}
                                     format="DD/MM/YYYY hh:mm:a"
                                     timeSteps={{
                                         minutes: 1,
