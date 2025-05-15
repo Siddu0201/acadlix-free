@@ -93,16 +93,10 @@ export const PostAddLesson = (section_id = 0) => {
 
 export const PostUpdateLessonById = (section_id = 0, lesson_id = 0 ) => {
   const instance = useInstance();
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
       return instance.post(`${base}/section/${section_id}/lesson/${lesson_id}`, data);
     },
-    onSuccess: () => {
-      queryClient?.invalidateQueries({
-        queryKey: ["getLessonById"]
-      })
-    }
   });
 }
 
@@ -121,6 +115,35 @@ export const PostAddQuiz = (section_id = 0) => {
   return useMutation({
     mutationFn: (data) => {
       return instance.post(`${base}/section/${section_id}/quiz`, data);
+    },
+  });
+}
+
+export const GetAssignmentsForCourse = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getAssignmentsForCourse"],
+    queryFn: () => {
+      return instance.get(`${base}/get-assignments-for-course`);
+    },
+  });
+};
+
+
+export const PostAddAssignment = (section_id = 0) => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/section/${section_id}/assignment`, data);
+    },
+  });
+}
+
+export const PostUpdateAssignmentById = (section_id = 0, assignment_id = 0 ) => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/section/${section_id}/assignment/${assignment_id}`, data);
     },
   });
 }

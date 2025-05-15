@@ -34,6 +34,7 @@ import {
 import EditLesson from "./EditLesson";
 import { __, sprintf } from "@wordpress/i18n";
 import { hasCapability } from "../../../../helpers/util";
+import EditAssignment from "./EditAssignment";
 
 const ViewContentSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -435,6 +436,34 @@ const SortableSections = (props) => {
             }
           </Box>
         )}
+        {
+          props?.c?.type === "assignment" && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {
+                hasCapability("acadlix_edit_course_section_assignment") && hasCapability("acadlix_edit_assignment") &&
+                <EditAssignment {...props} />
+              }
+              {
+                hasCapability("acadlix_delete_course_section_assignment") &&
+                <Tooltip title={__("Delete Assignment", "acadlix")}>
+                  <IconButton onClick={handleRemoveContent}>
+                    <FaTrash
+                      style={{
+                        fontSize: 14,
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              }
+            </Box>
+          )
+        }
       </Box>
     </ListItem>
   );

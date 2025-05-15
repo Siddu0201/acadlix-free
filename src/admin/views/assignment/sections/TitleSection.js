@@ -19,6 +19,7 @@ const TitleSection = (props) => {
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography variant="h6">
                 {__("Assignment Title", "acadlix")}
+                <span style={{ color: "red" }}>*</span>
               </Typography>
             </Grid>
             {/* Used to enter quiz title  */}
@@ -28,7 +29,7 @@ const TitleSection = (props) => {
                 fullWidth
                 name="title"
                 size="small"
-                label={__("Assignment Title", "acadlix")}
+                label={__("Assignment Title*", "acadlix")}
                 value={props?.watch("title")}
                 onChange={(e) => {
                   props?.setValue("title", e?.target?.value, {

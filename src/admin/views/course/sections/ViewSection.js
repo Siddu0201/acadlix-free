@@ -29,6 +29,7 @@ import { FaEdit, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "../../../
 import EditSection from "./EditSection";
 import AddLesson from "./AddLesson";
 import AddQuiz from "./AddQuiz";
+import AddAssignment from "./AddAssignment";
 import {
   DeleteSectionById,
   PostSortSection,
@@ -341,8 +342,18 @@ const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
               gap: 2,
             }}
           >
-            <AddLesson {...props} />
-            <AddQuiz {...props} />
+            {
+              hasCapability("acadlix_add_course_section_lesson") &&
+              <AddLesson {...props} />
+            }
+            {
+              hasCapability("acadlix_add_course_section_quiz") &&
+              <AddQuiz {...props} />
+            }
+            {
+              hasCapability("acadlix_add_course_section_assignment") &&
+              <AddAssignment {...props} />
+            }
           </Box>
         </Box>
       </Collapse>
@@ -509,6 +520,10 @@ const SortableSections = (props) => {
             {
               hasCapability("acadlix_add_course_section_quiz") &&
               <AddQuiz {...props} />
+            }
+            {
+              hasCapability("acadlix_add_course_section_assignment") &&
+              <AddAssignment {...props} />
             }
           </Box>
         </Box>

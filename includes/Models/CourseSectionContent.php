@@ -129,6 +129,11 @@ if (!class_exists(class: 'CourseSectionContent')) {
                     $contentableId = $renderedMetas['quiz_id'];
                     $contentableTitle = $quiz->post_title ?? "";
                     break;
+                case 'assignment':
+                    $assignment = Assignment::ofAssignment()->find($renderedMetas['assignment_id']);
+                    $contentableId = $renderedMetas['assignment_id'];
+                    $contentableTitle = $assignment->post_title ?? "";
+                    break;
                 default:
                     $lesson = Lesson::ofLesson()->find($renderedMetas['lesson_id']);
                     $contentableId = $renderedMetas['lesson_id'];
@@ -146,6 +151,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
             return match ($contentableType) {
                 'lesson' => Lesson::ofLesson()->find($renderedMetas['lesson_id']),
                 'quiz' => Quiz::ofQuiz()->find($renderedMetas['quiz_id']),
+                'assignment' => Assignment::ofAssignment()->find($renderedMetas['assignment_id']),
                 default => throw new \Exception("Unknown contentable type"),
             };
         }

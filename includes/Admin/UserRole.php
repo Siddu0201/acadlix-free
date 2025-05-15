@@ -35,6 +35,9 @@ class UserRole
                 'acadlix_add_course_section_quiz' => true,
                 'acadlix_edit_course_section_quiz' => true,
                 'acadlix_delete_course_section_quiz' => true,
+                'acadlix_add_course_section_assignment' => true,
+                'acadlix_edit_course_section_assignment' => true,
+                'acadlix_delete_course_section_assignment' => true,
                 // lesson capabilities
                 'acadlix_show_lesson' => true,
                 'acadlix_add_lesson' => true,
