@@ -59,7 +59,7 @@ const ListItemResource = (props) => {
           horizontal: "right",
         }}
       >
-        {props?.c?.lesson_resources?.map((l, l_index) => (
+        {props?.c?.resources?.map((l, l_index) => (
           <ResourceItem key={l_index} l={l} />
         ))}
       </Menu>

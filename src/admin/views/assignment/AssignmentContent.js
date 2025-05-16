@@ -20,9 +20,9 @@ const AssignmentContent = (props) => {
       post_author: acadlixOptions?.user_id ?? 0,
       meta: {
         assignment_type: props?.assignment?.rendered_metas?.assignment_type ?? "writing",
-        allow_multiple: props?.assignment?.rendered_metas?.allow_multiple ?? false,
+        allow_multiple: Boolean(props?.assignment?.rendered_metas?.allow_multiple) ?? false,
         allowed_mime_types: props?.assignment?.rendered_metas?.allowed_mime_types ?? [],
-        enable_marking: props?.assignment?.rendered_metas?.enable_marking ?? false,
+        enable_marking: Boolean(props?.assignment?.rendered_metas?.enable_marking) ?? false,
         max_marks: props?.assignment?.rendered_metas?.max_marks ?? 0,
         start_date: props?.assignment?.rendered_metas?.start_date ?? "",
         end_date: props?.assignment?.rendered_metas?.end_date ?? "",

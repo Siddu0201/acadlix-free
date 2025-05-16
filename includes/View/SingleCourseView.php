@@ -556,11 +556,13 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     data-is-preview="<?php echo esc_attr($preview); ?>">
                                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
                                                         <span class="acadlix-content-icon">
-                                                            <?php echo $content->contentable['type'] == "lesson"
-                                                                ? $content->contentable_data?->rendered_metas['type'] == 'video'
-                                                                ? '<i class="fas fa-video"></i>'
-                                                                : '<i class="fas fa-file"></i>'
-                                                                : '<i class="fas fa-question"></i>'
+                                                            <?php echo match ($content->contentable['type']) {
+                                                                'lesson' => $content->contentable_data?->rendered_metas['type'] == 'video'
+                                                                    ? '<i class="fas fa-video"></i>'
+                                                                    : '<i class="fas fa-file"></i>',
+                                                                'quiz' => '<i class="fas fa-question"></i>',
+                                                                'assignment' => '<i class="fas fa-file-signature"></i>'
+                                                            };
                                                             ; ?>
                                                         </span>
                                                         <span class="acadlix-content-text acadlix-fs-6">

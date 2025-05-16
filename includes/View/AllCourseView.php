@@ -9,8 +9,7 @@ use Yuvayana\Acadlix\Models\UserActivityMeta;
 
 defined('ABSPATH') || exit();
 
-global $post, $wp_version;
-$courses_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_all_courses_page_id"));
+global $post, $wp_version, $wp;
 $checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
 $dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
 
@@ -87,7 +86,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         <form method="GET">
                             <input type="text" name="search" value="<?php echo esc_attr($search); ?>"
                                 placeholder="Search...">
-                            <button type="submit">Search</button>
+                            <!-- <button type="submit">Search</button> -->
                         </form>
                         <!-- <select class="acadlix-course-filter-select" aria-label="Course Filter">
                             <option value=""><?php esc_html_e('All Category', 'acadlix'); ?></option>
@@ -244,7 +243,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         $page_url = add_query_arg(array(
                             'paged' => $page - 1,
                             'search' => $search
-                        ), $courses_url);
+                        ), home_url($wp->request));
                         ?>
                         <li class="acadlix-course-pagination-item">
                             <a class="acadlix-course-pagination-link <?php echo 1 == $page ? "acadlix-course-pagination-disabled" : ""; ?>"
@@ -259,7 +258,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             $page_url = add_query_arg(array(
                                 'paged' => $i,
                                 'search' => $search
-                            ), $courses_url);
+                            ), home_url($wp->request));
                             ?>
                             <li
                                 class="acadlix-course-pagination-item <?php echo $i == $page ? "acadlix-course-pagination-active" : ""; ?> ">
@@ -273,7 +272,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         $page_url = add_query_arg(array(
                             'paged' => $page + 1,
                             'search' => $search
-                        ), $courses_url);
+                        ), home_url($wp->request));
                         ?>
                         <li class="acadlix-course-pagination-item">
                             <a class="acadlix-course-pagination-link <?php echo ceil($course_count / $per_page) == $page ? "acadlix-course-pagination-disabled" : ""; ?>" 

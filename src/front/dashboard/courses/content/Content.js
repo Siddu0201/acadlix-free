@@ -20,6 +20,7 @@ const Content = (props) => {
       });
     }
   }, []);
+
   return (
     <>
       {props?.watch("sections")?.length > 0 &&
@@ -122,7 +123,7 @@ const Content = (props) => {
                             index={index}
                           />
                         )
-                      ) : (
+                      ) : c?.type === "quiz" ? (
                         <QuizContent
                           {...props}
                           c={c}
@@ -130,6 +131,16 @@ const Content = (props) => {
                           s={s}
                           index={index}
                         />
+                      ) : c?.type === "assignment" ? (
+                        <AssignmentContent
+                          {...props}
+                          c={c}
+                          c_index={c_index}
+                          s={s}
+                          index={index}
+                        />
+                      ) : (
+                        <></>
                       )}
                     </>
                   )}
@@ -419,3 +430,9 @@ const QuizContent = (props) => {
     </Box>
   );
 };
+
+const AssignmentContent = (props) => {
+  return (
+    <div>AssignmentContent</div>
+  )
+}

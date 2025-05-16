@@ -158,7 +158,7 @@ const CourseContent = () => {
                         ? true
                         : false
                       : false,
-                  type: c?.contentable?.type ?? "", // lesson/quiz,
+                  type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
                   lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
                   title: c?.contentable?.title ?? "",
                   content: c?.contentable_data?.rendered_post_content ?? "",
@@ -184,7 +184,16 @@ const CourseContent = () => {
                     (c?.contentable_data?.rendered_metas?.minutes ?? 0).toString().padStart(2, '0'),
                   seconds:
                     (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
-                  lesson_resources: c?.contentable_data?.rendered_metas?.lesson_resources ?? [],
+                  resources: c?.contentable_data?.rendered_metas?.resources ?? [],
+                  assignment_settings: {
+                    assignment_type: c?.contentable_data?.rendered_metas?.assignment_type ?? "writing",
+                    allow_multiple: Boolean(c?.contentable_data?.rendered_metas?.allow_multiple) ?? false,
+                    allowed_mime_types: c?.contentable_data?.rendered_metas?.allowed_mime_types ?? [],
+                    enable_marking: Boolean(c?.contentable_data?.rendered_metas?.enable_marking) ?? false,
+                    max_marks: c?.contentable_data?.rendered_metas?.max_marks ?? 0,
+                    start_date: c?.contentable_data?.rendered_metas?.start_date ?? "",
+                    end_date: c?.contentable_data?.rendered_metas?.end_date ?? "",
+                  },
                 };
               }) ?? [],
           };
@@ -198,6 +207,8 @@ const CourseContent = () => {
       }
     }
   }, [data?.data]);
+
+  console.log(methods?.watch("sections"));
 
   const [value, setValue] = useState(isDesktop ? "2" : "1");
 
@@ -332,7 +343,7 @@ const CourseContent = () => {
 
 
   return (
-    <Box 
+    <Box
       onContextMenu={(e) => e.preventDefault()}
     >
       {(isFetching ||

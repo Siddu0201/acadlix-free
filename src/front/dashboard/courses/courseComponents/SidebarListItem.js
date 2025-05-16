@@ -78,8 +78,8 @@ const SidebarListItem = (props) => {
                   : "1 min"}
               </Typography>
             </Box>
-            {props?.c?.type === "lesson" &&
-              props?.c?.lesson_resources?.length > 0 && (
+            {(props?.c?.type === "lesson" || props?.c?.type === "assignment") &&
+              props?.c?.resources?.length > 0 && (
                 <ListItemResource {...props} />
               )}
           </Box>
