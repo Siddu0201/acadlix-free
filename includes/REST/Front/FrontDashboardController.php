@@ -97,6 +97,42 @@ class FrontDashboardController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/post-upload-assignment-file',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_upload_assignment_file'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-delete-assignment-file',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_delete_assignment_file'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-submit-assignment',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_submit_assignment'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/get-user-purchases',
             [
                 [
@@ -160,7 +196,7 @@ class FrontDashboardController
             $query->where("user_id", $userId)->where("status", "success");
         })->orderByDesc("created_at");
 
-        if(!empty($search)){
+        if (!empty($search)) {
             $order_items->whereHas('course', function ($query) use ($search) {
                 $query->where('post_title', 'like', "%$search%");
             });
@@ -274,7 +310,9 @@ class FrontDashboardController
             }
         }
 
-        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)->where("course_section_content_id", $courseSectionContentId)->where("user_id", $userId)->first();
+        $active_statistic = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)->first();
         if ($active_statistic) {
             $active_statistic->update([
                 'is_active' => true
@@ -374,6 +412,210 @@ class FrontDashboardController
             ]);
         }
         return rest_ensure_response(['success' => true]);
+    }
+
+    public function post_upload_assignment_file($request)
+    {
+        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $files = $request->get_file_params();
+        $userId = $request->get_param("user_id");
+        $orderItemId = $request->get_param("order_item_id");
+        $courseSectionContentId = $request->get_param("course_section_content_id");
+        $metaType = $request->get_param("meta_type");
+        $metaValue = json_decode($request->get_param('meta_value'), true) ?? [];
+        $currentMetaIndex = $request->get_param("current_meta_index") ?? 0;
+        if (empty($files['files'])) {
+            return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
+        }
+
+        // Include WordPress upload functions
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+
+        // Get the base uploads directory
+        $upload_dir = wp_upload_dir(); // Gives [basedir] and [baseurl]
+
+        // Define custom subdirectory path
+        $custom_subdir = '/assignment';
+        $custom_dir_path = $upload_dir['basedir'] . $custom_subdir;
+
+        // Create the folder if it doesn't exist
+        if (!file_exists($custom_dir_path)) {
+            if (!wp_mkdir_p($custom_dir_path)) {
+                return new WP_Error('mkdir_failed', __('Failed to create assignment folder.', 'acadlix'), ['status' => 500]);
+            }
+        }
+
+        // Upload override settings
+        $upload_overrides = ['test_form' => false];
+
+        // Loop through each file
+        $file_count = count($files['files']['name']);
+        $new_file = [];
+        // return rest_ensure_response($file_count);
+        for ($i = 0; $i < $file_count; $i++) {
+            $file = [
+                'name' => $files['files']['name'][$i],
+                'type' => $files['files']['type'][$i],
+                'tmp_name' => $files['files']['tmp_name'][$i],
+                'error' => $files['files']['error'][$i],
+                'size' => $files['files']['size'][$i],
+            ];
+
+            $original_filename = sanitize_file_name($file['name']);
+            $timestamp = time();
+            $extension = pathinfo($original_filename, PATHINFO_EXTENSION);
+            $filename_wo_ext = pathinfo($original_filename, PATHINFO_FILENAME);
+            $file['name'] = "{$filename_wo_ext}_{$timestamp}.{$extension}";
+            // Set upload_dir filter for each file
+            add_filter('upload_dir', function ($dirs) use ($custom_subdir) {
+                $dirs['subdir'] = $custom_subdir;
+                $dirs['path'] = $dirs['basedir'] . $custom_subdir;
+                $dirs['url'] = $dirs['baseurl'] . $custom_subdir;
+                return $dirs;
+            });
+
+            $result = wp_handle_upload($file, $upload_overrides);
+
+            // Remove the filter (important when looping)
+            remove_filter('upload_dir', '__return_custom_assignment_dir');
+
+            if ($result && !isset($result['error'])) {
+                $new_file[] = [
+                    'file_name' => $file['name'],
+                    'file_size' => $file['size'],
+                    'file_extension' => $extension,
+                    'file_url' => $result['url'],
+                    'file_path' => $result['file'],
+                    'file_type' => $result['type'],
+                ];
+            } else {
+                return new WP_Error('upload_failed', __('Failed to upload file.', 'acadlix'), array('status' => 500));
+            }
+        }
+
+        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)
+            ->first();
+        if ($course_statistics) {
+
+            $submissions = $metaValue['submissions'] ?? [];
+
+            foreach ($submissions as $index => &$s) {
+                if ($index == $currentMetaIndex) {
+                    $s['answer_files'] = array_merge($s['answer_files'], $new_file);
+                }
+            }
+            unset($s); // cleanup reference
+            $course_statistics->update([
+                "meta_type" => $metaType,
+                "meta_value" => array_merge($metaValue, ['submissions' => $submissions])
+            ]);
+        }
+
+        return rest_ensure_response([
+            "success" => true,
+            "meta_type" => $metaType,
+            "meta_value" => $course_statistics->meta_value ?? null,
+        ]);
+    }
+
+    public function post_delete_assignment_file($request)
+    {
+        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $delete_file_data = $request->get_param("delete_file_data");
+        $userId = $request->get_param("user_id");
+        $orderItemId = $request->get_param("order_item_id");
+        $courseSectionContentId = $request->get_param("course_section_content_id");
+        $metaType = $request->get_param("meta_type");
+        $metaValue = $request->get_param("meta_value");
+        $file_path = $delete_file_data['file_path'];
+        if (file_exists($file_path)) {
+            $delete_file = wp_delete_file($file_path);
+            if (!$delete_file) {
+                return new WP_Error('file_not_deleted', __('File not deleted', 'acadlix'), ['status' => 500]);
+            }
+        }
+        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)
+            ->first();
+        if ($course_statistics) {
+            $course_statistics->update([
+                "meta_type" => $metaType,
+                "meta_value" => $metaValue,
+            ]);
+        }
+        return rest_ensure_response([
+            "success" => true,
+            "meta_type" => $metaType,
+            "meta_value" => $course_statistics->meta_value ?? null,
+        ]);
+    }
+    public function post_submit_assignment($request)
+    {
+        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+        $userId = $request->get_param("user_id");
+        $orderItemId = $request->get_param("order_item_id");
+        $courseSectionContentId = $request->get_param("course_section_content_id");
+        $metaType = $request->get_param("meta_type");
+        $metaValue = $request->get_param("meta_value");
+
+        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)
+            ->first();
+        if ($course_statistics) {
+            $course_statistics->update([
+                "meta_type" => $metaType,
+                "meta_value" => $metaValue,
+            ]);
+        }
+        return rest_ensure_response([
+            "success" => true,
+            "meta_type" => $metaType,
+            "meta_value" => $course_statistics->meta_value ?? null,
+        ]);
     }
 
     public function get_user_purchases($request)

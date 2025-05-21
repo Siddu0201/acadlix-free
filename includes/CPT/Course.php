@@ -60,7 +60,7 @@ final class Course extends Acadlix_Abstract
             'capability_type' => 'acadlix_course',
             'map_meta_cap' => true,
             'show_in_menu' => false,
-            'show_in_admin_bar' => false,
+            'show_in_admin_bar' => true,
             'show_in_nav_menus' => true,
             'show_in_rest' => $show_in_rest,
             'taxonomies' => array(ACADLIX_COURSE_CATEGORY_TAXONOMY, ACADLIX_COURSE_TAG_TAXONOMY),

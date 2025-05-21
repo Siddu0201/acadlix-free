@@ -1,16 +1,27 @@
 import React from 'react'
-import { Box, Button, Card, CardContent, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { 
+    Box, 
+    Button, 
+    Card, 
+    CardContent, 
+    Divider, 
+    FormControl, 
+    InputLabel, 
+    MenuItem, 
+    Select, 
+    Typography 
+} from '@mui/material'
 import Grid from '@mui/material/Grid2';
 import { __ } from '@wordpress/i18n';
 import CustomTextField from '../../../../components/CustomTextField';
 import { MediaUpload } from "@wordpress/media-utils";
 
-const ResourcesSection = (props) => {
-    const handleAddResoures = () => {
+const AttachmentsSection = (props) => {
+    const handleAddAttachments = () => {
         props?.setValue(
-            "meta.resources",
+            "meta.attachments",
             [
-                ...props?.watch("meta.resources"),
+                ...props?.watch("meta.attachments"),
                 {
                     title: "",
                     type: "upload",
@@ -32,16 +43,16 @@ const ResourcesSection = (props) => {
                             marginY: 2,
                         }}>
                         <Box sx={{ color: "black" }}>
-                            <Typography variant="h6">{__("Resources", "acadlix")}</Typography>
+                            <Typography variant="h6">{__("Attachments", "acadlix")}</Typography>
                             <Divider />
                         </Box>
                     </Box>
                     <Grid container spacing={2}>
-                        {props?.watch("meta.resources")?.length > 0 &&
+                        {props?.watch("meta.attachments")?.length > 0 &&
                             props
-                                ?.watch("meta.resources")
+                                ?.watch("meta.attachments")
                                 ?.map((r, index) => (
-                                    <Resources
+                                    <Attachments
                                         key={index}
                                         index={index}
                                         {...props}
@@ -53,9 +64,9 @@ const ResourcesSection = (props) => {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={handleAddResoures}
+                                onClick={handleAddAttachments}
                             >
-                                {__("Add Resources", "acadlix")}
+                                {__("Add Attachments", "acadlix")}
                             </Button>
                         </Grid>
                     </Grid>
@@ -65,14 +76,14 @@ const ResourcesSection = (props) => {
     )
 }
 
-export default ResourcesSection
+export default AttachmentsSection
 
-const Resources = (props) => {
+const Attachments = (props) => {
     const handleMediaChange = (media) => {
-        props?.setValue(`meta.resources.${props?.index}.filename`, media?.filename, {
+        props?.setValue(`meta.attachments.${props?.index}.filename`, media?.filename, {
             shouldDirty: true,
         });
-        props?.setValue(`meta.resources.${props?.index}.file_url`, media?.url, {
+        props?.setValue(`meta.attachments.${props?.index}.file_url`, media?.url, {
             shouldDirty: true,
         });
     };
@@ -93,10 +104,10 @@ const Resources = (props) => {
                                 name="title"
                                 size="small"
                                 label={__("Enter Title", "acadlix")}
-                                value={props?.watch(`meta.resources.${props?.index}.title`) ?? ""}
+                                value={props?.watch(`meta.attachments.${props?.index}.title`) ?? ""}
                                 onChange={(e) => {
                                     props?.setValue(
-                                        `meta.resources.${props?.index}.title`,
+                                        `meta.attachments.${props?.index}.title`,
                                         e?.target?.value,
                                         {
                                             shouldDirty: true,
@@ -111,11 +122,11 @@ const Resources = (props) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={props?.watch(`meta.resources.${props?.index}.type`)}
+                                    value={props?.watch(`meta.attachments.${props?.index}.type`)}
                                     label={__("Type", "acadlix")}
                                     onChange={(e) => {
                                         props?.setValue(
-                                            `meta.resources.${props?.index}.type`,
+                                            `meta.attachments.${props?.index}.type`,
                                             e?.target?.value,
                                             {
                                                 shouldDirty: true,
@@ -157,10 +168,10 @@ const Resources = (props) => {
                                     name="link"
                                     size="small"
                                     label={__("https://example.com/", "acadlix")}
-                                    value={props?.watch(`meta.resources.${props?.index}.link`) ?? ""}
+                                    value={props?.watch(`meta.attachments.${props?.index}.link`) ?? ""}
                                     onChange={(e) => {
                                         props?.setValue(
-                                            `meta.resources.${props?.index}.link`,
+                                            `meta.attachments.${props?.index}.link`,
                                             e?.target?.value,
                                             {
                                                 shouldDirty: true,
@@ -176,9 +187,9 @@ const Resources = (props) => {
                                 color="error"
                                 onClick={(e) => {
                                     props?.setValue(
-                                        "meta.resources",
+                                        "meta.attachments",
                                         props
-                                            ?.watch("meta.resources")
+                                            ?.watch("meta.attachments")
                                             ?.filter((_, i) => i !== props?.index),
                                         { shouldDirty: true }
                                     );

@@ -36,7 +36,6 @@ const Assignment = () => {
     const columns = [
         { field: "id", headerName: __("ID", "acadlix") },
         { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
-        { field: "type", headerName: __("Type", "acadlix"), flex: 2, minWidth: 100 },
         {
             field: "action",
             headerName: __("Action", "acadlix"),
@@ -87,21 +86,10 @@ const Assignment = () => {
 
     React.useMemo(() => {
         if (Array.isArray(data?.data?.assignments)) {
-            const assignmentType = (type) => {
-                switch (type) {
-                    case "writing":
-                        return __("Writing", "acadlix");
-                    case "file_upload":
-                        return __("File Upload", "acadlix");
-                    default:
-                        return __("Other", "acadlix");
-                }
-            }
             const newRows = data?.data?.assignments?.map((assignment) => {
                 return {
                     id: assignment?.ID,
                     title: assignment?.post_title,
-                    type: assignmentType(assignment?.rendered_metas?.assignment_type),
                 };
             });
             methods.setValue("rows", newRows, { shouldDirty: true });

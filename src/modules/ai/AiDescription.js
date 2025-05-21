@@ -251,7 +251,7 @@ const DescriptionModel = ({
                             <Grid2 size={{ xs: 12, lg: 3 }}>
                                 <CustomTextField
                                     fullWidth
-                                    placeholder={__("Min. Words", "acadlix")}
+                                    placeholder={__("Max. Words", "acadlix")}
                                     size="small"
                                     type="number"
                                     value={maxWords}

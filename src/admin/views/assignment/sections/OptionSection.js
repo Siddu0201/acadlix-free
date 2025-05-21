@@ -1,6 +1,6 @@
 import React from 'react'
 import CustomTypography from '../../../../components/CustomTypography';
-import { Autocomplete, Box, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Autocomplete, Box, Checkbox, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Typography } from '@mui/material';
 import { Card, CardContent } from '@mui/material';
 import Grid from '@mui/material/Grid2';
@@ -81,49 +81,36 @@ const OptionSection = (props) => {
                         alignItems="center"
                     >
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                            <CustomTypography>{__("Select Assignment Type", "acadlix")}</CustomTypography>
-                        </GridItem1>
-                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                            <FormControl fullWidth size="small">
-                                <InputLabel id="assignment-type">
-                                    {__("Select Assignment Type", "acadlix")}
-                                </InputLabel>
-                                <Select
-                                    labelId="assignment-type"
-                                    id="assignment-type"
-                                    value={props?.watch(`meta.assignment_type`)}
-                                    label={__("Select Assignment Type", "acadlix")}
-                                    onChange={(e) => {
-                                        props?.setValue(
-                                            `meta.assignment_type`,
-                                            e?.target?.value,
-                                            {
-                                                shouldDirty: true,
-                                            }
-                                        );
-                                    }}
-                                >
-                                    <MenuItem value="writing">{__("Writing", "acadlix")}</MenuItem>
-                                    <MenuItem value="file_upload">{__("File Upload", "acadlix")}</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </GridItem1>
-                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                            <CustomTypography>{__("Allow Multiple", "acadlix")}</CustomTypography>
+                            <CustomTypography>{__("Allow Uploads", "acadlix")}</CustomTypography>
                         </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                             <FormControlLabel
                                 control={<CustomSwitch />}
-                                checked={props?.watch("meta.allow_multiple") ?? false}
+                                checked={props?.watch("meta.allow_uploads") ?? false}
                                 onChange={(e) => {
-                                    props?.setValue("meta.allow_multiple", e?.target?.checked, {
+                                    props?.setValue("meta.allow_uploads", e?.target?.checked, {
                                         shouldDirty: true,
                                     });
                                 }}
-                                disabled={
-                                    props?.watch("meta.assignment_type") !== "file_upload"
-                                }
                                 label={__("Activate", "acadlix")}
+                            />
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <CustomTypography>{__("Number of Uploads", "acadlix")}</CustomTypography>
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <CustomTextField
+                                size="small"
+                                fullWidth
+                                type="number"
+                                value={props?.watch(`meta.number_of_uploads`)}
+                                onChange={(e) => {
+                                    props?.setValue(`meta.number_of_uploads`, Number(e?.target?.value), {
+                                        shouldDirty: true,
+                                    });
+                                }}
+                                disabled={!props?.watch("meta.allow_uploads")}
+                                label={__("Number of Uploads", "acadlix")}
                             />
                         </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -137,7 +124,9 @@ const OptionSection = (props) => {
                                 id="mime-types"
                                 options={MimeTypes}
                                 getOptionLabel={(option) => `${option.label} (.${option.extension})`}
+                                disableCloseOnSelect
                                 filterSelectedOptions
+                                isOptionEqualToValue={(option, value) => option?.extension === value?.extension}
                                 value={props?.watch(`meta.allowed_mime_types`)}
                                 onChange={(event, value) => {
                                     props?.setValue(`meta.allowed_mime_types`, value, {
@@ -145,7 +134,7 @@ const OptionSection = (props) => {
                                     });
                                 }}
                                 disabled={
-                                    props?.watch("meta.assignment_type") !== "file_upload"
+                                    !props?.watch("meta.allow_uploads")
                                 }
                                 renderInput={(params) => (
                                     <TextField
@@ -163,7 +152,24 @@ const OptionSection = (props) => {
                                 )}
                             />
                         </GridItem1>
-                        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} />
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <CustomTypography>{__("Max. File Size (MB)", "acadlix")}</CustomTypography>
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <CustomTextField
+                                size="small"
+                                fullWidth
+                                type="number"
+                                value={props?.watch(`meta.max_file_size`)}
+                                onChange={(e) => {
+                                    props?.setValue(`meta.max_file_size`, Number(e?.target?.value), {
+                                        shouldDirty: true,
+                                    });
+                                }}
+                                disabled={!props?.watch("meta.allow_uploads")}
+                                label={__("Max. File Size (MB)", "acadlix")}
+                            />
+                        </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                             <CustomTypography>{__("Enable marking", "acadlix")}</CustomTypography>
                         </GridItem1>
@@ -180,20 +186,20 @@ const OptionSection = (props) => {
                             />
                         </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                            <CustomTypography>{__("Max. Marks", "acadlix")}</CustomTypography>
+                            <CustomTypography>{__("Max. Points", "acadlix")}</CustomTypography>
                         </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                             <CustomTextField
                                 size="small"
                                 fullWidth
                                 type="number"
-                                value={props?.watch(`meta.max_marks`)}
+                                value={props?.watch(`meta.max_points`)}
                                 onChange={(e) => {
-                                    props?.setValue(`meta.max_marks`, Number(e?.target?.value), {
+                                    props?.setValue(`meta.max_points`, Number(e?.target?.value), {
                                         shouldDirty: true,
                                     });
                                 }}
-                                label={__("Max. Marks", "acadlix")}
+                                label={__("Max. Points", "acadlix")}
                                 disabled={!props?.watch("meta.enable_marking")}
                             />
                         </GridItem1>
@@ -291,7 +297,63 @@ const OptionSection = (props) => {
                                 </Typography>
                             )}
                         </GridItem1>
-
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }} >
+                            <CustomTypography>{__("Enable deadline", "acadlix")}</CustomTypography>
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <FormControlLabel
+                                control={<CustomSwitch />}
+                                checked={props?.watch("meta.enable_deadline") ?? false}
+                                onChange={(e) => {
+                                    props?.setValue("meta.enable_deadline", e?.target?.checked, {
+                                        shouldDirty: true,
+                                    });
+                                }}
+                                label={__("Activate", "acadlix")}
+                            />
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <CustomTypography>{__("Deadline", "acadlix")}</CustomTypography>
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12 / 2, sm: 6 / 2, lg: 3 / 2 }}>
+                            <CustomTextField
+                                size="small"
+                                fullWidth
+                                type="number"
+                                value={props?.watch(`meta.deadline_value`)}
+                                onChange={(e) => {
+                                    props?.setValue(`meta.deadline_value`, Number(e?.target?.value), {
+                                        shouldDirty: true,
+                                    });
+                                }}
+                                disabled={!props?.watch("meta.enable_deadline")}
+                                label={__("Deadline", "acadlix")}
+                            />
+                        </GridItem1>
+                        <GridItem1 size={{ xs: 12 / 2, sm: 6 / 2, lg: 3 / 2 }}>
+                            <FormControl fullWidth size="small">
+                                <InputLabel id="deadline-type">
+                                    {__("Select Type", "acadlix")}
+                                </InputLabel>
+                                <Select
+                                    labelId="deadline-type"
+                                    id="deadline-type"
+                                    label={__("Select Type", "acadlix")}
+                                    size="small"
+                                    fullWidth
+                                    value={props?.watch(`meta.deadline_type`)}
+                                    onChange={(e) => {
+                                        props?.setValue(`meta.deadline_type`, e?.target?.value, {
+                                            shouldDirty: true,
+                                        });
+                                    }}
+                                    disabled={!props?.watch("meta.enable_deadline")}
+                                >
+                                    <MenuItem value="days">{__("Days", "acadlix")}</MenuItem>
+                                    <MenuItem value="weeks">{__("Weeks", "acadlix")}</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </GridItem1>
                     </Grid>
                 </CardContent>
             </Card>

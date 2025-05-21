@@ -5,12 +5,11 @@ import { PostCreateAssignment, UpdateAssignmentById } from '../../../requests/ad
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { TiArrowLeftThick } from '../../../helpers/icons';
-import { LoadingButton } from '@mui/lab';
 import TitleSection from './sections/TitleSection';
 import OptionSection from './sections/OptionSection';
 import { __ } from '@wordpress/i18n';
 import InstructionSection from './sections/InstructionSection';
-import ResourcesSection from './sections/ResourcesSection';
+import AttachmentsSection from './sections/AttachmentsSection';
 
 const AssignmentContent = (props) => {
   const methods = useForm({
@@ -19,24 +18,28 @@ const AssignmentContent = (props) => {
       post_content: props?.assignment?.post_content ?? "",
       post_author: acadlixOptions?.user_id ?? 0,
       meta: {
-        assignment_type: props?.assignment?.rendered_metas?.assignment_type ?? "writing",
-        allow_multiple: Boolean(props?.assignment?.rendered_metas?.allow_multiple) ?? false,
+        allow_uploads: Boolean(props?.assignment?.rendered_metas?.allow_uploads) ?? false,
+        number_of_uploads: props?.assignment?.rendered_metas?.number_of_uploads ?? 1,
         allowed_mime_types: props?.assignment?.rendered_metas?.allowed_mime_types ?? [],
+        max_file_size: props?.assignment?.rendered_metas?.max_file_size ?? 2,
         enable_marking: Boolean(props?.assignment?.rendered_metas?.enable_marking) ?? false,
-        max_marks: props?.assignment?.rendered_metas?.max_marks ?? 0,
+        max_points: props?.assignment?.rendered_metas?.max_points ?? 0,
         start_date: props?.assignment?.rendered_metas?.start_date ?? "",
         end_date: props?.assignment?.rendered_metas?.end_date ?? "",
-        resources: props?.create
+        enable_deadline: Boolean(props?.assignment?.rendered_metas?.enable_deadline) ?? false,
+        deadline_type: props?.assignment?.rendered_metas?.deadline_type ?? "days",
+        deadline_value: props?.assignment?.rendered_metas?.deadline_value ?? 0,
+        attachments: props?.create
           ? []
-          : props?.assignment?.rendered_metas?.resources?.map((r) => {
+          : props?.assignment?.rendered_metas?.attachments?.map((a) => {
             return {
-              title: r?.title,
-              type: r?.type,
-              filename: r?.filename,
-              file_url: r?.file_url,
-              link: r?.link,
+              title: a?.title,
+              type: a?.type,
+              filename: a?.filename,
+              file_url: a?.file_url,
+              link: a?.link,
             };
-          }),
+          }) ?? [],
       },
     },
   });
@@ -138,19 +141,19 @@ const AssignmentContent = (props) => {
 
           <OptionSection {...methods} {...props} />
 
-          <ResourcesSection {...methods} {...props} />
+          <AttachmentsSection {...methods} {...props} />
 
           <Grid size={{ xs: 12, sm: 12 }}>
             <Card>
               <CardContent>
-                <LoadingButton
+                <Button
                   variant="contained"
                   size="medium"
                   type="submit"
                   loading={createMutation?.isPending || updateMutation?.isPending}
                 >
                   {__("Save Change", "acadlix")}
-                </LoadingButton>
+                </Button>
               </CardContent>
             </Card>
           </Grid>

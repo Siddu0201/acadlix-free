@@ -201,11 +201,11 @@ const AddNewAssignment = (props) => {
     };
   }, []);
 
-  const handleAddResoures = () => {
+  const handleAddAttachments = () => {
     props?.setValue(
-      "meta.resources",
+      "meta.attachments",
       [
-        ...props?.watch("meta.resources"),
+        ...props?.watch("meta.attachments"),
         {
           title: "",
           type: "upload",
@@ -324,49 +324,46 @@ const AddNewAssignment = (props) => {
                 alignItems="center"
               >
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                  <CustomTypography>{__("Select Assignment Type", "acadlix")}</CustomTypography>
-                </GridItem1>
-                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="assignment-type">
-                      {__("Select Assignment Type", "acadlix")}
-                    </InputLabel>
-                    <Select
-                      labelId="assignment-type"
-                      id="assignment-type"
-                      value={props?.watch(`meta.assignment_type`)}
-                      label={__("Select Assignment Type", "acadlix")}
-                      onChange={(e) => {
-                        props?.setValue(
-                          `meta.assignment_type`,
-                          e?.target?.value,
-                          {
-                            shouldDirty: true,
-                          }
-                        );
-                      }}
-                    >
-                      <MenuItem value="writing">{__("Writing", "acadlix")}</MenuItem>
-                      <MenuItem value="file_upload">{__("File Upload", "acadlix")}</MenuItem>
-                    </Select>
-                  </FormControl>
-                </GridItem1>
-                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                  <CustomTypography>{__("Allow Multiple", "acadlix")}</CustomTypography>
+                  <CustomTypography>{__("Allow Uploads", "acadlix")}</CustomTypography>
                 </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                   <FormControlLabel
                     control={<CustomSwitch />}
-                    checked={props?.watch("meta.allow_multiple") ?? false}
+                    checked={props?.watch("meta.allow_uploads") ?? false}
                     onChange={(e) => {
-                      props?.setValue("meta.allow_multiple", e?.target?.checked, {
+                      props?.setValue("meta.allow_uploads", e?.target?.checked, {
                         shouldDirty: true,
                       });
                     }}
-                    disabled={
-                      props?.watch("meta.assignment_type") !== "file_upload"
-                    }
                     label={__("Activate", "acadlix")}
+                  />
+                </GridItem1>
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>{__("Number of Uploads", "acadlix")}</CustomTypography>
+                </GridItem1>
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTextField
+                    size="small"
+                    fullWidth
+                    type="number"
+                    value={props?.watch(`meta.number_of_uploads`)}
+                    onChange={(e) => {
+                      props?.setValue(
+                        `meta.number_of_uploads`,
+                        e?.target?.value,
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                    disabled={!props?.watch("meta.allow_uploads")}
+                    inputProps={{
+                      sx: {
+                        border: `0 !important`,
+                        boxShadow: `none !important`,
+                        minHeight: `auto !important`,
+                      },
+                    }}
                   />
                 </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -380,7 +377,9 @@ const AddNewAssignment = (props) => {
                     id="mime-types"
                     options={MimeTypes}
                     getOptionLabel={(option) => `${option.label} (.${option.extension})`}
+                    disableCloseOnSelect
                     filterSelectedOptions
+                    isOptionEqualToValue={(option, value) => option?.extension === value?.extension}
                     value={props?.watch(`meta.allowed_mime_types`)}
                     onChange={(event, value) => {
                       props?.setValue(`meta.allowed_mime_types`, value, {
@@ -388,7 +387,7 @@ const AddNewAssignment = (props) => {
                       });
                     }}
                     disabled={
-                      props?.watch("meta.assignment_type") !== "file_upload"
+                      !props?.watch("meta.allow_uploads")
                     }
                     renderInput={(params) => (
                       <TextField
@@ -414,7 +413,31 @@ const AddNewAssignment = (props) => {
                     )}
                   />
                 </GridItem1>
-                <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} />
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>{__("Max. File Size (MB)", "acadlix")}</CustomTypography>
+                </GridItem1>
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTextField
+                    size="small"
+                    fullWidth
+                    type="number"
+                    value={props?.watch(`meta.max_file_size`)}
+                    onChange={(e) => {
+                      props?.setValue(`meta.max_file_size`, Number(e?.target?.value), {
+                        shouldDirty: true,
+                      });
+                    }}
+                    disabled={!props?.watch("meta.allow_uploads")}
+                    label={__("Max. File Size (MB)", "acadlix")}
+                    inputProps={{
+                      sx: {
+                        border: `0 !important`,
+                        boxShadow: `none !important`,
+                        minHeight: `auto !important`,
+                      },
+                    }}
+                  />
+                </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                   <CustomTypography>{__("Enable marking", "acadlix")}</CustomTypography>
                 </GridItem1>
@@ -431,20 +454,20 @@ const AddNewAssignment = (props) => {
                   />
                 </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                  <CustomTypography>{__("Max. Marks", "acadlix")}</CustomTypography>
+                  <CustomTypography>{__("Max. Points", "acadlix")}</CustomTypography>
                 </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                   <CustomTextField
                     size="small"
                     fullWidth
                     type="number"
-                    value={props?.watch(`meta.max_marks`)}
+                    value={props?.watch(`meta.max_points`)}
                     onChange={(e) => {
-                      props?.setValue(`meta.max_marks`, Number(e?.target?.value), {
+                      props?.setValue(`meta.max_points`, Number(e?.target?.value), {
                         shouldDirty: true,
                       });
                     }}
-                    label={__("Max. Marks", "acadlix")}
+                    label={__("Max. Points", "acadlix")}
                     disabled={!props?.watch("meta.enable_marking")}
                     inputProps={{
                       sx: {
@@ -555,7 +578,77 @@ const AddNewAssignment = (props) => {
                     </Typography>
                   )}
                 </GridItem1>
-
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }} >
+                  <CustomTypography>{__("Enable deadline", "acadlix")}</CustomTypography>
+                </GridItem1>
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    control={<CustomSwitch />}
+                    checked={props?.watch("meta.enable_deadline") ?? false}
+                    onChange={(e) => {
+                      props?.setValue("meta.enable_deadline", e?.target?.checked, {
+                        shouldDirty: true,
+                      });
+                    }}
+                    label={__("Activate", "acadlix")}
+                  />
+                </GridItem1>
+                <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>{__("Deadline", "acadlix")}</CustomTypography>
+                </GridItem1>
+                <GridItem1 size={{ xs: 12 / 2, sm: 6 / 2, lg: 3 / 2 }}>
+                  <CustomTextField
+                    size="small"
+                    fullWidth
+                    type="number"
+                    value={props?.watch(`meta.deadline_value`)}
+                    onChange={(e) => {
+                      props?.setValue(`meta.deadline_value`, Number(e?.target?.value), {
+                        shouldDirty: true,
+                      });
+                    }}
+                    disabled={!props?.watch("meta.enable_deadline")}
+                    label={__("Deadline", "acadlix")}
+                    inputProps={{
+                      sx: {
+                        border: `0 !important`,
+                        boxShadow: `none !important`,
+                        minHeight: `auto !important`,
+                      },
+                    }}
+                  />
+                </GridItem1>
+                <GridItem1 size={{ xs: 12 / 2, sm: 6 / 2, lg: 3 / 2 }}>
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="deadline-type">
+                      {__("Select Type", "acadlix")}
+                    </InputLabel>
+                    <Select
+                      labelId="deadline-type"
+                      id="deadline-type"
+                      label={__("Select Type", "acadlix")}
+                      size="small"
+                      fullWidth
+                      value={props?.watch(`meta.deadline_type`)}
+                      onChange={(e) => {
+                        props?.setValue(`meta.deadline_type`, e?.target?.value, {
+                          shouldDirty: true,
+                        });
+                      }}
+                      disabled={!props?.watch("meta.enable_deadline")}
+                      inputProps={{
+                        sx: {
+                          border: `0 !important`,
+                          boxShadow: `none !important`,
+                          minHeight: `auto !important`,
+                        },
+                      }}
+                    >
+                      <MenuItem value="days">{__("Days", "acadlix")}</MenuItem>
+                      <MenuItem value="weeks">{__("Weeks", "acadlix")}</MenuItem>
+                    </Select>
+                  </FormControl>
+                </GridItem1>
               </Grid>
             </CardContent>
           </Card>
@@ -568,16 +661,16 @@ const AddNewAssignment = (props) => {
                   marginY: 2,
                 }}>
                 <Box sx={{ color: "black" }}>
-                  <Typography variant="h6">{__("Resources", "acadlix")}</Typography>
+                  <Typography variant="h6">{__("Attachments", "acadlix")}</Typography>
                   <Divider />
                 </Box>
               </Box>
               <Grid container spacing={2}>
-                {props?.watch("meta.resources")?.length > 0 &&
+                {props?.watch("meta.attachments")?.length > 0 &&
                   props
-                    ?.watch("meta.resources")
+                    ?.watch("meta.attachments")
                     ?.map((r, index) => (
-                      <Resources
+                      <Attachments
                         key={index}
                         index={index}
                         {...props}
@@ -589,9 +682,9 @@ const AddNewAssignment = (props) => {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleAddResoures}
+                    onClick={handleAddAttachments}
                   >
-                    {__("Add Resources", "acadlix")}
+                    {__("Add Attachments", "acadlix")}
                   </Button>
                 </Grid>
               </Grid>
@@ -603,12 +696,12 @@ const AddNewAssignment = (props) => {
   )
 }
 
-const Resources = (props) => {
+const Attachments = (props) => {
   const handleMediaChange = (media) => {
-    props?.setValue(`meta.resources.${props?.index}.filename`, media?.filename, {
+    props?.setValue(`meta.attachments.${props?.index}.filename`, media?.filename, {
       shouldDirty: true,
     });
-    props?.setValue(`meta.resources.${props?.index}.file_url`, media?.url, {
+    props?.setValue(`meta.attachments.${props?.index}.file_url`, media?.url, {
       shouldDirty: true,
     });
   };
@@ -629,10 +722,10 @@ const Resources = (props) => {
                 name="title"
                 size="small"
                 label={__("Enter Title", "acadlix")}
-                value={props?.watch(`meta.resources.${props?.index}.title`) ?? ""}
+                value={props?.watch(`meta.attachments.${props?.index}.title`) ?? ""}
                 onChange={(e) => {
                   props?.setValue(
-                    `meta.resources.${props?.index}.title`,
+                    `meta.attachments.${props?.index}.title`,
                     e?.target?.value,
                     {
                       shouldDirty: true,
@@ -654,11 +747,11 @@ const Resources = (props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={props?.watch(`meta.resources.${props?.index}.type`)}
+                  value={props?.watch(`meta.attachments.${props?.index}.type`)}
                   label={__("Type", "acadlix")}
                   onChange={(e) => {
                     props?.setValue(
-                      `meta.resources.${props?.index}.type`,
+                      `meta.attachments.${props?.index}.type`,
                       e?.target?.value,
                       {
                         shouldDirty: true,
@@ -700,10 +793,10 @@ const Resources = (props) => {
                   name="link"
                   size="small"
                   label={__("https://example.com/", "acadlix")}
-                  value={props?.watch(`meta.resources.${props?.index}.link`) ?? ""}
+                  value={props?.watch(`meta.attachments.${props?.index}.link`) ?? ""}
                   onChange={(e) => {
                     props?.setValue(
-                      `meta.resources.${props?.index}.link`,
+                      `meta.attachments.${props?.index}.link`,
                       e?.target?.value,
                       {
                         shouldDirty: true,
@@ -726,9 +819,9 @@ const Resources = (props) => {
                 color="error"
                 onClick={(e) => {
                   props?.setValue(
-                    "meta.resources",
+                    "meta.attachments",
                     props
-                      ?.watch("meta.resources")
+                      ?.watch("meta.attachments")
                       ?.filter((_, i) => i !== props?.index),
                     { shouldDirty: true }
                   );

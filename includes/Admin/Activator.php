@@ -38,7 +38,7 @@ class Activator
 
     public function deactivate()
     {
-        Migration::removeTable();
+        // Migration::removeTable();
     }
 
     public static function uninstall()

@@ -377,6 +377,7 @@ class Manager
         if (is_admin()) {
             return;
         }
+        wp_enqueue_editor();
         if (function_exists('wp_enqueue_media')) {
             wp_enqueue_media();
             wp_enqueue_script('wp-mediaelement');

@@ -17,9 +17,19 @@ if (!class_exists(class: 'CourseStatistic')) {
             'user_id',
             'is_active',
             'is_completed',
+            'meta_type',
+            'meta_value',
         ];
-        
-        public $timestamps = false;
+
+        public function setMetaValueAttribute($value)
+        {
+            $this->attributes['meta_value'] = maybe_serialize($value);
+        }
+
+        public function getMetaValueAttribute($value)
+        {
+            return maybe_unserialize($value);
+        }
         
         public function getCourseSectionContentAttribute()
         {

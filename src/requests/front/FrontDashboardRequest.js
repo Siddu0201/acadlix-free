@@ -72,6 +72,41 @@ export const PostMarkAsIncomplete = () => {
     });
 }
 
+export const PostUploadAssignmentFile = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(
+                `${base}/post-upload-assignment-file`,
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+        }
+    });
+}
+
+export const PostDeleteAssignmentFile = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-delete-assignment-file`, data);
+        }
+    });
+}
+
+export const PostSubmitAssignment = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/post-submit-assignment`, data);
+        }
+    });
+}
+
 
 export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
     const instance = useInstance();

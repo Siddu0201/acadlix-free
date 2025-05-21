@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import UserAuth from "../modules/user-auth/UserAuth.js";
 import { __ } from "@wordpress/i18n";
 import ViewAnswersheet from "./dashboard/result/ViewAnswersheet.js";
+import { Toaster } from 'react-hot-toast'
 
 const Dashbaord = () => {
   
@@ -58,6 +59,7 @@ const Dashbaord = () => {
 
   return (
     <Provider>
+      <Toaster position="bottom-right" />
       <HashRouter>
         <Routes>
           <Route element={<DashboardLayout />}>

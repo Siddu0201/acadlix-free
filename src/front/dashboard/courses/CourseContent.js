@@ -144,20 +144,16 @@ const CourseContent = () => {
                 } else {
                   active = c?.ID == courseSectionContentId;
                 }
+                const statistic = data?.data?.course_statistic?.find(
+                  (cs) => cs?.course_section_content_id === c?.ID
+                ) ?? {};
                 return {
                   i: i++,
                   id: c?.ID ?? null,
                   sort: c?.menu_order ?? "",
                   content_type_id: c?.contentable?.id ?? null,
                   is_active: active,
-                  is_completed:
-                    data?.data?.course_statistic?.length > 0
-                      ? data?.data?.course_statistic?.find(
-                        (cs) => cs?.course_section_content_id === c?.ID
-                      )?.is_completed
-                        ? true
-                        : false
-                      : false,
+                  is_completed: Boolean(statistic?.is_completed) ?? false,
                   type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
                   lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
                   title: c?.contentable?.title ?? "",
@@ -185,14 +181,61 @@ const CourseContent = () => {
                   seconds:
                     (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
                   resources: c?.contentable_data?.rendered_metas?.resources ?? [],
+                  assignment_meta_value: {
+                    submissions: statistic?.meta_value?.submissions ?
+                      statistic?.meta_value?.submissions?.map((s) => {
+                        return {
+                          attempt: s?.attempt ?? 1,
+                          answer_text: s?.answer_text ?? "",
+                          answer_files: s?.answer_files ?? [],
+                          student_status: s?.status ?? "pending", // pending/draft/submitted
+                          evaluation_status: s?.evaluation_status ?? "pending", // pending/evaluated
+                          points: s?.points ?? 0,
+                          feedbacks: s?.feedbacks ?? "",
+                          feedback_by: s?.feedback_by ?? null,
+                          submitted_at: s?.submitted_at ?? null,
+                          evaluated_at: s?.evaluated_at ?? null,
+                        };
+                      })
+                      : [
+                        {
+                          attempt: 1,
+                          answer_text: "",
+                          answer_files: [],
+                          student_status: "pending", // pending/draft/submitted
+                          evaluation_status: "pending", // pending/evaluated
+                          points: 0,
+                          feedbacks: "",
+                          feedback_by: null,
+                          submitted_at: null,
+                          evaluated_at: null,
+                        }
+                      ],
+                    current_attempt: statistic?.meta_value?.attempt ?? 1,
+                  },
                   assignment_settings: {
-                    assignment_type: c?.contentable_data?.rendered_metas?.assignment_type ?? "writing",
-                    allow_multiple: Boolean(c?.contentable_data?.rendered_metas?.allow_multiple) ?? false,
+                    allow_uploads: Boolean(c?.contentable_data?.rendered_metas?.allow_uploads) ?? false,
+                    number_of_uploads: c?.contentable_data?.rendered_metas?.number_of_uploads ?? 1,
                     allowed_mime_types: c?.contentable_data?.rendered_metas?.allowed_mime_types ?? [],
+                    max_file_size: c?.contentable_data?.rendered_metas?.max_file_size ?? 2,
                     enable_marking: Boolean(c?.contentable_data?.rendered_metas?.enable_marking) ?? false,
-                    max_marks: c?.contentable_data?.rendered_metas?.max_marks ?? 0,
+                    max_points: c?.contentable_data?.rendered_metas?.max_points ?? 0,
                     start_date: c?.contentable_data?.rendered_metas?.start_date ?? "",
                     end_date: c?.contentable_data?.rendered_metas?.end_date ?? "",
+                    enable_deadline: Boolean(c?.contentable_data?.rendered_metas?.enable_deadline) ?? false,
+                    deadline_type: c?.contentable_data?.rendered_metas?.deadline_type ?? "days",
+                    deadline_value: c?.contentable_data?.rendered_metas?.deadline_value ?? 0,
+                    attachments: c?.contentable_data?.rendered_metas?.attachments?.length > 0 ?
+                      c?.contentable_data?.rendered_metas?.attachments?.map((a) => {
+                        return {
+                          title: a?.title,
+                          type: a?.type,
+                          filename: a?.filename,
+                          file_url: a?.file_url,
+                          link: a?.link,
+                        };
+                      })
+                      : [],
                   },
                 };
               }) ?? [],
@@ -207,8 +250,6 @@ const CourseContent = () => {
       }
     }
   }, [data?.data]);
-
-  console.log(methods?.watch("sections"));
 
   const [value, setValue] = useState(isDesktop ? "2" : "1");
 
