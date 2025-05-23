@@ -300,6 +300,9 @@ class FrontDashboardController
         $userId = $request->get_param("user_id");
         $orderItemId = $request->get_param("order_item_id");
         $courseSectionContentId = $request->get_param("course_section_content_id");
+        $metaType = $request->get_param("meta_type");
+        $metaValue = $request->get_param("meta_value") ?? [];
+        $isAssignmentStarted = $request->get_param("is_assignment_started");
 
         $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)->get();
         if ($course_statistics->count() > 0) {
@@ -325,6 +328,19 @@ class FrontDashboardController
                 'is_active' => true,
                 'is_completed' => false,
             ]);
+        }
+
+        if($metaType && $metaType === "assignment" && $isAssignmentStarted) {
+          $statistic = CourseStatistic::where("order_item_id", $orderItemId)
+            ->where("course_section_content_id", $courseSectionContentId)
+            ->where("user_id", $userId)->first();
+          if ($statistic) {
+            $statistic->update([
+              'meta_type' => $metaType,
+              'meta_value' => $metaValue,
+            ]);
+          }
+          return rest_ensure_response(['success' => true, 'meta_value' => $statistic->meta_value]);
         }
 
         return rest_ensure_response(['success' => true]);

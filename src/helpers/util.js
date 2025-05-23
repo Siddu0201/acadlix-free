@@ -1,5 +1,6 @@
 import axios from "axios";
 import { __ } from "@wordpress/i18n";
+import { dateI18n, format, getSettings } from "@wordpress/date";
 
 export const useInstance = () => {
   return axios.create({
@@ -253,5 +254,18 @@ export const convertToPostDate = (obj) => {
 export const strtotime = (dateString) => {
   const timestamp = Date.parse(dateString);
   return isNaN(timestamp) ? false : timestamp;
+}
+
+export const getFormatDate = (data) => {
+  if (!data) return "";
+  const date_settings = getSettings();
+  const date_time_format = `${date_settings?.formats?.date || "Y-m-d"} ${date_settings?.formats?.time || "H:i:s"}`;
+  return format(date_time_format, data);
+}
+
+export const getCurrentDate = (in_string = false) => {
+  const date_settings = getSettings();
+  const date_time_format = `${date_settings?.formats?.date || "Y-m-d"} ${date_settings?.formats?.time || "H:i:s"}`;
+  return in_string ? strtotime(dateI18n(date_time_format)) : dateI18n(date_time_format);
 }
 

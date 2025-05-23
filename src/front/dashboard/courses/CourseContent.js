@@ -26,6 +26,7 @@ import Content from "./content/Content";
 import ContentOptions from "./content/ContentOptions";
 import ContentHeader from "./content/ContentHeader";
 import { __ } from "@wordpress/i18n";
+import { getCurrentDate, getFormatDate, strtotime } from "../../../helpers/util";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -65,15 +66,47 @@ const CourseContent = () => {
       })
     );
     navigate(`/course/${methods?.watch("order_item_id")}/content/${id}`);
+    const sectionIndex = methods?.watch("sections")?.findIndex((s) => s?.content?.find((c) => c?.id === id));
+    const contentIndex = methods?.watch("sections")?.[sectionIndex]?.content?.findIndex((c) => c?.id === id);
+    const content = methods?.watch(`sections.${sectionIndex}.content.${contentIndex}`);
+    const metaType = content?.type;
+    let metaValue = content?.type === "assignment" ? content?.assignment_meta_value : null;
+    let is_assignment_started = false;
+    const current_date = getCurrentDate(true);
+    const start_date = strtotime(content?.assignment_settings?.start_date);
+
+    if(metaType === "assignment" &&
+      !metaValue?.first_started_at
+    ) {
+      if((start_date &&
+          current_date >= start_date) || 
+          start_date === "") {
+          is_assignment_started = true;
+          metaValue = {
+            ...metaValue,
+            first_started_at: getFormatDate(current_date),
+          };
+      }
+    }
     activeMutation?.mutate(
       {
         order_item_id: orderItemId,
         course_section_content_id: id,
         user_id: acadlixOptions?.user?.ID,
+        meta_type: metaType,
+        meta_value: metaValue,
+        is_assignment_started: is_assignment_started,
       },
       {
         onSuccess: (data) => {
           // handle Success active
+          if(data?.data?.success && metaType === "assignment" && data?.data?.meta_value) {
+            methods?.setValue(
+              `sections.${sectionIndex}.content.${contentIndex}.assignment_meta_value`,
+              data?.data?.meta_value,
+              { shouldDirty: true }
+            );
+          }
         },
       }
     );
@@ -182,6 +215,7 @@ const CourseContent = () => {
                     (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
                   resources: c?.contentable_data?.rendered_metas?.resources ?? [],
                   assignment_meta_value: {
+                    first_started_at: statistic?.meta_value?.first_started_at ?? "",
                     submissions: statistic?.meta_value?.submissions ?
                       statistic?.meta_value?.submissions?.map((s) => {
                         return {
