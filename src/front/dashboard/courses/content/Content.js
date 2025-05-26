@@ -1,4 +1,4 @@
-import { 
+import {
   Alert,
   Box,
   Button,
@@ -11,28 +11,32 @@ import {
   List,
   ListItem,
   Tooltip,
-  Typography } from "@mui/material";
+  Typography
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useRef } from "react";
-import { 
+import {
   FaAngleLeft,
   FaAngleRight,
   FaDownload,
-  FaTrash } from "../../../../helpers/icons";
+  FaTrash
+} from "../../../../helpers/icons";
 import AppFront from "../../../AppFront";
 import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
-import { 
+import {
   PostDeleteAssignmentFile,
   PostSubmitAssignment,
   PostUpdateLessonTime,
-  PostUploadAssignmentFile } from "../../../../requests/front/FrontDashboardRequest";
-import { 
+  PostUploadAssignmentFile
+} from "../../../../requests/front/FrontDashboardRequest";
+import {
   getCurrentDateString,
   getDbFormatDate,
   getFormatDate,
   getVimeoVideoId,
   getYouTubeVideoId,
-  strtotime } from "../../../../helpers/util";
+  strtotime
+} from "../../../../helpers/util";
 import CustomLatex from "../../../../modules/latex/CustomLatex";
 import { __, sprintf } from "@wordpress/i18n";
 import { RawHTML } from "@wordpress/element";
@@ -744,18 +748,34 @@ const AssignmentContent = (props) => {
   }
 
   const getDeadline = (first_started_at = 0) => {
-    if (!props?.c?.assignment_settings?.enable_deadline || props?.c?.assignment_settings?.deadline_value === 0) {
-      return "";
+    const settings = props?.c?.assignment_settings || {};
+    const end_date = settings.end_date ? strtotime(settings.end_date) : null;
+    let deadline = null;
+
+    if (settings.enable_deadline && settings.deadline_value > 0 && first_started_at) {
+      const startTime = strtotime(first_started_at);
+      const multiplier =
+        settings.deadline_type === "weeks"
+          ? 7 * 24 * 60 * 60 * 1000
+          : 24 * 60 * 60 * 1000;
+
+      deadline = startTime + settings.deadline_value * multiplier;
     }
-    let deadline = "";
-    if (props?.c?.assignment_settings?.deadline_type === "days") {
-      deadline = strtotime(first_started_at) + (props?.c?.assignment_settings?.deadline_value * 24 * 60 * 60 * 1000);
-    } 
-    
-    if (props?.c?.assignment_settings?.deadline_type === "weeks") {
-      deadline = strtotime(first_started_at) + (props?.c?.assignment_settings?.deadline_value * 7 * 24 * 60 * 60 * 1000);
+
+    // Compare both values and return the earlier one
+    if (deadline && end_date) {
+      return deadline < end_date ? deadline : end_date;
     }
-    return deadline;
+
+    if (deadline) {
+      return deadline;
+    }
+
+    if (end_date) {
+      return end_date;
+    }
+
+    return ""; // neither exists
   }
 
 
@@ -813,17 +833,17 @@ const AssignmentContent = (props) => {
             </CustomLatex>
           </Grid>
           {
-            (end_date || deadline) && (
+            deadline && (
               <>
-              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                <Alert severity="warning">
-                  {
-                    current_date > deadline && current_date > end_date ? 
-                      `${__('Deadline passed on', 'acadlix')} ${end_date > deadline ? getFormatDate(deadline) : getFormatDate(end_date)} ${date_settings?.timezone?.string} ` : 
-                      `${__('Your Deadline:', 'acadlix')} ${end_date > deadline ? getFormatDate(deadline) : getFormatDate(end_date)} ${date_settings?.timezone?.string} `
-                  }
-                </Alert>
-              </Grid>
+                <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                  <Alert severity="warning">
+                    {
+                      current_date > deadline ?
+                        `${__('Deadline passed on', 'acadlix')} ${getFormatDate(deadline)} ${date_settings?.timezone?.string} ` :
+                        `${__('Your Deadline:', 'acadlix')} ${getFormatDate(deadline)} ${date_settings?.timezone?.string} `
+                    }
+                  </Alert>
+                </Grid>
               </>
             )
           }
@@ -835,7 +855,7 @@ const AssignmentContent = (props) => {
               sx={{
                 paddingY: 4,
               }}
-            >              
+            >
               {
                 props?.c?.assignment_settings?.max_points > 0 && (
                   <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
@@ -1021,7 +1041,7 @@ const AssignmentContent = (props) => {
             )
           }
           {
-            (end_date || deadline) && (current_date > end_date || current_date > deadline) ?
+            deadline && (current_date > deadline) ?
               <></>
               :
               (
