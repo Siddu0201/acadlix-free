@@ -749,11 +749,11 @@ const AssignmentContent = (props) => {
     }
     let deadline = "";
     if (props?.c?.assignment_settings?.deadline_type === "days") {
-      deadline = first_started_at + (props?.c?.assignment_settings?.deadline_value * 24 * 60 * 60 * 1000);
+      deadline = strtotime(first_started_at) + (props?.c?.assignment_settings?.deadline_value * 24 * 60 * 60 * 1000);
     } 
     
     if (props?.c?.assignment_settings?.deadline_type === "weeks") {
-      deadline = first_started_at + (props?.c?.assignment_settings?.deadline_value * 7 * 24 * 60 * 60 * 1000);
+      deadline = strtotime(first_started_at) + (props?.c?.assignment_settings?.deadline_value * 7 * 24 * 60 * 60 * 1000);
     }
     return deadline;
   }
