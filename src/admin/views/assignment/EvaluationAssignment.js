@@ -22,7 +22,7 @@ import Loader from '../../../components/Loader';
 import { useForm } from 'react-hook-form';
 import CustomLatex from '../../../modules/latex/CustomLatex';
 import CustomTextField from '../../../components/CustomTextField';
-import { getCurrentDate } from '../../../helpers/util';
+import { getCurrentDateString, getDbFormatDate } from '../../../helpers/util';
 
 const EvaluationAssignment = () => {
     const methods = useForm(
@@ -66,7 +66,7 @@ const EvaluationAssignment = () => {
                     return {
                         ...s,
                         evaluated_by: acadlixOptions?.user_id,
-                        evaluated_at: getCurrentDate(),
+                        evaluated_at: getDbFormatDate(getCurrentDateString()),
                         evaluation_status: "evaluated",
                     }
                 }

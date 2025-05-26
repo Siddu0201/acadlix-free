@@ -27,7 +27,8 @@ import {
   PostUpdateLessonTime,
   PostUploadAssignmentFile } from "../../../../requests/front/FrontDashboardRequest";
 import { 
-  getCurrentDate,
+  getCurrentDateString,
+  getDbFormatDate,
   getFormatDate,
   getVimeoVideoId,
   getYouTubeVideoId,
@@ -690,7 +691,7 @@ const AssignmentContent = (props) => {
           return {
             ...s,
             student_status: is_submitted ? "submitted" : "draft",
-            submitted_at: is_submitted ? getCurrentDate() : "",
+            submitted_at: is_submitted ? getDbFormatDate(getCurrentDateString()) : "",
           };
         }
         return s;
@@ -759,7 +760,7 @@ const AssignmentContent = (props) => {
 
 
   const date_settings = getSettings();
-  const current_date = getCurrentDate(true);
+  const current_date = getCurrentDateString();
   const first_started_at = props?.c?.assignment_meta_value?.first_started_at ? strtotime(props?.c?.assignment_meta_value?.first_started_at) : "";
   const deadline = first_started_at ? getDeadline(first_started_at) : "";
   const start_date = strtotime(props?.c?.assignment_settings?.start_date);

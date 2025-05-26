@@ -252,20 +252,28 @@ export const convertToPostDate = (obj) => {
 }
 
 export const strtotime = (dateString) => {
-  const timestamp = Date.parse(dateString);
+  if (!dateString) return false;
+  const date = format("Y-m-d H:i:s", dateString);
+  const timestamp = Date.parse(date);
   return isNaN(timestamp) ? false : timestamp;
 }
 
-export const getFormatDate = (data) => {
-  if (!data) return "";
-  const date_settings = getSettings();
-  const date_time_format = `${date_settings?.formats?.date || "Y-m-d"} ${date_settings?.formats?.time || "H:i:s"}`;
-  return format(date_time_format, data);
+export const getDbFormatDate = (date) => {
+  if (!date) return "";
+  const date_time_format = "Y-m-d H:i:s";
+  return format(date_time_format, date);
 }
 
-export const getCurrentDate = (in_string = false) => {
+export const getFormatDate = (date) => {
+  if (!date) return "";
   const date_settings = getSettings();
   const date_time_format = `${date_settings?.formats?.date || "Y-m-d"} ${date_settings?.formats?.time || "H:i:s"}`;
-  return in_string ? strtotime(dateI18n(date_time_format)) : dateI18n(date_time_format);
+  return format(date_time_format, date);
 }
+
+export const getCurrentDateString = () => {
+  const date_time_format = "Y-m-d H:i:s";
+  return strtotime(dateI18n(date_time_format));
+}
+
 

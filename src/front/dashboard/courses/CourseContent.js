@@ -26,7 +26,7 @@ import Content from "./content/Content";
 import ContentOptions from "./content/ContentOptions";
 import ContentHeader from "./content/ContentHeader";
 import { __ } from "@wordpress/i18n";
-import { getCurrentDate, getFormatDate, strtotime } from "../../../helpers/util";
+import { getCurrentDateString, getDbFormatDate, strtotime } from "../../../helpers/util";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -73,19 +73,19 @@ const CourseContent = () => {
     const metaType = content?.type;
     let metaValue = content?.type === "assignment" ? content?.assignment_meta_value : {};
     let is_assignment_started = false;
-    const current_date = getCurrentDate(true);
+    const current_date = getCurrentDateString();
     const start_date = strtotime(content?.assignment_settings?.start_date);
-    if(metaType === "assignment" &&
+    if (metaType === "assignment" &&
       !metaValue?.first_started_at
     ) {
-      if((start_date &&
-          current_date >= start_date) || 
-          !start_date) {
-          is_assignment_started = true;
-          metaValue = {
-            ...metaValue,
-            first_started_at: getFormatDate(current_date),
-          };
+      if ((start_date &&
+        current_date >= start_date) ||
+        !start_date) {
+        is_assignment_started = true;
+        metaValue = {
+          ...metaValue,
+          first_started_at: getDbFormatDate(current_date),
+        };
       }
     }
     activeMutation?.mutate(
@@ -100,7 +100,7 @@ const CourseContent = () => {
       {
         onSuccess: (data) => {
           // handle Success active
-          if(data?.data?.success && metaType === "assignment" && data?.data?.meta_value) {
+          if (data?.data?.success && metaType === "assignment" && data?.data?.meta_value) {
             methods?.setValue(
               `sections.${sectionIndex}.content.${contentIndex}.assignment_meta_value`,
               data?.data?.meta_value,
@@ -134,24 +134,29 @@ const CourseContent = () => {
         "sections",
         item?.course?.sections?.map((s, index) => {
           let open = false;
-          if (courseSectionContentId === undefined) {
+          if (courseSectionContentId === undefined || courseSectionContentId == 0) {
             if (data?.data?.course_statistic?.length > 0) {
-              open =
-                s?.contents?.findIndex(
-                  (c) =>
-                    c?.ID ==
-                    data?.data?.course_statistic?.find((cs) => cs?.is_active)
-                      ?.course_section_content_id
-                ) !== -1
-                  ? true
-                  : false;
+              if(data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
+                open =
+                  s?.contents?.find(
+                    (c) =>
+                      c?.ID ==
+                      data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                        ?.course_section_content_id
+                  )
+                    ? true
+                    : false;
+              }else{
+                open = s?.contents?.find(
+                  (c) => c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id
+                ) ? true : false;
+              }
             } else {
               open = index === 0 ? true : false;
             }
           } else {
             open =
-              s?.contents?.findIndex((c) => c?.ID == courseSectionContentId) !==
-                -1
+              s?.contents?.find((c) => c?.ID == courseSectionContentId)
                 ? true
                 : false;
           }
@@ -165,12 +170,16 @@ const CourseContent = () => {
             content:
               s?.contents?.map((c, c_index) => {
                 let active = false;
-                if (courseSectionContentId === undefined) {
+                if (courseSectionContentId === undefined || courseSectionContentId == 0) {
                   if (data?.data?.course_statistic?.length > 0) {
-                    active =
+                    if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
+                      active =
                       c?.ID ==
                       data?.data?.course_statistic?.find((cs) => cs?.is_active)
-                        ?.course_section_content_id;
+                      ?.course_section_content_id;
+                    } else {
+                      active = c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id;
+                    }
                   } else {
                     active = c_index === 0 ? true : false;
                   }
@@ -276,7 +285,11 @@ const CourseContent = () => {
           };
         }) ?? []
       );
-      if (courseSectionContentId === undefined && methods?.watch("sections")?.length > 0) {
+      if ((courseSectionContentId === undefined || courseSectionContentId == 0) && methods?.watch("sections")?.length > 0) {
+        console.log(methods
+          ?.watch("sections")
+          ?.find((s) => s?.active)
+          ?.content?.find((c) => c?.is_active)?.id);
         handleNavigate(methods
           ?.watch("sections")
           ?.find((s) => s?.active)
@@ -545,7 +558,7 @@ const CourseContent = () => {
                     overflowY: "auto",
                   }}
                 >
-                  {courseSectionContentId !== undefined &&
+                  {(courseSectionContentId !== undefined || courseSectionContentId !== 0) &&
                     methods?.watch("sections")?.length > 0 && (
                       <Content
                         {...methods}
