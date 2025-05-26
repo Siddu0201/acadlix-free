@@ -630,7 +630,7 @@ class FrontDashboardController
         return rest_ensure_response([
             "success" => true,
             "meta_type" => $metaType,
-            "meta_value" => $course_statistics->meta_value ?? null,
+            "course_statistics" => $course_statistics,
         ]);
     }
 

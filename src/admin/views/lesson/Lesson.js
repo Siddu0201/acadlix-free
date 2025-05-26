@@ -45,7 +45,7 @@ const Lesson = () => {
 
   const deleteMutation = DeleteLessonById();
   const deleteLessonById = (id) => {
-    if (confirm(__("Do you really want to delete this lesson?", "acadlix"))) {
+    if (confirm(__("Deleting this lesson will permanently remove all associated data. Are you sure you want to proceed?", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
   };
@@ -135,7 +135,7 @@ const Lesson = () => {
   const handleBulkDelete = () => {
     if (
       confirm(
-        __("Do you really want to delete these lesson(s)?", "acadlix")
+        __("Deleting these lesson(s) will permanently remove all associated data. Are you sure you want to proceed?", "acadlix")
       )
     ) {
       deleteBulkMutation?.mutate(

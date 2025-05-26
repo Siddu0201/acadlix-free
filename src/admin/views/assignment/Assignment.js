@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from '../../../helpers/icons';
+import { FaEdit, FaEye, FaSearch, FaTrash, IoMdRefresh } from '../../../helpers/icons';
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../helpers/util";
+import { getFormatDate, hasCapability } from "../../../helpers/util";
 import { Link } from "react-router-dom";
 import { Box, Button, Card, CardContent, CardHeader, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -28,7 +28,7 @@ const Assignment = () => {
     const deleteMutation = DeleteAssignmentById();
 
     const deleteAssignmentById = (id) => {
-        if (confirm(__("Do you really want to delete this assignment?", "acadlix"))) {
+        if (confirm(__("Deleting this assignment will permanently remove all associated data. Are you sure you want to proceed?", "acadlix"))) {
             deleteMutation?.mutate(id);
         }
     };
@@ -36,6 +36,9 @@ const Assignment = () => {
     const columns = [
         { field: "id", headerName: __("ID", "acadlix") },
         { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
+        { field: "start_date", headerName: __("Start Date", "acadlix"), flex: 2, minWidth: 130 },
+        { field: "end_date", headerName: __("End Date", "acadlix"), flex: 2, minWidth: 130 },
+        { field: "deadline", headerName: __("Deadline", "acadlix"), flex: 2, minWidth: 130 },
         {
             field: "action",
             headerName: __("Action", "acadlix"),
@@ -59,6 +62,17 @@ const Assignment = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        <Tooltip title={__("View Submissions", "acadlix")} arrow>
+                            <IconButton
+                                aria-label="view"
+                                size="small"
+                                color="info"
+                                LinkComponent={Link}
+                                to={`/view/${params?.id}`}
+                            > 
+                                <FaEye />
+                            </IconButton>
+                        </Tooltip>
                         {
                             hasCapability("acadlix_delete_assignment") &&
                             <Tooltip title={__("Delete Assignment", "acadlix")} arrow>
@@ -85,11 +99,27 @@ const Assignment = () => {
     );
 
     React.useMemo(() => {
+        const getDeadline = (assignment) => {
+            if(!Boolean(assignment?.rendered_metas?.enable_deadline) 
+                || assignment?.rendered_metas?.deadline_value === 0) return "-";
+            switch (assignment?.rendered_metas?.deadline_type) {
+                case "days":
+                    return assignment?.rendered_metas?.deadline_value + " " + __("Days", "acadlix");
+                case "weeks":
+                    return assignment?.rendered_metas?.deadline_value + " " + __("Weeks", "acadlix");
+                default:
+                    return "-";
+            }
+            
+        }
         if (Array.isArray(data?.data?.assignments)) {
             const newRows = data?.data?.assignments?.map((assignment) => {
                 return {
                     id: assignment?.ID,
                     title: assignment?.post_title,
+                    start_date: assignment?.rendered_metas?.start_date ? getFormatDate(assignment?.rendered_metas?.start_date) : "-",
+                    end_date: assignment?.rendered_metas?.end_date ? getFormatDate(assignment?.rendered_metas?.end_date) : "-",
+                    deadline: getDeadline(assignment),
                 };
             });
             methods.setValue("rows", newRows, { shouldDirty: true });
@@ -109,7 +139,7 @@ const Assignment = () => {
     const handleBulkDelete = () => {
         if (
             confirm(
-                __("Do you really want to delete these assignment(s)?", "acadlix")
+                __("Deleting these assignment(s) will permanently remove all associated data. Are you sure you want to proceed?", "acadlix")
             )
         ) {
             deleteBulkMutation?.mutate(

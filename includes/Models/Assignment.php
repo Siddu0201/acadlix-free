@@ -10,7 +10,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Assignment')) {
     class Assignment extends Model
     {
-        protected $helper;  
+        protected $helper;
         protected $table = 'posts';
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas'];
@@ -26,7 +26,7 @@ if (!class_exists('Assignment')) {
         {
             $this->helper = new Helper();
         }
-    
+
         public function scopeOfAssignment($query)
         {
             return $query->where('post_type', self::$postType);
@@ -45,7 +45,7 @@ if (!class_exists('Assignment')) {
         public function getRenderedMetasAttribute()
         {
             $metas = $this->metas;
-            if(empty($metas)) {
+            if (empty($metas)) {
                 return [];
             }
             $keyValueArray = [];
@@ -129,6 +129,29 @@ if (!class_exists('Assignment')) {
             $post = get_post($postId);
             if (!$post || $post->post_type !== self::$postType) {
                 return new \WP_Error('invalid_post', 'Invalid post ID or not a assignment post type.');
+            }
+
+            // Delete related course section content (cs_content) posts
+            $related_contents = get_posts([
+                'post_type' => ACADLIX_COURSE_SECTION_CONTENT_CPT,
+                'meta_query' => [
+                    [
+                        'key' => '_acadlix_course_section_content_assignment_id',
+                        'value' => $postId,
+                        'compare' => '='
+                    ]
+                ],
+                'posts_per_page' => -1,
+                'fields' => 'ids', // only get post IDs
+            ]);
+
+            if (!empty($related_contents)) {
+                foreach ($related_contents as $content_id) {
+                    $content = CourseSectionContent::deleteCourseSectionContent($content_id);
+                    if (is_wp_error($content)) {
+                        return $content;
+                    }
+                }
             }
 
             // Delete post

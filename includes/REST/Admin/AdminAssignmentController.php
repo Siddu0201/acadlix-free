@@ -6,6 +6,10 @@ use WP_REST_Server;
 use WP_REST_Request;
 use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Assignment;
+use Yuvayana\Acadlix\Models\CourseStatistic;
+use Yuvayana\Acadlix\Models\Order;
+use Illuminate\Database\Capsule\Manager as DB;
+use Yuvayana\Acadlix\Models\OrderItem;
 
 defined('ABSPATH') || exit();
 
@@ -84,6 +88,66 @@ class AdminAssignmentController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/(?P<assignment_id>\d+)/submissions',
+            [
+                [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_assignment_submissions_by_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'assignment_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/(?P<assignment_id>\d+)/evaluation/(?P<course_statistic_id>\d+)',
+            [
+                [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_evaluation_assignment'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'assignment_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                        'course_statistic_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+                [
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'post_evaluate_assignment'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'assignment_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                        'course_statistic_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/delete-bulk-assignment',
             [
                 [
@@ -143,7 +207,7 @@ class AdminAssignmentController
                 'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
             ], $meta);
 
-            if(is_wp_error($assignmentId)) {
+            if (is_wp_error($assignmentId)) {
                 return new WP_Error(
                     'assignment_creation_failed',
                     __('Failed to create the assignment.', 'acadlix'),
@@ -227,7 +291,7 @@ class AdminAssignmentController
                 'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
             ], $meta);
 
-            if(is_wp_error($assignmentId)) {
+            if (is_wp_error($assignmentId)) {
                 return new WP_Error(
                     'assignment_updation_failed',
                     __('Failed to update the assignment.', 'acadlix'),
@@ -256,6 +320,154 @@ class AdminAssignmentController
         }
     }
 
+    public function get_assignment_submissions_by_id($request)
+    {
+        $res = [];
+        $assignment_id = $request['assignment_id'];
+
+        // Validate required fields
+        if (empty($assignment_id)) {
+            return new WP_Error(
+                'missing_assignment_id',
+                __('Assignment ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $order = [];
+        // $order = Order::with('order_items')->whereHas('order_items', function ($q) use ($assignment_id) {
+        //     $q->whereHas('course.sections.contents.metas', function ($q2) use ($assignment_id) {
+        //         $q2->where(function($q3) use ($assignment_id) {
+        //             $q3->where('meta_key', '_acadlix_course_section_content_assignment_id')
+        //                ->where('meta_value', $assignment_id);
+        //         });
+        //     });
+        // })->get();
+
+        $assignment = Assignment::ofAssignment()->find($assignment_id);
+        if (!$assignment) {
+            return new WP_Error(
+                'assignment_not_found',
+                __('Assignment not found.', 'acadlix'),
+                ['status' => 404]
+            );
+        }
+        
+        $res['assignment'] = $assignment;
+
+        $submissions = OrderItem::with([
+            'order',
+            'order.user',
+            'course.sections.contents' => function ($query) use ($assignment_id) {
+                $query->whereHas('metas', function ($q) use ($assignment_id) {
+                    $q->where('meta_key', '_acadlix_course_section_content_assignment_id')
+                      ->where('meta_value', $assignment_id);
+                });
+            },
+            'course.sections.contents.course_statistics'
+        ])
+        ->whereHas('course.sections.contents', function ($q) use ($assignment_id) {
+            $q->whereHas('metas', function ($q2) use ($assignment_id) {
+                $q2->where('meta_key', '_acadlix_course_section_content_assignment_id')
+                   ->where('meta_value', $assignment_id);
+            });
+        })
+        ->get()
+        ->each(function ($orderItem) {
+            $orderItem->setAppends([]);
+        });
+
+        $res['submissions'] = $submissions;
+        return rest_ensure_response($res);
+    }
+
+    public function get_evaluation_assignment($request)
+    {
+        $res = [];
+        $assignment_id = $request['assignment_id'];
+        $course_statistic_id = $request['course_statistic_id'];
+
+        // Validate required fields
+        if (empty($assignment_id)) {
+            return new WP_Error(
+                'missing_assignment_id',
+                __('Assignment ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        if(empty($course_statistic_id)) {
+            return new WP_Error(
+                'missing_course_statistic_id',
+                __('Course statistic ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $assignment = Assignment::ofAssignment()->find($assignment_id);
+        if (!$assignment) {
+            return new WP_Error(
+                'assignment_not_found',
+                __('Assignment not found.', 'acadlix'),
+                ['status' => 404]
+            );
+        }
+        $courseStatistic = CourseStatistic::with([
+            'user',
+            ])->find($course_statistic_id);
+        if (!$courseStatistic) {
+            return new WP_Error(
+                'course_statistic_not_found',
+                __('Course statistic not found.', 'acadlix'),
+                ['status' => 404]
+            );
+        }
+        $res['assignment'] = $assignment;
+        $res['course_statistic'] = $courseStatistic;
+        return rest_ensure_response($res);
+    }
+
+    public function post_evaluate_assignment($request)
+    {
+        $res = [];
+        $assignment_id = $request['assignment_id'];
+        $course_statistic_id = $request['course_statistic_id'];
+        $params = $request->get_params();
+
+        $meta_value = $params['meta_value'] ?? [];
+
+        // Validate required fields
+        if (empty($assignment_id)) {
+            return new WP_Error(
+                'missing_assignment_id',
+                __('Assignment ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        if(empty($course_statistic_id)) {
+            return new WP_Error(
+                'missing_course_statistic_id',
+                __('Course statistic ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $courseStatistic = CourseStatistic::with([
+            'user',
+            ])->find($course_statistic_id);
+        if ($courseStatistic) {
+            $courseStatistic->update([
+                'meta_value' => $meta_value
+            ]);
+        }
+
+        return rest_ensure_response([
+            'success' => true,
+            'course_statistic' => $courseStatistic,
+            'message' => __('Assignment evaluated successfully.', 'acadlix'),
+        ]);
+        
+    }
+
     public function delete_assignment_by_id($request)
     {
         $res = [];
@@ -270,7 +482,7 @@ class AdminAssignmentController
             );
         }
         $assignment = Assignment::deleteAssignment($assignment_id);
-        if(is_wp_error($assignment)) {
+        if (is_wp_error($assignment)) {
             return new WP_Error(
                 'assignment_deletion_failed',
                 __('Failed to delete the assignment.', 'acadlix'),
@@ -304,7 +516,7 @@ class AdminAssignmentController
                 );
             }
             $assignment = Assignment::deleteAssignment($assignment_id);
-            if(is_wp_error($assignment)) {
+            if (is_wp_error($assignment)) {
                 return new WP_Error(
                     'assignment_deletion_failed',
                     __('Failed to delete the assignment.', 'acadlix'),

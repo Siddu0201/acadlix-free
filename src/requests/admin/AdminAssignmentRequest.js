@@ -70,6 +70,44 @@ export const UpdateAssignmentById = (assignment_id = '') => {
     })
 }
 
+export const GetAssignmentSubmissionsById = (assignment_id = '') => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getAssignmentSubmissionsById", assignment_id],
+        queryFn: () => {
+            if (!assignment_id) return {};
+            return instance.get(`${base}/${assignment_id}/submissions`);
+        }
+    });
+}
+
+export const GetEvaluationAssignment = (assignment_id = '', course_statistic_id = '') => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getEvaluationAssignment", assignment_id, course_statistic_id],
+        queryFn: () => {
+            if (!assignment_id || !course_statistic_id) return {};
+            return instance.get(`${base}/${assignment_id}/evaluation/${course_statistic_id}`);
+        }
+    });
+}
+
+export const PostEvaluateAssignment = (assignment_id = '', course_statistics_id = '') => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`, data);
+        },
+        onSuccess: (data) => {
+            toast.success(data?.data?.message);
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    })
+}
+
 export const DeleteAssignmentById = () => {
     const instance = useInstance();
     const queryClient = useQueryClient();

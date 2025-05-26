@@ -66,21 +66,21 @@ const CourseContent = () => {
       })
     );
     navigate(`/course/${methods?.watch("order_item_id")}/content/${id}`);
+
     const sectionIndex = methods?.watch("sections")?.findIndex((s) => s?.content?.find((c) => c?.id === id));
     const contentIndex = methods?.watch("sections")?.[sectionIndex]?.content?.findIndex((c) => c?.id === id);
     const content = methods?.watch(`sections.${sectionIndex}.content.${contentIndex}`);
     const metaType = content?.type;
-    let metaValue = content?.type === "assignment" ? content?.assignment_meta_value : null;
+    let metaValue = content?.type === "assignment" ? content?.assignment_meta_value : {};
     let is_assignment_started = false;
     const current_date = getCurrentDate(true);
     const start_date = strtotime(content?.assignment_settings?.start_date);
-
     if(metaType === "assignment" &&
       !metaValue?.first_started_at
     ) {
       if((start_date &&
           current_date >= start_date) || 
-          start_date === "") {
+          !start_date) {
           is_assignment_started = true;
           metaValue = {
             ...metaValue,
@@ -222,13 +222,13 @@ const CourseContent = () => {
                           attempt: s?.attempt ?? 1,
                           answer_text: s?.answer_text ?? "",
                           answer_files: s?.answer_files ?? [],
-                          student_status: s?.status ?? "pending", // pending/draft/submitted
+                          student_status: s?.student_status ?? "pending", // pending/draft/submitted
                           evaluation_status: s?.evaluation_status ?? "pending", // pending/evaluated
+                          evaluated_by: s?.evaluated_by ?? 0,
                           points: s?.points ?? 0,
-                          feedbacks: s?.feedbacks ?? "",
-                          feedback_by: s?.feedback_by ?? null,
-                          submitted_at: s?.submitted_at ?? null,
-                          evaluated_at: s?.evaluated_at ?? null,
+                          feedback: s?.feedback ?? "",
+                          submitted_at: s?.submitted_at ?? "",
+                          evaluated_at: s?.evaluated_at ?? "",
                         };
                       })
                       : [
@@ -238,11 +238,11 @@ const CourseContent = () => {
                           answer_files: [],
                           student_status: "pending", // pending/draft/submitted
                           evaluation_status: "pending", // pending/evaluated
+                          evaluated_by: 0,
                           points: 0,
-                          feedbacks: "",
-                          feedback_by: null,
-                          submitted_at: null,
-                          evaluated_at: null,
+                          feedback: "",
+                          submitted_at: "",
+                          evaluated_at: "",
                         }
                       ],
                     current_attempt: statistic?.meta_value?.attempt ?? 1,

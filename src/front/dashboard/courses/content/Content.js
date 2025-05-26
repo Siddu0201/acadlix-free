@@ -500,11 +500,13 @@ const AssignmentContent = (props) => {
 
 
   const loadPage = () => {
-    props?.loadEditor(
-      `assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`,
-      `sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.submissions.${props?.current_meta_index}.answer_text`,
-      false
-    );
+    setInterval(() => {
+      props?.loadEditor(
+        `assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`,
+        `sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.submissions.${props?.current_meta_index}.answer_text`,
+        false
+      );
+    }, 500);
   }
 
   React.useEffect(() => {
@@ -522,11 +524,11 @@ const AssignmentContent = (props) => {
       case "pending":
         return <Chip label="Pending" color="warning" />;
       case "draft":
-        return <Chip label="Draft" color="primary" />;
+        return <Chip label="Draft" color="grey" />;
       case "submitted":
         return <Chip label="Submitted" color="success" />;
-      case "graded":
-        return <Chip label="Graded" color="success" />;
+      case "evaluated":
+        return <Chip label="Evaluated" color="success" />;
       default:
         return <Chip label="Pending" color="warning" />;
     }
@@ -688,6 +690,7 @@ const AssignmentContent = (props) => {
           return {
             ...s,
             student_status: is_submitted ? "submitted" : "draft",
+            submitted_at: is_submitted ? getCurrentDate() : "",
           };
         }
         return s;
@@ -702,13 +705,20 @@ const AssignmentContent = (props) => {
     }, {
       onSuccess: (data) => {
         setIsSubmitting(false);
-        if (data?.data?.success && data?.data?.meta_value) {
+        if (data?.data?.success && data?.data?.course_statistics) {
           props?.setValue(
             `sections.${props?.index}.content.${props?.c_index}.assignment_meta_value`,
-            data?.data?.meta_value,
+            data?.data?.course_statistics?.meta_value,
             { shouldDirty: true }
           );
           if (is_submitted) {
+            props?.handleComplete(
+              props?.c?.id,
+              props?.index,
+              props?.c_index,
+              props?.c?.i,
+              false
+            );
             props?.removeEditor(`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`);
             window.removeEventListener("load", loadPage);
           }
@@ -722,11 +732,6 @@ const AssignmentContent = (props) => {
   }
 
   const handleSaveDraft = () => {
-    props?.setValue(
-      `sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.is_draft`,
-      true,
-      { shouldDirty: true }
-    );
     handleSubmit();
   }
 
@@ -759,8 +764,6 @@ const AssignmentContent = (props) => {
   const deadline = first_started_at ? getDeadline(first_started_at) : "";
   const start_date = strtotime(props?.c?.assignment_settings?.start_date);
   const end_date = strtotime(props?.c?.assignment_settings?.end_date);
-
-  console.log(first_started_at);
 
   if (props?.c?.assignment_settings?.start_date && current_date < start_date) {
     return (
@@ -861,11 +864,9 @@ const AssignmentContent = (props) => {
                   <Typography variant="body2" color="text.secondary">
                     {__("Status:", "acadlix")}
                   </Typography>
-                  <Typography variant="body1" sx={{
-                    fontWeight: 600,
-                  }}>
+                  <Box>
                     {getStatus(props?.current_meta_value?.student_status)}
-                  </Typography>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
@@ -901,11 +902,9 @@ const AssignmentContent = (props) => {
                                       <Typography variant="body2" color="text.secondary">
                                         {__("Evaluation:", "acadlix")}
                                       </Typography>
-                                      <Typography variant="body1" sx={{
-                                        fontWeight: 600,
-                                      }}>
+                                      <Box>
                                         {getStatus(s?.evaluation_status)}
-                                      </Typography>
+                                      </Box>
                                     </Box>
                                     <Box sx={{
                                       display: "flex",
@@ -1059,18 +1058,18 @@ const AssignmentContent = (props) => {
                             disabled={props?.current_meta_value?.student_status === "submitted"}
                             value={props?.current_meta_value?.answer_text}
                             onChange={(e) => {
-                              // let value = e?.target?.value;
-                              // if (window?.tinymce) {
-                              //   const editor = window.tinymce.get(`assignment_answer_form_${props?.c?.id}`);
-                              //   if (editor && editor.getContent() !== value) {
-                              //     editor.setContent(value || "");
-                              //   }
-                              // }
-                              // props.setValue(`sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.answer_text`,
-                              //   value,
-                              //   {
-                              //     shouldDirty: true,
-                              //   });
+                              let value = e?.target?.value;
+                              if (window?.tinymce) {
+                                const editor = window.tinymce.get(`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`);
+                                if (editor && editor.getContent() !== value) {
+                                  editor.setContent(value || "");
+                                }
+                              }
+                              props.setValue(`sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.answer_text`,
+                                value,
+                                {
+                                  shouldDirty: true,
+                                });
                             }}
                           />
                         )
@@ -1103,15 +1102,19 @@ const AssignmentContent = (props) => {
                                       {f?.file_name}
                                     </Link>
                                   </Typography>
-                                  <IconButton
-                                    color="error"
-                                    aria-label="delete"
-                                    size="small"
-                                    loading={deleteAssignmentFileMutation?.isPending && deleteIndex === i}
-                                    onClick={() => handleRemoveFile(i)}
-                                  >
-                                    <FaTrash />
-                                  </IconButton>
+                                  {
+                                    props?.current_meta_value?.student_status !== "submitted" && (
+                                      <IconButton
+                                        color="error"
+                                        aria-label="delete"
+                                        size="small"
+                                        disabled={deleteAssignmentFileMutation?.isPending}
+                                        onClick={() => handleRemoveFile(i)}
+                                      >
+                                        <FaTrash />
+                                      </IconButton>
+                                    )
+                                  }
                                 </ListItem>
                               ))
                             }
@@ -1155,6 +1158,7 @@ const AssignmentContent = (props) => {
                             onChange={hanldeFileChange}
                             ref={fileInputRef}
                             style={{ display: "none" }}
+                            accept={props?.c?.assignment_settings?.allowed_mime_types?.map((t) => `.${t?.extension}`).join(",")}
                           />
                           <Button
                             variant="contained"

@@ -53,7 +53,7 @@ const EditAssignmentModel = (props) => {
           allow_uploads: data?.data?.assignment?.rendered_metas?.allow_uploads ?? false,
           number_of_uploads: data?.data?.assignment?.rendered_metas?.number_of_uploads ?? 1,
           allowed_mime_types: data?.data?.assignment?.rendered_metas?.allowed_mime_types ?? [],
-          max_file_size: data?.data?.assignment?.rendered_metas?.max_file_size ?? 2,
+          max_file_size: data?.data?.assignment?.rendered_metas?.max_file_size ?? 2, // its in MB
           enable_marking: Boolean(data?.data?.assignment?.rendered_metas?.enable_marking) ?? false,
           max_points: data?.data?.assignment?.rendered_metas?.max_points ?? 0,
           start_date: data?.data?.assignment?.rendered_metas?.start_date ?? "",

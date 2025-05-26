@@ -21,7 +21,7 @@ const AssignmentContent = (props) => {
         allow_uploads: Boolean(props?.assignment?.rendered_metas?.allow_uploads) ?? false,
         number_of_uploads: props?.assignment?.rendered_metas?.number_of_uploads ?? 1,
         allowed_mime_types: props?.assignment?.rendered_metas?.allowed_mime_types ?? [],
-        max_file_size: props?.assignment?.rendered_metas?.max_file_size ?? 2,
+        max_file_size: props?.assignment?.rendered_metas?.max_file_size ?? 2, // its in MB
         enable_marking: Boolean(props?.assignment?.rendered_metas?.enable_marking) ?? false,
         max_points: props?.assignment?.rendered_metas?.max_points ?? 0,
         start_date: props?.assignment?.rendered_metas?.start_date ?? "",

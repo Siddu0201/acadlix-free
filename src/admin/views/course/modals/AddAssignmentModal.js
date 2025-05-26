@@ -920,6 +920,9 @@ const AddFromExisting = (props) => {
                       <FormControlLabel
                         value={a?.ID}
                         label={a?.post_title}
+                        disabled={
+                          props?.existingAssignmentIds?.includes(a?.ID)
+                        }
                         control={
                           <Checkbox
                             checked={
@@ -929,6 +932,11 @@ const AddFromExisting = (props) => {
                                 ? true
                                 : false
                             }
+                            sx={{
+                              '&.Mui-disabled input': {
+                                opacity: 0,
+                              },
+                            }}
                             onClick={(e) => {
                               const found = props?.watch("assignment_ids")?.find(
                                 (assignment_id) => assignment_id === a?.ID

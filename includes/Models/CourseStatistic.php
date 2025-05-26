@@ -40,5 +40,10 @@ if (!class_exists(class: 'CourseStatistic')) {
         {
             return $this->belongsTo(OrderItem::class, 'order_item_id', 'id');
         }
+
+        public function user()
+        {
+            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+        }
     }
 }

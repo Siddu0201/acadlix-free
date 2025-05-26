@@ -22,7 +22,7 @@ const AddAssignment = (props) => {
                 allow_uploads: false,
                 number_of_uploads: 1,
                 allowed_mime_types: [],
-                max_file_size: 2,
+                max_file_size: 2, // its in MB
                 enable_marking: false,
                 max_points: 0,
                 start_date: "",
@@ -123,6 +123,15 @@ const AddAssignment = (props) => {
                     create={true}
                     loadEditor={loadEditor}
                     removeEditor={removeEditor}
+                    existingAssignmentIds={
+                        props?.watch('sections')?.map((section) => {
+                            return section?.contents?.filter((content) => {
+                                return content?.type === "assignment";
+                            })?.map((content) => {
+                                return content?.contentable_id;
+                            });
+                        })?.flat()
+                    }
                 />
             </BootstrapDialog>
             <Button
