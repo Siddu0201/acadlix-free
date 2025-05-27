@@ -740,6 +740,9 @@ class FrontDashboardController
 
     public function check_permission()
     {
-        return true;
+        if(is_user_logged_in()){
+            return true;
+        }
+        return false;
     }
 }
