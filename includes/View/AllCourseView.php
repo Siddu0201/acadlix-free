@@ -114,7 +114,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             </a>
                             <div class="acadlix-card-body">
                                 <div class="acadlix-course-page-chip acadlix-fs-7 acadlix-fw-medium">
-                                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->rendered_metas['difficulty_level'])); ?>
+                                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->rendered_metas['difficulty_level'] ?? '')); ?>
                                 </div>
                                 <h3 class="acadlix-course-page-card-title acadlix-mt-12 acadlix-fs-6 acadlix-fw-700"><a
                                         href="<?php echo esc_url(get_permalink($course->ID)); ?>"><?php echo esc_html($course?->post_title); ?></a>

@@ -216,10 +216,15 @@ final class Course extends Acadlix_Abstract
         $final_price = $enable_sale_price
             ? ($sale_price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($sale_price) . " <del>" . CourseHelper::instance()->getCoursePrice($price) . "</del>")
             : ($price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($price));
+        $order_items = OrderItem::with(["order"])
+            ->where("course_id", $post_id)
+            ->whereHas("order", function ($query) {
+                $query->where("status", "success");
+            })->count();
+
         switch ($column) {
             case 'students':
-                $count = 0;
-                echo esc_html($count);
+                echo esc_html($order_items);
                 break;
             case 'price':
                 echo wp_kses($final_price, array('del' => array()));

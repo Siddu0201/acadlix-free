@@ -197,9 +197,11 @@ class AdminOrderController
             $res['users'] = WpUsers::skip(0)
                 ->take(50)
                 ->where(function ($query) use ($search) {
-                    $query->where('display_name', 'LIKE', "%{$search}%");
+                    $query->where('display_name', 'LIKE', "%{$search}%")
+                        ->orWhere('user_login', 'LIKE', "%{$search}%")
+                        ->orWhere('user_email', 'LIKE', "%{$search}%");
                 })
-                ->get(["ID", "display_name"]);
+                ->get(["ID", "display_name", "user_email", "user_login"]);
         }
         return rest_ensure_response($res);
     }

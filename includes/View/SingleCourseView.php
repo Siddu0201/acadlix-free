@@ -268,7 +268,7 @@ if (!function_exists('acadlix_basic_course_details')) {
             <div class="acadlix-course-aside-details-option">
                 <div><strong><?php esc_html_e('Course Level:', 'acadlix'); ?></strong></div>
                 <div>
-                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($difficulty_level)); ?>
+                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($difficulty_level ?? '')); ?>
                 </div>
             </div>
             <div class="acadlix-course-aside-details-option">

@@ -62,7 +62,7 @@ const ViewAnswersheet = () => {
                     <Card>
                         <CardHeader 
                             title={__("AnswerSheet", "acadlix")} 
-                            subheader={`${data?.data?.quiz?.post_title}`}
+                            subheader={`${isFetching ? "" : data?.data?.quiz?.post_title}`}
                         />
                         <CardContent>
                             {isFetching ?
