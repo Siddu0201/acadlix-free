@@ -19,7 +19,8 @@ import {
   FaAngleLeft,
   FaAngleRight,
   FaDownload,
-  FaTrash
+  FaTrash,
+  MdTimer
 } from "../../../../helpers/icons";
 import AppFront from "../../../AppFront";
 import VideoPlayer from "../../../../modules/video-player/VideoPlayer";
@@ -33,8 +34,10 @@ import {
   getCurrentDateString,
   getDbFormatDate,
   getFormatDate,
+  getOffset,
   getVimeoVideoId,
   getYouTubeVideoId,
+  secondsToHms,
   strtotime
 } from "../../../../helpers/util";
 import CustomLatex from "../../../../modules/latex/CustomLatex";
@@ -42,6 +45,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { RawHTML } from "@wordpress/element";
 import toast from "react-hot-toast";
 import { getSettings } from "@wordpress/date";
+import Countdown from "react-countdown";
 
 const Content = (props) => {
   const loadEditor = (key, name = "", media = false, quicktags = false) => {
@@ -502,7 +506,41 @@ const AssignmentContent = (props) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [deleteIndex, setDeleteIndex] = React.useState(null);
 
+  const getDeadline = (first_started_at = 0) => {
+    const settings = props?.c?.assignment_settings || {};
+    const end_date = settings.end_date ? strtotime(settings.end_date) : null;
+    let deadline = null;
 
+    if (settings.enable_deadline && settings.deadline_value > 0 && first_started_at) {
+      const startTime = strtotime(first_started_at);
+      const multiplier =
+        settings.deadline_type === "weeks"
+          ? 7 * 24 * 60 * 60 * 1000
+          : 24 * 60 * 60 * 1000;
+
+      deadline = startTime + settings.deadline_value * multiplier;
+    }
+
+    // Compare both values and return the earlier one
+    if (deadline && end_date) {
+      return deadline < end_date ? deadline : end_date;
+    }
+
+    if (deadline) {
+      return deadline;
+    }
+
+    if (end_date) {
+      return end_date;
+    }
+
+    return ""; // neither exists
+  }
+
+  const current_date = getCurrentDateString();
+  const first_started_at = props?.c?.assignment_meta_value?.first_started_at ? strtotime(props?.c?.assignment_meta_value?.first_started_at) : "";
+  const deadline = first_started_at ? getDeadline(first_started_at) : props?.c?.assignment_settings?.end_date ? strtotime(props?.c?.assignment_settings?.end_date) : "";
+  const start_date = strtotime(props?.c?.assignment_settings?.start_date);
 
   const loadPage = () => {
     setInterval(() => {
@@ -688,6 +726,10 @@ const AssignmentContent = (props) => {
 
   const submitAssignmentMutation = PostSubmitAssignment();
   const handleSubmit = (is_submitted = false) => {
+    if (deadline && (current_date > deadline)) {
+      toast.error(__('Assignment deadline has passed.', 'acadlix'));
+      return;
+    }
     const metaValue = {
       ...props?.c?.assignment_meta_value,
       submissions: props?.c?.assignment_meta_value?.submissions?.map((s, s_index) => {
@@ -747,49 +789,47 @@ const AssignmentContent = (props) => {
     }
   }
 
-  const getDeadline = (first_started_at = 0) => {
-    const settings = props?.c?.assignment_settings || {};
-    const end_date = settings.end_date ? strtotime(settings.end_date) : null;
-    let deadline = null;
-
-    if (settings.enable_deadline && settings.deadline_value > 0 && first_started_at) {
-      const startTime = strtotime(first_started_at);
-      const multiplier =
-        settings.deadline_type === "weeks"
-          ? 7 * 24 * 60 * 60 * 1000
-          : 24 * 60 * 60 * 1000;
-
-      deadline = startTime + settings.deadline_value * multiplier;
-    }
-
-    // Compare both values and return the earlier one
-    if (deadline && end_date) {
-      return deadline < end_date ? deadline : end_date;
-    }
-
-    if (deadline) {
-      return deadline;
-    }
-
-    if (end_date) {
-      return end_date;
-    }
-
-    return ""; // neither exists
-  }
-
-
-  const date_settings = getSettings();
-  const current_date = getCurrentDateString();
-  const first_started_at = props?.c?.assignment_meta_value?.first_started_at ? strtotime(props?.c?.assignment_meta_value?.first_started_at) : "";
-  const deadline = first_started_at ? getDeadline(first_started_at) : "";
-  const start_date = strtotime(props?.c?.assignment_settings?.start_date);
-  const end_date = strtotime(props?.c?.assignment_settings?.end_date);
-
-  if (props?.c?.assignment_settings?.start_date && current_date < start_date) {
+  const [startTimer, setStartTimer] = React.useState(start_date && current_date < start_date);
+  const [deadlineTimer, setDeadlineTimer] = React.useState(deadline && current_date < deadline);
+  if (startTimer) {
     return (
       <Box sx={{ margin: 2 }}>
-        <Alert severity="error">{`${__('Assignment will start on', 'acadlix')} ${getFormatDate(start_date)} ${date_settings?.timezone?.string} `}</Alert>
+        <Alert
+          severity="error"
+          slotProps={{
+            message: {
+              sx: {
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+              }
+            }
+          }}>
+          {`${__('Assignment will start on', 'acadlix')} ${getFormatDate(start_date)} ${getOffset()} `}
+          <Countdown
+            date={start_date}
+            onComplete={() => {
+              setStartTimer(false);
+            }}
+            renderer={(props) => {
+              return (
+                <Box component="span" sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1
+                }}>
+                  <MdTimer style={{
+                    color: "#FFAB00",
+                    fontSize: "1.25rem",
+                  }} />
+                  <Typography variant="subtitle2">
+                    {secondsToHms(Math.ceil(props?.total / 1000))}
+                  </Typography>
+                </Box>
+              );
+            }}
+          />
+        </Alert>
       </Box>
     );
   }
@@ -836,11 +876,51 @@ const AssignmentContent = (props) => {
             deadline && (
               <>
                 <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                  <Alert severity="warning">
+                  <Alert
+                    severity="warning"
+                    slotProps={{
+                      message: {
+                        sx: {
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                        }
+                      }
+                    }}
+                  >
                     {
-                      current_date > deadline ?
-                        `${__('Deadline passed on', 'acadlix')} ${getFormatDate(deadline)} ${date_settings?.timezone?.string} ` :
-                        `${__('Your Deadline:', 'acadlix')} ${getFormatDate(deadline)} ${date_settings?.timezone?.string} `
+                      !deadlineTimer ?
+                        `${__('Deadline passed on', 'acadlix')} ${getFormatDate(deadline)} ${getOffset()} ` :
+                        <>
+                          {`${__('Your Deadline:', 'acadlix')} ${getFormatDate(deadline)} ${getOffset()} `}
+                          <Countdown
+                            date={deadline}
+                            onComplete={() => {
+                              if (props?.current_meta_value?.student_status !== "submitted") {
+                                props?.removeEditor(`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`);
+                                window.removeEventListener("load", loadPage);
+                              }
+                              setDeadlineTimer(false);
+                            }}
+                            renderer={(props) => {
+                              return (
+                                <Box component="span" sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1
+                                }}>
+                                  <MdTimer style={{
+                                    color: "#FFAB00",
+                                    fontSize: "1.25rem",
+                                  }} />
+                                  <Typography variant="subtitle2">
+                                    {secondsToHms(Math.ceil(props?.total / 1000))}
+                                  </Typography>
+                                </Box>
+                              );
+                            }}
+                          />
+                        </>
                     }
                   </Alert>
                 </Grid>
@@ -1040,219 +1120,215 @@ const AssignmentContent = (props) => {
               </>
             )
           }
+
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+            <Typography variant="h6" sx={{
+              fontWeight: 600
+            }}>
+              {__("Assignment Submission", "acadlix")}
+            </Typography>
+          </Grid>
           {
-            deadline && (current_date > deadline) ?
-              <></>
-              :
+            (props?.current_meta_value?.student_status === "submitted" || (deadline && !deadlineTimer)) && (
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Typography variant="body1" fontWeight={600}>
+                  {__("Response", "acadlix")}
+                </Typography>
+              </Grid>
+            )
+          }
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+            {
+              (props?.current_meta_value?.student_status === "submitted" || (deadline && !deadlineTimer)) &&
               (
-                <>
-                  <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                    <Typography variant="h6" sx={{
-                      fontWeight: 600
-                    }}>
-                      {__("Assignment Submission", "acadlix")}
-                    </Typography>
-                  </Grid>
-                  {
-                    props?.current_meta_value?.student_status === "submitted" && (
-                      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                        <Typography variant="body1" fontWeight={600}>
-                          {__("Response", "acadlix")}
-                        </Typography>
-                      </Grid>
-                    )
-                  }
-                  <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                    {
-                      props?.current_meta_value?.student_status === "submitted" ?
-                        (
-                          <CustomLatex>
-                            {props?.current_meta_value?.answer_text}
-                          </CustomLatex>
-                        )
-                        : (
-                          <textarea
-                            id={`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`}
-                            style={{
-                              width: "100%",
-                            }}
-                            disabled={props?.current_meta_value?.student_status === "submitted"}
-                            value={props?.current_meta_value?.answer_text}
-                            onChange={(e) => {
-                              let value = e?.target?.value;
-                              if (window?.tinymce) {
-                                const editor = window.tinymce.get(`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`);
-                                if (editor && editor.getContent() !== value) {
-                                  editor.setContent(value || "");
-                                }
-                              }
-                              props.setValue(`sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.answer_text`,
-                                value,
-                                {
-                                  shouldDirty: true,
-                                });
-                            }}
-                          />
-                        )
+                <CustomLatex>
+                  {props?.current_meta_value?.answer_text}
+                </CustomLatex>
+              )
+            }
+            {
+              (props?.current_meta_value?.student_status !== "submitted") &&
+              (!deadline || deadlineTimer) &&
+              (
+                <textarea
+                  id={`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`}
+                  style={{
+                    width: "100%",
+                  }}
+                  disabled={props?.current_meta_value?.student_status === "submitted"}
+                  value={props?.current_meta_value?.answer_text}
+                  onChange={(e) => {
+                    let value = e?.target?.value;
+                    if (window?.tinymce) {
+                      const editor = window.tinymce.get(`assignment_answer_form_${props?.c?.id}_${props?.current_meta_index}`);
+                      if (editor && editor.getContent() !== value) {
+                        editor.setContent(value || "");
+                      }
                     }
-                  </Grid>
-                  {
-                    props?.current_meta_value?.answer_files?.length > 0 && (
-                      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                        <Box>
-                          <Typography variant="body1" fontWeight={600}>
-                            {__("Uploads", "acadlix")}
-                          </Typography>
-                          <List>
-                            {
-                              props?.current_meta_value?.answer_files?.map((f, i) => (
-                                <ListItem key={i} sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 2,
-                                }}>
-                                  <Typography variant="body2">
-                                    <Link
-                                      href={f?.file_url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      sx={{
-                                        textDecoration: "none",
-                                      }}
-                                    >
-                                      {f?.file_name}
-                                    </Link>
-                                  </Typography>
-                                  {
-                                    props?.current_meta_value?.student_status !== "submitted" && (
-                                      <IconButton
-                                        color="error"
-                                        aria-label="delete"
-                                        size="small"
-                                        disabled={deleteAssignmentFileMutation?.isPending}
-                                        onClick={() => handleRemoveFile(i)}
-                                      >
-                                        <FaTrash />
-                                      </IconButton>
-                                    )
-                                  }
-                                </ListItem>
-                              ))
-                            }
-                          </List>
-                        </Box>
-                      </Grid>
-                    )
-                  }
-                  {
-                    props?.c?.assignment_settings?.allow_uploads && (
-                      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                        <Box sx={{
-                          padding: {
-                            xs: 2,
-                            sm: 6,
-                            md: 6,
-                            lg: 6,
-                            xl: 6,
-                          },
-                          backgroundColor: "lightgrey",
-                          borderRadius: 2,
+                    props.setValue(`sections.${props?.index}.content.${props?.c_index}.assignment_meta_value.answer_text`,
+                      value,
+                      {
+                        shouldDirty: true,
+                      });
+                  }}
+                />
+              )
+            }
+          </Grid>
+          {
+            props?.current_meta_value?.answer_files?.length > 0 && (
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Box>
+                  <Typography variant="body1" fontWeight={600}>
+                    {__("Uploads", "acadlix")}
+                  </Typography>
+                  <List>
+                    {
+                      props?.current_meta_value?.answer_files?.map((f, i) => (
+                        <ListItem key={i} sx={{
                           display: "flex",
-                          flexDirection: "column",
+                          alignItems: "center",
                           gap: 2,
                         }}>
+                          <Typography variant="body2">
+                            <Link
+                              href={f?.file_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              sx={{
+                                textDecoration: "none",
+                              }}
+                            >
+                              {f?.file_name}
+                            </Link>
+                          </Typography>
                           {
-                            props?.c?.assignment_settings?.number_of_uploads > 0 && (
-                              <Typography variant="body1" component="div">
-                                <RawHTML>
-                                  {sprintf(
-                                    /* translators: %s is the number of max attachments */
-                                    __('Attach assignment files (Max. <strong>%s</strong> files)', "acadlix"),
-                                    props?.c?.assignment_settings?.number_of_uploads
-                                  )}
-                                </RawHTML>
-                              </Typography>
-                            )}
-                          <input
-                            type="file"
-                            multiple={props?.c?.assignment_settings?.number_of_uploads === 0 || props?.c?.assignment_settings?.number_of_uploads > 1}
-                            onChange={hanldeFileChange}
-                            ref={fileInputRef}
-                            style={{ display: "none" }}
-                            accept={props?.c?.assignment_settings?.allowed_mime_types?.map((t) => `.${t?.extension}`).join(",")}
-                          />
-                          <Button
-                            variant="contained"
-                            onClick={() => fileInputRef?.current?.click()}
-                            sx={{
-                              width: "max-content",
-                            }}
-                            disabled={props?.current_meta_value?.student_status === "submitted"}
-                            loading={uploadAssignmentFileMutation?.isPending}
-                          >
-                            {__('Upload File(s)', "acadlix")}
-                          </Button>
-                          {
-                            props?.c?.assignment_settings?.allowed_mime_types?.length > 0 && (
-                              <Typography variant="body2" component="div">
-                                <RawHTML>
-                                  {sprintf(
-                                    /* translators: %s is the number of max attachments */
-                                    __('Only <strong>%s</strong> files are allowed', "acadlix"),
-                                    props?.c?.assignment_settings?.allowed_mime_types?.map((t) => `.${t?.extension}`).join(", ")
-                                  )}
-                                </RawHTML>
-                              </Typography>
-                            )}
-                          {
-                            props?.c?.assignment_settings?.max_file_size > 0 && (
-                              <Typography variant="body2" component="div">
-                                <RawHTML>
-                                  {sprintf(
-                                    /* translators: %s is the number of max attachments */
-                                    __('Total size of files should not exceed <strong>%s MB</strong>', "acadlix"),
-                                    `${props?.c?.assignment_settings?.max_file_size}`
-                                  )}
-                                </RawHTML>
-                              </Typography>
-                            )}
-                        </Box>
-                      </Grid>
-                    )
-                  }
-                  {
-                    props?.current_meta_value?.student_status !== "submitted" && (
-                      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                            gap: 2,
-                          }}
-                        >
-                          <Button
-                            variant="outlined"
-                            size="medium"
-                            onClick={handleSaveDraft}
-                            loading={submitAssignmentMutation?.isPending && !isSubmitting}
-                          >
-                            {__("Save Draft", "acadlix")}
-                          </Button>
-                          <Button
-                            variant="contained"
-                            size="medium"
-                            onClick={handleSubmitAssignment}
-                            loading={submitAssignmentMutation?.isPending && isSubmitting}
-                          >
-                            {__("Submit Assignment", "acadlix")}
-                          </Button>
-                        </Box>
-                      </Grid>
-                    )}
-                </>
-              )
+                            (props?.current_meta_value?.student_status !== "submitted" && (!deadline || deadlineTimer)) && (
+                              <IconButton
+                                color="error"
+                                aria-label="delete"
+                                size="small"
+                                onClick={() => handleRemoveFile(i)}
+                                loading={deleteAssignmentFileMutation?.isPending && i === deleteIndex}
+                              >
+                                <FaTrash />
+                              </IconButton>
+                            )
+                          }
+                        </ListItem>
+                      ))
+                    }
+                  </List>
+                </Box>
+              </Grid>
+            )
           }
+          {
+            props?.c?.assignment_settings?.allow_uploads && (
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Box sx={{
+                  padding: {
+                    xs: 2,
+                    sm: 6,
+                    md: 6,
+                    lg: 6,
+                    xl: 6,
+                  },
+                  backgroundColor: "lightgrey",
+                  borderRadius: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}>
+                  {
+                    props?.c?.assignment_settings?.number_of_uploads > 0 && (
+                      <Typography variant="body1" component="div">
+                        <RawHTML>
+                          {sprintf(
+                            /* translators: %s is the number of max attachments */
+                            __('Attach assignment files (Max. <strong>%s</strong> files)', "acadlix"),
+                            props?.c?.assignment_settings?.number_of_uploads
+                          )}
+                        </RawHTML>
+                      </Typography>
+                    )}
+                  <input
+                    type="file"
+                    multiple={props?.c?.assignment_settings?.number_of_uploads === 0 || props?.c?.assignment_settings?.number_of_uploads > 1}
+                    onChange={hanldeFileChange}
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    accept={props?.c?.assignment_settings?.allowed_mime_types?.map((t) => `.${t?.extension}`).join(",")}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => fileInputRef?.current?.click()}
+                    sx={{
+                      width: "max-content",
+                    }}
+                    disabled={props?.current_meta_value?.student_status === "submitted" || (deadline && !deadlineTimer)}
+                    loading={uploadAssignmentFileMutation?.isPending}
+                  >
+                    {__('Upload File(s)', "acadlix")}
+                  </Button>
+                  {
+                    props?.c?.assignment_settings?.allowed_mime_types?.length > 0 && (
+                      <Typography variant="body2" component="div">
+                        <RawHTML>
+                          {sprintf(
+                            /* translators: %s is the number of max attachments */
+                            __('Only <strong>%s</strong> files are allowed', "acadlix"),
+                            props?.c?.assignment_settings?.allowed_mime_types?.map((t) => `.${t?.extension}`).join(", ")
+                          )}
+                        </RawHTML>
+                      </Typography>
+                    )}
+                  {
+                    props?.c?.assignment_settings?.max_file_size > 0 && (
+                      <Typography variant="body2" component="div">
+                        <RawHTML>
+                          {sprintf(
+                            /* translators: %s is the number of max attachments */
+                            __('Total size of files should not exceed <strong>%s MB</strong>', "acadlix"),
+                            `${props?.c?.assignment_settings?.max_file_size}`
+                          )}
+                        </RawHTML>
+                      </Typography>
+                    )}
+                </Box>
+              </Grid>
+            )
+          }
+          {
+            (props?.current_meta_value?.student_status !== "submitted" && (!deadline || deadlineTimer)) && (
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    gap: 2,
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    onClick={handleSaveDraft}
+                    loading={submitAssignmentMutation?.isPending && !isSubmitting}
+                  >
+                    {__("Save Draft", "acadlix")}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={handleSubmitAssignment}
+                    loading={submitAssignmentMutation?.isPending && isSubmitting}
+                  >
+                    {__("Submit Assignment", "acadlix")}
+                  </Button>
+                </Box>
+              </Grid>
+            )}
         </Grid>
       </Box>
     </Box >

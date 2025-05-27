@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
 import {
   arrayRandomize,
+  getOffset,
   secondsToHms,
   strtotime,
 } from "../../../helpers/util";
@@ -582,7 +583,7 @@ const QuizContent = (props) => {
   }
 
   if (methods?.watch("start_date") && current_date < strtotime(start_date)) {
-    return <Alert severity="error">{`${__('Quiz will start on', 'acadlix')} ${start_date} ${date_settings?.timezone?.string} `}</Alert>;
+    return <Alert severity="error">{`${__('Quiz will start on', 'acadlix')} ${start_date} ${getOffset()} `}</Alert>;
   }
 
   if (methods?.watch("end_date") && current_date > strtotime(end_date)) {

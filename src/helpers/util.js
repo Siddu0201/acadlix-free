@@ -276,4 +276,17 @@ export const getCurrentDateString = () => {
   return strtotime(dateI18n(date_time_format));
 }
 
+export const getOffset = () => {
+  const date_settings = getSettings();
+  if(date_settings?.timezone?.string){
+    return date_settings?.timezone?.string;
+  }
+
+  if(date_settings?.timezone?.offset > 0){
+    return `UTC+${date_settings?.timezone?.offsetFormatted}`;
+  }else{
+    return `UTC${date_settings?.timezone?.offsetFormatted}`;
+  }
+}
+
 
