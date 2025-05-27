@@ -295,7 +295,7 @@ class FrontQuizController
             "quiz_id" => (int) $quiz_id,
             "user_token" => $params["user_token"],
             "user_id" => (int) $params["user_id"],
-            "points" => (int) $params["points"],
+            "points" => (float) $params["points"],
             "result" => (float) $params["result"],
             "quiz_time" => (int) $params["time_taken"],
             "accuracy" => (float) $params["accuracy"],

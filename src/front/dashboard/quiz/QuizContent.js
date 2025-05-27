@@ -6,12 +6,16 @@ import { useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
 import {
   arrayRandomize,
+  getCurrentDateString,
+  getFormatDate,
   getOffset,
   secondsToHms,
   strtotime,
 } from "../../../helpers/util";
-import { PostSaveQuizAttemptById, PostSaveResultById } from "../../../requests/front/FrontQuizRequest";
-import { dateI18n, format, getSettings } from "@wordpress/date";
+import {
+  PostSaveQuizAttemptById,
+  PostSaveResultById,
+} from "../../../requests/front/FrontQuizRequest";
 import { getCookie, setCookie } from "../../../helpers/cookie";
 import { __ } from "@wordpress/i18n";
 import { PostResultFeedback } from "../../../requests/ai/AiCommonRequest";
@@ -318,6 +322,7 @@ const QuizContent = (props) => {
 
     return result;
   }
+  
   const handleCompleteCourseContent = () => {
     if (methods?.watch("mode") === "advance_mode") {
       const queryParams = getQueryParamsFromCurrentPage();
@@ -571,22 +576,19 @@ const QuizContent = (props) => {
     }
   };
 
-  const date_settings = getSettings();
-  const date_time_format = `${date_settings?.formats?.date || "Y-m-d"} ${date_settings?.formats?.time || "H:i:s"}`;
-
-  const current_date = strtotime(dateI18n(date_time_format));
-  const start_date = format(date_time_format, methods?.watch("start_date"));
-  const end_date = format(date_time_format, methods?.watch("end_date"));
+  const current_date = getCurrentDateString();
+  const start_date = strtotime(methods?.watch("start_date"));
+  const end_date = strtotime(methods?.watch("end_date"));
 
   if (methods?.watch("questions")?.length === 0) {
     return <Alert severity="error">{__("No questions found", "acadlix")}</Alert>;
   }
 
-  if (methods?.watch("start_date") && current_date < strtotime(start_date)) {
-    return <Alert severity="error">{`${__('Quiz will start on', 'acadlix')} ${start_date} ${getOffset()} `}</Alert>;
+  if (start_date && current_date < start_date) {
+    return <Alert severity="error">{`${__('Quiz will start on', 'acadlix')} ${getFormatDate(start_date)} ${getOffset()} `}</Alert>;
   }
 
-  if (methods?.watch("end_date") && current_date > strtotime(end_date)) {
+  if (end_date && current_date > end_date) {
     return <Alert severity="error">{__("Quiz has expired", "acadlix")}</Alert>;
   }
 

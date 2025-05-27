@@ -50,10 +50,10 @@ const OrderOptions = (props) => {
                                         ) :
                                         (
                                             <>
-                                                <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
+                                                <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
                                                     <CustomTypography>{__("User", "acadlix")}</CustomTypography>
                                                 </Grid>
-                                                <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+                                                <Grid size={{ xs: 12, sm: 6, lg: 8 }}>
                                                     <Typography variant='body1' component={'div'}>
                                                         {props?.watch("user_name")}
                                                         {props?.watch("user_email") &&

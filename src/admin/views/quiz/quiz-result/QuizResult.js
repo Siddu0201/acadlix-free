@@ -2,7 +2,6 @@ import React from "react";
 import {
   Typography,
   Paper,
-  Avatar,
   useMediaQuery,
   useTheme,
   Box,
@@ -22,7 +21,6 @@ import {
   FaTrash,
   TiArrowLeftThick,
   IoMdRefresh,
-  IoClose,
   FaSearch
 } from "../../../../helpers/icons";
 import { Link, useParams } from "react-router-dom";

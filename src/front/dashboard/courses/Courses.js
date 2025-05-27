@@ -12,11 +12,14 @@ import {
   Stack,
   Pagination,
   CircularProgress,
+  IconButton,
+  Button,
+  Tooltip,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from "react-router-dom";
 import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
-import { FaSearch } from "../../../helpers/icons";
+import { FaSearch, IoMdRefresh } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const Courses = () => {
@@ -36,7 +39,7 @@ const Courses = () => {
     page: 0,
   });
 
-  const { isFetching, data } = GetUserOrders(
+  const { isFetching, data, refetch } = GetUserOrders(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
     paginationModel?.pageSize,
@@ -77,6 +80,11 @@ const Courses = () => {
             }}>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 7 }}>
+                  <Tooltip title={__("Refresh", "acadlix")} arrow>
+                    <Button variant="contained" onClick={refetch} size="large">
+                      <IoMdRefresh />
+                    </Button>
+                  </Tooltip>
                   {/* <Grid container spacing={3}>
                     <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete

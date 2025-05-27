@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FaExpandArrowsAlt, HistoryToggleOff } from "../../../helpers/icons";
+import { FaExpandArrowsAlt, HistoryToggleOff, IoMdRefresh } from "../../../helpers/icons";
 import {
   Box,
   Typography,
@@ -16,8 +16,6 @@ import {
   TablePagination,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 import { DataGrid } from "@mui/x-data-grid";
 import { __ } from "@wordpress/i18n";
@@ -102,7 +100,7 @@ export default function Result() {
     },
   ];
 
-  const { data, isFetching } = GetStatisticByUserId(
+  const { data, isFetching, refetch } = GetStatisticByUserId(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
     paginationModel?.pageSize);
@@ -148,7 +146,27 @@ export default function Result() {
               boxShadow: "none",
             }}
           >
-            <CardHeader title={__("My Result", "acadlix")} />
+            <CardHeader title={
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "1.5rem",
+                  }}
+                >
+                  {__("My Result", "acadlix")}
+                </Typography>
+                <Tooltip title={__("Refresh", "acadlix")} arrow>
+                  <Button variant="contained" onClick={refetch} size="large">
+                    <IoMdRefresh />
+                  </Button>
+                </Tooltip>
+              </Box>
+            } />
             <CardContent>
               <Box
                 sx={{

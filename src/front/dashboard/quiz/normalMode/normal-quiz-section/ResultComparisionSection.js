@@ -147,7 +147,7 @@ const ResultComparisionSection = (props) => {
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
-                    {props?.watch("topper_result.result")}
+                    {props?.watch("topper_result.result")}%
                   </Typography>
                 </Grid>
               </Grid>
