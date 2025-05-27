@@ -36,6 +36,7 @@ import dateFormat from "dateformat";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../../helpers/util";
 import CustomTextField from "../../../../components/CustomTextField";
+import toast from "react-hot-toast";
 
 const QuizResult = () => {
   const theme = useTheme();
@@ -62,7 +63,8 @@ const QuizResult = () => {
     if (confirm(__("Do you really want to reset this statistic?", "acadlix"))) {
       resetStatistic?.mutate({}, {
         onSuccess: (data) => {
-          console.log(data);
+          // console.log(data);
+          toast.success(__('Result successfully reset.', 'acadlix'));
         }
       });
     }
@@ -237,7 +239,7 @@ const QuizResult = () => {
                       fontSize: "1.5rem",
                     }}
                   >
-                    {methods?.watch("title")}
+                    {isFetching ? "" : methods?.watch("title")}
                   </Typography>
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
