@@ -12,6 +12,37 @@ export const useInstance = () => {
   });
 };
 
+export const handleQueryError = (result = {}) => {
+    if(result.isError){
+      const code = result?.error?.response?.data?.code;
+      const status = result?.error?.response?.status;
+      switch (code) {
+        case 'rest_cookie_invalid_nonce':
+          if (status === 403) {
+            window.location.reload();
+          }
+          break;
+        default:
+          break;
+      }
+    }
+}
+
+export const handleMutationError = (error = {}) => {
+  console.log(error)
+      const code = error?.response?.data?.code;
+      const status = error?.response?.status;
+      switch (code) {
+        case 'rest_cookie_invalid_nonce':
+          if (status === 403) {
+            window.location.reload();
+          }
+          break;
+        default:
+          break;
+      }
+}
+
 export const hasCapability = (cap) => {
   return window?.acadlixOptions?.capabilities?.[cap] ?? false;
 };

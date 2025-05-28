@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  Button,
   Checkbox,
   DialogContent,
   Divider,
@@ -16,7 +17,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
 import axios from "axios";
-import { LoadingButton } from "@mui/lab";
 import { RawHTML } from "@wordpress/element";
 import CustomTextField from "../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
@@ -244,14 +244,14 @@ const Login = (props) => {
               </Box>
             </Grid>
             <Grid size={{ xs: 12, lg: 12 }}>
-              <LoadingButton
+              <Button
                 loading={isLoading}
                 fullWidth
                 variant="contained"
                 type="submit"
               >
                 {__('Login', 'acadlix')}
-              </LoadingButton>
+              </Button>
             </Grid>
             {
               props?.watch("users_can_register") &&

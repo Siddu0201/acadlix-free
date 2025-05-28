@@ -39,7 +39,7 @@ const Courses = () => {
     page: 0,
   });
 
-  const { isFetching, data, refetch } = GetUserOrders(
+  const { isFetching, data, isError, refetch } = GetUserOrders(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
     paginationModel?.pageSize,
@@ -158,6 +158,10 @@ const Courses = () => {
         {isFetching ? (
           <Grid size={{ xs: 12, lg: 12 }}>
             <CircularProgress />
+          </Grid>
+        ) : isError ? (
+          <Grid size={{ xs: 12, lg: 12 }}>
+            <Typography>{__("Something went wrong", "acadlix")}</Typography>
           </Grid>
         ) : data?.data?.order_items?.length > 0 ?
           data?.data?.order_items?.map((item, index) => (

@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  Button,
   DialogContent,
   Divider,
   IconButton,
@@ -15,7 +16,6 @@ import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
 import CustomTextField from "../../../components/CustomTextField";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { LoadingButton } from "@mui/lab";
 import { RawHTML } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
@@ -301,14 +301,14 @@ const Register = (props) => {
               />
             </Grid>
             <Grid size={{ xs: 12, lg: 12 }}>
-              <LoadingButton
+              <Button
                 loading={isLoading}
                 fullWidth
                 variant="contained"
                 type="submit"
               >
                 {__('Register', 'acadlix')}
-              </LoadingButton>
+              </Button>
             </Grid>
             <Grid size={{ xs: 12, lg: 12 }} sx={{
               display: "flex",

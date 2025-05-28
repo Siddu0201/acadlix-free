@@ -1,10 +1,9 @@
-import { Alert, Box, DialogContent, Divider, IconButton, Link, Typography, useTheme } from '@mui/material';
+import { Alert, Box, Button, DialogContent, Divider, IconButton, Link, Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { IoClose } from '../../../helpers/icons';
 import CustomTextField from '../../../components/CustomTextField';
-import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { RawHTML } from '@wordpress/element';
 import { __ } from "@wordpress/i18n";
@@ -130,14 +129,14 @@ const ForgotPassword = (props) => {
                                         />
                                     </Grid>
                                     <Grid size={{ xs: 12, lg: 12 }}>
-                                        <LoadingButton
+                                        <Button 
                                             loading={isLoading}
                                             fullWidth
                                             variant="contained"
                                             type="submit"
                                         >
                                             {__("Get New Password", 'acadlix')}
-                                        </LoadingButton>
+                                        </Button>
                                     </Grid>
                                 </>
                                 :
