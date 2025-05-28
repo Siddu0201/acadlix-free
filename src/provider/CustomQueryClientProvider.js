@@ -6,6 +6,7 @@ const CustomQueryClientProvider = ({children}) => {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
+        retry: 2,
       },
     },
   });

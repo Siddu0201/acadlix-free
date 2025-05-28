@@ -302,7 +302,6 @@ const QuizContent = (props) => {
 
   // console.log(methods?.watch());
 
-
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {
       // Initialize mediaelement.js

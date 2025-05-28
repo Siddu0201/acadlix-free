@@ -20,8 +20,7 @@ export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10, search = '' 
                     'X-WP-Nonce': acadlixOptions.nonce 
                 },
             });
-        },
-        retry: 2,
+        }
     });
     handleQueryError(result);
     return result;
@@ -41,8 +40,7 @@ export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
                     'X-WP-Nonce': acadlixOptions.nonce 
                 },
             });
-        },
-        retry: 2,
+        }
     });
     handleQueryError(result);
     return result;
@@ -58,7 +56,6 @@ export const PostUpdateLessonTime = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -75,7 +72,6 @@ export const PostSetActive = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -92,7 +88,6 @@ export const PostMarkAsComplete = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -109,7 +104,6 @@ export const PostMarkAsIncomplete = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -131,7 +125,6 @@ export const PostUploadAssignmentFile = () => {
                 }
             );
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -148,7 +141,6 @@ export const PostDeleteAssignmentFile = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -165,7 +157,6 @@ export const PostSubmitAssignment = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
@@ -175,7 +166,7 @@ export const PostSubmitAssignment = () => {
 
 export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
     const instance = useInstance();
-    return useQuery({
+    const result = useQuery({
         queryKey: ["getUserPurchases", user_id, page, pageSize],
         queryFn: () => {
             return instance.get(`${base}/get-user-purchases`, {
@@ -183,24 +174,34 @@ export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
                     user_id: user_id,
                     page: page,
                     pageSize: pageSize,
-                }
+                },
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
             });
         }
-    })
+    });
+    handleQueryError(result);
+    return result;
 }
 
 export const GetUserProfile = (user_id = 0 ) => {
     const instance = useInstance();
-    return useQuery({
+    const result = useQuery({
         queryKey: ["getUserProfile", user_id],
         queryFn: () => {
             return instance.get(`${base}/get-user-profile`, {
                 params: {
                     user_id: user_id,
-                }
+                },
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
             });
         }
-    })
+    });
+    handleQueryError(result);
+    return result;
 }
 
 export const PostUpdateUserProfile = () => {
@@ -213,11 +214,10 @@ export const PostUpdateUserProfile = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
-    })
+    });
 }
 
 export const PostUpdateUserPhoto = () => {
@@ -230,9 +230,8 @@ export const PostUpdateUserPhoto = () => {
                 },
             });
         },
-        retry: 2,
         onError: (error) => {
             handleMutationError(error);
         }
-    })
+    });
 }

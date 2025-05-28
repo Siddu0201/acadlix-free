@@ -29,7 +29,6 @@ export const handleQueryError = (result = {}) => {
 }
 
 export const handleMutationError = (error = {}) => {
-  console.log(error)
       const code = error?.response?.data?.code;
       const status = error?.response?.status;
       switch (code) {

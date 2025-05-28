@@ -873,7 +873,7 @@ const AssignmentContent = (props) => {
             </CustomLatex>
           </Grid>
           {
-            deadline && (
+            deadline && props?.current_meta_value?.student_status !== "submitted" && (
               <>
                 <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
                   <Alert
