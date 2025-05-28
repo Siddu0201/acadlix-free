@@ -23,6 +23,8 @@ const NtaInstruction = (props) => {
       alert(msg);
       return;
     }
+    // handle Full screeen
+    props?.handleFullScreen();
     props?.setValue("view_instruction1", false, { shouldDirty: true });
     props?.setValue("view_question", true, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });
@@ -47,6 +49,7 @@ const NtaInstruction = (props) => {
         return acc;
       }, []);
     props?.setValue("subjects", subject_data, { shouldDirty: true });
+
   };
 
   return (

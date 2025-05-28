@@ -25,24 +25,13 @@ const BottomNavigation2 = (props) => {
     }
   };
 
-  const handleFullScreen = () => {
-    if (document.documentElement.requestFullscreen) {
-      // Prompt the user to click to enable fullscreen
-      document.documentElement.requestFullscreen().catch((err) => {
-        console.error(__("Failed to enable fullscreen mode:", 'acadlix'), err);
-      });
-    } else {
-      console.warn(__('Fullscreen API is not supported by this browser.', 'acadlix'));
-    }
-  }
-
   const handleReadyToBegin = () => {
     if(props?.watch("selected_language_id") === ''){
       alert(__('Please select the default language to procced further', 'acadlix'));
       return;
     }
     // Handle full screen
-    handleFullScreen();
+    props?.handleFullScreen();
     props?.setValue("view_instruction2", false, { shouldDirty: true });
     props?.setValue("view_question", true, { shouldDirty: true });
     props?.setValue("last", Date.now(), { shouldDirty: true });

@@ -7,14 +7,17 @@ import NtaSidebar from "./section/NtaSidebar";
 import NtaSubsection from "./section/NtaSubsection";
 import NtaQuestionPanel from "./section/NtaQuestionPanel";
 import NtaFinish from "./section/NtaFinish";
+import FullScreenModel from "../advance-mode-section/model/FullScreenModel";
 
 const Nta = (props) => {
   React.useEffect(() => {
     document.body.style.backgroundColor = props?.colorCode?.background;
   }, []);
 
+
   return (
     <Box>
+      <FullScreenModel {...props} />
       <NtaTopHome {...props} />
       <NtaLogo {...props} />
       <NtaUser {...props} />

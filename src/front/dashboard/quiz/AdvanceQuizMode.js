@@ -331,6 +331,17 @@ const AdvanceQuizMode = (props) => {
     }
   };
 
+  const handleFullScreen = () => {
+    if (document.documentElement.requestFullscreen) {
+      // Prompt the user to click to enable fullscreen
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(__("Failed to enable fullscreen mode:", 'acadlix'), err);
+      });
+    } else {
+      console.warn(__('Fullscreen API is not supported by this browser.', 'acadlix'));
+    }
+  }
+
   const checkInstructionAdvanceMode = () => {
     switch (props?.watch("advance_mode_type")) {
       case "advance_panel":
@@ -367,6 +378,7 @@ const AdvanceQuizMode = (props) => {
             colorCode={ntaColorCode}
             sidebarWidth={sidebarWidth}
             instructionIsOpen={instructionIsOpen}
+            handleFullScreen={handleFullScreen}
           />
         );
       case "railway":
@@ -426,6 +438,7 @@ const AdvanceQuizMode = (props) => {
           colorCode={colorCode}
           sidebarWidth={sidebarWidth}
           instructionIsOpen={instructionIsOpen}
+          handleFullScreen={handleFullScreen}
         />
       )}
       {props?.watch("view_question") && checkAdvanceMode()}
