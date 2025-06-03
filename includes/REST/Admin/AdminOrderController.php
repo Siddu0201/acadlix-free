@@ -157,7 +157,7 @@ class AdminOrderController
         $res = [];
         $res['courses'] = Course::ofCourse()
             ->ofPublish()
-            ->without(['author', 'metas', 'sections'])
+            ->without(['author', 'metas'])
             ->get(["ID", "post_title"])
             ->each
             ->setAppends(['rendered_metas',]);
@@ -174,7 +174,7 @@ class AdminOrderController
         if (!empty($search)) {
             $res['courses'] = Course::ofCourse()
                 ->ofPublish()
-                ->without(['author', 'metas', 'sections'])
+                ->without(['author', 'metas'])
                 ->where(function ($query) use ($search) {
                     $query->where('post_title', 'LIKE', "%{$search}%");
                 })
@@ -223,7 +223,7 @@ class AdminOrderController
         }
         foreach ($order_items as $order_item) {
             if(!$order_item['course_id']) continue;
-            $alreadyPurchased = OrderItem::whereHas('order', function ($query) use ($user_id) {
+            $alreadyPurchased = OrderItem::with('order')->whereHas('order', function ($query) use ($user_id) {
                 $query->ofSuccess()->where('user_id', $user_id);
             })->where('course_id', $order_item['course_id'])->exists();
             if ($alreadyPurchased) {
@@ -275,7 +275,7 @@ class AdminOrderController
                 ['status' => 400]
             );
         }
-        $res['order'] = Order::with(['order_items', 'order_metas', 'user'])->find($orderId);
+        $res['order'] = Order::with(['order_items', 'order_items.course', 'order_metas', 'user'])->find($orderId);
         return rest_ensure_response($res);
     }
 
@@ -302,7 +302,7 @@ class AdminOrderController
 
         foreach ($order_items as $order_item) {
             if(!$order_item['course_id']) continue;
-            $alreadyPurchased = OrderItem::whereHas('order', function ($query) use ($user_id, $orderId) {
+            $alreadyPurchased = OrderItem::with('order')->whereHas('order', function ($query) use ($user_id, $orderId) {
                 $query->ofSuccess()->where('user_id', $user_id)->whereNot('id', $orderId);
             })->where('course_id', $order_item['course_id'])->exists();
             if ($alreadyPurchased) {

@@ -39,7 +39,7 @@ $order_item = [];
 if (is_user_logged_in()) {
     $userId = get_current_user_id();
     $cart = CourseCart::where("user_id", $userId)->pluck("course_id")->toArray();
-    $order_item = OrderItem::whereHas('order', function ($query) use ($userId) {
+    $order_item = OrderItem::with(['order'])->whereHas('order', function ($query) use ($userId) {
         $query->where('user_id', $userId)->where('status', 'success');
     })->pluck('course_id')->toArray();
 } else {

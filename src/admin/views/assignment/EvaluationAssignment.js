@@ -30,7 +30,7 @@ const EvaluationAssignment = () => {
             defaultValues: {
                 assignment: {},
                 user: {},
-                assignment_meta_value: {},
+                assignment_user_stat: {},
             }
         }
     );
@@ -48,40 +48,32 @@ const EvaluationAssignment = () => {
         }
         if (data?.data?.course_statistic) {
             methods.setValue('user', data?.data?.course_statistic?.user);
-            methods.setValue('assignment_meta_value', data?.data?.course_statistic?.meta_value);
+            methods.setValue('assignment_user_stat', data?.data?.course_statistic?.assignment_user_stat);
         }
     }, [data]);
 
 
     const assignment_meta_value = methods?.watch('assignment')?.rendered_metas;
-    const current_meta_index = methods?.watch('assignment_meta_value')?.submissions?.findIndex((s) => s?.attempt === methods?.watch('assignment_meta_value')?.current_attempt);
-    const current_meta_value = methods?.watch('assignment_meta_value')?.submissions?.find((s) => s?.attempt === methods?.watch('assignment_meta_value')?.current_attempt);
+    const assignment_user_stat = methods?.watch('assignment_user_stat');
+    const current_submission_index = assignment_user_stat?.submissions?.findIndex((s) => s?.is_active);
+    const current_submission_value = assignment_user_stat?.submissions?.find((s) => s?.is_active);
 
     const evaluateMutation = PostEvaluateAssignment(assignment_id, course_statistics_id);
-    const onSubmit = (data) => {
-        const meta_value = {
-            ...methods?.watch('assignment_meta_value'),
-            submissions: methods?.watch('assignment_meta_value')?.submissions?.map((s, s_index) => {
-                if (s_index === current_meta_index) {
-                    return {
-                        ...s,
-                        evaluated_by: acadlixOptions?.user_id,
-                        evaluated_at: getDbFormatDate(getCurrentDateString()),
-                        evaluation_status: "evaluated",
-                    }
-                }
-                return s;
-            })
-        }
+    const onSubmit = () => {
         evaluateMutation?.mutate(
             {
-                meta_value: meta_value,
+                assignment_user_stat_id: methods?.watch('assignment_user_stat')?.id,
+                submission_id: current_submission_value?.id,
+                feedback: methods?.watch(`assignment_user_stat.submissions.${current_submission_index}.feedback`),
+                marks: methods?.watch(`assignment_user_stat.submissions.${current_submission_index}.marks`),
+                admin_status: "evaluated",
+                evaluated_at: getDbFormatDate(getCurrentDateString()),
             },
             {
                 onSuccess: (data) => {
                     if(data?.data?.success) {
-                        if (data?.data?.course_statistic) {
-                            methods.setValue('assignment_meta_value', data?.data?.course_statistic?.meta_value);
+                        if (data?.data?.assignment_user_stat) {
+                            methods.setValue('assignment_user_stat', data?.data?.assignment_user_stat);
                         }
                     }
                 }
@@ -244,12 +236,12 @@ const EvaluationAssignment = () => {
                                                     fontSize: 16,
                                                 }}>
                                                     <CustomLatex>
-                                                        {current_meta_value?.answer_text}
+                                                        {current_submission_value?.answer_text}
                                                     </CustomLatex>
                                                 </Typography>
                                             </Grid>
                                             {
-                                                current_meta_value?.answer_files?.length > 0 && (
+                                                current_submission_value?.answer_attachments?.length > 0 && (
                                                     <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
                                                         <Box>
                                                             <Typography variant="body1" fontWeight={600}>
@@ -257,7 +249,7 @@ const EvaluationAssignment = () => {
                                                             </Typography>
                                                             <Grid container spacing={2}>
                                                                 {
-                                                                    current_meta_value?.answer_files?.map((f, i) => (
+                                                                    current_submission_value?.answer_attachments?.map((f, i) => (
                                                                         <Grid
                                                                             size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6 }}
                                                                             key={i}
@@ -306,7 +298,7 @@ const EvaluationAssignment = () => {
                                                 label={__("Points", "acadlix")}
                                                 variant="outlined"
                                                 type="number"
-                                                value={methods?.watch(`assignment_meta_value.submissions.${current_meta_index}.points`)}
+                                                value={methods?.watch(`assignment_user_stat.submissions.${current_submission_index}.marks`) ?? 0}
                                                 helperText={__(`Max: ${assignment_meta_value?.max_points} point(s)`, "acadlix")}
                                                 onChange={(e) => {
                                                     const value = Number(e?.target?.value);
@@ -314,12 +306,19 @@ const EvaluationAssignment = () => {
                                                         return;
                                                     }
                                                     methods?.setValue(
-                                                        `assignment_meta_value.submissions.${current_meta_index}.points`,
+                                                        `assignment_user_stat.submissions.${current_submission_index}.marks`,
                                                         value,
                                                         {
                                                             shouldDirty: true,
                                                         }
-                                                    )
+                                                    );
+                                                    methods?.setValue(
+                                                        `assignment_user_stat.final_marks`,
+                                                        value,
+                                                        {
+                                                            shouldDirty: true,
+                                                        }
+                                                    );
                                                 }}
                                             />
                                         </Grid>
@@ -329,11 +328,11 @@ const EvaluationAssignment = () => {
                                                 multiline
                                                 label={__("Feedback", "acadlix")}
                                                 rows={4}
-                                                value={methods?.watch(`assignment_meta_value.submissions.${current_meta_index}.feedback`)}
+                                                value={methods?.watch(`assignment_user_stat.submissions.${current_submission_index}.feedback`)}
                                                 onChange={(e) => {
                                                     const value = e?.target?.value;
                                                     methods?.setValue(
-                                                        `assignment_meta_value.submissions.${current_meta_index}.feedback`,
+                                                        `assignment_user_stat.submissions.${current_submission_index}.feedback`,
                                                         value,
                                                         {
                                                             shouldDirty: true,

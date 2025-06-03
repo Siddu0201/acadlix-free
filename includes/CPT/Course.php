@@ -267,7 +267,7 @@ final class Course extends Acadlix_Abstract
         );
 
         $users = get_users($args);
-        $course = \Yuvayana\Acadlix\Models\Course::find($post->ID);
+        $course = \Yuvayana\Acadlix\Models\Course::with('sections')->find($post->ID);
         ?>
         <script type="text/javascript">
             window.acadlixCourseList = window.acadlixCourseList || [];

@@ -6,6 +6,8 @@ use WP_REST_Server;
 use WP_REST_Request;
 use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Assignment;
+use Yuvayana\Acadlix\Models\AssignmentSubmission;
+use Yuvayana\Acadlix\Models\AssignmentUserStats;
 use Yuvayana\Acadlix\Models\CourseStatistic;
 use Yuvayana\Acadlix\Models\Order;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -325,6 +327,14 @@ class AdminAssignmentController
         $res = [];
         $assignment_id = $request['assignment_id'];
 
+        // filters
+        $course_id = $request['course_id'] ?? "";
+        $admin_status = $request['admin_status'] ?? "";
+        $user_status = $request['user_status'] ?? "";
+
+        $search = $request['search'] ?? "";
+        $skip = $request['page'] * $request['pageSize'] ?? 0;
+        $pageSize = $request['pageSize'] ?? 10;
         // Validate required fields
         if (empty($assignment_id)) {
             return new WP_Error(
@@ -333,50 +343,71 @@ class AdminAssignmentController
                 ['status' => 400]
             );
         }
-        $order = [];
-        // $order = Order::with('order_items')->whereHas('order_items', function ($q) use ($assignment_id) {
-        //     $q->whereHas('course.sections.contents.metas', function ($q2) use ($assignment_id) {
-        //         $q2->where(function($q3) use ($assignment_id) {
-        //             $q3->where('meta_key', '_acadlix_course_section_content_assignment_id')
-        //                ->where('meta_value', $assignment_id);
-        //         });
-        //     });
-        // })->get();
-
-        $assignment = Assignment::ofAssignment()->find($assignment_id);
-        if (!$assignment) {
-            return new WP_Error(
-                'assignment_not_found',
-                __('Assignment not found.', 'acadlix'),
-                ['status' => 404]
-            );
-        }
-        
-        $res['assignment'] = $assignment;
-
-        $submissions = OrderItem::with([
-            'order',
-            'order.user',
-            'course.sections.contents' => function ($query) use ($assignment_id) {
-                $query->whereHas('metas', function ($q) use ($assignment_id) {
-                    $q->where('meta_key', '_acadlix_course_section_content_assignment_id')
-                      ->where('meta_value', $assignment_id);
-                });
-            },
-            'course.sections.contents.course_statistics'
+        $courses = CourseStatistic::with([
+            'order_item.course',
+            'assignment_user_stat',
         ])
-        ->whereHas('course.sections.contents', function ($q) use ($assignment_id) {
-            $q->whereHas('metas', function ($q2) use ($assignment_id) {
-                $q2->where('meta_key', '_acadlix_course_section_content_assignment_id')
-                   ->where('meta_value', $assignment_id);
-            });
-        })
-        ->get()
-        ->each(function ($orderItem) {
-            $orderItem->setAppends([]);
-        });
+            ->whereHas('assignment_user_stat', function ($q) use ($assignment_id) {
+                $q->where('assignment_id', $assignment_id);
+            })
+            ->get()
+            ->pluck('order_item.course')
+            ->unique('ID')
+            ->map(fn($course) => [
+                'ID' => $course->ID,
+                'post_title' => $course->post_title,
+            ])
+            ->values();
 
-        $res['submissions'] = $submissions;
+        $res['courses'] = $courses;
+
+        $submissions = CourseStatistic::with([
+            'user',
+            'order_item',
+            'order_item.course',
+            'content',
+            'assignment_user_stat'
+        ])
+            ->whereHas('content', function ($q) use ($assignment_id) {
+                $q->whereHas('metas', function ($q2) use ($assignment_id) {
+                    $q2->where('meta_key', '_acadlix_course_section_content_assignment_id')
+                        ->where('meta_value', $assignment_id);
+                });
+            });
+
+        if (!empty($course_id)) {
+            $submissions->whereHas('order_item', function ($q) use ($course_id) {
+                $q->where('course_id', $course_id);
+            });
+        }
+
+        if (!empty($admin_status)) {
+            $submissions->whereHas('assignment_user_stat', function ($q) use ($admin_status) {
+                $q->where('admin_status', $admin_status);
+            });
+        }
+
+        if (!empty($user_status)) {
+            $submissions->whereHas('assignment_user_stat', function ($q) use ($user_status) {
+                $q->where('user_status', $user_status);
+            });
+        }
+
+        if (!empty($search)) {
+            $submissions->where(function ($query) use ($search) {
+                $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('user_login', 'like', '%' . $search . '%')
+                        ->orWhere('display_name', 'like', '%' . $search . '%')
+                        ->orWhere('user_email', 'like', '%' . $search . '%');
+                })
+                    ->orWhereHas('order_item.course', function ($q) use ($search) {
+                        $q->where('post_title', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $res['total'] = $submissions->count();
+        $res['submissions'] = $submissions->take($pageSize)->skip($skip)->get();
         return rest_ensure_response($res);
     }
 
@@ -395,7 +426,7 @@ class AdminAssignmentController
             );
         }
 
-        if(empty($course_statistic_id)) {
+        if (empty($course_statistic_id)) {
             return new WP_Error(
                 'missing_course_statistic_id',
                 __('Course statistic ID is required.', 'acadlix'),
@@ -412,7 +443,9 @@ class AdminAssignmentController
         }
         $courseStatistic = CourseStatistic::with([
             'user',
-            ])->find($course_statistic_id);
+            'assignment_user_stat',
+            'assignment_user_stat.submissions',
+        ])->find($course_statistic_id);
         if (!$courseStatistic) {
             return new WP_Error(
                 'course_statistic_not_found',
@@ -427,45 +460,56 @@ class AdminAssignmentController
 
     public function post_evaluate_assignment($request)
     {
-        $res = [];
-        $assignment_id = $request['assignment_id'];
-        $course_statistic_id = $request['course_statistic_id'];
-        $params = $request->get_params();
-
-        $meta_value = $params['meta_value'] ?? [];
+        $assignment_user_stat_id = $request['assignment_user_stat_id'];
+        $submission_id = $request['submission_id'];
+        $feedback = $request['feedback'];
+        $marks = $request['marks'];
+        $admin_status = $request['admin_status'];
+        $evaluated_at = $request['evaluated_at'];
 
         // Validate required fields
-        if (empty($assignment_id)) {
+        if (empty($assignment_user_stat_id)) {
             return new WP_Error(
-                'missing_assignment_id',
+                'missing_assignment_user_stat_id',
                 __('Assignment ID is required.', 'acadlix'),
                 ['status' => 400]
             );
         }
 
-        if(empty($course_statistic_id)) {
+        if (empty($submission_id)) {
             return new WP_Error(
-                'missing_course_statistic_id',
-                __('Course statistic ID is required.', 'acadlix'),
+                'missing_submission_id',
+                __('Submission ID is required.', 'acadlix'),
                 ['status' => 400]
             );
         }
 
-        $courseStatistic = CourseStatistic::with([
-            'user',
-            ])->find($course_statistic_id);
-        if ($courseStatistic) {
-            $courseStatistic->update([
-                'meta_value' => $meta_value
+        $submission = AssignmentSubmission::find($submission_id);
+        if ($submission) {
+            $submission->update([
+                'marks' => $marks,
+                'feedback' => $feedback,
+                'evaluated_at' => $evaluated_at,
             ]);
         }
 
+        $assignmentUserStat = AssignmentUserStats::with([
+            'submissions',
+        ])->find($assignment_user_stat_id);
+        if ($assignmentUserStat) {
+            $assignmentUserStat->update([
+                'final_marks' => $marks,
+                'admin_status' => $admin_status,
+            ]);
+        }
+
+
         return rest_ensure_response([
             'success' => true,
-            'course_statistic' => $courseStatistic,
+            'assignment_user_stat' => $assignmentUserStat,
             'message' => __('Assignment evaluated successfully.', 'acadlix'),
         ]);
-        
+
     }
 
     public function delete_assignment_by_id($request)

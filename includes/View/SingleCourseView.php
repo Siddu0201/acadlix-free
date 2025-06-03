@@ -12,7 +12,7 @@ defined('ABSPATH') || exit();
 global $post, $wp_version;
 
 // $course = Course::withCount(['users', 'cart'])->find($post->ID);
-$course = Course::ofCourse()->find($post->ID);
+$course = Course::ofCourse()->with('sections')->find($post->ID);
 
 $checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
 $dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
@@ -26,7 +26,7 @@ if (is_user_logged_in()) {
         ['user_id', '=', $userId],
         ['course_id', '=', $post->ID],
     ])->get();
-    $order_item = OrderItem::whereHas('order', function ($query) use ($userId) {
+    $order_item = OrderItem::with(['order'])->whereHas('order', function ($query) use ($userId) {
         $query->where('user_id', $userId)->where('status', 'success');
     })->where('course_id', $post->ID)
         ->get();

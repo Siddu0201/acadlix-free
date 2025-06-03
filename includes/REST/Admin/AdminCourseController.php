@@ -416,7 +416,7 @@ class AdminCourseController
                     ],
                 );
             }
-            $course = Course::ofCourse()->find($courseId);
+            $course = Course::ofCourse()->with('sections')->find($courseId);
             // Insert the section post
             $courseSectionId = CourseSection::insertCourseSection([
                 'post_title' => sanitize_text_field($params['post_title']),
@@ -559,7 +559,7 @@ class AdminCourseController
             );
         }
 
-        $course = Course::ofCourse()->find($courseId);
+        $course = Course::ofCourse()->with('sections')->find($courseId);
 
         if (!$course) {
             return new WP_Error(

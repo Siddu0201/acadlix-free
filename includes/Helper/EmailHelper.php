@@ -2,7 +2,6 @@
 
 namespace Yuvayana\Acadlix\Helper;
 
-use Yuvayana\Acadlix\Models\Course;
 use WP_Error;
 
 if (!class_exists('EmailHelper')) {

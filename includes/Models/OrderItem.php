@@ -31,14 +31,10 @@ if (!class_exists('OrderItem')) {
             'discount' => 'double',
             'price_after_discount' => 'double',
             'tax' => 'double',
-            'price_after_tax'=> 'double',
+            'price_after_tax' => 'double',
         ];
 
-        protected $with = ["course"];
-
-        protected $appends = [
-            "course_completion_percentage"
-        ];
+        // protected $with = ["course"];
 
         public function course()
         {
@@ -58,26 +54,41 @@ if (!class_exists('OrderItem')) {
         public function getCourseCompletionPercentageAttribute()
         {
             $course = $this->course;
-            $total_count = 0;
-            $completed_count = 0;
             $statistics = $this->course_statistics;
-            if ($course) {
-                $sections = $course->sections;
-                foreach($sections as $section){
-                    if($section->contents){
-                        $total_count += $section->contents->count();
-                    }
-                }
-                foreach($statistics as $statistic){
-                    if($statistic->is_completed){
-                        $completed_count += 1;
-                    }
-                }
-            }
-            if($total_count == 0 || $completed_count == 0){
+
+            if (!$course || $statistics->isEmpty()) {
                 return 0;
             }
-            return round($completed_count / $total_count * 100, 2);
+
+            $total_count = $course->sections->flatMap->contents->count();
+            if ($total_count === 0) {
+                return 0;
+            }
+
+            $completed_count = $statistics->where('is_completed', true)->count();
+
+            return round(($completed_count / $total_count) * 100, 2);
+            // $course = $this->course;
+            // $total_count = 0;
+            // $completed_count = 0;
+            // $statistics = $this->course_statistics;
+            // if ($course) {
+            //     $sections = $course->sections;
+            //     foreach($sections as $section){
+            //         if($section->contents){
+            //             $total_count += $section->contents->count();
+            //         }
+            //     }
+            //     foreach($statistics as $statistic){
+            //         if($statistic->is_completed){
+            //             $completed_count += 1;
+            //         }
+            //     }
+            // }
+            // if($total_count == 0 || $completed_count == 0){
+            //     return 0;
+            // }
+            // return round($completed_count / $total_count * 100, 2);
         }
 
         public static function softDeleteByCourseId(int $courseId)

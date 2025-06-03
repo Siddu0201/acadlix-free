@@ -20,7 +20,7 @@ const NtaInstruction = (props) => {
 
   const handleProceed = (msg="") => {
     if(!props.watch("ready_to_begin")){
-      alert(msg);
+      alert(msg ?? __("Please accept the Terms and Conditions to start.", "acadlix"));
       return;
     }
     // handle Full screeen

@@ -332,7 +332,7 @@ if (!class_exists('CourseHelper')) {
             if ($order_item_id == 0) {
                 return;
             }
-            $order_item = OrderItem::find($order_item_id);
+            $order_item = OrderItem::with(['course'])->find($order_item_id);
 
             if (!$order_item || empty($order_item->course_id)) {
                 return "";

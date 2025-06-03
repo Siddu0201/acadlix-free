@@ -49,7 +49,7 @@ class Menu
         Submenu_Categories::instance()->add_submenu();
         Submenu_Tags::instance()->add_submenu();
         Submenu_Settings::instance()->add_submenu();
-        Submenu_Tools::instance()->add_submenu();
+        // Submenu_Tools::instance()->add_submenu();
        
     }
 

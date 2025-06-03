@@ -70,13 +70,30 @@ export const UpdateAssignmentById = (assignment_id = '') => {
     })
 }
 
-export const GetAssignmentSubmissionsById = (assignment_id = '') => {
+export const GetAssignmentSubmissionsById = (
+    assignment_id = '',
+    page = 0,
+    pageSize = 10,
+    search = '',
+    course_id = '',
+    user_status = '',
+    admin_status = ''
+) => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getAssignmentSubmissionsById", assignment_id],
+        queryKey: ["getAssignmentSubmissionsById", assignment_id, page, pageSize, search, course_id, user_status, admin_status],
         queryFn: () => {
             if (!assignment_id) return {};
-            return instance.get(`${base}/${assignment_id}/submissions`);
+            return instance.get(`${base}/${assignment_id}/submissions`, {
+                params: {
+                    page: page,
+                    pageSize: pageSize,
+                    search: search,
+                    course_id: course_id,
+                    user_status: user_status,
+                    admin_status: admin_status
+                }
+            });
         }
     });
 }

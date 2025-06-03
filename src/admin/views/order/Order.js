@@ -39,7 +39,7 @@ const Order = () => {
 
   const deleteMutation = DeleteOrderById();
   const deleteOrderById = (id) => {
-    if (confirm(__("If you delete this order, all associated data will also be removed, including order items, metadata, and the user's course progress.", "acadlix"))) {
+    if (confirm(__("If you delete this order, all associated data will also be removed, including order items, metadata, and the user's course progress.", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
   }

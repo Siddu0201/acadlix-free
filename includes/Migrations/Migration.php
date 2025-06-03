@@ -19,6 +19,8 @@ use Yuvayana\Acadlix\Migrations\OrderMetaMigration;
 use Yuvayana\Acadlix\Migrations\CourseStatisticMigration;
 use Yuvayana\Acadlix\Migrations\UserActivityMetaMigration;
 use Yuvayana\Acadlix\Migrations\QuizShortcodeMigration;
+use Yuvayana\Acadlix\Migrations\AssignmentUserStatsMigration;
+use Yuvayana\Acadlix\Migrations\AssignmentSubmissionsMigration;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -41,7 +43,9 @@ if(!class_exists('Migration')){
             OrderMetaMigration::class,
             CourseStatisticMigration::class,
             UserActivityMetaMigration::class,
-            QuizShortcodeMigration::class
+            QuizShortcodeMigration::class,
+            AssignmentUserStatsMigration::class,
+            AssignmentSubmissionsMigration::class
         ];
     
         public static function createTable()

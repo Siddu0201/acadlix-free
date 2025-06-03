@@ -30,10 +30,9 @@ if (!class_exists(class: 'CourseStatistic')) {
         {
             return maybe_unserialize($value);
         }
-        
-        public function getCourseSectionContentAttribute()
-        {
-            return CourseSectionContent::ofCourseSectionContent()->find($this->course_section_content_id);
+
+        public function content(){
+            return $this->belongsTo(CourseSectionContent::class, 'course_section_content_id', 'ID');
         }
 
         public function order_item()
@@ -44,6 +43,11 @@ if (!class_exists(class: 'CourseStatistic')) {
         public function user()
         {
             return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+        }
+
+        public function assignment_user_stat()
+        {
+            return $this->hasOne(AssignmentUserStats::class, 'course_statistic_id', 'id');
         }
     }
 }

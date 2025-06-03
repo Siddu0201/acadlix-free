@@ -1,20 +1,25 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Grid from '@mui/material/Grid2';
-import { Box, Button, Card, CardContent, CardHeader, Chip, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Chip, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { __ } from '@wordpress/i18n';
 import { Link, useParams } from 'react-router-dom';
-import { GetAssignmentSubmissionsById } from '../../../requests/admin/AdminAssignmentRequest';
-import { EvaluationIcon, IoMdRefresh, TiArrowLeftThick } from '../../../helpers/icons';
+import { GetAssignmentById, GetAssignmentSubmissionsById } from '../../../requests/admin/AdminAssignmentRequest';
+import { EvaluationIcon, FaSearch, IoMdRefresh, TiArrowLeftThick } from '../../../helpers/icons';
 import Loader from '../../../components/Loader';
+import { getFormatDate } from '../../../helpers/util';
+import CustomTextField from '../../../components/CustomTextField';
 
 const ViewSubmissionAssignment = () => {
     const methods = useForm({
         defaultValues: {
             search: "",
             rows: [],
-            course_filter: [],
+            course_id: "",
+            admin_status: "",
+            user_status: "",
+            courses: [],
             assignment_ids: [],
             action: "",
         },
@@ -31,6 +36,8 @@ const ViewSubmissionAssignment = () => {
         switch (status) {
             case "pending":
                 return <Chip label="Pending" color="warning" />;
+            case "pending_review":
+                return <Chip label="Pending Review" color="warning" />;
             case "submitted":
                 return <Chip label="Submitted" color="success" />;
             case "draft":
@@ -38,7 +45,7 @@ const ViewSubmissionAssignment = () => {
             case "evaluated":
                 return <Chip label="Evaluated" color="success" />;
             default:
-                return <Chip label="Not Started" color="error" />;
+                return <Chip label="Pending" color="warning" />;
         }
     }
 
@@ -93,152 +100,273 @@ const ViewSubmissionAssignment = () => {
         },
     ];
 
+    const getAssignmentById = GetAssignmentById(assignment_id);
+
     const { isFetching, data, refetch } = GetAssignmentSubmissionsById(
-        assignment_id
+        assignment_id,
+        paginationModel?.page,
+        paginationModel?.pageSize,
+        methods?.watch("search"),
+        methods?.watch("course_id"),
+        methods?.watch("user_status"),
+        methods?.watch("admin_status")
     );
 
     React.useMemo(() => {
         if (Array.isArray(data?.data?.submissions)) {
             let newRows = [];
             data?.data?.submissions?.forEach((submission) => {
-                submission?.course?.sections?.forEach((section) => {
-                    section?.contents?.forEach((content) => {
-                        if (content?.contentable?.type === "assignment") {
-                            const attempt = content?.course_statistics?.find((stat) => stat?.user_id === submission?.order?.user?.ID);
-                            const attempt_submission = attempt ? attempt?.meta_value?.submissions?.find((sub) => sub?.attempt === attempt?.meta_value?.current_attempt) : null;
-                            console.log(attempt_submission);
-                            if (attempt_submission) {
-                                newRows.push({
-                                    id: attempt?.id,
-                                    course: submission?.course?.post_title,
-                                    student: `${submission?.order?.user?.display_name} (${submission?.order?.user?.user_email})`,
-                                    student_status: attempt_submission?.student_status,
-                                    evaluation_status: attempt_submission?.evaluation_status,
-                                    started_on: attempt?.meta_value?.first_started_at ? attempt?.meta_value?.first_started_at : "-",
-                                });
-                            }
-                        }
-                    });
+                newRows.push({
+                    id: submission?.id,
+                    course: submission?.order_item?.course?.post_title,
+                    student: `${submission?.user?.display_name} (${submission?.user?.user_email})`,
+                    student_status: submission?.assignment_user_stat?.user_status,
+                    evaluation_status: submission?.assignment_user_stat?.admin_status,
+                    started_on: submission?.assignment_user_stat?.first_started_at ?
+                        getFormatDate(submission?.assignment_user_stat?.first_started_at) : "-",
                 });
             });
-methods?.setValue("rows", newRows, { shouldDirty: true });
+            methods?.setValue("rows", newRows, { shouldDirty: true });
         }
-    }, [data]);
+        if (data?.data?.courses) {
+            methods?.setValue("courses", data?.data?.courses, { shouldDirty: true });
+        }
+    }, [data?.data]);
 
-const rowCountRef = React.useRef(data?.data?.total || 0);
+    const rowCountRef = React.useRef(data?.data?.total || 0);
 
-const rowCount = React.useMemo(() => {
-    if (data?.data?.total !== undefined) {
-        rowCountRef.current = data?.data?.total;
-    }
-    return rowCountRef.current;
-}, [data?.data?.total]);
+    const rowCount = React.useMemo(() => {
+        if (data?.data?.total !== undefined) {
+            rowCountRef.current = data?.data?.total;
+        }
+        return rowCountRef.current;
+    }, [data?.data?.total]);
 
-const handleSearch = (e) => {
-    methods?.setValue("search", e?.target?.value, { shouldDirty: true });
-};
+    const handleSearch = (e) => {
+        methods?.setValue("search", e?.target?.value, { shouldDirty: true });
+    };
 
-if (isFetching) return <Loader />;
+    if (getAssignmentById?.isFetching) return <Loader />;
 
-return (
-    <Box>
-        <Grid
-            container
-            rowSpacing={3}
-            spacing={4}
-            sx={{
-                padding: 4,
-            }}
-        >
-            <Grid size={{ xs: 12, sm: 12 }}>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                    }}
-                >
-                    <Button
-                        variant="contained"
-                        startIcon={<TiArrowLeftThick />}
-                        size="medium"
+    return (
+        <Box>
+            <Grid
+                container
+                rowSpacing={3}
+                spacing={4}
+                sx={{
+                    padding: 4,
+                }}
+            >
+                <Grid size={{ xs: 12, sm: 12 }}>
+                    <Box
                         sx={{
-                            width: "fit-content",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
                         }}
-                        LinkComponent={Link}
-                        to="/"
                     >
-                        {__("Back", "acadlix")}
-                    </Button>
-                </Box>
-            </Grid>
-            <Grid size={{ xs: 12, lg: 12 }}>
-                <Card>
-                    <CardHeader
-                        title={
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    gap: 2,
-                                }}
-                            >
-                                <Typography
+                        <Button
+                            variant="contained"
+                            startIcon={<TiArrowLeftThick />}
+                            size="medium"
+                            sx={{
+                                width: "fit-content",
+                            }}
+                            LinkComponent={Link}
+                            to="/"
+                        >
+                            {__("Back", "acadlix")}
+                        </Button>
+                    </Box>
+                </Grid>
+                <Grid size={{ xs: 12, lg: 12 }}>
+                    <Card>
+                        <CardHeader
+                            title={
+                                <Box
                                     sx={{
-                                        fontSize: "1.5rem",
+                                        display: "flex",
+                                        gap: 2,
                                     }}
                                 >
-                                    {data?.data?.assignment?.post_title}
-                                </Typography>
-                                <Tooltip title={__("Refresh", "acadlix")} arrow>
-                                    <Button variant="contained" onClick={refetch} size="large">
-                                        <IoMdRefresh />
-                                    </Button>
-                                </Tooltip>
-                            </Box>
-                        }
-                    />
-                    <CardContent>
-                        <Box
-                            sx={{
-                                width: "100%",
-                            }}
-                        >
-                            <DataGrid
-                                rows={methods?.watch("rows")}
-                                columns={columns}
-                                rowCount={rowCount}
-                                paginationModel={paginationModel}
-                                onPaginationModelChange={setPaginationModel}
-                                paginationMode="server"
-                                pageSizeOptions={[10, 20, 50, 100]}
-                                checkboxSelection
-                                disableRowSelectionOnClick
-                                disableColumnMenu
-                                onRowSelectionModelChange={(data) => {
-                                    methods?.setValue("assignment_ids", data, {
-                                        shouldDirty: true,
-                                    });
-                                }}
-                                rowSelectionModel={methods?.watch("assignment_ids")}
-                                loading={isFetching}
-                                columnVisibilityModel={{
-                                    id: false,
-                                }}
+                                    <Typography
+                                        sx={{
+                                            fontSize: "1.5rem",
+                                        }}
+                                    >
+                                        {getAssignmentById?.data?.data?.assignment?.post_title}
+                                    </Typography>
+                                    <Tooltip title={__("Refresh", "acadlix")} arrow>
+                                        <Button variant="contained" onClick={refetch} size="large">
+                                            <IoMdRefresh />
+                                        </Button>
+                                    </Tooltip>
+                                </Box>
+                            }
+                        />
+                        <CardContent>
+                            <Box
                                 sx={{
-                                    "& .PrivateSwitchBase-input": {
-                                        height: "100% !important",
-                                        width: "100% !important",
-                                        margin: "0 !important",
-                                    },
+                                    paddingBottom: 2,
+                                    display: "flex",
+                                    gap: 2,
+                                    alignItems: "start",
+                                    justifyContent: "space-between",
+                                    overflowX: "auto",
                                 }}
-                            />
-                        </Box>
-                    </CardContent>
-                </Card>
+                            >
+                                <Box sx={{
+                                    display: "flex",
+                                    gap: 2,
+                                    alignItems: "center",
+                                }}>
+                                    <FormControl
+                                        sx={{ minWidth: 180 }}
+                                        size="small"
+                                    >
+                                        <InputLabel id="demo-simple-select-label">
+                                            {__("Course Filter", "acadlix")}
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={methods?.watch("course_id")}
+                                            label={__("Course Filter", "acadlix")}
+                                            onChange={(e) => {
+                                                methods?.setValue("course_id", e?.target?.value, { shouldDirty: true });
+                                            }}
+                                        >
+                                            <MenuItem value="">{__("All Course", "acadlix")}</MenuItem>
+                                            {
+                                                methods?.watch("courses")?.map((course) => (
+                                                    <MenuItem key={course?.ID} value={course?.ID}>
+                                                        {course?.post_title}
+                                                    </MenuItem>
+                                                ))
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl
+                                        sx={{ minWidth: 180 }}
+                                        size="small"
+                                    >
+                                        <InputLabel id="demo-simple-select-label">
+                                            {__("User Status", "acadlix")}
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={methods?.watch("user_status")}
+                                            label={__("User Status", "acadlix")}
+                                            onChange={(e) => {
+                                                methods?.setValue("user_status", e?.target?.value, { shouldDirty: true });
+                                            }}
+                                        >
+                                            <MenuItem value="">{__("All", "acadlix")}</MenuItem>
+                                            <MenuItem value="pending">{__("Pending", "acadlix")}</MenuItem>
+                                            <MenuItem value="draft">{__("Draft", "acadlix")}</MenuItem>
+                                            <MenuItem value="submitted">{__("Submitted", "acadlix")}</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl
+                                        sx={{ minWidth: 180 }}
+                                        size="small"
+                                    >
+                                        <InputLabel id="demo-simple-select-label">
+                                            {__("Evaluation Status", "acadlix")}
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={methods?.watch("admin_status")}
+                                            label={__("Evaluation Status", "acadlix")}
+                                            onChange={(e) => {
+                                                methods?.setValue("admin_status", e?.target?.value, { shouldDirty: true });
+                                            }}
+                                        >
+                                            <MenuItem value="">{__("All", "acadlix")}</MenuItem>
+                                            <MenuItem value="pending_review">{__("Pending Review", "acadlix")}</MenuItem>
+                                            <MenuItem value="evaluated">{__("Evaluated", "acadlix")}</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => {
+                                            methods?.setValue("course_id", "");
+                                            methods?.setValue("user_status", "");
+                                            methods?.setValue("admin_status", "");
+                                            methods?.setValue("search", "");
+                                        }}
+                                        size="medium"
+                                        color='error'
+                                    >
+                                        {__("Reset", "acadlix")}
+                                    </Button>
+                                </Box>
+                                <Box>
+                                    <CustomTextField
+                                        fullWidth
+                                        size="small"
+                                        label={__("Search", "acadlix")}
+                                        name="search"
+                                        value={methods?.watch("search") ?? ""}
+                                        onChange={handleSearch}
+                                        helperText={__("Search by course,user", "acadlix")}
+                                        type="search"
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <FaSearch />
+                                                    </InputAdornment>
+                                                )
+                                            }
+                                        }}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                }}
+                            >
+                                <DataGrid
+                                    rows={methods?.watch("rows")}
+                                    columns={columns}
+                                    rowCount={rowCount}
+                                    paginationModel={paginationModel}
+                                    onPaginationModelChange={setPaginationModel}
+                                    paginationMode="server"
+                                    pageSizeOptions={[10, 20, 50, 100]}
+                                    checkboxSelection
+                                    disableRowSelectionOnClick
+                                    disableColumnMenu
+                                    onRowSelectionModelChange={(data) => {
+                                        methods?.setValue("assignment_ids", data, {
+                                            shouldDirty: true,
+                                        });
+                                    }}
+                                    rowSelectionModel={methods?.watch("assignment_ids")}
+                                    loading={isFetching}
+                                    columnVisibilityModel={{
+                                        id: false,
+                                    }}
+                                    sx={{
+                                        "& .PrivateSwitchBase-input": {
+                                            height: "100% !important",
+                                            width: "100% !important",
+                                            margin: "0 !important",
+                                        },
+                                    }}
+                                />
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
-        </Grid>
-    </Box>
-)
+        </Box>
+    )
 }
 
 export default ViewSubmissionAssignment

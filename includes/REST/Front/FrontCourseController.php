@@ -238,7 +238,7 @@ class FrontCourseController
             );
         } else {
             $userId = $params['user_id'];
-            $order_items = OrderItem::whereHas('order', function ($query) use ($userId) {
+            $order_items = OrderItem::with(['order','course'])->whereHas('order', function ($query) use ($userId) {
                 $query->where('user_id', $userId)->where('status', 'success');
             })->where('course_id', $params['course_id'])->get();
             if (count($order_items) == 0) {

@@ -47,6 +47,8 @@ const CourseContent = () => {
   const { orderItemId, courseSectionContentId } = useParams();
 
   const navigate = useNavigate();
+
+  const activeMutation = PostSetActive();
   const handleNavigate = (id = 0) => {
     methods?.setValue(
       `sections`,
@@ -71,19 +73,19 @@ const CourseContent = () => {
     const contentIndex = methods?.watch("sections")?.[sectionIndex]?.content?.findIndex((c) => c?.id === id);
     const content = methods?.watch(`sections.${sectionIndex}.content.${contentIndex}`);
     const metaType = content?.type;
-    let metaValue = content?.type === "assignment" ? content?.assignment_meta_value : {};
-    let is_assignment_started = false;
+    let assignmentUserStat = content?.type === "assignment" ? content?.assignment_user_stat : {};
+    let isAssignmentStarted = false;
     const current_date = getCurrentDateString();
     const start_date = strtotime(content?.assignment_settings?.start_date);
     if (metaType === "assignment" &&
-      !metaValue?.first_started_at
+      !assignmentUserStat?.first_started_at
     ) {
       if ((start_date &&
         current_date >= start_date) ||
         !start_date) {
-        is_assignment_started = true;
-        metaValue = {
-          ...metaValue,
+        isAssignmentStarted = true;
+        assignmentUserStat = {
+          ...assignmentUserStat,
           first_started_at: getDbFormatDate(current_date),
         };
       }
@@ -94,16 +96,16 @@ const CourseContent = () => {
         course_section_content_id: id,
         user_id: acadlixOptions?.user?.ID,
         meta_type: metaType,
-        meta_value: metaValue,
-        is_assignment_started: is_assignment_started,
+        assignment_user_stat: assignmentUserStat,
+        is_assignment_started: isAssignmentStarted,
       },
       {
         onSuccess: (data) => {
           // handle Success active
-          if (data?.data?.success && metaType === "assignment" && data?.data?.meta_value) {
+          if (data?.data?.success && metaType === "assignment" && data?.data?.assignment_user_stat) {
             methods?.setValue(
-              `sections.${sectionIndex}.content.${contentIndex}.assignment_meta_value`,
-              data?.data?.meta_value,
+              `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.first_started_at`,
+              data?.data?.assignment_user_stat?.first_started_at,
               { shouldDirty: true }
             );
           }
@@ -136,7 +138,7 @@ const CourseContent = () => {
           let open = false;
           if (courseSectionContentId === undefined || courseSectionContentId == 0) {
             if (data?.data?.course_statistic?.length > 0) {
-              if(data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
+              if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
                 open =
                   s?.contents?.find(
                     (c) =>
@@ -146,7 +148,7 @@ const CourseContent = () => {
                   )
                     ? true
                     : false;
-              }else{
+              } else {
                 open = s?.contents?.find(
                   (c) => c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id
                 ) ? true : false;
@@ -174,9 +176,9 @@ const CourseContent = () => {
                   if (data?.data?.course_statistic?.length > 0) {
                     if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
                       active =
-                      c?.ID ==
-                      data?.data?.course_statistic?.find((cs) => cs?.is_active)
-                      ?.course_section_content_id;
+                        c?.ID ==
+                        data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                          ?.course_section_content_id;
                     } else {
                       active = c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id;
                     }
@@ -223,38 +225,47 @@ const CourseContent = () => {
                   seconds:
                     (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
                   resources: c?.contentable_data?.rendered_metas?.resources ?? [],
-                  assignment_meta_value: {
-                    first_started_at: statistic?.meta_value?.first_started_at ?? "",
-                    submissions: statistic?.meta_value?.submissions ?
-                      statistic?.meta_value?.submissions?.map((s) => {
+                  assignment_user_stat: {
+                    id: statistic?.assignment_user_stat?.id ?? null,
+                    assignment_id: c?.rendered_metas?.type === "assignment" ? c?.rendered_metas?.assignment_id : null,
+                    course_statistic_id: statistic?.assignment_user_stat?.course_statistic_id ?? null, // Selected course + user context
+                    user_status: statistic?.assignment_user_stat?.user_status ?? "pending", // 'pending', 'draft', 'submitted'
+                    admin_status: statistic?.assignment_user_stat?.admin_status ?? "pending_review", // 'pending_review', 'evaluated', 'rejected', 're_eval_requested'
+                    final_marks: statistic?.assignment_user_stat?.final_marks ?? null, // or 0 if initialized early
+                    is_passed: statistic?.assignment_user_stat?.is_passed ?? false,
+                    has_late_submission: statistic?.assignment_user_stat?.has_late_submission ?? false,
+                    resubmission_allowed: statistic?.assignment_user_stat?.resubmission_allowed ?? false,
+                    attempt_counts: statistic?.assignment_user_stat?.attempt_counts ?? 1,
+                    first_started_at: statistic?.assignment_user_stat?.first_started_at ?? "",
+                    submissions: statistic?.assignment_user_stat?.submissions ?
+                      statistic?.assignment_user_stat?.submissions.map((s) => {
                         return {
-                          attempt: s?.attempt ?? 1,
+                          id: s?.id ?? null,
+                          is_active: s?.is_active ?? true,
+                          is_late: s?.is_late ?? false,
+                          marks: s?.marks ?? 0,
                           answer_text: s?.answer_text ?? "",
-                          answer_files: s?.answer_files ?? [],
-                          student_status: s?.student_status ?? "pending", // pending/draft/submitted
-                          evaluation_status: s?.evaluation_status ?? "pending", // pending/evaluated
-                          evaluated_by: s?.evaluated_by ?? 0,
-                          points: s?.points ?? 0,
+                          answer_attachments: s?.answer_attachments ?? [],
                           feedback: s?.feedback ?? "",
+                          feedback_attachments: s?.feedback_attachments ?? [],
                           submitted_at: s?.submitted_at ?? "",
                           evaluated_at: s?.evaluated_at ?? "",
                         };
                       })
-                      : [
-                        {
-                          attempt: 1,
-                          answer_text: "",
-                          answer_files: [],
-                          student_status: "pending", // pending/draft/submitted
-                          evaluation_status: "pending", // pending/evaluated
-                          evaluated_by: 0,
-                          points: 0,
-                          feedback: "",
-                          submitted_at: "",
-                          evaluated_at: "",
-                        }
-                      ],
-                    current_attempt: statistic?.meta_value?.attempt ?? 1,
+                    :[
+                      {
+                        id: null,
+                        is_active: true,
+                        is_late: false,
+                        mark: 0,
+                        answer_text: "",
+                        answer_files: [], // Array of file metadata or file IDs
+                        feedback_text: "",
+                        feedback_files: [], // Array of file metadata or file IDs
+                        submitted_at: "",
+                        evaluated_at: "",
+                      }
+                    ],
                   },
                   assignment_settings: {
                     allow_uploads: Boolean(c?.contentable_data?.rendered_metas?.allow_uploads) ?? false,
@@ -286,10 +297,6 @@ const CourseContent = () => {
         }) ?? []
       );
       if ((courseSectionContentId === undefined || courseSectionContentId == 0) && methods?.watch("sections")?.length > 0) {
-        console.log(methods
-          ?.watch("sections")
-          ?.find((s) => s?.active)
-          ?.content?.find((c) => c?.is_active)?.id);
         handleNavigate(methods
           ?.watch("sections")
           ?.find((s) => s?.active)
@@ -298,6 +305,9 @@ const CourseContent = () => {
     }
   }, [data?.data]);
 
+  console.log(methods?.watch("sections"));
+
+  
   const [value, setValue] = useState(isDesktop ? "2" : "1");
 
   const handleChange = (event, newValue) => {
@@ -310,8 +320,6 @@ const CourseContent = () => {
       setValue("2");
     }
   };
-
-  const activeMutation = PostSetActive();
 
   const handleFullScreen = () => {
     if (methods?.watch("is_fullscreen")) {

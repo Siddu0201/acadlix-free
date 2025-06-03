@@ -14,7 +14,11 @@ if (!class_exists('Course')) {
         protected $helper;
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
-        protected $with = ['author', 'metas', 'sections'];
+        protected $with = [
+            'author',
+            'metas',
+            // 'sections',
+        ];
         protected $appends = [
             'rendered_post_content',
             'rendered_metas',

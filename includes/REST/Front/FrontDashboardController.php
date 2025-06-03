@@ -6,6 +6,8 @@ use WP_REST_Server;
 use WP_Error;
 use Yuvayana\Acadlix\Helper\CourseHelper;
 use Yuvayana\Acadlix\Helper\CptHelper;
+use Yuvayana\Acadlix\Models\AssignmentSubmission;
+use Yuvayana\Acadlix\Models\AssignmentUserStats;
 use Yuvayana\Acadlix\Models\CourseStatistic;
 use Yuvayana\Acadlix\Models\Lesson;
 use Yuvayana\Acadlix\Models\Order;
@@ -203,7 +205,9 @@ class FrontDashboardController
         }
 
         $res['total'] = $order_items->count();
-        $res['order_items'] = $order_items->skip($skip)->take($params['pageSize'])->get();
+        $res['order_items'] = $order_items->skip($skip)->take($params['pageSize'])->get()->each(function ($orderItem) {
+            $orderItem->setAppends(['course_completion_percentage']);
+        });
         return rest_ensure_response($res);
     }
 
@@ -229,7 +233,7 @@ class FrontDashboardController
         $userId = $request->get_param('user_id');
 
         // Retrieve the order item with associated order and course if conditions match
-        $orderItem = OrderItem::with(['order'])
+        $orderItem = OrderItem::with(['order', 'course', 'course.sections'])
             ->whereHas('order', function ($query) use ($userId) {
                 $query->where('user_id', $userId)
                     ->where('status', 'success');
@@ -240,7 +244,8 @@ class FrontDashboardController
 
         // Add course statistics if the order item exists
         if ($orderItem) {
-            $res['course_statistic'] = CourseStatistic::where('order_item_id', $orderItemId)
+            $res['course_statistic'] = CourseStatistic::with(['assignment_user_stat', 'assignment_user_stat.submissions'])
+                ->where('order_item_id', $orderItemId)
                 ->where('user_id', $userId)
                 ->get();
         }
@@ -301,7 +306,7 @@ class FrontDashboardController
         $orderItemId = $request->get_param("order_item_id");
         $courseSectionContentId = $request->get_param("course_section_content_id");
         $metaType = $request->get_param("meta_type");
-        $metaValue = $request->get_param("meta_value") ?? [];
+        $assignmentUserStat = $request->get_param("assignment_user_stat") ?? [];
         $isAssignmentStarted = $request->get_param("is_assignment_started");
 
         $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)->get();
@@ -321,26 +326,43 @@ class FrontDashboardController
                 'is_active' => true
             ]);
         } else {
-            CourseStatistic::create([
+            $active_statistic = CourseStatistic::create([
                 'order_item_id' => $orderItemId,
                 'course_section_content_id' => $courseSectionContentId,
                 'user_id' => $userId,
                 'is_active' => true,
                 'is_completed' => false,
+                'meta_type' => $metaType,
             ]);
         }
 
-        if($metaType && $metaType === "assignment" && $isAssignmentStarted) {
-          $statistic = CourseStatistic::where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)->first();
-          if ($statistic) {
-            $statistic->update([
-              'meta_type' => $metaType,
-              'meta_value' => $metaValue,
+        if ($metaType && $metaType === "assignment" && $isAssignmentStarted) {
+            $assignment_user_stat = AssignmentUserStats::where("course_statistic_id", $active_statistic->id)
+                ->first();
+            if (!$assignment_user_stat) {
+                $assignment_user_stat = $active_statistic
+                    ->assignment_user_stat()
+                    ->create([
+                        'assignment_id' => $assignmentUserStat['assignment_id'] ?? null,
+                        'user_status' => $assignmentUserStat['user_status'] ?? "pending",
+                        'admin_status' => $assignmentUserStat['admin_status'] ?? "pending_review",
+                        'final_marks' => $assignmentUserStat['final_marks'] ?? null,
+                        'passed' => $assignmentUserStat['passed'] ?? false,
+                        'has_late_submission' => $assignmentUserStat['has_late_submission'] ?? false,
+                        'resubmission_allowed' => $assignmentUserStat['resubmission_allowed'] ?? false,
+                        'attempt_counts' => $assignmentUserStat['attempt_counts'] ?? 1,
+                        'first_started_at' => $assignmentUserStat['first_started_at'] ?? null,
+                    ]);
+                if($assignment_user_stat){
+                    $assignment_user_stat->submissions()->create([
+                        'is_active' => true,
+                    ]);
+                }
+            }
+            return rest_ensure_response([
+                'success' => true,
+                'assignment_user_stat' => $assignment_user_stat
             ]);
-          }
-          return rest_ensure_response(['success' => true, 'meta_value' => $statistic->meta_value]);
         }
 
         return rest_ensure_response(['success' => true]);
@@ -432,7 +454,7 @@ class FrontDashboardController
 
     public function post_upload_assignment_file($request)
     {
-        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+        $required_fields = array('submission_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -448,12 +470,8 @@ class FrontDashboardController
         }
 
         $files = $request->get_file_params();
-        $userId = $request->get_param("user_id");
-        $orderItemId = $request->get_param("order_item_id");
-        $courseSectionContentId = $request->get_param("course_section_content_id");
-        $metaType = $request->get_param("meta_type");
-        $metaValue = json_decode($request->get_param('meta_value'), true) ?? [];
-        $currentMetaIndex = $request->get_param("current_meta_index") ?? 0;
+        $submission_id = $request->get_param("submission_id");
+
         if (empty($files['files'])) {
             return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
         }
@@ -523,36 +541,23 @@ class FrontDashboardController
             }
         }
 
-        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)
-            ->first();
-        if ($course_statistics) {
-
-            $submissions = $metaValue['submissions'] ?? [];
-
-            foreach ($submissions as $index => &$s) {
-                if ($index == $currentMetaIndex) {
-                    $s['answer_files'] = array_merge($s['answer_files'], $new_file);
-                }
-            }
-            unset($s); // cleanup reference
-            $course_statistics->update([
-                "meta_type" => $metaType,
-                "meta_value" => array_merge($metaValue, ['submissions' => $submissions])
+        $assignment_submission = AssignmentSubmission::find($submission_id);
+        if ($assignment_submission) {
+            $answer_attachments = array_merge($assignment_submission->answer_attachments ?? [], $new_file);
+            $assignment_submission->update([
+                "answer_attachments" => $answer_attachments
             ]);
         }
 
         return rest_ensure_response([
             "success" => true,
-            "meta_type" => $metaType,
-            "meta_value" => $course_statistics->meta_value ?? null,
+            "answer_attachments" => $assignment_submission->answer_attachments ?? null,
         ]);
     }
 
     public function post_delete_assignment_file($request)
     {
-        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+        $required_fields = array('submission_id', 'answer_attachments');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -567,11 +572,8 @@ class FrontDashboardController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
         $delete_file_data = $request->get_param("delete_file_data");
-        $userId = $request->get_param("user_id");
-        $orderItemId = $request->get_param("order_item_id");
-        $courseSectionContentId = $request->get_param("course_section_content_id");
-        $metaType = $request->get_param("meta_type");
-        $metaValue = $request->get_param("meta_value");
+        $submission_id = $request->get_param("submission_id");
+        $answer_attachments = $request->get_param("answer_attachments");
         $file_path = $delete_file_data['file_path'];
         if (file_exists($file_path)) {
             $delete_file = wp_delete_file($file_path);
@@ -579,25 +581,20 @@ class FrontDashboardController
                 return new WP_Error('file_not_deleted', __('File not deleted', 'acadlix'), ['status' => 500]);
             }
         }
-        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)
-            ->first();
-        if ($course_statistics) {
-            $course_statistics->update([
-                "meta_type" => $metaType,
-                "meta_value" => $metaValue,
+        $assignment_submission = AssignmentSubmission::find($submission_id);
+        if ($assignment_submission) {
+            $assignment_submission->update([
+                "answer_attachments" => $answer_attachments
             ]);
         }
         return rest_ensure_response([
             "success" => true,
-            "meta_type" => $metaType,
-            "meta_value" => $course_statistics->meta_value ?? null,
+            "answer_attachments" => $assignment_submission->answer_attachments ?? null,
         ]);
     }
     public function post_submit_assignment($request)
     {
-        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+        $required_fields = array('assignment_user_stat_id', 'submission_id', 'user_status');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -611,26 +608,31 @@ class FrontDashboardController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $userId = $request->get_param("user_id");
-        $orderItemId = $request->get_param("order_item_id");
-        $courseSectionContentId = $request->get_param("course_section_content_id");
-        $metaType = $request->get_param("meta_type");
-        $metaValue = $request->get_param("meta_value");
+        $assignmentUserStatId = $request->get_param("assignment_user_stat_id");
+        $submissionId = $request->get_param("submission_id");
+        $userStatus = $request->get_param("user_status");
+        $answerText = $request->get_param("answer_text");
+        $answerAttachments = $request->get_param("answer_attachments");
+        $submittedAt = $request->get_param("submitted_at");
 
-        $course_statistics = CourseStatistic::where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)
-            ->first();
-        if ($course_statistics) {
-            $course_statistics->update([
-                "meta_type" => $metaType,
-                "meta_value" => $metaValue,
+        $assignment_user_stat = AssignmentUserStats::find($assignmentUserStatId);
+        if ($assignment_user_stat) {
+            $assignment_user_stat->update([
+                "user_status" => $userStatus,
+            ]);
+        }
+        $assignment_submission = AssignmentSubmission::find($submissionId);
+        if ($assignment_submission && !empty($submittedAt)) {
+            $assignment_submission->update([
+                "answer_text" => $answerText,
+                "answer_attachments" => $answerAttachments,
+                "submitted_at" => $submittedAt,
             ]);
         }
         return rest_ensure_response([
             "success" => true,
-            "meta_type" => $metaType,
-            "course_statistics" => $course_statistics,
+            "user_status" => $userStatus,
+            "assignment_submission" => $assignment_submission,
         ]);
     }
 
