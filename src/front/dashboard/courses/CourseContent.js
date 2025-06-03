@@ -113,6 +113,24 @@ const CourseContent = () => {
               data?.data?.assignment_user_stat?.id,
               { shouldDirty: true }
             );
+            methods?.setValue(
+              `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.submissions`,
+              data?.data?.assignment_user_stat?.submissions?.map((s) => {
+                return {
+                  id: s?.id ?? null,
+                  is_active: s?.is_active ?? true,
+                  is_late: s?.is_late ?? false,
+                  marks: s?.marks ?? 0,
+                  answer_text: s?.answer_text ?? "",
+                  answer_attachments: s?.answer_attachments ?? [],
+                  feedback: s?.feedback ?? "",
+                  feedback_attachments: s?.feedback_attachments ?? [],
+                  submitted_at: s?.submitted_at ?? "",
+                  evaluated_at: s?.evaluated_at ?? "",
+                };
+              }),
+              { shouldDirty: true }
+            );
           }
         },
       }
@@ -257,20 +275,20 @@ const CourseContent = () => {
                           evaluated_at: s?.evaluated_at ?? "",
                         };
                       })
-                    :[
-                      {
-                        id: null,
-                        is_active: true,
-                        is_late: false,
-                        mark: 0,
-                        answer_text: "",
-                        answer_files: [], // Array of file metadata or file IDs
-                        feedback_text: "",
-                        feedback_files: [], // Array of file metadata or file IDs
-                        submitted_at: "",
-                        evaluated_at: "",
-                      }
-                    ],
+                      : [
+                        {
+                          id: null,
+                          is_active: true,
+                          is_late: false,
+                          mark: 0,
+                          answer_text: "",
+                          answer_files: [], // Array of file metadata or file IDs
+                          feedback_text: "",
+                          feedback_files: [], // Array of file metadata or file IDs
+                          submitted_at: "",
+                          evaluated_at: "",
+                        }
+                      ],
                   },
                   assignment_settings: {
                     allow_uploads: Boolean(c?.contentable_data?.rendered_metas?.allow_uploads) ?? false,
@@ -312,7 +330,7 @@ const CourseContent = () => {
 
   console.log(methods?.watch("sections"));
 
-  
+
   const [value, setValue] = useState(isDesktop ? "2" : "1");
 
   const handleChange = (event, newValue) => {

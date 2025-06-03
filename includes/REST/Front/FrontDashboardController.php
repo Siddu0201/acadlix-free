@@ -337,7 +337,7 @@ class FrontDashboardController
         }
 
         if ($metaType && $metaType === "assignment" && $isAssignmentStarted) {
-            $assignment_user_stat = AssignmentUserStats::where("course_statistic_id", $active_statistic->id)
+            $assignment_user_stat = AssignmentUserStats::with("submissions")->where("course_statistic_id", $active_statistic->id)
                 ->first();
             if (!$assignment_user_stat) {
                 $assignment_user_stat = $active_statistic
@@ -359,6 +359,9 @@ class FrontDashboardController
                     ]);
                 }
             }
+
+            $assignment_user_stat = AssignmentUserStats::with("submissions")->where("course_statistic_id", $active_statistic->id)
+                ->first();
             return rest_ensure_response([
                 'success' => true,
                 'assignment_user_stat' => $assignment_user_stat
