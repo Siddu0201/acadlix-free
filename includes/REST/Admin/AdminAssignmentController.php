@@ -145,6 +145,23 @@ class AdminAssignmentController
                         ),
                     ),
                 ],
+                [
+                    'methods' => WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_evaluate_assignment'],
+                    'permission_callback' => [$this, 'check_permission'],
+                    'args' => array(
+                        'assignment_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                        'course_statistic_id' => array(
+                            'validate_callback' => function ($param, $request, $key) {
+                                return is_numeric($param);
+                            }
+                        ),
+                    ),
+                ],
             ]
         );
 
@@ -361,7 +378,7 @@ class AdminAssignmentController
 
         $res['courses'] = $courses;
 
-        $submissions = CourseStatistic::with([
+        $course_statistics = CourseStatistic::with([
             'user',
             'order_item',
             'order_item.course',
@@ -376,25 +393,25 @@ class AdminAssignmentController
             });
 
         if (!empty($course_id)) {
-            $submissions->whereHas('order_item', function ($q) use ($course_id) {
+            $course_statistics->whereHas('order_item', function ($q) use ($course_id) {
                 $q->where('course_id', $course_id);
             });
         }
 
         if (!empty($admin_status)) {
-            $submissions->whereHas('assignment_user_stat', function ($q) use ($admin_status) {
+            $course_statistics->whereHas('assignment_user_stat', function ($q) use ($admin_status) {
                 $q->where('admin_status', $admin_status);
             });
         }
 
         if (!empty($user_status)) {
-            $submissions->whereHas('assignment_user_stat', function ($q) use ($user_status) {
+            $course_statistics->whereHas('assignment_user_stat', function ($q) use ($user_status) {
                 $q->where('user_status', $user_status);
             });
         }
 
         if (!empty($search)) {
-            $submissions->where(function ($query) use ($search) {
+            $course_statistics->where(function ($query) use ($search) {
                 $query->whereHas('user', function ($q) use ($search) {
                     $q->where('user_login', 'like', '%' . $search . '%')
                         ->orWhere('display_name', 'like', '%' . $search . '%')
@@ -406,8 +423,8 @@ class AdminAssignmentController
             });
         }
 
-        $res['total'] = $submissions->count();
-        $res['submissions'] = $submissions->take($pageSize)->skip($skip)->get();
+        $res['total'] = $course_statistics->count();
+        $res['course_statistics'] = $course_statistics->take($pageSize)->skip($skip)->get();
         return rest_ensure_response($res);
     }
 
@@ -510,6 +527,41 @@ class AdminAssignmentController
             'message' => __('Assignment evaluated successfully.', 'acadlix'),
         ]);
 
+    }
+
+    public function delete_evaluate_assignment($request)
+    {
+        $res = [];
+        $assignment_id = $request['assignment_id'];
+        $course_statistic_id = $request['course_statistic_id'];
+
+        // Validate required fields
+        if (empty($assignment_id)) {
+            return new WP_Error(
+                'missing_assignment_id',
+                __('Assignment ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        if (empty($course_statistic_id)) {
+            return new WP_Error(
+                'missing_course_statistic_id',
+                __('Course statistic ID is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+
+        $courseStatistic = CourseStatistic::find($course_statistic_id);
+        if ($courseStatistic) {
+            $courseStatistic->delete();
+        }
+
+        return rest_ensure_response([
+            'success' => true,
+            'course_statistic' => $courseStatistic,
+            'message' => __('Assignment statistic deleted successfully.', 'acadlix'),
+        ]);
     }
 
     public function delete_assignment_by_id($request)

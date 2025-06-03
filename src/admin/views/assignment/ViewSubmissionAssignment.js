@@ -5,8 +5,8 @@ import { Box, Button, Card, CardContent, CardHeader, Chip, FormControl, IconButt
 import { DataGrid } from '@mui/x-data-grid';
 import { __ } from '@wordpress/i18n';
 import { Link, useParams } from 'react-router-dom';
-import { GetAssignmentById, GetAssignmentSubmissionsById } from '../../../requests/admin/AdminAssignmentRequest';
-import { EvaluationIcon, FaSearch, IoMdRefresh, TiArrowLeftThick } from '../../../helpers/icons';
+import { DeleteEvaluationAssignment, GetAssignmentById, GetAssignmentSubmissionsById } from '../../../requests/admin/AdminAssignmentRequest';
+import { EvaluationIcon, FaSearch, FaTrash, IoMdRefresh, TiArrowLeftThick } from '../../../helpers/icons';
 import Loader from '../../../components/Loader';
 import { getFormatDate } from '../../../helpers/util';
 import CustomTextField from '../../../components/CustomTextField';
@@ -46,6 +46,14 @@ const ViewSubmissionAssignment = () => {
                 return <Chip label="Evaluated" color="success" />;
             default:
                 return <Chip label="Pending" color="warning" />;
+        }
+    }
+
+    const deleteEvaluateMutation = DeleteEvaluationAssignment(assignment_id);
+    const deleteEvaluatedAssignment = (course_statistic_id) => {
+        if (!course_statistic_id) return;
+        if (confirm(__('Are you sure you want to delete this evaluated assignment?', 'acadlix'))) {
+            deleteEvaluateMutation.mutate(course_statistic_id);
         }
     }
 
@@ -94,6 +102,16 @@ const ViewSubmissionAssignment = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        <Tooltip title={__("Delete", "acadlix")} arrow>
+                            <IconButton
+                                aria-label="delete"
+                                size="small"
+                                color="error"
+                                onClick={deleteEvaluatedAssignment.bind(this, params?.row?.id)}
+                            >
+                                <FaTrash />
+                            </IconButton>
+                        </Tooltip>
                     </>
                 );
             },
@@ -113,17 +131,17 @@ const ViewSubmissionAssignment = () => {
     );
 
     React.useMemo(() => {
-        if (Array.isArray(data?.data?.submissions)) {
+        if (Array.isArray(data?.data?.course_statistics)) {
             let newRows = [];
-            data?.data?.submissions?.forEach((submission) => {
+            data?.data?.course_statistics?.forEach((course_statistic) => {
                 newRows.push({
-                    id: submission?.id,
-                    course: submission?.order_item?.course?.post_title,
-                    student: `${submission?.user?.display_name} (${submission?.user?.user_email})`,
-                    student_status: submission?.assignment_user_stat?.user_status,
-                    evaluation_status: submission?.assignment_user_stat?.admin_status,
-                    started_on: submission?.assignment_user_stat?.first_started_at ?
-                        getFormatDate(submission?.assignment_user_stat?.first_started_at) : "-",
+                    id: course_statistic?.id,
+                    course: course_statistic?.order_item?.course?.post_title,
+                    student: `${course_statistic?.user?.display_name} (${course_statistic?.user?.user_email})`,
+                    student_status: course_statistic?.assignment_user_stat?.user_status,
+                    evaluation_status: course_statistic?.assignment_user_stat?.admin_status,
+                    started_on: course_statistic?.assignment_user_stat?.first_started_at ?
+                        getFormatDate(course_statistic?.assignment_user_stat?.first_started_at) : "-",
                 });
             });
             methods?.setValue("rows", newRows, { shouldDirty: true });

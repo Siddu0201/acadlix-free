@@ -111,13 +111,35 @@ export const GetEvaluationAssignment = (assignment_id = '', course_statistic_id 
 
 export const PostEvaluateAssignment = (assignment_id = '', course_statistics_id = '') => {
     const instance = useInstance();
-    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
             return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`, data);
         },
         onSuccess: (data) => {
             toast.success(data?.data?.message);
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    })
+}
+
+export const DeleteEvaluationAssignment = (assignment_id = '') => {
+    const instance = useInstance();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (course_statistic_id) => {
+            return instance.delete(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions?.nonce,
+                }
+            });
+        },
+        onSuccess: (data) => {
+            toast.success(data?.data?.message);
+            queryClient.invalidateQueries({
+                queryKey: ["getAssignmentSubmissionsById"]
+            });
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);

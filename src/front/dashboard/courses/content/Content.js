@@ -769,6 +769,9 @@ const AssignmentContent = (props) => {
 
   const [startTimer, setStartTimer] = React.useState(start_date && current_date < start_date);
   const [deadlineTimer, setDeadlineTimer] = React.useState(deadline && current_date < deadline);
+  React.useEffect(() => {
+    setDeadlineTimer(deadline && current_date < deadline);
+  }, [first_started_at]);
   if (startTimer) {
     return (
       <Box sx={{ margin: 2 }}>
@@ -1246,7 +1249,7 @@ const AssignmentContent = (props) => {
                     sx={{
                       width: "max-content",
                     }}
-                    disabled={props?.user_stat?.user_status === "submitted" || (deadline && !deadlineTimer)}
+                    disabled={props?.user_stat?.user_status === "submitted" || Boolean(deadline && !deadlineTimer)}
                     loading={uploadAssignmentFileMutation?.isPending}
                   >
                     {__('Upload File(s)', "acadlix")}
