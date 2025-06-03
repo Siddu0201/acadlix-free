@@ -108,6 +108,11 @@ const CourseContent = () => {
               data?.data?.assignment_user_stat?.first_started_at,
               { shouldDirty: true }
             );
+            methods?.setValue(
+              `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.id`,
+              data?.data?.assignment_user_stat?.id,
+              { shouldDirty: true }
+            );
           }
         },
       }
