@@ -560,7 +560,7 @@ class FrontDashboardController
 
     public function post_delete_assignment_file($request)
     {
-        $required_fields = array('submission_id', 'answer_attachments');
+        $required_fields = array('submission_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
