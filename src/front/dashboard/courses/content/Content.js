@@ -670,7 +670,7 @@ const AssignmentContent = (props) => {
       return;
     }
     setDeleteIndex(index);
-    
+
     const answerAttachments = props?.current_submission_value?.answer_attachments?.filter((_, i) => i !== index);
     deleteAssignmentFileMutation?.mutate({
       delete_file_data: delete_file_data,
@@ -709,7 +709,7 @@ const AssignmentContent = (props) => {
       onSuccess: (data) => {
         setIsSubmitting(false);
         if (data?.data?.success) {
-          if(data?.data?.assignment_submission){
+          if (data?.data?.assignment_submission) {
             props?.setValue(
               `sections.${props?.index}.content.${props?.c_index}.assignment_user_stat.submissions.${props?.current_submission_index}`,
               {
@@ -951,20 +951,25 @@ const AssignmentContent = (props) => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
-                <Box sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}>
-                  <Typography variant="body2" color="text.secondary">
-                    {__("Evaluation Status:", "acadlix")}
-                  </Typography>
-                  <Box>
-                    {getStatus(props?.user_stat?.admin_status)}
-                  </Box>
-                </Box>
-              </Grid>
+              {
+                props?.assignment_user_stat?.user_status === "submitted" && (
+
+                  <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
+                    <Box sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    }}>
+                      <Typography variant="body2" color="text.secondary">
+                        {__("Evaluation Status:", "acadlix")}
+                      </Typography>
+                      <Box>
+                        {getStatus(props?.user_stat?.admin_status)}
+                      </Box>
+                    </Box>
+                  </Grid>
+                )
+              }
             </Grid>
             <Divider />
           </Grid>
