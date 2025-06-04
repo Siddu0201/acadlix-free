@@ -625,12 +625,19 @@ class FrontDashboardController
             ]);
         }
         $assignment_submission = AssignmentSubmission::find($submissionId);
-        if ($assignment_submission && !empty($submittedAt)) {
-            $assignment_submission->update([
-                "answer_text" => $answerText,
-                "answer_attachments" => $answerAttachments,
-                "submitted_at" => $submittedAt,
-            ]);
+        if ($assignment_submission) {
+            if(!empty($submittedAt)){
+                $assignment_submission->update([
+                    "answer_text" => $answerText,
+                    "answer_attachments" => $answerAttachments,
+                    "submitted_at" => $submittedAt,
+                ]);
+            }else{
+                $assignment_submission->update([
+                    "answer_text" => $answerText,
+                    "answer_attachments" => $answerAttachments,
+                ]);
+            }
         }
         return rest_ensure_response([
             "success" => true,

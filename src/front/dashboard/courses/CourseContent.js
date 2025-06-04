@@ -328,7 +328,7 @@ const CourseContent = () => {
     }
   }, [data?.data]);
 
-  console.log(methods?.watch("sections"));
+  // console.log(methods?.watch("sections"));
 
 
   const [value, setValue] = useState(isDesktop ? "2" : "1");
