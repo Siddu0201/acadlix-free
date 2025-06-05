@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0bbb5a57a12cf0813e02737536cbbe4",
+    "content-hash": "24278f9bae8ee9a517ee25440ebbfe1d",
     "packages": [
         {
             "name": "brick/math",
@@ -495,6 +495,90 @@
                 }
             ],
             "time": "2022-10-20T09:10:12+00:00"
+        },
+        {
+            "name": "ideologix/dlm-php",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ideologix/dlm-php.git",
+                "reference": "d28f6f08f7e68dc78f143b4966c2433965904741"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ideologix/dlm-php/zipball/d28f6f08f7e68dc78f143b4966c2433965904741",
+                "reference": "d28f6f08f7e68dc78f143b4966c2433965904741",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IdeoLogix\\DigitalLicenseManagerClient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Darko Gjorgjijoski",
+                    "email": "dg@darkog.com"
+                }
+            ],
+            "description": "PHP client for the Digital Licnese Manager plugin to access it's REST APIs.",
+            "support": {
+                "issues": "https://github.com/ideologix/dlm-php/issues",
+                "source": "https://github.com/ideologix/dlm-php/tree/1.1.0"
+            },
+            "time": "2024-10-05T01:58:52+00:00"
+        },
+        {
+            "name": "ideologix/dlm-wp-updater",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ideologix/dlm-wp-updater.git",
+                "reference": "c32ec80bcb7f2b4610567f41f95546abdee60976"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ideologix/dlm-wp-updater/zipball/c32ec80bcb7f2b4610567f41f95546abdee60976",
+                "reference": "c32ec80bcb7f2b4610567f41f95546abdee60976",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IdeoLogix\\DigitalLicenseManagerUpdaterWP\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Darko Gjorgjijoski",
+                    "email": "dg@darkog.com"
+                }
+            ],
+            "description": "PHP WordPress updater for your plugins and themes that utilizes the Digital License Manager PRO REST APIs",
+            "support": {
+                "issues": "https://github.com/ideologix/dlm-wp-updater/issues",
+                "source": "https://github.com/ideologix/dlm-wp-updater/tree/1.3.3"
+            },
+            "time": "2025-03-26T09:00:00+00:00"
         },
         {
             "name": "illuminate/bus",

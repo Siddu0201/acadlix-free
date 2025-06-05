@@ -182,7 +182,7 @@ const CategoryModel = (props) => {
           onClick={methods?.handleSubmit(handleSubmit)}
           disabled={setCategory?.isPending}
         >
-          {setCategory?.isPending ? __("...loading", "acadlix") : __("Save Change", "acadlix")}
+          {setCategory?.isPending ? __("...loading", "acadlix") : __("Save Changes", "acadlix")}
         </Button>
       </DialogActions>
     </>

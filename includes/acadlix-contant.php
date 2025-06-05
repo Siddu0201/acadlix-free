@@ -26,6 +26,10 @@ define('ACADLIX_ASSETS_CSS_URL', ACADLIX_PLUGIN_URL . 'assets/css/');
 define('ACADLIX_ASSETS_JS_URL', ACADLIX_PLUGIN_URL . 'assets/js/');
 define('ACADLIX_ASSETS_IMAGE_URL', ACADLIX_PLUGIN_URL . 'assets/image/');
 
+define('ACADLIX_DLM_URL', 'https://acadlix.com/wp-json/dlm/v1/');
+define('ACADLIX_DLM_CLIENT_KEY', 'ck_58afad60f7d76d2c3f44570baf19324d823b2e16');
+define('ACADLIX_DLM_CLIENT_SECRET', 'cs_548171f1bc59c6f2e3b6378491bb366a4cd7d825');
+
 // Custom post type constant
 const ACADLIX_COURSE_CPT = 'acadlix_course';
 const ACADLIX_COURSE_CATEGORY_TAXONOMY = 'acadlix_course_category';

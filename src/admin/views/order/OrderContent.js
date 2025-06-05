@@ -146,7 +146,7 @@ const OrderContent = (props) => {
                                     loading={createMutation?.isPending || updateMutation?.isPending}
                                 >
 
-                                    {__("Save Change", "acadlix")}
+                                    {__("Save Changes", "acadlix")}
                                 </Button>
                             </CardContent>
                         </Card>

@@ -162,7 +162,7 @@ const ParagraphContent = (props) => {
               {createMutation?.isPending || updateMutation?.isPending ? (
                 <CircularProgress size={20} color="inherit" />
               ) : (
-                __("Save Change", "acadlix")
+                __("Save Changes", "acadlix")
               )}
             </Button>
           </Grid>

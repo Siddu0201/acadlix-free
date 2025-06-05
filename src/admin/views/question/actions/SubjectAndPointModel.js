@@ -263,7 +263,7 @@ const SubjectAndPointModel = (props) => {
         >
           {setSubjectAndPointMutation?.isPending
             ? __("...loading", "acadlix")
-            : __("Save Change", "acadlix")}
+            : __("Save Changes", "acadlix")}
         </Button>
       </DialogActions>
     </>

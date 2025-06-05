@@ -2,6 +2,9 @@
 
 namespace Yuvayana\Acadlix\Submenu;
 
+use IdeoLogix\DigitalLicenseManagerClient\Service;
+use IdeoLogix\DigitalLicenseManagerUpdaterWP\Main;
+
 defined('ABSPATH') || exit();
 
 class Submenu_Tools
@@ -42,13 +45,14 @@ class Submenu_Tools
     {
         wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script( "acadlix-admin-tool" );
+        wp_enqueue_script("acadlix-admin-tool");
         wp_set_script_translations('acadlix-admin-tool', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function tool_callback()
     {
-        echo '<div id="acadlix-admin-tool"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
+        $this->updater->getActivator()->renderActivationForm();
+        // echo '<div id="acadlix-admin-tool"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

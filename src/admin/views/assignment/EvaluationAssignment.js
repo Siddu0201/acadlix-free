@@ -353,7 +353,7 @@ const EvaluationAssignment = () => {
                             type="submit"
                             loading={evaluateMutation?.isPending}
                         >
-                            {__("Save Change", "acadlix")}
+                            {__("Save Changes", "acadlix")}
                         </Button>
                     </Grid>
                 </Grid>

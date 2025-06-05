@@ -167,7 +167,7 @@ const LessonContent = (props) => {
                   {createMutation?.isPending || updateMutation?.isPending ? (
                     <CircularProgress color="inherit" size={20} />
                   ) : (
-                    __("Save Change", "acadlix")
+                    __("Save Changes", "acadlix")
                   )}
                 </Button>
               </CardContent>

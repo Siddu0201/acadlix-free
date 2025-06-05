@@ -311,7 +311,7 @@ const SubjectTimeModel = (props) => {
                   onClick={methods?.handleSubmit(handleSubmit)}
                   disabled={setSubjectWiseTime?.isPending}
                 >
-                  {setSubjectWiseTime?.isPending ? __("Loading...", "acadlix") : __("Save Change", "acadlix")}
+                  {setSubjectWiseTime?.isPending ? __("Loading...", "acadlix") : __("Save Changes", "acadlix")}
                 </Button>
               </DialogActions>
             </Grid>

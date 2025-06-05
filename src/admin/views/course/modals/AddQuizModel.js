@@ -99,7 +99,7 @@ const AddQuizModel = (props) => {
             {__("Cancel", "acadlix")}
           </Button>
           <Button variant="contained" type="submit" disabled={props?.isPending}>
-            {props?.isPending ? "...loading" : "Save Change"}
+            {props?.isPending ? "...loading" : "Save Changes"}
           </Button>
         </DialogActions>
       </form>

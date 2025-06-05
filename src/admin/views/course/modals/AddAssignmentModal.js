@@ -129,7 +129,7 @@ const AddAssignmentModal = (props) => {
             {__("Cancel", "acadlix")}
           </Button>
           <Button variant="contained" type="submit" disabled={props?.isPending}>
-            {props?.isPending ? __("...loading", "acadlix") : __("Save Change", "acadlix")}
+            {props?.isPending ? __("...loading", "acadlix") : __("Save Changes", "acadlix")}
           </Button>
         </DialogActions>
       </form>

@@ -16,6 +16,8 @@
     "require": {
         "illuminate/database": "^10.7",
         "illuminate/events": "^10.7",
-        "doctrine/dbal": "^3.8"
+        "doctrine/dbal": "^3.8",
+        "ideologix/dlm-php": "^1.1",
+        "ideologix/dlm-wp-updater": "^1.3"
     }
 }
