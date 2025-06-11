@@ -215,28 +215,33 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to stop randomization of last option */}
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
-        </GridItem1>
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            control={
-              <CustomSwitch />
-            }
-            checked={
-              props?.watch("meta.quiz_settings.do_not_randomize_last_option") ?? false
-            }
-            onChange={(e) => {
-              props?.setValue(
-                "meta.quiz_settings.do_not_randomize_last_option",
-                e?.target?.checked,
-                { shouldDirty: true }
-              );
-            }}
-            disabled={!props?.watch("meta.quiz_settings.random_option")}
-            label={__("Activate", "acadlix")}
-          />
-        </GridItem1>
+        {
+          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          <>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
+            </GridItem1>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <FormControlLabel
+                control={
+                  <CustomSwitch />
+                }
+                checked={
+                  props?.watch("meta.quiz_settings.do_not_randomize_last_option") ?? false
+                }
+                onChange={(e) => {
+                  props?.setValue(
+                    "meta.quiz_settings.do_not_randomize_last_option",
+                    e?.target?.checked,
+                    { shouldDirty: true }
+                  );
+                }}
+                disabled={!props?.watch("meta.quiz_settings.random_option")}
+                label={__("Activate", "acadlix")}
+              />
+            </GridItem1>
+          </>
+        }
 
         {/* Used to hide question numbering  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -283,67 +288,77 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Attempt question and move forward automatically- only for single choice */}
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
-        </GridItem1>
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            control={
-              <CustomSwitch />
-            }
-            checked={props?.watch("meta.quiz_settings.attempt_and_move_forward") ?? false}
-            disabled={
-              ["question_below_each_other", "check_and_continue", "advance_mode"].includes(props?.watch("meta.mode"))
-            }
-            onChange={(e) => {
-              props?.setValue(
-                "meta.quiz_settings.attempt_and_move_forward",
-                e?.target?.checked,
-                { shouldDirty: true }
-              );
-            }}
-            label={__("Activate", "acadlix")}
-          />
-          <Tooltip
-            title={__("This feature will only work for single choice questions in normal mode", "acadlix")}
-            placement="right-start"
-          >
-            <IconButton
-              sx={{
-                fontSize: "1.25rem",
-              }}
-            >
-              <RiQuestionFill />
-            </IconButton>
-          </Tooltip>
-        </GridItem1>
+        {
+          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          <>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
+            </GridItem1>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <FormControlLabel
+                control={
+                  <CustomSwitch />
+                }
+                checked={props?.watch("meta.quiz_settings.attempt_and_move_forward") ?? false}
+                disabled={
+                  ["question_below_each_other", "check_and_continue", "advance_mode"].includes(props?.watch("meta.mode"))
+                }
+                onChange={(e) => {
+                  props?.setValue(
+                    "meta.quiz_settings.attempt_and_move_forward",
+                    e?.target?.checked,
+                    { shouldDirty: true }
+                  );
+                }}
+                label={__("Activate", "acadlix")}
+              />
+              <Tooltip
+                title={__("This feature will only work for single choice questions in normal mode", "acadlix")}
+                placement="right-start"
+              >
+                <IconButton
+                  sx={{
+                    fontSize: "1.25rem",
+                  }}
+                >
+                  <RiQuestionFill />
+                </IconButton>
+              </Tooltip>
+            </GridItem1>
+          </>
+        }
 
         {/* Force user to answer each question */}
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>
-        </GridItem1>
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            control={
-              <CustomSwitch />
-            }
-            checked={
-              props?.watch("meta.quiz_settings.force_user_to_answer_each_question") ?? false
-            }
-            onChange={(e) => {
-              props?.setValue(
-                "meta.quiz_settings.force_user_to_answer_each_question",
-                e?.target?.checked,
-                { shouldDirty: true }
-              );
-            }}
-            disabled={
-              props?.watch("meta.mode") === "advance_mode" && 
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
-            }
-            label={__("Activate", "acadlix")}
-          />
-        </GridItem1>
+        {
+          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          <>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>
+            </GridItem1>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+              <FormControlLabel
+                control={
+                  <CustomSwitch />
+                }
+                checked={
+                  props?.watch("meta.quiz_settings.force_user_to_answer_each_question") ?? false
+                }
+                onChange={(e) => {
+                  props?.setValue(
+                    "meta.quiz_settings.force_user_to_answer_each_question",
+                    e?.target?.checked,
+                    { shouldDirty: true }
+                  );
+                }}
+                disabled={
+                  props?.watch("meta.mode") === "advance_mode" &&
+                  props?.watch("meta.advance_mode_type") !== "advance_panel"
+                }
+                label={__("Activate", "acadlix")}
+              />
+            </GridItem1>
+          </>
+        }
       </Grid>
     </Box>
   );

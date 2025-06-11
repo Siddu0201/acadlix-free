@@ -88,7 +88,9 @@ class Submenu_Quiz
             'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
             'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
-            'capabilities' => $capabilities
+            'capabilities' => $capabilities,
+            'isPro' => acadlix()->pro,
+            'isActive' => acadlix()->license->isActive,
         ));
         wp_set_script_translations('acadlix-admin-quiz', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

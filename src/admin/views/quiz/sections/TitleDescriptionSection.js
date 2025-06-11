@@ -60,22 +60,25 @@ const TitleDescriptionSection = (props) => {
               <Typography variant="h6">{__("Quiz Description", "acadlix")}</Typography>
 
               {/* handle Ai for generating description */}
-              <AiDescription 
-                title={props?.watch("post_title") ?? ""}
-                description={props?.watch("post_content") ?? ""}
-                type="quiz"
-                handleAddDescription={(value) => {
-                  if (window.tinymce) {
-                    const editor = window.tinymce.get("post_content");
-                    if (editor && editor.getContent() !== value) {
-                      editor.setContent(value || "");
+              {
+                acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                <AiDescription
+                  title={props?.watch("post_title") ?? ""}
+                  description={props?.watch("post_content") ?? ""}
+                  type="quiz"
+                  handleAddDescription={(value) => {
+                    if (window.tinymce) {
+                      const editor = window.tinymce.get("post_content");
+                      if (editor && editor.getContent() !== value) {
+                        editor.setContent(value || "");
+                      }
                     }
-                  }
-                  props.setValue("post_content", value, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
+                    props.setValue("post_content", value, {
+                      shouldDirty: true,
+                    });
+                  }}
+                />
+              }
             </Grid>
             {/* Used to enter quiz decription, we replace textarea with tinymce editor  */}
             <Grid size={{ xs: 12, sm: 12 }}>

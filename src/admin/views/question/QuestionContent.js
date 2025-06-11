@@ -311,25 +311,29 @@ const QuestionContent = (props) => {
         );
       case "numerical":
         return (
-          <Numerical
-            {...methods}
-            index={index}
-            lang={lang}
-            type="numerical"
-            loadEditor={loadEditor}
-            removeEditor={removeEditor}
-          />
+          acadlixOptions?.isPro && acadlixOptions?.isActive && (
+            <Numerical
+              {...methods}
+              index={index}
+              lang={lang}
+              type="numerical"
+              loadEditor={loadEditor}
+              removeEditor={removeEditor}
+            />
+          )
         );
       case "rangeType":
         return (
-          <RangeType
-            {...methods}
-            index={index}
-            lang={lang}
-            type="rangeType"
-            loadEditor={loadEditor}
-            removeEditor={removeEditor}
-          />
+          acadlixOptions?.isPro && acadlixOptions?.isActive && (
+            <RangeType
+              {...methods}
+              index={index}
+              lang={lang}
+              type="rangeType"
+              loadEditor={loadEditor}
+              removeEditor={removeEditor}
+            />
+          )
         );
       case "paragraph":
         break;
@@ -407,16 +411,19 @@ const QuestionContent = (props) => {
           {/* General section contain title, points, subject, topic */}
           <GeneralOptionSection {...methods} {...props} />
 
-          <QuestionParagraphSection {...methods} {...props} />
+          {
+            acadlixOptions?.isPro && acadlixOptions?.isActive &&
+            <QuestionParagraphSection {...methods} {...props} />
+          }
 
           {/* Language section */}
-          {methods?.watch("multi_language") && (
+          {/* {methods?.watch("multi_language") && (
             <LanguageSection
               {...methods}
               removeEditor={removeEditor}
               getAnswerData={getAnswerData}
             />
-          )}
+          )} */}
 
           {methods?.watch("language")?.length > 0 &&
             methods?.watch("language")?.map((lang, index) => (
@@ -471,13 +478,13 @@ const QuestionContent = (props) => {
             ))}
 
           {/* Language section */}
-          {methods?.watch("multi_language") && (
+          {/* {methods?.watch("multi_language") && (
             <LanguageSection
               {...methods}
               removeEditor={removeEditor}
               getAnswerData={getAnswerData}
             />
-          )}
+          )} */}
 
           <Grid size={{ xs: 12, sm: 12 }}>
             <Button variant="contained" type="submit">

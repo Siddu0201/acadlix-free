@@ -4,14 +4,12 @@ namespace Yuvayana\Acadlix\REST\Admin;
 
 use WP_REST_Server;
 use WP_REST_Request;
+use WP_Error;
 use Yuvayana\Acadlix\Helper\CptHelper;
 use Yuvayana\Acadlix\Models\Assignment;
 use Yuvayana\Acadlix\Models\AssignmentSubmission;
 use Yuvayana\Acadlix\Models\AssignmentUserStats;
 use Yuvayana\Acadlix\Models\CourseStatistic;
-use Yuvayana\Acadlix\Models\Order;
-use Illuminate\Database\Capsule\Manager as DB;
-use Yuvayana\Acadlix\Models\OrderItem;
 
 defined('ABSPATH') || exit();
 
@@ -188,7 +186,7 @@ class AdminAssignmentController
     {
         $res = [];
         $params = $request->get_params();
-        $search = $params['search'];
+        $search = $params['search'] ?? '';
         $skip = $params['page'] * $params['pageSize'];
         $assignment = Assignment::ofAssignment()->orderBy('id', 'desc');
         if (!empty($search)) {
@@ -626,6 +624,13 @@ class AdminAssignmentController
 
     public function check_permission($request)
     {
+        if(!acadlix()->pro || !acadlix()->license->isActive){
+            return new WP_Error(
+                'permission_denied',
+                __('Permission denied.', 'acadlix'),
+                ['status' => 403]
+            );
+        }
         return true;
     }
 }

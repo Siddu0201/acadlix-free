@@ -58,6 +58,8 @@ class Submenu_Lessons
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,
+            'isPro' => acadlix()->pro,
+            'isActive' => acadlix()->license->isActive,
         ));
         wp_set_script_translations('acadlix-admin-lesson', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

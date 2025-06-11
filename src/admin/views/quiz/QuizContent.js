@@ -303,7 +303,7 @@ const QuizContent = (props) => {
           <QuizModeSection {...methods} {...props} />
 
           {/* Fourth section contain quiz language */}
-          <LanguageSection {...methods} {...props} />
+          {/* <LanguageSection {...methods} {...props} /> */}
 
           {/* Fifth section contain question settings */}
           <QuizSettingSection

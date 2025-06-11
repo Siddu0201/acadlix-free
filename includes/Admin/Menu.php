@@ -6,6 +6,7 @@ use Yuvayana\Acadlix\Submenu\Submenu_Categories;
 use Yuvayana\Acadlix\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Submenu\Submenu_Home;
 use Yuvayana\Acadlix\Submenu\Submenu_Lessons;
+use Yuvayana\Acadlix\Submenu\Submenu_License;
 use Yuvayana\Acadlix\Submenu\Submenu_Orders;
 use Yuvayana\Acadlix\Submenu\Submenu_Quiz;
 use Yuvayana\Acadlix\Submenu\Submenu_Assignments;
@@ -19,37 +20,14 @@ class Menu
 {
     private static $_instance = null;
 
-    protected $updater;
     public function __construct()
     {
         if(!is_admin(  )) return;
-        $this->setup_updater();
+        
 
         add_action("admin_menu", [$this, 'init_admin_menu']);
         add_filter('parent_file', [$this, 'acadlix_set_active_menu_class']);
         add_action('admin_menu', [$this, 'modify_admin_menu_title'], 999);
-    }
-
-    public function setup_updater()
-    {
-        try {
-            $this->updater = new Main([
-                'id' => 1,
-                'name' => ACADLIX_PLUGIN_BASENAME,
-                'file' => ACADLIX_PLUGIN_FILE,
-                'basename' => ACADLIX_PLUGIN_BASENAME,
-                'version' => ACADLIX_VERSION,
-                'url_settings' => 'https://acadlix.com/',
-                'url_purchase' => 'https://acadlix.com/pricing/',
-                'consumer_key' => ACADLIX_DLM_CLIENT_KEY,
-                'consumer_secret' => ACADLIX_DLM_CLIENT_SECRET,
-                'api_url' => ACADLIX_DLM_URL,
-                'prefix' => 'dlm',
-                // 'mask_key_input'  => true, // Show ***** in license key input?
-            ]);
-        } catch (\Exception $e) {
-            error_log('Error: ' . $e->getMessage());
-        }
     }
 
     public function modify_admin_menu_title()
@@ -77,21 +55,9 @@ class Menu
         Submenu_Tags::instance()->add_submenu();
         Submenu_Settings::instance()->add_submenu();
         // Submenu_Tools::instance()->add_submenu();
-        add_submenu_page(
-            ACADLIX_SLUG,
-            __('Tools', 'acadlix'),
-            __('Tools', 'acadlix'),
-            'acadlix_show_tool',
-            'acadlix_tool',
-            [$this, 'tool_callback'],
-            40
-        );
+        Submenu_License::instance()->add_submenu();
     }
 
-    public function tool_callback()
-    {
-        $this->updater->getActivator()->renderActivationForm();
-    }
 
     public function acadlix_set_active_menu_class($parent_file)
     {

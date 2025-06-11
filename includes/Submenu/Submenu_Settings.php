@@ -61,7 +61,9 @@ class Submenu_Settings
             'user_id' => get_current_user_id(),
             'quiz_categories' => Category::all(),
             'quiz_languages' => Language::all(),
-            'capabilities' => $capabilities
+            'capabilities' => $capabilities,
+            'isPro' => acadlix()->pro,
+            'isActive' => acadlix()->license->isActive,
         ));
         wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

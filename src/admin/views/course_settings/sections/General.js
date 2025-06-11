@@ -111,134 +111,140 @@ const General = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={{ xs: 12, sm: 12 }}>
-          <Typography
-            sx={{
-              fontSize: "20px",
-              fontWeight: 700,
-            }}
-          >
-            {__("Registration Scheduling", "acadlix")}
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Grid container spacing={2}>
+        {
+          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          <>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
                 sx={{
-                  fontWeight: 600,
+                  fontSize: "20px",
+                  fontWeight: 700,
                 }}
               >
-                {__("Registration Start Date", "acadlix")}
+                {__("Registration Scheduling", "acadlix")}
               </Typography>
             </Grid>
-            <Grid size={{ xs: 12, sm: 12 }}>
-              <DemoContainer components={["DateTimePicker"]}>
-                <DateTimePicker
-                  format="DD/MM/YYYY hh:mm:a"
-                  timeSteps={{
-                    minutes: 1,
-                  }}
-                  sx={{
-                    ".MuiFormControl-root ": {
-                      maxHeight: "42px",
-                    },
-                    ".MuiInputBase-input": {
-                      padding: "6px 14px !important",
-                      border: `0 !important`,
-                      boxShadow: `none !important`,
-                    },
-                    ".MuiInputBase-input:focus": {
-                      padding: "6px 14px !important",
-                      border: `0 !important`,
-                      boxShadow: `none !important`,
-                    },
-                    ".MuiFormLabel-root": {
-                      top: "-7px !important",
-                    },
-                    ".MuiInputLabel-shrink": {
-                      top: "0px !important",
-                    },
-                  }}
-                  value={
-                    props?.watch("meta.start_date")
-                      ? dayjs(props?.watch("meta.start_date"))
-                      : null
-                  }
-                  onChange={(value) => {
-                    props?.setValue("meta.start_date", convertToPostDate(value), {
-                      shouldDirty: true,
-                    });
-                  }}
-                />
-              </DemoContainer>
-              {props?.formState?.errors?.meta?.start_date && (
-                <Typography component="p" color="error">
-                  {props?.formState?.errors?.meta?.start_date?.message}
-                </Typography>
-              )}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12, sm: 12 }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 600,
+                    }}
+                  >
+                    {__("Registration Start Date", "acadlix")}
+                  </Typography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 12 }}>
+                  <DemoContainer components={["DateTimePicker"]}>
+                    <DateTimePicker
+                      format="DD/MM/YYYY hh:mm:a"
+                      timeSteps={{
+                        minutes: 1,
+                      }}
+                      sx={{
+                        ".MuiFormControl-root ": {
+                          maxHeight: "42px",
+                        },
+                        ".MuiInputBase-input": {
+                          padding: "6px 14px !important",
+                          border: `0 !important`,
+                          boxShadow: `none !important`,
+                        },
+                        ".MuiInputBase-input:focus": {
+                          padding: "6px 14px !important",
+                          border: `0 !important`,
+                          boxShadow: `none !important`,
+                        },
+                        ".MuiFormLabel-root": {
+                          top: "-7px !important",
+                        },
+                        ".MuiInputLabel-shrink": {
+                          top: "0px !important",
+                        },
+                      }}
+                      value={
+                        props?.watch("meta.start_date")
+                          ? dayjs(props?.watch("meta.start_date"))
+                          : null
+                      }
+                      onChange={(value) => {
+                        props?.setValue("meta.start_date", convertToPostDate(value), {
+                          shouldDirty: true,
+                        });
+                      }}
+                    />
+                  </DemoContainer>
+                  {props?.formState?.errors?.meta?.start_date && (
+                    <Typography component="p" color="error">
+                      {props?.formState?.errors?.meta?.start_date?.message}
+                    </Typography>
+                  )}
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 12 }}>
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
-              >
-                {__("Registration End Date", "acadlix")}
-              </Typography>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12, sm: 12 }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 600,
+                    }}
+                  >
+                    {__("Registration End Date", "acadlix")}
+                  </Typography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 12 }}>
+                  <DemoContainer components={["DateTimePicker"]}>
+                    <DateTimePicker
+                      format="DD/MM/YYYY hh:mm:a"
+                      timeSteps={{
+                        minutes: 1,
+                      }}
+                      sx={{
+                        ".MuiFormControl-root ": {
+                          maxHeight: "42px",
+                        },
+                        ".MuiInputBase-input": {
+                          padding: "6px 14px !important",
+                          border: `0 !important`,
+                          boxShadow: `none !important`,
+                        },
+                        ".MuiInputBase-input:focus": {
+                          padding: "6px 14px !important",
+                          border: `0 !important`,
+                          boxShadow: `none !important`,
+                        },
+                        ".MuiFormLabel-root": {
+                          top: "-7px !important",
+                        },
+                        ".MuiInputLabel-shrink": {
+                          top: "0px !important",
+                        },
+                      }}
+                      value={
+                        props?.watch("meta.end_date")
+                          ? dayjs(props?.watch("meta.end_date"))
+                          : null
+                      }
+                      onChange={(value) => {
+                        props?.setValue("meta.end_date", convertToPostDate(value), {
+                          shouldDirty: true,
+                        });
+                      }}
+                    />
+                  </DemoContainer>
+                  {props?.formState?.errors?.meta?.end_date && (
+                    <Typography component="p" color="error">
+                      {props?.formState?.errors?.meta?.end_date?.message}
+                    </Typography>
+                  )}
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid size={{ xs: 12, sm: 12 }}>
-              <DemoContainer components={["DateTimePicker"]}>
-                <DateTimePicker
-                  format="DD/MM/YYYY hh:mm:a"
-                  timeSteps={{
-                    minutes: 1,
-                  }}
-                  sx={{
-                    ".MuiFormControl-root ": {
-                      maxHeight: "42px",
-                    },
-                    ".MuiInputBase-input": {
-                      padding: "6px 14px !important",
-                      border: `0 !important`,
-                      boxShadow: `none !important`,
-                    },
-                    ".MuiInputBase-input:focus": {
-                      padding: "6px 14px !important",
-                      border: `0 !important`,
-                      boxShadow: `none !important`,
-                    },
-                    ".MuiFormLabel-root": {
-                      top: "-7px !important",
-                    },
-                    ".MuiInputLabel-shrink": {
-                      top: "0px !important",
-                    },
-                  }}
-                  value={
-                    props?.watch("meta.end_date")
-                      ? dayjs(props?.watch("meta.end_date"))
-                      : null
-                  }
-                  onChange={(value) => {
-                    props?.setValue("meta.end_date", convertToPostDate(value), {
-                      shouldDirty: true,
-                    });
-                  }}
-                />
-              </DemoContainer>
-              {props?.formState?.errors?.meta?.end_date && (
-                <Typography component="p" color="error">
-                  {props?.formState?.errors?.meta?.end_date?.message}
-                </Typography>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
+          </>
+        }
+
         <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 12 }}>

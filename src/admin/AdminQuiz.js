@@ -63,7 +63,7 @@ const AdminQuiz = () => {
                   <Route index element={<QuizResult />} />
                 }
                 {
-                  hasCapability("acadlix_show_answersheet") &&
+                  hasCapability("acadlix_show_answersheet") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
                   <Route
                     path=":statistic_ref_id"
                     element={<QuizResultAnswerSheet />}
@@ -76,20 +76,23 @@ const AdminQuiz = () => {
                   <Route index element={<QuizLeaderboard />} />
                 }
               </Route>
-              <Route path=":quiz_id/paragraph">
-                {
-                  hasCapability("acadlix_show_paragraph") &&
-                  <Route index element={<Paragraph />} />
-                }
-                {
-                  hasCapability("acadlix_add_paragraph") &&
-                  <Route path="create" element={<CreateParagraph />} />
-                }
-                {
-                  hasCapability("acadlix_edit_paragraph") &&
-                  <Route path="edit/:paragraph_id" element={<EditParagraph />} />
-                }
-              </Route>
+              {
+                acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                <Route path=":quiz_id/paragraph">
+                  {
+                    hasCapability("acadlix_show_paragraph") &&
+                    <Route index element={<Paragraph />} />
+                  }
+                  {
+                    hasCapability("acadlix_add_paragraph") &&
+                    <Route path="create" element={<CreateParagraph />} />
+                  }
+                  {
+                    hasCapability("acadlix_edit_paragraph") &&
+                    <Route path="edit/:paragraph_id" element={<EditParagraph />} />
+                  }
+                </Route>
+              }
             </Route>
             <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
           </Routes>

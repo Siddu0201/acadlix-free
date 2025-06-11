@@ -400,24 +400,27 @@ const SortableSections = (props) => {
               justifyContent: "center",
             }}
           >
-            <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
-              <IconButton onClick={handleTooglePreview}>
-                {
-                  tooglePreviewMutation?.isPending ?
-                    <CircularProgress size={14} color="inherit" />
-                    :
-                    props?.c?.preview ?
-                      <MdVisibility style={{
-                        fontSize: 14
-                      }} />
+            {
+              acadlixOptions?.isPro && acadlixOptions?.isActive &&
+              <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
+                <IconButton onClick={handleTooglePreview}>
+                  {
+                    tooglePreviewMutation?.isPending ?
+                      <CircularProgress size={14} color="inherit" />
                       :
-                      <MdVisibilityOff style={{
-                        fontSize: 14
-                      }} />
+                      props?.c?.preview ?
+                        <MdVisibility style={{
+                          fontSize: 14
+                        }} />
+                        :
+                        <MdVisibilityOff style={{
+                          fontSize: 14
+                        }} />
 
-                }
-              </IconButton>
-            </Tooltip>
+                  }
+                </IconButton>
+              </Tooltip>
+            }
             {
               hasCapability("acadlix_edit_course_section_lesson") && hasCapability("acadlix_edit_lesson") &&
               <EditLesson {...props} />

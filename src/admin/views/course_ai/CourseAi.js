@@ -24,6 +24,8 @@ const CourseAi = () => {
 
     return (
         <>
+        {
+          acadlixOptions?.isPro && acadlixOptions?.isActive &&
             <AiDescription
                 title={title}
                 description=""
@@ -44,6 +46,7 @@ const CourseAi = () => {
                     }
                 }}
             />
+        }
         </>
     )
 }

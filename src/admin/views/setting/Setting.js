@@ -34,8 +34,6 @@ function Setting() {
         return 4;
       case hasCapability('acadlix_show_quiz_setting'):
         return 5;
-      case hasCapability('acadlix_show_license_setting'):
-        return 6;
       default:
         return 1
     }
@@ -210,10 +208,6 @@ function Setting() {
                           hasCapability("acadlix_show_quiz_setting") &&
                           <Tab label={__("Quiz", "acadlix")} value="5" />
                         }
-                        {
-                          hasCapability("acadlix_show_license_setting") &&
-                          <Tab label={__("License", "acadlix")} value="6" />
-                        }
                       </TabList>
                     </Box>
                     {
@@ -249,12 +243,6 @@ function Setting() {
                       hasCapability("acadlix_show_quiz_setting") &&
                       <TabPanel value="5">
                         <QuizSettings {...methods} />
-                      </TabPanel>
-                    }
-                    {
-                      hasCapability("acadlix_show_license_setting") &&
-                      <TabPanel value="6">
-                        <License {...methods} />
                       </TabPanel>
                     }
                   </TabContext>

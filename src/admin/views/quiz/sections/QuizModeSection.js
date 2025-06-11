@@ -29,7 +29,7 @@ const QuizModeSection = (props) => {
     });
     // props?.setValue("meta.quiz_settings.prerequisite", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.enable_check_button", false, { shouldDirty: true });
-    
+
     // default question setting
     // props?.setValue("meta.quiz_settings.skip_question", false, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.show_marks", true, { shouldDirty: true });
@@ -47,7 +47,7 @@ const QuizModeSection = (props) => {
     props?.setValue("meta.quiz_settings.force_user_to_answer_each_question", false, {
       shouldDirty: true,
     });
-    
+
     // default result setting
     // props?.setValue("meta.quiz_settings.save_statistic", true, { shouldDirty: true });
     // props?.setValue("meta.quiz_settings.hide_result", false, { shouldDirty: true });
@@ -129,24 +129,27 @@ const QuizModeSection = (props) => {
                       {__("Normal", 'acadlix')}
                     </h3>
                   </Box>
-                  <Box>
-                    <FormControlLabel
-                      control={
-                        <CustomSwitch
-                          checked={props?.watch("meta.quiz_settings.enable_back_button") ?? false}
-                          disabled={props?.watch("meta.mode") !== "normal"}
-                          onChange={(e) => {
-                            props?.setValue(
-                              "meta.quiz_settings.enable_back_button",
-                              e?.target?.checked,
-                              { shouldDirty: true }
-                            );
-                          }}
-                        />
-                      }
-                      label={__('Enable Back Button', 'acadlix')}
-                    />
-                  </Box>
+                  {
+                    acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                    <Box>
+                      <FormControlLabel
+                        control={
+                          <CustomSwitch
+                            checked={props?.watch("meta.quiz_settings.enable_back_button") ?? false}
+                            disabled={props?.watch("meta.mode") !== "normal"}
+                            onChange={(e) => {
+                              props?.setValue(
+                                "meta.quiz_settings.enable_back_button",
+                                e?.target?.checked,
+                                { shouldDirty: true }
+                              );
+                            }}
+                          />
+                        }
+                        label={__('Enable Back Button', 'acadlix')}
+                      />
+                    </Box>
+                  }
                 </CardContent>
               </Card>
             </Grid>
@@ -198,50 +201,53 @@ const QuizModeSection = (props) => {
                       {__("Check And Continue", 'acadlix')}
                     </h3>
                   </Box>
-                  <Box>
-                    <FormControlLabel
-                      control={
-                        <CustomSwitch
-                          checked={
-                            props?.watch("meta.quiz_settings.enable_check_on_option_selected") ??
-                            false
-                          }
-                          disabled={
-                            props?.watch("meta.mode") !== "check_and_continue"
-                          }
-                          onChange={(e) => {
-                            props?.setValue(
-                              "meta.quiz_settings.enable_check_on_option_selected",
-                              e?.target?.checked,
-                              { shouldDirty: true }
-                            );
-                          }}
-                        />
-                      }
-                      label={__("Show Check Button When Option Selected", 'acadlix')}
-                    />
+                  {
+                    acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                    <Box>
+                      <FormControlLabel
+                        control={
+                          <CustomSwitch
+                            checked={
+                              props?.watch("meta.quiz_settings.enable_check_on_option_selected") ??
+                              false
+                            }
+                            disabled={
+                              props?.watch("meta.mode") !== "check_and_continue"
+                            }
+                            onChange={(e) => {
+                              props?.setValue(
+                                "meta.quiz_settings.enable_check_on_option_selected",
+                                e?.target?.checked,
+                                { shouldDirty: true }
+                              );
+                            }}
+                          />
+                        }
+                        label={__("Show Check Button When Option Selected", 'acadlix')}
+                      />
 
-                    <FormControlLabel
-                      control={
-                        <CustomSwitch
-                          checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
-                          onChange={(e) => {
-                            props?.setValue(
-                              "meta.quiz_settings.skip_question",
-                              e?.target?.checked,
-                              {
-                                shouldDirty: true,
-                              }
-                            );
-                          }}
-                          disabled={
-                            props?.watch("meta.mode") !== "check_and_continue"
-                          }
-                        />
-                      }
-                      label={__("Skip Question", 'acadlix')}
-                    />
-                  </Box>
+                      <FormControlLabel
+                        control={
+                          <CustomSwitch
+                            checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
+                            onChange={(e) => {
+                              props?.setValue(
+                                "meta.quiz_settings.skip_question",
+                                e?.target?.checked,
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+                            }}
+                            disabled={
+                              props?.watch("meta.mode") !== "check_and_continue"
+                            }
+                          />
+                        }
+                        label={__("Skip Question", 'acadlix')}
+                      />
+                    </Box>
+                  }
                 </CardContent>
               </Card>
             </Grid>
@@ -339,126 +345,129 @@ const QuizModeSection = (props) => {
                 - JEE
                 - Railway
             */}
-            <Grid size={{ xs: 12, sm: 12 }}>
-              <Card
-                sx={{
-                  height: "100%",
-                }}
-              >
-                <CardContent>
-                  <Box
-                    sx={{
-                      textAlign: "center",
-                      marginY: 2,
-                    }}
-                  >
-                    <Radio
-                      checked={props?.watch("meta.mode") === "advance_mode"}
-                      name="mode"
+            {
+              acadlixOptions?.isPro && acadlixOptions?.isActive &&
+              <Grid size={{ xs: 12, sm: 12 }}>
+                <Card
+                  sx={{
+                    height: "100%",
+                  }}
+                >
+                  <CardContent>
+                    <Box
                       sx={{
-                        padding: 1,
-                      }}
-                      value="advance_mode"
-                      onClick={() => {
-                        props?.setValue("meta.mode", "advance_mode", {
-                          shouldDirty: true,
-                        });
-
-                        setAdvanceModeDefaultSettings();
-                      }}
-                    />
-                    <h3
-                      style={{
-                        margin: "5px 0 5px 0",
-                        cursor: "pointer",
+                        textAlign: "center",
+                        marginY: 2,
                       }}
                     >
-                      {__("Advance mode", "acadlix")}
-                    </h3>
-                    <h5
-                      style={{
-                        margin: "5px 0",
-                      }}
-                    >
-                      ({__("Quiz Option will only set as per the exam", "acadlix")})
-                    </h5>
-                  </Box>
-                  <Box
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        name="advance_mode"
-                        onChange={(e) => {
-                          props?.setValue("meta.advance_mode_type", e.target.value, {
+                      <Radio
+                        checked={props?.watch("meta.mode") === "advance_mode"}
+                        name="mode"
+                        sx={{
+                          padding: 1,
+                        }}
+                        value="advance_mode"
+                        onClick={() => {
+                          props?.setValue("meta.mode", "advance_mode", {
                             shouldDirty: true,
                           });
 
                           setAdvanceModeDefaultSettings();
                         }}
-                        sx={{
-                          display:
-                            props?.watch("meta.mode") === "advance_mode"
-                              ? ""
-                              : "none",
+                      />
+                      <h3
+                        style={{
+                          margin: "5px 0 5px 0",
+                          cursor: "pointer",
                         }}
                       >
-                        <FormControlLabel
-                          value="advance_panel"
-                          control={<Radio />}
-                          label={__("Advance Panel", "acadlix")}
-                          checked={
-                            props?.watch("meta.advance_mode_type") ===
-                            "advance_panel"
-                          }
-                        />
-                        <FormControlLabel
-                          value="ibps"
-                          control={<Radio />}
-                          label={__("IBPS", "acadlix")}
-                          checked={props?.watch("meta.advance_mode_type") === "ibps"}
-                        />
-                        <FormControlLabel
-                          value="ssc"
-                          control={<Radio />}
-                          label={__("SSC", "acadlix")}
-                          checked={props?.watch("meta.advance_mode_type") === "ssc"}
-                        />
-                        <FormControlLabel
-                          value="gate"
-                          control={<Radio />}
-                          label={__("GATE", "acadlix")}
-                          checked={props?.watch("meta.advance_mode_type") === "gate"}
-                        />
-                        <FormControlLabel
-                          value="sbi"
-                          control={<Radio />}
-                          label={__("SBI", "acadlix")}
-                          checked={props?.watch("meta.advance_mode_type") === "sbi"}
-                        />
-                        <FormControlLabel
-                          value="jee"
-                          control={<Radio />}
-                          label={__("JEE", "acadlix")}
-                          checked={props?.watch("meta.advance_mode_type") === "jee"}
-                        />
-                        <FormControlLabel
-                          value="railway"
-                          control={<Radio />}
-                          label={__("Railway", "acadlix")}
-                          checked={
-                            props?.watch("meta.advance_mode_type") === "railway"
-                          }
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
+                        {__("Advance mode", "acadlix")}
+                      </h3>
+                      <h5
+                        style={{
+                          margin: "5px 0",
+                        }}
+                      >
+                        ({__("Quiz Option will only set as per the exam", "acadlix")})
+                      </h5>
+                    </Box>
+                    <Box
+                      sx={{
+                        textAlign: "center",
+                      }}
+                    >
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          name="advance_mode"
+                          onChange={(e) => {
+                            props?.setValue("meta.advance_mode_type", e.target.value, {
+                              shouldDirty: true,
+                            });
+
+                            setAdvanceModeDefaultSettings();
+                          }}
+                          sx={{
+                            display:
+                              props?.watch("meta.mode") === "advance_mode"
+                                ? ""
+                                : "none",
+                          }}
+                        >
+                          <FormControlLabel
+                            value="advance_panel"
+                            control={<Radio />}
+                            label={__("Advance Panel", "acadlix")}
+                            checked={
+                              props?.watch("meta.advance_mode_type") ===
+                              "advance_panel"
+                            }
+                          />
+                          <FormControlLabel
+                            value="ibps"
+                            control={<Radio />}
+                            label={__("IBPS", "acadlix")}
+                            checked={props?.watch("meta.advance_mode_type") === "ibps"}
+                          />
+                          <FormControlLabel
+                            value="ssc"
+                            control={<Radio />}
+                            label={__("SSC", "acadlix")}
+                            checked={props?.watch("meta.advance_mode_type") === "ssc"}
+                          />
+                          <FormControlLabel
+                            value="gate"
+                            control={<Radio />}
+                            label={__("GATE", "acadlix")}
+                            checked={props?.watch("meta.advance_mode_type") === "gate"}
+                          />
+                          <FormControlLabel
+                            value="sbi"
+                            control={<Radio />}
+                            label={__("SBI", "acadlix")}
+                            checked={props?.watch("meta.advance_mode_type") === "sbi"}
+                          />
+                          <FormControlLabel
+                            value="jee"
+                            control={<Radio />}
+                            label={__("JEE", "acadlix")}
+                            checked={props?.watch("meta.advance_mode_type") === "jee"}
+                          />
+                          <FormControlLabel
+                            value="railway"
+                            control={<Radio />}
+                            label={__("Railway", "acadlix")}
+                            checked={
+                              props?.watch("meta.advance_mode_type") === "railway"
+                            }
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            }
           </Grid>
         </CardContent>
       </Card>

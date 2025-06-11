@@ -5,7 +5,7 @@ namespace Yuvayana\Acadlix {
         exit;
     }
 
-    final class Acadlix
+    final class Acadlix extends \AcadlixAbstract
     {
 
         private static $_instance = null;
@@ -34,6 +34,7 @@ namespace Yuvayana\Acadlix {
         {
             $this->constant();
             $this->includes();
+            $this->preLoad();
             $this->load();
         }
 
@@ -79,11 +80,18 @@ namespace Yuvayana\Acadlix {
                 }
             }
 
+            $this->loadVersion();
+
         }
 
         private function loadVersion()
         {
+            $this->pro = false;
+            $this->versionPath = 'Pro';
+        }
 
+        private function preLoad(){
+            $this->license = new \Yuvayana\Acadlix\Admin\License();
         }
 
         private function load()

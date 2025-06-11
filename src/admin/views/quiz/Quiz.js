@@ -177,7 +177,7 @@ const Quiz = () => {
               </Tooltip>
             }
             {
-              hasCapability("acadlix_show_paragraph") &&
+              hasCapability("acadlix_show_paragraph") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
               <Tooltip title={__("Paragraphs", "acadlix")} arrow>
                 <IconButton
                   aria-label="paragraphs"
@@ -219,7 +219,7 @@ const Quiz = () => {
               </Tooltip>
             }
             {params?.row?.mode === "advance_mode" &&
-              hasCapability("acadlix_subject_wise_action_quiz") &&
+              hasCapability("acadlix_subject_wise_action_quiz") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
               (
                 <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
                   <IconButton
@@ -367,14 +367,17 @@ const Quiz = () => {
           <CategoryModel {...methods} handleClose={handleClose} />
         </BootstrapDialog>
       )}
-      <BootstrapDialog
-        open={methods?.watch("subject_model")}
-        onClose={handleSubjectTimeClose}
-        aria-labelledby="alert-subject-title"
-        aria-describedby="alert-subject-description"
-      >
-        <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
-      </BootstrapDialog>
+      {
+        acadlixOptions?.isPro && acadlixOptions?.isActive &&
+        <BootstrapDialog
+          open={methods?.watch("subject_model")}
+          onClose={handleSubjectTimeClose}
+          aria-labelledby="alert-subject-title"
+          aria-describedby="alert-subject-description"
+        >
+          <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
+        </BootstrapDialog>
+      }
       <Grid
         container
         rowSpacing={3}

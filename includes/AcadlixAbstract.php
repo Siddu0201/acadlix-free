@@ -5,6 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class AcadlixAbstract {
-
-
+	public $license = null;
+	
 }

@@ -140,7 +140,7 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_subject_by_quiz_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_pro_permission'],
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -159,7 +159,7 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_quiz_subject'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_pro_permission'],
                     'args' => array(),
                 ],
             ]
@@ -996,6 +996,18 @@ class AdminQuizController
     }
     public function check_permission()
     {
+        return true;
+    }
+
+    public function check_pro_permission()
+    {
+        if (!acadlix()->pro || !acadlix()->license->isActive) {
+            return new WP_Error(
+                'permission_denied',
+                __('Permission denied.', 'acadlix'),
+                ['status' => 403]
+            );
+        }
         return true;
     }
 }

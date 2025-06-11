@@ -353,7 +353,11 @@ const Question = () => {
                       <IoMdRefresh />
                     </Button>
                   </Tooltip>
-                  {acadlixOptions?.is_abqu_active && hasCapability("acadlix_import_question") && (
+                  {acadlixOptions?.is_abqu_active && 
+                    hasCapability("acadlix_import_question") && 
+                    acadlixOptions?.isPro && 
+                    acadlixOptions?.isActive && 
+                    (
                     <Button
                       variant="contained"
                       LinkComponent="a"

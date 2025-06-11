@@ -2,9 +2,6 @@
 
 namespace Yuvayana\Acadlix\Submenu;
 
-use IdeoLogix\DigitalLicenseManagerClient\Service;
-use IdeoLogix\DigitalLicenseManagerUpdaterWP\Main;
-
 defined('ABSPATH') || exit();
 
 class Submenu_Tools
@@ -51,8 +48,8 @@ class Submenu_Tools
 
     public function tool_callback()
     {
-        $this->updater->getActivator()->renderActivationForm();
-        // echo '<div id="acadlix-admin-tool"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
+        // $this->updater->getActivator()->renderActivationForm();
+        echo '<div id="acadlix-admin-tool"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

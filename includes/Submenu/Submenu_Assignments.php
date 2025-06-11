@@ -25,6 +25,9 @@ class Submenu_Assignments
     
     public function add_submenu()
     {
+        if(!acadlix()->pro || !acadlix()->license->isActive){
+            return;
+        }
         $page = add_submenu_page(
             $this->_options['parent_slug'],
             $this->_options['page_title'],
@@ -56,6 +59,8 @@ class Submenu_Assignments
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,
+            'isPro' => acadlix()->pro,
+            'isActive' => acadlix()->license->isActive,
         ));
         wp_set_script_translations('acadlix-admin-assignment', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

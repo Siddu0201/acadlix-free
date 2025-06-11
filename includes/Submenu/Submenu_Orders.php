@@ -59,7 +59,9 @@ class Submenu_Orders
             'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
             'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
             'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
-            'capabilities' => $capabilities
+            'capabilities' => $capabilities,
+            'isPro' => acadlix()->pro,
+            'isActive' => acadlix()->license->isActive,
         ));
         wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

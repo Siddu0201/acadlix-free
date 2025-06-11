@@ -129,6 +129,13 @@ class AICommonController
 
     public function check_permission()
     {
+        if (!acadlix()->pro || !acadlix()->license->isActive) {
+            return new WP_Error(
+                'permission_denied',
+                __('Permission denied.', 'acadlix'),
+                ['status' => 403]
+            );
+        }
         return true;
     }
 }

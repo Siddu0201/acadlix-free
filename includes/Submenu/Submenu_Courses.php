@@ -63,6 +63,8 @@ class Submenu_Courses
                 'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
                 'user_id' => get_current_user_id(),
                 'capabilities' => $capabilities,
+                'isPro' => acadlix()->pro,
+                'isActive' => acadlix()->license->isActive,
             ));
 
             wp_set_script_translations('acadlix-admin-course', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');

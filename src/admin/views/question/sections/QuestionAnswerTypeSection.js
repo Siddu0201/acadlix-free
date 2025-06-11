@@ -68,16 +68,24 @@ const QuestionAnswerTypeSection = (props) => {
               control={<Radio />}
               label={__("Fill in the Blank", "acadlix")}
             />
-            <FormControlLabel
-              value="numerical"
-              control={<Radio />}
-              label={__("Numerical", "acadlix")}
-            />
-            <FormControlLabel
-              value="rangeType"
-              control={<Radio />}
-              label={__("Range Type", "acadlix")}
-            />
+            {
+              acadlixOptions?.isPro && acadlixOptions?.isActive && (
+                <FormControlLabel
+                  value="numerical"
+                  control={<Radio />}
+                  label={__("Numerical", "acadlix")}
+                />
+              )
+            }
+            {
+              acadlixOptions?.isPro && acadlixOptions?.isActive && (
+                <FormControlLabel
+                  value="rangeType"
+                  control={<Radio />}
+                  label={__("Range Type", "acadlix")}
+                />
+              )
+            }
           </RadioGroup>
         </CardContent>
       </Card>
