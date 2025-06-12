@@ -86,43 +86,23 @@ namespace Yuvayana\Acadlix {
 
         private function loadVersion()
         {
-            $this->pro = false;
-            $this->versionPath = 'Pro';
+            $proDir = is_dir(ACADLIX_INCLUDES_PATH . 'Pro');
+            
+            $this->pro = $proDir;
+            $this->versionPath = $proDir ? 'Pro' : 'Free';
         }
 
         private function preLoad(){
-            $this->license = new \Yuvayana\Acadlix\Admin\License();
+            $this->license = $this->pro ? new Pro\Admin\License() : null;
         }
 
         private function load()
         {
-            // Activator
-            // Custom post type
-            new CPT\Course();
-            new CPT\CourseSection();
-            new CPT\CourseSectionContent();
-            new CPT\Lesson();
-            new CPT\Paragraph();
-            new CPT\Quiz();
-            new CPT\Assignment();
-            
-            new Assets\Manager();
-            
-            new Admin\Activator();
-            new Admin\Menu();
-            new Admin\Ajax();
-            new Admin\Core();
-            new Admin\Option();
-
-            new Controller\AdvanceQuizController();
-            new Controller\AllCourseController();
-            new Controller\CartController();
-            new Controller\CheckoutController();
-            new Controller\DashboardController();
-            new Controller\SingleCourseController();
-            new Controller\ThankyouController();
-
-            new REST\Api();
+            $this->cpt = new Common\CPT\CPT();
+            $this->assets = new Common\Assets\Assets();
+            $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
+            $this->controller = new Common\Controller\Controller();
+            $this->api = new Common\REST\Api();
         }
     }
 }

@@ -16,6 +16,6 @@
 
 // acadlix_load_all_classes();
 
-use Yuvayana\Acadlix\Models\Database;
+use Yuvayana\Acadlix\Common\Models\Database;
 
 new Database();

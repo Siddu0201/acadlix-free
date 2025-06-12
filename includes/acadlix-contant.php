@@ -5,10 +5,8 @@ if (!function_exists('get_plugin_data')) {
 }
 
 //version
-// define('ACADLIX_VERSION', $plugin_data['Version']);
 define('ACADLIX_VERSION', '0.0.1');
 
-// define('ACADLIX_TEXT_DOMAIN', $plugin_data['TextDomain']);
 define('ACADLIX_TEXT_DOMAIN', 'acadlix');
 
 define('ACADLIX_SLUG', 'acadlix');
@@ -17,7 +15,7 @@ define('ACADLIX_PLUGIN_DIR', plugin_dir_path(ACADLIX_PLUGIN_FILE));
 define( 'ACADLIX_PLUGIN_BASENAME', plugin_basename( ACADLIX_PLUGIN_FILE ) );
 define( 'ACADLIX_PLUGIN_FOLDER_NAME', str_replace( array( '/', basename( ACADLIX_PLUGIN_FILE ) ), '', ACADLIX_PLUGIN_BASENAME ) );
 define('ACADLIX_INCLUDES_PATH', ACADLIX_PLUGIN_DIR . 'includes/');
-define('ACADLIX_VIEW_PATH', ACADLIX_PLUGIN_DIR . 'includes/View');
+define('ACADLIX_VIEW_PATH', ACADLIX_INCLUDES_PATH . 'Common/View');
 define('ACADLIX_TEMPLATE_PATH', ACADLIX_PLUGIN_DIR . 'templates/');
 define('ACADLIX_PLUGIN_URL', trailingslashit(plugins_url('', ACADLIX_PLUGIN_FILE)));
 define('ACADLIX_BUILD_URL', ACADLIX_PLUGIN_URL . 'build/');

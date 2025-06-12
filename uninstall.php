@@ -1,6 +1,6 @@
 <?php
 
-use Yuvayana\Acadlix\Admin\Activator;
+// use Yuvayana\Acadlix\Common\Admin\Activator;
 /**
  * Uninstall Acadlix
  *
@@ -16,4 +16,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once 'acadlix.php';
 
 // Uninstall.
-Activator::uninstall();
+// Activator::uninstall();

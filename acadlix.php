@@ -28,6 +28,6 @@ if(function_exists('acadlix')){
     return;
 }
 
-require_once dirname( __FILE__ ) .'/includes/AcadlixAbstract.php';
-require_once dirname( __FILE__ ) .'/includes/Acadlix.php';
+require_once ACADLIX_INCLUDES_PATH .'/AcadlixAbstract.php';
+require_once ACADLIX_INCLUDES_PATH .'/Acadlix.php';
 acadlix();
