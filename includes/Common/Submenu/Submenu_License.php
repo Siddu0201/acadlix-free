@@ -47,8 +47,6 @@ class Submenu_License
 
     public function license_callback()
     {
-        $token = acadlix()->license->updater->getConfiguration()->getEntity()->getActivationToken();
-        Helper::instance()->acadlix_ddd(acadlix()->license->updater->getConfiguration()->getClient()->getLicenseCacheKey( $token ));
         echo '<div class="wrap">';
         echo '<div class="acadlix-form-group">';
         acadlix()->license->updater->getActivator()->renderActivationForm();

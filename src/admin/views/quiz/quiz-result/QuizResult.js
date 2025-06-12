@@ -109,7 +109,7 @@ const QuizResult = () => {
       renderCell: (params) => (
         <Box>
           {
-            hasCapability("acadlix_show_answersheet") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
+            hasCapability("acadlix_show_answersheet") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
             <Tooltip title={__("View Answersheet", "acadlix")}>
               <IconButton
                 aria-label="expand"

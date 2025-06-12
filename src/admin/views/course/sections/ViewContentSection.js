@@ -401,7 +401,7 @@ const SortableSections = (props) => {
             }}
           >
             {
-              acadlixOptions?.isPro && acadlixOptions?.isActive &&
+              process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
               <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
                 <IconButton onClick={handleTooglePreview}>
                   {

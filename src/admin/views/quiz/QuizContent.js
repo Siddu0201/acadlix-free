@@ -186,7 +186,7 @@ const QuizContent = (props) => {
   });
 
   // console?.log(props?.quiz);
-  console?.log(methods?.watch("meta.quiz_settings"));
+  console?.log(methods?.watch("languages"));
 
   const navigate = useNavigate();
   const createMutation = PostCreateQuiz();

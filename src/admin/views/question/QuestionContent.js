@@ -311,7 +311,7 @@ const QuestionContent = (props) => {
         );
       case "numerical":
         return (
-          acadlixOptions?.isPro && acadlixOptions?.isActive && (
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
             <Numerical
               {...methods}
               index={index}
@@ -324,7 +324,7 @@ const QuestionContent = (props) => {
         );
       case "rangeType":
         return (
-          acadlixOptions?.isPro && acadlixOptions?.isActive && (
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
             <RangeType
               {...methods}
               index={index}
@@ -412,7 +412,7 @@ const QuestionContent = (props) => {
           <GeneralOptionSection {...methods} {...props} />
 
           {
-            acadlixOptions?.isPro && acadlixOptions?.isActive &&
+            process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
             <QuestionParagraphSection {...methods} {...props} />
           }
 

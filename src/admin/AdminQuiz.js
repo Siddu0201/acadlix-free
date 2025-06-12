@@ -63,7 +63,7 @@ const AdminQuiz = () => {
                   <Route index element={<QuizResult />} />
                 }
                 {
-                  hasCapability("acadlix_show_answersheet") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                  hasCapability("acadlix_show_answersheet") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
                   <Route
                     path=":statistic_ref_id"
                     element={<QuizResultAnswerSheet />}
@@ -77,7 +77,7 @@ const AdminQuiz = () => {
                 }
               </Route>
               {
-                acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
                 <Route path=":quiz_id/paragraph">
                   {
                     hasCapability("acadlix_show_paragraph") &&

@@ -456,7 +456,7 @@ const ContentSection = (props) => {
   return (
     <>
       {
-        acadlixOptions?.isPro && acadlixOptions?.isActive &&
+        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
         <Grid size={{ xs: 12, sm: 12 }}>
           <AiDescription
             title={props?.watch("title") ?? ""}

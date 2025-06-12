@@ -112,7 +112,7 @@ const General = (props) => {
           </Grid>
         </Grid>
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography

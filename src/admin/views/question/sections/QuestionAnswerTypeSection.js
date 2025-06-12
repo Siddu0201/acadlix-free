@@ -69,7 +69,7 @@ const QuestionAnswerTypeSection = (props) => {
               label={__("Fill in the Blank", "acadlix")}
             />
             {
-              acadlixOptions?.isPro && acadlixOptions?.isActive && (
+              process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
                 <FormControlLabel
                   value="numerical"
                   control={<Radio />}
@@ -78,7 +78,7 @@ const QuestionAnswerTypeSection = (props) => {
               )
             }
             {
-              acadlixOptions?.isPro && acadlixOptions?.isActive && (
+              process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
                 <FormControlLabel
                   value="rangeType"
                   control={<Radio />}

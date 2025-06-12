@@ -355,7 +355,7 @@ const Question = () => {
                   </Tooltip>
                   {acadlixOptions?.is_abqu_active && 
                     hasCapability("acadlix_import_question") && 
-                    acadlixOptions?.isPro && 
+                    process.env.REACT_APP_IS_PREMIUM === 'true' && 
                     acadlixOptions?.isActive && 
                     (
                     <Button

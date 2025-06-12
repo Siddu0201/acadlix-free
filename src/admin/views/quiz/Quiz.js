@@ -177,7 +177,7 @@ const Quiz = () => {
               </Tooltip>
             }
             {
-              hasCapability("acadlix_show_paragraph") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
+              hasCapability("acadlix_show_paragraph") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
               <Tooltip title={__("Paragraphs", "acadlix")} arrow>
                 <IconButton
                   aria-label="paragraphs"
@@ -219,7 +219,7 @@ const Quiz = () => {
               </Tooltip>
             }
             {params?.row?.mode === "advance_mode" &&
-              hasCapability("acadlix_subject_wise_action_quiz") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
+              hasCapability("acadlix_subject_wise_action_quiz") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
               (
                 <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
                   <IconButton
@@ -368,7 +368,7 @@ const Quiz = () => {
         </BootstrapDialog>
       )}
       {
-        acadlixOptions?.isPro && acadlixOptions?.isActive &&
+        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
         <BootstrapDialog
           open={methods?.watch("subject_model")}
           onClose={handleSubjectTimeClose}

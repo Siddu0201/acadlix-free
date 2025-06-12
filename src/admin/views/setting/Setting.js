@@ -11,7 +11,6 @@ import Grid from '@mui/material/Grid2';
 import General from "./section/General";
 import Payment from "./section/Payment";
 import Notification from "./section/Notification";
-import License from "./section/License";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Permalink from "./section/Permalink";
 import { useForm } from "react-hook-form";
@@ -21,7 +20,8 @@ import QuizSettings from "./section/QuizSettings";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
 
-function Setting() {
+const Setting = () => {
+  // console.log(process?.env);
   const getTabNumber = () => {
     switch (true) {
       case hasCapability('acadlix_show_general_setting'):

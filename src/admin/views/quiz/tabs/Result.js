@@ -234,7 +234,7 @@ const Result = (props) => {
 
         {/* Its an average speed per question - total_time_taken/question  */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
@@ -265,7 +265,7 @@ const Result = (props) => {
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
@@ -297,7 +297,7 @@ const Result = (props) => {
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
@@ -354,7 +354,7 @@ const Result = (props) => {
 
         {/* Used to show subject wise analysis of quiz  */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
@@ -392,7 +392,7 @@ const Result = (props) => {
           On check - Minimum % to pass option will open
            */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Status Based On Min % (Pass/Fail)", "acadlix")}</CustomTypography>
@@ -462,7 +462,7 @@ const Result = (props) => {
 
       {/* Start of Answer Sheet options */}
       {
-        acadlixOptions?.isPro && acadlixOptions?.isActive &&
+        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
         <>
           <Box
             sx={{
@@ -626,7 +626,7 @@ const Result = (props) => {
 
         {/* Used to show rank  */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
@@ -650,7 +650,7 @@ const Result = (props) => {
         }
         {/* Option for Result Comparison with topper    */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
@@ -838,7 +838,7 @@ const Result = (props) => {
             - show simple text or based on %
           */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>

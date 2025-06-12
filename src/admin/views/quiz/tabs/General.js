@@ -111,7 +111,7 @@ const General = (props) => {
         </GridItem1>
 
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Clear Response Button", "acadlix")}</CustomTypography>
@@ -162,7 +162,7 @@ const General = (props) => {
           - per question time
         */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Quiz Time Type", "acadlix")}</CustomTypography>
@@ -252,7 +252,7 @@ const General = (props) => {
 
         {/* Quiz start date */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Start date", "acadlix")}</CustomTypography>
@@ -307,7 +307,7 @@ const General = (props) => {
 
         {/* Quiz End Date */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("End date", "acadlix")}</CustomTypography>
@@ -402,7 +402,7 @@ const General = (props) => {
 
         {/* Per user allowed attempt to attent the quiz */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Per User Allowed Attempt", "acadlix")}</CustomTypography>
@@ -447,7 +447,7 @@ const General = (props) => {
         }
         {/* Quiz prerequisite */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Enable Prerequisite", "acadlix")}</CustomTypography>
@@ -472,7 +472,7 @@ const General = (props) => {
         }
         <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
         {
-          props?.watch("meta.quiz_settings.enable_prerequisite") && acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          props?.watch("meta.quiz_settings.enable_prerequisite") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Select Prerequisite", "acadlix")}</CustomTypography>
@@ -565,7 +565,7 @@ const General = (props) => {
 
       {/* Advance Options */}
       {
-        acadlixOptions?.isPro && acadlixOptions?.isActive &&
+        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
         <>
           <Box
             sx={{

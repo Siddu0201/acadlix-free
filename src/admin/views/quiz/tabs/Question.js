@@ -216,7 +216,7 @@ const Question = (props) => {
 
         {/* Used to stop randomization of last option */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
@@ -289,7 +289,7 @@ const Question = (props) => {
 
         {/* Attempt question and move forward automatically- only for single choice */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
@@ -330,7 +330,7 @@ const Question = (props) => {
 
         {/* Force user to answer each question */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>

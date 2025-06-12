@@ -18,8 +18,6 @@ namespace Yuvayana\Acadlix {
 
         public $isDev = false;
 
-        public $course_post_type = ACADLIX_COURSE_CPT;
-
         public static function instance()
         {
             if (is_null(self::$_instance)) {

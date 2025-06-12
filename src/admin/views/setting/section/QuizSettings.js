@@ -47,7 +47,7 @@ const QuizSettings = (props) => {
     return (
         <Box sx={{ color: "black" }}>
             <CategorySettings methods={methods} />
-            <LanguageSettings methods={methods} />
+            {/* <LanguageSettings methods={methods} /> */}
         </Box>
     )
 }

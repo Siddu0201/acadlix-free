@@ -61,7 +61,7 @@ const TitleDescriptionSection = (props) => {
 
               {/* handle Ai for generating description */}
               {
-                acadlixOptions?.isPro && acadlixOptions?.isActive &&
+                process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
                 <AiDescription
                   title={props?.watch("post_title") ?? ""}
                   description={props?.watch("post_content") ?? ""}

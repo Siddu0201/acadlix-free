@@ -1,18 +1,15 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Admin;
-use IdeoLogix\DigitalLicenseManagerUpdaterWP\Main;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Categories;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Lessons;
-use Yuvayana\Acadlix\Common\Submenu\Submenu_License;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Orders;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Quiz;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Assignments;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Settings;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Tags;
-use Yuvayana\Acadlix\Common\Submenu\Submenu_Tools;
 
 defined('ABSPATH') || exit();
 
@@ -54,8 +51,6 @@ class Menu
         Submenu_Categories::instance()->add_submenu();
         Submenu_Tags::instance()->add_submenu();
         Submenu_Settings::instance()->add_submenu();
-        // Submenu_Tools::instance()->add_submenu();
-        Submenu_License::instance()->add_submenu();
     }
 
 

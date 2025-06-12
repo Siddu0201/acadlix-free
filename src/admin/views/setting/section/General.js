@@ -158,7 +158,7 @@ function General(props) {
 
         {/* Advance Quiz Page Setting  */}
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
           <>
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <Typography

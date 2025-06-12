@@ -25,7 +25,7 @@ const CourseAi = () => {
     return (
         <>
         {
-          acadlixOptions?.isPro && acadlixOptions?.isActive &&
+          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
             <AiDescription
                 title={title}
                 description=""

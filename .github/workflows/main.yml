@@ -23,7 +23,7 @@ jobs:
         working-directory: ./
 
       - name: Build React app
-        run: npm run build
+        run: npm run build:free
         working-directory: ./
 
       - name: Set up PHP
