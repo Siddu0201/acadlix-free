@@ -96,13 +96,13 @@ namespace Yuvayana\Acadlix {
 
         private function load()
         {
-            $this->migration = new Common\Migrations\Migration();
-            $this->seeder = new Common\Seeder\Seeder();
-            $this->cpt = new Common\CPT\CPT();
-            $this->assets = new Common\Assets\Assets();
+            $this->migration = $this->pro  ? new Pro\Migrations\Migration() : new Common\Migrations\Migration();
+            $this->seeder = $this->pro ? new Pro\Seeder\Seeder() : new Common\Seeder\Seeder();
+            $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();
+            $this->assets = $this->pro ? new Pro\Assets\Assets() : new Common\Assets\Assets();
             $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
-            $this->controller = new Common\Controller\Controller();
-            $this->api = new Common\REST\Api();
+            $this->controller = $this->pro ? new Pro\Controller\Controller() : new Common\Controller\Controller();
+            $this->api = $this->pro ? new Pro\REST\Api() : new Common\REST\Api();
         }
     }
 }

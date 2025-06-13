@@ -23,13 +23,32 @@ if (!class_exists("Admin")) {
 
         public function __construct()
         {
-            $this->activator = new Activator();
-            $this->ajax = new Ajax();
-            $this->core = new Core();
-            $this->option = new Option();
-            $this->userRole = new UserRole();
-            
+            $this->activator = $this->init_activator();
+            $this->ajax = $this->init_ajax();
+            $this->core = $this->init_core();
+            $this->option = $this->init_option();
+            $this->userRole = $this->init_user_role();
             $this->menu = $this->init_menu();
+        }
+
+        public function init_activator(){
+            return new Activator();
+        }
+
+        public function init_ajax(){
+            return new Ajax();
+        }
+
+        public function init_core(){
+            return new Core();
+        }
+
+        public function init_option(){
+            return new Option();
+        }
+
+        public function init_user_role(){
+            return new UserRole();
         }
 
         public function init_menu(){
