@@ -16,6 +16,7 @@ class Activator
     {
         if (!is_admin())
             return;
+        
         register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
@@ -25,14 +26,29 @@ class Activator
 
     public function activate()
     {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        if(acadlix()->pro){
+            if(is_plugin_active('acadlix/acadlix.php')){
+                // disable this plugin
+                deactivate_plugins('acadlix/acadlix.php');
+
+                error_log('Acadlix Free is active');
+            }
+        }else{
+            if(is_plugin_active('acadlix-pro/acadlix.php')){
+                // disable this plugin
+                deactivate_plugins('acadlix-pro/acadlix.php');
+                error_log('Acadlix Pro is active');
+            }
+        }
         // Add table
-        Migration::createTable();
+        acadlix()->migration->createTable();
         // Add default data
-        Seeder::seed();
+        acadlix()->seeder->seed();
         // Add options
-        Option::createOption();
+        acadlix()->admin->option->createOption();
         // Add capabilities
-        UserRole::addCapabilities();
+        acadlix()->admin->userRole->addCapabilities();
         
     }
 
@@ -41,20 +57,20 @@ class Activator
         // Migration::removeTable();
     }
 
-    public static function uninstall()
+    public function uninstall()
     {
         $delete_data = Helper::instance()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
 
         if($delete_data == "no")
             return;
         // remove post data related to acadlix
-        Core::acadlix_delete_post_type_data();
+        acadlix()->admin->core->acadlix_delete_post_type_data();
         // remove table
-        Migration::removeTable();
+        acadlix()->migration->removeTable();
         // remove options
-        Option::removeOption();
+        acadlix()->admin->option->removeOption();
         // remove capabilities
-        UserRole::removeCapabilities();
+        acadlix()->admin->userRole->removeCapabilities();
     }
 
     public function acadlix_load_textdomain()

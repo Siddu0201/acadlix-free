@@ -21,7 +21,6 @@ class Menu
     {
         if(!is_admin(  )) return;
         
-
         add_action("admin_menu", [$this, 'init_admin_menu']);
         add_filter('parent_file', [$this, 'acadlix_set_active_menu_class']);
         add_action('admin_menu', [$this, 'modify_admin_menu_title'], 999);

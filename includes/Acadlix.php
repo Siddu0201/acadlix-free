@@ -91,11 +91,13 @@ namespace Yuvayana\Acadlix {
         }
 
         private function preLoad(){
-            $this->license = $this->pro ? new Pro\Admin\License() : null;
+            $this->license = $this->pro ? new Pro\License\License() : null;
         }
 
         private function load()
         {
+            $this->migration = new Common\Migrations\Migration();
+            $this->seeder = new Common\Seeder\Seeder();
             $this->cpt = new Common\CPT\CPT();
             $this->assets = new Common\Assets\Assets();
             $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
