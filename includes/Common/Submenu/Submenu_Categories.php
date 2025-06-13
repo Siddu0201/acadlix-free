@@ -19,8 +19,12 @@ class Submenu_Categories
             'capability' => 'acadlix_manage_course_categories',
             'menu_slug' => 'edit-tags.php?taxonomy=' . ACADLIX_COURSE_CATEGORY_TAXONOMY,
             'callback' => '',
-            'position' => 20
+            'position' => 500
         ];
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()

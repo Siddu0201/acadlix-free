@@ -21,8 +21,12 @@ class Submenu_Lessons
             'capability' => 'acadlix_show_lesson',
             'menu_slug' => 'acadlix_lesson',
             'callback' => [$this, 'lesson_callback'],
-            'position' => 40
+            'position' => 800
         ];
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()

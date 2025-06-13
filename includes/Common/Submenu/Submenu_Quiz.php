@@ -21,8 +21,12 @@ class Submenu_Quiz
             'capability' => 'acadlix_show_quiz',
             'menu_slug' => 'acadlix_quiz',
             'callback' => [$this, 'quiz_callback'],
-            'position' => 40
+            'position' => 700
         ];
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()

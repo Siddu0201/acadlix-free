@@ -21,8 +21,12 @@ class Submenu_Orders
             'capability' => 'acadlix_show_order',
             'menu_slug' => 'acadlix_order',
             'callback' => [$this, 'order_callback'],
-            'position' => 40
+            'position' => 600
         ];
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()

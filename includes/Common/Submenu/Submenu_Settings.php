@@ -22,8 +22,12 @@ class Submenu_Settings
             'capability' => 'acadlix_show_setting',
             'menu_slug' => 'acadlix_setting',
             'callback' => [$this, 'setting_callback'],
-            'position' => 40
+            'position' => 300
         ];
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()

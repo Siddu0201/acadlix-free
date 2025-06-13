@@ -21,9 +21,13 @@ class Submenu_Courses
             'capability' => 'edit_acadlix_courses',
             'menu_slug' => 'edit.php?post_type=' . ACADLIX_COURSE_CPT,
             'callback' => '',
-            'position' => 999
+            'position' => 900
         ];
         add_action('admin_enqueue_scripts', [$this, 'admin_print_scripts']);
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()

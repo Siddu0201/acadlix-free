@@ -21,8 +21,12 @@ class Submenu_Home
             'menu_slug' => ACADLIX_SLUG,
             'callback' => [$this, 'home_callback'],
             'dashicon' => '',
-            'position' => 50
+            'position' => 999
         ];
+    }
+
+    public function get_position(){
+        return $this->_options['position'];
     }
 
     public function add_submenu()
