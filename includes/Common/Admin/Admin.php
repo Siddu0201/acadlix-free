@@ -24,11 +24,16 @@ if (!class_exists("Admin")) {
         public function __construct()
         {
             $this->activator = new Activator();
-            $this->menu = new Menu();
             $this->ajax = new Ajax();
             $this->core = new Core();
             $this->option = new Option();
             $this->userRole = new UserRole();
+            
+            $this->menu = $this->init_menu();
+        }
+
+        public function init_menu(){
+            return new Menu();
         }
 
 
