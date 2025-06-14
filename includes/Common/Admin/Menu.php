@@ -50,7 +50,7 @@ class Menu
 
     public function init_admin_menu()
     {
-        $submenus = apply_filters('acadlix_admin_submenus', $this->submenus);
+        $submenus = apply_filters('acadlix_admin_submenus', $this->_submenus);
 
         usort($submenus, fn($a, $b) => $b->get_position() <=> $a->get_position());
         foreach ($submenus as $submenu) {
