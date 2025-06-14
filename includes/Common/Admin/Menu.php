@@ -15,7 +15,7 @@ defined('ABSPATH') || exit();
 class Menu
 {
     private static $_instance = null;
-    protected array $submenus = [];
+    protected array $_submenus = [];
 
     public function __construct()
     {
@@ -33,11 +33,6 @@ class Menu
         $this->submenu_categories();
         $this->submenu_tags();
         $this->submenu_settings();
-    }
-
-    public function add($submenu): self {
-        $this->submenus[] = $submenu;
-        return $this;
     }
 
     public function modify_admin_menu_title()
@@ -72,51 +67,51 @@ class Menu
     }
 
     public function submenu_home(){
-        $submenu = Submenu_Home::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Home();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_courses(){
-        $submenu = Submenu_Courses::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Courses();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_lessons(){
-        $submenu = Submenu_Lessons::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Lessons();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_quiz(){
-        $submenu = Submenu_Quiz::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Quiz();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_orders(){
-        $submenu = Submenu_Orders::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Orders();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_categories(){
-        $submenu = Submenu_Categories::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Categories();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_tags(){
-        $submenu = Submenu_Tags::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Tags();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
     public function submenu_settings(){
-        $submenu = Submenu_Settings::instance();
-        $this->add($submenu);
-        return $submenu;
+        $instance = new Submenu_Settings();
+        $this->_submenus[] = $instance;
+        return $instance;
     }
 
 

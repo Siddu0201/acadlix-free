@@ -3,74 +3,159 @@
 namespace Yuvayana\Acadlix\Common\Migrations;
 
 use Illuminate\Database\Capsule\Manager;
-use Yuvayana\Acadlix\Common\Migrations\SubjectMigration;
-use Yuvayana\Acadlix\Common\Migrations\SubjectTimeMigration;
-use Yuvayana\Acadlix\Common\Migrations\TemplateMigration;
-use Yuvayana\Acadlix\Common\Migrations\QuestionMigration;
-use Yuvayana\Acadlix\Common\Migrations\QuestionLangMigration;
-use Yuvayana\Acadlix\Common\Migrations\PrerequisiteMigration;
-use Yuvayana\Acadlix\Common\Migrations\StatisticRefMigration;
-use Yuvayana\Acadlix\Common\Migrations\StatisticMigration;
-use Yuvayana\Acadlix\Common\Migrations\ToplistMigration;
-use Yuvayana\Acadlix\Common\Migrations\CourseCartMigration;
-use Yuvayana\Acadlix\Common\Migrations\OrderMigration;
-use Yuvayana\Acadlix\Common\Migrations\OrderItemMigration;
-use Yuvayana\Acadlix\Common\Migrations\OrderMetaMigration;
-use Yuvayana\Acadlix\Common\Migrations\CourseStatisticMigration;
-use Yuvayana\Acadlix\Common\Migrations\UserActivityMetaMigration;
-use Yuvayana\Acadlix\Common\Migrations\QuizShortcodeMigration;
-use Yuvayana\Acadlix\Common\Migrations\AssignmentUserStatsMigration;
-use Yuvayana\Acadlix\Common\Migrations\AssignmentSubmissionsMigration;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
-if(!class_exists('Migration')){
-    class Migration 
-    {   
-        protected static $_tables = [
-            SubjectMigration::class,
-            SubjectTimeMigration::class,
-            TemplateMigration::class,
-            QuestionMigration::class,
-            QuestionLangMigration::class,
-            StatisticRefMigration::class,
-            StatisticMigration::class,
-            ToplistMigration::class,
-            PrerequisiteMigration::class,
-            CourseCartMigration::class,
-            OrderMigration::class,
-            OrderItemMigration::class,
-            OrderMetaMigration::class,
-            CourseStatisticMigration::class,
-            UserActivityMetaMigration::class,
-            QuizShortcodeMigration::class,
-            AssignmentUserStatsMigration::class,
-            AssignmentSubmissionsMigration::class
-        ];
-    
-        public static function createTable()
+if (!class_exists('Migration')) {
+    class Migration
+    {
+        protected array $_migrations = [];
+
+        public function __construct()
         {
-            foreach(self::$_tables as $table_class){
-                if(method_exists($table_class, 'up')){
-                    $table = new $table_class();
-                    $table->up();
-                }
+            $this->subject();
+            $this->subjectTime();
+            $this->template();
+            $this->question();
+            $this->questionLang();
+            $this->statisticRef();
+            $this->statistic();
+            $this->toplist();
+            $this->prerequisite();
+            $this->courseCart();
+            $this->order();
+            $this->orderItem();
+            $this->orderMeta();
+            $this->courseStatistic();
+            $this->userActivityMeta();
+            $this->quizShortcode();
+        }
 
-                if(method_exists($table_class, 'update')){
-                    $table = new $table_class();
-                    $table->update();
-                }
+        public function subject()
+        {
+            $instance = new SubjectMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function subjectTime()
+        {
+            $instance = new SubjectTimeMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function template()
+        {
+            $instance = new TemplateMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function question()
+        {
+            $instance = new QuestionMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function questionLang()
+        {
+            $instance = new QuestionLangMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function statisticRef()
+        {
+            $instance = new StatisticRefMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function statistic()
+        {
+            $instance = new StatisticMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function toplist()
+        {
+            $instance = new ToplistMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function prerequisite()
+        {
+            $instance = new PrerequisiteMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function courseCart()
+        {
+            $instance = new CourseCartMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function order()
+        {
+            $instance = new OrderMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function orderItem()
+        {
+            $instance = new OrderItemMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function orderMeta()
+        {
+            $instance = new OrderMetaMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function courseStatistic()
+        {
+            $instance = new CourseStatisticMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function userActivityMeta()
+        {
+            $instance = new UserActivityMetaMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function quizShortcode()
+        {
+            $instance = new QuizShortcodeMigration();
+            $this->_migrations[] = $instance;
+            return $instance;
+        }
+
+        public function createTable()
+        {
+            foreach ($this->_migrations as $migration) {
+                method_exists($migration, 'up') && $migration->up();
+                method_exists($migration, 'update') && $migration->update();
             }
         }
-    
-        public static function removeTable()
+
+        public function removeTable()
         {
             Manager::schema()->disableForeignKeyConstraints();
-            foreach(self::$_tables as $table_class){
-                if(method_exists($table_class, 'down')){
-                    $table = new $table_class();
-                    $table->down();
-                }
+            foreach ($this->_migrations as $migration) {
+                method_exists($migration, 'down') && $migration->down();
             }
             Manager::schema()->enableForeignKeyConstraints();
         }
