@@ -14,7 +14,7 @@ namespace Yuvayana\Acadlix {
 
         public $pro = false;
 
-        public $versionPath = 'Free';
+        public $versionPath = 'Common';
 
         public $isDev = false;
 
@@ -87,7 +87,7 @@ namespace Yuvayana\Acadlix {
             $proDir = is_dir(ACADLIX_INCLUDES_PATH . 'Pro');
             
             $this->pro = $proDir;
-            $this->versionPath = $proDir ? 'Pro' : 'Free';
+            $this->versionPath = $proDir ? 'Pro' : 'Common';
         }
 
         private function preLoad(){

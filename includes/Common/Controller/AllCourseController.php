@@ -21,7 +21,7 @@ if (!class_exists("AllCourseController")) {
         public function template_loader($template)
         {
             if ( is_post_type_archive( ACADLIX_COURSE_CPT ) ){
-                $all_course_template = ACADLIX_VIEW_PATH . '/AllCourseView.php';
+                $all_course_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/AllCourseView.php';
                 if ($all_course_template) {
                     return $all_course_template;
                 }

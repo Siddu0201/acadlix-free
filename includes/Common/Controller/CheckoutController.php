@@ -22,7 +22,7 @@ if (!class_exists("CheckoutController")) {
         {
             $checkout_page_id = Helper::instance()->acadlix_get_option('acadlix_checkout_page_id');
             if ($checkout_page_id && is_page($checkout_page_id)) {
-                $checkout_template = ACADLIX_VIEW_PATH . '/CheckoutView.php';
+                $checkout_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/CheckoutView.php';
                 if ($checkout_template) {
                     return $checkout_template;
                 }
