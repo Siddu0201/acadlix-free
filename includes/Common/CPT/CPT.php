@@ -11,17 +11,15 @@ class CPT {
     protected $courseSection = null;
     protected $courseSectionContent = null;
     protected $lesson = null;
-    protected $paragraph = null;
     protected $quiz = null;
-    protected $assignment = null;
 
     public function __construct() {
         $this->course = new Course();
         $this->courseSection = new CourseSection();
         $this->courseSectionContent = new CourseSectionContent();
         $this->lesson = new Lesson();
-        $this->paragraph = new Paragraph();
         $this->quiz = new Quiz();
+        $this->paragraph = new Paragraph();
         $this->assignment = new Assignment();
     }
 

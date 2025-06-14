@@ -97,7 +97,7 @@ namespace Yuvayana\Acadlix {
         private function load()
         {
             $this->migration = $this->pro  ? new Pro\Migrations\Migration() : new Common\Migrations\Migration();
-            $this->seeder = $this->pro ? new Pro\Seeder\Seeder() : new Common\Seeder\Seeder();
+            $this->seeder = new Common\Seeder\Seeder();
             $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();
             $this->assets = $this->pro ? new Pro\Assets\Assets() : new Common\Assets\Assets();
             $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
