@@ -96,6 +96,7 @@ namespace Yuvayana\Acadlix {
 
         private function load()
         {
+            $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
             $this->migration = $this->pro  ? new Pro\Migrations\Migration() : new Common\Migrations\Migration();
             $this->seeder = new Common\Seeder\Seeder();
             $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();

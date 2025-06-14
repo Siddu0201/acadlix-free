@@ -19,8 +19,6 @@ class CPT {
         $this->courseSectionContent = new CourseSectionContent();
         $this->lesson = new Lesson();
         $this->quiz = new Quiz();
-        $this->paragraph = new Paragraph();
-        $this->assignment = new Assignment();
     }
 
     public static function instance() {
