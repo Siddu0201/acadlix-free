@@ -166,11 +166,6 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
-            'acadlix-admin-assignment-css' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_assignment.css',
-                'version' => ACADLIX_VERSION,
-                'deps' => [],
-            ],
             'acadlix-admin-order-css' => [
                 'src' => ACADLIX_BUILD_URL . 'admin_order.css',
                 'version' => ACADLIX_VERSION,
@@ -228,7 +223,6 @@ class Manager
         $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . 'admin_lesson.asset.php';
         $admin_order_dependency = require_once ACADLIX_BUILD_PATH . 'admin_order.asset.php';
         $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . 'admin_quiz.asset.php';
-        $admin_assignment_dependency = require_once ACADLIX_BUILD_PATH . 'admin_assignment.asset.php';
         $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . 'admin_setting.asset.php';
         $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . 'admin_tool.asset.php';
 
@@ -267,12 +261,6 @@ class Manager
                 'src' => ACADLIX_BUILD_URL . 'admin_lesson.js',
                 'version' => $admin_lesson_dependency['version'],
                 'deps' => $admin_lesson_dependency['dependencies'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-assignment' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_assignment.js',
-                'version' => $admin_assignment_dependency['version'],
-                'deps' => $admin_assignment_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-order' => [
