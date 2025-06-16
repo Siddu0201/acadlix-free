@@ -130,7 +130,7 @@ class Core
             ACADLIX_COURSE_CPT,
             ACADLIX_QUIZ_CPT,
             ACADLIX_LESSON_CPT,
-            ACADLIX_PARAGRAPH_CPT
+            // ACADLIX_PARAGRAPH_CPT
         ];
         foreach ($post_types as $post_type) {
             // Get all post IDs of this post type
@@ -149,18 +149,23 @@ class Core
                         case ACADLIX_LESSON_CPT:
                             Lesson::deleteLesson($post_id);
                             break;
-                        case ACADLIX_PARAGRAPH_CPT:
-                            Paragraph::deleteParagraph($post_id);
-                            break;
+                        // case ACADLIX_PARAGRAPH_CPT:
+                        //     Paragraph::deleteParagraph($post_id);
+                        //     break;
                         default:
                             break;
                     }
                 }
             }
 
-            unregister_post_type( $post_type );
+            unregister_post_type($post_type);
         }
 
+        $this->delete_taxonomy();
+    }
+
+    protected function delete_taxonomy()
+    {
         $taxonomies = [
             ACADLIX_COURSE_CATEGORY_TAXONOMY,
             ACADLIX_COURSE_TAG_TAXONOMY,

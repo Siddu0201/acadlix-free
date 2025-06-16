@@ -29,10 +29,8 @@ class UserRole
         return array_merge(
             $this->course_capabilities(),
             $this->lesson_capabilities(),
-            $this->assignment_capabilities(),
             $this->quiz_capabilities(),
             $this->question_capabilities(),
-            $this->paragraph_capabilities(),
             $this->statistic_capabilities(),
             $this->leaderboard_capabilities(),
             $this->order_capabilities(),
@@ -70,9 +68,6 @@ class UserRole
             'acadlix_add_course_section_quiz' => true,
             'acadlix_edit_course_section_quiz' => true,
             'acadlix_delete_course_section_quiz' => true,
-            'acadlix_add_course_section_assignment' => true,
-            'acadlix_edit_course_section_assignment' => true,
-            'acadlix_delete_course_section_assignment' => true,
         ];
     }
 
@@ -88,18 +83,6 @@ class UserRole
         ];
     }
 
-    public function assignment_capabilities(): array
-    {
-        return [
-            'acadlix_show_assignment' => true,
-            'acadlix_add_assignment' => true,
-            'acadlix_edit_assignment' => true,
-            'acadlix_delete_assignment' => true,
-            'acadlix_bulk_action_assignment' => true,
-            'acadlix_bulk_delete_assignment' => true,
-        ];
-    }
-
     public function quiz_capabilities(): array
     {
         return [
@@ -110,7 +93,6 @@ class UserRole
             'acadlix_bulk_action_quiz' => true,
             'acadlix_bulk_delete_quiz' => true,
             'acadlix_bulk_set_category_quiz' => true,
-            'acadlix_subject_wise_action_quiz' => true,
         ];
     }
 
@@ -124,20 +106,6 @@ class UserRole
             'acadlix_bulk_action_question' => true,
             'acadlix_bulk_delete_question' => true,
             'acadlix_bulk_set_subject_and_point_question' => true,
-            'acadlix_bulk_set_paragraph_question' => true,
-            'acadlix_import_question' => true,
-        ];
-    }
-
-    public function paragraph_capabilities(): array
-    {
-        return [
-            'acadlix_show_paragraph' => true,
-            'acadlix_add_paragraph' => true,
-            'acadlix_edit_paragraph' => true,
-            'acadlix_delete_paragraph' => true,
-            'acadlix_bulk_action_paragraph' => true,
-            'acadlix_bulk_delete_paragraph' => true,
         ];
     }
 
@@ -194,8 +162,6 @@ class UserRole
             'acadlix_show_payment_setting' => true,
             'acadlix_show_notification_setting' => true,
             'acadlix_show_permalink_setting' => true,
-            'acadlix_show_quiz_setting' => true,
-            'acadlix_show_license_setting' => true,
         ];
     }
 
