@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Submenu;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
-
 defined('ABSPATH') || exit();
 
 class Submenu_Courses
@@ -58,17 +56,17 @@ class Submenu_Courses
             wp_enqueue_script('acadlix-admin-course');
             wp_localize_script('acadlix-admin-course', 'acadlixOptions', array(
                 'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-                'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+                'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
                 'nonce' => wp_create_nonce('wp_rest'),
                 'acadlix_quiz_url' => admin_url('admin.php?page=acadlix_quiz'),
                 'acadlix_lesson_url' => admin_url('admin.php?page=acadlix_lesson'),
                 'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
-                'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
-                'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
+                'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
+                'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
                 'user_id' => get_current_user_id(),
                 'capabilities' => $capabilities,
                 'isPro' => acadlix()->pro,
-                'isActive' => acadlix()->license->isActive ?? false,
+                'isActive' => acadlix()->license()->isActive ?? false,
             ));
 
             wp_set_script_translations('acadlix-admin-course', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');

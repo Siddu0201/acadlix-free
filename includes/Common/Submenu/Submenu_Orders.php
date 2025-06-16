@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Submenu;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
-
 defined('ABSPATH') || exit();
 
 class Submenu_Orders
@@ -56,16 +54,16 @@ class Submenu_Orders
         wp_enqueue_style("acadlix-admin-order-css");
         wp_localize_script('acadlix-admin-order', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
-            'settings' => Helper::instance()->acadlix_get_all_options(),
-            'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
-            'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
-            'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
-            'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
+            'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
+            'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
+            'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
+            'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
             'capabilities' => $capabilities,
             'isPro' => acadlix()->pro,
-            'isActive' => acadlix()->license->isActive ?? false,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ));
         wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

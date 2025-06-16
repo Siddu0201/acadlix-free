@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Submenu;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
-
 defined('ABSPATH') || exit();
 
 class Submenu_Quiz
@@ -85,16 +83,16 @@ class Submenu_Quiz
         wp_enqueue_script('acadlix-admin-quiz');
         wp_localize_script('acadlix-admin-quiz', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'abqu_url' => admin_url('admin.php?page=abqu'),
             'user_id' => get_current_user_id(),
             'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,
-            'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
-            'timezone_string' => Helper::instance()->acadlix_get_time_zone_string(),
+            'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
+            'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
             'capabilities' => $capabilities,
             'isPro' => acadlix()->pro,
-            'isActive' => acadlix()->license->isActive ?? false,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ));
         wp_set_script_translations('acadlix-admin-quiz', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

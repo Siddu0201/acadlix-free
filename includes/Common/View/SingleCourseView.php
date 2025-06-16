@@ -1,7 +1,5 @@
 <?php
 
-use Yuvayana\Acadlix\Common\Helper\CourseHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 use Yuvayana\Acadlix\Common\Models\Course;
 use Yuvayana\Acadlix\Common\Models\CourseCart;
 use Yuvayana\Acadlix\Common\Models\OrderItem;
@@ -14,8 +12,8 @@ global $post, $wp_version;
 // $course = Course::withCount(['users', 'cart'])->find($post->ID);
 $course = Course::ofCourse()->with('sections')->find($post->ID);
 
-$checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
-$dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
+$checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_checkout_page_id"));
+$dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
 
 
 $cart = [];
@@ -164,13 +162,13 @@ if (!function_exists('acadlix_course_pricing')) {
         <div class="acadlix-pricing-info">
             <div class="acadlix-pricing">
                 <div class="acadlix-course-sale-price">
-                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
+                    <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
                 </div>
                 <?php
                 if ($enable_sale_price) {
                     ?>
                     <div class="acadlix-course-price">
-                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['price'])); ?>
+                        <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price'])); ?>
                     </div>
                     <?php
                 }
@@ -211,13 +209,13 @@ if (!function_exists('acadlix_mobile_course_price')) {
         <div class="acadlix-mobile-price-info">
             <div class="acadlix-pricing">
                 <div class="acadlix-course-sale-price">
-                    <?php echo esc_html(CourseHelper::instance()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
+                    <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
                 </div>
                 <?php
                 if ($enable_sale_price) {
                     ?>
                     <div class="acadlix-course-price">
-                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($price)); ?>
+                        <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($price)); ?>
                     </div>
                     <?php
                 }
@@ -268,7 +266,7 @@ if (!function_exists('acadlix_basic_course_details')) {
             <div class="acadlix-course-aside-details-option">
                 <div><strong><?php esc_html_e('Course Level:', 'acadlix'); ?></strong></div>
                 <div>
-                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($difficulty_level ?? '')); ?>
+                    <?php echo esc_html(acadlix()->helper()->course()->getCourseLevelName($difficulty_level ?? '')); ?>
                 </div>
             </div>
             <div class="acadlix-course-aside-details-option">
@@ -306,9 +304,9 @@ if (!function_exists('acadlix_course_action_buttons')) {
         <div class="acadlix-course-action-buttons">
 
             <?php
-            $check_registration_date = CourseHelper::instance()->checkRegistrationDate($start_date, $end_date);
+            $check_registration_date = acadlix()->helper()->course()->checkRegistrationDate($start_date, $end_date);
             if ($check_registration_date['status']) {
-                if (CourseHelper::instance()->isCourseFree($price, $enable_sale_price, $sale_price)) {
+                if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
                     if (count($cart) > 0) {
                         ?>
                         <a href="<?php echo esc_url($checkout_url); ?>"
@@ -432,14 +430,14 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
-                        <?php esc_html_e('Last updated', 'acadlix'); ?>: <?php echo esc_html(Helper::instance()->formatDate($course->post_date)); ?>
+                        <?php esc_html_e('Last updated', 'acadlix'); ?>: <?php echo esc_html(acadlix()->helper()->formatDate($course->post_date)); ?>
                     </div>
                     <div class="acadlix-course-header-author">
                         <div class="acadlix-course-header-created-at-text">
                             <?php esc_html_e('Created by', 'acadlix'); ?>:
                         </div>
                         <div class="acadlix-course-author">
-                            <?php echo CourseHelper::instance()->getCourseUserHtml($course); ?>
+                            <?php echo acadlix()->helper()->course()->getCourseUserHtml($course); ?>
                         </div>
                     </div>
 
@@ -547,7 +545,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         $contents = $section->contents;
                                         if ($contents->count() > 0) {
                                             foreach ($contents as $c_index => $content) {
-                                                // Helper::instance()->acadlix_dd($content->contentable_data?->rendered_metas);
+                                                // acadlix()->helper()->acadlix_dd($content->contentable_data?->rendered_metas);
                                                 $preview = $content->rendered_metas['preview'] ?? false;
                                                 ?>
                                                 <div class="acadlix-curriculum-content-item acadlix-curriculum-content-section-item"
@@ -574,7 +572,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                         <div class="acadlix-content-duration">
                                                             <?php echo $content->contentable['type'] == "lesson"
                                                                 ? $content->contentable_data?->rendered_metas['type'] == 'video'
-                                                                ? CourseHelper::instance()->intToTimeFormat(
+                                                                ? acadlix()->helper()->course()->intToTimeFormat(
                                                                     $content->contentable_data?->rendered_metas['hours'] ?? 0,
                                                                     $content->contentable_data?->rendered_metas['minutes'] ?? 0,
                                                                     $content->contentable_data?->rendered_metas['seconds'] ?? 0,
@@ -618,7 +616,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                 class="acadlix-card-img acadlix-course-instructor-img">
                                             <div class="acadlix-course-instructor-detail">
                                                 <div class="acadlix-course-author acadlix-fs-5 acadlix-fw-bold">
-                                                    <?php echo CourseHelper::instance()->getUserLinkHtml($course->post_author); ?>
+                                                    <?php echo acadlix()->helper()->course()->getUserLinkHtml($course->post_author); ?>
                                                 </div>
                                                 <p>
                                                     <?php echo esc_html(get_user_meta($course->post_author, 'description', true)); ?>
@@ -629,7 +627,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                 </div>
                                 <?php
                             }
-                            // Helper::instance()->acadlix_dd(count($course->users));
+                            // acadlix()->helper()->acadlix_dd(count($course->users));
                             
                             foreach ($course->users as $user) {
                                 ?>
@@ -641,7 +639,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                 class="acadlix-card-img acadlix-course-instructor-img">
                                             <div class="acadlix-course-instructor-detail">
                                                 <div class="acadlix-course-author acadlix-fs-5 acadlix-fw-bold">
-                                                    <?php echo CourseHelper::instance()->getUserLinkHtml($user->ID); ?>
+                                                    <?php echo acadlix()->helper()->course()->getUserLinkHtml($user->ID); ?>
                                                 </div>
                                                 <p>
                                                     <?php echo esc_html(get_user_meta($user->ID, 'description', true)); ?>

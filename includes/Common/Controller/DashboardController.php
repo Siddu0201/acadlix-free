@@ -1,7 +1,6 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Controller;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
@@ -19,7 +18,7 @@ if (!class_exists("DashboardController")) {
 
         public function template_loader($template)
         {
-            $dashboard_page_id = Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id');
+            $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
             if ($dashboard_page_id && is_page($dashboard_page_id)) {
                 $dashboard_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/DashboardView.php';
                 if ($dashboard_template) {
@@ -31,7 +30,7 @@ if (!class_exists("DashboardController")) {
 
         public function disable_admin_bar_on_dashboard($show_admin_bar)
         {
-            $dashboard_page_id = Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id');
+            $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
             if ($dashboard_page_id && is_page($dashboard_page_id)) {
                 return false;
             }

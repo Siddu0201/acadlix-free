@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\CPT;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
-
 defined('ABSPATH') || exit();
 
 final class Quiz extends CPT_Abstract
@@ -81,7 +79,7 @@ final class Quiz extends CPT_Abstract
             )
         );
 
-        $language_map = Helper::instance()->acadlix_get_system_languages();
+        $language_map = acadlix()->helper()->acadlix_get_system_languages();
         $current_locale = get_locale();
         $current_language = $language_map[$current_locale] ?? 'English';
 

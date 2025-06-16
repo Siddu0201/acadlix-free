@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\CPT;
 
-use Yuvayana\Acadlix\Common\Helper\CourseHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 use WP_Post;
 use Yuvayana\Acadlix\Common\Models\OrderItem;
 
@@ -46,7 +44,7 @@ final class Course extends CPT_Abstract
             'not_found' => sprintf(__('You have not had any courses yet. Click <a href="%s">Add new</a> to start', 'acadlix'), esc_url(admin_url('post-new.php?post_type=acadlix_course'))),
             'not_found_in_trash' => __('There was no course found in the trash', 'acadlix'),
         );
-        $course_permalink = Helper::instance()->acadlix_get_option('acadlix_course_base');
+        $course_permalink = acadlix()->helper()->acadlix_get_option('acadlix_course_base');
         $show_in_rest = false; // show in rest disable for classic editor
         $args = array(
             'labels' => $labels,
@@ -91,8 +89,8 @@ final class Course extends CPT_Abstract
 
     public function register_taxonomy()
     {
-        $course_category_permalink = Helper::instance()->acadlix_get_option("acadlix_course_category_base");
-        $course_tag_permalink = Helper::instance()->acadlix_get_option("acadlix_course_tag_base");
+        $course_category_permalink = acadlix()->helper()->acadlix_get_option("acadlix_course_category_base");
+        $course_tag_permalink = acadlix()->helper()->acadlix_get_option("acadlix_course_tag_base");
         register_taxonomy(
             ACADLIX_COURSE_CATEGORY_TAXONOMY,
             array(ACADLIX_COURSE_CPT),
@@ -213,8 +211,8 @@ final class Course extends CPT_Abstract
         $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         $price = $course->rendered_metas['price'] ?? 0;
         $final_price = $enable_sale_price
-            ? ($sale_price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($sale_price) . " <del>" . CourseHelper::instance()->getCoursePrice($price) . "</del>")
-            : ($price == 0 ? "Free" : CourseHelper::instance()->getCoursePrice($price));
+            ? ($sale_price == 0 ? "Free" : acadlix()->helper()->course()->getCoursePrice($sale_price) . " <del>" . acadlix()->helper()->course()->getCoursePrice($price) . "</del>")
+            : ($price == 0 ? "Free" : acadlix()->helper()->course()->getCoursePrice($price));
         $order_items = OrderItem::with(["order"])
             ->where("course_id", $post_id)
             ->whereHas("order", function ($query) {

@@ -2,7 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Controller;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
 use Yuvayana\Acadlix\Common\Models\Course;
 
 defined('ABSPATH') || exit();

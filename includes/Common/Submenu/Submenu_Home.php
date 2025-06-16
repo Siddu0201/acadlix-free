@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Submenu;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
-
 defined('ABSPATH') || exit();
 
 class Submenu_Home
@@ -51,7 +49,7 @@ class Submenu_Home
         wp_enqueue_script("acadlix-admin-home");
         wp_localize_script('acadlix-admin-home', 'acadlixOptions', array(
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'user_id' => get_current_user_id(),
             'isPro' => acadlix()->pro,

@@ -1,7 +1,5 @@
 <?php
 
-use Yuvayana\Acadlix\Common\Helper\CourseHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 use Yuvayana\Acadlix\Common\Models\Course;
 use Yuvayana\Acadlix\Common\Models\CourseCart;
 use Yuvayana\Acadlix\Common\Models\OrderItem;
@@ -10,15 +8,15 @@ use Yuvayana\Acadlix\Common\Models\UserActivityMeta;
 defined('ABSPATH') || exit();
 
 global $post, $wp_version, $wp;
-$checkout_url = get_permalink(Helper::instance()->acadlix_get_option("acadlix_checkout_page_id"));
-$dashboard_url = get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id'));
+$checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_checkout_page_id"));
+$dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
 
 $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
 $page = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
-$per_page = Helper::instance()->acadlix_get_option("acadlix_no_of_courses_per_page");
+$per_page = acadlix()->helper()->acadlix_get_option("acadlix_no_of_courses_per_page");
 // $per_page = 1;
-$one_click_checkout = Helper::instance()->acadlix_get_option('acadlix_one_click_checkout');
+$one_click_checkout = acadlix()->helper()->acadlix_get_option('acadlix_one_click_checkout');
 
 $courses = Course::ofCourse()->where("post_status", 'publish')->orderBy("ID", "desc");
 
@@ -114,23 +112,23 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                             </a>
                             <div class="acadlix-card-body">
                                 <div class="acadlix-course-page-chip acadlix-fs-7 acadlix-fw-medium">
-                                    <?php echo esc_html(CourseHelper::instance()->getCourseLevelName($course->rendered_metas['difficulty_level'] ?? '')); ?>
+                                    <?php echo esc_html(acadlix()->helper()->course()->getCourseLevelName($course->rendered_metas['difficulty_level'] ?? '')); ?>
                                 </div>
                                 <h3 class="acadlix-course-page-card-title acadlix-mt-12 acadlix-fs-6 acadlix-fw-700"><a
                                         href="<?php echo esc_url(get_permalink($course->ID)); ?>"><?php echo esc_html($course?->post_title); ?></a>
                                 </h3>
                                 <div class="acadlix-course-user acadlix-fs-8 acadlix-fw-500 acadlix-pb-8">
-                                    <?php echo CourseHelper::instance()->getCourseUserHtml($course); // phpcs:ignore ?>
+                                    <?php echo acadlix()->helper()->course()->getCourseUserHtml($course); // phpcs:ignore ?>
                                 </div>
                                 <div class="acadlix-d-flex acadlix-justify-between acadlix-align-center">
 
                                     <div class="acadlix-course-page-card-price ">
-                                        <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['enable_sale_price'] ? $course->rendered_metas['sale_price'] : $course->rendered_metas['price'])); ?>
+                                        <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['enable_sale_price'] ? $course->rendered_metas['sale_price'] : $course->rendered_metas['price'])); ?>
                                         <?php
                                         if ($course->rendered_metas['enable_sale_price']) {
                                             ?>
                                             <span class="acadlix-course-page-before-price ">
-                                                <?php echo esc_html(CourseHelper::instance()->getCoursePrice($course->rendered_metas['price'])); ?>
+                                                <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price'])); ?>
                                             </span>
                                             <?php
                                         } ?>
@@ -139,9 +137,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                     <div
                                         class="acadlix-d-flex acadlix-justify-end acadlix-align-content-end acadlix-course-action-buttons">
                                         <?php
-                                        $check_registration_date = CourseHelper::instance()->checkRegistrationDate($course->rendered_metas['start_date'] ?? null, $course->rendered_metas['end_date'] ?? null);
+                                        $check_registration_date = acadlix()->helper()->course()->checkRegistrationDate($course->rendered_metas['start_date'] ?? null, $course->rendered_metas['end_date'] ?? null);
                                         if ($check_registration_date['status']) {
-                                            if (CourseHelper::instance()->isCourseFree($course->rendered_metas['price'], $course->rendered_metas['enable_sale_price'], $course->rendered_metas['sale_price'])) {
+                                            if (acadlix()->helper()->course()->isCourseFree($course->rendered_metas['price'], $course->rendered_metas['enable_sale_price'], $course->rendered_metas['sale_price'])) {
                                                 if (in_array($course->ID, $cart, true)) {
                                                     ?>
                                                     <a href="<?php echo esc_url($checkout_url); ?>" class="acadlix-action-button">

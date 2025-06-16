@@ -1,7 +1,6 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Controller;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 use Yuvayana\Acadlix\Common\Models\WpUsers;
 
 defined('ABSPATH') || exit();
@@ -20,7 +19,7 @@ if (!class_exists("CheckoutController")) {
 
         public function template_loader($template)
         {
-            $checkout_page_id = Helper::instance()->acadlix_get_option('acadlix_checkout_page_id');
+            $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
             if ($checkout_page_id && is_page($checkout_page_id)) {
                 $checkout_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/CheckoutView.php';
                 if ($checkout_template) {
@@ -32,8 +31,8 @@ if (!class_exists("CheckoutController")) {
 
         public function enqueue_front_checkout()
         {
-            $checkout_page_id = Helper::instance()->acadlix_get_option('acadlix_checkout_page_id');
-            $paypal_active = Helper::instance()->acadlix_get_option('acadlix_paypal_active') == 'yes';
+            $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
+            $paypal_active = acadlix()->helper()->acadlix_get_option('acadlix_paypal_active') == 'yes';
             if ($checkout_page_id && is_page($checkout_page_id)) {
                 wp_dequeue_style('acadlix-front-css');
                 wp_dequeue_script('acadlix-front-js');
@@ -46,18 +45,18 @@ if (!class_exists("CheckoutController")) {
                 wp_localize_script('acadlix-front-checkout-js', 'acadlixOptions', array(
                     'is_admin_bar_showing' => is_admin_bar_showing(),
                     'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-                    'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+                    'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
                     'ajax_url' => esc_url(admin_url('admin-ajax.php')),
                     'nonce' => wp_create_nonce('wp_rest'),
                     'user_id' => get_current_user_id() ?? 0,
                     'user' => get_current_user_id() > 0 ? WpUsers::with('user_metas')->where('ID', get_current_user_id())->first() : [],
                     'site_title' => get_bloginfo('name'),
                     'cart_token' => isset($_COOKIE['acadlix_cart_token']) ? sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])) : '',
-                    'settings' => Helper::instance()->acadlix_get_all_options(),
-                    'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
-                    'thankyou_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_thankyou_page_id"))),
-                    'dashboard_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option("acadlix_dashboard_page_id"))),
-                    'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
+                    'settings' => acadlix()->helper()->acadlix_get_all_options(),
+                    'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
+                    'thankyou_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_thankyou_page_id"))),
+                    'dashboard_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_dashboard_page_id"))),
+                    'users_can_register' => acadlix()->helper()->acadlix_get_option("users_can_register"),
                     'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
                 ));
             }

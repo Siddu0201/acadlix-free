@@ -1,6 +1,4 @@
 <?php
-use Yuvayana\Acadlix\Common\Helper\CourseHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 use Yuvayana\Acadlix\Common\Models\CourseCart;
 use Yuvayana\Acadlix\Common\Models\Order;
 use Yuvayana\Acadlix\Common\Models\OrderMeta;
@@ -15,9 +13,9 @@ $payerID = isset($_GET['payerID']) ? sanitize_text_field(wp_unslash($_GET['payer
 
 function capture_paypal_order($order_id)
 {
-    $client_id = Helper::instance()->acadlix_get_option("acadlix_paypal_client_id"); // Your PayPal Client ID
-    $secret = Helper::instance()->acadlix_get_option("acadlix_paypal_secret_key");        // Your PayPal Secret
-    $is_sandbox = Helper::instance()->acadlix_get_option("acadlix_paypal_sandbox") == "yes";                          // Use sandbox for testing
+    $client_id = acadlix()->helper()->acadlix_get_option("acadlix_paypal_client_id"); // Your PayPal Client ID
+    $secret = acadlix()->helper()->acadlix_get_option("acadlix_paypal_secret_key");        // Your PayPal Secret
+    $is_sandbox = acadlix()->helper()->acadlix_get_option("acadlix_paypal_sandbox") == "yes";                          // Use sandbox for testing
 
     // Set PayPal URL for live or sandbox environment
     $url = $is_sandbox
@@ -69,7 +67,7 @@ function capture_paypal_order($order_id)
                 $order->updateOrCreateMeta('payer_id', $payerID);
             }
             // send mail on success
-            CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
+            acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
         }
         return true; // Success message
     } else {
@@ -80,7 +78,7 @@ function capture_paypal_order($order_id)
             ]);
             $order->updateOrCreateMeta('message', $error_message);
             // send mail on failed
-            CourseHelper::instance()->handleFailedTransationEmail($order->id);
+            acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
         }
         return false; // Handle capture error
     }
@@ -88,11 +86,11 @@ function capture_paypal_order($order_id)
 
 function capture_payu_order($txnid)
 {
-    $merchant_key = Helper::instance()->acadlix_get_option("acadlix_payu_merchant_key");
+    $merchant_key = acadlix()->helper()->acadlix_get_option("acadlix_payu_merchant_key");
     ;
-    $salt = Helper::instance()->acadlix_get_option("acadlix_payu_salt");
+    $salt = acadlix()->helper()->acadlix_get_option("acadlix_payu_salt");
     ;
-    $is_sandbox = Helper::instance()->acadlix_get_option("acadlix_payu_sandbox") == "yes";  // Use sandbox for testing
+    $is_sandbox = acadlix()->helper()->acadlix_get_option("acadlix_payu_sandbox") == "yes";  // Use sandbox for testing
 
     // Set the URL based on the environment
     $url = $is_sandbox ? 'https://test.payu.in/merchant/postservice?form=2' : 'https://info.payu.in/merchant/postservice?form=2';
@@ -146,7 +144,7 @@ function capture_payu_order($txnid)
                     }
                 }
                 // send mail on success
-                CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
+                acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
             }
             return true;
         } else {
@@ -156,7 +154,7 @@ function capture_payu_order($txnid)
             // Log failed transaction with error message
             $order->updateOrCreateMeta('message', $error_message);
             // send mail on failure
-            CourseHelper::instance()->handleFailedTransationEmail($order->id);
+            acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
             return false;
         }
     }

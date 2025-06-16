@@ -18,7 +18,7 @@ if (!class_exists("ThankyouController")) {
 
         public function template_loader($template)
         {
-            $thankyou_page_id = Helper::instance()->acadlix_get_option('acadlix_thankyou_page_id');
+            $thankyou_page_id = acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id');
             if ($thankyou_page_id && is_page($thankyou_page_id)) {
                 $thankyou_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/ThankyouView.php';
                 if ($thankyou_template) {
