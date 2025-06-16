@@ -33,15 +33,6 @@ class Menu
         add_action("admin_menu", [$this, 'init_admin_menu']);
         add_filter('parent_file', [$this, 'acadlix_set_active_menu_class']);
         add_action('admin_menu', [$this, 'modify_admin_menu_title'], 999);
-
-        $this->submenu_home();
-        $this->submenu_courses();
-        $this->submenu_lessons();
-        $this->submenu_quiz();
-        $this->submenu_orders();
-        $this->submenu_categories();
-        $this->submenu_tags();
-        $this->submenu_settings();
     }
 
     public function modify_admin_menu_title()
@@ -57,22 +48,27 @@ class Menu
         }
     }
 
+    public function load_submenu(){
+        $this->submenu_courses();
+        $this->submenu_lessons();
+        $this->submenu_quiz();
+        $this->submenu_orders();
+        $this->submenu_categories();
+        $this->submenu_tags();
+        $this->submenu_settings();
+    }
+
     public function init_admin_menu()
     {
+        $this->load_submenu();
         $submenus = apply_filters('acadlix_admin_submenus', $this->_submenus);
-
         usort($submenus, fn($a, $b) => $b->get_position() <=> $a->get_position());
+
+        $this->submenu_home()->add_submenu();
+        
         foreach ($submenus as $submenu) {
             $submenu->add_submenu();
         }
-        // Submenu_Home::instance()->add_submenu();
-        // Submenu_Courses::instance()->add_submenu();
-        // Submenu_Lessons::instance()->add_submenu();
-        // Submenu_Quiz::instance()->add_submenu();
-        // Submenu_Orders::instance()->add_submenu();
-        // Submenu_Categories::instance()->add_submenu();
-        // Submenu_Tags::instance()->add_submenu();
-        // Submenu_Settings::instance()->add_submenu();
     }
 
     public function submenu_home(){

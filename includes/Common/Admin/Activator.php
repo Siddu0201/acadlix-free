@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Admin;
 
-use Yuvayana\Acadlix\Common\Helper\Helper;
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -53,11 +51,13 @@ class Activator
     public function deactivate()
     {
         // Migration::removeTable();
+        // remove capabilities
+        acadlix()->admin()->userRole()->removeCapabilities();
     }
 
     public function uninstall()
     {
-        $delete_data = Helper::instance()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
+        $delete_data = acadlix()->helper()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
 
         if($delete_data == "no")
             return;
@@ -67,12 +67,10 @@ class Activator
         acadlix()->migration()->removeTable();
         // remove options
         acadlix()->admin()->option()->removeOption();
-        // remove capabilities
-        acadlix()->admin()->userRole()->removeCapabilities();
     }
 
     public function acadlix_load_textdomain()
     {
-        // load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
+        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
     }
 }

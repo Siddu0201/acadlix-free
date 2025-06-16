@@ -2,10 +2,11 @@
 
 namespace Yuvayana\Acadlix\Common\Admin;
 
+use WP_User;
+
 use Yuvayana\Acadlix\Common\Models\Course;
 use Yuvayana\Acadlix\Common\Models\CourseCart;
 
-use WP_User;
 use Yuvayana\Acadlix\Common\Models\Lesson;
 use Yuvayana\Acadlix\Common\Models\Paragraph;
 use Yuvayana\Acadlix\Common\Models\Quiz;

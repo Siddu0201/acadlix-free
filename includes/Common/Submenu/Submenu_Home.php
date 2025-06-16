@@ -21,7 +21,7 @@ class Submenu_Home
             'menu_slug' => ACADLIX_SLUG,
             'callback' => [$this, 'home_callback'],
             'dashicon' => '',
-            'position' => 999
+            'position' => 40
         ];
     }
 
@@ -55,7 +55,7 @@ class Submenu_Home
             'nonce' => wp_create_nonce('wp_rest'),
             'user_id' => get_current_user_id(),
             'isPro' => acadlix()->pro,
-            'isActive' => acadlix()->license->isActive ?? false,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ));
         wp_set_script_translations('acadlix-admin-home', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }

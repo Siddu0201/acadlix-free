@@ -1,7 +1,6 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Admin;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
@@ -11,44 +10,8 @@ if (!class_exists("Option")) {
         private static $_instance = null;
         protected $pages = [];
 
-        public function __construct()
-        {
-            // $this->pages = [
-            //     'acadlix_dashboard_page_id' => [
-            //         'post_title' => __('Dashboard', 'acadlix'),
-            //         'post_status' => 'publish',
-            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
-            //         'post_type' => 'page',
-            //     ],
-            //     'acadlix_cart_page_id' => [
-            //         'post_title' => __('Cart', 'acadlix'),
-            //         'post_status' => 'publish',
-            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
-            //         'post_type' => 'page',
-            //     ],
-            //     'acadlix_checkout_page_id' => [
-            //         'post_title' => __('Checkout', 'acadlix'),
-            //         'post_status' => 'publish',
-            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
-            //         'post_type' => 'page',
-            //     ],
-            //     'acadlix_thankyou_page_id' => [
-            //         'post_title' => __('Thankyou', 'acadlix'),
-            //         'post_status' => 'publish',
-            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
-            //         'post_type' => 'page',
-            //     ],
-            //     'acadlix_advance_quiz_page_id' => [
-            //         'post_title' => __('Advance Quiz', 'acadlix'),
-            //         'post_status' => 'publish',
-            //         'post_author' => get_current_user_id(), // Change this to the desired author ID
-            //         'post_type' => 'page',
-            //     ],
-            // ];
-
-            add_action('init', [$this, 'init_options']);
-
-            // add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 1 );
+        public function __construct(){
+            // / add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 
         }
 
         public function init_options()
@@ -78,17 +41,13 @@ if (!class_exists("Option")) {
                     'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
-                'acadlix_advance_quiz_page_id' => [
-                    'post_title' => __('Advance Quiz', 'acadlix'),
-                    'post_status' => 'publish',
-                    'post_author' => get_current_user_id(),
-                    'post_type' => 'page',
-                ],
             ];
         }
 
         public function createOption()
         {
+            $this->init_options();
+
             foreach ($this->pages as $key => $page) {
                 $this->createPage($key, $page);
             }
@@ -101,7 +60,7 @@ if (!class_exists("Option")) {
 
         public static function removeOption()
         {
-            $options = Helper::instance()->acadlix_options();
+            $options = acadlix()->helper()->acadlix_options();
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
                     delete_option($key);
@@ -128,7 +87,7 @@ if (!class_exists("Option")) {
             if (!is_array($wp_rules)) {
                 return $wp_rules;
             }
-            $course_permalink = Helper::instance()->acadlix_get_option('acadlix_course_base', 'courses');
+            $course_permalink = acadlix()->helper()->acadlix_get_option('acadlix_course_base', 'courses');
             $rules = array();
             $rules = [
                 "^$course_permalink/([^/]+)/?$" =>
