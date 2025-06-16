@@ -23,7 +23,6 @@ class Models
     protected ?Statistic $statistic = null;
     protected ?StatisticRef $statisticRef = null;
     protected ?Subject $subject = null;
-    protected ?SubjectTime $subjectTime = null;
     protected ?Template $template = null;
     protected ?Toplist $toplist = null;
     protected ?UserActivityMeta $userActivityMeta = null;

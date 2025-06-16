@@ -1,9 +1,9 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Assets;
-use Yuvayana\Acadlix\Common\Helper\Helper;
-use Yuvayana\Acadlix\Common\Helper\QueryLogger;
+
 use Yuvayana\Acadlix\Common\Models\Quiz;
+
 defined('ABSPATH') || exit();
 
 /**
@@ -18,7 +18,7 @@ class Manager
     public function __construct()
     {
         add_action('init', function () {
-            QueryLogger::enable();
+            acadlix()->helper()->queryLogger()->enable();
         });
         add_action('init', [$this, 'register_all_scripts']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
@@ -230,7 +230,7 @@ class Manager
         $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . 'front_checkout.asset.php';
         $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . 'front_single_course.asset.php';
 
-        $paypal_client_id = Helper::instance()->acadlix_get_option('acadlix_paypal_client_id');
+        $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
 
         return [
             'acadlix-runtime-js' => [
@@ -396,18 +396,18 @@ class Manager
         wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'home_url' => esc_url(home_url()),
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
-            'settings' => Helper::instance()->acadlix_get_all_options(),
-            'currency_symbol' => Helper::instance()->acadlix_currency_symbols()[Helper::instance()->acadlix_get_option('acadlix_currency')],
-            'currency_symbols' => Helper::instance()->acadlix_currency_symbols(),
-            'date_time_format' => Helper::instance()->acadlix_get_date_time_format(),
+            'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
+            'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
+            'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
-            'users_can_register' => Helper::instance()->acadlix_get_option("users_can_register"),
+            'users_can_register' => acadlix()->helper()->acadlix_get_option("users_can_register"),
         ));
         wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
 
@@ -424,12 +424,12 @@ class Manager
         wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', array(
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => Helper::instance()->acadlix_max_execution_time(),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'home_url' => esc_url(home_url()),
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
-            'checkout_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id'))),
-            'cart_url' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_cart_page_id'))),
+            'checkout_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'))),
+            'cart_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id'))),
             'user_id' => get_current_user_id() ?? 0,
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
         ));
