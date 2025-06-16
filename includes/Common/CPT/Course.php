@@ -2,7 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\CPT;
 
-use Yuvayana\Acadlix\Common\CPT\Acadlix_Abstract;
 use Yuvayana\Acadlix\Common\Helper\CourseHelper;
 use Yuvayana\Acadlix\Common\Helper\Helper;
 use WP_Post;
@@ -10,7 +9,7 @@ use Yuvayana\Acadlix\Common\Models\OrderItem;
 
 defined('ABSPATH') || exit();
 
-final class Course extends Acadlix_Abstract
+final class Course extends CPT_Abstract
 {
     protected static $_instance = null;
 

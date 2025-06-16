@@ -7,6 +7,40 @@ if (!class_exists('Helper')) {
     {
         protected static $_instance = null;
 
+        protected ?CourseHelper $_course = null;
+        protected ?CptHelper $_cpt = null;
+        protected ?EmailHelper $_email = null;
+        protected ?QueryLogger $_queryLogger = null;
+
+        public function course(): CourseHelper|null{
+            if($this->_course === null){
+                $this->_course = new CourseHelper();
+            }
+            return $this->_course;
+        }
+
+        public function cpt(): CptHelper|null{
+            if($this->_cpt === null){
+                $this->_cpt = new CptHelper();
+            }
+            return $this->_cpt;
+        }
+
+        public function email(): EmailHelper|null{
+            if($this->_email === null){
+                $this->_email = new EmailHelper();
+            }
+            return $this->_email;
+        }
+
+        public function queryLogger(): QueryLogger|null{
+            if($this->_queryLogger === null){
+                $this->_queryLogger = new QueryLogger();
+            }
+            return $this->_queryLogger;
+        }
+
+
         public function acadlix_modify_video_shortcode($content)
         {
             if (empty($content)) {

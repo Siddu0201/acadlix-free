@@ -6,7 +6,7 @@ defined('ABSPATH') || exit();
 
 use WP_Post;
 
-abstract class Acadlix_Abstract
+abstract class CPT_Abstract
 {
 	protected $_post_type = '';
 

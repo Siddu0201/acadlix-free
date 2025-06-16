@@ -2,12 +2,11 @@
 
 namespace Yuvayana\Acadlix\Common\CPT;
 
-use Yuvayana\Acadlix\Common\CPT\Acadlix_Abstract;
 use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
-final class Quiz extends Acadlix_Abstract
+final class Quiz extends CPT_Abstract
 {
     protected static $_instance = null;
 

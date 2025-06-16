@@ -9,50 +9,68 @@ if (!class_exists("Admin")) {
     {
         protected static $_instance = null;
 
-        public $activator = null;
+        protected ?Activator $activator = null;
 
-        public $menu = null;
+        protected ?Menu $menu = null;
 
-        public $ajax = null;
+        protected ?Ajax $ajax = null;
 
-        public $core = null;
+        protected ?Core $core = null;
 
-        public $option = null;
+        protected ?Option $option = null;
 
-        public $userRole = null;
+        protected ?UserRole $userRole = null;
 
         public function __construct()
         {
-            $this->activator = $this->init_activator();
-            $this->ajax = $this->init_ajax();
-            $this->core = $this->init_core();
-            $this->option = $this->init_option();
-            $this->userRole = $this->init_user_role();
-            $this->menu = $this->init_menu();
+            $this->activator();
+            $this->ajax();
+            $this->core();
+            $this->option();
+            $this->userRole();
+            $this->menu();
         }
 
-        public function init_activator(){
-            return new Activator();
+        public function activator(): Activator {
+            if (is_null($this->activator)) {
+                $this->activator = new Activator();
+            }
+            return $this->activator;
         }
 
-        public function init_ajax(){
-            return new Ajax();
+        public function ajax(): Ajax {
+            if (is_null($this->ajax)) {
+                $this->ajax = new Ajax();
+            }
+            return $this->ajax;
         }
 
-        public function init_core(){
-            return new Core();
+        public function core(): Core {
+            if (is_null($this->core)) {
+                $this->core = new Core();
+            }
+            return $this->core;
         }
 
-        public function init_option(){
-            return new Option();
+        public function option(): Option {
+            if (is_null($this->option)) {
+                $this->option = new Option();
+            }
+            return $this->option;
         }
 
-        public function init_user_role(){
-            return new UserRole();
+        public function userRole(): UserRole {
+            if (is_null($this->userRole)) {
+                $this->userRole = new UserRole();
+            }
+            return $this->userRole;
         }
 
-        public function init_menu(){
-            return new Menu();
+        public function menu(): Menu {
+            if (is_null($this->menu)) {
+                $this->menu = new Menu();
+            }
+            return $this->menu;
         }
 
 

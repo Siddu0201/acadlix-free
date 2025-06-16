@@ -122,7 +122,7 @@ class Core
         return $use_block_editor;
     }
 
-    public static function acadlix_delete_post_type_data()
+    public function acadlix_delete_post_type_data()
     {
         global $wpdb;
         $post_types = [

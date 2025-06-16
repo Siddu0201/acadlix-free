@@ -9,15 +9,18 @@ if (!class_exists("Assets")) {
     {
         protected static $_instance = null;
 
+        protected ?Manager $manager = null;
 
         public function __construct()
         {
             $this->manager();
         }
 
-        public function manager(){
-            $instance = new Manager();
-            return $instance;
+        public function manager(): Manager {
+            if (is_null($this->manager)) {
+                $this->manager = new Manager();
+            }
+            return $this->manager;
         }
 
 

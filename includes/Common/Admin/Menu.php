@@ -17,6 +17,15 @@ class Menu
     private static $_instance = null;
     protected array $_submenus = [];
 
+    protected ?Submenu_Categories $categories = null;
+    protected ?Submenu_Courses $courses = null;
+    protected ?Submenu_Home $home = null;
+    protected ?Submenu_Lessons $lessons = null;
+    protected ?Submenu_Orders $orders = null;
+    protected ?Submenu_Quiz $quiz = null;
+    protected ?Submenu_Settings $settings = null;
+    protected ?Submenu_Tags $tags = null;
+
     public function __construct()
     {
         if(!is_admin(  )) return;
@@ -67,51 +76,67 @@ class Menu
     }
 
     public function submenu_home(){
-        $instance = new Submenu_Home();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->home)){
+            $this->home = new Submenu_Home();
+        }
+        $this->_submenus[] = $this->home;
+        return $this->home;
     }
 
     public function submenu_courses(){
-        $instance = new Submenu_Courses();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->courses)){
+            $this->courses = new Submenu_Courses();
+        }
+        $this->_submenus[] = $this->courses;
+        return $this->courses;
     }
 
     public function submenu_lessons(){
-        $instance = new Submenu_Lessons();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->lessons)){
+            $this->lessons = new Submenu_Lessons();
+        }
+        $this->_submenus[] = $this->lessons;
+        return $this->lessons;
     }
 
     public function submenu_quiz(){
-        $instance = new Submenu_Quiz();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->quiz)){
+            $this->quiz = new Submenu_Quiz();
+        }
+        $this->_submenus[] = $this->quiz;
+        return $this->quiz;
     }
 
     public function submenu_orders(){
-        $instance = new Submenu_Orders();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->orders)){
+            $this->orders = new Submenu_Orders();
+        }
+        $this->_submenus[] = $this->orders;
+        return $this->orders;
     }
 
     public function submenu_categories(){
-        $instance = new Submenu_Categories();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->categories)){
+            $this->categories = new Submenu_Categories();
+        }
+        $this->_submenus[] = $this->categories;
+        return $this->categories;
     }
 
     public function submenu_tags(){
-        $instance = new Submenu_Tags();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->tags)){
+            $this->tags = new Submenu_Tags();
+        }
+        $this->_submenus[] = $this->tags;
+        return $this->tags;
     }
 
     public function submenu_settings(){
-        $instance = new Submenu_Settings();
-        $this->_submenus[] = $instance;
-        return $instance;
+        if(is_null($this->settings)){
+            $this->settings = new Submenu_Settings();
+        }
+        $this->_submenus[] = $this->settings;
+        return $this->settings;
     }
 
 

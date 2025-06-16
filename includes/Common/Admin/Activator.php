@@ -3,8 +3,6 @@
 namespace Yuvayana\Acadlix\Common\Admin;
 
 use Yuvayana\Acadlix\Common\Helper\Helper;
-use Yuvayana\Acadlix\Common\Migrations\Migration;
-use Yuvayana\Acadlix\Common\Seeder\Seeder;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -42,13 +40,13 @@ class Activator
             }
         }
         // Add table
-        acadlix()->migration->createTable();
+        acadlix()->migration()->createTable();
         // Add default data
-        acadlix()->seeder->seed();
+        acadlix()->seeder()->seed();
         // Add options
-        acadlix()->admin->option->createOption();
+        acadlix()->admin()->option()->createOption();
         // Add capabilities
-        acadlix()->admin->userRole->addCapabilities();
+        acadlix()->admin()->userRole()->addCapabilities();
         
     }
 
@@ -64,13 +62,13 @@ class Activator
         if($delete_data == "no")
             return;
         // remove post data related to acadlix
-        acadlix()->admin->core->acadlix_delete_post_type_data();
+        acadlix()->admin()->core()->acadlix_delete_post_type_data();
         // remove table
-        acadlix()->migration->removeTable();
+        acadlix()->migration()->removeTable();
         // remove options
-        acadlix()->admin->option->removeOption();
+        acadlix()->admin()->option()->removeOption();
         // remove capabilities
-        acadlix()->admin->userRole->removeCapabilities();
+        acadlix()->admin()->userRole()->removeCapabilities();
     }
 
     public function acadlix_load_textdomain()

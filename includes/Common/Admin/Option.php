@@ -87,10 +87,10 @@ if (!class_exists("Option")) {
             ];
         }
 
-        public static function createOption()
+        public function createOption()
         {
-            foreach ((new self())->pages as $key => $page) {
-                self::instance()->createPage($key, $page);
+            foreach ($this->pages as $key => $page) {
+                $this->createPage($key, $page);
             }
 
             // Set permalink is "Post name".

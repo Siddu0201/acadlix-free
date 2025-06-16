@@ -92,18 +92,21 @@ namespace Yuvayana\Acadlix {
 
         private function preLoad(){
             $this->license = $this->pro ? new Pro\License\License() : null;
+            $this->helper = $this->pro ? new Pro\Helper\Helper() : new Common\Helper\Helper();
         }
 
         private function load()
         {
-            $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
-            $this->migration = $this->pro  ? new Pro\Migrations\Migration() : new Common\Migrations\Migration();
-            $this->seeder = new Common\Seeder\Seeder();
-            $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();
-            $this->assets = $this->pro ? new Pro\Assets\Assets() : new Common\Assets\Assets();
             $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
+            $this->assets = $this->pro ? new Pro\Assets\Assets() : new Common\Assets\Assets();
             $this->controller = $this->pro ? new Pro\Controller\Controller() : new Common\Controller\Controller();
-            $this->api = $this->pro ? new Pro\REST\Api() : new Common\REST\Api();
+            $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();
+            $this->migration = $this->pro  ? new Pro\Migrations\Migrations() : new Common\Migrations\Migrations();
+            $this->model = $this->pro  ? new Pro\Models\Models() : new Common\Models\Models();
+            $this->seeder = new Common\Seeder\Seeder();
+            $this->rest = $this->pro ? new Pro\REST\REST() : new Common\REST\REST();
+
+            $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
         }
     }
 }

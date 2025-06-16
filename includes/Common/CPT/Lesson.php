@@ -2,11 +2,10 @@
 
 namespace Yuvayana\Acadlix\Common\CPT;
 
-use Yuvayana\Acadlix\Common\CPT\Acadlix_Abstract;
 
 defined('ABSPATH') || exit();
 
-final class Lesson extends Acadlix_Abstract
+final class Lesson extends CPT_Abstract
 {
     protected static $_instance = null;
 

@@ -5,26 +5,70 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class AcadlixAbstract {
-	public $license = null;
+	protected $license = null;
 
-	public $admin = null;
+	protected $admin = null;
 
-	public $controller = null;
+	protected $controller = null;
 
-	public $rest = null;
+	protected $rest = null;
 
-	public $assets = null;
+	protected $assets = null;
 
-	public $cpt = null;
+	protected $cpt = null;
 
-	public $helper = null;
+	protected $helper = null;
 
-	public $migration = null;
+	protected $migration = null;
 
-	public $seeder = null;
+	protected $seeder = null;
 
-	public $ai = null;
+	protected $ai = null;
+
+	protected $model = null;
 	
-	public $api = null;
-	
+
+	public function license(){
+		return $this->license;
+	}
+
+	public function admin(){
+		return $this->admin;
+	}
+
+	public function controller(){
+		return $this->controller;
+	}
+
+	public function rest(){
+		return $this->rest;
+	}
+
+	public function assets(){
+		return $this->assets;
+	}
+
+	public function cpt(){
+		return $this->cpt;
+	}
+
+	public function helper(){
+		return $this->helper;
+	}
+
+	public function migration(){
+		return $this->migration;
+	}
+
+	public function seeder(){
+		return $this->seeder;
+	}
+
+	public function ai(){
+		return $this->ai;
+	}
+
+	public function model(){
+		return $this->model;
+	}	
 }
