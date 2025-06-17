@@ -377,7 +377,7 @@ class AdminQuizController
                     'post_status' => 'publish'
                 ]);
             }
-
+            $res['quizId'] = $quizId;
             $res['quiz'] = $quiz;
             return rest_ensure_response($res);
 
