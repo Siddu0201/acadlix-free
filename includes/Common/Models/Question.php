@@ -47,9 +47,6 @@ if (!class_exists('Question')) {
             "paragraph_id" => "integer",
         ];
 
-        protected $appends = ['paragraph'];
-
-
         public function scopeOfOnline($query)
         {
             return $query->where("online", 1);
