@@ -140,7 +140,7 @@ class FrontCourseController
                 return new WP_Error('missing_params', sprintf(__('The %s parameter is required.', 'acadlix'), $field), array('status' => 400));
             }
 
-            $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
+            $cart_tokens = acadlix()->model()->courseCart()->where("cart_token", $params['cart_token'])->get();
             if (count($cart_tokens) > 0) {
                 foreach ($cart_tokens as $cart_token) {
                     $cart_token->update([
@@ -148,9 +148,9 @@ class FrontCourseController
                     ]);
                 }
             }
-            $cart = CourseCart::where("cart_token", $params['cart_token'])->where('course_id', $params['course_id'])->first();
+            $cart = acadlix()->model()->courseCart()->where("cart_token", $params['cart_token'])->where('course_id', $params['course_id'])->first();
             if (!$cart) {
-                $cart = CourseCart::create([
+                $cart = acadlix()->model()->courseCart()->create([
                     'cart_token' => $params['cart_token'],
                     'course_id' => $params['course_id'],
                     'user_id' => $params['user_id'],
@@ -162,12 +162,12 @@ class FrontCourseController
                 'status' => 'success',
                 'code' => array('status' => 200),
                 'data' => $cart,
-                'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id')))
+                'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id')))
             );
         } else {
-            $cart = CourseCart::where('user_id', $params['user_id'])->where('course_id', $params['course_id'])->first();
+            $cart = acadlix()->model()->courseCart()->where('user_id', $params['user_id'])->where('course_id', $params['course_id'])->first();
             if (!$cart) {
-                $cart = CourseCart::create([
+                $cart = acadlix()->model()->courseCart()->create([
                     'course_id' => $params['course_id'],
                     'user_id' => $params['user_id'],
                     'quantity' => 1,
@@ -177,7 +177,7 @@ class FrontCourseController
                 'status' => 'success',
                 'code' => array('status' => 200),
                 'data' => $cart,
-                'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id')))
+                'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id')))
             );
         }
 
@@ -212,7 +212,7 @@ class FrontCourseController
                 return new WP_Error('missing_params', sprintf(__('The %s parameter is required.', 'acadlix'), $field), array('status' => 400));
             }
 
-            $cart_tokens = CourseCart::where("cart_token", $params['cart_token'])->get();
+            $cart_tokens = acadlix()->model()->courseCart()->where("cart_token", $params['cart_token'])->get();
             if (count($cart_tokens) > 0) {
                 foreach ($cart_tokens as $cart_token) {
                     $cart_token->update([
@@ -220,9 +220,9 @@ class FrontCourseController
                     ]);
                 }
             }
-            $cart = CourseCart::where("cart_token", $params['cart_token'])->where('course_id', $params['course_id'])->first();
+            $cart = acadlix()->model()->courseCart()->where("cart_token", $params['cart_token'])->where('course_id', $params['course_id'])->first();
             if (!$cart) {
-                $cart = CourseCart::create([
+                $cart = acadlix()->model()->courseCart()->create([
                     'cart_token' => $params['cart_token'],
                     'course_id' => $params['course_id'],
                     'user_id' => $params['user_id'],
@@ -234,21 +234,21 @@ class FrontCourseController
                 'status' => 'success',
                 'code' => array('status' => 200),
                 'data' => $cart,
-                'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_checkout_page_id')))
+                'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id')))
             );
         } else {
             $userId = $params['user_id'];
-            $order_items = OrderItem::with(['order','course'])->whereHas('order', function ($query) use ($userId) {
+            $order_items = acadlix()->model()->orderItem()->with(['order','course'])->whereHas('order', function ($query) use ($userId) {
                 $query->where('user_id', $userId)->where('status', 'success');
             })->where('course_id', $params['course_id'])->get();
             if (count($order_items) == 0) {
-                $order = Order::create([
+                $order = acadlix()->model()->order()->create([
                     'user_id' => $params['user_id'],
                     'status' => 'pending',
                     'extra_charges' => 0,
                     'total_amount' => 0
                 ]);
-                $course = Course::ofCourse()->find($params['course_id']);
+                $course = acadlix()->model()->course()->ofCourse()->find($params['course_id']);
                 $order->order_items()->create([
                     'course_id' => $params['course_id'],
                     'course_title' => $course->post_title,
@@ -265,19 +265,19 @@ class FrontCourseController
                     'status' => 'success',
                 ]);
                 // send mail on success
-                CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
+                acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
                 $res = array(
                     'status' => 'success',
                     'code' => array('status' => 200),
                     'data' => $order,
-                    'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id')))
+                    'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id')))
                 );
             }
             $res = array(
                 'status' => 'success',
                 'code' => array('status' => 200),
                 'data' => $order_items,
-                'redirect' => esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_dashboard_page_id')))
+                'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id')))
             );
         }
 
@@ -305,11 +305,11 @@ class FrontCourseController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $course = Course::find($params['course_id']);
+        $course = acadlix()->model()->course()->find($params['course_id']);
         if (!$course) {
             return new WP_Error('missing_course', __('This Course is not available', 'acadlix'), array('status' => 404));
         }
-        $user_meta = UserActivityMeta::create([
+        $user_meta = acadlix()->model()->userActivityMeta()->create([
             'user_id' => $params['user_id'],
             'type' => "course",
             'type_id' => $params['course_id'],
@@ -347,7 +347,7 @@ class FrontCourseController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $wishlist = UserActivityMeta::ofCourse()
+        $wishlist = acadlix()->model()->userActivityMeta()->ofCourse()
             ->ofCourseWishlist()
             ->where('type_id', $params['course_id'])
             ->where('user_id', $params['user_id'])

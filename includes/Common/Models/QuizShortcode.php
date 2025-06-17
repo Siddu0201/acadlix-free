@@ -24,7 +24,7 @@ if (!class_exists('QuizShortcode')) {
 
         public function quiz()
         {
-            return $this->belongsTo(Quiz::class, "quiz_id", "ID");
+            return $this->belongsTo(acadlix()->model()->quiz(), "quiz_id", "ID");
         }
     }
 }

@@ -37,7 +37,7 @@ if (!class_exists('Lesson')) {
 
         public function metas()
         {
-            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
+            return $this->hasMany(acadlix()->model()->wpPostMeta(), 'post_id', 'ID');
         }
 
         public function getRenderedMetasAttribute()
@@ -78,7 +78,7 @@ if (!class_exists('Lesson')) {
 
         public function author()
         {
-            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
         }
 
         public static function insertLesson(array $data, array $meta = [])
@@ -146,7 +146,7 @@ if (!class_exists('Lesson')) {
 
             if (!empty($related_contents)) {
                 foreach ($related_contents as $content_id) {
-                    $content = CourseSectionContent::deleteCourseSectionContent($content_id);
+                    $content = acadlix()->model()->courseSectionContent()->deleteCourseSectionContent($content_id);
                     if (is_wp_error($content)) {
                         return $content;
                     }

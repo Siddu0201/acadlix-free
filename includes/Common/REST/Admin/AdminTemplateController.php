@@ -54,7 +54,7 @@ class AdminTemplateController {
         $res = [];
         $params = $request->get_params();
         if($params['type']){
-            $res[] = Template::where('type', $params['type'])->get();
+            $res[] = acadlix()->model()->template()->where('type', $params['type'])->get();
         }
         return rest_ensure_response( $res );
     }
@@ -63,26 +63,26 @@ class AdminTemplateController {
         $res = [];
         $params = $request->get_json_params();
         if($params['id'] && $params['id'] > 0){
-            $template = Template::find($params['id']);
+            $template = acadlix()->model()->template()->find($params['id']);
             $template->update([
                 'type' => $params['type'],
                 'data' => $params['data']
             ]);
         }elseif($params['name']){
-            Template::create([
+            acadlix()->model()->template()->create([
                 'name' => $params['name'],
                 'type' => $params['type'],
                 'data' => $params['data']
             ]);
         }
-        $res['templates'] = Template::where('type', $params['type'])->get(['id', 'name']);
+        $res['templates'] = acadlix()->model()->template()->where('type', $params['type'])->get(['id', 'name']);
         return rest_ensure_response( $res );        
     }
 
     public function get_template_by_id($request){
         $res = [];
         $id = $request['template_id'];
-        $res['template'] = Template::find($id);
+        $res['template'] = acadlix()->model()->template()->find($id);
         return rest_ensure_response( $res );
     }
 

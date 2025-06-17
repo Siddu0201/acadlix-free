@@ -74,11 +74,11 @@ class AdminSettingController
         $params = $request->get_json_params();
         if (is_array($params)) {
             foreach ($params as $key => $value) {
-                Helper::instance()->acadlix_update_option($key, $value);
+                acadlix()->helper()->acadlix_update_option($key, $value);
             }
         }
         flush_rewrite_rules();
-        $res['options'] = Helper::instance()->acadlix_get_all_options();
+        $res['options'] = acadlix()->helper()->acadlix_get_all_options();
         return rest_ensure_response($res);
     }
 
@@ -87,7 +87,7 @@ class AdminSettingController
         $res = [];
         $params = $request->get_json_params();
 
-        $mail = EmailHelper::instance()->sendEmail($params['to'], $params['subject'], $params['message'], "siddu@gmail.com");
+        $mail = acadlix()->helper()->email()->sendEmail($params['to'], $params['subject'], $params['message'], "siddu@gmail.com");
         if (is_wp_error($mail)) {
             return $mail;
         }

@@ -24,7 +24,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
 
         public function course_statistics()
         {
-            return $this->hasMany(CourseStatistic::class, 'course_section_content_id', 'ID');
+            return $this->hasMany(acadlix()->model()->courseStatistic(), 'course_section_content_id', 'ID');
         }
 
         public function scopeOfCourseSectionContent($query)
@@ -39,12 +39,12 @@ if (!class_exists(class: 'CourseSectionContent')) {
 
         public function author()
         {
-            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
         }
 
         public function metas()
         {
-            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
+            return $this->hasMany(acadlix()->model()->wpPostMeta(), 'post_id', 'ID');
         }
 
         public function getRenderedMetasAttribute()
@@ -102,23 +102,18 @@ if (!class_exists(class: 'CourseSectionContent')) {
             $renderedMetas = $this->rendered_metas;
             $contentable = [];
             $contentableType = $renderedMetas['type'];
-            $contentable['type'] = $contentableType;
+            $contentable['type'] = $contentableType ?? null;
             switch ($contentableType) {
                 case 'lesson':
-                    $lesson = Lesson::ofLesson()->find($renderedMetas['lesson_id']);
-                    $contentableId = $renderedMetas['lesson_id'];
+                    $lesson = acadlix()->model()->lesson()->ofLesson()->find($renderedMetas['lesson_id']);
+                    $contentableId = $renderedMetas['lesson_id'] ?? null;
                     $contentableTitle = $lesson->post_title ?? "";
                     break;
                 case 'quiz':
-                    $quiz = Quiz::ofQuiz()->find($renderedMetas['quiz_id']);
-                    $contentableId = $renderedMetas['quiz_id'];
+                    $quiz = acadlix()->model()->quiz()->ofQuiz()->find($renderedMetas['quiz_id']);
+                    $contentableId = $renderedMetas['quiz_id'] ?? null;
                     $contentableTitle = $quiz->post_title ?? "";
                     break;
-                // case 'assignment':
-                //     $assignment = Assignment::ofAssignment()->find($renderedMetas['assignment_id']);
-                //     $contentableId = $renderedMetas['assignment_id'];
-                //     $contentableTitle = $assignment->post_title ?? "";
-                //     break;
                 default:
                     $contentableId = $renderedMetas['lesson_id'] ?? null;
                     $contentableTitle = $lesson->post_title ?? "";
@@ -133,9 +128,8 @@ if (!class_exists(class: 'CourseSectionContent')) {
             $renderedMetas = $this->rendered_metas;
             $contentableType = $renderedMetas['type'];
             return match ($contentableType) {
-                'lesson' => Lesson::ofLesson()->find($renderedMetas['lesson_id']),
-                'quiz' => Quiz::ofQuiz()->find($renderedMetas['quiz_id']),
-                // 'assignment' => Assignment::ofAssignment()->find($renderedMetas['assignment_id']),
+                'lesson' => acadlix()->model()->lesson()->ofLesson()->find($renderedMetas['lesson_id']),
+                'quiz' => acadlix()->model()->quiz()->ofQuiz()->find($renderedMetas['quiz_id']),
                 default => null,
             };
         }
@@ -194,7 +188,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
             }
 
             // Delete statistic
-            $courseStatistics = CourseStatistic::where('course_section_content_id', $postId)->get();
+            $courseStatistics = acadlix()->model()->courseStatistic()->where('course_section_content_id', $postId)->get();
             foreach ($courseStatistics as $courseStatistic) {
                 $courseStatistic->delete();
             }

@@ -6,8 +6,6 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_Error;
 
-use Yuvayana\Acadlix\Common\Models\Category;
-
 defined('ABSPATH') || exit();
 
 class AdminCategoryController
@@ -84,7 +82,7 @@ class AdminCategoryController
     public function get_categories($request)
     {
         $res = [];
-        $res['categories'] = Category::all();
+        $res['categories'] = acadlix()->model()->category()->all();
         return rest_ensure_response($res);
     }
 
@@ -100,7 +98,7 @@ class AdminCategoryController
                 ['status' => 400]
             );
         }
-        $category = Category::create(["category_name" => $params["category_name"]]);
+        $category = acadlix()->model()->category()->create(["category_name" => $params["category_name"]]);
 
         if (is_wp_error($category)) {
             return new WP_Error(
@@ -110,7 +108,7 @@ class AdminCategoryController
             );
         }
         $res['category'] = $category;
-        $res['categories'] = Category::all();
+        $res['categories'] = acadlix()->model()->category()->all();
         return rest_ensure_response($res);
     }
 
@@ -118,7 +116,7 @@ class AdminCategoryController
     {
         $res = [];
         $category_id = $request['category_id'];
-        $res['category'] = Category::find($category_id);
+        $res['category'] = acadlix()->model()->category()->find($category_id);
         return rest_ensure_response($res);
     }
 
@@ -142,7 +140,7 @@ class AdminCategoryController
                 ['status' => 400]
             );
         }
-        $category = Category::update($category_id, [
+        $category = acadlix()->model()->category()->update($category_id, [
             "category_name" => $params["category_name"]
         ]);
 
@@ -154,7 +152,7 @@ class AdminCategoryController
             );
         }
         $res['category'] = $category;
-        $res['categories'] = Category::all();
+        $res['categories'] = acadlix()->model()->category()->all();
         return rest_ensure_response($res);
     }
 
@@ -162,7 +160,7 @@ class AdminCategoryController
     {
         $res = [];
         $category_id = $request['category_id'];
-        $category = Category::delete($category_id);
+        $category = acadlix()->model()->category()->delete($category_id);
         if (is_wp_error($category)) {
             return new WP_Error(
                 'category_not_deleted',
@@ -171,7 +169,7 @@ class AdminCategoryController
             );
         }
         $res['category'] = $category;
-        $res['categories'] = Category::all();
+        $res['categories'] = acadlix()->model()->category()->all();
         return rest_ensure_response($res);
     }
 

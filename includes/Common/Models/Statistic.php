@@ -38,12 +38,12 @@ if (!class_exists('Statistic')) {
 
         public function statistic_ref()
         {
-            return $this->belongsTo(StatisticRef::class, 'statistic_ref_id', 'id');
+            return $this->belongsTo(acadlix()->model()->statisticRef(), 'statistic_ref_id', 'id');
         }
 
         public function question()
         {
-            return $this->belongsTo(Question::class, 'question_id', 'id');
+            return $this->belongsTo(acadlix()->model()->question(), 'question_id', 'id');
         }
 
         public function setAnswerDataAttribute($value)

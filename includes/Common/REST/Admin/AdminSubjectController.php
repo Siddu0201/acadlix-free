@@ -75,23 +75,23 @@ class AdminSubjectController {
 
     public function get_subjects($request) {
         $res = [];
-        $res['subjects'] = Subject::get();
+        $res['subjects'] = acadlix()->model()->subject()->get();
         return rest_ensure_response($res);
     }
 
     public function post_create_subject($request) {
         $res = [];
         $params = $request->get_json_params();
-        $subject = Subject::create(["subject_name" => $params["subject"]]);
+        $subject = acadlix()->model()->subject()->create(["subject_name" => $params["subject"]]);
         $res['subject_id'] = $subject->id;
-        $res['subjects'] = Subject::get();
+        $res['subjects'] = acadlix()->model()->subject()->get();
         return rest_ensure_response($res);
     }
     
     public function get_subject_by_id($request) {
         $res = [];
         $subject_id = $request['subject_id'];
-        $res['subject'] = Subject::find($subject_id);
+        $res['subject'] = acadlix()->model()->subject()->find($subject_id);
         return rest_ensure_response($res);
     }
     

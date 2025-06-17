@@ -3,8 +3,6 @@
 namespace Yuvayana\Acadlix\Common\REST\Front;
 
 use WP_REST_Server;
-use Yuvayana\Acadlix\Common\Models\Quiz;
-use Yuvayana\Acadlix\Common\Models\StatisticRef;
 
 defined('ABSPATH') || exit();
 
@@ -70,7 +68,7 @@ class FrontStatisticController
             );
         }
         $skip = $params['page'] * $params['pageSize'];
-        $stat_ref = StatisticRef::where('user_id', $user_id)->orderBy("id", "desc");
+        $stat_ref = acadlix()->model()->statisticRef()->where('user_id', $user_id)->orderBy("id", "desc");
         $res['total'] = $stat_ref->count();
         $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get()->each->setAppends(['quiz']);
         return rest_ensure_response($res);
@@ -90,8 +88,8 @@ class FrontStatisticController
             );
         }
 
-        $stat_ref = StatisticRef::find($statistic_id);
-        $res['quiz'] = Quiz::ofQuiz()->find($stat_ref->quiz_id);
+        $stat_ref = acadlix()->model()->statisticRef()->find($statistic_id);
+        $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($stat_ref->quiz_id);
         $res['statistic_ref'] = $stat_ref;
         $res['statistic'] = $stat_ref ? $stat_ref->statistics()->with("question")->get() : [];
 

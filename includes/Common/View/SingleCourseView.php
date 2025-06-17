@@ -9,8 +9,8 @@ defined('ABSPATH') || exit();
 
 global $post, $wp_version;
 
-// $course = Course::withCount(['users', 'cart'])->find($post->ID);
-$course = Course::ofCourse()->with('sections')->find($post->ID);
+// $course = acadlix()->model()->course()->withCount(['users', 'cart'])->find($post->ID);
+$course = acadlix()->model()->course()->ofCourse()->with('sections')->find($post->ID);
 
 $checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_checkout_page_id"));
 $dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
@@ -20,17 +20,17 @@ $cart = [];
 $order_item = [];
 if (is_user_logged_in()) {
     $userId = get_current_user_id();
-    $cart = CourseCart::where([
+    $cart = acadlix()->model()->courseCart()->where([
         ['user_id', '=', $userId],
         ['course_id', '=', $post->ID],
     ])->get();
-    $order_item = OrderItem::with(['order'])->whereHas('order', function ($query) use ($userId) {
+    $order_item = acadlix()->model()->orderItem()->with(['order'])->whereHas('order', function ($query) use ($userId) {
         $query->where('user_id', $userId)->where('status', 'success');
     })->where('course_id', $post->ID)
         ->get();
 } else {
     if (isset($_COOKIE['acadlix_cart_token'])) {
-        $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
+        $cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
             ->where('course_id', $post->ID)
             ->get();
     }
@@ -360,7 +360,7 @@ if (!function_exists('acadlix_course_action_buttons')) {
             }
 
             if (is_user_logged_in()) {
-                $course_wishlist_count = UserActivityMeta::ofCourse()
+                $course_wishlist_count = acadlix()->model()->userActivityMeta()->ofCourse()
                     ->ofCourseWishlist()
                     ->where([
                         'type_id' => $course->ID,

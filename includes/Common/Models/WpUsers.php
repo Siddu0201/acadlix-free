@@ -14,7 +14,7 @@ if (!class_exists('WpUsers')) {
 
         public function user_metas()
         {
-            return $this->hasMany(WpUserMeta::class, 'user_id', 'ID');
+            return $this->hasMany(acadlix()->model()->wpUserMeta(), 'user_id', 'ID');
         }
     }
 }

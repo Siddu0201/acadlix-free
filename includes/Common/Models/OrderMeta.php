@@ -24,7 +24,7 @@ if (!class_exists('OrderMeta')) {
 
         public function order()
         {
-            return $this->belongsTo(Order::class, 'order_id', 'id');
+            return $this->belongsTo(acadlix()->model()->order(), 'order_id', 'id');
         }
 
     }

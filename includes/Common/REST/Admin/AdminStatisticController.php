@@ -4,9 +4,6 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 
 use WP_Error;
 use WP_REST_Server;
-use WP_REST_Request;
-use Yuvayana\Acadlix\Common\Models\Quiz;
-use Yuvayana\Acadlix\Common\Models\StatisticRef;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -78,29 +75,29 @@ class AdminStatisticController
             ]
         );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/(?P<quiz_id>[\d]+)/answersheet/(?P<statistic_ref_id>[\d]+)',
-            [
-                [
-                    'methods' => WP_REST_Server::READABLE,
-                    'callback' => [$this, 'get_statistic_by_id'],
-                    'permission_callback' => [$this, 'check_pro_permission'],
-                    'args' => array(
-                        'quiz_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                        'statistic_ref_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/(?P<quiz_id>[\d]+)/answersheet/(?P<statistic_ref_id>[\d]+)',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::READABLE,
+        //             'callback' => [$this, 'get_statistic_by_id'],
+        //             'permission_callback' => [$this, 'check_pro_permission'],
+        //             'args' => array(
+        //                 'quiz_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //                 'statistic_ref_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //             ),
+        //         ],
+        //     ]
+        // );
     }
 
     public function get_statistic_by_quiz_id($request)
@@ -120,8 +117,8 @@ class AdminStatisticController
         $skip = $params['page'] * $params['pageSize'];
         $search = $params['search'] ?? "";
 
-        $stat_ref = StatisticRef::where('quiz_id', $quiz_id)->orderBy("id", "desc");
-        $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
+        $stat_ref = acadlix()->model()->statisticRef()->where('quiz_id', $quiz_id)->orderBy("id", "desc");
+        $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $res['pass_count'] = (clone $stat_ref)->where('status', 'Pass')->count();
         $res['fail_count'] = (clone $stat_ref)->where('status', 'Fail')->count();
 
@@ -148,7 +145,7 @@ class AdminStatisticController
                 ['status' => 400]
             );
         }
-        StatisticRef::where('quiz_id', $quiz_id)->delete();
+        acadlix()->model()->statisticRef()->where('quiz_id', $quiz_id)->delete();
         return rest_ensure_response($res);
     }
 
@@ -165,24 +162,24 @@ class AdminStatisticController
             );
         }
 
-        $stat_ref = StatisticRef::find($id);
+        $stat_ref = acadlix()->model()->statisticRef()->find($id);
         if ($stat_ref) {
             $stat_ref->delete();
         }
         return rest_ensure_response($res);
     }
 
-    public function get_statistic_by_id($request)
-    {
-        $res = [];
-        $quiz_id = $request['quiz_id'];
-        $id = $request['statistic_ref_id'];
-        $stat_ref = StatisticRef::find($id);
-        $res['quiz'] = Quiz::ofQuiz()->find($quiz_id);
-        $res['statistic_ref'] = $stat_ref;
-        $res['statistic'] = $stat_ref ? $stat_ref->statistics()->with("question")->get() : [];
-        return rest_ensure_response($res);
-    }
+    // public function get_statistic_by_id($request)
+    // {
+    //     $res = [];
+    //     $quiz_id = $request['quiz_id'];
+    //     $id = $request['statistic_ref_id'];
+    //     $stat_ref = acadlix()->model()->statisticRef()->find($id);
+    //     $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
+    //     $res['statistic_ref'] = $stat_ref;
+    //     $res['statistic'] = $stat_ref ? $stat_ref->statistics()->with("question")->get() : [];
+    //     return rest_ensure_response($res);
+    // }
 
     public function check_permission()
     {
@@ -191,7 +188,7 @@ class AdminStatisticController
 
     public function check_pro_permission()
     {
-        if (!acadlix()->pro || !acadlix()->license->isActive) {
+        if (!acadlix()->pro || !acadlix()->license()->isActive) {
             return new WP_Error(
                 'permission_denied',
                 __('Permission denied.', 'acadlix'),

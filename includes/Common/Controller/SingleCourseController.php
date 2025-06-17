@@ -32,7 +32,7 @@ if (!class_exists("SingleCourseController")) {
         public function enqueue_front_single_course()
         {
             global $post;
-            $course = Course::ofCourse()->with('sections')->find($post->ID);
+            $course = acadlix()->model()->course()->ofCourse()->with('sections')->find($post->ID);
             if (is_singular(ACADLIX_COURSE_CPT)) {
                 // wp_dequeue_style('acadlix-front-css');
                 // wp_dequeue_script('acadlix-front-js');

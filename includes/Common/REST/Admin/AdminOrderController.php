@@ -5,11 +5,6 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
-use Yuvayana\Acadlix\Common\Models\Course;
-use Yuvayana\Acadlix\Common\Models\Order;
-use Yuvayana\Acadlix\Common\Models\OrderItem;
-use Yuvayana\Acadlix\Common\Models\WpUsers;
-
 
 defined('ABSPATH') || exit();
 
@@ -131,7 +126,7 @@ class AdminOrderController
         $search = $params['search'] ?? "";
 
         $skip = $params['page'] * $params['pageSize'];
-        $order = Order::with(['order_items', 'order_metas', 'user'])->orderBy('created_at', 'desc');
+        $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->orderBy('created_at', 'desc');
 
         if (!empty($search)) {
             $order->whereHas('order_items', function ($query) use ($search) {
@@ -155,13 +150,13 @@ class AdminOrderController
     public function get_create_order($request)
     {
         $res = [];
-        $res['courses'] = Course::ofCourse()
+        $res['courses'] = acadlix()->model()->course()->ofCourse()
             ->ofPublish()
             ->without(['author', 'metas'])
             ->get(["ID", "post_title"])
             ->each
             ->setAppends(['rendered_metas',]);
-        $res['users'] = WpUsers::get(["ID", "display_name"]);
+        $res['users'] = acadlix()->model()->wpUsers()->get(["ID", "display_name"]);
         return rest_ensure_response($res);
     }
 
@@ -172,7 +167,7 @@ class AdminOrderController
         $search = $params['search'];
 
         if (!empty($search)) {
-            $res['courses'] = Course::ofCourse()
+            $res['courses'] = acadlix()->model()->course()->ofCourse()
                 ->ofPublish()
                 ->without(['author', 'metas'])
                 ->where(function ($query) use ($search) {
@@ -194,7 +189,7 @@ class AdminOrderController
         $search = $params['search'];
 
         if (!empty($search)) {
-            $res['users'] = WpUsers::skip(0)
+            $res['users'] = acadlix()->model()->wpUsers()->skip(0)
                 ->take(50)
                 ->where(function ($query) use ($search) {
                     $query->where('display_name', 'LIKE', "%{$search}%")
@@ -223,7 +218,7 @@ class AdminOrderController
         }
         foreach ($order_items as $order_item) {
             if(!$order_item['course_id']) continue;
-            $alreadyPurchased = OrderItem::with('order')->whereHas('order', function ($query) use ($user_id) {
+            $alreadyPurchased = acadlix()->model()->orderItem()->with('order')->whereHas('order', function ($query) use ($user_id) {
                 $query->ofSuccess()->where('user_id', $user_id);
             })->where('course_id', $order_item['course_id'])->exists();
             if ($alreadyPurchased) {
@@ -236,7 +231,7 @@ class AdminOrderController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $order = Order::create([
+        $order = acadlix()->model()->order()->create([
             'user_id' => $user_id,
             'status' => $params['status'],
             'total_amount' => (float) $params['total_amount'],
@@ -275,7 +270,7 @@ class AdminOrderController
                 ['status' => 400]
             );
         }
-        $res['order'] = Order::with(['order_items', 'order_items.course', 'order_metas', 'user'])->find($orderId);
+        $res['order'] = acadlix()->model()->order()->with(['order_items', 'order_items.course', 'order_metas', 'user'])->find($orderId);
         return rest_ensure_response($res);
     }
 
@@ -302,7 +297,7 @@ class AdminOrderController
 
         foreach ($order_items as $order_item) {
             if(!$order_item['course_id']) continue;
-            $alreadyPurchased = OrderItem::with('order')->whereHas('order', function ($query) use ($user_id, $orderId) {
+            $alreadyPurchased = acadlix()->model()->orderItem()->with('order')->whereHas('order', function ($query) use ($user_id, $orderId) {
                 $query->ofSuccess()->where('user_id', $user_id)->whereNot('id', $orderId);
             })->where('course_id', $order_item['course_id'])->exists();
             if ($alreadyPurchased) {
@@ -315,7 +310,7 @@ class AdminOrderController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $order = Order::find($orderId);
+        $order = acadlix()->model()->order()->find($orderId);
         if ($order) {
             $order->update([
                 'user_id' => $user_id,
@@ -359,7 +354,7 @@ class AdminOrderController
             );
         }
 
-        $order = Order::find($order_id);
+        $order = acadlix()->model()->order()->find($order_id);
         if ($order) {
             $order->delete();
         }

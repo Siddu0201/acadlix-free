@@ -28,13 +28,13 @@ if (!class_exists('WpPosts')) {
 
         public function thumbnailMeta()
         {
-            return $this->hasOne(WpPostMeta::class, 'post_id', 'ID')
+            return $this->hasOne(acadlix()->model()->wpPostMeta(), 'post_id', 'ID')
                 ->where('meta_key', '_thumbnail_id');
         }
 
         public function author()
         {
-            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
         }
 
         public function getThumbnailAltAttribute()

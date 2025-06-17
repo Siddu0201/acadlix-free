@@ -5,8 +5,6 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
-use Yuvayana\Acadlix\Common\Helper\CptHelper;
-use Yuvayana\Acadlix\Common\Models\Lesson;
 defined('ABSPATH') || exit();
 
 class AdminLessonController
@@ -106,7 +104,7 @@ class AdminLessonController
         $params = $request->get_params();
         $search = $params['search'];
         $skip = $params['page'] * $params['pageSize'];
-        $lesson = Lesson::ofLesson()->orderBy('id', 'desc');
+        $lesson = acadlix()->model()->lesson()->ofLesson()->orderBy('id', 'desc');
         if(!empty($search)) {
             $lesson->where('post_title', 'like', "%$search%");
         }
@@ -131,12 +129,12 @@ class AdminLessonController
 
         // Prepare meta data
         $meta = !empty($params['meta']) && is_array($params['meta'])
-            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+            ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
             : [];
 
         try {
             // Insert the lesson post
-            $lessonId = Lesson::insertLesson([
+            $lessonId = acadlix()->model()->lesson()->insertLesson([
                 'post_title' => sanitize_text_field($params['title']),
                 'post_content' => wp_kses_post($params['content']),
                 'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
@@ -186,7 +184,7 @@ class AdminLessonController
             );
         }
 
-        $lesson = Lesson::find($lesson_id);
+        $lesson = acadlix()->model()->lesson()->find($lesson_id);
         if ($lesson) {
             $res['lesson'] = $lesson;
         }
@@ -219,12 +217,12 @@ class AdminLessonController
 
         // Prepare meta data
         $meta = !empty($params['meta']) && is_array($params['meta'])
-            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+            ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
             : [];
 
         try {
             // Update the lesson post
-            $lessonId = Lesson::updateLesson($lessonId, [
+            $lessonId = acadlix()->model()->lesson()->updateLesson($lessonId, [
                 'post_title' => sanitize_text_field($params['title']),
                 'post_content' => wp_kses_post($params['content']),
                 'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
@@ -274,7 +272,7 @@ class AdminLessonController
                 ['status' => 400]
             );
         }
-        $lesson = Lesson::deleteLesson($lesson_id);
+        $lesson = acadlix()->model()->lesson()->deleteLesson($lesson_id);
 
         if (is_wp_error($lesson)) {
             return new WP_Error(
@@ -309,7 +307,7 @@ class AdminLessonController
                     ['status' => 400]
                 );
             }
-            $lesson = Lesson::deleteLesson($lesson_id);
+            $lesson = acadlix()->model()->lesson()->deleteLesson($lesson_id);
 
             if (is_wp_error($lesson)) {
                 return new WP_Error(

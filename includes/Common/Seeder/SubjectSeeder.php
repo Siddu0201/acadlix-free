@@ -12,9 +12,9 @@ if(!class_exists('SubjectSeeder')){
         public function run()
         {
             $subject_name = "Uncategorized";
-            $subject = Subject::get();
+            $subject = acadlix()->model()->subject()->get();
             if($subject->count() == 0){
-                $subject = Subject::create([
+                $subject = acadlix()->model()->subject()->create([
                     "subject_name" => $subject_name,
                     "default" => true
                 ]);

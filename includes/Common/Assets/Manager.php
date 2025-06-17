@@ -40,7 +40,7 @@ class Manager
 
         if (is_numeric($id)) {
             ob_start();
-            $quiz = Quiz::ofQuiz()->whereHas('quiz_shortcode', function ($query) use ($id) {
+            $quiz = acadlix()->model()->quiz()->ofQuiz()->whereHas('quiz_shortcode', function ($query) use ($id) {
                 $query->where('id', $id);
             })->first();
             if ($quiz) {

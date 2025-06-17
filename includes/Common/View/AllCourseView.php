@@ -18,7 +18,7 @@ $per_page = acadlix()->helper()->acadlix_get_option("acadlix_no_of_courses_per_p
 // $per_page = 1;
 $one_click_checkout = acadlix()->helper()->acadlix_get_option('acadlix_one_click_checkout');
 
-$courses = Course::ofCourse()->where("post_status", 'publish')->orderBy("ID", "desc");
+$courses = acadlix()->model()->course()->ofCourse()->where("post_status", 'publish')->orderBy("ID", "desc");
 
 if (!empty($search)) {
     $courses->where('post_title', 'like', "%$search%");
@@ -36,13 +36,13 @@ $cart = [];
 $order_item = [];
 if (is_user_logged_in()) {
     $userId = get_current_user_id();
-    $cart = CourseCart::where("user_id", $userId)->pluck("course_id")->toArray();
-    $order_item = OrderItem::with(['order'])->whereHas('order', function ($query) use ($userId) {
+    $cart = acadlix()->model()->courseCart()->where("user_id", $userId)->pluck("course_id")->toArray();
+    $order_item = acadlix()->model()->orderItem()->with(['order'])->whereHas('order', function ($query) use ($userId) {
         $query->where('user_id', $userId)->where('status', 'success');
     })->pluck('course_id')->toArray();
 } else {
     if (isset($_COOKIE['acadlix_cart_token'])) {
-        $cart = CourseCart::where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
+        $cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck("course_id")->toArray();
     }
 }
 
@@ -101,7 +101,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
             <section class="acadlix-row">
                 <?php
                 foreach ($courses as $key => $course) {
-                    // Helper::instance()->acadlix_ddd($course->rendered_metas);
+                    // acadlix()->helper()->acadlix_ddd($course->rendered_metas);
                     ?>
                     <div class="acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12">
                         <div class="acadlix-card acadlix-all-course-card">
@@ -195,7 +195,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         ?>
                                         <?php
                                         if (is_user_logged_in()) {
-                                            $course_wishlist_count = UserActivityMeta::ofCourse()
+                                            $course_wishlist_count = acadlix()->model()->userActivityMeta()->ofCourse()
                                                 ->ofCourseWishlist()
                                                 ->where([
                                                     'type_id' => $course->ID,

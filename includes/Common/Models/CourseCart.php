@@ -29,12 +29,12 @@ if (!class_exists('CourseCart')) {
       
         public function getCourseAttribute()
         {
-            return Course::ofCourse()->find($this->course_id);
+            return acadlix()->model()->course()->ofCourse()->find($this->course_id);
         }
 
         public function user()
         {
-            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
     }
 }

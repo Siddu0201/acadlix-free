@@ -62,34 +62,25 @@ if (!class_exists('Question')) {
 
         public function setSubjectIdAttribute($value)
         {
-            $default_subject_id = Subject::where("default", 1)->first()->id;
+            $default_subject_id = acadlix()->model()->subject()->where("default", 1)->first()->id;
             $this->attributes['subject_id'] = $value == null ? $default_subject_id : $value;
         }
 
 
         // public function quiz(){
-        //     return $this->belongsTo(Quiz::class, 'quiz_id', 'id');
+        //     return $this->belongsTo(acadlix()->model()->quiz(), 'quiz_id', 'id');
         // }
 
         public function subject()
         {
-            return $this->belongsTo(Subject::class, 'subject_id', 'id');
+            return $this->belongsTo(acadlix()->model()->subject(), 'subject_id', 'id');
         }
 
 
         public function question_languages()
         {
-            return $this->hasMany(QuestionLang::class, 'question_id', 'id');
+            return $this->hasMany(acadlix()->model()->questionLang(), 'question_id', 'id');
         }
-
-        // public function getParagraphAttribute()
-        // {
-        //     if($this->paragraph_id){
-        //         return Paragraph::ofParagraph()->find($this->paragraph_id);
-        //     }
-        //     return [];
-        // }
-
 
         public function createNewLanguage($language_id, $copy_default_language)
         {

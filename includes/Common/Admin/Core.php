@@ -33,10 +33,10 @@ class Core
         // Check if the cookie exists
         if (isset($_COOKIE[$cookie_name])) {
             $cookie = sanitize_text_field(wp_unslash($_COOKIE[$cookie_name]));
-            $carts = CourseCart::where('cart_token', $cookie)->get();
+            $carts = acadlix()->model()->courseCart()->where('cart_token', $cookie)->get();
             if ($carts->count() > 0) {
                 foreach ($carts as $cart) {
-                    if (CourseCart::where("course_id", $cart->course_id)->where('user_id', $user->ID)->first()) {
+                    if (acadlix()->model()->courseCart()->where("course_id", $cart->course_id)->where('user_id', $user->ID)->first()) {
                         $cart->delete();
                     } else {
                         $cart->update([
@@ -60,12 +60,12 @@ class Core
         $user_cookie_name = 'acadlix_user_token';
         if (isset($_COOKIE[$user_cookie_name])) {
             $cookie = sanitize_text_field(wp_unslash($_COOKIE[$user_cookie_name]));
-            $userActivityMetas = UserActivityMeta::ofQuiz()
+            $userActivityMetas = acadlix()->model()->userActivityMeta()->ofQuiz()
                 ->ofQuizAttempt()
                 ->where('user_token', $cookie)
                 ->first();
             if ($userActivityMetas) {
-                $userQuiz = UserActivityMeta::ofQuiz()
+                $userQuiz = acadlix()->model()->userActivityMeta()->ofQuiz()
                     ->ofQuizAttempt()
                     ->where('type_id', $userActivityMetas->type_id)
                     ->where('user_id', $user->ID)
@@ -83,7 +83,7 @@ class Core
                 }
             }
 
-            $statisticRefs = StatisticRef::where('user_token', $cookie)->get();
+            $statisticRefs = acadlix()->model()->statisticRef()->where('user_token', $cookie)->get();
             if ($statisticRefs->count() > 0) {
                 foreach ($statisticRefs as $statisticRef) {
                     $statisticRef->update([
@@ -93,7 +93,7 @@ class Core
                 }
             }
 
-            $toplists = Toplist::where('user_token', $cookie)->get();
+            $toplists = acadlix()->model()->toplist()->where('user_token', $cookie)->get();
             if ($toplists->count() > 0) {
                 foreach ($toplists as $toplist) {
                     $toplist->update([
@@ -139,14 +139,14 @@ class Core
                 foreach ($post_ids as $post_id) {
                     switch ($post_type) {
                         case ACADLIX_COURSE_CPT:
-                            Course::deleteCourse($post_id);
+                            acadlix()->model()->course()->deleteCourse($post_id);
                             wp_delete_post($post_id, true);
                             break;
                         case ACADLIX_QUIZ_CPT:
-                            Quiz::deleteQuiz($post_id);
+                            acadlix()->model()->quiz()->deleteQuiz($post_id);
                             break;
                         case ACADLIX_LESSON_CPT:
-                            Lesson::deleteLesson($post_id);
+                            acadlix()->model()->lesson()->deleteLesson($post_id);
                             break;
                         default:
                             break;

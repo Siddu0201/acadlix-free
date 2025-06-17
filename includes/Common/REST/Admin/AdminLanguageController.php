@@ -6,8 +6,6 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_Error;
 
-use Yuvayana\Acadlix\Common\Models\Language;
-
 defined( 'ABSPATH' ) || exit();
 
 class AdminLanguageController
@@ -101,7 +99,7 @@ class AdminLanguageController
     public function get_languages($request)
     {
         $res = [];
-        $res['languages'] = Language::all();
+        $res['languages'] = acadlix()->model()->language()->all();
         return rest_ensure_response($res);
     }
 
@@ -117,7 +115,7 @@ class AdminLanguageController
                 ['status' => 400]
             );
         }
-        $language = Language::create(["language_name" => $params["language_name"]]);
+        $language = acadlix()->model()->language()->create(["language_name" => $params["language_name"]]);
 
         if (is_wp_error($language)) {
             return new WP_Error(
@@ -127,7 +125,7 @@ class AdminLanguageController
             );
         }
         $res['language'] = $language;
-        $res['languages'] = Language::all();
+        $res['languages'] = acadlix()->model()->language()->all();
         return rest_ensure_response($res);
     }
 
@@ -135,7 +133,7 @@ class AdminLanguageController
     {
         $res = [];
         $language_id = $request['language_id'];
-        $res['language'] = Language::find($language_id);
+        $res['language'] = acadlix()->model()->language()->find($language_id);
         return rest_ensure_response($res);
     }
 
@@ -159,7 +157,7 @@ class AdminLanguageController
                 ['status' => 400]
             );
         }
-        $language = Language::update($language_id, [
+        $language = acadlix()->model()->language()->update($language_id, [
             "language_name" => $params["language_name"]
         ]);
 
@@ -171,7 +169,7 @@ class AdminLanguageController
             );
         }
         $res['language'] = $language;
-        $res['languages'] = Language::all();
+        $res['languages'] = acadlix()->model()->language()->all();
         return rest_ensure_response($res);
     }
 
@@ -188,7 +186,7 @@ class AdminLanguageController
             );
         }
 
-        $language = Language::update_default($language_id);
+        $language = acadlix()->model()->language()->update_default($language_id);
         if (is_wp_error($language)) {
             return new WP_Error(
                 'language_not_updated',
@@ -198,7 +196,7 @@ class AdminLanguageController
         }
 
         $res['language'] = $language;
-        $res['languages'] = Language::all();
+        $res['languages'] = acadlix()->model()->language()->all();
         return rest_ensure_response($res);
     }
 
@@ -206,7 +204,7 @@ class AdminLanguageController
     {
         $res = [];
         $language_id = $request['language_id'];
-        $language = Language::delete($language_id);
+        $language = acadlix()->model()->language()->delete($language_id);
         if (is_wp_error($language)) {
             return new WP_Error(
                 'language_not_deleted',
@@ -215,7 +213,7 @@ class AdminLanguageController
             );
         }
         $res['language'] = $language;
-        $res['categories'] = Language::all();
+        $res['categories'] = acadlix()->model()->language()->all();
         return rest_ensure_response($res);
     }
 

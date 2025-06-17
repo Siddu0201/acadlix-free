@@ -38,17 +38,17 @@ if (!class_exists('OrderItem')) {
 
         public function course()
         {
-            return $this->belongsTo(Course::class, 'course_id', 'ID')->ofCourse();
+            return $this->belongsTo(acadlix()->model()->course()->class, 'course_id', 'ID')->ofCourse();
         }
 
         public function order()
         {
-            return $this->belongsTo(Order::class, 'order_id', 'id');
+            return $this->belongsTo(acadlix()->model()->order(), 'order_id', 'id');
         }
 
         public function course_statistics()
         {
-            return $this->hasMany(CourseStatistic::class, 'order_item_id', 'id');
+            return $this->hasMany(acadlix()->model()->courseStatistic(), 'order_item_id', 'id');
         }
 
         public function getCourseCompletionPercentageAttribute()
@@ -93,7 +93,7 @@ if (!class_exists('OrderItem')) {
 
         public static function softDeleteByCourseId(int $courseId)
         {
-            return OrderItem::where('course_id', $courseId)->update(['course_id' => null]);
+            return acadlix()->model()->orderItem()->where('course_id', $courseId)->update(['course_id' => null]);
         }
     }
 }

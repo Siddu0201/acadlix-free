@@ -42,15 +42,15 @@ if(!class_exists('StatisticRef')){
         }
 
         public function getQuizAttribute(){
-            return Quiz::ofQuiz()->find($this->quiz_id);
+            return acadlix()->model()->quiz()->ofQuiz()->find($this->quiz_id);
         }
 
         public function statistics(){
-            return $this->hasMany(Statistic::class, "statistic_ref_id", "id");
+            return $this->hasMany(acadlix()->model()->statistic(), "statistic_ref_id", "id");
         }
 
         public function user(){
-            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
 
     }

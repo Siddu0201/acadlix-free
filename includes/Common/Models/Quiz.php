@@ -31,17 +31,12 @@ if (!class_exists('Quiz')) {
         }
         public function getCategoryAttribute()
         {
-            return Category::get_quiz_category($this->ID);
+            return acadlix()->model()->category()->get_quiz_category($this->ID);
         }
         public function getLanguagesAttribute()
         {
-            return Language::get_quiz_languages($this->ID);
+            return acadlix()->model()->language()->get_quiz_languages($this->ID);
         }
-
-        // public function prerequisites()
-        // {
-        //     return null;
-        // }
 
         public function getRenderedPostContentAttribute()
         {
@@ -51,12 +46,12 @@ if (!class_exists('Quiz')) {
 
         public function quiz_shortcode()
         {
-            return $this->hasOne(QuizShortcode::class, 'quiz_id', 'ID');
+            return $this->hasOne(acadlix()->model()->quizShortcode(), 'quiz_id', 'ID');
         }
 
         public function metas()
         {
-            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
+            return $this->hasMany(acadlix()->model()->wpPostMeta(), 'post_id', 'ID');
         }
 
         public function getRenderedMetasAttribute()
@@ -178,7 +173,7 @@ if (!class_exists('Quiz')) {
             $do_not_randomize_last_option = $metas['quiz_settings']['do_not_randomize_last_option'] ?? false;
 
             $subject_times = $this->subject_times;
-            $questions = Question::
+            $questions = acadlix()->model()->question()->
                 ofOnline()
                 ->where('quiz_id', $this->ID)
                 ->when($random_question, fn($query) => $query->inRandomOrder())
@@ -236,8 +231,8 @@ if (!class_exists('Quiz')) {
 
         public function getQuestionsAttribute()
         {
-            // return $this->hasMany(Question::class, "quiz_id", "ID");
-            return Question::ofOnline()->where('quiz_id', $this->ID)->get();
+            // return $this->hasMany(acadlix()->model()->question(), "quiz_id", "ID");
+            return acadlix()->model()->question()->ofOnline()->where('quiz_id', $this->ID)->get();
         }
 
         public function getQuestionsCountAttribute()
@@ -245,15 +240,9 @@ if (!class_exists('Quiz')) {
             return count($this->questions);
         }
 
-        public function getSubjectTimesAttribute()
-        {
-            $subjectTime = SubjectTime::where("quiz_id", $this->ID)->get();
-            return $subjectTime;
-        }
-
         public function author()
         {
-            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
         }
 
         public static function insertQuiz(array $data, array $meta = [])
@@ -339,44 +328,26 @@ if (!class_exists('Quiz')) {
             }
 
             // Delete Question
-            Question::where("quiz_id", $postId)->delete();
-
-            // Delete Paragraph
-            // $paragraph = Paragraph::where("post_parent", $postId)->get();
-            // if($paragraph->count() > 0){
-            //     foreach ($paragraph as $p) {
-            //         Paragraph::deleteParagraph($p->ID);
-            //     }
-            // }
+            acadlix()->model()->question()->where("quiz_id", $postId)->delete();
 
             // Delete Statistic
-            StatisticRef::where("quiz_id", $postId)->delete();
+            acadlix()->model()->statisticRef()->where("quiz_id", $postId)->delete();
 
             // Delete Toplist
-            Toplist::where("quiz_id", $postId)->delete();
+            acadlix()->model()->toplist()->where("quiz_id", $postId)->delete();
 
             // Delete User Meta Activity data
-            UserActivityMeta::ofQuiz()
+            acadlix()->model()->userActivityMeta()->ofQuiz()
                 ->where("type_id", $postId)
                 ->delete();
 
             // Delete Course Section Content
-            $courseSectionContent = new CourseSectionContent();
-            $courseSectionContents = $courseSectionContent->getByQuizId($postId);
+            $courseSectionContents = acadlix()->model()->courseSectionContent()->getByQuizId($postId);
             if ($courseSectionContents) {
                 foreach ($courseSectionContents as $csc) {
-                    CourseSectionContent::deleteCourseSectionContent($csc->ID);
+                    acadlix()->model()->courseSectionContent()->deleteCourseSectionContent($csc->ID);
                 }
             }
-
-            // Delete prerequisite
-            // Prerequisite::ofTypeQuiz()
-            //     ->where("type_id", $postId)
-            //     ->delete();
-
-            // Prerequisite::ofPreRequisiteTypeQuiz()
-            //     ->where("prerequisite_id", $postId)
-            //     ->delete();
 
             return true;
         }

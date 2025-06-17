@@ -5,13 +5,6 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
-use Yuvayana\Acadlix\Common\Helper\CptHelper;
-use Yuvayana\Acadlix\Common\Models\Assignment;
-use Yuvayana\Acadlix\Common\Models\Course;
-use Yuvayana\Acadlix\Common\Models\CourseSection;
-use Yuvayana\Acadlix\Common\Models\CourseSectionContent;
-use Yuvayana\Acadlix\Common\Models\Lesson;
-use Yuvayana\Acadlix\Common\Models\Quiz;
 
 defined('ABSPATH') || exit();
 
@@ -126,29 +119,29 @@ class AdminCourseController
             ]
         );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/section/(?P<section_id>[\d]+)/content/(?P<content_id>[\d]+)/preview',
-            [
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_toogle_preview_content'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'section_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                        'content_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/section/(?P<section_id>[\d]+)/content/(?P<content_id>[\d]+)/preview',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::EDITABLE,
+        //             'callback' => [$this, 'post_toogle_preview_content'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //             'args' => array(
+        //                 'section_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //                 'content_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //             ),
+        //         ],
+        //     ]
+        // );
 
         register_rest_route(
             $this->namespace,
@@ -236,60 +229,60 @@ class AdminCourseController
             ]
         );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/get-assignments-for-course',
-            [
-                [
-                    'methods' => WP_REST_Server::READABLE,
-                    'callback' => [$this, 'get_assignments_for_course'],
-                    'permission_callback' => [$this, 'check_permission'],
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/get-assignments-for-course',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::READABLE,
+        //             'callback' => [$this, 'get_assignments_for_course'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //         ],
+        //     ]
+        // );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/section/(?P<section_id>[\d]+)/assignment',
-            [
-                [
-                    'methods' => WP_REST_Server::CREATABLE,
-                    'callback' => [$this, 'post_add_create_assignment'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'section_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/section/(?P<section_id>[\d]+)/assignment',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::CREATABLE,
+        //             'callback' => [$this, 'post_add_create_assignment'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //             'args' => array(
+        //                 'section_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //             ),
+        //         ],
+        //     ]
+        // );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/section/(?P<section_id>[\d]+)/assignment/(?P<assignment_id>[\d]+)',
-            [
-                [
-                    'methods' => WP_REST_Server::CREATABLE,
-                    'callback' => [$this, 'post_update_assignment_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'section_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                        'assignment_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/section/(?P<section_id>[\d]+)/assignment/(?P<assignment_id>[\d]+)',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::CREATABLE,
+        //             'callback' => [$this, 'post_update_assignment_by_id'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //             'args' => array(
+        //                 'section_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //                 'assignment_id' => array(
+        //                     'validate_callback' => function ($param, $request, $key) {
+        //                         return is_numeric($param);
+        //                     }
+        //                 ),
+        //             ),
+        //         ],
+        //     ]
+        // );
 
         register_rest_route(
             $this->namespace,
@@ -343,12 +336,12 @@ class AdminCourseController
 
         // Prepare meta data
         $meta = !empty($params['meta']) && is_array($params['meta'])
-            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'course')
+            ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'course')
             : [];
 
         try {
             // Insert the lesson post
-            $courseId = Course::updateCourse($courseId, [], $meta);
+            $courseId = acadlix()->model()->course()->updateCourse($courseId, [], $meta);
 
             if (is_wp_error($courseId)) {
                 return new WP_Error(
@@ -407,7 +400,7 @@ class AdminCourseController
             // Change post status and title
             $course_post = get_post($courseId, ARRAY_A);
             if ($course_post['post_title'] == 'Auto Draft' && $course_post['post_status'] == 'auto-draft') {
-                Course::updateCourse(
+                acadlix()->model()->course()->updateCourse(
                     $courseId,
                     [
                         'post_title' => __('Draft Course', 'acadlix'),
@@ -416,9 +409,9 @@ class AdminCourseController
                     ],
                 );
             }
-            $course = Course::ofCourse()->with('sections')->find($courseId);
+            $course = acadlix()->model()->course()->ofCourse()->with('sections')->find($courseId);
             // Insert the section post
-            $courseSectionId = CourseSection::insertCourseSection([
+            $courseSectionId = acadlix()->model()->courseSection()->insertCourseSection([
                 'post_title' => sanitize_text_field($params['post_title']),
                 'post_content' => wp_kses_post($params['post_content']),
                 'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
@@ -479,7 +472,7 @@ class AdminCourseController
         }
 
         try {
-            $courseSectionId = CourseSection::updateCourseSection(
+            $courseSectionId = acadlix()->model()->courseSection()->updateCourseSection(
                 $section_id,
                 [
                     'post_title' => sanitize_text_field($params['post_title']),
@@ -530,7 +523,7 @@ class AdminCourseController
             );
         }
 
-        $section = CourseSection::deleteCourseSection($section_id);
+        $section = acadlix()->model()->courseSection()->deleteCourseSection($section_id);
 
         if (is_wp_error($section)) {
             return new WP_Error(
@@ -559,7 +552,7 @@ class AdminCourseController
             );
         }
 
-        $course = Course::ofCourse()->with('sections')->find($courseId);
+        $course = acadlix()->model()->course()->ofCourse()->with('sections')->find($courseId);
 
         if (!$course) {
             return new WP_Error(
@@ -616,7 +609,7 @@ class AdminCourseController
             );
         }
 
-        $section = CourseSection::ofCourseSection()->find($section_id);
+        $section = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
 
         if (!$section) {
             return new WP_Error(
@@ -658,64 +651,64 @@ class AdminCourseController
         return rest_ensure_response($res);
     }
 
-    public function post_toogle_preview_content($request)
-    {
-        $res = [];
-        $section_id = $request['section_id'];
-        $content_id = $request['content_id'];
+    // public function post_toogle_preview_content($request)
+    // {
+    //     $res = [];
+    //     $section_id = $request['section_id'];
+    //     $content_id = $request['content_id'];
 
-        // Validate required fields
-        if (empty($section_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Section id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
+    //     // Validate required fields
+    //     if (empty($section_id)) {
+    //         return new WP_Error(
+    //             'missing_id',
+    //             __('Section id is required.', 'acadlix'),
+    //             ['status' => 400]
+    //         );
+    //     }
 
-        if (empty($content_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Content id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-        $meta = [
-            'preview' => $request->get_param('preview')
-        ];
-        $meta = !empty($meta) && is_array($meta)
-            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($meta, 'course_section_content')
-            : [];
+    //     if (empty($content_id)) {
+    //         return new WP_Error(
+    //             'missing_id',
+    //             __('Content id is required.', 'acadlix'),
+    //             ['status' => 400]
+    //         );
+    //     }
+    //     $meta = [
+    //         'preview' => $request->get_param('preview')
+    //     ];
+    //     $meta = !empty($meta) && is_array($meta)
+    //         ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($meta, 'course_section_content')
+    //         : [];
 
-        $section_content = CourseSectionContent::ofCourseSectionContent()->find($content_id);
-        if (!$section_content) {
-            return new WP_Error(
-                'missing_content',
-                __('Content not found.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-        $courseSectionContentId = CourseSectionContent::updateCourseSectionContent(
-            $content_id,
-            [],
-            $meta
-        );
+    //     $section_content = acadlix()->model()->courseSectionContent()->ofCourseSectionContent()->find($content_id);
+    //     if (!$section_content) {
+    //         return new WP_Error(
+    //             'missing_content',
+    //             __('Content not found.', 'acadlix'),
+    //             ['status' => 400]
+    //         );
+    //     }
+    //     $courseSectionContentId = acadlix()->model()->courseSectionContent()->updateCourseSectionContent(
+    //         $content_id,
+    //         [],
+    //         $meta
+    //     );
 
-        if (is_wp_error($courseSectionContentId)) {
-            return new WP_Error(
-                'course_section_content_updation_failed',
-                __('Failed to update the content.', 'acadlix'),
-                ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
-            );
-        }
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
-        return rest_ensure_response($res);
-    }
+    //     if (is_wp_error($courseSectionContentId)) {
+    //         return new WP_Error(
+    //             'course_section_content_updation_failed',
+    //             __('Failed to update the content.', 'acadlix'),
+    //             ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+    //         );
+    //     }
+    //     $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
+    //     return rest_ensure_response($res);
+    // }
 
     public function get_lessons_for_course()
     {
         $res = [];
-        $res['lessons'] = Lesson::ofLesson()
+        $res['lessons'] = acadlix()->model()->lesson()->ofLesson()
             ->without(['author', 'metas'])
             ->select(["ID", "post_title"])
             ->get()
@@ -738,7 +731,7 @@ class AdminCourseController
             );
         }
 
-        $section = CourseSection::find($section_id);
+        $section = acadlix()->model()->courseSection()->find($section_id);
         if ($params['lesson_type'] == 'add_new') {
             // Validate required fields
             if (empty($params['title'])) {
@@ -751,11 +744,11 @@ class AdminCourseController
 
             // Prepare meta data
             $meta = !empty($params['meta']) && is_array($params['meta'])
-                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+                ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
                 : [];
 
             // Insert the lesson post
-            $lessonId = Lesson::insertLesson([
+            $lessonId = acadlix()->model()->lesson()->insertLesson([
                 'post_title' => sanitize_text_field($params['title']),
                 'post_content' => wp_kses_post($params['content']),
                 'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
@@ -774,11 +767,11 @@ class AdminCourseController
             ];
             // Prepare meta data
             $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
-                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+                ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
                 : [];
 
             // add data to section content
-            $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
+            $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
                 [
                     'post_title' => sanitize_text_field($params['title']),
                     'post_author' => (int) sanitize_text_field($params['post_author']),
@@ -806,7 +799,7 @@ class AdminCourseController
                 );
             }
             foreach ($params['lesson_ids'] as $lesson_id) {
-                $lesson = Lesson::ofLesson()->find($lesson_id);
+                $lesson = acadlix()->model()->lesson()->ofLesson()->find($lesson_id);
                 if (!$lesson) {
                     return new WP_Error(
                         'lesson_not_found',
@@ -821,11 +814,11 @@ class AdminCourseController
                 ];
                 // Prepare meta data
                 $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
-                    ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+                    ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
                     : [];
 
                 // add data to section content
-                $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
+                $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
                     [
                         'post_title' => sanitize_text_field($lesson['post_title']),
                         'post_author' => (int) sanitize_text_field($lesson['post_author']),
@@ -844,7 +837,7 @@ class AdminCourseController
                 }
             }
         }
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
+        $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
@@ -875,11 +868,11 @@ class AdminCourseController
 
         // Prepare meta data
         $meta = !empty($params['meta']) && is_array($params['meta'])
-            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
+            ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'lesson')
             : [];
 
         // Update the lesson post
-        $lessonId = Lesson::updateLesson($lesson_id, [
+        $lessonId = acadlix()->model()->lesson()->updateLesson($lesson_id, [
             'post_title' => sanitize_text_field($params['title']),
             'post_content' => wp_kses_post($params['content']),
         ], $meta);
@@ -892,14 +885,14 @@ class AdminCourseController
             );
         }
 
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
+        $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
     public function get_quizzes_for_course()
     {
         $res = [];
-        $res['quizzes'] = Quiz::ofQuiz()
+        $res['quizzes'] = acadlix()->model()->quiz()->ofQuiz()
             ->without(['author', 'metas', 'quiz_shortcode'])
             ->whereHas("quiz_shortcode")
             ->orderBy('ID', 'desc')
@@ -932,10 +925,10 @@ class AdminCourseController
             );
         }
 
-        $section = CourseSection::ofCourseSection()->find($section_id);
+        $section = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
 
         foreach ($params['quiz_ids'] as $quiz_id) {
-            $quiz = Quiz::ofQuiz()->find($quiz_id);
+            $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
             if (!$quiz) {
                 return new WP_Error(
                     'quiz_not_found',
@@ -951,11 +944,11 @@ class AdminCourseController
 
             // Prepare meta data
             $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
-                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+                ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
                 : [];
 
             // add data to section content
-            $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
+            $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
                 [
                     'post_title' => sanitize_text_field($quiz['post_title']),
                     'post_author' => (int) sanitize_text_field($quiz['post_author']),
@@ -973,203 +966,203 @@ class AdminCourseController
                 );
             }
         }
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
+        $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 
-    public function get_assignments_for_course($request)
-    {
-        $res = [];
+    // public function get_assignments_for_course($request)
+    // {
+    //     $res = [];
 
-        $res['assignments'] = Assignment::ofAssignment()
-            ->without(['author', 'metas'])
-            ->select(["ID", "post_title"])
-            // ->limit(50)
-            ->get()
-            ->each
-            ->setAppends([]);
-        return rest_ensure_response($res);
-    }
+    //     $res['assignments'] = Assignment::ofAssignment()
+    //         ->without(['author', 'metas'])
+    //         ->select(["ID", "post_title"])
+    //         // ->limit(50)
+    //         ->get()
+    //         ->each
+    //         ->setAppends([]);
+    //     return rest_ensure_response($res);
+    // }
 
-    public function post_add_create_assignment($request)
-    {
-        $res = [];
-        $params = $request->get_json_params();
-        $section_id = $request['section_id'];
+    // public function post_add_create_assignment($request)
+    // {
+    //     $res = [];
+    //     $params = $request->get_json_params();
+    //     $section_id = $request['section_id'];
 
-        // Validate required fields
-        if (empty($section_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Section id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
+    //     // Validate required fields
+    //     if (empty($section_id)) {
+    //         return new WP_Error(
+    //             'missing_id',
+    //             __('Section id is required.', 'acadlix'),
+    //             ['status' => 400]
+    //         );
+    //     }
 
-        $section = CourseSection::ofCourseSection()->find($section_id);
+    //     $section = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
         
-        if($params['assignment_type'] == 'add_new'){
-            // Validate required fields
-            if (empty($params['title'])) {
-                return new WP_Error(
-                    'missing_title',
-                    __('Assignment title is required.', 'acadlix'),
-                    ['status' => 400]
-                );
-            }
+    //     if($params['assignment_type'] == 'add_new'){
+    //         // Validate required fields
+    //         if (empty($params['title'])) {
+    //             return new WP_Error(
+    //                 'missing_title',
+    //                 __('Assignment title is required.', 'acadlix'),
+    //                 ['status' => 400]
+    //             );
+    //         }
 
-            // Prepare meta data
-            $meta = !empty($params['meta']) && is_array($params['meta'])
-                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'assignment')
-                : [];
+    //         // Prepare meta data
+    //         $meta = !empty($params['meta']) && is_array($params['meta'])
+    //             ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'assignment')
+    //             : [];
 
-            // add data to section content
-            $assignmentId = Assignment::insertAssignment(
-                [
-                    'post_title' => sanitize_text_field($params['title']),
-                    'post_content' => wp_kses_post($params['post_content']),
-                    'post_author' => (int) sanitize_text_field($params['post_author']),
-                ],
-                $meta
-            );
+    //         // add data to section content
+    //         $assignmentId = Assignment::insertAssignment(
+    //             [
+    //                 'post_title' => sanitize_text_field($params['title']),
+    //                 'post_content' => wp_kses_post($params['post_content']),
+    //                 'post_author' => (int) sanitize_text_field($params['post_author']),
+    //             ],
+    //             $meta
+    //         );
 
-            if (is_wp_error($assignmentId)) {
-                return new WP_Error(
-                    'assignment_creation_failed',
-                    __('Failed to create the assignment.', 'acadlix'),
-                    ['status' => 500, 'error' => $assignmentId->get_error_message()]
-                );
-            }
+    //         if (is_wp_error($assignmentId)) {
+    //             return new WP_Error(
+    //                 'assignment_creation_failed',
+    //                 __('Failed to create the assignment.', 'acadlix'),
+    //                 ['status' => 500, 'error' => $assignmentId->get_error_message()]
+    //             );
+    //         }
 
-            $courseSectionContentMetas = [
-                "type" => "assignment",
-                "assignment_id" => $assignmentId
-            ];
+    //         $courseSectionContentMetas = [
+    //             "type" => "assignment",
+    //             "assignment_id" => $assignmentId
+    //         ];
 
-            // Prepare meta data
-            $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
-                ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
-                : [];
+    //         // Prepare meta data
+    //         $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
+    //             ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+    //             : [];
 
-            // add data to section content
-            $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
-                [
-                    'post_title' => sanitize_text_field($params['title']),
-                    'post_author' => (int) sanitize_text_field($params['post_author']),
-                    'post_parent' => $section_id,
-                    'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
-                ],
-                $meta
-            );
+    //         // add data to section content
+    //         $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
+    //             [
+    //                 'post_title' => sanitize_text_field($params['title']),
+    //                 'post_author' => (int) sanitize_text_field($params['post_author']),
+    //                 'post_parent' => $section_id,
+    //                 'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
+    //             ],
+    //             $meta
+    //         );
 
-            if (is_wp_error($courseSectionContentId)) {
-                return new WP_Error(
-                    'course_section_content_creation_failed',
-                    __('Failed to create the course section content.', 'acadlix'),
-                    ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
-                );
-            }
-        }
+    //         if (is_wp_error($courseSectionContentId)) {
+    //             return new WP_Error(
+    //                 'course_section_content_creation_failed',
+    //                 __('Failed to create the course section content.', 'acadlix'),
+    //                 ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+    //             );
+    //         }
+    //     }
 
-        if($params['assignment_type'] == 'existing'){
-            if(empty($params['assignment_ids']) || !is_array($params['assignment_ids']) || count($params['assignment_ids']) == 0){
-                return new WP_Error(
-                    'missing_ids',
-                    __('Assignment ids is required.', 'acadlix'),
-                    ['status' => 400]
-                );
-            }
+    //     if($params['assignment_type'] == 'existing'){
+    //         if(empty($params['assignment_ids']) || !is_array($params['assignment_ids']) || count($params['assignment_ids']) == 0){
+    //             return new WP_Error(
+    //                 'missing_ids',
+    //                 __('Assignment ids is required.', 'acadlix'),
+    //                 ['status' => 400]
+    //             );
+    //         }
 
-            foreach ($params['assignment_ids'] as $assignment_id) {
-                $assignment = Assignment::ofAssignment()->find($assignment_id);
-                if(!$assignment){
-                    return new WP_Error(
-                        'assignment_not_found',
-                        __('Assignment not found.', 'acadlix'),
-                        ['status' => 500]
-                    );
-                }
+    //         foreach ($params['assignment_ids'] as $assignment_id) {
+    //             $assignment = Assignment::ofAssignment()->find($assignment_id);
+    //             if(!$assignment){
+    //                 return new WP_Error(
+    //                     'assignment_not_found',
+    //                     __('Assignment not found.', 'acadlix'),
+    //                     ['status' => 500]
+    //                 );
+    //             }
 
-                $courseSectionContentMetas = [
-                    "type" => "assignment",
-                    "assignment_id" => $assignment_id
-                ];
+    //             $courseSectionContentMetas = [
+    //                 "type" => "assignment",
+    //                 "assignment_id" => $assignment_id
+    //             ];
 
-                // Prepare meta data
-                $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
-                    ? CptHelper::instance()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
-                    : [];
+    //             // Prepare meta data
+    //             $meta = !empty($courseSectionContentMetas) && is_array($courseSectionContentMetas)
+    //                 ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($courseSectionContentMetas, 'course_section_content')
+    //                 : [];
 
-                // add data to section content
-                $courseSectionContentId = CourseSectionContent::insertCourseSectionContent(
-                    [
-                        'post_title' => sanitize_text_field($assignment['post_title']),
-                        'post_author' => (int) sanitize_text_field($assignment['post_author']),
-                        'post_parent' => $section_id,
-                        'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
-                    ],
-                    $meta
-                );
+    //             // add data to section content
+    //             $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
+    //                 [
+    //                     'post_title' => sanitize_text_field($assignment['post_title']),
+    //                     'post_author' => (int) sanitize_text_field($assignment['post_author']),
+    //                     'post_parent' => $section_id,
+    //                     'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
+    //                 ],
+    //                 $meta
+    //             );
 
-                if (is_wp_error($courseSectionContentId)) {
-                    return new WP_Error(
-                        'course_section_content_creation_failed',
-                        __('Failed to create the course section content.', 'acadlix'),
-                        ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
-                    );
-                }
-            }
-        }
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
-        return rest_ensure_response($res);
-    }
+    //             if (is_wp_error($courseSectionContentId)) {
+    //                 return new WP_Error(
+    //                     'course_section_content_creation_failed',
+    //                     __('Failed to create the course section content.', 'acadlix'),
+    //                     ['status' => 500, 'error' => $courseSectionContentId->get_error_message()]
+    //                 );
+    //             }
+    //         }
+    //     }
+    //     $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
+    //     return rest_ensure_response($res);
+    // }
 
-    public function post_update_assignment_by_id($request)
-    {
-        $res = [];
-        $section_id = $request['section_id'];
-        $assignment_id = $request['assignment_id'];
-        $params = $request->get_json_params();
+    // public function post_update_assignment_by_id($request)
+    // {
+    //     $res = [];
+    //     $section_id = $request['section_id'];
+    //     $assignment_id = $request['assignment_id'];
+    //     $params = $request->get_json_params();
 
-        // Validate required fields
-        if(empty($params['title'])) {
-            return new WP_Error(
-                'missing_title',
-                __('Assignment title is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
+    //     // Validate required fields
+    //     if(empty($params['title'])) {
+    //         return new WP_Error(
+    //             'missing_title',
+    //             __('Assignment title is required.', 'acadlix'),
+    //             ['status' => 400]
+    //         );
+    //     }
 
-        if (empty($assignment_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Assignment id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
+    //     if (empty($assignment_id)) {
+    //         return new WP_Error(
+    //             'missing_id',
+    //             __('Assignment id is required.', 'acadlix'),
+    //             ['status' => 400]
+    //         );
+    //     }
 
-        // Prepare meta data
-        $meta = !empty($params['meta']) && is_array($params['meta'])
-            ? CptHelper::instance()->acadlix_add_prefix_meta_keys($params['meta'], 'assignment')
-            : [];
+    //     // Prepare meta data
+    //     $meta = !empty($params['meta']) && is_array($params['meta'])
+    //         ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($params['meta'], 'assignment')
+    //         : [];
 
-        // Update the assignment post
-        $assignmentId = Assignment::updateAssignment($assignment_id, [
-            'post_title' => sanitize_text_field($params['title']),
-            'post_content' => wp_kses_post($params['post_content']),
-        ], $meta);
+    //     // Update the assignment post
+    //     $assignmentId = Assignment::updateAssignment($assignment_id, [
+    //         'post_title' => sanitize_text_field($params['title']),
+    //         'post_content' => wp_kses_post($params['post_content']),
+    //     ], $meta);
 
-        if(!$assignmentId){
-            return new WP_Error(
-                'assignment_not_found',
-                __('Assignment not found.', 'acadlix'),
-                ['status' => 500]
-            );
-        }
+    //     if(!$assignmentId){
+    //         return new WP_Error(
+    //             'assignment_not_found',
+    //             __('Assignment not found.', 'acadlix'),
+    //             ['status' => 500]
+    //         );
+    //     }
 
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
-        return rest_ensure_response($res);
-    }
+    //     $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
+    //     return rest_ensure_response($res);
+    // }
 
     public function remove_content($request)
     {
@@ -1194,9 +1187,9 @@ class AdminCourseController
             );
         }
 
-        $section_content = CourseSectionContent::find($content_id);
+        $section_content = acadlix()->model()->courseSectionContent()->find($content_id);
         if ($section_content) {
-            $content_id = CourseSectionContent::deleteCourseSectionContent($content_id);
+            $content_id = acadlix()->model()->courseSectionContent()->deleteCourseSectionContent($content_id);
 
             if (is_wp_error($content_id)) {
                 return new WP_Error(
@@ -1206,7 +1199,7 @@ class AdminCourseController
                 );
             }
         }
-        $res['section'] = CourseSection::ofCourseSection()->find($section_id);
+        $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
     }
 

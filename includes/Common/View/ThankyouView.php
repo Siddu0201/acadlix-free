@@ -36,8 +36,8 @@ function capture_paypal_order($order_id)
 
     // Send the request to PayPal
     $response = wp_remote_post($url, $args);
-    $order_meta = OrderMeta::where("meta_value", $order_id)->first();
-    $order = Order::find($order_meta->order_id);
+    $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $order_id)->first();
+    $order = acadlix()->model()->order()->find($order_meta->order_id);
     if (is_wp_error($response)) {
         // Handle the error if the request fails
         $order->updateOrCreateMeta('message', $response->get_error_message());
@@ -59,7 +59,7 @@ function capture_paypal_order($order_id)
             ]);
             if ($order->order_items()->count() > 0) {
                 foreach ($order->order_items as $item) {
-                    $cart = CourseCart::where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                    $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
                     $cart->delete();
                 }
             }
@@ -113,8 +113,8 @@ function capture_payu_order($txnid)
         'timeout' => 45,
     ]);
 
-    $order_meta = OrderMeta::where("meta_value", $txnid)->first();
-    $order = Order::find($order_meta->order_id);
+    $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $txnid)->first();
+    $order = acadlix()->model()->order()->find($order_meta->order_id);
     if (is_wp_error($response)) {
         $order->updateOrCreateMeta('message', $response->get_error_message());
         return 'Error: ' . $response->get_error_message();
@@ -139,7 +139,7 @@ function capture_payu_order($txnid)
                 ]);
                 if ($order->order_items()->count() > 0) {
                     foreach ($order->order_items as $item) {
-                        $cart = CourseCart::where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                        $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
                         $cart->delete();
                     }
                 }
@@ -163,9 +163,9 @@ function capture_payu_order($txnid)
 if (isset($_GET['token'])) { //phpcs:ignore
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- token verification for payment
     $token = sanitize_text_field(wp_unslash($_GET['token']));
-    $order_meta = OrderMeta::where("meta_value", $token)->first();
+    $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $token)->first();
     if ($order_meta) {
-        $order = Order::find($order_meta->order_id);
+        $order = acadlix()->model()->order()->find($order_meta->order_id);
         if ($order) {
             switch ($order->getMetaValue("payment_method")) {
                 case "razorpay":

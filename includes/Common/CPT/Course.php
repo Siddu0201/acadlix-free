@@ -179,7 +179,7 @@ final class Course extends CPT_Abstract
         }
 
         if (!empty($post->post_title) && $postId) {
-            OrderItem::where("course_id", $postId)->update(["course_title" => $post->post_title]);
+            acadlix()->model()->orderItem()->where("course_id", $postId)->update(["course_title" => $post->post_title]);
         }
     }
 
@@ -206,14 +206,14 @@ final class Course extends CPT_Abstract
 
     public function custom_column_content($column, $post_id = 0)
     {
-        $course = \Yuvayana\Acadlix\Common\Models\Course::find($post_id);
+        $course = acadlix()->model()->course()->find($post_id);
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
         $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         $price = $course->rendered_metas['price'] ?? 0;
         $final_price = $enable_sale_price
             ? ($sale_price == 0 ? "Free" : acadlix()->helper()->course()->getCoursePrice($sale_price) . " <del>" . acadlix()->helper()->course()->getCoursePrice($price) . "</del>")
             : ($price == 0 ? "Free" : acadlix()->helper()->course()->getCoursePrice($price));
-        $order_items = OrderItem::with(["order"])
+        $order_items = acadlix()->model()->orderItem()->with(["order"])
             ->where("course_id", $post_id)
             ->whereHas("order", function ($query) {
                 $query->where("status", "success");
@@ -264,7 +264,7 @@ final class Course extends CPT_Abstract
         );
 
         $users = get_users($args);
-        $course = \Yuvayana\Acadlix\Common\Models\Course::with('sections')->find($post->ID);
+        $course = acadlix()->model()->course()->with('sections')->find($post->ID);
         ?>
         <script type="text/javascript">
             window.acadlixCourseList = window.acadlixCourseList || [];
@@ -323,9 +323,9 @@ final class Course extends CPT_Abstract
         if ($post_type !== $this->_post_type) {
             return;
         }
-        $course = \Yuvayana\Acadlix\Common\Models\Course::find($post_id);
+        $course = acadlix()->model()->course()->find($post_id);
         if ($course) {
-            \Yuvayana\Acadlix\Common\Models\Course::deleteCourse($post_id);
+            acadlix()->model()->course()->deleteCourse($post_id);
         }
     }
 

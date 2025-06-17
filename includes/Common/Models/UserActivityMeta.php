@@ -60,7 +60,7 @@ if (!class_exists('UserActivityMeta')) {
 
         public function user()
         {
-            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
 
     }

@@ -4,13 +4,6 @@ namespace Yuvayana\Acadlix\Common\REST\Front;
 
 use WP_REST_Server;
 use WP_Error;
-use Illuminate\Contracts\Database\Query\Builder;
-use Yuvayana\Acadlix\Common\Helper\EmailHelper;
-use Yuvayana\Acadlix\Common\Models\Prerequisite;
-use Yuvayana\Acadlix\Common\Models\Quiz;
-use Yuvayana\Acadlix\Common\Models\StatisticRef;
-use Yuvayana\Acadlix\Common\Models\Toplist;
-use Yuvayana\Acadlix\Common\Models\UserActivityMeta;
 
 defined('ABSPATH') || exit();
 
@@ -123,7 +116,7 @@ class FrontQuizController
                 ['status' => 400]
             );
         }
-        $quiz = Quiz::ofQuiz()->find($quiz_id)->setAppends([
+        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id)->setAppends([
             'rendered_post_content',
             'rendered_metas',
             'category',
@@ -152,14 +145,14 @@ class FrontQuizController
                 ['status' => 400]
             );
         }
-        $quiz = Quiz::ofQuiz()->find($quiz_id);
+        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $user_id = $params['user_id'];
         $user_token = $params['user_token'];
 
         // check quiz attempt
         $per_user_allowed_attempt = $quiz->rendered_metas['quiz_settings']['per_user_allowed_attempt'] ?? 0;
         if ($per_user_allowed_attempt > 0) {
-            $user_attempts = UserActivityMeta::ofQuiz()
+            $user_attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
                 ->ofQuizAttempt()
                 ->where('type_id', $quiz_id)
                 ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
@@ -173,39 +166,39 @@ class FrontQuizController
         }
 
         // check prerequisite 
-        $enable_prerequisite = $quiz->rendered_metas['quiz_settings']['enable_prerequisite'];
-        if ($enable_prerequisite) {
-            $prerquisites = Prerequisite::ofTypeQuiz()
-                ->ofPrerequisiteTypeQuiz()
-                ->where("type_id", $quiz_id)
-                ->get()
-                ->each
-                ->setAppends([
-                    'quiz_title'
-                ]);
-            if (count($prerquisites) > 0) {
-                foreach ($prerquisites as $prerequisite) {
-                    $user_attempts = UserActivityMeta::ofQuiz()
-                        ->ofQuizAttempt()
-                        ->where('type_id', $prerequisite->prerequisite_id)
-                        ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
-                        ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
-                        ->first();
+        // $enable_prerequisite = $quiz->rendered_metas['quiz_settings']['enable_prerequisite'];
+        // if ($enable_prerequisite) {
+        //     $prerquisites = Prerequisite::ofTypeQuiz()
+        //         ->ofPrerequisiteTypeQuiz()
+        //         ->where("type_id", $quiz_id)
+        //         ->get()
+        //         ->each
+        //         ->setAppends([
+        //             'quiz_title'
+        //         ]);
+        //     if (count($prerquisites) > 0) {
+        //         foreach ($prerquisites as $prerequisite) {
+        //             $user_attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
+        //                 ->ofQuizAttempt()
+        //                 ->where('type_id', $prerequisite->prerequisite_id)
+        //                 ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
+        //                 ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
+        //                 ->first();
 
-                    if (!$user_attempts || $user_attempts->meta_value == 0) {
-                        // translators: %s is the title of the quiz
-                        $errors[] = sprintf(__('You need to attempt %s to unlock this quiz.', 'acadlix'), $prerequisite->quiz_title);
-                    }
-                }
-            }
+        //             if (!$user_attempts || $user_attempts->meta_value == 0) {
+        //                 // translators: %s is the title of the quiz
+        //                 $errors[] = sprintf(__('You need to attempt %s to unlock this quiz.', 'acadlix'), $prerequisite->quiz_title);
+        //             }
+        //         }
+        //     }
 
-        }
+        // }
 
         // handle when min percentage is added in future
         // $i = 0;
         // if (count($prerquisite_quizzes) > 0) {
         //     foreach ($prerquisite_quizzes as $prerquisite_quiz) {
-        //         $statistic_ref = StatisticRef::where('quiz_id', $prerquisite_quiz->prerequisite_quiz_id)->where('user_id', $params['user_id']);
+        //         $statistic_ref = acadlix()->model()->statisticRef()->where('quiz_id', $prerquisite_quiz->prerequisite_quiz_id)->where('user_id', $params['user_id']);
         //         if ($statistic_ref->count() > 0) {
         //             if ($statistic_ref->max('result') < $prerquisite_quiz->min_percentage) {
         //                 $res['prerequisite'][$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
@@ -250,7 +243,7 @@ class FrontQuizController
         $user_id = $params['user_id'];
         $user_token = $params['user_token'];
 
-        $attempts = UserActivityMeta::ofQuiz()
+        $attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
             ->ofQuizAttempt()
             ->where("type_id", $quiz_id)
             ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
@@ -262,7 +255,7 @@ class FrontQuizController
                 'meta_value' => (int) $attempts->meta_value + 1
             ]);
         } else {
-            $attempts = UserActivityMeta::create([
+            $attempts = acadlix()->model()->userActivityMeta()->create([
                 "user_token" => $params['user_token'],
                 "user_id" => $params['user_id'],
                 "type" => "quiz",
@@ -288,7 +281,7 @@ class FrontQuizController
                 ['status' => 400]
             );
         }
-        $quiz = Quiz::ofQuiz()->find($quiz_id);
+        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $user_id = $params['user_id'];
         $user_token = $params['user_token'];
         $data = [
@@ -309,13 +302,13 @@ class FrontQuizController
         $save_statistic_number_of_times = $quiz->rendered_metas['quiz_settings']['save_statistic_number_of_times'] ?? 0;
 
         if ($save_statistic) {
-            $statistic_ref = StatisticRef::where("quiz_id", $quiz_id)
+            $statistic_ref = acadlix()->model()->statisticRef()->where("quiz_id", $quiz_id)
                 ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
                 ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token));
             $check_ip_lock = $statistic_ip_lock == 0 || round((time() - strtotime($statistic_ref->latest()->first()->created_at)) / 60) > $statistic_ip_lock;
             $check_multiple_entry = $save_statistic_number_of_times == 0 || $save_statistic_number_of_times > $statistic_ref->count();
             if ($statistic_ref->count() == 0 || ($check_ip_lock && $check_multiple_entry)) {
-                $stat_ref = StatisticRef::create($data);
+                $stat_ref = acadlix()->model()->statisticRef()->create($data);
                 foreach ($params['questions'] as $question) {
                     $stat_ref?->statistics()?->create([
                         "question_id" => $question["question_id"],
@@ -332,7 +325,7 @@ class FrontQuizController
             }
             $show_average_score = $quiz->rendered_metas['quiz_settings']['show_average_score'] ?? false;
             $show_percentile = $quiz->rendered_metas['quiz_settings']['show_percentile'] ?? false;
-            $statistic_ref = StatisticRef::where('quiz_id', $quiz_id);
+            $statistic_ref = acadlix()->model()->statisticRef()->where('quiz_id', $quiz_id);
             $res['average_score'] = $statistic_ref->count() > 0 && $show_average_score ? (float) $statistic_ref->avg('points') : 0;
             $res['percentile'] = $statistic_ref->count() > 0 && $show_percentile ? (float) round($data['result'] / ($statistic_ref->max('result') >= $data['result'] ? $statistic_ref->max('result') : $data['result']) * 100, 2) : 0;
         }
@@ -342,13 +335,13 @@ class FrontQuizController
         $leaderboard_user_can_apply_multiple_times = $quiz->rendered_metas['quiz_settings']['leaderboard_user_can_apply_multiple_times'] ?? false;
         $leaderboard_apply_multiple_number_of_times = $quiz->rendered_metas['quiz_settings']['leaderboard_apply_multiple_number_of_times'] ?? 0;
         if ($leaderboard) {
-            $toplist_count = Toplist::where("quiz_id", $quiz_id)
+            $toplist_count = acadlix()->model()->toplist()->where("quiz_id", $quiz_id)
                 ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
                 ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token))
                 ->count();
             $check_multiple_leaderboard_entry = $leaderboard_user_can_apply_multiple_times && ($leaderboard_apply_multiple_number_of_times == 0 || $leaderboard_apply_multiple_number_of_times > $toplist_count);
             if ($toplist_count == 0 || $check_multiple_leaderboard_entry) {
-                $top = Toplist::create([
+                $top = acadlix()->model()->toplist()->create([
                     ...$data,
                     "name" => $params["name"],
                     "email" => $params["email"],
@@ -359,7 +352,7 @@ class FrontQuizController
             $result_comparision_with_topper = $quiz->rendered_metas['quiz_settings']['result_comparision_with_topper'] ?? false;
             $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
             $res['toplist_id'] = $top->id;
-            $toplist = new Toplist();
+            $toplist = acadlix()->model()->toplist();
             if ($show_rank) {
                 $res['rank'] = (int) $toplist->getEntryRank($quiz_id, $top->id);
             }
@@ -394,7 +387,7 @@ class FrontQuizController
             $admin_message = $quiz->rendered_metas['quiz_settings']['admin_message'];
 
             $admin_msg = str_replace(array_keys($r), $r, $admin_message);
-            EmailHelper::instance()->sendEmail(
+            acadlix()->helper()->email()->sendEmail(
                 $admin_to,
                 $admin_subject,
                 $admin_msg,
@@ -410,7 +403,7 @@ class FrontQuizController
             $student_message = $quiz->rendered_metas['quiz_settings']['student_message'];
 
             $student_msg = str_replace(array_keys($r), $r, $student_message);
-            EmailHelper::instance()->sendEmail(
+            acadlix()->helper()->email()->sendEmail(
                 $student_to,
                 $student_subject,
                 $student_msg,
@@ -435,7 +428,7 @@ class FrontQuizController
             );
         }
 
-        $toplist = new Toplist();
+        $toplist = acadlix()->model()->toplist()->where("quiz_id", $quiz_id);
         $res["toplist_count"] = $toplist->count();
         if ($params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"] < 10) {
             $res["toplist"] = $toplist->getTopList($quiz_id, $params["toplist_view_count"], $params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"])->get();

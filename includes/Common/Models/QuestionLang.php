@@ -40,13 +40,13 @@ if (!class_exists('QuestionLang')) {
 
         public function question()
         {
-            return $this->belongsTo(Question::class, 'question_id', 'id');
+            return $this->belongsTo(acadlix()->model()->question(), 'question_id', 'id');
         }
 
         public function getLanguageAttribute()
         {
             if(!is_null($this->language_id)){
-                return Language::find($this->language_id);
+                return acadlix()->model()->language()->find($this->language_id);
             }
             return [];
         }

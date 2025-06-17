@@ -32,22 +32,17 @@ if (!class_exists(class: 'CourseStatistic')) {
         }
 
         public function content(){
-            return $this->belongsTo(CourseSectionContent::class, 'course_section_content_id', 'ID');
+            return $this->belongsTo(acadlix()->model()->courseSectionContent(), 'course_section_content_id', 'ID');
         }
 
         public function order_item()
         {
-            return $this->belongsTo(OrderItem::class, 'order_item_id', 'id');
+            return $this->belongsTo(acadlix()->model()->orderItem(), 'order_item_id', 'id');
         }
 
         public function user()
         {
-            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
-
-        // public function assignment_user_stat()
-        // {
-        //     return $this->hasOne(AssignmentUserStats::class, 'course_statistic_id', 'id');
-        // }
     }
 }

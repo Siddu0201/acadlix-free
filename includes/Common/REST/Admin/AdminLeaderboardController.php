@@ -3,7 +3,6 @@
 namespace Yuvayana\Acadlix\Common\REST\Admin;
 
 use WP_REST_Server;
-use Yuvayana\Acadlix\Common\Models\Toplist;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -64,7 +63,7 @@ class AdminLeaderboardController {
                 ['status' => 400]
             );
         }
-        $toplist = new Toplist();
+        $toplist = acadlix()->model()->toplist();
         $res['toplist'] = $toplist->getTopList($quiz_id, $params['toplist_view_count'], 10);
         $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
         return rest_ensure_response( $res ); 
@@ -80,7 +79,7 @@ class AdminLeaderboardController {
                 ['status' => 400]
             );
         }
-        $res['toplist'] = Toplist::where("quiz_id", $quiz_id)->delete();
+        $res['toplist'] = acadlix()->model()->toplist()->where("quiz_id", $quiz_id)->delete();
         return rest_ensure_response( $res );
     }
 

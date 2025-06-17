@@ -5,12 +5,6 @@ namespace Yuvayana\Acadlix\Common\REST\Front;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_Error;
-use Yuvayana\Acadlix\Common\Helper\CourseHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
-use Yuvayana\Acadlix\Common\Models\CourseCart;
-use Yuvayana\Acadlix\Common\Models\Order;
-use Yuvayana\Acadlix\Common\Models\OrderItem;
-use Yuvayana\Acadlix\Common\Models\OrderMeta;
 
 defined('ABSPATH') || exit();
 
@@ -140,7 +134,7 @@ class FrontCheckoutController
      */
     public function get_user_cart($userId)
     {
-        $cart = CourseCart::where('user_id', $userId)
+        $cart = acadlix()->model()->courseCart()->where('user_id', $userId)
             ->get();
 
         $result = [
@@ -149,7 +143,7 @@ class FrontCheckoutController
 
         foreach ($cart as $key => $item) {
             $errors = [];
-            $orderItem = OrderItem::whereHas('order', function ($query) use ($userId) {
+            $orderItem = acadlix()->model()->orderItem()->whereHas('order', function ($query) use ($userId) {
                 $query->where('user_id', $userId)->where('status', 'success');
             })->where('course_id', $item->course_id)
                 ->get();
@@ -158,7 +152,7 @@ class FrontCheckoutController
                 $errors[] = __('Course already purchased.', 'acadlix');
             }
 
-            $checkRegistrationDate = CourseHelper::instance()->checkRegistrationDate(
+            $checkRegistrationDate = acadlix()->helper()->course()->checkRegistrationDate(
                 $item->course->start_date,
                 $item->course->end_date
             );
@@ -181,7 +175,7 @@ class FrontCheckoutController
         if ($userId != 0) {
             $res = $this->get_user_cart($userId);
         } else {
-            $res['cart'] = !empty($params['cart_token']) ? CourseCart::where("cart_token", $params['cart_token'])->get() : [];
+            $res['cart'] = !empty($params['cart_token']) ? acadlix()->model()->courseCart()->where("cart_token", $params['cart_token'])->get() : [];
         }
         return rest_ensure_response($res);
     }
@@ -194,7 +188,7 @@ class FrontCheckoutController
             return new WP_Error("cart_id_not_found", __('Cart id is required.', 'acadlix'), array('status' => 404));
         }
 
-        $cart = CourseCart::find($request->get_param("id"));
+        $cart = acadlix()->model()->courseCart()->find($request->get_param("id"));
         if (!$cart) {
             return new WP_Error("cart_not_found", __('No course found.', 'acadlix'), array('status' => 404));
         }
@@ -203,7 +197,7 @@ class FrontCheckoutController
         if ($cart->user_id != 0) {
             $res = $this->get_user_cart($cart->user_id);
         } else {
-            $res['cart'] = CourseCart::where("cart_token", $cart->cart_token)->get();
+            $res['cart'] = acadlix()->model()->courseCart()->where("cart_token", $cart->cart_token)->get();
         }
 
         return rest_ensure_response($res);
@@ -211,8 +205,8 @@ class FrontCheckoutController
 
     public function post_checkout_razorpay($request)
     {
-        $razorpay_key = Helper::instance()->acadlix_get_option('acadlix_razorpay_client_id');
-        $razorpay_secret = Helper::instance()->acadlix_get_option('acadlix_razorpay_secret_key');
+        $razorpay_key = acadlix()->helper()->acadlix_get_option('acadlix_razorpay_client_id');
+        $razorpay_secret = acadlix()->helper()->acadlix_get_option('acadlix_razorpay_secret_key');
 
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
@@ -268,7 +262,7 @@ class FrontCheckoutController
             $data = json_decode($body, true);
 
             if ($data) {
-                $order = Order::create([
+                $order = acadlix()->model()->order()->create([
                     'user_id' => $request->get_param('user_id'),
                     'status' => "pending",
                     'total_amount' => $request->get_param('total_amount'),
@@ -307,7 +301,7 @@ class FrontCheckoutController
 
     public function post_verify_razorpay_payment($request)
     {
-        $razorpay_secret = Helper::instance()->acadlix_get_option('acadlix_razorpay_secret_key');
+        $razorpay_secret = acadlix()->helper()->acadlix_get_option('acadlix_razorpay_secret_key');
 
         $required_fields = array('razorpay_payment_id', 'razorpay_order_id', 'razorpay_signature');
 
@@ -323,8 +317,8 @@ class FrontCheckoutController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $order_meta = OrderMeta::where("meta_value", $request->get_param("razorpay_order_id"))->first();
-        $order = Order::find($order_meta->order_id);
+        $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $request->get_param("razorpay_order_id"))->first();
+        $order = acadlix()->model()->order()->find($order_meta->order_id);
         $generated_signature = hash_hmac('sha256', $request->get_param('razorpay_order_id') . '|' . $request->get_param('razorpay_payment_id'), $razorpay_secret);
         if ($generated_signature === $request->get_param("razorpay_signature")) {
             // Payment is verified
@@ -334,12 +328,12 @@ class FrontCheckoutController
                 ]);
                 if ($order->order_items()->count() > 0) {
                     foreach ($order->order_items as $item) {
-                        $cart = CourseCart::where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                        $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
                         $cart->delete();
                     }
                 }
                 // send mail on success
-                CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
+                acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
             }
             $order->updateOrCreateMeta("razorpay_payment_id", $request->get_param("razorpay_payment_id"));
             $order->updateOrCreateMeta("razorpay_signature", $request->get_param("razorpay_signature"));
@@ -350,7 +344,7 @@ class FrontCheckoutController
             ]);
             $order->updateOrCreateMeta("message", __('Payment verification failed.', 'acadlix'));
             // send mail on failed
-            CourseHelper::instance()->handleFailedTransationEmail($order->id);
+            acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
             wp_send_json_error(['message' => __('Payment verification failed.', 'acadlix')]);
         }
     }
@@ -372,22 +366,22 @@ class FrontCheckoutController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $order_meta = OrderMeta::where("meta_value", $request->get_param("razorpay_order_id"))->first();
-        $order = Order::find($order_meta->order_id);
+        $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $request->get_param("razorpay_order_id"))->first();
+        $order = acadlix()->model()->order()->find($order_meta->order_id);
         $order->update([
             "status" => "failed"
         ]);
         $order->updateOrCreateMeta("message", __('Payment verification failed.', 'acadlix'));
         // send mail on failed
-        CourseHelper::instance()->handleFailedTransationEmail($order->id);
+        acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
         return rest_ensure_response(["success" => true]);
     }
 
     public function post_checkout_paypal($request)
     {
-        $client_id = Helper::instance()->acadlix_get_option("acadlix_paypal_client_id"); // Your PayPal Client ID
-        $secret = Helper::instance()->acadlix_get_option("acadlix_paypal_secret_key");      // Your PayPal Secret
-        $is_sandbox = Helper::instance()->acadlix_get_option("acadlix_paypal_sandbox") == "yes";  // Use sandbox for testing
+        $client_id = acadlix()->helper()->acadlix_get_option("acadlix_paypal_client_id"); // Your PayPal Client ID
+        $secret = acadlix()->helper()->acadlix_get_option("acadlix_paypal_secret_key");      // Your PayPal Secret
+        $is_sandbox = acadlix()->helper()->acadlix_get_option("acadlix_paypal_sandbox") == "yes";  // Use sandbox for testing
 
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
@@ -422,7 +416,7 @@ class FrontCheckoutController
         $credentials = base64_encode($client_id . ':' . $secret);
 
         // Set the return URL and cancel URL for redirecting the user
-        $return_url = esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_thankyou_page_id'))); // Change to your success page URL
+        $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))); // Change to your success page URL
 
         // Create the order payload
         $body = wp_json_encode([
@@ -463,7 +457,7 @@ class FrontCheckoutController
         $data = json_decode($response_body, true);
         // Check if the order was successfully created
         if (isset($data['id'])) {
-            $order = Order::create([
+            $order = acadlix()->model()->order()->create([
                 'user_id' => $request->get_param('user_id'),
                 'status' => "pending",
                 'total_amount' => $request->get_param('total_amount'),
@@ -503,11 +497,11 @@ class FrontCheckoutController
 
     public function post_checkout_payu($request)
     {
-        $merchant_key = Helper::instance()->acadlix_get_option("acadlix_payu_merchant_key");
+        $merchant_key = acadlix()->helper()->acadlix_get_option("acadlix_payu_merchant_key");
         ;
-        $salt = Helper::instance()->acadlix_get_option("acadlix_payu_salt");
+        $salt = acadlix()->helper()->acadlix_get_option("acadlix_payu_salt");
         ;
-        $is_sandbox = Helper::instance()->acadlix_get_option("acadlix_payu_sandbox") == "yes";  // Use sandbox for testing
+        $is_sandbox = acadlix()->helper()->acadlix_get_option("acadlix_payu_sandbox") == "yes";  // Use sandbox for testing
 
         $required_fields = array('currency', 'user_id');
         $params = $request->get_json_params();
@@ -545,7 +539,7 @@ class FrontCheckoutController
         $hash = strtolower(hash('sha512', $hash_string));
 
         $payu_url = $is_sandbox ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment'; // Use live URL for production
-        $return_url = esc_url(get_permalink(Helper::instance()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token=' . $txnid; // Change to your success page URL
+        $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token=' . $txnid; // Change to your success page URL
 
         $payu_data = [
             'key' => $merchant_key,
@@ -560,7 +554,7 @@ class FrontCheckoutController
             'hash' => $hash,
         ];
 
-        $order = Order::create([
+        $order = acadlix()->model()->order()->create([
             'user_id' => $request->get_param('user_id'),
             'status' => "pending",
             'total_amount' => $request->get_param('total_amount'),
@@ -622,7 +616,7 @@ class FrontCheckoutController
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
 
-        $order = Order::create([
+        $order = acadlix()->model()->order()->create([
             'user_id' => $request->get_param('user_id'),
             'status' => "pending",
             'total_amount' => $request->get_param('total_amount'),
@@ -652,12 +646,12 @@ class FrontCheckoutController
             ]);
             if ($order->order_items()->count() > 0) {
                 foreach ($order->order_items as $item) {
-                    $cart = CourseCart::where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                    $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
                     $cart->delete();
                 }
             }
             // send mail on success
-            CourseHelper::instance()->handleCoursePurchaseEmail($order->id);
+            acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
         }
         return rest_ensure_response([
             'status' => 'success',

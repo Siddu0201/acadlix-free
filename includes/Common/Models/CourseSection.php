@@ -31,7 +31,7 @@ if (!class_exists('CourseSection')) {
 
         public function metas()
         {
-            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
+            return $this->hasMany(acadlix()->model()->wpPostMeta(), 'post_id', 'ID');
         }
 
         public function getRenderedMetasAttribute()
@@ -65,7 +65,7 @@ if (!class_exists('CourseSection')) {
 
         public function author()
         {
-            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
         }
 
         public static function insertCourseSection(array $data, array $meta = [])
@@ -118,9 +118,9 @@ if (!class_exists('CourseSection')) {
             }
 
             // Delete Course Section Content
-            $courseSectionContents = CourseSectionContent::where('post_parent', $postId)->get();
+            $courseSectionContents = acadlix()->model()->courseSectionContent()->where('post_parent', $postId)->get();
             foreach ($courseSectionContents as $courseSectionContent) {
-                CourseSectionContent::deleteCourseSectionContent($courseSectionContent->ID);
+                acadlix()->model()->courseSectionContent()->deleteCourseSectionContent($courseSectionContent->ID);
             }
 
             // Delete post
@@ -138,7 +138,7 @@ if (!class_exists('CourseSection')) {
 
         public function contents()
         {
-            return $this->hasMany(CourseSectionContent::class, 'post_parent', 'ID')
+            return $this->hasMany(acadlix()->model()->courseSectionContent(), 'post_parent', 'ID')
                 ->ofCourseSectionContent()
                 ->orderBy("menu_order");
         }

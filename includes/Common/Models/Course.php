@@ -43,7 +43,7 @@ if (!class_exists('Course')) {
 
         public function metas()
         {
-            return $this->hasMany(WpPostMeta::class, 'post_id', 'ID');
+            return $this->hasMany(acadlix()->model()->wpPostMeta(), 'post_id', 'ID');
         }
 
         public function getRenderedMetasAttribute()
@@ -111,7 +111,7 @@ if (!class_exists('Course')) {
 
         public function author()
         {
-            return $this->belongsTo(WpUsers::class, 'post_author', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
         }
 
         public function getUsersAttribute()
@@ -119,7 +119,7 @@ if (!class_exists('Course')) {
             $renderedMetas = $this->rendered_metas;
             return array_key_exists('user_ids', $renderedMetas)
                 ? array_map(function ($userId) {
-                    return WpUsers::find($userId);
+                    return acadlix()->model()->wpUsers()->find($userId);
                 }, $renderedMetas['user_ids'])
                 : [];
         }
@@ -151,23 +151,23 @@ if (!class_exists('Course')) {
             }
 
             // Delete course section children
-            $courseSections = CourseSection::where('post_parent', $postId)->get();
+            $courseSections = acadlix()->model()->courseSection()->where('post_parent', $postId)->get();
             if($courseSections->count() > 0){
                 foreach ($courseSections as $courseSection) {
-                    CourseSection::deleteCourseSection($courseSection->ID);
+                    acadlix()->model()->courseSection()->deleteCourseSection($courseSection->ID);
                 }
             }
 
             // Delete other course related data like user activity meta
-            UserActivityMeta::ofCourse()
+            acadlix()->model()->userActivityMeta()->ofCourse()
                 ->where("type_id", $postId)
                 ->delete();
 
             // Remove course id from order items
-            OrderItem::softDeleteByCourseId($postId);
+            acadlix()->model()->orderItem()->softDeleteByCourseId($postId);
 
             // Remove cart items course
-            CourseCart::where('course_id', $postId)->delete();
+            acadlix()->model()->courseCart()->where('course_id', $postId)->delete();
 
             return true;
         }
@@ -175,7 +175,7 @@ if (!class_exists('Course')) {
 
         public function sections()
         {
-            return $this->hasMany(CourseSection::class, 'post_parent', 'ID')
+            return $this->hasMany(acadlix()->model()->courseSection(), 'post_parent', 'ID')
                 ->ofCourseSection()
                 ->orderBy("menu_order");
         }
@@ -183,7 +183,7 @@ if (!class_exists('Course')) {
 
         // public function cart()
         // {
-        //     return $this->hasOne(CourseCart::class, 'course_id', 'id');
+        //     return $this->hasOne(acadlix()->model()->courseCart(), 'course_id', 'id');
         // }
 
         // public function wishlist()

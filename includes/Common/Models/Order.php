@@ -29,7 +29,7 @@ if (!class_exists('Order')) {
 
         public function order_items()
         {
-            return $this->hasMany(OrderItem::class, 'order_id', 'id');
+            return $this->hasMany(acadlix()->model()->orderItem(), 'order_id', 'id');
         }
 
         public function getCourseNames()
@@ -41,7 +41,7 @@ if (!class_exists('Order')) {
 
         public function order_metas()
         {
-            return $this->hasMany(OrderMeta::class, 'order_id', 'id');
+            return $this->hasMany(acadlix()->model()->orderMeta(), 'order_id', 'id');
         }
 
         public function getMetaValue($key)
@@ -64,7 +64,7 @@ if (!class_exists('Order')) {
 
         public function user()
         {
-            return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
+            return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
 
     }
