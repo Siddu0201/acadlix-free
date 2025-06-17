@@ -3,15 +3,12 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\CptHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 defined('ABSPATH') || exit();
 
 if (!class_exists('Lesson')) {
 
     class Lesson extends Model
     {
-        protected $helper;
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
 
@@ -25,11 +22,6 @@ if (!class_exists('Lesson')) {
 
         protected static $postType = ACADLIX_LESSON_CPT; // Custom post type identifier
 
-        public function __construct()
-        {
-            $this->helper = new Helper();
-        }
-
         /**
          * Boot method to automatically apply the post type condition.
          */
@@ -40,7 +32,7 @@ if (!class_exists('Lesson')) {
 
         public function getRenderedPostContentAttribute()
         {
-            return $this->helper->renderShortCode($this->post_content);
+            return acadlix()->helper()->renderShortCode($this->post_content);
         }
 
         public function metas()
@@ -71,7 +63,7 @@ if (!class_exists('Lesson')) {
                 }
             }
             $renderedMetas = !empty($keyValueArray) && is_array($keyValueArray)
-                ? CptHelper::instance()->acadlix_remome_prefix_meta_keys($keyValueArray, 'lesson')
+                ? acadlix()->helper()->cpt()->acadlix_remome_prefix_meta_keys($keyValueArray, 'lesson')
                 : [];
 
             return $renderedMetas;

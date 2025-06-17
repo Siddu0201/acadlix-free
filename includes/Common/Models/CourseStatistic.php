@@ -45,9 +45,9 @@ if (!class_exists(class: 'CourseStatistic')) {
             return $this->belongsTo(WpUsers::class, 'user_id', 'ID');
         }
 
-        public function assignment_user_stat()
-        {
-            return $this->hasOne(AssignmentUserStats::class, 'course_statistic_id', 'id');
-        }
+        // public function assignment_user_stat()
+        // {
+        //     return $this->hasOne(AssignmentUserStats::class, 'course_statistic_id', 'id');
+        // }
     }
 }

@@ -3,14 +3,11 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\CptHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 defined('ABSPATH') || exit();
 
 if (!class_exists('Quiz')) {
     class Quiz extends Model
     {
-        protected $helper;
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas', 'quiz_shortcode'];
@@ -28,115 +25,6 @@ if (!class_exists('Quiz')) {
 
         protected static $metaPrefix = "_acadlix_quiz_";
 
-        // protected $fillable = [
-        //     "category_id",
-        //     "title",
-        //     "description",
-        //     // Mode
-        //     "mode",
-        //     "enable_back_button",
-        //     "enable_check_button",
-        //     "enable_check_on_option_selected",
-        //     "question_per_page",
-        //     "advance_mode_type",
-        //     // General
-        //     "hide_quiz_title",
-        //     "hide_restart_button",
-        //     "show_clear_response_button",
-        //     "quiz_timing_type",
-        //     "quiz_time",
-        //     "pause_quiz",
-        //     "show_review_button",
-        //     "set_start_date",
-        //     "start_date",
-        //     "set_end_date",
-        //     "end_date",
-        //     "prerequisite",
-        //     "enable_login_register",
-        //     "login_register_type",
-        //     "per_user_allowed_attempt",
-        //     "save_statistic",
-        //     "statistic_ip_lock",
-        //     "save_statistic_number_of_times",
-        //     "on_screen_calculator",
-        //     "quiz_certificate",
-        //     "resume_unfinished_quiz",
-        //     "show_only_specific_number_of_questions",
-        //     "specific_number_of_questions",
-        //     "rate_quiz",
-        //     "quiz_feedback",
-        //     "proctoring",
-        //     "proctoring_max_number_of_time_allowed",
-        //     // Question 
-        //     "show_marks",
-        //     "display_subject",
-        //     "skip_question",
-        //     "answer_bullet",
-        //     "answer_bullet_type",
-        //     "random_question",
-        //     "random_option",
-        //     "do_not_randomize_last_option",
-        //     "question_overview",
-        //     "hide_question_numbering",
-        //     "sort_by_subject",
-        //     "subject_wise_question",
-        //     "optional_subject",
-        //     "attempt_and_move_forward",
-        //     "force_user_to_answer_each_question",
-        //     // Result
-        //     "hide_result",
-        //     "hide_negative_marks",
-        //     "hide_quiz_time",
-        //     "show_speed",
-        //     "show_percentile",
-        //     "show_accuracy",
-        //     "show_average_score",
-        //     "show_subject_wise_analysis",
-        //     "show_marks_distribution",
-        //     "show_status_based_on_min_percent",
-        //     "minimum_percent_to_pass",
-        //     "hide_answer_sheet",
-        //     "show_per_question_time",
-        //     "was_the_solution_helpful",
-        //     "bookmark",
-        //     "report_question_answer",
-        //     "leaderboard",
-        //     "show_rank",
-        //     "result_comparision_with_topper",
-        //     "leaderboard_total_number_of_entries",
-        //     "leaderboard_user_can_apply_multiple_times",
-        //     "leaderboard_apply_multiple_number_of_times",
-        //     "display_leaderboard_in_quiz_result",
-        //     "percent_based_result_text",
-        //     "result_text",
-        //     // Notification
-        //     "admin_email_notification",
-        //     "admin_to",
-        //     "admin_from",
-        //     "admin_subject",
-        //     "admin_message",
-        //     "student_email_notification",
-        //     "student_to",
-        //     "student_from",
-        //     "student_subject",
-        //     "student_message",
-        //     "instructor_email_notification",
-        //     "instructor_to",
-        //     "instructor_from",
-        //     "instructor_subject",
-        //     "instructor_message",
-        //     // Language
-        //     "multi_language",
-        // ];
-
-
-        // protected $appends = ['rendered_description', 'rendered_result_text'];
-
-        public function __construct()
-        {
-            $this->helper = new Helper();
-        }
-
         public function scopeOfQuiz($query)
         {
             return $query->where('post_type', self::$postType);
@@ -150,14 +38,14 @@ if (!class_exists('Quiz')) {
             return Language::get_quiz_languages($this->ID);
         }
 
-        public function prerequisites()
-        {
-            return null;
-        }
+        // public function prerequisites()
+        // {
+        //     return null;
+        // }
 
         public function getRenderedPostContentAttribute()
         {
-            return $this->helper->renderShortCode($this->post_content);
+            return acadlix()->helper()->renderShortCode($this->post_content);
         }
 
 
@@ -194,7 +82,7 @@ if (!class_exists('Quiz')) {
                 }
             }
             $renderedMetas = !empty($keyValueArray) && is_array($keyValueArray)
-                ? CptHelper::instance()->acadlix_remome_prefix_meta_keys($keyValueArray, 'quiz')
+                ? acadlix()->helper()->cpt()->acadlix_remome_prefix_meta_keys($keyValueArray, 'quiz')
                 : [];
 
             // if(isset($renderedMetas[]))
@@ -452,42 +340,25 @@ if (!class_exists('Quiz')) {
 
             // Delete Question
             Question::where("quiz_id", $postId)->delete();
-            // if($question->count() > 0)
-            // {
-            //     foreach ($question as $q) {
-            //         $q->delete();
-            //     }
-            // }
 
             // Delete Paragraph
-            $paragraph = Paragraph::where("post_parent", $postId)->get();
-            if($paragraph->count() > 0){
-                foreach ($paragraph as $p) {
-                    Paragraph::deleteParagraph($p->ID);
-                }
-            }
+            // $paragraph = Paragraph::where("post_parent", $postId)->get();
+            // if($paragraph->count() > 0){
+            //     foreach ($paragraph as $p) {
+            //         Paragraph::deleteParagraph($p->ID);
+            //     }
+            // }
 
             // Delete Statistic
             StatisticRef::where("quiz_id", $postId)->delete();
-            // if($statistic_ref->count() > 0)
-            //     foreach ($statistic_ref as $sr) {
-            //         $sr->delete();
-            //     }
-            // }
 
             // Delete Toplist
             Toplist::where("quiz_id", $postId)->delete();
-            // foreach ($toplist as $t) {
-            //     $t->delete();
-            // }
 
             // Delete User Meta Activity data
             UserActivityMeta::ofQuiz()
                 ->where("type_id", $postId)
                 ->delete();
-            // foreach ($userMetas as $userMeta) {
-            //     $userMeta->delete();
-            // }
 
             // Delete Course Section Content
             $courseSectionContent = new CourseSectionContent();
@@ -499,13 +370,13 @@ if (!class_exists('Quiz')) {
             }
 
             // Delete prerequisite
-            Prerequisite::ofTypeQuiz()
-                ->where("type_id", $postId)
-                ->delete();
+            // Prerequisite::ofTypeQuiz()
+            //     ->where("type_id", $postId)
+            //     ->delete();
 
-            Prerequisite::ofPreRequisiteTypeQuiz()
-                ->where("prerequisite_id", $postId)
-                ->delete();
+            // Prerequisite::ofPreRequisiteTypeQuiz()
+            //     ->where("prerequisite_id", $postId)
+            //     ->delete();
 
             return true;
         }

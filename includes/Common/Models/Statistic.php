@@ -3,14 +3,12 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
 if (!class_exists('Statistic')) {
     class Statistic extends Model
     {
-        protected $helper;
         protected $table = "acadlix_statistic";
 
         protected $fillable = [
@@ -37,11 +35,6 @@ if (!class_exists('Statistic')) {
             "negative_points" => "double",
             "question_time" => "integer",
         ];
-
-        public function __construct()
-        {
-            $this->helper = new Helper();
-        }
 
         public function statistic_ref()
         {

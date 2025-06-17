@@ -3,15 +3,12 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\CptHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
 if (!class_exists('CourseSection')) {
     class CourseSection extends Model
     {
-        protected $helper;
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas', 'contents'];
@@ -22,11 +19,6 @@ if (!class_exists('CourseSection')) {
 
         protected static $postType = ACADLIX_COURSE_SECTION_CPT;
 
-        public function __construct()
-        {
-            $this->helper = new Helper();
-        }
-
         public function scopeOfCourseSection($query)
         {
             return $query->where('post_type', self::$postType);
@@ -34,7 +26,7 @@ if (!class_exists('CourseSection')) {
 
         public function getRenderedPostContentAttribute()
         {
-            return $this->helper->renderShortCode($this->post_content);
+            return acadlix()->helper()->renderShortCode($this->post_content);
         }
 
         public function metas()
@@ -65,7 +57,7 @@ if (!class_exists('CourseSection')) {
                 }
             }
             $renderedMetas = !empty($keyValueArray) && is_array($keyValueArray)
-                ? CptHelper::instance()->acadlix_remome_prefix_meta_keys($keyValueArray, 'course_section')
+                ? acadlix()->helper()->cpt()->acadlix_remome_prefix_meta_keys($keyValueArray, 'course_section')
                 : [];
 
             return $renderedMetas;

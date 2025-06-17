@@ -4,15 +4,12 @@ namespace Yuvayana\Acadlix\Common\Models;
 
 use WP_Query;
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\CptHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
 if (!class_exists(class: 'CourseSectionContent')) {
     class CourseSectionContent extends Model
     {
-        protected $helper;
         protected $table = 'posts'; // Posts table is used for all post types
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas'];
@@ -25,21 +22,9 @@ if (!class_exists(class: 'CourseSectionContent')) {
 
         protected static $postType = ACADLIX_COURSE_SECTION_CONTENT_CPT;
 
-        // protected $with = ['contentable'];
-
-        // public function contentable()
-        // {
-        //     return $this->morphTo();
-        // }
-
         public function course_statistics()
         {
             return $this->hasMany(CourseStatistic::class, 'course_section_content_id', 'ID');
-        }
-
-        public function __construct()
-        {
-            $this->helper = new Helper();
         }
 
         public function scopeOfCourseSectionContent($query)
@@ -49,7 +34,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
 
         public function getRenderedPostContentAttribute()
         {
-            return $this->helper->renderShortCode($this->post_content);
+            return acadlix()->helper()->renderShortCode($this->post_content);
         }
 
         public function author()
@@ -85,7 +70,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
                 }
             }
             $renderedMetas = !empty($keyValueArray) && is_array($keyValueArray)
-                ? CptHelper::instance()->acadlix_remome_prefix_meta_keys($keyValueArray, 'course_section_content')
+                ? acadlix()->helper()->cpt()->acadlix_remome_prefix_meta_keys($keyValueArray, 'course_section_content')
                 : [];
 
             return $renderedMetas;
@@ -129,14 +114,13 @@ if (!class_exists(class: 'CourseSectionContent')) {
                     $contentableId = $renderedMetas['quiz_id'];
                     $contentableTitle = $quiz->post_title ?? "";
                     break;
-                case 'assignment':
-                    $assignment = Assignment::ofAssignment()->find($renderedMetas['assignment_id']);
-                    $contentableId = $renderedMetas['assignment_id'];
-                    $contentableTitle = $assignment->post_title ?? "";
-                    break;
+                // case 'assignment':
+                //     $assignment = Assignment::ofAssignment()->find($renderedMetas['assignment_id']);
+                //     $contentableId = $renderedMetas['assignment_id'];
+                //     $contentableTitle = $assignment->post_title ?? "";
+                //     break;
                 default:
-                    $lesson = Lesson::ofLesson()->find($renderedMetas['lesson_id']);
-                    $contentableId = $renderedMetas['lesson_id'];
+                    $contentableId = $renderedMetas['lesson_id'] ?? null;
                     $contentableTitle = $lesson->post_title ?? "";
             }
             $contentable['id'] = $contentableId;
@@ -151,8 +135,8 @@ if (!class_exists(class: 'CourseSectionContent')) {
             return match ($contentableType) {
                 'lesson' => Lesson::ofLesson()->find($renderedMetas['lesson_id']),
                 'quiz' => Quiz::ofQuiz()->find($renderedMetas['quiz_id']),
-                'assignment' => Assignment::ofAssignment()->find($renderedMetas['assignment_id']),
-                default => throw new \Exception("Unknown contentable type"),
+                // 'assignment' => Assignment::ofAssignment()->find($renderedMetas['assignment_id']),
+                default => null,
             };
         }
 

@@ -18,7 +18,6 @@ class Models
     protected ?Question $question = null;
     protected ?QuestionLang $questionLang = null;
     protected ?Quiz $quiz = null;
-    protected ?QuizLang $quizLang = null;
     protected ?QuizShortcode $quizShortcode = null;
     protected ?Statistic $statistic = null;
     protected ?StatisticRef $statisticRef = null;
@@ -127,13 +126,6 @@ class Models
             $this->quiz = new Quiz();
         }
         return $this->quiz;
-    }
-
-    public function quizLang(): QuizLang|null{
-        if(is_null($this->quizLang)){
-            $this->quizLang = new QuizLang();
-        }
-        return $this->quizLang;
     }
 
     public function quizShortcode(): QuizShortcode|null{

@@ -3,14 +3,12 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
 if (!class_exists('QuestionLang')) {
     class QuestionLang extends Model
     {
-        protected $helper;
         protected $table = "acadlix_question_lang";
 
         protected $fillable = [
@@ -40,11 +38,6 @@ if (!class_exists('QuestionLang')) {
             'rendered_answer_data',
         ];
 
-        public function __construct()
-        {
-            $this->helper = new Helper();
-        }
-
         public function question()
         {
             return $this->belongsTo(Question::class, 'question_id', 'id');
@@ -60,22 +53,22 @@ if (!class_exists('QuestionLang')) {
 
         public function getRenderedQuestionAttribute()
         {
-            return $this->helper->renderShortCode($this->question);
+            return acadlix()->helper()->renderShortCode($this->question);
         }
 
         public function getRenderedCorrectMsgAttribute()
         {
-            return $this->helper->renderShortCode($this->correct_msg);
+            return acadlix()->helper()->renderShortCode($this->correct_msg);
         }
 
         public function getRenderedIncorrectMsgAttribute()
         {
-            return $this->helper->renderShortCode($this->incorrect_msg);
+            return acadlix()->helper()->renderShortCode($this->incorrect_msg);
         }
 
         public function getRenderedHintMsgAttribute()
         {
-            return $this->helper->renderShortCode($this->hint_msg);
+            return acadlix()->helper()->renderShortCode($this->hint_msg);
         }
 
         public function setAnswerDataAttribute($value){
@@ -92,7 +85,7 @@ if (!class_exists('QuestionLang')) {
             $answer_type = $this->question()->first()->answer_type;
             if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
                 foreach ($value[$answer_type] as $okey => $opt) {
-                    $opt['option'] = $this->helper->renderShortCode($opt["option"]);
+                    $opt['option'] = acadlix()->helper()->renderShortCode($opt["option"]);
                     $value[$answer_type][$okey] = $opt;
                 }
                 return $value;

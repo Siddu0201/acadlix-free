@@ -3,14 +3,12 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 defined('ABSPATH') || exit();
 
 if (!class_exists('WpPosts')) {
 
     class WpPosts extends Model
     {
-        protected $helper;
         protected $table = 'posts';
         protected $primaryKey = 'ID';
 
@@ -23,14 +21,9 @@ if (!class_exists('WpPosts')) {
             'categories'
         ];
 
-        public function __construct()
-        {
-            $this->helper = new Helper();
-        }
-
         public function getRenderedPostContentAttribute()
         {
-            return $this->helper->renderShortCode($this->post_content);
+            return acadlix()->helper()->renderShortCode($this->post_content);
         }
 
         public function thumbnailMeta()

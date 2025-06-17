@@ -82,13 +82,13 @@ if (!class_exists('Question')) {
             return $this->hasMany(QuestionLang::class, 'question_id', 'id');
         }
 
-        public function getParagraphAttribute()
-        {
-            if($this->paragraph_id){
-                return Paragraph::ofParagraph()->find($this->paragraph_id);
-            }
-            return [];
-        }
+        // public function getParagraphAttribute()
+        // {
+        //     if($this->paragraph_id){
+        //         return Paragraph::ofParagraph()->find($this->paragraph_id);
+        //     }
+        //     return [];
+        // }
 
 
         public function createNewLanguage($language_id, $copy_default_language)

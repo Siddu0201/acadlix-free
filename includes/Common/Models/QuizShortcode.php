@@ -2,7 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Models;
 
-use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model;
 
 defined('ABSPATH') || exit();
