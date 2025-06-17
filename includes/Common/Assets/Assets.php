@@ -9,7 +9,7 @@ if (!class_exists("Assets")) {
     {
         protected static $_instance = null;
 
-        protected ?Manager $manager = null;
+        protected $manager = null;
 
         public function __construct()
         {

@@ -11,20 +11,20 @@ if (!class_exists('Migrations')) {
     {
         protected array $_migrations = [];
 
-        protected ?SubjectMigration $subjectMigration = null;
-        protected ?TemplateMigration $templateMigration = null;
-        protected ?QuestionMigration $questionMigration = null;
-        protected ?QuestionLangMigration $questionLangMigration = null;
-        protected ?StatisticRefMigration $statisticRefMigration = null;
-        protected ?StatisticMigration $statisticMigration = null;
-        protected ?ToplistMigration $toplistMigration = null;
-        protected ?CourseCartMigration $courseCartMigration = null;
-        protected ?OrderMigration $orderMigration = null;
-        protected ?OrderItemMigration $orderItemMigration = null;
-        protected ?OrderMetaMigration $orderMetaMigration = null;
-        protected ?CourseStatisticMigration $courseStatisticMigration = null;
-        protected ?UserActivityMetaMigration $userActivityMetaMigration = null;
-        protected ?QuizShortcodeMigration $quizShortcodeMigration = null;
+        protected $subjectMigration = null;
+        protected $templateMigration = null;
+        protected $questionMigration = null;
+        protected $questionLangMigration = null;
+        protected $statisticRefMigration = null;
+        protected $statisticMigration = null;
+        protected $toplistMigration = null;
+        protected $courseCartMigration = null;
+        protected $orderMigration = null;
+        protected $orderItemMigration = null;
+        protected $orderMetaMigration = null;
+        protected $courseStatisticMigration = null;
+        protected $userActivityMetaMigration = null;
+        protected $quizShortcodeMigration = null;
 
         public function __construct()
         {

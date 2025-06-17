@@ -9,17 +9,17 @@ if (!class_exists("Admin")) {
     {
         protected static $_instance = null;
 
-        protected ?Activator $activator = null;
+        protected $activator = null;
 
-        protected ?Menu $menu = null;
+        protected $menu = null;
 
-        protected ?Ajax $ajax = null;
+        protected $ajax = null;
 
-        protected ?Core $core = null;
+        protected $core = null;
 
-        protected ?Option $option = null;
+        protected $option = null;
 
-        protected ?UserRole $userRole = null;
+        protected $userRole = null;
 
         public function __construct()
         {

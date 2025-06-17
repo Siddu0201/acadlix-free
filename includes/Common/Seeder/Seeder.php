@@ -13,7 +13,7 @@ if (!class_exists('Seeder')) {
 
         protected array $_seeders = [];
 
-        protected ?SubjectSeeder $subjectSeeder = null;
+        protected $subjectSeeder = null;
 
         public static function instance()
         {

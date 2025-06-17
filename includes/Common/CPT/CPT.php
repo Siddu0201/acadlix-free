@@ -7,11 +7,11 @@ defined('ABSPATH') || exit();
 class CPT {
     protected static $_instance = null;
 
-    protected ?Course $course = null;
-    protected ?CourseSection $courseSection = null;
-    protected ?CourseSectionContent $courseSectionContent = null;
-    protected ?Lesson $lesson = null;
-    protected ?Quiz $quiz = null;
+    protected $course = null;
+    protected $courseSection = null;
+    protected $courseSectionContent = null;
+    protected $lesson = null;
+    protected $quiz = null;
 
     public function __construct() {
         $this->course();

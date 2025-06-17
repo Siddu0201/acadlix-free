@@ -43,25 +43,25 @@ class REST {
      */
     protected array $_rests;
 
-    protected ?AdminLanguageController $_adminLanguage = null;
-    protected ?AdminCategoryController $_adminCategory = null;
-    protected ?AdminSubjectController $_adminSubject = null;
-    protected ?AdminQuizController $_adminQuiz = null;
-    protected ?AdminQuestionController $_adminQuestion = null;
-    protected ?AdminTemplateController $_adminTemplate = null;
-    protected ?AdminStatisticController $_adminStatistic = null;
-    protected ?AdminLeaderboardController $_adminLeaderboard = null;
-    protected ?AdminLessonController $_adminLesson = null;
-    protected ?AdminCourseController $_adminCourse = null;
-    protected ?AdminSettingController $_adminSetting = null;
-    protected ?AdminOrderController $_adminOrder = null;
+    protected $_adminLanguage = null;
+    protected $_adminCategory = null;
+    protected $_adminSubject = null;
+    protected $_adminQuiz = null;
+    protected $_adminQuestion = null;
+    protected $_adminTemplate = null;
+    protected $_adminStatistic = null;
+    protected $_adminLeaderboard = null;
+    protected $_adminLesson = null;
+    protected $_adminCourse = null;
+    protected $_adminSetting = null;
+    protected $_adminOrder = null;
 
-    protected ?FrontCheckoutController $_frontCheckout = null;
-    protected ?FrontCourseController $_frontCourse = null;
-    protected ?FrontDashboardController $_frontDashboard = null;
-    protected ?FrontQuizController $_frontQuiz = null;
-    protected ?FrontStatisticController $_frontStatistic = null;
-    protected ?FrontUserController $_frontUser = null;
+    protected $_frontCheckout = null;
+    protected $_frontCourse = null;
+    protected $_frontDashboard = null;
+    protected $_frontQuiz = null;
+    protected $_frontStatistic = null;
+    protected $_frontUser = null;
 
     /**
      * Constructor used to register all apis.

@@ -4,31 +4,31 @@ namespace Yuvayana\Acadlix\Common\Models;
 
 class Models
 {
-    protected ?Category $category = null;
-    protected ?Course $course = null;
-    protected ?CourseCart $courseCart = null;
-    protected ?CourseSection $courseSection = null;
-    protected ?CourseSectionContent $courseSectionContent = null;
-    protected ?CourseStatistic $courseStatistic = null;
-    protected ?Language $language = null;
-    protected ?Lesson $lesson = null;
-    protected ?Order $order = null;
-    protected ?OrderItem $orderItem = null;
-    protected ?OrderMeta $orderMeta = null;
-    protected ?Question $question = null;
-    protected ?QuestionLang $questionLang = null;
-    protected ?Quiz $quiz = null;
-    protected ?QuizShortcode $quizShortcode = null;
-    protected ?Statistic $statistic = null;
-    protected ?StatisticRef $statisticRef = null;
-    protected ?Subject $subject = null;
-    protected ?Template $template = null;
-    protected ?Toplist $toplist = null;
-    protected ?UserActivityMeta $userActivityMeta = null;
-    protected ?WpPostMeta $wpPostMeta = null;
-    protected ?WpPosts $wpPosts = null;
-    protected ?WpUsers $wpUsers = null;
-    protected ?WpUserMeta $wpUserMeta = null;
+    protected $category = null;
+    protected $course = null;
+    protected $courseCart = null;
+    protected $courseSection = null;
+    protected $courseSectionContent = null;
+    protected $courseStatistic = null;
+    protected $language = null;
+    protected $lesson = null;
+    protected $order = null;
+    protected $orderItem = null;
+    protected $orderMeta = null;
+    protected $question = null;
+    protected $questionLang = null;
+    protected $quiz = null;
+    protected $quizShortcode = null;
+    protected $statistic = null;
+    protected $statisticRef = null;
+    protected $subject = null;
+    protected $template = null;
+    protected $toplist = null;
+    protected $userActivityMeta = null;
+    protected $wpPostMeta = null;
+    protected $wpPosts = null;
+    protected $wpUsers = null;
+    protected $wpUserMeta = null;
 
     public function category(): Category|null{
         if(is_null($this->category)){

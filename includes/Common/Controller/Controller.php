@@ -6,12 +6,12 @@ defined('ABSPATH') || exit();
 
 class Controller {
     protected static $_instance = null;
-    protected ?AllCourseController $allCourse = null;
-    protected ?CartController $cart = null;
-    protected ?CheckoutController $checkout = null;
-    protected ?DashboardController $dashboard = null;
-    protected ?SingleCourseController $singleCourse = null;
-    protected ?ThankyouController $thankyou = null;
+    protected $allCourse = null;
+    protected $cart = null;
+    protected $checkout = null;
+    protected $dashboard = null;
+    protected $singleCourse = null;
+    protected $thankyou = null;
 
     public function __construct() {
         $this->allCourse();

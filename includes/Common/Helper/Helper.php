@@ -7,37 +7,37 @@ if (!class_exists('Helper')) {
     {
         protected static $_instance = null;
 
-        protected ?CourseHelper $_course = null;
-        protected ?CptHelper $_cpt = null;
-        protected ?EmailHelper $_email = null;
-        protected ?QueryLogger $_queryLogger = null;
+        protected $course = null;
+        protected $cpt = null;
+        protected $email = null;
+        protected $queryLogger = null;
 
         public function course(): CourseHelper|null{
-            if($this->_course === null){
-                $this->_course = new CourseHelper();
+            if($this->course === null){
+                $this->course = new CourseHelper();
             }
-            return $this->_course;
+            return $this->course;
         }
 
         public function cpt(): CptHelper|null{
-            if($this->_cpt === null){
-                $this->_cpt = new CptHelper();
+            if($this->cpt === null){
+                $this->cpt = new CptHelper();
             }
-            return $this->_cpt;
+            return $this->cpt;
         }
 
         public function email(): EmailHelper|null{
-            if($this->_email === null){
-                $this->_email = new EmailHelper();
+            if($this->email === null){
+                $this->email = new EmailHelper();
             }
-            return $this->_email;
+            return $this->email;
         }
 
         public function queryLogger(): QueryLogger|null{
-            if($this->_queryLogger === null){
-                $this->_queryLogger = new QueryLogger();
+            if($this->queryLogger === null){
+                $this->queryLogger = new QueryLogger();
             }
-            return $this->_queryLogger;
+            return $this->queryLogger;
         }
 
 
