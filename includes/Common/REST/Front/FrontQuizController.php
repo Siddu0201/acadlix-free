@@ -214,6 +214,7 @@ class FrontQuizController
         // }
 
         // Handle error
+        $errors = array_merge($errors, $this->check_quiz_prerequisites($quiz, $params));
         $html = '';
         if (count($errors) > 0) {
             $html .= "<ul>";
@@ -225,6 +226,12 @@ class FrontQuizController
 
         $res['errors'] = $html;
         return rest_ensure_response($res);
+    }
+
+    public function check_quiz_prerequisites($quiz, $params)
+    {
+        $errors = [];
+        return $errors;
     }
 
     public function post_save_quiz_attempt_by_id($request)

@@ -327,6 +327,8 @@ class FrontDashboardController
             ]);
         }
 
+        $res['active_statistic'] = $active_statistic;
+
         // if ($metaType && $metaType === "assignment" && $isAssignmentStarted) {
         //     $assignment_user_stat = AssignmentUserStats::with("submissions")->where("course_statistic_id", $active_statistic->id)
         //         ->first();
