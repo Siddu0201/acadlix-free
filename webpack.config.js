@@ -22,6 +22,25 @@ module.exports = (env, argv) => {
   return {
     ...defaultConfig,
 
+    resolve: {
+      ...defaultConfig.resolve,
+      alias: {
+        ...defaultConfig.resolve.alias,
+        "@admin": path.resolve(process.cwd(), "src", "admin"),
+        "@components": path.resolve(process.cwd(), "src", "components"),
+        "@free": path.resolve(process.cwd(), "src", "free"),
+        "@front": path.resolve(process.cwd(), "src", "front"),
+        "@helpers": path.resolve(process.cwd(), "src", "helpers"),
+        "@images": path.resolve(process.cwd(), "src", "images"),
+        "@layout": path.resolve(process.cwd(), "src", "layout"),
+        "@menu": path.resolve(process.cwd(), "src", "menu"),
+        "@modules": path.resolve(process.cwd(), "src", "modules"),
+        "@partials": path.resolve(process.cwd(), "src", "partials"),
+        "@provider": path.resolve(process.cwd(), "src", "provider"),
+        "@requests": path.resolve(process.cwd(), "src", "requests"),
+        "@pro": path.resolve(process.cwd(), "src", "pro"),
+      },
+    },
     entry: {
       ...defaultConfig.entry,
 
@@ -29,10 +48,10 @@ module.exports = (env, argv) => {
       admin_course: path.resolve(process.cwd(), "src", "admin-course.js"),
       admin_lesson: path.resolve(process.cwd(), "src", "admin-lesson.js"),
       admin_quiz: path.resolve(process.cwd(), "src", "admin-quiz.js"),
-      admin_assignment: path.resolve(process.cwd(), "src", "admin-assignment.js"),
       admin_order: path.resolve(process.cwd(), "src", "admin-order.js"),
       admin_setting: path.resolve(process.cwd(), "src", "admin-setting.js"),
       admin_tool: path.resolve(process.cwd(), "src", "admin-tool.js"),
+      // admin_assignment: path.resolve(process.cwd(), "src", "admin-assignment.js"),
 
       front: path.resolve(process.cwd(), "src", "front.js"),
       front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),

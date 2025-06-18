@@ -524,7 +524,6 @@ if (!class_exists('Helper')) {
         {
             $options = [
                 'acadlix_dashboard_page_id' => null,
-                // 'acadlix_advance_quiz_page_id' => null,
                 'acadlix_cart_page_id' => null,
                 'acadlix_checkout_page_id' => null,
                 'acadlix_thankyou_page_id' => null,
@@ -563,9 +562,6 @@ if (!class_exists('Helper')) {
                 'acadlix_course_base' => "courses",
                 'acadlix_course_category_base' => "course-category",
                 'acadlix_course_tag_base' => "course-tag",
-                // License option
-                // 'acadlix_license_email_id' => "",
-                // 'acadlix_license_key' => "",
             ];
 
             // Filter options
