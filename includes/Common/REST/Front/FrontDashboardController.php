@@ -88,42 +88,6 @@ class FrontDashboardController
             ]
         );
 
-        // register_rest_route(
-        //     $this->namespace,
-        //     '/' . $this->base . '/post-upload-assignment-file',
-        //     [
-        //         [
-        //             'methods' => WP_REST_Server::CREATABLE,
-        //             'callback' => [$this, 'post_upload_assignment_file'],
-        //             'permission_callback' => [$this, 'check_permission'],
-        //         ],
-        //     ]
-        // );
-
-        // register_rest_route(
-        //     $this->namespace,
-        //     '/' . $this->base . '/post-delete-assignment-file',
-        //     [
-        //         [
-        //             'methods' => WP_REST_Server::CREATABLE,
-        //             'callback' => [$this, 'post_delete_assignment_file'],
-        //             'permission_callback' => [$this, 'check_permission'],
-        //         ],
-        //     ]
-        // );
-
-        // register_rest_route(
-        //     $this->namespace,
-        //     '/' . $this->base . '/post-submit-assignment',
-        //     [
-        //         [
-        //             'methods' => WP_REST_Server::CREATABLE,
-        //             'callback' => [$this, 'post_submit_assignment'],
-        //             'permission_callback' => [$this, 'check_permission'],
-        //         ],
-        //     ]
-        // );
-
         register_rest_route(
             $this->namespace,
             '/' . $this->base . '/get-user-purchases',
@@ -297,8 +261,6 @@ class FrontDashboardController
         $orderItemId = $request->get_param("order_item_id");
         $courseSectionContentId = $request->get_param("course_section_content_id");
         $metaType = $request->get_param("meta_type");
-        // $assignmentUserStat = $request->get_param("assignment_user_stat") ?? [];
-        // $isAssignmentStarted = $request->get_param("is_assignment_started");
 
         $course_statistics = acadlix()->model()->courseStatistic()->where("order_item_id", $orderItemId)->get();
         if ($course_statistics->count() > 0) {
@@ -328,40 +290,9 @@ class FrontDashboardController
         }
 
         $res['active_statistic'] = $active_statistic;
+        $res['success'] = true;
 
-        // if ($metaType && $metaType === "assignment" && $isAssignmentStarted) {
-        //     $assignment_user_stat = AssignmentUserStats::with("submissions")->where("course_statistic_id", $active_statistic->id)
-        //         ->first();
-        //     if (!$assignment_user_stat) {
-        //         $assignment_user_stat = $active_statistic
-        //             ->assignment_user_stat()
-        //             ->create([
-        //                 'assignment_id' => $assignmentUserStat['assignment_id'] ?? null,
-        //                 'user_status' => $assignmentUserStat['user_status'] ?? "pending",
-        //                 'admin_status' => $assignmentUserStat['admin_status'] ?? "pending_review",
-        //                 'final_marks' => $assignmentUserStat['final_marks'] ?? null,
-        //                 'passed' => $assignmentUserStat['passed'] ?? false,
-        //                 'has_late_submission' => $assignmentUserStat['has_late_submission'] ?? false,
-        //                 'resubmission_allowed' => $assignmentUserStat['resubmission_allowed'] ?? false,
-        //                 'attempt_counts' => $assignmentUserStat['attempt_counts'] ?? 1,
-        //                 'first_started_at' => $assignmentUserStat['first_started_at'] ?? null,
-        //             ]);
-        //         if($assignment_user_stat){
-        //             $assignment_user_stat->submissions()->create([
-        //                 'is_active' => true,
-        //             ]);
-        //         }
-        //     }
-
-        //     $assignment_user_stat = AssignmentUserStats::with("submissions")->where("course_statistic_id", $active_statistic->id)
-        //         ->first();
-        //     return rest_ensure_response([
-        //         'success' => true,
-        //         'assignment_user_stat' => $assignment_user_stat
-        //     ]);
-        // }
-
-        return rest_ensure_response(['success' => true]);
+        return rest_ensure_response($res);
     }
 
     public function post_mark_as_complete($request)
@@ -447,197 +378,6 @@ class FrontDashboardController
         }
         return rest_ensure_response(['success' => true]);
     }
-
-    // public function post_upload_assignment_file($request)
-    // {
-    //     $required_fields = array('submission_id');
-
-    //     foreach ($required_fields as $field) {
-    //         $param = $request->get_param($field);
-
-    //         if (empty($param)) {
-    //             /* translators: %s is the required field */
-    //             $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
-    //         }
-    //     }
-
-    //     if (!empty($errors)) {
-    //         return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
-    //     }
-
-    //     $files = $request->get_file_params();
-    //     $submission_id = $request->get_param("submission_id");
-
-    //     if (empty($files['files'])) {
-    //         return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
-    //     }
-
-    //     // Include WordPress upload functions
-    //     require_once ABSPATH . 'wp-admin/includes/file.php';
-
-    //     // Get the base uploads directory
-    //     $upload_dir = wp_upload_dir(); // Gives [basedir] and [baseurl]
-
-    //     // Define custom subdirectory path
-    //     $custom_subdir = '/assignment';
-    //     $custom_dir_path = $upload_dir['basedir'] . $custom_subdir;
-
-    //     // Create the folder if it doesn't exist
-    //     if (!file_exists($custom_dir_path)) {
-    //         if (!wp_mkdir_p($custom_dir_path)) {
-    //             return new WP_Error('mkdir_failed', __('Failed to create assignment folder.', 'acadlix'), ['status' => 500]);
-    //         }
-    //     }
-
-    //     // Upload override settings
-    //     $upload_overrides = ['test_form' => false];
-
-    //     // Loop through each file
-    //     $file_count = count($files['files']['name']);
-    //     $new_file = [];
-    //     // return rest_ensure_response($file_count);
-    //     for ($i = 0; $i < $file_count; $i++) {
-    //         $file = [
-    //             'name' => $files['files']['name'][$i],
-    //             'type' => $files['files']['type'][$i],
-    //             'tmp_name' => $files['files']['tmp_name'][$i],
-    //             'error' => $files['files']['error'][$i],
-    //             'size' => $files['files']['size'][$i],
-    //         ];
-
-    //         $original_filename = sanitize_file_name($file['name']);
-    //         $timestamp = time();
-    //         $extension = pathinfo($original_filename, PATHINFO_EXTENSION);
-    //         $filename_wo_ext = pathinfo($original_filename, PATHINFO_FILENAME);
-    //         $file['name'] = "{$filename_wo_ext}_{$timestamp}.{$extension}";
-    //         // Set upload_dir filter for each file
-    //         add_filter('upload_dir', function ($dirs) use ($custom_subdir) {
-    //             $dirs['subdir'] = $custom_subdir;
-    //             $dirs['path'] = $dirs['basedir'] . $custom_subdir;
-    //             $dirs['url'] = $dirs['baseurl'] . $custom_subdir;
-    //             return $dirs;
-    //         });
-
-    //         $result = wp_handle_upload($file, $upload_overrides);
-
-    //         // Remove the filter (important when looping)
-    //         remove_filter('upload_dir', '__return_custom_assignment_dir');
-
-    //         if ($result && !isset($result['error'])) {
-    //             $new_file[] = [
-    //                 'file_name' => $file['name'],
-    //                 'file_size' => $file['size'],
-    //                 'file_extension' => $extension,
-    //                 'file_url' => $result['url'],
-    //                 'file_path' => $result['file'],
-    //                 'file_type' => $result['type'],
-    //             ];
-    //         } else {
-    //             return new WP_Error('upload_failed', __('Failed to upload file.', 'acadlix'), array('status' => 500));
-    //         }
-    //     }
-
-    //     $assignment_submission = AssignmentSubmission::find($submission_id);
-    //     if ($assignment_submission) {
-    //         $answer_attachments = array_merge($assignment_submission->answer_attachments ?? [], $new_file);
-    //         $assignment_submission->update([
-    //             "answer_attachments" => $answer_attachments
-    //         ]);
-    //     }
-
-    //     return rest_ensure_response([
-    //         "success" => true,
-    //         "answer_attachments" => $assignment_submission->answer_attachments ?? null,
-    //     ]);
-    // }
-
-    // public function post_delete_assignment_file($request)
-    // {
-    //     $required_fields = array('submission_id');
-
-    //     foreach ($required_fields as $field) {
-    //         $param = $request->get_param($field);
-
-    //         if (empty($param)) {
-    //             /* translators: %s is the required field */
-    //             $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
-    //         }
-    //     }
-
-    //     if (!empty($errors)) {
-    //         return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
-    //     }
-    //     $delete_file_data = $request->get_param("delete_file_data");
-    //     $submission_id = $request->get_param("submission_id");
-    //     $answer_attachments = $request->get_param("answer_attachments");
-    //     $file_path = $delete_file_data['file_path'];
-    //     if (file_exists($file_path)) {
-    //         $delete_file = wp_delete_file($file_path);
-    //         if (!$delete_file) {
-    //             return new WP_Error('file_not_deleted', __('File not deleted', 'acadlix'), ['status' => 500]);
-    //         }
-    //     }
-    //     $assignment_submission = AssignmentSubmission::find($submission_id);
-    //     if ($assignment_submission) {
-    //         $assignment_submission->update([
-    //             "answer_attachments" => $answer_attachments
-    //         ]);
-    //     }
-    //     return rest_ensure_response([
-    //         "success" => true,
-    //         "answer_attachments" => $assignment_submission->answer_attachments ?? null,
-    //     ]);
-    // }
-    // public function post_submit_assignment($request)
-    // {
-    //     $required_fields = array('assignment_user_stat_id', 'submission_id', 'user_status');
-
-    //     foreach ($required_fields as $field) {
-    //         $param = $request->get_param($field);
-
-    //         if (empty($param)) {
-    //             /* translators: %s is the required field */
-    //             $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
-    //         }
-    //     }
-
-    //     if (!empty($errors)) {
-    //         return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
-    //     }
-    //     $assignmentUserStatId = $request->get_param("assignment_user_stat_id");
-    //     $submissionId = $request->get_param("submission_id");
-    //     $userStatus = $request->get_param("user_status");
-    //     $answerText = $request->get_param("answer_text");
-    //     $answerAttachments = $request->get_param("answer_attachments");
-    //     $submittedAt = $request->get_param("submitted_at");
-
-    //     $assignment_user_stat = AssignmentUserStats::find($assignmentUserStatId);
-    //     if ($assignment_user_stat) {
-    //         $assignment_user_stat->update([
-    //             "user_status" => $userStatus,
-    //         ]);
-    //     }
-    //     $assignment_submission = AssignmentSubmission::find($submissionId);
-    //     if ($assignment_submission) {
-    //         if(!empty($submittedAt)){
-    //             $assignment_submission->update([
-    //                 "answer_text" => $answerText,
-    //                 "answer_attachments" => $answerAttachments,
-    //                 "submitted_at" => $submittedAt,
-    //             ]);
-    //         }else{
-    //             $assignment_submission->update([
-    //                 "answer_text" => $answerText,
-    //                 "answer_attachments" => $answerAttachments,
-    //             ]);
-    //         }
-    //     }
-    //     return rest_ensure_response([
-    //         "success" => true,
-    //         "user_status" => $userStatus,
-    //         "assignment_submission" => $assignment_submission,
-    //     ]);
-    // }
 
     public function get_user_purchases($request)
     {

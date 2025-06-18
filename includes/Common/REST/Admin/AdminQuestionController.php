@@ -120,18 +120,6 @@ class AdminQuestionController
             ]
         );
 
-        // register_rest_route(
-        //     $this->namespace,
-        //     '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/set-paragraph',
-        //     [
-        //         [
-        //             'methods' => WP_REST_Server::EDITABLE,
-        //             'callback' => [$this, 'post_set_paragraph'],
-        //             'permission_callback' => [$this, 'check_permission'],
-        //         ],
-        //     ]
-        // );
-
         register_rest_route(
             $this->namespace,
             '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/delete-bulk-question',
@@ -168,9 +156,6 @@ class AdminQuestionController
         }
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
-        // $res['paragraphs'] = Paragraph::ofParagraph()
-        //                         ->where('post_parent', $quiz_id)
-        //                         ->get();
         return rest_ensure_response($res);
     }
 
@@ -180,7 +165,6 @@ class AdminQuestionController
         $quiz_id = $request['quiz_id'];
         $res['subjects'] = acadlix()->model()->subject()->get();
         $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
-        // $res['paragraphs'] = Paragraph::ofParagraph()->where('post_parent', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -202,7 +186,6 @@ class AdminQuestionController
         $res['question'] = acadlix()->model()->question()->find($question_id);
         $res['subjects'] = acadlix()->model()->subject()->get();
         $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
-        // $res['paragraphs'] = Paragraph::where('post_parent', $quiz_id)->get();
         return rest_ensure_response($res);
     }
 
@@ -271,28 +254,6 @@ class AdminQuestionController
         }
         return rest_ensure_response($res);
     }
-
-    // public function post_set_paragraph($request)
-    // {
-    //     $res = [];
-    //     $params = $request->get_json_params();
-    //     if (is_array($params['question_ids']) && count($params['question_ids']) == 0) {
-    //         return new WP_Error(
-    //             'missing_question_ids',
-    //             __('Question ids is required.', 'acadlix'),
-    //             ['status' => 400]
-    //         );
-    //     }
-
-    //     foreach ($params['question_ids'] as $question_id) {
-    //         $question = acadlix()->model()->question()->find($question_id);
-    //         $question->update([
-    //             'paragraph_enabled' => $params['paragraph_enabled'],
-    //             'paragraph_id' => $params['paragraph_id'],
-    //         ]);
-    //     }
-    //     return rest_ensure_response($res);
-    // }
 
     public function delete_bulk_question($request)
     {

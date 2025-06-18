@@ -1,10 +1,6 @@
 <?php
 namespace Yuvayana\Acadlix {
-    // Exit if accessed directly.
-    if (!defined('ABSPATH')) {
-        exit;
-    }
-
+    defined('ABSPATH') || exit();
     final class Acadlix extends \AcadlixAbstract
     {
 

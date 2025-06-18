@@ -165,56 +165,7 @@ class FrontQuizController
             }
         }
 
-        // check prerequisite 
-        // $enable_prerequisite = $quiz->rendered_metas['quiz_settings']['enable_prerequisite'];
-        // if ($enable_prerequisite) {
-        //     $prerquisites = Prerequisite::ofTypeQuiz()
-        //         ->ofPrerequisiteTypeQuiz()
-        //         ->where("type_id", $quiz_id)
-        //         ->get()
-        //         ->each
-        //         ->setAppends([
-        //             'quiz_title'
-        //         ]);
-        //     if (count($prerquisites) > 0) {
-        //         foreach ($prerquisites as $prerequisite) {
-        //             $user_attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
-        //                 ->ofQuizAttempt()
-        //                 ->where('type_id', $prerequisite->prerequisite_id)
-        //                 ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
-        //                 ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
-        //                 ->first();
-
-        //             if (!$user_attempts || $user_attempts->meta_value == 0) {
-        //                 // translators: %s is the title of the quiz
-        //                 $errors[] = sprintf(__('You need to attempt %s to unlock this quiz.', 'acadlix'), $prerequisite->quiz_title);
-        //             }
-        //         }
-        //     }
-
-        // }
-
-        // handle when min percentage is added in future
-        // $i = 0;
-        // if (count($prerquisite_quizzes) > 0) {
-        //     foreach ($prerquisite_quizzes as $prerquisite_quiz) {
-        //         $statistic_ref = acadlix()->model()->statisticRef()->where('quiz_id', $prerquisite_quiz->prerequisite_quiz_id)->where('user_id', $params['user_id']);
-        //         if ($statistic_ref->count() > 0) {
-        //             if ($statistic_ref->max('result') < $prerquisite_quiz->min_percentage) {
-        //                 $res['prerequisite'][$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
-        //                 $res['prerequisite'][$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
-        //                 $i++;
-        //             }
-        //         } else {
-        //             $res['prerequisite'][$i]['title'] = $prerquisite_quiz->prerequisite_quiz->title;
-        //             $res['prerequisite'][$i]['min_percentage'] = $prerquisite_quiz->min_percentage;
-        //             $i++;
-        //         }
-        //     }
-        // }
-
         // Handle error
-        $errors = array_merge($errors, $this->check_quiz_prerequisites($quiz, $params));
         $html = '';
         if (count($errors) > 0) {
             $html .= "<ul>";
@@ -226,12 +177,6 @@ class FrontQuizController
 
         $res['errors'] = $html;
         return rest_ensure_response($res);
-    }
-
-    public function check_quiz_prerequisites($quiz, $params)
-    {
-        $errors = [];
-        return $errors;
     }
 
     public function post_save_quiz_attempt_by_id($request)
