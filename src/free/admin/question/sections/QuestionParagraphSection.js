@@ -30,7 +30,8 @@ const QuestionParagraphSection = (props) => {
               <FormControlLabel
                 control={
                   <CustomSwitch
-                    checked={props?.watch("paragraph_enabled")}
+                    disabled
+                    // checked={props?.watch("paragraph_enabled")}
                     onChange={(e) => {
                       props?.setValue("paragraph_enabled", e?.target?.checked, {
                         shouldDirty: true,
@@ -46,14 +47,15 @@ const QuestionParagraphSection = (props) => {
                 <Autocomplete
                   fullWidth
                   size="small"
-                  value={
-                    props?.watch("paragraph_id") !== null
-                      ? props?.paragraphs.filter(
-                        (option) =>
-                          props?.watch("paragraph_id") === option?.ID
-                      )?.[0]
-                      : null
-                  }
+                  // value={
+                  //   props?.watch("paragraph_id") !== null
+                  //     ? props?.paragraphs.filter(
+                  //       (option) =>
+                  //         props?.watch("paragraph_id") === option?.ID
+                  //     )?.[0]
+                  //     : null
+                  // }
+                  disabled
                   options={props?.paragraphs ? props?.paragraphs : []}
                   getOptionLabel={(option) => option?.post_title || ""}
                   isOptionEqualToValue={(option, value) =>

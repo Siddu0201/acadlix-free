@@ -8,7 +8,7 @@ const SkipQuestionButton = (props) => {
         <FormControlLabel
             control={
                 <CustomSwitch
-                    checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
+                    // checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
                     onChange={(e) => {
                         props?.setValue(
                             "meta.quiz_settings.skip_question",
@@ -18,9 +18,10 @@ const SkipQuestionButton = (props) => {
                             }
                         );
                     }}
-                    disabled={
-                        props?.watch("meta.mode") !== "check_and_continue"
-                    }
+                    disabled
+                    // disabled={
+                    //     props?.watch("meta.mode") !== "check_and_continue"
+                    // }
                 />
             }
             label={__("Skip Question", 'acadlix')}

@@ -6,6 +6,7 @@ const AiButton = (props) => {
     return (
         <Grid size={{ xs: 12, sm: 12 }}>
             <AiDescription
+                disabled
                 title={props?.watch("title") ?? ""}
                 description=""
                 type="lesson"

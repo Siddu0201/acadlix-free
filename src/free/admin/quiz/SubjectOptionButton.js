@@ -11,6 +11,7 @@ const SubjectOptionButton = (props) => {
     return (
         <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
             <IconButton
+                disabled
                 aria-label="subject_time"
                 size="small"
                 color="grey"

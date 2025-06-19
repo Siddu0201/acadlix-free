@@ -8,13 +8,14 @@ const CheckOptionButton = (props) => {
         <FormControlLabel
             control={
                 <CustomSwitch
-                    checked={
-                        props?.watch("meta.quiz_settings.enable_check_on_option_selected") ??
-                        false
-                    }
-                    disabled={
-                        props?.watch("meta.mode") !== "check_and_continue"
-                    }
+                    // checked={
+                    //     props?.watch("meta.quiz_settings.enable_check_on_option_selected") ??
+                    //     false
+                    // }
+                    // disabled={
+                    //     props?.watch("meta.mode") !== "check_and_continue"
+                    // }
+                    disabled
                     onChange={(e) => {
                         props?.setValue(
                             "meta.quiz_settings.enable_check_on_option_selected",

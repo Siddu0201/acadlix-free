@@ -11,14 +11,15 @@ const RankButton = (props) => {
                 control={
                     <CustomSwitch />
                 }
-                checked={props?.watch("meta.quiz_settings.show_rank") ?? false}
+                // checked={props?.watch("meta.quiz_settings.show_rank") ?? false}
                 onChange={(e) => {
                     props?.setValue("meta.quiz_settings.show_rank", e?.target?.checked, {
                         shouldDirty: true,
                     });
                 }}
                 label={__("Activate", "acadlix")}
-                disabled={!props?.watch("meta.quiz_settings.leaderboard")}
+                disabled
+                // disabled={!props?.watch("meta.quiz_settings.leaderboard")}
             />
         </GridItem1>
     )

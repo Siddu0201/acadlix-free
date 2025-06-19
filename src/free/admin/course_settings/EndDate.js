@@ -37,11 +37,12 @@ const EndDate = (props) => {
                             top: "0px !important",
                         },
                     }}
-                    value={
-                        props?.watch("meta.end_date")
-                            ? dayjs(props?.watch("meta.end_date"))
-                            : null
-                    }
+                    disabled
+                    // value={
+                    //     props?.watch("meta.end_date")
+                    //         ? dayjs(props?.watch("meta.end_date"))
+                    //         : null
+                    // }
                     onChange={(value) => {
                         props?.setValue("meta.end_date", convertToPostDate(value), {
                             shouldDirty: true,

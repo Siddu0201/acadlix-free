@@ -1,8 +1,7 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import BootstrapDialog from '../modals/BootstrapDialog';
-import { FaPlus } from '../../../../helpers/icons';
 import { __ } from '@wordpress/i18n';
 import AddAssignmentModal from '../modals/AddAssignmentModal';
 import { hasCapability } from '../../../../helpers/util';
@@ -146,19 +145,6 @@ const AddAssignment = (props) => {
                 handleAddAssignment={handleAddAssignment}
               />
             </React.Suspense>
-            {/* <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                onClick={handleAddAssignment}
-            >
-                <FaPlus
-                    style={{
-                        paddingRight: 4,
-                    }}
-                />
-                {__("Add Assignment", "acadlix")}
-            </Button> */}
         </Box>
     )
 }

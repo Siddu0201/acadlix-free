@@ -11,19 +11,20 @@ const AccuracyButton = (props) => {
                 control={
                     <CustomSwitch />
                 }
-                checked={props?.watch("meta.quiz_settings.show_accuracy") ?? false}
+                // checked={props?.watch("meta.quiz_settings.show_accuracy") ?? false}
                 onChange={(e) => {
                     props?.setValue("meta.quiz_settings.show_accuracy", e?.target?.checked, {
                         shouldDirty: true,
                     });
                 }}
                 label={__("Activate", "acadlix")}
-                disabled={
-                    props?.watch("meta.quiz_settings.hide_result")
-                    // ||
-                    // (props?.watch("meta.mode") === "advance_mode" &&
-                    //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
+                disabled
+                // disabled={
+                //     props?.watch("meta.quiz_settings.hide_result")
+                //     // ||
+                //     // (props?.watch("meta.mode") === "advance_mode" &&
+                //     //   props?.watch("meta.advance_mode_type") !== "advance_panel")
+                // }
             />
         </GridItem1>
     )

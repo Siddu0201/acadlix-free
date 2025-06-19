@@ -16,15 +16,16 @@ const AdvanceQuizOption = (props) => {
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
             <Autocomplete
                 size="small"
-                value={
-                    props?.watch("acadlix_advance_quiz_page_id") !== null
-                        ? props?.pages?.find(
-                            (p) =>
-                                p?.ID ===
-                                Number(props?.watch("acadlix_advance_quiz_page_id"))
-                        )
-                        : null
-                }
+                disabled
+                // value={
+                //     props?.watch("acadlix_advance_quiz_page_id") !== null
+                //         ? props?.pages?.find(
+                //             (p) =>
+                //                 p?.ID ===
+                //                 Number(props?.watch("acadlix_advance_quiz_page_id"))
+                //         )
+                //         : null
+                // }
                 options={props?.pages?.length > 0 ? props?.pages : []}
                 getOptionLabel={(option) =>
                     `${option?.post_title} (#${option?.ID})` || ""
@@ -35,6 +36,7 @@ const AdvanceQuizOption = (props) => {
                 renderInput={(params) => (
                     <TextField
                         {...params}
+                        label={__("Select Advance Quiz Page", "acadlix")}
                         inputProps={{
                             ...params.inputProps,
                             autoComplete: "spoc_gender",

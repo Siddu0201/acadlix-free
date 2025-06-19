@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Checkbox,
   Dialog,
   FormControl,
   FormHelperText,
@@ -26,7 +25,7 @@ import {
   DeleteQuizQuestionById,
   GetQuizQuestion,
 } from "../../../requests/admin/AdminQuestionRequest";
-import { FaEdit, FaSearch, FaTrash, IoClose, TiArrowLeftThick } from "../../../helpers/icons";
+import { FaEdit, FaSearch, FaTrash, TiArrowLeftThick } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
@@ -370,14 +369,6 @@ const Question = () => {
                       <React.Suspense fallback={null}>
                         <BulkImportButton quiz_id={quiz_id} />
                       </React.Suspense>
-                    // <Button
-                    //   variant="contained"
-                    //   LinkComponent="a"
-                    //   href={`${acadlixOptions?.abqu_url}&quiz_id=${quiz_id}`}
-                    //   color="primary"
-                    // >
-                    //   {__("Import from .docx", "acadlix")}
-                    // </Button>
                   )}
                 </Box>
               }
@@ -443,9 +434,6 @@ const Question = () => {
                             <React.Suspense fallback={null}>
                               <BulkSetParagraph />
                             </React.Suspense>
-                            // <MenuItem value="set_paragraph">
-                            //   {__("Set Paragraph", "acadlix")}
-                            // </MenuItem>
                           }
                         </Select>
                         <FormHelperText>

@@ -4,7 +4,7 @@ import { MenuItem } from '@mui/material';
 
 const BulkSetParagraph = () => {
     return (
-        <MenuItem value="set_paragraph">
+        <MenuItem value="set_paragraph" disabled>
             {__("Set Paragraph", "acadlix")}
         </MenuItem>
     )

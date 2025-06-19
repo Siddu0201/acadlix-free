@@ -288,27 +288,6 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch
-                  />
-                }
-                checked={props?.watch("meta.quiz_settings.show_speed") ?? false}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.show_speed", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_result")
-                  // ||
-                  // (props?.watch("meta.mode") === "advance_mode" &&
-                  //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
-              />
-            </GridItem1> */}
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -320,28 +299,6 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.show_percentile") ?? false}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.show_percentile", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_result")
-                  // ||
-                  // (props?.watch("meta.mode") === "advance_mode" &&
-                  //   props?.watch("meta.advance_mode_type") !== "advance_panel") 
-                  ||
-                  !props?.watch("meta.quiz_settings.save_statistic")
-                }
-              />
-            </GridItem1> */}
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -353,26 +310,6 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.show_accuracy") ?? false}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.show_accuracy", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_result")
-                  // ||
-                  // (props?.watch("meta.mode") === "advance_mode" &&
-                  //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
-              />
-            </GridItem1> */}
 
         {/* Used to Show Average Score  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -411,29 +348,7 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch
-                    checked={props?.watch("meta.quiz_settings.show_subject_wise_analysis") ?? false}
-                    onChange={(e) => {
-                      props?.setValue(
-                        "meta.quiz_settings.show_subject_wise_analysis",
-                        e?.target?.checked,
-                        { shouldDirty: true }
-                      );
-                    }}
-                  />
-                }
-                label={__("Activate", "acadlix")}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_result")
-                  // ||
-                  // (props?.watch("meta.mode") === "advance_mode" &&
-                  //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
-              />
-            </GridItem1> */}
+            
             <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
 
@@ -446,66 +361,6 @@ const Result = (props) => {
               {...props}
             />
            </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Status Based On Min % (Pass/Fail)", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={
-                  props?.watch("meta.quiz_settings.show_status_based_on_min_percent") ?? false
-                }
-                onChange={(e) => {
-                  props?.setValue(
-                    "meta.quiz_settings.show_status_based_on_min_percent",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_result")
-                  // ||
-                  // (props?.watch("meta.mode") === "advance_mode" &&
-                  //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
-              />
-            </GridItem1> */}
-
-            {/* Minimum marks to pass - default 0  */}
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Minimum % to pass", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                label={__("Minimum % to pass", "acadlix")}
-                type="number"
-                value={props?.watch("meta.quiz_settings.minimum_percent_to_pass") ?? 0}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.minimum_percent_to_pass",
-                    Number(e?.target?.value), {
-                    shouldDirty: true,
-                  });
-                }}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_result") ||
-                  !props?.watch("meta.quiz_settings.show_status_based_on_min_percent")
-                }
-                sx={{
-                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                }}
-              />
-            </GridItem1> */}
       </Grid>
 
       {/* End of Result options */}
@@ -524,65 +379,6 @@ const Result = (props) => {
               {...props}
             />
           </React.Suspense>
-          {/* <Grid
-            container
-            spacing={3}
-            alignItems="center"
-          > */}
-            {/* 
-              Answer sheet option to hide answer sheet and options availbales are: 
-              - Show Per Question Time
-                */}
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Hide Answer Sheet", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.hide_answer_sheet") ?? false}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.hide_answer_sheet", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-              // disabled={
-              //   props?.watch("meta.mode") === "advance_mode" &&
-              //   props?.watch("meta.advance_mode_type") !== "advance_panel"
-              // }
-              />
-            </GridItem1> */}
-
-            {/* Used to show per question time in answer sheet  */}
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Per Question Time", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.show_per_question_time") ?? false}
-                onChange={(e) => {
-                  props?.setValue(
-                    "meta.quiz_settings.show_per_question_time",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={
-                  props?.watch("meta.quiz_settings.hide_answer_sheet")
-                  // ||
-                  // (props?.watch("meta.mode") === "advance_mode" &&
-                  //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
-              />
-            </GridItem1> */}
-            {/* End Answer sheet option  */}
-          {/* </Grid> */}
       {/* End of Answer Sheet options */}
 
       {/* Start of Leaderboard options */}
@@ -684,21 +480,7 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.show_rank") ?? false}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.show_rank", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={!props?.watch("meta.quiz_settings.leaderboard")}
-              />
-            </GridItem1> */}
+            
         {/* Option for Result Comparison with topper    */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
@@ -708,27 +490,6 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={
-                  props?.watch("meta.quiz_settings.result_comparision_with_topper") ?? false
-                }
-                onChange={(e) => {
-                  props?.setValue(
-                    "meta.quiz_settings.result_comparision_with_topper",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-                label={__("Activate", "acadlix")}
-                disabled={
-                  !props?.watch("meta.quiz_settings.leaderboard")
-                }
-              />
-            </GridItem1> */}
 
         {/* User can apply multiple times for leaderboard */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -896,32 +657,7 @@ const Result = (props) => {
                 {...props}
               />
             </React.Suspense>
-            {/* <GridItem1 size={{ xs: 12, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch
-                    checked={props?.watch("meta.quiz_settings.percent_based_result_text") ?? false}
-                    onChange={(e) => {
-                      props?.setValue(
-                        "meta.quiz_settings.percent_based_result_text",
-                        e?.target?.checked,
-                        {
-                          shouldDirty: true,
-                        }
-                      );
-                      if (e?.target?.checked) {
-                        props?.setValue("meta.quiz_settings.result_text", [{ percent: 0, text: "" }], {
-                          shouldDirty: true,
-                        });
-                      } else {
-                        props?.setValue("meta.quiz_settings.result_text", "", { shouldDirty: true });
-                      }
-                    }}
-                  />
-                }
-                label={__("Activate", "acadlix")}
-              />
-            </GridItem1> */}
+          
             <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
         {/* Result Text - based on % */}

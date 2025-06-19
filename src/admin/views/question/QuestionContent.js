@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import Fill from "./types/Fill";
-// import RangeType from "./types/RangeType";
 import TrueFalse from "./types/TrueFalse";
-// import Numerical from "./types/Numerical";
 import MultipleChoice from "./types/MultipleChoice";
 import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
@@ -22,7 +20,6 @@ import {
   UpdateQuizQuestionById,
 } from "../../../requests/admin/AdminQuestionRequest";
 import { TiArrowLeftThick } from "../../../helpers/icons";
-// import QuestionParagraphSection from "./sections/QuestionParagraphSection";
 import { __ } from "@wordpress/i18n";
 import FreeChoice from "./types/FreeChoice";
 

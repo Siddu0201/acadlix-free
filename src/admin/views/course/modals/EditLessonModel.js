@@ -27,7 +27,6 @@ import { GetLessonById } from "../../../../requests/admin/AdminLessonRequest";
 import VideoUpload from "../../../../modules/video-upload/VideoUpload";
 import { convertTime } from "../../../../helpers/util";
 import { __ } from "@wordpress/i18n";
-import AiDescription from "../../../../modules/ai/AiDescription";
 
 const AiLessonButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -467,28 +466,6 @@ const ContentSection = (props) => {
       <React.Suspense fallback={null}>
         <AiLessonButton {...props} />
       </React.Suspense>
-      {/* {
-        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-        <Grid size={{ xs: 12, sm: 12 }}>
-          <AiDescription
-            title={props?.watch("title") ?? ""}
-            description=""
-            type="lesson"
-            handleAddDescription={(value) => {
-              if (window.tinymce) {
-                const editor = window.tinymce.get("lesson_content");
-                if (editor && editor.getContent() !== value) {
-                  editor.setContent(value || "");
-                  editor.save();
-                }
-              }
-              props.setValue("content", value, {
-                shouldDirty: true,
-              });
-            }}
-          />
-        </Grid>
-      } */}
       <Grid size={{ xs: 12, sm: 12 }}>
         <textarea
           id="lesson_content"

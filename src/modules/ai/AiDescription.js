@@ -33,6 +33,7 @@ const AiDescription = ({
     type = 'quiz',
     handleAddDescription = null,
     language = '',
+    disabled = false,
 }) => {
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
@@ -87,6 +88,7 @@ const AiDescription = ({
                 size='small'
                 variant='contained'
                 color='primary'
+                disabled={disabled}
                 onClick={handleOpen}
             >
                 Generate From AI
@@ -100,7 +102,8 @@ AiDescription.prototype = {
     description: PropTypes.string,
     type: PropTypes.string,
     handleAddDescription: PropTypes.func,
-    language: PropTypes.string
+    language: PropTypes.string,
+    disabled: PropTypes.bool,
 };
 
 export default AiDescription

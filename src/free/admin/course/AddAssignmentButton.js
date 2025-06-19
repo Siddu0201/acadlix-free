@@ -9,7 +9,8 @@ const AddAssignmentButton = (props) => {
         variant="outlined"
         color="primary"
         size="small"
-        onClick={props?.handleAddAssignment}
+        disabled
+        // onClick={props?.handleAddAssignment}
     >
         <FaPlus
             style={{

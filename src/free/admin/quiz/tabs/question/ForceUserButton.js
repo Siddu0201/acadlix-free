@@ -11,9 +11,10 @@ const ForceUserButton = (props) => {
                 control={
                     <CustomSwitch />
                 }
-                checked={
-                    props?.watch("meta.quiz_settings.force_user_to_answer_each_question") ?? false
-                }
+                // checked={
+                //     props?.watch("meta.quiz_settings.force_user_to_answer_each_question") ?? false
+                // }
+                disabled
                 onChange={(e) => {
                     props?.setValue(
                         "meta.quiz_settings.force_user_to_answer_each_question",
@@ -21,10 +22,10 @@ const ForceUserButton = (props) => {
                         { shouldDirty: true }
                     );
                 }}
-                disabled={
-                    props?.watch("meta.mode") === "advance_mode" &&
-                    props?.watch("meta.advance_mode_type") !== "advance_panel"
-                }
+                // disabled={
+                //     props?.watch("meta.mode") === "advance_mode" &&
+                //     props?.watch("meta.advance_mode_type") !== "advance_panel"
+                // }
                 label={__("Activate", "acadlix")}
             />
         </GridItem1>

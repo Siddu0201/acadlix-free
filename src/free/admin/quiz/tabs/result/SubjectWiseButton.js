@@ -10,7 +10,8 @@ const SubjectWiseButton = (props) => {
             <FormControlLabel
                 control={
                     <CustomSwitch
-                        checked={props?.watch("meta.quiz_settings.show_subject_wise_analysis") ?? false}
+                        // checked={props?.watch("meta.quiz_settings.show_subject_wise_analysis") ?? false}
+                        disabled
                         onChange={(e) => {
                             props?.setValue(
                                 "meta.quiz_settings.show_subject_wise_analysis",
@@ -21,12 +22,12 @@ const SubjectWiseButton = (props) => {
                     />
                 }
                 label={__("Activate", "acadlix")}
-                disabled={
-                    props?.watch("meta.quiz_settings.hide_result")
-                    // ||
-                    // (props?.watch("meta.mode") === "advance_mode" &&
-                    //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                }
+                // disabled={
+                //     props?.watch("meta.quiz_settings.hide_result")
+                //     // ||
+                //     // (props?.watch("meta.mode") === "advance_mode" &&
+                //     //   props?.watch("meta.advance_mode_type") !== "advance_panel")
+                // }
             />
         </GridItem1>
     )

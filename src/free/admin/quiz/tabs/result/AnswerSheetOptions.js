@@ -25,7 +25,8 @@ const AnswerSheetOptions = (props) => {
                     control={
                         <CustomSwitch />
                     }
-                    checked={props?.watch("meta.quiz_settings.hide_answer_sheet") ?? false}
+                    // checked={props?.watch("meta.quiz_settings.hide_answer_sheet") ?? false}
+                    disabled
                     onChange={(e) => {
                         props?.setValue("meta.quiz_settings.hide_answer_sheet", e?.target?.checked, {
                             shouldDirty: true,
@@ -48,7 +49,8 @@ const AnswerSheetOptions = (props) => {
                     control={
                         <CustomSwitch />
                     }
-                    checked={props?.watch("meta.quiz_settings.show_per_question_time") ?? false}
+                    // checked={props?.watch("meta.quiz_settings.show_per_question_time") ?? false}
+                    disabled
                     onChange={(e) => {
                         props?.setValue(
                             "meta.quiz_settings.show_per_question_time",
@@ -57,12 +59,12 @@ const AnswerSheetOptions = (props) => {
                         );
                     }}
                     label={__("Activate", "acadlix")}
-                    disabled={
-                        props?.watch("meta.quiz_settings.hide_answer_sheet")
-                        // ||
-                        // (props?.watch("meta.mode") === "advance_mode" &&
-                        //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                    }
+                    // disabled={
+                    //     props?.watch("meta.quiz_settings.hide_answer_sheet")
+                    //     // ||
+                    //     // (props?.watch("meta.mode") === "advance_mode" &&
+                    //     //   props?.watch("meta.advance_mode_type") !== "advance_panel")
+                    // }
                 />
             </GridItem1>
             {/* End Answer sheet option  */}

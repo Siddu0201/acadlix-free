@@ -38,11 +38,12 @@ const PrerequisiteOptions = (props) => {
                 <Autocomplete
                     size="small"
                     fullWidth
-                    value={
-                        prerequisite !== null
-                            ? prerequisite
-                            : null
-                    }
+                    // value={
+                    //     prerequisite !== null
+                    //         ? prerequisite
+                    //         : null
+                    // }
+                    disabled
                     options={
                         props?.watch("quizzes")?.length > 0
                             ? props?.watch("quizzes")?.filter(val => !props?.watch("prerequisite")?.some(p => p?.ID === val?.ID))
@@ -72,6 +73,7 @@ const PrerequisiteOptions = (props) => {
                     }}
                 />
                 <Button
+                    disabled
                     variant="contained"
                     color="primary"
                     size="small"
@@ -87,6 +89,7 @@ const PrerequisiteOptions = (props) => {
                         <ListItem
                             key={index}
                             disableGutters
+                            disabled
                             secondaryAction={
                                 <React.Fragment>
                                     <Box sx={{

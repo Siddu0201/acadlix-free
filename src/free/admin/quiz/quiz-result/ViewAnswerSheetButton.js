@@ -8,6 +8,7 @@ const ViewAnswerSheetButton = (props) => {
     return (
         <Tooltip title={__("View Answersheet", "acadlix")}>
             <IconButton
+                disabled
                 aria-label="expand"
                 size="small"
                 color="warning"

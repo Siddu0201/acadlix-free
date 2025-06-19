@@ -11,9 +11,10 @@ const RandomLastOptionButton = (props) => {
                 control={
                     <CustomSwitch />
                 }
-                checked={
-                    props?.watch("meta.quiz_settings.do_not_randomize_last_option") ?? false
-                }
+                disabled
+                // checked={
+                //     props?.watch("meta.quiz_settings.do_not_randomize_last_option") ?? false
+                // }
                 onChange={(e) => {
                     props?.setValue(
                         "meta.quiz_settings.do_not_randomize_last_option",
@@ -21,7 +22,7 @@ const RandomLastOptionButton = (props) => {
                         { shouldDirty: true }
                     );
                 }}
-                disabled={!props?.watch("meta.quiz_settings.random_option")}
+                // disabled={!props?.watch("meta.quiz_settings.random_option")}
                 label={__("Activate", "acadlix")}
             />
         </GridItem1>

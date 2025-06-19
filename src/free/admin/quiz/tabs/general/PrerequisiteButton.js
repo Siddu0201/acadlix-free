@@ -10,7 +10,8 @@ const PrerequisiteButton = (props) => {
             <FormControlLabel
                 control={
                     <CustomSwitch
-                        checked={props?.watch("meta.quiz_settings.enable_prerequisite") ?? false}
+                        disabled
+                        // checked={props?.watch("meta.quiz_settings.enable_prerequisite") ?? false}
                         onChange={(e) => {
                             props?.setValue("meta.quiz_settings.enable_prerequisite", e?.target?.checked, {
                                 shouldDirty: true,

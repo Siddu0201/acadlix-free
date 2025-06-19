@@ -11,9 +11,9 @@ const ResultComparissionButton = (props) => {
                 control={
                     <CustomSwitch />
                 }
-                checked={
-                    props?.watch("meta.quiz_settings.result_comparision_with_topper") ?? false
-                }
+                // checked={
+                //     props?.watch("meta.quiz_settings.result_comparision_with_topper") ?? false
+                // }
                 onChange={(e) => {
                     props?.setValue(
                         "meta.quiz_settings.result_comparision_with_topper",
@@ -22,9 +22,10 @@ const ResultComparissionButton = (props) => {
                     );
                 }}
                 label={__("Activate", "acadlix")}
-                disabled={
-                    !props?.watch("meta.quiz_settings.leaderboard")
-                }
+                disabled
+                // disabled={
+                //     !props?.watch("meta.quiz_settings.leaderboard")
+                // }
             />
         </GridItem1>
     )

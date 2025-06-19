@@ -10,7 +10,8 @@ const PercentBasedText = (props) => {
             <FormControlLabel
                 control={
                     <CustomSwitch
-                        checked={props?.watch("meta.quiz_settings.percent_based_result_text") ?? false}
+                        // checked={props?.watch("meta.quiz_settings.percent_based_result_text") ?? false}
+                        disabled
                         onChange={(e) => {
                             props?.setValue(
                                 "meta.quiz_settings.percent_based_result_text",

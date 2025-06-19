@@ -4,6 +4,7 @@ import AiDescription from "@acadlix/modules/ai/AiDescription";
 const AiButton = (props) => {
     return (
         <AiDescription
+            disabled
             title={props?.watch("post_title") ?? ""}
             description={props?.watch("post_content") ?? ""}
             type="quiz"

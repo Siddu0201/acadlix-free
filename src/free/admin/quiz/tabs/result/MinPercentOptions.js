@@ -17,9 +17,10 @@ const MinPercentOptions = (props) => {
                     control={
                         <CustomSwitch />
                     }
-                    checked={
-                        props?.watch("meta.quiz_settings.show_status_based_on_min_percent") ?? false
-                    }
+                    // checked={
+                    //     props?.watch("meta.quiz_settings.show_status_based_on_min_percent") ?? false
+                    // }
+                    disabled
                     onChange={(e) => {
                         props?.setValue(
                             "meta.quiz_settings.show_status_based_on_min_percent",
@@ -28,12 +29,12 @@ const MinPercentOptions = (props) => {
                         );
                     }}
                     label={__("Activate", "acadlix")}
-                    disabled={
-                        props?.watch("meta.quiz_settings.hide_result")
-                        // ||
-                        // (props?.watch("meta.mode") === "advance_mode" &&
-                        //   props?.watch("meta.advance_mode_type") !== "advance_panel")
-                    }
+                    // disabled={
+                    //     props?.watch("meta.quiz_settings.hide_result")
+                    //     // ||
+                    //     // (props?.watch("meta.mode") === "advance_mode" &&
+                    //     //   props?.watch("meta.advance_mode_type") !== "advance_panel")
+                    // }
                 />
             </GridItem1>
 

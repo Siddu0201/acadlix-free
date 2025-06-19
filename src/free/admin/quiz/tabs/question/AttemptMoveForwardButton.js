@@ -13,10 +13,11 @@ const AttemptMoveForwardButton = (props) => {
                 control={
                     <CustomSwitch />
                 }
-                checked={props?.watch("meta.quiz_settings.attempt_and_move_forward") ?? false}
-                disabled={
-                    ["question_below_each_other", "check_and_continue", "advance_mode"].includes(props?.watch("meta.mode"))
-                }
+                // checked={props?.watch("meta.quiz_settings.attempt_and_move_forward") ?? false}
+                disabled
+                // disabled={
+                //     ["question_below_each_other", "check_and_continue", "advance_mode"].includes(props?.watch("meta.mode"))
+                // }
                 onChange={(e) => {
                     props?.setValue(
                         "meta.quiz_settings.attempt_and_move_forward",

@@ -9,8 +9,9 @@ const BackButton = (props) => {
             <FormControlLabel
                 control={
                     <CustomSwitch
-                        checked={props?.watch("meta.quiz_settings.enable_back_button") ?? false}
-                        disabled={props?.watch("meta.mode") !== "normal"}
+                        // checked={props?.watch("meta.quiz_settings.enable_back_button") ?? false}
+                        // disabled={props?.watch("meta.mode") !== "normal"}
+                        disabled
                         onChange={(e) => {
                             props?.setValue(
                                 "meta.quiz_settings.enable_back_button",

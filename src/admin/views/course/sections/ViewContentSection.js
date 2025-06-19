@@ -25,10 +25,9 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash, MdDragIndicator, MdVisibility, MdVisibilityOff } from "../../../../helpers/icons";
+import { FaEdit, FaTrash, MdDragIndicator } from "../../../../helpers/icons";
 import {
   PostSortContent,
-  PostTooglePreviewContent,
   RemoveContentFromSection,
 } from "../../../../requests/admin/AdminCourseRequest";
 import EditLesson from "./EditLesson";
@@ -409,24 +408,6 @@ const SortableSections = (props) => {
             <React.Suspense fallback={null}>
               <Preview {...props} />
             </React.Suspense>
-              {/* <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
-                <IconButton onClick={handleTooglePreview}>
-                  {
-                    tooglePreviewMutation?.isPending ?
-                      <CircularProgress size={14} color="inherit" />
-                      :
-                      props?.c?.preview ?
-                        <MdVisibility style={{
-                          fontSize: 14
-                        }} />
-                        :
-                        <MdVisibilityOff style={{
-                          fontSize: 14
-                        }} />
-
-                  }
-                </IconButton>
-              </Tooltip> */}
             {
               hasCapability("acadlix_edit_course_section_lesson") && hasCapability("acadlix_edit_lesson") &&
               <EditLesson {...props} />

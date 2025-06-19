@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n'
 const NumericalOption = (props) => {
     return (
         <FormControlLabel
+            disabled
             value="numerical"
             control={<Radio />}
             label={__("Numerical", "acadlix")}

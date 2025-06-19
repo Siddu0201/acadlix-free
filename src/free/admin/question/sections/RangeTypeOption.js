@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n'
 const RangeTypeOption = (props) => {
     return (
         <FormControlLabel
+            disabled
             value="rangeType"
             control={<Radio />}
             label={__("Range Type", "acadlix")}

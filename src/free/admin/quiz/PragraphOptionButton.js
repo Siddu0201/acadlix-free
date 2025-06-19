@@ -8,6 +8,7 @@ const PragraphOptionButton = (props) => {
     return (
         <Tooltip title={__("Paragraphs", "acadlix")} arrow>
             <IconButton
+                disabled
                 aria-label="paragraphs"
                 size="small"
                 color="grey"

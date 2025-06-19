@@ -4,6 +4,7 @@ import AiDescription from '@acadlix/modules/ai/AiDescription';
 const AiCourseButton = (props) => {
     return (
         <AiDescription
+            disabled
             title={props?.title ?? ""}
             description=""
             type="course"

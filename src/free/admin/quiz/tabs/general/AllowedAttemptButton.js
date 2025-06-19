@@ -9,6 +9,7 @@ const AllowedAttemptButton = (props) => {
     return (
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <CustomTextField
+                disabled
                 label={__("Per User Allowed Attempt", "acadlix")}
                 variant="outlined"
                 size="small"
@@ -18,7 +19,7 @@ const AllowedAttemptButton = (props) => {
                         shouldDirty: true,
                     });
                 }}
-                value={props?.watch("meta.quiz_settings.per_user_allowed_attempt") ?? 0}
+                // value={props?.watch("meta.quiz_settings.per_user_allowed_attempt") ?? 0}
                 sx={{
                     "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                     {

@@ -17,7 +17,6 @@ import {
 import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import {
-  FaExpandArrowsAlt,
   FaTrash,
   TiArrowLeftThick,
   IoMdRefresh,
@@ -122,17 +121,6 @@ const QuizResult = () => {
                 id={params?.id}
               />
             </React.Suspense>
-            // <Tooltip title={__("View Answersheet", "acadlix")}>
-            //   <IconButton
-            //     aria-label="expand"
-            //     size="small"
-            //     color="warning"
-            //     LinkComponent={Link}
-            //     to={`/${quiz_id}/result/${params?.id}`}
-            //   >
-            //     <FaExpandArrowsAlt fontSize="inherit" />
-            //   </IconButton>
-            // </Tooltip>
           }
           {
             hasCapability("acadlix_delete_statistic") &&

@@ -27,7 +27,12 @@ import {
 } from "../../../requests/admin/AdminQuizRequest";
 import {
   FaEdit,
-  FaParagraph, FaQuestion, FaTrash, FaRankingStar, MdFileCopy, IoMdRefresh, LuFileChartColumn, LuFileClock,
+  FaQuestion,
+  FaTrash,
+  FaRankingStar,
+  MdFileCopy,
+  IoMdRefresh,
+  LuFileChartColumn,
   FaSearch
 } from "../../../helpers/icons";
 import { useForm } from "react-hook-form";
@@ -71,11 +76,6 @@ const Quiz = () => {
     if (confirm(__("Do you really want to delete this quiz?", "acadlix"))) {
       deleteMutation?.mutate(id);
     }
-  };
-
-  const handleSubjectTime = (id) => {
-    methods?.setValue("quiz_id", id, { shouldDirty: true });
-    methods?.setValue("subject_model", true, { shouldDirty: true });
   };
 
   const handleSubjectTimeClose = () => {
@@ -192,20 +192,6 @@ const Quiz = () => {
                 params={params}
               />
             </React.Suspense>
-            {/* {
-              hasCapability("acadlix_show_paragraph") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-              <Tooltip title={__("Paragraphs", "acadlix")} arrow>
-                <IconButton
-                  aria-label="paragraphs"
-                  size="small"
-                  color="grey"
-                  LinkComponent={Link}
-                  to={`/${params?.id}/paragraph`}
-                >
-                  <FaParagraph />
-                </IconButton>
-              </Tooltip>
-            } */}
             {
               hasCapability("acadlix_show_statistic") &&
               <Tooltip title={__("Result", "acadlix")} arrow>
@@ -239,19 +225,10 @@ const Quiz = () => {
               (
                 <React.Suspense fallback={null}>
                   <SubjectOptionButton
+                    {...methods}
                     params={params}
                   />
                 </React.Suspense>
-                // <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
-                //   <IconButton
-                //     aria-label="subject_time"
-                //     size="small"
-                //     color="grey"
-                //     onClick={handleSubjectTime.bind(this, params?.id)}
-                //   >
-                //     <LuFileClock />
-                //   </IconButton>
-                // </Tooltip>
               )}
           </>
         );

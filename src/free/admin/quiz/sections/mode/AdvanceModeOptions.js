@@ -83,7 +83,8 @@ const AdvanceModeOptions = (props) => {
                         }}
                     >
                         <Radio
-                            checked={props?.watch("meta.mode") === "advance_mode"}
+                            // checked={props?.watch("meta.mode") === "advance_mode"}
+                            disabled
                             name="mode"
                             sx={{
                                 padding: 1,
@@ -140,48 +141,55 @@ const AdvanceModeOptions = (props) => {
                                     value="advance_panel"
                                     control={<Radio />}
                                     label={__("Advance Panel", "acadlix")}
-                                    checked={
-                                        props?.watch("meta.advance_mode_type") ===
-                                        "advance_panel"
-                                    }
+                                    // checked={
+                                    //     props?.watch("meta.advance_mode_type") ===
+                                    //     "advance_panel"
+                                    // }
+                                    disabled
                                 />
                                 <FormControlLabel
                                     value="ibps"
                                     control={<Radio />}
                                     label={__("IBPS", "acadlix")}
-                                    checked={props?.watch("meta.advance_mode_type") === "ibps"}
+                                    // checked={props?.watch("meta.advance_mode_type") === "ibps"}
+                                    disabled
                                 />
                                 <FormControlLabel
                                     value="ssc"
                                     control={<Radio />}
                                     label={__("SSC", "acadlix")}
-                                    checked={props?.watch("meta.advance_mode_type") === "ssc"}
+                                    // checked={props?.watch("meta.advance_mode_type") === "ssc"}
+                                    disabled
                                 />
                                 <FormControlLabel
                                     value="gate"
                                     control={<Radio />}
                                     label={__("GATE", "acadlix")}
-                                    checked={props?.watch("meta.advance_mode_type") === "gate"}
+                                    // checked={props?.watch("meta.advance_mode_type") === "gate"}
+                                    disabled
                                 />
                                 <FormControlLabel
                                     value="sbi"
                                     control={<Radio />}
                                     label={__("SBI", "acadlix")}
-                                    checked={props?.watch("meta.advance_mode_type") === "sbi"}
+                                    // checked={props?.watch("meta.advance_mode_type") === "sbi"}
+                                    disabled
                                 />
                                 <FormControlLabel
                                     value="jee"
                                     control={<Radio />}
                                     label={__("JEE", "acadlix")}
-                                    checked={props?.watch("meta.advance_mode_type") === "jee"}
+                                    // checked={props?.watch("meta.advance_mode_type") === "jee"}
+                                    disabled
                                 />
                                 <FormControlLabel
                                     value="railway"
                                     control={<Radio />}
                                     label={__("Railway", "acadlix")}
-                                    checked={
-                                        props?.watch("meta.advance_mode_type") === "railway"
-                                    }
+                                    // checked={
+                                    //     props?.watch("meta.advance_mode_type") === "railway"
+                                    // }
+                                    disabled
                                 />
                             </RadioGroup>
                         </FormControl>

@@ -34,7 +34,10 @@ const Preview = (props) => {
     }
     return (
         <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
-            <IconButton onClick={handleTooglePreview}>
+            <IconButton
+                disabled
+            // onClick={handleTooglePreview}
+            >
                 {
                     tooglePreviewMutation?.isPending ?
                         <CircularProgress size={14} color="inherit" />

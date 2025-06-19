@@ -1,5 +1,4 @@
 import React from 'react'
-import AiDescription from '../../../modules/ai/AiDescription'
 
 const AiCourseButton = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -33,29 +32,6 @@ const CourseAi = () => {
             <React.Suspense fallback={null}>
                 <AiCourseButton title={title} />
             </React.Suspense>
-            {/* {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-            <AiDescription
-                title={title}
-                description=""
-                type="course"
-                handleAddDescription={(value) => {
-                    if (window.tinymce) {
-                        const editor = window.tinymce.get('content'); // Get TinyMCE editor instance
-                        if (editor) {
-                            editor.setContent(value); // Set content inside TinyMCE
-                            editor.save(); // Ensure the editor updates the underlying textarea
-                        }
-                    } else {
-                        // Fallback: Directly update the textarea if TinyMCE is not active
-                        const contentArea = document.getElementById('content');
-                        if (contentArea) {
-                            contentArea.value = value;
-                        }
-                    }
-                }}
-            />
-        } */}
         </>
     )
 }

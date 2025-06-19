@@ -24,10 +24,11 @@ const AdvanceOptions = (props) => {
                     control={
                         <CustomSwitch />
                     }
-                    checked={
-                        props?.watch("meta.quiz_settings.show_only_specific_number_of_questions") ??
-                        false
-                    }
+                    disabled
+                    // checked={
+                    //     props?.watch("meta.quiz_settings.show_only_specific_number_of_questions") ??
+                    //     false
+                    // }
                     onChange={(e) => {
                         props?.setValue(
                             "meta.quiz_settings.show_only_specific_number_of_questions",
@@ -50,7 +51,7 @@ const AdvanceOptions = (props) => {
                     size="small"
                     type="number"
                     label={__("Specific Number of Questions", "acadlix")}
-                    value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
+                    // value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
                     onChange={(e) => {
                         props?.setValue(
                             "meta.quiz_settings.specific_number_of_questions",
@@ -58,7 +59,7 @@ const AdvanceOptions = (props) => {
                             { shouldDirty: true }
                         );
                     }}
-                    disabled={!props?.watch("meta.quiz_settings.show_only_specific_number_of_questions")}
+                    disabled
                     sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
                         {
@@ -80,8 +81,8 @@ const AdvanceOptions = (props) => {
                     control={
                         <CustomSwitch />
                     }
-                    checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
-                    disabled={["check_and_continue", "advance_mode"]?.includes(props?.watch("meta.mode"))}
+                    // checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
+                    disabled
                     onChange={(e) => {
                         props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
                             shouldDirty: true,
@@ -100,7 +101,8 @@ const AdvanceOptions = (props) => {
                     control={
                         <CustomSwitch />
                     }
-                    checked={props?.watch("meta.quiz_settings.result_feedback_by_ai") ?? false}
+                    // checked={props?.watch("meta.quiz_settings.result_feedback_by_ai") ?? false}
+                    disabled
                     onChange={(e) => {
                         props?.setValue("meta.quiz_settings.result_feedback_by_ai", e?.target?.checked, {
                             shouldDirty: true,
@@ -120,12 +122,13 @@ const AdvanceOptions = (props) => {
                     multiline
                     rows={4}
                     label={__("Prompt (Optional)", "acadlix")}
-                    value={props?.watch("meta.quiz_settings.result_feedback_additional_prompt")}
+                    // value={props?.watch("meta.quiz_settings.result_feedback_additional_prompt")}
                     onChange={(e) => {
                         props?.setValue("meta.quiz_settings.result_feedback_additional_prompt", e?.target?.value, {
                             shouldDirty: true,
                         });
                     }}
+                    disabled
                     slotProps={{
                         htmlInput: {
                             sx: {
