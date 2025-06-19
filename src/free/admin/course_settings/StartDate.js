@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { convertToPostDate } from "@helpers/util";
+import { convertToPostDate } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 
 const StartDate = (props) => {

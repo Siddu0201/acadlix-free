@@ -28,28 +28,48 @@ import { convertToPostDate } from "../../../../helpers/util";
 import CustomTypography from "../../../../components/CustomTypography";
 import { __ } from "@wordpress/i18n";
 
+const ClearResponseButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/ClearResponseButton") :
+    import("@acadlix/free/admin/quiz/tabs/general/ClearResponseButton")
+);
+const QuizTimeType = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/QuizTimeType") :
+    import("@acadlix/free/admin/quiz/tabs/general/QuizTimeType")
+);
+const StartDate = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/StartDate") :
+    import("@acadlix/free/admin/quiz/tabs/general/StartDate")
+);
+const EndDate = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/EndDate") :
+    import("@acadlix/free/admin/quiz/tabs/general/EndDate")
+);
+const AllowedAttemptButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/AllowedAttemptButton") :
+    import("@acadlix/free/admin/quiz/tabs/general/AllowedAttemptButton")
+);
+const PrerequisiteButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/PrerequisiteButton") :
+    import("@acadlix/free/admin/quiz/tabs/general/PrerequisiteButton")
+);
+const PrerequisiteOptions = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/PrerequisiteOptions") :
+    import("@acadlix/free/admin/quiz/tabs/general/PrerequisiteOptions")
+);
+const AdvanceOptions = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/general/AdvanceOptions") :
+    import("@acadlix/free/admin/quiz/tabs/general/AdvanceOptions")
+);
+
 const General = (props) => {
-  const [prerequisite, setPrerequisite] = React.useState(null);
-
-  const handleAddPrerequisite = () => {
-    props?.setValue(
-      "prerequisite",
-      [
-        ...props?.watch("prerequisite"),
-        prerequisite,
-      ]
-    );
-    setPrerequisite(null);
-  }
-
-  const handleRemovePrerequisite = (index) => {
-    props?.setValue(
-      "prerequisite",
-      props?.watch("prerequisite").filter((_, i) => i !== index)
-    );
-  }
-
-
   return (
     <Box sx={{ color: "black" }}>
       <Box
@@ -110,15 +130,19 @@ const General = (props) => {
           />
         </GridItem1>
 
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Clear Response Button", "acadlix")}</CustomTypography>
-            </GridItem1>
 
-            {/* Used to clear answer button to clear option selction */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Clear Response Button", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <React.Suspense fallback={null}>
+          <ClearResponseButton
+            {...props}
+          />
+        </React.Suspense>
+
+        {/* Used to clear answer button to clear option selction */}
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={<CustomSwitch />}
                 checked={props?.watch("meta.quiz_settings.show_clear_response_button") ?? false}
@@ -131,9 +155,7 @@ const General = (props) => {
                 }}
                 label={__("Activate", "acadlix")}
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Review Button", "acadlix")}</CustomTypography>
@@ -161,14 +183,18 @@ const General = (props) => {
           - full quiz time
           - per question time
         */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Quiz Time Type", "acadlix")}</CustomTypography>
-            </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Quiz Time Type", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <React.Suspense fallback={null}>
+          <QuizTimeType
+            {...props}
+          />
+        </React.Suspense>
+
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControl
                 sx={{
                   display: "flex",
@@ -217,9 +243,7 @@ const General = (props) => {
                   />
                 </RadioGroup>
               </FormControl>
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* Timing in sec (0 => infinity) */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -251,14 +275,17 @@ const General = (props) => {
         </GridItem1>
 
         {/* Quiz start date */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Start date", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Start date", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <React.Suspense fallback={null}>
+          <StartDate
+            {...props}
+          />
+        </React.Suspense>
+
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <DemoContainer components={["DateTimePicker"]} sx={{
                 "& .MuiFormControl-root ": {
                   minWidth: "100% !important",
@@ -301,19 +328,20 @@ const General = (props) => {
                   {props?.formState?.errors?.meta?.start_date?.message}
                 </Typography>
               )}
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* Quiz End Date */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("End date", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("End date", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <React.Suspense fallback={null}>
+          <EndDate
+            {...props}
+          />
+        </React.Suspense>
+
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <DemoContainer components={["DateTimePicker"]} sx={{
                 "& .MuiFormControl-root ": {
                   minWidth: "100% !important",
@@ -356,9 +384,7 @@ const General = (props) => {
                   {props?.formState?.errors?.meta?.end_date?.message}
                 </Typography>
               )}
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
       </Grid>
 
       <Box
@@ -400,15 +426,17 @@ const General = (props) => {
           />
         </GridItem1>
 
-        {/* Per user allowed attempt to attent the quiz */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Per User Allowed Attempt", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Per User Allowed Attempt", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <React.Suspense fallback={null}>
+          <AllowedAttemptButton
+            {...props}
+          />
+        </React.Suspense>
+
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTextField
                 label={__("Per User Allowed Attempt", "acadlix")}
                 variant="outlined"
@@ -442,18 +470,20 @@ const General = (props) => {
                   <RiQuestionFill />
                 </IconButton>
               </Tooltip>
-            </GridItem1>
-          </>
-        }
-        {/* Quiz prerequisite */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Enable Prerequisite", "acadlix")}</CustomTypography>
-            </GridItem1>
+            </GridItem1> */}
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        {/* Quiz prerequisite */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Enable Prerequisite", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <React.Suspense fallback={null}>
+          <PrerequisiteButton
+            {...props}
+          />
+        </React.Suspense>
+
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -467,17 +497,21 @@ const General = (props) => {
                 }
                 label={__("Activate", "acadlix")}
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
         <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
         {
-          props?.watch("meta.quiz_settings.enable_prerequisite") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
+          props?.watch("meta.quiz_settings.enable_prerequisite") &&
           <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Select Prerequisite", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }} sx={{
+
+            <React.Suspense fallback={null}>
+              <PrerequisiteOptions
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }} sx={{
               display: "flex",
               gap: 2
             }}>
@@ -557,156 +591,155 @@ const General = (props) => {
                   </ListItem>
                 ))}
               </List>
-            </GridItem1>
+            </GridItem1> */}
           </>
         }
       </Grid>
 
 
       {/* Advance Options */}
-      {
-        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-        <>
-          <Box
-            sx={{
-              marginY: 2,
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">{__("Advance Options", "acadlix")}</Typography>
+        <Divider />
+      </Box>
+      <React.Suspense fallback={null}>
+        <AdvanceOptions
+          {...props}
+        />
+      </React.Suspense>
+      {/* <Grid
+        container
+        spacing={3}
+        alignItems="center"
+      >
+        {/* Used to set limited number of question in a quiz */}
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Only Specific Number of Questions", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch />
+            }
+            checked={
+              props?.watch("meta.quiz_settings.show_only_specific_number_of_questions") ??
+              false
+            }
+            onChange={(e) => {
+              props?.setValue(
+                "meta.quiz_settings.show_only_specific_number_of_questions",
+                e?.target?.checked,
+                { shouldDirty: true }
+              );
             }}
-          >
-            <Typography variant="h6">{__("Advance Options", "acadlix")}</Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1> */}
 
-            spacing={3}
-            alignItems="center"
-          >
-            {/* Used to set limited number of question in a quiz */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Only Specific Number of Questions", "acadlix")}</CustomTypography>
-            </GridItem1>
+        {/* Number of question to set in quiz */}
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Specific Number of Questions", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={
-                  props?.watch("meta.quiz_settings.show_only_specific_number_of_questions") ??
-                  false
-                }
-                onChange={(e) => {
-                  props?.setValue(
-                    "meta.quiz_settings.show_only_specific_number_of_questions",
-                    e?.target?.checked,
-                    { shouldDirty: true }
-                  );
-                }}
-                label={__("Activate", "acadlix")}
-              />
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            type="number"
+            label={__("Specific Number of Questions", "acadlix")}
+            value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
+            onChange={(e) => {
+              props?.setValue(
+                "meta.quiz_settings.specific_number_of_questions",
+                Number(e?.target?.value),
+                { shouldDirty: true }
+              );
+            }}
+            disabled={!props?.watch("meta.quiz_settings.show_only_specific_number_of_questions")}
+            sx={{
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+              {
+                display: "none",
+              },
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
+            }}
+          />
+        </GridItem1>
 
-            {/* Number of question to set in quiz */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Specific Number of Questions", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Enable Check Button", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="number"
-                label={__("Specific Number of Questions", "acadlix")}
-                value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
-                onChange={(e) => {
-                  props?.setValue(
-                    "meta.quiz_settings.specific_number_of_questions",
-                    Number(e?.target?.value),
-                    { shouldDirty: true }
-                  );
-                }}
-                disabled={!props?.watch("meta.quiz_settings.show_only_specific_number_of_questions")}
-                sx={{
-                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                  {
-                    display: "none",
-                  },
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                }}
-              />
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch />
+            }
+            checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
+            disabled={["check_and_continue", "advance_mode"]?.includes(props?.watch("meta.mode"))}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Enable Check Button", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Result Feedback By AI", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
-                disabled={["check_and_continue", "advance_mode"]?.includes(props?.watch("meta.mode"))}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-              />
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch />
+            }
+            checked={props?.watch("meta.quiz_settings.result_feedback_by_ai") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.result_feedback_by_ai", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Result Feedback By AI", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                control={
-                  <CustomSwitch />
-                }
-                checked={props?.watch("meta.quiz_settings.result_feedback_by_ai") ?? false}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.result_feedback_by_ai", e?.target?.checked, {
-                    shouldDirty: true,
-                  });
-                }}
-                label={__("Activate", "acadlix")}
-              />
-            </GridItem1>
-
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}</CustomTypography>
-            </GridItem1>
-
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
-              <CustomTextField
-                fullWidth
-                multiline
-                rows={4}
-                label={__("Prompt (Optional)", "acadlix")}
-                value={props?.watch("meta.quiz_settings.result_feedback_additional_prompt")}
-                onChange={(e) => {
-                  props?.setValue("meta.quiz_settings.result_feedback_additional_prompt", e?.target?.value, {
-                    shouldDirty: true,
-                  });
-                }}
-                slotProps={{
-                  htmlInput: {
-                    sx: {
-                      border: `0 !important`,
-                      boxShadow: `none !important`,
-                      minHeight: `auto !important`,
-                    },
-                  }
-                }}
-              />
-            </GridItem1>
-          </Grid>
-        </>
-      }
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
+          <CustomTextField
+            fullWidth
+            multiline
+            rows={4}
+            label={__("Prompt (Optional)", "acadlix")}
+            value={props?.watch("meta.quiz_settings.result_feedback_additional_prompt")}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.result_feedback_additional_prompt", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+            slotProps={{
+              htmlInput: {
+                sx: {
+                  border: `0 !important`,
+                  boxShadow: `none !important`,
+                  minHeight: `auto !important`,
+                },
+              }
+            }}
+          />
+        </GridItem1> */}
+      {/* </Grid>  */}
     </Box>
   );
 };

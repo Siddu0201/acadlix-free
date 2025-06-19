@@ -9,6 +9,12 @@ import { hasCapability } from '../../../../helpers/util';
 import { PostAddAssignment } from '../../../../requests/admin/AdminCourseRequest';
 import toast from 'react-hot-toast';
 
+const AddAssignmentButton = React.lazy(() =>
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/admin/course/AddAssignmentButton") :
+        import("@acadlix/free/admin/course/AddAssignmentButton")
+);
+
 const AddAssignment = (props) => {
     const methods = useForm({
         defaultValues: {
@@ -134,7 +140,13 @@ const AddAssignment = (props) => {
                     }
                 />
             </BootstrapDialog>
-            <Button
+            <React.Suspense fallback={null}>
+              <AddAssignmentButton 
+                {...props}
+                handleAddAssignment={handleAddAssignment}
+              />
+            </React.Suspense>
+            {/* <Button
                 variant="outlined"
                 color="primary"
                 size="small"
@@ -146,7 +158,7 @@ const AddAssignment = (props) => {
                     }}
                 />
                 {__("Add Assignment", "acadlix")}
-            </Button>
+            </Button> */}
         </Box>
     )
 }

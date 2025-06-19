@@ -10,6 +10,18 @@ import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
+const RangeTypeOption = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/sections/RangeTypeOption") :
+    import("@acadlix/free/admin/question/sections/RangeTypeOption")
+);
+
+const NumericalOption = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/sections/NumericalOption") :
+    import("@acadlix/free/admin/question/sections/NumericalOption")
+);
+
 const QuestionAnswerTypeSection = (props) => {
   const handleTypeChange = (e) => {
     props?.setValue("answer_type", e.target.value, { shouldDirty: true });
@@ -68,24 +80,12 @@ const QuestionAnswerTypeSection = (props) => {
               control={<Radio />}
               label={__("Fill in the Blank", "acadlix")}
             />
-            {
-              process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
-                <FormControlLabel
-                  value="numerical"
-                  control={<Radio />}
-                  label={__("Numerical", "acadlix")}
-                />
-              )
-            }
-            {
-              process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
-                <FormControlLabel
-                  value="rangeType"
-                  control={<Radio />}
-                  label={__("Range Type", "acadlix")}
-                />
-              )
-            }
+            <React.Suspense fallback={null}>
+              <NumericalOption />
+            </React.Suspense>
+            <React.Suspense fallback={null}>
+              <RangeTypeOption />
+            </React.Suspense>
           </RadioGroup>
         </CardContent>
       </Card>

@@ -36,6 +36,17 @@ import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
 import CustomTextField from "../../../components/CustomTextField";
 
+const BulkImportButton = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/BulkImportButton") :
+    import("@acadlix/free/admin/question/BulkImportButton")
+);
+const BulkSetParagraph = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/BulkSetParagraph") :
+    import("@acadlix/free/admin/question/BulkSetParagraph")
+);
+
 const Question = () => {
   const methods = useForm({
     defaultValues: {
@@ -355,17 +366,18 @@ const Question = () => {
                   </Tooltip>
                   {acadlixOptions?.is_abqu_active && 
                     hasCapability("acadlix_import_question") && 
-                    process.env.REACT_APP_IS_PREMIUM === 'true' && 
-                    acadlixOptions?.isActive && 
                     (
-                    <Button
-                      variant="contained"
-                      LinkComponent="a"
-                      href={`${acadlixOptions?.abqu_url}&quiz_id=${quiz_id}`}
-                      color="primary"
-                    >
-                      {__("Import from .docx", "acadlix")}
-                    </Button>
+                      <React.Suspense fallback={null}>
+                        <BulkImportButton quiz_id={quiz_id} />
+                      </React.Suspense>
+                    // <Button
+                    //   variant="contained"
+                    //   LinkComponent="a"
+                    //   href={`${acadlixOptions?.abqu_url}&quiz_id=${quiz_id}`}
+                    //   color="primary"
+                    // >
+                    //   {__("Import from .docx", "acadlix")}
+                    // </Button>
                   )}
                 </Box>
               }
@@ -428,9 +440,12 @@ const Question = () => {
                           }
                           {
                             hasCapability("acadlix_bulk_set_paragraph_question") &&
-                            <MenuItem value="set_paragraph">
-                              {__("Set Paragraph", "acadlix")}
-                            </MenuItem>
+                            <React.Suspense fallback={null}>
+                              <BulkSetParagraph />
+                            </React.Suspense>
+                            // <MenuItem value="set_paragraph">
+                            //   {__("Set Paragraph", "acadlix")}
+                            // </MenuItem>
                           }
                         </Select>
                         <FormHelperText>

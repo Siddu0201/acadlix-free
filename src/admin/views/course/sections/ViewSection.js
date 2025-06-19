@@ -522,7 +522,7 @@ const SortableSections = (props) => {
               <AddQuiz {...props} />
             }
             {
-              hasCapability("acadlix_add_course_section_assignment") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
+              hasCapability("acadlix_add_course_section_assignment") &&
               <AddAssignment {...props} />
             }
           </Box>

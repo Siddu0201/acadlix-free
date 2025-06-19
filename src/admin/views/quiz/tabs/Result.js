@@ -19,6 +19,52 @@ import CustomTypography from "../../../../components/CustomTypography";
 import { RiQuestionFill } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 
+const SpeedButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/SpeedButton") :
+    import("@acadlix/free/admin/quiz/tabs/result/SpeedButton")
+);
+const PercentileButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/PercentileButton") :
+    import("@acadlix/free/admin/quiz/tabs/result/PercentileButton")
+);
+const AccuracyButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/AccuracyButton") :
+    import("@acadlix/free/admin/quiz/tabs/result/AccuracyButton")
+);
+const SubjectWiseButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/SubjectWiseButton") :
+    import("@acadlix/free/admin/quiz/tabs/result/SubjectWiseButton")
+);
+const RankButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/RankButton") :
+    import("@acadlix/free/admin/quiz/tabs/result/RankButton")
+);
+const PercentBasedText = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/PercentBasedText") :
+    import("@acadlix/free/admin/quiz/tabs/result/PercentBasedText")
+);
+const MinPercentOptions = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/MinPercentOptions") :
+    import("@acadlix/free/admin/quiz/tabs/result/MinPercentOptions")
+);
+const ResultComparissionButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/ResultComparissionButton") :
+    import("@acadlix/free/admin/quiz/tabs/result/ResultComparissionButton")
+);
+const AnswerSheetOptions = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/result/AnswerSheetOptions") :
+    import("@acadlix/free/admin/quiz/tabs/result/AnswerSheetOptions")
+);
+
 const Result = (props) => {
 
   return (
@@ -233,13 +279,16 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Its an average speed per question - total_time_taken/question  */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+
+            <React.Suspense fallback={null}>
+              <SpeedButton
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -259,18 +308,19 @@ const Result = (props) => {
                   //   props?.watch("meta.advance_mode_type") !== "advance_panel")
                 }
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+
+            <React.Suspense fallback={null}>
+              <PercentileButton
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -291,18 +341,19 @@ const Result = (props) => {
                   !props?.watch("meta.quiz_settings.save_statistic")
                 }
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+
+            <React.Suspense fallback={null}>
+              <AccuracyButton
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -321,9 +372,7 @@ const Result = (props) => {
                   //   props?.watch("meta.advance_mode_type") !== "advance_panel")
                 }
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* Used to Show Average Score  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -353,13 +402,16 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show subject wise analysis of quiz  */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+
+            <React.Suspense fallback={null}>
+              <SubjectWiseButton
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -381,20 +433,20 @@ const Result = (props) => {
                   //   props?.watch("meta.advance_mode_type") !== "advance_panel")
                 }
               />
-            </GridItem1>
+            </GridItem1> */}
             <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
-          </>
-        }
 
 
         {/* 
           Used to show Status - Pass /Fail on the basis of Percent 
           On check - Minimum % to pass option will open
            */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+           <React.Suspense fallback={null}>
+            <MinPercentOptions
+              {...props}
+            />
+           </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Status Based On Min % (Pass/Fail)", "acadlix")}</CustomTypography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -420,10 +472,10 @@ const Result = (props) => {
                   //   props?.watch("meta.advance_mode_type") !== "advance_panel")
                 }
               />
-            </GridItem1>
+            </GridItem1> */}
 
             {/* Minimum marks to pass - default 0  */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Minimum % to pass", "acadlix")}</CustomTypography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -453,17 +505,12 @@ const Result = (props) => {
                   },
                 }}
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
       </Grid>
 
       {/* End of Result options */}
 
       {/* Start of Answer Sheet options */}
-      {
-        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-        <>
           <Box
             sx={{
               marginY: 2,
@@ -472,16 +519,21 @@ const Result = (props) => {
             <Typography variant="h6">{__("Answer Sheet Options", "acadlix")}</Typography>
             <Divider />
           </Box>
-          <Grid
+          <React.Suspense fallback={null}>
+            <AnswerSheetOptions
+              {...props}
+            />
+          </React.Suspense>
+          {/* <Grid
             container
             spacing={3}
             alignItems="center"
-          >
+          > */}
             {/* 
               Answer sheet option to hide answer sheet and options availbales are: 
               - Show Per Question Time
                 */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Hide Answer Sheet", "acadlix")}</CustomTypography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -501,10 +553,10 @@ const Result = (props) => {
               //   props?.watch("meta.advance_mode_type") !== "advance_panel"
               // }
               />
-            </GridItem1>
+            </GridItem1> */}
 
             {/* Used to show per question time in answer sheet  */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Per Question Time", "acadlix")}</CustomTypography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -528,11 +580,9 @@ const Result = (props) => {
                   //   props?.watch("meta.advance_mode_type") !== "advance_panel")
                 }
               />
-            </GridItem1>
+            </GridItem1> */}
             {/* End Answer sheet option  */}
-          </Grid>
-        </>
-      }
+          {/* </Grid> */}
       {/* End of Answer Sheet options */}
 
       {/* Start of Leaderboard options */}
@@ -625,13 +675,16 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show rank  */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+
+            <React.Suspense fallback={null}>
+              <RankButton
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -645,17 +698,17 @@ const Result = (props) => {
                 label={__("Activate", "acadlix")}
                 disabled={!props?.watch("meta.quiz_settings.leaderboard")}
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
         {/* Option for Result Comparison with topper    */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            <React.Suspense fallback={null}>
+              <ResultComparissionButton
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -675,9 +728,7 @@ const Result = (props) => {
                   !props?.watch("meta.quiz_settings.leaderboard")
                 }
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* User can apply multiple times for leaderboard */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -837,13 +888,15 @@ const Result = (props) => {
         {/* Show result Text
             - show simple text or based on %
           */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>
             </GridItem1>
-            <GridItem1 size={{ xs: 12, lg: 3 }}>
+            <React.Suspense fallback={null}>
+              <PercentBasedText
+                {...props}
+              />
+            </React.Suspense>
+            {/* <GridItem1 size={{ xs: 12, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch
@@ -868,10 +921,8 @@ const Result = (props) => {
                 }
                 label={__("Activate", "acadlix")}
               />
-            </GridItem1>
+            </GridItem1> */}
             <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
-          </>
-        }
 
         {/* Result Text - based on % */}
         {

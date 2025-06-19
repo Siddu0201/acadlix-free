@@ -17,6 +17,22 @@ import CustomTypography from "../../../../components/CustomTypography";
 import { RiQuestionFill } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 
+const RandomLastOptionButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/question/RandomLastOptionButton") :
+    import("@acadlix/free/admin/quiz/tabs/question/RandomLastOptionButton")
+);
+const AttemptMoveForwardButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/question/AttemptMoveForwardButton") :
+    import("@acadlix/free/admin/quiz/tabs/question/AttemptMoveForwardButton")
+);
+const ForceUserButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/tabs/question/ForceUserButton") :
+    import("@acadlix/free/admin/quiz/tabs/question/ForceUserButton")
+);
+
 const Question = (props) => {
   return (
     <Box sx={{ color: "black" }}>
@@ -215,13 +231,16 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Used to stop randomization of last option */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Do not randomize last option", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <React.Suspense fallback={null}>
+          <RandomLastOptionButton
+            {...props}
+          />
+        </React.Suspense>
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -239,9 +258,7 @@ const Question = (props) => {
                 disabled={!props?.watch("meta.quiz_settings.random_option")}
                 label={__("Activate", "acadlix")}
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* Used to hide question numbering  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -288,13 +305,16 @@ const Question = (props) => {
         </GridItem1>
 
         {/* Attempt question and move forward automatically- only for single choice */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <React.Suspense fallback={null}>
+          <AttemptMoveForwardButton
+            {...props}
+          />
+        </React.Suspense>
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -324,18 +344,19 @@ const Question = (props) => {
                   <RiQuestionFill />
                 </IconButton>
               </Tooltip>
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
 
         {/* Force user to answer each question */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Force User to Answer Each Question", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <React.Suspense fallback={null}>
+          <ForceUserButton
+            {...props}
+          />
+        </React.Suspense>
+        {/* <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
               <FormControlLabel
                 control={
                   <CustomSwitch />
@@ -356,9 +377,7 @@ const Question = (props) => {
                 }
                 label={__("Activate", "acadlix")}
               />
-            </GridItem1>
-          </>
-        }
+            </GridItem1> */}
       </Grid>
     </Box>
   );

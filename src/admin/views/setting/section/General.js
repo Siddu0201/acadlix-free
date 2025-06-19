@@ -19,10 +19,15 @@ import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer, renderMUIComponent } from "../../../../modules/extensions/muiRecursiveRenderer";
 
+const AdvanceQuizOption = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/setting/general/AdvanceQuizOption") :
+    import("@acadlix/free/admin/setting/general/AdvanceQuizOption")
+);
+
 function General(props) {
   const [courseInput, setCourseInput] = React.useState("");
   const [dashboardInput, setDashboardInput] = React.useState("");
-  const [quizInput, setQuizInput] = React.useState("");
   const [cartInput, setCartInput] = React.useState("");
   const [checkoutInput, setCheckoutInput] = React.useState("");
   const [thankyouInput, setThankyouInput] = React.useState("");
@@ -157,20 +162,20 @@ function General(props) {
         </Grid>
 
         {/* Advance Quiz Page Setting  */}
-        {
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-          <>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 500,
-                }}
-              >
-                {__("Advance quiz page", "acadlix")}
-              </Typography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Advance quiz page", "acadlix")}
+          </Typography>
+        </Grid>
+        <React.Suspense fallback={null}>
+          <AdvanceQuizOption {...props} />
+        </React.Suspense>
+        {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <Autocomplete
                 size="small"
                 value={
@@ -256,9 +261,7 @@ function General(props) {
                   );
                 }}
               />
-            </Grid>
-          </>
-        }
+            </Grid> */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Typography
             variant="body2"

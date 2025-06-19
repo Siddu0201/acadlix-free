@@ -1,6 +1,12 @@
 import React from 'react'
 import AiDescription from '../../../modules/ai/AiDescription'
 
+const AiCourseButton = React.lazy(() =>
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/admin/course_ai/AiCourseButton") :
+        import("@acadlix/free/admin/course_ai/AiCourseButton")
+);
+
 const CourseAi = () => {
     const [title, setTitle] = React.useState('');
     React.useEffect(() => {
@@ -24,7 +30,10 @@ const CourseAi = () => {
 
     return (
         <>
-        {
+            <React.Suspense fallback={null}>
+                <AiCourseButton title={title} />
+            </React.Suspense>
+            {/* {
           process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
             <AiDescription
                 title={title}
@@ -46,7 +55,7 @@ const CourseAi = () => {
                     }
                 }}
             />
-        }
+        } */}
         </>
     )
 }

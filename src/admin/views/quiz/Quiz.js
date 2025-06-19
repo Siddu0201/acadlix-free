@@ -38,6 +38,17 @@ import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
 import CustomTextField from "../../../components/CustomTextField";
 
+const PragraphOptionButton = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/PragraphOptionButton") :
+    import("@acadlix/free/admin/quiz/PragraphOptionButton")
+  );
+const SubjectOptionButton = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/SubjectOptionButton") :
+    import("@acadlix/free/admin/quiz/SubjectOptionButton")
+  );
+
 const Quiz = () => {
   const methods = useForm({
     defaultValues: {
@@ -176,7 +187,12 @@ const Quiz = () => {
                 </IconButton>
               </Tooltip>
             }
-            {
+            <React.Suspense fallback={null}>
+              <PragraphOptionButton
+                params={params}
+              />
+            </React.Suspense>
+            {/* {
               hasCapability("acadlix_show_paragraph") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
               <Tooltip title={__("Paragraphs", "acadlix")} arrow>
                 <IconButton
@@ -189,7 +205,7 @@ const Quiz = () => {
                   <FaParagraph />
                 </IconButton>
               </Tooltip>
-            }
+            } */}
             {
               hasCapability("acadlix_show_statistic") &&
               <Tooltip title={__("Result", "acadlix")} arrow>
@@ -219,18 +235,23 @@ const Quiz = () => {
               </Tooltip>
             }
             {params?.row?.mode === "advance_mode" &&
-              hasCapability("acadlix_subject_wise_action_quiz") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
+              hasCapability("acadlix_subject_wise_action_quiz") &&
               (
-                <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
-                  <IconButton
-                    aria-label="subject_time"
-                    size="small"
-                    color="grey"
-                    onClick={handleSubjectTime.bind(this, params?.id)}
-                  >
-                    <LuFileClock />
-                  </IconButton>
-                </Tooltip>
+                <React.Suspense fallback={null}>
+                  <SubjectOptionButton
+                    params={params}
+                  />
+                </React.Suspense>
+                // <Tooltip title={__("Subject Wise Actions", "acadlix")} arrow>
+                //   <IconButton
+                //     aria-label="subject_time"
+                //     size="small"
+                //     color="grey"
+                //     onClick={handleSubjectTime.bind(this, params?.id)}
+                //   >
+                //     <LuFileClock />
+                //   </IconButton>
+                // </Tooltip>
               )}
           </>
         );
@@ -367,17 +388,14 @@ const Quiz = () => {
           <CategoryModel {...methods} handleClose={handleClose} />
         </BootstrapDialog>
       )}
-      {
-        process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-        <BootstrapDialog
-          open={methods?.watch("subject_model")}
-          onClose={handleSubjectTimeClose}
-          aria-labelledby="alert-subject-title"
-          aria-describedby="alert-subject-description"
-        >
-          <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
-        </BootstrapDialog>
-      }
+      <BootstrapDialog
+        open={methods?.watch("subject_model")}
+        onClose={handleSubjectTimeClose}
+        aria-labelledby="alert-subject-title"
+        aria-describedby="alert-subject-description"
+      >
+        <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
+      </BootstrapDialog>
       <Grid
         container
         rowSpacing={3}

@@ -32,6 +32,12 @@ import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import AiDescription from "../../../../modules/ai/AiDescription";
 
+const AiLessonButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/course/lesson/AiLessonButton") :
+    import("@acadlix/free/admin/course/lesson/AiLessonButton")
+);
+
 const AddLessonModal = (props) => {
   const handleLessonTypeChange = (type = "") => {
     props?.setValue("lesson_type", type, { shouldDirty: true });
@@ -455,7 +461,10 @@ const ContentSection = (props) => {
 
   return (
     <>
-      {
+      <React.Suspense fallback={null}>
+        <AiLessonButton {...props} />
+      </React.Suspense>
+      {/* {
         process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
         <Grid size={{ xs: 12, sm: 12 }}>
           <AiDescription
@@ -476,7 +485,7 @@ const ContentSection = (props) => {
             }}
           />
         </Grid>
-      }
+      } */}
       <Grid size={{ xs: 12, sm: 12 }}>
         <textarea
           id="lesson_content"

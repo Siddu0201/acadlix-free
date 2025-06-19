@@ -17,8 +17,14 @@ import { __ } from "@wordpress/i18n";
 
 const StartDate = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@pro/admin/course_settings/StartDate") :
-    import("@free/admin/course_settings/StartDate")
+    import("@acadlix/pro/admin/course_settings/StartDate") :
+    import("@acadlix/free/admin/course_settings/StartDate")
+);
+
+const EndDate = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/course_settings/EndDate") :
+    import("@acadlix/free/admin/course_settings/EndDate")
 );
 
 const General = (props) => {
@@ -138,7 +144,10 @@ const General = (props) => {
                 {__("Registration Start Date", "acadlix")}
               </Typography>
             </Grid>
-            <Grid size={{ xs: 12, sm: 12 }}>
+            <React.Suspense fallback={null}>
+              <StartDate {...props} />
+            </React.Suspense>
+            {/* <Grid size={{ xs: 12, sm: 12 }}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DateTimePicker
                   format="DD/MM/YYYY hh:mm:a"
@@ -183,7 +192,7 @@ const General = (props) => {
                   {props?.formState?.errors?.meta?.start_date?.message}
                 </Typography>
               )}
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
@@ -198,7 +207,7 @@ const General = (props) => {
               </Typography>
             </Grid>
             <React.Suspense fallback={null}>
-              <StartDate {...props} />
+              <EndDate {...props} />
             </React.Suspense>
             {/* <Grid size={{ xs: 12, sm: 12 }}>
               <DemoContainer components={["DateTimePicker"]}>

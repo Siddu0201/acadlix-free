@@ -2,6 +2,12 @@ import Grid from '@mui/material/Grid2';
 import React from "react";
 import AiDescription from '../../../../modules/ai/AiDescription';
 
+const AiButton = React.lazy(() =>
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/admin/lesson/AiButton") :
+        import("@acadlix/free/admin/lesson/AiButton")
+);
+
 const ContentSection = (props) => {
   const loadPage = () => {
     props?.loadEditor("content", "content");
@@ -19,7 +25,10 @@ const ContentSection = (props) => {
 
   return (
     <>
-      {
+      <React.Suspense fallback={null}>
+        <AiButton {...props} />
+      </React.Suspense>
+      {/* {
         process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
         <Grid size={{ xs: 12, sm: 12 }}>
           <AiDescription
@@ -40,7 +49,7 @@ const ContentSection = (props) => {
             }}
           />
         </Grid>
-      }
+      } */}
       <Grid size={{ xs: 12, sm: 12 }}>
         <textarea
           id="content"

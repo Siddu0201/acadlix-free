@@ -5,6 +5,12 @@ import { __ } from "@wordpress/i18n";
 import Grid from "@mui/material/Grid2";
 import AiDescription from "../../../../modules/ai/AiDescription";
 
+const AiButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/description/AiButton") :
+    import("@acadlix/free/admin/quiz/description/AiButton")
+)
+
 const TitleDescriptionSection = (props) => {
   const loadPage = () => {
     props?.loadEditor("post_content", "post_content");
@@ -60,9 +66,12 @@ const TitleDescriptionSection = (props) => {
               <Typography variant="h6">{__("Quiz Description", "acadlix")}</Typography>
 
               {/* handle Ai for generating description */}
-              {
-                process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-                <AiDescription
+              <React.Suspense fallback={null}>
+                <AiButton
+                  {...props}
+                />
+              </React.Suspense>
+                {/* <AiDescription
                   title={props?.watch("post_title") ?? ""}
                   description={props?.watch("post_content") ?? ""}
                   type="quiz"
@@ -77,8 +86,7 @@ const TitleDescriptionSection = (props) => {
                       shouldDirty: true,
                     });
                   }}
-                />
-              }
+                /> */}
             </Grid>
             {/* Used to enter quiz decription, we replace textarea with tinymce editor  */}
             <Grid size={{ xs: 12, sm: 12 }}>

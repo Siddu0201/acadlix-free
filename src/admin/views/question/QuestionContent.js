@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Fill from "./types/Fill";
-import RangeType from "./types/RangeType";
+// import RangeType from "./types/RangeType";
 import TrueFalse from "./types/TrueFalse";
-import Numerical from "./types/Numerical";
+// import Numerical from "./types/Numerical";
 import MultipleChoice from "./types/MultipleChoice";
 import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
@@ -22,9 +22,25 @@ import {
   UpdateQuizQuestionById,
 } from "../../../requests/admin/AdminQuestionRequest";
 import { TiArrowLeftThick } from "../../../helpers/icons";
-import QuestionParagraphSection from "./sections/QuestionParagraphSection";
+// import QuestionParagraphSection from "./sections/QuestionParagraphSection";
 import { __ } from "@wordpress/i18n";
 import FreeChoice from "./types/FreeChoice";
+
+const QuestionParagraphSection = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/sections/QuestionParagraphSection") :
+    import("@acadlix/free/admin/question/sections/QuestionParagraphSection")
+);
+const Numerical = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/types/Numerical") :
+    import("@acadlix/free/admin/question/types/Numerical")
+);
+const RangeType = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/types/RangeType") :
+    import("@acadlix/free/admin/question/types/RangeType")
+);
 
 const QuestionContent = (props) => {
   const getAnswerData = (type, position = 0) => {
@@ -311,7 +327,7 @@ const QuestionContent = (props) => {
         );
       case "numerical":
         return (
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
+          <React.Suspense fallback={null}>
             <Numerical
               {...methods}
               index={index}
@@ -320,11 +336,11 @@ const QuestionContent = (props) => {
               loadEditor={loadEditor}
               removeEditor={removeEditor}
             />
-          )
+          </React.Suspense>
         );
       case "rangeType":
         return (
-          process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive && (
+          <React.Suspense fallback={null}>
             <RangeType
               {...methods}
               index={index}
@@ -333,7 +349,7 @@ const QuestionContent = (props) => {
               loadEditor={loadEditor}
               removeEditor={removeEditor}
             />
-          )
+          </React.Suspense>
         );
       case "paragraph":
         break;
@@ -411,10 +427,9 @@ const QuestionContent = (props) => {
           {/* General section contain title, points, subject, topic */}
           <GeneralOptionSection {...methods} {...props} />
 
-          {
-            process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
+          <React.Suspense fallback={null}>
             <QuestionParagraphSection {...methods} {...props} />
-          }
+          </React.Suspense>
 
           {/* Language section */}
           {/* {methods?.watch("multi_language") && (

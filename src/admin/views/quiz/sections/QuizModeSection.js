@@ -14,6 +14,27 @@ import CustomSwitch from "../../../../components/CustomSwitch";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
+const BackButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/sections/mode/BackButton") :
+    import("@acadlix/free/admin/quiz/sections/mode/BackButton")
+);
+const CheckOptionButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/sections/mode/CheckOptionButton") :
+    import("@acadlix/free/admin/quiz/sections/mode/CheckOptionButton")
+);
+const SkipQuestionButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/sections/mode/SkipQuestionButton") :
+    import("@acadlix/free/admin/quiz/sections/mode/SkipQuestionButton")
+);
+const AdvanceModeOptions = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/sections/mode/AdvanceModeOptions") :
+    import("@acadlix/free/admin/quiz/sections/mode/AdvanceModeOptions")
+);
+
 const QuizModeSection = (props) => {
   const setAdvanceModeDefaultSettings = () => {
     // default general setting
@@ -129,9 +150,10 @@ const QuizModeSection = (props) => {
                       {__("Normal", 'acadlix')}
                     </h3>
                   </Box>
-                  {
-                    process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-                    <Box>
+                  <React.Suspense fallback={null}>
+                    <BackButton {...props} />
+                  </React.Suspense>
+                  {/* <Box>
                       <FormControlLabel
                         control={
                           <CustomSwitch
@@ -148,8 +170,7 @@ const QuizModeSection = (props) => {
                         }
                         label={__('Enable Back Button', 'acadlix')}
                       />
-                    </Box>
-                  }
+                    </Box> */}
                 </CardContent>
               </Card>
             </Grid>
@@ -201,10 +222,11 @@ const QuizModeSection = (props) => {
                       {__("Check And Continue", 'acadlix')}
                     </h3>
                   </Box>
-                  {
-                    process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-                    <Box>
-                      <FormControlLabel
+                  <Box>
+                    <React.Suspense fallback={null}>
+                      <CheckOptionButton {...props} />
+                    </React.Suspense>
+                    {/* <FormControlLabel
                         control={
                           <CustomSwitch
                             checked={
@@ -224,9 +246,13 @@ const QuizModeSection = (props) => {
                           />
                         }
                         label={__("Show Check Button When Option Selected", 'acadlix')}
-                      />
+                      /> */}
 
-                      <FormControlLabel
+                    <React.Suspense fallback={null}>
+                      <SkipQuestionButton {...props} />
+                    </React.Suspense>
+
+                    {/* <FormControlLabel
                         control={
                           <CustomSwitch
                             checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
@@ -245,9 +271,8 @@ const QuizModeSection = (props) => {
                           />
                         }
                         label={__("Skip Question", 'acadlix')}
-                      />
-                    </Box>
-                  }
+                      /> */}
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>
@@ -345,129 +370,132 @@ const QuizModeSection = (props) => {
                 - JEE
                 - Railway
             */}
-            {
+            <React.Suspense fallback={null}>
+              <AdvanceModeOptions {...props} />
+            </React.Suspense>
+            {/* {
               process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-              <Grid size={{ xs: 12, sm: 12 }}>
-                <Card
-                  sx={{
-                    height: "100%",
-                  }}
-                >
-                  <CardContent>
-                    <Box
-                      sx={{
-                        textAlign: "center",
-                        marginY: 2,
-                      }}
-                    >
-                      <Radio
-                        checked={props?.watch("meta.mode") === "advance_mode"}
-                        name="mode"
-                        sx={{
-                          padding: 1,
-                        }}
-                        value="advance_mode"
-                        onClick={() => {
-                          props?.setValue("meta.mode", "advance_mode", {
-                            shouldDirty: true,
-                          });
+              // <Grid size={{ xs: 12, sm: 12 }}>
+              //   <Card
+              //     sx={{
+              //       height: "100%",
+              //     }}
+              //   >
+              //     <CardContent>
+              //       <Box
+              //         sx={{
+              //           textAlign: "center",
+              //           marginY: 2,
+              //         }}
+              //       >
+              //         <Radio
+              //           checked={props?.watch("meta.mode") === "advance_mode"}
+              //           name="mode"
+              //           sx={{
+              //             padding: 1,
+              //           }}
+              //           value="advance_mode"
+              //           onClick={() => {
+              //             props?.setValue("meta.mode", "advance_mode", {
+              //               shouldDirty: true,
+              //             });
 
-                          setAdvanceModeDefaultSettings();
-                        }}
-                      />
-                      <h3
-                        style={{
-                          margin: "5px 0 5px 0",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {__("Advance mode", "acadlix")}
-                      </h3>
-                      <h5
-                        style={{
-                          margin: "5px 0",
-                        }}
-                      >
-                        ({__("Quiz Option will only set as per the exam", "acadlix")})
-                      </h5>
-                    </Box>
-                    <Box
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <FormControl>
-                        <RadioGroup
-                          row
-                          name="advance_mode"
-                          onChange={(e) => {
-                            props?.setValue("meta.advance_mode_type", e.target.value, {
-                              shouldDirty: true,
-                            });
+              //             setAdvanceModeDefaultSettings();
+              //           }}
+              //         />
+              //         <h3
+              //           style={{
+              //             margin: "5px 0 5px 0",
+              //             cursor: "pointer",
+              //           }}
+              //         >
+              //           {__("Advance mode", "acadlix")}
+              //         </h3>
+              //         <h5
+              //           style={{
+              //             margin: "5px 0",
+              //           }}
+              //         >
+              //           ({__("Quiz Option will only set as per the exam", "acadlix")})
+              //         </h5>
+              //       </Box>
+              //       <Box
+              //         sx={{
+              //           textAlign: "center",
+              //         }}
+              //       >
+              //         <FormControl>
+              //           <RadioGroup
+              //             row
+              //             name="advance_mode"
+              //             onChange={(e) => {
+              //               props?.setValue("meta.advance_mode_type", e.target.value, {
+              //                 shouldDirty: true,
+              //               });
 
-                            setAdvanceModeDefaultSettings();
-                          }}
-                          sx={{
-                            display:
-                              props?.watch("meta.mode") === "advance_mode"
-                                ? ""
-                                : "none",
-                          }}
-                        >
-                          <FormControlLabel
-                            value="advance_panel"
-                            control={<Radio />}
-                            label={__("Advance Panel", "acadlix")}
-                            checked={
-                              props?.watch("meta.advance_mode_type") ===
-                              "advance_panel"
-                            }
-                          />
-                          <FormControlLabel
-                            value="ibps"
-                            control={<Radio />}
-                            label={__("IBPS", "acadlix")}
-                            checked={props?.watch("meta.advance_mode_type") === "ibps"}
-                          />
-                          <FormControlLabel
-                            value="ssc"
-                            control={<Radio />}
-                            label={__("SSC", "acadlix")}
-                            checked={props?.watch("meta.advance_mode_type") === "ssc"}
-                          />
-                          <FormControlLabel
-                            value="gate"
-                            control={<Radio />}
-                            label={__("GATE", "acadlix")}
-                            checked={props?.watch("meta.advance_mode_type") === "gate"}
-                          />
-                          <FormControlLabel
-                            value="sbi"
-                            control={<Radio />}
-                            label={__("SBI", "acadlix")}
-                            checked={props?.watch("meta.advance_mode_type") === "sbi"}
-                          />
-                          <FormControlLabel
-                            value="jee"
-                            control={<Radio />}
-                            label={__("JEE", "acadlix")}
-                            checked={props?.watch("meta.advance_mode_type") === "jee"}
-                          />
-                          <FormControlLabel
-                            value="railway"
-                            control={<Radio />}
-                            label={__("Railway", "acadlix")}
-                            checked={
-                              props?.watch("meta.advance_mode_type") === "railway"
-                            }
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            }
+              //               setAdvanceModeDefaultSettings();
+              //             }}
+              //             sx={{
+              //               display:
+              //                 props?.watch("meta.mode") === "advance_mode"
+              //                   ? ""
+              //                   : "none",
+              //             }}
+              //           >
+              //             <FormControlLabel
+              //               value="advance_panel"
+              //               control={<Radio />}
+              //               label={__("Advance Panel", "acadlix")}
+              //               checked={
+              //                 props?.watch("meta.advance_mode_type") ===
+              //                 "advance_panel"
+              //               }
+              //             />
+              //             <FormControlLabel
+              //               value="ibps"
+              //               control={<Radio />}
+              //               label={__("IBPS", "acadlix")}
+              //               checked={props?.watch("meta.advance_mode_type") === "ibps"}
+              //             />
+              //             <FormControlLabel
+              //               value="ssc"
+              //               control={<Radio />}
+              //               label={__("SSC", "acadlix")}
+              //               checked={props?.watch("meta.advance_mode_type") === "ssc"}
+              //             />
+              //             <FormControlLabel
+              //               value="gate"
+              //               control={<Radio />}
+              //               label={__("GATE", "acadlix")}
+              //               checked={props?.watch("meta.advance_mode_type") === "gate"}
+              //             />
+              //             <FormControlLabel
+              //               value="sbi"
+              //               control={<Radio />}
+              //               label={__("SBI", "acadlix")}
+              //               checked={props?.watch("meta.advance_mode_type") === "sbi"}
+              //             />
+              //             <FormControlLabel
+              //               value="jee"
+              //               control={<Radio />}
+              //               label={__("JEE", "acadlix")}
+              //               checked={props?.watch("meta.advance_mode_type") === "jee"}
+              //             />
+              //             <FormControlLabel
+              //               value="railway"
+              //               control={<Radio />}
+              //               label={__("Railway", "acadlix")}
+              //               checked={
+              //                 props?.watch("meta.advance_mode_type") === "railway"
+              //               }
+              //             />
+              //           </RadioGroup>
+              //         </FormControl>
+              //       </Box>
+              //     </CardContent>
+              //   </Card>
+              // </Grid>
+            } */}
           </Grid>
         </CardContent>
       </Card>

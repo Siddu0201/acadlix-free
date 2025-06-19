@@ -36,6 +36,12 @@ import { hasCapability } from "../../../../helpers/util";
 import CustomTextField from "../../../../components/CustomTextField";
 import toast from "react-hot-toast";
 
+const ViewAnswerSheetButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/quiz-result/ViewAnswerSheetButton") :
+    import("@acadlix/free/admin/quiz/quiz-result/ViewAnswerSheetButton")
+)
+
 const QuizResult = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -109,18 +115,24 @@ const QuizResult = () => {
       renderCell: (params) => (
         <Box>
           {
-            hasCapability("acadlix_show_answersheet") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-            <Tooltip title={__("View Answersheet", "acadlix")}>
-              <IconButton
-                aria-label="expand"
-                size="small"
-                color="warning"
-                LinkComponent={Link}
-                to={`/${quiz_id}/result/${params?.id}`}
-              >
-                <FaExpandArrowsAlt fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
+            hasCapability("acadlix_show_answersheet") &&
+            <React.Suspense fallback={null}>
+              <ViewAnswerSheetButton
+                quiz_id={quiz_id}
+                id={params?.id}
+              />
+            </React.Suspense>
+            // <Tooltip title={__("View Answersheet", "acadlix")}>
+            //   <IconButton
+            //     aria-label="expand"
+            //     size="small"
+            //     color="warning"
+            //     LinkComponent={Link}
+            //     to={`/${quiz_id}/result/${params?.id}`}
+            //   >
+            //     <FaExpandArrowsAlt fontSize="inherit" />
+            //   </IconButton>
+            // </Tooltip>
           }
           {
             hasCapability("acadlix_delete_statistic") &&

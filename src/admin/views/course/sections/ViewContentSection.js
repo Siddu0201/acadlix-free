@@ -36,6 +36,12 @@ import { __, sprintf } from "@wordpress/i18n";
 import { hasCapability } from "../../../../helpers/util";
 import EditAssignment from "./EditAssignment";
 
+const Preview = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/course/Preview") :
+    import("@acadlix/free/admin/course/Preview")
+);
+
 const ViewContentSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
   const sortMutation = PostSortContent(props?.s?.id);
@@ -277,33 +283,33 @@ const SortableSections = (props) => {
     }
   };
 
-  const tooglePreviewMutation = PostTooglePreviewContent(props?.s?.id, props?.c?.id);
+  // const tooglePreviewMutation = PostTooglePreviewContent(props?.s?.id, props?.c?.id);
 
-  const handleTooglePreview = () => {
-    tooglePreviewMutation?.mutate(
-      {
-        preview: !props?.c?.preview,
-      },
-      {
-        onSuccess: (data) => {
-          props?.setValue(
-            `sections.${props?.id}.contents`,
-            data?.data?.section?.contents?.map((c) => {
-              return {
-                id: c?.ID,
-                sort: c?.menu_order,
-                preview: Boolean(Number(c?.rendered_metas?.preview)),
-                type: c?.contentable?.type,
-                title: c?.contentable?.title,
-                contentable_id: c?.contentable?.id,
-                course_section_id: c?.post_parent,
-              };
-            })
-          );
-        },
-      }
-    );
-  }
+  // const handleTooglePreview = () => {
+  //   tooglePreviewMutation?.mutate(
+  //     {
+  //       preview: !props?.c?.preview,
+  //     },
+  //     {
+  //       onSuccess: (data) => {
+  //         props?.setValue(
+  //           `sections.${props?.id}.contents`,
+  //           data?.data?.section?.contents?.map((c) => {
+  //             return {
+  //               id: c?.ID,
+  //               sort: c?.menu_order,
+  //               preview: Boolean(Number(c?.rendered_metas?.preview)),
+  //               type: c?.contentable?.type,
+  //               title: c?.contentable?.title,
+  //               contentable_id: c?.contentable?.id,
+  //               course_section_id: c?.post_parent,
+  //             };
+  //           })
+  //         );
+  //       },
+  //     }
+  //   );
+  // }
 
   return (
     <ListItem
@@ -400,9 +406,10 @@ const SortableSections = (props) => {
               justifyContent: "center",
             }}
           >
-            {
-              process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
-              <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
+            <React.Suspense fallback={null}>
+              <Preview {...props} />
+            </React.Suspense>
+              {/* <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
                 <IconButton onClick={handleTooglePreview}>
                   {
                     tooglePreviewMutation?.isPending ?
@@ -419,8 +426,7 @@ const SortableSections = (props) => {
 
                   }
                 </IconButton>
-              </Tooltip>
-            }
+              </Tooltip> */}
             {
               hasCapability("acadlix_edit_course_section_lesson") && hasCapability("acadlix_edit_lesson") &&
               <EditLesson {...props} />
