@@ -42,19 +42,22 @@ class Submenu_Home
         add_action("admin_print_scripts-{$page}", [$this, 'admin_print_scripts']);
     }
 
+    public function localize_options()
+    {
+        return [
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'user_id' => get_current_user_id(),
+        ];
+    }
+
     public function admin_print_scripts()
     {
         wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-home");
-        wp_localize_script('acadlix-admin-home', 'acadlixOptions', array(
-            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
-            'nonce' => wp_create_nonce('wp_rest'),
-            'user_id' => get_current_user_id(),
-            'isPro' => acadlix()->pro,
-            'isActive' => acadlix()->license()->isActive ?? false,
-        ));
+        wp_localize_script('acadlix-admin-home', 'acadlixOptions', $this->localize_options());
         wp_set_script_translations('acadlix-admin-home', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 

@@ -115,7 +115,6 @@ class UserRole
             'acadlix_show_statistic' => true,
             'acadlix_delete_statistic' => true,
             'acadlix_reset_statistic' => true,
-            'acadlix_show_answersheet' => true,
         ];
     }
 

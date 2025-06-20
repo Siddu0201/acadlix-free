@@ -44,17 +44,11 @@ class Submenu_Settings
         add_action("admin_print_scripts-{$page}", [$this, 'admin_print_scripts']);
     }
 
-    public function admin_print_scripts()
+    public function localize_options()
     {
         $current_user = wp_get_current_user();
         $capabilities = $current_user->exists() ? $current_user->allcaps : [];
-
-        wp_enqueue_style("acadlix-admin-setting-css");
-
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-setting");
-        wp_localize_script("acadlix-admin-setting", "acadlixOptions", array(
+        return [
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
@@ -65,9 +59,20 @@ class Submenu_Settings
             'quiz_categories' => acadlix()->model()->category()->all(),
             'quiz_languages' => acadlix()->model()->language()->all(),
             'capabilities' => $capabilities,
-            'isPro' => acadlix()->pro,
-            'isActive' => acadlix()->license()->isActive ?? false,
-        ));
+        ];
+    }
+
+    public function admin_print_scripts()
+    {
+        $current_user = wp_get_current_user();
+        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+
+        wp_enqueue_style("acadlix-admin-setting-css");
+
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('acadlix-vendors-js');
+        wp_enqueue_script("acadlix-admin-setting");
+        wp_localize_script("acadlix-admin-setting", "acadlixOptions", $this->localize_options());
         wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
