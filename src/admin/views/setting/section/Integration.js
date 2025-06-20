@@ -3,7 +3,13 @@ import { Box, Divider, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { __ } from "@wordpress/i18n";
 
-const Integration = () => {
+const OpenAiOption = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/setting/integration/OpenAiOption") :
+    import("@acadlix/free/admin/setting/integration/OpenAiOption")
+);
+
+const Integration = (props) => {
     return (
         <Box sx={{ color: "black" }}>
             {/* Page Setup  */}
@@ -33,16 +39,11 @@ const Integration = () => {
                     </Typography>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
-                    <CustomTextField
-                        fullWidth
-                        size="small"
-                        value={props?.watch("acadlix_openai_api_key")}
-                        onChange={(e) => {
-                            props?.setValue("acadlix_openai_api_key", e?.target?.value, {
-                                shouldDirty: true,
-                            });
-                        }}
-                    />
+                    <React.Suspense fallback={null}>
+                        <OpenAiOption
+                            {...props}
+                        />
+                    </React.Suspense>
                 </Grid>
             </Grid>
         </Box>
