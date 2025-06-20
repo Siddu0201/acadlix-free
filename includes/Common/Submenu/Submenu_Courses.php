@@ -58,6 +58,7 @@ class Submenu_Courses
             'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 

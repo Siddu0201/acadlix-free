@@ -56,6 +56,7 @@ class Submenu_Quiz
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
             'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
             'capabilities' => $capabilities,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 
@@ -69,8 +70,6 @@ class Submenu_Quiz
 
         // $adminManifest = $manifest['admin_quiz.js'];
 
-        $current_user = wp_get_current_user();
-        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
 
         // if (!empty($adminManifest['imports'])) {
         //     foreach ($adminManifest['imports'] as $importScript) {

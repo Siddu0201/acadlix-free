@@ -59,14 +59,12 @@ class Submenu_Settings
             'quiz_categories' => acadlix()->model()->category()->all(),
             'quiz_languages' => acadlix()->model()->language()->all(),
             'capabilities' => $capabilities,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 
     public function admin_print_scripts()
     {
-        $current_user = wp_get_current_user();
-        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
-
         wp_enqueue_style("acadlix-admin-setting-css");
 
         wp_enqueue_script('acadlix-runtime-js');

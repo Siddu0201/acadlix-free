@@ -53,14 +53,12 @@ class Submenu_Lessons
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 
     public function admin_print_scripts()
     {
-        $current_user = wp_get_current_user();
-        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
-
         wp_enqueue_editor();
         wp_enqueue_media();
         wp_enqueue_script('acadlix-runtime-js');

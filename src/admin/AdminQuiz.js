@@ -35,6 +35,11 @@ const EditParagraph = React.lazy(() =>
     ? import("@acadlix/pro/admin/views/paragraph/EditParagraph") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
+const QuizResultAnswerSheet = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/admin/quiz/quiz-result/QuizResultAnswerSheet") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
 
 const AdminQuiz = () => {
   return (
@@ -77,10 +82,10 @@ const AdminQuiz = () => {
                   <Route index element={<QuizResult />} />
                 }
                 {
-                  hasCapability("acadlix_show_answersheet") && process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
+                  hasCapability("acadlix_show_answersheet") &&
                   <Route
                     path=":statistic_ref_id"
-                    element={<QuizResultAnswerSheet />}
+                    element={<React.Suspense fallback={null}><QuizResultAnswerSheet /></React.Suspense>}
                   />
                 }
               </Route>

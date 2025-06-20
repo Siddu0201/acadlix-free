@@ -49,6 +49,7 @@ class Submenu_Home
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'user_id' => get_current_user_id(),
+            'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 

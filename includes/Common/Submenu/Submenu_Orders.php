@@ -57,14 +57,12 @@ class Submenu_Orders
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
             'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
             'capabilities' => $capabilities,
+            'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 
     public function admin_print_scripts()
     {
-        $current_user = wp_get_current_user();
-        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
-
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('acadlix-vendors-js');

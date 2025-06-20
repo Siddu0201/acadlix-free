@@ -360,6 +360,44 @@ class Manager
         wp_enqueue_script('acadlix-global-hooks');
     }
 
+    public function localize_front_js_options()
+    {
+        return [
+            'is_admin_bar_showing' => is_admin_bar_showing(),
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
+            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
+            'home_url' => esc_url(home_url()),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
+            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+            'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
+            'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
+            'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
+            'users_can_register' => acadlix()->helper()->acadlix_get_option("users_can_register"),
+            'isActive' => acadlix()->license()->isActive ?? false,
+        ];
+    }
+
+    public function localize_front_action_button_course_js_options()
+    {
+        return [
+            'is_admin_bar_showing' => is_admin_bar_showing(),
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'home_url' => esc_url(home_url()),
+            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
+            'checkout_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'))),
+            'cart_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id'))),
+            'user_id' => get_current_user_id() ?? 0,
+            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+            'isActive' => acadlix()->license()->isActive ?? false,
+        ];
+    }
+
     public function enqueue_front_assets()
     {
         if (is_admin()) {
@@ -393,22 +431,7 @@ class Manager
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-front-js');
-        wp_localize_script('acadlix-front-js', 'acadlixOptions', array(
-            'is_admin_bar_showing' => is_admin_bar_showing(),
-            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
-            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
-            'home_url' => esc_url(home_url()),
-            'nonce' => wp_create_nonce('wp_rest'),
-            'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
-            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
-            'settings' => acadlix()->helper()->acadlix_get_all_options(),
-            'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
-            'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
-            'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
-            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
-            'users_can_register' => acadlix()->helper()->acadlix_get_option("users_can_register"),
-        ));
+        wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
         wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
 
         wp_enqueue_script('acadlix-katex-js', 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js', false, null, true);
@@ -421,18 +444,7 @@ class Manager
         );
 
         wp_enqueue_script('acadlix-front-action-button-course-js');
-        wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', array(
-            'is_admin_bar_showing' => is_admin_bar_showing(),
-            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
-            'nonce' => wp_create_nonce('wp_rest'),
-            'home_url' => esc_url(home_url()),
-            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
-            'checkout_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'))),
-            'cart_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id'))),
-            'user_id' => get_current_user_id() ?? 0,
-            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
-        ));
+        wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());
 
     }
 
