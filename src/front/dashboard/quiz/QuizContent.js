@@ -1,7 +1,7 @@
 import { Alert, Box } from "@mui/material";
 import React, { useLayoutEffect } from "react";
 import NormalQuizMode from "./NormalQuizMode";
-import AdvanceQuizMode from "./AdvanceQuizMode";
+// import AdvanceQuizMode from "./AdvanceQuizMode";
 import { useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
 import {
@@ -20,6 +20,12 @@ import { getCookie, setCookie } from "../../../helpers/cookie";
 import { __ } from "@wordpress/i18n";
 import { PostResultFeedback } from "../../../requests/ai/AiCommonRequest";
 import toast from "react-hot-toast";
+
+const AdvanceQuizMode = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/front/dashboard/quiz/AdvanceQuizMode") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
 
 const QuizContent = (props) => {
   // console.log([...props?.quiz?.rendered_questions]);
@@ -321,7 +327,7 @@ const QuizContent = (props) => {
 
     return result;
   }
-  
+
   const handleCompleteCourseContent = () => {
     if (methods?.watch("mode") === "advance_mode") {
       const queryParams = getQueryParamsFromCurrentPage();
@@ -550,15 +556,17 @@ const QuizContent = (props) => {
         );
       case "advance_mode":
         return (
-          <AdvanceQuizMode
-            {...methods}
-            {...props}
-            countdownApi={countdownApi}
-            setCountDownApi={setCountDownApi}
-            saveResult={saveResult}
-            isPending={saveResultMutation?.isPending}
-            isPendingResultFeedback={resultFeedbackMutation?.isPending}
-          />
+          <React.Suspense fallback={null}>
+            <AdvanceQuizMode
+              {...methods}
+              {...props}
+              countdownApi={countdownApi}
+              setCountDownApi={setCountDownApi}
+              saveResult={saveResult}
+              isPending={saveResultMutation?.isPending}
+              isPendingResultFeedback={resultFeedbackMutation?.isPending}
+            />
+          </React.Suspense>
         );
       default:
         return (

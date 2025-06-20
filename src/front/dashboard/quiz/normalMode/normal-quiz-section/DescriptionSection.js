@@ -1,6 +1,5 @@
 import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
-import CustomButton from "../normal-quiz-component/CustomButton";
 import { PostCheckQuizById } from "../../../../../requests/front/FrontQuizRequest";
 import UserAuth from "../../../../../modules/user-auth/UserAuth";
 import { deleteCookie, getCookie, setCookie } from "../../../../../helpers/cookie";
@@ -8,7 +7,8 @@ import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 
 import { RawHTML } from "@wordpress/element";
-import CustomLatex from "../../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import CustomButton from "@acadlix/components/CustomButton";
 
 const DescriptionSection = (props) => {
   const rand = function () {

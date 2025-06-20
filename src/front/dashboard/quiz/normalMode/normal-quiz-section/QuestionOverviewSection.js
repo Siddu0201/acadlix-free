@@ -1,6 +1,6 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
-import CustomButton from "../normal-quiz-component/CustomButton";
+import CustomButton from "@acadlix/components/CustomButton";
 import { __ } from "@wordpress/i18n";
 
 const QuestionOverviewSection = (props) => {

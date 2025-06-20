@@ -14,13 +14,27 @@ import EditQuestion from "./views/question/EditQuestion";
 import QuizResult from "./views/quiz/quiz-result/QuizResult";
 import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerSheet";
 import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
-import Paragraph from "./views/paragraph/Paragraph";
-import CreateParagraph from "./views/paragraph/CreateParagraph";
-import EditParagraph from "./views/paragraph/EditParagraph";
 import "./AdminQuiz.css";
 import ScrollToTop from "../helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../helpers/util";
+
+const Paragraph = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/admin/views/paragraph/Paragraph") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
+
+const CreateParagraph = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/admin/views/paragraph/CreateParagraph") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
+const EditParagraph = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/admin/views/paragraph/EditParagraph") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
 
 const AdminQuiz = () => {
   return (
@@ -77,19 +91,18 @@ const AdminQuiz = () => {
                 }
               </Route>
               {
-                process.env.REACT_APP_IS_PREMIUM === 'true' && acadlixOptions?.isActive &&
                 <Route path=":quiz_id/paragraph">
                   {
                     hasCapability("acadlix_show_paragraph") &&
-                    <Route index element={<Paragraph />} />
+                    <Route index element={<React.Suspense fallback={null}><Paragraph /></React.Suspense>} />
                   }
                   {
                     hasCapability("acadlix_add_paragraph") &&
-                    <Route path="create" element={<CreateParagraph />} />
+                    <Route path="create" element={<React.Suspense fallback={null}><CreateParagraph /></React.Suspense>} />
                   }
                   {
                     hasCapability("acadlix_edit_paragraph") &&
-                    <Route path="edit/:paragraph_id" element={<EditParagraph />} />
+                    <Route path="edit/:paragraph_id" element={<React.Suspense fallback={null}><EditParagraph /></React.Suspense>} />
                   }
                 </Route>
               }

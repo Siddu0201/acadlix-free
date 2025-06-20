@@ -82,14 +82,14 @@ const Dashbaord = () => {
             <Route index element={<CourseContent />} />
             <Route path="content/:courseSectionContentId" element={<CourseContent />} />
           </Route>
-          <Route
+          {/* <Route
             path="/ibps"
             element={<Quiz mode="advance_mode" advance_mode="ibps" />}
           />
           <Route
             path="/advance_panel"
             element={<Quiz mode="advance_mode" advance_mode="advance_panel" />}
-          />
+          /> */}
           <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
         </Routes>
       </HashRouter>

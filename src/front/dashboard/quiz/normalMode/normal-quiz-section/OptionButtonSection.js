@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import CustomButton from "../normal-quiz-component/CustomButton";
+import CustomButton from "@acadlix/components/CustomButton";
 import { arrayRandomize, shuffleArrayBasedOnOrder } from "../../../../../helpers/util";
 import { __ } from "@wordpress/i18n";
 

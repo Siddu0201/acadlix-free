@@ -11,7 +11,6 @@ import FinishSection from "./normal-quiz-section/FinishSection";
 import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
 import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSection";
 import QuestionPaginationSection from "./normal-quiz-section/QuestionPaginationSection";
-import AiResultFeedback from "../ai/AiResultFeedback";
 
 const NormalQuiz = (props) => {
   const theme = useTheme();
@@ -111,12 +110,6 @@ const NormalQuiz = (props) => {
               />
             )}
 
-          {props?.watch("result_feedback_by_ai") &&
-            <AiResultFeedback
-              isPending={props?.isPendingResultFeedback}
-              response={props?.watch("result_ai_response")}
-            />
-          }
           <ViewButtonSection
             colorCode={colorCode}
             isDesktop={isDesktop}

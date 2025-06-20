@@ -9,13 +9,13 @@ import TypeMatrixSortingChoice from "../../questionTypes/TypeMatrixSortingChoice
 import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
-import CustomButton from "../normal-quiz-component/CustomButton";
+import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
+import CustomButton from "@acadlix/components/CustomButton";
 import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import { __ } from "@wordpress/i18n";
-import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 
-import CustomLatex from "../../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
