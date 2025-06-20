@@ -12,7 +12,6 @@ import Question from "./views/question/Question";
 import CreateQuestion from "./views/question/CreateQuestion";
 import EditQuestion from "./views/question/EditQuestion";
 import QuizResult from "./views/quiz/quiz-result/QuizResult";
-import QuizResultAnswerSheet from "./views/quiz/quiz-result/QuizResultAnswerSheet";
 import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
 import "./AdminQuiz.css";
 import ScrollToTop from "../helpers/ScrollToTop";
