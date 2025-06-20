@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import QuizSettings from "./section/QuizSettings";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "../../../helpers/util";
+import Integration from "./section/Integration";
 
 const Setting = () => {
   // console.log(process?.env);
@@ -34,6 +35,8 @@ const Setting = () => {
         return 4;
       case hasCapability('acadlix_show_quiz_setting'):
         return 5;
+      case hasCapability('acadlix_show_integration_setting'):
+        return 6;
       default:
         return 1
     }
@@ -132,10 +135,9 @@ const Setting = () => {
       "course-category",
     acadlix_course_tag_base:
       acadlixOptions?.options?.acadlix_course_tag_base ?? "course-tag",
-    // License option
-    acadlix_license_email_id:
-      acadlixOptions?.options?.acadlix_license_email_id ?? "",
-    acadlix_license_key: acadlixOptions?.options?.acadlix_license_key ?? "",
+    // Integration option
+    acadlix_openai_api_key:
+      acadlixOptions?.options?.acadlix_openai_api_key ?? "",
   }
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters?.(
@@ -208,6 +210,10 @@ const Setting = () => {
                           hasCapability("acadlix_show_quiz_setting") &&
                           <Tab label={__("Quiz", "acadlix")} value="5" />
                         }
+                        {
+                          hasCapability("acadlix_show_integration_setting") &&
+                          <Tab label={__("Integration", "acadlix")} value="6" />
+                        }
                       </TabList>
                     </Box>
                     {
@@ -243,6 +249,12 @@ const Setting = () => {
                       hasCapability("acadlix_show_quiz_setting") &&
                       <TabPanel value="5">
                         <QuizSettings {...methods} />
+                      </TabPanel>
+                    }
+                    {
+                      hasCapability("acadlix_show_integration_setting") &&
+                      <TabPanel value="6">
+                        <Integration {...methods} />
                       </TabPanel>
                     }
                   </TabContext>
