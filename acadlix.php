@@ -3,10 +3,10 @@
 /**
  * Plugin Name:       Acadlix
  * Description:       Wordpress advance quiz plugin by yuvayana
- * Requires at least: 5.8
- * Requires PHP:      7.4
- * Version:           0.0.1
- * Tested upto:       6.1.1
+ * Requires at least: 6.8
+ * Requires PHP:      8.0
+ * Version:           1.0.0
+ * Tested upto:       6.8.1
  * Author:            Team Acadlix
  * Author URI:        https://acadlix.com/
  * License:           GPL-2.0-or-later

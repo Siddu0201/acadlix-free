@@ -22,21 +22,21 @@ class Activator
 
     public function activate()
     {
-        require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        if(acadlix()->pro){
-            if(is_plugin_active('acadlix/acadlix.php')){
-                // disable this plugin
-                deactivate_plugins('acadlix/acadlix.php');
+        // require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        // if(acadlix()->pro){
+        //     if(is_plugin_active('acadlix/acadlix.php')){
+        //         // disable this plugin
+        //         deactivate_plugins('acadlix/acadlix.php');
 
-                error_log('Acadlix Free is active');
-            }
-        }else{
-            if(is_plugin_active('acadlix-pro/acadlix.php')){
-                // disable this plugin
-                deactivate_plugins('acadlix-pro/acadlix.php');
-                error_log('Acadlix Pro is active');
-            }
-        }
+        //         error_log('Acadlix Free is active');
+        //     }
+        // }else{
+        //     if(is_plugin_active('acadlix-pro/acadlix.php')){
+        //         // disable this plugin
+        //         deactivate_plugins('acadlix-pro/acadlix.php');
+        //         error_log('Acadlix Pro is active');
+        //     }
+        // }
         // Add table
         acadlix()->migration()->createTable();
         // Add default data

@@ -1,8 +1,8 @@
 === Acadlix ===
 Contributors: Yuvayana
 Tags: education, learning management system, LMS, online courses, e-learning
-Requires at least: 5.0
-Tested up to: 6.2
+Requires at least: 6.8
+Tested up to: 6.8.1
 Requires PHP: 8.0
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -33,8 +33,6 @@ Acadlix is a powerful Learning Management System (LMS) plugin for WordPress desi
 = How do I create a new course? =
 To create a new course, navigate to the Acadlix menu in your WordPress dashboard and click on 'Add New Course'. Fill in the necessary details and publish your course.
 
-= Can I issue certificates to students? =
-Yes, Acadlix allows you to create and issue certificates to students upon completion of courses.
 
 = Is Acadlix compatible with my theme? =
 Acadlix is designed to work with most WordPress themes. However, for the best experience, we recommend using a theme optimized for LMS.
