@@ -678,7 +678,7 @@ if (!class_exists('Helper')) {
 
         public function acadlix_preload_scripts($script = '')
         {
-            $manifest_path = ACADLIX_BUILD_PATH . '/manifest.php';
+            $manifest_path = ACADLIX_BUILD_PATH . acadlix()->versionPath . '/manifest.php';
 
             if (file_exists($manifest_path)) {
                 $manifest = include $manifest_path;
@@ -687,7 +687,7 @@ if (!class_exists('Helper')) {
                 if(!empty($script) && is_array($manifest[$script]['imports'])){ 
                     foreach ($manifest[$script]['imports'] as $name => $file) {
                         if (strpos($name, 'vendor-') === 0) {
-                            echo '<link rel="preload" as="script" href="' . ACADLIX_BUILD_URL . esc_attr($file) . '">' . "\n";
+                            echo '<link rel="preload" as="script" href="' . ACADLIX_BUILD_URL . acadlix()->versionPath .'/'. esc_attr($file) . '">' . "\n";
                         }
                     }
                 }

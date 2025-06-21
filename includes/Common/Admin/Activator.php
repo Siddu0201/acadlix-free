@@ -8,15 +8,17 @@ if (!defined('ABSPATH')) {
 
 class Activator
 {
+    public $dbVersion = 1;
     public function __construct()
     {
         if (!is_admin())
             return;
-        
+
         register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
         add_action('init', [$this, 'acadlix_load_textdomain']);
+        add_action('plugin_loaded', [$this, 'acadlix_check_db_update']);
     }
 
 
@@ -45,7 +47,7 @@ class Activator
         acadlix()->admin()->option()->createOption();
         // Add capabilities
         acadlix()->admin()->userRole()->addCapabilities();
-        
+
     }
 
     public function deactivate()
@@ -59,7 +61,7 @@ class Activator
     {
         $delete_data = acadlix()->helper()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
 
-        if($delete_data == "no")
+        if ($delete_data == "no")
             return;
         // remove post data related to acadlix
         acadlix()->admin()->core()->acadlix_delete_post_type_data();
@@ -72,5 +74,15 @@ class Activator
     public function acadlix_load_textdomain()
     {
         load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
+    }
+
+    public function acadlix_check_db_update()
+    {
+        $installed_ver = get_option('acadlix_db_version');
+
+        if ($installed_ver != $this->dbVersion) {
+            acadlix()->migration()->createTable(); // function to update schema/data
+            update_option('acadlix_db_version', $this->dbVersion);
+        }
     }
 }

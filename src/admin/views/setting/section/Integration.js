@@ -18,7 +18,7 @@ const Integration = (props) => {
                     marginY: 2,
                 }}
             >
-                <Typography variant="h6">{__("Page Setup", "acadlix")}</Typography>
+                <Typography variant="h6">{__("AI Intergrations", "acadlix")}</Typography>
                 <Divider />
             </Box>
             <Grid

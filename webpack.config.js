@@ -6,6 +6,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 
 module.exports = (env, argv) => {
+  const isPremium = process.env.REACT_APP_IS_PREMIUM === 'true';
+  const outputPath = isPremium ? 'Pro' : 'Common'; 
   const existingDefinePlugin = defaultConfig.plugins.find(
     (plugin) => plugin.constructor.name === 'DefinePlugin'
   );
@@ -51,7 +53,7 @@ module.exports = (env, argv) => {
       // chunkFilename: '[name].bundle.js'
       filename: "[name].js",
       chunkFilename: "[name].[contenthash].bundle.js",
-      path: path.resolve(process.cwd(), "build"),
+      path: path.resolve(process.cwd(), "build", outputPath),
     },
 
     optimization: {

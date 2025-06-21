@@ -152,37 +152,37 @@ class Manager
     {
         return [
             'acadlix-vendor-css' => [
-                'src' => ACADLIX_BUILD_URL . 'vendors.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/vendors.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-admin-quiz-css' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_quiz.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-admin-lesson-css' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_lesson.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-admin-order-css' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_order.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-admin-setting-css' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_setting.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-front-css' => [
-                'src' => ACADLIX_BUILD_URL . 'front.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
             'acadlix-front-checkout-css' => [
-                'src' => ACADLIX_BUILD_URL . 'front_checkout.css',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
@@ -216,91 +216,91 @@ class Manager
 
     public function get_scripts(): array
     {
-        $runtime_dependency = require_once ACADLIX_BUILD_PATH . 'runtime.asset.php';
-        $vendors_dependency = require_once ACADLIX_BUILD_PATH . 'vendors.asset.php';
-        $admin_course_dependency = require_once ACADLIX_BUILD_PATH . 'admin_course.asset.php';
-        $admin_home_dependency = require_once ACADLIX_BUILD_PATH . 'admin_home.asset.php';
-        $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . 'admin_lesson.asset.php';
-        $admin_order_dependency = require_once ACADLIX_BUILD_PATH . 'admin_order.asset.php';
-        $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . 'admin_quiz.asset.php';
-        $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . 'admin_setting.asset.php';
-        $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . 'admin_tool.asset.php';
+        $runtime_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/runtime.asset.php';
+        $vendors_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/vendors.asset.php';
+        $admin_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_course.asset.php';
+        $admin_home_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_home.asset.php';
+        $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_lesson.asset.php';
+        $admin_order_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_order.asset.php';
+        $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_quiz.asset.php';
+        $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
+        $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
 
-        $front_dependency = require_once ACADLIX_BUILD_PATH . 'front.asset.php';
-        $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . 'front_checkout.asset.php';
-        $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . 'front_single_course.asset.php';
+        $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
+        $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
+        $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_single_course.asset.php';
 
         $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
 
         return [
             'acadlix-runtime-js' => [
-                'src' => ACADLIX_BUILD_URL . 'runtime.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
                 'version' => $runtime_dependency['version'],
                 'deps' => $runtime_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-vendors-js' => [
-                'src' => ACADLIX_BUILD_URL . 'vendors.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/vendors.js',
                 'version' => $vendors_dependency['version'],
                 'deps' => $vendors_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-course' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_course.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_course.js',
                 'version' => $admin_course_dependency['version'],
                 'deps' => $admin_course_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-home' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_home.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_home.js',
                 'version' => $admin_home_dependency['version'],
                 'deps' => $admin_home_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-lesson' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_lesson.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.js',
                 'version' => $admin_lesson_dependency['version'],
                 'deps' => $admin_lesson_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-order' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_order.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.js',
                 'version' => $admin_order_dependency['version'],
                 'deps' => $admin_order_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-quiz' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_quiz.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.js',
                 'version' => $admin_quiz_dependency['version'],
                 'deps' => $admin_quiz_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-setting' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_setting.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.js',
                 'version' => $admin_setting_dependency['version'],
                 'deps' => $admin_setting_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-admin-tool' => [
-                'src' => ACADLIX_BUILD_URL . 'admin_tool.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
                 'version' => $admin_tool_dependency['version'],
                 'deps' => $admin_tool_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-front-js' => [
-                'src' => ACADLIX_BUILD_URL . 'front.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.js',
                 'version' => $front_dependency['version'],
                 'deps' => $front_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-front-checkout-js' => [
-                'src' => ACADLIX_BUILD_URL . 'front_checkout.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.js',
                 'version' => $front_checkout_dependency['version'],
                 'deps' => $front_checkout_dependency['dependencies'],
                 'in_footer' => true,
             ],
             'acadlix-front-single-course-js' => [
-                'src' => ACADLIX_BUILD_URL . 'front_single_course.js',
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_single_course.js',
                 'version' => $front_single_course_dependency['version'],
                 'deps' => $front_single_course_dependency['dependencies'],
                 'in_footer' => true,
