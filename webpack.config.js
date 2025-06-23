@@ -15,10 +15,12 @@ module.exports = (env, argv) => {
   if (existingDefinePlugin) {
     Object.assign(existingDefinePlugin.definitions, {
       'process.env.REACT_APP_IS_PREMIUM': JSON.stringify(process.env.REACT_APP_IS_PREMIUM || 'false'),
+      'process.env.REACT_APP_MODE': JSON.stringify(defaultConfig?.mode || 'development'),
     });
   } else {
     defaultConfig.plugins.push(new webpack.DefinePlugin({
       'process.env.REACT_APP_IS_PREMIUM': JSON.stringify(process.env.REACT_APP_IS_PREMIUM || 'false'),
+      'process.env.REACT_APP_MODE': JSON.stringify(defaultConfig?.mode || 'development'),
     }));
   }
   return {
