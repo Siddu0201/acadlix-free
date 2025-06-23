@@ -98,7 +98,7 @@ class Submenu_Quiz
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script('acadlix-admin-quiz');
         wp_localize_script('acadlix-admin-quiz', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-quiz', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        wp_set_script_translations('acadlix-admin-quiz', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function quiz_callback()

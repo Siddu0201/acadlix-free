@@ -73,7 +73,7 @@ class Submenu_Courses
             wp_enqueue_script('acadlix-admin-course');
             wp_localize_script('acadlix-admin-course', 'acadlixOptions', $this->localize_options());
 
-            wp_set_script_translations('acadlix-admin-course', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+            wp_set_script_translations('acadlix-admin-course', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
         }
     }
 

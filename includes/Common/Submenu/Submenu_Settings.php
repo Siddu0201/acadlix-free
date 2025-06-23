@@ -71,7 +71,7 @@ class Submenu_Settings
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-setting");
         wp_localize_script("acadlix-admin-setting", "acadlixOptions", $this->localize_options());
-        wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function setting_callback()

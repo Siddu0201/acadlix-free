@@ -69,7 +69,7 @@ class Submenu_Orders
         wp_enqueue_script("acadlix-admin-order");
         wp_enqueue_style("acadlix-admin-order-css");
         wp_localize_script('acadlix-admin-order', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function order_callback()

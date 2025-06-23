@@ -9,10 +9,8 @@
  * Tested upto:       6.8.1
  * Author:            Team Acadlix
  * Author URI:        https://acadlix.com/
- * License:           GPL-2.0-or-later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       acadlix
- * Doman Path:        /languages/
+ * Doman Path:        /languages/free/
  */
 
 

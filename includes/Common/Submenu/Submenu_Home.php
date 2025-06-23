@@ -59,7 +59,7 @@ class Submenu_Home
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-home");
         wp_localize_script('acadlix-admin-home', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-home', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        wp_set_script_translations('acadlix-admin-home', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function home_callback()

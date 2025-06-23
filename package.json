@@ -9,7 +9,8 @@
     "build": "wp-scripts build",
     "start:hot:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts start --hot --config webpack.config.js",
     "start:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts start --config webpack.config.js",
-    "build:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts build --config webpack.config.js"
+    "build:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts build --config webpack.config.js",
+    "build-pot:free": "wp i18n make-pot . languages/Common/acadlix.pot --include=includes,build/Common"
   },
   "author": "Sudhanshu Agarwal",
   "license": "ISC",

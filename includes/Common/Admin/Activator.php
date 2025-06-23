@@ -73,7 +73,7 @@ class Activator
 
     public function acadlix_load_textdomain()
     {
-        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/');
+        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/'. acadlix()->versionPath);
     }
 
     public function acadlix_check_db_update()
