@@ -363,6 +363,7 @@ class Manager
     public function localize_front_js_options()
     {
         return [
+            'acadlix_plugin_url' => ACADLIX_PLUGIN_URL,
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
@@ -384,7 +385,6 @@ class Manager
     public function localize_front_action_button_course_js_options()
     {
         return [
-            'acadlix_plugin_url' => ACADLIX_PLUGIN_URL,
             'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
