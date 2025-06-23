@@ -58,12 +58,14 @@ if (!class_exists("Option")) {
             }
         }
 
-        public static function removeOption()
+        public function removeOption()
         {
             $options = acadlix()->helper()->acadlix_options();
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
-                    delete_option($key);
+                    if (get_option($option)) {
+                        delete_option($key);
+                    }
                 }
             }
         }
