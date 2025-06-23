@@ -16,4 +16,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once 'acadlix.php';
 
 // Uninstall.
-acadlix()->admin->activator->uninstall();
+acadlix()->admin()->activator()->uninstall();
