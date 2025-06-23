@@ -304,6 +304,7 @@ const QuizContent = (props) => {
       quiz_error: "",
       // ai
       result_ai_response: "",
+      show_calculator: false,
     },
   });
 
