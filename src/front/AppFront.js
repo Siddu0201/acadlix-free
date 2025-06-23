@@ -15,7 +15,9 @@ const AppFront = (props) => {
     const token = segment?.[segment?.length - 1];
     const localToken = localStorage.getItem("acadlix_advance_quiz_token");
     if (localToken && localToken === token) {
-      // localStorage.removeItem("acadlix_advance_quiz_token");
+      if(process.env.REACT_APP_MODE === "production"){
+        localStorage.removeItem("acadlix_advance_quiz_token");
+      }
       return (
         <Provider>
           <Quiz {...props} quiz_id={segment[segment?.length - 2]} />
