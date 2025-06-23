@@ -12,11 +12,11 @@ const PrerequisiteButton = (props) => {
                     <CustomSwitch
                         disabled
                         // checked={props?.watch("meta.quiz_settings.enable_prerequisite") ?? false}
-                        onChange={(e) => {
-                            props?.setValue("meta.quiz_settings.enable_prerequisite", e?.target?.checked, {
-                                shouldDirty: true,
-                            });
-                        }}
+                        // onChange={(e) => {
+                        //     props?.setValue("meta.quiz_settings.enable_prerequisite", e?.target?.checked, {
+                        //         shouldDirty: true,
+                        //     });
+                        // }}
                     />
                 }
                 label={__("Activate", "acadlix")}

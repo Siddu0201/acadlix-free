@@ -41,11 +41,11 @@ const StartDate = (props) => {
                     //         ? dayjs(props?.watch("meta.start_date"))
                     //         : null
                     // }
-                    onChange={(value) => {
-                        props?.setValue("meta.start_date", convertToPostDate(value), {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(value) => {
+                    //     props?.setValue("meta.start_date", convertToPostDate(value), {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                 />
             </DemoContainer>
             {props?.formState?.errors?.meta?.start_date && (

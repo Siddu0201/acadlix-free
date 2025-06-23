@@ -41,11 +41,11 @@ const EndDate = (props) => {
                     //         ? dayjs(props?.watch("meta.end_date"))
                     //         : null
                     // }
-                    onChange={(value) => {
-                        props?.setValue("meta.end_date", convertToPostDate(value), {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(value) => {
+                    //     props?.setValue("meta.end_date", convertToPostDate(value), {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                 />
             </DemoContainer>
             {props?.formState?.errors?.meta?.end_date && (

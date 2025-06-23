@@ -15,13 +15,13 @@ const RandomLastOptionButton = (props) => {
                 // checked={
                 //     props?.watch("meta.quiz_settings.do_not_randomize_last_option") ?? false
                 // }
-                onChange={(e) => {
-                    props?.setValue(
-                        "meta.quiz_settings.do_not_randomize_last_option",
-                        e?.target?.checked,
-                        { shouldDirty: true }
-                    );
-                }}
+                // onChange={(e) => {
+                //     props?.setValue(
+                //         "meta.quiz_settings.do_not_randomize_last_option",
+                //         e?.target?.checked,
+                //         { shouldDirty: true }
+                //     );
+                // }}
                 // disabled={!props?.watch("meta.quiz_settings.random_option")}
                 label={__("Activate", "acadlix")}
             />

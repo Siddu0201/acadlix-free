@@ -10,14 +10,14 @@ const ClearResponseButton = (props) => {
             <FormControlLabel
                 disabled
                 control={<CustomSwitch />}
-                checked={props?.watch("meta.quiz_settings.show_clear_response_button") ?? false}
-                onChange={(e) => {
-                    props?.setValue(
-                        "meta.quiz_settings.show_clear_response_button",
-                        e?.target?.checked,
-                        { shouldDirty: true }
-                    );
-                }}
+                // checked={props?.watch("meta.quiz_settings.show_clear_response_button") ?? false}
+                // onChange={(e) => {
+                //     props?.setValue(
+                //         "meta.quiz_settings.show_clear_response_button",
+                //         e?.target?.checked,
+                //         { shouldDirty: true }
+                //     );
+                // }}
                 label={__("Activate", "acadlix")}
             />
         </GridItem1>

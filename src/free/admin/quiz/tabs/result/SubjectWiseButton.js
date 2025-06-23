@@ -12,13 +12,13 @@ const SubjectWiseButton = (props) => {
                     <CustomSwitch
                         // checked={props?.watch("meta.quiz_settings.show_subject_wise_analysis") ?? false}
                         disabled
-                        onChange={(e) => {
-                            props?.setValue(
-                                "meta.quiz_settings.show_subject_wise_analysis",
-                                e?.target?.checked,
-                                { shouldDirty: true }
-                            );
-                        }}
+                        // onChange={(e) => {
+                        //     props?.setValue(
+                        //         "meta.quiz_settings.show_subject_wise_analysis",
+                        //         e?.target?.checked,
+                        //         { shouldDirty: true }
+                        //     );
+                        // }}
                     />
                 }
                 label={__("Activate", "acadlix")}

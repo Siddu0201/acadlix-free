@@ -9,15 +9,15 @@ const SkipQuestionButton = (props) => {
             control={
                 <CustomSwitch
                     // checked={props?.watch("meta.quiz_settings.skip_question") ?? false}
-                    onChange={(e) => {
-                        props?.setValue(
-                            "meta.quiz_settings.skip_question",
-                            e?.target?.checked,
-                            {
-                                shouldDirty: true,
-                            }
-                        );
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.skip_question",
+                    //         e?.target?.checked,
+                    //         {
+                    //             shouldDirty: true,
+                    //         }
+                    //     );
+                    // }}
                     disabled
                     // disabled={
                     //     props?.watch("meta.mode") !== "check_and_continue"

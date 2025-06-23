@@ -16,13 +16,13 @@ const CheckOptionButton = (props) => {
                     //     props?.watch("meta.mode") !== "check_and_continue"
                     // }
                     disabled
-                    onChange={(e) => {
-                        props?.setValue(
-                            "meta.quiz_settings.enable_check_on_option_selected",
-                            e?.target?.checked,
-                            { shouldDirty: true }
-                        );
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.enable_check_on_option_selected",
+                    //         e?.target?.checked,
+                    //         { shouldDirty: true }
+                    //     );
+                    // }}
                 />
             }
             label={__("Show Check Button When Option Selected", 'acadlix')}

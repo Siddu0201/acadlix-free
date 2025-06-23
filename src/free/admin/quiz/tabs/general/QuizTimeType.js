@@ -20,11 +20,11 @@ const QuizTimeType = (props) => {
                     name="time"
                     row
                     aria-label="acadlix-genral-quiz-time-type"
-                    onChange={(e) => {
-                        props?.setValue("meta.quiz_settings.quiz_timing_type", e?.target?.value, {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.quiz_timing_type", e?.target?.value, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                 >
                     <FormControlLabel
                         value="full_quiz_time"

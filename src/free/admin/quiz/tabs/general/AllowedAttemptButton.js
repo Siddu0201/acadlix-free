@@ -14,11 +14,11 @@ const AllowedAttemptButton = (props) => {
                 variant="outlined"
                 size="small"
                 type="number"
-                onChange={(e) => {
-                    props?.setValue("meta.quiz_settings.per_user_allowed_attempt", Number(e?.target?.value), {
-                        shouldDirty: true,
-                    });
-                }}
+                // onChange={(e) => {
+                //     props?.setValue("meta.quiz_settings.per_user_allowed_attempt", Number(e?.target?.value), {
+                //         shouldDirty: true,
+                //     });
+                // }}
                 // value={props?.watch("meta.quiz_settings.per_user_allowed_attempt") ?? 0}
                 sx={{
                     "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":

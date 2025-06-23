@@ -18,13 +18,13 @@ const AttemptMoveForwardButton = (props) => {
                 // disabled={
                 //     ["question_below_each_other", "check_and_continue", "advance_mode"].includes(props?.watch("meta.mode"))
                 // }
-                onChange={(e) => {
-                    props?.setValue(
-                        "meta.quiz_settings.attempt_and_move_forward",
-                        e?.target?.checked,
-                        { shouldDirty: true }
-                    );
-                }}
+                // onChange={(e) => {
+                //     props?.setValue(
+                //         "meta.quiz_settings.attempt_and_move_forward",
+                //         e?.target?.checked,
+                //         { shouldDirty: true }
+                //     );
+                // }}
                 label={__("Activate", "acadlix")}
             />
             <Tooltip

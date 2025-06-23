@@ -12,22 +12,22 @@ const PercentBasedText = (props) => {
                     <CustomSwitch
                         // checked={props?.watch("meta.quiz_settings.percent_based_result_text") ?? false}
                         disabled
-                        onChange={(e) => {
-                            props?.setValue(
-                                "meta.quiz_settings.percent_based_result_text",
-                                e?.target?.checked,
-                                {
-                                    shouldDirty: true,
-                                }
-                            );
-                            if (e?.target?.checked) {
-                                props?.setValue("meta.quiz_settings.result_text", [{ percent: 0, text: "" }], {
-                                    shouldDirty: true,
-                                });
-                            } else {
-                                props?.setValue("meta.quiz_settings.result_text", "", { shouldDirty: true });
-                            }
-                        }}
+                        // onChange={(e) => {
+                        //     props?.setValue(
+                        //         "meta.quiz_settings.percent_based_result_text",
+                        //         e?.target?.checked,
+                        //         {
+                        //             shouldDirty: true,
+                        //         }
+                        //     );
+                        //     if (e?.target?.checked) {
+                        //         props?.setValue("meta.quiz_settings.result_text", [{ percent: 0, text: "" }], {
+                        //             shouldDirty: true,
+                        //         });
+                        //     } else {
+                        //         props?.setValue("meta.quiz_settings.result_text", "", { shouldDirty: true });
+                        //     }
+                        // }}
                     />
                 }
                 label={__("Activate", "acadlix")}

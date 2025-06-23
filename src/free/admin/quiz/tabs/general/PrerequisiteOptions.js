@@ -64,20 +64,20 @@ const PrerequisiteOptions = (props) => {
                             label={__('Select Quiz', 'acadlix')}
                         />
                     )}
-                    onChange={(_, newValue) => {
-                        if (!newValue) {
-                            setPrerequisite(null);
-                            return;
-                        }
-                        setPrerequisite(newValue);
-                    }}
+                    // onChange={(_, newValue) => {
+                    //     if (!newValue) {
+                    //         setPrerequisite(null);
+                    //         return;
+                    //     }
+                    //     setPrerequisite(newValue);
+                    // }}
                 />
                 <Button
                     disabled
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={handleAddPrerequisite}
+                    // onClick={handleAddPrerequisite}
                 >
                     {__('Add', 'acadlix')}
                 </Button>

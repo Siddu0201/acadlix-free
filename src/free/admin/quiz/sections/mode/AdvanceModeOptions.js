@@ -90,13 +90,13 @@ const AdvanceModeOptions = (props) => {
                                 padding: 1,
                             }}
                             value="advance_mode"
-                            onClick={() => {
-                                props?.setValue("meta.mode", "advance_mode", {
-                                    shouldDirty: true,
-                                });
+                            // onClick={() => {
+                            //     props?.setValue("meta.mode", "advance_mode", {
+                            //         shouldDirty: true,
+                            //     });
 
-                                setAdvanceModeDefaultSettings();
-                            }}
+                            //     setAdvanceModeDefaultSettings();
+                            // }}
                         />
                         <h3
                             style={{
@@ -123,13 +123,13 @@ const AdvanceModeOptions = (props) => {
                             <RadioGroup
                                 row
                                 name="advance_mode"
-                                onChange={(e) => {
-                                    props?.setValue("meta.advance_mode_type", e.target.value, {
-                                        shouldDirty: true,
-                                    });
+                                // onChange={(e) => {
+                                //     props?.setValue("meta.advance_mode_type", e.target.value, {
+                                //         shouldDirty: true,
+                                //     });
 
-                                    setAdvanceModeDefaultSettings();
-                                }}
+                                //     setAdvanceModeDefaultSettings();
+                                // }}
                                 sx={{
                                     display:
                                         props?.watch("meta.mode") === "advance_mode"

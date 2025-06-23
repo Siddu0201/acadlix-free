@@ -15,13 +15,13 @@ const ForceUserButton = (props) => {
                 //     props?.watch("meta.quiz_settings.force_user_to_answer_each_question") ?? false
                 // }
                 disabled
-                onChange={(e) => {
-                    props?.setValue(
-                        "meta.quiz_settings.force_user_to_answer_each_question",
-                        e?.target?.checked,
-                        { shouldDirty: true }
-                    );
-                }}
+                // onChange={(e) => {
+                //     props?.setValue(
+                //         "meta.quiz_settings.force_user_to_answer_each_question",
+                //         e?.target?.checked,
+                //         { shouldDirty: true }
+                //     );
+                // }}
                 // disabled={
                 //     props?.watch("meta.mode") === "advance_mode" &&
                 //     props?.watch("meta.advance_mode_type") !== "advance_panel"

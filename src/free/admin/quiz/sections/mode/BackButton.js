@@ -12,13 +12,13 @@ const BackButton = (props) => {
                         // checked={props?.watch("meta.quiz_settings.enable_back_button") ?? false}
                         // disabled={props?.watch("meta.mode") !== "normal"}
                         disabled
-                        onChange={(e) => {
-                            props?.setValue(
-                                "meta.quiz_settings.enable_back_button",
-                                e?.target?.checked,
-                                { shouldDirty: true }
-                            );
-                        }}
+                        // onChange={(e) => {
+                        //     props?.setValue(
+                        //         "meta.quiz_settings.enable_back_button",
+                        //         e?.target?.checked,
+                        //         { shouldDirty: true }
+                        //     );
+                        // }}
                     />
                 }
                 label={__('Enable Back Button', 'acadlix')}

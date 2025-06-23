@@ -29,13 +29,13 @@ const AdvanceOptions = (props) => {
                     //     props?.watch("meta.quiz_settings.show_only_specific_number_of_questions") ??
                     //     false
                     // }
-                    onChange={(e) => {
-                        props?.setValue(
-                            "meta.quiz_settings.show_only_specific_number_of_questions",
-                            e?.target?.checked,
-                            { shouldDirty: true }
-                        );
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.show_only_specific_number_of_questions",
+                    //         e?.target?.checked,
+                    //         { shouldDirty: true }
+                    //     );
+                    // }}
                     label={__("Activate", "acadlix")}
                 />
             </GridItem1>
@@ -52,13 +52,13 @@ const AdvanceOptions = (props) => {
                     type="number"
                     label={__("Specific Number of Questions", "acadlix")}
                     // value={props?.watch("meta.quiz_settings.specific_number_of_questions") ?? 0}
-                    onChange={(e) => {
-                        props?.setValue(
-                            "meta.quiz_settings.specific_number_of_questions",
-                            Number(e?.target?.value),
-                            { shouldDirty: true }
-                        );
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.specific_number_of_questions",
+                    //         Number(e?.target?.value),
+                    //         { shouldDirty: true }
+                    //     );
+                    // }}
                     disabled
                     sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
@@ -83,11 +83,31 @@ const AdvanceOptions = (props) => {
                     }
                     // checked={props?.watch("meta.quiz_settings.enable_check_button") ?? false}
                     disabled
-                    onChange={(e) => {
-                        props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.enable_check_button", e?.target?.checked, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
+                    label={__("Activate", "acadlix")}
+                />
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <CustomTypography>{__("Scientific Calculator", "acadlix")}</CustomTypography>
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <FormControlLabel
+                    control={
+                        <CustomSwitch />
+                    }
+                    // checked={props?.watch("meta.quiz_settings.scientific_calculator") ?? false}
+                    disabled
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.scientific_calculator", e?.target?.checked, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                     label={__("Activate", "acadlix")}
                 />
             </GridItem1>
@@ -103,14 +123,16 @@ const AdvanceOptions = (props) => {
                     }
                     // checked={props?.watch("meta.quiz_settings.result_feedback_by_ai") ?? false}
                     disabled
-                    onChange={(e) => {
-                        props?.setValue("meta.quiz_settings.result_feedback_by_ai", e?.target?.checked, {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.result_feedback_by_ai", e?.target?.checked, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                     label={__("Activate", "acadlix")}
                 />
             </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                 <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}</CustomTypography>
@@ -123,11 +145,11 @@ const AdvanceOptions = (props) => {
                     rows={4}
                     label={__("Prompt (Optional)", "acadlix")}
                     // value={props?.watch("meta.quiz_settings.result_feedback_additional_prompt")}
-                    onChange={(e) => {
-                        props?.setValue("meta.quiz_settings.result_feedback_additional_prompt", e?.target?.value, {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.result_feedback_additional_prompt", e?.target?.value, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                     disabled
                     slotProps={{
                         htmlInput: {

@@ -21,13 +21,13 @@ const MinPercentOptions = (props) => {
                     //     props?.watch("meta.quiz_settings.show_status_based_on_min_percent") ?? false
                     // }
                     disabled
-                    onChange={(e) => {
-                        props?.setValue(
-                            "meta.quiz_settings.show_status_based_on_min_percent",
-                            e?.target?.checked,
-                            { shouldDirty: true }
-                        );
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.show_status_based_on_min_percent",
+                    //         e?.target?.checked,
+                    //         { shouldDirty: true }
+                    //     );
+                    // }}
                     label={__("Activate", "acadlix")}
                     // disabled={
                     //     props?.watch("meta.quiz_settings.hide_result")
@@ -49,12 +49,12 @@ const MinPercentOptions = (props) => {
                     label={__("Minimum % to pass", "acadlix")}
                     type="number"
                     value={props?.watch("meta.quiz_settings.minimum_percent_to_pass") ?? 0}
-                    onChange={(e) => {
-                        props?.setValue("meta.quiz_settings.minimum_percent_to_pass",
-                            Number(e?.target?.value), {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.minimum_percent_to_pass",
+                    //         Number(e?.target?.value), {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                     disabled={
                         props?.watch("meta.quiz_settings.hide_result") ||
                         !props?.watch("meta.quiz_settings.show_status_based_on_min_percent")

@@ -13,7 +13,7 @@ const ViewAnswerSheetButton = (props) => {
                 size="small"
                 color="warning"
                 LinkComponent={Link}
-                to={`/${props?.quiz_id}/result/${props?.id}`}
+                // to={`/${props?.quiz_id}/result/${props?.id}`}
             >
                 <FaExpandArrowsAlt fontSize="inherit" />
             </IconButton>

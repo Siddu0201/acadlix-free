@@ -55,15 +55,15 @@ const AdvanceQuizOption = (props) => {
                         onChange={(e) => setQuizInput(e.target.value)}
                     />
                 )}
-                onChange={(_, newValue) => {
-                    props?.setValue(
-                        "acadlix_advance_quiz_page_id",
-                        newValue?.ID ?? null,
-                        {
-                            shouldDirty: true,
-                        }
-                    );
-                }}
+                // onChange={(_, newValue) => {
+                //     props?.setValue(
+                //         "acadlix_advance_quiz_page_id",
+                //         newValue?.ID ?? null,
+                //         {
+                //             shouldDirty: true,
+                //         }
+                //     );
+                // }}
                 PaperComponent={(data) => {
                     return (
                         <Paper>

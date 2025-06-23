@@ -27,11 +27,11 @@ const AnswerSheetOptions = (props) => {
                     }
                     // checked={props?.watch("meta.quiz_settings.hide_answer_sheet") ?? false}
                     disabled
-                    onChange={(e) => {
-                        props?.setValue("meta.quiz_settings.hide_answer_sheet", e?.target?.checked, {
-                            shouldDirty: true,
-                        });
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.hide_answer_sheet", e?.target?.checked, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
                     label={__("Activate", "acadlix")}
                 // disabled={
                 //   props?.watch("meta.mode") === "advance_mode" &&
@@ -51,13 +51,13 @@ const AnswerSheetOptions = (props) => {
                     }
                     // checked={props?.watch("meta.quiz_settings.show_per_question_time") ?? false}
                     disabled
-                    onChange={(e) => {
-                        props?.setValue(
-                            "meta.quiz_settings.show_per_question_time",
-                            e?.target?.checked,
-                            { shouldDirty: true }
-                        );
-                    }}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.show_per_question_time",
+                    //         e?.target?.checked,
+                    //         { shouldDirty: true }
+                    //     );
+                    // }}
                     label={__("Activate", "acadlix")}
                     // disabled={
                     //     props?.watch("meta.quiz_settings.hide_answer_sheet")

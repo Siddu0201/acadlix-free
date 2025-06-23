@@ -15,7 +15,7 @@ const SubjectOptionButton = (props) => {
                 aria-label="subject_time"
                 size="small"
                 color="grey"
-                onClick={handleSubjectTime.bind(this, props?.params?.id)}
+                // onClick={handleSubjectTime.bind(this, props?.params?.id)}
             >
                 <LuFileClock />     
             </IconButton>

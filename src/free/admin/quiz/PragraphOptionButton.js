@@ -13,7 +13,7 @@ const PragraphOptionButton = (props) => {
                 size="small"
                 color="grey"
                 LinkComponent={Link}
-                to={`/${props?.params?.id}/paragraph`}
+                // to={`/${props?.params?.id}/paragraph`}
             >
                 <FaParagraph />
             </IconButton>
