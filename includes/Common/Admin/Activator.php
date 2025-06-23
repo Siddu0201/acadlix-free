@@ -64,7 +64,7 @@ class Activator
         if ($delete_data == "no")
             return;
         // remove post data related to acadlix
-        // acadlix()->admin()->core()->acadlix_delete_post_type_data();
+        acadlix()->admin()->core()->acadlix_delete_post_type_data();
         // remove table
         acadlix()->migration()->removeTable();
         // remove options
