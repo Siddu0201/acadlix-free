@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 defined('ABSPATH') || exit();
 
@@ -65,6 +66,19 @@ if (!class_exists('Order')) {
         public function user()
         {
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
+        }
+
+        public function getTodaySalesTotal()
+        {
+            return $this->whereDate('created_at', Carbon::today())
+                        ->ofSuccess()
+                        ->sum('total_amount');
+        }
+
+        public function getTotalSales()
+        {
+            return $this->ofSuccess()
+                        ->sum('total_amount');
         }
 
     }

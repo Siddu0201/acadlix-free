@@ -18,7 +18,7 @@ class Submenu_Home
             'capability' => 'manage_options',
             'menu_slug' => ACADLIX_SLUG,
             'callback' => [$this, 'home_callback'],
-            'dashicon' => '',
+            'dashicon' => ACADLIX_ASSETS_IMAGE_URL . 'acadlix-icon.svg',
             'position' => 40
         ];
     }
@@ -36,7 +36,7 @@ class Submenu_Home
             $this->_options['menu_slug'],
             $this->_options['callback'],
             $this->_options['dashicon'],
-            $this->_options['position']
+            $this->_options['position'],
         );
 
         add_action("admin_print_scripts-{$page}", [$this, 'admin_print_scripts']);
@@ -49,6 +49,8 @@ class Submenu_Home
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'user_id' => get_current_user_id(),
+            'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
             'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }

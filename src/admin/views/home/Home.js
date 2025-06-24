@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import AcadlixLogo from "../../../images/acadlix_logo.png";
+import AcadlixLogo from "@acadlix/images/acadlix_logo.png";
 import {
   IoCheckmarkDoneSharp,
   AiOutlineFileSearch,
@@ -19,12 +19,46 @@ import {
   BiSolidCommentDetail,
   FaCog,
   MdOutlineSupportAgent
-} from "../../../helpers/icons";
+} from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { RawHTML } from "@wordpress/element";
-
+import { useForm } from "react-hook-form";
+import { GetHomeData } from "@acadlix/requests/admin/AdminHomeRequest";
+import Loader from "@acadlix/components/Loader";
+import { currencyPosition } from "../../../helpers/util";
 
 const Home = () => {
+  const methods = useForm({
+    defaultValues: {
+      'quizes': 0,
+      'courses': 0,
+      'lessons': 0,
+      'questions': 0,
+      'today_sale': 0,
+      'total_sale': 0,
+    }
+  });
+
+  const { data, isFetching } = GetHomeData();
+
+  React.useEffect(() => {
+    if (data?.data) {
+      methods.setValue('quizes', data.data.quizes);
+      methods.setValue('courses', data.data.courses);
+      methods.setValue('lessons', data.data.lessons);
+      methods.setValue('questions', data.data.questions);
+      methods.setValue('today_sale', data.data.today_sale);
+      methods.setValue('total_sale', data.data.total_sale);
+    }
+  }, [data]);
+
+  console.log(methods?.watch());
+
+  if (isFetching) {
+    return (
+      <Loader />
+    )
+  }
   return (
     <Grid
       container
@@ -59,7 +93,7 @@ const Home = () => {
                     {__("Welcome to <b>Acadlix</b>", "acadlix")}
                   </RawHTML>
                 </Typography>
-                <Typography>The Smart Solution for Modern Educator.</Typography>
+                <Typography>{__("The Next-Gen LMS For WordPress.", "acadlix")}</Typography>
               </Box>
               <Box
                 component="img"
@@ -76,336 +110,133 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid size={{ xs: 12, md: 7 / 2 }}>
-        <Card sx={{ height: "100%" }}>
-          <CardHeader title="A demo text here" />
-          <CardContent>
-            <Box>
-              <Typography>Demo text</Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid size={{ xs: 12, md: 6 }}>
+
+      <Grid size={{ xs: 12, md: 12 }}>
         <Grid container spacing={4} rowSpacing={3} sx={{ height: "100%" }}>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title="Quizes" />
+              <CardHeader title={__("Today Sale", "acadlix")} />
               <CardContent>
                 <Box>
-                  <Typography>2500</Typography>
+                  <Typography>{currencyPosition(methods?.watch("today_sale"))}</Typography>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title="Questions" />
+              <CardHeader title={__("Total Sale", "acadlix")} />
               <CardContent>
                 <Box>
-                  <Typography>25000</Typography>
+                  <Typography>{currencyPosition(methods?.watch("total_sale"))}</Typography>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title="Quizes" />
+              <CardHeader title={__("Courses", "acadlix")} />
               <CardContent>
                 <Box>
-                  <Typography>2500</Typography>
+                  <Typography>{methods?.watch("courses")}</Typography>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title="Upcoming" />
+              <CardHeader title={__("Lessons", "acadlix")} />
               <CardContent>
                 <Box>
-                  <Typography>10</Typography>
+                  <Typography>{methods?.watch("lessons")}</Typography>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title="Past" />
+              <CardHeader title={__("Quizzes", "acadlix")} />
               <CardContent>
                 <Box>
-                  <Typography>200</Typography>
+                  <Typography>{methods?.watch("quizes")}</Typography>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title="On Going" />
+              <CardHeader title={__("Questions", "acadlix")} />
               <CardContent>
                 <Box>
-                  <Typography>2340</Typography>
+                  <Typography>{methods?.watch("questions")}</Typography>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
       </Grid>
-      <Grid size={{ xs: 12, md: 5 / 2 }}>
-        <Card sx={{ height: "100%" }}>
+
+
+      <Grid size={{ xs: 12, md: 4 }}>
+        <Card
+          sx={{
+            height: "100%",
+          }}
+        >
           <CardHeader
-            title="Get Pro!"
-            sx={{
-              "& .MuiCardHeader-content": {
-                display: "flex",
-                justifyContent: "center",
-              },
-            }}
-            titleTypographyProps={{
-              sx: {
-                fontWeight: 700,
-                fontSize: 20,
-              },
-            }}
+            title={
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
+                <FaCog />
+                <Typography
+                  sx={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                  }}
+                >
+                  {__("Need any custom feature?", "acadlix")}
+                </Typography>
+              </Box>
+            }
           />
           <CardContent
             sx={{
-              paddingX: 3,
-              paddingY: 2,
+              padding: 2,
+              "&:last-child": {
+                paddingBottom: 4,
+              },
             }}
           >
             <Box>
-              <List
+              <Typography
                 sx={{
-                  padding: 0,
+                  fontSize: 12,
+                  fontWeight: 500,
                 }}
               >
-                <ListItem
-                  sx={{
-                    padding: 0,
-                    gap: 2,
-                  }}
-                >
-                  <IoCheckmarkDoneSharp
-                    style={{
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Advance Panel
-                  </Typography>
-                </ListItem>
-                <ListItem
-                  sx={{
-                    padding: 0,
-                    gap: 2,
-                  }}
-                >
-                  <IoCheckmarkDoneSharp
-                    style={{
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Bulk Question Upload
-                  </Typography>
-                </ListItem>
-                <ListItem
-                  sx={{
-                    padding: 0,
-                    gap: 2,
-                  }}
-                >
-                  <IoCheckmarkDoneSharp
-                    style={{
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Student Dashboard
-                  </Typography>
-                </ListItem>
-                <ListItem
-                  sx={{
-                    padding: 0,
-                    gap: 2,
-                  }}
-                >
-                  <IoCheckmarkDoneSharp
-                    style={{
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Advance Quizzes
-                  </Typography>
-                </ListItem>
-                <ListItem
-                  sx={{
-                    padding: 0,
-                    gap: 2,
-                  }}
-                >
-                  <IoCheckmarkDoneSharp
-                    style={{
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Per Question time
-                  </Typography>
-                </ListItem>
-                <ListItem
-                  sx={{
-                    padding: 0,
-                    gap: 2,
-                  }}
-                >
-                  <IoCheckmarkDoneSharp
-                    style={{
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Quick Support
-                  </Typography>
-                </ListItem>
-              </List>
+                {__("Have unique requirements? We support custom development for specific LMS needs", "acadlix")}
+              </Typography>
             </Box>
           </CardContent>
           <CardActions>
-            <Button color="error" variant="contained" size="small">
-              Upgrade Now
+            <Button
+              variant="contained"
+              color="success"
+              LinkComponent="a"
+              target="__blank"
+              href="https://acadlix.com/contact-us/"
+            >
+              {__("Let's Discuss", "acadlix")}
             </Button>
           </CardActions>
         </Card>
       </Grid>
-      <Grid size={{ xs: 12, md: 9 / 2 }}>
-        <Card sx={{ height: "100%" }}>
-          <CardHeader
-            title={
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <BiSolidCommentDetail />
-                <Typography
-                  sx={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                  }}
-                >
-                  Feedback and suggestions
-                </Typography>
-              </Box>
-            }
-          />
-          <CardContent
-            sx={{
-              padding: 2,
-              "&:last-child": {
-                paddingBottom: 4,
-              },
-            }}
-          >
-            <Box>
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}
-              >
-                We are always open for your feedback and suggestions. You can
-                directly write to feedback@acadlix.com.
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid size={{ xs: 12, md: 5 }}>
-        <Card sx={{ height: "100%" }}>
-          <CardHeader
-            title={
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <RiUserHeartFill />
-                <Typography
-                  sx={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                  }}
-                >
-                  Show your love
-                </Typography>
-              </Box>
-            }
-          />
-          <CardContent
-            sx={{
-              padding: 2,
-              "&:last-child": {
-                paddingBottom: 4,
-              },
-            }}
-          >
-            <Box>
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}
-              >
-                Take a moment to review and rate our work--your feedback helps
-                keep us motivated and energized!
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid size={{ xs: 12, md: 5 / 2 }}>
+      <Grid size={{ xs: 12, md: 4 }}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title={
@@ -423,7 +254,7 @@ const Home = () => {
                     fontWeight: 700,
                   }}
                 >
-                  Need Help?
+                  {__("Need Help?", "acadlix")}
                 </Typography>
               </Box>
             }
@@ -443,65 +274,7 @@ const Home = () => {
                   fontWeight: 500,
                 }}
               >
-                Stuck with something? Get help from live chat or open a support
-                ticket.
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid size={{ xs: 12, md: 19 / 2 }}>
-        <Card
-          sx={{
-            height: "100%",
-            display: {
-              md: "flex",
-              xs: "block",
-            },
-            alignItems: "center",
-          }}
-        >
-          <CardHeader
-            sx={{
-              minWidth: "30%",
-            }}
-            title={
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <FaCog />
-                <Typography
-                  sx={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                  }}
-                >
-                  Need any custom feature?
-                </Typography>
-              </Box>
-            }
-          />
-          <CardContent
-            sx={{
-              padding: 2,
-              "&:last-child": {
-                paddingBottom: 4,
-              },
-            }}
-          >
-            <Box>
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}
-              >
-                Share your detialed requirements by filling our this form, and
-                we'll provide you with a personalized quote.
+                {__("Get expert support when you need it. Fast, reliable, and human.", "acadlix")}
               </Typography>
             </Box>
           </CardContent>
@@ -509,16 +282,17 @@ const Home = () => {
             <Button
               variant="contained"
               color="success"
-              sx={{
-                minWidth: "110px",
-              }}
+              LinkComponent="a"
+              target="__blank"
+              href="https://acadlix.com/contact-us/"
             >
-              Contact Us
+              {__("Get Help Now", "acadlix")}
             </Button>
           </CardActions>
         </Card>
       </Grid>
-      <Grid size={{ xs: 12, md: 5 / 2 }}>
+
+      <Grid size={{ xs: 12, md: 4 }}>
         <Card sx={{ height: "100%" }}>
           <CardHeader
             title={
@@ -536,7 +310,7 @@ const Home = () => {
                     fontWeight: 700,
                   }}
                 >
-                  Documentation
+                  {__("Documentation", "acadlix")}
                 </Typography>
               </Box>
             }
@@ -556,11 +330,21 @@ const Home = () => {
                   fontWeight: 500,
                 }}
               >
-                Step-by-step tutorials and expert tips to help you master
-                Acadlix and elevate your educational offerings.
+                {__("New to Acadlix? Our detailed docs will guide you through every step of setup and beyond.", "acadlix")}
               </Typography>
             </Box>
           </CardContent>
+          <CardActions>
+            <Button
+              variant="contained"
+              color="success"
+              LinkComponent="a"
+              target="__blank"
+              href="https://acadlix.com/docs/acadlix/"
+            >
+              {__("Explore Docs", "acadlix")}
+            </Button>
+          </CardActions>
         </Card>
       </Grid>
     </Grid>

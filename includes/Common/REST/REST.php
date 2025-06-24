@@ -9,6 +9,7 @@ namespace Yuvayana\Acadlix\Common\REST;
  */
 // Admin API Controller
 use Yuvayana\Acadlix\Common\REST\Admin\AdminCourseController;
+use Yuvayana\Acadlix\Common\REST\Admin\AdminHomeController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminLanguageController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminCategoryController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminLeaderboardController;
@@ -43,6 +44,7 @@ class REST {
      */
     protected array $_rests;
 
+    protected $_adminHome = null;
     protected $_adminLanguage = null;
     protected $_adminCategory = null;
     protected $_adminSubject = null;
@@ -71,6 +73,7 @@ class REST {
             return;
         }
 
+        $this->adminHome();
         $this->adminlanguage();
         $this->admincategory();
         $this->adminSubject();
@@ -94,6 +97,14 @@ class REST {
         // Init REST API routes.
         add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
     }
+
+    public function adminHome(): AdminHomeController|null{
+        if($this->_adminHome === null){
+            $this->_adminHome = new AdminHomeController();
+        }
+        $this->_rests[] = $this->_adminHome;
+        return $this->_adminHome;
+    }   
 
     public function adminlanguage(): AdminLanguageController|null{
         if($this->_adminLanguage === null){
