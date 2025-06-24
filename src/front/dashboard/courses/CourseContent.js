@@ -212,7 +212,7 @@ const CourseContent = () => {
                   active = c?.ID == courseSectionContentId;
                 }
                 const statistic = data?.data?.course_statistic?.find(
-                  (cs) => cs?.course_section_content_id === c?.ID
+                  (cs) => cs?.course_section_content_id == c?.ID
                 ) ?? {};
                 return {
                   i: i++,
@@ -220,7 +220,7 @@ const CourseContent = () => {
                   sort: c?.menu_order ?? "",
                   content_type_id: c?.contentable?.id ?? null,
                   is_active: active,
-                  is_completed: Boolean(statistic?.is_completed) ?? false,
+                  is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
                   type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
                   lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
                   title: c?.contentable?.title ?? "",
