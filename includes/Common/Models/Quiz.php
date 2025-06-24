@@ -167,12 +167,9 @@ if (!class_exists('Quiz')) {
             $specific_number_of_questions = $metas['quiz_settings']['specific_number_of_questions'] ?? 0;
             $random_question = $metas['quiz_settings']['random_question'] ?? false;
             $sort_by_subject = $metas['quiz_settings']['sort_by_subject'] ?? false;
-            // $optional_subject = $metas['quiz_settings']['optional_subject'] ?? false;
-            // $subject_wise_question = $metas['quiz_settings']['subject_wise_question'] ?? false;
             $random_option = $metas['quiz_settings']['random_option'] ?? false;
             $do_not_randomize_last_option = $metas['quiz_settings']['do_not_randomize_last_option'] ?? false;
 
-            // $subject_times = $this->subject_times;
             $questions = acadlix()->model()->question()->
                 ofOnline()
                 ->where('quiz_id', $this->ID)
@@ -183,18 +180,9 @@ if (!class_exists('Quiz')) {
                 $questions = $questions->sortByDesc(fn($q) => optional($q->subject)->subject_name ?? '')->values();
             }
 
-            // if ($subject_wise_question) {
-            //     $newQuestion = [];
-            //     foreach ($subject_times as $subject_time) {
-            //         $filteredQuestions = $questions->filter(fn($q) => $q->subject_id === $subject_time->subject_id);
-            //         $newQuestion = [...$newQuestion, ...$filteredQuestions->slice(0, $subject_time->specific_number_of_questions)];
-            //     }
-            //     $questions = $newQuestion;
-            // } else {
-                if ($show_only_specific_number_of_questions) {
-                    $questions = $questions->slice(0, $specific_number_of_questions);
-                }
-            // }
+            if ($show_only_specific_number_of_questions) {
+                $questions = $questions->slice(0, $specific_number_of_questions);
+            }
 
             if (count($questions) > 0) {
                 foreach ($questions as $question) {

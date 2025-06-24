@@ -200,7 +200,6 @@ class FrontDashboardController
         // Add course statistics if the order item exists
         if ($orderItem) {
             $res['course_statistic'] = acadlix()->model()->courseStatistic()
-                // ->with(['assignment_user_stat', 'assignment_user_stat.submissions'])
                 ->where('order_item_id', $orderItemId)
                 ->where('user_id', $userId)
                 ->get();
