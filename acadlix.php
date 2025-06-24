@@ -10,7 +10,7 @@
  * Author:            Team Acadlix
  * Author URI:        https://acadlix.com/
  * Text Domain:       acadlix
- * Doman Path:        /languages/free/
+ * Doman Path:        /languages/Common/
  */
 
 
