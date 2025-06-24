@@ -4,13 +4,6 @@ namespace Yuvayana\Acadlix\Common\REST\Front;
 
 use WP_REST_Server;
 use WP_Error;
-use Yuvayana\Acadlix\Common\Helper\CourseHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
-use Yuvayana\Acadlix\Common\Models\Course;
-use Yuvayana\Acadlix\Common\Models\CourseCart;
-use Yuvayana\Acadlix\Common\Models\Order;
-use Yuvayana\Acadlix\Common\Models\OrderItem;
-use Yuvayana\Acadlix\Common\Models\UserActivityMeta;
 
 defined('ABSPATH') || exit();
 
@@ -238,9 +231,13 @@ class FrontCourseController
             );
         } else {
             $userId = $params['user_id'];
-            $order_items = acadlix()->model()->orderItem()->with(['order','course'])->whereHas('order', function ($query) use ($userId) {
-                $query->where('user_id', $userId)->where('status', 'success');
-            })->where('course_id', $params['course_id'])->get();
+            $order_items = acadlix()->model()->orderItem()
+                ->with(['order','course'])
+                ->whereHas('order', function ($query) use ($userId) {
+                    $query->where('user_id', $userId)->where('status', 'success');
+                })
+                ->where('course_id', $params['course_id'])
+                ->get();
             if (count($order_items) == 0) {
                 $order = acadlix()->model()->order()->create([
                     'user_id' => $params['user_id'],

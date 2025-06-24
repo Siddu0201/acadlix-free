@@ -1,7 +1,6 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Controller;
-use Yuvayana\Acadlix\Common\Models\WpUsers;
 
 defined('ABSPATH') || exit();
 

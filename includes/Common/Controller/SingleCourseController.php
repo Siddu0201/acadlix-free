@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Controller;
 
-use Yuvayana\Acadlix\Common\Models\Course;
-
 defined('ABSPATH') || exit();
 
 if (!class_exists("SingleCourseController")) {

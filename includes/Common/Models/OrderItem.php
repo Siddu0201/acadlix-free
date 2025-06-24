@@ -38,7 +38,7 @@ if (!class_exists('OrderItem')) {
 
         public function course()
         {
-            return $this->belongsTo(acadlix()->model()->course()->class, 'course_id', 'ID')->ofCourse();
+            return $this->belongsTo(acadlix()->model()->course(), 'course_id', 'ID')->ofCourse();
         }
 
         public function order()

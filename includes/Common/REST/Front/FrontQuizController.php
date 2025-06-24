@@ -121,7 +121,7 @@ class FrontQuizController
             'rendered_metas',
             'category',
             'languages',
-            'subject_times',
+            // 'subject_times',
             'rendered_questions',
         ]);
         $custom_logo_id = get_theme_mod('custom_logo');
