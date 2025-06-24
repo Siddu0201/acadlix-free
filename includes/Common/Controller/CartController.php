@@ -19,7 +19,7 @@ if (!class_exists("CartController")) {
         {
             $cart_page_id = acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id');
             if ($cart_page_id && is_page($cart_page_id)) {
-                $cart_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/CartView.php';
+                $cart_template = ACADLIX_INCLUDES_PATH .'Common/View/CartView.php';
                 if ($cart_template) {
                     return $cart_template;
                 }

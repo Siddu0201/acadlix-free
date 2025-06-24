@@ -20,7 +20,7 @@ if (!class_exists("DashboardController")) {
         {
             $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
             if ($dashboard_page_id && is_page($dashboard_page_id)) {
-                $dashboard_template = ACADLIX_INCLUDES_PATH. acadlix()->versionPath .'/View/DashboardView.php';
+                $dashboard_template = ACADLIX_INCLUDES_PATH .'Common/View/DashboardView.php';
                 if ($dashboard_template) {
                     return $dashboard_template;
                 }
