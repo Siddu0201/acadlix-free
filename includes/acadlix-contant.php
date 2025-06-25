@@ -4,9 +4,6 @@ if (!function_exists('get_plugin_data')) {
     require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 }
 
-//version
-define('ACADLIX_VERSION', '0.0.1');
-
 define('ACADLIX_TEXT_DOMAIN', 'acadlix');
 
 define('ACADLIX_SLUG', 'acadlix');

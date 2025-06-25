@@ -22,6 +22,10 @@ if (!defined('ACADLIX_PLUGIN_FILE')) {
     include_once 'includes/acadlix-contant.php';
 }
 
+if(!defined('ACADLIX_VERSION')){
+    define('ACADLIX_VERSION', '1.0.1');
+}
+
 if(function_exists('acadlix')){
     return;
 }
