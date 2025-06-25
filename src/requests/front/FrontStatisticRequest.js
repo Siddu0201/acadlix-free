@@ -11,7 +11,8 @@ export const GetStatisticByUserId = (user_id = '', page = 0, pageSize = 10) => {
             return instance.get(`${base}/${user_id}`, {
                 params: {
                     page: page,
-                    pageSize: pageSize
+                    pageSize: pageSize,
+                    _t: Date.now(),
                 }
             });
         }
@@ -23,7 +24,11 @@ export const GetStatisticByStatisticId = (statistic_id = '') => {
     return useQuery({
         queryKey: ["getStatisticByStatisticId", statistic_id],
         queryFn: () => {
-            return instance.get(`${base}/${statistic_id}/statistic`);
+            return instance.get(`${base}/${statistic_id}/statistic`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }

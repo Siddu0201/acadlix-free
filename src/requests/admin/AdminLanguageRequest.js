@@ -8,7 +8,11 @@ export const GetLanguages = () => {
     return useQuery({
         queryKey: ["getLanguages"],
         queryFn: () => {
-            return instance.get(base);
+            return instance.get(base, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }

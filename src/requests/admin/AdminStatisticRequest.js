@@ -14,7 +14,8 @@ export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize = 10, sear
                 params: {
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 }
             });
         }
@@ -69,7 +70,11 @@ export const GetStatisticById = (quiz_id = '', statistic_ref_id = '') => {
     return useQuery({
         queryKey: ["getStatisticById", quiz_id, statistic_ref_id],
         queryFn: () => {
-            return instance.get(`${base}/${quiz_id}/answersheet/${statistic_ref_id}`);
+            return instance.get(`${base}/${quiz_id}/answersheet/${statistic_ref_id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }

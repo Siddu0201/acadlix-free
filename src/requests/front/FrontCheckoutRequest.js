@@ -12,6 +12,7 @@ export const GetCheckoutCart = (user_id = 0, cart_token = "") => {
         params: {
           user_id: user_id,
           cart_token: cart_token,
+          _t: Date.now(),
         },
       });
     },

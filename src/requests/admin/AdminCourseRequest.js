@@ -76,7 +76,11 @@ export const GetLessonsForCourse = () => {
   return useQuery({
     queryKey: ["getLessonsForCourse"],
     queryFn: () => {
-      return instance.get(`${base}/get-lessons-for-course`);
+      return instance.get(`${base}/get-lessons-for-course`, {
+        params: {
+          _t: Date.now(),
+        }
+      });
     },
   });
 };
@@ -105,7 +109,11 @@ export const GetQuizzesForCourse = () => {
   return useQuery({
     queryKey: ["getQuizzesForCourse"],
     queryFn: () => {
-      return instance.get(`${base}/get-quizzes-for-course`);
+      return instance.get(`${base}/get-quizzes-for-course`, {
+        params: {
+          _t: Date.now(),
+        }
+      });
     },
   });
 };
@@ -124,7 +132,11 @@ export const GetAssignmentsForCourse = () => {
   return useQuery({
     queryKey: ["getAssignmentsForCourse"],
     queryFn: () => {
-      return instance.get(`${base}/get-assignments-for-course`);
+      return instance.get(`${base}/get-assignments-for-course`, {
+        params: {
+          _t: Date.now(),
+        }
+      });
     },
   });
 };

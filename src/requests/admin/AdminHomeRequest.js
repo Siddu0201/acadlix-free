@@ -8,7 +8,11 @@ export const GetHomeData = () => {
     return useQuery({
         queryKey: ["getHomeData"],
         queryFn: () => {
-            return instance.get(`${base}`);
+            return instance.get(`${base}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }

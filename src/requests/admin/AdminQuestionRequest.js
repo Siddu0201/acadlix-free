@@ -14,7 +14,8 @@ export const GetQuizQuestion = (quiz_id = '', page = 0, pageSize = 10, search = 
                 params: {
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 }
             });
         }
@@ -26,7 +27,11 @@ export const GetCreateQuizQuestion = (quiz_id = '') => {
     return useQuery({
         queryKey: ["getCreateQuizQuestion", quiz_id],
         queryFn: () => {
-            return instance.get(`${base}/${quiz_id}/question/create`);
+            return instance.get(`${base}/${quiz_id}/question/create`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }
@@ -51,7 +56,11 @@ export const GetQuizQuestionById = (quiz_id = '', question_id = '') => {
     return useQuery({
         queryKey: ["getQuizQuestionById", quiz_id, question_id],
         queryFn: () => {
-            return instance.get(`${base}/${quiz_id}/question/${question_id}`);
+            return instance.get(`${base}/${quiz_id}/question/${question_id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     })
 }

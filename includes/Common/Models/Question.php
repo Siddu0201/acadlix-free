@@ -59,7 +59,8 @@ if (!class_exists('Question')) {
 
         public function setSubjectIdAttribute($value)
         {
-            $default_subject_id = acadlix()->model()->subject()->where("default", 1)->first()->id;
+            $default_subject = acadlix()->model()->subject()->where("default", 1)->first();
+            $default_subject_id = $default_subject ? $default_subject->id : null;
             $this->attributes['subject_id'] = $value == null ? $default_subject_id : $value;
         }
 

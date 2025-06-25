@@ -14,7 +14,8 @@ export const GetQuizParagraphs = (quiz_id = '', page = 0, pageSize = 10, search 
         params: {
           page: page,
           pageSize: pageSize,
-          search: search
+          search: search,
+          _t: Date.now(),
         },
       });
     },
@@ -26,7 +27,11 @@ export const GetCreateQuizParagraph = (quiz_id = '') => {
   return useQuery({
       queryKey: ["getCreateQuizParagraph", quiz_id],
       queryFn: () => {
-          return instance.get(`${base}/${quiz_id}/paragraph/create`);
+          return instance.get(`${base}/${quiz_id}/paragraph/create`,{
+            params: {
+              _t: Date.now(),
+            }
+          });
       }
   });
 }
@@ -51,7 +56,11 @@ export const GetQuizParagraphById = (quiz_id = '', paragraph_id = "") => {
   return useQuery({
     queryKey: ["getParagraphById", quiz_id, paragraph_id],
     queryFn: () => {
-      return instance.get(`${base}/${quiz_id}/paragraph/${paragraph_id}`);
+      return instance.get(`${base}/${quiz_id}/paragraph/${paragraph_id}`, {
+        params: {
+          _t: Date.now(),
+        }
+      });
     },
   });
 };

@@ -13,7 +13,8 @@ export const GetOrders = (page = 0, pageSize = 10, search = '') => {
                 params: {
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 }
             });
         }

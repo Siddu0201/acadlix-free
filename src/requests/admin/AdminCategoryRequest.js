@@ -8,7 +8,11 @@ export const GetCategories = () => {
     return useQuery({
         queryKey: ["getCategories"],
         queryFn: () => {
-            return instance.get(base);
+            return instance.get(base, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }

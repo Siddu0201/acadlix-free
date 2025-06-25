@@ -8,7 +8,11 @@ export const GetFrontQuizById = (quiz_id = '') => {
     return useQuery({
         queryKey: ["getFrontQuizById", quiz_id],
         queryFn: () => {
-            return instance.get(`${base}/${quiz_id}`);
+            return instance.get(`${base}/${quiz_id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         },
     })
 }

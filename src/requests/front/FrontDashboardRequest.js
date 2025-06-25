@@ -14,7 +14,8 @@ export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10, search = '' 
                     user_id: user_id,
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 },
                 headers: { 
                     'X-WP-Nonce': acadlixOptions.nonce 
@@ -34,7 +35,8 @@ export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
             return instance.get(`${base}/get-user-order-by-id`, {
                 params: {
                     order_item_id: order_item_id,
-                    user_id: user_id
+                    user_id: user_id,
+                    _t: Date.now(),
                 },
                 headers: { 
                     'X-WP-Nonce': acadlixOptions.nonce 
@@ -174,6 +176,7 @@ export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
                     user_id: user_id,
                     page: page,
                     pageSize: pageSize,
+                    _t: Date.now(),
                 },
                 headers: { 
                     'X-WP-Nonce': acadlixOptions.nonce 
@@ -193,6 +196,7 @@ export const GetUserProfile = (user_id = 0 ) => {
             return instance.get(`${base}/get-user-profile`, {
                 params: {
                     user_id: user_id,
+                    _t: Date.now(),
                 },
                 headers: { 
                     'X-WP-Nonce': acadlixOptions.nonce 

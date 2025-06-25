@@ -14,7 +14,8 @@ export const GetLessons = (page = 0, pageSize = 10, search = '') => {
                 params: {
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 }
             });
         }
@@ -42,7 +43,11 @@ export const GetLessonById = (lesson_id = '') => {
         queryKey: ["getLessonById", lesson_id],
         queryFn: () => {
             if (!lesson_id) return {};
-            return instance.get(`${base}/${lesson_id}`);
+            return instance.get(`${base}/${lesson_id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     })
 }

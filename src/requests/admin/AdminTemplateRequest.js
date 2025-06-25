@@ -10,7 +10,8 @@ export const GetTemplates = (type) => {
         queryFn: () => {
             return instance.get(base, {
                 params: {
-                    type: type
+                    type: type,
+                    _t: Date.now(),
                 }
             });
         }
@@ -30,7 +31,11 @@ export const GetTemplateById = () => {
     const instance = useInstance();
     return useMutation({
         mutationFn: (id) => {
-            return instance.get(`${base}/${id}`);
+            return instance.get(`${base}/${id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     })
 }

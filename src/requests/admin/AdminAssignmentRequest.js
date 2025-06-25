@@ -14,7 +14,8 @@ export const GetAssignments = (page = 0, pageSize = 10, search = '') => {
                 params: {
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 }
             });
         }
@@ -46,7 +47,11 @@ export const GetAssignmentById = (assignment_id = '') => {
         queryKey: ["getAssignmentById", assignment_id],
         queryFn: () => {
             if (!assignment_id) return {};
-            return instance.get(`${base}/${assignment_id}`);
+            return instance.get(`${base}/${assignment_id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }
@@ -91,7 +96,8 @@ export const GetAssignmentSubmissionsById = (
                     search: search,
                     course_id: course_id,
                     user_status: user_status,
-                    admin_status: admin_status
+                    admin_status: admin_status,
+                    _t: Date.now(),
                 }
             });
         }
@@ -104,7 +110,11 @@ export const GetEvaluationAssignment = (assignment_id = '', course_statistic_id 
         queryKey: ["getEvaluationAssignment", assignment_id, course_statistic_id],
         queryFn: () => {
             if (!assignment_id || !course_statistic_id) return {};
-            return instance.get(`${base}/${assignment_id}/evaluation/${course_statistic_id}`);
+            return instance.get(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }

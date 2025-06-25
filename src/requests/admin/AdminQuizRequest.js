@@ -14,7 +14,8 @@ export const GetQuizes = (page = 0, pageSize = 10, search = '') => {
                 params: {
                     page: page,
                     pageSize: pageSize,
-                    search: search
+                    search: search,
+                    _t: Date.now(),
                 }
             });
         }
@@ -26,7 +27,11 @@ export const GetCreateQuiz = () => {
     return useQuery({
         queryKey: ["getCreateQuiz"],
         queryFn: () => {
-            return instance.get(`${base}/create`);
+            return instance.get(`${base}/create`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }
@@ -39,6 +44,7 @@ export const PostCreateQuiz = () => {
             return instance.post(base, data);
         },
         onSuccess: () => {
+            toast.success(__('Quiz successfully created.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizes"]
             });
@@ -51,7 +57,11 @@ export const GetQuizById = (quiz_id = '') => {
     return useQuery({
         queryKey: ["getQuizById", quiz_id],
         queryFn: () => {
-            return instance.get(`${base}/${quiz_id}`);
+            return instance.get(`${base}/${quiz_id}`,{
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     })
 }
@@ -64,6 +74,7 @@ export const UpdateQuizById = (quiz_id = '') => {
             return instance.post(`${base}/${quiz_id}`, data);
         },
         onSuccess: () => {
+            toast.success(__('Quiz successfully updated.', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getQuizes"]
             });
@@ -142,7 +153,11 @@ export const GetSubjectByQuizId = (quiz_id) => {
     return useQuery({
         queryKey: ["getSubjectByQuizId", quiz_id],
         queryFn: () => {
-            return instance.get(`${base}/${quiz_id}/get-subject-by-quiz-id`);
+            return instance.get(`${base}/${quiz_id}/get-subject-by-quiz-id`,{
+                params: {
+                    _t: Date.now(),
+                }
+            });
         }
     });
 }
