@@ -17,13 +17,19 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
-import { GetUserPurchases } from "../../../requests/front/FrontDashboardRequest";
+import { GetUserPurchases } from "@acadlix/requests/front/FrontDashboardRequest";
 import { dateI18n } from "@wordpress/date";
-import { currencyPosition } from "../../../helpers/util";
+import { currencyPosition } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 
 const PurchaseHistory = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('frontPurchaseHistoryPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('frontPurchaseHistoryPageSize') || '10', 10),
+  };
+
   const methods = useForm({
     defaultValues: {
       rows: [],
@@ -83,10 +89,7 @@ const PurchaseHistory = () => {
     },
   ];
 
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
-    page: 0,
-  });
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const { isFetching, data, refetch } = GetUserPurchases(
     acadlixOptions?.user?.ID,
@@ -149,12 +152,18 @@ const PurchaseHistory = () => {
     return rowCountRef.current;
   }, [data?.data?.total]);
 
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('frontPurchaseHistoryPage', model.page);
+    localStorage.setItem('frontPurchaseHistoryPageSize', model.pageSize);
+  };
+
   return isMobile ? (
     <MobileOnlyView
       {...methods}
       isFetching={isFetching}
       paginationModel={paginationModel}
-      setPaginationModel={setPaginationModel}
+      handlePaginationChange={handlePaginationChange}
     />
   ) : (
     <Box>
@@ -204,7 +213,7 @@ const PurchaseHistory = () => {
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
+                  onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection={false}
@@ -311,17 +320,32 @@ const MobileOnlyView = (props) => {
         ))
       )}
       <Box display="flex" justifyContent="center" padding={2}>
-        <Stack spacing={2}>
+        <TablePagination
+          component="div"
+          count={props?.watch("rows").length}
+          page={props?.paginationModel?.page}
+          onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
+          rowsPerPage={props?.paginationModel?.pageSize}
+          onRowsPerPageChange={(e) => {
+            const pageSize = parseInt(e?.target?.value);
+            const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
+            props?.handlePaginationChange({
+              pageSize: pageSize,
+              page: page,
+            })
+          }}
+        />
+        {/* <Stack spacing={2}>
           <Pagination
             count={Math.ceil(
               props?.watch("rows").length / props?.paginationModel?.pageSize
             )}
             page={props?.paginationModel?.page}
             onChange={(e, value) =>
-              props?.setPaginationModel((p) => ({ ...p, page: value }))
+              props?.handlePaginationChange({ ...props?.paginationModel, page: value })
             }
           />
-        </Stack>
+        </Stack> */}
       </Box>
     </Box>
   );

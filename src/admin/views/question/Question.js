@@ -24,16 +24,16 @@ import {
   DeleteBulkQuestion,
   DeleteQuizQuestionById,
   GetQuizQuestion,
-} from "../../../requests/admin/AdminQuestionRequest";
-import { FaEdit, FaSearch, FaTrash, TiArrowLeftThick } from "../../../helpers/icons";
+} from "@acadlix/requests/admin/AdminQuestionRequest";
+import { FaEdit, FaSearch, FaTrash, TiArrowLeftThick } from "@acadlix/helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
-import { IoMdRefresh } from "../../../helpers/icons";
+import { IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../helpers/util";
-import CustomTextField from "../../../components/CustomTextField";
+import { hasCapability } from "@acadlix/helpers/util";
+import CustomTextField from "@acadlix/components/CustomTextField";
 
 const BulkImportButton = React.lazy(() => 
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -47,6 +47,11 @@ const BulkSetParagraph = React.lazy(() =>
 );
 
 const Question = () => {
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('adminQuestionPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('adminQuestionPageSize') || '20', 10),
+  };
+
   const methods = useForm({
     defaultValues: {
       search: "",
@@ -57,10 +62,7 @@ const Question = () => {
       paragraph_model: false,
     },
   });
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 20,
-    page: 0,
-  });
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const { quiz_id } = useParams();
 
@@ -277,6 +279,12 @@ const Question = () => {
     methods?.setValue("paragraph_model", false, { shouldDirty: true });
   };
 
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('adminQuestionPage', model.page);
+    localStorage.setItem('adminQuestionPageSize', model.pageSize);
+  };
+
   return (
     <Box>
       {!isFetching && (
@@ -485,7 +493,7 @@ const Question = () => {
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
+                  onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection

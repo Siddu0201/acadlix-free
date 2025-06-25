@@ -21,10 +21,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
-import { GetStatisticByUserId } from "../../../requests/front/FrontStatisticRequest";
+import { GetStatisticByUserId } from "@acadlix/requests/front/FrontStatisticRequest";
 
 export default function Result() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('frontResultPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('frontResultPageSize') || '10', 10),
+  };
 
   const methods = useForm({
     defaultValues: {
@@ -33,10 +38,7 @@ export default function Result() {
       resstatistic_ref_idsult_ids: [],
     },
   });
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
-    page: 0,
-  });
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const columns = [
     { field: "id", headerName: __("ID", "acadlix") },
@@ -131,11 +133,17 @@ export default function Result() {
     return rowCountRef.current;
   }, [data?.data?.total]);
 
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('frontResultPage', model.page);
+    localStorage.setItem('frontResultPageSize', model.pageSize);
+  };
+
   return isMobile ? (
     <MobileOnlyView
       {...methods}
       paginationModel={paginationModel}
-      setPaginationModel={setPaginationModel}
+      handlePaginationChange={handlePaginationChange}
     />
   ) : (
     <Box>
@@ -180,7 +188,7 @@ export default function Result() {
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
+                  onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection
@@ -305,12 +313,12 @@ const MobileOnlyView = (props) => {
           component="div"
           count={props?.watch("rows").length}
           page={props?.paginationModel?.page}
-          onPageChange={(_, newPage) => props?.setPaginationModel(prev => ({ ...prev, page: newPage }))}
+          onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
           rowsPerPage={props?.paginationModel?.pageSize}
           onRowsPerPageChange={(e) => {
             const pageSize = parseInt(e?.target?.value);
             const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
-            props?.setPaginationModel({
+            props?.handlePaginationChange({
               pageSize: pageSize,
               page: page,
             })

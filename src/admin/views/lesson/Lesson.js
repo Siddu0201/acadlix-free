@@ -23,13 +23,23 @@ import {
   DeleteBulkLesson,
   DeleteLessonById,
   GetLessons,
-} from "../../../requests/admin/AdminLessonRequest";
-import { FaEdit, FaSearch, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
+} from "@acadlix/requests/admin/AdminLessonRequest";
+import { 
+  FaEdit, 
+  FaSearch, 
+  FaTrash, 
+  IoMdRefresh 
+} from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../helpers/util";
-import CustomTextField from "../../../components/CustomTextField";
+import { hasCapability } from "@acadlix/helpers/util";
+import CustomTextField from "@acadlix/components/CustomTextField";
 
 const Lesson = () => {
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('adminLessonPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('adminLessonPageSize') || '10', 10),
+  };
+
   const methods = useForm({
     defaultValues: {
       search: "",
@@ -38,10 +48,7 @@ const Lesson = () => {
       action: "",
     },
   });
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
-    page: 0,
-  });
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const deleteMutation = DeleteLessonById();
   const deleteLessonById = (id) => {
@@ -182,6 +189,12 @@ const Lesson = () => {
   const handleSearch = (e) => {
     methods?.setValue("search", e?.target?.value, { shouldDirty: true });
   }
+
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('adminLessonPage', model.page);
+    localStorage.setItem('adminLessonPageSize', model.pageSize);
+  };
 
   return (
     <Box>
@@ -327,7 +340,7 @@ const Lesson = () => {
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
+                  onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection

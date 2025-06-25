@@ -21,18 +21,18 @@ import {
   TiArrowLeftThick,
   IoMdRefresh,
   FaSearch
-} from "../../../../helpers/icons";
+} from "@acadlix/helpers/icons";
 import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   DeleteStatisticById,
   GetStatisticByQuizId,
   PostResetStatisticByQuizId,
-} from "../../../../requests/admin/AdminStatisticRequest";
+} from "@acadlix/requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../../helpers/util";
-import CustomTextField from "../../../../components/CustomTextField";
+import { hasCapability } from "@acadlix/helpers/util";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import toast from "react-hot-toast";
 
 const ViewAnswerSheetButton = React.lazy(() =>
@@ -46,6 +46,11 @@ const QuizResult = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { quiz_id } = useParams();
+
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('adminQuizResultPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('adminQuizResultPageSize') || '10', 10),
+  };
 
   const methods = useForm({
     defaultValues: {
@@ -73,10 +78,7 @@ const QuizResult = () => {
     }
   };
 
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
-    page: 0,
-  });
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const deleteMutation = DeleteStatisticById();
   const deleteStatisticById = (id) => {
@@ -183,6 +185,12 @@ const QuizResult = () => {
   const handleSearch = (e) => {
     methods?.setValue("search", e?.target?.value, { shouldDirty: true });
   }
+
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('adminQuizResultPage', model.page);
+    localStorage.setItem('adminQuizResultPageSize', model.pageSize);
+  };
 
   return (
     <Box>
@@ -361,7 +369,7 @@ const QuizResult = () => {
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
+                  onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection

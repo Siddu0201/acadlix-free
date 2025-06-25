@@ -14,15 +14,20 @@ import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { DeleteOrderById, GetOrders } from "../../../requests/admin/AdminOrderRequest";
-import { currencyPosition } from "../../../helpers/util";
+import { DeleteOrderById, GetOrders } from "@acadlix/requests/admin/AdminOrderRequest";
+import { currencyPosition } from "@acadlix/helpers/util";
 import { dateI18n } from "@wordpress/date";
-import { FaEdit, FaSearch, FaTrash, IoClose, IoMdRefresh } from "../../../helpers/icons";
+import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
-import CustomTextField from "../../../components/CustomTextField";
+import CustomTextField from "@acadlix/components/CustomTextField";
 
 const Order = () => {
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('adminOrderPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('adminOrderPageSize') || '10', 10),
+  };
+
   const methods = useForm({
     defaultValues: {
       search: "",
@@ -32,10 +37,7 @@ const Order = () => {
     },
   });
 
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
-    page: 0,
-  });
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const deleteMutation = DeleteOrderById();
   const deleteOrderById = (id) => {
@@ -195,6 +197,12 @@ const Order = () => {
     methods?.setValue("search", e?.target?.value, { shouldDirty: true });
   }
 
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('adminOrderPage', model.page);
+    localStorage.setItem('adminOrderPageSize', model.pageSize);
+  };
+
   return (
     <Box>
       <Grid
@@ -324,7 +332,7 @@ const Order = () => {
                   columns={columns}
                   rowCount={rowCount}
                   paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
+                  onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
                   pageSizeOptions={[10, 20, 50]}
                   checkboxSelection={false}
