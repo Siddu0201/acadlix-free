@@ -362,10 +362,25 @@ const EditExistingAssignment = (props) => {
                   />
                 </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                  <CustomTypography>{__("Allowed Mime Type(s)", "acadlix")}</CustomTypography>
+                  <CustomTypography>
+                    {__("Allowed Mime Type(s)", "acadlix")}
+                    {
+                      props?.watch("meta.allow_uploads") && (
+                        <span style={{ color: "red" }}>
+                          *
+                        </span>
+                      )
+                    }
+                  </CustomTypography>
                 </GridItem1>
                 <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                   <Autocomplete
+                    {...props?.register(`meta.allowed_mime_types`, {
+                      required: {
+                        value: props?.watch("meta.allow_uploads") ?? false,
+                        message: __("Allowed mime types is required", "acadlix")
+                      }
+                    })}
                     size="small"
                     fullWidth
                     multiple
@@ -404,6 +419,8 @@ const EditExistingAssignment = (props) => {
                         variant="outlined"
                         label={__("Allowed Mime Type(s)", "acadlix")}
                         placeholder={__("Select Mime Type(s)", "acadlix")}
+                        error={props?.watch("meta.allow_uploads") && Boolean(props?.formState?.errors?.meta?.allowed_mime_types)}
+                        helperText={props?.watch("meta.allow_uploads") && props?.formState?.errors?.meta?.allowed_mime_types?.message}
                       />
                     )}
                   />

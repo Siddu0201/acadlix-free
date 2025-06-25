@@ -3,7 +3,6 @@ defined('ABSPATH') || exit();
 
 global $post, $wp_version;
 
-
 if (is_user_logged_in()) {
     ?>
     <html <?php language_attributes(); ?>>

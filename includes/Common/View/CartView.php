@@ -1,7 +1,5 @@
 <?php
 
-
-
 defined('ABSPATH') || exit();
 
 global $post, $wp_version;

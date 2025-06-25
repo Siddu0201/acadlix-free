@@ -20,6 +20,7 @@ if (!class_exists("AllCourseController")) {
         public function template_loader($template)
         {
             if ( is_post_type_archive( ACADLIX_COURSE_CPT ) ){
+                define('DONOTCACHEPAGE', true);
                 $all_course_template = ACADLIX_INCLUDES_PATH .'Common/View/AllCourseView.php';
                 if ($all_course_template) {
                     return $all_course_template;

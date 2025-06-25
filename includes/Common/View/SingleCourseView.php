@@ -1,9 +1,6 @@
 <?php
 
 use Yuvayana\Acadlix\Common\Models\Course;
-use Yuvayana\Acadlix\Common\Models\CourseCart;
-use Yuvayana\Acadlix\Common\Models\OrderItem;
-use Yuvayana\Acadlix\Common\Models\UserActivityMeta;
 
 defined('ABSPATH') || exit();
 

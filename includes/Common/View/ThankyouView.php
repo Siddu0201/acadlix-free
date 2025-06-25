@@ -1,7 +1,4 @@
 <?php
-use Yuvayana\Acadlix\Common\Models\CourseCart;
-use Yuvayana\Acadlix\Common\Models\Order;
-use Yuvayana\Acadlix\Common\Models\OrderMeta;
 
 defined('ABSPATH') || exit();
 
