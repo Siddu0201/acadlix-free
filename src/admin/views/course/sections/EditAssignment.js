@@ -4,7 +4,12 @@ import BootstrapDialog from '../modals/BootstrapDialog';
 import { FaEdit } from '../../../../helpers/icons';
 import { PostUpdateAssignmentById } from '../../../../requests/admin/AdminCourseRequest';
 import { IconButton } from '@mui/material';
-import EditAssignmentModal from '../modals/EditAssignmentModal';
+
+const EditAssignmentModal = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/admin/views/course/modals/EditAssignmentModal") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
 
 const EditAssignment = (props) => {
   const methods = useForm({
@@ -102,16 +107,18 @@ const EditAssignment = (props) => {
         aria-labelledby="assignment-dialog-title"
         aria-describedby="assignment-dialog-description"
       >
-        <EditAssignmentModal
-          {...methods}
-          colorCode={props?.colorCode}
-          handleClose={handleClose}
-          onSubmit={onSubmit}
-          isPending={updateMutation?.isPending}
-          loadEditor={loadEditor}
-          removeEditor={removeEditor}
-        />
-      </BootstrapDialog>
+        <React.Suspense fallback={null}>
+          <EditAssignmentModal
+            {...methods}
+            colorCode={props?.colorCode}
+            handleClose={handleClose}
+            onSubmit={onSubmit}
+            isPending={updateMutation?.isPending}
+            loadEditor={loadEditor}
+            removeEditor={removeEditor}
+          />
+        </React.Suspense>
+      </BootstrapDialog >
       <IconButton onClick={handleEditAssignment}>
         <FaEdit
           style={{

@@ -3,7 +3,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import BootstrapDialog from '../modals/BootstrapDialog';
 import { __ } from '@wordpress/i18n';
-import AddAssignmentModal from '../modals/AddAssignmentModal';
 import { hasCapability } from '../../../../helpers/util';
 import { PostAddAssignment } from '../../../../requests/admin/AdminCourseRequest';
 import toast from 'react-hot-toast';
@@ -12,6 +11,12 @@ const AddAssignmentButton = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
         import("@acadlix/pro/admin/course/AddAssignmentButton") :
         import("@acadlix/free/admin/course/AddAssignmentButton")
+);
+
+const AddAssignmentModal = React.lazy(() =>
+    process.env.REACT_APP_IS_PREMIUM === 'true'
+        ? import("@acadlix/pro/admin/views/course/modals/AddAssignmentModal") // Use pro version in Pro build
+        : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 
 const AddAssignment = (props) => {
@@ -119,31 +124,33 @@ const AddAssignment = (props) => {
                 aria-labelledby="assignment-dialog-title"
                 aria-describedby="assignment-dialog-description"
             >
-                <AddAssignmentModal
-                    {...methods}
-                    colorCode={props?.colorCode}
-                    handleClose={handleClose}
-                    onSubmit={onSubmit}
-                    isPending={addMutation?.isPending}
-                    create={true}
-                    loadEditor={loadEditor}
-                    removeEditor={removeEditor}
-                    existingAssignmentIds={
-                        props?.watch('sections')?.map((section) => {
-                            return section?.contents?.filter((content) => {
-                                return content?.type === "assignment";
-                            })?.map((content) => {
-                                return content?.contentable_id;
-                            });
-                        })?.flat()
-                    }
-                />
+                <React.Suspense fallback={null}>
+                    <AddAssignmentModal
+                        {...methods}
+                        colorCode={props?.colorCode}
+                        handleClose={handleClose}
+                        onSubmit={onSubmit}
+                        isPending={addMutation?.isPending}
+                        create={true}
+                        loadEditor={loadEditor}
+                        removeEditor={removeEditor}
+                        existingAssignmentIds={
+                            props?.watch('sections')?.map((section) => {
+                                return section?.contents?.filter((content) => {
+                                    return content?.type === "assignment";
+                                })?.map((content) => {
+                                    return content?.contentable_id;
+                                });
+                            })?.flat()
+                        }
+                    />
+                </React.Suspense>
             </BootstrapDialog>
             <React.Suspense fallback={null}>
-              <AddAssignmentButton 
-                {...props}
-                handleAddAssignment={handleAddAssignment}
-              />
+                <AddAssignmentButton
+                    {...props}
+                    handleAddAssignment={handleAddAssignment}
+                />
             </React.Suspense>
         </Box>
     )
