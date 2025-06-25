@@ -1,4 +1,4 @@
-import { ThemeProvider, createTheme } from "@mui/material";
+import { CssBaseline, StyledEngineProvider, ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 
 const CustomThemeProvider = ({ children }) => {
@@ -111,25 +111,25 @@ const CustomThemeProvider = ({ children }) => {
       },
       ...(mode === "light"
         ? {
-            background: {
-              paper: "#ffffff",
-              default: "#f5f5f9",
-            },
-            text: {
-              // primary: "rgba(55, 71, 92, 1)!important",
-              // secondary: "rgba(55, 71, 92, 0.6)!important",
-            },
-          }
+          background: {
+            paper: "#ffffff",
+            default: "#f5f5f9",
+          },
+          text: {
+            // primary: "rgba(55, 71, 92, 1)!important",
+            // secondary: "rgba(55, 71, 92, 0.6)!important",
+          },
+        }
         : {
-            background: {
-              paper: "#2b2c40",
-              default: "#232333",
-            },
-            text: {
-              primary: "rgba(219, 219, 235, 0.87)",
-              secondary: "rgba(219, 219, 235, 0.6)",
-            },
-          }),
+          background: {
+            paper: "#2b2c40",
+            default: "#232333",
+          },
+          text: {
+            primary: "rgba(219, 219, 235, 0.87)",
+            secondary: "rgba(219, 219, 235, 0.6)",
+          },
+        }),
     },
     components: {
       MuiPaper: {
@@ -208,7 +208,14 @@ const CustomThemeProvider = ({ children }) => {
       },
     },
   });
-  return <ThemeProvider theme={themeOptions}>{children}</ThemeProvider>;
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={themeOptions}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </StyledEngineProvider>
+  );
 };
 
 export default CustomThemeProvider;
