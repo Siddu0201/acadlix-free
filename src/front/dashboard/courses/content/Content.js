@@ -12,7 +12,7 @@ import AppFront from "@acadlix/front/AppFront";
 import VideoPlayer from "@acadlix/modules/video-player/VideoPlayer";
 import {
   PostUpdateLessonTime,
-} from "@acadlix/front/requests/front/FrontDashboardRequest";
+} from "@acadlix/requests/front/FrontDashboardRequest";
 import {
   getVimeoVideoId,
   getYouTubeVideoId,
