@@ -9,6 +9,8 @@ import {
   TextField,
   CircularProgress,
   Paper,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import CustomTextField from "../../../../components/CustomTextField";
@@ -827,6 +829,54 @@ function General(props) {
               );
             }}
           />
+        </Grid>
+      </Grid>
+      {/* Admin Options */}
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">{__("Admin Options", "acadlix")}</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Default rows per page", "acadlix")}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Select
+            fullWidth
+            size="small"
+            value={props?.watch("acadlix_default_rows_per_page")}
+            onChange={(e) => {
+              props?.setValue(
+                "acadlix_default_rows_per_page",
+                Number(e?.target?.value),
+                {
+                  shouldDirty: true,
+                }
+              );
+            }}
+          >
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={50}>50</MenuItem>
+            <MenuItem value={100}>100</MenuItem>
+          </Select>
         </Grid>
       </Grid>
       <Box

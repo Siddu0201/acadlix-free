@@ -50,6 +50,7 @@ class Submenu_Lessons
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
+            'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,

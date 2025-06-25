@@ -49,7 +49,7 @@ const BulkSetParagraph = React.lazy(() =>
 const Question = () => {
   const defaultPaginationModel = {
     page: parseInt(localStorage.getItem('adminQuestionPage') || '0', 10),
-    pageSize: parseInt(localStorage.getItem('adminQuestionPageSize') || '20', 10),
+    pageSize: parseInt(localStorage.getItem('adminQuestionPageSize') || acadlixOptions?.settings?.acadlix_default_rows_per_page, 10),
   };
 
   const methods = useForm({

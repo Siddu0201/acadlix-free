@@ -57,7 +57,7 @@ const SubjectOptionButton = React.lazy(() =>
 const Quiz = () => {
   const defaultPaginationModel = {
     page: parseInt(localStorage.getItem('adminQuizPage') || '0', 10),
-    pageSize: parseInt(localStorage.getItem('adminQuizPageSize') || '20', 10),
+    pageSize: parseInt(localStorage.getItem('adminQuizPageSize') || acadlixOptions?.settings?.acadlix_default_rows_per_page, 10),
   };
   const methods = useForm({
     defaultValues: {

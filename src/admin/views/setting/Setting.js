@@ -49,6 +49,7 @@ const Setting = () => {
 
   const baseDefaults = {
     // General Options
+    // Page Setup
     acadlix_dashboard_page_id:
       acadlixOptions?.options?.acadlix_dashboard_page_id ?? null,
     acadlix_advance_quiz_page_id:
@@ -59,19 +60,12 @@ const Setting = () => {
       acadlixOptions?.options?.acadlix_checkout_page_id ?? null,
     acadlix_thankyou_page_id:
       acadlixOptions?.options?.acadlix_thankyou_page_id ?? null,
+    // Course Options
     acadlix_no_of_courses_per_page:
       acadlixOptions?.options?.acadlix_no_of_courses_per_page ?? 10,
     acadlix_one_click_checkout:
       acadlixOptions?.options?.acadlix_one_click_checkout ?? "no",
-    acadlix_admin_auto_registration_to_courses:
-      acadlixOptions?.options?.acadlix_admin_auto_registration_to_courses ??
-      "no",
-    acadlix_admin_can_assign_courses_to_student:
-      acadlixOptions?.options?.acadlix_admin_can_assign_courses_to_student ??
-      "no",
-    acadlix_admin_can_remove_student_from_course:
-      acadlixOptions?.options?.acadlix_admin_can_remove_student_from_course ??
-      "no",
+    // Currency Options
     acadlix_currency: acadlixOptions?.options?.acadlix_currency ?? "USD",
     acadlix_currency_position:
       acadlixOptions?.options?.acadlix_currency_position ?? "Left ( $99.99 )",
@@ -81,6 +75,19 @@ const Setting = () => {
       acadlixOptions?.options?.acadlix_decimal_seprator ?? ".",
     acadlix_number_of_decimals:
       acadlixOptions?.options?.acadlix_number_of_decimals ?? 2,
+    // Admin Options
+    acadlix_admin_auto_registration_to_courses:
+      acadlixOptions?.options?.acadlix_admin_auto_registration_to_courses ??
+      "no",
+    acadlix_admin_can_assign_courses_to_student:
+      acadlixOptions?.options?.acadlix_admin_can_assign_courses_to_student ??
+      "no",
+    acadlix_admin_can_remove_student_from_course:
+      acadlixOptions?.options?.acadlix_admin_can_remove_student_from_course ??
+      "no",
+    acadlix_default_rows_per_page:
+      acadlixOptions?.options?.acadlix_default_rows_per_page ?? 20,
+    // Data management
     acadlix_delete_data_on_plugin_uninstall:
       acadlixOptions?.options?.acadlix_delete_data_on_plugin_uninstall ?? "no",
     // Payment option

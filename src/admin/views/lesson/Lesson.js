@@ -37,7 +37,7 @@ import CustomTextField from "@acadlix/components/CustomTextField";
 const Lesson = () => {
   const defaultPaginationModel = {
     page: parseInt(localStorage.getItem('adminLessonPage') || '0', 10),
-    pageSize: parseInt(localStorage.getItem('adminLessonPageSize') || '10', 10),
+    pageSize: parseInt(localStorage.getItem('adminLessonPageSize') || acadlixOptions?.settings?.acadlix_default_rows_per_page, 10),
   };
 
   const methods = useForm({

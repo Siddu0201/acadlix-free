@@ -25,7 +25,7 @@ import CustomTextField from "@acadlix/components/CustomTextField";
 const Order = () => {
   const defaultPaginationModel = {
     page: parseInt(localStorage.getItem('adminOrderPage') || '0', 10),
-    pageSize: parseInt(localStorage.getItem('adminOrderPageSize') || '10', 10),
+    pageSize: parseInt(localStorage.getItem('adminOrderPageSize') || acadlixOptions?.settings?.acadlix_default_rows_per_page, 10),
   };
 
   const methods = useForm({

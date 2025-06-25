@@ -523,20 +523,24 @@ if (!class_exists('Helper')) {
         public function acadlix_options()
         {
             $options = [
+                // Page Setup
                 'acadlix_dashboard_page_id' => null,
                 'acadlix_cart_page_id' => null,
                 'acadlix_checkout_page_id' => null,
                 'acadlix_thankyou_page_id' => null,
                 'acadlix_no_of_courses_per_page' => 10,
                 'acadlix_one_click_checkout' => "no",
-                'acadlix_admin_auto_registration_to_courses' => "no",
-                'acadlix_admin_can_assign_courses_to_student' => "no",
-                'acadlix_admin_can_remove_student_from_course' => "no",
+                // Currency Option
                 'acadlix_currency' => "USD",
                 'acadlix_currency_position' => "Left ( $99.99 )",
                 'acadlix_thousand_separator' => ",",
                 'acadlix_decimal_seprator' => ".",
                 'acadlix_number_of_decimals' => 2,
+                // Admin Option
+                'acadlix_admin_auto_registration_to_courses' => "no",
+                'acadlix_admin_can_assign_courses_to_student' => "no",
+                'acadlix_admin_can_remove_student_from_course' => "no",
+                'acadlix_default_rows_per_page' => 20,
                 'acadlix_delete_data_on_plugin_uninstall' => "no",  
                 // Payment option
                 'acadlix_razorpay_active' => "no",
