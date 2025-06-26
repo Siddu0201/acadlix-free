@@ -229,7 +229,7 @@ const Home = () => {
               color="success"
               LinkComponent="a"
               target="__blank"
-              href="https://acadlix.com/contact-us/"
+              href={acadlixOptions?.acadlix_contact_us_url}
             >
               {__("Let's Discuss", "acadlix")}
             </Button>
@@ -284,7 +284,7 @@ const Home = () => {
               color="success"
               LinkComponent="a"
               target="__blank"
-              href="https://acadlix.com/contact-us/"
+              href={acadlixOptions?.acadlix_contact_us_url}
             >
               {__("Get Help Now", "acadlix")}
             </Button>
@@ -340,7 +340,7 @@ const Home = () => {
               color="success"
               LinkComponent="a"
               target="__blank"
-              href="https://acadlix.com/docs/acadlix/"
+              href={acadlixOptions?.acadlix_documentation_url}
             >
               {__("Explore Docs", "acadlix")}
             </Button>

@@ -22,16 +22,6 @@ if (!defined('ACADLIX_PLUGIN_FILE')) {
     include_once 'includes/acadlix-contant.php';
 }
 
-if (!defined('ACADLIX_VERSION')) {
-    // define('ACADLIX_VERSION', '1.0.1');
-    if (!function_exists('get_file_data')) {
-        require_once ABSPATH . 'wp-includes/functions.php';
-    }
-
-    $plugin_data = get_file_data(__FILE__, ['Version' => 'Version']);
-    define('ACADLIX_VERSION', $plugin_data['Version']);
-}
-
 if (function_exists('acadlix')) {
     return;
 }

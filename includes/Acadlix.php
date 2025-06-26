@@ -44,6 +44,10 @@ namespace Yuvayana\Acadlix {
             $constants = [
                 'ACADLIX_PLUGIN_NAME' => $pluginData['name'],
                 'ACADLIX_VERSION' => $pluginData['version'],
+                'ACADLIX_MARKETPLACE_URL' => 'https://acadlix.com/',
+                'ACADLIX_DOCUMENTATION_URL' => 'https://acadlix.com/docs/acadlix/',
+                'ACADLIX_CONTACT_US_URL' => 'https://acadlix.com/contact-us/',
+                'ACADLIX_MARKETING_DOMAIN'  => 'acadlix.com'
             ];
 
             foreach ($constants as $constant => $value) {

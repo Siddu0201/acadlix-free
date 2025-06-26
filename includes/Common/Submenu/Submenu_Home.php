@@ -51,6 +51,8 @@ class Submenu_Home
             'user_id' => get_current_user_id(),
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
+            'acadlix_documentation_url' => ACADLIX_DOCUMENTATION_URL,
+            'acadlix_contact_us_url' => ACADLIX_CONTACT_US_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
