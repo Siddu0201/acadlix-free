@@ -8,6 +8,9 @@ $success = false;
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- payerID for paypal
 $payerID = isset($_GET['payerID']) ? sanitize_text_field(wp_unslash($_GET['payerID'])) : "";
 
+$courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
+$dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
+
 function capture_paypal_order($order_id)
 {
     $client_id = acadlix()->helper()->acadlix_get_option("acadlix_paypal_client_id"); // Your PayPal Client ID
@@ -225,26 +228,36 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
 
 if ($success) {
     ?>
-            <div><?php esc_html_e('Payment Success', 'acadlix'); ?></div>
+            <div>
+                <h2><?php esc_html_e('Payment Success', 'acadlix'); ?> ✅</h2>
+                <div><?php esc_html_e('Thank you! Your payment was completed successfully.', 'acadlix'); ?></div>
+                <div><?php esc_html_e('You can now access your purchased course or content.', 'acadlix'); ?></div>
+                <a href="<?php echo esc_url($dashboard_url) ?>"><?php esc_html_e('Go to Dashboard', 'acadlix'); ?></a>
+            </div>
             <?php
 } else {
     ?>
-            <div><?php esc_html_e('Payemnt Failed', 'acadlix'); ?></div>
+            <div>
+                <h2><?php esc_html_e('Payemnt Failed', 'acadlix'); ?> ❌</h2>
+                <div><?php esc_html_e('Sorry, your payment could not be completed.', 'acadlix'); ?></div>
+                <div><?php esc_html_e('Please try again or use a different payment method.', 'acadlix'); ?></div>
+                <a href="<?php echo esc_url($courses_url) ?>"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
+            </div>
             <?php
 }
 ?>
 
-        <?php the_content(); ?>
-        <?php
+            <?php the_content(); ?>
+            <?php
 
-        if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
-            $theme = wp_get_theme();
-            $theme_slug = $theme->get('TextDomain');
-            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . esc_attr($theme_slug) . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->'));
-            echo '</div>';
-            wp_footer();
-            echo '</body>';
-            echo '</html>';
-        } else {
-            get_footer();
-        }
+            if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
+                $theme = wp_get_theme();
+                $theme_slug = $theme->get('TextDomain');
+                echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"footer","theme":"' . esc_attr($theme_slug) . '","tagName":"footer","className":"site-footer","layout":{"inherit":true}} /-->'));
+                echo '</div>';
+                wp_footer();
+                echo '</body>';
+                echo '</html>';
+            } else {
+                get_footer();
+            }

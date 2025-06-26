@@ -3,7 +3,6 @@
 namespace Yuvayana\Acadlix\Common\REST\Admin;
 
 use WP_REST_Server;
-use Yuvayana\Acadlix\Common\Models\Template;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly

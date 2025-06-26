@@ -4,8 +4,6 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 
 use WP_REST_Server;
 
-use Yuvayana\Acadlix\Common\Models\Subject;
-
 defined( 'ABSPATH' ) || exit();
 
 class AdminSubjectController {

@@ -4,16 +4,6 @@ namespace Yuvayana\Acadlix\Common\Admin;
 
 use WP_User;
 
-use Yuvayana\Acadlix\Common\Models\Course;
-use Yuvayana\Acadlix\Common\Models\CourseCart;
-
-use Yuvayana\Acadlix\Common\Models\Lesson;
-use Yuvayana\Acadlix\Common\Models\Paragraph;
-use Yuvayana\Acadlix\Common\Models\Quiz;
-use Yuvayana\Acadlix\Common\Models\StatisticRef;
-use Yuvayana\Acadlix\Common\Models\Toplist;
-use Yuvayana\Acadlix\Common\Models\UserActivityMeta;
-
 defined('ABSPATH') || exit;
 
 class Core
@@ -23,6 +13,8 @@ class Core
     {
         add_action('wp_login', [$this, 'acadlix_sync_data_on_login'], 10, 2);
         add_filter('use_block_editor_for_post_type', array($this, 'acadlix_gutenberg_disable_cpt'), 10, 2);
+
+        add_action('init', [$this, 'acadlix_flush_rewrite_rules']);
     }
 
     public function acadlix_sync_data_on_login($user_login, WP_User $user)
@@ -168,18 +160,26 @@ class Core
             ACADLIX_QUIZ_CATEGORY_TAXONOMY,
             ACADLIX_QUIZ_LANGUAGE_TAXONOMY
         ];
-        foreach($taxonomies as $taxonomy) {
+        foreach ($taxonomies as $taxonomy) {
             $terms = get_terms([
-                'taxonomy'   => $taxonomy,
+                'taxonomy' => $taxonomy,
                 'hide_empty' => false,
             ]);
-        
+
             if (!is_wp_error($terms) && !empty($terms)) {
                 foreach ($terms as $term) {
                     wp_delete_term($term->term_id, $taxonomy);
                 }
             }
             unregister_taxonomy($taxonomy);
+        }
+    }
+
+    public function acadlix_flush_rewrite_rules()
+    {
+        if (get_option('acadlix_flush_rewrite')) {
+            flush_rewrite_rules();
+            delete_option('acadlix_flush_rewrite'); // prevent repeated flushing
         }
     }
 

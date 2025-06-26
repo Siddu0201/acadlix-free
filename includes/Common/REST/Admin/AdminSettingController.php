@@ -2,10 +2,7 @@
 
 namespace Yuvayana\Acadlix\Common\REST\Admin;
 
-use WP_Error;
 use WP_REST_Server;
-use Yuvayana\Acadlix\Common\Helper\EmailHelper;
-use Yuvayana\Acadlix\Common\Helper\Helper;
 
 defined('ABSPATH') || exit();
 
@@ -72,12 +69,30 @@ class AdminSettingController
     {
         $res = [];
         $params = $request->get_json_params();
+
+        $old_course_base = acadlix()->helper()->acadlix_get_option('acadlix_course_base') ?? null;
+        $new_course_base = array_key_exists('acadlix_course_base', $params) ? $params['acadlix_course_base'] : null;
+
+        $old_course_category_base = acadlix()->helper()->acadlix_get_option('acadlix_course_category_base') ?? null;
+        $new_course_category_base = array_key_exists('acadlix_course_category_base', $params) ? $params['acadlix_course_category_base'] : null;
+
+        $old_course_tag_base = acadlix()->helper()->acadlix_get_option('acadlix_course_tag_base') ?? null;
+        $new_course_tag_base = array_key_exists('acadlix_course_tag_base', $params) ? $params['acadlix_course_tag_base'] : null;
+
+        if($old_course_base && $new_course_base && $old_course_base != $new_course_base){
+            acadlix()->helper()->acadlix_update_option('acadlix_flush_rewrite', true);
+        }
+        if($old_course_category_base && $new_course_category_base && $old_course_category_base != $new_course_category_base){
+            acadlix()->helper()->acadlix_update_option('acadlix_flush_rewrite', true);
+        }
+        if($old_course_tag_base && $new_course_tag_base && $old_course_tag_base != $new_course_tag_base){
+            acadlix()->helper()->acadlix_update_option('acadlix_flush_rewrite', true);
+        }
         if (is_array($params)) {
             foreach ($params as $key => $value) {
                 acadlix()->helper()->acadlix_update_option($key, $value);
             }
         }
-        flush_rewrite_rules();
         $res['options'] = acadlix()->helper()->acadlix_get_all_options();
         return rest_ensure_response($res);
     }
