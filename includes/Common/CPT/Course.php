@@ -3,7 +3,6 @@
 namespace Yuvayana\Acadlix\Common\CPT;
 
 use WP_Post;
-use Yuvayana\Acadlix\Common\Models\OrderItem;
 
 defined('ABSPATH') || exit();
 
@@ -15,6 +14,9 @@ final class Course extends CPT_Abstract
      * @var string
      */
     protected $_post_type = ACADLIX_COURSE_CPT;
+
+    protected $_course_category_taxonomy = ACADLIX_COURSE_CATEGORY_TAXONOMY;
+    protected $_course_tag_taxonomy = ACADLIX_COURSE_TAG_TAXONOMY;
 
     public function __construct()
     {
@@ -29,6 +31,16 @@ final class Course extends CPT_Abstract
     public function get_post_type()
     {
         return $this->_post_type;
+    }
+
+    public function get_course_category_taxonomy()
+    {
+        return $this->_course_category_taxonomy;
+    }
+
+    public function get_course_tag_taxonomy()
+    {
+        return $this->_course_tag_taxonomy;
     }
 
     public function args_register_post_type(): array
@@ -65,7 +77,7 @@ final class Course extends CPT_Abstract
             'show_in_admin_bar' => true,
             'show_in_nav_menus' => true,
             'show_in_rest' => $show_in_rest,
-            'taxonomies' => array(ACADLIX_COURSE_CATEGORY_TAXONOMY, ACADLIX_COURSE_TAG_TAXONOMY),
+            'taxonomies' => array($this->get_course_category_taxonomy(), $this->get_course_tag_taxonomy()),
             'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'comments', 'excerpt'),
             'hierarchical' => false,
             'rewrite' => !empty($course_permalink) ? array(
@@ -97,8 +109,8 @@ final class Course extends CPT_Abstract
         $course_category_permalink = acadlix()->helper()->acadlix_get_option("acadlix_course_category_base");
         $course_tag_permalink = acadlix()->helper()->acadlix_get_option("acadlix_course_tag_base");
         register_taxonomy(
-            ACADLIX_COURSE_CATEGORY_TAXONOMY,
-            array(ACADLIX_COURSE_CPT),
+            $this->get_course_category_taxonomy(),
+            array($this->get_post_type()),
             array(
                 'label' => __('Course Categories', "acadlix"),
                 'labels' => array(
@@ -136,8 +148,8 @@ final class Course extends CPT_Abstract
         );
 
         register_taxonomy(
-            ACADLIX_COURSE_TAG_TAXONOMY,
-            array(ACADLIX_COURSE_CPT),
+            $this->get_course_tag_taxonomy(),
+            array($this->get_post_type()),
             array(
                 'labels' => array(
                     'name' => __('Course Tags', 'acadlix'),
@@ -179,7 +191,7 @@ final class Course extends CPT_Abstract
 
     public function save_post(int $postId = 0, WP_Post $post = null, bool $isUpdate = false): void
     {
-        if ($post->post_type !== ACADLIX_COURSE_CPT) {
+        if ($post->post_type !== $this->get_post_type()) {
             return;
         }
 
@@ -200,8 +212,8 @@ final class Course extends CPT_Abstract
         $new_order['cb'] = $columns['cb'];
         $new_order['title'] = $columns['title'];
         $new_order['author'] = esc_html__('Author', "acadlix");
-        $new_order['taxonomy-' . ACADLIX_COURSE_CATEGORY_TAXONOMY] = esc_html__('Categories', "acadlix");
-        $new_order['taxonomy-' . ACADLIX_COURSE_TAG_TAXONOMY] = esc_html__('Tags', "acadlix");
+        $new_order['taxonomy-' . $this->get_course_category_taxonomy()] = esc_html__('Categories', "acadlix");
+        $new_order['taxonomy-' . $this->get_course_tag_taxonomy()] = esc_html__('Tags', "acadlix");
         $new_order['students'] = esc_html__('Students', "acadlix");
         $new_order['price'] = esc_html__('Price', "acadlix");
         // $new_order['review'] = esc_html__('Review', "acadlix");
@@ -291,7 +303,7 @@ final class Course extends CPT_Abstract
 
     public function add_nonce_field_to_edit_form($post)
     {
-        if ($post->post_type !== ACADLIX_COURSE_CPT)
+        if ($post->post_type !== $this->get_post_type())
             return;
         echo   '<div id="acadlix-admin-course-ai-content" style="padding-bottom: 4px;">
                 </div>';
