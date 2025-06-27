@@ -33,6 +33,8 @@ class Menu
         add_action("admin_menu", [$this, 'init_admin_menu']);
         add_filter('parent_file', [$this, 'acadlix_set_active_menu_class']);
         add_action('admin_menu', [$this, 'modify_admin_menu_title'], 999);
+
+        add_action("admin_head", [$this, 'acadlix_admin_head']);
     }
 
     public function modify_admin_menu_title()
@@ -45,6 +47,25 @@ class Menu
             if (isset($submenu['acadlix'][0])) { // Index 0 for the first submenu item
                 $submenu['acadlix'][0][0] = __('Home', 'acadlix'); // New title
             }
+        }
+    }
+
+    public function acadlix_admin_head(){
+        if (!isset($_GET['page'])) return;
+
+        $target_pages = [
+            'acadlix',
+            'acadlix_lesson', 
+            'acadlix_quiz', 
+            'acadlix_order', 
+            'acadlix_assignment', 
+            'acadlix_setting',
+            'abqu'
+        ]; // your submenu slugs
+    
+        // Remove screen options for specific pages (built in react)
+        if (in_array($_GET['page'], $target_pages, true)) {
+            echo '<style>#screen-options-link-wrap { display: none !important; }</style>';
         }
     }
 
