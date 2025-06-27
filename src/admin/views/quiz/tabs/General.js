@@ -6,10 +6,10 @@ import {
   Divider,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import CustomSwitch from "../../../../components/CustomSwitch";
-import GridItem1 from "../../../../components/GridItem1";
-import CustomTextField from "../../../../components/CustomTextField";
-import CustomTypography from "../../../../components/CustomTypography";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomTypography from "@acadlix/components/CustomTypography";
 import { __ } from "@wordpress/i18n";
 
 const ClearResponseButton = React.lazy(() =>

@@ -1,7 +1,8 @@
 import React from 'react'
 import { __ } from "@wordpress/i18n";
-import { FormControlLabel } from '@mui/material';
+import { Box, FormControlLabel, IconButton, Tooltip } from '@mui/material';
 import CustomSwitch from '@acadlix/components/CustomSwitch';
+import { RiQuestionFill } from '../../../../../helpers/icons';
 
 const CheckOptionButton = (props) => {
     return (
@@ -25,7 +26,17 @@ const CheckOptionButton = (props) => {
                     // }}
                 />
             }
-            label={__("Show Check Button When Option Selected", 'acadlix')}
+            // label={__("Show Check Button When Option Selected", 'acadlix')}
+            label={
+                <Box display="flex" alignItems="center" gap={1}>
+                    {__('Show Check Button When Option Selected', 'acadlix')}
+                    <Tooltip title={__('"Enable this option to display a check button when a student selects an answer."', 'acadlix')} placement="right">
+                        <IconButton size="small">
+                            <RiQuestionFill size={16} />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            }
         />
     )
 }

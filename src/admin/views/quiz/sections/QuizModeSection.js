@@ -3,12 +3,16 @@ import {
   Card,
   CardContent,
   CardHeader,
+  IconButton,
   Radio,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "../../../../components/CustomTextField";
 import { __ } from "@wordpress/i18n";
+import { RiQuestionFill } from "../../../../helpers/icons";
 
 const BackButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -37,13 +41,25 @@ const QuizModeSection = (props) => {
     <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
         <CardHeader
-          title={__('Mode', 'acadlix')}
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-              color: "black",
-            },
-          }}
+          title={
+            <Box sx={{
+              display: "flex"
+            }}>
+              <Typography variant="h5">{__("Mode", "acadlix")}</Typography>
+              <Tooltip
+                title={__("Choose from various modes. Some features are mode-dependent.", "acadlix")}
+                placement="right-start"
+              >
+                <IconButton
+                  sx={{
+                    fontSize: "1.25rem",
+                  }}
+                >
+                  <RiQuestionFill />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          }
         />
         <CardContent>
           <Grid container spacing={3}>

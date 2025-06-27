@@ -26,6 +26,11 @@ final class Course extends CPT_Abstract
         add_action('edit_form_after_title', [$this, 'add_nonce_field_to_edit_form']);
     }
 
+    public function get_post_type()
+    {
+        return $this->_post_type;
+    }
+
     public function args_register_post_type(): array
     {
         $labels = array(
