@@ -1,10 +1,10 @@
 import React from 'react'
-import { GetStatisticByStatisticId } from '../../../requests/front/FrontStatisticRequest';
+import { GetStatisticByStatisticId } from '@acadlix/requests/front/FrontStatisticRequest';
 import { Link, useParams } from 'react-router-dom';
-import AnswerSheet from '../../../modules/answersheet/AnswerSheet';
+import AnswerSheet from '@acadlix/modules/answersheet/AnswerSheet';
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { TiArrowLeftThick } from '../../../helpers/icons';
+import { TiArrowLeftThick } from '@acadlix/helpers/icons';
 import { __ } from "@wordpress/i18n";
 
 const ViewAnswersheet = () => {

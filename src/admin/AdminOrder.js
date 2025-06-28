@@ -1,6 +1,6 @@
 import React from "react";
-import Provider from "../provider/Provider";
-import AdminLayout from "../layout/AdminLayout";
+import Provider from "@acadlix/provider/Provider";
+import AdminLayout from "@acadlix/layout/AdminLayout";
 import { Toaster } from "react-hot-toast";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";

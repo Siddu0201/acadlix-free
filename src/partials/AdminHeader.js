@@ -10,9 +10,9 @@ import {
   MenuItem,
   Toolbar,
 } from "@mui/material";
-import menus from "../menu/AdminMenu";
-import AcadlixLogo from "../images/acadlix_logo.png";
-import { IoMdMenu } from "../helpers/icons";
+import menus from "@acadlix/menu/AdminMenu";
+import AcadlixLogo from "@acadlix/images/acadlix_logo.png";
+import { IoMdMenu } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const AdminHeader = () => {

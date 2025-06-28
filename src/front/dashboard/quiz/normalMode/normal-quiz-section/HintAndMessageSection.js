@@ -2,7 +2,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
 
-import CustomLatex from "../../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const HintAndMessageSection = (props) => {
   const theme = useTheme();

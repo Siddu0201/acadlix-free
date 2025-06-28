@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff } from "../../../helpers/icons";
+import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff } from "@acadlix/helpers/icons";
 import { useForm } from "react-hook-form";
 import {
   Card,

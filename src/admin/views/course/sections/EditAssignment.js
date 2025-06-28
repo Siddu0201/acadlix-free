@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import BootstrapDialog from '../modals/BootstrapDialog';
-import { FaEdit } from '../../../../helpers/icons';
-import { PostUpdateAssignmentById } from '../../../../requests/admin/AdminCourseRequest';
+import { FaEdit } from '@acadlix/helpers/icons';
+import { PostUpdateAssignmentById } from '@acadlix/requests/admin/AdminCourseRequest';
 import { IconButton } from '@mui/material';
 
 const EditAssignmentModal = React.lazy(() =>

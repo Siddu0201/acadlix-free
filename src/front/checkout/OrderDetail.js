@@ -13,10 +13,10 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { FaTrashAlt } from "../../helpers/icons";
-import { DeleteCourseFromCart } from "../../requests/front/FrontCheckoutRequest";
+import { FaTrashAlt } from "@acadlix/helpers/icons";
+import { DeleteCourseFromCart } from "@acadlix/requests/front/FrontCheckoutRequest";
 import { RawHTML } from "@wordpress/element";
-import { currencyPosition } from "../../helpers/util";
+import { currencyPosition } from "@acadlix/helpers/util";
 
 const OrderDetail = (props) => {
   return (

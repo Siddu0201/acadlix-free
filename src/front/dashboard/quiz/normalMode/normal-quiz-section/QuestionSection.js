@@ -15,7 +15,7 @@ import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 import Latex from 'react-latex-next';
-import CustomLatex from "../../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const QuestionSection = (props) => {
   const answerType = (data = {}, lang_index = 0) => {

@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import GridItem1 from "../../../../components/GridItem1";
+import GridItem1 from "@acadlix/components/GridItem1";
 import { __ } from "@wordpress/i18n";
 
 function MatrixSortingChoice(props) {

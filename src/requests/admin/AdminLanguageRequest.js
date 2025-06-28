@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useInstance } from "../../helpers/util"
+import { useInstance } from "@acadlix/helpers/util"
 
 const base = "/admin-language";
 

@@ -2,22 +2,22 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import { __ } from "@wordpress/i18n";
-import { shuffleArrayBasedOnOrder } from "../../helpers/util";
-import TypeSingleChoice from "../../front/dashboard/quiz/questionTypes/TypeSingleChoice";
-import TypeMultipleChoice from "../../front/dashboard/quiz/questionTypes/TypeMultipleChoice";
-import TypeTrueFalse from "../../front/dashboard/quiz/questionTypes/TypeTrueFalse";
-import TypeSortingChoice from "../../front/dashboard/quiz/questionTypes/TypeSortingChoice";
-import TypeMatrixSortingChoice from "../../front/dashboard/quiz/questionTypes/TypeMatrixSortingChoice";
-import TypeFill from "../../front/dashboard/quiz/questionTypes/TypeFill";
-import TypeNumerical from "../../front/dashboard/quiz/questionTypes/TypeNumerical";
-import TypeRange from "../../front/dashboard/quiz/questionTypes/TypeRange";
-import QuestionSubjectAndPointSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
-import LanguageSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
-import QuestionStatusSection from "../../front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
+import { shuffleArrayBasedOnOrder } from "@acadlix/helpers/util";
+import TypeSingleChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeSingleChoice";
+import TypeMultipleChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeMultipleChoice";
+import TypeTrueFalse from "@acadlix/front/dashboard/quiz/questionTypes/TypeTrueFalse";
+import TypeSortingChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeSortingChoice";
+import TypeMatrixSortingChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeMatrixSortingChoice";
+import TypeFill from "@acadlix/front/dashboard/quiz/questionTypes/TypeFill";
+import TypeNumerical from "@acadlix/front/dashboard/quiz/questionTypes/TypeNumerical";
+import TypeRange from "@acadlix/front/dashboard/quiz/questionTypes/TypeRange";
+import QuestionSubjectAndPointSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
+import LanguageSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
+import QuestionStatusSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import PropTypes from "prop-types";
-import TypeFreeChoice from "../../front/dashboard/quiz/questionTypes/TypeFreeChoice";
+import TypeFreeChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeFreeChoice";
 
-import CustomLatex from "../latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const AnswerSheet = ({
     statistic = [],

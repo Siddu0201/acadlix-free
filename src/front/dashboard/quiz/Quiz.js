@@ -2,8 +2,8 @@ import { Box, CircularProgress, Skeleton } from '@mui/material'
 import React from 'react'
 import QuizContent from './QuizContent';
 import { useMediaQuery, useTheme} from '@mui/material'
-import { GetFrontQuizById } from '../../../requests/front/FrontQuizRequest';
-import Loader from '../../../components/Loader';
+import { GetFrontQuizById } from '@acadlix/requests/front/FrontQuizRequest';
+import Loader from '@acadlix/components/Loader';
 
 const Quiz = (props) => {
   const theme = useTheme();

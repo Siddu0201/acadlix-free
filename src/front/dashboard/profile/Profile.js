@@ -17,11 +17,11 @@ import {
   GetUserProfile,
   PostUpdateUserPhoto,
   PostUpdateUserProfile,
-} from "../../../requests/front/FrontDashboardRequest";
+} from "@acadlix/requests/front/FrontDashboardRequest";
 import { useForm } from "react-hook-form";
 import { Country } from "country-state-city";
 import toast from "react-hot-toast";
-import { GrUserManager, SlLocationPin } from "../../../helpers/icons";
+import { GrUserManager, SlLocationPin } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const Profile = () => {

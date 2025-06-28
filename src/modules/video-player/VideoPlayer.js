@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { createRoot, createElement } from "@wordpress/element";
 import Plyr from "plyr";
 import { RawHTML } from "@wordpress/element";
-import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "../../helpers/icons";
-import { convertTime } from "../../helpers/util";
+import { GiNextButton, GiPreviousButton, RiExpandDiagonalFill, MdCloseFullscreen } from "@acadlix/helpers/icons";
+import { convertTime } from "@acadlix/helpers/util";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 

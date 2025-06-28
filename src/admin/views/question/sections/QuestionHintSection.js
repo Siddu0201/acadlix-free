@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, FormControlLabel } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import CustomSwitch from "../../../../components/CustomSwitch";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { __ } from "@wordpress/i18n";
 
 const QuestionHintSection = (props) => {

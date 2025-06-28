@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
-import { PostCreateSubject } from "../../../../requests/admin/AdminSubjectRequest";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import { PostCreateSubject } from "@acadlix/requests/admin/AdminSubjectRequest";
 import { __ } from "@wordpress/i18n";
 
 const GeneralOptionSection = (props) => {

@@ -18,9 +18,9 @@ import {
 import { Avatar, Box, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import { __ } from "@wordpress/i18n";
-import { RxCross2, TiTick } from "../../../../helpers/icons";
+import { RxCross2, TiTick } from "@acadlix/helpers/icons";
 
-import CustomLatex from "../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const TypeMatrixSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);

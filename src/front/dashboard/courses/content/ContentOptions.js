@@ -1,6 +1,6 @@
 import { Box, Button, IconButton } from "@mui/material";
 import React from "react";
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "../../../../helpers/icons";
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const ContentOptions = (props) => {

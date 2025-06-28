@@ -2,9 +2,9 @@ import { Autocomplete, Box, Button, Card, CardContent, CircularProgress, Divider
 import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { __ } from '@wordpress/i18n';
-import CustomTypography from '../../../../components/CustomTypography';
-import { GetOrderCourses, GetOrderUsers } from '../../../../requests/admin/AdminOrderRequest';
-import CustomSwitch from '../../../../components/CustomSwitch';
+import CustomTypography from '@acadlix/components/CustomTypography';
+import { GetOrderCourses, GetOrderUsers } from '@acadlix/requests/admin/AdminOrderRequest';
+import CustomSwitch from '@acadlix/components/CustomSwitch';
 
 const OrderOptions = (props) => {
     return (

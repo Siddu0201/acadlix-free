@@ -1,10 +1,10 @@
 import { Box, Button, Dialog, styled } from "@mui/material";
 import React from "react";
-import { FaPlus } from "../../../../helpers/icons";
+import { FaPlus } from "@acadlix/helpers/icons";
 import { useForm } from "react-hook-form";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import AddEditSectionModal from "../modals/AddEditSectionModal";
-import { PostCreateSection } from "../../../../requests/admin/AdminCourseRequest";
+import { PostCreateSection } from "@acadlix/requests/admin/AdminCourseRequest";
 import { __ } from "@wordpress/i18n";
 
 const AddSection = (props) => {

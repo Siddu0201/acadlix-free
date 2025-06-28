@@ -12,13 +12,13 @@ import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
-import First from "../../../../images/medal-1.svg";
-import Second from "../../../../images/medal-2.svg";
-import Third from "../../../../images/medal-3.svg";
-import { PostQuizLoadMoreLeaderderboard, PostResetLeaderboardByQuizId } from "../../../../requests/admin/AdminLeaderboardRequest";
-import { TiArrowLeftThick } from "../../../../helpers/icons";
+import First from "@acadlix/images/medal-1.svg";
+import Second from "@acadlix/images/medal-2.svg";
+import Third from "@acadlix/images/medal-3.svg";
+import { PostQuizLoadMoreLeaderderboard, PostResetLeaderboardByQuizId } from "@acadlix/requests/admin/AdminLeaderboardRequest";
+import { TiArrowLeftThick } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const QuizLeaderboard = () => {
   const styles = {

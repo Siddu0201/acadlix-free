@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-import CustomLatex from "../../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const ResultTextSection = (props) => {
   const getGradeText = (result_array = [], percent = 0) => {

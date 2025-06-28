@@ -1,8 +1,8 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
-import { FaPlus, FaTrash } from "../../../../helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import { FaPlus, FaTrash } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const Outcome = (props) => {

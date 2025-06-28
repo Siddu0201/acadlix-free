@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import Grid from '@mui/material/Grid2';
-import { IoClose } from "../../../../helpers/icons";
-import CustomTextField from "../../../../components/CustomTextField";
+import { IoClose } from "@acadlix/helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from '@wordpress/i18n'
 
 const AddEditSectionModal = (props) => {

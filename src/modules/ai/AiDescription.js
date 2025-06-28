@@ -19,12 +19,12 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { __, sprintf } from '@wordpress/i18n'
-import { IoClose } from '../../helpers/icons';
+import { IoClose } from '@acadlix/helpers/icons';
 import PropTypes from 'prop-types';
-import { PostGenerateDescription, PostImproveDescription } from '../../requests/ai/AiCommonRequest';
+import { PostGenerateDescription, PostImproveDescription } from '@acadlix/requests/ai/AiCommonRequest';
 import toast from 'react-hot-toast';
-import CustomTypography from '../../components/CustomTypography';
-import CustomTextField from '../../components/CustomTextField';
+import CustomTypography from '@acadlix/components/CustomTypography';
+import CustomTextField from '@acadlix/components/CustomTextField';
 import { RawHTML } from "@wordpress/element";
 
 const AiDescription = ({

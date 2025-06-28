@@ -1,10 +1,10 @@
 import React from "react";
 import { Typography, Box, styled } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import Picture1 from "../images/dashboard.svg";
-import Picture2 from "../images/blob-4-light-teal.svg";
-import Picture3 from "../images/blob-5-blue.svg";
-import Picture4 from "../images/blob-4-safrron.svg";
+import Picture1 from "@acadlix/images/dashboard.svg";
+import Picture2 from "@acadlix/images/blob-4-light-teal.svg";
+import Picture3 from "@acadlix/images/blob-5-blue.svg";
+import Picture4 from "@acadlix/images/blob-4-safrron.svg";
 import { useTheme } from "@mui/material/styles";
 import { dateI18n } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";

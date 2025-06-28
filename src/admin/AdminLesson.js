@@ -1,6 +1,6 @@
 import React from "react";
-import Provider from "../provider/Provider";
-import AdminLayout from "../layout/AdminLayout";
+import Provider from "@acadlix/provider/Provider";
+import AdminLayout from "@acadlix/layout/AdminLayout";
 import { Toaster } from "react-hot-toast";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -9,9 +9,9 @@ import Lesson from "./views/lesson/Lesson";
 import CreateLesson from "./views/lesson/CreateLesson";
 import EditLesson from "./views/lesson/EditLesson";
 import "./AdminLesson.css";
-import ScrollToTop from "../helpers/ScrollToTop";
+import ScrollToTop from "@acadlix/helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 const AdminLesson = () => {
   return (
     <Provider>

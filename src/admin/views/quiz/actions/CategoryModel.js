@@ -4,10 +4,10 @@ import Grid from '@mui/material/Grid2';
 import {
   GetCategories,
   PostCreateCategory,
-} from "../../../../requests/admin/AdminCategoryRequest";
+} from "@acadlix/requests/admin/AdminCategoryRequest";
 import { useForm } from "react-hook-form";
-import { IoClose } from "../../../../helpers/icons";
-import { PostSetCategory } from "../../../../requests/admin/AdminQuizRequest";
+import { IoClose } from "@acadlix/helpers/icons";
+import { PostSetCategory } from "@acadlix/requests/admin/AdminQuizRequest";
 import { __ } from "@wordpress/i18n";
 
 const CategoryModel = (props) => {

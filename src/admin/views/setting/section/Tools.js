@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, TextField, FormControlLabel, Button } from "@mui/material";
-import Row from "../../../../components/Row";
+import Row from "@acadlix/components/Row";
 import { __ } from "@wordpress/i18n";
 function Tools() {
   return (

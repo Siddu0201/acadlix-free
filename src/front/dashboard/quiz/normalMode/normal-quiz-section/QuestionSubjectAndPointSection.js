@@ -1,7 +1,7 @@
 import { Box, Button, Tooltip, Typography } from "@mui/material";
 import React from "react";
-import { secondsToHms } from "../../../../../helpers/util";
-import { MdOutlineReviews, MdReviews, FaRegBookmark } from "../../../../../helpers/icons";
+import { secondsToHms } from "@acadlix/helpers/util";
+import { MdOutlineReviews, MdReviews, FaRegBookmark } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const QuestionSubjectAndPointSection = (props) => {

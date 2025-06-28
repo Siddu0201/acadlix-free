@@ -12,7 +12,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
-import { currencyPosition } from "../../helpers/util";
+import { currencyPosition } from "@acadlix/helpers/util";
 
 const OrderSummary = (props) => {
   const is_payment_gateway_active = () => {

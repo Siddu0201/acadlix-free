@@ -2,13 +2,13 @@ import { Autocomplete, Box, CircularProgress, Divider, TextField, Typography } f
 import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import CustomTextField from '../../../../components/CustomTextField';
-import { DeleteCategoryById, GetCategories, PostCreateCategory, UpdateCategoryById } from '../../../../requests/admin/AdminCategoryRequest';
+import CustomTextField from "@acadlix/components/CustomTextField";
+import { DeleteCategoryById, GetCategories, PostCreateCategory, UpdateCategoryById } from "@acadlix/requests/admin/AdminCategoryRequest";
 import toast from 'react-hot-toast';
 import { LoadingButton } from '@mui/lab';
-import { DefaultLanguageById, GetLanguages, PostCreateLanguage, UpdateLanguageById } from '../../../../requests/admin/AdminLanguageRequest';
+import { DefaultLanguageById, GetLanguages, PostCreateLanguage, UpdateLanguageById } from "@acadlix/requests/admin/AdminLanguageRequest";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from '../../../../helpers/util';
+import { hasCapability } from "@acadlix/helpers/util";
 
 const QuizSettings = (props) => {
     const methods = useForm({

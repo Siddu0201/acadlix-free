@@ -7,7 +7,7 @@ import {
   Typography,
   AccordionDetails,
 } from "@mui/material";
-import { FaAngleDown } from "../../../../helpers/icons";
+import { FaAngleDown } from "@acadlix/helpers/icons";
 import SidebarListItem from "./SidebarListItem";
 import { __ } from "@wordpress/i18n";
 

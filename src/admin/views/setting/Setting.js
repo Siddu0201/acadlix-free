@@ -14,11 +14,11 @@ import Notification from "./section/Notification";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Permalink from "./section/Permalink";
 import { useForm } from "react-hook-form";
-import { PostUpdateSetting } from "../../../requests/admin/AdminSettingRequest";
+import { PostUpdateSetting } from "@acadlix/requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import QuizSettings from "./section/QuizSettings";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 import Integration from "./section/Integration";
 
 const Setting = () => {

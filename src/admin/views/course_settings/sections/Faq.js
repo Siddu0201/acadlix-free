@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { FaPlus } from "../../../../helpers/icons";
+import { FaPlus } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const Faq = (props) => {

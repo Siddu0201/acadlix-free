@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useInstance } from "../../helpers/util";
+import { useInstance } from "@acadlix/helpers/util";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 

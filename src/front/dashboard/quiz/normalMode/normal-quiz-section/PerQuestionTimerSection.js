@@ -1,7 +1,7 @@
 import { Box, LinearProgress, Typography } from "@mui/material";
 import React from "react";
 import Countdown from "react-countdown";
-import { secondsToHms } from "../../../../../helpers/util";
+import { secondsToHms } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 
 const PerQuestionTimerSection = (props) => {

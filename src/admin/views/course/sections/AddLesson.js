@@ -2,12 +2,12 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import { useForm } from "react-hook-form";
-import { FaPlus } from "../../../../helpers/icons";
+import { FaPlus } from "@acadlix/helpers/icons";
 import AddLessonModal from "../modals/AddLessonModal";
 import toast from "react-hot-toast";
-import { PostAddLesson } from "../../../../requests/admin/AdminCourseRequest";
+import { PostAddLesson } from "@acadlix/requests/admin/AdminCourseRequest";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const AddLesson = (props) => {
   const methods = useForm({

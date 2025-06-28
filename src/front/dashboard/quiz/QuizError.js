@@ -1,6 +1,6 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
-import QuizWarning from "../../../images/quiz_warning.svg";
+import QuizWarning from "@acadlix/images/quiz_warning.svg";
 import { __ } from "@wordpress/i18n";
 
 const QuizError = (props) => {

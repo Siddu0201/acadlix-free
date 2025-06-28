@@ -1,10 +1,10 @@
 import { IconButton } from "@mui/material";
 import React from "react";
-import { FaEdit } from "../../../../helpers/icons";
+import { FaEdit } from "@acadlix/helpers/icons";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import AddEditSectionModal from "../modals/AddEditSectionModal";
 import { useForm } from "react-hook-form";
-import { UpdateSectionById } from "../../../../requests/admin/AdminCourseRequest";
+import { UpdateSectionById } from "@acadlix/requests/admin/AdminCourseRequest";
 
 const EditSection = (props) => {
   const methods = useForm({

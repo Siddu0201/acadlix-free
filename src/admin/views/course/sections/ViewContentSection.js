@@ -25,14 +25,14 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash, MdDragIndicator } from "../../../../helpers/icons";
+import { FaEdit, FaTrash, MdDragIndicator } from "@acadlix/helpers/icons";
 import {
   PostSortContent,
   RemoveContentFromSection,
-} from "../../../../requests/admin/AdminCourseRequest";
+} from "@acadlix/requests/admin/AdminCourseRequest";
 import EditLesson from "./EditLesson";
 import { __, sprintf } from "@wordpress/i18n";
-import { hasCapability } from "../../../../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 import EditAssignment from "./EditAssignment";
 
 const Preview = React.lazy(() =>

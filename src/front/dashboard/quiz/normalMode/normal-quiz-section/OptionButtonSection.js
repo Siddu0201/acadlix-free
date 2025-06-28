@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import CustomButton from "@acadlix/components/CustomButton";
-import { arrayRandomize, shuffleArrayBasedOnOrder } from "../../../../../helpers/util";
+import { arrayRandomize, shuffleArrayBasedOnOrder } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 
 const OptionButtonSection = (props) => {

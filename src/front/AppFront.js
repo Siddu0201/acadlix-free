@@ -1,5 +1,5 @@
 import React from "react";
-import Provider from "../provider/Provider";
+import Provider from "@acadlix/provider/Provider";
 import Quiz from "./dashboard/quiz/Quiz";
 import QuizError from "./dashboard/quiz/QuizError";
 import { __ } from "@wordpress/i18n";

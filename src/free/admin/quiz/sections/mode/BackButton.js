@@ -2,7 +2,7 @@ import React from 'react'
 import { __ } from "@wordpress/i18n";
 import { Box, FormControlLabel, IconButton, Tooltip } from '@mui/material';
 import CustomSwitch from '@acadlix/components/CustomSwitch';
-import { RiQuestionFill } from '../../../../../helpers/icons';
+import { RiQuestionFill } from '@acadlix/helpers/icons';
 
 const BackButton = (props) => {
     return (

@@ -1,10 +1,10 @@
 import React from "react";
-import Provider from "../provider/Provider";
+import Provider from "@acadlix/provider/Provider";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Toaster } from "react-hot-toast";
-import AdminLayout from "../layout/AdminLayout";
+import AdminLayout from "@acadlix/layout/AdminLayout";
 import Quiz from "./views/quiz/Quiz";
 import CreateQuiz from "./views/quiz/CreateQuiz";
 import EditQuiz from "./views/quiz/EditQuiz";
@@ -14,9 +14,9 @@ import EditQuestion from "./views/question/EditQuestion";
 import QuizResult from "./views/quiz/quiz-result/QuizResult";
 import QuizLeaderboard from "./views/quiz/quiz-leaderboard/QuizLeaderboard";
 import "./AdminQuiz.css";
-import ScrollToTop from "../helpers/ScrollToTop";
+import ScrollToTop from "@acadlix/helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const Paragraph = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'

@@ -1,7 +1,6 @@
 import { Alert, Box } from "@mui/material";
 import React, { useLayoutEffect } from "react";
 import NormalQuizMode from "./NormalQuizMode";
-// import AdvanceQuizMode from "./AdvanceQuizMode";
 import { useForm } from "react-hook-form";
 import DescriptionSection from "./normalMode/normal-quiz-section/DescriptionSection";
 import {
@@ -11,14 +10,14 @@ import {
   getOffset,
   secondsToHms,
   strtotime,
-} from "../../../helpers/util";
+} from "@acadlix/helpers/util";
 import {
   PostSaveQuizAttemptById,
   PostSaveResultById,
-} from "../../../requests/front/FrontQuizRequest";
-import { getCookie, setCookie } from "../../../helpers/cookie";
+} from "@acadlix/requests/front/FrontQuizRequest";
+import { getCookie, setCookie } from "@acadlix/helpers/cookie";
 import { __ } from "@wordpress/i18n";
-import { PostResultFeedback } from "../../../requests/ai/AiCommonRequest";
+import { PostResultFeedback } from "@acadlix/requests/ai/AiCommonRequest";
 import toast from "react-hot-toast";
 
 const AdvanceQuizMode = React.lazy(() =>

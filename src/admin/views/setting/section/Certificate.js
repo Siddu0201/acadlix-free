@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField, FormControlLabel } from "@mui/material";
+import { Box } from "@mui/material";
 import { __ } from "@wordpress/i18n";
 function Certificate() {
   return (

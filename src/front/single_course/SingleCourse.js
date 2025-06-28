@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import React, { useEffect } from 'react'
-import VideoPlayer from '../../modules/video-player/VideoPlayer';
-import { getVimeoVideoId, getYouTubeVideoId } from '../../helpers/util';
-import CustomLatex from '../../modules/latex/CustomLatex';
+import React from 'react'
+import VideoPlayer from '@acadlix/modules/video-player/VideoPlayer';
+import { getVimeoVideoId, getYouTubeVideoId } from '@acadlix/helpers/util';
+import CustomLatex from '@acadlix/modules/latex/CustomLatex';
 
 const SingleCourse = (props) => {
 

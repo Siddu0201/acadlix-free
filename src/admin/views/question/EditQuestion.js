@@ -1,8 +1,8 @@
 import React from 'react'
 import QuestionContent from './QuestionContent'
 import { useParams } from 'react-router-dom'
-import Loader from '../../../components/Loader';
-import { GetQuizQuestionById } from '../../../requests/admin/AdminQuestionRequest';
+import Loader from '@acadlix/components/Loader';
+import { GetQuizQuestionById } from '@acadlix/requests/admin/AdminQuestionRequest';
 
 const EditQuestion = () => {
   const {quiz_id, question_id} = useParams();

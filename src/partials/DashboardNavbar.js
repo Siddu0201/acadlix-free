@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import dashboardMenu from "../menu/dashboardMenu";
+import dashboardMenu from "@acadlix/menu/dashboardMenu";
 import { __ } from "@wordpress/i18n";
 
 const DashboardNavbar = () => {

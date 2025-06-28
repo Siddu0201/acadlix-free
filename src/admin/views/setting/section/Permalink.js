@@ -1,7 +1,7 @@
 import { Box, Divider, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
 const Permalink = (props) => {

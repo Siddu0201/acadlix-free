@@ -1,5 +1,5 @@
 import React from 'react'
-import Provider from '../provider/Provider'
+import Provider from '@acadlix/provider/Provider'
 import { Toaster } from 'react-hot-toast'
 import CourseBuilder from './views/course/CourseBuilder';
 import CourseSettings from './views/course_settings/CourseSettings';

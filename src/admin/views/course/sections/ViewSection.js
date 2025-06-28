@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "../../../../helpers/icons";
+import { FaEdit, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "@acadlix/helpers/icons";
 import EditSection from "./EditSection";
 import AddLesson from "./AddLesson";
 import AddQuiz from "./AddQuiz";
@@ -33,11 +33,11 @@ import AddAssignment from "./AddAssignment";
 import {
   DeleteSectionById,
   PostSortSection,
-} from "../../../../requests/admin/AdminCourseRequest";
+} from "@acadlix/requests/admin/AdminCourseRequest";
 import toast from "react-hot-toast";
 import ViewContentSection from "./ViewContentSection";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "../../../../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const ViewSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);

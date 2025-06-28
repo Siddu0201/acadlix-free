@@ -19,10 +19,10 @@ import {
 } from "@dnd-kit/sortable";
 import { Avatar, Box, Chip, List, ListItem, Typography } from "@mui/material";
 import React from "react";
-import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
-import CustomLatex from "../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const TypeSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);

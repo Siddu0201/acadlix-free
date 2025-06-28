@@ -7,7 +7,7 @@ import Instructor from "./sections/Instructor";
 import Outcome from "./sections/Outcome";
 import Faq from "./sections/Faq";
 import FeaturedVideo from "./sections/FeaturedVideo";
-import { PostCreateUpdateCourse } from "../../../requests/admin/AdminCourseRequest";
+import { PostCreateUpdateCourse } from "@acadlix/requests/admin/AdminCourseRequest";
 import { __ } from "@wordpress/i18n";
 
 const CourseSettings = (props) => {

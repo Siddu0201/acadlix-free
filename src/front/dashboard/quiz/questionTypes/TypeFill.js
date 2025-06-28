@@ -1,10 +1,10 @@
 import { Avatar, Box, Chip, Typography } from "@mui/material";
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
-import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
-import CustomLatex from "../../../../modules/latex/CustomLatex";
+import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const TypeFill = (props) => {
   let rxp = /{([^}]+)}/g;

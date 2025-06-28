@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
-import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const TypeRange = (props) => {

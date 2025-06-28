@@ -13,12 +13,12 @@ import CategoryTemplateSection from "./sections/CategoryTemplateSection";
 import TitleDescriptionSection from "./sections/TitleDescriptionSection";
 import QuizModeSection from "./sections/QuizModeSection";
 import QuizSettingSection from "./sections/QuizSettingSection";
-import { TiArrowLeftThick } from "../../../helpers/icons";
+import { TiArrowLeftThick } from "@acadlix/helpers/icons";
 import { Link, useNavigate } from "react-router-dom";
 import {
   PostCreateQuiz,
   UpdateQuizById,
-} from "../../../requests/admin/AdminQuizRequest";
+} from "@acadlix/requests/admin/AdminQuizRequest";
 import SaveTemplateSection from "./sections/SaveTemplateSection";
 import LanguageSection from "./sections/LanguageSection";
 import { __ } from "@wordpress/i18n";

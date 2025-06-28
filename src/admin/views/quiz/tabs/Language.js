@@ -25,9 +25,9 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React, { memo, useState } from "react";
-import GridItem1 from "../../../../components/GridItem1";
-import CustomSwitch from "../../../../components/CustomSwitch";
-import { FaMinus, FaPlus, FaTrash, IoClose } from "../../../../helpers/icons";
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
+import { FaMinus, FaPlus, FaTrash, IoClose } from "@acadlix/helpers/icons";
 import { LoadingButton } from "@mui/lab";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";

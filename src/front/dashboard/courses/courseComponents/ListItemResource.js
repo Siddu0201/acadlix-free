@@ -1,6 +1,6 @@
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import React from "react";
-import { FaAngleDown, FaFolderOpen } from "../../../../helpers/icons";
+import { FaAngleDown, FaFolderOpen } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const ListItemResource = (props) => {

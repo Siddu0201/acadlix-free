@@ -10,10 +10,10 @@ import {
   IconButton,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import GridItem1 from "../../../../components/GridItem1";
-import CustomSwitch from "../../../../components/CustomSwitch";
-import CustomTypography from "../../../../components/CustomTypography";
-import { RiQuestionFill } from "../../../../helpers/icons";
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
+import CustomTypography from "@acadlix/components/CustomTypography";
+import { RiQuestionFill } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const RandomLastOptionButton = React.lazy(() =>

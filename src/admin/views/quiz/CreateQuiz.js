@@ -2,8 +2,8 @@ import React from "react";
 import QuizContent from "./QuizContent";
 import {
   GetCreateQuiz,
-} from "../../../requests/admin/AdminQuizRequest";
-import Loader from "../../../components/Loader";
+} from "@acadlix/requests/admin/AdminQuizRequest";
+import Loader from "@acadlix/components/Loader";
 
 const CreateQuiz = () => {
   const { isFetching, data } = GetCreateQuiz();

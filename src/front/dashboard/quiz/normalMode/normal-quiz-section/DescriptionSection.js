@@ -1,8 +1,8 @@
 import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
-import { PostCheckQuizById } from "../../../../../requests/front/FrontQuizRequest";
-import UserAuth from "../../../../../modules/user-auth/UserAuth";
-import { deleteCookie, getCookie, setCookie } from "../../../../../helpers/cookie";
+import { PostCheckQuizById } from "@acadlix/requests/front/FrontQuizRequest";
+import UserAuth from "@acadlix/modules/user-auth/UserAuth";
+import { deleteCookie, getCookie, setCookie } from "@acadlix/helpers/cookie";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 

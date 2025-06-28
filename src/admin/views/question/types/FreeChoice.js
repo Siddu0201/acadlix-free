@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, FormControlLabel, Typography } from '@mu
 import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { __ } from "@wordpress/i18n";
-import GridItem1 from '../../../../components/GridItem1';
-import CustomTextField from '../../../../components/CustomTextField';
-import CustomTypography from '../../../../components/CustomTypography';
-import CustomSwitch from '../../../../components/CustomSwitch';
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomTypography from "@acadlix/components/CustomTypography";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
 
 const FreeChoice = (props) => {
     const freeChoiceChange = (e) => {

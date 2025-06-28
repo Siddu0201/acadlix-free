@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
-import CustomTextField from "../../../components/CustomTextField";
+import { IoClose, MdVisibility, MdVisibilityOff } from "@acadlix/helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { RawHTML } from "@wordpress/element";

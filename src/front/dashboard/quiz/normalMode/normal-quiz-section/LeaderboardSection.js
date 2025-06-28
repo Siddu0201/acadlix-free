@@ -1,10 +1,10 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import First from "../../../../../images/medal-1.svg";
-import Second from "../../../../../images/medal-2.svg";
-import Third from "../../../../../images/medal-3.svg";
-import { PostLoadMoreLeaderboard } from "../../../../../requests/front/FrontQuizRequest";
+import First from "@acadlix/images/medal-1.svg";
+import Second from "@acadlix/images/medal-2.svg";
+import Third from "@acadlix/images/medal-3.svg";
+import { PostLoadMoreLeaderboard } from "@acadlix/requests/front/FrontQuizRequest";
 import { __ } from "@wordpress/i18n";
 
 const LeaderboardSection = (props) => {

@@ -17,9 +17,9 @@ import OrderSummary from "./OrderSummary";
 import { useForm } from "react-hook-form";
 import parse from "html-react-parser";
 import toast from "react-hot-toast";
-import UserAuth from "../../modules/user-auth/UserAuth";
+import UserAuth from "@acadlix/modules/user-auth/UserAuth";
 import { __ } from "@wordpress/i18n";
-import { formatPrice } from "../../helpers/util";
+import { formatPrice } from "@acadlix/helpers/util";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {

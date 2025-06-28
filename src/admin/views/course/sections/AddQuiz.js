@@ -2,10 +2,10 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import BootstrapDialog from "../modals/BootstrapDialog";
-import { FaPlus } from "../../../../helpers/icons";
+import { FaPlus } from "@acadlix/helpers/icons";
 import AddQuizModel from "../modals/AddQuizModel";
 import toast from "react-hot-toast";
-import { PostAddQuiz } from "../../../../requests/admin/AdminCourseRequest";
+import { PostAddQuiz } from "@acadlix/requests/admin/AdminCourseRequest";
 import { __ } from "@wordpress/i18n";
 
 const AddQuiz = (props) => {

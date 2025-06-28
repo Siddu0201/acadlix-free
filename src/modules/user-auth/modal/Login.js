@@ -15,10 +15,10 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IoClose, MdVisibility, MdVisibilityOff } from "../../../helpers/icons";
+import { IoClose, MdVisibility, MdVisibilityOff } from "@acadlix/helpers/icons";
 import axios from "axios";
 import { RawHTML } from "@wordpress/element";
-import CustomTextField from "../../../components/CustomTextField";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
 const Login = (props) => {

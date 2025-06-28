@@ -9,7 +9,7 @@ const AiButton = React.lazy(() =>
 
 const ContentSection = (props) => {
   const loadPage = () => {
-    props?.loadEditor("content", "content");
+    props?.loadEditor("lesson_content", "content");
   };
 
   React.useEffect(() => {
@@ -17,7 +17,7 @@ const ContentSection = (props) => {
     window.addEventListener("load", loadPage);
 
     return () => {
-      props?.removeEditor("content");
+      props?.removeEditor("lesson_content");
       window.removeEventListener("load", loadPage);
     };
   }, []);
@@ -29,7 +29,7 @@ const ContentSection = (props) => {
       </React.Suspense>
       <Grid size={{ xs: 12, sm: 12 }}>
         <textarea
-          id="content"
+          id="lesson_content"
           rows={12}
           style={{
             width: "100%",

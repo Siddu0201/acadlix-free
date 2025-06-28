@@ -1,6 +1,6 @@
 import { DialogContent, DialogTitle, IconButton } from '@mui/material'
 import React from 'react'
-import { IoClose } from '../../../../helpers/icons'
+import { IoClose } from '@acadlix/helpers/icons'
 import { __ } from '@wordpress/i18n'
 
 const SectionModal = (props) => {

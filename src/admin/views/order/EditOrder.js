@@ -1,8 +1,8 @@
 import React from 'react'
 import OrderContent from './OrderContent'
 import { useParams } from 'react-router-dom';
-import Loader from '../../../components/Loader';
-import { GetOrderById } from '../../../requests/admin/AdminOrderRequest';
+import Loader from '@acadlix/components/Loader';
+import { GetOrderById } from '@acadlix/requests/admin/AdminOrderRequest';
 
 const EditOrder = () => {
   const { order_id } = useParams();

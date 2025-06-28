@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import { FaAngleLeft, FaAngleRight } from "../../../../helpers/icons";
+import { FaAngleLeft, FaAngleRight } from "@acadlix/helpers/icons";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import { __ } from "@wordpress/i18n";

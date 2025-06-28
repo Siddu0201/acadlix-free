@@ -12,14 +12,14 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { IoClose } from "../../../../helpers/icons";
-import CustomSwitch from "../../../../components/CustomSwitch";
-import CustomTextField from "../../../../components/CustomTextField";
+import { IoClose } from "@acadlix/helpers/icons";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { useForm } from "react-hook-form";
 import {
   GetSubjectByQuizId,
   PostSetSubjectWiseTime,
-} from "../../../../requests/admin/AdminQuizRequest";
+} from "@acadlix/requests/admin/AdminQuizRequest";
 import { __ } from "@wordpress/i18n";
 
 const SubjectTimeModel = (props) => {

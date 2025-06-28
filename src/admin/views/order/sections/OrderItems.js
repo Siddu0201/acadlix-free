@@ -20,9 +20,9 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { __ } from '@wordpress/i18n';
-import { FaTrash } from '../../../../helpers/icons';
-import { GetOrderCourses } from '../../../../requests/admin/AdminOrderRequest';
-import CustomTypography from '../../../../components/CustomTypography';
+import { FaTrash } from '@acadlix/helpers/icons';
+import { GetOrderCourses } from '@acadlix/requests/admin/AdminOrderRequest';
+import CustomTypography from '@acadlix/components/CustomTypography';
 
 const OrderItems = (props) => {
     const handleRemoveOrder = (id) => {

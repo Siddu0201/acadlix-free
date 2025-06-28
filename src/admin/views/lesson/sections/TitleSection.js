@@ -1,10 +1,10 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 
-const TitleSection = (props) => {
+const TitleSection = ({ customInputProps = {}, ...props }) => {
   return (
     <Grid size={{ xs: 12, sm: 12 }}>
       <Card>
@@ -36,6 +36,7 @@ const TitleSection = (props) => {
                 }}
                 error={Boolean(props?.formState?.errors?.title)}
                 helperText={props?.formState?.errors?.title?.message}
+                {...customInputProps}
               />
             </Grid>
           </Grid>

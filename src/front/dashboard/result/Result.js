@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FaExpandArrowsAlt, HistoryToggleOff, IoMdRefresh } from "../../../helpers/icons";
+import { FaExpandArrowsAlt, HistoryToggleOff, IoMdRefresh } from "@acadlix/helpers/icons";
 import {
   Box,
   Typography,

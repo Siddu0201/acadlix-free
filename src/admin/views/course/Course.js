@@ -25,8 +25,8 @@ import {
   CardHeader,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import GridItem1 from "../../../components/GridItem1";
-import Card1 from "../../../components/Card1";
+import GridItem1 from "@acadlix/components/GridItem1";
+import Card1 from "@acadlix/components/Card1";
 import { __ } from "@wordpress/i18n";
 
 const Item = styled(Paper)(({ theme }) => ({

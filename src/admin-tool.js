@@ -1,7 +1,7 @@
 
 import { jsx as _jsx } from 'react/jsx-runtime'
 import { createRoot } from 'react-dom/client';
-import AdminTool from './admin/AdminTool';
+import AdminTool from '@acadlix/admin/AdminTool';
 
 const acadlixElement = document.getElementById('acadlix-admin-tool');
 if (acadlixElement){

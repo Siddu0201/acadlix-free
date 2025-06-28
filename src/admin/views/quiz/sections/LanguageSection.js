@@ -28,13 +28,13 @@ import {
 } from "@mui/material";
 import React, { memo, useState } from "react";
 import Grid from "@mui/material/Grid2";
-import GridItem1 from "../../../../components/GridItem1";
-import CustomSwitch from "../../../../components/CustomSwitch";
-import { IoClose } from "../../../../helpers/icons";
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
+import { IoClose } from "@acadlix/helpers/icons";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import CustomTypography from "../../../../components/CustomTypography";
-import { DeleteLanguageFromQuiz, UpdateAddLanguageToQuiz, UpdateSetDefaultLanguageToQuiz } from "../../../../requests/admin/AdminQuizRequest";
+import CustomTypography from "@acadlix/components/CustomTypography";
+import { DeleteLanguageFromQuiz, UpdateAddLanguageToQuiz, UpdateSetDefaultLanguageToQuiz } from "@acadlix/requests/admin/AdminQuizRequest";
 import { __ } from "@wordpress/i18n";
 
 const LanguageSection = (props) => {

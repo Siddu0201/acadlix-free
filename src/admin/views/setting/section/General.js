@@ -13,13 +13,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import CustomTextField from "../../../../components/CustomTextField";
-import CustomSwitch from "../../../../components/CustomSwitch";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
 import parse from "html-react-parser";
-import { PostCreatePage } from "../../../../requests/admin/AdminSettingRequest";
+import { PostCreatePage } from "@acadlix/requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
-import { DynamicMUIRenderer, renderMUIComponent } from "../../../../modules/extensions/muiRecursiveRenderer";
+import { DynamicMUIRenderer, renderMUIComponent } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?

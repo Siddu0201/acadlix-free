@@ -12,10 +12,10 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { IoClose } from "../../../../helpers/icons";
-import CustomSwitch from "../../../../components/CustomSwitch";
+import { IoClose } from "@acadlix/helpers/icons";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { useForm } from "react-hook-form";
-import { PostSetParagraph } from "../../../../requests/admin/AdminQuestionRequest";
+import { PostSetParagraph } from "@acadlix/requests/admin/AdminQuestionRequest";
 import { __ } from "@wordpress/i18n";
 
 const ParagraphModel = (props) => {

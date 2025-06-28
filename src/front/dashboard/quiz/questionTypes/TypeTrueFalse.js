@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 
 const TypeTrueFalse = (props) => {
   const handleChange = (e) => {

@@ -11,8 +11,8 @@ import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MediaUpload } from "@wordpress/media-utils";
-import { FaCloudUploadAlt, FaTrash, IoClose } from "../../helpers/icons";
-import CustomTextField from "../../components/CustomTextField";
+import { FaCloudUploadAlt, FaTrash, IoClose } from "@acadlix/helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 

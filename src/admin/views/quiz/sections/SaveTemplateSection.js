@@ -9,8 +9,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import { PostSaveTemplate } from "../../../../requests/admin/AdminTemplateRequest";
-import { FaCloudUploadAlt } from "../../../../helpers/icons";
+import { PostSaveTemplate } from "@acadlix/requests/admin/AdminTemplateRequest";
+import { FaCloudUploadAlt } from "@acadlix/helpers/icons";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 

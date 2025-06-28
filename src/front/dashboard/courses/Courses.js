@@ -18,8 +18,8 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from "react-router-dom";
-import { GetUserOrders } from "../../../requests/front/FrontDashboardRequest";
-import { FaSearch, IoMdRefresh } from "../../../helpers/icons";
+import { GetUserOrders } from "@acadlix/requests/front/FrontDashboardRequest";
+import { FaSearch, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const Courses = () => {

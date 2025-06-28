@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { PostCreateCategory } from "../../../../requests/admin/AdminCategoryRequest";
+import { PostCreateCategory } from "@acadlix/requests/admin/AdminCategoryRequest";
 import toast from "react-hot-toast";
-import { FaCloudDownloadAlt } from "../../../../helpers/icons";
-import { GetTemplateById } from "../../../../requests/admin/AdminTemplateRequest";
+import { FaCloudDownloadAlt } from "@acadlix/helpers/icons";
+import { GetTemplateById } from "@acadlix/requests/admin/AdminTemplateRequest";
 import { __ } from "@wordpress/i18n";
 
 const CategoryTemplateSection = (props) => {

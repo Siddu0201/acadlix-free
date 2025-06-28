@@ -1,8 +1,8 @@
 import React from "react";
-import DashboardHeader from "../partials/DashboardHeader";
+import DashboardHeader from "@acadlix/partials/DashboardHeader";
 import { Outlet } from "react-router-dom";
 import { Box, Container, CssBaseline } from "@mui/material";
-import DashboardNavbar from "../partials/DashboardNavbar";
+import DashboardNavbar from "@acadlix/partials/DashboardNavbar";
 
 const DashboardLayout = () => {
   return (

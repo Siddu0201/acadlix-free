@@ -1,7 +1,7 @@
 import React from 'react'
-import Provider from '../provider/Provider'
+import Provider from '@acadlix/provider/Provider'
 import { Toaster } from 'react-hot-toast'
-import AdminLayout from '../layout/AdminLayout'
+import AdminLayout from '@acadlix/layout/AdminLayout'
 
 const AdminTool = () => {
   return (

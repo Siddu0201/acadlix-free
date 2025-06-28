@@ -1,5 +1,5 @@
-import AppFront from './front/AppFront';
-import Dashbaord from './front/Dashbaord';
+import AppFront from '@acadlix/front/AppFront';
+import Dashbaord from '@acadlix/front/Dashbaord';
 import { jsx as _jsx } from 'react/jsx-runtime'
 import domReady from '@wordpress/dom-ready';
 import { createRoot } from '@wordpress/element';

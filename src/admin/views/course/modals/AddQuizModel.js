@@ -14,9 +14,9 @@ import {
   ListItem,
 } from "@mui/material";
 import React from "react";
-import { GetQuizzesForCourse } from "../../../../requests/admin/AdminCourseRequest";
-import CustomTextField from "../../../../components/CustomTextField";
-import { IoClose, IoMdRefresh } from "../../../../helpers/icons";
+import { GetQuizzesForCourse } from "@acadlix/requests/admin/AdminCourseRequest";
+import CustomTextField from "@acadlix/components/CustomTextField";
+import { IoClose, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const AddQuizModel = (props) => {

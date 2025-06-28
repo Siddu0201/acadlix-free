@@ -1,8 +1,8 @@
 import React from "react";
 import LessonContent from "./LessonContent";
 import { useParams } from "react-router-dom";
-import Loader from "../../../components/Loader";
-import { GetLessonById } from "../../../requests/admin/AdminLessonRequest";
+import Loader from "@acadlix/components/Loader";
+import { GetLessonById } from "@acadlix/requests/admin/AdminLessonRequest";
 
 const EditLesson = () => {
   const { lesson_id } = useParams();

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { handleMutationError, handleQueryError, useInstance } from "../../helpers/util";
+import { handleMutationError, handleQueryError, useInstance } from "@acadlix/helpers/util";
 
 
 const base = "/front-dashboard";

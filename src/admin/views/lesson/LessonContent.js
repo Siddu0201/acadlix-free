@@ -9,7 +9,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useForm } from "react-hook-form";
-import { TiArrowLeftThick } from "../../../helpers/icons";
+import { TiArrowLeftThick } from "@acadlix/helpers/icons";
 import { Link, useNavigate } from "react-router-dom";
 import TitleSection from "./sections/TitleSection";
 import ContentSection from "./sections/ContentSection";
@@ -17,7 +17,7 @@ import OptionSection from "./sections/OptionSection";
 import {
   PostCreateLesson,
   UpdateLessonById,
-} from "../../../requests/admin/AdminLessonRequest";
+} from "@acadlix/requests/admin/AdminLessonRequest";
 import { __ } from "@wordpress/i18n";
 
 const LessonContent = (props) => {

@@ -55,6 +55,7 @@ jobs:
                               -x "webpack.config.js" \
                               -x "test.json" \
                               -x "api.txt" \
+                              -x jsconfig.json \
         working-directory: ./
 
       - name: Upload ZIP to server

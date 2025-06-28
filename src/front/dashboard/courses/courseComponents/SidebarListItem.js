@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import ListItemResource from "./ListItemResource";
-import { FaFile, FaVideo, MdQuiz } from "../../../../helpers/icons";
+import { FaFile, FaVideo, MdQuiz } from "@acadlix/helpers/icons";
 
 const SidebarListItem = (props) => {
   return (

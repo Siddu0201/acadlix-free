@@ -2,8 +2,8 @@ import { Alert, Box, Button, DialogContent, Divider, IconButton, Link, Typograph
 import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { IoClose } from '../../../helpers/icons';
-import CustomTextField from '../../../components/CustomTextField';
+import { IoClose } from '@acadlix/helpers/icons';
+import CustomTextField from '@acadlix/components/CustomTextField';
 import axios from 'axios';
 import { RawHTML } from '@wordpress/element';
 import { __ } from "@wordpress/i18n";

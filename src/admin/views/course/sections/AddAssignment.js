@@ -3,8 +3,8 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import BootstrapDialog from '../modals/BootstrapDialog';
 import { __ } from '@wordpress/i18n';
-import { hasCapability } from '../../../../helpers/util';
-import { PostAddAssignment } from '../../../../requests/admin/AdminCourseRequest';
+import { hasCapability } from '@acadlix/helpers/util';
+import { PostAddAssignment } from '@acadlix/requests/admin/AdminCourseRequest';
 import toast from 'react-hot-toast';
 
 const AddAssignmentButton = React.lazy(() =>

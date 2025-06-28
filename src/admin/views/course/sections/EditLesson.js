@@ -1,10 +1,10 @@
 import React from "react";
 import BootstrapDialog from "../modals/BootstrapDialog";
 import { IconButton } from "@mui/material";
-import { FaEdit } from "../../../../helpers/icons";
+import { FaEdit } from "@acadlix/helpers/icons";
 import EditLessonModel from "../modals/EditLessonModel";
 import { useForm } from "react-hook-form";
-import { PostUpdateLessonById } from "../../../../requests/admin/AdminCourseRequest";
+import { PostUpdateLessonById } from "@acadlix/requests/admin/AdminCourseRequest";
 
 const EditLesson = (props) => {
   const methods = useForm({

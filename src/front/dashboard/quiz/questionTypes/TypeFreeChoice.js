@@ -1,8 +1,8 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import React from 'react'
-import { TiTick, RxCross2 } from "../../../../helpers/icons";
+import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
-import CustomTextField from '../../../../components/CustomTextField';
+import CustomTextField from '@acadlix/components/CustomTextField';
 
 const TypeFreeChoice = (props) => {
     const handleChange = (e) => {

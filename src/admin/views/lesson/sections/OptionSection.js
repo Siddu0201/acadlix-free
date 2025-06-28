@@ -15,13 +15,22 @@ import {
 import Grid from '@mui/material/Grid2';
 import { MediaUpload } from "@wordpress/media-utils";
 import React from "react";
-import CustomTextField from "../../../../components/CustomTextField";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import ContentSection from "./ContentSection";
-import { convertTime } from "../../../../helpers/util";
-import VideoUpload from "../../../../modules/video-upload/VideoUpload";
+import { convertTime } from "@acadlix/helpers/util";
+import VideoUpload from "@acadlix/modules/video-upload/VideoUpload";
 import { __ } from "@wordpress/i18n";
 
-const OptionSection = (props) => {
+const OptionSection = ({
+  hoursInputProps = {},
+  minutesInputProps = {},
+  secondsInputProps = {},
+  videoUploadGridSize={ xs: 12, sm: 6 },
+  hourGridSize = { xs: 4, sm: 2 },
+  minutesGridSize = { xs: 4, sm: 2 },
+  secondsGridSize = { xs: 4, sm: 2 },
+  ...props
+}) => {
   const handleAddResoures = () => {
     props?.setValue(
       "meta.resources",
@@ -135,8 +144,7 @@ const OptionSection = (props) => {
             {props?.watch("meta.type") === "video" && (
               <>
                 <VideoUpload
-                  xs={12}
-                  sm={6}
+                  {...videoUploadGridSize}
                   video={props?.watch("meta.video")}
                   onUpdate={(data) => {
                     props?.setValue("meta.video", data, { shouldDirty: true });
@@ -159,7 +167,7 @@ const OptionSection = (props) => {
                   }}
                 />
 
-                <Grid size={{ xs: 4, sm: 2 }}>
+                <Grid size={hourGridSize}>
                   <CustomTextField
                     fullWidth
                     label={__("Hours", "acadlix")}
@@ -180,10 +188,11 @@ const OptionSection = (props) => {
                         MozAppearance: "textfield",
                       },
                     }}
+                    {...hoursInputProps}
                   />
                 </Grid>
 
-                <Grid size={{ xs: 4, sm: 2 }}>
+                <Grid size={minutesGridSize}>
                   <CustomTextField
                     fullWidth
                     label={__('Minutes', 'acadlix')}
@@ -204,10 +213,11 @@ const OptionSection = (props) => {
                         MozAppearance: "textfield",
                       },
                     }}
+                    {...minutesInputProps}
                   />
                 </Grid>
 
-                <Grid size={{ xs: 4, sm: 2 }}>
+                <Grid size={secondsGridSize}>
                   <CustomTextField
                     fullWidth
                     label={__('Seconds', 'acadlix')}
@@ -228,12 +238,15 @@ const OptionSection = (props) => {
                         MozAppearance: "textfield",
                       },
                     }}
+                    {...secondsInputProps}
                   />
                 </Grid>
               </>
             )}
 
-            {props?.watch("meta.type") === "text" && <ContentSection {...props} />}
+            {props?.watch("meta.type") === "text" &&
+              <ContentSection {...props} />
+            }
 
             {props?.watch("meta.resources")?.length > 0 &&
               props
@@ -260,7 +273,7 @@ const OptionSection = (props) => {
 
 export default OptionSection;
 
-const Resources = (props) => {
+const Resources = ({ resourcesInputProps = {}, ...props }) => {
   const handleMediaChange = (media) => {
     props?.setValue(`meta.resources.${props?.index}.filename`, media?.filename, {
       shouldDirty: true,
@@ -296,6 +309,7 @@ const Resources = (props) => {
                     }
                   );
                 }}
+                {...resourcesInputProps}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 12 }}>
@@ -360,6 +374,7 @@ const Resources = (props) => {
                       }
                     );
                   }}
+                  {...resourcesInputProps}
                 />
               </Grid>
             )}

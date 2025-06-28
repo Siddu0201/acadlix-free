@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import { secondsToHms } from "../../../../../helpers/util";
+import { secondsToHms } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 
 const SubjectResultSection = (props) => {

@@ -12,14 +12,14 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
-import { IoClose } from "../../../../helpers/icons";
-import CustomTextField from "../../../../components/CustomTextField";
+import { IoClose } from "@acadlix/helpers/icons";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import {
   GetSubjects,
   PostCreateSubject,
-} from "../../../../requests/admin/AdminSubjectRequest";
+} from "@acadlix/requests/admin/AdminSubjectRequest";
 import { useForm } from "react-hook-form";
-import { PostSetSubjectAndPoint } from "../../../../requests/admin/AdminQuestionRequest";
+import { PostSetSubjectAndPoint } from "@acadlix/requests/admin/AdminQuestionRequest";
 import { __ } from "@wordpress/i18n";
 
 const SubjectAndPointModel = (props) => {

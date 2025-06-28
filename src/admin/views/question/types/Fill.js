@@ -1,11 +1,11 @@
 import React from "react";
 import { CardHeader, CardContent, Card, Box, Typography, FormControlLabel } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import CustomTextField from "../../../../components/CustomTextField";
+import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
-import GridItem1 from "../../../../components/GridItem1";
-import CustomTypography from "../../../../components/CustomTypography";
-import CustomSwitch from "../../../../components/CustomSwitch";
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomTypography from "@acadlix/components/CustomTypography";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
 
 function Fill(props) {
   const fillChange = (e) => {

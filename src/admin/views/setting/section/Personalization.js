@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Autocomplete, TextField } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import GridItem1 from "../../../../components/GridItem1";
+import GridItem1 from "@acadlix/components/GridItem1";
 function Personalization() {
   const Color = [{ label: "Color1" }, { label: "Color2" }, { label: "Color3" }];
   return (

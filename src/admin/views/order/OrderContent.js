@@ -3,12 +3,12 @@ import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom';
-import { TiArrowLeftThick } from '../../../helpers/icons';
+import { TiArrowLeftThick } from '@acadlix/helpers/icons';
 import { __ } from '@wordpress/i18n';
 import OrderItems from './sections/OrderItems';
 import OrderOptions from './sections/OrderOptions';
 import toast from 'react-hot-toast';
-import { PostCreateOrder, UpdateOrderById } from '../../../requests/admin/AdminOrderRequest';
+import { PostCreateOrder, UpdateOrderById } from '@acadlix/requests/admin/AdminOrderRequest';
 
 const OrderContent = (props) => {
     const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {

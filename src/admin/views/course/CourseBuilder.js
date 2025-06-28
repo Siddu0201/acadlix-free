@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import AddSection from "./sections/AddSection";
 import ViewSection from "./sections/ViewSection";
 import TestingViewSection from "./testing/TestingViewSection";
-import { hasCapability } from "../../../helpers/util";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const CourseBuilder = (props) => {
   const methods = useForm({
