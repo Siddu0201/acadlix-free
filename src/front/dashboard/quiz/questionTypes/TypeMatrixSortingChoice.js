@@ -197,6 +197,13 @@ const TypeMatrixSortingChoice = (props) => {
     })
   );
 
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Box
       sx={{
@@ -237,37 +244,36 @@ const TypeMatrixSortingChoice = (props) => {
               }}>
                 {__("Pick Elements", "acadlix")}
               </Typography>
-                <List
-                  sx={{
-                    padding: `0px !important`,
-                    display: "grid",
-                    gap: "8px",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
-                  }}
+              <List
+                sx={{
+                  padding: `0px !important`,
+                  display: "grid",
+                  gap: "8px",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+                }}
+              >
+                <SortableContext
+                  items={props?.watch(`questions.${props?.index}.shuffle_order`)}
                 >
-                  <SortableContext
-                    items={props?.watch(`questions.${props?.index}.shuffle_order`)}
-                  >
-                    {props?.watch(`questions.${props?.index}.shuffle_order`)?.map((item, index) => (
-                      <SortableItem
-                        key={index}
-                        id={item}
-                        element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
-                        activeId={activeId}
-                        check={props?.watch(`questions.${props?.index}.check`)}
-                        view_answer={props?.watch("view_answer")}
-                      />
-                    ))}
-                  </SortableContext>
-                  <DragOverlay>
-                    {activeId !== null && activeId !== undefined
-                      ? <Item
-                        id={activeId}
-                        element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
-                      />
-                      : null}
-                  </DragOverlay>
-                </List>
+                  {props?.watch(`questions.${props?.index}.shuffle_order`)?.map((item, index) => (
+                    <SortableItem
+                      key={index}
+                      id={item}
+                      element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
+                      activeId={activeId}
+                      isDisabled={isDisabled()}
+                    />
+                  ))}
+                </SortableContext>
+                <DragOverlay>
+                  {activeId !== null && activeId !== undefined
+                    ? <Item
+                      id={activeId}
+                      element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
+                    />
+                    : null}
+                </DragOverlay>
+              </List>
             </Box>
           )
         }
@@ -320,8 +326,7 @@ const TypeMatrixSortingChoice = (props) => {
                 yourPosition={item?.yourPosition}
                 yourElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item?.yourPosition)?.element}
                 activeElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
-                check={props?.watch(`questions.${props?.index}.check`)}
-                view_answer={props?.watch("view_answer")}
+                isDisabled={props?.isDisabled()}
               />
               {(props?.watch("view_answer") ||
                 props?.watch(`questions.${props?.index}.check`)) && (
@@ -454,15 +459,12 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
 });
 
 const SortableItem = (props) => {
-  // const { attributes, listeners, setNodeRef, transition } = useDraggable({
-  //   id: props.id,
-  // });
   const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: props?.id,
     data: {
       type: props?.type ?? "top"
     },
-    disabled: props?.view_answer || props?.check
+    disabled: props?.isDisabled
   });
 
   const style = {
@@ -526,8 +528,7 @@ const DroppableItem = (props) => {
           element={props?.yourElement}
           activeId={props?.activeId}
           type="bottom"
-          view_answer={props?.view_answer}
-          check={props?.check}
+          isDisabled={props?.isDisabled}
         />
       </List>
     )

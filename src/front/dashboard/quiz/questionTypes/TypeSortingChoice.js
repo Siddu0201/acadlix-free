@@ -95,6 +95,14 @@ const TypeSortingChoice = (props) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Box
       sx={{
@@ -138,6 +146,7 @@ const TypeSortingChoice = (props) => {
                 id={index}
                 item={item}
                 activeId={activeId}
+                isDisabled={isDisabled()}
                 {...props}
               />
             ))}
@@ -212,9 +221,7 @@ const Item = React.forwardRef(({ id, ...props }, ref) => {
 const SortableItem = (props) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: props.item?.option,
-    disabled:
-      props?.watch("view_answer") ||
-      props?.watch(`questions.${props?.index}.check`),
+    disabled: props?.isDisabled,
   });
  
   const style = {

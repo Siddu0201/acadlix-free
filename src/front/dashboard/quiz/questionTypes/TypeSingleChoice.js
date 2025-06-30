@@ -83,6 +83,13 @@ const TypeSingleChoice = (props) => {
 
   const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <FormControl
       sx={{
@@ -162,10 +169,7 @@ const TypeSingleChoice = (props) => {
                         opacity: `0 !important`,
                       }
                     }}
-                    disabled={
-                      props?.watch("view_answer") ||
-                      props?.watch(`questions.${props?.index}.check`)
-                    }
+                    disabled={isDisabled()}
                   />
                 }
                 value={index}

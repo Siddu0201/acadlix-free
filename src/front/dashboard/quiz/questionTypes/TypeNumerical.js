@@ -32,6 +32,13 @@ const TypeNumerical = (props) => {
     );
   };
 
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Box
       sx={{
@@ -81,10 +88,7 @@ const TypeNumerical = (props) => {
           inputProps={{
             step: 0.01,
           }}
-          disabled={
-            props?.watch("view_answer") ||
-            props?.watch(`questions.${props?.index}.check`)
-          }
+          disabled={isDisabled()}
           sx={{
             marginY: 2,
             "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
@@ -96,7 +100,7 @@ const TypeNumerical = (props) => {
             },
           }}
           onKeyPress={(e) => {
-            if(e?.key === "Enter"){
+            if (e?.key === "Enter") {
               e?.target?.blur();
             }
           }}

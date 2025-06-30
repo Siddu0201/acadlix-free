@@ -53,6 +53,14 @@ const TypeTrueFalse = (props) => {
       { shouldDirty: true }
     );
   };
+
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <FormControl
       sx={{
@@ -101,10 +109,7 @@ const TypeTrueFalse = (props) => {
                 checked={data?.isChecked}
                 control={
                   <Radio
-                    disabled={
-                      props?.watch("view_answer") ||
-                      props?.watch(`questions.${props?.index}.check`)
-                    }
+                    disabled={isDisabled()}
                   />
                 }
                 value={index}

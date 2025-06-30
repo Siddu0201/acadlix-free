@@ -68,6 +68,13 @@ const TypeFill = (props) => {
     }
   };
 
+  const isDisabled = () => {
+    if(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)){
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Box
       sx={{
@@ -128,10 +135,7 @@ const TypeFill = (props) => {
                       props?.answer_data?.[props?.type]?.correctOption?.[i]
                         .yourAnswer
                     }
-                    disabled={
-                      props?.watch("view_answer") ||
-                      props?.watch(`questions.${props?.index}.check`)
-                    }
+                    disabled={isDisabled()}
                     onKeyPress={(e) => {
                       if(e?.key === "Enter"){
                         e?.target?.blur();

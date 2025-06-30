@@ -118,6 +118,10 @@ const QuizContent = (props) => {
       subject_wise_question: Boolean(
         Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question)
       ),
+      enable_selectable_questions_rule: Boolean(
+        Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
+      ),
+      selectable_questions_rule: props?.quiz?.rendered_metas?.quiz_settings?.selectable_questions_rule, //evaluate_first_x_attempted_questions/allow_only_x_attempts
       // Result settings
       hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
       hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
@@ -239,6 +243,7 @@ const QuizContent = (props) => {
                   ?.sortingChoice
                   ?.map((d) => d.position)
                 : null,
+              created_at: null,
             },
             shuffle_order: question?.answer_type === "matrixSortingChoice"
               ? arrayRandomize(question
@@ -307,7 +312,7 @@ const QuizContent = (props) => {
     },
   });
 
-  console.log(methods?.watch("subject_times"));
+  console.log(methods?.watch());
 
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {

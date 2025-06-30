@@ -34,7 +34,12 @@ const TypeFreeChoice = (props) => {
         );
     };
 
-    console.log(props.watch(`questions.${props?.index}`));
+    const isDisabled = () => {
+        if(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)){
+            return true;
+        }
+        return false;
+    }
 
     return (
         <Box
@@ -81,10 +86,7 @@ const TypeFreeChoice = (props) => {
                             : __("Type your answer", "acadlix")
                     }
                     size="small"
-                    disabled={
-                        props?.watch("view_answer") ||
-                        props?.watch(`questions.${props?.index}.check`)
-                    }
+                    disabled={isDisabled()}
                     sx={{
                         marginY: 2,
                     }}
