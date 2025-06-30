@@ -2,8 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Seeder;
 
-use Yuvayana\Acadlix\Common\Seeder\SubjectSeeder;
-
 defined('ABSPATH') || exit();
 
 if (!class_exists('Seeder')) {
@@ -13,8 +11,6 @@ if (!class_exists('Seeder')) {
 
         protected array $_seeders = [];
 
-        protected $subjectSeeder = null;
-
         public static function instance()
         {
             if (is_null(self::$_instance)) {
@@ -22,15 +18,6 @@ if (!class_exists('Seeder')) {
             }
 
             return self::$_instance;
-        }
-
-        public function subjectSeeder(): SubjectSeeder
-        {
-            if (is_null($this->subjectSeeder)) {
-                $this->subjectSeeder = new SubjectSeeder();
-            }
-            $this->_seeders[] = $this->subjectSeeder;
-            return $this->subjectSeeder;
         }
 
         public function seed()
