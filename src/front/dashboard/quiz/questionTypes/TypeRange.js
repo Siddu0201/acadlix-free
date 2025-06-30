@@ -40,13 +40,6 @@ const TypeRange = (props) => {
     );
   };
 
-  const isDisabled = () => {
-    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
-      return true;
-    }
-    return false;
-  }
-
   return (
     <Box
       sx={{
@@ -95,7 +88,7 @@ const TypeRange = (props) => {
           inputProps={{
             step: 0.01,
           }}
-          disabled={isDisabled()}
+          disabled={props?.isDisabled ?? false}
           sx={{
             marginY: 2,
             "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":

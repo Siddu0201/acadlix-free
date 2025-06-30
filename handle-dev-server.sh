@@ -10,7 +10,7 @@ pkill -f "npm run start:hot:" 2>/dev/null
 if [ "$BRANCH" == "yuvayana" ]; then
   echo "✅ Switched to FREE branch, starting dev server..."
   npm run start:hot:free
-elif [ "$BRANCH" == "premium" ] || [ "$BRANCH" == "pro" ]; then
+elif [ "$BRANCH" == "Pro" ]; then
   echo "✅ Switched to PREMIUM branch, starting dev server..."
   npm run start:hot:premium
 else

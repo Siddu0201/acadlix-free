@@ -575,6 +575,46 @@ const QuizContent = (props) => {
     });
   };
 
+  const getPointsBySubjectId = (subjectId = 0) => {
+    return methods?.watch("questions")
+      ?.filter((d) => d?.subject_id === subjectId)
+      ?.reduce((total, d) => {
+        if (d?.result?.solved_count && d?.result?.correct_count) {
+          return total + Number(d?.points);
+        } else {
+          return total;
+        }
+      }, 0);
+  }
+
+  const getTotalPointsBySubjectId = (subjectId = 0) => {
+    return methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.points)?.reduce((a, b) => a + b, 0);
+  }
+
+  const getSolvedCountBySubjectId = (subjectId = 0) => {
+    return methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
+  }
+
+  const getCorrectCountBySubjectId = (subjectId = 0) => {
+    return methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.correct_count)?.reduce((a, b) => a + b, 0);
+  }
+
+  const getIncorrectCountBySubjectId = (subjectId = 0) => {
+    return methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.incorrect_count)?.reduce((a, b) => a + b, 0);
+  }
+
+  const isSolved = (index = 0) => {
+    return methods?.watch(`questions.${index}.result.solved_count`) > 0;
+  }
+
+  const isCorrect = (index = 0) => {
+    return methods?.watch(`questions.${index}.result.correct_count`) > 0;
+  }
+
+  const isIncorrect = (index = 0) => {
+    return methods?.watch(`questions.${index}.result.incorrect_count`) > 0;
+  }
+
   const checkMode = () => {
     switch (methods?.watch("mode")) {
       case "normal":
@@ -598,6 +638,14 @@ const QuizContent = (props) => {
             getAccuracy={getAccuracy}
             getStatus={getStatus}
             getTimeTaken={getTimeTaken}
+            getPointsBySubjectId={getPointsBySubjectId}
+            getTotalPointsBySubjectId={getTotalPointsBySubjectId}
+            getSolvedCountBySubjectId={getSolvedCountBySubjectId}
+            getCorrectCountBySubjectId={getCorrectCountBySubjectId}
+            getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
+            isSolved={isSolved}
+            isCorrect={isCorrect}
+            isIncorrect={isIncorrect}
           />
         );
       case "advance_mode":
@@ -620,6 +668,14 @@ const QuizContent = (props) => {
               getAccuracy={getAccuracy}
               getStatus={getStatus}
               getTimeTaken={getTimeTaken}
+              getPointsBySubjectId={getPointsBySubjectId}
+              getTotalPointsBySubjectId={getTotalPointsBySubjectId}
+              getSolvedCountBySubjectId={getSolvedCountBySubjectId}
+              getCorrectCountBySubjectId={getCorrectCountBySubjectId}
+              getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
+              isSolved={isSolved}
+              isCorrect={isCorrect}
+              isIncorrect={isIncorrect}
             />
           </React.Suspense>
         );
@@ -642,6 +698,14 @@ const QuizContent = (props) => {
             getAccuracy={getAccuracy}
             getStatus={getStatus}
             getTimeTaken={getTimeTaken}
+            getPointsBySubjectId={getPointsBySubjectId}
+            getTotalPointsBySubjectId={getTotalPointsBySubjectId}
+            getSolvedCountBySubjectId={getSolvedCountBySubjectId}
+            getCorrectCountBySubjectId={getCorrectCountBySubjectId}
+            getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
+            isSolved={isSolved}
+            isCorrect={isCorrect}
+            isIncorrect={isIncorrect}
           />
         );
     }

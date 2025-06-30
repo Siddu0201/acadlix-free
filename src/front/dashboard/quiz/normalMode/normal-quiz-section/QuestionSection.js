@@ -14,10 +14,16 @@ import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
-import Latex from 'react-latex-next';
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const QuestionSection = (props) => {
+  const isDisabled = () => {
+    if(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)){
+      return true;
+    }
+    return false;
+  }
+
   const answerType = (data = {}, lang_index = 0) => {
     switch (props?.question?.answer_type) {
       case "singleChoice":
@@ -27,6 +33,7 @@ const QuestionSection = (props) => {
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -34,9 +41,11 @@ const QuestionSection = (props) => {
       case "multipleChoice":
         return (
           <TypeMultipleChoice
+            key={props?.index}
             type="multipleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -44,9 +53,11 @@ const QuestionSection = (props) => {
       case "trueFalse":
         return (
           <TypeTrueFalse
+            key={props?.index}
             type="trueFalse"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -54,9 +65,11 @@ const QuestionSection = (props) => {
       case "freeChoice":
         return (
           <TypeFreeChoice
+            key={props?.index}
             type="freeChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -64,9 +77,11 @@ const QuestionSection = (props) => {
       case "sortingChoice":
         return (
           <TypeSortingChoice
+            key={props?.index}
             type="sortingChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -74,9 +89,11 @@ const QuestionSection = (props) => {
       case "matrixSortingChoice":
         return (
           <TypeMatrixSortingChoice
+            key={props?.index}
             type="matrixSortingChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -84,9 +101,11 @@ const QuestionSection = (props) => {
       case "fillInTheBlank":
         return (
           <TypeFill
+            key={props?.index}
             type="fillInTheBlank"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -94,9 +113,11 @@ const QuestionSection = (props) => {
       case "numerical":
         return (
           <TypeNumerical
+            key={props?.index}
             type="numerical"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -104,9 +125,11 @@ const QuestionSection = (props) => {
       case "rangeType":
         return (
           <TypeRange
+            key={props?.index}
             type="rangeType"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -114,9 +137,11 @@ const QuestionSection = (props) => {
       default:
         return (
           <TypeSingleChoice
+            key={props?.index}
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />

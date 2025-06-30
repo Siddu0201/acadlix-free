@@ -96,13 +96,6 @@ const TypeSortingChoice = (props) => {
     })
   );
 
-  const isDisabled = () => {
-    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
-      return true;
-    }
-    return false;
-  }
-
   return (
     <Box
       sx={{
@@ -146,7 +139,7 @@ const TypeSortingChoice = (props) => {
                 id={index}
                 item={item}
                 activeId={activeId}
-                isDisabled={isDisabled()}
+                isDisabled={props?.isDisabled ?? false}
                 {...props}
               />
             ))}

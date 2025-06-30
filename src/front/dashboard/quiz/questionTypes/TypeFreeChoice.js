@@ -86,7 +86,7 @@ const TypeFreeChoice = (props) => {
                             : __("Type your answer", "acadlix")
                     }
                     size="small"
-                    disabled={isDisabled()}
+                    disabled={props?.isDisabled ?? false}
                     sx={{
                         marginY: 2,
                     }}

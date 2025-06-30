@@ -54,13 +54,6 @@ const TypeMultipleChoice = (props) => {
 
   const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
-  const isDisabled = () => {
-    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
-      return true;
-    }
-    return false;
-  }
-
   return (
     <FormControl
       sx={{
@@ -135,7 +128,7 @@ const TypeMultipleChoice = (props) => {
                       opacity: `0 !important`,
                     }
                   }}
-                  disabled={isDisabled()}
+                  disabled={props?.isDisabled ?? false}
                 />
               }
               label={

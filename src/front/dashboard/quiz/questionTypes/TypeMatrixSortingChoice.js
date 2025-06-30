@@ -197,13 +197,6 @@ const TypeMatrixSortingChoice = (props) => {
     })
   );
 
-  const isDisabled = () => {
-    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
-      return true;
-    }
-    return false;
-  }
-
   return (
     <Box
       sx={{
@@ -261,7 +254,7 @@ const TypeMatrixSortingChoice = (props) => {
                       id={item}
                       element={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item)?.element}
                       activeId={activeId}
-                      isDisabled={isDisabled()}
+                      isDisabled={props?.isDisabled ?? false}
                     />
                   ))}
                 </SortableContext>
@@ -326,7 +319,7 @@ const TypeMatrixSortingChoice = (props) => {
                 yourPosition={item?.yourPosition}
                 yourElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == item?.yourPosition)?.element}
                 activeElement={props?.answer_data?.[props?.type]?.find((opt) => opt?.correctPosition == activeId)?.element}
-                isDisabled={props?.isDisabled()}
+                isDisabled={props?.isDisabled ?? false }
               />
               {(props?.watch("view_answer") ||
                 props?.watch(`questions.${props?.index}.check`)) && (
