@@ -307,7 +307,7 @@ const QuizContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
+  console.log(methods?.watch("subject_times"));
 
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {
@@ -437,6 +437,70 @@ const QuizContent = (props) => {
 
   const saveResultMutation = PostSaveResultById(methods?.watch("id"));
 
+  const getPoints = () => {
+    const points = methods?.watch("questions")?.reduce((total, d) => {
+      if (d?.result?.solved_count && d?.result?.correct_count) {
+        return total + Number(d?.points);
+      } else {
+        return total;
+      }
+    }, 0);
+    return points;
+  }
+
+  const getTotalPoints = () => {
+    const total = methods
+      ?.watch("questions")
+      ?.reduce((total, d) => total + Number(d?.points), 0);
+    return total;
+  }
+
+  const getResult = () => {
+    const total = getTotalPoints();
+    const points = getPoints();
+    return total > 0 ? ((points / total) * 100).toFixed(2) : "0.00";
+  }
+
+  const getCorrectCount = () => {
+    const correct_count = methods
+      ?.watch("questions")
+      ?.filter((d) => d?.result?.correct_count)?.length;
+    return correct_count;
+  }
+
+  const getIncorrectCount = () => {
+    const incorrect_count = methods
+      ?.watch("questions")
+      ?.filter((d) => d?.result?.incorrect_count)?.length;
+    return incorrect_count;
+  }
+
+  const getSolvedCount = () => {
+    const solved_count = methods
+      ?.watch("questions")
+      ?.filter((d) => d?.result?.solved_count)?.length;
+    return solved_count;
+  }
+
+  const getAccuracy = () => {
+    const solved_count = getSolvedCount();
+    const correct_count = getCorrectCount();
+    return solved_count > 0 ? ((correct_count / solved_count) * 100).toFixed(2) : "0.00";
+  }
+
+  const getStatus = () => {
+    const points = getPoints();
+    const total = getTotalPoints();
+    return (points / total) * 100 > methods?.watch("minimum_percent_to_pass") ? "Pass" : "Fail";
+  }
+
+  const getTimeTaken = () => {
+    const time_taken = methods
+      ?.watch("questions")
+      ?.reduce((total, d) => total + d?.result?.time, 0);
+    return time_taken;
+  }
+
   const saveResult = () => {
 
     // Complete course lesson
@@ -452,38 +516,12 @@ const QuizContent = (props) => {
       methods?.setValue("user_token", getCookie(userToken), { shouldDirty: true });
     }
 
-    const points = methods?.watch("questions")?.reduce((total, d) => {
-      if (d?.result?.solved_count && d?.result?.correct_count) {
-        return total + Number(d?.points);
-      } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
-        return total - Number(d?.negative_points);
-      } else {
-        return total;
-      }
-    }, 0);
-    const total = methods
-      ?.watch("questions")
-      ?.reduce((total, d) => total + Number(d?.points), 0);
-    const correct_count = methods
-      ?.watch("questions")
-      ?.filter((d) => d?.result?.correct_count)?.length;
-    const solved_count = methods
-      ?.watch("questions")
-      ?.filter((d) => d?.result?.solved_count)?.length;
     let data = {
-      points: points?.toFixed(2),
-      result: total > 0 ? ((points / total) * 100).toFixed(2) : "0.00",
-      accuracy:
-        solved_count > 0
-          ? ((correct_count / solved_count) * 100).toFixed(2)
-          : "0.00",
-      status:
-        (points / total) * 100 > methods?.watch("minimum_percent_to_pass")
-          ? "Pass"
-          : "Fail",
-      time_taken: methods
-        ?.watch("questions")
-        .reduce((total, d) => total + d?.result?.time, 0),
+      points: getPoints()?.toFixed(2),
+      result: getResult(),
+      accuracy: getAccuracy(),
+      status: getStatus(),
+      time_taken: getTimeTaken(),
       user_token: methods?.watch("user_token"),
       user_id: methods?.watch("user_id"),
       name: methods?.watch("name"),
@@ -501,40 +539,33 @@ const QuizContent = (props) => {
 
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
-        methods?.setValue(
-          "average_score",
-          data?.data?.average_score?.toFixed(2) ?? 0,
-          {
-            shouldDirty: true,
-          }
-        );
-        methods?.setValue(
-          "percentile",
-          data?.data?.percentile?.toFixed(2) ?? 0,
-          {
-            shouldDirty: true,
-          }
-        );
-        methods?.setValue("rank", data?.data?.rank ?? 1, { shouldDirty: true });
-        methods?.setValue("toplist_count", data?.data?.toplist_count ?? 0, {
-          shouldDirty: true,
-        });
-        methods?.setValue("toplist", data?.data?.toplist ?? [], {
-          shouldDirty: true,
-        });
         let topper = data?.data?.topper;
-        let topper_data = {
-          quiz_time: topper?.quiz_time ? secondsToHms(topper?.quiz_time) : 0,
-          accuracy: topper?.accuracy?.toFixed(2) ?? 0,
-          status: topper?.status ?? "",
-          result: topper?.result?.toFixed(2) ?? 0,
-          points: topper?.points?.toFixed(2) ?? 0,
-          rank: 1,
-          name: topper?.name ?? "Anonymous",
-          email: topper?.email ?? "",
-        };
-        methods?.setValue("topper_result", topper_data, { shouldDirty: true });
-        methods?.setValue("toplist_id", data?.data?.toplist_id ?? 0, { shouldDirty: true });
+
+        methods?.reset({
+          ...methods?.getValues(),
+          average_score: data?.data?.average_score?.toFixed(2) ?? 0,
+          percentile: data?.data?.percentile?.toFixed(2) ?? 0,
+          rank: data?.data?.rank ?? 1,
+          toplist_count: data?.data?.toplist_count ?? 0,
+          toplist: data?.data?.toplist ?? [],
+          toplist_id: data?.data?.toplist_id ?? 0,
+          topper_result: {
+            quiz_time: topper.quiz_time ? secondsToHms(topper.quiz_time) : 0,
+            accuracy: topper.accuracy?.toFixed(2) ?? 0,
+            status: topper.status ?? "",
+            result: topper.result?.toFixed(2) ?? 0,
+            points: topper.points?.toFixed(2) ?? 0,
+            rank: 1,
+            name: topper.name ?? "Anonymous",
+            email: topper.email ?? "",
+          },
+        },
+          {
+            keepDirty: true,
+            keepErrors: true,
+            keepTouched: true,
+          }
+        );
       },
     });
   };
@@ -553,6 +584,15 @@ const QuizContent = (props) => {
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
+            getPoints={getPoints}
+            getTotalPoints={getTotalPoints}
+            getResult={getResult}
+            getCorrectCount={getCorrectCount}
+            getIncorrectCount={getIncorrectCount}
+            getSolvedCount={getSolvedCount}
+            getAccuracy={getAccuracy}
+            getStatus={getStatus}
+            getTimeTaken={getTimeTaken}
           />
         );
       case "advance_mode":
@@ -566,6 +606,15 @@ const QuizContent = (props) => {
               saveResult={saveResult}
               isPending={saveResultMutation?.isPending}
               isPendingResultFeedback={resultFeedbackMutation?.isPending}
+              getPoints={getPoints}
+              getTotalPoints={getTotalPoints}
+              getResult={getResult}
+              getCorrectCount={getCorrectCount}
+              getIncorrectCount={getIncorrectCount}
+              getSolvedCount={getSolvedCount}
+              getAccuracy={getAccuracy}
+              getStatus={getStatus}
+              getTimeTaken={getTimeTaken}
             />
           </React.Suspense>
         );
@@ -579,6 +628,15 @@ const QuizContent = (props) => {
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
+            getPoints={getPoints}
+            getTotalPoints={getTotalPoints}
+            getResult={getResult}
+            getCorrectCount={getCorrectCount}
+            getIncorrectCount={getIncorrectCount}
+            getSolvedCount={getSolvedCount}
+            getAccuracy={getAccuracy}
+            getStatus={getStatus}
+            getTimeTaken={getTimeTaken}
           />
         );
     }
