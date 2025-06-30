@@ -38,7 +38,6 @@ import {
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import CategoryModel from "./actions/CategoryModel";
-import SubjectTimeModel from "./actions/SubjectTimeModel";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
@@ -52,6 +51,12 @@ const SubjectOptionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/quiz/SubjectOptionButton") :
     import("@acadlix/free/admin/quiz/SubjectOptionButton")
+  );
+
+const SubjectTimeModel = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/quiz/actions/SubjectTimeModel") :
+    Promise.resolve({ default: () => null }) 
   );
 
 const Quiz = () => {
@@ -378,7 +383,9 @@ const Quiz = () => {
         aria-labelledby="alert-subject-title"
         aria-describedby="alert-subject-description"
       >
-        <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
+        <React.Suspense fallback={null}>
+          <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
+        </React.Suspense>
       </BootstrapDialog>
       <Grid
         container
