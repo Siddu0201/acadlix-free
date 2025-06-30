@@ -6,6 +6,7 @@ import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import CustomTextField from "@acadlix/components/CustomTextField";
+import { Alert } from '@mui/material';
 
 const AdvanceOptions = (props) => {
     return (
@@ -72,6 +73,17 @@ const AdvanceOptions = (props) => {
                 />
             </GridItem1>
 
+            {/* Used to set selectable question rule in a quiz */}
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <CustomTypography>{__("Enable Selectable Questions Rule", "acadlix")}</CustomTypography>
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <Alert severity="info">
+                    {__("Set questions from Subject-wise Actions on Quiz page.", "acadlix")}
+                </Alert>
+            </GridItem1>
+
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                 <CustomTypography>{__("Enable Check Button", "acadlix")}</CustomTypography>
             </GridItem1>
@@ -132,7 +144,7 @@ const AdvanceOptions = (props) => {
                 />
             </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+            {/* <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1> */}
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                 <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}</CustomTypography>

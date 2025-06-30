@@ -80,6 +80,7 @@ const QuizContent = (props) => {
           result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),  
           result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
           scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+          enable_selectable_questions_rule: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)),
           // Question settings
           show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
           display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
