@@ -31,7 +31,7 @@ const QuizTimeType = (props) => {
                         control={<Radio />}
                         label={__("Full Quiz", "acadlix")}
                         disabled
-                        // checked={props?.watch("meta.quiz_settings.quiz_timing_type") === "full_quiz_time"}
+                        checked={props?.watch("meta.quiz_settings.quiz_timing_type") === "full_quiz_time"}
                         componentsProps={{
                             typography: {
                                 variant: "body2",
@@ -43,9 +43,28 @@ const QuizTimeType = (props) => {
                         control={<Radio />}
                         label={__("Per Question", "acadlix")}
                         disabled
-                        // checked={
-                        //     props?.watch("meta.quiz_settings.quiz_timing_type") === "per_question_time"
+                        checked={
+                            props?.watch("meta.quiz_settings.quiz_timing_type") === "per_question_time"
+                        }
+                        // disabled={
+                        //     (props?.watch("meta.mode") === "advance_mode" &&
+                        //         props?.watch("meta.advance_mode_type") !== "advance_panel") ||
+                        //     props?.watch("meta.mode") === "question_below_each_other"
                         // }
+                        componentsProps={{
+                            typography: {
+                                variant: "body2",
+                            }
+                        }}
+                    />
+                    <FormControlLabel
+                        value="subject_wise_time"
+                        control={<Radio />}
+                        label={__("Subject Wise", "acadlix")}
+                        disabled
+                        checked={
+                            props?.watch("meta.quiz_settings.quiz_timing_type") === "subject_wise_time"
+                        }
                         // disabled={
                         //     (props?.watch("meta.mode") === "advance_mode" &&
                         //         props?.watch("meta.advance_mode_type") !== "advance_panel") ||

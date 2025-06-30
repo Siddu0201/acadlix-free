@@ -4,6 +4,7 @@ import {
   Box,
   Typography,
   Divider,
+  Alert,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import CustomSwitch from "@acadlix/components/CustomSwitch";
@@ -169,27 +170,40 @@ const General = (props) => {
         </GridItem1>
 
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTextField
-            fullWidth
-            label={__("Timing (in sec, 0 => infinite)", "acadlix")}
-            size="small"
-            type="number"
-            value={props?.watch("meta.quiz_settings.quiz_time") ?? 0}
-            onChange={(e) => {
-              props?.setValue("meta.quiz_settings.quiz_time", Number(e?.target?.value), {
-                shouldDirty: true,
-              });
-            }}
-            sx={{
-              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-              {
-                display: "none",
-              },
-              "& input[type=number]": {
-                MozAppearance: "textfield",
-              },
-            }}
-          />
+          {
+            props?.watch("meta.quiz_settings.quiz_timing_type") === "subject_wise_time" ?
+            (
+              <Alert
+                severity="info"
+              >
+                {__("Set time from Subject-wise Actions on Quiz page.", "acadlix")}
+              </Alert>
+            )
+            :
+            (
+              <CustomTextField
+                fullWidth
+                label={__("Timing (in sec, 0 => infinite)", "acadlix")}
+                size="small"
+                type="number"
+                value={props?.watch("meta.quiz_settings.quiz_time") ?? 0}
+                onChange={(e) => {
+                  props?.setValue("meta.quiz_settings.quiz_time", Number(e?.target?.value), {
+                    shouldDirty: true,
+                  });
+                }}
+                sx={{
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                  {
+                    display: "none",
+                  },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                }}
+              />
+            )
+          }
         </GridItem1>
 
         {/* Quiz start date */}

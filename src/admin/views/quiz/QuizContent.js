@@ -61,7 +61,7 @@ const QuizContent = (props) => {
             Number(props?.quiz?.rendered_metas?.quiz_settings?.show_clear_response_button)
           ),
           enable_check_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_button)),
-          quiz_timing_type: props?.quiz?.rendered_metas?.quiz_settings?.quiz_timing_type ?? "full_quiz_time", // full_quiz_time/per_question_time
+          quiz_timing_type: props?.quiz?.rendered_metas?.quiz_settings?.quiz_timing_type ?? "full_quiz_time", // full_quiz_time/per_question_time/subject_wise_time
           quiz_time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time ?? 0, // 0 => Infinity (no limit)
           show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
           enable_login_register: Boolean(
