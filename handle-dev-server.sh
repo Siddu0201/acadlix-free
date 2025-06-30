@@ -7,7 +7,7 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 pkill -f "npm run start:hot:" 2>/dev/null
 
 # Start appropriate command
-if [ "$BRANCH" == "free" ]; then
+if [ "$BRANCH" == "yuvayana" ]; then
   echo "✅ Switched to FREE branch, starting dev server..."
   npm run start:hot:free
 elif [ "$BRANCH" == "premium" ] || [ "$BRANCH" == "pro" ]; then
