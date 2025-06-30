@@ -7,18 +7,24 @@ defined('ABSPATH') || exit();
 if (!class_exists('Seeder')) {
     class Seeder
     {
-        protected static $_instance = null;
-
         protected array $_seeders = [];
 
-        public static function instance()
-        {
-            if (is_null(self::$_instance)) {
-                self::$_instance = new self();
-            }
+        protected $_subjectSeeder = null;
 
-            return self::$_instance;
+        public function __construct()
+        {
+            $this->subjectSeeder();
         }
+
+        public function subjectSeeder(): SubjectSeeder
+        {
+            if(is_null($this->_subjectSeeder)){
+                $this->_subjectSeeder = new SubjectSeeder();
+            }
+            $this->_seeders[] = $this->_subjectSeeder;
+            return $this->_subjectSeeder;
+        }
+
 
         public function seed()
         {
