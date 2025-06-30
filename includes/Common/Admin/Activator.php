@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class Activator
 {
-    public $dbVersion = 1;
+    public $dbVersion = 2;
     public function __construct()
     {
         if (!is_admin())
