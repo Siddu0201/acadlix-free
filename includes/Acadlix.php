@@ -103,7 +103,7 @@ namespace Yuvayana\Acadlix {
             $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();
             $this->migration = $this->pro  ? new Pro\Migrations\Migrations() : new Common\Migrations\Migrations();
             $this->model = $this->pro  ? new Pro\Models\Models() : new Common\Models\Models();
-            $this->seeder = new Common\Seeder\Seeder();
+            $this->seeder = $this->pro ? new Pro\Seeder\Seeder() : new Common\Seeder\Seeder();
             $this->rest = $this->pro ? new Pro\REST\REST() : new Common\REST\REST();
 
             $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
