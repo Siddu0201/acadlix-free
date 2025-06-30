@@ -84,5 +84,20 @@ class Activator
             acadlix()->migration()->createTable(); // function to update schema/data
             update_option('acadlix_db_version', $this->dbVersion);
         }
+
+        $this->handle_subject_correction();
+    }
+
+    protected function handle_subject_correction()
+    {
+        $subject = acadlix()->model()->subject()->where('default', 1)->first();
+        $questions = acadlix()->model()->question()->where('subject_id', null)->get();
+        if ($questions->count() > 0 && $subject) {
+            foreach ($questions as $question) {
+                $question->update([
+                    'subject_id' => $subject->id,
+                ]);
+            }
+        }
     }
 }
