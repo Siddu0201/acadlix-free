@@ -445,10 +445,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       points = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         points += getPointsBySubjectId(subject?.subject_id);
       });
     }
@@ -467,10 +467,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       negative_points = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         negative_points += getNegativePointsBySubjectId(subject?.subject_id);
       });
     }
@@ -484,10 +484,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       total = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         total += getTotalPointsBySubjectId(subject?.subject_id);
       });
     }
@@ -507,10 +507,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       correct_count = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         correct_count += getCorrectCountBySubjectId(subject?.subject_id);
       });
     }
@@ -524,10 +524,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       incorrect_count = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         incorrect_count += getIncorrectCountBySubjectId(subject?.subject_id);
       });
     }
@@ -541,10 +541,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       skipped_count = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         skipped_count += getSkippedCountBySubjectId(subject?.subject_id);
       });
     }
@@ -558,10 +558,10 @@ const QuizContent = (props) => {
     if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
-      props?.watch("subjects")?.length > 0
+      methods?.watch("subjects")?.length > 0
     ) {
       solved_count = 0;
-      props?.watch("subjects")?.forEach((subject) => {
+      methods?.watch("subjects")?.forEach((subject) => {
         solved_count += getSolvedCountBySubjectId(subject?.subject_id);
       });
     }
