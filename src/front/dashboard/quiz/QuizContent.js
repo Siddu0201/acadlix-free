@@ -615,6 +615,7 @@ const QuizContent = (props) => {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
       const attempted_questions = subject_questions
+        ?.filter((d) => d?.result?.created_at)
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
 
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
@@ -652,6 +653,7 @@ const QuizContent = (props) => {
       }
 
       const attempted_questions = subject_questions
+        ?.filter((d) => d?.result?.created_at)
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
@@ -675,9 +677,7 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const attempted_questions = subject_questions
-        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
-      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
+      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
 
       total = evaluated_questions?.map((d) => d?.points)?.reduce((a, b) => a + b, 0);
     }
@@ -700,6 +700,7 @@ const QuizContent = (props) => {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
       const attempted_questions = subject_questions
+        ?.filter((d) => d?.result?.created_at)
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
@@ -724,6 +725,7 @@ const QuizContent = (props) => {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
       const attempted_questions = subject_questions
+        ?.filter((d) => d?.result?.created_at)
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
@@ -748,6 +750,7 @@ const QuizContent = (props) => {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
       const attempted_questions = subject_questions
+        ?.filter((d) => d?.result?.created_at)
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
@@ -765,17 +768,14 @@ const QuizContent = (props) => {
       subject &&
       subject?.selectable_rule_number_of_questions > 0
     ) {
+      const solved_count = getSolvedCountBySubjectId(subjectId);
       const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId);
 
       let evaluate_number_of_question = subject_questions?.length;
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const attempted_questions = subject_questions
-        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
-      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
-
-      skipped_count = evaluated_questions?.map((d) => !d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
+      skipped_count = evaluate_number_of_question - solved_count;
     }
     return skipped_count;
   }
@@ -815,6 +815,7 @@ const QuizContent = (props) => {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
       const attempted_questions = subject_questions
+        ?.filter((d) => d?.result?.created_at)
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
