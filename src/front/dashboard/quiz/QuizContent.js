@@ -614,15 +614,10 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      // Sort only the attempted questions by created_at (earliest first)
       const attempted_questions = subject_questions
-        ?.filter((d) => d?.result?.created_at && d?.result?.solved_count) // remove unattempted
         ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
 
-      // Select the top N to evaluate
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
-
-      // Now you can calculate score based on evaluated_questions
       points = evaluated_questions?.reduce((total, d) => {
         if (d?.result?.solved_count && d?.result?.correct_count) {
           return total + Number(d?.points);
@@ -649,15 +644,16 @@ const QuizContent = (props) => {
       subject &&
       subject?.selectable_rule_number_of_questions > 0
     ) {
-      const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)
-        ?.filter((d) => d?.result?.created_at && d?.result?.solved_count)
-        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId);
 
       let evaluate_number_of_question = subject_questions?.length;
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
       negative_points = evaluated_questions?.map((d) => d?.negative_points)?.reduce((a, b) => a + b, 0);
     }
@@ -679,7 +675,9 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
       total = evaluated_questions?.map((d) => d?.points)?.reduce((a, b) => a + b, 0);
     }
@@ -701,7 +699,9 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
       solved_count = evaluated_questions?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
     }
@@ -723,7 +723,9 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
       correct_count = evaluated_questions?.map((d) => d?.result?.correct_count)?.reduce((a, b) => a + b, 0);
     }
@@ -745,7 +747,9 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
       incorrect_count = evaluated_questions?.map((d) => d?.result?.incorrect_count)?.reduce((a, b) => a + b, 0);
     }
@@ -767,7 +771,9 @@ const QuizContent = (props) => {
       if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
         evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
       }
-      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
 
       skipped_count = evaluated_questions?.map((d) => !d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
     }
@@ -792,6 +798,29 @@ const QuizContent = (props) => {
 
   const isIncorrect = (index = 0) => {
     return methods?.watch(`questions.${index}.result.incorrect_count`) > 0;
+  }
+
+  const isQuestionEvaluated = (subjectId = 0, questionId = 0) => {
+    const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      subject &&
+      subject?.selectable_rule_number_of_questions > 0
+    ) {
+      const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId);
+
+      let evaluate_number_of_question = subject_questions?.length;
+      if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
+        evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
+      }
+      const attempted_questions = subject_questions
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+      const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
+
+      return evaluated_questions?.some((d) => d?.question_id === questionId);
+    }
+    return false;
   }
 
   const saveResult = () => {
@@ -899,6 +928,7 @@ const QuizContent = (props) => {
             isSolved={isSolved}
             isCorrect={isCorrect}
             isIncorrect={isIncorrect}
+            isQuestionEvaluated={isQuestionEvaluated}
           />
         );
       case "advance_mode":
@@ -934,42 +964,13 @@ const QuizContent = (props) => {
               isSolved={isSolved}
               isCorrect={isCorrect}
               isIncorrect={isIncorrect}
+              isQuestionEvaluated={isQuestionEvaluated}
             />
           </React.Suspense>
         );
       default:
         return (
-          <NormalQuizMode
-            {...methods}
-            {...props}
-            countdownApi={countdownApi}
-            setCountDownApi={setCountDownApi}
-            saveResult={saveResult}
-            isPending={saveResultMutation?.isPending}
-            isPendingResultFeedback={resultFeedbackMutation?.isPending}
-            getPoints={getPoints}
-            getNegativePoints={getNegativePoints}
-            getTotalPoints={getTotalPoints}
-            getResult={getResult}
-            getCorrectCount={getCorrectCount}
-            getIncorrectCount={getIncorrectCount}
-            getSkippedCount={getSkippedCount}
-            getSolvedCount={getSolvedCount}
-            getAccuracy={getAccuracy}
-            getStatus={getStatus}
-            getTimeTaken={getTimeTaken}
-            getPointsBySubjectId={getPointsBySubjectId}
-            getNegativePointsBySubjectId={getNegativePointsBySubjectId}
-            getTotalPointsBySubjectId={getTotalPointsBySubjectId}
-            getSolvedCountBySubjectId={getSolvedCountBySubjectId}
-            getCorrectCountBySubjectId={getCorrectCountBySubjectId}
-            getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
-            getSkippedCountBySubjectId={getSkippedCountBySubjectId}
-            getTimeBySubjectId={getTimeBySubjectId}
-            isSolved={isSolved}
-            isCorrect={isCorrect}
-            isIncorrect={isIncorrect}
-          />
+          <></>
         );
     }
   };
