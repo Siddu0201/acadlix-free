@@ -442,7 +442,7 @@ const QuizContent = (props) => {
       }
     }, 0);
 
-    if(
+    if (
       methods?.watch("mode") === "advance_mode" &&
       methods?.watch("enable_selectable_questions_rule") &&
       props?.watch("subjects")?.length > 0
@@ -455,10 +455,42 @@ const QuizContent = (props) => {
     return points;
   }
 
+  const getNegativePoints = () => {
+    let negative_points = methods?.watch("questions")?.reduce((total, d) => {
+      if (d?.result?.solved_count && d?.result?.incorrect_count) {
+        return total + Number(d?.negative_points);
+      } else {
+        return total;
+      }
+    }, 0);
+
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      props?.watch("subjects")?.length > 0
+    ) {
+      negative_points = 0;
+      props?.watch("subjects")?.forEach((subject) => {
+        negative_points += getNegativePointsBySubjectId(subject?.subject_id);
+      });
+    }
+    return negative_points;
+  }
+
   const getTotalPoints = () => {
-    const total = methods
+    let total = methods
       ?.watch("questions")
       ?.reduce((total, d) => total + Number(d?.points), 0);
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      props?.watch("subjects")?.length > 0
+    ) {
+      total = 0;
+      props?.watch("subjects")?.forEach((subject) => {
+        total += getTotalPointsBySubjectId(subject?.subject_id);
+      });
+    }
     return total;
   }
 
@@ -469,30 +501,70 @@ const QuizContent = (props) => {
   }
 
   const getCorrectCount = () => {
-    const correct_count = methods
+    let correct_count = methods
       ?.watch("questions")
       ?.filter((d) => d?.result?.correct_count)?.length;
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      props?.watch("subjects")?.length > 0
+    ) {
+      correct_count = 0;
+      props?.watch("subjects")?.forEach((subject) => {
+        correct_count += getCorrectCountBySubjectId(subject?.subject_id);
+      });
+    }
     return correct_count;
   }
 
   const getIncorrectCount = () => {
-    const incorrect_count = methods
+    let incorrect_count = methods
       ?.watch("questions")
       ?.filter((d) => d?.result?.incorrect_count)?.length;
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      props?.watch("subjects")?.length > 0
+    ) {
+      incorrect_count = 0;
+      props?.watch("subjects")?.forEach((subject) => {
+        incorrect_count += getIncorrectCountBySubjectId(subject?.subject_id);
+      });
+    }
     return incorrect_count;
   }
 
   const getSkippedCount = () => {
-    const skipped_count = methods
+    let skipped_count = methods
       ?.watch("questions")
       ?.filter(d => !d?.result?.solved_count)?.length;
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      props?.watch("subjects")?.length > 0
+    ) {
+      skipped_count = 0;
+      props?.watch("subjects")?.forEach((subject) => {
+        skipped_count += getSkippedCountBySubjectId(subject?.subject_id);
+      });
+    }
     return skipped_count;
   }
 
   const getSolvedCount = () => {
-    const solved_count = methods
+    let solved_count = methods
       ?.watch("questions")
       ?.filter((d) => d?.result?.solved_count)?.length;
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      props?.watch("subjects")?.length > 0
+    ) {
+      solved_count = 0;
+      props?.watch("subjects")?.forEach((subject) => {
+        solved_count += getSolvedCountBySubjectId(subject?.subject_id);
+      });
+    }
     return solved_count;
   }
 
@@ -521,6 +593,8 @@ const QuizContent = (props) => {
       ?.reduce((total, d) => {
         if (d?.result?.solved_count && d?.result?.correct_count) {
           return total + Number(d?.points);
+        } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
+          return total - Number(d?.negative_points);
         } else {
           return total;
         }
@@ -563,6 +637,33 @@ const QuizContent = (props) => {
     return points;
   }
 
+  const getNegativePointsBySubjectId = (subjectId = 0) => {
+    let negative_points = methods?.watch("questions")
+      ?.filter((d) => d?.subject_id === subjectId)
+      ?.map((d) => d?.negative_points)
+      ?.reduce((a, b) => a + b, 0);
+    const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
+    if (
+      methods?.watch("mode") === "advance_mode" &&
+      methods?.watch("enable_selectable_questions_rule") &&
+      subject &&
+      subject?.selectable_rule_number_of_questions > 0
+    ) {
+      const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)
+        ?.filter((d) => d?.result?.created_at && d?.result?.solved_count)
+        ?.sort((a, b) => new Date(a.result.created_at) - new Date(b.result.created_at));
+
+      let evaluate_number_of_question = subject_questions?.length;
+      if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
+        evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
+      }
+      const evaluated_questions = subject_questions?.slice(0, evaluate_number_of_question);
+
+      negative_points = evaluated_questions?.map((d) => d?.negative_points)?.reduce((a, b) => a + b, 0);
+    }
+    return negative_points;
+  }
+
   const getTotalPointsBySubjectId = (subjectId = 0) => {
     let total = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.points)?.reduce((a, b) => a + b, 0);
     const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
@@ -586,7 +687,7 @@ const QuizContent = (props) => {
   }
 
   const getSolvedCountBySubjectId = (subjectId = 0) => {
-    const solved_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
+    let solved_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
     const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
     if (
       methods?.watch("mode") === "advance_mode" &&
@@ -608,7 +709,7 @@ const QuizContent = (props) => {
   }
 
   const getCorrectCountBySubjectId = (subjectId = 0) => {
-    const correct_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.correct_count)?.reduce((a, b) => a + b, 0);
+    let correct_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.correct_count)?.reduce((a, b) => a + b, 0);
     const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
     if (
       methods?.watch("mode") === "advance_mode" &&
@@ -630,7 +731,7 @@ const QuizContent = (props) => {
   }
 
   const getIncorrectCountBySubjectId = (subjectId = 0) => {
-    const incorrect_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.incorrect_count)?.reduce((a, b) => a + b, 0);
+    let incorrect_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.incorrect_count)?.reduce((a, b) => a + b, 0);
     const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
     if (
       methods?.watch("mode") === "advance_mode" &&
@@ -652,7 +753,7 @@ const QuizContent = (props) => {
   }
 
   const getSkippedCountBySubjectId = (subjectId = 0) => {
-    const skipped_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
+    let skipped_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
     const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
     if (
       methods?.watch("mode") === "advance_mode" &&
@@ -671,6 +772,14 @@ const QuizContent = (props) => {
       skipped_count = evaluated_questions?.map((d) => !d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
     }
     return skipped_count;
+  }
+
+  const getTimeBySubjectId = (subjectId = 0) => {
+    let time_taken = methods?.watch("questions")
+      ?.filter((d) => d?.subject_id === subjectId)
+      ?.map((d) => d?.result?.time)
+      ?.reduce((a, b) => a + b, 0);
+    return time_taken;
   }
 
   const isSolved = (index = 0) => {
@@ -769,6 +878,7 @@ const QuizContent = (props) => {
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
             getPoints={getPoints}
+            getNegativePoints={getNegativePoints}
             getTotalPoints={getTotalPoints}
             getResult={getResult}
             getCorrectCount={getCorrectCount}
@@ -779,11 +889,13 @@ const QuizContent = (props) => {
             getStatus={getStatus}
             getTimeTaken={getTimeTaken}
             getPointsBySubjectId={getPointsBySubjectId}
+            getNegativePointsBySubjectId={getNegativePointsBySubjectId}
             getTotalPointsBySubjectId={getTotalPointsBySubjectId}
             getSolvedCountBySubjectId={getSolvedCountBySubjectId}
             getCorrectCountBySubjectId={getCorrectCountBySubjectId}
             getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
             getSkippedCountBySubjectId={getSkippedCountBySubjectId}
+            getTimeBySubjectId={getTimeBySubjectId}
             isSolved={isSolved}
             isCorrect={isCorrect}
             isIncorrect={isIncorrect}
@@ -801,6 +913,7 @@ const QuizContent = (props) => {
               isPending={saveResultMutation?.isPending}
               isPendingResultFeedback={resultFeedbackMutation?.isPending}
               getPoints={getPoints}
+              getNegativePoints={getNegativePoints}
               getTotalPoints={getTotalPoints}
               getResult={getResult}
               getCorrectCount={getCorrectCount}
@@ -811,11 +924,13 @@ const QuizContent = (props) => {
               getStatus={getStatus}
               getTimeTaken={getTimeTaken}
               getPointsBySubjectId={getPointsBySubjectId}
+              getNegativePointsBySubjectId={getNegativePointsBySubjectId}
               getTotalPointsBySubjectId={getTotalPointsBySubjectId}
               getSolvedCountBySubjectId={getSolvedCountBySubjectId}
               getCorrectCountBySubjectId={getCorrectCountBySubjectId}
               getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
               getSkippedCountBySubjectId={getSkippedCountBySubjectId}
+              getTimeBySubjectId={getTimeBySubjectId}
               isSolved={isSolved}
               isCorrect={isCorrect}
               isIncorrect={isIncorrect}
@@ -833,6 +948,7 @@ const QuizContent = (props) => {
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
             getPoints={getPoints}
+            getNegativePoints={getNegativePoints}
             getTotalPoints={getTotalPoints}
             getResult={getResult}
             getCorrectCount={getCorrectCount}
@@ -843,11 +959,13 @@ const QuizContent = (props) => {
             getStatus={getStatus}
             getTimeTaken={getTimeTaken}
             getPointsBySubjectId={getPointsBySubjectId}
+            getNegativePointsBySubjectId={getNegativePointsBySubjectId}
             getTotalPointsBySubjectId={getTotalPointsBySubjectId}
             getSolvedCountBySubjectId={getSolvedCountBySubjectId}
             getCorrectCountBySubjectId={getCorrectCountBySubjectId}
             getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
             getSkippedCountBySubjectId={getSkippedCountBySubjectId}
+            getTimeBySubjectId={getTimeBySubjectId}
             isSolved={isSolved}
             isCorrect={isCorrect}
             isIncorrect={isIncorrect}
