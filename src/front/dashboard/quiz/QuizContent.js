@@ -497,7 +497,7 @@ const QuizContent = (props) => {
   const getResult = () => {
     const total = getTotalPoints();
     const points = getPoints();
-    return total > 0 ? ((points / total) * 100).toFixed(2) : "0.00";
+    return total > 0 ? (points / total) * 100 : 0;
   }
 
   const getCorrectCount = () => {
@@ -571,13 +571,13 @@ const QuizContent = (props) => {
   const getAccuracy = () => {
     const solved_count = getSolvedCount();
     const correct_count = getCorrectCount();
-    return solved_count > 0 ? ((correct_count / solved_count) * 100).toFixed(2) : "0.00";
+    return solved_count > 0 ? ((correct_count / solved_count) * 100) : 0;
   }
 
   const getStatus = () => {
     const points = getPoints();
     const total = getTotalPoints();
-    return (points / total) * 100 > methods?.watch("minimum_percent_to_pass") ? "Pass" : "Fail";
+    return (points / total) * 100 > methods?.watch("minimum_percent_to_pass") ? __("Pass", "acadlix") : __("Fail", "acadlix");
   }
 
   const getTimeTaken = () => {
