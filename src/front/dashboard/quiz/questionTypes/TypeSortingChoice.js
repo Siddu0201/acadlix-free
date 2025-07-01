@@ -23,6 +23,7 @@ import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import { getCurrentDateString } from "@acadlix/helpers/util";
 
 const TypeSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -68,6 +69,7 @@ const TypeSortingChoice = (props) => {
               : 1,
           solved_count: 1,
           answer_data: data?.map((d) => d.position),
+          created_at: getCurrentDateString(),
         },
         { shouldDirty: true }
       );

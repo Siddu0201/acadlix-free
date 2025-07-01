@@ -3,6 +3,7 @@ import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import { getCurrentDateString } from "@acadlix/helpers/util";
 
 const TypeNumerical = (props) => {
   const handleChange = (e) => {
@@ -27,6 +28,7 @@ const TypeNumerical = (props) => {
         incorrect_count: data?.yourAnswer === data?.option ? 0 : 1,
         solved_count: data?.yourAnswer ? 1 : 0,
         answer_data: data?.yourAnswer ?? null,
+        created_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );

@@ -5,9 +5,10 @@ import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import { getCurrentDateString } from "@acadlix/helpers/util";
 
 const TypeFill = (props) => {
-  let rxp = /{([^}]+)}/g;
+  let rxp = /{([^}]+)}/g; // Regular expression to match {option}
   let currmatch,
     found = [],
     i = 0,
@@ -33,18 +34,19 @@ const TypeFill = (props) => {
         ...props?.watch(`questions.${props?.index}.result`),
         correct_count:
           data?.filter((d) => caseSensitive ? d.option.includes(d.yourAnswer) : d.option.map((d) => d.toLowerCase()).includes(d.yourAnswer.toLowerCase())).length ===
-          data.length
+            data.length
             ? 1
             : 0,
         incorrect_count:
           data?.filter((d) => caseSensitive ? d.option.includes(d.yourAnswer) : d.option.map((d) => d.toLowerCase()).includes(d.yourAnswer.toLowerCase())).length ===
-          data.length
-            ? 0 
+            data.length
+            ? 0
             : 1,
         solved_count: data?.filter((d) => d.yourAnswer).length ? 1 : 0,
         answer_data: data?.filter((d) => d.yourAnswer).length
           ? data?.map((d) => d.yourAnswer)
           : null,
+        created_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );
@@ -94,10 +96,10 @@ const TypeFill = (props) => {
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <Typography>
-          <b>{__("Your answer", "acadlix")}</b>
-        </Typography>
-      )}
+          <Typography>
+            <b>{__("Your answer", "acadlix")}</b>
+          </Typography>
+        )}
       <Box
         sx={{
           display: "flex",
@@ -130,7 +132,7 @@ const TypeFill = (props) => {
                     }
                     disabled={props?.isDisabled ?? false}
                     onKeyPress={(e) => {
-                      if(e?.key === "Enter"){
+                      if (e?.key === "Enter") {
                         e?.target?.blur();
                       }
                     }}
@@ -143,83 +145,83 @@ const TypeFill = (props) => {
         </Box>
         {(props?.watch("view_answer") ||
           props?.watch(`questions.${props?.index}.check`)) && (
-          <Box
-            sx={{
-              position: "relative",
-              marginLeft: "5px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-              <Avatar
-                sx={{
-                  height: {
-                    xs: 24,
-                  },
-                  width: {
-                    xs: 24,
-                  },
-                  bgcolor: (theme) => theme?.palette?.success?.main,
-                }}
-              >
-                <TiTick />
-              </Avatar>
-            ) : (
-              <Avatar
-                sx={{
-                  height: {
-                    xs: 24,
-                  },
-                  width: {
-                    xs: 24,
-                  },
-                  bgcolor: (theme) => theme.palette.error?.main,
-                }}
-              >
-                <RxCross2 />
-              </Avatar>
-            )}
-          </Box>
-        )}
+            <Box
+              sx={{
+                position: "relative",
+                marginLeft: "5px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {props?.watch(`questions.${props?.index}.result.correct_count`) ? (
+                <Avatar
+                  sx={{
+                    height: {
+                      xs: 24,
+                    },
+                    width: {
+                      xs: 24,
+                    },
+                    bgcolor: (theme) => theme?.palette?.success?.main,
+                  }}
+                >
+                  <TiTick />
+                </Avatar>
+              ) : (
+                <Avatar
+                  sx={{
+                    height: {
+                      xs: 24,
+                    },
+                    width: {
+                      xs: 24,
+                    },
+                    bgcolor: (theme) => theme.palette.error?.main,
+                  }}
+                >
+                  <RxCross2 />
+                </Avatar>
+              )}
+            </Box>
+          )}
       </Box>
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-        <>
-          <Typography>
-            <b>{__("Correct answer", "acadlix")}</b>
-          </Typography>
-          <Box>
-            {props?.answer_data?.[props?.type]?.option
-              ?.split(rxp)
-              ?.map((data, index) => {
-                if (found?.includes(data)) {
-                  return (
-                    <React.Fragment key={index}>
-                      <CustomTextField
-                        variant="standard"
-                        size="small"
-                        sx={{
-                          ".MuiInputBase-inputSizeSmall": {
-                            padding: "0px 3px",
-                          },
-                        }}
-                        inputProps={{
-                          sx: {
-                            height: "1.4375em !important",
-                          }
-                        }}
-                        value={getAnswerData(found[j])}
-                        disabled
-                      />
-                    </React.Fragment>
-                  );
-                }
-                return (<CustomLatex>{data}</CustomLatex>);
-              })}
-          </Box>
-        </>
-      )}
+          <>
+            <Typography>
+              <b>{__("Correct answer", "acadlix")}</b>
+            </Typography>
+            <Box>
+              {props?.answer_data?.[props?.type]?.option
+                ?.split(rxp)
+                ?.map((data, index) => {
+                  if (found?.includes(data)) {
+                    return (
+                      <React.Fragment key={index}>
+                        <CustomTextField
+                          variant="standard"
+                          size="small"
+                          sx={{
+                            ".MuiInputBase-inputSizeSmall": {
+                              padding: "0px 3px",
+                            },
+                          }}
+                          inputProps={{
+                            sx: {
+                              height: "1.4375em !important",
+                            }
+                          }}
+                          value={getAnswerData(found[j])}
+                          disabled
+                        />
+                      </React.Fragment>
+                    );
+                  }
+                  return (<CustomLatex>{data}</CustomLatex>);
+                })}
+            </Box>
+          </>
+        )}
     </Box>
   );
 };

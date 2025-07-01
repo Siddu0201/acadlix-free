@@ -281,6 +281,14 @@ export const convertToPostDate = (obj) => {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
+
+/**
+ * Converts a given date string to a Unix timestamp.
+ *
+ * @param {string} dateString - The date string to convert.
+ *
+ * @returns {number|false} - The Unix timestamp, or false if the conversion failed.
+ */
 export const strtotime = (dateString) => {
   if (!dateString) return false;
   const date = format("Y-m-d H:i:s", dateString);
@@ -288,12 +296,26 @@ export const strtotime = (dateString) => {
   return isNaN(timestamp) ? false : timestamp;
 }
 
+/**
+ * Converts a given date string to a database format.
+ *
+ * @param {string} date - The date string to convert.
+ *
+ * @returns {string} - The date in database format (Y-m-d H:i:s).
+ */
 export const getDbFormatDate = (date) => {
   if (!date) return "";
   const date_time_format = "Y-m-d H:i:s";
   return format(date_time_format, date);
 }
 
+/**
+ * Converts a given date string to a format based on the user's settings.
+ *
+ * @param {string} date - The date string to convert.
+ *
+ * @returns {string} - The formatted date string.
+ */
 export const getFormatDate = (date) => {
   if (!date) return "";
   const date_settings = getSettings();
@@ -301,11 +323,21 @@ export const getFormatDate = (date) => {
   return format(date_time_format, date);
 }
 
+/**
+ * Returns the current date string in the database format.
+ *
+ * @returns {string} - The current date string in the database format (Y-m-d H:i:s).
+ */
 export const getCurrentDateString = () => {
   const date_time_format = "Y-m-d H:i:s";
   return strtotime(dateI18n(date_time_format));
 }
 
+/**
+ * Returns the current offset based on the user's settings.
+ *
+ * @returns {string} - The current offset based on the user's settings.
+ */
 export const getOffset = () => {
   const date_settings = getSettings();
   if(date_settings?.timezone?.string){

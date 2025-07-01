@@ -3,6 +3,7 @@ import React from 'react'
 import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomTextField from '@acadlix/components/CustomTextField';
+import { getCurrentDateString } from '@acadlix/helpers/util';
 
 const TypeFreeChoice = (props) => {
     const handleChange = (e) => {
@@ -29,17 +30,11 @@ const TypeFreeChoice = (props) => {
                     : (data.correctOption?.map((d) => d.toLowerCase()).includes(data.yourAnswer.toLowerCase()) ? 0 : 1),
                 solved_count: data?.yourAnswer ? 1 : 0,
                 answer_data: data?.yourAnswer ?? null,
+                created_at: getCurrentDateString(),
             },
             { shouldDirty: true }
         );
     };
-
-    const isDisabled = () => {
-        if(props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)){
-            return true;
-        }
-        return false;
-    }
 
     return (
         <Box

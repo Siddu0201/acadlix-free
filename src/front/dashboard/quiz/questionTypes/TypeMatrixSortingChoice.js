@@ -21,6 +21,7 @@ import { __ } from "@wordpress/i18n";
 import { RxCross2, TiTick } from "@acadlix/helpers/icons";
 
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import { getCurrentDateString } from "@acadlix/helpers/util";
 
 const TypeMatrixSortingChoice = (props) => {
   const [activeId, setActiveId] = React.useState(null);
@@ -173,10 +174,11 @@ const TypeMatrixSortingChoice = (props) => {
             : 1,
         solved_count: 1,
         answer_data: data?.map((d) => d.yourPosition),
+        created_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );
-    console.log(props?.watch(`questions.${props?.index}.result`));
+    // console.log(props?.watch(`questions.${props?.index}.result`));
   }
 
   const handleDragStart = (e) => {

@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
+import { getCurrentDateString } from "@acadlix/helpers/util";
 
 const TypeTrueFalse = (props) => {
   const handleChange = (e) => {
@@ -49,6 +50,7 @@ const TypeTrueFalse = (props) => {
             : 1,
         solved_count: data?.filter((d) => d.isChecked).length > 0 ? 1 : 0,
         answer_data: data?.filter((d) => d.isChecked).length > 0 ? data?.findIndex((d) => d.isChecked) : null,
+        created_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );
