@@ -884,9 +884,7 @@ const QuizContent = (props) => {
           },
         },
           {
-            keepDirty: true,
-            keepErrors: true,
-            keepTouched: true,
+            shouldDirty: true,
           }
         );
       },
