@@ -141,7 +141,7 @@ const ResultSection = (props) => {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar
                 src={
-                  percent > props?.watch("minimum_percent_to_pass")
+                  percent >= props?.watch("minimum_percent_to_pass")
                     ? Pass
                     : Fail
                 }
@@ -149,7 +149,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {percent > props?.watch("minimum_percent_to_pass")
+                {percent >= props?.watch("minimum_percent_to_pass")
                   ? __("Pass", "acadlix")
                   : __("Fail", "acadlix")}
               </Typography>

@@ -577,7 +577,7 @@ const QuizContent = (props) => {
   const getStatus = () => {
     const points = getPoints();
     const total = getTotalPoints();
-    return (points / total) * 100 > methods?.watch("minimum_percent_to_pass") ? __("Pass", "acadlix") : __("Fail", "acadlix");
+    return (points / total) * 100 >= methods?.watch("minimum_percent_to_pass") ? __("Pass", "acadlix") : __("Fail", "acadlix");
   }
 
   const getTimeTaken = () => {

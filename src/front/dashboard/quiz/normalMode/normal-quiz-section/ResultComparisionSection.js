@@ -195,7 +195,7 @@ const ResultComparisionSection = (props) => {
                 >
                   <Avatar
                     src={
-                      props?.result > props?.watch("minimum_percent_to_pass")
+                      props?.result >= props?.watch("minimum_percent_to_pass")
                         ? props?.Pass
                         : props?.Fail
                     }
@@ -205,14 +205,14 @@ const ResultComparisionSection = (props) => {
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
-                    {props?.result > props?.watch("minimum_percent_to_pass")
+                    {props?.result >= props?.watch("minimum_percent_to_pass")
                       ? __("Pass", "acadlix")
                       : __("Fail", "acadlix")}
                   </Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
-                    {props?.watch("topper_result.result") > props?.watch("minimum_percent_to_pass")
+                    {props?.watch("topper_result.result") >= props?.watch("minimum_percent_to_pass")
                       ? __("Pass", "acadlix")
                       : __("Fail", "acadlix")}
                   </Typography>
