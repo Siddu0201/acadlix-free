@@ -25,7 +25,7 @@ const ResultTextSection = (props) => {
         {
           props?.watch("percent_based_result_text")
             ?
-            getGradeText(props?.watch("result_text"), props?.percent)
+            getGradeText(props?.watch("result_text"), props?.getResult())
             :
             <CustomLatex>
               {props?.watch("result_text")}

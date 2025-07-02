@@ -184,12 +184,13 @@ const QuizContent = (props) => {
       // Question Section
       subjects: [],
       subject_times:
+        props?.quiz?.subject_times ?
         props?.quiz?.subject_times?.map((s) => {
           return {
             ...s,
             optional: Boolean(Number(s?.optional)),
           };
-        }) ?? [],
+        }) : [],
       questions:
         props?.quiz?.rendered_questions?.map((question, index) => {
           return {
@@ -312,7 +313,7 @@ const QuizContent = (props) => {
     },
   });
 
-  console.log(methods?.watch());
+  console?.log(methods?.watch());
 
   useLayoutEffect(() => {
     if (typeof window.wp !== "undefined" && window.wp.mediaelement) {

@@ -9,6 +9,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import { __ } from "@wordpress/i18n";
+import { secondsToHms } from "@acadlix/helpers/util";
 
 const ResultComparisionSection = (props) => {
   return (
@@ -94,7 +95,7 @@ const ResultComparisionSection = (props) => {
                   <b>{__('Time', 'acadlix')}:</b>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>{props?.time}</Typography>
+                  <Typography>{secondsToHms(props?.getTimeTaken())}</Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
@@ -120,7 +121,7 @@ const ResultComparisionSection = (props) => {
                   <b>{__('Points', 'acadlix')}:</b>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>{props?.points?.toFixed(2)}</Typography>
+                  <Typography>{props?.getPoints()?.toFixed(2)}</Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
@@ -143,7 +144,7 @@ const ResultComparisionSection = (props) => {
                   <b>{__('Result', 'acadlix')}:</b>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>{props?.result?.toFixed(2)}%</Typography>
+                  <Typography>{props?.getResult()?.toFixed(2)}%</Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
@@ -169,7 +170,7 @@ const ResultComparisionSection = (props) => {
                   <b>{__('Accuracy', 'acadlix')}:</b>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>{props?.accuracy}%</Typography>
+                  <Typography>{props?.getAccuracy()}%</Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
@@ -195,7 +196,7 @@ const ResultComparisionSection = (props) => {
                 >
                   <Avatar
                     src={
-                      props?.result >= props?.watch("minimum_percent_to_pass")
+                      props?.getResult() >= props?.watch("minimum_percent_to_pass")
                         ? props?.Pass
                         : props?.Fail
                     }
@@ -205,9 +206,7 @@ const ResultComparisionSection = (props) => {
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>
-                    {props?.result >= props?.watch("minimum_percent_to_pass")
-                      ? __("Pass", "acadlix")
-                      : __("Fail", "acadlix")}
+                    {props?.getStatus()}
                   </Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>

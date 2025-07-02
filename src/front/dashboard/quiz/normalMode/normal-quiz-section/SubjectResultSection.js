@@ -25,7 +25,7 @@ const SubjectResultSection = (props) => {
         }) === index
       );
     })
-    ?.map((d) => d?.subject_name);
+    // ?.map((d) => d?.subject_name);
   
   return (
     <Box sx={{
@@ -80,17 +80,17 @@ const SubjectResultSection = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {subjects.map((row, index) => (
+            {subjects.map((subject, index) => (
               <TableRow key={index}>
                 <TableCell
                   component="th"
                   scope="row"
                   sx={{ backgroundColor: "#f4f0e2", border: "2px solid black" }}
                 >
-                  {row}
+                  {subject?.subject_name}
                 </TableCell>
                 <TableCell align="center" sx={{ border: "2px solid black" }}>
-                  {props?.watch('questions').filter(d => d?.subject_name === row && d?.result?.correct_count)?.length}
+                  {props?.getCorrectCountBySubjectId(subject?.subject_id)}
                 </TableCell>
                 <TableCell align="center" sx={{ border: "2px solid black" }}>
                   {props?.watch('questions').filter(d => d?.subject_name === row && d?.result?.solved_count && d?.result?.incorrect_count)?.length}

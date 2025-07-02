@@ -23,44 +23,6 @@ import ResultTextSection from "./ResultTextSection";
 import { __ } from "@wordpress/i18n";
 
 const ResultSection = (props) => {
-  const result = props?.watch("questions")?.reduce((total, d) => {
-    if (d?.result?.solved_count && d?.result?.correct_count) {
-      return total + Number(d?.points);
-    } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
-      return total - Number(d?.negative_points);
-    } else {
-      return total;
-    }
-  }, 0);
-  const negative_marks = props?.watch("questions")?.reduce((total, d) => {
-    if (d?.result?.solved_count && d?.result?.incorrect_count) {
-      return total + Number(d?.negative_points);
-    }
-    return total;
-  }, 0);
-  const total = props
-    ?.watch("questions")
-    ?.reduce((total, d) => total + Number(d?.points), 0);
-  const percent = (result / total) * 100;
-  const solvedCount = props
-    ?.watch("questions")
-    ?.filter((d) => d?.result?.solved_count)?.length;
-  const time =
-    props
-      ?.watch("questions")
-      .reduce((total, d) => total + d?.result?.time, 0) ?? 0;
-  const accuracy =
-    props?.watch("questions")?.filter((d) => d?.result?.solved_count)?.length >
-      0
-      ? (
-        (props?.watch("questions")?.filter((d) => d?.result?.correct_count)
-          ?.length /
-          props?.watch("questions")?.filter((d) => d?.result?.solved_count)
-            ?.length) *
-        100
-      )?.toFixed(2)
-      : 0;
-
   return (
     <Box
       sx={{
@@ -87,7 +49,7 @@ const ResultSection = (props) => {
         </Typography>
         "
       </Typography>
-      <ResultTextSection {...props} percent={percent} />
+      <ResultTextSection {...props} />
       <Grid
         container
         sx={{
@@ -103,7 +65,7 @@ const ResultSection = (props) => {
           </Box>
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              {result?.toFixed(2)}/{total}
+              {props?.getPoints()?.toFixed(2)}/{props?.getTotalPoints()?.toFixed(2)}
             </Typography>
             <Typography variant="subtitle2">{__("Marks Obtained", "acadlix")}</Typography>
           </Box>
@@ -115,7 +77,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {`-${negative_marks?.toFixed(2)}`}
+                {`-${props?.getNegativePoints()?.toFixed(2)}`}
               </Typography>
               <Typography variant="subtitle2">{__("Negative Marks", "acadlix")}</Typography>
             </Box>
@@ -141,7 +103,7 @@ const ResultSection = (props) => {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Avatar
                 src={
-                  percent >= props?.watch("minimum_percent_to_pass")
+                  props?.getResult() >= props?.watch("minimum_percent_to_pass")
                     ? Pass
                     : Fail
                 }
@@ -149,9 +111,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {percent >= props?.watch("minimum_percent_to_pass")
-                  ? __("Pass", "acadlix")
-                  : __("Fail", "acadlix")}
+                {props?.getStatus()}
               </Typography>
               <Typography variant="subtitle2">{__("Status", "acadlix")}</Typography>
             </Box>
@@ -164,7 +124,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {`${accuracy}%`}
+                {`${props?.getAccuracy()?.toFixed(2)}%`}
               </Typography>
               <Typography variant="subtitle2">{__("Accuracy", "acadlix")}</Typography>
             </Box>
@@ -177,7 +137,7 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {secondsToHms(time)}
+                {secondsToHms(props?.getTimeTaken())}
               </Typography>
               <Typography variant="subtitle2">{__("Time Taken", "acadlix")}</Typography>
             </Box>
@@ -216,9 +176,9 @@ const ResultSection = (props) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {isNaN(solvedCount / (time / 60))
+                {isNaN(props?.getSolvedCount() / (props?.getTimeTaken() / 60))
                   ? 0
-                  : (solvedCount / (time / 60)).toFixed(2)}{" "}
+                  : (props?.getSolvedCount() / (props?.getTimeTaken() / 60)).toFixed(2)}{" "}
                 {__("Q/min", "acadlix")}
               </Typography>
               <Typography variant="subtitle2">{__("Speed", "acadlix")}</Typography>
@@ -230,10 +190,6 @@ const ResultSection = (props) => {
         props?.watch("result_comparision_with_topper") && (
           <ResultComparisionSection
             {...props}
-            result={percent}
-            accuracy={accuracy}
-            points={result}
-            time={secondsToHms(time)}
             TickImage={TickImage}
             ClockImage={ClockImage}
             AccuracyImage={AccuracyImage}

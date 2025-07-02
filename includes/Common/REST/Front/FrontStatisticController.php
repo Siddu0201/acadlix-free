@@ -89,7 +89,13 @@ class FrontStatisticController
         }
 
         $stat_ref = acadlix()->model()->statisticRef()->find($statistic_id);
-        $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($stat_ref->quiz_id);
+        $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($stat_ref->quiz_id)->setAppends([
+            'rendered_post_content',
+            'rendered_metas',
+            'category',
+            'languages',
+            'rendered_questions',
+        ]);
         $res['statistic_ref'] = $stat_ref;
         $res['statistic'] = $stat_ref ? $stat_ref->statistics()->with("question")->get() : [];
 

@@ -11,13 +11,18 @@ import TypeMatrixSortingChoice from "@acadlix/front/dashboard/quiz/questionTypes
 import TypeFill from "@acadlix/front/dashboard/quiz/questionTypes/TypeFill";
 import TypeNumerical from "@acadlix/front/dashboard/quiz/questionTypes/TypeNumerical";
 import TypeRange from "@acadlix/front/dashboard/quiz/questionTypes/TypeRange";
-import QuestionSubjectAndPointSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection";
 import LanguageSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
 import QuestionStatusSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import PropTypes from "prop-types";
 import TypeFreeChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeFreeChoice";
 
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+
+const QuestionSubjectAndPointSection = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
+    : import("@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection")           // Provide fallback if in Free build
+);
 
 const AnswerSheet = ({
     statistic = [],
@@ -33,11 +38,25 @@ const AnswerSheet = ({
             display_subject: true,
             view_answer: true,
             multi_language: Boolean(Number(quiz?.multi_language)),
+            mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
+            advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
+            enable_selectable_questions_rule: Boolean(
+                Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
+            ),
+            subject_times:
+                quiz?.subject_times ?
+                    quiz?.subject_times?.map((s) => {
+                        return {
+                            ...s,
+                            optional: Boolean(Number(s?.optional)),
+                        };
+                    }) : [],
             questions: statistic?.map((stat) => {
                 return {
                     selected: true,
                     check: true,
                     question_id: stat?.question_id,
+                    subject_id: stat?.question?.subject?.subject_id,
                     subject_name:
                         stat?.question?.subject?.subject_name ?? "Uncategorized",
                     online: stat?.question?.online,
@@ -62,6 +81,7 @@ const AnswerSheet = ({
                         hint_count: stat?.hint_count,
                         time: stat?.question_time,
                         answer_data: stat?.answer_data,
+                        attempted_at: stat?.attempted_at ?? null,
                     },
                     language:
                         stat?.question?.question_languages?.map((lang) => {
@@ -133,6 +153,30 @@ const AnswerSheet = ({
             elm?.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    const isQuestionEvaluated = (subjectId = 0, questionId = 0) => {
+        const subject = methods?.watch("subject_times")?.find((d) => d?.subject_id === subjectId);
+        if (
+          methods?.watch("mode") === "advance_mode" &&
+          methods?.watch("enable_selectable_questions_rule") &&
+          subject &&
+          subject?.selectable_rule_number_of_questions > 0
+        ) {
+          const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId);
+    
+          let evaluate_number_of_question = subject_questions?.length;
+          if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
+            evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
+          }
+          const attempted_questions = subject_questions
+            ?.filter((d) => d?.result?.attempted_at)
+            ?.sort((a, b) => new Date(a.result.attempted_at) - new Date(b.result.attempted_at));
+          const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
+    
+          return evaluated_questions?.some((d) => d?.question_id === questionId);
+        }
+        return false;
+      }
 
     return (
         <Box>
@@ -260,6 +304,7 @@ const AnswerSheet = ({
                             first={index === 0}
                             questionRef={questionRef}
                             last={methods?.watch("questions")?.length - 1 === index}
+                            isQuestionEvaluated={isQuestionEvaluated}
                         />
                     ))}
         </Box>
@@ -399,7 +444,9 @@ const ViewQuestionSection = (props) => {
         >
             <Box>
                 {props?.watch("multi_language") && <LanguageSection {...props} />}
-                <QuestionSubjectAndPointSection {...props} />
+                <React.Suspense fallback={null}>
+                    <QuestionSubjectAndPointSection {...props} />
+                </React.Suspense>
 
                 {props?.question?.language?.length > 0 &&
                     props?.question?.language?.map((lang, lang_index) => (
