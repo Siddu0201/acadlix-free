@@ -31,10 +31,6 @@ const AnswerSheet = ({
     ...props
 }) => {
     const theme = useTheme();
-    const colorCode = {
-        correct: theme?.palette?.success?.main,
-        incorrect: theme?.palette?.error?.main
-    }
     const methods = useForm({
         defaultValues: {
             show_marks: true,
