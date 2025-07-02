@@ -170,7 +170,7 @@ const ResultComparisionSection = (props) => {
                   <b>{__('Accuracy', 'acadlix')}:</b>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>{props?.getAccuracy()}%</Typography>
+                  <Typography>{props?.getAccuracy()?.toFixed(2)}%</Typography>
                 </Grid>
                 <Grid size={{ md: 4, xs: 3 }}>
                   <Typography>

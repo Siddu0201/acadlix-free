@@ -841,7 +841,7 @@ const QuizContent = (props) => {
     }
 
     let data = {
-      points: getPoints()?.toFixed(2),
+      points: getPoints(),
       result: getResult(),
       accuracy: getAccuracy(),
       status: getStatus(),
@@ -866,10 +866,10 @@ const QuizContent = (props) => {
         let topper = data?.data?.topper;
         const topper_result = {
           quiz_time: topper?.result > getResult() ? secondsToHms(topper.quiz_time ?? 0) : secondsToHms(getTimeTaken()),
-          accuracy: topper?.result > getResult() ? topper?.accuracy?.toFixed(2) ?? 0 : getAccuracy(),
+          accuracy: topper?.result > getResult() ? topper?.accuracy?.toFixed(2) ?? 0 : getAccuracy()?.toFixed(2),
           status: topper?.result > getResult() ? topper?.status ?? "" : getStatus(),
-          result: topper?.result > getResult() ? topper?.result?.toFixed(2) ?? 0 : getResult(),
-          points: topper?.result > getResult() ? topper?.points?.toFixed(2) ?? 0 : getPoints(),
+          result: topper?.result > getResult() ? topper?.result?.toFixed(2) ?? 0 : getResult()?.toFixed(2),
+          points: topper?.result > getResult() ? topper?.points?.toFixed(2) ?? 0 : getPoints()?.toFixed(2),
           rank: 1,
           name: topper?.result > getResult() ? topper?.name ?? "Anonymous" : methods?.watch("name"),
           email: topper?.result > getResult() ? topper?.email ?? "" : methods?.watch("email"),
