@@ -582,7 +582,7 @@ if (!class_exists('Helper')) {
             $new_options = [];
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
-                    $new_options[$key] = get_option($key, $option);
+                    $new_options[$key] = acadlix()->helper()->acadlix_get_option($key, $option);
                 }
             }
             return $new_options;
