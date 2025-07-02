@@ -31,6 +31,10 @@ const AnswerSheet = ({
     ...props
 }) => {
     const theme = useTheme();
+    const colorCode = {
+        correct: theme?.palette?.success?.main,
+        incorrect: theme?.palette?.error?.main
+    }
     const methods = useForm({
         defaultValues: {
             show_marks: true,
@@ -56,7 +60,7 @@ const AnswerSheet = ({
                     selected: true,
                     check: true,
                     question_id: stat?.question_id,
-                    subject_id: stat?.question?.subject?.subject_id,
+                    subject_id: stat?.question?.subject_id,
                     subject_name:
                         stat?.question?.subject?.subject_name ?? "Uncategorized",
                     online: stat?.question?.online,
@@ -297,6 +301,7 @@ const AnswerSheet = ({
                         <ViewQuestionSection
                             {...props}
                             {...methods}
+                            colorCode={colorCode}
                             key={index}
                             index={index}
                             num={index + 1}
