@@ -93,31 +93,21 @@ const SubjectResultSection = (props) => {
                   {props?.getCorrectCountBySubjectId(subject?.subject_id)}
                 </TableCell>
                 <TableCell align="center" sx={{ border: "2px solid black" }}>
-                  {props?.watch('questions').filter(d => d?.subject_name === row && d?.result?.solved_count && d?.result?.incorrect_count)?.length}
+                  {props?.getIncorrectCountBySubjectId(subject?.subject_id)}
                 </TableCell>
                 <TableCell align="center" sx={{ border: "2px solid black" }}>
-                  {props?.watch('questions').filter(d => d?.subject_name === row && !d?.result?.solved_count)?.length}
+                  {props?.getSkippedCountBySubjectId(subject?.subject_id)}
                 </TableCell>
                 <TableCell align="center" sx={{ border: "2px solid black" }}>
                  {
                   secondsToHms(
-                    props?.watch('questions').filter(d => d?.subject_name === row)
-                    ?.reduce((total, d) => total + d?.result?.time , 0)
+                    props?.getTimeBySubjectId(subject?.subject_id)
                   )
                  }
                 </TableCell>
                 <TableCell align="center" sx={{ border: "2px solid black" }}>
                   {
-                    props?.watch('questions').filter(d => d?.subject_name === row)
-                    ?.reduce((total, d) => {
-                      if(d?.result?.solved_count && d?.result?.correct_count){
-                        return total + Number(d?.points);
-                      }else if(d?.result?.solved_count && d?.result?.incorrect_count){
-                        return total - Number(d?.negative_points);
-                      }else{
-                        return total;
-                      }
-                    }, 0)
+                    props?.getPointsBySubjectId(subject?.subject_id)?.toFixed(2)
                   }
                 </TableCell>
               </TableRow>

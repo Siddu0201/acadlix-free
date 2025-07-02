@@ -864,6 +864,16 @@ const QuizContent = (props) => {
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
         let topper = data?.data?.topper;
+        const topper_result = {
+          quiz_time: topper?.result > getResult() ? secondsToHms(topper.quiz_time ?? 0) : secondsToHms(getTimeTaken()),
+          accuracy: topper?.result > getResult() ? topper?.accuracy?.toFixed(2) ?? 0 : getAccuracy(),
+          status: topper?.result > getResult() ? topper?.status ?? "" : getStatus(),
+          result: topper?.result > getResult() ? topper?.result?.toFixed(2) ?? 0 : getResult(),
+          points: topper?.result > getResult() ? topper?.points?.toFixed(2) ?? 0 : getPoints(),
+          rank: 1,
+          name: topper?.result > getResult() ? topper?.name ?? "Anonymous" : methods?.watch("name"),
+          email: topper?.result > getResult() ? topper?.email ?? "" : methods?.watch("email"),
+        }
 
         methods?.reset({
           ...methods?.getValues(),
@@ -873,16 +883,7 @@ const QuizContent = (props) => {
           toplist_count: data?.data?.toplist_count ?? 0,
           toplist: data?.data?.toplist ?? [],
           toplist_id: data?.data?.toplist_id ?? 0,
-          topper_result: {
-            quiz_time: topper.quiz_time ? secondsToHms(topper.quiz_time) : 0,
-            accuracy: topper.accuracy?.toFixed(2) ?? 0,
-            status: topper.status ?? "",
-            result: topper.result?.toFixed(2) ?? 0,
-            points: topper.points?.toFixed(2) ?? 0,
-            rank: 1,
-            name: topper.name ?? "Anonymous",
-            email: topper.email ?? "",
-          },
+          topper_result: topper_result,
         },
           {
             shouldDirty: true,
