@@ -582,7 +582,7 @@ if (!class_exists('Helper')) {
             $new_options = [];
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
-                    $new_options[$key] = acadlix()->helper()->acadlix_get_option($key, $option);
+                    $new_options[$key] = $this->acadlix_get_option($key, $option);
                 }
             }
             return $new_options;
@@ -591,7 +591,7 @@ if (!class_exists('Helper')) {
         public function acadlix_get_option($key = '', $default = false)
         {
             $options = $this->acadlix_options();
-            if (!empty($key) && is_array($options)) {
+            if (!empty($key)) {
                 return get_option($key, $options[$key] ?? $default);
             }
             return $default;
@@ -620,7 +620,7 @@ if (!class_exists('Helper')) {
          */
         public function formatDate(string $dateStr): string
         {
-            $dateFormat = acadlix()->helper()->acadlix_get_option('date_format');
+            $dateFormat = $this->acadlix_get_option('date_format');
             $dateObj = strtotime($dateStr);
             $formattedDate = date($dateFormat, $dateObj);
             return $formattedDate;
@@ -628,13 +628,13 @@ if (!class_exists('Helper')) {
 
         public function acadlix_get_time_zone_string()
         {
-            $timezone = acadlix()->helper()->acadlix_get_option('timezone_string');
+            $timezone = $this->acadlix_get_option('timezone_string');
             if ($timezone) {
                 return $timezone;
             }
 
             // get UTC offset, if it isn't set then return UTC
-            $utcOffset = acadlix()->helper()->acadlix_get_option('gmt_offset', 0);
+            $utcOffset = $this->acadlix_get_option('gmt_offset', 0);
             if ($utcOffset === 0) {
                 return 'UTC';
             }
@@ -652,7 +652,7 @@ if (!class_exists('Helper')) {
 
         public function acadlix_get_date_time_format()
         {
-            return acadlix()->helper()->acadlix_get_option('date_format') . ' ' . acadlix()->helper()->acadlix_get_option('time_format');
+            return $this->acadlix_get_option('date_format') . ' ' . $this->acadlix_get_option('time_format');
         }
 
         public function acadlix_ddd($data)
