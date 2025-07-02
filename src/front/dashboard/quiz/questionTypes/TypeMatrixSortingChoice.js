@@ -174,7 +174,7 @@ const TypeMatrixSortingChoice = (props) => {
             : 1,
         solved_count: 1,
         answer_data: data?.map((d) => d.yourPosition),
-        created_at: getCurrentDateString(),
+        attempted_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );

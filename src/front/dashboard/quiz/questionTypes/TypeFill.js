@@ -46,7 +46,7 @@ const TypeFill = (props) => {
         answer_data: data?.filter((d) => d.yourAnswer).length
           ? data?.map((d) => d.yourAnswer)
           : null,
-        created_at: getCurrentDateString(),
+        attempted_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );

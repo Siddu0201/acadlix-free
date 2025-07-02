@@ -69,7 +69,7 @@ const TypeSortingChoice = (props) => {
               : 1,
           solved_count: 1,
           answer_data: data?.map((d) => d.position),
-          created_at: getCurrentDateString(),
+          attempted_at: getCurrentDateString(),
         },
         { shouldDirty: true }
       );

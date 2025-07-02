@@ -50,7 +50,7 @@ const TypeTrueFalse = (props) => {
             : 1,
         solved_count: data?.filter((d) => d.isChecked).length > 0 ? 1 : 0,
         answer_data: data?.filter((d) => d.isChecked).length > 0 ? data?.findIndex((d) => d.isChecked) : null,
-        created_at: getCurrentDateString(),
+        attempted_at: getCurrentDateString(),
       },
       { shouldDirty: true }
     );

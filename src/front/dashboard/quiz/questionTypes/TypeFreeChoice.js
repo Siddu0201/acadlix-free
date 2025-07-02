@@ -30,7 +30,7 @@ const TypeFreeChoice = (props) => {
                     : (data.correctOption?.map((d) => d.toLowerCase()).includes(data.yourAnswer.toLowerCase()) ? 0 : 1),
                 solved_count: data?.yourAnswer ? 1 : 0,
                 answer_data: data?.yourAnswer ?? null,
-                created_at: getCurrentDateString(),
+                attempted_at: getCurrentDateString(),
             },
             { shouldDirty: true }
         );

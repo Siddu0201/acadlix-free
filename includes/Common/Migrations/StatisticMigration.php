@@ -24,6 +24,7 @@ if(!class_exists('StatisticMigration')){
                     $table->float('negative_points')->nullable();
                     $table->integer("question_time")->nullable();
                     $table->text("answer_data")->nullable();
+                    $table->bigInteger('attempted_at')->nullable();
                     $table->timestamps();
                 });
             }
@@ -32,6 +33,16 @@ if(!class_exists('StatisticMigration')){
         public function down()
         {
             Manager::schema()->dropIfExists('acadlix_statistic');
+        }
+
+        public function update()
+        {
+            // Added in db version 3
+            if (!Manager::schema()->hasColumn('acadlix_statistic', 'attempted_at')) {
+                Manager::schema()->table('acadlix_statistic', function ($table) {
+                    $table->bigInteger('attempted_at')->nullable()->after('answer_data');
+                });
+            }
         }
     }
 }

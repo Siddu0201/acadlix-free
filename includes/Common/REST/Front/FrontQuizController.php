@@ -270,7 +270,8 @@ class FrontQuizController
                         "points" => $question["points"],
                         "negative_points" => $question["negative_points"],
                         "question_time" => $question["result"]["time"],
-                        "answer_data" => $question["result"]["answer_data"]
+                        "answer_data" => $question["result"]["answer_data"],
+                        "attempted_at" => $question["result"]["attempted_at"]
                     ]);
                 }
             }

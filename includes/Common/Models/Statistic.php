@@ -21,7 +21,8 @@ if (!class_exists('Statistic')) {
             "points",
             "negative_points",
             "question_time",
-            "answer_data"
+            "answer_data",
+            "attempted_at"
         ];
         
         protected $casts = [
@@ -34,6 +35,7 @@ if (!class_exists('Statistic')) {
             "points" => "double",
             "negative_points" => "double",
             "question_time" => "integer",
+            "attempted_at" => "integer"
         ];
 
         public function statistic_ref()

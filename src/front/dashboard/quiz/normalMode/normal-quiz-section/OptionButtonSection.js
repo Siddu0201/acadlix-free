@@ -101,7 +101,7 @@ const OptionButtonSection = (props) => {
         incorrect_count: 0,
         solved_count: 0,
         answer_data: sortingOrder ?? null,
-        created_at: null,
+        attempted_at: null,
       },
       { shouldDirty: true }
     );
