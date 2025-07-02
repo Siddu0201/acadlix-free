@@ -53,18 +53,18 @@ if (!class_exists("Option")) {
             }
 
             // Set permalink is "Post name".
-            if (!get_option('permalink_structure')) {
-                update_option('permalink_structure', '/%postname%/');
+            if (!acadlix()->helper()->acadlix_get_option('permalink_structure')) {
+                acadlix()->helper()->acadlix_update_option('permalink_structure', '/%postname%/');
             }
         }
 
-        public function removeOption()
+        public function removeOptions()
         {
             $options = acadlix()->helper()->acadlix_options();
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
-                    if (get_option($option)) {
-                        delete_option($key);
+                    if (acadlix()->helper()->acadlix_get_option($option)) {
+                        acadlix()->helper()->acadlix_delete_option($key);
                     }
                 }
             }
@@ -72,13 +72,13 @@ if (!class_exists("Option")) {
 
         private function createPage($option = '', $data = [])
         {
-            if (get_option($option)) {
-                update_option($option, get_option($option));
+            if (acadlix()->helper()->acadlix_get_option($option)) {
+                acadlix()->helper()->acadlix_update_option($option, acadlix()->helper()->acadlix_get_option($option));
             } else {
                 // Insert the page into the database
                 $page_id = wp_insert_post($data);
                 // Optionally, you can store the page ID in an option or somewhere else for future reference
-                update_option($option, $page_id);
+                acadlix()->helper()->acadlix_update_option($option, $page_id);
             }
         }
 

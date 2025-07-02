@@ -177,9 +177,9 @@ class Core
 
     public function acadlix_flush_rewrite_rules()
     {
-        if (get_option('acadlix_flush_rewrite')) {
+        if (acadlix()->helper()->acadlix_get_option('acadlix_flush_rewrite')) {
             flush_rewrite_rules();
-            delete_option('acadlix_flush_rewrite'); // prevent repeated flushing
+            acadlix()->helper()->acadlix_delete_option('acadlix_flush_rewrite'); // prevent repeated flushing
         }
     }
 

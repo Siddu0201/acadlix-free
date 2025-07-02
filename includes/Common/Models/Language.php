@@ -34,7 +34,7 @@ if (!class_exists('Language')) {
             $instance = static::instance();
             $term = get_term($id, $instance->taxonomy);
 
-            $default = (int) get_option( 'default_term_' . $instance->taxonomy );
+            $default = (int) acadlix()->helper()->acadlix_get_option( 'default_term_' . $instance->taxonomy );
             if (!is_wp_error($term) && $term) {
                 return [
                     'term_id' => $term->term_id,
@@ -118,7 +118,7 @@ if (!class_exists('Language')) {
         public static function get_default()
         {
             $instance = static::instance();
-            $default = (int) get_option( 'default_term_' . $instance->taxonomy );
+            $default = (int) acadlix()->helper()->acadlix_get_option( 'default_term_' . $instance->taxonomy );
             return static::find($default);
         }
 
@@ -127,7 +127,7 @@ if (!class_exists('Language')) {
             $instance = static::instance();
             $term = static::find($id);
             if (!is_wp_error($term) && $term) {
-                update_option('default_term_' . $instance->taxonomy, $term['term_id']);
+                acadlix()->helper()->acadlix_update_option('default_term_' . $instance->taxonomy, $term['term_id']);
                 return $term;
             }
             return null;

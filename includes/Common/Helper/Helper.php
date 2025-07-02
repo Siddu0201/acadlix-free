@@ -566,6 +566,8 @@ if (!class_exists('Helper')) {
                 'acadlix_course_base' => "courses",
                 'acadlix_course_category_base' => "course-category",
                 'acadlix_course_tag_base' => "course-tag",
+                // DB option
+                'acadlix_db_version' => "",
             ];
 
             // Filter options
@@ -602,6 +604,13 @@ if (!class_exists('Helper')) {
             }
         }
 
+        public function acadlix_delete_option($key = '', $value = '')
+        {
+            if(!empty($key)){
+                delete_option($key);
+            }
+        }
+
         /**
          * Formats a date string according to the WordPress date format setting.
          *
@@ -611,7 +620,7 @@ if (!class_exists('Helper')) {
          */
         public function formatDate(string $dateStr): string
         {
-            $dateFormat = get_option('date_format');
+            $dateFormat = acadlix()->helper()->acadlix_get_option('date_format');
             $dateObj = strtotime($dateStr);
             $formattedDate = date($dateFormat, $dateObj);
             return $formattedDate;
@@ -619,13 +628,13 @@ if (!class_exists('Helper')) {
 
         public function acadlix_get_time_zone_string()
         {
-            $timezone = get_option('timezone_string');
+            $timezone = acadlix()->helper()->acadlix_get_option('timezone_string');
             if ($timezone) {
                 return $timezone;
             }
 
             // get UTC offset, if it isn't set then return UTC
-            $utcOffset = get_option('gmt_offset', 0);
+            $utcOffset = acadlix()->helper()->acadlix_get_option('gmt_offset', 0);
             if ($utcOffset === 0) {
                 return 'UTC';
             }
@@ -643,7 +652,7 @@ if (!class_exists('Helper')) {
 
         public function acadlix_get_date_time_format()
         {
-            return get_option('date_format') . ' ' . get_option('time_format');
+            return acadlix()->helper()->acadlix_get_option('date_format') . ' ' . acadlix()->helper()->acadlix_get_option('time_format');
         }
 
         public function acadlix_ddd($data)

@@ -370,7 +370,7 @@ class Manager
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'home_url' => esc_url(home_url()),
             'nonce' => wp_create_nonce('wp_rest'),
-            'advance_quiz_url' => get_permalink(get_option('acadlix_advance_quiz_page_id')),
+            'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],

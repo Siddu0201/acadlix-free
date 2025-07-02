@@ -68,7 +68,7 @@ class Activator
         // remove table
         acadlix()->migration()->removeTable();
         // remove options
-        acadlix()->admin()->option()->removeOption();
+        acadlix()->admin()->option()->removeOptions();
     }
 
     public function acadlix_load_textdomain()
@@ -78,17 +78,22 @@ class Activator
 
     public function acadlix_check_db_update()
     {
-        $installed_ver = get_option('acadlix_db_version');
+        $installed_ver = acadlix()->helper()->acadlix_get_option('acadlix_db_version');
 
         if ($installed_ver != $this->dbVersion) {
             acadlix()->migration()->createTable(); // function to update schema/data
-            update_option('acadlix_db_version', $this->dbVersion);
+            acadlix()->seeder()->seed(); // function to upadte schema/data
+            switch($installed_ver){
+                case 1:
+                    $this->updateV2();
+                    break;
+            }
+            acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         }
-
-        $this->handle_subject_correction();
     }
+    
 
-    protected function handle_subject_correction()
+    protected function updateV2()
     {
         $subject = acadlix()->model()->subject()->where('default', 1)->first();
         $questions = acadlix()->model()->question()->where('subject_id', null)->get();

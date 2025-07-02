@@ -35,7 +35,7 @@ if (!class_exists('Category')) {
             $instance = static::instance();
             $term = get_term($id, $instance->taxonomy);
 
-            $default = (int) get_option('default_term_' . $instance->taxonomy);
+            $default = (int) acadlix()->helper()->acadlix_get_option('default_term_' . $instance->taxonomy);
 
             if (!is_wp_error($term) && $term) {
                 return [
