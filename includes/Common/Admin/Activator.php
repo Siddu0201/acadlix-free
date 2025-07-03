@@ -18,7 +18,7 @@ class Activator
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
         add_action('init', [$this, 'acadlix_load_textdomain']);
-        add_action('plugin_loaded', [$this, 'acadlix_check_db_update']);
+        add_action('admin_init', [$this, 'acadlix_check_db_update']);
     }
 
 
@@ -73,28 +73,51 @@ class Activator
 
     public function acadlix_load_textdomain()
     {
-        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/'. acadlix()->versionPath);
+        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/' . acadlix()->versionPath);
     }
 
     public function acadlix_check_db_update()
     {
-        $installed_ver = acadlix()->helper()->acadlix_get_option('acadlix_db_version');
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+        $didUpdate = false;
 
-        if ($installed_ver != $this->dbVersion) {
+        $installed_ver = (int) acadlix()->helper()->acadlix_get_option('acadlix_db_version') ?: 1;
+
+        $updates = [
+            2 => 'updateV2',
+            3 => 'updateV3',
+        ];
+
+        foreach ($updates as $version => $method) {
+            if ($installed_ver < $version && method_exists($this, $method)) {
+                $this->$method();
+                $didUpdate = true;
+            }
+        }
+
+        if ($didUpdate) {
             acadlix()->migration()->createTable(); // function to update schema/data
             acadlix()->seeder()->seed(); // function to upadte schema/data
-            switch($installed_ver){
-                case 1:
-                    $this->updateV2();
-                    break;
-            }
             acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         }
     }
-    
+
+    protected function updateV3()
+    {
+        /**
+         * In this update add column attempted_at in statistic table run through createTable function.
+         */
+    }
+
 
     protected function updateV2()
     {
+        /**
+         * In this update also run subject seeder to add default subject.
+         * Update questions subject_id
+         */
         $subject = acadlix()->model()->subject()->where('default', 1)->first();
         $questions = acadlix()->model()->question()->where('subject_id', null)->get();
         if ($questions->count() > 0 && $subject) {
