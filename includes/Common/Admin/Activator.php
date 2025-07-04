@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class Activator
 {
-    public $dbVersion = 3;
+    public $dbVersion = 4;
     public function __construct()
     {
         if (!is_admin())
@@ -88,6 +88,7 @@ class Activator
         $updates = [
             2 => 'updateV2',
             3 => 'updateV3',
+            4 => 'updateV4',
         ];
 
         foreach ($updates as $version => $method) {
@@ -100,8 +101,16 @@ class Activator
         if ($didUpdate) {
             acadlix()->migration()->createTable(); // function to update schema/data
             acadlix()->seeder()->seed(); // function to upadte schema/data
+            acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
             acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         }
+    }
+
+    protected function updateV4()
+    {
+        /**
+         * In this update add capabilities for zoom run through addCapabilities function.
+         */
     }
 
     protected function updateV3()
