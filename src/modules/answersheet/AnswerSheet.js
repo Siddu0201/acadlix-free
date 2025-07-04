@@ -81,7 +81,7 @@ const AnswerSheet = ({
                         hint_count: stat?.hint_count,
                         time: stat?.question_time,
                         answer_data: stat?.answer_data,
-                        attempted_at: stat?.attempted_at ?? null,
+                        attempted_at: Number(stat?.attempted_at) ?? null,
                     },
                     language:
                         stat?.question?.question_languages?.map((lang) => {
