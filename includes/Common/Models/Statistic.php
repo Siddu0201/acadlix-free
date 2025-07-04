@@ -35,7 +35,7 @@ if (!class_exists('Statistic')) {
             "points" => "double",
             "negative_points" => "double",
             "question_time" => "integer",
-            "attempted_at" => "integer"
+            "attempted_at" => "string"
         ];
 
         public function statistic_ref()
