@@ -24,6 +24,8 @@ abstract class AcadlixAbstract {
 	protected $ai = null;
 
 	protected $model = null;
+
+	protected $integrations = null;
 	
 
 	public function license(){
@@ -68,5 +70,9 @@ abstract class AcadlixAbstract {
 
 	public function model(){
 		return $this->model;
+	}
+
+	public function integrations(){
+		return $this->integrations;
 	}	
 }

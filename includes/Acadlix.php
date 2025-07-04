@@ -107,6 +107,7 @@ namespace Yuvayana\Acadlix {
             $this->rest = $this->pro ? new Pro\REST\REST() : new Common\REST\REST();
 
             $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
+            $this->integrations = $this->pro ? new Pro\Integrations\Integrations() : new Common\Integrations\Integrations();
         }
     }
 }
