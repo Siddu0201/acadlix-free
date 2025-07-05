@@ -8,6 +8,11 @@ const OpenAiOption = React.lazy(() =>
     import("@acadlix/pro/admin/setting/integration/OpenAiOption") :
     import("@acadlix/free/admin/setting/integration/OpenAiOption")
 );
+const ZoomOption = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/setting/integration/ZoomOption") :
+    Promise.resolve(null)
+);
 
 const Integration = (props) => {
     return (
@@ -46,6 +51,12 @@ const Integration = (props) => {
                     </React.Suspense>
                 </Grid>
             </Grid>
+
+            <React.Suspense fallback={null}>
+                <ZoomOption
+                    {...props}
+                />
+            </React.Suspense>
         </Box>
     )
 }
