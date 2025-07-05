@@ -2,22 +2,52 @@ import React from 'react'
 import { Box, Divider, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { __ } from "@wordpress/i18n";
+import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const OpenAiOption = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/setting/integration/OpenAiOption") :
-    import("@acadlix/free/admin/setting/integration/OpenAiOption")
-);
-const ZoomOption = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/setting/integration/ZoomOption") :
-    Promise.resolve(null)
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/admin/setting/integration/OpenAiOption") :
+        import("@acadlix/free/admin/setting/integration/OpenAiOption")
 );
 
 const Integration = (props) => {
+    const integration_before_start = window?.acadlixHooks?.applyFilters?.(
+        "acadlix.admin.settings.integration.before_start",
+        [],
+        {
+            register: props?.register,
+            control: props?.control,
+            watch: props?.watch,
+            setValue: props?.setValue,
+        }
+    ) ?? [];
+    const integration_after_start = window?.acadlixHooks?.applyFilters?.(
+        "acadlix.admin.settings.integration.after_start",
+        [],
+        {
+            register: props?.register,
+            control: props?.control,
+            watch: props?.watch,
+            setValue: props?.setValue,
+        }
+    ) ?? [];
     return (
         <Box sx={{ color: "black" }}>
-            {/* Page Setup  */}
+            {integration_before_start.map((field, i) => (
+                <React.Fragment key={`field-${i}`}>
+                    <DynamicMUIRenderer
+                        item={field}
+                        index={i}
+                        formProps={{
+                            register: props?.register,
+                            setValue: props?.setValue,
+                            watch: props?.watch,
+                            control: props?.control,
+                        }}
+                    />
+                </React.Fragment>
+            ))}
+            {/* Open AI  */}
             <Box
                 sx={{
                     marginY: 2,
@@ -51,12 +81,20 @@ const Integration = (props) => {
                     </React.Suspense>
                 </Grid>
             </Grid>
-
-            <React.Suspense fallback={null}>
-                <ZoomOption
-                    {...props}
-                />
-            </React.Suspense>
+            {integration_after_start.map((field, i) => (
+                <React.Fragment key={`field-${i}`}>
+                    <DynamicMUIRenderer
+                        item={field}
+                        index={i}
+                        formProps={{
+                            register: props?.register,
+                            setValue: props?.setValue,
+                            watch: props?.watch,
+                            control: props?.control,
+                        }}
+                    />
+                </React.Fragment>
+            ))}
         </Box>
     )
 }
