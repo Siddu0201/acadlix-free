@@ -6,14 +6,50 @@ import {
   Button,
   Box,
   Typography,
+  Divider,
+  Select,
+  MenuItem,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  Alert,
+  FormLabel,
+  RadioGroup,
+  Chip,
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Tooltip,
+  FormHelperText,
+  InputLabel,
+  InputAdornment,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { Controller } from "react-hook-form";
+import GridItem1 from "@acadlix/components/GridItem1";
+import CustomSwitch from "@acadlix/components/CustomSwitch";
+import CustomTypography from "@acadlix/components/CustomTypography";
+import CustomButton from "@acadlix/components/CustomButton";
 
 const COMPONENT_MAP = {
   CustomTextField,
+  Divider,
+  Select,
+  MenuItem,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
   TextField,
   Autocomplete,
   Switch,
@@ -21,7 +57,27 @@ const COMPONENT_MAP = {
   Button,
   Box,
   Grid,
+  GridItem1,
+  CustomSwitch,
+  CustomTypography,
+  CustomButton,
   Typography,
+  Alert,
+  Chip,
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Tooltip,
+  FormHelperText,
+  InputLabel,
+  InputAdornment,
   Fragment: React.Fragment,
 };
 
