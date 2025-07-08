@@ -3,6 +3,9 @@ import Dashbaord from '@acadlix/front/Dashbaord';
 import { jsx as _jsx } from 'react/jsx-runtime'
 import domReady from '@wordpress/dom-ready';
 import { createRoot } from '@wordpress/element';
+import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
+
+await loadFrontHooks(window?.acadlixHooks);
 
 window.initializeQuizShortcodes = () => {
     const shortcode = document.querySelectorAll('.acadlix-front');

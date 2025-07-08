@@ -14,19 +14,23 @@ import Grid from '@mui/material/Grid2';
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import CourseOverview from "./contentTabs/CourseOverview";
 import CourseSidebar from "./contentTabs/CourseSidebar";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   GetUserOrderById,
   PostMarkAsComplete,
   PostMarkAsIncomplete,
   PostSetActive,
-} from "../../../requests/front/FrontDashboardRequest";
+} from "@acadlix/requests/front/FrontDashboardRequest";
 import { useForm } from "react-hook-form";
 import Content from "./content/Content";
 import ContentOptions from "./content/ContentOptions";
 import ContentHeader from "./content/ContentHeader";
 import { __ } from "@wordpress/i18n";
-import { getCurrentDateString, getDbFormatDate, strtotime } from "../../../helpers/util";
+import { 
+  getCurrentDateString, 
+  getDbFormatDate, 
+  strtotime 
+} from "@acadlix/helpers/util";
 
 const CourseContent = () => {
   const theme = useTheme();

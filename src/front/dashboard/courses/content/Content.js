@@ -25,6 +25,11 @@ const AssignmentContent = React.lazy(() =>
     ? import("@acadlix/pro/front/dashboard/courses/content/AssignmentContent") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
+const ProContent = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/front/dashboard/courses/content/ProContent") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
 
 const Content = (props) => {
   const loadEditor = (key, name = "", media = false, quicktags = false) => {
@@ -146,8 +151,8 @@ const Content = (props) => {
                 <React.Fragment key={c?.id}>
                   {c?.id === props?.active_content?.id && (
                     <>
-                      {c?.type === "lesson" ? (
-                        c?.lesson_type === "video" ? (
+                      {
+                        c?.type === "lesson" && c?.lesson_type === "video" && (
                           <LessonVideoContent
                             {...props}
                             c={c}
@@ -160,7 +165,10 @@ const Content = (props) => {
                               c_index === c_arr?.length - 1
                             }
                           />
-                        ) : (
+                        )
+                      }
+                      {
+                        c?.type === "lesson" && c?.lesson_type === "text" && (
                           <LessonTextContent
                             {...props}
                             c={c}
@@ -169,32 +177,45 @@ const Content = (props) => {
                             index={index}
                           />
                         )
-                      ) : c?.type === "quiz" ? (
-                        <QuizContent
+                      }
+                      {
+                        c?.type === "quiz" && (
+                          <QuizContent
+                            {...props}
+                            c={c}
+                            c_index={c_index}
+                            s={s}
+                            index={index}
+                          />
+                        )
+                      }
+                      {
+                        c?.type === "assignment" && (
+                          <React.Suspense fallback={null}>
+                            <AssignmentContent
+                              {...props}
+                              c={c}
+                              c_index={c_index}
+                              s={s}
+                              index={index}
+                              loadEditor={loadEditor}
+                              removeEditor={removeEditor}
+                              user_stat={c?.assignment_user_stat}
+                              current_submission_value={c?.assignment_user_stat?.submissions?.find((a) => a?.is_active)}
+                              current_submission_index={c?.assignment_user_stat?.submissions?.findIndex((a) => a?.is_active)}
+                            />
+                          </React.Suspense>
+                        )
+                      }
+                      <React.Suspense fallback={null}>
+                        <ProContent
                           {...props}
                           c={c}
                           c_index={c_index}
                           s={s}
                           index={index}
                         />
-                      ) : c?.type === "assignment" ? (
-                        <React.Suspense fallback={null}>
-                          <AssignmentContent
-                            {...props}
-                            c={c}
-                            c_index={c_index}
-                            s={s}
-                            index={index}
-                            loadEditor={loadEditor}
-                            removeEditor={removeEditor}
-                            user_stat={c?.assignment_user_stat}
-                            current_submission_value={c?.assignment_user_stat?.submissions?.find((a) => a?.is_active)}
-                            current_submission_index={c?.assignment_user_stat?.submissions?.findIndex((a) => a?.is_active)}
-                          />
-                        </React.Suspense>
-                      ) : (
-                        <></>
-                      )}
+                      </React.Suspense>
                     </>
                   )}
                 </React.Fragment>

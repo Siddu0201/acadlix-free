@@ -157,7 +157,7 @@ const Setting = () => {
     defaultValues: filteredDefaults,
   });
 
-  // console.log(methods.watch());
+  console.log(methods.watch());
 
 
   const handleChange = (event, newValue) => {
