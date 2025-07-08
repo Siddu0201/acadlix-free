@@ -461,7 +461,10 @@ const SortableSections = (props) => {
           )
         }
         <React.Suspense fallback={null}>
-          <ViewProContentSection {...props} />
+          <ViewProContentSection 
+          {...props}
+          handleRemoveContent={handleRemoveContent}
+          />
         </React.Suspense>
       </Box>
     </ListItem>
