@@ -39,6 +39,12 @@ import ViewContentSection from "./ViewContentSection";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 
+const ViewProSection = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/views/course/sections/ViewProSection") :
+    Promise.resolve(null)
+);
+
 const ViewSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
 
@@ -525,6 +531,9 @@ const SortableSections = (props) => {
               hasCapability("acadlix_add_course_section_assignment") &&
               <AddAssignment {...props} />
             }
+            <React.Suspense fallback={null}>
+              <ViewProSection {...props} />
+            </React.Suspense>
           </Box>
         </Box>
       </Collapse>

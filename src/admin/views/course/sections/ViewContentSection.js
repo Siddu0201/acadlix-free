@@ -41,6 +41,12 @@ const Preview = React.lazy(() =>
     import("@acadlix/free/admin/course/Preview")
 );
 
+const ViewProContentSection = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/views/course/sections/ViewProContentSection") :
+    Promise.resolve(null)
+);
+
 const ViewContentSection = (props) => {
   const [activeId, setActiveId] = React.useState(null);
   const sortMutation = PostSortContent(props?.s?.id);
@@ -454,6 +460,9 @@ const SortableSections = (props) => {
             </Box>
           )
         }
+        <React.Suspense fallback={null}>
+          <ViewProContentSection {...props} />
+        </React.Suspense>
       </Box>
     </ListItem>
   );
