@@ -326,7 +326,7 @@ class Manager
                 'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
                 'version' => ACADLIX_VERSION,
                 'deps' => ['wp-hooks'],
-                'in_footer' => true,
+                'in_footer' => false,
             ],
             // 'acadlix-front-all-course-js' => [
             //     'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
