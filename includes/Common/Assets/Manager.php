@@ -23,6 +23,7 @@ class Manager
         add_action('init', [$this, 'register_all_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_common_assets']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
         // add_shortcode('Acadlix_Dashboard', [$this, 'acadlix_dashboard_shortcode']);
         // add_shortcode('Acadlix_Advance_Quiz', [$this, 'acadlix_advance_quiz_shortcode']);
@@ -232,6 +233,12 @@ class Manager
         $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
 
         return [
+            'acadlix-global-hooks' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['wp-hooks'],
+                'in_footer' => true,
+            ],
             'acadlix-runtime-js' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
                 'version' => $runtime_dependency['version'],
@@ -247,61 +254,61 @@ class Manager
             'acadlix-admin-course' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_course.js',
                 'version' => $admin_course_dependency['version'],
-                'deps' => $admin_course_dependency['dependencies'],
+                'deps' => [...$admin_course_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-admin-home' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_home.js',
                 'version' => $admin_home_dependency['version'],
-                'deps' => $admin_home_dependency['dependencies'],
+                'deps' => [...$admin_home_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-admin-lesson' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.js',
                 'version' => $admin_lesson_dependency['version'],
-                'deps' => $admin_lesson_dependency['dependencies'],
+                'deps' => [...$admin_lesson_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-admin-order' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.js',
                 'version' => $admin_order_dependency['version'],
-                'deps' => $admin_order_dependency['dependencies'],
+                'deps' => [...$admin_order_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-admin-quiz' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.js',
                 'version' => $admin_quiz_dependency['version'],
-                'deps' => $admin_quiz_dependency['dependencies'],
+                'deps' => [...$admin_quiz_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-admin-setting' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.js',
                 'version' => $admin_setting_dependency['version'],
-                'deps' => $admin_setting_dependency['dependencies'],
+                'deps' => [...$admin_setting_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-admin-tool' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
                 'version' => $admin_tool_dependency['version'],
-                'deps' => $admin_tool_dependency['dependencies'],
+                'deps' => [...$admin_tool_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-front-js' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.js',
                 'version' => $front_dependency['version'],
-                'deps' => $front_dependency['dependencies'],
+                'deps' => [...$front_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-front-checkout-js' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.js',
                 'version' => $front_checkout_dependency['version'],
-                'deps' => $front_checkout_dependency['dependencies'],
+                'deps' => [...$front_checkout_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-front-single-course-js' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_single_course.js',
                 'version' => $front_single_course_dependency['version'],
-                'deps' => $front_single_course_dependency['dependencies'],
+                'deps' => [...$front_single_course_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-razorpay-js' => [
@@ -321,12 +328,6 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => ['jquery'],
                 'in_footer' => true,
-            ],
-            'acadlix-global-hooks' => [
-                'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
-                'version' => ACADLIX_VERSION,
-                'deps' => ['wp-hooks'],
-                'in_footer' => false,
             ],
             // 'acadlix-front-all-course-js' => [
             //     'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
