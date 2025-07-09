@@ -26,10 +26,10 @@ import Content from "./content/Content";
 import ContentOptions from "./content/ContentOptions";
 import ContentHeader from "./content/ContentHeader";
 import { __ } from "@wordpress/i18n";
-import { 
-  getCurrentDateString, 
-  getDbFormatDate, 
-  strtotime 
+import {
+  getCurrentDateString,
+  getDbFormatDate,
+  strtotime
 } from "@acadlix/helpers/util";
 
 const CourseContent = () => {
@@ -159,169 +159,182 @@ const CourseContent = () => {
         shouldDirty: true,
       });
       let i = 0;
-      methods?.setValue(
-        "sections",
-        item?.course?.sections?.map((s, index) => {
-          let open = false;
-          if (courseSectionContentId === undefined || courseSectionContentId == 0) {
-            if (data?.data?.course_statistic?.length > 0) {
-              if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
-                open =
-                  s?.contents?.find(
-                    (c) =>
-                      c?.ID ==
-                      data?.data?.course_statistic?.find((cs) => cs?.is_active)
-                        ?.course_section_content_id
-                  )
-                    ? true
-                    : false;
-              } else {
-                open = s?.contents?.find(
-                  (c) => c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id
-                ) ? true : false;
-              }
+      const sections = item?.course?.sections?.map((s, index) => {
+        let open = false;
+        if (courseSectionContentId === undefined || courseSectionContentId == 0) {
+          if (data?.data?.course_statistic?.length > 0) {
+            if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
+              open =
+                s?.contents?.find(
+                  (c) =>
+                    c?.ID ==
+                    data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                      ?.course_section_content_id
+                )
+                  ? true
+                  : false;
             } else {
-              open = index === 0 ? true : false;
+              open = s?.contents?.find(
+                (c) => c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id
+              ) ? true : false;
             }
           } else {
-            open =
-              s?.contents?.find((c) => c?.ID == courseSectionContentId)
-                ? true
-                : false;
+            open = index === 0 ? true : false;
           }
-          return {
-            id: s?.ID ?? null,
-            title: s?.post_title ?? "",
-            sort: s?.menu_order ?? "",
-            description: s?.rendered_post_content ?? "",
-            open: open,
-            active: open,
-            content:
-              s?.contents?.map((c, c_index) => {
-                let active = false;
-                if (courseSectionContentId === undefined || courseSectionContentId == 0) {
-                  if (data?.data?.course_statistic?.length > 0) {
-                    if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
-                      active =
-                        c?.ID ==
-                        data?.data?.course_statistic?.find((cs) => cs?.is_active)
-                          ?.course_section_content_id;
-                    } else {
-                      active = c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id;
-                    }
+        } else {
+          open =
+            s?.contents?.find((c) => c?.ID == courseSectionContentId)
+              ? true
+              : false;
+        }
+        return {
+          id: s?.ID ?? null,
+          title: s?.post_title ?? "",
+          sort: s?.menu_order ?? "",
+          description: s?.rendered_post_content ?? "",
+          open: open,
+          active: open,
+          content:
+            s?.contents?.map((c, c_index) => {
+              let active = false;
+              if (courseSectionContentId === undefined || courseSectionContentId == 0) {
+                if (data?.data?.course_statistic?.length > 0) {
+                  if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
+                    active =
+                      c?.ID ==
+                      data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                        ?.course_section_content_id;
                   } else {
-                    active = c_index === 0 ? true : false;
+                    active = c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id;
                   }
                 } else {
-                  active = c?.ID == courseSectionContentId;
+                  active = c_index === 0 ? true : false;
                 }
-                const statistic = data?.data?.course_statistic?.find(
-                  (cs) => cs?.course_section_content_id == c?.ID
-                ) ?? {};
-                return {
-                  i: i++,
-                  id: c?.ID ?? null,
-                  sort: c?.menu_order ?? "",
-                  content_type_id: c?.contentable?.id ?? null,
-                  is_active: active,
-                  is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
-                  type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
-                  lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
-                  title: c?.contentable?.title ?? "",
-                  content: c?.contentable_data?.rendered_post_content ?? "",
-                  video: {
-                    video_type: c?.contentable_data?.rendered_metas?.video?.video_type ?? "",
-                    video_data: {
-                      html_5: c?.contentable_data?.rendered_metas?.video?.video_data?.html_5 ?? "",
-                      external_link:
-                        c?.contentable_data?.rendered_metas?.video?.video_data?.external_link ?? "",
-                      youtube: c?.contentable_data?.rendered_metas?.video?.video_data?.youtube ?? "",
-                      vimeo: c?.contentable_data?.rendered_metas?.video?.video_data?.vimeo ?? "",
-                      embedded:
-                        c?.contentable_data?.rendered_metas?.video?.video_data?.embedded ?? "",
-                      shortcode:
-                        c?.contentable_data?.rendered_metas?.video?.video_data?.shortcode ?? "",
-                    },
-                    video_thumbnail:
-                      c?.contentable_data?.rendered_metas?.video?.video_thumbnail ?? "",
+              } else {
+                active = c?.ID == courseSectionContentId;
+              }
+              const statistic = data?.data?.course_statistic?.find(
+                (cs) => cs?.course_section_content_id == c?.ID
+              ) ?? {};
+              return {
+                i: i++,
+                id: c?.ID ?? null,
+                sort: c?.menu_order ?? "",
+                content_type_id: c?.contentable?.id ?? null,
+                is_active: active,
+                is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
+                type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
+                lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
+                title: c?.contentable?.title ?? "",
+                content: c?.contentable_data?.rendered_post_content ?? "",
+                video: {
+                  video_type: c?.contentable_data?.rendered_metas?.video?.video_type ?? "",
+                  video_data: {
+                    html_5: c?.contentable_data?.rendered_metas?.video?.video_data?.html_5 ?? "",
+                    external_link:
+                      c?.contentable_data?.rendered_metas?.video?.video_data?.external_link ?? "",
+                    youtube: c?.contentable_data?.rendered_metas?.video?.video_data?.youtube ?? "",
+                    vimeo: c?.contentable_data?.rendered_metas?.video?.video_data?.vimeo ?? "",
+                    embedded:
+                      c?.contentable_data?.rendered_metas?.video?.video_data?.embedded ?? "",
+                    shortcode:
+                      c?.contentable_data?.rendered_metas?.video?.video_data?.shortcode ?? "",
                   },
-                  hours:
-                    (c?.contentable_data?.rendered_metas?.hours ?? 0).toString().padStart(2, '0'),
-                  minutes:
-                    (c?.contentable_data?.rendered_metas?.minutes ?? 0).toString().padStart(2, '0'),
-                  seconds:
-                    (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
-                  resources: c?.contentable_data?.rendered_metas?.resources ?? [],
-                  assignment_user_stat: {
-                    id: statistic?.assignment_user_stat?.id ?? null,
-                    assignment_id: c?.rendered_metas?.type === "assignment" ? c?.rendered_metas?.assignment_id : null,
-                    course_statistic_id: statistic?.assignment_user_stat?.course_statistic_id ?? null, // Selected course + user context
-                    user_status: statistic?.assignment_user_stat?.user_status ?? "pending", // 'pending', 'draft', 'submitted'
-                    admin_status: statistic?.assignment_user_stat?.admin_status ?? "pending_review", // 'pending_review', 'evaluated', 'rejected', 're_eval_requested'
-                    final_marks: statistic?.assignment_user_stat?.final_marks ?? null, // or 0 if initialized early
-                    is_passed: statistic?.assignment_user_stat?.is_passed ?? false,
-                    has_late_submission: statistic?.assignment_user_stat?.has_late_submission ?? false,
-                    resubmission_allowed: statistic?.assignment_user_stat?.resubmission_allowed ?? false,
-                    attempt_counts: statistic?.assignment_user_stat?.attempt_counts ?? 1,
-                    first_started_at: statistic?.assignment_user_stat?.first_started_at ?? "",
-                    submissions: statistic?.assignment_user_stat?.submissions ?
-                      statistic?.assignment_user_stat?.submissions.map((s) => {
-                        return {
-                          id: s?.id ?? null,
-                          is_active: s?.is_active ?? true,
-                          is_late: s?.is_late ?? false,
-                          marks: s?.marks ?? 0,
-                          answer_text: s?.answer_text ?? "",
-                          answer_attachments: s?.answer_attachments ?? [],
-                          feedback: s?.feedback ?? "",
-                          feedback_attachments: s?.feedback_attachments ?? [],
-                          submitted_at: s?.submitted_at ?? "",
-                          evaluated_at: s?.evaluated_at ?? "",
-                        };
-                      })
-                      : [
-                        {
-                          id: null,
-                          is_active: true,
-                          is_late: false,
-                          mark: 0,
-                          answer_text: "",
-                          answer_files: [], // Array of file metadata or file IDs
-                          feedback_text: "",
-                          feedback_files: [], // Array of file metadata or file IDs
-                          submitted_at: "",
-                          evaluated_at: "",
-                        }
-                      ],
-                  },
-                  assignment_settings: {
-                    allow_uploads: Boolean(c?.contentable_data?.rendered_metas?.allow_uploads) ?? false,
-                    number_of_uploads: c?.contentable_data?.rendered_metas?.number_of_uploads ?? 1,
-                    allowed_mime_types: c?.contentable_data?.rendered_metas?.allowed_mime_types ?? [],
-                    max_file_size: c?.contentable_data?.rendered_metas?.max_file_size ?? 2,
-                    enable_marking: Boolean(c?.contentable_data?.rendered_metas?.enable_marking) ?? false,
-                    max_points: c?.contentable_data?.rendered_metas?.max_points ?? 0,
-                    start_date: c?.contentable_data?.rendered_metas?.start_date ?? "",
-                    end_date: c?.contentable_data?.rendered_metas?.end_date ?? "",
-                    enable_deadline: Boolean(c?.contentable_data?.rendered_metas?.enable_deadline) ?? false,
-                    deadline_type: c?.contentable_data?.rendered_metas?.deadline_type ?? "days",
-                    deadline_value: c?.contentable_data?.rendered_metas?.deadline_value ?? 0,
-                    attachments: c?.contentable_data?.rendered_metas?.attachments?.length > 0 ?
-                      c?.contentable_data?.rendered_metas?.attachments?.map((a) => {
-                        return {
-                          title: a?.title,
-                          type: a?.type,
-                          filename: a?.filename,
-                          file_url: a?.file_url,
-                          link: a?.link,
-                        };
-                      })
-                      : [],
-                  },
-                };
-              }) ?? [],
-          };
-        }) ?? []
+                  video_thumbnail:
+                    c?.contentable_data?.rendered_metas?.video?.video_thumbnail ?? "",
+                },
+                hours:
+                  (c?.contentable_data?.rendered_metas?.hours ?? 0).toString().padStart(2, '0'),
+                minutes:
+                  (c?.contentable_data?.rendered_metas?.minutes ?? 0).toString().padStart(2, '0'),
+                seconds:
+                  (c?.contentable_data?.rendered_metas?.seconds ?? 0).toString().padStart(2, '0'),
+                resources: c?.contentable_data?.rendered_metas?.resources ?? [],
+                assignment_user_stat: {
+                  id: statistic?.assignment_user_stat?.id ?? null,
+                  assignment_id: c?.rendered_metas?.type === "assignment" ? c?.rendered_metas?.assignment_id : null,
+                  course_statistic_id: statistic?.assignment_user_stat?.course_statistic_id ?? null, // Selected course + user context
+                  user_status: statistic?.assignment_user_stat?.user_status ?? "pending", // 'pending', 'draft', 'submitted'
+                  admin_status: statistic?.assignment_user_stat?.admin_status ?? "pending_review", // 'pending_review', 'evaluated', 'rejected', 're_eval_requested'
+                  final_marks: statistic?.assignment_user_stat?.final_marks ?? null, // or 0 if initialized early
+                  is_passed: statistic?.assignment_user_stat?.is_passed ?? false,
+                  has_late_submission: statistic?.assignment_user_stat?.has_late_submission ?? false,
+                  resubmission_allowed: statistic?.assignment_user_stat?.resubmission_allowed ?? false,
+                  attempt_counts: statistic?.assignment_user_stat?.attempt_counts ?? 1,
+                  first_started_at: statistic?.assignment_user_stat?.first_started_at ?? "",
+                  submissions: statistic?.assignment_user_stat?.submissions ?
+                    statistic?.assignment_user_stat?.submissions.map((s) => {
+                      return {
+                        id: s?.id ?? null,
+                        is_active: s?.is_active ?? true,
+                        is_late: s?.is_late ?? false,
+                        marks: s?.marks ?? 0,
+                        answer_text: s?.answer_text ?? "",
+                        answer_attachments: s?.answer_attachments ?? [],
+                        feedback: s?.feedback ?? "",
+                        feedback_attachments: s?.feedback_attachments ?? [],
+                        submitted_at: s?.submitted_at ?? "",
+                        evaluated_at: s?.evaluated_at ?? "",
+                      };
+                    })
+                    : [
+                      {
+                        id: null,
+                        is_active: true,
+                        is_late: false,
+                        mark: 0,
+                        answer_text: "",
+                        answer_files: [], // Array of file metadata or file IDs
+                        feedback_text: "",
+                        feedback_files: [], // Array of file metadata or file IDs
+                        submitted_at: "",
+                        evaluated_at: "",
+                      }
+                    ],
+                },
+                assignment_settings: {
+                  allow_uploads: Boolean(c?.contentable_data?.rendered_metas?.allow_uploads) ?? false,
+                  number_of_uploads: c?.contentable_data?.rendered_metas?.number_of_uploads ?? 1,
+                  allowed_mime_types: c?.contentable_data?.rendered_metas?.allowed_mime_types ?? [],
+                  max_file_size: c?.contentable_data?.rendered_metas?.max_file_size ?? 2,
+                  enable_marking: Boolean(c?.contentable_data?.rendered_metas?.enable_marking) ?? false,
+                  max_points: c?.contentable_data?.rendered_metas?.max_points ?? 0,
+                  start_date: c?.contentable_data?.rendered_metas?.start_date ?? "",
+                  end_date: c?.contentable_data?.rendered_metas?.end_date ?? "",
+                  enable_deadline: Boolean(c?.contentable_data?.rendered_metas?.enable_deadline) ?? false,
+                  deadline_type: c?.contentable_data?.rendered_metas?.deadline_type ?? "days",
+                  deadline_value: c?.contentable_data?.rendered_metas?.deadline_value ?? 0,
+                  attachments: c?.contentable_data?.rendered_metas?.attachments?.length > 0 ?
+                    c?.contentable_data?.rendered_metas?.attachments?.map((a) => {
+                      return {
+                        title: a?.title,
+                        type: a?.type,
+                        filename: a?.filename,
+                        file_url: a?.file_url,
+                        link: a?.link,
+                      };
+                    })
+                    : [],
+                },
+              };
+            }) ?? [],
+        };
+      }) ?? [];
+
+      const filteredSection = window?.acadlixHooks?.applyFilters?.(
+        "acadlix.front.courseContent.sections",
+        sections,
+        item?.course,
+        data?.data?.course_statistic,
+        courseSectionContentId
+      ) ?? sections;
+      
+      methods?.setValue(
+        "sections",
+        filteredSection,
+        {
+          shouldDirty: true,
+        }
       );
       if ((courseSectionContentId === undefined || courseSectionContentId == 0) && methods?.watch("sections")?.length > 0) {
         handleNavigate(methods
