@@ -305,7 +305,7 @@ final class Course extends CPT_Abstract
     {
         if ($post->post_type !== $this->get_post_type())
             return;
-        echo   '<div id="acadlix-admin-course-ai-content" style="padding-bottom: 4px;">
+        echo '<div id="acadlix-admin-course-ai-content" style="padding-bottom: 4px;">
                 </div>';
         wp_nonce_field('acadlix_course_action', 'acadlix_course_field'); // Creates a nonce
     }

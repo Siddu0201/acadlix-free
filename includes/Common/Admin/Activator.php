@@ -58,6 +58,7 @@ class Activator
         acadlix()->seeder()->seed();
         acadlix()->admin()->option()->createOption();
         acadlix()->admin()->userRole()->addCapabilities();
+        acadlix()->cpt()->register_all_cpts();
     }
 
     public function deactivate($network_wide)
@@ -65,12 +66,18 @@ class Activator
         if (is_multisite() && $network_wide) {
             foreach (get_sites(['fields' => 'ids']) as $site_id) {
                 switch_to_blog($site_id);
-                acadlix()->admin()->userRole()->removeCapabilities();
+                $this->run_site_deactivation();
                 restore_current_blog();
             }
         } else {
-            acadlix()->admin()->userRole()->removeCapabilities();
+            $this->run_site_deactivation();
         }
+    }
+
+    public function run_site_deactivation()
+    {
+        acadlix()->admin()->userRole()->removeCapabilities();
+        acadlix()->cpt()->unregister_all_cpts();
     }
 
     public function uninstall()

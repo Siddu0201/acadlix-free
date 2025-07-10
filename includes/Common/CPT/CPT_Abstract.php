@@ -127,5 +127,10 @@ abstract class CPT_Abstract
 	{
 		// Implement from child
 	}
+
+	public function _acadlix_unregister()
+	{
+		unregister_post_type($this->_post_type);
+	}
 }
 
