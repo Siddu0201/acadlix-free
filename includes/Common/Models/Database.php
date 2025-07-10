@@ -12,9 +12,17 @@ defined('ABSPATH') || exit();
 if (!class_exists('Database')) {
     class Database
     {
+        protected $bootedPrefix = null;
+        public function __construct(){
+            $this->boot();
+        }
         public function boot()
         {
             global $wpdb;
+
+            if ($this->bootedPrefix === $wpdb->prefix) {
+                return;
+            }
 
             $charset_collate = $wpdb->get_charset_collate();
 
@@ -59,6 +67,8 @@ if (!class_exists('Database')) {
 
             // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
             $capsule->bootEloquent();
+
+            $this->bootedPrefix = $wpdb->prefix;
         }
     }
 }

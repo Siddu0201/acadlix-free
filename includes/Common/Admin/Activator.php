@@ -17,7 +17,7 @@ class Activator
         register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
-        add_action('wp_initialize_site', [$this, 'initialize_new_site']);
+        add_action('wp_initialize_site', [$this, 'initialize_new_site'], 10, 1);
 
         add_action('init', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
@@ -88,6 +88,7 @@ class Activator
 
     public function initialize_new_site($site)
     {
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (!is_plugin_active_for_network(ACADLIX_PLUGIN_BASENAME)) {
             return;
         }
