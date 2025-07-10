@@ -17,58 +17,86 @@ class Activator
         register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
+        add_action('wp_initialize_site', [$this, 'initialize_new_site']);
+
         add_action('init', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
     }
 
 
-    public function activate()
+    public function activate($network_wide)
     {
-        // require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        // if(acadlix()->pro){
-        //     if(is_plugin_active('acadlix/acadlix.php')){
-        //         // disable this plugin
-        //         deactivate_plugins('acadlix/acadlix.php');
-
-        //         error_log('Acadlix Free is active');
-        //     }
-        // }else{
-        //     if(is_plugin_active('acadlix-pro/acadlix.php')){
-        //         // disable this plugin
-        //         deactivate_plugins('acadlix-pro/acadlix.php');
-        //         error_log('Acadlix Pro is active');
-        //     }
-        // }
-        // Add table
-        acadlix()->migration()->createTable();
-        // Add default data
-        acadlix()->seeder()->seed();
-        // Add options
-        acadlix()->admin()->option()->createOption();
-        // Add capabilities
-        acadlix()->admin()->userRole()->addCapabilities();
-
+        if (is_multisite() && $network_wide) {
+            // Loop through all existing sites
+            foreach (get_sites(['fields' => 'ids']) as $site_id) {
+                switch_to_blog($site_id);
+                $this->run_site_activation();
+                restore_current_blog();
+            }
+        } else {
+            $this->run_site_activation();
+        }
     }
 
-    public function deactivate()
+    private function run_site_activation()
     {
-        // Migration::removeTable();
-        // remove capabilities
-        acadlix()->admin()->userRole()->removeCapabilities();
+        acadlix()->database()->boot();
+        acadlix()->migration()->createTable();
+        acadlix()->seeder()->seed();
+        acadlix()->admin()->option()->createOption();
+        acadlix()->admin()->userRole()->addCapabilities();
+    }
+
+    public function deactivate($network_wide)
+    {
+        if (is_multisite() && $network_wide) {
+            foreach (get_sites(['fields' => 'ids']) as $site_id) {
+                switch_to_blog($site_id);
+                acadlix()->admin()->userRole()->removeCapabilities();
+                restore_current_blog();
+            }
+        } else {
+            acadlix()->admin()->userRole()->removeCapabilities();
+        }
     }
 
     public function uninstall()
     {
+        if (is_multisite()) {
+            foreach (get_sites(['fields' => 'ids']) as $site_id) {
+                switch_to_blog($site_id);
+                $this->run_site_uninstall();
+                restore_current_blog();
+            }
+        } else {
+            $this->run_site_uninstall();
+        }
+    }
+
+    private function run_site_uninstall()
+    {
         $delete_data = acadlix()->helper()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
 
-        if ($delete_data == "no")
+        if ($delete_data === "no") {
             return;
-        // remove post data related to acadlix
+        }
+        acadlix()->database()->boot();
         acadlix()->admin()->core()->acadlix_delete_post_type_data();
-        // remove table
         acadlix()->migration()->removeTable();
-        // remove options
         acadlix()->admin()->option()->removeOptions();
+    }
+
+    public function initialize_new_site($site)
+    {
+        if (!is_plugin_active_for_network(ACADLIX_PLUGIN_BASENAME)) {
+            return;
+        }
+    
+        switch_to_blog($site->blog_id);
+    
+        $this->run_site_activation();
+    
+        restore_current_blog();
     }
 
     public function acadlix_load_textdomain()

@@ -1,5 +1,5 @@
 <?php
 
-use Yuvayana\Acadlix\Common\Models\Database;
+// use Yuvayana\Acadlix\Common\Models\Database;
 
-new Database();
+// new Database();

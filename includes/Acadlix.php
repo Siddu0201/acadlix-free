@@ -63,7 +63,7 @@ namespace Yuvayana\Acadlix {
         {
             $dependencies = [
                 '/vendor/autoload.php' => true,
-                'bootstrap.php' => true
+                // 'bootstrap.php' => true
             ];
 
             foreach ($dependencies as $path => $shouldRequire) {
@@ -91,6 +91,7 @@ namespace Yuvayana\Acadlix {
         }
 
         private function preLoad(){
+            $this->database = new \Common\Models\Database();
             $this->license = $this->pro ? new Pro\License\License() : null;
             $this->helper = $this->pro ? new Pro\Helper\Helper() : new Common\Helper\Helper();
         }

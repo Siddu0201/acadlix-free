@@ -12,7 +12,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Database')) {
     class Database
     {
-        public function __construct()
+        public function boot()
         {
             global $wpdb;
 
@@ -35,16 +35,6 @@ if (!class_exists('Database')) {
             $collate = $collate ?: 'utf8mb4_unicode_ci';
 
             $capsule = new Capsule;
-            // $capsule->addConnection([
-            //     'driver' => 'mysql',
-            //     'host' => DB_HOST,
-            //     'database' => DB_NAME,
-            //     'username' => DB_USER,
-            //     'password' => DB_PASSWORD,
-            //     'charset' => $charset,
-            //     'collation' => $collate,
-            //     'prefix' => "{$wpdb->prefix}acadlix_", // prefix to avoid conflict with wordpress tables
-            // ]);
             $capsule->addConnection([
                 'driver' => 'mysql',
                 'host' => DB_HOST,
