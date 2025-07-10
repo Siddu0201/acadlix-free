@@ -91,7 +91,7 @@ namespace Yuvayana\Acadlix {
         }
 
         private function preLoad(){
-            $this->database = new \Common\Models\Database();
+            $this->database = new Common\Models\Database();
 
             add_action('switch_blog', function () {
                 acadlix()->database()->boot(); // Auto-reboot on blog switch
