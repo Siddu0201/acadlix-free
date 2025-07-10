@@ -10,7 +10,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Toplist')) {
     class Toplist extends Model
     {
-        protected $table = "acadlix_toplist";
+        protected $table;
 
         protected $fillable = [
             "quiz_id",
@@ -34,6 +34,13 @@ if (!class_exists('Toplist')) {
             "quiz_time" => "integer",
             "accuracy" => "double",
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('toplist');
+        }
 
         public function setUserIdAttribute($value)
         {

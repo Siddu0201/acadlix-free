@@ -9,8 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Question')) {
     class Question extends Model
     {
-        protected $connection = 'default';
-        protected $table = "acadlix_question";
+        protected $table;
 
         protected $fillable = [
             "quiz_id",
@@ -47,6 +46,13 @@ if (!class_exists('Question')) {
             "paragraph_id" => "integer",
         ];
 
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('question');
+        }
+
         public function scopeOfOnline($query)
         {
             return $query->where("online", 1);
@@ -65,9 +71,9 @@ if (!class_exists('Question')) {
         }
 
 
-        // public function quiz(){
-        //     return $this->belongsTo(acadlix()->model()->quiz(), 'quiz_id', 'id');
-        // }
+        public function quiz(){
+            return $this->belongsTo(acadlix()->model()->quiz(), 'quiz_id', 'id');
+        }
 
         public function subject()
         {

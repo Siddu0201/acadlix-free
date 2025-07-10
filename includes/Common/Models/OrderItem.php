@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('OrderItem')) {
     class OrderItem extends Model
     {
-        protected $table = "acadlix_order_items";
+        protected $table;
 
         protected $fillable = [
             'course_id',
@@ -35,6 +35,13 @@ if (!class_exists('OrderItem')) {
         ];
 
         // protected $with = ["course"];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('order_items');
+        }
 
         public function course()
         {

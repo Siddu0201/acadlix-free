@@ -9,8 +9,15 @@ if (!class_exists('WpUsers')) {
 
     class WpUsers extends Model
     {
-        protected $table = 'users';
+        protected $table;
         protected $primaryKey = 'ID';
+
+        public function __construct(array $attributes = [])
+        {
+            global $wpdb;
+            parent::__construct($attributes);
+            $this->table = "{$wpdb->base_prefix}users";
+        }
 
         public function user_metas()
         {

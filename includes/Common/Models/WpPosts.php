@@ -9,7 +9,7 @@ if (!class_exists('WpPosts')) {
 
     class WpPosts extends Model
     {
-        protected $table = 'posts';
+        protected $table;
         protected $primaryKey = 'ID';
 
         protected $with = ['author'];
@@ -20,6 +20,13 @@ if (!class_exists('WpPosts')) {
             'rendered_post_content',
             'categories'
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_wp_prefix('posts');
+        }
 
         public function getRenderedPostContentAttribute()
         {

@@ -10,7 +10,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Order')) {
     class Order extends Model
     {
-        protected $table = "acadlix_orders";
+        protected $table;
 
         protected $fillable = [
             'user_id',
@@ -22,6 +22,13 @@ if (!class_exists('Order')) {
         protected $casts = [
             'user_id' => 'integer',
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('orders');
+        }
 
         public function scopeOfSuccess($query)
         {

@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists(class: 'CourseStatistic')) {
     class CourseStatistic extends Model
     {
-        protected $table = "acadlix_course_statistics";
+        protected $table;
 
         protected $fillable = [
             'order_item_id',
@@ -20,6 +20,13 @@ if (!class_exists(class: 'CourseStatistic')) {
             'meta_type',
             'meta_value',
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('course_statistics');
+        }
 
         public function setMetaValueAttribute($value)
         {

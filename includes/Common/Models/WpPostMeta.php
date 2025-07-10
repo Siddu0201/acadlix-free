@@ -9,9 +9,16 @@ if (!class_exists('WpPostMeta')) {
 
     class WpPostMeta extends Model
     {
-        protected $table = 'postmeta';
+        protected $table;
         protected $primaryKey = 'meta_id';
         public $timestamps = false;
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_wp_prefix('postmeta');
+        }
 
         public function getMetaValueAttribute($value)
         {

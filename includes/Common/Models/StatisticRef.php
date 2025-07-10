@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('StatisticRef')){
     class StatisticRef extends Model
     {
-        protected $table = "acadlix_statistic_ref";
+        protected $table;
 
         protected $fillable = [
             "quiz_id",
@@ -32,6 +32,13 @@ if(!class_exists('StatisticRef')){
             "result" => "double",
             "accuracy" => "double",
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('statistic_ref');
+        }
 
         public function setUserIdAttribute($value){
             $this->attributes['user_id'] = $value == 0 ? NULL : $value ;

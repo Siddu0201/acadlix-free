@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('QuestionLang')) {
     class QuestionLang extends Model
     {
-        protected $table = "acadlix_question_lang";
+        protected $table;
 
         protected $fillable = [
             "question_id",
@@ -37,6 +37,13 @@ if (!class_exists('QuestionLang')) {
             'rendered_hint_msg',
             'rendered_answer_data',
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('question_lang');
+        }
 
         public function question()
         {

@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('CourseCart')) {
     class CourseCart extends Model
     {
-        protected $table = "acadlix_course_cart";
+        protected $table;
 
         protected $fillable = [
             'cart_token',
@@ -26,7 +26,14 @@ if (!class_exists('CourseCart')) {
         ];
 
         protected $appends = ['course'];
-      
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('course_cart');
+        }
+
         public function getCourseAttribute()
         {
             return acadlix()->model()->course()->ofCourse()->find($this->course_id);

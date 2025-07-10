@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Common\Helper;
 
+use Illuminate\Database\Capsule\Manager;
+
 if (!class_exists('Helper')) {
     class Helper
     {
@@ -12,29 +14,33 @@ if (!class_exists('Helper')) {
         protected $email = null;
         protected $queryLogger = null;
 
-        public function course(): CourseHelper|null{
-            if($this->course === null){
+        public function course(): CourseHelper|null
+        {
+            if ($this->course === null) {
                 $this->course = new CourseHelper();
             }
             return $this->course;
         }
 
-        public function cpt(): CptHelper|null{
-            if($this->cpt === null){
+        public function cpt(): CptHelper|null
+        {
+            if ($this->cpt === null) {
                 $this->cpt = new CptHelper();
             }
             return $this->cpt;
         }
 
-        public function email(): EmailHelper|null{
-            if($this->email === null){
+        public function email(): EmailHelper|null
+        {
+            if ($this->email === null) {
                 $this->email = new EmailHelper();
             }
             return $this->email;
         }
 
-        public function queryLogger(): QueryLogger|null{
-            if($this->queryLogger === null){
+        public function queryLogger(): QueryLogger|null
+        {
+            if ($this->queryLogger === null) {
                 $this->queryLogger = new QueryLogger();
             }
             return $this->queryLogger;
@@ -541,7 +547,7 @@ if (!class_exists('Helper')) {
                 'acadlix_admin_can_assign_courses_to_student' => "no",
                 'acadlix_admin_can_remove_student_from_course' => "no",
                 'acadlix_default_rows_per_page' => 20,
-                'acadlix_delete_data_on_plugin_uninstall' => "no",  
+                'acadlix_delete_data_on_plugin_uninstall' => "no",
                 // Payment option
                 'acadlix_razorpay_active' => "no",
                 'acadlix_razorpay_client_id' => "",
@@ -606,7 +612,7 @@ if (!class_exists('Helper')) {
 
         public function acadlix_delete_option($key = '', $value = '')
         {
-            if(!empty($key)){
+            if (!empty($key)) {
                 delete_option($key);
             }
         }
@@ -697,13 +703,143 @@ if (!class_exists('Helper')) {
                 $manifest = include $manifest_path;
 
                 // Preload dependencies
-                if(!empty($script) && is_array($manifest[$script]['imports'])){ 
+                if (!empty($script) && is_array($manifest[$script]['imports'])) {
                     foreach ($manifest[$script]['imports'] as $name => $file) {
                         if (strpos($name, 'vendor-') === 0) {
-                            echo '<link rel="preload" as="script" href="' . ACADLIX_BUILD_URL . acadlix()->versionPath .'/'. esc_attr($file) . '">' . "\n";
+                            echo '<link rel="preload" as="script" href="' . ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . esc_attr($file) . '">' . "\n";
                         }
                     }
                 }
+            }
+        }
+
+        public function acadlix_table_prefix($table_name)
+        {
+            global $wpdb;
+            return "{$wpdb->prefix}acadlix_{$table_name}";
+        }
+
+        public function acadlix_wp_prefix($table_name)
+        {
+            global $wpdb;
+            return "{$wpdb->prefix}{$table_name}";
+        }
+
+        public function acadlix_fk_prefix($table_name, $key)
+        {
+            global $wpdb;
+            return "{$wpdb->prefix}acadlix_{$table_name}_{$key}_foreign";
+        }
+
+        public function acadlix_index_prefix($table_name, $key)
+        {
+            global $wpdb;
+            return "{$wpdb->prefix}acadlix_{$table_name}_{$key}_index";
+        }
+
+        public function acadlix_old_fk_prefix($table_name, $key)
+        {
+            return "acadlix_{$table_name}_{$key}_foreign";
+        }
+
+        public function acadlix_old_index_prefix($table_name, $key)
+        {
+            return "acadlix_{$table_name}_{$key}_index";
+        }
+
+        public function acadlix_udpate_fk($table, $oldConstraint, $column, $referencedTable, $newConstraint)
+        {
+            global $wpdb;
+            $exists = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT CONSTRAINT_NAME 
+                     FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                     WHERE TABLE_SCHEMA = %s 
+                     AND TABLE_NAME = %s 
+                     AND CONSTRAINT_NAME = %s",
+                    DB_NAME,
+                    $table,
+                    $oldConstraint
+                )
+            );
+            if ($exists) {
+                try {
+                    Manager::schema()->table($table, function ($table) use ($oldConstraint) {
+                        $table->dropForeign($oldConstraint);
+                    });
+                } catch (\Exception $e) {
+                    // Fail silently or log if needed
+                }
+            }
+
+            // Step 2: Check if new constraint already exists
+            $newExists = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT CONSTRAINT_NAME 
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                    WHERE TABLE_SCHEMA = %s 
+                    AND TABLE_NAME = %s 
+                    AND CONSTRAINT_NAME = %s",
+                    DB_NAME,
+                    $table,
+                    $newConstraint
+                )
+            );
+            if (!$newExists) {
+                Manager::schema()->table($table, function ($table) use ($column, $referencedTable, $newConstraint) {
+                    $table->foreign($column, $newConstraint)
+                        ->references('id')
+                        ->on($referencedTable)
+                        ->onDelete('cascade');
+                });
+            }
+        }
+
+        public function acadlix_udpate_index($table, $oldIndex, $columns, $newIndex)
+        {
+            global $wpdb;
+
+            // Step 1: Drop old index if it exists
+            $oldExists = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT INDEX_NAME
+                 FROM INFORMATION_SCHEMA.STATISTICS
+                 WHERE TABLE_SCHEMA = %s
+                 AND TABLE_NAME = %s
+                 AND INDEX_NAME = %s",
+                    DB_NAME,
+                    $table,
+                    $oldIndex
+                )
+            );
+
+            if ($oldExists) {
+                try {
+                    Manager::schema()->table($table, function ($table) use ($oldIndex) {
+                        $table->dropIndex($oldIndex); // Drop old index
+                    });
+                } catch (\Throwable $e) {
+                    // Optional: log or silently ignore
+                }
+            }
+
+            $newExists = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT INDEX_NAME
+                     FROM INFORMATION_SCHEMA.STATISTICS
+                     WHERE TABLE_SCHEMA = %s
+                     AND TABLE_NAME = %s
+                     AND INDEX_NAME = %s",
+                    DB_NAME,
+                    $table,
+                    $newIndex
+                )
+            );
+
+            if (!$newExists) {
+                Manager::schema()->table($table, function ($table) use ($columns, $newIndex) {
+                    $table->index($columns, $newIndex);
+                });
             }
         }
 

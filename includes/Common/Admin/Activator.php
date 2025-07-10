@@ -19,10 +19,23 @@ class Activator
 
         add_action('wp_initialize_site', [$this, 'initialize_new_site'], 10, 1);
 
-        add_action('init', [$this, 'acadlix_load_textdomain']);
+        add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
     }
 
+    public function initialize_new_site($site)
+    {
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
+        if (!is_plugin_active_for_network(ACADLIX_PLUGIN_BASENAME)) {
+            return;
+        }
+
+        switch_to_blog($site->blog_id);
+
+        $this->run_site_activation();
+
+        restore_current_blog();
+    }
 
     public function activate($network_wide)
     {
@@ -86,20 +99,6 @@ class Activator
         acadlix()->admin()->option()->removeOptions();
     }
 
-    public function initialize_new_site($site)
-    {
-        include_once ABSPATH . 'wp-admin/includes/plugin.php';
-        if (!is_plugin_active_for_network(ACADLIX_PLUGIN_BASENAME)) {
-            return;
-        }
-    
-        switch_to_blog($site->blog_id);
-    
-        $this->run_site_activation();
-    
-        restore_current_blog();
-    }
-
     public function acadlix_load_textdomain()
     {
         load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/' . acadlix()->versionPath);
@@ -110,6 +109,23 @@ class Activator
         if (!current_user_can('manage_options')) {
             return;
         }
+
+        
+        if (is_multisite() && is_plugin_active_for_network(ACADLIX_PLUGIN_BASENAME)) {
+            // Loop through all sites
+            $sites = get_sites(['deleted' => 0]);
+            foreach ($sites as $site) {
+                switch_to_blog($site->blog_id);
+                $this->run_db_update();
+                restore_current_blog();
+            }
+        } else {
+            $this->run_db_update();
+        }
+    }
+
+    protected function run_db_update()
+    {
         $didUpdate = false;
 
         $installed_ver = (int) acadlix()->helper()->acadlix_get_option('acadlix_db_version') ?: 1;

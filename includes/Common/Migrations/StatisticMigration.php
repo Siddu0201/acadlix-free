@@ -9,13 +9,22 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('StatisticMigration')){
     class StatisticMigration
     {
+        protected $_table_name = 'statistic';
         public function up()
         {
-            if(!Manager::schema()->hasTable('acadlix_statistic')){
-                Manager::schema()->create('acadlix_statistic', function($table){
+            if(!Manager::schema()->hasTable(acadlix()->helper()->acadlix_table_prefix($this->_table_name))){
+                Manager::schema()->create(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function($table){
                     $table->bigIncrements('id');
-                    $table->foreignId('statistic_ref_id')->constrained('acadlix_statistic_ref')->cascadeOnDelete();
-                    $table->foreignId('question_id')->constrained('acadlix_question')->cascadeOnDelete();
+                    $table->foreignId('statistic_ref_id')->nullable();
+                    $table->foreign('statistic_ref_id', acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'statistic_ref_id'))
+                        ->references('id')
+                        ->on(acadlix()->helper()->acadlix_table_prefix('statistic_ref'))
+                        ->cascadeOnDelete();
+                    $table->foreignId('question_id')->nullable();
+                    $table->foreign('question_id', acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'question_id'))
+                        ->references('id')
+                        ->on(acadlix()->helper()->acadlix_table_prefix('question'))
+                        ->cascadeOnDelete();
                     $table->boolean('correct_count');
                     $table->boolean('incorrect_count');
                     $table->boolean('hint_count');
@@ -32,17 +41,33 @@ if(!class_exists('StatisticMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('acadlix_statistic');
+            Manager::schema()->dropIfExists(acadlix()->helper()->acadlix_table_prefix($this->_table_name));
         }
 
         public function update()
         {
             // Added in db version 3
-            if (!Manager::schema()->hasColumn('acadlix_statistic', 'attempted_at')) {
-                Manager::schema()->table('acadlix_statistic', function ($table) {
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'attempted_at')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
                     $table->unsignedBigInteger('attempted_at')->nullable()->after('answer_data');
                 });
             }
+
+            acadlix()->helper()->acadlix_udpate_fk(
+                acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
+                acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'statistic_ref_id'), 
+                'statistic_ref_id', 
+                acadlix()->helper()->acadlix_table_prefix('statistic_ref'),
+                acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'statistic_ref_id'), 
+            );
+            acadlix()->helper()->acadlix_udpate_fk(
+                acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
+                acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'question_id'), 
+                'question_id', 
+                acadlix()->helper()->acadlix_table_prefix('question'),
+                acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'question_id'), 
+            );
+
         }
     }
 }

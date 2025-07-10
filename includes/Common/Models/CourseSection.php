@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('CourseSection')) {
     class CourseSection extends Model
     {
-        protected $table = 'posts'; // Posts table is used for all post types
+        protected $table;
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas', 'contents'];
         protected $appends = [
@@ -18,6 +18,13 @@ if (!class_exists('CourseSection')) {
         ];
 
         protected static $postType = ACADLIX_COURSE_SECTION_CPT;
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_wp_prefix('posts');
+        }
 
         public function scopeOfCourseSection($query)
         {

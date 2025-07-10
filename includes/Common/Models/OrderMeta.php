@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('OrderMeta')) {
     class OrderMeta extends Model
     {
-        protected $table = "acadlix_order_meta";
+        protected $table;
 
         protected $fillable = [
             'order_id',
@@ -21,6 +21,12 @@ if (!class_exists('OrderMeta')) {
             "order_id" => "integer",
         ];
 
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('order_meta');
+        }
 
         public function order()
         {

@@ -9,7 +9,7 @@ if (!class_exists('Lesson')) {
 
     class Lesson extends Model
     {
-        protected $table = 'posts'; // Posts table is used for all post types
+        protected $table;
         protected $primaryKey = 'ID';
 
         protected $with = ['author', 'metas'];
@@ -21,6 +21,13 @@ if (!class_exists('Lesson')) {
         ];
 
         protected static $postType = ACADLIX_LESSON_CPT; // Custom post type identifier
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_wp_prefix('posts');
+        }
 
         /**
          * Boot method to automatically apply the post type condition.

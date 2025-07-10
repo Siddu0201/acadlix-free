@@ -51,9 +51,8 @@ if (!class_exists('Database')) {
                 'password' => DB_PASSWORD,
                 'charset' => $charset,
                 'collation' => $collate,
-                'prefix' => $wpdb->prefix,
             ]);
-
+            
             $timezone_string = Helper::instance()->acadlix_get_time_zone_string();
             if (!empty($timezone_string)) {
                 date_default_timezone_set($timezone_string);

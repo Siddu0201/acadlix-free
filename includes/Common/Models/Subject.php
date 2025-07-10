@@ -9,9 +9,16 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('Subject')){
     class Subject extends Model
     {
-        protected $table = "acadlix_subject";
+        protected $table;
 
         protected $fillable = ["subject_name", "default"];
+
+        public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = acadlix()->helper()->acadlix_table_prefix('subject');
+    }
 
     }
 }

@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Course')) {
     class Course extends Model
     {
-        protected $table = 'posts'; // Posts table is used for all post types
+        protected $table;
         protected $primaryKey = 'ID';
         protected $with = [
             'author',
@@ -25,6 +25,13 @@ if (!class_exists('Course')) {
         ];
 
         protected static $postType = ACADLIX_COURSE_CPT;
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_wp_prefix('posts');
+        }
 
         public function scopeOfCourse($query)
         {
@@ -152,7 +159,7 @@ if (!class_exists('Course')) {
 
             // Delete course section children
             $courseSections = acadlix()->model()->courseSection()->where('post_parent', $postId)->get();
-            if($courseSections->count() > 0){
+            if ($courseSections->count() > 0) {
                 foreach ($courseSections as $courseSection) {
                     acadlix()->model()->courseSection()->deleteCourseSection($courseSection->ID);
                 }

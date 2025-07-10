@@ -9,10 +9,11 @@ defined( 'ABSPATH' ) || exit();
 if(!class_exists('SubjectMigration')){
     class SubjectMigration
     {
+        protected $_table_name = 'subject';
         public function up()
         {
-            if(!Manager::schema()->hasTable('acadlix_subject')){
-                Manager::schema()->create('acadlix_subject', function($table){
+            if(!Manager::schema()->hasTable(acadlix()->helper()->acadlix_table_prefix($this->_table_name))){
+                Manager::schema()->create(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function($table){
                     $table->bigIncrements('id');
                     $table->string("subject_name");
                     $table->boolean('default')->default(false);
@@ -23,7 +24,7 @@ if(!class_exists('SubjectMigration')){
     
         public function down()
         {
-            Manager::schema()->dropIfExists('acadlix_subject');
+            Manager::schema()->dropIfExists(acadlix()->helper()->acadlix_table_prefix($this->_table_name));
         }
     }
 }

@@ -8,7 +8,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('Quiz')) {
     class Quiz extends Model
     {
-        protected $table = 'posts'; // Posts table is used for all post types
+        protected $table;
         protected $primaryKey = 'ID';
         protected $with = ['author', 'metas', 'quiz_shortcode'];
         protected $appends = [
@@ -24,6 +24,13 @@ if (!class_exists('Quiz')) {
         protected static $languageTaxonomy = ACADLIX_QUIZ_LANGUAGE_TAXONOMY;
 
         protected static $metaPrefix = "_acadlix_quiz_";
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_wp_prefix('posts'); // Posts table is used for all post types
+        }
 
         public function scopeOfQuiz($query)
         {

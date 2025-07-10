@@ -9,7 +9,7 @@ defined('ABSPATH') || exit();
 if (!class_exists('UserActivityMeta')) {
     class UserActivityMeta extends Model
     {
-        protected $table = "acadlix_user_activity_meta";
+        protected $table;
 
         protected $fillable = [
             "user_token",
@@ -24,6 +24,13 @@ if (!class_exists('UserActivityMeta')) {
             "user_id" => "integer",
             "type_id" => "integer",
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->table = acadlix()->helper()->acadlix_table_prefix('user_activity_meta');
+        }
 
         public function scopeOfQuiz($query)
         {
