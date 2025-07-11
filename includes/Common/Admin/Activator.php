@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class Activator
 {
-    public $dbVersion = 4;
+    public $dbVersion = 5;
     public function __construct()
     {
         if (!is_admin())
@@ -155,6 +155,7 @@ class Activator
             2 => 'updateV2',
             3 => 'updateV3',
             4 => 'updateV4',
+            5 => 'updateV5',
         ];
 
         foreach ($updates as $version => $method) {
@@ -170,6 +171,13 @@ class Activator
             acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
             acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         }
+    }
+
+    protected function updateV5()
+    {
+        /**
+         * In this update add multisite functionality.
+         */
     }
 
     protected function updateV4()
