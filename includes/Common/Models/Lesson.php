@@ -90,7 +90,7 @@ if (!class_exists('Lesson')) {
 
         public static function insertLesson(array $data, array $meta = [])
         {
-            $data['post_content'] = $data['post_content'] ? wp_slash($data['post_content']) : '';
+            $data['post_content'] = wp_slash($data['post_content'] ?? "");
             $data = wp_parse_args($data, [
                 'post_title' => '',
                 'post_content' => '',
@@ -112,7 +112,7 @@ if (!class_exists('Lesson')) {
 
         public static function updateLesson(int $postId, array $data = [], array $meta = [])
         {
-            $data['post_content'] = $data['post_content'] ? wp_slash($data['post_content']) : '';
+            $data['post_content'] = wp_slash($data['post_content'] ?? "");
             // Parse default arguments for the lesson update.
             $data = wp_parse_args($data, [
                 'ID' => $postId,
