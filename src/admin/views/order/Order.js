@@ -15,7 +15,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { DeleteOrderById, GetOrders } from "@acadlix/requests/admin/AdminOrderRequest";
-import { currencyPosition } from "@acadlix/helpers/util";
+import { currencyPosition, hasCapability } from "@acadlix/helpers/util";
 import { dateI18n } from "@wordpress/date";
 import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
@@ -236,14 +236,17 @@ const Order = () => {
                   >
                     {__("Orders", "acadlix")}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    LinkComponent={Link}
-                    to="/create"
-                    color="primary"
-                  >
-                    {__("Add", "acadlix")}
-                  </Button>
+                  {
+                    hasCapability("acadlix_add_order") &&
+                    <Button
+                      variant="contained"
+                      LinkComponent={Link}
+                      to="/create"
+                      color="primary"
+                    >
+                      {__("Add", "acadlix")}
+                    </Button>
+                  }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
                     <Button variant="contained" onClick={refetch} size="large">
                       <IoMdRefresh />

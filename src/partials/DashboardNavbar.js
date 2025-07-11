@@ -6,6 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 const DashboardNavbar = () => {
   const path = useLocation();
+
   return (
     <AppBar
       position="static"
@@ -89,6 +90,24 @@ const DashboardNavbar = () => {
                 {page?.name}
               </Button>
             ))}
+            <Button
+              sx={{
+                my: 0,
+                color: "black",
+                display: "block",
+                padding: {
+                  sm: "6px 8px",
+                  xs: 0,
+                },
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                minWidth: "auto",
+              }}
+              component="a"
+              href={acadlixOptions?.logout_url}
+            >
+              {__("Logout", "acadlix")}
+            </Button>
           </Box>
         </Toolbar>
       </Container>
