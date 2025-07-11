@@ -130,6 +130,11 @@ class UserRole
     {
         return [
             'acadlix_show_order' => true,
+            'acadlix_add_order' => true,
+            'acadlix_edit_order' => true,
+            'acadlix_delete_order' => true,
+            'acadlix_bulk_action_order' => true,
+            'acadlix_bulk_delete_order' => true,
         ];
     }
 

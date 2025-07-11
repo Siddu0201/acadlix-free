@@ -10,6 +10,7 @@ import { __ } from "@wordpress/i18n";
 import CreateOrder from "./views/order/CreateOrder";
 import EditOrder from "./views/order/EditOrder";
 import "./AdminOrder.css";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const AdminOrder = () => {
   return (
@@ -19,9 +20,18 @@ const AdminOrder = () => {
         <Toaster position="bottom-right" />
         <Routes>
           <Route element={<AdminLayout />}>
-            <Route index element={<Order />} />
-            <Route path="create" element={<CreateOrder />} />
-            <Route path="edit/:order_id" element={<EditOrder />} />
+            {
+                hasCapability("acadlix_show_order") &&
+                <Route index element={<Order />} />
+            }
+            {
+                hasCapability("acadlix_add_order") &&
+                <Route path="create" element={<CreateOrder />} />
+            }
+            {
+                hasCapability("acadlix_edit_order") &&
+                <Route path="edit/:order_id" element={<EditOrder />} />
+            }
           </Route>
           <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
         </Routes>

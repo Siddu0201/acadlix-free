@@ -21,7 +21,10 @@ const AdminLesson = () => {
           <ScrollToTop />
           <Routes>
             <Route element={<AdminLayout />}>
-              <Route index element={<Lesson />} />
+              {
+                hasCapability("acadlix_show_lesson") &&
+                <Route index element={<Lesson />} />
+              }
               {
                 hasCapability("acadlix_add_lesson") &&
                 <Route path="create" element={<CreateLesson />} />

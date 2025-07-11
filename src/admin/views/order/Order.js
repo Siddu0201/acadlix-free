@@ -100,27 +100,33 @@ const Order = () => {
       renderCell: (params) => {
         return (
           <>
-            <Tooltip title={__("Edit Order", "acadlix")} arrow>
-              <IconButton
-                aria-label="edit"
-                size="small"
-                color="primary"
-                LinkComponent={Link}
-                to={`/edit/${params?.id}`}
-              >
-                <FaEdit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="error"
-                onClick={deleteOrderById.bind(this, params?.id)}
-              >
-                <FaTrash />
-              </IconButton>
-            </Tooltip>
+            {
+              hasCapability("acadlix_edit_order") &&
+              <Tooltip title={__("Edit Order", "acadlix")} arrow>
+                <IconButton
+                  aria-label="edit"
+                  size="small"
+                  color="primary"
+                  LinkComponent={Link}
+                  to={`/edit/${params?.id}`}
+                >
+                  <FaEdit />
+                </IconButton>
+              </Tooltip>
+            }
+            {
+              hasCapability("acadlix_delete_order") &&
+              <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteOrderById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
           </>
         )
       }
