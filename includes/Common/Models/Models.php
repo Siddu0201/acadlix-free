@@ -4,32 +4,6 @@ namespace Yuvayana\Acadlix\Common\Models;
 
 class Models
 {
-    protected $category = null;
-    protected $course = null;
-    protected $courseCart = null;
-    protected $courseSection = null;
-    protected $courseSectionContent = null;
-    protected $courseStatistic = null;
-    protected $language = null;
-    protected $lesson = null;
-    protected $order = null;
-    protected $orderItem = null;
-    protected $orderMeta = null;
-    protected $question = null;
-    protected $questionLang = null;
-    protected $quiz = null;
-    protected $quizShortcode = null;
-    protected $statistic = null;
-    protected $statisticRef = null;
-    protected $subject = null;
-    protected $template = null;
-    protected $toplist = null;
-    protected $userActivityMeta = null;
-    protected $wpPostMeta = null;
-    protected $wpPosts = null;
-    protected $wpUsers = null;
-    protected $wpUserMeta = null;
-
     protected array $instances = [];
 
     protected function getInstance(string $key, string $class)
