@@ -42,7 +42,7 @@ import { hasCapability } from "@acadlix/helpers/util";
 const ViewProSection = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/views/course/sections/ViewProSection") :
-    Promise.resolve(null)
+    Promise.resolve({ default: () => null }) 
 );
 
 const ViewSection = (props) => {

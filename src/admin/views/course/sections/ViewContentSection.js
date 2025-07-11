@@ -44,7 +44,7 @@ const Preview = React.lazy(() =>
 const ViewProContentSection = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/views/course/sections/ViewProContentSection") :
-    Promise.resolve(null)
+    Promise.resolve({ default: () => null })
 );
 
 const ViewContentSection = (props) => {

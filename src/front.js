@@ -35,6 +35,8 @@ import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
 
     document.addEventListener('shortcodeLoaded', initializeQuizShortcodes);
 
+    window.initializeQuizShortcodes();
+
     domReady(() => {
         const dashboard = document.getElementById("acadlix_dashboard");
         if (dashboard) {
