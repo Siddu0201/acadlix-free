@@ -18,6 +18,7 @@ class Activator
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
         add_action('wp_initialize_site', [$this, 'initialize_new_site'], 10, 1);
+        add_action('delete_blog', [$this, 'acadlix_delete_blog'], 10, 2);
 
         add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
@@ -53,7 +54,6 @@ class Activator
 
     private function run_site_activation()
     {
-        acadlix()->database()->boot();
         acadlix()->migration()->createTable();
         acadlix()->seeder()->seed();
         acadlix()->admin()->option()->createOption();
@@ -85,22 +85,36 @@ class Activator
         if (is_multisite()) {
             foreach (get_sites(['fields' => 'ids']) as $site_id) {
                 switch_to_blog($site_id);
+                $delete_data = acadlix()->helper()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
+                if ($delete_data === "no") {
+                    return;
+                }
                 $this->run_site_uninstall();
                 restore_current_blog();
             }
         } else {
+            $delete_data = acadlix()->helper()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
+            if ($delete_data === "no") {
+                return;
+            }
             $this->run_site_uninstall();
         }
     }
 
-    private function run_site_uninstall()
+    public function acadlix_delete_blog(int $blog_id, bool $drop)
     {
-        $delete_data = acadlix()->helper()->acadlix_get_option('acadlix_delete_data_on_plugin_uninstall', "no");
-
-        if ($delete_data === "no") {
+        if (!$drop) {
+            // Site is only marked as deleted — skip.
             return;
         }
-        acadlix()->database()->boot();
+
+        switch_to_blog($blog_id);
+        $this->run_site_uninstall();
+        restore_current_blog();
+    }
+
+    private function run_site_uninstall()
+    {
         acadlix()->admin()->core()->acadlix_delete_post_type_data();
         acadlix()->migration()->removeTable();
         acadlix()->admin()->option()->removeOptions();
@@ -117,7 +131,7 @@ class Activator
             return;
         }
 
-        
+
         if (is_multisite() && is_plugin_active_for_network(ACADLIX_PLUGIN_BASENAME)) {
             // Loop through all sites
             $sites = get_sites(['deleted' => 0]);

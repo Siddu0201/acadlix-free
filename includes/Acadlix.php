@@ -92,11 +92,6 @@ namespace Yuvayana\Acadlix {
 
         private function preLoad(){
             $this->database = new Common\Models\Database();
-
-            add_action('switch_blog', function () {
-                acadlix()->database()->boot(); // Auto-reboot on blog switch
-            });
-
             $this->license = $this->pro ? new Pro\License\License() : null;
             $this->helper = $this->pro ? new Pro\Helper\Helper() : new Common\Helper\Helper();
         }
