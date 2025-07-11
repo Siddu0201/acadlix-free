@@ -18,7 +18,7 @@ class Activator
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
         add_action('wp_initialize_site', [$this, 'initialize_new_site'], 10, 1);
-        add_action('delete_blog', [$this, 'acadlix_delete_blog'], 10, 2);
+        add_action('wp_delete_site', [$this, 'acadlix_delete_site'], 10, 1);
 
         add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
@@ -101,15 +101,11 @@ class Activator
         }
     }
 
-    public function acadlix_delete_blog(int $blog_id, bool $drop)
+    public function acadlix_delete_site($site)
     {
-        if (!$drop) {
-            // Site is only marked as deleted — skip.
-            return;
-        }
-
+        $blog_id = (int) $site->id;
         switch_to_blog($blog_id);
-        $this->run_site_uninstall();
+        acadlix()->migration()->removeTable();
         restore_current_blog();
     }
 
