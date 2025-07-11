@@ -30,179 +30,118 @@ class Models
     protected $wpUsers = null;
     protected $wpUserMeta = null;
 
-    public function category(): Category|null{
-        if(is_null($this->category)){
-            $this->category = new Category();
+    protected array $instances = [];
+
+    protected function getInstance(string $key, string $class)
+    {
+        $blog_id = function_exists('get_current_blog_id') ? get_current_blog_id() : 1;
+        $cache_key = $blog_id . ':' . $key;
+
+        if (!isset($this->instances[$cache_key])) {
+            $this->instances[$cache_key] = new $class();
         }
-        return $this->category;
+
+        return $this->instances[$cache_key];
+    }
+
+    public function category(): Category|null{
+        return $this->getInstance('category', Category::class);
     }
 
     public function course(): Course|null{
-        if(is_null($this->course)){
-            $this->course = new Course();
-        }
-        return $this->course;
+        return $this->getInstance('course', Course::class);
     }
 
     public function courseCart(): CourseCart|null{
-        if(is_null($this->courseCart)){
-            $this->courseCart = new CourseCart();
-        }
-        return $this->courseCart;
+        return $this->getInstance('courseCart', CourseCart::class);
     }
 
     public function courseSection(): CourseSection|null{
-        if(is_null($this->courseSection)){
-            $this->courseSection = new CourseSection();
-        }
-        return $this->courseSection;
+        return $this->getInstance('courseSection', CourseSection::class);
     }
 
     public function courseSectionContent(): CourseSectionContent|null{
-        if(is_null($this->courseSectionContent)){
-            $this->courseSectionContent = new CourseSectionContent();
-        }
-        return $this->courseSectionContent;
+        return $this->getInstance('courseSectionContent', CourseSectionContent::class);
     }
 
     public function courseStatistic(): CourseStatistic|null{
-        if(is_null($this->courseStatistic)){
-            $this->courseStatistic = new CourseStatistic();
-        }
-        return $this->courseStatistic;
+        return $this->getInstance('courseStatistic', CourseStatistic::class);
     }
 
     public function language(): Language|null{
-        if(is_null($this->language)){
-            $this->language = new Language();
-        }
-        return $this->language;
+        return $this->getInstance('language', Language::class);
     }
 
     public function lesson(): Lesson|null{
-        if(is_null($this->lesson)){
-            $this->lesson = new Lesson();
-        }
-        return $this->lesson;
+        return $this->getInstance('lesson', Lesson::class);
     }
 
     public function order(): Order|null{
-        if(is_null($this->order)){
-            $this->order = new Order();
-        }
-        return $this->order;
+        return $this->getInstance('order', Order::class);
     }
 
     public function orderItem(): OrderItem|null{
-        if(is_null($this->orderItem)){
-            $this->orderItem = new OrderItem();
-        }
-        return $this->orderItem;
+        return $this->getInstance('orderItem', OrderItem::class);
     }
 
     public function orderMeta(): OrderMeta|null{
-        if(is_null($this->orderMeta)){
-            $this->orderMeta = new OrderMeta();
-        }
-        return $this->orderMeta;
+        return $this->getInstance('orderMeta', OrderMeta::class);
     }
 
     public function question(): Question|null{
-        if(is_null($this->question)){
-            $this->question = new Question();
-        }
-        return $this->question;
+        return $this->getInstance('question', Question::class);
     }
 
     public function questionLang(): QuestionLang|null{
-        if(is_null($this->questionLang)){
-            $this->questionLang = new QuestionLang();
-        }
-        return $this->questionLang;
+        return $this->getInstance('questionLang', QuestionLang::class);
     }
 
     public function quiz(): Quiz|null{
-        if(is_null($this->quiz)){
-            $this->quiz = new Quiz();
-        }
-        return $this->quiz;
+        return $this->getInstance('quiz', Quiz::class);
     }
 
     public function quizShortcode(): QuizShortcode|null{
-        if(is_null($this->quizShortcode)){
-            $this->quizShortcode = new QuizShortcode();
-        }
-        return $this->quizShortcode;
+        return $this->getInstance('quizShortcode', QuizShortcode::class);
     }
 
     public function statistic(): Statistic|null{
-        if(is_null($this->statistic)){
-            $this->statistic = new Statistic();
-        }
-        return $this->statistic;
+        return $this->getInstance('statistic', Statistic::class);
     }
 
     public function statisticRef(): StatisticRef|null{
-        if(is_null($this->statisticRef)){
-            $this->statisticRef = new StatisticRef();
-        }
-        return $this->statisticRef;
+        return $this->getInstance('statisticRef', StatisticRef::class);
     }
 
     public function subject(): Subject|null{
-        if(is_null($this->subject)){
-            $this->subject = new Subject();
-        }
-        return $this->subject;
+        return $this->getInstance('subject', Subject::class);
     }
 
     public function template(): Template|null{
-        if(is_null($this->template)){
-            $this->template = new Template();
-        }
-        return $this->template;
+        return $this->getInstance('template', Template::class);
     }
 
     public function toplist(): Toplist|null{
-        if(is_null($this->toplist)){
-            $this->toplist = new Toplist();
-        }
-        return $this->toplist;
+        return $this->getInstance('toplist', Toplist::class);
     }
 
     public function userActivityMeta(): UserActivityMeta|null{
-        if(is_null($this->userActivityMeta)){
-            $this->userActivityMeta = new UserActivityMeta();
-        }
-        return $this->userActivityMeta;
+        return $this->getInstance('userActivityMeta', UserActivityMeta::class);
     }
 
     public function wpPostMeta(): WpPostMeta|null{
-        if(is_null($this->wpPostMeta)){
-            $this->wpPostMeta = new WpPostMeta();
-        }
-        return $this->wpPostMeta;
+        return $this->getInstance('wpPostMeta', WpPostMeta::class);
     }
 
     public function wpPosts(): WpPosts|null{
-        if(is_null($this->wpPosts)){
-            $this->wpPosts = new WpPosts();
-        }
-        return $this->wpPosts;
+        return $this->getInstance('wpPosts', WpPosts::class);
     }
 
     public function wpUserMeta(): WpUserMeta|null{
-        if(is_null($this->wpUserMeta)){
-            $this->wpUserMeta = new WpUserMeta();
-        }
-        return $this->wpUserMeta;
+        return $this->getInstance('wpUserMeta', WpUserMeta::class);
     }
 
     public function wpUsers(): WpUsers|null{
-        if(is_null($this->wpUsers)){
-            $this->wpUsers = new WpUsers();
-        }
-        return $this->wpUsers;
+        return $this->getInstance('wpUsers', WpUsers::class);
     }
 
 }
