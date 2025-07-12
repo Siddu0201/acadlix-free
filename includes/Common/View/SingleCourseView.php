@@ -366,14 +366,15 @@ if (!function_exists('acadlix_course_action_buttons')) {
                 ?>
                 <div class="acadlix-course-wishlist">
                     <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
-                        id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>"
-                        data-id="<?php echo esc_attr($course?->ID); ?>"
+                        id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>"
+                        title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>" data-id="<?php echo esc_attr($course?->ID); ?>"
                         style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
                         <i class="fa-regular fa-heart"></i>
                         <div class="acadlix-btn-loader" style="display: none;"></div>
                     </div>
                     <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
-                        id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>" title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
+                        id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>"
+                        title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
                         data-id="<?php echo esc_attr($course?->ID); ?>"
                         style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
                         <i class="fa-solid fa-heart"></i>
@@ -427,7 +428,8 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                     </h1>
                     <div class="acadlix-course-header-last-updated acadlix-mb-8">
                         <i class="fa fa-exclamation-circle"></i>
-                        <?php esc_html_e('Last updated', 'acadlix'); ?>: <?php echo esc_html(acadlix()->helper()->formatDate($course->post_date)); ?>
+                        <?php esc_html_e('Last updated', 'acadlix'); ?>:
+                        <?php echo esc_html(acadlix()->helper()->formatDate($course->post_date)); ?>
                     </div>
                     <div class="acadlix-course-header-author">
                         <div class="acadlix-course-header-created-at-text">
@@ -465,9 +467,12 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <!-- navbar tabs  -->
                 <nav class="acadlix-course-main-navbar">
                     <ul class="acadlix-course-main-navbar-list">
-                        <li><a href="#overview" class="acadlix-fs-6"><?php esc_html_e('Overview', 'acadlix'); ?></a></li>
-                        <li><a href="#curriculum" class="acadlix-fs-6"><?php esc_html_e('Curriculum', 'acadlix'); ?></a></li>
-                        <li><a href="#instructor" class="acadlix-fs-6"><?php esc_html_e('Instructor', 'acadlix'); ?></a></li>
+                        <li><a href="#overview" class="acadlix-fs-6"><?php esc_html_e('Overview', 'acadlix'); ?></a>
+                        </li>
+                        <li><a href="#curriculum" class="acadlix-fs-6"><?php esc_html_e('Curriculum', 'acadlix'); ?></a>
+                        </li>
+                        <li><a href="#instructor" class="acadlix-fs-6"><?php esc_html_e('Instructor', 'acadlix'); ?></a>
+                        </li>
                     </ul>
                 </nav>
                 <div id="overview" class="acadlix-course-overview acadlix-mb-16">
@@ -551,14 +556,28 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     data-is-preview="<?php echo esc_attr($preview); ?>">
                                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
                                                         <span class="acadlix-content-icon">
-                                                            <?php echo match ($content->contentable['type']) {
+                                                            <!-- <?php echo match ($content->contentable['type']) {
                                                                 'lesson' => $content->contentable_data?->rendered_metas['type'] == 'video'
-                                                                    ? '<i class="fas fa-video"></i>'
-                                                                    : '<i class="fas fa-file"></i>',
+                                                                ? '<i class="fas fa-video"></i>'
+                                                                : '<i class="fas fa-file"></i>',
                                                                 'quiz' => '<i class="fas fa-question"></i>',
                                                                 'assignment' => '<i class="fas fa-file-signature"></i>'
                                                             };
-                                                            ; ?>
+                                                            ; ?> -->
+                                                            <?php
+                                                            $type = $content->contentable['type'];
+                                                            $icon = match ($type) {
+                                                                'lesson' => $content->contentable_data?->rendered_metas['type'] === 'video'
+                                                                ? '<i class="fas fa-video"></i>'
+                                                                : '<i class="fas fa-file"></i>',
+                                                                'quiz' => '<i class="fas fa-question"></i>',
+                                                                'assignment' => '<i class="fas fa-file-signature"></i>',
+                                                                default => '<i class="fas fa-book"></i>',
+                                                            };
+
+                                                            // 🔁 Apply filter for customization (e.g., Pro adds Zoom icon here)
+                                                            echo apply_filters("acadlix/single-course/content/icon", $icon, $content);
+                                                            ?>
                                                         </span>
                                                         <span class="acadlix-content-text acadlix-fs-6">
                                                             <?php echo $content->contentable['title']; ?>
@@ -599,7 +618,9 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 </div>
 
                 <div id="instructor" class="acadlix-card acadlix-course-instructor acadlix-mb-16 acadlix-box-shadow-2">
-                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold"><?php esc_html_e('Course Instructor', 'acadlix'); ?></h2>
+                    <h2 class="acadlix-card-header acadlix-fs-4 acadlix-fw-bold">
+                        <?php esc_html_e('Course Instructor', 'acadlix'); ?>
+                    </h2>
                     <div class="acadlix-card-body">
                         <div class="acadlix-row">
                             <?php
