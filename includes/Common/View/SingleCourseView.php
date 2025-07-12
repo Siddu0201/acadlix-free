@@ -558,6 +558,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                         <span class="acadlix-content-icon">
                                                             <?php
                                                             $type = $content->contentable['type'];
+                                                            $icon = '';
                                                             if ($type === 'lesson') {
                                                                 $icon = $content->contentable_data?->rendered_metas['type'] === 'video'
                                                                     ? '<i class="fas fa-video"></i>'
