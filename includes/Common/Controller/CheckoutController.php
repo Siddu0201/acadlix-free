@@ -20,6 +20,7 @@ if (!class_exists("CheckoutController")) {
         {
             $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
             if ($checkout_page_id && is_page($checkout_page_id)) {
+                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
                 $checkout_template = ACADLIX_INCLUDES_PATH .'Common/View/CheckoutView.php';
                 if ($checkout_template) {
                     return $checkout_template;

@@ -19,6 +19,7 @@ if (!class_exists("ThankyouController")) {
         {
             $thankyou_page_id = acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id');
             if ($thankyou_page_id && is_page($thankyou_page_id)) {
+                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
                 $thankyou_template = ACADLIX_INCLUDES_PATH .'Common/View/ThankyouView.php';
                 if ($thankyou_template) {
                     return $thankyou_template;
