@@ -556,26 +556,18 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     data-is-preview="<?php echo esc_attr($preview); ?>">
                                                     <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
                                                         <span class="acadlix-content-icon">
-                                                            <!-- <?php echo match ($content->contentable['type']) {
-                                                                'lesson' => $content->contentable_data?->rendered_metas['type'] == 'video'
-                                                                ? '<i class="fas fa-video"></i>'
-                                                                : '<i class="fas fa-file"></i>',
-                                                                'quiz' => '<i class="fas fa-question"></i>',
-                                                                'assignment' => '<i class="fas fa-file-signature"></i>'
-                                                            };
-                                                            ; ?> -->
                                                             <?php
                                                             $type = $content->contentable['type'];
-                                                            $icon = match ($type) {
-                                                                'lesson' => $content->contentable_data?->rendered_metas['type'] === 'video'
-                                                                ? '<i class="fas fa-video"></i>'
-                                                                : '<i class="fas fa-file"></i>',
-                                                                'quiz' => '<i class="fas fa-question"></i>',
-                                                                'assignment' => '<i class="fas fa-file-signature"></i>',
-                                                                default => '<i class="fas fa-book"></i>',
-                                                            };
+                                                            if ($type === 'lesson') {
+                                                                $icon = $content->contentable_data?->rendered_metas['type'] === 'video'
+                                                                    ? '<i class="fas fa-video"></i>'
+                                                                    : '<i class="fas fa-file"></i>';
+                                                            } elseif ($type === 'quiz') {
+                                                                $icon = '<i class="fas fa-question"></i>';
+                                                            } elseif ($type === 'assignment') {
+                                                                $icon = '<i class="fas fa-file-signature"></i>';
+                                                            }
 
-                                                            // 🔁 Apply filter for customization (e.g., Pro adds Zoom icon here)
                                                             echo apply_filters("acadlix/single-course/content/icon", $icon, $content);
                                                             ?>
                                                         </span>
