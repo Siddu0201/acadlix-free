@@ -107,7 +107,11 @@ if (!class_exists('Course')) {
 
         public function getStudentCountAttribute()
         {
-            return 0;
+            return acadlix()->model()->orderItem()->with(["order"])
+            ->where("course_id", $this->ID)
+            ->whereHas("order", function ($query) {
+                $query->where("status", "success");
+            })->count();
         }
 
         /**

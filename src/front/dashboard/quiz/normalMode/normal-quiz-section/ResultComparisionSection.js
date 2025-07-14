@@ -181,42 +181,45 @@ const ResultComparisionSection = (props) => {
               <Divider />
 
               {/* Status */}
-              <Grid
-                container
-                sx={{
-                  marginBottom: "15px",
-                }}
-              >
-                <Grid size={{ xs: 6, md: 4 }}
+              {
+                props?.watch("show_status_based_on_min_percent") &&
+                <Grid
+                  container
                   sx={{
-                    display: "flex",
-                    gap: "8px",
-                    alignItems: "center",
+                    marginBottom: "15px",
                   }}
                 >
-                  <Avatar
-                    src={
-                      props?.getResult() >= props?.watch("minimum_percent_to_pass")
-                        ? props?.Pass
-                        : props?.Fail
-                    }
-                    sx={{ width: 20, height: 20 }}
-                  />
-                  <b>{__('Status', 'acadlix')}:</b>
+                  <Grid size={{ xs: 6, md: 4 }}
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Avatar
+                      src={
+                        props?.getResult() >= props?.watch("minimum_percent_to_pass")
+                          ? props?.Pass
+                          : props?.Fail
+                      }
+                      sx={{ width: 20, height: 20 }}
+                    />
+                    <b>{__('Status', 'acadlix')}:</b>
+                  </Grid>
+                  <Grid size={{ md: 4, xs: 3 }}>
+                    <Typography>
+                      {props?.getStatus()}
+                    </Typography>
+                  </Grid>
+                  <Grid size={{ md: 4, xs: 3 }}>
+                    <Typography>
+                      {props?.watch("topper_result.result") >= props?.watch("minimum_percent_to_pass")
+                        ? __("Pass", "acadlix")
+                        : __("Fail", "acadlix")}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>
-                    {props?.getStatus()}
-                  </Typography>
-                </Grid>
-                <Grid size={{ md: 4, xs: 3 }}>
-                  <Typography>
-                    {props?.watch("topper_result.result") >= props?.watch("minimum_percent_to_pass")
-                      ? __("Pass", "acadlix")
-                      : __("Fail", "acadlix")}
-                  </Typography>
-                </Grid>
-              </Grid>
+              }
             </Box>
           )}
         </Card>
