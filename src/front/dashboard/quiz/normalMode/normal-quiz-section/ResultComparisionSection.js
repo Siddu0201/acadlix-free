@@ -178,11 +178,12 @@ const ResultComparisionSection = (props) => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Divider />
 
               {/* Status */}
               {
                 props?.watch("show_status_based_on_min_percent") &&
+                <>
+                <Divider />
                 <Grid
                   container
                   sx={{
@@ -219,6 +220,7 @@ const ResultComparisionSection = (props) => {
                     </Typography>
                   </Grid>
                 </Grid>
+                </>
               }
             </Box>
           )}
