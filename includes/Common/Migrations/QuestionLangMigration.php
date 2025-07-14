@@ -41,14 +41,14 @@ if(!class_exists('QuestionLangMigration')){
 
         public function update()
         {
-            acadlix()->helper()->acadlix_udpate_fk(
+            acadlix()->helper()->acadlix_update_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'question_id'), 
                 'question_id', 
                 acadlix()->helper()->acadlix_table_prefix('question'),
                 acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'question_id'), 
             );
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'language_id'), 
                 'language_id', 

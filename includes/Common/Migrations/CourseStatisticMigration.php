@@ -62,7 +62,7 @@ if (!class_exists(('CourseStatisticMigration'))) {
                 });
             } 
 
-            acadlix()->helper()->acadlix_udpate_fk(
+            acadlix()->helper()->acadlix_update_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'order_item_id'), 
                 'oi_id', 
@@ -70,13 +70,13 @@ if (!class_exists(('CourseStatisticMigration'))) {
                 acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'oi_id'), 
             );
             
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'course_section_content_id'), 
                 'csc_id', 
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'csc_id'), 
             );
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'user_id'), 
                 'user_id', 

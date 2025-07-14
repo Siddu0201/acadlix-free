@@ -40,7 +40,7 @@ if (!class_exists('OrderItemMigration')) {
 
         public function update()
         {
-            acadlix()->helper()->acadlix_udpate_fk(
+            acadlix()->helper()->acadlix_update_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name),
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'order_id'),
                 'order_id',

@@ -747,7 +747,7 @@ if (!class_exists('Helper')) {
             return "acadlix_{$table_name}_{$key}_index";
         }
 
-        public function acadlix_udpate_fk($table, $oldConstraint, $column, $referencedTable, $newConstraint)
+        public function acadlix_update_fk($table, $oldConstraint, $column, $referencedTable, $newConstraint)
         {
             global $wpdb;
             $exists = $wpdb->get_var(
@@ -795,7 +795,7 @@ if (!class_exists('Helper')) {
             }
         }
 
-        public function acadlix_udpate_index($table, $oldIndex, $columns, $newIndex)
+        public function acadlix_update_index($table, $oldIndex, $columns, $newIndex)
         {
             global $wpdb;
 

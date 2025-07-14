@@ -53,14 +53,14 @@ if(!class_exists('StatisticMigration')){
                 });
             }
 
-            acadlix()->helper()->acadlix_udpate_fk(
+            acadlix()->helper()->acadlix_update_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'statistic_ref_id'), 
-                'sr_id', 
+                'statistic_ref_id', 
                 acadlix()->helper()->acadlix_table_prefix('statistic_ref'),
                 acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'sr_id'), 
             );
-            acadlix()->helper()->acadlix_udpate_fk(
+            acadlix()->helper()->acadlix_update_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'question_id'), 
                 'question_id', 

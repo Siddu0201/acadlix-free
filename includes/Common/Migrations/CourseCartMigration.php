@@ -36,19 +36,19 @@ if (!class_exists('CourseCartMigration')) {
 
         public function update()
         {
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'cart_token'), 
                 'cart_token', 
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'cart_token'), 
             );
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name),
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'course_id'),
                 'course_id',
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'course_id'),
             );
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name),
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'user_id'),
                 'user_id',

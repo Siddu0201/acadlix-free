@@ -29,9 +29,9 @@ if(!class_exists('TemplateMigration')){
             Manager::schema()->dropIfExists(acadlix()->helper()->acadlix_table_prefix($this->_table_name));
         }
 
-        public function udpate()
+        public function update()
         {
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'type'), 
                 'type', 

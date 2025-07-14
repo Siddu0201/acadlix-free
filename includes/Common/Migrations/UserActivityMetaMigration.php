@@ -37,19 +37,19 @@ if (!class_exists('UserActivityMetaMigration')) {
 
         public function update()
         {
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'type_type_id'), 
                 ['type', 'type_id'], 
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'type_type_id'), 
             );
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'user_id_type_id'), 
                 ['user_id', 'type_id'], 
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_id_type_id'), 
             );
-            acadlix()->helper()->acadlix_udpate_index(
+            acadlix()->helper()->acadlix_update_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'user_token_type_id'), 
                 ['user_token', 'type_id'], 
