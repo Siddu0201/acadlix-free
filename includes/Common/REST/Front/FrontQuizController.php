@@ -203,7 +203,7 @@ class FrontQuizController
 
         if ($attempts) {
             $attempts->update([
-                'meta_value' => (int) $attempts->meta_value + 1
+                'meta_value' => (int) $attempts->meta_value + 1 // phpcs:ignore
             ]);
         } else {
             $attempts = acadlix()->model()->userActivityMeta()->create([
@@ -211,8 +211,8 @@ class FrontQuizController
                 "user_id" => $params['user_id'],
                 "type" => "quiz",
                 "type_id" => $quiz_id,
-                "meta_key" => "quiz_attempt",
-                "meta_value" => 1
+                "meta_key" => "quiz_attempt", // phpcs:ignore
+                "meta_value" => 1 // phpcs:ignore
             ]);
         }
         $res['attempts'] = $attempts;

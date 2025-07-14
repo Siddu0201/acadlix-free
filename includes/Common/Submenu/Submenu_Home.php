@@ -68,7 +68,7 @@ class Submenu_Home
 
     public function home_callback()
     {
-        echo '<div id="acadlix-admin-home"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
+        echo '<div id="acadlix-admin-home"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

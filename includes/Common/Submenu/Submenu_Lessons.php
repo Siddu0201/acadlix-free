@@ -72,7 +72,7 @@ class Submenu_Lessons
 
     public function lesson_callback()
     {
-        echo '<div id="acadlix-admin-lesson"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
+        echo '<div id="acadlix-admin-lesson"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

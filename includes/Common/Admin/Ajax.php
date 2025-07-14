@@ -91,7 +91,7 @@ class Ajax
     {
         check_ajax_referer("wp_rest", "nonce");
 
-        $user_identifier = isset($_POST['username']) ? sanitize_text_field($_POST['username']) : "";
+        $user_identifier = isset($_POST['username']) ? sanitize_text_field(wp_unslash($_POST['username'])) : "";
 
         if (is_email($user_identifier)) {
             // If it's an email, get the user by email

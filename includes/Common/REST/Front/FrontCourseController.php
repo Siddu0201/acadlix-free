@@ -310,8 +310,8 @@ class FrontCourseController
             'user_id' => $params['user_id'],
             'type' => "course",
             'type_id' => $params['course_id'],
-            'meta_key' => "wishlist",
-            'meta_value' => 1
+            'meta_key' => "wishlist", // phpcs:ignore
+            'meta_value' => 1 // phpcs:ignore
         ]);
         $res = array(
             'status' => 'success',

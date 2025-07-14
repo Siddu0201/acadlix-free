@@ -30,7 +30,7 @@ if (!class_exists(class: 'CourseStatistic')) {
 
         public function setMetaValueAttribute($value)
         {
-            $this->attributes['meta_value'] = maybe_serialize($value);
+            $this->attributes['meta_value'] = maybe_serialize($value); // phpcs:ignore
         }
 
         public function getMetaValueAttribute($value)

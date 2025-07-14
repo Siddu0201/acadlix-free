@@ -20,7 +20,7 @@ if (!empty($search)) {
 }
 $course_count = $courses->count();
 
-if($course_count <= $per_page){
+if ($course_count <= $per_page) {
     $page = 1;
 }
 
@@ -70,8 +70,8 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         <h4 class="acadlix-fs-6 acadlix-fw-semibold">
                             <?php printf(
                                 /* translators: %s is the number of courses */
-                                __('We found <span>%s</span> courses available for you', 'acadlix'),
-                                esc_html($course_count)
+                                esc_html__('We found %s courses available for you', 'acadlix'),
+                                '<span>' . esc_html($course_count) . '</span>'
                             ); ?>
                         </h4>
                     </div>
@@ -102,7 +102,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         <div class="acadlix-card acadlix-all-course-card">
                             <a href="<?php echo esc_url(get_permalink($course->ID)); ?>">
                                 <img class="acadlix-card-img-top acadlix-course-page-img" loading="lazy"
-                                    src="<?php echo isset($course->thumbnail['url']) ? esc_url($course->thumbnail['url']) : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"; ?>"
+                                    src="<?php echo esc_url(isset($course->thumbnail['url']) ? $course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"); ?>"
                                     alt="<?php echo isset($course->thumbnail['alt']) ? esc_attr($course->thumbnail['alt']) : esc_attr($course->post_title); ?>" />
                             </a>
                             <div class="acadlix-card-body">
@@ -268,8 +268,8 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                         ), home_url($wp->request));
                         ?>
                         <li class="acadlix-course-pagination-item">
-                            <a class="acadlix-course-pagination-link <?php echo ceil($course_count / $per_page) == $page ? "acadlix-course-pagination-disabled" : ""; ?>" 
-                                href="<?php echo esc_url($page_url) ;?>" aria-label="Next">
+                            <a class="acadlix-course-pagination-link <?php echo ceil($course_count / $per_page) == $page ? "acadlix-course-pagination-disabled" : ""; ?>"
+                                href="<?php echo esc_url($page_url); ?>" aria-label="Next">
                                 <span aria-hidden="true"
                                     class="acadlix-course-pagination-arrow-right acadlix-fs-6">&#8594;</span>
 

@@ -64,7 +64,7 @@ class Core
                     ->first();
                 if ($userQuiz) {
                     $userQuiz->update([
-                        'meta_value' => $userQuiz->meta_value + $userActivityMetas->meta_value
+                        'meta_value' => $userQuiz->meta_value + $userActivityMetas->meta_value // phpcs:ignore
                     ]);
                     $userActivityMetas->delete();
                 } else {
@@ -125,7 +125,7 @@ class Core
         ];
         foreach ($post_types as $post_type) {
             // Get all post IDs of this post type
-            $post_ids = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", $post_type));
+            $post_ids = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", $post_type)); // phpcs:ignore
 
             if (!empty($post_ids)) {
                 foreach ($post_ids as $post_id) {

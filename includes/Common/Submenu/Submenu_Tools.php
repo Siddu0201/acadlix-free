@@ -49,7 +49,7 @@ class Submenu_Tools
     public function tool_callback()
     {
         // $this->updater->getActivator()->renderActivationForm();
-        echo '<div id="acadlix-admin-tool"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
+        echo '<div id="acadlix-admin-tool"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()

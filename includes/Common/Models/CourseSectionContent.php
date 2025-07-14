@@ -88,7 +88,7 @@ if (!class_exists(class: 'CourseSectionContent')) {
             $args = [
                 'post_type' => self::$postType,
                 'posts_per_page' => -1, // Fetch all matching posts
-                'meta_query' => [
+                'meta_query' => [ // phpcs:ignore
                     'relation' => 'AND',
                     [
                         'key' => '_acadlix_course_section_content_type',

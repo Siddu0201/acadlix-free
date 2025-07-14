@@ -665,7 +665,7 @@ if (!class_exists('Helper')) {
         {
             foreach (func_get_args() as $arg) {
                 echo "<pre>";
-                print_r($arg);
+                print_r($arg); // phpcs:ignore 
                 echo "</pre>";
             }
         }
@@ -674,7 +674,7 @@ if (!class_exists('Helper')) {
         {
             foreach (func_get_args() as $arg) {
                 echo "<pre>";
-                print_r($arg); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                print_r($arg); // phpcs:ignore 
                 echo "</pre>";
             }
             die;
@@ -706,7 +706,7 @@ if (!class_exists('Helper')) {
                 if (!empty($script) && is_array($manifest[$script]['imports'])) {
                     foreach ($manifest[$script]['imports'] as $name => $file) {
                         if (strpos($name, 'vendor-') === 0) {
-                            echo '<link rel="preload" as="script" href="' . ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . esc_attr($file) . '">' . "\n";
+                            echo '<link rel="preload" as="script" href="' . esc_url(ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $file) . '">' . "\n";
                         }
                     }
                 }

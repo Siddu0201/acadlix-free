@@ -140,7 +140,7 @@ if (!class_exists('Lesson')) {
             // Delete related course section content (cs_content) posts
             $related_contents = get_posts([
                 'post_type' => ACADLIX_COURSE_SECTION_CONTENT_CPT,
-                'meta_query' => [
+                'meta_query' => [ // phpcs:ignore
                     [
                         'key' => '_acadlix_course_section_content_assignment_id',
                         'value' => $postId,

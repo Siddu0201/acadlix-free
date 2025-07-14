@@ -70,7 +70,7 @@ namespace Yuvayana\Acadlix {
                 if (!file_exists(ACADLIX_PLUGIN_DIR . $path)) {
                     // Something is not right.
                     status_header(500);
-                    wp_die(esc_html__('Plugin is missing required dependencies. Please contact support for more information.', 'all-in-one-seo-pack'));
+                    wp_die(esc_html__('Plugin is missing required dependencies. Please contact support for more information.', 'acadlix'));
                 }
 
                 if ($shouldRequire) {

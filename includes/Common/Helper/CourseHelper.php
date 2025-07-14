@@ -4,8 +4,6 @@ namespace Yuvayana\Acadlix\Common\Helper;
 
 use Yuvayana\Acadlix\Common\Models\Course;
 use WP_Error;
-use Yuvayana\Acadlix\Common\Models\Order;
-use Yuvayana\Acadlix\Common\Models\OrderItem;
 
 if (!class_exists('CourseHelper')) {
     class CourseHelper

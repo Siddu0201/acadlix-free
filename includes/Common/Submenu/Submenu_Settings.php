@@ -76,7 +76,7 @@ class Submenu_Settings
 
     public function setting_callback()
     {
-        echo '<div id="acadlix-admin-setting"><h2>' . __('Loading...', 'acadlix') . '</h2></div>';
+        echo '<div id="acadlix-admin-setting"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
     }
 
     public static function instance()
