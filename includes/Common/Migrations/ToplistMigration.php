@@ -27,8 +27,8 @@ if (!class_exists(('ToplistMigration'))) {
                     $table->float('accuracy')->nullable();
                     $table->string('status', 100)->nullable();
                     $table->timestamps();
-                    $table->index(['quiz_id', 'result', 'quiz_time', 'created_at'], acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'quiz_id_result_quiz_time_created_at'));
-                    $table->index('quiz_id', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'quiz_id'));
+                    $table->index(['quiz_id', 'result', 'quiz_time', 'created_at'], acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'qid_r_qt_cat'));
+                    $table->index('quiz_id', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'qid'));
                     $table->index('user_token', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_token'));
                     $table->index('user_id', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_id'));
                 });
@@ -46,7 +46,7 @@ if (!class_exists(('ToplistMigration'))) {
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'quiz_id_result_quiz_time_created_at'), 
                 ['quiz_id', 'result', 'quiz_time', 'created_at'], 
-                acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'quiz_id_result_quiz_time_created_at'), 
+                acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'qid_r_qt_cat'), 
             );
             acadlix()->helper()->acadlix_udpate_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 

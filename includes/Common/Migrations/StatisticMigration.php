@@ -16,7 +16,7 @@ if(!class_exists('StatisticMigration')){
                 Manager::schema()->create(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function($table){
                     $table->bigIncrements('id');
                     $table->foreignId('statistic_ref_id')->nullable();
-                    $table->foreign('statistic_ref_id', acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'statistic_ref_id'))
+                    $table->foreign('statistic_ref_id', acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'sr_id'))
                         ->references('id')
                         ->on(acadlix()->helper()->acadlix_table_prefix('statistic_ref'))
                         ->cascadeOnDelete();
@@ -56,9 +56,9 @@ if(!class_exists('StatisticMigration')){
             acadlix()->helper()->acadlix_udpate_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'statistic_ref_id'), 
-                'statistic_ref_id', 
+                'sr_id', 
                 acadlix()->helper()->acadlix_table_prefix('statistic_ref'),
-                acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'statistic_ref_id'), 
+                acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'sr_id'), 
             );
             acadlix()->helper()->acadlix_udpate_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 

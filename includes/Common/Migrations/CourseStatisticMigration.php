@@ -16,7 +16,7 @@ if (!class_exists(('CourseStatisticMigration'))) {
                 Manager::schema()->create(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
                     $table->bigIncrements('id');
                     $table->foreignId('order_item_id')->nullable();
-                    $table->foreign('order_item_id', acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'order_item_id'))
+                    $table->foreign('order_item_id', acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'oi_id'))
                         ->references('id')
                         ->on(acadlix()->helper()->acadlix_table_prefix('order_items'))
                         ->onDelete('cascade');
@@ -27,7 +27,7 @@ if (!class_exists(('CourseStatisticMigration'))) {
                     $table->string('meta_type')->nullable();
                     $table->longText('meta_value')->nullable();
                     $table->timestamps();
-                    $table->index('course_section_content_id', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'course_section_content_id'));
+                    $table->index('course_section_content_id', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'csc_id'));
                     $table->index('user_id', acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_id'));
                 });
             }
@@ -65,16 +65,16 @@ if (!class_exists(('CourseStatisticMigration'))) {
             acadlix()->helper()->acadlix_udpate_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'order_item_id'), 
-                'order_item_id', 
+                'oi_id', 
                 acadlix()->helper()->acadlix_table_prefix('order_items'),
-                acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'order_item_id'), 
+                acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'oi_id'), 
             );
             
             acadlix()->helper()->acadlix_udpate_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_index_prefix($this->_table_name, 'course_section_content_id'), 
-                'course_section_content_id', 
-                acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'course_section_content_id'), 
+                'csc_id', 
+                acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'csc_id'), 
             );
             acadlix()->helper()->acadlix_udpate_index(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 

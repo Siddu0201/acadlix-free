@@ -728,13 +728,13 @@ if (!class_exists('Helper')) {
         public function acadlix_fk_prefix($table_name, $key)
         {
             global $wpdb;
-            return "{$wpdb->prefix}{$table_name}_{$key}_foreign";
+            return "{$wpdb->prefix}{$table_name}_{$key}_fn";
         }
 
         public function acadlix_index_prefix($table_name, $key)
         {
             global $wpdb;
-            return "{$wpdb->prefix}{$table_name}_{$key}_index";
+            return "{$wpdb->prefix}{$table_name}_{$key}_ix";
         }
 
         public function acadlix_old_fk_prefix($table_name, $key)
