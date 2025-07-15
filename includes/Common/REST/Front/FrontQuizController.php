@@ -325,7 +325,7 @@ class FrontQuizController
             '$userId' => $user_id,
             '$username' => $params['name'] ?? __('Anonymous', 'acadlix'),
             '$quizname' => $quiz_name,
-            '$result' => $params['result'] . '%',
+            '$result' => number_format($params['result'], 2) . '%',
             '$points' => $params['points'],
             '$ip' => $ip,
             '$categories' => "",
