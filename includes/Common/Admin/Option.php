@@ -10,7 +10,8 @@ if (!class_exists("Option")) {
         private static $_instance = null;
         protected $pages = [];
 
-        public function __construct(){
+        public function __construct()
+        {
             // / add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 
         }
 
@@ -63,9 +64,7 @@ if (!class_exists("Option")) {
             $options = acadlix()->helper()->acadlix_options();
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
-                    if (acadlix()->helper()->acadlix_get_option($option) !== false) {
-                        acadlix()->helper()->acadlix_delete_option($key);
-                    }
+                    acadlix()->helper()->acadlix_delete_option($key);
                 }
             }
         }
