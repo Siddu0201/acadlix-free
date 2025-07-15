@@ -175,6 +175,11 @@ const OptionButtonSection = (props) => {
       !props?.watch(`questions.${props?.index}.check`),
       { shouldDirty: true }
     );
+    props?.setValue(
+      `questions.${props?.index}.result.solved_count`,
+      true,
+      {shouldDirty: true}
+    );
   };
 
   return (
