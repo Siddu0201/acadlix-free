@@ -170,15 +170,18 @@ const OptionButtonSection = (props) => {
   };
 
   const handleCheckClick = () => {
+    const forceAnswer = props?.watch("force_user_to_answer_each_question");
+    const solvedCount = props?.watch(`questions.${props?.index}.result.solved_count`) ?? 0;
+
+    if (forceAnswer && solvedCount === 0) {
+      alert(__("Please select an option before checking the answer", "acadlix"));
+      return;
+    }
+
     props?.setValue(
       `questions.${props?.index}.check`,
       !props?.watch(`questions.${props?.index}.check`),
       { shouldDirty: true }
-    );
-    props?.setValue(
-      `questions.${props?.index}.result.solved_count`,
-      1,
-      {shouldDirty: true}
     );
   };
 
