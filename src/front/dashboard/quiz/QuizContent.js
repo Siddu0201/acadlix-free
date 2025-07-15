@@ -761,7 +761,7 @@ const QuizContent = (props) => {
   }
 
   const getSkippedCountBySubjectId = (subjectId = 0) => {
-    let skipped_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
+    let skipped_count = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId)?.map((d) => !d?.result?.solved_count)?.reduce((a, b) => a + b, 0);
     const subject = methods?.watch("subjects")?.find((d) => d?.subject_id === subjectId);
     if (
       methods?.watch("mode") === "advance_mode" &&
