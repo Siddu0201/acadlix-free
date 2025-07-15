@@ -26,6 +26,7 @@ const PasswordTextField = (props) => {
                         </IconButton>
                     </InputAdornment>
                 ),
+                ...props?.InputProps
             }}
         />
     )
