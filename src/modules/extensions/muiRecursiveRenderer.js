@@ -39,6 +39,7 @@ import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import CustomButton from "@acadlix/components/CustomButton";
+import PasswordTextField from "@acadlix/components/PasswordTextField";
 
 const COMPONENT_MAP = {
   CustomTextField,
@@ -57,10 +58,12 @@ const COMPONENT_MAP = {
   Button,
   Box,
   Grid,
+  // Custom Components
   GridItem1,
   CustomSwitch,
   CustomTypography,
   CustomButton,
+  PasswordTextField,
   Typography,
   Alert,
   Chip,
