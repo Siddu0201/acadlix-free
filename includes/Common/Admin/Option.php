@@ -63,7 +63,7 @@ if (!class_exists("Option")) {
             $options = acadlix()->helper()->acadlix_options();
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
-                    if (acadlix()->helper()->acadlix_get_option($option)) {
+                    if (acadlix()->helper()->acadlix_get_option($option) !== false) {
                         acadlix()->helper()->acadlix_delete_option($key);
                     }
                 }
