@@ -1,6 +1,7 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Admin;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Addon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Categories;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
@@ -25,6 +26,7 @@ class Menu
     protected ?Submenu_Quiz $quiz = null;
     protected ?Submenu_Settings $settings = null;
     protected ?Submenu_Tags $tags = null;
+    protected ?Submenu_Addon $addon = null;
 
     public function __construct()
     {
@@ -77,6 +79,7 @@ class Menu
         $this->submenu_categories();
         $this->submenu_tags();
         $this->submenu_settings();
+        $this->submenu_addon();
     }
 
     public function init_admin_menu()
@@ -154,6 +157,14 @@ class Menu
         }
         $this->_submenus[] = $this->settings;
         return $this->settings;
+    }
+
+    public function submenu_addon(){
+        if(is_null($this->addon)){
+            $this->addon = new Submenu_Addon();
+        }
+        $this->_submenus[] = $this->addon;
+        return $this->addon;
     }
 
 

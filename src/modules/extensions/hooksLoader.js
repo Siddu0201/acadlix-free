@@ -110,6 +110,22 @@ export const loadAdminToolHooks = async (hooks) => {
     }
 }
 
+export const loadAdminAddonHooks = async (hooks) => {
+    try {
+        const mod = await (
+            process.env.REACT_APP_IS_PREMIUM === 'true'
+                ? import('@acadlix/pro/hooks/AdminAddonHooks')
+                : import('@acadlix/free/hooks/AdminAddonHooks')
+        );
+
+        if (typeof mod.registerPluginHooks === 'function') {
+            mod.registerPluginHooks(hooks);
+        }
+    } catch (e) {
+        // console.log(e);
+    }
+}
+
 export const loadFrontCheckoutHooks = async (hooks) => {
     try {
         const mod = await (

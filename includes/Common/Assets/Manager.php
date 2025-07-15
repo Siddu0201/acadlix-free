@@ -176,6 +176,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-addon-css' => [
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-css' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.css',
                 'version' => ACADLIX_VERSION,
@@ -225,6 +230,7 @@ class Manager
         $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_quiz.asset.php';
         $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
         $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
+        $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
 
         $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
         $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
@@ -291,6 +297,12 @@ class Manager
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
                 'version' => $admin_tool_dependency['version'],
                 'deps' => [...$admin_tool_dependency['dependencies'], 'acadlix-global-hooks'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-addon' => [
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.js',
+                'version' => $admin_addon_dependency['version'],
+                'deps' => [...$admin_addon_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-front-js' => [

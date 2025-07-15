@@ -43,6 +43,7 @@ module.exports = (env, argv) => {
       admin_order: path.resolve(process.cwd(), "src", "admin-order.js"),
       admin_setting: path.resolve(process.cwd(), "src", "admin-setting.js"),
       admin_tool: path.resolve(process.cwd(), "src", "admin-tool.js"),
+      admin_addon: path.resolve(process.cwd(), "src", "admin-addon.js"),
       // admin_assignment: path.resolve(process.cwd(), "src", "admin-assignment.js"),
 
       front: path.resolve(process.cwd(), "src", "front.js"),
