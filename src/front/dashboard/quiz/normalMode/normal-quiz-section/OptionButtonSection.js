@@ -177,7 +177,7 @@ const OptionButtonSection = (props) => {
     );
     props?.setValue(
       `questions.${props?.index}.result.solved_count`,
-      true,
+      1,
       {shouldDirty: true}
     );
   };
