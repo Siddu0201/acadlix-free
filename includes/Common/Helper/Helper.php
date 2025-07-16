@@ -843,6 +843,21 @@ if (!class_exists('Helper')) {
             }
         }
 
+        public function acadlix_get_all_addons(): array {
+            return [
+                [
+                    'name' => __('Bulk Question Upload', 'acadlix'),
+                    'description' => __('This addon is used for bulk question uploads.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false) == "yes",
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_bulk_question_upload_enabled',
+                ],
+            ];
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {

@@ -206,6 +206,13 @@ const CustomThemeProvider = ({ children }) => {
           },
         },
       },
+      MuiAvatar: {
+        styleOverrides: {
+          img: {
+            margin: "0px !important",
+          }
+        }
+      }
     },
   });
   return (

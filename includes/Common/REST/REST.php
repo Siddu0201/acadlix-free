@@ -8,6 +8,7 @@ namespace Yuvayana\Acadlix\Common\REST;
  * All API classes would be registered here
  */
 // Admin API Controller
+use Yuvayana\Acadlix\Common\REST\Admin\AdminAddonController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminCourseController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminHomeController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminLanguageController;
@@ -57,6 +58,7 @@ class REST {
     protected $_adminCourse = null;
     protected $_adminSetting = null;
     protected $_adminOrder = null;
+    protected $_adminAddon = null;
 
     protected $_frontCheckout = null;
     protected $_frontCourse = null;
@@ -86,6 +88,8 @@ class REST {
         $this->adminCourse();
         $this->adminSetting();
         $this->adminOrder();
+        $this->adminAddon();
+
 
         $this->frontCheckout();
         $this->frontCourse();
@@ -200,6 +204,14 @@ class REST {
         }
         $this->_rests[] = $this->_adminOrder;
         return $this->_adminOrder;
+    }
+
+    public function adminAddon() {
+        if($this->_adminAddon === null){
+            $this->_adminAddon = new AdminAddonController();
+        }
+        $this->_rests[] = $this->_adminAddon;
+        return $this->_adminAddon;
     }
 
     public function frontCheckout(): FrontCheckoutController|null{
