@@ -39,11 +39,18 @@ const Addon = () => {
                   (
                     <>
                       {
-                        (addon?.pro && !acadlixOptions?.isPro && !acadlixOptions?.isActive)
+                        addon?.pro
                           ?
-                          <LockedAddonCard
-                            {...addon}
-                          />
+                          (
+                            acadlixOptions?.isPro && acadlixOptions?.isActive ?
+                              <InternalAddonCard
+                                {...addon}
+                              />
+                              :
+                              <LockedAddonCard
+                                {...addon}
+                              />
+                          )
                           :
                           <InternalAddonCard
                             {...addon}
