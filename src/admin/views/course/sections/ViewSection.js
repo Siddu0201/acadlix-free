@@ -17,6 +17,7 @@ import {
 import {
   Backdrop,
   Box,
+  Button,
   CircularProgress,
   Collapse,
   IconButton,
@@ -25,11 +26,10 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "@acadlix/helpers/icons";
+import { FaEdit, FaPlus, FaTrash, IoIosArrowDown, IoIosArrowUp, IoMenu } from "@acadlix/helpers/icons";
 import EditSection from "./EditSection";
 import AddLesson from "./AddLesson";
 import AddQuiz from "./AddQuiz";
-import AddAssignment from "./AddAssignment";
 import {
   DeleteSectionById,
   PostSortSection,
@@ -42,7 +42,7 @@ import { hasCapability } from "@acadlix/helpers/util";
 const ViewProSection = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/views/course/sections/ViewProSection") :
-    Promise.resolve({ default: () => null }) 
+    Promise.resolve({ default: () => null })
 );
 
 const ViewSection = (props) => {
@@ -357,8 +357,22 @@ const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
               <AddQuiz {...props} />
             }
             {
-              hasCapability("acadlix_add_course_section_assignment") &&
-              <AddAssignment {...props} />
+              !acadlixOptions?.isPro &&
+              <Box>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  disabled
+                >
+                  <FaPlus
+                    style={{
+                      paddingRight: 4,
+                    }}
+                  />
+                  {__("Add Assignment", "acadlix")}
+                </Button>
+              </Box>
             }
           </Box>
         </Box>
@@ -528,8 +542,22 @@ const SortableSections = (props) => {
               <AddQuiz {...props} />
             }
             {
-              hasCapability("acadlix_add_course_section_assignment") &&
-              <AddAssignment {...props} />
+              !acadlixOptions?.isPro &&
+              <Box>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  disabled
+                >
+                  <FaPlus
+                    style={{
+                      paddingRight: 4,
+                    }}
+                  />
+                  {__("Add Assignment", "acadlix")}
+                </Button>
+              </Box>
             }
             <React.Suspense fallback={null}>
               <ViewProSection {...props} />
