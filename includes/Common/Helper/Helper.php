@@ -887,7 +887,7 @@ if (!class_exists('Helper')) {
 
         public function is_bulk_question_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled');
+            $value = $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false);
             if($value == "no"){
                 return false;
             }
@@ -903,7 +903,7 @@ if (!class_exists('Helper')) {
         
         public function is_assignment_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_assignments_enabled');
+            $value = $this->acadlix_get_option('acadlix_addon_assignments_enabled', false);
             if($value == "no"){
                 return false;
             }
@@ -919,7 +919,7 @@ if (!class_exists('Helper')) {
 
         public function is_zoom_integration_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled');
+            $value = $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false);
             if($value == "no"){
                 return false;
             }
