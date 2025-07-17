@@ -33,7 +33,6 @@ import {
 import EditLesson from "./EditLesson";
 import { __, sprintf } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
-import EditAssignment from "./EditAssignment";
 
 const Preview = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
