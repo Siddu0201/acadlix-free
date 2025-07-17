@@ -1,5 +1,5 @@
 import { useInstance } from "@acadlix/helpers/util";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const base = "/admin-addon";
 
