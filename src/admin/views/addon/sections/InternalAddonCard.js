@@ -23,7 +23,11 @@ const InternalAddonCard = (props) => {
                 key: props?.option_name,
                 value: e?.target?.checked ? e?.target?.value : "no"
             };
-            updateMutation.mutate(data);
+            updateMutation.mutate(data, {
+                onSuccess: () => {
+                    window.location.reload();
+                }
+            });
         }
     };
     return (
