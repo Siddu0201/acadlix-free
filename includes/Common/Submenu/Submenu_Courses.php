@@ -59,6 +59,8 @@ class Submenu_Courses
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,
             'isActive' => acadlix()->license()->isActive ?? false,
+            'isAssignmentActive' => acadlix()->helper()->is_assignment_addon_active() ?? false,
+            'isZoomActive' => acadlix()->helper()->is_zoom_integration_addon_active() ?? false,
         ];
     }
 
