@@ -19,7 +19,7 @@ class Submenu_Addon
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix-addon',
             'callback' => [$this, 'addon_callback'],
-            'position' => 30
+            'position' => 210
         ];
 
         add_action('admin_menu', array($this, 'add_submenu'));
