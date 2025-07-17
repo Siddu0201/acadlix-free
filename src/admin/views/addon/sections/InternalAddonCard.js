@@ -1,13 +1,21 @@
 import React from 'react'
 import { Avatar, Box, Card, CardContent, CardHeader, FormControlLabel, Typography } from '@mui/material'
 import { __ } from '@wordpress/i18n'
-import { FaCloudUploadAlt } from '@acadlix/helpers/icons'
+import { FaCloudUploadAlt, iconMap } from '@acadlix/helpers/icons'
 import CustomSwitch from '@acadlix/components/CustomSwitch'
+import { PostUpdateInternalAddon } from '@acadlix/requests/admin/AdminAddonRequest'
 
 const InternalAddonCard = (props) => {
-    const [checked, setChecked] = React.useState(false);
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
+    const Icon = iconMap[props?.icon] || iconMap['FaCloudUploadAlt'];
+    const updateMutation = PostUpdateInternalAddon();
+    const handleChange = (e) => {
+        if (e?.target?.checked !== undefined) {
+            const data = {
+                key: props?.option_name,
+                value: e?.target?.checked ? e?.target?.value : "no"
+            };
+            updateMutation.mutate(data);
+        }
     };
     return (
         <Card sx={{ height: '100%' }}>
@@ -24,18 +32,25 @@ const InternalAddonCard = (props) => {
                             height: 32,
                             backgroundColor: 'primary.main',
                         }}>
-                            <FaCloudUploadAlt />
+                            {Icon}
                         </Avatar>
-                        <FormControlLabel
-                            control={
-                                <CustomSwitch
-                                    checked={checked}
-                                    onChange={handleChange}
-                                    name="checked"
-                                    color="primary"
+                        {
+                            updateMutation?.isPending ? (
+                                <CircularProgress size={20} />
+                            ) : (
+                                <FormControlLabel
+                                    control={
+                                        <CustomSwitch
+                                            checked={props?.active}
+                                            onChange={handleChange}
+                                            name="checked"
+                                            color="primary"
+                                            value="yes"
+                                        />
+                                    }
                                 />
-                            }
-                        />
+                            )
+                        }
                     </Box>
                 }
             />
@@ -47,7 +62,7 @@ const InternalAddonCard = (props) => {
                         marginBottom: 2,
                     }}
                 >
-                    {__('Bulk Question Upload', 'acadlix')}
+                    {props?.name}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -56,7 +71,7 @@ const InternalAddonCard = (props) => {
                         color: 'text.secondary',
                     }}
                 >
-                    {__('This addon is used for bulk question uploads.', 'acadlix')}
+                    {props?.description}
                 </Typography>
             </CardContent>
         </Card>

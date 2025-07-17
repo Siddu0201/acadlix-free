@@ -16,3 +16,19 @@ export const GetAddons = () => {
         }
     })
 }
+
+export const PostUpdateInternalAddon = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(base, data)
+        },
+        onSuccess: (data) => {
+            toast.success(data?.data?.message);
+            window?.location?.reload();
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+        }
+    })
+}

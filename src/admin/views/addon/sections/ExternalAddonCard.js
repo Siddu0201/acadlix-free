@@ -1,9 +1,10 @@
 import React from 'react'
 import { Avatar, Box, Card, CardContent, CardHeader, Button, Typography } from '@mui/material'
 import { __ } from '@wordpress/i18n'
-import { FaCloudUploadAlt } from '@acadlix/helpers/icons'
+import { FaCloudUploadAlt, iconMap } from '@acadlix/helpers/icons'
 
-const ExternalAddonCard = () => {
+const ExternalAddonCard = (props) => {
+    const Icon = iconMap[props?.icon] || iconMap['FaLock'];
     return (
         <Card sx={{ height: '100%' }}>
             <CardHeader
@@ -19,7 +20,7 @@ const ExternalAddonCard = () => {
                             height: 32,
                             backgroundColor: 'primary.main',
                         }}>
-                            <FaCloudUploadAlt />
+                            {Icon}
                         </Avatar>
                         <Button
                             variant="contained"
@@ -42,7 +43,7 @@ const ExternalAddonCard = () => {
                         marginBottom: 2,
                     }}
                 >
-                    {__('Bulk Question Upload', 'acadlix')}
+                    {props?.name}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -51,7 +52,7 @@ const ExternalAddonCard = () => {
                         color: 'text.secondary',
                     }}
                 >
-                    {__('This addon is used for bulk question uploads.', 'acadlix')}
+                    {props?.description}
                 </Typography>
             </CardContent>
         </Card>

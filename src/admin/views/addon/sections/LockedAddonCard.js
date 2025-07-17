@@ -10,9 +10,10 @@ import {
     Typography 
 } from '@mui/material'
 import { __ } from '@wordpress/i18n'
-import { CiLock, FaCloudUploadAlt } from '@acadlix/helpers/icons'
+import { CiLock, iconMap } from '@acadlix/helpers/icons'
 
-const LockedAddonCard = () => {
+const LockedAddonCard = (props) => {
+    const Icon = iconMap[props?.icon] || iconMap['FaLock'];
     return (
         <Card sx={{ height: '100%' }}>
             <CardHeader
@@ -26,9 +27,9 @@ const LockedAddonCard = () => {
                         <Avatar sx={{
                             width: 32,
                             height: 32,
-                            backgroundColor: 'primary.main',
+                            backgroundColor: `${props?.icon_color || 'primary.main'}`,
                         }}>
-                            <FaCloudUploadAlt />
+                           {Icon}
                         </Avatar>
                         <Tooltip title={__('Available in Pro', "acadlix")} arrow placement='top'>
                             <IconButton>
@@ -46,7 +47,7 @@ const LockedAddonCard = () => {
                         marginBottom: 2,
                     }}
                 >
-                    {__('Bulk Question Upload', 'acadlix')}
+                    {props?.name}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -55,7 +56,7 @@ const LockedAddonCard = () => {
                         color: 'text.secondary',
                     }}
                 >
-                    {__('This addon is used for bulk question uploads.', 'acadlix')}
+                    {props?.description}
                 </Typography>
             </CardContent>
         </Card>

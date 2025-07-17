@@ -843,19 +843,94 @@ if (!class_exists('Helper')) {
             }
         }
 
-        public function acadlix_get_all_addons(): array {
+        public function acadlix_get_all_addons(): array
+        {
             return [
                 [
-                    'name' => __('Bulk Question Upload', 'acadlix'),
-                    'description' => __('This addon is used for bulk question uploads.', 'acadlix'),
+                    'name' => __('Acadlix Bulk Question Upload', 'acadlix'),
+                    'description' => __('Upload hundreds of questions in seconds via MS Word.', 'acadlix'),
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
                     'active' => $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false) == "yes",
                     'url' => '',
                     'option_name' => 'acadlix_addon_bulk_question_upload_enabled',
+                    'icon' => 'FaCloudUploadAlt',
+                    'icon_color' => 'red',
+                ],
+                [
+                    'name' => __('Acadlix Assignments', 'acadlix'),
+                    'description' => __('Create, assign, and evaluate student assignments seamlessly.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_assignments_enabled', false) == "yes",
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_assignments_enabled',
+                    'icon' => 'MdAssignment',
+                    'icon_color' => '#ffa65a',
+                ],
+                [
+                    'name' => __('Acadlix Zoom Integration', 'acadlix'),
+                    'description' => __('Schedule and manage live classes via Zoom from your dashboard.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false) == "yes",
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_zoom_integration_enabled',
+                    'icon' => 'BiLogoZoom',
+                    'icon_color' => '#2d8cff',
                 ],
             ];
+        }
+
+        public function is_bulk_question_addon_active()
+        {
+            $value = $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled');
+            if($value == "no"){
+                return false;
+            }
+            if(!acadlix()->pro){
+                return false;
+            }else{
+                if(!acadlix()->license()->isActive){
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        public function is_assignment_addon_active()
+        {
+            $value = $this->acadlix_get_option('acadlix_addon_assignments_enabled');
+            if($value == "no"){
+                return false;
+            }
+            if(!acadlix()->pro){
+                return false;
+            }else{
+                if(!acadlix()->license()->isActive){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public function is_zoom_integration_addon_active()
+        {
+            $value = $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled');
+            if($value == "no"){
+                return false;
+            }
+            if(!acadlix()->pro){
+                return false;
+            }else{
+                if(!acadlix()->license()->isActive){
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static function instance()

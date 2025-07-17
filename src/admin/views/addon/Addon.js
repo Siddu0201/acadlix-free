@@ -11,8 +11,6 @@ import Loader from '@acadlix/components/Loader'
 const Addon = () => {
   const { isFetching, data } = GetAddons();
 
-  console.log(data?.data);
-
   if (isFetching) {
     return <Loader />
   }
