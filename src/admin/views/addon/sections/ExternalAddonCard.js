@@ -18,7 +18,7 @@ const ExternalAddonCard = (props) => {
                         <Avatar sx={{
                             width: 32,
                             height: 32,
-                            backgroundColor: 'primary.main',
+                            backgroundColor: `${props?.icon_color || 'primary.main'}`,
                         }}>
                             {Icon}
                         </Avatar>
