@@ -1,7 +1,16 @@
 import React from 'react'
-import { Avatar, Box, Card, CardContent, CardHeader, FormControlLabel, Typography } from '@mui/material'
+import { 
+    Avatar, 
+    Box, 
+    Card, 
+    CardContent, 
+    CardHeader, 
+    CircularProgress, 
+    FormControlLabel, 
+    Typography 
+} from '@mui/material'
 import { __ } from '@wordpress/i18n'
-import { FaCloudUploadAlt, iconMap } from '@acadlix/helpers/icons'
+import { iconMap } from '@acadlix/helpers/icons'
 import CustomSwitch from '@acadlix/components/CustomSwitch'
 import { PostUpdateInternalAddon } from '@acadlix/requests/admin/AdminAddonRequest'
 
