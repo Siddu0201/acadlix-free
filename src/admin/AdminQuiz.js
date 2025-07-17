@@ -40,6 +40,12 @@ const QuizResultAnswerSheet = React.lazy(() =>
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 
+const BulkQuestionUpload = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import("@acadlix/pro/admin/views/question/BulkQuestionUpload") // Use pro version in Pro build
+    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+);
+
 const AdminQuiz = () => {
   return (
     <Provider>
@@ -73,6 +79,12 @@ const AdminQuiz = () => {
                 {
                   hasCapability("acadlix_edit_question") &&
                   <Route path="edit/:question_id" element={<EditQuestion />} />
+                }
+              </Route>
+              <Route path=":quiz_id/import">
+                {
+                  hasCapability("acadlix_import_question") &&
+                  <Route index element={<React.Suspense fallback={null}><BulkQuestionUpload /></React.Suspense>} />
                 }
               </Route>
               <Route path=":quiz_id/result">

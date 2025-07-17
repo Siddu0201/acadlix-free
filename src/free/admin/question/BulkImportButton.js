@@ -7,8 +7,6 @@ const BulkImportButton = (props) => {
         <Button
             disabled
             variant="contained"
-            LinkComponent="a"
-            href={`${acadlixOptions?.abqu_url}&quiz_id=${props?.quiz_id}`}
             color="primary"
         >
             {__("Import from .docx", "acadlix")}
