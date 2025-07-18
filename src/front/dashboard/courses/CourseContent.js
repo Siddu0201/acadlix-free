@@ -31,6 +31,8 @@ import {
   getDbFormatDate,
   strtotime
 } from "@acadlix/helpers/util";
+import CourseCompletionModal from "./modals/CourseCompletionModal";
+import toast from "react-hot-toast";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -44,6 +46,8 @@ const CourseContent = () => {
       order_id: null,
       course_title: "",
       course_content: "",
+      course_completion_percentage: 0,
+      course_completed: false,
       sections: [],
     },
   });
@@ -152,6 +156,7 @@ const CourseContent = () => {
       methods?.setValue("order_item_id", item?.id, { shouldDirty: true });
       methods?.setValue("course_id", item?.course_id, { shouldDirty: true });
       methods?.setValue("order_id", item?.order_id, { shouldDirty: true });
+      methods?.setValue("course_completion_percentage", item?.course_completion_percentage, { shouldDirty: true });
       methods?.setValue("course_title", item?.course?.post_title, {
         shouldDirty: true,
       });
@@ -328,7 +333,7 @@ const CourseContent = () => {
         data?.data?.course_statistic,
         courseSectionContentId
       ) ?? sections;
-      
+
       methods?.setValue(
         "sections",
         filteredSection,
@@ -419,6 +424,11 @@ const CourseContent = () => {
               true,
               { shouldDirty: true }
             );
+            methods?.setValue(
+              "course_completion_percentage",
+              data?.data?.course_completion_percentage,
+              { shouldDirty: true }
+            );
             if (move_next) {
               const content = methods
                 ?.watch("sections")
@@ -427,6 +437,13 @@ const CourseContent = () => {
               if (content) {
                 handleNavigate(content?.id);
               }
+            }
+
+            if (data?.data?.course_full_completed) {
+              // toast.success(__("Congatulations! Your have successfully completed your course.", "acadlix"), {
+              //   position: "top-center"
+              // })
+              methods?.setValue("course_completed", true, { shouldDirty: true });
             }
           }
         },
@@ -453,6 +470,12 @@ const CourseContent = () => {
               false,
               { shouldDirty: true }
             );
+            methods?.setValue(
+              "course_completion_percentage",
+              data?.data?.course_completion_percentage,
+              { shouldDirty: true }
+            );
+            methods?.setValue("course_completed", false, { shouldDirty: true });
           }
         },
       }
@@ -496,6 +519,11 @@ const CourseContent = () => {
             <CircularProgress color="inherit" />
           </Backdrop>
         )}
+
+      {
+        methods?.watch("course_completed") &&
+        <CourseCompletionModal {...methods} />
+      }
       <Box>
         <Grid
           container

@@ -336,7 +336,7 @@ if (!class_exists('CourseHelper')) {
                 return "";
             }
 
-            $course_completion_percentage = $order_item->completion_percentage ?? 0;
+            $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
             if ($course_completion_percentage != 100) {
                 return "";
             }

@@ -8,18 +8,7 @@ import { __ } from "@wordpress/i18n";
 const ContentHeader = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const total = props
-    ?.watch("sections")
-    ?.reduce((total, obj) => total + obj.content.length, 0);
-  const completed = props
-    ?.watch("sections")
-    ?.reduce(
-      (total, obj) =>
-        total + obj.content.filter((c) => c?.is_completed)?.length,
-      0
-    );
 
-  const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
   return (
     <Box
       id="acadlix_course_content_header"
@@ -132,7 +121,7 @@ const ContentHeader = (props) => {
         <Box sx={{ position: "relative", display: "inline-flex" }}>
           <CircularProgress
             variant="determinate"
-            value={percent}
+            value={props?.watch("course_completion_percentage")}
             size={35}
             sx={{
               color: "white",
@@ -151,7 +140,7 @@ const ContentHeader = (props) => {
             }}
           >
             <Typography variant="caption" component="div" color="white">
-              {`${percent}%`}
+              {`${props?.watch("course_completion_percentage")}%`}
             </Typography>
           </Box>
         </Box>

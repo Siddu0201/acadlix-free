@@ -193,7 +193,10 @@ class FrontDashboardController
                 $query->where('user_id', $userId)
                     ->where('status', 'success');
             })
-            ->find($orderItemId);
+            ->find($orderItemId)
+            ->setAppends([
+                'course_completion_percentage'
+            ]);
 
         $res['order_item'] = $orderItem;
 
@@ -334,11 +337,13 @@ class FrontDashboardController
             ]);
         }
 
-        $order_item = acadlix()->model()->orderItem()->with(['course'])->find($orderItemId);
+        $order_item = acadlix()->model()->orderItem()->with(['course', 'course.sections'])
+            ->find($orderItemId);
 
+        $course_completion_percentage = 0;
         if ($order_item && !empty($order_item->course_id)) {
-            $course_completion_percentage = $order_item->completion_percentage ?? 0;
-            if($course_completion_percentage == 100){
+            $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
+            if ($course_completion_percentage == 100) {
                 $courseFullCompleted = true;
                 // send email for course completion
                 acadlix()->helper()->course()->handleCourseCompletionEmail($orderItemId);
@@ -346,7 +351,11 @@ class FrontDashboardController
         }
 
 
-        return rest_ensure_response(['success' => true, 'course_full_completed' => $courseFullCompleted  ]);
+        return rest_ensure_response([
+            'success' => true,
+            'course_full_completed' => $courseFullCompleted,
+            'course_completion_percentage' => $course_completion_percentage
+        ]);
     }
 
     public function post_mark_as_incomplete($request)
@@ -386,7 +395,13 @@ class FrontDashboardController
                 'is_completed' => false,
             ]);
         }
-        return rest_ensure_response(['success' => true]);
+        $order_item = acadlix()->model()->orderItem()->with(['course', 'course.sections'])
+            ->find($orderItemId);
+        $course_completion_percentage = 0;
+        if ($order_item && !empty($order_item->course_id)) {
+            $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
+        }
+        return rest_ensure_response(['success' => true, 'course_completion_percentage' => $course_completion_percentage]);
     }
 
     public function get_user_purchases($request)
