@@ -20,6 +20,7 @@ const CreateQuestion = () => {
         create={true}
         quiz={data?.data?.quiz}
         question={null}
+        all_question_count={data?.data?.all_question_count}
         subjects={data?.data?.subjects}
         paragraphs={data?.data?.paragraphs}
      /> 

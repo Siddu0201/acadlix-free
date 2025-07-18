@@ -165,6 +165,7 @@ class AdminQuestionController
         $quiz_id = $request['quiz_id'];
         $res['subjects'] = acadlix()->model()->subject()->get();
         $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
+        $res['all_question_count'] = acadlix()->model()->question()->where('quiz_id', $quiz_id)->count();
         return rest_ensure_response($res);
     }
 

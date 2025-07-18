@@ -139,7 +139,7 @@ const QuestionContent = (props) => {
         : null,
       online: !props?.create ? Boolean(Number(props?.question?.online)) : true,
       sort: props?.create
-        ? props?.quiz?.questions_count + 1
+        ? props?.all_question_count + 1
         : props?.question?.sort,
       multi_language: Boolean(Number(props?.quiz?.rendered_metas?.multi_language)),
       title: props?.question?.title ?? "",
