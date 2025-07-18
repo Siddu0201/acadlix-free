@@ -83,7 +83,7 @@ const AdminQuiz = () => {
               </Route>
               <Route path=":quiz_id/import">
                 {
-                  hasCapability("acadlix_import_question") &&
+                  hasCapability("acadlix_import_question") && acadlixOptions?.isBulkUploadActive &&
                   <Route index element={<React.Suspense fallback={null}><BulkQuestionUpload /></React.Suspense>} />
                 }
               </Route>
