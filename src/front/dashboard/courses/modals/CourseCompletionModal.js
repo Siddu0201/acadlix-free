@@ -1,6 +1,3 @@
-import BootstrapDialog from '@acadlix/admin/views/course/modals/BootstrapDialog'
-import { IoClose } from '@acadlix/helpers/icons'
-import { Dialog, DialogTitle, DialogContent, Button, IconButton, Typography } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { __ } from "@wordpress/i18n";
 
@@ -40,7 +37,7 @@ const CourseCompletionModal = (props) => {
             ref={containerRef}
         >
             {showMessage && (
-                <div className="acadlix-congrats-message">🎉 Congratulations! Course Completed 🎓</div>
+                <div className="acadlix-congrats-message">🎉 {__("Congratulations! Course Completed", "acadlix")} 🎓</div>
             )}
         </div>
     );
