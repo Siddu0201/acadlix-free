@@ -17,7 +17,7 @@ class Submenu_Addon
             'page_title' => __('Acadlix Addons', 'acadlix'),
             'menu_title' => __('Addons', 'acadlix'),
             'capability' => 'manage_options',
-            'menu_slug' => 'acadlix-addon',
+            'menu_slug' => 'acadlix_addon',
             'callback' => [$this, 'addon_callback'],
             'position' => 210
         ];

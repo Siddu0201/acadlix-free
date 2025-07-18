@@ -61,7 +61,9 @@ class Menu
             'acadlix_quiz', 
             'acadlix_order', 
             'acadlix_assignment', 
+            'acadlix_zoom',
             'acadlix_setting',
+            'acadlix_addon',
             'abqu'
         ]; // your submenu slugs
     
