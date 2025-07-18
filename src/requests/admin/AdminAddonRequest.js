@@ -1,5 +1,5 @@
 import { useInstance } from "@acadlix/helpers/util";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const base = "/admin-addon";
@@ -20,12 +20,16 @@ export const GetAddons = () => {
 
 export const PostUpdateInternalAddon = () => {
     const instance = useInstance();
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
             return instance.post(base, data)
         },
         onSuccess: (data) => {
             toast.success(data?.data?.message);
+            queryClient.invalidateQueries({
+                queryKey: ["getAddons"]
+            });
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
