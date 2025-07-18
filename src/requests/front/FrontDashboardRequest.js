@@ -112,59 +112,6 @@ export const PostMarkAsIncomplete = () => {
     });
 }
 
-export const PostUploadAssignmentFile = () => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(
-                `${base}/post-upload-assignment-file`,
-                data,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'X-WP-Nonce': acadlixOptions.nonce 
-                    }
-                }
-            );
-        },
-        onError: (error) => {
-            handleMutationError(error);
-        }
-    });
-}
-
-export const PostDeleteAssignmentFile = () => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(`${base}/post-delete-assignment-file`, data, {
-                headers: { 
-                    'X-WP-Nonce': acadlixOptions.nonce 
-                },
-            });
-        },
-        onError: (error) => {
-            handleMutationError(error);
-        }
-    });
-}
-
-export const PostSubmitAssignment = () => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(`${base}/post-submit-assignment`, data, {
-                headers: { 
-                    'X-WP-Nonce': acadlixOptions.nonce 
-                },
-            });
-        },
-        onError: (error) => {
-            handleMutationError(error);
-        }
-    });
-}
-
 
 export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
     const instance = useInstance();
