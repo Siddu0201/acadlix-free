@@ -314,6 +314,7 @@ class FrontDashboardController
         $userId = $request->get_param("user_id");
         $orderItemId = $request->get_param("order_item_id");
         $courseSectionContentId = $request->get_param("course_section_content_id");
+        $courseFullCompleted = false;
 
         $active_statistic = acadlix()->model()->courseStatistic()->where("order_item_id", $orderItemId)
             ->where("course_section_content_id", $courseSectionContentId)
@@ -333,10 +334,19 @@ class FrontDashboardController
             ]);
         }
 
-        // send email for course completion
-        acadlix()->helper()->course()->handleCourseCompletionEmail($orderItemId);
+        $order_item = acadlix()->model()->orderItem()->with(['course'])->find($orderItemId);
 
-        return rest_ensure_response(['success' => true]);
+        if ($order_item && !empty($order_item->course_id)) {
+            $course_completion_percentage = $order_item->completion_percentage ?? 0;
+            if($course_completion_percentage == 100){
+                $courseFullCompleted = true;
+                // send email for course completion
+                acadlix()->helper()->course()->handleCourseCompletionEmail($orderItemId);
+            }
+        }
+
+
+        return rest_ensure_response(['success' => true, 'course_full_completed' => $courseFullCompleted  ]);
     }
 
     public function post_mark_as_incomplete($request)
