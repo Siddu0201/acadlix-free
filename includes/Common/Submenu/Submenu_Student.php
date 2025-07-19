@@ -17,7 +17,7 @@ class Submenu_Student
             'capability' => 'manage_options',
             'menu_slug' => 'acadlix_student',
             'callback' => [$this, 'student_callback'],
-            'position' => 800
+            'position' => 510
         ];
     }
 
@@ -62,9 +62,9 @@ class Submenu_Student
         wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('acadlix-vendors-js');
         wp_enqueue_script("acadlix-admin-student");
-        // wp_enqueue_style("acadlix-admin-student-css");
-        // wp_localize_script('acadlix-admin-student', 'acadlixOptions', $this->localize_options());
-        // wp_set_script_translations('acadlix-admin-student', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
+        wp_enqueue_style("acadlix-admin-student-css");
+        wp_localize_script('acadlix-admin-student', 'acadlixOptions', $this->localize_options());
+        wp_set_script_translations('acadlix-admin-student', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function student_callback()

@@ -18,6 +18,7 @@ use Yuvayana\Acadlix\Common\REST\Admin\AdminLessonController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminOrderController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminSettingController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminStatisticController;
+use Yuvayana\Acadlix\Common\REST\Admin\AdminStudentController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminSubjectController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminQuizController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminQuestionController;
@@ -59,6 +60,7 @@ class REST {
     protected $_adminSetting = null;
     protected $_adminOrder = null;
     protected $_adminAddon = null;
+    protected $_adminStudent = null;
 
     protected $_frontCheckout = null;
     protected $_frontCourse = null;
@@ -89,7 +91,7 @@ class REST {
         $this->adminSetting();
         $this->adminOrder();
         $this->adminAddon();
-
+        $this->adminStudent();
 
         $this->frontCheckout();
         $this->frontCourse();
@@ -212,6 +214,14 @@ class REST {
         }
         $this->_rests[] = $this->_adminAddon;
         return $this->_adminAddon;
+    }
+
+    public function adminStudent(): AdminStudentController|null{
+        if($this->_adminStudent === null){
+            $this->_adminStudent = new AdminStudentController();
+        }
+        $this->_rests[] = $this->_adminStudent;
+        return $this->_adminStudent;
     }
 
     public function frontCheckout(): FrontCheckoutController|null{

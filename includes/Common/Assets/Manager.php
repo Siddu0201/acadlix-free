@@ -181,6 +181,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-student-css' => [
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-css' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.css',
                 'version' => ACADLIX_VERSION,
@@ -231,6 +236,7 @@ class Manager
         $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
         $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
         $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
+        $admin_student_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_student.asset.php';
 
         $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
         $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
@@ -303,6 +309,12 @@ class Manager
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.js',
                 'version' => $admin_addon_dependency['version'],
                 'deps' => [...$admin_addon_dependency['dependencies'], 'acadlix-global-hooks'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-student' => [
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.js',
+                'version' => $admin_student_dependency['version'],
+                'deps' => [...$admin_student_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-front-js' => [

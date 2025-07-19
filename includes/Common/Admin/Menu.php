@@ -9,6 +9,7 @@ use Yuvayana\Acadlix\Common\Submenu\Submenu_Lessons;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Orders;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Quiz;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Settings;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Student;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Tags;
 
 defined('ABSPATH') || exit();
@@ -27,6 +28,7 @@ class Menu
     protected ?Submenu_Settings $settings = null;
     protected ?Submenu_Tags $tags = null;
     protected ?Submenu_Addon $addon = null;
+    protected ?Submenu_Student $student = null;
 
     public function __construct()
     {
@@ -82,6 +84,7 @@ class Menu
         $this->submenu_tags();
         $this->submenu_settings();
         $this->submenu_addon();
+        $this->submenu_student();
     }
 
     public function init_admin_menu()
@@ -167,6 +170,14 @@ class Menu
         }
         $this->_submenus[] = $this->addon;
         return $this->addon;
+    }
+
+    public function submenu_student(){
+        if(is_null($this->student)){
+            $this->student = new Submenu_Student();
+        }
+        $this->_submenus[] = $this->student;
+        return $this->student;
     }
 
 
