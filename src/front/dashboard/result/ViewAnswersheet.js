@@ -73,6 +73,7 @@ const ViewAnswersheet = () => {
                                         statistic={data?.data?.statistic}
                                         colorCode={colorCode}
                                         quiz={data?.data?.quiz}
+                                        isDisabled={true}
                                     />
                                     :
                                     __("You are not allowed to access this page.", "acadlix")

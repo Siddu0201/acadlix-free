@@ -67,6 +67,13 @@ const NormalQuiz = (props) => {
     }
   };
 
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Container
       sx={{
@@ -131,6 +138,7 @@ const NormalQuiz = (props) => {
               isDesktop={isDesktop}
               questionRef={questionRef}
               scrollToQuestion={scrollToQuestion}
+              isDisabled={isDisabled()}
               {...props}
             />
           )}
@@ -189,6 +197,7 @@ const NormalQuiz = (props) => {
                       first={index === 0}
                       last={props?.watch("questions")?.length - 1 === index}
                       questionRef={questionRef}
+                      isDisabled={isDisabled()}
                     />}
                 </React.Fragment>
               ))}

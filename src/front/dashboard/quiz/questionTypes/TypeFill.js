@@ -140,7 +140,7 @@ const TypeFill = (props) => {
                   />
                 );
               }
-              return (<CustomLatex>{data}</CustomLatex>);
+              return (<CustomLatex key={index}>{data}</CustomLatex>);
             })}
         </Box>
         {(props?.watch("view_answer") ||
@@ -217,7 +217,7 @@ const TypeFill = (props) => {
                       </React.Fragment>
                     );
                   }
-                  return (<CustomLatex>{data}</CustomLatex>);
+                  return (<CustomLatex key={index}>{data}</CustomLatex>);
                 })}
             </Box>
           </>
