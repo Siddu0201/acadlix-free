@@ -13,33 +13,33 @@ export const useInstance = () => {
 };
 
 export const handleQueryError = (result = {}) => {
-    if(result.isError){
-      const code = result?.error?.response?.data?.code;
-      const status = result?.error?.response?.status;
-      switch (code) {
-        case 'rest_cookie_invalid_nonce':
-          if (status === 403) {
-            window.location.reload();
-          }
-          break;
-        default:
-          break;
-      }
+  if (result.isError) {
+    const code = result?.error?.response?.data?.code;
+    const status = result?.error?.response?.status;
+    switch (code) {
+      case 'rest_cookie_invalid_nonce':
+        if (status === 403) {
+          window.location.reload();
+        }
+        break;
+      default:
+        break;
     }
+  }
 }
 
 export const handleMutationError = (error = {}) => {
-      const code = error?.response?.data?.code;
-      const status = error?.response?.status;
-      switch (code) {
-        case 'rest_cookie_invalid_nonce':
-          if (status === 403) {
-            window.location.reload();
-          }
-          break;
-        default:
-          break;
+  const code = error?.response?.data?.code;
+  const status = error?.response?.status;
+  switch (code) {
+    case 'rest_cookie_invalid_nonce':
+      if (status === 403) {
+        window.location.reload();
       }
+      break;
+    default:
+      break;
+  }
 }
 
 export const hasCapability = (cap) => {
@@ -135,7 +135,7 @@ export const updateQuestions = (questions = [], quiz = {}) => {
     questions = newQuestion;
   }
   return questions;
-};  
+};
 
 export const updateAnswer = (options = [], random = false, notlast = false) => {
   if (random) {
@@ -195,13 +195,13 @@ export const formatPrice = (price = 0) => {
 
   // Join the integer and decimal parts with the custom decimal separator
   return decimalPart
-      ? isNaN(integerPart +
+    ? isNaN(integerPart +
       acadlixOptions?.settings?.acadlix_decimal_seprator +
       decimalPart)
-          ? integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart
-          : Number(integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart)
-      : Number(integerPart)
-  ;
+      ? integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart
+      : Number(integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart)
+    : Number(integerPart)
+    ;
 };
 
 export const currencyPosition = (price = 0, currency_symbol = '') => {
@@ -340,15 +340,20 @@ export const getCurrentDateString = () => {
  */
 export const getOffset = () => {
   const date_settings = getSettings();
-  if(date_settings?.timezone?.string){
+  if (date_settings?.timezone?.string) {
     return date_settings?.timezone?.string;
   }
 
-  if(date_settings?.timezone?.offset > 0){
+  if (date_settings?.timezone?.offset > 0) {
     return `UTC+${date_settings?.timezone?.offsetFormatted}`;
-  }else{
+  } else {
     return `UTC${date_settings?.timezone?.offsetFormatted}`;
   }
+}
+
+export const getStripHtml = (html) => {
+  let doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
 }
 
 

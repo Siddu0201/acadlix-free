@@ -32,7 +32,7 @@ import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
 import { IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "@acadlix/helpers/util";
+import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
 
 const BulkImportButton = React.lazy(() => 
@@ -161,11 +161,6 @@ const Question = () => {
     }
   };
 
-  function strip(html) {
-    let doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent || "";
-  }
-
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.questions)) {
       const newRows = data?.data?.questions?.map((question) => {
@@ -173,7 +168,7 @@ const Question = () => {
           id: question?.id,
           title: question?.title
             ? question?.title
-            : strip(
+            : getStripHtml(
               question?.question_languages
                 ?.filter((d) => d?.default)?.[0]
                 ?.question.substring(0, 50)
