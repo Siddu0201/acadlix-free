@@ -11,6 +11,7 @@ import {
   Backdrop,
   CircularProgress,
   Avatar,
+  Popper,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import {
@@ -313,9 +314,16 @@ const Profile = () => {
                       disabled={true}
                     />
                   </Grid>
-                  <Grid size={{ xs: 3, sm: 3 }}>
+                  <Grid size={{ xs: 4, sm: 3 }}>
                     <Autocomplete
                       fullWidth
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            { name: 'flip', enabled: false },
+                          ],
+                        },
+                      }}
                       id="phonecode"
                       autoComplete
                       size="small"
@@ -365,7 +373,7 @@ const Profile = () => {
                       )}
                     />
                   </Grid>
-                  <Grid size={{ xs: 9, sm: 9 }}>
+                  <Grid size={{ xs: 8, sm: 9 }}>
                     <TextField
                       fullWidth
                       label={__("Phone / Mobile", "acadlix")}
@@ -410,7 +418,14 @@ const Profile = () => {
                   <Grid size={{ xs: 12, sm: 4 }}>
                     <Autocomplete
                       fullWidth
-                      id="country"
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            { name: 'flip', enabled: false },
+                          ],
+                        },
+                      }}
+                      id="acadlix-country"
                       autoComplete
                       size="small"
                       options={Country.getAllCountries()}
@@ -445,7 +460,7 @@ const Profile = () => {
                           placeholder="country"
                           inputProps={{
                             ...params.inputProps,
-                            autoComplete: "country",
+                            autoComplete: "acadlix-country",
                           }}
                           sx={{
                             "& .MuiInputBase-input": {
