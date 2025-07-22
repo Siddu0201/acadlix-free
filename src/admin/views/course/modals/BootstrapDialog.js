@@ -1,7 +1,13 @@
 import { Dialog } from "@mui/material";
 import React from "react";
 
-const BootstrapDialog = (props) => {
+const BootstrapDialog = ({
+  xs = "100%",
+  sm = "70%",
+  md = "60%",
+  xl = "100%",
+  ...props
+}) => {
   return (
     <Dialog
       {...props}
@@ -11,10 +17,10 @@ const BootstrapDialog = (props) => {
       PaperProps={{
         sx: {
           width: {
-            xs: "100%", // 90% width on small screens
-            sm: "70%", // 70% width on medium screens
-            md: "60%",
-            xl: "100%", // 50% width on larger screens
+            xs: xs,
+            sm: sm,
+            md: md,
+            xl: xl,
           },
           height: {
             xs: "auto", // 70% height on small screens
