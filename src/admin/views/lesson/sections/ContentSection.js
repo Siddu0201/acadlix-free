@@ -25,7 +25,9 @@ const ContentSection = (props) => {
   return (
     <>
       <React.Suspense fallback={null}>
-        <AiButton {...props} />
+        <AiButton
+         id="lesson_content"
+        {...props} />
       </React.Suspense>
       <Grid size={{ xs: 12, sm: 12 }}>
         <textarea
@@ -38,7 +40,7 @@ const ContentSection = (props) => {
           onChange={(e) => {
             let value = e?.target?.value;
             if (window.tinymce) {
-              const editor = window.tinymce.get("content");
+              const editor = window.tinymce.get("lesson_content");
               if (editor && editor.getContent() !== value) {
                 editor.setContent(value || "");
               }
