@@ -355,7 +355,7 @@ const CourseContent = () => {
   }
 
 
-  const [value, setValue] = useState(isDesktop ? "2" : "1");
+  const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -674,7 +674,7 @@ const CourseContent = () => {
                 },
               }}
             >
-              <TabContext value={value}>
+              <TabContext value="1">
                 <Box>
                   <TabList
                     onChange={handleChange}
@@ -690,7 +690,7 @@ const CourseContent = () => {
                           borderColor: "transparent",
                         },
                       }} />}
-                    <Tab
+                    {/* <Tab
                       label={__("Course Overview", "acadlix")}
                       value="2"
                       sx={{
@@ -700,7 +700,7 @@ const CourseContent = () => {
                           borderColor: "transparent",
                         },
                       }}
-                    />
+                    /> */}
                   </TabList>
                 </Box>
                 <Box
@@ -719,9 +719,9 @@ const CourseContent = () => {
                       />
                     </TabPanel>
                   )}
-                  <TabPanel value="2">
+                  {/* <TabPanel value="2">
                     <CourseOverview {...methods} />
-                  </TabPanel>
+                  </TabPanel> */}
                 </Box>
               </TabContext>
             </Box>
