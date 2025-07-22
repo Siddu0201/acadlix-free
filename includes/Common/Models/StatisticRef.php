@@ -47,9 +47,11 @@ if(!class_exists('StatisticRef')){
         public function setUserTokenAttribute($value){
             $this->attributes['user_token'] = empty($value) ? NULL : $value ;
         }
-
-        public function getQuizAttribute(){
-            return acadlix()->model()->quiz()->ofQuiz()->find($this->quiz_id);
+        
+        public function quiz()
+        {
+            return $this->belongsTo(acadlix()->model()->quiz(), 'quiz_id', 'ID')
+                    ->ofQuiz();
         }
 
         public function statistics(){

@@ -68,9 +68,12 @@ class FrontStatisticController
             );
         }
         $skip = $params['page'] * $params['pageSize'];
-        $stat_ref = acadlix()->model()->statisticRef()->where('user_id', $user_id)->orderBy("id", "desc");
+        $stat_ref = acadlix()->model()->statisticRef()
+                    ->with('quiz')
+                    ->where('user_id', $user_id)
+                    ->orderBy("id", "desc");
         $res['total'] = $stat_ref->count();
-        $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get()->each->setAppends(['quiz']);
+        $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);
     }
 
