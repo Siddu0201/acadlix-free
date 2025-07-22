@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
-import BootstrapDialog from "../modals/BootstrapDialog";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 import { useForm } from "react-hook-form";
 import { FaPlus } from "@acadlix/helpers/icons";
 import AddLessonModal from "../modals/AddLessonModal";

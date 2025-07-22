@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapDialog from "../modals/BootstrapDialog";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 import { IconButton } from "@mui/material";
 import { FaEdit } from "@acadlix/helpers/icons";
 import EditLessonModel from "../modals/EditLessonModel";

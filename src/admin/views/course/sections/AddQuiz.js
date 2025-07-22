@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import BootstrapDialog from "../modals/BootstrapDialog";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 import { FaPlus } from "@acadlix/helpers/icons";
 import AddQuizModel from "../modals/AddQuizModel";
 import toast from "react-hot-toast";

@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/material";
 import React from "react";
 import { FaEdit } from "@acadlix/helpers/icons";
-import BootstrapDialog from "../modals/BootstrapDialog";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 import AddEditSectionModal from "../modals/AddEditSectionModal";
 import { useForm } from "react-hook-form";
 import { UpdateSectionById } from "@acadlix/requests/admin/AdminCourseRequest";
