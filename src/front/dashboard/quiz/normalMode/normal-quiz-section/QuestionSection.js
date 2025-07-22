@@ -17,6 +17,12 @@ import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const QuestionSection = (props) => {
+  const isDisabled = () => {
+    if (props?.watch("view_answer") || props?.watch(`questions.${props?.index}.check`)) {
+      return true;
+    }
+    return false;
+  }
 
   const answerType = (data = {}, lang_index = 0) => {
     switch (props?.question?.answer_type) {
@@ -27,6 +33,7 @@ const QuestionSection = (props) => {
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -38,6 +45,7 @@ const QuestionSection = (props) => {
             type="multipleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -49,6 +57,7 @@ const QuestionSection = (props) => {
             type="trueFalse"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -60,6 +69,7 @@ const QuestionSection = (props) => {
             type="freeChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -71,6 +81,7 @@ const QuestionSection = (props) => {
             type="sortingChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -82,6 +93,7 @@ const QuestionSection = (props) => {
             type="matrixSortingChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -93,6 +105,7 @@ const QuestionSection = (props) => {
             type="fillInTheBlank"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -104,6 +117,7 @@ const QuestionSection = (props) => {
             type="numerical"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -115,6 +129,7 @@ const QuestionSection = (props) => {
             type="rangeType"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
@@ -126,6 +141,7 @@ const QuestionSection = (props) => {
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={isDisabled()}
             {...props}
             {...data}
           />
