@@ -13,6 +13,7 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
+  TablePagination,
   Tooltip,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
