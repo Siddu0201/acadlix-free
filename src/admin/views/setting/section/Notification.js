@@ -196,7 +196,7 @@ const TestingEmail = (props) => {
   const handleSend = (data) => {
     testingEmailMutation?.mutate(data, {
       onSuccess: (data) => {
-        console.log(data?.data);
+        toast.success(__('Email sent successfully.', 'acadlix'));
       }
     });
   }

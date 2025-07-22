@@ -52,7 +52,9 @@ const Home = () => {
     }
   }, [data]);
 
-  console.log(methods?.watch());
+  if(process.env.REACT_APP_MODE === 'development'){
+    console.log(methods?.watch());
+  }
 
   if (isFetching) {
     return (

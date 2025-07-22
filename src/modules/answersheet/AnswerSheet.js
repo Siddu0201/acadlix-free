@@ -143,8 +143,6 @@ const AnswerSheet = ({
         },
     });
 
-    // console.log(methods?.watch("questions"));
-
     let questionRef = React.useRef([]);
 
     const handleClick = (id) => {

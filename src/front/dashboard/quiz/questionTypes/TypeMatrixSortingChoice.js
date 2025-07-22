@@ -28,7 +28,6 @@ const TypeMatrixSortingChoice = (props) => {
 
   const handleDragEnd = (e) => {
     const { active, over } = e;
-    // console.log(active, over);
     if (!active || !over) {
       setActiveId(null);
       return;
@@ -83,7 +82,6 @@ const TypeMatrixSortingChoice = (props) => {
   }
 
   const handleReorderBottom = (active_id, over_id) => {
-    // console.log("bottom");
     // check if over is not null
     const isOverNull = props?.watch(`questions.${props?.index}.language`)
       ?.find((l) => l?.default)
@@ -119,8 +117,6 @@ const TypeMatrixSortingChoice = (props) => {
   }
 
   const handleMoveTopToBottom = (active_id, over_id) => {
-    // console.log("top to bottom");
-
     // check if over is not null
     const over = props?.watch(`questions.${props?.index}.language`)
       ?.find((l) => l?.default)
@@ -151,7 +147,6 @@ const TypeMatrixSortingChoice = (props) => {
   }
 
   const handleMoveBottomToTop = (active_id, over_id) => {
-    console.log("bottom to top");
   }
 
   const handleResult = () => {
@@ -178,7 +173,6 @@ const TypeMatrixSortingChoice = (props) => {
       },
       { shouldDirty: true }
     );
-    // console.log(props?.watch(`questions.${props?.index}.result`));
   }
 
   const handleDragStart = (e) => {
@@ -465,8 +459,6 @@ const SortableItem = (props) => {
   const style = {
     transform: `translate(${transform?.x ?? 0}px , ${transform?.y ?? 0}px)`,
   };
-
-  // console.log(props?.activeId);
 
   return (
     <ListItem

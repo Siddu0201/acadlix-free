@@ -101,7 +101,6 @@ const ViewSection = (props) => {
               })
             );
 
-            // console.log(props?.watch("sections"));
           },
         }
       );

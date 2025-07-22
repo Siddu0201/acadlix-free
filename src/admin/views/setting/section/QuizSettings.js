@@ -26,7 +26,6 @@ const QuizSettings = (props) => {
     const getLanguages = GetLanguages();
 
     useEffect(() => {
-        console.log(getCategories);
         if (getCategories?.data?.data?.categories?.length > 0) {
             methods.setValue("categories", getCategories?.data?.data?.categories);
         }
@@ -320,7 +319,7 @@ const LanguageSettings = ({ methods }) => {
             },
             onError: (error) => {
                 toast.error(error?.response?.data?.message);
-                console.log(error);
+                console.error(error);
             }
         })
     }

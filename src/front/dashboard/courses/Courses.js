@@ -56,7 +56,6 @@ const Courses = () => {
   }, [data?.data?.total]);
 
   const handlePaginationChange = (event, value) => {
-    console.log(value);
     setPaginationModel((p) => {
       return { ...p, page: value - 1 };
     });

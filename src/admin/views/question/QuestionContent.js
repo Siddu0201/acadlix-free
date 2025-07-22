@@ -209,7 +209,9 @@ const QuestionContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch("language"));
+  if(process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch());
+  }
 
   const loadEditor = (key, name = "") => {
     window.wp.editor.initialize(key, {
@@ -355,8 +357,6 @@ const QuestionContent = (props) => {
     }
   };
 
-  // console.log(methods.watch());
-  // console.log(props?.quiz);
 
   const navigate = useNavigate();
   const createMutation = PostCreateQuizQuestion(props?.quiz_id);

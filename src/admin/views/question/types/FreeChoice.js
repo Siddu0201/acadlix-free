@@ -9,7 +9,6 @@ import CustomSwitch from "@acadlix/components/CustomSwitch";
 
 const FreeChoice = (props) => {
     const freeChoiceChange = (e) => {
-        console.log(e?.target?.value);
         props?.watch("language")?.forEach((lang, lindex) => {
             props?.setValue(
                 `language.${lindex}.answer_data.${props?.type}.option`,
@@ -23,7 +22,6 @@ const FreeChoice = (props) => {
             );
         });
     }
-    console.log(props?.watch(`language.${props?.index}.answer_data.${props?.type}`));
 
     return (
         <Card>

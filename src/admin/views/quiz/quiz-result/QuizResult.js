@@ -71,7 +71,6 @@ const QuizResult = () => {
     if (confirm(__("Do you really want to reset this statistic?", "acadlix"))) {
       resetStatistic?.mutate({}, {
         onSuccess: (data) => {
-          // console.log(data);
           toast.success(__('Result successfully reset.', 'acadlix'));
         }
       });

@@ -34,7 +34,6 @@ const AddSection = (props) => {
 
     createMutation?.mutate(newData, {
       onSuccess: (data) => {
-        console.log(data?.data);
         props?.setValue(
           "sections",
           [

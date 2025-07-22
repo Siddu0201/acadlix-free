@@ -350,7 +350,9 @@ const CourseContent = () => {
     }
   }, [data?.data]);
 
-  // console.log(methods?.watch("sections"));
+  if (process?.env?.REACT_APP_IS_PREMIUM === 'true') {
+    console.log(methods?.watch("sections"));
+  }
 
 
   const [value, setValue] = useState(isDesktop ? "2" : "1");

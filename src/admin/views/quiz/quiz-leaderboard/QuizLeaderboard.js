@@ -158,7 +158,6 @@ const QuizLeaderboard = () => {
       resetLeaderboardMutation.mutate({},
         {
           onSuccess: (data) => {
-            console.log(data);
             methods.setValue(
               "toplist",
               [],
@@ -181,7 +180,6 @@ const QuizLeaderboard = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           methods.setValue(
             "toplist",
             [...methods?.watch("toplist"), ...data?.data?.toplist],

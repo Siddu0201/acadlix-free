@@ -183,7 +183,6 @@ const LanguageSection = (props) => {
 
                 setDefaultLanguage?.mutate(data, {
                     onSuccess: (_) => {
-                        console.log(data);
                         toast.success(__('Default language updated successfully.', 'acadlix'));
                         props?.setValue("meta.default_language_id", data?.meta?.default_language_id, { shouldDirty: true });
                         props?.setValue(
@@ -433,7 +432,6 @@ const CopyLanguageModel = memo((props) => {
                                 <CustomSwitch
                                     checked={copyDefaultLanguage}
                                     onChange={(e) => {
-                                        console.log(e?.target?.checked);
                                         setCopyDefaultLanguage(e?.target?.checked);
                                     }}
                                 />

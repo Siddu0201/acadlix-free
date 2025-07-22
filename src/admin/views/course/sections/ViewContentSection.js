@@ -94,7 +94,6 @@ const ViewContentSection = (props) => {
                 };
               })
             );
-            // console.log(props?.watch(`sections.${props?.id}.contents`));
           },
         }
       );
@@ -174,7 +173,6 @@ const ViewContentSection = (props) => {
 
 const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
   const c = props?.s?.contents?.find((c) => c?.sort === activeId);
-  // console.log(activeId);
   return (
     <ListItem
       ref={ref}

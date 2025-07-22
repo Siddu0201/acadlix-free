@@ -22,7 +22,6 @@ import { hasCapability } from "@acadlix/helpers/util";
 import Integration from "./section/Integration";
 
 const Setting = () => {
-  // console.log(process?.env);
   const getTabNumber = () => {
     switch (true) {
       case hasCapability('acadlix_show_general_setting'):
@@ -157,7 +156,9 @@ const Setting = () => {
     defaultValues: filteredDefaults,
   });
 
-  console.log(methods.watch());
+  if (process?.env?.REACT_APP_IS_PREMIUM === 'true') {
+    console.log(methods.watch());
+  }
 
 
   const handleChange = (event, newValue) => {
@@ -166,7 +167,6 @@ const Setting = () => {
 
   const updateMutation = PostUpdateSetting();
   const onSubmit = (data) => {
-    console.log(data);
     updateMutation?.mutate(data, {
       onSuccess: (data) => {
         toast.success(__('Settings saved successfully.', 'acadlix'));

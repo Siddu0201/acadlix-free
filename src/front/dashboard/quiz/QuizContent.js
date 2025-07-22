@@ -27,8 +27,6 @@ const AdvanceQuizMode = React.lazy(() =>
 );
 
 const QuizContent = (props) => {
-  // console.log([...props?.quiz?.rendered_questions]);
-  // console.log(props?.quiz?.rendered_metas);
   const userToken = "acadlix_user_token";
   const methods = useForm({
     defaultValues: {

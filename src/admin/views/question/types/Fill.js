@@ -44,7 +44,6 @@ function Fill(props) {
       );
     });
   };
-  // console.log(props?.watch(`language.${props?.index}.answer_data.${props?.type}`));
 
   return (
     <Card>

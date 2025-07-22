@@ -81,8 +81,6 @@ const TypeSingleChoice = (props) => {
     }
   };
 
-  // console.log(props?.answer_data?.[props?.type]);
-
   const alphabate = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
 

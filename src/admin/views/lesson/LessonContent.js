@@ -58,7 +58,9 @@ const LessonContent = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
+  if(process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch());
+  }
   const navigate = useNavigate();
   const createMutation = PostCreateLesson();
   const updateMutation = UpdateLessonById(props?.lesson_id);

@@ -52,8 +52,6 @@ const FrontSingleCourse = (props) => {
         }
     });
 
-    // console.log(methods?.watch("sections"));
-
     React.useEffect(() => {
         const items = document.querySelectorAll(".acadlix-curriculum-content-item");
         items.forEach((item) => {

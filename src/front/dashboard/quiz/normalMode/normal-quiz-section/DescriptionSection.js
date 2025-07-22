@@ -87,7 +87,6 @@ const DescriptionSection = (props) => {
     checkQuiz.mutate(data, {
       onSuccess: (data) => {
         if(data?.data?.errors){
-          console.log(data?.data?.errors);
           props?.setValue("quiz_error", data?.data?.errors, {shouldDirty: true});
           return;
         }

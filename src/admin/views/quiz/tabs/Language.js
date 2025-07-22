@@ -319,7 +319,6 @@ const CopyLanguageModel = memo((props) => {
                 <CustomSwitch
                   checked={copyDefaultLanguage}
                   onChange={(e) => {
-                    console.log(e?.target?.checked);
                     setCopyDefaultLanguage(e?.target?.checked);
                   }}
                 />

@@ -12,7 +12,6 @@ import SidebarListItem from "./SidebarListItem";
 import { __ } from "@wordpress/i18n";
 
 const SidebarList = (props) => {
-  // console.log(props);
   const handleChange = () => {
     props?.setValue(`sections.${props?.index}.open`, !props?.s?.open, {shouldDirty: true});
   }

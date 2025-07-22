@@ -57,7 +57,9 @@ const OrderContent = (props) => {
         },
     });
 
-    // console.log(methods?.watch());
+    if(process.env.REACT_APP_MODE === 'development') {
+        console.log(methods?.watch());
+    }
 
     const navigate = useNavigate();
     const createMutation = PostCreateOrder();

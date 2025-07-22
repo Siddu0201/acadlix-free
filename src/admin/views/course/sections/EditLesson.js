@@ -35,7 +35,9 @@ const EditLesson = (props) => {
     },
   });
 
-  // console.log(methods?.watch());
+  if(process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch());
+  }
 
   const handleEditLesson = () => {
     methods?.setValue("show", true, { shouldDirty: true });
