@@ -131,7 +131,6 @@ const NormalQuiz = (props) => {
               isDesktop={isDesktop}
               questionRef={questionRef}
               scrollToQuestion={scrollToQuestion}
-              isDisabled={true}
               {...props}
             />
           )}

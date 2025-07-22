@@ -181,6 +181,7 @@ const ViewQuestionSection = (props) => {
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -191,6 +192,7 @@ const ViewQuestionSection = (props) => {
             type="multipleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -201,6 +203,7 @@ const ViewQuestionSection = (props) => {
             type="trueFalse"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -211,6 +214,7 @@ const ViewQuestionSection = (props) => {
             type="freeChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -221,6 +225,7 @@ const ViewQuestionSection = (props) => {
             type="sortingChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -231,6 +236,7 @@ const ViewQuestionSection = (props) => {
             type="matrixSortingChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -241,6 +247,7 @@ const ViewQuestionSection = (props) => {
             type="fillInTheBlank"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -251,6 +258,7 @@ const ViewQuestionSection = (props) => {
             type="numerical"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -261,6 +269,7 @@ const ViewQuestionSection = (props) => {
             type="rangeType"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
@@ -271,6 +280,7 @@ const ViewQuestionSection = (props) => {
             type="singleChoice"
             lang_index={lang_index}
             index={props?.index}
+            isDisabled={true}
             {...props}
             {...data}
           />
