@@ -29,7 +29,10 @@ const AdminStudent = () => {
                 <Route index element={<Student />} />
               }
 
-              <Route path="view/:student_id" element={<React.Suspense fallback={null}><StudentView /></React.Suspense>} />
+              {
+                acadlixOptions.isAdvancedReportActive &&
+                <Route path="view/:student_id" element={<React.Suspense fallback={null}><StudentView /></React.Suspense>} />
+              }
 
             </Route>
             <Route path='*' element={<div>{__("No path found", "acadlix")}</div>} />

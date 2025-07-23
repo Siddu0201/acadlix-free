@@ -882,6 +882,18 @@ if (!class_exists('Helper')) {
                     'icon' => 'BiLogoZoom',
                     'icon_color' => '#2d8cff',
                 ],
+                [
+                    'name' => __('Acadlix Advanced Report', 'acadlix'),
+                    'description' => __('Generate detailed reports for your students and courses.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false) == "yes",
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_advanced_report_enabled',
+                    'icon' => 'HiDocumentReport',
+                    'icon_color' => '#4A90E2',
+                ],
             ];
         }
 
@@ -920,6 +932,22 @@ if (!class_exists('Helper')) {
         public function is_zoom_integration_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false);
+            if($value != "yes"){
+                return false;
+            }
+            if(!acadlix()->pro){
+                return false;
+            }else{
+                if(!acadlix()->license()->isActive){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public function is_advanced_report_addon_active()
+        {
+            $value = $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false);
             if($value != "yes"){
                 return false;
             }

@@ -54,6 +54,7 @@ class Submenu_Student
             'capabilities' => $capabilities,
             'isPro' => acadlix()->pro,
             'isActive' => acadlix()->license()->isActive ?? false,
+            'isAdvancedReportActive'=> acadlix()->helper()->is_advanced_report_addon_active() ?? false,
         ];
     }
 
