@@ -47,6 +47,46 @@ const BulkQuestionUpload = React.lazy(() =>
 );
 
 const AdminQuiz = () => {
+  const routes = [
+    hasCapability("acadlix_show_quiz") && {
+      path: "/",
+      element: <Quiz />,
+    },
+    hasCapability("acadlix_add_quiz") && {
+      path: "/create",
+      element: <CreateQuiz />,
+    },
+    hasCapability("acadlix_edit_quiz") && {
+      path: "/edit/:quiz_id",
+      element: <EditQuiz />,
+    },
+    hasCapability("acadlix_show_question") && {
+      path: "/:quiz_id/question",
+      element: <Question />,
+    },
+    hasCapability("acadlix_add_question") && {
+      path: "/:quiz_id/question/create",
+      element: <CreateQuestion />,
+    },
+    hasCapability("acadlix_edit_question") && {
+      path: "/:quiz_id/question/edit/:question_id",
+      element: <EditQuestion />,
+    },
+    hasCapability("acadlix_show_statistic") && {
+      path: "/:quiz_id/result",
+      element: <QuizResult />,
+    },
+    hasCapability("acadlix_show_leaderboard") && {
+      path: "/:quiz_id/leaderboard",
+      element: <QuizLeaderboard />,
+    },
+  ];
+
+  const filteredRoutes = window.acadlixHooks?.applyFilters(
+    'acadlix.admin.quiz.routes',
+    routes
+  )?.filter(Boolean) || [];
+
   return (
     <Provider>
       <HashRouter>
@@ -56,6 +96,11 @@ const AdminQuiz = () => {
           <Routes>
             <Route element={<AdminLayout />}>
               {
+                filteredRoutes.map((route, index) => (
+                  <Route key={index} path={route.path} element={route.element} />
+                ))
+              }
+              {/* {
                 hasCapability("acadlix_show_quiz") &&
                 <Route index element={<Quiz />} />
               }
@@ -121,7 +166,7 @@ const AdminQuiz = () => {
                     <Route path="edit/:paragraph_id" element={<React.Suspense fallback={null}><EditParagraph /></React.Suspense>} />
                   }
                 </Route>
-              }
+              } */}
             </Route>
             <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
           </Routes>
