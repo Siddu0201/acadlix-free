@@ -961,6 +961,14 @@ if (!class_exists('Helper')) {
             return true;
         }
 
+        public function acadlix_delete_addon_options()
+        {
+            $options = $this->acadlix_get_all_addons();
+            foreach ($options as $option) {
+                $this->acadlix_delete_option($option['option_name']);
+            }
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {
