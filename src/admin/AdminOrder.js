@@ -13,6 +13,26 @@ import "./AdminOrder.css";
 import { hasCapability } from "@acadlix/helpers/util";
 
 const AdminOrder = () => {
+  const routes = [
+    hasCapability("acadlix_show_order") && {
+      path: "/",
+      element: <Order />,
+    },
+    hasCapability("acadlix_add_order") && {
+      path: "/create",
+      element: <CreateOrder />,
+    },
+    hasCapability("acadlix_edit_order") && {
+      path: "/edit/:order_id",
+      element: <EditOrder />,
+    },
+  ];
+
+  const filteredRoutes = window.acadlixHooks?.applyFilters(
+    'acadlix.admin.order.routes',
+    routes
+  )?.filter(Boolean) || [];
+
   return (
     <Provider>
       <HashRouter>
@@ -21,16 +41,9 @@ const AdminOrder = () => {
         <Routes>
           <Route element={<AdminLayout />}>
             {
-                hasCapability("acadlix_show_order") &&
-                <Route index element={<Order />} />
-            }
-            {
-                hasCapability("acadlix_add_order") &&
-                <Route path="create" element={<CreateOrder />} />
-            }
-            {
-                hasCapability("acadlix_edit_order") &&
-                <Route path="edit/:order_id" element={<EditOrder />} />
+                filteredRoutes.map((route, index) => (
+                  <Route key={index} path={route.path} element={route.element} />
+                ))
             }
           </Route>
           <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>

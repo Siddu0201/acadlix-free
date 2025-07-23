@@ -13,6 +13,26 @@ import ScrollToTop from "@acadlix/helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 const AdminLesson = () => {
+  const routes = [
+    hasCapability("acadlix_show_lesson") && {
+      path: "/",
+      element: <Lesson />,
+    },
+    hasCapability("acadlix_add_lesson") && {
+      path: "/create",
+      element: <CreateLesson />,
+    },
+    hasCapability("acadlix_edit_lesson") && {
+      path: "/edit/:lesson_id",
+      element: <EditLesson />,
+    },
+  ];
+
+  const filteredRoutes = window.acadlixHooks?.applyFilters(
+    'acadlix.admin.lesson.routes',
+    routes
+  )?.filter(Boolean) || [];
+
   return (
     <Provider>
       <HashRouter>
@@ -22,16 +42,9 @@ const AdminLesson = () => {
           <Routes>
             <Route element={<AdminLayout />}>
               {
-                hasCapability("acadlix_show_lesson") &&
-                <Route index element={<Lesson />} />
-              }
-              {
-                hasCapability("acadlix_add_lesson") &&
-                <Route path="create" element={<CreateLesson />} />
-              }
-              {
-                hasCapability("acadlix_edit_lesson") &&
-                <Route path="edit/:lesson_id" element={<EditLesson />} />
+                filteredRoutes.map((route, index) => (
+                  <Route key={index} path={route.path} element={route.element} />
+                ))
               }
             </Route>
             <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
