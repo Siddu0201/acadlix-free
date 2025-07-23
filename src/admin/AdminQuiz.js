@@ -18,38 +18,16 @@ import ScrollToTop from "@acadlix/helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 
-const Paragraph = React.lazy(() =>
+const QuizRoutes = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/admin/views/paragraph/Paragraph") // Use pro version in Pro build
-    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
-);
-
-const CreateParagraph = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/admin/views/paragraph/CreateParagraph") // Use pro version in Pro build
-    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
-);
-const EditParagraph = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/admin/views/paragraph/EditParagraph") // Use pro version in Pro build
-    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
-);
-const QuizResultAnswerSheet = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/admin/quiz/quiz-result/QuizResultAnswerSheet") // Use pro version in Pro build
-    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
-);
-
-const BulkQuestionUpload = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/admin/views/question/BulkQuestionUpload") // Use pro version in Pro build
-    : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
+    ? import('@acadlix/pro/admin/views/quiz/QuizRoutes')
+    : Promise.resolve({ default: () => null })
 );
 
 const AdminQuiz = () => {
   return (
     <Provider>
-      <HashRouter>
+      <HashRouter>  
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position="bottom-right" />
           <ScrollToTop />
@@ -81,23 +59,11 @@ const AdminQuiz = () => {
                   <Route path="edit/:question_id" element={<EditQuestion />} />
                 }
               </Route>
-              <Route path=":quiz_id/import">
-                {
-                  hasCapability("acadlix_import_question") && acadlixOptions?.isBulkUploadActive &&
-                  <Route index element={<React.Suspense fallback={null}><BulkQuestionUpload /></React.Suspense>} />
-                }
-              </Route>
+              
               <Route path=":quiz_id/result">
                 {
                   hasCapability("acadlix_show_statistic") &&
                   <Route index element={<QuizResult />} />
-                }
-                {
-                  hasCapability("acadlix_show_answersheet") &&
-                  <Route
-                    path=":statistic_ref_id"
-                    element={<React.Suspense fallback={null}><QuizResultAnswerSheet /></React.Suspense>}
-                  />
                 }
               </Route>
               <Route path=":quiz_id/leaderboard">
@@ -106,22 +72,9 @@ const AdminQuiz = () => {
                   <Route index element={<QuizLeaderboard />} />
                 }
               </Route>
-              {
-                <Route path=":quiz_id/paragraph">
-                  {
-                    hasCapability("acadlix_show_paragraph") &&
-                    <Route index element={<React.Suspense fallback={null}><Paragraph /></React.Suspense>} />
-                  }
-                  {
-                    hasCapability("acadlix_add_paragraph") &&
-                    <Route path="create" element={<React.Suspense fallback={null}><CreateParagraph /></React.Suspense>} />
-                  }
-                  {
-                    hasCapability("acadlix_edit_paragraph") &&
-                    <Route path="edit/:paragraph_id" element={<React.Suspense fallback={null}><EditParagraph /></React.Suspense>} />
-                  }
-                </Route>
-              }
+              <React.Suspense fallback={null}>
+                <QuizRoutes />
+              </React.Suspense>
             </Route>
             <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
           </Routes>
