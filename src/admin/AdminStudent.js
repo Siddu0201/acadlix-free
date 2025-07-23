@@ -17,6 +17,21 @@ const StudentView = React.lazy(() =>
     : Promise.resolve({ default: () => null })
 );
 const AdminStudent = () => {
+  const routes = [
+    true && {
+      path: "/",
+      element: <Student />,
+    },
+    // true && {
+    //   path: "/view/:student_id",
+    //   element: <React.Suspense fallback={null}><StudentView /></React.Suspense>,
+    // },
+  ];
+
+  const filteredRoutes = window.acadlixHooks?.applyFilters(
+    'acadlix_admin_student_routes',
+    routes
+  )?.filter(Boolean) || [];
   return (
     <Provider>
       <HashRouter>
@@ -24,7 +39,10 @@ const AdminStudent = () => {
           <Toaster position='bottom-right' />
           <Routes>
             <Route element={<AdminLayout />} >
-              {
+              {filteredRoutes.map((route, index) => (
+                <Route key={index} path={route.path} element={route.element} />
+              ))}
+              {/* {
                 // hasCapability('acadlix_show_student') &&
                 <Route index element={<Student />} />
               }
@@ -32,7 +50,7 @@ const AdminStudent = () => {
               {
                 acadlixOptions.isAdvancedReportActive &&
                 <Route path="view/:student_id" element={<React.Suspense fallback={null}><StudentView /></React.Suspense>} />
-              }
+              } */}
 
             </Route>
             <Route path='*' element={<div>{__("No path found", "acadlix")}</div>} />
