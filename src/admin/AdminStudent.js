@@ -11,9 +11,9 @@ import Student from './views/student/Student'
 import './AdminStudent.css'
 
 
-const StudentRoutes = React.lazy(() =>
+const StudentView = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import('@acadlix/pro/admin/views/student/StudentRoutes')
+    ? import('@acadlix/pro/admin/views/student/StudentView')
     : Promise.resolve({ default: () => null })
 );
 const AdminStudent = () => {
@@ -28,9 +28,11 @@ const AdminStudent = () => {
                 // hasCapability('acadlix_show_student') &&
                 <Route index element={<Student />} />
               }
-              <React.Suspense fallback={null}>
-                <StudentRoutes />
-              </React.Suspense>
+
+              {
+                acadlixOptions.isAdvancedReportActive &&
+                <Route path="view/:student_id" element={<React.Suspense fallback={null}><StudentView /></React.Suspense>} />
+              }
 
             </Route>
             <Route path='*' element={<div>{__("No path found", "acadlix")}</div>} />
