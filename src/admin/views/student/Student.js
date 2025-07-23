@@ -155,7 +155,7 @@ const Student = () => {
                   paginationModel={paginationModel}
                   onPaginationModelChange={handlePaginationChange}
                   paginationMode="server"
-                  pageSizeOptions={[10, 25, 50, 100]}
+                  pageSizeOptions={[10, 20, 50, 100]}
                   checkboxSelection
                   disableRowSelectionOnClick
                   disableColumnMenu
