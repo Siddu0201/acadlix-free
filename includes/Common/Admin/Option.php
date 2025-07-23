@@ -61,12 +61,8 @@ if (!class_exists("Option")) {
 
         public function removeOptions()
         {
-            $options = acadlix()->helper()->acadlix_options();
-            if (count($options) > 0) {
-                foreach ($options as $key => $option) {
-                    acadlix()->helper()->acadlix_delete_option($key);
-                }
-            }
+            acadlix()->helper()->acadlix_delete_all_options();
+            acadlix()->helper()->acadlix_delete_addon_options();
         }
 
         private function createPage($option = '', $data = [])

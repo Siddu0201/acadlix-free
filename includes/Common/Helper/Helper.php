@@ -594,6 +594,16 @@ if (!class_exists('Helper')) {
             return $new_options;
         }
 
+        public function acadlix_delete_all_options()
+        {
+            $options = $this->acadlix_options();
+            if (count($options) > 0) {
+                foreach ($options as $key => $option) {
+                    $this->acadlix_delete_option($key);
+                }
+            }
+        }
+
         public function acadlix_get_option($key = '', $default = false)
         {
             $options = $this->acadlix_options();
@@ -610,7 +620,7 @@ if (!class_exists('Helper')) {
             }
         }
 
-        public function acadlix_delete_option($key = '', $value = '')
+        public function acadlix_delete_option($key = '')
         {
             if (!empty($key)) {
                 delete_option($key);
