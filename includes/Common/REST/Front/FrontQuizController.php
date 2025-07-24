@@ -289,7 +289,7 @@ class FrontQuizController
                         "negative_points" => $question["negative_points"],
                         "question_time" => $question["result"]["time"],
                         "answer_data" => $question["result"]["answer_data"],
-                        "attempted_at" => (string) $question["result"]["attempted_at"] ?? null
+                        "attempted_at" => $question["result"]["attempted_at"] !== '' ? (int) $question["result"]["attempted_at"] : null,
                     ]);
                 }
 
