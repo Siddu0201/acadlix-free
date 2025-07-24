@@ -64,6 +64,7 @@ class Menu
             'acadlix_order', 
             'acadlix_assignment', 
             'acadlix_zoom',
+            'acadlix_student',
             'acadlix_setting',
             'acadlix_addon',
             'abqu'
