@@ -337,6 +337,18 @@ class FrontDashboardController
             ]);
         }
 
+        // Save complete date
+        if ($active_statistic) {
+            acadlix()->model()->userActivityMeta()
+            ->create([
+                'user_id' => $userId,
+                'type' => 'course_statistic',
+                'type_id' => $active_statistic->id,
+                'meta_key' => 'course_statistic_complete_time',
+                'meta_value' => time(),
+            ]);
+        }
+
         $order_item = acadlix()->model()->orderItem()->with(['course', 'course.sections'])
             ->find($orderItemId);
 
@@ -396,6 +408,18 @@ class FrontDashboardController
                 'is_completed' => false,
             ]);
         }
+        // Save incomplete date
+        if ($active_statistic) {
+            acadlix()->model()->userActivityMeta()
+            ->create([
+                'user_id' => $userId,
+                'type' => 'course_statistic',
+                'type_id' => $active_statistic->id,
+                'meta_key' => 'course_statistic_incomplete_time',
+                'meta_value' => time(),
+            ]);
+        }
+
         $order_item = acadlix()->model()->orderItem()->with(['course', 'course.sections'])
             ->find($orderItemId);
         $course_completion_percentage = 0;

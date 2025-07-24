@@ -76,7 +76,7 @@ const Dashbaord = () => {
             </Route>
             <Route path="/purchase" element={<PurchaseHistory />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/normal" element={<Quiz mode="normal" />} />
+            {/* <Route path="/normal" element={<Quiz mode="normal" />} /> */}
           </Route>
           <Route path="/course/:orderItemId">
             <Route index element={<CourseContent />} />

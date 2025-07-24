@@ -487,6 +487,8 @@ const QuizContent = (props) => {
       }}
     >
       <AppFront
+        quiz_attempt_type="course_statistic"
+        course_statistic_id={props?.c?.course_statistic_id}
         quiz_id={props?.c?.content_type_id}
         order_item_id={props?.watch("order_item_id")}
         course_section_content_id={props?.c?.id}

@@ -193,6 +193,8 @@ class FrontQuizController
         }
         $user_id = $params['user_id'];
         $user_token = $params['user_token'];
+        $type = $params['quiz_attempt_type'] ?? "shortcode";
+        $course_statistic_id = $params['course_statistic_id'] ?? 0;
 
         $attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
             ->ofQuizAttempt()
@@ -215,6 +217,19 @@ class FrontQuizController
                 "meta_value" => 1 // phpcs:ignore
             ]);
         }
+
+        // Save course statistic attempt time
+        if($type == "course_statistic" && $course_statistic_id) {
+            acadlix()->model()->userActivityMeta()
+            ->create([
+                "user_token" => $params['user_token'],
+                "user_id" => $params['user_id'],
+                "type" => $type,
+                "type_id" => $course_statistic_id,
+                "meta_key" => "course_statistic_quiz_attempt_time", // phpcs:ignore
+                "meta_value" => time() // phpcs:ignore
+            ]);
+        }
         $res['attempts'] = $attempts;
 
         return rest_ensure_response($res);
@@ -235,6 +250,9 @@ class FrontQuizController
         $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $user_id = $params['user_id'];
         $user_token = $params['user_token'];
+        $type = $params['quiz_attempt_type'] ?? "shortcode";
+        $course_statistic_id = $params['course_statistic_id'] ?? 0;
+        
         $data = [
             "quiz_id" => (int) $quiz_id,
             "user_token" => $params["user_token"],
@@ -272,6 +290,19 @@ class FrontQuizController
                         "question_time" => $question["result"]["time"],
                         "answer_data" => $question["result"]["answer_data"],
                         "attempted_at" => (string) $question["result"]["attempted_at"]
+                    ]);
+                }
+
+                // Save statistic_ref_id if type is course_statistic
+                if($type == "course_statistic" && $course_statistic_id) {
+                    acadlix()->model()->userActivityMeta()
+                    ->create([
+                        "user_token" => $params['user_token'],
+                        "user_id" => $params['user_id'],
+                        "type" => $type,
+                        "type_id" => $course_statistic_id,
+                        "meta_key" => "statistic_ref_id", // phpcs:ignore
+                        "meta_value" => $stat_ref->id // phpcs:ignore
                     ]);
                 }
             }

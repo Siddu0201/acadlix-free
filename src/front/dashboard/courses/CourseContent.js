@@ -110,35 +110,44 @@ const CourseContent = () => {
       {
         onSuccess: (data) => {
           // handle Success active
-          if (data?.data?.success && metaType === "assignment" && data?.data?.assignment_user_stat) {
-            methods?.setValue(
-              `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.first_started_at`,
-              data?.data?.assignment_user_stat?.first_started_at,
-              { shouldDirty: true }
-            );
-            methods?.setValue(
-              `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.id`,
-              data?.data?.assignment_user_stat?.id,
-              { shouldDirty: true }
-            );
-            methods?.setValue(
-              `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.submissions`,
-              data?.data?.assignment_user_stat?.submissions?.map((s) => {
-                return {
-                  id: s?.id ?? null,
-                  is_active: s?.is_active ?? true,
-                  is_late: s?.is_late ?? false,
-                  marks: s?.marks ?? 0,
-                  answer_text: s?.answer_text ?? "",
-                  answer_attachments: s?.answer_attachments ?? [],
-                  feedback: s?.feedback ?? "",
-                  feedback_attachments: s?.feedback_attachments ?? [],
-                  submitted_at: s?.submitted_at ?? "",
-                  evaluated_at: s?.evaluated_at ?? "",
-                };
-              }),
-              { shouldDirty: true }
-            );
+          if (data?.data?.success) {
+            if (metaType === "assignment" && data?.data?.assignment_user_stat) {
+              methods?.setValue(
+                `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.first_started_at`,
+                data?.data?.assignment_user_stat?.first_started_at,
+                { shouldDirty: true }
+              );
+              methods?.setValue(
+                `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.id`,
+                data?.data?.assignment_user_stat?.id,
+                { shouldDirty: true }
+              );
+              methods?.setValue(
+                `sections.${sectionIndex}.content.${contentIndex}.assignment_user_stat.submissions`,
+                data?.data?.assignment_user_stat?.submissions?.map((s) => {
+                  return {
+                    id: s?.id ?? null,
+                    is_active: s?.is_active ?? true,
+                    is_late: s?.is_late ?? false,
+                    marks: s?.marks ?? 0,
+                    answer_text: s?.answer_text ?? "",
+                    answer_attachments: s?.answer_attachments ?? [],
+                    feedback: s?.feedback ?? "",
+                    feedback_attachments: s?.feedback_attachments ?? [],
+                    submitted_at: s?.submitted_at ?? "",
+                    evaluated_at: s?.evaluated_at ?? "",
+                  };
+                }),
+                { shouldDirty: true }
+              );
+            }
+            if(data?.data?.active_statistic){
+              methods?.setValue(
+                `sections.${sectionIndex}.content.${contentIndex}.course_statistic_id`,
+                data?.data?.active_statistic?.id,
+                { shouldDirty: true }
+              );
+            }
           }
         },
       }
@@ -226,6 +235,7 @@ const CourseContent = () => {
                 id: c?.ID ?? null,
                 sort: c?.menu_order ?? "",
                 content_type_id: c?.contentable?.id ?? null,
+                course_statistic_id: statistic?.id ?? null,
                 is_active: active,
                 is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
                 type: c?.contentable?.type ?? "", // lesson/quiz/assignment,

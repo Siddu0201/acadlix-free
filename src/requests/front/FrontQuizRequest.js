@@ -21,7 +21,10 @@ export const PostSaveQuizAttemptById = (quiz_id = '') => {
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${quiz_id}/save-quiz-attempt`, data);
+            return instance.post(
+                `${base}/${quiz_id}/save-quiz-attempt`,
+                data
+            );
         },
     })
 }

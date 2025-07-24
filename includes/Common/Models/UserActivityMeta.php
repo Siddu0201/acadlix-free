@@ -57,6 +57,26 @@ if (!class_exists('UserActivityMeta')) {
             return $query->where("type", "question");
         }
 
+        public function scopeOfCourseStatistic($query)
+        {
+            return $query->where("type", "course_statistic");
+        }
+
+        public function scopeOfCourseStatisticIncompleteTime($query)
+        {
+            return $query->where("meta_key", "course_statistic_incomplete_time");
+        }
+
+        public function scopeOfCourseStatisticCompleteTime($query)
+        {
+            return $query->where("meta_key", "course_statistic_complete_time");
+        }
+
+        public function scopeOfCourseStatisticsQuizAttemptTime($query)
+        {
+            return $query->where("meta_key", "course_statistic_quiz_attempt_time");
+        }
+
         public function setUserIdAttribute($value){
             $this->attributes['user_id'] = $value == 0 ? NULL : $value ;
         }
