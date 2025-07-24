@@ -51,5 +51,11 @@ if (!class_exists(class: 'CourseStatistic')) {
         {
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
+
+        public function user_activity_meta()
+        {
+            return $this->hasMany(acadlix()->model()->userActivityMeta(), 'type_id', 'id')
+                    ->where('type', 'course_statistic');
+        }
     }
 }
