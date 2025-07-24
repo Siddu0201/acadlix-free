@@ -194,6 +194,13 @@ class UserRole
         ];
     }
 
+    public function student_capabilities(): array
+    {
+        return [
+            'acadlix_show_student' => true,
+        ];
+    }
+
     public function isBuiltInRole(string $role): bool
     {
         $default_roles = ['administrator', 'editor', 'author', 'contributor', 'subscriber'];

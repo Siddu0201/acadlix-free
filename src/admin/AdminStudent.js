@@ -8,11 +8,12 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import { __ } from '@wordpress/i18n'
 import Student from './views/student/Student'
 import './AdminStudent.css'
+import { hasCapability } from '@acadlix/helpers/util'
 
 
 const AdminStudent = () => {
   const routes = [
-    true && {
+    hasCapability("acadlix_show_student") && {
       path: "/",
       element: <Student />,
     },

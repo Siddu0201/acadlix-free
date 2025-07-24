@@ -328,7 +328,7 @@ class FrontDashboardController
                 'is_completed' => true
             ]);
         } else {
-            acadlix()->model()->courseStatistic()->create([
+            $active_statistic = acadlix()->model()->courseStatistic()->create([
                 'order_item_id' => $orderItemId,
                 'course_section_content_id' => $courseSectionContentId,
                 'user_id' => $userId,
@@ -354,7 +354,8 @@ class FrontDashboardController
         return rest_ensure_response([
             'success' => true,
             'course_full_completed' => $courseFullCompleted,
-            'course_completion_percentage' => $course_completion_percentage
+            'course_completion_percentage' => $course_completion_percentage,
+            'active_statistic' => $active_statistic
         ]);
     }
 
@@ -387,7 +388,7 @@ class FrontDashboardController
                 'is_completed' => false
             ]);
         } else {
-            acadlix()->model()->courseStatistic()->create([
+            $active_statistic = acadlix()->model()->courseStatistic()->create([
                 'order_item_id' => $orderItemId,
                 'course_section_content_id' => $courseSectionContentId,
                 'user_id' => $userId,
@@ -401,7 +402,11 @@ class FrontDashboardController
         if ($order_item && !empty($order_item->course_id)) {
             $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
         }
-        return rest_ensure_response(['success' => true, 'course_completion_percentage' => $course_completion_percentage]);
+        return rest_ensure_response([
+            'success' => true,
+            'course_completion_percentage' => $course_completion_percentage,
+            'active_statistic' => $active_statistic
+        ]);
     }
 
     public function get_user_purchases($request)

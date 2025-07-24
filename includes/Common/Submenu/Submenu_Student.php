@@ -14,7 +14,7 @@ class Submenu_Student
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Student', 'acadlix'),
             'menu_title' => __('Student', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_student',
             'menu_slug' => 'acadlix_student',
             'callback' => [$this, 'student_callback'],
             'position' => 510
