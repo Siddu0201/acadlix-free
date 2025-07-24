@@ -39,7 +39,8 @@ class UserRole
             $this->setting_capabilities(),
             $this->quiz_category_capabilities(),
             $this->quiz_language_capabilities(),
-            $this->tool_capabilities()
+            $this->tool_capabilities(),
+            $this->student_capabilities()
         );
     }
 
