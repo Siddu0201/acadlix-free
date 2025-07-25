@@ -43,7 +43,7 @@ if (is_user_logged_in()) {
     }
 }
 ?>
-    <div id="acadlix_dashboard"></div>   
+    <div id="acadlix_dashboard" class="acadlix-dashboard"></div>   
 
 <?php 
 

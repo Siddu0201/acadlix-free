@@ -51,24 +51,27 @@ const DashboardNavbar = () => {
               overflowX: "auto",
             }}
           >
-            <Button
-              sx={{
-                my: 0,
-                color: "black",
-                display: "block",
-                padding: {
-                  sm: "6px 8px",
-                  xs: 0,
-                },
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                minWidth: "auto",
-              }}
-              component="a"
-              href={acadlixOptions?.home_url}
-            >
-              {__("Home", "acadlix")}
-            </Button>
+            {
+              acadlixOptions?.settings?.acadlix_disable_home_menu === "yes" ? null : (
+                <Button
+                  sx={{
+                    my: 0,
+                    color: "black",
+                    display: "block",
+                    padding: {
+                      sm: "6px 8px",
+                      xs: 0,
+                    },
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    minWidth: "auto",
+                  }}
+                  component="a"
+                  href={acadlixOptions?.home_url}
+                >
+                  {__("Home", "acadlix")}
+                </Button>
+              )}
             {dashboardMenu.map((page) => (
               <Button
                 key={page?.id}

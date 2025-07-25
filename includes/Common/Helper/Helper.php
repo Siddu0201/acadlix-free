@@ -547,6 +547,10 @@ if (!class_exists('Helper')) {
                 'acadlix_admin_can_assign_courses_to_student' => "no",
                 'acadlix_admin_can_remove_student_from_course' => "no",
                 'acadlix_default_rows_per_page' => 20,
+                // Student Dashboard Option
+                'acadlix_logout_redirect_url' => "",
+                'acadlix_disable_home_menu' => "no",
+                // Data management
                 'acadlix_delete_data_on_plugin_uninstall' => "no",
                 // Payment option
                 'acadlix_razorpay_active' => "no",

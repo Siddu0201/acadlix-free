@@ -86,6 +86,11 @@ const Setting = () => {
       "no",
     acadlix_default_rows_per_page:
       acadlixOptions?.options?.acadlix_default_rows_per_page ?? 20,
+    // Student Dashboard Options
+    acadlix_logout_redirect_url:
+      acadlixOptions?.options?.acadlix_logout_redirect_url ?? "",
+    acadlix_disable_home_menu:
+      acadlixOptions?.options?.acadlix_disable_home_menu ?? "no",
     // Data management
     acadlix_delete_data_on_plugin_uninstall:
       acadlixOptions?.options?.acadlix_delete_data_on_plugin_uninstall ?? "no",

@@ -60,6 +60,7 @@ class Submenu_Settings
             'quiz_languages' => acadlix()->model()->language()->all(),
             'capabilities' => $capabilities,
             'isActive' => acadlix()->license()->isActive ?? false,
+            'home_url' => home_url(),
         ];
     }
 

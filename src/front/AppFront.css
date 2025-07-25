@@ -91,7 +91,7 @@
   background: #555;
 }
 
-p {
+.acadlix-front p, .acadlix-dashboard p, .acadlix-checkout p, .acadlix-advance-quiz p {
   margin: 0px !important;
 }
 

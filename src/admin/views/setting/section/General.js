@@ -879,6 +879,73 @@ function General(props) {
           </Select>
         </Grid>
       </Grid>
+      {/* Student Dashboard options */}
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h6">{__("Student Dashboard Options", "acadlix")}</Typography>
+        <Divider />
+      </Box>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Logout redirect url", "acadlix")}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
+          <CustomTextField
+            fullWidth
+            size="small"
+            type="text"
+            value={props?.watch("acadlix_logout_redirect_url") !== "" ? props?.watch("acadlix_logout_redirect_url") : acadlixOptions?.home_url}
+            onChange={(e) => {
+              props?.setValue("acadlix_logout_redirect_url", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Disable home in menu", "acadlix")}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            label={__("Activate", "acadlix")}
+            control={<CustomSwitch />}
+            value="yes"
+            checked={props?.watch("acadlix_disable_home_menu") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_disable_home_menu",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  { shouldDirty: true }
+                );
+              }
+            }}
+          />
+        </Grid>
+      </Grid>
       <Box
         sx={{
           marginY: 2,

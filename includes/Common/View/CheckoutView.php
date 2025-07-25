@@ -26,7 +26,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
     get_header();
 }
 ?>
-    <div id="acadlix_checkout" style="width:100%"></div>
+    <div id="acadlix_checkout" class="acadlix-checkout" style="width:100%"></div>
 
 <?php
 

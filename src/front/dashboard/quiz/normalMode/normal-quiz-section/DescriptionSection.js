@@ -167,6 +167,9 @@ const DescriptionSection = (props) => {
       <CustomButton
         onClick={handleQuizStart}
         disabled={checkQuiz?.isPending}
+        sx={{
+          marginBottom: 2
+        }}
       >
         {checkQuiz?.isPending ? __("Loading...", "acadlix") : __("Start Quiz", "acadlix")}
       </CustomButton>
