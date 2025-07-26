@@ -48,13 +48,6 @@ const Payment = (props) => {
                     MozAppearance: "textfield",
                   },
                 }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
               />
             </Grid>
           </Grid>
@@ -120,13 +113,6 @@ const Payment = (props) => {
                     MozAppearance: "textfield",
                   },
                 }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
               />
             </Grid>
           </Grid>
@@ -190,13 +176,6 @@ const Payment = (props) => {
                   },
                   "& input[type=number]": {
                     MozAppearance: "textfield",
-                  },
-                }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
                   },
                 }}
               />

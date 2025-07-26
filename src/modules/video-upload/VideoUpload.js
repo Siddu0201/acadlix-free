@@ -289,13 +289,6 @@ const VideoUpload = ({
               rows={4}
               value={methods?.watch(`video_data.${type}`) ?? ""}
               onChange={(e) => handleVideoDataChange(type, e?.target?.value)}
-              inputProps={{
-                sx: {
-                  border: `0 !important`,
-                  boxShadow: `none !important`,
-                  minHeight: `auto !important`,
-                },
-              }}
             />
           </Grid>
         )

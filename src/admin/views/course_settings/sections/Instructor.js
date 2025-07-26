@@ -38,11 +38,6 @@ const Instructor = (props) => {
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: "spoc_gender",
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
                 }}
                 label={__('Select Instructor', 'acadlix')}
               />

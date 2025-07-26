@@ -149,13 +149,6 @@ const AddFromExisting = (props) => {
               label={__("Search Quiz...", "acadlix")}
               value={search}
               onChange={(e) => { setSearch(e?.target?.value) }}
-              inputProps={{
-                sx: {
-                  border: `0 !important`,
-                  boxShadow: `none !important`,
-                  minHeight: `auto !important`,
-                },
-              }}
             />
           </Box>
           <List

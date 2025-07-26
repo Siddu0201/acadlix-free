@@ -132,16 +132,6 @@ const EditExistingsLesson = (props) => {
       >
         <TitleSection
           {...props}
-          customInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-                borderRadius: "6px !important",
-              },
-            }
-          }}
         />
         <OptionSection
           {...props}
@@ -149,42 +139,6 @@ const EditExistingsLesson = (props) => {
           hourGridSize={{ xs: 4, sm: 4 }}
           minutesGridSize={{ xs: 4, sm: 4 }}
           secondsGridSize={{ xs: 4, sm: 4 }}
-          hoursInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
-          minutesInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
-          secondsInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
-          resourcesInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
         />
       </Grid>
     </Box>

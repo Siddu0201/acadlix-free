@@ -270,13 +270,7 @@ const DescriptionModel = ({
                                             MozAppearance: "textfield",
                                         },
                                     }}
-                                    inputProps={{
-                                        sx: {
-                                            border: `0 !important`,
-                                            boxShadow: `none !important`,
-                                            minHeight: `auto !important`,
-                                        },
-                                    }}
+                                    
                                 />
                             </Grid2>
                             <Grid2 size={{ xs: 12, lg: 3 }}>

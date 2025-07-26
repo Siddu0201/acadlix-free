@@ -68,13 +68,6 @@ const Outcome = (props) => {
                     MozAppearance: "textfield",
                   },
                 }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
               />
               <IconButton
                 color="error"

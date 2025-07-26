@@ -552,7 +552,9 @@ const ViewQuestionSection = (props) => {
                                 <QuestionText
                                     lang={lang}
                                 />
-                                {answerType(lang, lang_index)}
+                                <Box className="acadlix-normal-quiz-question-answer-container">
+                                  {answerType(lang, lang_index)}
+                                </Box>
                             </Box>
                         </React.Fragment>
                     ))}

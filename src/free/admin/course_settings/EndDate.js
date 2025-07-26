@@ -17,16 +17,16 @@ const EndDate = (props) => {
                         minutes: 1,
                     }}
                     sx={{
-                        ".MuiFormControl-root ": {
-                            maxHeight: "42px",
-                        },
+                        // ".MuiFormControl-root ": {
+                        //     maxHeight: "42px",
+                        // },
                         ".MuiInputBase-input": {
-                            padding: "6px 14px !important",
+                            padding: "8px 14px !important",
                             border: `0 !important`,
                             boxShadow: `none !important`,
                         },
                         ".MuiInputBase-input:focus": {
-                            padding: "6px 14px !important",
+                            padding: "8px 14px !important",
                             border: `0 !important`,
                             boxShadow: `none !important`,
                         },

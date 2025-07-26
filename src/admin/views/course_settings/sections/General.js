@@ -108,13 +108,6 @@ const General = (props) => {
                     MozAppearance: "textfield",
                   },
                 }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
-                }}
               />
             </Grid>
           </Grid>

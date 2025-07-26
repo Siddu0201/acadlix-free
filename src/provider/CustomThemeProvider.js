@@ -1,4 +1,4 @@
-import { CssBaseline, StyledEngineProvider, ThemeProvider, createTheme } from "@mui/material";
+import { CssBaseline, ScopedCssBaseline, StyledEngineProvider, ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 
 const CustomThemeProvider = ({ children }) => {
@@ -190,6 +190,9 @@ const CustomThemeProvider = ({ children }) => {
           },
           contained: {
             color: "#fff!important",
+            "&:hover, &:focus": {
+              backgroundColor: colors.dark[themeColor],
+            },
           },
         },
       },
@@ -212,16 +215,39 @@ const CustomThemeProvider = ({ children }) => {
             margin: "0px !important",
           }
         }
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            "&:hover, &:focus": {
+              backgroundColor: "#f7f9fa",
+              color: "rgba(0, 0, 0, 0.87)",
+            },
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          input: {
+            minHeight: "auto !important",
+            border: "0 !important",
+            boxShadow: "none !important",
+          }
+        }
       }
     },
   });
   return (
-    <StyledEngineProvider injectFirst>
+    // <StyledEngineProvider injectFirst>
+    <ScopedCssBaseline sx={{
+      background: "none",
+    }}>
       <ThemeProvider theme={themeOptions}>
         <CssBaseline />
         {children}
       </ThemeProvider>
-    </StyledEngineProvider>
+    </ScopedCssBaseline>
+    // </StyledEngineProvider>
   );
 };
 

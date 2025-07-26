@@ -91,7 +91,11 @@
   background: #555;
 }
 
-.acadlix-front p, .acadlix-dashboard p, .acadlix-checkout p, .acadlix-advance-quiz p {
+/* .acadlix-front p, .acadlix-dashboard p, .acadlix-checkout p, .acadlix-advance-quiz p {
+  margin: 0px !important;
+} */
+
+.acadlix-normal-quiz-question-answer-container p {
   margin: 0px !important;
 }
 

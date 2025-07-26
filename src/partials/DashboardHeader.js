@@ -64,7 +64,7 @@ const DashboardHeader = () => {
               },
               display: "flex",
               flexDirection: "column",
-              gap: 5,
+              justifyContent: "space-between",
             }}
           >
             <Box>

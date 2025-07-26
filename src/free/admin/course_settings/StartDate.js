@@ -17,24 +17,11 @@ const StartDate = (props) => {
                         minutes: 1,
                     }}
                     sx={{
-                        ".MuiFormControl-root ": {
-                            maxHeight: "42px",
-                        },
                         ".MuiInputBase-input": {
-                            padding: "6px 14px !important",
-                            border: `0 !important`,
-                            boxShadow: `none !important`,
+                            padding: "8px 14px !important",
                         },
                         ".MuiInputBase-input:focus": {
-                            padding: "6px 14px !important",
-                            border: `0 !important`,
-                            boxShadow: `none !important`,
-                        },
-                        ".MuiFormLabel-root": {
-                            top: "-7px !important",
-                        },
-                        ".MuiInputLabel-shrink": {
-                            top: "0px !important",
+                            padding: "8px 14px !important",
                         },
                     }}
                     disabled

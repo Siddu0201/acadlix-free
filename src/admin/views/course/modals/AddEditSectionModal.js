@@ -57,14 +57,6 @@ const AddEditSectionModal = (props) => {
               }}
               error={Boolean(props?.formState?.errors?.post_title)}
               helperText={props?.formState?.errors?.post_title?.message}
-              inputProps={{
-                sx: {
-                  border: `0 !important`,
-                  boxShadow: `none !important`,
-                  minHeight: `auto !important`,
-                  borderRadius: "6px !important",
-                },
-              }}
             />
           </Grid>
           <Grid size={{ xs: 12, lg: 12 }}>

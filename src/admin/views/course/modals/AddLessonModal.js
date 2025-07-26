@@ -137,16 +137,6 @@ const AddNewLesson = (props) => {
       >
         <TitleSection
           {...props}
-          customInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-                borderRadius: "6px !important",
-              },
-            }
-          }}
         />
         <OptionSection
           {...props}
@@ -154,42 +144,6 @@ const AddNewLesson = (props) => {
           hourGridSize={{ xs: 4, sm: 4 }}
           minutesGridSize={{ xs: 4, sm: 4 }}
           secondsGridSize={{ xs: 4, sm: 4 }}
-          hoursInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
-          minutesInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
-          secondsInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
-          resourcesInputProps={{
-            inputProps: {
-              sx: {
-                border: `0 !important`,
-                boxShadow: `none !important`,
-                minHeight: `auto !important`,
-              },
-            }
-          }}
         />
 
       </Grid>
@@ -255,13 +209,6 @@ const AddFromExisting = (props) => {
                 value={search}
                 onChange={(e) => {
                   setSearch(e?.target?.value);
-                }}
-                inputProps={{
-                  sx: {
-                    border: `0 !important`,
-                    boxShadow: `none !important`,
-                    minHeight: `auto !important`,
-                  },
                 }}
               />
             </Box>
