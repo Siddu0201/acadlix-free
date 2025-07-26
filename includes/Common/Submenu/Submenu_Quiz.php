@@ -96,6 +96,7 @@ class Submenu_Quiz
         wp_enqueue_media();
         wp_enqueue_style("acadlix-admin-quiz-css");
 
+        wp_enqueue_style("acadlix-katex-css");
         wp_enqueue_script('acadlix-katex-js');
         wp_enqueue_script('acadlix-katex-auto-render-js');
 

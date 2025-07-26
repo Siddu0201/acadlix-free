@@ -221,6 +221,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-katex-css' => [
+                'src' => ACADLIX_ASSETS_CSS_URL . 'katex/Katex.min.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
         ];
     }
 
