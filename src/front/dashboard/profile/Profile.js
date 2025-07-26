@@ -24,6 +24,7 @@ import { Country } from "country-state-city";
 import toast from "react-hot-toast";
 import { GrUserManager, SlLocationPin } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import CustomTextField from "@acadlix/components/CustomTextField";
 
 const Profile = () => {
   const methods = useForm({
@@ -261,7 +262,7 @@ const Profile = () => {
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
+                    <CustomTextField
                       {...methods?.register("first_name", {
                         required: "First name is required.",
                       })}
@@ -286,7 +287,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Last name", "acadlix")}
                       variant="outlined"
@@ -300,7 +301,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Email Address", "acadlix")}
                       variant="outlined"
@@ -374,7 +375,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 8, sm: 9 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Phone / Mobile", "acadlix")}
                       variant="outlined"
@@ -388,7 +389,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Address", "acadlix")}
                       variant="outlined"
@@ -402,7 +403,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Website", "acadlix")}
                       variant="outlined"
@@ -472,7 +473,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 4 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Town/City", "acadlix")}
                       variant="outlined"
@@ -486,7 +487,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 4 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       label={__("Postal/Zip Code", "acadlix")}
                       variant="outlined"
@@ -500,7 +501,7 @@ const Profile = () => {
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
-                    <TextField
+                    <CustomTextField
                       fullWidth
                       multiline
                       rows={4}

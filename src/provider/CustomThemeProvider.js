@@ -35,6 +35,15 @@ const CustomThemeProvider = ({ children }) => {
       info: "#03B1D7",
       section: "#13455b",
     },
+    contrastText:{
+      primary: "#fff",
+      grey: "#fff",
+      success: "#fff",
+      error: "#fff",
+      warning: "#fff",
+      info: "#fff",
+      section: "#3a3b45",
+    }
   };
 
   const themeOptions = createTheme({
@@ -71,43 +80,43 @@ const CustomThemeProvider = ({ children }) => {
         main: colors.main[themeColor],
         light: colors.light[themeColor],
         dark: colors.dark[themeColor],
-        contrastText: "#fff",
+        contrastText: colors.contrastText[themeColor],
       },
       grey: {
         main: colors.main["grey"],
         light: colors.light["grey"],
         dark: colors.dark["grey"],
-        contrastText: "#fff",
+        contrastText: colors.contrastText[themeColor],
       },
       success: {
         main: colors.main["success"],
         light: colors.light["success"],
         dark: colors.dark["success"],
-        contrastText: "#fff",
+        contrastText: colors.contrastText[themeColor],
       },
       error: {
         main: colors.main["error"],
         light: colors.light["error"],
         dark: colors.dark["error"],
-        contrastText: "#fff",
+        contrastText: colors.contrastText[themeColor],
       },
       warning: {
         main: colors.main["warning"],
         light: colors.light["warning"],
         dark: colors.dark["warning"],
-        contrastText: "#fff",
+        contrastText: colors.contrastText[themeColor],
       },
       info: {
         main: colors.main["info"],
         light: colors.light["info"],
         dark: colors.dark["info"],
-        contrastText: "#fff",
+        contrastText: colors.contrastText[themeColor],
       },
       section: {
         main: colors.main["section"],
         light: colors.light["section"],
         dark: colors.dark["section"],
-        contrastText: "#3a3b45",
+        contrastText: colors.contrastText[themeColor],
       },
       ...(mode === "light"
         ? {
@@ -189,7 +198,7 @@ const CustomThemeProvider = ({ children }) => {
             marginBottom: "0px !important",
           },
           contained: {
-            color: "#fff!important",
+            color: `${colors.contrastText[themeColor]}!important`,
             "&:hover, &:focus": {
               backgroundColor: colors.dark[themeColor],
             },
@@ -229,7 +238,7 @@ const CustomThemeProvider = ({ children }) => {
       MuiInputBase: {
         styleOverrides: {
           input: {
-            minHeight: "auto !important",
+            minHeight: "23px !important",
             border: "0 !important",
             boxShadow: "none !important",
           }

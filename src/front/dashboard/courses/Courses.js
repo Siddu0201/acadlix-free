@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { GetUserOrders } from "@acadlix/requests/front/FrontDashboardRequest";
 import { FaSearch, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import CustomTextField from "@acadlix/components/CustomTextField";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -120,7 +121,7 @@ const Courses = () => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  <TextField
+                  <CustomTextField
                     sx={{
                       width: {
                         xs: "100%",

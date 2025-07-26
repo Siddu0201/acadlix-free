@@ -1,11 +1,13 @@
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import dashboardMenu from "@acadlix/menu/dashboardMenu";
 import { __ } from "@wordpress/i18n";
 
 const DashboardNavbar = () => {
   const path = useLocation();
+
+  const navigate = useNavigate();
 
   return (
     <AppBar
@@ -43,7 +45,6 @@ const DashboardNavbar = () => {
         >
           <Box
             sx={{
-              flexGrow: 1,
               display: "flex",
               gap: 2,
               justifyContent: "flex-start",
@@ -55,19 +56,23 @@ const DashboardNavbar = () => {
               acadlixOptions?.settings?.acadlix_disable_home_menu === "yes" ? null : (
                 <Button
                   sx={{
-                    my: 0,
-                    color: "black",
-                    display: "block",
-                    padding: {
-                      sm: "6px 8px",
-                      xs: 0,
-                    },
-                    textDecoration: "none",
-                    whiteSpace: "nowrap",
-                    minWidth: "auto",
+                    // my: 0,
+                    // color: "black",
+                    // display: "block",
+                    // padding: {
+                    //   sm: "6px 8px",
+                    //   xs: 0,
+                    // },
+                    // textDecoration: "none",
+                    // whiteSpace: "nowrap",
+                    // minWidth: "auto",
                   }}
-                  component="a"
-                  href={acadlixOptions?.home_url}
+                  variant="text"
+                  color="primary"
+                  size="small"
+                  onClick={() => {
+                    window.location.href = acadlixOptions?.home_url;
+                  }}
                 >
                   {__("Home", "acadlix")}
                 </Button>
@@ -75,19 +80,23 @@ const DashboardNavbar = () => {
             {dashboardMenu.map((page) => (
               <Button
                 key={page?.id}
-                component={NavLink}
-                to={page?.path}
+                variant={path?.pathname === page?.path ? "contained" : "text"}
+                color="primary"
+                size="small"
+                onClick={() => {
+                  navigate(page?.path);
+                }}
                 sx={{
-                  my: 0,
-                  color: path?.pathname === page?.path ? "blue" : "black",
-                  display: "block",
-                  padding: {
-                    sm: "6px 8px",
-                    xs: 0,
-                  },
-                  textDecoration: "none",
-                  whiteSpace: "nowrap",
-                  minWidth: "auto",
+                  // my: 0,
+                  // color: path?.pathname === page?.path ? "blue" : "black",
+                  // display: "block",
+                  // padding: {
+                  //   sm: "6px 8px",
+                  //   xs: 0,
+                  // },
+                  // textDecoration: "none",
+                  // whiteSpace: "nowrap",
+                  // minWidth: "auto",
                 }}
               >
                 {page?.name}
@@ -95,19 +104,23 @@ const DashboardNavbar = () => {
             ))}
             <Button
               sx={{
-                my: 0,
-                color: "black",
-                display: "block",
-                padding: {
-                  sm: "6px 8px",
-                  xs: 0,
-                },
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                minWidth: "auto",
+                // my: 0,
+                // color: "black",
+                // display: "block",
+                // padding: {
+                //   sm: "6px 8px",
+                //   xs: 0,
+                // },
+                // textDecoration: "none",
+                // whiteSpace: "nowrap",
+                // minWidth: "auto",
               }}
-              component="a"
-              href={acadlixOptions?.logout_url}
+              variant="text"
+              color="primary"
+              size="small"
+              onClick={() => {
+                navigate(acadlixOptions?.logout_url);
+              }}
             >
               {__("Logout", "acadlix")}
             </Button>

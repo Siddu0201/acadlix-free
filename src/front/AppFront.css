@@ -92,7 +92,7 @@
 }
 
 /* .acadlix-front p, .acadlix-dashboard p, .acadlix-checkout p, .acadlix-advance-quiz p {
-  margin: 0px !important;
+  font-size: 1rem !important;
 } */
 
 .acadlix-normal-quiz-question-answer-container p {

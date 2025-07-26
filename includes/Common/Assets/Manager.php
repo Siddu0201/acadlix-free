@@ -359,6 +359,18 @@ class Manager
             //     'deps' => ['jquery'],
             //     'in_footer' => true,
             // ],
+            'acadlix-katex-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'katex/katex.min.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+                'in_footer' => true,
+            ],
+            'acadlix-katex-auto-render-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'katex/auto-render.min.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['acadlix-katex-js'],
+                'in_footer' => true,
+            ],
         ];
     }
 
@@ -457,14 +469,8 @@ class Manager
         wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
         wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
 
-        wp_enqueue_script('acadlix-katex-js', 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js', false, null, true);
-        wp_enqueue_script(
-            'katex-auto-render',
-            'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js',
-            ['acadlix-katex-js'], // depends on main katex
-            null,
-            true // load in footer
-        );
+        wp_enqueue_script('acadlix-katex-js');
+        wp_enqueue_script('acadlix-katex-auto-render-js');
 
         wp_enqueue_script('acadlix-front-action-button-course-js');
         wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());

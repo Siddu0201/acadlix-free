@@ -74,28 +74,7 @@ if (!class_exists('OrderItem')) {
 
             $completed_count = $statistics->where('is_completed', true)->count();
 
-            return round(($completed_count / $total_count) * 100, 2);
-            // $course = $this->course;
-            // $total_count = 0;
-            // $completed_count = 0;
-            // $statistics = $this->course_statistics;
-            // if ($course) {
-            //     $sections = $course->sections;
-            //     foreach($sections as $section){
-            //         if($section->contents){
-            //             $total_count += $section->contents->count();
-            //         }
-            //     }
-            //     foreach($statistics as $statistic){
-            //         if($statistic->is_completed){
-            //             $completed_count += 1;
-            //         }
-            //     }
-            // }
-            // if($total_count == 0 || $completed_count == 0){
-            //     return 0;
-            // }
-            // return round($completed_count / $total_count * 100, 2);
+            return round(($completed_count / $total_count) * 100, 0);
         }
 
         public static function softDeleteByCourseId(int $courseId)

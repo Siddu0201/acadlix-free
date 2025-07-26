@@ -48,6 +48,9 @@ const ContentOptions = (props) => {
                             sx={{
                               display: c?.is_active ? "" : "none",
                               marginRight: 1,
+                              "&:hover,&:focus": {
+                                backgroundColor: (theme) => theme.palette.error.dark,
+                              },
                             }}
                           >
                             {__("Mark as incomplete", "acadlix")}

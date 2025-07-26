@@ -2,12 +2,14 @@ import { Box, Button, IconButton, Tooltip, Typography, useMediaQuery, useTheme }
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "@acadlix/helpers/icons";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { __ } from "@wordpress/i18n";
 
 const ContentHeader = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -146,9 +148,11 @@ const ContentHeader = (props) => {
         </Box>
         <Box>
           <Button
-            component={Link}
-            to={"/courses"}
             variant="outlined"
+            color="primary"
+            onClick={() => {
+              navigate("/courses");
+            }}
             sx={{
               color: "#fff",
               borderColor: "#fff",
