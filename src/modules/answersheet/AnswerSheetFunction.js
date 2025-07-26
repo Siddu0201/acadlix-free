@@ -1,3 +1,5 @@
+import { __ } from "@wordpress/i18n";
+
 export const AnswerSheetFunction = (methods) => {
     const isQuestionEvaluated = (subjectId = 0, questionId = 0) => {
         const subject = methods?.watch("subject_times")?.find((d) => d?.subject_id === subjectId);
