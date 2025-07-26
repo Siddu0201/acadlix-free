@@ -147,6 +147,7 @@ const DescriptionSection = (props) => {
             fontWeight: "550", // Adjust the font weight to match your original styling
             marginBottom: "1.5rem",
           }}
+          className="acadlix-quiz-title"
         >
           {props?.watch("title")}
         </Typography>
@@ -158,6 +159,7 @@ const DescriptionSection = (props) => {
           variant="body1"
           sx={{ marginY: "9px !important" }}
           component="div"
+          className="acadlix-quiz-description"
         >
           <CustomLatex>
             {props?.watch("description")}
@@ -167,9 +169,7 @@ const DescriptionSection = (props) => {
       <CustomButton
         onClick={handleQuizStart}
         disabled={checkQuiz?.isPending}
-        sx={{
-          marginBottom: 2
-        }}
+        className="acadlix-start-quiz-button"
       >
         {checkQuiz?.isPending ? __("Loading...", "acadlix") : __("Start Quiz", "acadlix")}
       </CustomButton>
@@ -187,6 +187,7 @@ const DescriptionSection = (props) => {
           sx={{
             marginY: 2,
           }}
+          className="acadlix-quiz-error"  
         >
           <Alert severity="error" sx={{
             alignItems: "center",

@@ -15,6 +15,8 @@ import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import QuestionText from "../normal-quiz-components/QuestionText";
+import ParagraphText from "../normal-quiz-components/ParagraphText";
 
 const QuestionSection = (props) => {
   const isDisabled = () => {
@@ -165,45 +167,37 @@ const QuestionSection = (props) => {
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
+      className="acadlix-normal-quiz-question-list-item"
     >
-      <Box>
-        {props?.watch("multi_language") && <LanguageSection {...props} />}
-        <QuestionSubjectAndPointSection {...props} />
+      {props?.watch("multi_language") && <LanguageSection {...props} />}
+      <QuestionSubjectAndPointSection {...props} />
 
-        {props?.question?.language?.length > 0 &&
-          props?.question?.language?.map((lang, lang_index) => (
-            <React.Fragment key={lang_index}>
-              <Box sx={{
-                display: lang?.selected ? "block" : "none",
-              }}>
-                {
-                  props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null &&
-                  <Box>
-                    <Typography component="div">
-                      <CustomLatex>
-                        {lang?.paragraph}
-                      </CustomLatex>
-                    </Typography>
-                    <Divider />
-                  </Box>
-                }
-                <Typography component="div">
-                  <CustomLatex>
-                      {lang?.question}
-                  </CustomLatex>
-                </Typography>
-                {answerType(lang, lang_index)}
-              </Box>
-            </React.Fragment>
-          ))
-        }
-        <QuestionStatusSection {...props} />
-        <OptionButtonSection {...props} />
-        {props?.question?.language?.length > 0 &&
-          props?.question?.language?.map((lang, index) => (
-            <HintAndMessageSection {...props} key={index} lang={lang} />
-          ))}
-      </Box>
+      {props?.question?.language?.length > 0 &&
+        props?.question?.language?.map((lang, lang_index) => (
+          <React.Fragment key={lang_index}>
+            <Box sx={{
+              display: lang?.selected ? "block" : "none",
+            }}>
+              {
+                props?.question?.paragraph_enabled && props?.question?.paragraph_id !== null &&
+                <ParagraphText
+                  lang={lang}
+                />
+              }
+              <QuestionText
+                lang={lang}
+              />
+              {answerType(lang, lang_index)}
+            </Box>
+          </React.Fragment>
+        ))
+      }
+      <QuestionStatusSection {...props} />
+      <OptionButtonSection {...props} />
+      {props?.question?.language?.length > 0 &&
+        props?.question?.language?.map((lang, index) => (
+          <HintAndMessageSection {...props} key={index} lang={lang} />
+        ))}
     </Box>
   );
 };

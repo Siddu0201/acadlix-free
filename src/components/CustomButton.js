@@ -15,6 +15,7 @@ const CustomButton = (props) => {
         },
         ...props?.sx,
       }}
+      className={`acadlix-custom-button ${props?.className}`}
       size="small"
     >
       {props?.children}

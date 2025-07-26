@@ -16,6 +16,10 @@ import LanguageSection from "./LanguageSection";
 import { __ } from "@wordpress/i18n";
 
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import IncorrectMsgSection from "../normal-quiz-components/IncorrectMsgSection";
+import CorrectMsgSection from "../normal-quiz-components/CorrectMsgSection";
+import ParagraphText from "../normal-quiz-components/ParagraphText";
+import QuestionText from "../normal-quiz-components/QuestionText";
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -99,6 +103,7 @@ const ViewAnswerSection = (props) => {
                 },
               }}
               onClick={handleClick.bind(this, index)}
+              className="acadlix-normal-quiz-question-overview-answersheet-button"
             >
               {++index}
             </Button>
@@ -123,7 +128,11 @@ const ViewAnswerSection = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>{__("Correct", "acadlix")}</Typography>
+          <Typography
+            className="acadlix-normal-quiz-question-overview-label-text"
+          >
+            {__("Correct", "acadlix")}
+          </Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -134,7 +143,11 @@ const ViewAnswerSection = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>{__("Incorrect", "acadlix")}</Typography>
+          <Typography
+            className="acadlix-normal-quiz-question-overview-label-text"
+          >
+            {__("Incorrect", "acadlix")}
+          </Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -145,7 +158,11 @@ const ViewAnswerSection = (props) => {
               display: "inline-block",
             }}
           ></Box>
-          <Typography>{__("Skipped", "acadlix")}</Typography>
+          <Typography
+            className="acadlix-normal-quiz-question-overview-label-text"
+          >
+            {__("Skipped", "acadlix")}
+          </Typography>
         </Box>
       </Box>
 
@@ -325,6 +342,7 @@ const ViewQuestionSection = (props) => {
       }}
       id={`acadlix_question_${props?.watch("id")}_${props?.index}`}
       ref={(elem) => (props.questionRef.current[props.index] = elem)}
+      className="acadlix-normal-quiz-question-list-item"
     >
       <Box>
         {props?.watch("multi_language") && <LanguageSection {...props} />}
@@ -340,20 +358,9 @@ const ViewQuestionSection = (props) => {
               >
                 {props?.question?.paragraph_enabled &&
                   props?.question?.paragraph_id !== null && (
-                    <Box>
-                      <Typography component="div">
-                        <CustomLatex>
-                          {lang?.paragraph}
-                        </CustomLatex>
-                      </Typography>
-                      <Divider />
-                    </Box>
+                    <ParagraphText lang={lang} />
                   )}
-                <Typography component="div">
-                  <CustomLatex>
-                    {lang?.question}
-                  </CustomLatex>
-                </Typography>
+                <QuestionText lang={lang} />
                 {answerType(lang, lang_index)}
               </Box>
             </React.Fragment>
@@ -397,99 +404,21 @@ const ViewQuestionSection = (props) => {
             }}>
               {props?.question?.result?.solved_count ? (
                 props?.question?.result?.correct_count ? (
-                  <Box
-                    sx={{
-                      border: (theme) =>
-                        `1px solid ${theme?.palette?.grey[300]}`,
-                      padding: 2,
-                      marginY: 2,
-                      borderRadius: 1,
-                      backgroundColor: "transparent",
-                      boxShadow: theme?.shadows[1],
-                      display: lang?.correct_msg?.length > 0 ? "" : "none",
-                    }}
-                  >
-                    <Box>
-                      <Typography>
-                        <b>{__("Explanation", "acadlix")}</b>
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography component="div">
-                        <CustomLatex>
-                          {lang?.correct_msg}
-                        </CustomLatex>
-                      </Typography>
-                    </Box>
-                  </Box>
+                  <CorrectMsgSection
+                    lang={lang}
+                    question={props?.question}
+                  />
                 ) : (
-                  <Box
-                    sx={{
-                      border: (theme) =>
-                        `1px solid ${theme?.palette?.grey[300]}`,
-                      padding: 2,
-                      marginY: 2,
-                      borderRadius: 1,
-                      backgroundColor: "transparent",
-                      boxShadow: theme?.shadows[1],
-                      display: props?.question?.different_incorrect_msg
-                        ? lang?.incorrect_msg?.length > 0
-                          ? ""
-                          : "none"
-                        : lang?.correct_msg?.length > 0
-                          ? ""
-                          : "none",
-                    }}
-                  >
-                    <Box>
-                      <Typography>
-                        <b>{__("Explanation", "acadlix")}</b>
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography component="div">
-                        <CustomLatex>
-                          {props?.question?.different_incorrect_msg
-                            ? lang?.incorrect_msg
-                            : lang?.correct_msg}
-                        </CustomLatex>
-                      </Typography>
-                    </Box>
-                  </Box>
+                  <IncorrectMsgSection
+                    lang={lang}
+                    question={props?.question}
+                  />
                 )
               ) : (
-                <Box
-                  sx={{
-                    border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,
-                    padding: 2,
-                    marginY: 2,
-                    borderRadius: 1,
-                    backgroundColor: "transparent",
-                    boxShadow: theme?.shadows[1],
-                    display: props?.question?.different_incorrect_msg
-                      ? lang?.incorrect_msg?.length > 0
-                        ? ""
-                        : "none"
-                      : lang?.correct_msg?.length > 0
-                        ? ""
-                        : "none",
-                  }}
-                >
-                  <Box>
-                    <Typography>
-                      <b>{__("Explanation", "acadlix")}</b>
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography component="div">
-                      <CustomLatex>
-                        {props?.question?.different_incorrect_msg
-                          ? lang?.incorrect_msg
-                          : lang?.correct_msg}
-                      </CustomLatex>
-                    </Typography>
-                  </Box>
-                </Box>
+                <IncorrectMsgSection
+                  lang={lang}
+                  question={props?.question}
+                />
               )}
             </Box>
           ))}

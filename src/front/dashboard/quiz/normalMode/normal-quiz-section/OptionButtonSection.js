@@ -192,6 +192,7 @@ const OptionButtonSection = (props) => {
         justifyContent: "space-between",
         marginY: 1,
       }}
+      className="acadlix-normal-quiz-option-button-section"
     >
       <Box
         sx={{
@@ -206,6 +207,7 @@ const OptionButtonSection = (props) => {
               sx={{
                 display: props?.first ? "none" : "",
               }}
+              className="acadlix-normal-quiz-option-button-back"
             >
               {__("Back", "acadlix")}
             </CustomButton>
@@ -217,6 +219,7 @@ const OptionButtonSection = (props) => {
               sx={{
                 display: props?.question?.check ? "none" : "",
               }}
+              className="acadlix-normal-quiz-option-button-skip"
             >
               {__("Skip", "acadlix")}
             </CustomButton>
@@ -227,6 +230,7 @@ const OptionButtonSection = (props) => {
             sx={{
               display: props?.question?.check ? "none" : "",
             }}
+            className="acadlix-normal-quiz-option-button-clear-response"
           >
             {__("Clear Response", "acadlix")}
           </CustomButton>
@@ -242,14 +246,24 @@ const OptionButtonSection = (props) => {
           props
             ?.watch(`questions.${props?.index}.language`)
             .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (
-            <CustomButton onClick={handleHintClick}>{__("Hint", "acadlix")}</CustomButton>
+            <CustomButton 
+            onClick={handleHintClick}
+            className="acadlix-normal-quiz-option-button-hint"
+            >
+              {__("Hint", "acadlix")}
+            </CustomButton>
           )}
 
         {/* check for normal mode */}
         {["normal", "question_below_each_other"]?.includes(props?.watch("mode")) &&
           props?.watch("enable_check_button") &&
           !props?.question?.check && (
-            <CustomButton onClick={handleCheckClick}>{__("Check", "acadlix")}</CustomButton>
+            <CustomButton 
+            onClick={handleCheckClick}
+            className="acadlix-normal-quiz-option-button-check"
+            >
+              {__("Check", "acadlix")}
+            </CustomButton>
           )}
 
         {/* check for check and continue mode  */}
@@ -264,6 +278,7 @@ const OptionButtonSection = (props) => {
                     ? "none"
                     : "",
               }}
+              className="acadlix-normal-quiz-option-button-check"
             >
               {__("Check", "acadlix")}
             </CustomButton>
@@ -279,6 +294,7 @@ const OptionButtonSection = (props) => {
                   ? "none"
                   : "",
             }}
+            className="acadlix-normal-quiz-option-button-next"
           >
             {props?.last ? __("Quiz Summary", "acadlix") : __("Next", "acadlix")}
           </CustomButton>
@@ -288,6 +304,7 @@ const OptionButtonSection = (props) => {
           props?.last && (
             <CustomButton
               onClick={handleNextClick}
+              className="acadlix-normal-quiz-option-button-next"
             >
               {__("Quiz Summary", "acadlix")}
             </CustomButton>

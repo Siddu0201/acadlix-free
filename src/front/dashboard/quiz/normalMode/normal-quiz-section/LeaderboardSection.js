@@ -156,8 +156,12 @@ const LeaderboardSection = (props) => {
       }}
     >
       <Box sx={styles.header}>
-        <Typography variant="h5" sx={{ fontWeight: "600" }}>
-          Leaderboard
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: "600" }}
+          className="acadlix-normal-quiz-leaderboard-header-text"
+        >
+          {__("Leaderboard", "acadlix")}
         </Typography>
       </Box>
 
@@ -189,6 +193,7 @@ const LeaderboardSection = (props) => {
             justifyContent: "center",
             marginY: 2
           }}
+          className="acadlix-normal-quiz-leaderboard-load-more-button"
         >
           <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
             {__('Load More', 'acadlix')}

@@ -58,7 +58,9 @@ const FinishSection = (props) => {
     }}>
       {
         props?.watch("force_user_to_answer_each_question") && solved_count !== total &&
-        <Alert severity='error' sx={{ marginY: 2}}>You can finish this quiz when you answer all questions</Alert>
+        <Alert severity='error' sx={{ marginY: 2}}>
+          {__("You can finish this quiz when you answer all questions", "acadlix")}
+        </Alert>
       }
       <Box sx={{
         display: 'flex',
@@ -66,11 +68,17 @@ const FinishSection = (props) => {
       }}>
         <CustomButton
           onClick={handleGoToFirstQuestion}
-        >{__("Go to First Question", "acadlix")}</CustomButton>
+          className="acadlix-normal-quiz-button-go-to-first-question"
+        >
+          {__("Go to First Question", "acadlix")}
+        </CustomButton>
         <CustomButton
           disabled={props?.watch("force_user_to_answer_each_question") && solved_count !== total}
           onClick={handleFinishQuiz}
-        >{__("Finish Quiz", "acadlix")}</CustomButton>
+          className="acadlix-normal-quiz-button-finish-quiz"
+        >
+          {__("Finish Quiz", "acadlix")}
+        </CustomButton>
       </Box>
     </Box>
   )

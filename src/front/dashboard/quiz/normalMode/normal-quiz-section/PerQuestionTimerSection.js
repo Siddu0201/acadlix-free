@@ -90,12 +90,14 @@ const PerQuestionTimerSection = (props) => {
                 style={{
                   margin: 1,
                 }}
+                className="acadlix-normal-quiz-per-question-timer-label"
               >
                 {__("Time Limit", "acadlix")}: {secondsToHms(Math.ceil(prop?.total / 1000))}
               </Typography>
               <LinearProgress
                 variant="determinate"
                 value={(prop?.total / props?.question?.time) * 100}
+                className="acadlix-normal-quiz-per-question-timer-linear-progress"
                 sx={{
                   height: "8px",
                   backgroundColor: "transparent",

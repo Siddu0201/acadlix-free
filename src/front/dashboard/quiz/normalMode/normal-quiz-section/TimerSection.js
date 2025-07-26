@@ -52,10 +52,12 @@ const TimerSection = (props) => {
               sx={{
                 margin: 1,
               }}
+              className="acadlix-normal-quiz-timer-label"
             >
               {__("Time Limit", "acadlix")}: {secondsToHms(Math.ceil(prop?.total / 1000))}
             </Typography>
             <LinearProgress
+              className="acadlix-normal-quiz-timer-linear-progress"
               variant="determinate"
               value={(prop?.total / props?.watch('quiz_time')) * 100}
               sx={{

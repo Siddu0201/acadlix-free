@@ -76,6 +76,7 @@ const NormalQuiz = (props) => {
         },
         minWidth: "80%",
       }}
+      className="acadlix-normal-quiz-container"
     >
       {props?.watch("view_result") && (
         <>

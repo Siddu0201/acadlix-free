@@ -12,15 +12,28 @@ const QuestionStatusSection = (props) => {
             ? ""
             : "none",
       }}
+      className="acadlix-normal-quiz-question-status-section"
     >
       {props?.watch(`questions.${props?.index}.result.solved_count`) ? (
         props?.watch(`questions.${props?.index}.result.correct_count`) ? (
-          <Chip label={__('Correct', 'acadlix')} color="success" />
+          <Chip
+            label={__('Correct', 'acadlix')}
+            color="success"
+            className="acadlix-normal-quiz-question-status-correct"
+          />
         ) : (
-          <Chip label={__('Incorrect', 'acadlix')} color="error" />
+          <Chip
+            label={__('Incorrect', 'acadlix')}
+            color="error"
+            className="acadlix-normal-quiz-question-status-incorrect"
+          />
         )
       ) : (
-        <Chip label={__('Skipped', 'acadlix')} color="grey" />
+        <Chip
+          label={__('Skipped', 'acadlix')}
+          color="grey"
+          className="acadlix-normal-quiz-question-status-skipped"
+        />
       )}
     </Box>
   );

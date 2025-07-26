@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { __ } from "@wordpress/i18n";
 import { shuffleArrayBasedOnOrder } from "@acadlix/helpers/util";
 import TypeSingleChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeSingleChoice";
@@ -16,12 +17,23 @@ import QuestionStatusSection from "@acadlix/front/dashboard/quiz/normalMode/norm
 import PropTypes from "prop-types";
 import TypeFreeChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeFreeChoice";
 
-import CustomLatex from "@acadlix/modules/latex/CustomLatex";
+import ParagraphText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/ParagraphText";
+import QuestionText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/QuestionText";
+import CorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/CorrectMsgSection";
+import IncorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/IncorrectMsgSection";
+import { AnswerSheetFunction } from "./AnswerSheetFunction";
+import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
+import AverageScore from "@acadlix/front/dashboard/quiz/normalMode/result-components/AverageScore";
+import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
+import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
+import Accuracy from "@acadlix/front/dashboard/quiz/normalMode/result-components/Accuracy";
+import ResultStatus from "@acadlix/front/dashboard/quiz/normalMode/result-components/ResultStatus";
+import ResultSpeed from "@acadlix/front/dashboard/quiz/normalMode/result-components/ResultSpeed";
 
 const QuestionSubjectAndPointSection = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
-    : import("@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection")           // Provide fallback if in Free build
+    process.env.REACT_APP_IS_PREMIUM === 'true'
+        ? import("@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
+        : import("@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection")           // Provide fallback if in Free build
 );
 
 const AnswerSheet = ({
@@ -33,13 +45,33 @@ const AnswerSheet = ({
     const theme = useTheme();
     const methods = useForm({
         defaultValues: {
-            show_marks: true,
-            show_per_question_time: true,
-            display_subject: true,
             view_answer: true,
             multi_language: Boolean(Number(quiz?.multi_language)),
             mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
             advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
+            // Question settings
+            show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
+            display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
+            hide_question_numbering: Boolean(
+                Number(quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
+            ),
+            // Result settings
+            save_statistic: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.save_statistic)),
+            hide_result: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_result)),
+            hide_negative_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
+            hide_quiz_time: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
+            show_speed: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_speed)),
+            show_percentile: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_percentile)),
+            show_accuracy: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
+            show_average_score: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_average_score)),
+            show_status_based_on_min_percent: Boolean(
+                Number(quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
+            ),
+            minimum_percent_to_pass: quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
+            hide_answer_sheet: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+            show_per_question_time: Boolean(
+                Number(quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
+            ),
             enable_selectable_questions_rule: Boolean(
                 Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
             ),
@@ -51,6 +83,17 @@ const AnswerSheet = ({
                             optional: Boolean(Number(s?.optional)),
                         };
                     }) : [],
+            subjects: statistic?.reduce((acc, stat) => {
+                if (!acc?.some((d) => d?.subject_id === stat?.question?.subject_id)) {
+                    acc.push({
+                        subject_id: stat?.question?.subject_id,
+                        subject_name:
+                            stat?.question?.subject?.subject_name ?? "Uncategorized",
+                        selectable_rule_number_of_questions: quiz?.subject_times?.find(s => s?.subject_id === stat?.question?.subject_id)?.selectable_rule_number_of_questions ?? 0,
+                    });
+                }
+                return acc;
+            }, []) ?? [],
             questions: statistic?.map((stat) => {
                 return {
                     selected: true,
@@ -143,6 +186,10 @@ const AnswerSheet = ({
         },
     });
 
+    if(process.env.REACT_APP_MODE === 'development') {
+        console.log( methods?.watch());
+    }
+
     let questionRef = React.useRef([]);
 
     const handleClick = (id) => {
@@ -152,32 +199,63 @@ const AnswerSheet = ({
         }
     };
 
-    const isQuestionEvaluated = (subjectId = 0, questionId = 0) => {
-        const subject = methods?.watch("subject_times")?.find((d) => d?.subject_id === subjectId);
-        if (
-          methods?.watch("mode") === "advance_mode" &&
-          methods?.watch("enable_selectable_questions_rule") &&
-          subject &&
-          subject?.selectable_rule_number_of_questions > 0
-        ) {
-          const subject_questions = methods?.watch("questions")?.filter((d) => d?.subject_id === subjectId);
-    
-          let evaluate_number_of_question = subject_questions?.length;
-          if (evaluate_number_of_question > subject?.selectable_rule_number_of_questions) {
-            evaluate_number_of_question = subject?.selectable_rule_number_of_questions;
-          }
-          const attempted_questions = subject_questions
-            ?.filter((d) => d?.result?.attempted_at)
-            ?.sort((a, b) => new Date(a.result.attempted_at) - new Date(b.result.attempted_at));
-          const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
-    
-          return evaluated_questions?.some((d) => d?.question_id === questionId);
-        }
-        return false;
-      }
+    const {
+        isQuestionEvaluated,
+        getPoints,
+        getNegativePoints,
+        getTotalPoints,
+        getResult,
+        getCorrectCount,
+        getIncorrectCount,
+        getSkippedCount,
+        getSolvedCount,
+        getAccuracy,
+        getStatus,
+        getTimeTaken,
+        getPointsBySubjectId,
+        getNegativePointsBySubjectId,
+        getTotalPointsBySubjectId,
+        getCorrectCountBySubjectId,
+        getIncorrectCountBySubjectId,
+        getSkippedCountBySubjectId,
+        getSolvedCountBySubjectId,
+        getTimeBySubjectId,
+        isSolved,
+        isCorrect,
+        isIncorrect
+    } = AnswerSheetFunction(methods);
 
     return (
         <Box>
+            {!methods?.watch("hide_result") && (
+                <ResultSection
+                    {...props}
+                    {...methods}
+                    colorCode={colorCode}
+                    getPoints={getPoints}
+                    getNegativePoints={getNegativePoints}
+                    getTotalPoints={getTotalPoints}
+                    getResult={getResult}
+                    getCorrectCount={getCorrectCount}
+                    getIncorrectCount={getIncorrectCount}
+                    getSkippedCount={getSkippedCount}
+                    getSolvedCount={getSolvedCount}
+                    getAccuracy={getAccuracy}
+                    getStatus={getStatus}
+                    getTimeTaken={getTimeTaken}
+                    getPointsBySubjectId={getPointsBySubjectId}
+                    getNegativePointsBySubjectId={getNegativePointsBySubjectId}
+                    getTotalPointsBySubjectId={getTotalPointsBySubjectId}
+                    getCorrectCountBySubjectId={getCorrectCountBySubjectId}
+                    getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
+                    getSkippedCountBySubjectId={getSkippedCountBySubjectId}
+                    getSolvedCountBySubjectId={getSolvedCountBySubjectId}
+                    getTimeBySubjectId={getTimeBySubjectId}
+                    isSolved={isSolved}
+                    isCorrect={isCorrect}
+                    isIncorrect={isIncorrect}
+                />
+            )}
             {/* Question OverView */}
             <Box
                 sx={{
@@ -239,6 +317,7 @@ const AnswerSheet = ({
                                 },
                             }}
                             onClick={handleClick.bind(this, index)}
+                            className="acadlix-normal-quiz-question-overview-answersheet-button"
                         >
                             {++index}
                         </Button>
@@ -263,7 +342,7 @@ const AnswerSheet = ({
                             display: "inline-block",
                         }}
                     ></Box>
-                    <Typography>{__("Correct", "acadlix")}</Typography>
+                    <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Correct", "acadlix")}</Typography>
                     <Box
                         sx={{
                             marginTop: "5px",
@@ -274,7 +353,7 @@ const AnswerSheet = ({
                             display: "inline-block",
                         }}
                     ></Box>
-                    <Typography>{__("Incorrect", "acadlix")}</Typography>
+                    <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Incorrect", "acadlix")}</Typography>
                     <Box
                         sx={{
                             marginTop: "5px",
@@ -285,7 +364,7 @@ const AnswerSheet = ({
                             display: "inline-block",
                         }}
                     ></Box>
-                    <Typography>{__("Skippeds", "acadlix")}</Typography>
+                    <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
                 </Box>
             </Box>
 
@@ -317,7 +396,6 @@ AnswerSheet.prototype = {
 }
 
 const ViewQuestionSection = (props) => {
-    const theme = useTheme();
     const answerType = (data = {}, lang_index = 0) => {
         switch (props?.question?.answer_type) {
             case "singleChoice":
@@ -467,20 +545,13 @@ const ViewQuestionSection = (props) => {
                             >
                                 {props?.question?.paragraph_enabled &&
                                     props?.question?.paragraph_id !== null && (
-                                        <Box>
-                                            <Typography component="div">
-                                                <CustomLatex>
-                                                    {lang?.paragraph}
-                                                </CustomLatex>
-                                            </Typography>
-                                            <Divider />
-                                        </Box>
+                                        <ParagraphText
+                                            lang={lang}
+                                        />
                                     )}
-                                <Typography component="div">
-                                    <CustomLatex>
-                                        {lang?.question}
-                                    </CustomLatex>
-                                </Typography>
+                                <QuestionText
+                                    lang={lang}
+                                />
                                 {answerType(lang, lang_index)}
                             </Box>
                         </React.Fragment>
@@ -493,99 +564,21 @@ const ViewQuestionSection = (props) => {
                         }}>
                             {props?.question?.result?.solved_count ? (
                                 props?.question?.result?.correct_count ? (
-                                    <Box
-                                        sx={{
-                                            border: (theme) =>
-                                                `1px solid ${theme?.palette?.grey[300]}`,
-                                            padding: 2,
-                                            marginY: 2,
-                                            borderRadius: 1,
-                                            backgroundColor: "transparent",
-                                            boxShadow: theme?.shadows[1],
-                                            display: lang?.correct_msg?.length > 0 ? "" : "none",
-                                        }}
-                                    >
-                                        <Box>
-                                            <Typography>
-                                                <b>{__("Explanation", "acadlix")}</b>
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography component="div">
-                                                <CustomLatex>
-                                                    {lang?.correct_msg}
-                                                </CustomLatex>
-                                            </Typography>
-                                        </Box>
-                                    </Box>
+                                    <CorrectMsgSection
+                                        lang={lang}
+                                        question={props?.question}
+                                    />
                                 ) : (
-                                    <Box
-                                        sx={{
-                                            border: (theme) =>
-                                                `1px solid ${theme?.palette?.grey[300]}`,
-                                            padding: 2,
-                                            marginY: 2,
-                                            borderRadius: 1,
-                                            backgroundColor: "transparent",
-                                            boxShadow: theme?.shadows[1],
-                                            display: props?.question?.different_incorrect_msg
-                                                ? lang?.incorrect_msg?.length > 0
-                                                    ? ""
-                                                    : "none"
-                                                : lang?.correct_msg?.length > 0
-                                                    ? ""
-                                                    : "none",
-                                        }}
-                                    >
-                                        <Box>
-                                            <Typography>
-                                                <b>{__("Explanation", "acadlix")}</b>
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography component="div">
-                                                <CustomLatex>
-                                                    {props?.question?.different_incorrect_msg
-                                                        ? lang?.incorrect_msg
-                                                        : lang?.correct_msg}
-                                                </CustomLatex>
-                                            </Typography>
-                                        </Box>
-                                    </Box>
+                                    <IncorrectMsgSection
+                                        lang={lang}
+                                        question={props?.question}
+                                    />
                                 )
                             ) : (
-                                <Box
-                                    sx={{
-                                        border: (theme) => `1px solid ${theme?.palette?.grey[300]}`,
-                                        padding: 2,
-                                        marginY: 2,
-                                        borderRadius: 1,
-                                        backgroundColor: "transparent",
-                                        boxShadow: theme?.shadows[1],
-                                        display: props?.question?.different_incorrect_msg
-                                            ? lang?.incorrect_msg?.length > 0
-                                                ? ""
-                                                : "none"
-                                            : lang?.correct_msg?.length > 0
-                                                ? ""
-                                                : "none",
-                                    }}
-                                >
-                                    <Box>
-                                        <Typography>
-                                            <b>{__("Explanation", "acadlix")}</b>
-                                        </Typography>
-                                    </Box>
-                                    <Box>
-                                        <Typography component="div">
-                                            <CustomLatex>
-                                                {props?.question?.different_incorrect_msg
-                                                    ? lang?.incorrect_msg
-                                                    : lang?.correct_msg}
-                                            </CustomLatex>
-                                        </Typography>
-                                    </Box>
-                                </Box>
+                                <IncorrectMsgSection
+                                    lang={lang}
+                                    question={props?.question}
+                                />
                             )}
                         </Box>
                     ))}
@@ -594,4 +587,55 @@ const ViewQuestionSection = (props) => {
     );
 };
 
+
+const ResultSection = (props) => {
+    return (
+        <Box sx={{
+            marginY: 1,
+        }}>
+            <Grid
+                container
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    margin: "10px auto",
+                }}
+                rowGap={2}
+            >
+                <MarksObtained
+                    getPoints={props?.getPoints}
+                    getTotalPoints={props?.getTotalPoints}
+                />
+                {!props?.watch("hide_negative_marks") && (
+                    <NegativeMarks
+                        getNegativePoints={props?.getNegativePoints}
+                    />
+                )}
+                {props?.watch("show_status_based_on_min_percent") && (
+                    <ResultStatus
+                        getResult={props?.getResult}
+                        getStatus={props?.getStatus}
+                        minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+                    />
+                )}
+                {props?.watch("show_accuracy") && (
+                    <Accuracy
+                        getAccuracy={props?.getAccuracy}
+                    />
+                )}
+                {!props?.watch("hide_quiz_time") && (
+                    <TimeTaken
+                        getTimeTaken={props?.getTimeTaken}
+                    />
+                )}
+                {props?.watch("show_speed") && (
+                    <ResultSpeed
+                        getSolvedCount={props?.getSolvedCount}
+                        getTimeTaken={props?.getTimeTaken}
+                    />
+                )}
+            </Grid>
+        </Box>
+    );
+}
 export default AnswerSheet;

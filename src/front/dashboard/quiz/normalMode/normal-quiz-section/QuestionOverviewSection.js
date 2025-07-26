@@ -102,25 +102,24 @@ const QuestionOverviewSection = (props) => {
               },
               padding: "3px 3px",
               margin: "3px",
-              border: `1px solid ${
-                d?.selected &&
-                props?.watch("mode") !== "question_below_each_other"
+              border: `1px solid ${d?.selected &&
+                  props?.watch("mode") !== "question_below_each_other"
                   ? props?.colorCode?.overview_button_active_border
                   : props?.colorCode?.overview_button_border
-              }`,
+                }`,
               boxShadow:
                 d?.selected &&
-                props?.watch("mode") !== "question_below_each_other"
+                  props?.watch("mode") !== "question_below_each_other"
                   ? theme.shadows[3]
                   : "none",
               backgroundColor:
                 d?.review && d?.result?.solved_count
                   ? props?.colorCode?.answered_and_review
                   : d?.review
-                  ? props?.colorCode?.review
-                  : d?.result?.solved_count
-                  ? props?.colorCode?.answered
-                  : props?.colorCode?.overview_button_background,
+                    ? props?.colorCode?.review
+                    : d?.result?.solved_count
+                      ? props?.colorCode?.answered
+                      : props?.colorCode?.overview_button_background,
               color:
                 d?.review || d?.result?.solved_count
                   ? props?.colorCode?.overview_button_active_text
@@ -130,22 +129,22 @@ const QuestionOverviewSection = (props) => {
                   d?.review && d?.result?.solved_count
                     ? props?.colorCode?.answered_and_review
                     : d?.review
-                    ? props?.colorCode?.review
-                    : d?.result?.solved_count
-                    ? props?.colorCode?.answered
-                    : props?.colorCode?.overview_button_background,
+                      ? props?.colorCode?.review
+                      : d?.result?.solved_count
+                        ? props?.colorCode?.answered
+                        : props?.colorCode?.overview_button_background,
                 color:
                   d?.review || d?.result?.solved_count
                     ? props?.colorCode?.overview_button_active_text
                     : props?.colorCode?.overview_button_text,
-                border: `1px solid ${
-                  d?.selected
+                border: `1px solid ${d?.selected
                     ? props?.colorCode?.overview_button_active_border
                     : props?.colorCode?.overview_button_border
-                }`,
+                  }`,
               },
             }}
             onClick={handleClick.bind(this, index)}
+            className="acadlix-normal-quiz-question-overview-button"
           >
             {++index}
           </Button>
@@ -170,7 +169,11 @@ const QuestionOverviewSection = (props) => {
             display: "inline-block",
           }}
         ></Box>
-        <Typography>{__("Answered", "acadlix")}</Typography>
+        <Typography
+          className="acadlix-normal-quiz-question-overview-label-text"
+        >
+          {__("Answered", "acadlix")}
+        </Typography>
         {props?.watch("show_review_button") && (
           <>
             <Box
@@ -183,7 +186,9 @@ const QuestionOverviewSection = (props) => {
                 display: "inline-block",
               }}
             ></Box>
-            <Typography>{__("Review", "acadlix")}</Typography>
+            <Typography className="acadlix-normal-quiz-question-overview-label-text">
+              {__("Review", "acadlix")}
+            </Typography>
             <Box
               sx={{
                 marginTop: "5px",
@@ -194,7 +199,11 @@ const QuestionOverviewSection = (props) => {
                 display: "inline-block",
               }}
             ></Box>
-            <Typography>{__("Review and answered", "acadlix")}</Typography>
+            <Typography
+              className="acadlix-normal-quiz-question-overview-label-text"
+            >
+              {__("Review and answered", "acadlix")}
+            </Typography>
           </>
         )}
       </Box>
@@ -213,6 +222,7 @@ const QuestionOverviewSection = (props) => {
           sx={{
             display: props?.watch("finish") ? "none" : "",
           }}
+          className="acadlix-normal-quiz-button-quiz-summary"
         >
           {__("Quiz Summary", "acadlix")}
         </CustomButton>

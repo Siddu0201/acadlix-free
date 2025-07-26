@@ -21,6 +21,15 @@ import { secondsToHms } from "@acadlix/helpers/util";
 import ResultComparisionSection from "./ResultComparisionSection";
 import ResultTextSection from "./ResultTextSection";
 import { __ } from "@wordpress/i18n";
+import MarksObtained from "../result-components/MarksObtained";
+import AverageScore from "../result-components/AverageScore";
+import NegativeMarks from "../result-components/NegativeMarks";
+import ResultStatus from "../result-components/ResultStatus";
+import Accuracy from "../result-components/Accuracy";
+import TimeTaken from "../result-components/TimeTaken";
+import ResultRank from "../result-components/ResultRank";
+import ResultPercentile from "../result-components/ResultPercentile";
+import ResultSpeed from "../result-components/ResultSpeed";
 
 const ResultSection = (props) => {
   return (
@@ -59,131 +68,55 @@ const ResultSection = (props) => {
         }}
         rowGap={2}
       >
-        <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Avatar src={TickImage} />
-          </Box>
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              {props?.getPoints()?.toFixed(2)}/{props?.getTotalPoints()?.toFixed(2)}
-            </Typography>
-            <Typography variant="subtitle2">{__("Marks Obtained", "acadlix")}</Typography>
-          </Box>
-        </Grid>
+        <MarksObtained
+            getPoints={props?.getPoints}
+            getTotalPoints={props?.getTotalPoints}
+        />
         {!props?.watch("hide_negative_marks") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={Negative} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {`-${props?.getNegativePoints()?.toFixed(2)}`}
-              </Typography>
-              <Typography variant="subtitle2">{__("Negative Marks", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <NegativeMarks
+            getNegativePoints={props?.getNegativePoints}
+          />
         )}
         {props?.watch("save_statistic") && props?.watch("show_average_score") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={Average} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {props?.isPending
-                  ? __("loading...", "acadlix")
-                  : props?.watch("average_score")}
-              </Typography>
-              <Typography variant="subtitle2">{__("Average Score", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <AverageScore
+            isPending={props?.isPending}
+            average_score={props?.watch("average_score")}
+          />
         )}
         {props?.watch("show_status_based_on_min_percent") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar
-                src={
-                  props?.getResult() >= props?.watch("minimum_percent_to_pass")
-                    ? Pass
-                    : Fail
-                }
-              />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {props?.getStatus()}
-              </Typography>
-              <Typography variant="subtitle2">{__("Status", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <ResultStatus
+            getResult={props?.getResult}
+            getStatus={props?.getStatus}
+            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+          />
         )}
         {props?.watch("show_accuracy") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={AccuracyImage} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {`${props?.getAccuracy()?.toFixed(2)}%`}
-              </Typography>
-              <Typography variant="subtitle2">{__("Accuracy", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <Accuracy
+            getAccuracy={props?.getAccuracy}
+          />
         )}
         {!props?.watch("hide_quiz_time") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={ClockImage} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {secondsToHms(props?.getTimeTaken())}
-              </Typography>
-              <Typography variant="subtitle2">{__("Time Taken", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <TimeTaken
+            getTimeTaken={props?.getTimeTaken}
+          />
         )}
         {props?.watch("leaderboard") && props?.watch("show_rank") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={Rank} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {props?.isPending ? __("loading...", "acadlix") : props?.watch("rank")}
-              </Typography>
-              <Typography variant="subtitle2">{__("Rank", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <ResultRank
+            isPending={props?.isPending}
+            rank={props?.watch("rank")}
+          />
         )}
         {props?.watch("save_statistic") && props?.watch("show_percentile") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={Percentile} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {props?.isPending ? __("loading...", "acadlix") : props?.watch("percentile")}
-              </Typography>
-              <Typography variant="subtitle2">{__("Percentile", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <ResultPercentile
+            isPending={props?.isPending}
+            percentile={props?.watch("percentile")}
+          />
         )}
         {props?.watch("show_speed") && (
-          <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Avatar src={Speed} />
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {isNaN(props?.getSolvedCount() / (props?.getTimeTaken() / 60))
-                  ? 0
-                  : (props?.getSolvedCount() / (props?.getTimeTaken() / 60)).toFixed(2)}{" "}
-                {__("Q/min", "acadlix")}
-              </Typography>
-              <Typography variant="subtitle2">{__("Speed", "acadlix")}</Typography>
-            </Box>
-          </Grid>
+          <ResultSpeed
+            getSolvedCount={props?.getSolvedCount}
+            getTimeTaken={props?.getTimeTaken}
+          />
         )}
       </Grid>
       {props?.watch("leaderboard") &&

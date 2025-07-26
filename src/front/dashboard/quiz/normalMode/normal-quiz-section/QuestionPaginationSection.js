@@ -38,8 +38,8 @@ const QuestionPaginationSection = (props) => {
         renderItem={(item) => (
           <PaginationItem
             slots={{
-              previous: () => <Typography>{__("Previous", "acadlix")}</Typography>,
-              next: () => <Typography>{__("Next", "acadlix")}</Typography>,
+              previous: () => <Typography className="acadlix-normal-quiz-question-pagination-previous">{__("Previous", "acadlix")}</Typography>,
+              next: () => <Typography className="acadlix-normal-quiz-question-pagination-next">{__("Next", "acadlix")}</Typography>,
             }}
             {...item}
           />
