@@ -499,6 +499,17 @@ const QuizContent = (props) => {
       course_statistic_id: props?.course_statistic_id ?? 0,
     };
 
+    if(methods?.watch("mode") === "advance_mode"){
+      const queryParams = getQueryParamsFromCurrentPage();
+      if (
+        queryParams?.quiz_attempt_type !== undefined &&
+        queryParams?.course_statistic_id !== undefined
+      ) {
+        data.quiz_attempt_type = queryParams?.quiz_attempt_type;
+        data.course_statistic_id = queryParams?.course_statistic_id;
+      }
+    }
+
     saveResultMutation?.mutate(data, {
       onSuccess: (data) => {
         let topper = data?.data?.topper;

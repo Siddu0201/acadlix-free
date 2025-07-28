@@ -42,7 +42,11 @@ const DescriptionSection = (props) => {
           course_section_content_id: props?.course_section_content_id,
           section_index: props?.section_index,
           content_index: props?.content_index,
+          quiz_attempt_type: props?.quiz_attempt_type ?? "shortcode",
         };
+        if(props?.course_statistic_id){
+          queryParams.course_statistic_id = props?.course_statistic_id ?? 0;
+        }
         advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
       }
       const link = `${advance_quiz_url}#/advance-quiz/${props?.watch(
