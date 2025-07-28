@@ -13,6 +13,7 @@ if (!class_exists("CheckoutController")) {
         {
             if(is_admin(  ))return;
             add_filter("template_include", [$this, 'template_loader'], 10);
+            add_action('wp_enqueue_scripts', [$this,'enqueue_front_dequeue_assets'], 100);
             add_action("wp_enqueue_scripts", [$this, 'enqueue_front_checkout']);
         }
 
@@ -29,13 +30,22 @@ if (!class_exists("CheckoutController")) {
             return $template;
         }
 
+        public function enqueue_front_dequeue_assets()
+        {
+            $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
+            if ($checkout_page_id && is_page($checkout_page_id)) {
+                wp_dequeue_style('acadlix-front-css');
+                wp_dequeue_script('acadlix-front-js');
+            }
+        }
+
         public function enqueue_front_checkout()
         {
             $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
             $paypal_active = acadlix()->helper()->acadlix_get_option('acadlix_paypal_active') == 'yes';
             if ($checkout_page_id && is_page($checkout_page_id)) {
-                wp_dequeue_style('acadlix-front-css');
-                wp_dequeue_script('acadlix-front-js');
+                // wp_dequeue_style('acadlix-front-css');
+                // wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_style('acadlix-front-checkout-css');
                 wp_enqueue_script('acadlix-razorpay-js');
                 if ($paypal_active) {

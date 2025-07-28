@@ -1,4 +1,3 @@
-import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
@@ -150,7 +149,7 @@ const OrderSummary = (props) => {
                   <Divider />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 12 }}>
-                  <LoadingButton
+                  <Button
                     color="success"
                     variant="contained"
                     fullWidth
@@ -164,7 +163,7 @@ const OrderSummary = (props) => {
                     }
                   >
                     {__('Checkout', 'acadlix')}
-                  </LoadingButton>
+                  </Button>
                 </Grid>
               </>
             )}

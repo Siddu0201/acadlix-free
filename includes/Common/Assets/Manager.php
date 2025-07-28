@@ -470,7 +470,6 @@ class Manager
 
     public function enqueue_front_assets()
     {
-        
 
         wp_enqueue_style('acadlix-front-base-style-css');
         $custom_css = "
