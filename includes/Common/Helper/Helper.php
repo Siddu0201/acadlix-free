@@ -550,6 +550,7 @@ if (!class_exists('Helper')) {
                 // Student Dashboard Option
                 'acadlix_logout_redirect_url' => "",
                 'acadlix_disable_home_menu' => "no",
+                'acadlix_enable_site_logo_in_header' => "no",
                 // Data management
                 'acadlix_delete_data_on_plugin_uninstall' => "no",
                 // Payment option

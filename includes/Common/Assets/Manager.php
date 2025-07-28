@@ -395,6 +395,8 @@ class Manager
 
     public function localize_front_js_options()
     {
+        $custom_logo_id = get_theme_mod('custom_logo');
+        $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
         return [
             'acadlix_plugin_url' => ACADLIX_PLUGIN_URL,
             'is_admin_bar_showing' => is_admin_bar_showing(),
@@ -407,6 +409,8 @@ class Manager
             'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'logo_url' => $logo_url,
+            'blog_name' => get_bloginfo('name'),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
             'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, styled } from "@mui/material";
+import { Typography, Box, styled, useMediaQuery } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import Picture1 from "@acadlix/images/dashboard.svg";
 import Picture2 from "@acadlix/images/blob-4-light-teal.svg";
@@ -17,18 +17,9 @@ const DashboardHeader = () => {
     borderRadius: "16px",
     backgroundColor: "white",
     height: "168px",
-    [theme.breakpoints.down("sm")]: {
-      height: "150px",
+    [theme.breakpoints.down("md")]: {
+      height: "160px",
     },
-  }));
-
-  const StyledImage1 = styled("img")(({ theme }) => ({
-    position: "absolute",
-    right: theme.spacing(2),
-    top: theme.spacing(1),
-    height: "160px",
-    maxWidth: "100%",
-    zIndex: 1,
   }));
 
   const StyledImage2 = styled("img")(({ theme }) => ({
@@ -39,6 +30,7 @@ const DashboardHeader = () => {
   }));
 
   const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <HeaderContainer sx={{ mt: 3, mx: { lg: 0, md: 0, sm: 0, xs: 2 } }}>
@@ -51,6 +43,25 @@ const DashboardHeader = () => {
           height: "100%",
         }}
       >
+        {/* <Grid
+          sx={{
+            display: {
+              lg: "block",
+              md: "none",
+            },
+          }}
+        >
+          <HeaderLogo
+            sx={{
+              position: "absolute",
+              right: theme.spacing(2),
+              top: "25%",
+              maxWidth: "100%",
+              maxHeight: "80px",
+              zIndex: 1,
+            }}
+          />
+        </Grid> */}
         <Grid
           sx={{
             width: "100%",
@@ -166,7 +177,17 @@ const DashboardHeader = () => {
             }
           }}
         >
-          <StyledImage1 src={Picture1} alt={__("Header Image 1", 'acadlix')} />
+          <HeaderLogo 
+            sx={{
+              display: isDesktop ? "block" : "none",
+              position: "absolute",
+              right: theme.spacing(2),
+              bottom: acadlixOptions?.settings?.acadlix_enable_site_logo_in_header === "yes" && acadlixOptions?.logo_url ? "10%" : "2%",
+              height: acadlixOptions?.settings?.acadlix_enable_site_logo_in_header === "yes" && acadlixOptions?.logo_url ? "auto" : "160px",
+              maxWidth: "100%",
+              zIndex: 1,
+            }}
+          />
         </Grid>
       </Grid>
     </HeaderContainer>
@@ -174,3 +195,17 @@ const DashboardHeader = () => {
 };
 
 export default DashboardHeader;
+
+const HeaderLogo = (props) => {
+  return (
+    <img
+      src={
+        acadlixOptions?.settings?.acadlix_enable_site_logo_in_header === "yes" && acadlixOptions?.logo_url ?
+          acadlixOptions?.logo_url :
+          Picture1
+      }
+      alt={acadlixOptions?.blog_name}
+      style={props?.sx}
+    />
+  )
+}

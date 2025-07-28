@@ -945,6 +945,33 @@ function General(props) {
             }}
           />
         </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Enable site logo in header", "acadlix")}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            label={__("Activate", "acadlix")}
+            control={<CustomSwitch />}
+            value="yes"
+            checked={props?.watch("acadlix_enable_site_logo_in_header") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_enable_site_logo_in_header",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  { shouldDirty: true }
+                );
+              }
+            }}
+          />
+        </Grid>
       </Grid>
       <Box
         sx={{

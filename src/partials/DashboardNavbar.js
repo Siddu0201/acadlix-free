@@ -119,7 +119,7 @@ const DashboardNavbar = () => {
               color="primary"
               size="small"
               onClick={() => {
-                navigate(acadlixOptions?.logout_url);
+                window.location.href = acadlixOptions?.logout_url;
               }}
             >
               {__("Logout", "acadlix")}

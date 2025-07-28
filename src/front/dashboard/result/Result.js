@@ -22,9 +22,11 @@ import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { GetStatisticByUserId } from "@acadlix/requests/front/FrontStatisticRequest";
+import { useNavigate } from "react-router-dom";
 
 export default function Result() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
   const defaultPaginationModel = {
     page: parseInt(localStorage.getItem('frontResultPage') || '0', 10),
@@ -89,9 +91,8 @@ export default function Result() {
                 aria-label="expand"
                 size="small"
                 color="warning"
-                LinkComponent={Link}
-                to={`/result/${params?.id}`}
                 disabled={params?.row?.hide_answer_sheet}
+                onClick={() => navigate(`/result/${params?.id}`)}
               >
                 <FaExpandArrowsAlt fontSize="inherit" />
               </IconButton>
