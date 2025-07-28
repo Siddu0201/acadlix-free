@@ -197,22 +197,23 @@ const CustomThemeProvider = ({ children }) => {
             textTransform: "none",
             marginBottom: "0px !important",
           },
-          contained: {
-            color: `${colors.contrastText[themeColor]}!important`,
+          contained: ({ownerState }) => ({
+            color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
             "&:hover, &:focus": {
-              backgroundColor: colors.dark[themeColor],
+              backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
             },
-          },
-          outlined: {
+          }),
+          outlined: ({ownerState }) => ({
             "&:hover, &:focus": {
-              backgroundColor: colors.dark[themeColor],
+              color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
+              backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
             },
-          },
-          text: {
+          }),
+          text: ({ownerState }) => ({
             "&:hover, &:focus": {
-              backgroundColor: colors.dark[themeColor],
+              backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
             },
-          },
+          }),
         },
       },
       MuiRadio: {
