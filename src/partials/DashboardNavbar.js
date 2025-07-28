@@ -80,7 +80,7 @@ const DashboardNavbar = () => {
             {dashboardMenu.map((page) => (
               <Button
                 key={page?.id}
-                variant={path?.pathname === page?.path ? "contained" : "text"}
+                variant={path?.pathname.includes(page?.path) ? "contained" : "text"}
                 color="primary"
                 size="small"
                 onClick={() => {

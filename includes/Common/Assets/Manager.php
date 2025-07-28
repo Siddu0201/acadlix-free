@@ -21,6 +21,7 @@ class Manager
             acadlix()->helper()->queryLogger()->enable();
         });
         add_action('init', [$this, 'register_all_scripts']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_front_react_assets'], 100);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_common_assets']);
@@ -442,7 +443,7 @@ class Manager
         wp_enqueue_script('acadlix-global-hooks');
     }
 
-    public function enqueue_front_assets()
+    public function enqueue_front_react_assets()
     {
         if (is_admin()) {
             return;
@@ -455,7 +456,22 @@ class Manager
         }
 
         wp_enqueue_style('acadlix-vendor-css');
-        // wp_enqueue_style('katex-css', 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css');
+        wp_enqueue_style('acadlix-front-css');
+
+        wp_enqueue_script('acadlix-katex-js');
+        wp_enqueue_script('acadlix-katex-auto-render-js');
+        wp_enqueue_script('acadlix-vendors-js');
+        wp_enqueue_script('acadlix-runtime-js');
+        wp_enqueue_script('wp-date');
+        wp_enqueue_script('acadlix-front-js');
+        wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
+        wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+    }
+
+    public function enqueue_front_assets()
+    {
+        
+
         wp_enqueue_style('acadlix-front-base-style-css');
         $custom_css = "
                     :root {
@@ -468,18 +484,9 @@ class Manager
                     }
                 ";
 
-        wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
+        wp_add_inline_style('acadlix-front-base-style-css', $custom_css);        
 
-        wp_enqueue_style('acadlix-front-css');
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script('wp-date');
-        wp_enqueue_script('acadlix-front-js');
-        wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
-        wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
-
-        wp_enqueue_script('acadlix-katex-js');
-        wp_enqueue_script('acadlix-katex-auto-render-js');
+       
 
         wp_enqueue_script('acadlix-front-action-button-course-js');
         wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());

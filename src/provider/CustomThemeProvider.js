@@ -203,6 +203,16 @@ const CustomThemeProvider = ({ children }) => {
               backgroundColor: colors.dark[themeColor],
             },
           },
+          outlined: {
+            "&:hover, &:focus": {
+              backgroundColor: colors.dark[themeColor],
+            },
+          },
+          text: {
+            "&:hover, &:focus": {
+              backgroundColor: colors.dark[themeColor],
+            },
+          },
         },
       },
       MuiRadio: {

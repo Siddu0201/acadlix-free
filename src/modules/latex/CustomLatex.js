@@ -49,7 +49,7 @@ const CustomLatex = ({
 
   // console.log("Processed LaTeX:", processedLatex);
   return (
-    <Box className="acadlix-latex">
+    <Box className="acadlix-latex" component={"span"}>
       <Latex options={{
         displayMode: true,
         throwOnError: false,
