@@ -21,7 +21,7 @@ class Manager
             acadlix()->helper()->queryLogger()->enable();
         });
         add_action('init', [$this, 'register_all_scripts']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets'], 100);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_front_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
