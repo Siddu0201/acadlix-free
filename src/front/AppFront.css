@@ -95,7 +95,8 @@
   font-size: 1rem !important;
 } */
 
-.acadlix-normal-quiz-question-answer-container p {
+.acadlix-normal-quiz-question-answer-container p,
+.acadlix-advance-quiz-question-answer-container p {
   margin: 0px !important;
 }
 
