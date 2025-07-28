@@ -198,20 +198,21 @@ const CustomThemeProvider = ({ children }) => {
             marginBottom: "0px !important",
           },
           contained: ({ownerState }) => ({
-            color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
             "&:hover, &:focus": {
+              color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
               backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
             },
           }),
           outlined: ({ownerState }) => ({
             "&:hover, &:focus": {
               color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
-              backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
+              backgroundColor: ownerState?.color ? colors.main[ownerState?.color] : colors.main[themeColor],
             },
           }),
           text: ({ownerState }) => ({
             "&:hover, &:focus": {
-              backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
+              color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
+              backgroundColor: ownerState?.color ? colors.main[ownerState?.color] : colors.main[themeColor],
             },
           }),
         },
