@@ -40,7 +40,7 @@ class AdminStudentController
             ->whereHas('orders', function ($q) {
                 $q->ofSuccess(); // optional status filter
             })
-            ->orderBy('course_count', 'desc'); // or 'asc'
+            ->orderBy('ID', 'desc'); // or 'asc'
         if (!empty($search)) {
             $student->where('display_name', 'like', "%$search%")
                 ->orWhere("user_email", "like", "%$search%");

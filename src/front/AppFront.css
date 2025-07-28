@@ -1229,6 +1229,7 @@ a.plyr__control:before {
 
 .plyr--video .plyr__control:focus-visible,
 .plyr--video .plyr__control:hover,
+.plyr--video .plyr__control:focus,
 .plyr--video .plyr__control[aria-expanded="true"] {
   background: #00b2ff;
   background: var(--plyr-video-control-background-hover,

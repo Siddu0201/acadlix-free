@@ -104,7 +104,7 @@ class AdminLessonController
         $params = $request->get_params();
         $search = $params['search'];
         $skip = $params['page'] * $params['pageSize'];
-        $lesson = acadlix()->model()->lesson()->ofLesson()->orderBy('id', 'desc');
+        $lesson = acadlix()->model()->lesson()->ofLesson()->orderBy('ID', 'desc');
         if(!empty($search)) {
             $lesson->where('post_title', 'like', "%$search%");
         }

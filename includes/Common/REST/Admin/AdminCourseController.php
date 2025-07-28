@@ -578,6 +578,7 @@ class AdminCourseController
         $res['lessons'] = acadlix()->model()->lesson()->ofLesson()
             ->without(['author', 'metas'])
             ->select(["ID", "post_title"])
+            ->orderBy("ID", "desc")
             ->get()
             ->each
             ->setAppends([]);
@@ -762,9 +763,8 @@ class AdminCourseController
         $res['quizzes'] = acadlix()->model()->quiz()->ofQuiz()
             ->without(['author', 'metas', 'quiz_shortcode'])
             ->whereHas("quiz_shortcode")
-            ->orderBy('ID', 'desc')
             ->select(["ID", "post_title"])
-            // ->limit(50)
+            ->orderBy('ID', 'desc')
             ->get()
             ->each
             ->setAppends([]);

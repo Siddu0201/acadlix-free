@@ -126,7 +126,7 @@ class AdminOrderController
         $search = $params['search'] ?? "";
 
         $skip = $params['page'] * $params['pageSize'];
-        $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->orderBy('created_at', 'desc');
+        $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->orderBy('ID', 'desc');
 
         if (!empty($search)) {
             $order->whereHas('order_items', function ($query) use ($search) {
