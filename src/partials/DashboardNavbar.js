@@ -87,6 +87,7 @@ const DashboardNavbar = () => {
                   navigate(page?.path);
                 }}
                 sx={{
+                  whiteSpace: "normal",
                   // my: 0,
                   // color: path?.pathname === page?.path ? "blue" : "black",
                   // display: "block",
