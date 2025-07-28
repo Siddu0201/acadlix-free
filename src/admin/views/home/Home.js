@@ -117,7 +117,7 @@ const Home = () => {
         <Grid container spacing={4} rowSpacing={3} sx={{ height: "100%" }}>
           <Grid size={{ xs: 12, md: 2 }}>
             <Card sx={{ height: "100%" }}>
-              <CardHeader title={__("Today Sale", "acadlix")} />
+              <CardHeader title={__("Today's Sale", "acadlix")} />
               <CardContent>
                 <Box>
                   <Typography>{currencyPosition(methods?.watch("today_sale"))}</Typography>
