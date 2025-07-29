@@ -25,5 +25,5 @@ input[type="checkbox"]:checked::before {
 .acadlix-normal-quiz-question-answer-container p,
 .acadlix-normal-quiz-correct-msg-content p,
 .acadlix-normal-quiz-incorrect-msg-content p {
-    font-size: 14px !important;
+    font-size: 1rem !important;
 }
