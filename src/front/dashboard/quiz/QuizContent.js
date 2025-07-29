@@ -371,16 +371,28 @@ const QuizContent = (props) => {
         queryParams?.content_index !== undefined
       ) {
         if (
-          window.opener &&
-          typeof window.opener.handleComplete === "function"
+          window.opener
         ) {
-          window.opener.handleComplete(
-            queryParams?.course_section_content_id,
-            queryParams?.section_index,
-            queryParams?.content_index,
-            0,
-            false
+
+          window.opener.postMessage(
+            {
+              type: "QUIZ_HANDLE_COMPLETE",
+              payload: {
+                course_section_content_id: queryParams?.course_section_content_id,
+                section_index: queryParams?.section_index,
+                content_index: queryParams?.content_index,
+              }
+            },
+            "*" // Or restrict with parent domain like "https://yoursite.com"
           );
+          
+          // window.opener.handleComplete(
+          //   queryParams?.course_section_content_id,
+          //   queryParams?.section_index,
+          //   queryParams?.content_index,
+          //   0,
+          //   false
+          // );
         }
       }
     } else {

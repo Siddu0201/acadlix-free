@@ -462,6 +462,29 @@ const QuizContent = (props) => {
       );
     };
   }, []);
+
+  React.useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data?.type === "QUIZ_HANDLE_COMPLETE") {
+        const payload = event.data.payload;
+
+        if (payload?.course_section_content_id
+          && payload?.section_index
+          && payload?.content_index
+        ) {
+          props?.handleComplete(
+            payload?.course_section_content_id,
+            payload?.section_index,
+            payload?.content_index,
+            0,
+            false
+          );
+        }
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
   return (
     <Box
       sx={{
