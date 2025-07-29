@@ -65,10 +65,18 @@ export default function Result() {
             display: "flex",
             alignItems: "center",
           }}>
-            <Chip
-              color={params?.value === "Pass" ? "success" : "error"}
+            {params?.value === "Pass" && <Chip
+              color="success"
               label={params?.value}
-            />
+            />}
+            {params?.value === "Fail" && <Chip
+              color="error"
+              label={params?.value}
+            />}
+            {params?.value === "NA" && <Chip
+              color="grey"
+              label={params?.value}
+            />}
           </div>
         );
       },
@@ -117,7 +125,7 @@ export default function Result() {
           date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
           score: stat_ref?.points?.toFixed(2),
           percentage: stat_ref?.result?.toFixed(2),
-          status: stat_ref?.status,
+          status: stat_ref?.status ?? "NA",
           hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false
         };
       });
