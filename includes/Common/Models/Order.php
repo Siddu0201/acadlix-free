@@ -42,7 +42,7 @@ if (!class_exists('Order')) {
 
         public function getCourseNames()
         {
-            return $this->order_items()->get()->map(fn($item) => $item->course->post_title ?? $item->course_title ?? "")
+            return $this->order_items->map(fn($item) => $item->course->post_title ?? $item->course_title ?? "")
                 ->filter()
                 ->implode(', ');
         }
