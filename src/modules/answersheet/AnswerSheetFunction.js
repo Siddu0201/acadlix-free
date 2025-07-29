@@ -171,6 +171,9 @@ export const AnswerSheetFunction = (methods) => {
     const getStatus = () => {
         const points = getPoints();
         const total = getTotalPoints();
+        if(!methods?.watch("show_status_based_on_min_percent")){
+            return null;
+        }
         return (points / total) * 100 >= methods?.watch("minimum_percent_to_pass") ? __("Pass", "acadlix") : __("Fail", "acadlix");
     }
 
