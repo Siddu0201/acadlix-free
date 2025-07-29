@@ -360,7 +360,7 @@ const CourseContent = () => {
     }
   }, [data?.data]);
 
-  if (process?.env?.REACT_APP_IS_PREMIUM === 'true') {
+  if (process?.env?.REACT_APP_MODE === 'development') {
     console.log(methods?.watch("sections"));
   }
 
