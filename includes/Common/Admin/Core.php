@@ -15,6 +15,8 @@ class Core
         add_filter('use_block_editor_for_post_type', array($this, 'acadlix_gutenberg_disable_cpt'), 10, 2);
 
         add_action('init', [$this, 'acadlix_flush_rewrite_rules']);
+
+        add_filter('plugin_action_links_' . ACADLIX_PLUGIN_BASENAME, [$this, 'acadlix_plugin_action_links']);
     }
 
     public function acadlix_sync_data_on_login($user_login, WP_User $user)
@@ -181,6 +183,13 @@ class Core
             flush_rewrite_rules();
             acadlix()->helper()->acadlix_delete_option('acadlix_flush_rewrite'); // prevent repeated flushing
         }
+    }
+
+    public function acadlix_plugin_action_links($links)
+    {
+        $setting_link = '<a href="' . admin_url('admin.php?page=acadlix_setting') . '">' . __('Settings', "acadlix") . '</a>';
+        array_unshift($links, $setting_link);
+        return $links;
     }
 
     public static function instance()
