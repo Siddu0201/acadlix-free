@@ -42,13 +42,11 @@ const DescriptionSection = (props) => {
         props?.course_section_content_id &&
         props?.user_id
       ) {
-        queryParams = {
-          course_section_content_id: props?.course_section_content_id,
-          section_index: props?.section_index,
-          content_index: props?.content_index,
-          quiz_attempt_type: props?.quiz_attempt_type ?? "shortcode",
-        };
-        if(props?.course_statistic_id){
+        queryParams.course_section_content_id = props?.course_section_content_id;
+        queryParams.section_index = props?.section_index;
+        queryParams.content_index = props?.content_index;
+        queryParams.quiz_attempt_type = props?.quiz_attempt_type ?? "shortcode";
+        if (props?.course_statistic_id) {
           queryParams.course_statistic_id = props?.course_statistic_id ?? 0;
         }
         advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
@@ -94,8 +92,8 @@ const DescriptionSection = (props) => {
 
     checkQuiz.mutate(data, {
       onSuccess: (data) => {
-        if(data?.data?.errors){
-          props?.setValue("quiz_error", data?.data?.errors, {shouldDirty: true});
+        if (data?.data?.errors) {
+          props?.setValue("quiz_error", data?.data?.errors, { shouldDirty: true });
           return;
         }
         handleStart();
@@ -195,7 +193,7 @@ const DescriptionSection = (props) => {
           sx={{
             marginY: 2,
           }}
-          className="acadlix-quiz-error"  
+          className="acadlix-quiz-error"
         >
           <Alert severity="error" sx={{
             alignItems: "center",
