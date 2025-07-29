@@ -379,9 +379,6 @@ const QuizContent = (props) => {
             content_index: queryParams?.content_index,
           },
         };
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(JSON.stringify(payload));
-        }
 
         // If inside a real browser
         if (window.opener && !window.opener.closed) {

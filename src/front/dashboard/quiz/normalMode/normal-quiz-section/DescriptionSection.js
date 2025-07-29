@@ -55,7 +55,7 @@ const DescriptionSection = (props) => {
         "id"
       )}/${token}`;
 
-      window.handleComplete = props?.handleComplete;
+      // window.handleComplete = props?.handleComplete;
       window.open(
         link,
         "_blank",
