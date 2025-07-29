@@ -9,6 +9,7 @@ import { __ } from "@wordpress/i18n";
 import { RawHTML } from "@wordpress/element";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import CustomButton from "@acadlix/components/CustomButton";
+import { redirect } from "react-router-dom";
 
 const DescriptionSection = (props) => {
   const rand = function () {
@@ -33,12 +34,15 @@ const DescriptionSection = (props) => {
       const token = rand() + rand();
       localStorage?.setItem("acadlix_advance_quiz_token", token);
       let advance_quiz_url = acadlixOptions?.advance_quiz_url;
+      let queryParams = {
+        redirect_url: window.location.href,
+      };
       if (
         props?.order_item_id &&
         props?.course_section_content_id &&
         props?.user_id
       ) {
-        let queryParams = {
+        queryParams = {
           course_section_content_id: props?.course_section_content_id,
           section_index: props?.section_index,
           content_index: props?.content_index,
