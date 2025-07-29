@@ -187,8 +187,12 @@ class Core
 
     public function acadlix_plugin_action_links($links)
     {
-        $setting_link = '<a href="' . admin_url('admin.php?page=acadlix_setting') . '">' . __('Settings', "acadlix") . '</a>';
+        $setting_link = sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=acadlix_setting'), __('Settings', "acadlix"));
         array_unshift($links, $setting_link);
+
+        if (!acadlix()->pro) {
+            $links['go_pro'] = sprintf('<a href="%s" target="_blank" style="color: #00a3a3; font-weight: bold;">%s</a>', ACADLIX_MARKETPLACE_URL . 'pricing', __('Get Acadlix Pro', "acadlix"));
+        }
         return $links;
     }
 
