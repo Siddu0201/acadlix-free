@@ -370,30 +370,31 @@ const QuizContent = (props) => {
         queryParams?.section_index !== undefined &&
         queryParams?.content_index !== undefined
       ) {
-        if (
-          window.opener
-        ) {
 
-          window.opener.postMessage(
-            {
-              type: "QUIZ_HANDLE_COMPLETE",
-              payload: {
-                course_section_content_id: queryParams?.course_section_content_id,
-                section_index: queryParams?.section_index,
-                content_index: queryParams?.content_index,
-              }
-            },
-            "*" // Or restrict with parent domain like "https://yoursite.com"
-          );
-          
-          // window.opener.handleComplete(
-          //   queryParams?.course_section_content_id,
-          //   queryParams?.section_index,
-          //   queryParams?.content_index,
-          //   0,
-          //   false
-          // );
+        const payload = {
+          type: "QUIZ_HANDLE_COMPLETE",
+          payload: {
+            course_section_content_id: queryParams?.course_section_content_id,
+            section_index: queryParams?.section_index,
+            content_index: queryParams?.content_index,
+          },
+        };
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(JSON.stringify(payload));
         }
+
+        // If inside a real browser
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage(payload, "*");
+        }
+
+        // window.opener.handleComplete(
+        //   queryParams?.course_section_content_id,
+        //   queryParams?.section_index,
+        //   queryParams?.content_index,
+        //   0,
+        //   false
+        // );
       }
     } else {
       if (
@@ -511,7 +512,7 @@ const QuizContent = (props) => {
       course_statistic_id: props?.course_statistic_id ?? 0,
     };
 
-    if(methods?.watch("mode") === "advance_mode"){
+    if (methods?.watch("mode") === "advance_mode") {
       const queryParams = getQueryParamsFromCurrentPage();
       if (
         queryParams?.quiz_attempt_type !== undefined &&
