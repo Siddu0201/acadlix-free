@@ -23,7 +23,6 @@ import CorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-q
 import IncorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/IncorrectMsgSection";
 import { AnswerSheetFunction } from "./AnswerSheetFunction";
 import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
-import AverageScore from "@acadlix/front/dashboard/quiz/normalMode/result-components/AverageScore";
 import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
 import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
 import Accuracy from "@acadlix/front/dashboard/quiz/normalMode/result-components/Accuracy";
