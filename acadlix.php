@@ -4,9 +4,9 @@
  * Plugin Name:       Acadlix
  * Description:       Acadlix is a feature-rich LMS plugin for WordPress, designed to transform your website into a complete e-learning platform. With Acadlix, you can effortlessly create and sell online courses, test series, quizzes, and assignments.
  * Requires at least: 6.8
- * Requires PHP:      8.0
+ * Requires PHP:      8.1
  * Version:           {{VERSION}}
- * Tested upto:       6.8.1
+ * Tested upto:       6.8.2
  * Author:            Team Acadlix
  * Author URI:        https://acadlix.com/
  * Text Domain:       acadlix
