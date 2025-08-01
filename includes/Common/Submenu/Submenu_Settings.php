@@ -54,6 +54,7 @@ class Submenu_Settings
             'nonce' => wp_create_nonce('wp_rest'),
             'currecies_with_symbol' => acadlix()->helper()->acadlix_get_currency_with_symbols(),
             'options' => acadlix()->helper()->acadlix_get_all_options(),
+            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'all_pages' => get_pages(),
             'user_id' => get_current_user_id(),
             'quiz_categories' => acadlix()->model()->category()->all(),

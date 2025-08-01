@@ -190,7 +190,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                         }
                                         ?>
                                         <?php
-                                        if (is_user_logged_in()) {
+                                        if (is_user_logged_in() && acadlix()->helper()->acadlix_get_option('acadlix_disable_wishlist') === 'no') {
                                             $course_wishlist_count = acadlix()->model()->userActivityMeta()->ofCourse()
                                                 ->ofCourseWishlist()
                                                 ->where([

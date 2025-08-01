@@ -32,7 +32,6 @@ const QuestionTextSection = (props) => {
           title={(
             <Typography sx={{
               fontWeight: 500,
-              color: "black",
               fontSize: '1.5rem',
             }}>
               {__("Question", "acadlix")}<span style={{ color: "red" }}>*</span> {props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}

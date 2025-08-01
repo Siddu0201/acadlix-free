@@ -14,6 +14,7 @@ import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { PostCreateSubject } from "@acadlix/requests/admin/AdminSubjectRequest";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const GeneralOptionSection = (props) => {
   const [input, setInput] = React.useState("");
@@ -61,7 +62,6 @@ const GeneralOptionSection = (props) => {
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
-              color: "black",
             },
           }}
         />
@@ -204,6 +204,7 @@ const GeneralOptionSection = (props) => {
                       <Button
                         color="primary"
                         fullWidth
+                        disabled={!hasCapability("acadlix_add_subject")}
                         sx={{ justifyContent: "flex-start", pl: 2 }}
                         onMouseDown={createSubject}
                       >

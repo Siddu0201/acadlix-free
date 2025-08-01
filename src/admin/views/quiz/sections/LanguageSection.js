@@ -190,10 +190,6 @@ const LanguageSection = (props) => {
                             data?.meta?.language_data
                             , { shouldDirty: true });
                     },
-                    onError: (data) => {
-                        console.error(data?.data);
-                        toast.error(__('Something went wrong.', 'acadlix'));
-                    }
                 })
             }
         }
@@ -226,10 +222,6 @@ const LanguageSection = (props) => {
                         props?.setValue("languages", data?.languages);
                         props?.setValue("meta.language_data", data?.meta?.language_data, { shouldDirty: true });
                     },
-                    onError: (data) => {
-                        console.error(data?.data);
-                        toast.error(__('Something went wrong.', 'acadlix'));
-                    }
                 })
             }
         }
@@ -255,7 +247,7 @@ const LanguageSection = (props) => {
         <Grid size={{ xs: 12, sm: 12 }}>
             <Card>
                 <CardContent>
-                    <Box sx={{ color: "black" }}>
+                    <Box>
                         <Backdrop
                             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                             open={deleteLanguage?.isPending || setDefaultLanguage?.isPending || addLanguage?.isPending}

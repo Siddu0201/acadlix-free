@@ -35,7 +35,6 @@ const QuizLeaderboard = () => {
     },
     inactiveItem: {
       backgroundColor: "white",
-      color: "black",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",

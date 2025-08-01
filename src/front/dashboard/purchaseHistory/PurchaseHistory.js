@@ -159,14 +159,7 @@ const PurchaseHistory = () => {
     localStorage.setItem('frontPurchaseHistoryPageSize', model.pageSize);
   };
 
-  return isMobile ? (
-    <MobileOnlyView
-      {...methods}
-      isFetching={isFetching}
-      paginationModel={paginationModel}
-      handlePaginationChange={handlePaginationChange}
-    />
-  ) : (
+  return (
     <Box>
       <Grid container rowSpacing={3} spacing={4}>
         <Grid size={{ xs: 12, lg: 12 }}>
@@ -209,38 +202,49 @@ const PurchaseHistory = () => {
                   width: "100%",
                 }}
               >
-                <DataGrid
-                  rows={methods?.watch("rows")}
-                  columns={columns}
-                  rowCount={rowCount}
-                  paginationModel={paginationModel}
-                  onPaginationModelChange={handlePaginationChange}
-                  paginationMode="server"
-                  pageSizeOptions={[10, 20, 50]}
-                  checkboxSelection={false}
-                  disableRowSelectionOnClick
-                  disableColumnMenu
-                  onRowSelectionModelChange={(data) => {
-                    methods?.setValue("purchase_ids", data, {
-                      shouldDirty: true,
-                    });
-                  }}
-                  rowSelectionModel={methods?.watch("purchase_ids")}
-                  loading={isFetching}
-                  columnVisibilityModel={{
-                    id: false,
-                  }}
-                  autoHeight
-                  // getRowHeight={() => "auto"}
-                  // getEstimatedRowHeight={() => 200}
-                  sx={{
-                    "& .PrivateSwitchBase-input": {
-                      height: "100% !important",
-                      width: "100% !important",
-                      margin: "0 !important",
-                    },
-                  }}
-                />
+                {
+                  isMobile ? (
+                    <MobileOnlyView
+                      {...methods}
+                      isFetching={isFetching}
+                      paginationModel={paginationModel}
+                      handlePaginationChange={handlePaginationChange}
+                    />
+                  ) : (
+                    <DataGrid
+                      rows={methods?.watch("rows")}
+                      columns={columns}
+                      rowCount={rowCount}
+                      paginationModel={paginationModel}
+                      onPaginationModelChange={handlePaginationChange}
+                      paginationMode="server"
+                      pageSizeOptions={[10, 20, 50]}
+                      checkboxSelection={false}
+                      disableRowSelectionOnClick
+                      disableColumnMenu
+                      onRowSelectionModelChange={(data) => {
+                        methods?.setValue("purchase_ids", data, {
+                          shouldDirty: true,
+                        });
+                      }}
+                      rowSelectionModel={methods?.watch("purchase_ids")}
+                      loading={isFetching}
+                      columnVisibilityModel={{
+                        id: false,
+                      }}
+                      autoHeight
+                      // getRowHeight={() => "auto"}
+                      // getEstimatedRowHeight={() => 200}
+                      sx={{
+                        "& .PrivateSwitchBase-input": {
+                          height: "100% !important",
+                          width: "100% !important",
+                          margin: "0 !important",
+                        },
+                      }}
+                    />
+                  )
+                }
               </Box>
             </CardContent>
           </Card>

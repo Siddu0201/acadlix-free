@@ -86,9 +86,6 @@ const OptionSection = ({
           <Grid
             container
             spacing={{ xs: 3, sm: 4 }}
-            sx={{
-              color: "black",
-            }}
           >
             <Grid size={{ xs: 12, lg: 12 }}>
               <Typography variant="h6">
@@ -108,7 +105,6 @@ const OptionSection = ({
                   id="acadlix-option-lesson-type"
                   sx={{
                     marginRight: 4,
-                    color: "black",
                     fontWeight: 500,
                     fontSize: "1.1rem",
                   }}
@@ -289,9 +285,6 @@ const Resources = ({ resourcesInputProps = {}, ...props }) => {
           <Grid
             container
             spacing={4}
-            sx={{
-              color: "black",
-            }}
           >
             <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField

@@ -13,6 +13,7 @@ import { __ } from '@wordpress/i18n'
 import { iconMap } from '@acadlix/helpers/icons'
 import CustomSwitch from '@acadlix/components/CustomSwitch'
 import { PostUpdateInternalAddon } from '@acadlix/requests/admin/AdminAddonRequest'
+import { hasCapability } from '@acadlix/helpers/util'
 
 const InternalAddonCard = (props) => {
     const Icon = iconMap[props?.icon] || iconMap['FaCloudUploadAlt'];
@@ -59,6 +60,7 @@ const InternalAddonCard = (props) => {
                                             name="checked"
                                             color="primary"
                                             value="yes"
+                                            disabled={!hasCapability("acadlix_edit_addon")}
                                         />
                                     }
                                 />

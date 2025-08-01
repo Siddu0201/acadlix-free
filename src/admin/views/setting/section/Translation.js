@@ -9,7 +9,7 @@ function Translation() {
     { label: "Language3" },
   ];
   return (
-      <Box sx={{ color: "black" }}>
+      <Box>
         <Row>
           <Autocomplete
             sx={{ width: "250px", ml: "10px" }}

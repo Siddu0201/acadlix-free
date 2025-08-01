@@ -17,6 +17,10 @@
   color: var(--acadlix-text-primary);
 }
 
+.acadlix-course-header-last-updated{
+  color: var(--acadlix-text-primary);
+}
+
 .acadlix-course-header-created-at-text {
   color: var(--acadlix-text-tertiary);
 }
@@ -71,6 +75,7 @@
 .acadlix-course-sale-price {
   font-size: 22px;
   font-weight: normal;
+  color: var(--acadlix-text-primary);
 }
 
 .acadlix-course-price {
@@ -98,6 +103,7 @@
 .acadlix-course-aside-details-option {
   display: flex;
   justify-content: space-between;
+  color: var(--acadlix-text-primary);
 }
 
 /* Purchase Section */
@@ -245,6 +251,7 @@
 .acadlix-curriculum-summary {
   display: block;
   padding: 8px 16px;
+  color: var(--acadlix-text-primary);
 }
 
 .acadlix-curriculum-summary::-webkit-details-marker {

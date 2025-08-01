@@ -164,7 +164,7 @@ const Language = (props) => {
   }
 
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <BootstrapDialog
         open={methods?.watch("show_modal")}
         onClose={handleClose}

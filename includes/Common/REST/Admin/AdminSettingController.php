@@ -21,7 +21,7 @@ class AdminSettingController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_page'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_create_page_setting') && $this->check_permission(),
                 ],
             ]
         );
@@ -33,7 +33,7 @@ class AdminSettingController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_update_settings'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_update_setting') && $this->check_permission(),
                 ],
             ]
         );

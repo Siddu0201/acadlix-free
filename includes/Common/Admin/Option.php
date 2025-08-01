@@ -63,6 +63,7 @@ if (!class_exists("Option")) {
         {
             acadlix()->helper()->acadlix_delete_all_options();
             acadlix()->helper()->acadlix_delete_addon_options();
+            acadlix()->helper()->acadlix_delete_extra_options();
         }
 
         private function createPage($option = '', $data = [])

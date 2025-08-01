@@ -56,7 +56,7 @@ const AdvanceOptions = React.lazy(() =>
 
 const General = (props) => {
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <Box
         sx={{
           marginY: 2,

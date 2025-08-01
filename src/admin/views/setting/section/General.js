@@ -20,6 +20,7 @@ import { PostCreatePage } from "@acadlix/requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer, renderMUIComponent } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -47,7 +48,7 @@ function General(props) {
   ) ?? [];
 
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       {/* Page Setup  */}
       <Box
         sx={{
@@ -131,6 +132,7 @@ function General(props) {
                   <Button
                     color="primary"
                     fullWidth
+                    disabled={!hasCapability("acadlix_create_page_setting")}
                     sx={{ justifyContent: "flex-start", pl: 2 }}
                     onMouseDown={(e) => {
                       if (dashboardInput === "") {
@@ -244,6 +246,7 @@ function General(props) {
                     color="primary"
                     fullWidth
                     sx={{ justifyContent: "flex-start", pl: 2 }}
+                    disabled={!hasCapability("acadlix_create_page_setting")}
                     onMouseDown={(e) => {
                       if (cartInput === "") {
                         toast.error(__("Title cannot be empty.", "acadlix"));
@@ -341,6 +344,7 @@ function General(props) {
                     color="primary"
                     fullWidth
                     sx={{ justifyContent: "flex-start", pl: 2 }}
+                    disabled={!hasCapability("acadlix_create_page_setting")}
                     onMouseDown={(e) => {
                       if (checkoutInput === "") {
                         toast.error(__("Title cannot be empty.", "acadlix"));
@@ -438,6 +442,7 @@ function General(props) {
                     color="primary"
                     fullWidth
                     sx={{ justifyContent: "flex-start", pl: 2 }}
+                    disabled={!hasCapability("acadlix_create_page_setting")}
                     onMouseDown={(e) => {
                       if (thankyouInput === "") {
                         toast.error(__("Title cannot be empty.", "acadlix"));
@@ -541,6 +546,33 @@ function General(props) {
                 Number(e?.target?.value),
                 { shouldDirty: true }
               );
+            }}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 500,
+            }}
+          >
+            {__("Disable wishlist", "acadlix")}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            label={__("Activate", "acadlix")}
+            control={<CustomSwitch />}
+            value="yes"
+            checked={props?.watch("acadlix_disable_wishlist") === "yes"}
+            onClick={(e) => {
+              if (e?.target?.checked !== undefined) {
+                props?.setValue(
+                  "acadlix_disable_wishlist",
+                  e?.target?.checked ? e?.target?.value : "no",
+                  { shouldDirty: true }
+                );
+              }
             }}
           />
         </Grid>

@@ -47,6 +47,16 @@ if (!class_exists('UserActivityMeta')) {
             return $query->where("type", "course");
         }
 
+        public function course()
+        {
+            if ($this->type === 'course') {
+                return $this->belongsTo(acadlix()->model()->course(), 'type_id', 'ID');
+            }
+
+            return null;
+        }
+
+
         public function scopeOfCourseWishlist($query)
         {
             return $query->where("meta_key", "wishlist");
@@ -77,12 +87,14 @@ if (!class_exists('UserActivityMeta')) {
             return $query->where("meta_key", "course_statistic_quiz_attempt_time");
         }
 
-        public function setUserIdAttribute($value){
-            $this->attributes['user_id'] = $value == 0 ? NULL : $value ;
+        public function setUserIdAttribute($value)
+        {
+            $this->attributes['user_id'] = $value == 0 ? NULL : $value;
         }
 
-        public function setUserTokenAttribute($value){
-            $this->attributes['user_token'] = empty($value) ? NULL : $value ;
+        public function setUserTokenAttribute($value)
+        {
+            $this->attributes['user_token'] = empty($value) ? NULL : $value;
         }
 
         public function user()

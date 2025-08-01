@@ -148,13 +148,7 @@ export default function Result() {
     localStorage.setItem('frontResultPageSize', model.pageSize);
   };
 
-  return isMobile ? (
-    <MobileOnlyView
-      {...methods}
-      paginationModel={paginationModel}
-      handlePaginationChange={handlePaginationChange}
-    />
-  ) : (
+  return (
     <Box>
       <Grid container rowSpacing={3} spacing={4}>
         <Grid size={{ xs: 12, lg: 12 }}>
@@ -192,35 +186,45 @@ export default function Result() {
                   flexDirection: 'column',
                 }}
               >
-                <DataGrid
-                  rows={methods?.watch("rows")}
-                  columns={columns}
-                  rowCount={rowCount}
-                  paginationModel={paginationModel}
-                  onPaginationModelChange={handlePaginationChange}
-                  paginationMode="server"
-                  pageSizeOptions={[10, 20, 50, 100]}
-                  checkboxSelection
-                  disableColumnMenu
-                  disableRowSelectionOnClick
-                  onRowSelectionModelChange={(data) => {
-                    methods?.setValue("statistic_ref_ids", data, {
-                      shouldDirty: true,
-                    });
-                  }}
-                  rowSelectionModel={methods?.watch("statistic_ref_ids")}
-                  loading={isFetching}
-                  columnVisibilityModel={{
-                    id: false,
-                  }}
-                  sx={{
-                    "& .PrivateSwitchBase-input": {
-                      height: "100% !important",
-                      width: "100% !important",
-                      margin: "0 !important",
-                    },
-                  }}
-                />
+                {
+                  isMobile ? (
+                    <MobileOnlyView
+                      {...methods}
+                      paginationModel={paginationModel}
+                      handlePaginationChange={handlePaginationChange}
+                    />
+                  ) : (
+                    <DataGrid
+                      rows={methods?.watch("rows")}
+                      columns={columns}
+                      rowCount={rowCount}
+                      paginationModel={paginationModel}
+                      onPaginationModelChange={handlePaginationChange}
+                      paginationMode="server"
+                      pageSizeOptions={[10, 20, 50, 100]}
+                      checkboxSelection
+                      disableColumnMenu
+                      disableRowSelectionOnClick
+                      onRowSelectionModelChange={(data) => {
+                        methods?.setValue("statistic_ref_ids", data, {
+                          shouldDirty: true,
+                        });
+                      }}
+                      rowSelectionModel={methods?.watch("statistic_ref_ids")}
+                      loading={isFetching}
+                      columnVisibilityModel={{
+                        id: false,
+                      }}
+                      sx={{
+                        "& .PrivateSwitchBase-input": {
+                          height: "100% !important",
+                          width: "100% !important",
+                          margin: "0 !important",
+                        },
+                      }}
+                    />
+                  )
+                }
               </Box>
             </CardContent>
           </Card>
@@ -232,7 +236,12 @@ export default function Result() {
 
 const MobileOnlyView = (props) => {
   return (
-    <Paper style={{ width: "100%", backgroundColor: "transparent" }}>
+    <Paper style={{
+      width: "100%",
+      backgroundColor: "transparent",
+      border: "none",
+      boxShadow: "none"
+    }}>
       <Box padding={1} sx={{ mx: 1 }}>
         <TextField
           fullWidth

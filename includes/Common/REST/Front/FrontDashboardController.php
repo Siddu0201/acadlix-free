@@ -102,6 +102,18 @@ class FrontDashboardController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/get-user-wishlist',
+            [
+                [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_user_wishlist'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/get-user-profile',
             [
                 [
@@ -444,6 +456,38 @@ class FrontDashboardController
         $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->where("user_id", $request->get_param("user_id"))->orderBy('created_at', 'desc');
         $res['total'] = $order->count();
         $res['orders'] = $order->skip($skip)->take($params['pageSize'])->get();
+        return rest_ensure_response($res);
+    }
+
+    public function get_user_wishlist($request)
+    {
+        $res = [];
+        $params = $request->get_params();
+        if ($request->get_param("user_id") == 0) {
+            return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
+        }
+        $skip = $params['page'] * $params['pageSize'];
+        $wishlist = acadlix()->model()->userActivityMeta()
+                    ->ofCourse()
+                    ->ofCourseWishlist()
+                    ->where("user_id", $request->get_param("user_id"))
+                    ->orderBy('created_at', 'desc');
+        $res['total'] = $wishlist->count();
+        $res['wishlist'] = $wishlist
+                        ->skip($skip)
+                        ->take($params['pageSize'])
+                        ->get()
+                        ->map(function ($item) {
+                            // Safely enrich only if type is 'course'
+                            if ($item->type === 'course') {
+                                $course = acadlix()->model()->course()->find($item->type_id);
+                                if ($course) {
+                                    $item->course = $course;
+                                    $item->permalink = get_permalink($course->ID);
+                                }
+                            }
+                            return $item;
+                        });
         return rest_ensure_response($res);
     }
 

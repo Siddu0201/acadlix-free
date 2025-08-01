@@ -4,8 +4,8 @@ import React from 'react'
 const CustomTypography = (props) => {
     return (
         <Typography
-            {...props}
             variant="body2"
+            {...props}
             sx={{
                 fontWeight: 500,
                 ...props?.sx,

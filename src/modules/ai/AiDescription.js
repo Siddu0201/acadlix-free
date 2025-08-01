@@ -145,9 +145,6 @@ const DescriptionModel = ({
         generateMutation.mutate(data, {
             onSuccess: (data) => {
                 setResponse(data?.data?.description);
-            },
-            onError: (error) => {
-                toast.error(error?.response?.data?.message);
             }
         });
 

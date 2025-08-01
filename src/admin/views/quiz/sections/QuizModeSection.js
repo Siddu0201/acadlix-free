@@ -98,14 +98,16 @@ const QuizModeSection = (props) => {
                         }
                       }}
                     />
-                    <h3
-                      style={{
+                    <Typography
+                      variant="h5"
+                      fontWeight="bold"
+                      sx={{
                         margin: "5px 0 10px 0",
                         cursor: "pointer",
                       }}
                     >
                       {__("Normal", 'acadlix')}
-                    </h3>
+                    </Typography>
                   </Box>
                   <React.Suspense fallback={null}>
                     <BackButton {...props} />
@@ -152,14 +154,16 @@ const QuizModeSection = (props) => {
                         }
                       }}
                     />
-                    <h3
-                      style={{
+                    <Typography
+                      variant="h5"
+                      fontWeight="bold"
+                      sx={{
                         margin: "5px 0 10px 0",
                         cursor: "pointer",
                       }}
                     >
                       {__("Check And Continue", 'acadlix')}
-                    </h3>
+                    </Typography>
                   </Box>
                   <Box>
                     <React.Suspense fallback={null}>
@@ -217,17 +221,28 @@ const QuizModeSection = (props) => {
                         }
                       }}
                     />
-                    <h3
-                      style={{
+                    <Typography
+                      variant="h5"
+                      fontWeight="bold"
+                      sx={{
                         margin: "5px 0 10px 0",
                         cursor: "pointer",
                       }}
                     >
                       {__("Question Below Each Other", 'acadlix')}
-                    </h3>
+                    </Typography>
                   </Box>
                   <Box>
-                    <h3>{__("Question per page", 'acadlix')}</h3>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{
+                        margin: "5px 0 10px 0",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {__("Question per page", 'acadlix')}
+                    </Typography>
                     <CustomTextField
                       size="small"
                       fullWidth

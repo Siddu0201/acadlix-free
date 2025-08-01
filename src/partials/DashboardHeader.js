@@ -86,7 +86,6 @@ const DashboardHeader = () => {
                     sm: 15,
                     xs: 1,
                   },
-                  color: "black",
                   fontWeight: 500,
                   fontSize: {
                     sm: "1rem",

@@ -546,7 +546,9 @@ if (!class_exists('Helper')) {
                 'acadlix_admin_auto_registration_to_courses' => "no",
                 'acadlix_admin_can_assign_courses_to_student' => "no",
                 'acadlix_admin_can_remove_student_from_course' => "no",
+                // Course Option
                 'acadlix_default_rows_per_page' => 20,
+                'acadlix_disable_wishlist' => "no",
                 // Student Dashboard Option
                 'acadlix_logout_redirect_url' => "",
                 'acadlix_disable_home_menu' => "no",
@@ -983,6 +985,17 @@ if (!class_exists('Helper')) {
                 $this->acadlix_delete_option($option['option_name']);
             }
         }
+
+        public function acadlix_delete_extra_options()
+        {
+            $options = [
+                'acadlix_theme_settings',
+            ];
+            foreach ($options as $option) {
+                $this->acadlix_delete_option($option);
+            }
+        }
+        
 
         public static function instance()
         {

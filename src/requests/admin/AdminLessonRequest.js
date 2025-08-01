@@ -16,6 +16,9 @@ export const GetLessons = (page = 0, pageSize = 10, search = '') => {
                     pageSize: pageSize,
                     search: search,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -27,12 +30,20 @@ export const PostCreateLesson = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(base, data);
+            return instance.post(base, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["getLessons"]
             });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }
@@ -46,6 +57,9 @@ export const GetLessonById = (lesson_id = '') => {
             return instance.get(`${base}/${lesson_id}`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -57,12 +71,20 @@ export const UpdateLessonById = (lesson_id = '') => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${lesson_id}`, data);
+            return instance.post(`${base}/${lesson_id}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["getLessons"]
             });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -87,6 +109,7 @@ export const DeleteLessonById = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -112,6 +135,7 @@ export const DeleteBulkLesson = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }

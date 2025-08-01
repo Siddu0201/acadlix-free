@@ -34,7 +34,7 @@ const ForceUserButton = React.lazy(() =>
 
 const Question = (props) => {
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <Box
         sx={{
           marginY: 2,

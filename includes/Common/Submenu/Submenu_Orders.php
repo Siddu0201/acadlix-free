@@ -52,6 +52,7 @@ class Submenu_Orders
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
             'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),

@@ -14,7 +14,7 @@ import { __ } from "@wordpress/i18n";
 
 function Registration() {
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <Grid container >
         <GridItem1 size={{ xs: 3, lg: 3 }}>
           <Typography variant="body1">

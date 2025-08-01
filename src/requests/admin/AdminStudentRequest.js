@@ -15,6 +15,9 @@ export const GetStudents = (page = 0, pageSize = 10, search = '') => {
                     pageSize: pageSize,
                     search: search,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }

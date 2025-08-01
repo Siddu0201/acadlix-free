@@ -23,12 +23,12 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_orders'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_show_order') && $this->check_permission(),
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_order'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_add_order') && $this->check_permission(),
                 ],
             ]
         );
@@ -40,7 +40,7 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_create_order'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_add_order') && $this->check_permission(),
                 ],
             ]
         );
@@ -52,7 +52,7 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_order_courses'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_order') && $this->check_permission(),
                 ],
             ]
         );
@@ -64,7 +64,7 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_order_users'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_order') && $this->check_permission(),
                 ],
             ]
         );
@@ -76,7 +76,7 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_order_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_order') && $this->check_permission(),
                     'args' => array(
                         'order_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -88,7 +88,7 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_order_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_order') && $this->check_permission(),
                     'args' => array(
                         'order_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -100,12 +100,7 @@ class AdminOrderController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_order_by_id'],
-                    'permission_callback' => function (WP_REST_Request $request) {
-                        if (wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest')) {
-                            return true;
-                        }
-                        return false;
-                    },
+                    'permission_callback' => fn() => current_user_can('acadlix_delete_order') && $this->check_permission(),
                     'args' => array(
                         'order_id' => array(
                             'validate_callback' => function ($param, $request, $key) {

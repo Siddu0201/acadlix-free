@@ -24,7 +24,7 @@ const SidebarList = (props) => {
       expanded={props?.s?.open}
       onChange={handleChange}
       sx={{
-        border: `1px solid #d1d7dc`,
+        border: ({theme}) => `1px solid ${theme?.palette?.grey?.dark}`,
         "&:not(:last-child)": {
           borderBottom: 0,
         },
@@ -42,7 +42,6 @@ const SidebarList = (props) => {
           />
         }
         sx={{
-          backgroundColor: "#f7f9fa",
           paddingX: 3,
           paddingY: 2,
           marginBottom: `0 !important`,

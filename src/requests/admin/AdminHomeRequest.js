@@ -11,6 +11,9 @@ export const GetHomeData = () => {
             return instance.get(`${base}`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }

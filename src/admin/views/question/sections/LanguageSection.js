@@ -22,7 +22,6 @@ const LanguageSection = (props) => {
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
-              color: "black",
             },
           }}
         />
@@ -38,7 +37,6 @@ const LanguageSection = (props) => {
                 <FormLabel
                   sx={{
                     marginRight: 3,
-                    color: "black",
                     fontWeight: 400,
                     fontSize: "1.05rem",
                   }}

@@ -40,7 +40,11 @@ class UserRole
             $this->quiz_category_capabilities(),
             $this->quiz_language_capabilities(),
             $this->tool_capabilities(),
-            $this->student_capabilities()
+            $this->student_capabilities(),
+            $this->addon_capabilities(),
+            $this->subject_capabilities(),
+            $this->template_capabilities(),
+            $this->design_studio_capabilities(),
         );
     }
 
@@ -69,6 +73,9 @@ class UserRole
             'acadlix_add_course_section_quiz' => true,
             'acadlix_edit_course_section_quiz' => true,
             'acadlix_delete_course_section_quiz' => true,
+            'acadlix_sort_course_section' => true,
+            'acadlix_sort_course_section_content'=> true,
+            'acadlix_delete_course_section_content' => true,
         ];
     }
 
@@ -94,6 +101,9 @@ class UserRole
             'acadlix_bulk_action_quiz' => true,
             'acadlix_bulk_delete_quiz' => true,
             'acadlix_bulk_set_category_quiz' => true,
+            'acadlix_add_edit_language_to_quiz' => true,
+            'acadlix_set_default_quiz_language' => true,
+            'acadlix_delete_language_from_quiz' => true,
         ];
     }
 
@@ -167,12 +177,15 @@ class UserRole
             'acadlix_show_payment_setting' => true,
             'acadlix_show_notification_setting' => true,
             'acadlix_show_permalink_setting' => true,
+            'acadlix_update_setting' => true,
+            'acadlix_create_page_setting' => true,
         ];
     }
 
     public function quiz_category_capabilities(): array
     {
         return [
+            'acadlix_show_quiz_category' => true,
             'acadlix_add_quiz_category' => true,
             'acadlix_edit_quiz_category' => true,
             'acadlix_delete_quiz_category' => true,
@@ -182,8 +195,10 @@ class UserRole
     public function quiz_language_capabilities(): array
     {
         return [
+            'acadlix_show_quiz_language' => true,
             'acadlix_add_quiz_language' => true,
             'acadlix_edit_quiz_language' => true,
+            'acadlix_delete_quiz_language' => true,
             'acadlix_default_quiz_language' => true,
         ];
     }
@@ -199,6 +214,41 @@ class UserRole
     {
         return [
             'acadlix_show_student' => true,
+        ];
+    }
+
+    public function addon_capabilities()
+    {
+        return [
+            'acadlix_show_addon' => true,
+            'acadlix_edit_addon' => true,
+        ];
+    }
+
+    public function subject_capabilities(): array
+    {
+        return [
+            'acadlix_show_subject' => true,
+            'acadlix_add_subject' => true,
+            'acadlix_edit_subject' => true,
+            'acadlix_delete_subject' => true,
+        ];
+    }
+
+    public function template_capabilities(): array
+    {
+        return [
+            'acadlix_show_template' => true,
+            'acadlix_add_template' => true,
+            'acadlix_edit_template' => true,
+            'acadlix_delete_template' => true,
+        ];
+    }
+
+    public function design_studio_capabilities(): array
+    {
+        return [
+            'acadlix_show_design_studio' => true,
         ];
     }
 

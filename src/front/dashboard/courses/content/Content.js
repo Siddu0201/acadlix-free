@@ -94,13 +94,13 @@ const Content = (props) => {
                       borderRadius: 0,
                       paddingX: 1,
                       paddingY: 3,
-                      color: "white",
-                      backgroundColor: "black",
-                      opacity: "0.2",
+                      color: (theme) => theme.palette.grey.contrastText,
+                      backgroundColor: (theme) => theme.palette.grey.main,
+                      opacity: "0.8",
                       ":hover, :focus": {
-                        color: "white",
-                        backgroundColor: "black",
-                        opacity: "1",
+                        color: (theme) => theme.palette.grey.contrastText,
+                        backgroundColor: (theme) => theme.palette.grey.dark,
+                        opacity: "0.8",
                       },
                     }}
                   >
@@ -124,14 +124,13 @@ const Content = (props) => {
                       borderRadius: 0,
                       paddingX: 1,
                       paddingY: 3,
-                      color: "white",
-                      backgroundColor: "black",
-                      opacity: "0.2",
-                      opacity: "0.2",
+                      color: (theme) => theme.palette.grey.contrastText,
+                      backgroundColor: (theme) => theme.palette.grey.main,
+                      opacity: "0.8",
                       ":hover, :focus": {
-                        color: "white",
-                        backgroundColor: "black",
-                        opacity: "1",
+                        color: (theme) => theme.palette.grey.contrastText,
+                        backgroundColor: (theme) => theme.palette.grey.dark,
+                        opacity: "0.8",
                       },
                     }}
                   >

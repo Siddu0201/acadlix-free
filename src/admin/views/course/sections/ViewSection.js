@@ -100,7 +100,12 @@ const ViewSection = (props) => {
                 };
               })
             );
-
+          },
+          onError: (error) => {
+            props?.setValue(
+              "sections",
+              arrayMove(props?.watch("sections"), newIndex, oldIndex)
+            );
           },
         }
       );
@@ -384,6 +389,7 @@ const SortableSections = (props) => {
   const { attributes, listeners, setNodeRef, transition, isOver } =
     useSortable({
       id: props?.s?.menu_order,
+      disabled: !hasCapability("acadlix_sort_course_section"),
     });
 
   const handleToggle = () => {
@@ -457,7 +463,8 @@ const SortableSections = (props) => {
           <IoMenu
             style={{
               fontSize: 28,
-              cursor: "move",
+              cursor: hasCapability("acadlix_sort_course_section") ? "move" : "default",
+              opacity: hasCapability("acadlix_sort_course_section") ? 1 : 0.5,
             }}
             {...listeners}
             {...attributes}

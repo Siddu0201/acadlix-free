@@ -14,9 +14,9 @@ const SidebarListItem = (props) => {
     <ListItem
       sx={{
         cursor: "pointer",
-        bgcolor: props?.c?.is_active ? "#d1d7dc" : "initial",
+        bgcolor: (theme) => props?.c?.is_active ? theme.palette.grey.light : "initial",
         "&:hover": {
-          bgcolor: "#d1d7dc",
+          bgcolor: (theme) => theme.palette.grey.light,
         },
         paddingX: 1,
       }}

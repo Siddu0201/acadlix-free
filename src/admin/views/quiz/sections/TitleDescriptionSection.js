@@ -32,9 +32,6 @@ const TitleDescriptionSection = (props) => {
           <Grid
             container
             spacing={4}
-            sx={{
-              color: "black",
-            }}
           >
             <Grid size={{ xs: 12, lg: 12 }}>
               <Typography variant="h6">{__("Quiz Title", "acadlix")}</Typography>

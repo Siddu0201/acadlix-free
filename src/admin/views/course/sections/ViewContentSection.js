@@ -95,6 +95,16 @@ const ViewContentSection = (props) => {
               })
             );
           },
+          onError: (error) => {
+            props?.setValue(
+              `sections.${props?.id}.contents`,
+              arrayMove(
+                props?.watch(`sections.${props?.id}.contents`),
+                newIndex,
+                oldIndex
+              )
+            );
+          },
         }
       );
     }
@@ -180,7 +190,7 @@ const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
       sx={{
         padding: 0,
         display: "block",
-        border: `1px solid ${props?.colorCode?.view_section_border}`,
+        border: `1px solid ${props?.colorCode?.view_content_border}`,
         borderRadius: "6px",
         opacity: 1,
         cursor: "grab",
@@ -192,7 +202,7 @@ const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: props?.colorCode?.view_section_background,
+          backgroundColor: props?.colorCode?.view_content_background,
           paddingX: 3,
           paddingY: 2,
           borderRadius: "6px",
@@ -247,6 +257,7 @@ const SortableSections = (props) => {
   const { attributes, listeners, setNodeRef, transition, isOver } = useSortable(
     {
       id: props?.c?.sort,
+      disabled: !hasCapability("acadlix_sort_course_section_content"),
     }
   );
 
@@ -320,7 +331,7 @@ const SortableSections = (props) => {
         transition: transition,
         padding: 0,
         display: "block",
-        border: `1px ${isOver ? "dotted" : "solid"} ${props?.colorCode?.view_section_border
+        border: `1px ${isOver ? "dotted" : "solid"} ${props?.colorCode?.view_content_border
           }`,
         borderRadius: "6px",
       }}
@@ -330,7 +341,7 @@ const SortableSections = (props) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: props?.colorCode?.view_section_background,
+          backgroundColor: props?.colorCode?.view_content_background,
           paddingX: 3,
           paddingY: 2,
           borderRadius: "6px",
@@ -346,7 +357,8 @@ const SortableSections = (props) => {
           <MdDragIndicator
             style={{
               fontSize: 28,
-              cursor: "move",
+              cursor: hasCapability("acadlix_sort_course_section_content") ? "move" : "default",
+              opacity: hasCapability("acadlix_sort_course_section_content") ? 1 : 0.5,
             }}
             {...listeners}
             {...attributes}
@@ -387,7 +399,7 @@ const SortableSections = (props) => {
               </Tooltip>
             }
             {
-              hasCapability("acadlix_delete_course_section_quiz") &&
+              hasCapability("acadlix_delete_course_section_content") &&
               <Tooltip title={__('Delete Quiz', 'acadlix')}>
                 <IconButton onClick={handleRemoveContent}>
                   <FaTrash
@@ -416,7 +428,7 @@ const SortableSections = (props) => {
               <EditLesson {...props} />
             }
             {
-              hasCapability("acadlix_delete_course_section_lesson") &&
+              hasCapability("acadlix_delete_course_section_content") &&
               <Tooltip title={__("Delete Lesson", "acadlix")}>
                 <IconButton onClick={handleRemoveContent}>
                   <FaTrash

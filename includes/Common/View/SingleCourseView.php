@@ -356,7 +356,7 @@ if (!function_exists('acadlix_course_action_buttons')) {
                 <?php
             }
 
-            if (is_user_logged_in()) {
+            if (is_user_logged_in() && acadlix()->helper()->acadlix_get_option('acadlix_disable_wishlist') === 'no') {
                 $course_wishlist_count = acadlix()->model()->userActivityMeta()->ofCourse()
                     ->ofCourseWishlist()
                     ->where([

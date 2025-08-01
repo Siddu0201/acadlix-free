@@ -1,50 +1,49 @@
 import { CssBaseline, ScopedCssBaseline, StyledEngineProvider, ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 
+export const defaultPaletteColor = {
+  main: {
+    primary: "#1976d2",
+    grey: "#d1d7dc",
+    success: "#01cd00",
+    error: "#f60400",
+    warning: "#FFAB00",
+    info: "#03C3EC",
+  },
+  light: {
+    primary: "#66b2ff",
+    grey: "#eeeeee",
+    success: "#e7ffe7",
+    error: "#ffe5e6",
+    warning: "#FFB826",
+    info: "#29CCEF",
+  },
+  dark: {
+    primary: "#1565c0",
+    grey: "#bac2c9",
+    success: "#489744",
+    error: "#952e29",
+    warning: "#E89C00",
+    info: "#03B1D7",
+  },
+  contrastText: {
+    primary: "#ffffff",
+    grey: "#ffffff",
+    success: "#ffffff",
+    error: "#ffffff",
+    warning: "#ffffff",
+    info: "#ffffff",
+  },
+  text: {
+    primary: "rgba(0, 0, 0, 0.87)",
+    secondary: "rgba(0, 0, 0, 0.6)",
+  }
+};
+
+
 const CustomThemeProvider = ({ children }) => {
   const mode = "light";
   const themeColor = "primary";
-
-  const colors = {
-    main: {
-      // primary: "#696CFF",
-      primary: "#1976d2",
-      grey: "#8592A3",
-      success: "#01cd00",
-      error: "#f60400",
-      warning: "#FFAB00",
-      info: "#03C3EC",
-      section: "#13455b",
-    },
-    light: {
-      primary: "#8082FF",
-      grey: "#97A2B1",
-      success: "#e7ffe7",
-      error: "#ffe5e6",
-      warning: "#FFB826",
-      info: "#29CCEF",
-      section: "#f8f9fc",
-    },
-    dark: {
-      // primary: "#6062E8",
-      primary: "#1565c0",
-      grey: "#798594",
-      success: "#489744",
-      error: "#952e29",
-      warning: "#E89C00",
-      info: "#03B1D7",
-      section: "#13455b",
-    },
-    contrastText:{
-      primary: "#fff",
-      grey: "#fff",
-      success: "#fff",
-      error: "#fff",
-      warning: "#fff",
-      info: "#fff",
-      section: "#3a3b45",
-    }
-  };
 
   const themeOptions = createTheme({
     typography: {
@@ -62,6 +61,28 @@ const CustomThemeProvider = ({ children }) => {
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
       ].join(","),
+      // fontSize: 16,
+      allVariants: {
+        color: acadlixOptions?.theme_settings?.palette?.text?.primary ?? defaultPaletteColor.text.primary,
+      },
+      // h1: {
+      //   fontSize: '3rem', // your custom size
+      // },
+      // h2: {
+      //   fontSize: '2.5rem',
+      // },
+      // h3: {
+      //   fontSize: '2rem',
+      // },
+      // h4: {
+      //   fontSize: '1.5rem',
+      // },
+      // h5: {
+      //   fontSize: '1.25rem',
+      // },
+      // h6: {
+      //   fontSize: '1rem',
+      // },
     },
     spacing: (factor) => `${0.25 * factor}rem`,
     shape: {
@@ -77,46 +98,40 @@ const CustomThemeProvider = ({ children }) => {
         // light: "55, 71, 92",
       },
       primary: {
-        main: colors.main[themeColor],
-        light: colors.light[themeColor],
-        dark: colors.dark[themeColor],
-        contrastText: colors.contrastText[themeColor],
+        main: acadlixOptions?.theme_settings?.palette?.primary?.main ?? defaultPaletteColor?.main[themeColor],
+        light: acadlixOptions?.theme_settings?.palette?.primary?.light ?? defaultPaletteColor.light[themeColor],
+        dark: acadlixOptions?.theme_settings?.palette?.primary?.dark ?? defaultPaletteColor.dark[themeColor],
+        contrastText: acadlixOptions?.theme_settings?.palette?.primary?.contrastText ?? defaultPaletteColor.contrastText[themeColor],
       },
       grey: {
-        main: colors.main["grey"],
-        light: colors.light["grey"],
-        dark: colors.dark["grey"],
-        contrastText: colors.contrastText[themeColor],
+        main: acadlixOptions?.theme_settings?.palette?.grey?.main ?? defaultPaletteColor.main["grey"],
+        light: acadlixOptions?.theme_settings?.palette?.grey?.light ?? defaultPaletteColor.light["grey"],
+        dark: acadlixOptions?.theme_settings?.palette?.grey?.dark ?? defaultPaletteColor.dark["grey"],
+        contrastText: acadlixOptions?.theme_settings?.palette?.grey?.contrastText ?? defaultPaletteColor.contrastText["grey"],
       },
       success: {
-        main: colors.main["success"],
-        light: colors.light["success"],
-        dark: colors.dark["success"],
-        contrastText: colors.contrastText[themeColor],
+        main: acadlixOptions?.theme_settings?.palette?.success?.main ?? defaultPaletteColor.main["success"],
+        light: acadlixOptions?.theme_settings?.palette?.success?.light ?? defaultPaletteColor.light["success"],
+        dark: acadlixOptions?.theme_settings?.palette?.success?.dark ?? defaultPaletteColor.dark["success"],
+        contrastText: acadlixOptions?.theme_settings?.palette?.success?.contrastText ?? defaultPaletteColor.contrastText["success"],
       },
       error: {
-        main: colors.main["error"],
-        light: colors.light["error"],
-        dark: colors.dark["error"],
-        contrastText: colors.contrastText[themeColor],
+        main: acadlixOptions?.theme_settings?.palette?.error?.main ?? defaultPaletteColor.main["error"],
+        light: acadlixOptions?.theme_settings?.palette?.error?.light ?? defaultPaletteColor.light["error"],
+        dark: acadlixOptions?.theme_settings?.palette?.error?.dark ?? defaultPaletteColor.dark["error"],
+        contrastText: acadlixOptions?.theme_settings?.palette?.error?.contrastText ?? defaultPaletteColor.contrastText["error"],
       },
       warning: {
-        main: colors.main["warning"],
-        light: colors.light["warning"],
-        dark: colors.dark["warning"],
-        contrastText: colors.contrastText[themeColor],
+        main: acadlixOptions?.theme_settings?.palette?.warning?.main ?? defaultPaletteColor.main["warning"],
+        light: acadlixOptions?.theme_settings?.palette?.warning?.light ?? defaultPaletteColor.light["warning"],
+        dark: acadlixOptions?.theme_settings?.palette?.warning?.dark ?? defaultPaletteColor.dark["warning"],
+        contrastText: acadlixOptions?.theme_settings?.palette?.warning?.contrastText ?? defaultPaletteColor.contrastText["warning"],
       },
       info: {
-        main: colors.main["info"],
-        light: colors.light["info"],
-        dark: colors.dark["info"],
-        contrastText: colors.contrastText[themeColor],
-      },
-      section: {
-        main: colors.main["section"],
-        light: colors.light["section"],
-        dark: colors.dark["section"],
-        contrastText: colors.contrastText[themeColor],
+        main: acadlixOptions?.theme_settings?.palette?.info?.main ?? defaultPaletteColor.main["info"],
+        light: acadlixOptions?.theme_settings?.palette?.info?.light ?? defaultPaletteColor.light["info"],
+        dark: acadlixOptions?.theme_settings?.palette?.info?.dark ?? defaultPaletteColor.dark["info"],
+        contrastText: acadlixOptions?.theme_settings?.palette?.info?.contrastText ?? defaultPaletteColor.contrastText["info"],
       },
       ...(mode === "light"
         ? {
@@ -125,8 +140,8 @@ const CustomThemeProvider = ({ children }) => {
             default: "#f5f5f9",
           },
           text: {
-            // primary: "rgba(55, 71, 92, 1)!important",
-            // secondary: "rgba(55, 71, 92, 0.6)!important",
+            primary: acadlixOptions?.theme_settings?.palette?.text?.primary ?? defaultPaletteColor.text.primary,
+            secondary: acadlixOptions?.theme_settings?.palette?.text?.secondary ?? defaultPaletteColor.text.secondary,
           },
         }
         : {
@@ -181,10 +196,10 @@ const CustomThemeProvider = ({ children }) => {
       MuiDataGrid: {
         defaultProps: {},
         styleOverrides: {
-          columnHeaders: {
-            borderTop: "1px solid rgba(50, 71, 92, 0.12)",
+          columnHeaders: ({ theme }) => ({
+            borderTop: `1px solid ${theme.palette.grey.light}`,
             borderRadius: 0,
-          },
+          }),
           root: {
             border: 0,
             borderRadius: 0,
@@ -197,25 +212,34 @@ const CustomThemeProvider = ({ children }) => {
             textTransform: "none",
             marginBottom: "0px !important",
           },
-          contained: ({ownerState }) => ({
+          contained: ({ theme, ownerState }) => ({
             "&:hover, &:focus": {
-              color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
-              backgroundColor: ownerState?.color ? colors.dark[ownerState?.color] : colors.dark[themeColor],
+              color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+              backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].dark : theme.palette[themeColor]?.dark,
             },
           }),
-          outlined: ({ownerState }) => ({
+          outlined: ({ theme, ownerState }) => ({
             "&:hover, &:focus": {
-              color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
-              backgroundColor: ownerState?.color ? colors.main[ownerState?.color] : colors.main[themeColor],
+              color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+              backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
             },
           }),
-          text: ({ownerState }) => ({
+          text: ({ theme, ownerState }) => ({
             "&:hover, &:focus": {
-              color: ownerState?.color ? colors.contrastText[ownerState?.color] : colors.contrastText[themeColor],
-              backgroundColor: ownerState?.color ? colors.main[ownerState?.color] : colors.main[themeColor],
+              color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+              backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
             },
           }),
         },
+      },
+      MuiIconButton: {
+        styleOverrides: {
+          root: ({ theme, ownerState }) => ({
+            "&:hover, &:focus": {
+              color: ownerState?.color ? theme.palette?.[ownerState?.color]?.dark : theme.palette[themeColor].dark,
+            },
+          })
+        }
       },
       MuiRadio: {
         root: {
@@ -239,12 +263,13 @@ const CustomThemeProvider = ({ children }) => {
       },
       MuiAccordionSummary: {
         styleOverrides: {
-          root: {
+          root: ({ theme }) => ({
+            backgroundColor: theme.palette.grey.main,
             "&:hover, &:focus": {
-              backgroundColor: "#f7f9fa",
-              color: "rgba(0, 0, 0, 0.87)",
+              backgroundColor: theme.palette.grey.dark,
+              color: theme.palette.text.primary,
             },
-          },
+          }),
         },
       },
       MuiInputBase: {
@@ -255,7 +280,7 @@ const CustomThemeProvider = ({ children }) => {
             boxShadow: "none !important",
           }
         }
-      }
+      },
     },
   });
   return (
@@ -264,7 +289,7 @@ const CustomThemeProvider = ({ children }) => {
       background: "none",
     }}>
       <ThemeProvider theme={themeOptions}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         {children}
       </ThemeProvider>
     </ScopedCssBaseline>

@@ -7,7 +7,6 @@ import Result from "./dashboard/result/Result";
 import PurchaseHistory from "./dashboard/purchaseHistory/PurchaseHistory";
 import Profile from "./dashboard/profile/Profile";
 import "./AppFront.css";
-import Quiz from "./dashboard/quiz/Quiz.js";
 import Provider from "@acadlix/provider/Provider.js";
 import CourseContent from "./dashboard/courses/CourseContent.js";
 import { Box, Button } from "@mui/material";
@@ -16,6 +15,7 @@ import UserAuth from "@acadlix/modules/user-auth/UserAuth.js";
 import { __ } from "@wordpress/i18n";
 import ViewAnswersheet from "./dashboard/result/ViewAnswersheet.js";
 import { Toaster } from 'react-hot-toast'
+import Wishlist from "./dashboard/wishlist/Wishlist";
 
 const Dashbaord = () => {
   
@@ -75,21 +75,17 @@ const Dashbaord = () => {
               <Route path=":statistic_ref_id" element={<ViewAnswersheet />} />
             </Route>
             <Route path="/purchase" element={<PurchaseHistory />} />
+            {
+              acadlixOptions?.settings?.acadlix_disable_wishlist === 'no' && (
+                <Route path="/wishlist" element={<Wishlist />} />
+              )
+            }
             <Route path="/profile" element={<Profile />} />
-            {/* <Route path="/normal" element={<Quiz mode="normal" />} /> */}
           </Route>
           <Route path="/course/:orderItemId">
             <Route index element={<CourseContent />} />
             <Route path="content/:courseSectionContentId" element={<CourseContent />} />
           </Route>
-          {/* <Route
-            path="/ibps"
-            element={<Quiz mode="advance_mode" advance_mode="ibps" />}
-          />
-          <Route
-            path="/advance_panel"
-            element={<Quiz mode="advance_mode" advance_mode="advance_panel" />}
-          /> */}
           <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
         </Routes>
       </HashRouter>

@@ -12,6 +12,9 @@ export const GetAddons = () => {
             return instance.get(base, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             })
         }
@@ -23,7 +26,11 @@ export const PostUpdateInternalAddon = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(base, data)
+            return instance.post(base, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            })
         },
         onSuccess: (data) => {
             toast.success(data?.data?.message);

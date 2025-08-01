@@ -62,6 +62,8 @@ const Setting = () => {
     // Course Options
     acadlix_no_of_courses_per_page:
       acadlixOptions?.options?.acadlix_no_of_courses_per_page ?? 10,
+    acadlix_disable_wishlist:
+      acadlixOptions?.options?.acadlix_disable_wishlist ?? "no",
     acadlix_one_click_checkout:
       acadlixOptions?.options?.acadlix_one_click_checkout ?? "no",
     // Currency Options
@@ -284,6 +286,7 @@ const Setting = () => {
           sx={{
             marginX: 4,
           }}
+          // disabled={!hasCapability("acadlix_update_setting")}
         >
           {updateMutation?.isPending ? (
             <CircularProgress color="inherit" size={20} />

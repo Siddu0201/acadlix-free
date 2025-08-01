@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 const Permalink = (props) => {
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <Box
         sx={{
           marginY: 2,

@@ -80,9 +80,6 @@ const OrderContent = (props) => {
                 onSuccess: (data) => {
                     // console.log(data);
                     navigate('/');
-                },
-                onError: (error) => {
-                    toast.error(error?.response?.data?.message);
                 }
             });
         } else {
@@ -90,9 +87,6 @@ const OrderContent = (props) => {
                 onSuccess: (data) => {
                     // console.log(data);
                     navigate('/');
-                },
-                onError: (error) => {
-                    toast.error(error?.response?.data?.message);
                 }
             });
         }

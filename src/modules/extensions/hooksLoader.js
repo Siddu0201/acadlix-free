@@ -142,6 +142,22 @@ export const loadAdminStudentHooks = async (hooks) => {
     }
 }
 
+export const loadAdminDesignStudioHooks = async (hooks) => {
+    try {
+        const mod = await (
+            process.env.REACT_APP_IS_PREMIUM === 'true'
+                ? import('@acadlix/pro/hooks/AdminDesignStudioHooks')
+                : import('@acadlix/free/hooks/AdminDesignStudioHooks')
+        );
+
+        if (typeof mod.registerPluginHooks === 'function') {
+            mod.registerPluginHooks(hooks);
+        }
+    } catch (e) {
+        // console.log(e);
+    }
+}
+
 export const loadFrontCheckoutHooks = async (hooks) => {
     try {
         const mod = await (

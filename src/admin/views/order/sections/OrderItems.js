@@ -51,9 +51,6 @@ const OrderItems = (props) => {
                         container
                         spacing={3}
                         alignItems="center"
-                        sx={{
-                            color: "black",
-                        }}
                     >
                         <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
                             <CustomTypography>{__("Add Courses", "acadlix")}</CustomTypography>

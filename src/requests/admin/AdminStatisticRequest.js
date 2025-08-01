@@ -16,6 +16,9 @@ export const GetStatisticByQuizId = (quiz_id = '', page = 0, pageSize = 10, sear
                     pageSize: pageSize,
                     search: search,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -27,7 +30,11 @@ export const PostResetStatisticByQuizId = (quiz_id = 0) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => {
-            return instance.post(`${base}/${quiz_id}/reset-statistic`);
+            return instance.post(`${base}/${quiz_id}/reset-statistic`, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             toast.success(__('Statistic successfully reset.', 'acadlix'));
@@ -37,6 +44,7 @@ export const PostResetStatisticByQuizId = (quiz_id = 0) => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }
@@ -61,6 +69,7 @@ export const DeleteStatisticById = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }
@@ -73,6 +82,9 @@ export const GetStatisticById = (quiz_id = '', statistic_ref_id = '') => {
             return instance.get(`${base}/${quiz_id}/answersheet/${statistic_ref_id}`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }

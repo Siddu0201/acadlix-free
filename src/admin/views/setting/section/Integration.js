@@ -32,7 +32,7 @@ const Integration = (props) => {
         }
     ) ?? [];
     return (
-        <Box sx={{ color: "black" }}>
+        <Box>
             {integration_before_start.map((field, i) => (
                 <React.Fragment key={`field-${i}`}>
                     <DynamicMUIRenderer

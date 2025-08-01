@@ -19,23 +19,23 @@ const CustomSwitch = styled((props) => (
         transform: 'translateX(16px)',
         color: '#fff',
         '& + .MuiSwitch-track': {
-          backgroundColor: '#1c64f2',
+          backgroundColor: theme.palette.primary.main,
           opacity: 1,
           border: 0,
         },
         '&.Mui-disabled + .MuiSwitch-track': {
-          opacity: 0.5,
+          opacity: 0.5, 
         },
       },
       '&.Mui-focusVisible .MuiSwitch-thumb': {
-        color: '#1c64f2',
-        border: '6px solid #fff',
+        color: theme.palette.primary.main,
+        border: `6px solid ${theme.palette.primary.contrastText}`,
       },
       '&.Mui-disabled .MuiSwitch-thumb': {
-        color: theme.palette.grey[100],
+        color: theme.palette.grey.light,
       },
       '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: 0.7,
+        opacity: 0.4,
       },
     },
     '& .MuiSwitch-thumb': {
@@ -45,7 +45,7 @@ const CustomSwitch = styled((props) => (
     },
     '& .MuiSwitch-track': {
       borderRadius: 26 / 2,
-      backgroundColor: '#E9E9EA',
+      backgroundColor: theme.palette.grey.main,
       opacity: 1,
       transition: theme.transitions.create(['background-color'], {
         duration: 500,

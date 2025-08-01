@@ -54,6 +54,7 @@ class Submenu_Home
             'acadlix_documentation_url' => ACADLIX_DOCUMENTATION_URL,
             'acadlix_contact_us_url' => ACADLIX_CONTACT_US_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
+            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
         ];
     }
 

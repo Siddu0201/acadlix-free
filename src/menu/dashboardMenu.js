@@ -15,6 +15,11 @@ const menus = [
     name: __("Purchase History", 'acadlix'),
     path: "/purchase",
   },
+  acadlixOptions?.settings?.acadlix_disable_wishlist === 'no' && {
+    id: "wishlist",
+    name: __("Wishlist", 'acadlix'),
+    path: "/wishlist",
+  },
   {
     id: "profile",
     name: __("Profile", 'acadlix'),

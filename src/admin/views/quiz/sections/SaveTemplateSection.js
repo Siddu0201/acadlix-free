@@ -13,6 +13,7 @@ import { PostSaveTemplate } from "@acadlix/requests/admin/AdminTemplateRequest";
 import { FaCloudUploadAlt } from "@acadlix/helpers/icons";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const SaveTemplateSection = (props) => {
   const theme = useTheme();
@@ -106,6 +107,7 @@ const SaveTemplateSection = (props) => {
           size="small"
           onClick={saveTemplate}
           color="primary"
+          disabled={!hasCapability('acadlix_add_template')}
         >
           {saveTemplateMutation?.isPending ? (
             <CircularProgress color="inherit" size={20} />
@@ -114,7 +116,12 @@ const SaveTemplateSection = (props) => {
           )}
         </Button>
       ) : (
-        <IconButton color="success" onClick={saveTemplate} title="load">
+        <IconButton 
+          color="success" 
+          onClick={saveTemplate} 
+          title="load"
+          disabled={!hasCapability('acadlix_add_template')}
+        >
           {saveTemplateMutation?.isPending ? (
             <CircularProgress color="inherit" size={20} />
           ) : (

@@ -382,11 +382,7 @@ const QuestionContent = (props) => {
   };
 
   return (
-    <Box
-      sx={{
-        color: "black",
-      }}
-    >
+    <Box>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Grid
           container

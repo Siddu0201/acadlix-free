@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\Common\Admin;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Addon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Categories;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Courses;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Design_Studio;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Lessons;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Orders;
@@ -29,6 +30,8 @@ class Menu
     protected ?Submenu_Tags $tags = null;
     protected ?Submenu_Addon $addon = null;
     protected ?Submenu_Student $student = null;
+
+    protected ?Submenu_Design_Studio $design_studio = null;
 
     public function __construct()
     {
@@ -65,6 +68,7 @@ class Menu
             'acadlix_assignment', 
             'acadlix_zoom',
             'acadlix_student',
+            'acadlix_design_studio',
             'acadlix_setting',
             'acadlix_addon',
             'abqu'
@@ -86,6 +90,7 @@ class Menu
         $this->submenu_settings();
         $this->submenu_addon();
         $this->submenu_student();
+        $this->submenu_design_studio();
     }
 
     public function init_admin_menu()
@@ -179,6 +184,14 @@ class Menu
         }
         $this->_submenus[] = $this->student;
         return $this->student;
+    }
+
+    public function submenu_design_studio(){
+        if(is_null($this->design_studio)){
+            $this->design_studio = new Submenu_Design_Studio();
+        }
+        $this->_submenus[] = $this->design_studio;
+        return $this->design_studio;
     }
 
 

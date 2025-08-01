@@ -23,12 +23,12 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_categories'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_show_quiz_category') && $this->check_permission(),
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_category'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_add_quiz_category') && $this->check_permission(),
                 ],
             ]
         );
@@ -40,7 +40,7 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_category_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz_category') && $this->check_permission(),
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -52,7 +52,7 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_category_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz_category') && $this->check_permission(),
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -64,9 +64,7 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_category_by_id'],
-                    'permission_callback' => function (WP_REST_Request $request) {
-                        return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest');
-                    },
+                    'permission_callback' => fn() => current_user_can('acadlix_delete_quiz_category') && $this->check_permission(),
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {

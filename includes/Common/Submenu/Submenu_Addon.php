@@ -16,7 +16,7 @@ class Submenu_Addon
             'parent_slug' => ACADLIX_SLUG,
             'page_title' => __('Acadlix Addons', 'acadlix'),
             'menu_title' => __('Addons', 'acadlix'),
-            'capability' => 'manage_options',
+            'capability' => 'acadlix_show_addon',
             'menu_slug' => 'acadlix_addon',
             'callback' => [$this, 'addon_callback'],
             'position' => 210
@@ -58,6 +58,7 @@ class Submenu_Addon
             'capabilities' => $capabilities,
             'isPro' => acadlix()->pro,
             'isActive' => acadlix()->license()->isActive ?? false,
+            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
         ];
     }
 

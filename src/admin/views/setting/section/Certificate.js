@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 function Certificate() {
   return (
     <div>
-      <Box sx={{ color: "black" }}>
+      <Box>
         <h3>{__("Choose Certificate Template", "acadlix")}</h3>
       </Box>
     </div>

@@ -16,6 +16,9 @@ export const GetQuizQuestion = (quiz_id = '', page = 0, pageSize = 10, search = 
                     pageSize: pageSize,
                     search: search,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -30,6 +33,9 @@ export const GetCreateQuizQuestion = (quiz_id = '') => {
             return instance.get(`${base}/${quiz_id}/question/create`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -41,12 +47,20 @@ export const PostCreateQuizQuestion = (quiz_id = '') => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${quiz_id}/question`, data);
+            return instance.post(`${base}/${quiz_id}/question`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["getQuizQuestion"]
             });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }
@@ -59,6 +73,9 @@ export const GetQuizQuestionById = (quiz_id = '', question_id = '') => {
             return instance.get(`${base}/${quiz_id}/question/${question_id}`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -70,12 +87,20 @@ export const UpdateQuizQuestionById = (quiz_id = '', question_id = '') => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${quiz_id}/question/${question_id}`, data);
+            return instance.post(`${base}/${quiz_id}/question/${question_id}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["getQuizQuestion"]
             });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -100,6 +125,7 @@ export const DeleteQuizQuestionById = (quiz_id = '') => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }
@@ -110,7 +136,11 @@ export const PostSetSubjectAndPoint = (quiz_id = '') => {
 
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${quiz_id}/question/set-subject-and-point`, data);
+            return instance.post(`${base}/${quiz_id}/question/set-subject-and-point`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             toast.success(__('Subject and points updated successfully.', 'acadlix'));
@@ -118,6 +148,10 @@ export const PostSetSubjectAndPoint = (quiz_id = '') => {
                 queryKey: ["getQuizQuestion"]
             });
         },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
+        }
     })
 }
 
@@ -127,7 +161,11 @@ export const PostSetParagraph = (quiz_id = '') => {
 
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${quiz_id}/question/set-paragraph`, data);
+            return instance.post(`${base}/${quiz_id}/question/set-paragraph`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             toast.success(__('Paragraph updated successfully.', 'acadlix'));
@@ -135,11 +173,15 @@ export const PostSetParagraph = (quiz_id = '') => {
                 queryKey: ["getQuizQuestion"]
             });
         },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
+        }
     })
 }
 
 
-export const DeleteBulkQuestion= (quiz_id = '') => {
+export const DeleteBulkQuestion = (quiz_id = '') => {
     const instance = useInstance();
     const queryClient = useQueryClient();
 
@@ -160,6 +202,7 @@ export const DeleteBulkQuestion= (quiz_id = '') => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }

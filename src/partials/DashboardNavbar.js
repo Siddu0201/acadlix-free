@@ -14,7 +14,6 @@ const DashboardNavbar = () => {
       position="static"
       sx={{
         backgroundColor: { xs: "transparent", sm: "white" },
-        color: "black",
         borderRadius: "10px",
         my: {
           lg: "10px",
@@ -57,7 +56,6 @@ const DashboardNavbar = () => {
                 <Button
                   sx={{
                     // my: 0,
-                    // color: "black",
                     // display: "block",
                     // padding: {
                     //   sm: "6px 8px",
@@ -87,7 +85,8 @@ const DashboardNavbar = () => {
                   navigate(page?.path);
                 }}
                 sx={{
-                  whiteSpace: "normal",
+                  whiteSpace: "nowrap",
+                  minWidth: "auto",
                   // my: 0,
                   // color: path?.pathname === page?.path ? "blue" : "black",
                   // display: "block",
@@ -106,7 +105,6 @@ const DashboardNavbar = () => {
             <Button
               sx={{
                 // my: 0,
-                // color: "black",
                 // display: "block",
                 // padding: {
                 //   sm: "6px 8px",

@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 function Tools() {
   return (
     <div>
-      <Box sx={{ color: "black" }}>
+      <Box>
         <Row>
           <h4>{__("Export Settings", "acadlix")}</h4>
           <FormControlLabel

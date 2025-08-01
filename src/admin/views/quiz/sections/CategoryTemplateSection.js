@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { FaCloudDownloadAlt } from "@acadlix/helpers/icons";
 import { GetTemplateById } from "@acadlix/requests/admin/AdminTemplateRequest";
 import { __ } from "@wordpress/i18n";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const CategoryTemplateSection = (props) => {
   const theme = useTheme();
@@ -178,6 +179,7 @@ const CategoryTemplateSection = (props) => {
                       <Button
                         color="primary"
                         fullWidth
+                        disabled={!hasCapability("acadlix_add_quiz_category")}
                         sx={{ justifyContent: "flex-start", pl: 2 }}
                         onMouseDown={createCategory}
                       >

@@ -210,18 +210,12 @@ const QuizContent = (props) => {
       createMutation.mutate(methods?.watch(), {
         onSuccess: (data) => {
           navigate("/");
-        },
-        onError: (error) => {
-          toast.error(error?.response?.data?.message);
         }
       });
     } else {
       updateMutation.mutate(methods?.watch(), {
         onSuccess: (data) => {
           navigate("/");
-        },
-        onError: (error) => {
-          toast.error(error?.response?.data?.message);
         }
       });
     }

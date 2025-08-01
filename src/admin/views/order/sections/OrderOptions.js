@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { __ } from '@wordpress/i18n';
 import CustomTypography from '@acadlix/components/CustomTypography';
-import { GetOrderCourses, GetOrderUsers } from '@acadlix/requests/admin/AdminOrderRequest';
+import { GetOrderUsers } from '@acadlix/requests/admin/AdminOrderRequest';
 import CustomSwitch from '@acadlix/components/CustomSwitch';
 
 const OrderOptions = (props) => {
@@ -23,18 +23,12 @@ const OrderOptions = (props) => {
                         container
                         spacing={3}
                         alignItems="center"
-                        sx={{
-                            color: "black",
-                        }}
                     >
                         <Grid size={{ xs: 12, sm: 12, lg: 6 }}>
                             <Grid
                                 container
                                 spacing={4}
                                 alignItems="center"
-                                sx={{
-                                    color: "black",
-                                }}
                             >
                                 {
                                     props?.create ?

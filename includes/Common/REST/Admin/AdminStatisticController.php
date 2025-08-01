@@ -25,7 +25,7 @@ class AdminStatisticController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_statistic_by_quiz_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_show_statistic') && $this->check_permission(),
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -44,7 +44,7 @@ class AdminStatisticController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_reset_statistic_by_quiz_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_reset_statistic') && $this->check_permission(),
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -63,7 +63,7 @@ class AdminStatisticController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_statistic_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_delete_statistic') && $this->check_permission(),
                     'args' => array(
                         'statistic_ref_id' => array(
                             'validate_callback' => function ($param, $request, $key) {

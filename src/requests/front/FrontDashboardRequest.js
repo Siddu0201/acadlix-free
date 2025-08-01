@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { handleMutationError, handleQueryError, useInstance } from "@acadlix/helpers/util";
+import toast from "react-hot-toast";
 
 
 const base = "/front-dashboard";
@@ -119,6 +120,28 @@ export const GetUserPurchases = (user_id = 0, page = 1, pageSize = 10 ) => {
         queryKey: ["getUserPurchases", user_id, page, pageSize],
         queryFn: () => {
             return instance.get(`${base}/get-user-purchases`, {
+                params: {
+                    user_id: user_id,
+                    page: page,
+                    pageSize: pageSize,
+                    _t: Date.now(),
+                },
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
+            });
+        }
+    });
+    handleQueryError(result);
+    return result;
+}
+
+export const GetUserWishlist = (user_id = 0, page = 1, pageSize = 10 ) => {
+    const instance = useInstance();
+    const result = useQuery({
+        queryKey: ["getUserWishlist", user_id, page, pageSize],
+        queryFn: () => {
+            return instance.get(`${base}/get-user-wishlist`, {
                 params: {
                     user_id: user_id,
                     page: page,

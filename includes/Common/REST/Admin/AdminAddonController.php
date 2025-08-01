@@ -23,12 +23,12 @@ class AdminAddonController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_addons'],
-                    'permission_callback' => [$this, 'check_permission']
+                    'permission_callback' => fn() => current_user_can('acadlix_show_addon') && $this->check_permission()
                 ],
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_update_internal_addon'],
-                    'permission_callback' => [$this, 'check_permission']
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_addon') && $this->check_permission()
                 ]
             ]
         );

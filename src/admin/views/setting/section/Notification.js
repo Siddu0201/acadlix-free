@@ -15,7 +15,7 @@ import { __ } from "@wordpress/i18n";
 
 function Notification(props) {
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <Box
         sx={{
           marginY: 2,

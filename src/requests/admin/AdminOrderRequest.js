@@ -15,6 +15,9 @@ export const GetOrders = (page = 0, pageSize = 10, search = '') => {
                     pageSize: pageSize,
                     search: search,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -29,7 +32,11 @@ export const GetOrderCourses = (search = '') => {
             if (search.length < 3) return [];
             return instance.get(`${base}/courses`, {
                 params: {
-                    search: search
+                    search: search,
+                    _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         },
@@ -45,7 +52,11 @@ export const GetOrderUsers = (search = '') => {
             if (search.length < 3) return [];
             return instance.get(`${base}/users`, {
                 params: {
-                    search: search
+                    search: search,
+                    _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         },
@@ -58,7 +69,15 @@ export const GetCreateOrder = () => {
     return useQuery({
         queryKey: ["getCreateOrder"],
         queryFn: () => {
-            return instance.get(`${base}/create`);
+            return instance.get(`${base}/create`,
+                {
+                    params: {
+                        _t: Date.now(),
+                    },
+                    headers: {
+                        "X-WP-Nonce": acadlixOptions?.nonce,
+                    }
+                });
         }
     });
 }
@@ -67,7 +86,15 @@ export const PostCreateOrder = () => {
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}`, data);
+            return instance.post(`${base}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }
@@ -78,7 +105,11 @@ export const GetOrderById = (order_id = '') => {
     return useQuery({
         queryKey: ["getOrderById", order_id],
         queryFn: () => {
-            return instance.get(`${base}/${order_id}`);
+            return instance.get(`${base}/${order_id}`, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         }
     });
 }
@@ -87,7 +118,15 @@ export const UpdateOrderById = (order_id = '') => {
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
-            return instance.put(`${base}/${order_id}`, data);
+            return instance.put(`${base}/${order_id}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }

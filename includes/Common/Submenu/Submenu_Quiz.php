@@ -51,6 +51,7 @@ class Submenu_Quiz
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'abqu_url' => admin_url('admin.php?page=abqu'),
             'user_id' => get_current_user_id(),
             'is_abqu_active' => !is_plugin_active('abqu/abqu.php') ? false : true,

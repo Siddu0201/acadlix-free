@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import AddSection from "./sections/AddSection";
@@ -42,10 +42,15 @@ const CourseBuilder = (props) => {
     },
   });
 
+  const theme = useTheme();
+
   const colorCode = {
-    modal_background: "#dddfe6",
-    view_section_background: "#f8f8f8",
-    view_section_border: "black",
+    // modal_background: "#dddfe6",
+    modal_background: theme.palette.grey.main,
+    view_section_background: theme.palette.grey.main,
+    view_section_border: theme.palette.grey.dark,
+    view_content_background: theme.palette.grey.light,
+    view_content_border: theme.palette.grey.dark,
   };
 
   return (

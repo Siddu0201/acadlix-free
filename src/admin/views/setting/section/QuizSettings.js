@@ -37,14 +37,14 @@ const QuizSettings = (props) => {
 
     if (getCategories?.isFetching || getLanguages?.isFetching) {
         return (
-            <Box sx={{ color: "black" }}>
+            <Box>
                 <CircularProgress />
             </Box>
         )
     }
 
     return (
-        <Box sx={{ color: "black" }}>
+        <Box>
             <CategorySettings methods={methods} />
             {/* <LanguageSettings methods={methods} /> */}
         </Box>
@@ -76,10 +76,6 @@ const CategorySettings = ({ methods }) => {
                 methods?.setValue("categories", data?.data?.categories);
                 toast.success(__("Category added successfully.", "acadlix"));
             },
-            onError: (error) => {
-                toast.error(error?.response?.data?.message);
-                console.error(error);
-            }
         })
     }
 
@@ -108,10 +104,6 @@ const CategorySettings = ({ methods }) => {
                 methods?.setValue("categories", data?.data?.categories);
                 toast.success(__("Category updated successfully.", "acadlix"));
             },
-            onError: (error) => {
-                toast.error(error?.response?.data?.message);
-                console.error(error);
-            }
         })
     }
 
@@ -129,10 +121,6 @@ const CategorySettings = ({ methods }) => {
                     methods?.setValue("categories", data?.data?.categories);
                     toast.success(__("Category deleted successfully.", "acadlix"));
                 },
-                onError: (error) => {
-                    toast.error(error?.response?.data?.message);
-                    console.error(error);
-                }
             });
         }
     }
@@ -316,10 +304,6 @@ const LanguageSettings = ({ methods }) => {
                 methods?.setValue("language_name", "");
                 methods?.setValue("languages", data?.data?.languages);
                 toast.success(__('Langauge added successfully.', 'acadlix'));
-            },
-            onError: (error) => {
-                toast.error(error?.response?.data?.message);
-                console.error(error);
             }
         })
     }
@@ -348,10 +332,6 @@ const LanguageSettings = ({ methods }) => {
                 methods.setValue("language_id", null);
                 methods?.setValue("languages", data?.data?.languages);
                 toast.success(__('Language updated successfully.', 'acadlix'));
-            },
-            onError: (error) => {
-                toast.error(error?.response?.data?.message);
-                console.error(error);
             }
         })
     }
@@ -369,10 +349,6 @@ const LanguageSettings = ({ methods }) => {
                     methods.setValue("language_id", null);
                     methods?.setValue("languages", data?.data?.languages);
                     toast.success(__('Language set to default.', 'acadlix'));
-                },
-                onError: (error) => {
-                    toast.error(error?.response?.data?.message);
-                    console.error(error);
                 }
             });
         }

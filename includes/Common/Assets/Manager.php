@@ -187,6 +187,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-admin-design-studio-css' => [
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_design_studio.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-css' => [
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.css',
                 'version' => ACADLIX_VERSION,
@@ -243,6 +248,7 @@ class Manager
         $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
         $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
         $admin_student_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_student.asset.php';
+        $admin_design_studio_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_design_studio.asset.php';
 
         $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
         $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
@@ -321,6 +327,12 @@ class Manager
                 'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.js',
                 'version' => $admin_student_dependency['version'],
                 'deps' => [...$admin_student_dependency['dependencies'], 'acadlix-global-hooks'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-design-studio' => [
+                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_design_studio.js',
+                'version' => $admin_design_studio_dependency['version'],
+                'deps' => [...$admin_design_studio_dependency['dependencies'], 'acadlix-global-hooks'],
                 'in_footer' => true,
             ],
             'acadlix-front-js' => [
@@ -410,6 +422,7 @@ class Manager
             'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'logo_url' => $logo_url,
             'blog_name' => get_bloginfo('name'),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
@@ -472,14 +485,24 @@ class Manager
     {
 
         wp_enqueue_style('acadlix-front-base-style-css');
+        $theme = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
+        // acadlix()->helper()->acadlix_ddd($theme);
+        $primaryMain     = $theme['palette']['primary']['main'] ?? 'hsl(210, 100%, 50%)';
+        $primaryDark     = $theme['palette']['primary']['dark'] ?? 'hsl(210, 100%, 38%)';
+        $textPrimary     = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
+        $textTertiary    = $theme['palette']['text']['secondary'] ?? 'hsl(218, 10%, 55%)';
+        // $grey            = $theme['palette']['grey']['main'] ?? 'hsl(215, 15%, 97%)';
+        $grey            = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 97%)';
+        // $borderColor     = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 82%)';
+        $borderColor     = 'hsl(215, 15%, 82%)';
         $custom_css = "
                     :root {
-                        --acadlix-primary-main: hsl(210, 100%, 45%); 
-                        --acadlix-primary-dark: hsl(210, 100%, 38%);
-                        --acadlix-text-primary: hsl(215, 15%, 12%);
-                        --acadlix-text-tertiary: hsl(218, 10%, 55%);
-                        --acadlix-grey: hsl(215, 15%, 97%);
-                        --acadlix-border-color: hsl(2515, 15%, 82%);
+                        --acadlix-primary-main: {$primaryMain}; 
+                        --acadlix-primary-dark: {$primaryDark};
+                        --acadlix-text-primary: {$textPrimary};
+                        --acadlix-text-tertiary: {$textTertiary};
+                        --acadlix-grey: {$grey};
+                        --acadlix-border-color: {$borderColor};
                     }
                 ";
 

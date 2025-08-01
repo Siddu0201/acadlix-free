@@ -20,7 +20,7 @@ class AdminStudentController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_students'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => fn() => current_user_can('acadlix_show_student') && $this->check_permission(),
                 ],
             ]
         );

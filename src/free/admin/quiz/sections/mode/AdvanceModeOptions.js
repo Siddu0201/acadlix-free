@@ -8,7 +8,8 @@ import {
     FormControl,
     FormControlLabel,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Typography
 } from '@mui/material';
 
 const AdvanceModeOptions = (props) => {
@@ -98,21 +99,24 @@ const AdvanceModeOptions = (props) => {
                             //     setAdvanceModeDefaultSettings();
                             // }}
                         />
-                        <h3
-                            style={{
+                        <Typography
+                            variant="h5"
+                            fontWeight="bold"
+                            sx={{
                                 margin: "5px 0 5px 0",
                                 cursor: "pointer",
                             }}
                         >
                             {__("Advance mode", "acadlix")}
-                        </h3>
-                        <h5
-                            style={{
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
                                 margin: "5px 0",
                             }}
                         >
                             ({__("Quiz Option will only set as per the exam", "acadlix")})
-                        </h5>
+                        </Typography>
                     </Box>
                     <Box
                         sx={{

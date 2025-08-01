@@ -68,7 +68,7 @@ const AnswerSheetOptions = React.lazy(() =>
 const Result = (props) => {
 
   return (
-    <Box sx={{ color: "black" }}>
+    <Box>
       <Box
         sx={{
           marginY: 2,

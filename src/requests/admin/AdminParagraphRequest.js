@@ -17,6 +17,9 @@ export const GetQuizParagraphs = (quiz_id = '', page = 0, pageSize = 10, search 
           search: search,
           _t: Date.now(),
         },
+        headers: {
+            "X-WP-Nonce": acadlixOptions?.nonce,
+        }
       });
     },
   });
@@ -30,6 +33,9 @@ export const GetCreateQuizParagraph = (quiz_id = '') => {
           return instance.get(`${base}/${quiz_id}/paragraph/create`,{
             params: {
               _t: Date.now(),
+            },
+            headers: {
+                "X-WP-Nonce": acadlixOptions?.nonce,
             }
           });
       }
@@ -41,13 +47,21 @@ export const PostCreateQuizParagraph = (quiz_id = '') => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/${quiz_id}/paragraph`, data);
+      return instance.post(`${base}/${quiz_id}/paragraph`, data, {
+        headers: {
+            "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["getQuizParagraphs"],
       });
     },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
   });
 };
 
@@ -59,6 +73,9 @@ export const GetQuizParagraphById = (quiz_id = '', paragraph_id = "") => {
       return instance.get(`${base}/${quiz_id}/paragraph/${paragraph_id}`, {
         params: {
           _t: Date.now(),
+        },
+        headers: {
+            "X-WP-Nonce": acadlixOptions?.nonce,
         }
       });
     },
@@ -70,12 +87,20 @@ export const UpdateQuizParagraphById = (quiz_id = '' ,paragraph_id = '') => {
   const queryClient = useQueryClient();
   return useMutation({
       mutationFn: (data) => {
-          return instance.post(`${base}/${quiz_id}/paragraph/${paragraph_id}`, data);
+          return instance.post(`${base}/${quiz_id}/paragraph/${paragraph_id}`, data, {
+            headers: {
+                "X-WP-Nonce": acadlixOptions?.nonce,
+            }
+          });
       },
       onSuccess: () => {
           queryClient.invalidateQueries({
               queryKey: ["getQuizParagraphs"]
           });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message);
+        console.error(error);
       }
   })
 }
@@ -101,6 +126,7 @@ export const DeleteQuizParagraphById = (quiz_id = '') => {
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message);
+      console.error(error);
     },
   });
 };
@@ -129,6 +155,7 @@ export const DeleteBulkParagraph = (quiz_id = '') => {
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message);
+      console.error(error);
     },
   });
 };

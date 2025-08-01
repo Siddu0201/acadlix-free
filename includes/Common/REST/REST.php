@@ -23,6 +23,7 @@ use Yuvayana\Acadlix\Common\REST\Admin\AdminSubjectController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminQuizController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminQuestionController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminTemplateController;
+use Yuvayana\Acadlix\Common\REST\Admin\AdminThemeController;
 
 // Front API Controller
 use Yuvayana\Acadlix\Common\REST\Front\FrontCheckoutController;
@@ -61,6 +62,7 @@ class REST {
     protected $_adminOrder = null;
     protected $_adminAddon = null;
     protected $_adminStudent = null;
+    protected $_adminTheme = null;
 
     protected $_frontCheckout = null;
     protected $_frontCourse = null;
@@ -92,6 +94,7 @@ class REST {
         $this->adminOrder();
         $this->adminAddon();
         $this->adminStudent();
+        $this->adminTheme();
 
         $this->frontCheckout();
         $this->frontCourse();
@@ -222,6 +225,14 @@ class REST {
         }
         $this->_rests[] = $this->_adminStudent;
         return $this->_adminStudent;
+    }
+
+    public function adminTheme(): AdminThemeController|null{
+        if($this->_adminTheme === null){
+            $this->_adminTheme = new AdminThemeController();
+        }
+        $this->_rests[] = $this->_adminTheme;
+        return $this->_adminTheme;
     }
 
     public function frontCheckout(): FrontCheckoutController|null{

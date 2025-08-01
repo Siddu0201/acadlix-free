@@ -16,6 +16,9 @@ export const GetAssignments = (page = 0, pageSize = 10, search = '') => {
                     pageSize: pageSize,
                     search: search,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -27,7 +30,11 @@ export const PostCreateAssignment = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(base, data);
+            return instance.post(base, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             toast.success(__('Assignment successfully created.', 'acadlix'));
@@ -37,6 +44,7 @@ export const PostCreateAssignment = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -50,6 +58,9 @@ export const GetAssignmentById = (assignment_id = '') => {
             return instance.get(`${base}/${assignment_id}`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -61,7 +72,11 @@ export const UpdateAssignmentById = (assignment_id = '') => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => {
-            return instance.put(`${base}/${assignment_id}`, data);
+            return instance.put(`${base}/${assignment_id}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: () => {
             toast.success(__('Assignment successfully updated.', 'acadlix'));
@@ -71,6 +86,7 @@ export const UpdateAssignmentById = (assignment_id = '') => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -98,6 +114,9 @@ export const GetAssignmentSubmissionsById = (
                     user_status: user_status,
                     admin_status: admin_status,
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -113,6 +132,9 @@ export const GetEvaluationAssignment = (assignment_id = '', course_statistic_id 
             return instance.get(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
                 params: {
                     _t: Date.now(),
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
         }
@@ -123,13 +145,18 @@ export const PostEvaluateAssignment = (assignment_id = '', course_statistics_id 
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`, data);
+            return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
         },
         onSuccess: (data) => {
             toast.success(data?.data?.message);
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -153,6 +180,7 @@ export const DeleteEvaluationAssignment = (assignment_id = '') => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -176,6 +204,7 @@ export const DeleteAssignmentById = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     })
 }
@@ -200,6 +229,7 @@ export const DeleteBulkAssignment = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);
+            console.error(error);
         }
     });
 }

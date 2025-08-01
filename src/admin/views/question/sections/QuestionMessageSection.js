@@ -46,13 +46,10 @@ const QuestionMessageSection = (props) => {
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
-              color: "black",
             },
           }}
         />
-        <CardContent sx={{
-          color: "black"
-        }}>
+        <CardContent>
           <Grid container spacing={4}>
             <Grid size={{ xs: 12, lg: 12 }}>
               <FormControlLabel

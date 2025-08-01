@@ -18,12 +18,12 @@ class AdminSubjectController {
                 [
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => [ $this, 'get_subjects' ],
-                    'permission_callback' => [ $this, 'check_permission' ],
+                    'permission_callback' => fn() => current_user_can('acadlix_show_subject') && $this->check_permission(),
                 ],
                 [
                     'methods'             => WP_REST_Server::CREATABLE,
                     'callback'            => [ $this, 'post_create_subject' ],
-                    'permission_callback' => [ $this, 'check_permission' ],
+                    'permission_callback' => fn() => current_user_can('acadlix_add_subject') && $this->check_permission(),
                 ],
                 ]
             );
@@ -34,7 +34,7 @@ class AdminSubjectController {
                     [
                         'methods'             => WP_REST_Server::READABLE,
                         'callback'            => [ $this, 'get_subject_by_id' ],
-                        'permission_callback' => [ $this, 'check_permission' ],
+                        'permission_callback' => fn() => current_user_can('acadlix_edit_subject') && $this->check_permission(),
                         'args' => array(
                             'subject_id' => array(
                               'validate_callback' => function($param, $request, $key) {
@@ -46,7 +46,7 @@ class AdminSubjectController {
                     [
                         'methods'             => WP_REST_Server::EDITABLE,
                         'callback'            => [ $this, 'update_subject_by_id' ],
-                        'permission_callback' => [ $this, 'check_permission' ],
+                        'permission_callback' => fn() => current_user_can('acadlix_edit_subject') && $this->check_permission(),
                         'args' => array(
                             'subject_id' => array(
                               'validate_callback' => function($param, $request, $key) {
@@ -58,7 +58,7 @@ class AdminSubjectController {
                     [
                         'methods'             => WP_REST_Server::DELETABLE,
                         'callback'            => [ $this, 'delete_subject_by_id' ],
-                        'permission_callback' => [ $this, 'check_permission' ],
+                        'permission_callback' => fn() => current_user_can('acadlix_delete_subject') && $this->check_permission(),
                         'args' => array(
                             'subject_id' => array(
                               'validate_callback' => function($param, $request, $key) {

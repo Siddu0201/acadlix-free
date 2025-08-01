@@ -38,7 +38,6 @@ const QuestionHintSection = (props) => {
           titleTypographyProps={{
             sx: {
               fontWeight: 500,
-              color: "black",
             },
           }}
         />
