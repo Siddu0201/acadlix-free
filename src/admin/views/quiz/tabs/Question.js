@@ -43,7 +43,14 @@ const Question = (props) => {
         <Typography variant="h4">{__("Question Options", "acadlix")}</Typography>
         <Divider />
       </Box>
-      <Grid container spacing={3} alignItems="center">
+      <Grid 
+        container 
+        spacing={{
+            xs: 2,
+            sm: 4,
+        }} 
+        alignItems="center"
+      >
         {/* Used to show morks - +points & -points in question */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Show Marks", "acadlix")}</CustomTypography>

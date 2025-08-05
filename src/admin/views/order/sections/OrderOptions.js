@@ -21,13 +21,19 @@ const OrderOptions = (props) => {
                     </Box>
                     <Grid
                         container
-                        spacing={3}
+                        spacing={{
+                            xs: 2,
+                            sm: 4,
+                        }}
                         alignItems="center"
                     >
                         <Grid size={{ xs: 12, sm: 12, lg: 6 }}>
                             <Grid
                                 container
-                                spacing={4}
+                                spacing={{
+                                    xs: 2,
+                                    sm: 4,
+                                }}
                                 alignItems="center"
                             >
                                 {

@@ -45,7 +45,10 @@ const QuestionMessageSection = (props) => {
           }
         />
         <CardContent>
-          <Grid container spacing={4}>
+          <Grid container spacing={{
+            xs: 2,
+            sm: 4,
+          }}>
             <Grid size={{ xs: 12, lg: 12 }}>
               <FormControlLabel
                 control={<CustomSwitch

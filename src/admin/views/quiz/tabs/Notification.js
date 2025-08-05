@@ -19,7 +19,14 @@ const Notification = (props) => {
           <Typography variant="h4">{__("Admin Email Notification", "acadlix")}</Typography>
           <Divider />
         </Box>
-        <Grid container spacing={3} alignItems="center">
+        <Grid 
+          container 
+          spacing={{
+            xs: 2,
+            sm: 4,
+          }} 
+          alignItems="center"
+        >
           {/* 
             Admin email notification is used to send email to admin on quiz submition. Contain
             - To : Whom you want to send mail
@@ -65,7 +72,10 @@ const Notification = (props) => {
         </Box>
         <Grid
           container
-          spacing={3}
+          spacing={{
+            xs: 2,
+            sm: 4,
+          }}
           alignItems="center"
         >
 

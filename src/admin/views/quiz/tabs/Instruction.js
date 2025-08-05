@@ -26,7 +26,14 @@ const Instruction = (props) => {
         <Typography variant="h4">{__("Instruction Options", "acadlix")}</Typography>
         <Divider />
       </Box>
-      <Grid container spacing={3} alignItems="center">
+      <Grid 
+        container 
+        spacing={{
+            xs: 2,
+            sm: 4,
+        }} 
+        alignItems="center"
+      >
         {
           props?.watch("languages")?.length > 0 &&
           <React.Fragment>

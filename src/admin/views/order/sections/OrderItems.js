@@ -49,7 +49,10 @@ const OrderItems = (props) => {
                     </Box>
                     <Grid
                         container
-                        spacing={3}
+                        spacing={{
+                            xs: 2,
+                            sm: 4,
+                        }}
                         alignItems="center"
                     >
                         <Grid size={{ xs: 12, sm: 6, lg: 2 }}>

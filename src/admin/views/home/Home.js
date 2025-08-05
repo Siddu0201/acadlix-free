@@ -59,10 +59,15 @@ const Home = () => {
   return (
     <Grid
       container
-      spacing={4}
-      rowSpacing={3}
+      spacing={{
+        xs: 2,
+        sm: 4,
+      }}
       sx={{
-        padding: 4,
+        padding: {
+          xs: 2,
+          sm: 4,
+        },
       }}
     >
       <Grid size={{ xs: 12, md: 12 }}>

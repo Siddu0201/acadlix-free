@@ -1,12 +1,32 @@
-import { Autocomplete, Box, Button, Card, CardActions, CardContent, CircularProgress, Divider, TextField, Typography } from '@mui/material';
+import { 
+    Autocomplete,
+    Box,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CircularProgress,
+    Divider,
+    TextField,
+    Typography
+} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from "@acadlix/components/CustomTextField";
-import { DeleteCategoryById, GetCategories, PostCreateCategory, UpdateCategoryById } from "@acadlix/requests/admin/AdminCategoryRequest";
+import { 
+    DeleteCategoryById,
+    GetCategories,
+    PostCreateCategory,
+    UpdateCategoryById
+} from "@acadlix/requests/admin/AdminCategoryRequest";
 import toast from 'react-hot-toast';
-import { LoadingButton } from '@mui/lab';
-import { DefaultLanguageById, GetLanguages, PostCreateLanguage, UpdateLanguageById } from "@acadlix/requests/admin/AdminLanguageRequest";
+import { 
+    DefaultLanguageById,
+    GetLanguages,
+    PostCreateLanguage,
+    UpdateLanguageById
+} from "@acadlix/requests/admin/AdminLanguageRequest";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from '@acadlix/components/CustomTypography';
@@ -149,11 +169,17 @@ const CategorySettings = ({ methods }) => {
                 <Typography variant="h6">{__("Quiz Categories", "acadlix")}</Typography>
                 <Divider />
             </Box>
-            <Grid container spacing={4}>
+            <Grid container spacing={{
+                xs: 2,
+                sm: 4,
+            }}>
                 <Grid size={{ xs: 12, sm: 12, lg: 7 }}>
                     <Grid
                         container
-                        spacing={4}
+                        spacing={{
+                            xs: 2,
+                            sm: 4,
+                        }}
                         sx={{
                             alignItems: "center",
                         }}
@@ -244,34 +270,34 @@ const CategorySettings = ({ methods }) => {
                                     methods?.watch("category_id") === null
                                         ? (
                                             hasCapability("acadlix_add_quiz_category") &&
-                                            <LoadingButton
+                                            <Button
                                                 loading={addCategoryMutation?.isPending}
                                                 variant="contained"
                                                 color="primary"
                                                 onClick={handleAddCategory}
-                                            >{__("Add", "acadlix")}</LoadingButton>
+                                            >{__("Add", "acadlix")}</Button>
                                         )
                                         :
                                         <>
                                             {
                                                 hasCapability("acadlix_edit_quiz_category") &&
-                                                <LoadingButton
+                                                <Button
                                                     loading={updateCategoryMutation?.isPending}
                                                     variant="contained"
                                                     color="primary"
                                                     onClick={handleUpdateCategory}
-                                                >{__("Update", "acadlix")}</LoadingButton>
+                                                >{__("Update", "acadlix")}</Button>
                                             }
                                             {!methods?.watch("categories")?.find(
                                                 (c) => c?.term_id === methods?.watch("category_id")
                                             )?.default && (
                                                     hasCapability("acadlix_delete_quiz_category") &&
-                                                    <LoadingButton
+                                                    <Button
                                                         loading={deleteCategoryMutation?.isPending}
                                                         variant="contained"
                                                         color="error"
                                                         onClick={handleDeleteCategory}
-                                                    >{__("Delete", "acadlix")}</LoadingButton>
+                                                    >{__("Delete", "acadlix")}</Button>
                                                 )
                                             }
                                         </>
@@ -369,11 +395,17 @@ const LanguageSettings = ({ methods }) => {
                 <Typography variant="h6">{__('Quiz Languages', 'acadlix')}</Typography>
                 <Divider />
             </Box>
-            <Grid container spacing={4}>
+            <Grid container spacing={{
+                xs: 2,
+                sm: 4,
+            }}>
                 <Grid size={{ xs: 12, sm: 12, lg: 7 }}>
                     <Grid
                         container
-                        spacing={4}
+                        spacing={{
+                            xs: 2,
+                            sm: 4,
+                        }}
                         sx={{
                             alignItems: "center",
                         }}
@@ -478,28 +510,28 @@ const LanguageSettings = ({ methods }) => {
                                     methods?.watch("language_id") === null
                                         ? (
                                             hasCapability("acadlix_add_quiz_language") &&
-                                            <LoadingButton
+                                            <Button
                                                 loading={addLanguageMutation?.isPending}
                                                 variant="contained"
                                                 color="primary"
                                                 onClick={handleAddLanguage}
-                                            >{__("Add", 'acadlix')}</LoadingButton>
+                                            >{__("Add", 'acadlix')}</Button>
                                         )
                                         :
                                         <>
                                             {
                                                 hasCapability("acadlix_edit_quiz_language") &&
-                                                <LoadingButton
+                                                <Button
                                                     loading={updateLanguageMutation?.isPending}
                                                     variant="contained"
                                                     color="primary"
                                                     onClick={handleUpdateLanguage}
-                                                >{__("Update", 'acadlix')}</LoadingButton>
+                                                >{__("Update", 'acadlix')}</Button>
                                             }
                                             {
                                                 !methods?.watch("languages")?.find(l => l?.term_id === methods?.watch("language_id"))?.default &&
                                                 hasCapability("acadlix_default_quiz_language") &&
-                                                <LoadingButton
+                                                <Button
                                                     loading={setDefaultLanguageMutation?.isPending}
                                                     variant="contained"
                                                     color="primary"
@@ -508,7 +540,7 @@ const LanguageSettings = ({ methods }) => {
                                                         whiteSpace: "nowrap",
                                                         minWidth: "90px",
                                                     }}
-                                                >{__("Set Default", 'acadlix')}</LoadingButton>
+                                                >{__("Set Default", 'acadlix')}</Button>
                                             }
                                         </>
                                 }

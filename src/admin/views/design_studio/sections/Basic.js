@@ -59,8 +59,10 @@ const Basic = (props) => {
             <CardContent>
                 <Grid
                     container
-                    rowSpacing={4}
-                    spacing={4}
+                    spacing={{
+                        xs: 2,
+                        sm: 4,
+                    }}
                     sx={{
                         alignItems: "center",
                     }}

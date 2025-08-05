@@ -386,10 +386,15 @@ const QuestionContent = (props) => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Grid
           container
-          rowSpacing={3}
-          spacing={4}
+          spacing={{
+            xs: 2,
+            sm: 4,
+          }}
           sx={{
-            padding: 4,
+            padding: {
+              xs: 2,
+              sm: 4,
+            },
           }}
         >
           <Grid size={{ xs: 12, sm: 12 }}>

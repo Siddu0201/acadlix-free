@@ -61,7 +61,10 @@ const GeneralOptionSection = (props) => {
           title={__("General Options", "acadlix")}
         />
         <CardContent>
-          <Grid container spacing={4}>
+          <Grid container spacing={{
+            xs: 2,
+            sm: 4,
+          }}>
             <Grid size={{ xs: 12, sm: 5 }}>
               <CustomTextField
                 {...props?.register("title")}

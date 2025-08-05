@@ -61,7 +61,10 @@ const Integration = (props) => {
                     </Box>
                     <Grid
                         container
-                        spacing={4}
+                        spacing={{
+                            xs: 2,
+                            sm: 4,
+                        }}
                         sx={{
                             alignItems: "center",
                         }}

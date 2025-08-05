@@ -59,7 +59,13 @@ const ParagraphModel = (props) => {
         <IoClose />
       </IconButton>
       <DialogContent>
-        <Grid container gap={4} spacing={4}>
+        <Grid
+          container
+          gap={4}
+          spacing={{
+            xs: 2,
+            sm: 4,
+          }}>
           <Grid size={{ xs: 11, lg: 11 }}>
             <Alert severity="warning">
               {__(

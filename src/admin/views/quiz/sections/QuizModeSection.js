@@ -63,7 +63,7 @@ const QuizModeSection = (props) => {
           }
         />
         <CardContent>
-          <Grid container spacing={3}>
+          <Grid container spacing={{ xs: 2, sm: 4 }}>
             {/* Used to enable normal mode 
                 - contain enable back button
                 - contain enable check button

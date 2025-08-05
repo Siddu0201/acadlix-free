@@ -85,7 +85,7 @@ const OptionSection = ({
         <CardContent>
           <Grid
             container
-            spacing={{ xs: 3, sm: 4 }}
+            spacing={{ xs: 2, sm: 4 }}
           >
             <Grid size={{ xs: 12, lg: 12 }}>
               <Typography variant="h4">

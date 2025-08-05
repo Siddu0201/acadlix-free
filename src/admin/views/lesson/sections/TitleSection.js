@@ -11,7 +11,7 @@ const TitleSection = ({ customInputProps = {}, ...props }) => {
         <CardContent>
           <Grid
             container
-            spacing={4}
+            spacing={{ xs: 2, sm: 4 }}
           >
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography variant="h4">{__("Lesson Title", "acadlix")}</Typography>

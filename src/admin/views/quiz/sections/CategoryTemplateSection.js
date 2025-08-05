@@ -128,9 +128,9 @@ const CategoryTemplateSection = (props) => {
       </Backdrop>
       <Card>
         <CardContent>
-          <Grid container spacing={{ xs: 1, sm: 3 }}>
+          <Grid container spacing={{ xs: 2, sm: 4 }}>
             {/* Used to select category */}
-            <Grid size={{ xs: 5, sm: 3, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
               <Autocomplete
                 size="small"
                 value={
@@ -197,7 +197,7 @@ const CategoryTemplateSection = (props) => {
             </Grid>
 
             {/* Used to load quiz data from template  */}
-            <Grid size={{ xs: 9, sm: 9, lg: 9 }}>
+            <Grid size={{ xs: 12, sm: 9, lg: 9 }}>
               <Box
                 sx={{
                   display: "flex",
@@ -207,8 +207,12 @@ const CategoryTemplateSection = (props) => {
                 <Autocomplete
                   sx={{
                     minWidth: {
-                      xs: "120px",
+                      xs: "auto",
                       sm: "250px",
+                    },
+                    flex: {
+                      xs: 1,
+                      sm: "none",
                     },
                     marginRight: 3,
                   }}

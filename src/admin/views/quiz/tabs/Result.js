@@ -79,7 +79,10 @@ const Result = (props) => {
       </Box>
       <Grid
         container
-        spacing={3}
+        spacing={{
+            xs: 2,
+            sm: 4,
+        }}
         alignItems="center"
       >
         {/* Save Statistic */}
@@ -199,7 +202,10 @@ const Result = (props) => {
       </Box>
       <Grid
         container
-        spacing={3}
+        spacing={{
+            xs: 2,
+            sm: 4,
+        }}
         alignItems="center"
       >
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -393,7 +399,10 @@ const Result = (props) => {
 
       <Grid
         container
-        spacing={3}
+        spacing={{
+            xs: 2,
+            sm: 4,
+        }}
         alignItems="center"
       >
         {/* 
@@ -643,7 +652,10 @@ const Result = (props) => {
 
       <Grid
         container
-        spacing={3}
+        spacing={{
+            xs: 2,
+            sm: 4,
+        }}
         alignItems="center"
       >
         {/* Show result Text

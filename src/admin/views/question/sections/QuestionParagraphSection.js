@@ -19,7 +19,10 @@ const QuestionParagraphSection = (props) => {
           title={__("Paragraph Options", "acadlix")}
         />
         <CardContent>
-          <Grid container spacing={4}>
+          <Grid container spacing={{
+            xs: 2,
+            sm: 4,
+          }}>
             <Grid size={{ xs: 12, sm: 4 }}>
               <FormControlLabel
                 control={
