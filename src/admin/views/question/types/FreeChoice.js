@@ -27,11 +27,6 @@ const FreeChoice = (props) => {
         <Card>
             <CardHeader
                 title={__('Free choice', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
-                slotProps={{
-                    title: {
-                        variant: 'h6'
-                    }
-                }}
             ></CardHeader>
             <CardContent
                 sx={{

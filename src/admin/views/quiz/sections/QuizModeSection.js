@@ -43,9 +43,10 @@ const QuizModeSection = (props) => {
         <CardHeader
           title={
             <Box sx={{
-              display: "flex"
+              display: "flex",
+              alignItems: "center",
             }}>
-              <Typography variant="h5">{__("Mode", "acadlix")}</Typography>
+              <Typography variant="h3">{__("Mode", "acadlix")}</Typography>
               <Tooltip
                 title={__("Choose from various modes. Some features are mode-dependent.", "acadlix")}
                 placement="right-start"
@@ -99,7 +100,7 @@ const QuizModeSection = (props) => {
                       }}
                     />
                     <Typography
-                      variant="h5"
+                      variant="h4"
                       fontWeight="bold"
                       sx={{
                         margin: "5px 0 10px 0",
@@ -155,7 +156,7 @@ const QuizModeSection = (props) => {
                       }}
                     />
                     <Typography
-                      variant="h5"
+                      variant="h4"
                       fontWeight="bold"
                       sx={{
                         margin: "5px 0 10px 0",
@@ -222,7 +223,7 @@ const QuizModeSection = (props) => {
                       }}
                     />
                     <Typography
-                      variant="h5"
+                      variant="h4"
                       fontWeight="bold"
                       sx={{
                         margin: "5px 0 10px 0",

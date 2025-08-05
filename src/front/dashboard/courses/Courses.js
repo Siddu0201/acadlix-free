@@ -81,8 +81,8 @@ const Courses = () => {
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 7 }}>
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="large">
-                      <IoMdRefresh />
+                    <Button variant="contained" onClick={refetch} >
+                      <IoMdRefresh style={{ fontSize: "x-large" }} />
                     </Button>
                   </Tooltip>
                   {/* <Grid container spacing={3}>
@@ -161,7 +161,7 @@ const Courses = () => {
           </Grid>
         ) : isError ? (
           <Grid size={{ xs: 12, lg: 12 }}>
-            <Typography>{__("Something went wrong", "acadlix")}</Typography>
+            <Typography variant="h3">{__("Something went wrong", "acadlix")}</Typography>
           </Grid>
         ) : data?.data?.order_items?.length > 0 ?
           data?.data?.order_items?.map((item, index) => (
@@ -174,7 +174,7 @@ const Courses = () => {
             </React.Fragment>
           )) : (
             <Grid size={{ xs: 12, lg: 12 }}>
-              <Typography>{__("No Course Found", "acadlix")}</Typography>
+              <Typography variant="h4">{__("No Course Found", "acadlix")}</Typography>
             </Grid>
           )}
       </Grid>
@@ -209,12 +209,14 @@ const CourseCard = (props) => {
     <Card
       sx={{
         height: "100%",
+        display: "flex",               // Make Card a flex container
+        flexDirection: "column",       // Stack children vertically
         borderRadius: 2,
-        boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)", // Add background shadow
+        boxShadow: (theme) => theme.shadows[2], // Add background shadow
         backgroundColor: "white",
         cursor: "pointer",
         "&:hover": {
-          boxShadow: "0 8px 8px -4px rgba(0, 0, 0, 0.2)", // Optional: darker shadow on hover
+          boxShadow: (theme) => theme.shadows[6], // Optional: darker shadow on hover
         },
       }}
       onClick={(e) => navigate(`/course/${props.id}`)}
@@ -232,29 +234,51 @@ const CourseCard = (props) => {
       />
       <CardContent
         sx={{
-          flexGrow: 1,
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          justifyContent: "space-between",
         }}
       >
-        <Typography
-          variant="h6"
+        <Box
           sx={{
-            lineHeight: "1.4",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
           }}
         >
-          {props?.course?.post_title?.length > 40
-            ? props?.course?.post_title?.substring(0, 40) + "..."
-            : props?.course?.post_title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {props?.course?.users?.length > 0
-            ? props?.course?.users
-              ?.map((u) => u?.display_name)
-              ?.join(", ")
-            : props?.course?.author?.display_name}
-        </Typography>
-        <Box sx={{ mt: 5 }}>
+          <Typography
+            variant="h6"
+          >
+            {props?.course?.post_title?.length > 40
+              ? props?.course?.post_title?.substring(0, 40) + "..."
+              : props?.course?.post_title}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+          >
+            {props?.course?.users?.length > 0
+              ? props?.course?.users
+                ?.map((u) => u?.display_name)
+                ?.join(", ")
+              : props?.course?.author?.display_name}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            marginTop: "auto"
+          }}
+        >
           <LinearProgress variant="determinate" value={props?.course_completion_percentage} />
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              marginTop: 1
+            }}
+          >
             {props?.course_completion_percentage}% {__("Complete", "acadlix")}
           </Typography>
         </Box>

@@ -86,11 +86,6 @@ const DashboardHeader = () => {
                     sm: 15,
                     xs: 1,
                   },
-                  fontWeight: 500,
-                  fontSize: {
-                    sm: "1rem",
-                    xs: "0.875rem",
-                  },
                 }}
               >
                 {dateI18n(acadlixOptions?.date_time_format ?? "F j, Y g:i a")}

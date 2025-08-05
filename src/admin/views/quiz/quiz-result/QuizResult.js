@@ -255,19 +255,18 @@ const QuizResult = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "center",
                     gap: 2,
                   }}
                 >
                   <Typography
-                    sx={{
-                      fontSize: "1.5rem",
-                    }}
+                    variant="h3"
                   >
                     {isFetching ? "" : methods?.watch("title")}
                   </Typography>
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="large">
-                      <IoMdRefresh />
+                    <Button variant="contained" onClick={refetch} size="medium">
+                      <IoMdRefresh style={{ fontSize: 'x-large' }} />
                     </Button>
                   </Tooltip>
                 </Box>
@@ -284,14 +283,16 @@ const QuizResult = () => {
                     <Paper
                       sx={{
                         p: 2,
-                        bgcolor: "#1976d2",
-                        color: "white",
+                        bgcolor: "primary.main",
                         borderRadius: 2,
                       }}
                     >
                       <Typography
                         variant="subtitle1"
-                        sx={{ fontWeight: "bold" }}
+                        sx={{ 
+                          fontWeight: "bold",
+                          color: 'primary.contrastText'
+                         }}
                       >
                         {`${isMobile ? __("Qs:", "acadlix") : __("Questions:", "acadlix")} ${methods?.watch("question_count")}`}
                       </Typography>
@@ -301,14 +302,17 @@ const QuizResult = () => {
                     <Paper
                       sx={{
                         p: 2,
-                        bgcolor: "#4caf50",
+                        bgcolor: "success.main",
                         color: "white",
                         borderRadius: 2,
                       }}
                     >
                       <Typography
                         variant="subtitle1"
-                        sx={{ fontWeight: "bold" }}
+                        sx={{ 
+                          fontWeight: "bold",
+                          color: 'success.contrastText'
+                         }}
                       >
                         {__("Pass:", "acadlix")} {methods?.watch("pass_count")}
                       </Typography>
@@ -318,14 +322,16 @@ const QuizResult = () => {
                     <Paper
                       sx={{
                         p: 2,
-                        bgcolor: "#f44336",
-                        color: "white",
+                        bgcolor: "error.main",
                         borderRadius: 2,
                       }}
                     >
                       <Typography
                         variant="subtitle1"
-                        sx={{ fontWeight: "bold" }}
+                        sx={{ 
+                          fontWeight: "bold",
+                          color: 'error.contrastText'
+                         }}
                       >
                         {__("Fail:", "acadlix")} {methods?.watch("fail_count")}
                       </Typography>
@@ -335,14 +341,17 @@ const QuizResult = () => {
                     <Paper
                       sx={{
                         p: 2,
-                        bgcolor: "#ff9800",
+                        bgcolor: "warning.main",
                         color: "white",
                         borderRadius: 2,
                       }}
                     >
                       <Typography
                         variant="subtitle1"
-                        sx={{ fontWeight: "bold" }}
+                        sx={{ 
+                          fontWeight: "bold",
+                          color: 'warning.contrastText'
+                         }}
                       >
                         {__("Total Attempt:", "acadlix")} {methods?.watch("attempt_counts")}
                       </Typography>

@@ -22,9 +22,6 @@ const SingleChoice = (props) => {
             ? `${__("Single Choice", "acadlix")} (${props?.lang?.language_name})`
             : __("Single Choice", "acadlix")
         }
-        titleTypographyProps={{
-          variant: "h6",
-        }}
       ></CardHeader>
       <CardContent>
         <RadioGroup>
@@ -98,8 +95,10 @@ const Option = (props) => {
     <Card>
       <CardHeader
         title={props?.title}
-        titleTypographyProps={{
-          variant: "h6",
+        slotProps={{
+          title: {
+            variant: "h6",
+          },
         }}
       ></CardHeader>
       <CardContent

@@ -26,7 +26,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -60,7 +59,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -84,7 +82,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -116,7 +113,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -182,7 +178,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -212,7 +207,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -236,7 +230,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -295,7 +288,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -319,7 +311,6 @@ const BillingDetail = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >

@@ -22,53 +22,13 @@ import { hasCapability } from "@acadlix/helpers/util";
 
 const QuizLeaderboard = () => {
   const styles = {
-    activeItem: {
-      backgroundColor: "#37afca",
-      alignItems: "center",
-      display: "flex",
-      justifyContent: "center",
-      color: "white",
-      textAlign: "center",
-      borderRadius: "16px",
-      flex: 1,
-      padding: "10px 0",
-    },
-    inactiveItem: {
-      backgroundColor: "white",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      textAlign: "center",
-      borderRadius: "16px",
-      flex: 1,
-      padding: "10px 0",
-    },
     header: {
-      color: "white",
       display: "flex",
       justifyContent: "center",
       paddingY: "20px",
       paddingX: "10px",
       alignItems: "center",
       marginBottom: "20px",
-    },
-    navContainer: {
-      display: "flex",
-      justifyContent: "space-between",
-      backgroundColor: "white",
-      padding: "4px",
-      borderRadius: "16px",
-      marginX: "auto",
-      marginBottom: "20px",
-    },
-    leaderboardItem: {
-      display: "flex",
-      alignItems: "center",
-      backgroundColor: "white",
-      borderRadius: "8px",
-      padding: "10px",
-      justifyContent: "space-between",
-      marginBottom: "10px",
     },
     leaderboardContainer: {
       width: {
@@ -95,32 +55,11 @@ const QuizLeaderboard = () => {
     name: {
       marginLeft: "10px",
     },
-    topItem: {
-      display: "flex",
-      alignItems: "center",
-      backgroundColor: "#37afca",
-      color: "white",
-      borderRadius: "8px",
-      padding: "10px",
-      justifyContent: "center",
-      flexDirection: "column",
-      textAlign: "center",
-    },
     avatarContainer: {
       position: "relative",
       display: "flex",
       justifyContent: "center",
       marginBottom: "10px",
-    },
-    rankLabel: {
-      position: "absolute",
-      bottom: "-10px",
-      backgroundColor: "#fff",
-      color: "#37afca",
-      borderRadius: "50%",
-      padding: "1px 6px",
-      fontSize: "12px",
-      fontWeight: "bold",
     },
     crownLabel: {
       position: "absolute",
@@ -132,12 +71,6 @@ const QuizLeaderboard = () => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "flex-end",
-    },
-    topItemWrapper: {
-      flex: "1",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
     },
   };
   const theme = useTheme();
@@ -240,7 +173,7 @@ const QuizLeaderboard = () => {
       <Grid
         container
         sx={{
-          backgroundColor: "#37afca",
+          backgroundColor: "primary.main",
           marginY: 2,
           marginX: {
             md: "auto",
@@ -255,20 +188,28 @@ const QuizLeaderboard = () => {
         }}
       >
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{ color: "primary.contrastText", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loadMoreMutation?.isPending}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
         <Box sx={styles.header}>
-          <Typography variant="h5" sx={{ fontWeight: "600" }}>
+          <Typography variant="h3" sx={{ color: "primary.contrastText" }}>
             {__("Leaderboard", "acadlix")}
           </Typography>
         </Box>
 
         <Box sx={styles.leaderboardContainer}>
           {methods?.watch("toplist")?.map((item, index) => (
-            <Box key={index} sx={styles.leaderboardItem}>
+            <Box key={index} sx={{
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "primary.contrastText",
+              borderRadius: "8px",
+              padding: "10px",
+              justifyContent: "space-between",
+              marginBottom: "10px",
+            }}>
               <Box sx={styles.rankNameContainer}>
                 <Typography variant="body1" sx={styles.rank}>
                   {item?.rank}
@@ -279,7 +220,7 @@ const QuizLeaderboard = () => {
               </Box>
               <Typography
                 variant="body1"
-                sx={{ fontWeight: "bold", color: "#37afca" }}
+                sx={{ fontWeight: "bold", color: "primary.main" }}
               >
                 {item?.result?.toFixed(2)}%
               </Typography>

@@ -1,4 +1,4 @@
-import { CardContent, CardHeader, Box, Button, Typography } from '@mui/material'
+import { CardContent, CardHeader, Box, Button, Typography, CardActions, Card } from '@mui/material'
 import React from 'react'
 import Grid from '@mui/material/Grid2'
 import { __ } from '@wordpress/i18n'
@@ -10,6 +10,7 @@ const Basic = (props) => {
     const handleReset = () => {
         const defaultTheme = defaultPaletteColor;
         props?.reset({
+            ...props?.watch(),
             palette: {
                 ...props?.watch('palette'),
                 primary: {
@@ -32,17 +33,17 @@ const Basic = (props) => {
         });
     }
     return (
-        <>
+        <Card>
             <CardHeader
                 title={
-                    <Box 
+                    <Box
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: 2,
                         }}
                     >
-                        <Typography variant="h5">
+                        <Typography variant="h3">
                             {__('Basic', 'acadlix')}
                         </Typography>
                         <Button
@@ -60,16 +61,19 @@ const Basic = (props) => {
                     container
                     rowSpacing={4}
                     spacing={4}
+                    sx={{
+                        alignItems: "center",
+                    }}
                 >
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6}}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Primary Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -77,14 +81,14 @@ const Basic = (props) => {
                         />
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Primary Hover Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -92,14 +96,14 @@ const Basic = (props) => {
                         />
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Primary Text Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -107,14 +111,14 @@ const Basic = (props) => {
                         />
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Secondary Text Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -122,14 +126,14 @@ const Basic = (props) => {
                         />
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Grey Main Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -137,14 +141,14 @@ const Basic = (props) => {
                         />
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Grey Dark Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -152,14 +156,14 @@ const Basic = (props) => {
                         />
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomTypography>
                             {__('Grey Light Color', 'acadlix')}
                         </CustomTypography>
                     </Grid>
                     <Grid
-                        size={{ lg: 3, md: 6, sm: 6, xs: 6 }}
+                        size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >
                         <CustomColorPicker
                             {...props}
@@ -168,7 +172,17 @@ const Basic = (props) => {
                     </Grid>
                 </Grid>
             </CardContent>
-        </>
+            <CardActions>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    loading={props?.isPending}
+                >
+                    {__('Save Changes', 'acadlix')}
+                </Button>
+            </CardActions>
+        </Card>
     )
 }
 

@@ -271,7 +271,7 @@ const LanguageSection = (props) => {
                                 marginY: 2,
                             }}
                         >
-                            <Typography variant="h6">{__('Language Options', 'acadlix')}</Typography>
+                            <Typography variant="h4">{__('Language Options', 'acadlix')}</Typography>
                             <Divider />
                         </Box>
                         <Grid container spacing={3}>

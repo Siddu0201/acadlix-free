@@ -14,7 +14,7 @@ const TitleSection = ({ customInputProps = {}, ...props }) => {
             spacing={4}
           >
             <Grid size={{ xs: 12, sm: 12 }}>
-              <Typography variant="h6">{__("Lesson Title", "acadlix")}</Typography>
+              <Typography variant="h4">{__("Lesson Title", "acadlix")}</Typography>
             </Grid>
             {/* Used to enter quiz title  */}
             <Grid size={{ xs: 12, sm: 12 }}>

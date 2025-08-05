@@ -280,7 +280,7 @@ const QuizContent = (props) => {
               >
                 {__('Back', 'acadlix')}
               </Button>
-              <Typography variant="h6">
+              <Typography variant="h3">
                 {props?.create ? __('Create Quiz', 'acadlix') : __('Edit Quiz', 'acadlix')}
               </Typography>
             </Box>

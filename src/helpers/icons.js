@@ -507,6 +507,24 @@ export const HiDocumentReport = (props) => {
     )
 }
 
+export const IoDesktopSharp = (props) => {
+    return (
+        <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M480 48H32a16 16 0 0 0-16 16v320a16 16 0 0 0 16 16h168v32h-72v32h256v-32h-72v-32h168a16 16 0 0 0 16-16V64a16 16 0 0 0-16-16zm-20 36v216H52V84zM240.13 354.08a16 16 0 1 1 13.79 13.79 16 16 0 0 1-13.79-13.79z"></path></svg>
+    )
+}
+
+export const FaTabletScreenButton = (props) => {
+    return (
+        <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 64C0 28.7 28.7 0 64 0L384 0c35.3 0 64 28.7 64 64l0 384c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zM256 448a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM384 64L64 64l0 320 320 0 0-320z"></path></svg>
+    )
+}
+
+export const FaMobileAlt = (props) => {
+    return (
+        <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 320 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M272 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h224c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zM160 480c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm112-108c0 6.6-5.4 12-12 12H60c-6.6 0-12-5.4-12-12V60c0-6.6 5.4-12 12-12h200c6.6 0 12 5.4 12 12v312z"></path></svg>
+    )
+}
+
 export const iconMap = {
     FaCloudUploadAlt: <FaCloudUploadAlt />,
     FaVideo: <FaVideo />,
@@ -518,4 +536,7 @@ export const iconMap = {
     MdPlayLesson: <MdPlayLesson />,
     FaExternalLinkAlt: <FaExternalLinkAlt />,
     HiDocumentReport: <HiDocumentReport />,
+    IoDesktopSharp: <IoDesktopSharp />,
+    FaTabletScreenButton: <FaTabletScreenButton />,
+    FaMobileAlt: <FaMobileAlt />,
 };

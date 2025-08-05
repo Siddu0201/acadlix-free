@@ -40,7 +40,7 @@ const Question = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Question Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Question Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid container spacing={3} alignItems="center">

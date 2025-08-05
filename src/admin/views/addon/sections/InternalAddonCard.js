@@ -71,9 +71,8 @@ const InternalAddonCard = (props) => {
             />
             <CardContent>
                 <Typography
-                    variant="body1"
+                    variant="h6"
                     sx={{
-                        fontWeight: 600,
                         marginBottom: 2,
                     }}
                 >
@@ -81,10 +80,7 @@ const InternalAddonCard = (props) => {
                 </Typography>
                 <Typography
                     variant="body2"
-                    sx={{
-                        fontWeight: 400,
-                        color: 'text.secondary',
-                    }}
+                    color="text.secondary"
                 >
                     {props?.description}
                 </Typography>

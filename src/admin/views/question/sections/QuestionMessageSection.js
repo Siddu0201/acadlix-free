@@ -43,11 +43,6 @@ const QuestionMessageSection = (props) => {
               ? __("Explanation", "acadlix") + ` (${props?.lang?.language_name})`
               : __("Explanation", "acadlix")
           }
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-            },
-          }}
         />
         <CardContent>
           <Grid container spacing={4}>

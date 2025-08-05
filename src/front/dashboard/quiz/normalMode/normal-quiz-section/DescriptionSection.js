@@ -149,8 +149,6 @@ const DescriptionSection = (props) => {
         <Typography
           variant="h1"
           sx={{
-            fontSize: "2rem",
-            fontWeight: "550", // Adjust the font weight to match your original styling
             marginBottom: "1.5rem",
           }}
           className="acadlix-quiz-title"

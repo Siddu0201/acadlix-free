@@ -3,6 +3,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
+import CustomTypography from '@acadlix/components/CustomTypography';
 
 const OpenAiOption = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -53,7 +54,7 @@ const Integration = (props) => {
                     marginY: 2,
                 }}
             >
-                <Typography variant="h6">{__("AI Intergrations", "acadlix")}</Typography>
+                <Typography variant="h4">{__("AI Intergrations", "acadlix")}</Typography>
                 <Divider />
             </Box>
             <Grid
@@ -64,14 +65,9 @@ const Integration = (props) => {
                 }}
             >
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-                    <Typography
-                        variant="body2"
-                        sx={{
-                            fontWeight: 500,
-                        }}
-                    >
+                    <CustomTypography>
                         {__("OpenAI API Key", "acadlix")}
-                    </Typography>
+                    </CustomTypography>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
                     <React.Suspense fallback={null}>

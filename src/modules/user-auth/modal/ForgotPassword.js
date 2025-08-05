@@ -103,7 +103,6 @@ const ForgotPassword = (props) => {
                                         <Typography
                                             variant="body2"
                                             sx={{
-                                                fontWeight: 500,
                                                 paddingY: 1,
                                             }}
                                         >

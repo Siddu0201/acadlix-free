@@ -30,10 +30,7 @@ const QuestionTextSection = (props) => {
       <Card>
         <CardHeader
           title={(
-            <Typography sx={{
-              fontWeight: 500,
-              fontSize: '1.5rem',
-            }}>
+            <Typography variant="h4">
               {__("Question", "acadlix")}<span style={{ color: "red" }}>*</span> {props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}
             </Typography>
           )}

@@ -32,11 +32,6 @@ const QuestionAnswerTypeSection = (props) => {
       <Card>
         <CardHeader
           title={__('Answer Type', 'acadlix')}
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-            },
-          }}
         />
         <CardContent>
           <RadioGroup

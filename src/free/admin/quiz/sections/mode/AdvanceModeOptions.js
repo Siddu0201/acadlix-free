@@ -100,7 +100,7 @@ const AdvanceModeOptions = (props) => {
                             // }}
                         />
                         <Typography
-                            variant="h5"
+                            variant="h4"
                             fontWeight="bold"
                             sx={{
                                 margin: "5px 0 5px 0",
@@ -110,7 +110,7 @@ const AdvanceModeOptions = (props) => {
                             {__("Advance mode", "acadlix")}
                         </Typography>
                         <Typography
-                            variant="h6"
+                            variant="body2"
                             sx={{
                                 margin: "5px 0",
                             }}

@@ -100,7 +100,7 @@ const Login = (props) => {
           marginBottom: 4
         }}>
           <Box>
-            <Typography variant="h5">{__('Welcome Back', 'acadlix')}</Typography>
+            <Typography variant="h4">{__('Welcome Back', 'acadlix')}</Typography>
           </Box>
           <Box>
             <Typography variant="body2">{__('Please enter your details to sign in.', 'acadlix')}</Typography>
@@ -141,7 +141,6 @@ const Login = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >
@@ -170,7 +169,6 @@ const Login = (props) => {
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: 500,
                   paddingY: 1,
                 }}
               >

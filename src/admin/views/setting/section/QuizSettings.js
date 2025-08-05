@@ -147,7 +147,11 @@ const CategorySettings = ({ methods }) => {
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    fontWeight: 500,
+                                    fontWeight: {
+                                        xs: 500,
+                                        sm: 500,
+                                        md: 500,
+                                    },
                                 }}
                             >
                                 {__("Select Category", "acadlix")}
@@ -205,7 +209,11 @@ const CategorySettings = ({ methods }) => {
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    fontWeight: 500,
+                                    fontWeight: {
+                                        xs: 500,
+                                        sm: 500,
+                                        md: 500,
+                                    },
                                 }}
                             >
                                 {methods?.watch("category_id") === null
@@ -377,7 +385,11 @@ const LanguageSettings = ({ methods }) => {
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    fontWeight: 500,
+                                    fontWeight: {
+                                        xs: 500,
+                                        sm: 500,
+                                        md: 500,
+                                    },
                                 }}
                             >
                                 {__('Select Language', 'acadlix')}
@@ -435,7 +447,11 @@ const LanguageSettings = ({ methods }) => {
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    fontWeight: 500,
+                                    fontWeight: {
+                                        xs: 500,
+                                        sm: 500,
+                                        md: 500,
+                                    },
                                 }}
                             >
                                 {methods?.watch("language_id") === null

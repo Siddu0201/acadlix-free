@@ -181,7 +181,7 @@ const Language = (props) => {
         <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
           <Grid container >
             <GridItem1 size={{ xs: 12, lg: 12 }}>
-              <Typography variant="h6">{__('Language Options', 'acadlix')}</Typography>
+              <Typography variant="h4">{__('Language Options', 'acadlix')}</Typography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, lg: 12 }}>
               <FormControlLabel

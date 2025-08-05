@@ -57,6 +57,13 @@ const Dashbaord = () => {
     )
   }
 
+  useEffect(() => {
+    const script = document.querySelector('script[src*="adsbygoogle"]');
+    if (script) {
+      script.remove();
+    }
+  }, []);
+
   return (
     <Provider>
       <Toaster position="bottom-right" />

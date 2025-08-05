@@ -59,11 +59,6 @@ const GeneralOptionSection = (props) => {
       <Card>
         <CardHeader
           title={__("General Options", "acadlix")}
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-            },
-          }}
         />
         <CardContent>
           <Grid container spacing={4}>

@@ -173,19 +173,18 @@ const PurchaseHistory = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "center",
                     gap: 2,
                   }}
                 >
                   <Typography
-                    sx={{
-                      fontSize: "1.5rem",
-                    }}
+                    variant="h3"
                   >
                     {__("Purchase History", "acadlix")}
                   </Typography>
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="large">
-                      <IoMdRefresh />
+                    <Button variant="contained" onClick={refetch}>
+                      <IoMdRefresh style={{ fontSize: "x-large" }} />
                     </Button>
                   </Tooltip>
                 </Box>
@@ -286,36 +285,58 @@ const MobileOnlyView = (props) => {
               alignItems="center"
             >
               <Typography
-                variant="body1"
-                fontWeight="bold"
-                sx={{ fontSize: "14px", flex: 1 }}
+                variant="h6"
               >
                 {row.order_items}
               </Typography>
             </Box>
-            <Box display="flex" alignItems="center" sx={{ marginY: "4px" }}>
+            <Box 
+              sx={{ 
+                marginY: "4px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <HistoryToggleOff
                 sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
               />
               <Typography
                 variant="body2"
-                color="textSecondary"
-                sx={{ fontSize: "12px" }}
+                color="text.secondary"
               >
                 {row?.order_date}
               </Typography>
+              <Chip
+                label={row?.status.charAt(0).toUpperCase() + row?.status.slice(1)}
+                color={
+                  row?.status === "success" ?
+                    "success" :
+                    row?.status === "pending" ?
+                      "warning" :
+                      "error"
+                }
+                sx={{ 
+                  marginLeft: "auto",
+                }}
+                variant="filled"
+              />
             </Box>
             <Box
               display="flex"
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography variant="body2" sx={{ fontSize: "12px" }}>
+              <Typography 
+                variant="body2" 
+              >
                 {row?.total_amount}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "12px", display: "flex", alignItems: "center" }}
+                sx={{ 
+                  display: "flex", 
+                  alignItems: "center" 
+                }}
               >
                 <FaMoneyBillTransfer style={{ marginRight: "4px" }} />
                 {row?.payment_method}

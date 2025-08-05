@@ -35,11 +35,6 @@ const QuestionHintSection = (props) => {
               ? __("Hint", "acadlix") + ` (${props?.lang?.language_name})`
               : __("Hint", "acadlix")
           }
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-            },
-          }}
         />
         <CardContent>
           <Grid container spacing={4}>

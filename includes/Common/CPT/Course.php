@@ -194,6 +194,7 @@ final class Course extends CPT_Abstract
         if ($post->post_type !== $this->get_post_type()) {
             return;
         }
+        
 
         if (!empty($post->post_title) && $postId) {
             acadlix()->model()->orderItem()->where("course_id", $postId)->update(["course_title" => $post->post_title]);

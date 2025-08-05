@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer, renderMUIComponent } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import { hasCapability } from "@acadlix/helpers/util";
+import CustomTypography from "@acadlix/components/CustomTypography";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -55,7 +56,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Page Setup", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Page Setup", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -66,14 +67,9 @@ function General(props) {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Student dashboard page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Autocomplete
@@ -167,27 +163,17 @@ function General(props) {
 
         {/* Advance Quiz Page Setting  */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Advance quiz page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <React.Suspense fallback={null}>
           <AdvanceQuizOption {...props} />
         </React.Suspense>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Cart page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Autocomplete
@@ -278,14 +264,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Checkout page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Autocomplete
@@ -376,14 +357,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Thankyou page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Autocomplete
@@ -514,7 +490,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Course Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Course Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -525,14 +501,9 @@ function General(props) {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("No. of courses per page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -550,14 +521,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Disable wishlist", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -578,14 +544,9 @@ function General(props) {
         </Grid>
         {/* 
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("One Click Checkout", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -605,14 +566,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Admin Auto Registration To Courses", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -632,14 +588,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Admin Can Assign Courses To Student", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -661,14 +612,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Admin Can Remove Student From Course", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -696,7 +642,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Currency Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Currency Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -707,14 +653,9 @@ function General(props) {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Currency", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Autocomplete
@@ -754,14 +695,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Currency position", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Autocomplete
@@ -790,14 +726,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Thousand separator", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -813,14 +744,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Decimal separator", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -836,14 +762,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("The number of decimals", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -869,7 +790,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Admin Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Admin Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -880,14 +801,9 @@ function General(props) {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Default rows per page", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Select
@@ -917,7 +833,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Student Dashboard Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Student Dashboard Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -928,14 +844,9 @@ function General(props) {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Logout redirect url", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
           <CustomTextField
@@ -951,14 +862,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Disable home in menu", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -978,14 +884,9 @@ function General(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Enable site logo in header", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -1010,7 +911,7 @@ function General(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Data Management", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Data Management", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -1021,14 +922,9 @@ function General(props) {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Delete Data on Plugin Uninstall", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel

@@ -56,18 +56,13 @@ const SidebarList = (props) => {
       >
         <Box>
           <Typography
-            sx={{
-              fontSize: "1rem",
-              fontWeight: 700,
-            }}
+            variant="h6"
           >
             {__("Section", "acadlix")} {props?.num}: {props?.s?.title}
           </Typography>
           <Typography
-            sx={{
-              fontSize: "0.8rem",
-              fontWeight: 400,
-            }}
+            variant="body2"
+            color="text.secondary"
           >
             {props?.s?.content?.filter(c => c?.is_completed)?.length}/{props?.s?.content?.length}
           </Typography>

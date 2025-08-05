@@ -212,7 +212,7 @@ const ActiveItem = React.forwardRef(({ id, ...props }, ref) => {
             }}
           />
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
               cursor: "default",
             }}
@@ -470,7 +470,7 @@ const SortableSections = (props) => {
             {...attributes}
           />
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
               cursor: "default",
             }}

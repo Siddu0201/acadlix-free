@@ -12,6 +12,7 @@ import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { useForm } from "react-hook-form";
 import { PostTestEmail } from "@acadlix/requests/admin/AdminSettingRequest";
 import { __ } from "@wordpress/i18n";
+import CustomTypography from "@acadlix/components/CustomTypography";
 
 function Notification(props) {
   return (
@@ -21,7 +22,7 @@ function Notification(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Email Settings", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Email Settings", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -32,14 +33,9 @@ function Notification(props) {
         }}
       >
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Notify Course Purchase To", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
@@ -80,14 +76,9 @@ function Notification(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Notify Course Completion To", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel
@@ -128,14 +119,9 @@ function Notification(props) {
           />
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Notify Failed Transaction To", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
           <FormControlLabel

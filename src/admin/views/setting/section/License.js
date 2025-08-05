@@ -26,7 +26,11 @@ function License(props) {
           <Typography
             variant="body2"
             sx={{
-              fontWeight: 500,
+              fontWeight: {
+                xs: 500,
+                sm: 500,
+                md: 500,
+              },
             }}
           >
             {__("Enter your email id", "acadlix")}

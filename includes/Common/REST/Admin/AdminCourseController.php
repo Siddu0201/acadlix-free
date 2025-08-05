@@ -28,7 +28,7 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_update_course'],
-                    'permission_callback' => fn() => current_user_can('edit_acadlix_course') && $this->check_permission(),
+                    'permission_callback' => fn() => current_user_can('acadlix_edit_course') && $this->check_permission(),
                 ],
             ]
         );
@@ -273,6 +273,7 @@ class AdminCourseController
             }
 
             $res['course'] = $course;
+            $res['course_cap'] = current_user_can('acadlix_add_course_section_assignment');
             return rest_ensure_response($res);
 
         } catch (Exception $e) {

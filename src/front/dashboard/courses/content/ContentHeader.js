@@ -89,17 +89,9 @@ const ContentHeader = (props) => {
           }}
         >
           <Typography
+            variant="h4"
             sx={{
-              fontSize: {
-                xs: 14,
-                md: 18,
-              },
-              lineHeight: {
-                xs: 1.25,
-                md: 1.5
-              },
-              fontWeight: 600,
-              color: "#fff",
+              color: "primary.contrastText",
             }}
           >
             {isMobile
@@ -141,7 +133,11 @@ const ContentHeader = (props) => {
               justifyContent: "center",
             }}
           >
-            <Typography variant="caption" component="div" color="white">
+            <Typography
+              variant="subtitle2"
+              component="div"
+              color="primary.contrastText"
+            >
               {`${props?.watch("course_completion_percentage")}%`}
             </Typography>
           </Box>
@@ -154,11 +150,11 @@ const ContentHeader = (props) => {
               navigate("/courses");
             }}
             sx={{
-              color: "#fff",
-              borderColor: "#fff",
+              color: "primary.contrastText",
+              borderColor: "primary.contrastText",
               ":hover, :focus": {
-                color: "#fff",
-                borderColor: "#fff",
+                color: "primary.contrastText",
+                borderColor: "primary.contrastText",
               },
             }}
           >

@@ -62,7 +62,7 @@ const General = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("General Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("General Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -235,7 +235,7 @@ const General = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Login Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Login Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -314,7 +314,7 @@ const General = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Advance Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Advance Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <React.Suspense fallback={null}>

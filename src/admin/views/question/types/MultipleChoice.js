@@ -16,9 +16,6 @@ function MultipleChoice(props) {
   return (
     <Card>
       <CardHeader title={__('Multiple Choice', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
-        titleTypographyProps={{
-          variant: 'h6'
-        }}
       ></CardHeader>
       <CardContent>
         <Grid container spacing={4}>
@@ -84,8 +81,10 @@ const Option = (props) => {
   return (
     <Card>
       <CardHeader title={props?.title}
-        titleTypographyProps={{
-          variant: 'h6'
+        slotProps={{
+          title: {
+            variant: 'h6'
+          }
         }}
       ></CardHeader>
       <CardContent sx={{

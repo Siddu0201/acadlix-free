@@ -1,38 +1,281 @@
+.acadlix-all-course-page h1,
+.acadlix-all-course-page .acadlix-h1{
+  font-size: var(--acadlix-h1-fs-mobile);
+  font-weight: var(--acadlix-h1-fw-mobile);
+  line-height: var(--acadlix-h1-lh-mobile);
+  letter-spacing: var(--acadlix-h1-ls-mobile);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.acadlix-all-course-page h2,
+.acadlix-all-course-page .acadlix-h2{
+  font-size: var(--acadlix-h2-fs-mobile);
+  font-weight: var(--acadlix-h2-fw-mobile);
+  line-height: var(--acadlix-h2-lh-mobile);
+  letter-spacing: var(--acadlix-h2-ls-mobile);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.acadlix-all-course-page h3,
+.acadlix-all-course-page .acadlix-h3{
+  font-size: var(--acadlix-h3-fs-mobile);
+  font-weight: var(--acadlix-h3-fw-mobile);
+  line-height: var(--acadlix-h3-lh-mobile);
+  letter-spacing: var(--acadlix-h3-ls-mobile);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.acadlix-all-course-page h4,
+.acadlix-all-course-page .acadlix-h4{
+  font-size: var(--acadlix-h4-fs-mobile);
+  font-weight: var(--acadlix-h4-fw-mobile);
+  line-height: var(--acadlix-h4-lh-mobile);
+  letter-spacing: var(--acadlix-h4-ls-mobile);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.acadlix-all-course-page h5,
+.acadlix-all-course-page .acadlix-h5{
+  font-size: var(--acadlix-h5-fs-mobile);
+  font-weight: var(--acadlix-h5-fw-mobile);
+  line-height: var(--acadlix-h5-lh-mobile);
+  letter-spacing: var(--acadlix-h5-ls-mobile);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.acadlix-all-course-page h6,
+.acadlix-all-course-page .acadlix-h6{
+  font-size: var(--acadlix-h6-fs-mobile);
+  font-weight: var(--acadlix-h6-fw-mobile);
+  line-height: var(--acadlix-h6-lh-mobile);
+  letter-spacing: var(--acadlix-h6-ls-mobile);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.acadlix-all-course-page .acadlix-body1,
+.acadlix-all-course-page p{
+  font-size: var(--acadlix-body1-fs-mobile);
+  font-weight: var(--acadlix-body1-fw-mobile);
+  line-height: var(--acadlix-body1-lh-mobile);
+  letter-spacing: var(--acadlix-body1-ls-mobile);
+}
+
+.acadlix-all-course-page .acadlix-body2{
+  font-size: var(--acadlix-body2-fs-mobile);
+  font-weight: var(--acadlix-body2-fw-mobile);
+  line-height: var(--acadlix-body2-lh-mobile);
+  letter-spacing: var(--acadlix-body2-ls-mobile);
+}
+
+.acadlix-all-course-page .acadlix-subtitle1{
+  font-size: var(--acadlix-subtitle1-fs-mobile);
+  font-weight: var(--acadlix-subtitle1-fw-mobile);
+  line-height: var(--acadlix-subtitle1-lh-mobile);
+  letter-spacing: var(--acadlix-subtitle1-ls-mobile);
+}
+
+.acadlix-all-course-page .acadlix-subtitle2{
+  font-size: var(--acadlix-subtitle2-fs-mobile);
+  font-weight: var(--acadlix-subtitle2-fw-mobile);
+  line-height: var(--acadlix-subtitle2-lh-mobile);
+  letter-spacing: var(--acadlix-subtitle2-ls-mobile);
+}
+
+@media (min-width: 600px){
+  .acadlix-all-course-page h1,
+  .acadlix-all-course-page .acadlix-h1{
+    font-size: var(--acadlix-h1-fs-tablet);
+    font-weight: var(--acadlix-h1-fw-tablet);
+    line-height: var(--acadlix-h1-lh-tablet);
+    letter-spacing: var(--acadlix-h1-ls-tablet);
+  }
+  .acadlix-all-course-page h2,
+  .acadlix-all-course-page .acadlix-h2{
+    font-size: var(--acadlix-h2-fs-tablet);
+    font-weight: var(--acadlix-h2-fw-tablet);
+    line-height: var(--acadlix-h2-lh-tablet);
+    letter-spacing: var(--acadlix-h2-ls-tablet);
+  }
+  .acadlix-all-course-page h3,
+  .acadlix-all-course-page .acadlix-h3{
+    font-size: var(--acadlix-h3-fs-tablet);
+    font-weight: var(--acadlix-h3-fw-tablet);
+    line-height: var(--acadlix-h3-lh-tablet);
+    letter-spacing: var(--acadlix-h3-ls-tablet);
+  }
+  .acadlix-all-course-page h4,
+  .acadlix-all-course-page .acadlix-h4{
+    font-size: var(--acadlix-h4-fs-tablet);
+    font-weight: var(--acadlix-h4-fw-tablet);
+    line-height: var(--acadlix-h4-lh-tablet);
+    letter-spacing: var(--acadlix-h4-ls-tablet);
+  }
+  .acadlix-all-course-page h5,
+  .acadlix-all-course-page .acadlix-h5{
+    font-size: var(--acadlix-h5-fs-tablet);
+    font-weight: var(--acadlix-h5-fw-tablet);
+    line-height: var(--acadlix-h5-lh-tablet);
+    letter-spacing: var(--acadlix-h5-ls-tablet);
+  }
+  .acadlix-all-course-page h6,
+  .acadlix-all-course-page .acadlix-h6{
+    font-size: var(--acadlix-h6-fs-tablet);
+    font-weight: var(--acadlix-h6-fw-tablet);
+    line-height: var(--acadlix-h6-lh-tablet);
+    letter-spacing: var(--acadlix-h6-ls-tablet);
+  }
+
+  .acadlix-all-course-page .acadlix-body1,
+  .acadlix-all-course-page p{
+    font-size: var(--acadlix-body1-fs-tablet);
+    font-weight: var(--acadlix-body1-fw-tablet);
+    line-height: var(--acadlix-body1-lh-tablet);
+    letter-spacing: var(--acadlix-body1-ls-tablet);
+  }
+  
+  .acadlix-all-course-page .acadlix-body2{
+    font-size: var(--acadlix-body2-fs-tablet);
+    font-weight: var(--acadlix-body2-fw-tablet);
+    line-height: var(--acadlix-body2-lh-tablet);
+    letter-spacing: var(--acadlix-body2-ls-tablet);
+  }
+  
+  .acadlix-all-course-page .acadlix-subtitle1{
+    font-size: var(--acadlix-subtitle1-fs-tablet);
+    font-weight: var(--acadlix-subtitle1-fw-tablet);
+    line-height: var(--acadlix-subtitle1-lh-tablet);
+    letter-spacing: var(--acadlix-subtitle1-ls-tablet);
+  }
+  
+  .acadlix-all-course-page .acadlix-subtitle2{
+    font-size: var(--acadlix-subtitle2-fs-tablet);
+    font-weight: var(--acadlix-subtitle2-fw-tablet);
+    line-height: var(--acadlix-subtitle2-lh-tablet);
+    letter-spacing: var(--acadlix-subtitle2-ls-tablet);
+  }
+}
+
+@media (min-width: 900px){
+  .acadlix-all-course-page h1,
+  .acadlix-all-course-page .acadlix-h1{
+    font-size: var(--acadlix-h1-fs-desktop);
+    font-weight: var(--acadlix-h1-fw-desktop);
+    line-height: var(--acadlix-h1-lh-desktop);
+    letter-spacing: var(--acadlix-h1-ls-desktop);
+  }
+  .acadlix-all-course-page h2,
+  .acadlix-all-course-page .acadlix-h2{
+    font-size: var(--acadlix-h2-fs-desktop);
+    font-weight: var(--acadlix-h2-fw-desktop);
+    line-height: var(--acadlix-h2-lh-desktop);
+    letter-spacing: var(--acadlix-h2-ls-desktop);
+  }
+  .acadlix-all-course-page h3,
+  .acadlix-all-course-page .acadlix-h3{
+    font-size: var(--acadlix-h3-fs-desktop);
+    font-weight: var(--acadlix-h3-fw-desktop);
+    line-height: var(--acadlix-h3-lh-desktop);
+    letter-spacing: var(--acadlix-h3-ls-desktop);
+  }
+  .acadlix-all-course-page h4,
+  .acadlix-all-course-page .acadlix-h4{
+    font-size: var(--acadlix-h4-fs-desktop);
+    font-weight: var(--acadlix-h4-fw-desktop);
+    line-height: var(--acadlix-h4-lh-desktop);
+    letter-spacing: var(--acadlix-h4-ls-desktop);
+  }
+  .acadlix-all-course-page h5,
+  .acadlix-all-course-page .acadlix-h5{
+    font-size: var(--acadlix-h5-fs-desktop);
+    font-weight: var(--acadlix-h5-fw-desktop);
+    line-height: var(--acadlix-h5-lh-desktop);
+    letter-spacing: var(--acadlix-h5-ls-desktop);
+  }
+  .acadlix-all-course-page h6,
+  .acadlix-all-course-page .acadlix-h6{
+    font-size: var(--acadlix-h6-fs-desktop);
+    font-weight: var(--acadlix-h6-fw-desktop);
+    line-height: var(--acadlix-h6-lh-desktop);
+    letter-spacing: var(--acadlix-h6-ls-desktop);
+  }
+
+  .acadlix-all-course-page .acadlix-body1,
+  .acadlix-all-course-page p{
+    font-size: var(--acadlix-body1-fs-desktop);
+    font-weight: var(--acadlix-body1-fw-desktop);
+    line-height: var(--acadlix-body1-lh-desktop);
+    letter-spacing: var(--acadlix-body1-ls-desktop);
+  }
+  
+  .acadlix-all-course-page .acadlix-body2{
+    font-size: var(--acadlix-body2-fs-desktop);
+    font-weight: var(--acadlix-body2-fw-desktop);
+    line-height: var(--acadlix-body2-lh-desktop);
+    letter-spacing: var(--acadlix-body2-ls-desktop);
+  }
+  
+  .acadlix-all-course-page .acadlix-subtitle1{
+    font-size: var(--acadlix-subtitle1-fs-desktop);
+    font-weight: var(--acadlix-subtitle1-fw-desktop);
+    line-height: var(--acadlix-subtitle1-lh-desktop);
+    letter-spacing: var(--acadlix-subtitle1-ls-desktop);
+  }
+  
+  .acadlix-all-course-page .acadlix-subtitle2{
+    font-size: var(--acadlix-subtitle2-fs-desktop);
+    font-weight: var(--acadlix-subtitle2-fw-desktop);
+    line-height: var(--acadlix-subtitle2-lh-desktop);
+    letter-spacing: var(--acadlix-subtitle2-ls-desktop);
+  }
+}
+
+
 .acadlix-all-course-page {
   width: 100%;
 }
 
 /* Course filter css */
-.acadlix-course-filter-bar-body {
+.acadlix-all-course-page .acadlix-course-filter-bar-body {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.acadlix-course-filter-text h4 {
-  color: var(--acadlix-text-tertiary);
+.acadlix-all-course-page .acadlix-course-filter-text div {
+  color: var(--acadlix-text-secondary);
 }
 
-.acadlix-course-filter-text h4 span {
+.acadlix-all-course-page .acadlix-course-filter-text div span {
   color: var(--acadlix-text-primary);
 }
 
-.acadlix-course-filter-select:focus {
+.acadlix-all-course-page .acadlix-course-filter-select:focus {
   border-color: var(--acadlix-primary-main);
 }
 
 /* Course Card css */
-.acadlix-all-course-card {
+.acadlix-all-course-page .acadlix-all-course-card {
   height: 100%;
+  box-shadow: var(--acadlix-box-shadow-2);
 }
 
-.acadlix-course-page-img {
+.acadlix-all-course-page .acadlix-all-course-card:hover{
+  box-shadow: var(--acadlix-box-shadow-6);
+}
+
+.acadlix-all-course-page .acadlix-course-page-img {
   width: 100%;
   height: 200px;
   aspect-ratio: auto 240/135;
 }
 
-.acadlix-course-page-chip {
+.acadlix-all-course-page .acadlix-course-page-chip {
   width: fit-content;
   background-color: var(--acadlix-primary-100);
   color: var(--acadlix-primary-main);
@@ -40,51 +283,64 @@
   border-radius: var(--acadlix-border-radius);
   border: 0;
 }
+.acadlix-all-course-page .acadlix-all-course-card-body{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
-.acadlix-course-page-card-title a {
+.acadlix-all-course-page .acadlix-course-page-card-title{
+  margin: 0px;
+}
+
+.acadlix-all-course-page .acadlix-course-page-card-title a {
   color: var(--acadlix-text-primary);
   text-decoration: none;
 }
 
-.acadlix-course-page-card-title a:hover,
-.acadlix-course-page-card-title a:focus {
+.acadlix-all-course-page .acadlix-course-page-card-title a:hover,
+.acadlix-all-course-page .acadlix-course-page-card-title a:focus {
   color: var(--acadlix-text-primary);
   text-decoration: none;
   outline: none;
 }
 
-.acadlix-course-user a {
-  color: var(--acadlix-text-tertiary);
+.acadlix-all-course-page .acadlix-course-user a {
+  color: var(--acadlix-text-secondary);
   text-decoration: none;
 }
 
-.acadlix-course-user a:hover,
-.acadlix-course-user a:focus {
+.acadlix-all-course-page .acadlix-course-user a:hover,
+.acadlix-all-course-page .acadlix-course-user a:focus {
   color: var(--acadlix-primary-main);
   text-decoration: none;
   outline: none;
 }
 
-.acadlix-course-page-free {
+.acadlix-all-course-page .acadlix-course-page-card-footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  flex: 1;
+}
+
+.acadlix-all-course-page .acadlix-course-page-free {
   border-radius: var(--acadlix-border-radius);
   background-color: var(--acadlix-success-main);
   color: var(--acadlix-primary-contrastText);
 }
 
-.acadlix-course-page-card-price {
+.acadlix-all-course-page .acadlix-course-page-card-price {
   font-weight: bold;
 }
 
-.acadlix-course-page-before-price {
+.acadlix-all-course-page .acadlix-course-page-before-price {
   text-decoration: line-through;
-  color: var(--acadlix-text-tertiary);
-  font-weight: 500;
+  color: var(--acadlix-text-secondary);
 }
 
-.acadlix-action-button {
+.acadlix-all-course-page .acadlix-action-button {
   width: 100%;
-  font-size: 14px;
-  font-weight: 500;
   justify-content: center;
   border: none;
   padding: 0.5rem;
@@ -98,17 +354,18 @@
   box-shadow: var(--acadlix-box-shadow-2);
 }
 
-.acadlix-action-button:hover {
+.acadlix-all-course-page .acadlix-action-button:hover,
+.acadlix-all-course-page .acadlix-action-button:focus {
   color: var(--acadlix-primary-contrastText);
   background-color: var(--acadlix-primary-dark);
   box-shadow: var(--acadlix-box-shadow-3);
 }
 
-.acadlix-action-button i {
+.acadlix-all-course-page .acadlix-action-button i {
   margin-right: 5px;
 }
 
-.acadlix-action-error-message{
+.acadlix-all-course-page .acadlix-action-error-message{
   border: 1px solid var(--acadlix-error-dark);
   background-color: var(--acadlix-error-main);
   color: var(--acadlix-primary-contrastText);
@@ -117,7 +374,7 @@
   text-align: center;
 }
 
-.acadlix-course-page-icon-element {
+.acadlix-all-course-page .acadlix-course-page-icon-element {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,12 +386,12 @@
   color: var(--acadlix-primary-main);
 }
 
-.acadlix-course-page-icon-element:hover {
+.acadlix-all-course-page .acadlix-course-page-icon-element:hover {
   color: var(--acadlix-primary-dark);
   box-shadow: var(--acadlix-box-shadow-3);
 }
 
-.acadlix-btn-loader {
+.acadlix-all-course-page .acadlix-btn-loader {
   border: 3px solid var(--acadlix-border-color);
   border-top: 3px solid var(--acadlix-primary-main);
   border-radius: 50%;
@@ -154,17 +411,17 @@
 }
 
 /* Pagination css  */
-.acadlix-course-pagination-container {
+.acadlix-all-course-page .acadlix-course-pagination-container {
   text-align: center;
   padding-top: 1rem;
 }
 
-.acadlix-course-pagination-nav {
+.acadlix-all-course-page .acadlix-course-pagination-nav {
   display: inline-block;
   width: auto;
 }
 
-.acadlix-course-pagination-list {
+.acadlix-all-course-page .acadlix-course-pagination-list {
   list-style: none;
   padding: 1rem;
   margin: 0;
@@ -173,7 +430,7 @@
   gap: 0.5rem;
 }
 
-.acadlix-course-pagination-link {
+.acadlix-all-course-page .acadlix-course-pagination-link {
   display: block;
   padding: 0.5rem 0.75rem;
   text-decoration: none;
@@ -182,21 +439,21 @@
   transition: background-color 0.3s ease;
 }
 
-.acadlix-course-pagination-link:hover {
+.acadlix-all-course-page .acadlix-course-pagination-link:hover {
   background-color: var(--acadlix-grey);
 }
 
-.acadlix-course-pagination-disabled {
+.acadlix-all-course-page .acadlix-course-pagination-disabled {
   pointer-events: none;
   cursor: default;
   opacity: 0.4;
 }
 
-.acadlix-course-pagination-item.acadlix-course-pagination-active .acadlix-course-pagination-link {
+.acadlix-all-course-page .acadlix-course-pagination-item.acadlix-course-pagination-active .acadlix-course-pagination-link {
   background-color: var(--acadlix-primary-main);
   color: var(--acadlix-primary-contrastText);
 }
 
-.acadlix-course-pagination-info {
-  color: var(--acadlix-text-tertiary);
+.acadlix-all-course-page .acadlix-course-pagination-info {
+  color: var(--acadlix-text-secondary);
 }

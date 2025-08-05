@@ -14,6 +14,7 @@ import {
   CardHeader,
   Chip,
   TablePagination,
+  CircularProgress,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { useForm } from "react-hook-form";
@@ -161,19 +162,18 @@ export default function Result() {
               <Box
                 sx={{
                   display: "flex",
+                  alignItems: "center",
                   gap: 2,
                 }}
               >
                 <Typography
-                  sx={{
-                    fontSize: "1.5rem",
-                  }}
+                  variant="h3"
                 >
                   {__("My Result", "acadlix")}
                 </Typography>
                 <Tooltip title={__("Refresh", "acadlix")} arrow>
-                  <Button variant="contained" onClick={refetch} size="large">
-                    <IoMdRefresh />
+                  <Button variant="contained" onClick={refetch}>
+                    <IoMdRefresh style={{ fontSize: "x-large" }} />
                   </Button>
                 </Tooltip>
               </Box>
@@ -190,6 +190,7 @@ export default function Result() {
                   isMobile ? (
                     <MobileOnlyView
                       {...methods}
+                      isFetching={isFetching}
                       paginationModel={paginationModel}
                       handlePaginationChange={handlePaginationChange}
                     />
@@ -257,74 +258,88 @@ const MobileOnlyView = (props) => {
         />
       </Box>
 
-      {props?.watch("rows")?.map((row, index) => (
+      {props?.isFetching ? (
         <Box
-          key={index}
           sx={{
-            padding: "8px",
-            marginTop: "8px",
-            marginBottom: "8px",
-            marginLeft: "8px",
-            marginRight: "8px",
-            borderBottom: "1px solid #e0e0e0",
             display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-            borderRadius: "8px",
-            backgroundColor: "white",
+            justifyContent: "center",
+            padding: 2,
           }}
         >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              fontSize={"14px"}
-            >
-              {row?.title}
-            </Typography>
-            <Tooltip title={__("View Answersheet", "acadlix")} arrow>
-              <IconButton
-                aria-label="expand"
-                size="small"
-                color="warning"
-                LinkComponent={Link}
-                to={`/result/${row?.id}`}
-                disabled={row?.hide_answer_sheet}
-              >
-                <FaExpandArrowsAlt fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box display="flex" alignItems="center" gap="4px">
-            <HistoryToggleOff style={{ color: "gray" }} />
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              fontSize={"12px"}
-            >
-              {row?.date}
-            </Typography>
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="body2" fontSize={"10px"}>
-              {__("Score: ", "acadlix")}{row?.score}
-            </Typography>
-            <Chip
-              color={row?.status === "Pass" ? "success" : "error"}
-              label={row?.status}
-            />
-          </Box>
+          <CircularProgress />
         </Box>
-      ))}
+      ) : (
+        props?.watch("rows")?.map((row, index) => (
+          <Box
+            key={index}
+            sx={{
+              padding: "8px",
+              marginTop: "8px",
+              marginBottom: "8px",
+              marginLeft: "8px",
+              marginRight: "8px",
+              borderBottom: "1px solid #e0e0e0",
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+              borderRadius: "8px",
+              backgroundColor: "white",
+            }}
+          >
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: "14px",
+                }}
+              >
+                {row?.title}
+              </Typography>
+              <Tooltip title={__("View Answersheet", "acadlix")} arrow>
+                <IconButton
+                  aria-label="expand"
+                  size="small"
+                  color="warning"
+                  LinkComponent={Link}
+                  to={`/result/${row?.id}`}
+                  disabled={row?.hide_answer_sheet}
+                >
+                  <FaExpandArrowsAlt fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box display="flex" alignItems="center" gap="4px">
+              <HistoryToggleOff style={{ color: "gray" }} />
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                {row?.date}
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography
+                variant="body2"
+              >
+                {__("Score: ", "acadlix")}{row?.score}
+              </Typography>
+              <Chip
+                color={row?.status === "Pass" ? "success" : "error"}
+                label={row?.status}
+              />
+            </Box>
+          </Box>
+        )
+        ))}
 
       <Box display="flex" justifyContent="center" padding={1}>
         <TablePagination

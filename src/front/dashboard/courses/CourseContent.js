@@ -583,10 +583,7 @@ const CourseContent = () => {
                 >
                   <Box>
                     <Typography
-                      sx={{
-                        fontSize: 19,
-                        fontWeight: 600,
-                      }}
+                      variant="h4"
                     >
                       {__("Course content", "acadlix")}
                     </Typography>

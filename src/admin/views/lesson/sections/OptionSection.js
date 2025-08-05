@@ -88,7 +88,7 @@ const OptionSection = ({
             spacing={{ xs: 3, sm: 4 }}
           >
             <Grid size={{ xs: 12, lg: 12 }}>
-              <Typography variant="h6">
+              <Typography variant="h4">
                 {__('Options', 'acadlix')}
               </Typography>
             </Grid>

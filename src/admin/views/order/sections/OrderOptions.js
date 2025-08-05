@@ -16,7 +16,7 @@ const OrderOptions = (props) => {
                             marginY: 2,
                         }}
                     >
-                        <Typography variant="h6">{__("Order Options", "acadlix")}</Typography>
+                        <Typography variant="h4">{__("Order Options", "acadlix")}</Typography>
                         <Divider />
                     </Box>
                     <Grid

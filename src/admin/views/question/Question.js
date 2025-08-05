@@ -340,13 +340,12 @@ const Question = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "center",
                     gap: 2,
                   }}
                 >
                   <Typography
-                    sx={{
-                      fontSize: "1.5rem",
-                    }}
+                    variant="h3"
                   >
                     {__("Question Overview", "acadlix")}
                   </Typography>
@@ -362,8 +361,12 @@ const Question = () => {
                     </Button>
                   }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="large">
-                      <IoMdRefresh />
+                    <Button 
+                      variant="contained" 
+                      onClick={refetch} 
+                      size="medium"
+                    >
+                      <IoMdRefresh style={{ fontSize: 'x-large' }} />
                     </Button>
                   </Tooltip>
                   {

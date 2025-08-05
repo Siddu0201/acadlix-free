@@ -19,11 +19,6 @@ const LanguageSection = (props) => {
       <Card>
         <CardHeader
           title={__("Language", "acadlix")}
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-            },
-          }}
         />
         <CardContent>
           <Grid container spacing={4}>

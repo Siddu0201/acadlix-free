@@ -140,7 +140,7 @@ const LessonContent = (props) => {
               >
                 {__("Back", "acadlix")}
               </Button>
-              <Typography variant="h6">
+              <Typography variant="h3">
                 {props?.create ? __("Create Lesson", "acadlix") : __("Edit Lesson", "acadlix")}
               </Typography>
             </Box>

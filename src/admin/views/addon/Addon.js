@@ -26,7 +26,7 @@ const Addon = () => {
         }}
       >
         <Grid size={{ xs: 12, lg: 12 }}>
-          <Typography variant="h6">{__('Addon Manager', 'acadlix')}</Typography>
+          <Typography variant="h3">{__('Addon Manager', 'acadlix')}</Typography>
         </Grid>
         {
           data?.data?.addons?.length > 0 &&

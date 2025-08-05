@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid2';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
+import CustomTypography from "@acadlix/components/CustomTypography";
 
 const Permalink = (props) => {
   return (
@@ -12,7 +13,7 @@ const Permalink = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Course Permalink", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Course Permalink", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -23,14 +24,9 @@ const Permalink = (props) => {
         }}
       >
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Course base", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -45,14 +41,9 @@ const Permalink = (props) => {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Category base", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -67,14 +58,9 @@ const Permalink = (props) => {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-            }}
-          >
+          <CustomTypography>
             {__("Tag base", "acadlix")}
-          </Typography>
+          </CustomTypography>
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField

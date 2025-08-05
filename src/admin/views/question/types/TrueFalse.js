@@ -16,9 +16,6 @@ function TrueFalse(props) {
     <Card>
       <CardHeader
         title={__('True/False', 'acadlix') + ` ${props?.watch("multi_language") ? `(${props?.lang?.language_name})` : ""}`}
-        titleTypographyProps={{
-          variant: "h6",
-        }}
       ></CardHeader>
       <CardContent
         sx={{

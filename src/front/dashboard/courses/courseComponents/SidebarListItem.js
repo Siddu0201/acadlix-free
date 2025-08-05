@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  colors,
   ListItem,
   ListItemText,
   Typography,
@@ -45,8 +46,9 @@ const SidebarListItem = (props) => {
           >
             <Box>
               <Typography
+                color="text.secondary"
+                variant="body2"
                 sx={{
-                  fontSize: 14,
                   display: "flex",
                   alignItems: "center",
                 }}
@@ -84,13 +86,21 @@ const SidebarListItem = (props) => {
               )}
           </Box>
         }
-        primaryTypographyProps={{
-          sx: {
-            fontWeight: 600,
+        slotProps={{
+          primary: {
+            sx: {
+              fontWeight: {
+                xs: 600,
+                sm: 600,
+                md: 600,
+              },
+            }
           },
-        }}
-        secondaryTypographyProps={{
-          component: "div",
+          secondary: {
+            typography: {
+              component: "div",
+            }
+          }
         }}
       />
     </ListItem>

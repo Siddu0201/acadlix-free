@@ -52,19 +52,21 @@ const Wishlist = () => {
 
     const columns = [
         { field: "id", headerName: __("ID", "acadlix") },
-        { field: "thumbnail", headerName: __("Thumbnail", "acadlix"), minWidth: 100, renderCell: (params) => {
-            return (
-                <Avatar
-                    src={params?.row?.thumbnail_url}
-                    alt={params?.row?.thumbnail_alt}
-                    sx={{
-                        width: 80,
-                        height: 50,
-                    }}
-                    variant='rounded'
-                />
-            );
-        } },
+        {
+            field: "thumbnail", headerName: __("Thumbnail", "acadlix"), minWidth: 100, renderCell: (params) => {
+                return (
+                    <Avatar
+                        src={params?.row?.thumbnail_url}
+                        alt={params?.row?.thumbnail_alt}
+                        sx={{
+                            width: 80,
+                            height: 50,
+                        }}
+                        variant='rounded'
+                    />
+                );
+            }
+        },
         {
             field: "course",
             headerName: __("Course", "acadlix"),
@@ -168,19 +170,21 @@ const Wishlist = () => {
                                 <Box
                                     sx={{
                                         display: "flex",
+                                        alignItems: "center",
                                         gap: 2,
                                     }}
                                 >
                                     <Typography
-                                        sx={{
-                                            fontSize: "1.5rem",
-                                        }}
+                                        variant="h3"
                                     >
                                         {__("Wishlist", "acadlix")}
                                     </Typography>
                                     <Tooltip title={__("Refresh", "acadlix")} arrow>
-                                        <Button variant="contained" onClick={refetch} size="large">
-                                            <IoMdRefresh />
+                                        <Button
+                                            variant="contained"
+                                            onClick={refetch}
+                                        >
+                                            <IoMdRefresh style={{ fontSize: 'x-large' }} />
                                         </Button>
                                     </Tooltip>
                                 </Box>
@@ -256,7 +260,13 @@ const MobileOnlyView = (props) => {
     return (
         <Box>
             {props?.isFetching ? (
-                <Box display="flex" justifyContent="center" padding={2}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 2
+                    }}
+                >
                     <CircularProgress />
                 </Box>
             ) : (
@@ -298,9 +308,7 @@ const MobileOnlyView = (props) => {
                                 alignItems="center"
                             >
                                 <Typography
-                                    variant="body1"
-                                    fontWeight="bold"
-                                    sx={{ fontSize: "14px", flex: 1 }}
+                                    variant="h6"
                                 >
                                     {row.course}
                                 </Typography>
@@ -317,8 +325,7 @@ const MobileOnlyView = (props) => {
                                 />
                                 <Typography
                                     variant="body2"
-                                    color="textSecondary"
-                                    sx={{ fontSize: "12px" }}
+                                    color="text.secondary"
                                 >
                                     {row?.added_at}
                                 </Typography>
@@ -328,7 +335,9 @@ const MobileOnlyView = (props) => {
                                 justifyContent="space-between"
                                 alignItems="center"
                             >
-                                <Typography variant="body2" sx={{ fontSize: "12px" }}>
+                                <Typography
+                                    variant="body2"
+                                >
                                     {row?.price}
                                 </Typography>
                             </Box>

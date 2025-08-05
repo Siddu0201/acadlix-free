@@ -13,18 +13,21 @@ const routes = [
     path: "/",
     name: "basic",
     label: __('Basic', 'acadlix'),
+    isFree: true,
     element: <DesignStudio selected="basic" />,
   },
   hasCapability("acadlix_show_design_studio") && {
     path: "/palette",
     name: "palette",
     label: __('Palette', 'acadlix'),
+    isFree: false,
     element: <DesignStudio selected="palette" />,
   },
   hasCapability("acadlix_show_design_studio") && {
     path: "/typography",
     name: "typography",
     label: __('Typography', 'acadlix'),
+    isFree: false,
     element: <DesignStudio selected="typography" />,
   },
 ];

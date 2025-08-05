@@ -17,11 +17,6 @@ const QuestionParagraphSection = (props) => {
       <Card>
         <CardHeader
           title={__("Paragraph Options", "acadlix")}
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 500,
-            },
-          }}
         />
         <CardContent>
           <Grid container spacing={4}>

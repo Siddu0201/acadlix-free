@@ -213,13 +213,12 @@ const Lesson = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "center",
                     gap: 2,
                   }}
                 >
                   <Typography
-                    sx={{
-                      fontSize: "1.5rem",
-                    }}
+                    variant="h3"
                   >
                     {__("Lesson Overview", "acadlix")}
                   </Typography>

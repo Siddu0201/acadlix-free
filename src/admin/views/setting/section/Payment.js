@@ -33,7 +33,7 @@ function Payment(props) {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Payment Gateway", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Payment Gateway", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid

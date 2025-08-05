@@ -226,13 +226,12 @@ const Order = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "center",
                     gap: 2,
                   }}
                 >
                   <Typography
-                    sx={{
-                      fontSize: "1.5rem",
-                    }}
+                    variant="h3"
                   >
                     {__("Orders", "acadlix")}
                   </Typography>
@@ -248,8 +247,8 @@ const Order = () => {
                     </Button>
                   }
                   <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="large">
-                      <IoMdRefresh />
+                    <Button variant="contained" onClick={refetch}>
+                      <IoMdRefresh style={{ fontSize: "x-large" }} />
                     </Button>
                   </Tooltip>
                 </Box>

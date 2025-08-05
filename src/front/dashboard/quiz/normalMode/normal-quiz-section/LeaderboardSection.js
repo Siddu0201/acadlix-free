@@ -156,7 +156,7 @@ const LeaderboardSection = (props) => {
     >
       <Box sx={styles.header}>
         <Typography
-          variant="h5"
+          variant="h4"
           sx={{ fontWeight: "600" }}
           className="acadlix-normal-quiz-leaderboard-header-text"
         >

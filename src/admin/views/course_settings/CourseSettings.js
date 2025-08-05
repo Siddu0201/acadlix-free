@@ -62,6 +62,7 @@ const CourseSettings = (props) => {
 
   const courseMutation = PostCreateUpdateCourse();
   const handleSaveOrPublish = (e) => {
+    // e.preventDefault();
     courseMutation?.mutate(methods?.watch());
   };
 

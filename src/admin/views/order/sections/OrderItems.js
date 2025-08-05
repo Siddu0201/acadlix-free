@@ -44,7 +44,7 @@ const OrderItems = (props) => {
                             marginY: 2,
                         }}
                     >
-                        <Typography variant="h6">{__("Add Course(s) to Order", "acadlix")}</Typography>
+                        <Typography variant="h4">{__("Add Course(s) to Order", "acadlix")}</Typography>
                         <Divider />
                     </Box>
                     <Grid

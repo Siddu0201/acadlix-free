@@ -5,18 +5,13 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  List,
-  ListItem,
   Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import React from "react";
 import AcadlixLogo from "@acadlix/images/acadlix_logo.png";
 import {
-  IoCheckmarkDoneSharp,
   AiOutlineFileSearch,
-  RiUserHeartFill,
-  BiSolidCommentDetail,
   FaCog,
   MdOutlineSupportAgent
 } from "@acadlix/helpers/icons";
@@ -86,7 +81,7 @@ const Home = () => {
             >
               <Box>
                 <Typography
-                  variant="h4"
+                  variant="h2"
                   sx={{
                     paddingY: 3,
                   }}
@@ -95,7 +90,7 @@ const Home = () => {
                     {__("Welcome to <b>Acadlix</b>", "acadlix")}
                   </RawHTML>
                 </Typography>
-                <Typography>{__("The Next-Gen LMS For WordPress.", "acadlix")}</Typography>
+                <Typography variant="body1">{__("The Next-Gen LMS For WordPress.", "acadlix")}</Typography>
               </Box>
               <Box
                 component="img"
@@ -196,10 +191,7 @@ const Home = () => {
               >
                 <FaCog />
                 <Typography
-                  sx={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                  }}
+                  variant="h6"
                 >
                   {__("Need any custom feature?", "acadlix")}
                 </Typography>
@@ -216,10 +208,7 @@ const Home = () => {
           >
             <Box>
               <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}
+                variant="subtitle2"
               >
                 {__("Have unique requirements? We support custom development for specific LMS needs", "acadlix")}
               </Typography>
@@ -251,10 +240,7 @@ const Home = () => {
               >
                 <MdOutlineSupportAgent />
                 <Typography
-                  sx={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                  }}
+                  variant="h6"
                 >
                   {__("Need Help?", "acadlix")}
                 </Typography>
@@ -271,10 +257,7 @@ const Home = () => {
           >
             <Box>
               <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}
+                variant="subtitle2"
               >
                 {__("Get expert support when you need it. Fast, reliable, and human.", "acadlix")}
               </Typography>
@@ -307,10 +290,7 @@ const Home = () => {
               >
                 <AiOutlineFileSearch />
                 <Typography
-                  sx={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                  }}
+                  variant="h6"
                 >
                   {__("Documentation", "acadlix")}
                 </Typography>
@@ -327,10 +307,7 @@ const Home = () => {
           >
             <Box>
               <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}
+                variant="subtitle2"
               >
                 {__("New to Acadlix? Our detailed docs will guide you through every step of setup and beyond.", "acadlix")}
               </Typography>

@@ -23,7 +23,7 @@ const Instruction = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Instruction Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Instruction Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid container spacing={3} alignItems="center">

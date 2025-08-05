@@ -74,7 +74,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Statistic Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Statistic Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -194,7 +194,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Result Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Result Options", "acadlix")}</Typography>
         <Divider />
       </Box>
       <Grid
@@ -371,7 +371,7 @@ const Result = (props) => {
               marginY: 2,
             }}
           >
-            <Typography variant="h6">{__("Answer Sheet Options", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Answer Sheet Options", "acadlix")}</Typography>
             <Divider />
           </Box>
           <React.Suspense fallback={null}>
@@ -387,7 +387,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Leaderboard Options", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Leaderboard Options", "acadlix")}</Typography>
         <Divider />
       </Box>
 
@@ -637,7 +637,7 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h6">{__("Result Text", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Result Text", "acadlix")}</Typography>
         <Divider />
       </Box>
 

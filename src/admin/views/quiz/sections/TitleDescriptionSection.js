@@ -34,7 +34,7 @@ const TitleDescriptionSection = (props) => {
             spacing={4}
           >
             <Grid size={{ xs: 12, lg: 12 }}>
-              <Typography variant="h6">{__("Quiz Title", "acadlix")}</Typography>
+              <Typography variant="h4">{__("Quiz Title", "acadlix")}</Typography>
             </Grid>
             {/* Used to enter quiz title  */}
             <Grid size={{ xs: 12, sm: 12 }}>
@@ -59,7 +59,7 @@ const TitleDescriptionSection = (props) => {
               gap: 2,
               alignItems: "center",
             }}>
-              <Typography variant="h6">{__("Quiz Description", "acadlix")}</Typography>
+              <Typography variant="h4">{__("Quiz Description", "acadlix")}</Typography>
 
               {/* handle Ai for generating description */}
               <React.Suspense fallback={null}>

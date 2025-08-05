@@ -122,7 +122,7 @@ const OrderContent = (props) => {
                             >
                                 {__("Back", "acadlix")}
                             </Button>
-                            <Typography variant="h6">
+                            <Typography variant="h3">
                                 {props?.create ? __("Create Order", "acadlix") : __("Edit Order", "acadlix")}
                             </Typography>
                         </Box>

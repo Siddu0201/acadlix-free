@@ -64,6 +64,7 @@ class UserRole
             'delete_others_acadlix_courses' => true,
             'edit_private_acadlix_courses' => true,
             'edit_published_acadlix_courses' => true,
+            'acadlix_edit_course' => true,
             'acadlix_add_course_section' => true,
             'acadlix_edit_course_section' => true,
             'acadlix_delete_course_section' => true,

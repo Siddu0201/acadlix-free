@@ -216,29 +216,48 @@ const Profile = () => {
                   paddingY: 2,
                 }}
               >
-                <Typography variant="h5" component="div">
+                <Typography variant="h4" component="div">
                   {methods?.watch("display_name")}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  <GrUserManager
-                    style={{
-                      marginRight: 6,
-                    }}
-                  />
-                  {methods?.watch("user_login")}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  sx={{ marginTop: "15px" }}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    flexDirection: "column",
+                    gap: 1,
+                  }}
                 >
-                  <SlLocationPin
-                    style={{
-                      marginRight: 6,
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
                     }}
-                  />
-                  {methods?.watch("city")}, {methods?.watch("country")}
-                </Typography>
+                  >
+                    <GrUserManager
+                      style={{
+                        marginRight: 6,
+                      }}
+                    />
+                    {methods?.watch("user_login")}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SlLocationPin
+                      style={{
+                        marginRight: 6,
+                      }}
+                    />
+                    {methods?.watch("city")}{methods?.watch("city") ? ", " : ""}{methods?.watch("country")}
+                  </Typography>
+                </Box>
               </CardContent>
             </Card>
           </Grid>
@@ -246,10 +265,10 @@ const Profile = () => {
           <Grid size={{ xs: 12, md: 8 }}>
             <Card sx={{ mb: 2.5, boxShadow: (theme) => theme.shadows[1] }}>
               <CardContent sx={{ mb: 4 }}>
-                <Typography variant="h6" component="div" gutterBottom>
+                <Typography variant="h4" component="div" gutterBottom>
                   {__("Bio", "acadlix")}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2" color="text.secondary">
                   {methods?.watch("description")}
                 </Typography>
               </CardContent>
@@ -257,7 +276,7 @@ const Profile = () => {
 
             <Card sx={{ mb: 5, boxShadow: (theme) => theme.shadows[1] }}>
               <CardContent>
-                <Typography variant="h6" component="div" gutterBottom>
+                <Typography variant="h4" component="div" gutterBottom>
                   {__("Personal", "acadlix")}
                 </Typography>
                 <Grid container spacing={2}>
@@ -391,12 +410,12 @@ const Profile = () => {
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomTextField
                       fullWidth
-                      label={__("Address", "acadlix")}
+                      label={__("Website", "acadlix")}
                       variant="outlined"
                       size="small"
-                      value={methods?.watch("address")}
+                      value={methods?.watch("user_url")}
                       onChange={(e) => {
-                        methods?.setValue("address", e?.target?.value, {
+                        methods?.setValue("user_url", e?.target?.value, {
                           shouldDirty: true,
                         });
                       }}
@@ -405,12 +424,12 @@ const Profile = () => {
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomTextField
                       fullWidth
-                      label={__("Website", "acadlix")}
+                      label={__("Address", "acadlix")}
                       variant="outlined"
                       size="small"
-                      value={methods?.watch("user_url")}
+                      value={methods?.watch("address")}
                       onChange={(e) => {
-                        methods?.setValue("user_url", e?.target?.value, {
+                        methods?.setValue("address", e?.target?.value, {
                           shouldDirty: true,
                         });
                       }}

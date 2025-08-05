@@ -7,7 +7,11 @@ const CustomTypography = (props) => {
             variant="body2"
             {...props}
             sx={{
-                fontWeight: 500,
+                fontWeight: {
+                    xs: 600,
+                    sm: 600,
+                    md: 600,
+                },
                 ...props?.sx,
             }}
         >

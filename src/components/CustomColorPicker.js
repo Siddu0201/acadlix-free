@@ -2,16 +2,36 @@ import { Box, Button, ClickAwayListener, Fade, IconButton, Paper, Popper, Typogr
 import React from 'react'
 import { SketchPicker } from 'react-color';
 
-const CustomColorPicker = ({ 
+const CustomColorPicker = ({
     name = '',
     ...props
 }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
+    const pickerRef = React.useRef(null);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => !prev);
     };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            setOpen(false);
+        }
+    };
+
+    React.useEffect(() => {
+        if (open) {
+            document.addEventListener('keydown', handleKeyDown);
+        } else {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [open]);
 
     return (
         <>
@@ -43,12 +63,14 @@ const CustomColorPicker = ({
                         <Box>
                             <ClickAwayListener onClickAway={() => setOpen(false)}>
                                 <Paper>
-                                    <SketchPicker
-                                        color={props?.watch(name)}
-                                        onChange={(color) => {
-                                            props?.setValue(name, `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`, { shouldDirty: true })
-                                        }}
-                                    />
+                                    <div ref={pickerRef}>
+                                        <SketchPicker
+                                            color={props?.watch(name)}
+                                            onChange={(color) => {
+                                                props?.setValue(name, `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`, { shouldDirty: true })
+                                            }}
+                                        />
+                                    </div>
                                 </Paper>
                             </ClickAwayListener>
                         </Box>
