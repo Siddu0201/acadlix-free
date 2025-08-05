@@ -53,10 +53,10 @@ if (!class_exists('Database')) {
                 'collation' => $collate,
             ]);
             
-            $timezone_string = Helper::instance()->acadlix_get_time_zone_string();
-            if (!empty($timezone_string)) {
-                date_default_timezone_set($timezone_string);
-            }
+            // $timezone_string = Helper::instance()->acadlix_get_time_zone_string();
+            // if (!empty($timezone_string)) {
+            //     date_default_timezone_set($timezone_string);
+            // }
 
             // Set the event dispatcher used by Eloquent models... (optional)
             $capsule->setEventDispatcher(new Dispatcher(new Container));
