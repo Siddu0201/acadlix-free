@@ -176,6 +176,7 @@ class UserRole
             'acadlix_show_setting' => true,
             'acadlix_show_general_setting' => true,
             'acadlix_show_payment_setting' => true,
+            'acadlix_show_quiz_setting' => true,
             'acadlix_show_notification_setting' => true,
             'acadlix_show_permalink_setting' => true,
             'acadlix_update_setting' => true,

@@ -171,6 +171,7 @@ const Setting = ({ selected = 'general' }) => {
     updateMutation?.mutate(data, {
       onSuccess: (data) => {
         toast.success(__('Settings saved successfully.', 'acadlix'));
+        // window.location.reload();
       },
     });
   };

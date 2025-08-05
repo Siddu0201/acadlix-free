@@ -9,6 +9,7 @@ import { LoadingButton } from '@mui/lab';
 import { DefaultLanguageById, GetLanguages, PostCreateLanguage, UpdateLanguageById } from "@acadlix/requests/admin/AdminLanguageRequest";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
+import CustomTypography from '@acadlix/components/CustomTypography';
 
 const QuizSettings = (props) => {
     const methods = useForm({
@@ -158,18 +159,9 @@ const CategorySettings = ({ methods }) => {
                         }}
                     >
                         <Grid size={{ xs: 12, sm: 4 }}>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontWeight: {
-                                        xs: 500,
-                                        sm: 500,
-                                        md: 500,
-                                    },
-                                }}
-                            >
+                            <CustomTypography>
                                 {__("Select Category", "acadlix")}
-                            </Typography>
+                            </CustomTypography>
                         </Grid>
                         <Grid size={{ xs: 12, sm: 8 }}>
                             <Autocomplete
@@ -220,16 +212,7 @@ const CategorySettings = ({ methods }) => {
                             />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 4 }}>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontWeight: {
-                                        xs: 500,
-                                        sm: 500,
-                                        md: 500,
-                                    },
-                                }}
-                            >
+                            <CustomTypography>
                                 {methods?.watch("category_id") === null
                                     ? __("Add Category", "acadlix")
                                     : methods?.watch("categories")?.find(
@@ -238,7 +221,7 @@ const CategorySettings = ({ methods }) => {
                                         ? __("Edit Category", "acadlix")
                                         : __("Edit/Delete Category", "acadlix")
                                 }
-                            </Typography>
+                            </CustomTypography>
                         </Grid>
                         <Grid size={{ xs: 12, sm: 8 }}>
                             <Box sx={{
