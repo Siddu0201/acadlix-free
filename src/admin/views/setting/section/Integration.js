@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
@@ -33,65 +33,79 @@ const Integration = (props) => {
         }
     ) ?? [];
     return (
-        <Box>
-            {integration_before_start.map((field, i) => (
-                <React.Fragment key={`field-${i}`}>
-                    <DynamicMUIRenderer
-                        item={field}
-                        index={i}
-                        formProps={{
-                            register: props?.register,
-                            setValue: props?.setValue,
-                            watch: props?.watch,
-                            control: props?.control,
+        <Card>
+            <CardContent>
+                <Box>
+                    {integration_before_start.map((field, i) => (
+                        <React.Fragment key={`field-${i}`}>
+                            <DynamicMUIRenderer
+                                item={field}
+                                index={i}
+                                formProps={{
+                                    register: props?.register,
+                                    setValue: props?.setValue,
+                                    watch: props?.watch,
+                                    control: props?.control,
+                                }}
+                            />
+                        </React.Fragment>
+                    ))}
+                    {/* Open AI  */}
+                    <Box
+                        sx={{
+                            marginY: 2,
                         }}
-                    />
-                </React.Fragment>
-            ))}
-            {/* Open AI  */}
-            <Box
-                sx={{
-                    marginY: 2,
-                }}
-            >
-                <Typography variant="h4">{__("AI Intergrations", "acadlix")}</Typography>
-                <Divider />
-            </Box>
-            <Grid
-                container
-                spacing={4}
-                sx={{
-                    alignItems: "center",
-                }}
-            >
-                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-                    <CustomTypography>
-                        {__("OpenAI API Key", "acadlix")}
-                    </CustomTypography>
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
-                    <React.Suspense fallback={null}>
-                        <OpenAiOption
-                            {...props}
-                        />
-                    </React.Suspense>
-                </Grid>
-            </Grid>
-            {integration_after_start.map((field, i) => (
-                <React.Fragment key={`field-${i}`}>
-                    <DynamicMUIRenderer
-                        item={field}
-                        index={i}
-                        formProps={{
-                            register: props?.register,
-                            setValue: props?.setValue,
-                            watch: props?.watch,
-                            control: props?.control,
+                    >
+                        <Typography variant="h4">{__("AI Intergrations", "acadlix")}</Typography>
+                        <Divider />
+                    </Box>
+                    <Grid
+                        container
+                        spacing={4}
+                        sx={{
+                            alignItems: "center",
                         }}
-                    />
-                </React.Fragment>
-            ))}
-        </Box>
+                    >
+                        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                            <CustomTypography>
+                                {__("OpenAI API Key", "acadlix")}
+                            </CustomTypography>
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
+                            <React.Suspense fallback={null}>
+                                <OpenAiOption
+                                    {...props}
+                                />
+                            </React.Suspense>
+                        </Grid>
+                    </Grid>
+                    {integration_after_start.map((field, i) => (
+                        <React.Fragment key={`field-${i}`}>
+                            <DynamicMUIRenderer
+                                item={field}
+                                index={i}
+                                formProps={{
+                                    register: props?.register,
+                                    setValue: props?.setValue,
+                                    watch: props?.watch,
+                                    control: props?.control,
+                                }}
+                            />
+                        </React.Fragment>
+                    ))}
+                </Box>
+            </CardContent>
+            <CardActions>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    loading={props?.isPending}
+                >
+                    {__("Save", "acadlix")}
+                </Button>
+            </CardActions>
+        </Card>
     )
 }
 

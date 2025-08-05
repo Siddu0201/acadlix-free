@@ -1,46 +1,37 @@
 import React from "react";
 import {
-  Tab,
   Box,
   Card,
-  CardContent,
-  Button,
-  CircularProgress,
+  useTheme,
+  useMediaQuery,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import General from "./section/General";
 import Payment from "./section/Payment";
 import Notification from "./section/Notification";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Permalink from "./section/Permalink";
 import { useForm } from "react-hook-form";
 import { PostUpdateSetting } from "@acadlix/requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import QuizSettings from "./section/QuizSettings";
 import { __ } from "@wordpress/i18n";
-import { hasCapability } from "@acadlix/helpers/util";
 import Integration from "./section/Integration";
+import { IoMenu } from "@acadlix/helpers/icons";
+import { useNavigate } from "react-router-dom";
+import { filteredSettingRoutes } from "@acadlix/admin/AdminSetting";
 
-const Setting = () => {
-  const getTabNumber = () => {
-    switch (true) {
-      case hasCapability('acadlix_show_general_setting'):
-        return 1;
-      case hasCapability('acadlix_show_payment_setting'):
-        return 2;
-      case hasCapability('acadlix_show_notification_setting'):
-        return 3;
-      case hasCapability('acadlix_show_permalink_setting'):
-        return 4;
-      case hasCapability('acadlix_show_quiz_setting'):
-        return 5;
-      case hasCapability('acadlix_show_integration_setting'):
-        return 6;
-      default:
-        return 1
-    }
-  }
-  const [value, setValue] = React.useState(getTabNumber().toString());
+const Setting = ({ selected = 'general' }) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+
   const [pages, setPages] = React.useState(acadlixOptions?.all_pages ?? []);
   const [currencies, setCurrency] = React.useState(
     acadlixOptions?.currecies_with_symbol ?? []
@@ -165,14 +156,15 @@ const Setting = () => {
     defaultValues: filteredDefaults,
   });
 
+  const [open, setOpen] = React.useState(isDesktop ? true : false);
+
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+  };
+
   if (process?.env?.REACT_APP_IS_PREMIUM === 'true') {
     console.log(methods.watch());
   }
-
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   const updateMutation = PostUpdateSetting();
   const onSubmit = (data) => {
@@ -195,108 +187,199 @@ const Setting = () => {
           }}
         >
           <Grid size={{ lg: 12, md: 12, sm: 12, xs: 12 }}>
-            <Card>
-              <CardContent>
-                <Box sx={{ width: "100%" }}>
-                  <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                      <TabList
-                        onChange={handleChange}
-                        variant="scrollable"
-                        scrollButtons="auto"
-                        aria-label="scrollable prevent tabs example"
-                      >
-                        {
-                          hasCapability("acadlix_show_general_setting") &&
-                          <Tab label={__("General", "acadlix")} value="1" />
-                        }
-                        {
-                          hasCapability("acadlix_show_payment_setting") &&
-                          <Tab label={__("Payment", "acadlix")} value="2" />
-                        }
-                        {
-                          hasCapability("acadlix_show_notification_setting") &&
-                          <Tab label={__("Notification", "acadlix")} value="3" />
-                        }
-                        {
-                          hasCapability("acadlix_show_permalink_setting") &&
-                          <Tab label={__("Permalink", "acadlix")} value="4" />
-                        }
-                        {
-                          hasCapability("acadlix_show_quiz_setting") &&
-                          <Tab label={__("Quiz", "acadlix")} value="5" />
-                        }
-                        {
-                          hasCapability("acadlix_show_integration_setting") &&
-                          <Tab label={__("Integration", "acadlix")} value="6" />
-                        }
-                      </TabList>
-                    </Box>
-                    {
-                      hasCapability("acadlix_show_general_setting") &&
-                      <TabPanel value="1">
-                        <General
-                          {...methods}
-                          pages={pages}
-                          currencies={currencies}
-                          setPages={setPages}
-                        />
-                      </TabPanel>
-                    }
-                    {
-                      hasCapability("acadlix_show_payment_setting") &&
-                      <TabPanel value="2">
-                        <Payment {...methods} />
-                      </TabPanel>
-                    }
-                    {
-                      hasCapability("acadlix_show_notification_setting") &&
-                      <TabPanel value="3">
-                        <Notification {...methods} />
-                      </TabPanel>
-                    }
-                    {
-                      hasCapability("acadlix_show_permalink_setting") &&
-                      <TabPanel value="4">
-                        <Permalink {...methods} />
-                      </TabPanel>
-                    }
-                    {
-                      hasCapability("acadlix_show_quiz_setting") &&
-                      <TabPanel value="5">
-                        <QuizSettings {...methods} />
-                      </TabPanel>
-                    }
-                    {
-                      hasCapability("acadlix_show_integration_setting") &&
-                      <TabPanel value="6">
-                        <Integration {...methods} />
-                      </TabPanel>
-                    }
-                  </TabContext>
-                </Box>
-              </CardContent>
-            </Card>
+            <AppBar
+              position="static"
+            >
+              <Toolbar>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
+                  onClick={handleDrawerToggle}
+                >
+                  <IoMenu />
+                </IconButton>
+                <Typography
+                  variant="h3"
+                  component="div"
+                  sx={{
+                    color: 'primary.contrastText',
+                  }}
+                >
+                  {__('Settings', 'acadlix')}
+                </Typography>
+              </Toolbar>
+            </AppBar>
+          </Grid>
+          <DesktopSidebar
+            selected={selected}
+            isDesktop={isDesktop}
+            open={open}
+          />
+          <MobileSidebar
+            selected={selected}
+            isDesktop={isDesktop}
+            open={open}
+            setOpen={setOpen}
+          />
+
+          <Grid size={{
+            lg: open ? 9 : 12,
+            md: open ? 9 : 12,
+            sm: open ? 8 : 12,
+            xs: 12
+          }}>
+            {
+              selected === "general" && (
+                <General
+                  {...methods}
+                  pages={pages}
+                  currencies={currencies}
+                  setPages={setPages}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "payment" && (
+                <Payment
+                  {...methods}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "notification" && (
+                <Notification
+                  {...methods}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "permalink" && (
+                <Permalink
+                  {...methods}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "quiz" && (
+                <QuizSettings
+                  {...methods}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "integration" && (
+                <Integration
+                  {...methods}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          sx={{
-            marginX: 4,
-          }}
-          // disabled={!hasCapability("acadlix_update_setting")}
-        >
-          {updateMutation?.isPending ? (
-            <CircularProgress color="inherit" size={20} />
-          ) : (
-            __("Save", "acadlix")
-          )}
-        </Button>
       </form>
     </Box>
   );
 }
 
 export default Setting;
+
+const DesktopSidebar = ({ selected, isDesktop, open }) => {
+  const navigate = useNavigate();
+  if (!isDesktop) return null;
+  return (
+    <Grid
+      size={{
+        lg: open ? 3 : 0,
+        md: open ? 3 : 0,
+        sm: open ? 4 : 0,
+        xs: 12
+      }}
+      sx={{
+        display: {
+          lg: open ? 'block' : 'none',
+          md: open ? 'block' : 'none',
+          sm: open ? 'block' : 'none',
+          xs: 'none',
+        },
+      }}
+    >
+      <Card sx={{ height: '100%' }}>
+        <List component="nav">
+          {
+            filteredSettingRoutes.map((route, index) => (
+              <ListItemButton
+                key={index}
+                selected={selected === route.name}
+                onClick={() => navigate(route.path)}
+              >
+                <ListItemText
+                  primary={route.label}
+                  slotProps={{
+                    primary: {
+                      sx: {
+                        color: selected === route.name ? 'primary.main' : 'text.primary',
+                      }
+                    }
+                  }}
+                />
+              </ListItemButton>
+            ))
+          }
+        </List>
+      </Card>
+    </Grid>
+  )
+}
+
+const MobileSidebar = ({ selected, isDesktop, open, setOpen }) => {
+  const navigate = useNavigate();
+  if (isDesktop) return null;
+  return (
+    <Box>
+      <Drawer
+        variant="temporary"
+        anchor="left"
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: '200px',
+            top: "46px"
+          },
+        }}
+      >
+        <List component="nav">
+          {
+            filteredSettingRoutes.map((route, index) => (
+              <ListItemButton
+                key={index}
+                selected={selected === route.name}
+                onClick={() => navigate(route.path)}
+              >
+                <ListItemText
+                  primary={route.label}
+                  slotProps={{
+                    primary: {
+                      sx: {
+                        color: selected === route.name ? 'primary.main' : 'text.primary',
+                      }
+                    }
+                  }}
+                />
+              </ListItemButton>
+            ))
+          }
+        </List>
+      </Drawer>
+    </Box>
+  )
+
+}

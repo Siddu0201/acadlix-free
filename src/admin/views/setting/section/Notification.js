@@ -5,6 +5,9 @@ import {
   Button,
   Typography,
   Divider,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import CustomTextField from "@acadlix/components/CustomTextField";
@@ -16,155 +19,169 @@ import CustomTypography from "@acadlix/components/CustomTypography";
 
 function Notification(props) {
   return (
-    <Box>
-      <Box
-        sx={{
-          marginY: 2,
-        }}
-      >
-        <Typography variant="h4">{__("Email Settings", "acadlix")}</Typography>
-        <Divider />
-      </Box>
-      <Grid
-        container
-        spacing={4}
-        sx={{
-          alignItems: "center",
-        }}
-      >
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <CustomTypography>
-            {__("Notify Course Purchase To", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Student", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_notify_course_purchase_to_student") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_notify_course_purchase_to_student",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  {
-                    shouldDirty: true,
-                  }
-                );
-              }
+    <Card>
+      <CardContent>
+        <Box>
+          <Box
+            sx={{
+              marginY: 2,
             }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Admin", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_notify_course_purchase_to_admin") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_notify_course_purchase_to_admin",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  {
-                    shouldDirty: true,
-                  }
-                );
-              }
+          >
+            <Typography variant="h4">{__("Email Settings", "acadlix")}</Typography>
+            <Divider />
+          </Box>
+          <Grid
+            container
+            spacing={4}
+            sx={{
+              alignItems: "center",
             }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <CustomTypography>
-            {__("Notify Course Completion To", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Student", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_notify_course_completion_to_student") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_notify_course_completion_to_student",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  {
-                    shouldDirty: true,
+          >
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <CustomTypography>
+                {__("Notify Course Purchase To", "acadlix")}
+              </CustomTypography>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <FormControlLabel
+                control={<CustomSwitch />}
+                label={__("Student", "acadlix")}
+                value="yes"
+                checked={props?.watch("acadlix_notify_course_purchase_to_student") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_notify_course_purchase_to_student",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      {
+                        shouldDirty: true,
+                      }
+                    );
                   }
-                );
-              }
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Admin", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_notify_course_completion_to_admin") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_notify_course_completion_to_admin",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  {
-                    shouldDirty: true,
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <FormControlLabel
+                control={<CustomSwitch />}
+                label={__("Admin", "acadlix")}
+                value="yes"
+                checked={props?.watch("acadlix_notify_course_purchase_to_admin") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_notify_course_purchase_to_admin",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      {
+                        shouldDirty: true,
+                      }
+                    );
                   }
-                );
-              }
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <CustomTypography>
-            {__("Notify Failed Transaction To", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Student", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_notify_failed_transation_to_student") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_notify_failed_transation_to_student",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  {
-                    shouldDirty: true,
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <CustomTypography>
+                {__("Notify Course Completion To", "acadlix")}
+              </CustomTypography>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <FormControlLabel
+                control={<CustomSwitch />}
+                label={__("Student", "acadlix")}
+                value="yes"
+                checked={props?.watch("acadlix_notify_course_completion_to_student") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_notify_course_completion_to_student",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      {
+                        shouldDirty: true,
+                      }
+                    );
                   }
-                );
-              }
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, lg: 4 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Admin", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_notify_failed_transation_to_admin") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_notify_failed_transation_to_admin",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  {
-                    shouldDirty: true,
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <FormControlLabel
+                control={<CustomSwitch />}
+                label={__("Admin", "acadlix")}
+                value="yes"
+                checked={props?.watch("acadlix_notify_course_completion_to_admin") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_notify_course_completion_to_admin",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      {
+                        shouldDirty: true,
+                      }
+                    );
                   }
-                );
-              }
-            }}
-          />
-        </Grid>
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <CustomTypography>
+                {__("Notify Failed Transaction To", "acadlix")}
+              </CustomTypography>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <FormControlLabel
+                control={<CustomSwitch />}
+                label={__("Student", "acadlix")}
+                value="yes"
+                checked={props?.watch("acadlix_notify_failed_transation_to_student") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_notify_failed_transation_to_student",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      {
+                        shouldDirty: true,
+                      }
+                    );
+                  }
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <FormControlLabel
+                control={<CustomSwitch />}
+                label={__("Admin", "acadlix")}
+                value="yes"
+                checked={props?.watch("acadlix_notify_failed_transation_to_admin") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_notify_failed_transation_to_admin",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      {
+                        shouldDirty: true,
+                      }
+                    );
+                  }
+                }}
+              />
+            </Grid>
 
-        {/* <TestingEmail /> */}
-      </Grid>
-    </Box>
+            {/* <TestingEmail /> */}
+          </Grid>
+        </Box>
+      </CardContent>
+      <CardActions>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          loading={props?.isPending}
+        >
+          {__("Save", "acadlix")}
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
 

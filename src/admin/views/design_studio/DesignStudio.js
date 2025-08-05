@@ -352,7 +352,7 @@ const DesignStudio = ({ selected = 'palette' }) => {
                                     <IoMenu />
                                 </IconButton>
                                 <Typography
-                                    variant="h2"
+                                    variant="h3"
                                     component="div"
                                     sx={{
                                         color: 'primary.contrastText',

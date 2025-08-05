@@ -36,6 +36,7 @@ export const filteredThemeRoutes = window.acadlixHooks?.applyFilters(
   'acadlix.admin.design_studio.routes',
   routes
 )?.filter(Boolean) || [];
+
 const AdminDesignStudio = () => {
 
   return (
@@ -50,10 +51,11 @@ const AdminDesignStudio = () => {
               ))
             }
           </Route>
+          <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
         </Routes>
       </HashRouter>
     </Provider>
-  ) 
+  )
 }
 
 export default AdminDesignStudio
