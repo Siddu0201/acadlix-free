@@ -81,7 +81,7 @@ const TypeFill = (props) => {
               : (theme) => theme.palette.error.light
             : "",
         border:
-          props?.watch("mode") !== "advance_mode"
+          props?.watch("mode") !== "advance_mode" || props?.watch("view_answer")
             ? props?.watch(`questions.${props?.index}.check`)
               ? props?.watch(`questions.${props?.index}.result.correct_count`)
                 ? (theme) => `1px solid ${theme.palette.success.dark}`
@@ -89,8 +89,8 @@ const TypeFill = (props) => {
               : (theme) => `1px solid ${theme.palette.grey[300]}`
             : "none",
         borderRadius: 1,
-        padding: props?.watch("mode") !== "advance_mode" ? 2 : 2,
-        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
+        padding: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? 2 : 2,
+        marginY: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 0,
         overflow: "auto",
       }}
     >

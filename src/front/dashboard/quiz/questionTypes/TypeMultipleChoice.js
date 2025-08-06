@@ -61,9 +61,9 @@ const TypeMultipleChoice = (props) => {
       sx={{
         flexDirection: props?.nta ? "row" : "column",
         width: "100%",
-        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginY: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        gap: props?.watch("mode") !== "advance_mode" ? "6px" : 0,
+        padding: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 0,
+        marginY: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 0,
+        gap: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "6px" : 0,
         overflow: "auto",
       }}
     >
@@ -75,7 +75,7 @@ const TypeMultipleChoice = (props) => {
               display: "flex",
               alignItems: "center",
               border:
-                props?.watch("mode") !== "advance_mode"
+                props?.watch("mode") !== "advance_mode" || props?.watch("view_answer")
                   ? props?.watch(`questions.${props?.index}.check`)
                     ? data?.isCorrect
                       ? (theme) => `1px solid ${theme.palette.success.dark}`
@@ -92,7 +92,7 @@ const TypeMultipleChoice = (props) => {
                     : "transparent"
                 : "transparent",
               borderRadius: 1,
-              paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+              paddingX: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? 2 : 0,
             }}
           >
             {props?.watch("answer_bullet") ? (
@@ -195,10 +195,10 @@ const TypeMultipleChoice = (props) => {
               onChange={handleChange}
               value={index}
               sx={{
-                paddingX: props?.watch("mode") !== "advance_mode" ? 2 : 0,
-                paddingY: props?.watch("mode") !== "advance_mode" ? 2 : 0,
+                paddingX: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? 2 : 0,
+                paddingY: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? 2 : 0,
                 width:
-                  props?.watch("mode") !== "advance_mode" ? "100%" : "auto",
+                  props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "100%" : "auto",
                 marginLeft: 0,
                 marginRight: 0,
                 "& svg": {

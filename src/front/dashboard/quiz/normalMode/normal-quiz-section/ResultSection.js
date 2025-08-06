@@ -66,7 +66,10 @@ const ResultSection = (props) => {
           justifyContent: "space-between",
           margin: "10px auto",
         }}
-        rowGap={2}
+        spacing={{
+          xs: 2,
+          sm: 4,
+        }}
       >
         <MarksObtained
             getPoints={props?.getPoints}

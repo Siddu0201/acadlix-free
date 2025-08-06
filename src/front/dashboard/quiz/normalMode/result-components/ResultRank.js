@@ -13,27 +13,33 @@ const ResultRank = ({
 }) => {
     return (
         <Grid size={{ xs: 6, sm: 4 }} sx={{ textAlign: "center" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Avatar
-                    src={Rank}
-                    className='acadlix-quiz-result-avatar acadlix-quiz-result-avatar-rank'
-                />
-            </Box>
-            <Box>
-                <Typography
-                    variant="h6"
-                    sx={{ fontWeight: 600 }}
-                    className='acadlix-quiz-result-text acadlix-quiz-result-text-rank'
-                >
-                    {isPending ? __("loading...", "acadlix") : rank}
-                </Typography>
-                <Typography
-                    variant="subtitle2"
-                    className='acadlix-quiz-result-subtitle acadlix-quiz-result-subtitle-rank'
-                >
-                    {__("Rank", "acadlix")}
-                </Typography>
-            </Box>
+            <Card
+                sx={{
+                    padding: 2,
+                }}
+            >
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <Avatar
+                        src={Rank}
+                        className='acadlix-quiz-result-avatar acadlix-quiz-result-avatar-rank'
+                    />
+                </Box>
+                <Box>
+                    <Typography
+                        variant="h6"
+                        sx={{ fontWeight: 600 }}
+                        className='acadlix-quiz-result-text acadlix-quiz-result-text-rank'
+                    >
+                        {isPending ? __("loading...", "acadlix") : rank}
+                    </Typography>
+                    <Typography
+                        variant="subtitle2"
+                        className='acadlix-quiz-result-subtitle acadlix-quiz-result-subtitle-rank'
+                    >
+                        {__("Rank", "acadlix")}
+                    </Typography>
+                </Box>
+            </Card>
         </Grid>
     )
 }

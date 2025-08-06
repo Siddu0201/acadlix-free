@@ -45,7 +45,7 @@ const TypeNumerical = (props) => {
               : (theme) => theme.palette.error.light
             : "",
         border:
-          props?.watch("mode") !== "advance_mode"
+          props?.watch("mode") !== "advance_mode" || props?.watch("view_answer")
             ? props?.watch(`questions.${props?.index}.check`)
               ? props?.watch(`questions.${props?.index}.result.correct_count`)
                 ? (theme) => `1px solid ${theme.palette.success.dark}`
@@ -53,9 +53,9 @@ const TypeNumerical = (props) => {
               : (theme) => `1px solid ${theme.palette.grey[300]}`
             : "none",
         borderRadius: 1,
-        padding: props?.watch("mode") !== "advance_mode" ? "5px" : 2,
-        marginTop: props?.watch("mode") !== "advance_mode" ? "5px" : 0,
-        marginBottom: props?.watch("mode") !== "advance_mode" ? "10px" : 0,
+        padding: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 2,
+        marginTop: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 0,
+        marginBottom: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "10px" : 0,
         overflow: "auto",
       }}
     >
