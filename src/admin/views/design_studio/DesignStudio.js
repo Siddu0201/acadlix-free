@@ -486,7 +486,10 @@ const MobileSidebar = ({ selected, isDesktop, open, setOpen }) => {
                             <ListItemButton
                                 key={index}
                                 selected={selected === route.name}
-                                onClick={() => navigate(route.path)}
+                                onClick={() => {
+                                    navigate(route.path);
+                                    setOpen(false);
+                                }}
                             >
                                 <ListItemText
                                     primary={route.label}

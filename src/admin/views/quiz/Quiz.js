@@ -15,6 +15,8 @@ import {
   Tooltip,
   Typography,
   styled,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { DataGrid } from "@mui/x-data-grid";
@@ -76,6 +78,9 @@ const Quiz = () => {
       quiz_id: null,
     },
   });
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const deleteMutation = DeleteQuizById();
@@ -149,7 +154,7 @@ const Quiz = () => {
       headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 2,
-      minWidth: 200,
+      minWidth: isMobile ? 220 : 200,
       renderCell: (params) => {
         return (
           <>
