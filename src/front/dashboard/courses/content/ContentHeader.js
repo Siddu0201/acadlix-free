@@ -95,9 +95,9 @@ const ContentHeader = (props) => {
             }}
           >
             {isMobile
-              ? props?.watch("course_title")?.length > 40
+              ? props?.watch("course_title")?.length > 35
                 ? <Tooltip title={props?.watch("course_title")} arrow>
-                  {`${props?.watch("course_title").slice(0, 40)}...`}
+                  {`${props?.watch("course_title").slice(0, 35)}...`}
                 </Tooltip>
                 : props?.watch("course_title")
               : props?.watch("course_title")}
