@@ -79,28 +79,28 @@ export const defaultTypography = {
     },
     h6: {
       desktop: '1rem',
-      tablet: '0.9375rem',
-      mobile: '0.875rem',
+      tablet: '1rem',
+      mobile: '1rem',
     },
     body1: {
       desktop: '1rem',
-      tablet: '0.9375rem',
-      mobile: '0.875rem',
+      tablet: '1rem',
+      mobile: '1rem',
     },
     body2: {
       desktop: '0.875rem',
-      tablet: '0.75rem',
-      mobile: '0.625rem',
+      tablet: '0.875rem',
+      mobile: '0.875rem',
     },
     subtitle1: {
       desktop: '1rem',
-      tablet: '0.9375rem',
-      mobile: '0.875rem',
+      tablet: '1rem',
+      mobile: '1rem',
     },
     subtitle2: {
       desktop: '0.875rem',
-      tablet: '0.75rem',
-      mobile: '0.625rem',
+      tablet: '0.875rem',
+      mobile: '0.875rem',
     },
   },
   fontWeight: {
