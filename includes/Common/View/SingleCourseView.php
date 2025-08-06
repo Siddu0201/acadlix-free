@@ -216,7 +216,7 @@ if (!function_exists('acadlix_mobile_course_price')) {
         ?>
         <div class="acadlix-mobile-price-info">
             <div class="acadlix-pricing">
-                <div class="acadlix-course-sale-price acadlix-body1">
+                <div class="acadlix-course-sale-price acadlix-h4">
                     <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
                 </div>
                 <?php

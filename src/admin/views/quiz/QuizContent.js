@@ -188,7 +188,9 @@ const QuizContent = (props) => {
   });
 
   // console?.log(props?.quiz);
-  console?.log(methods?.watch("languages"));
+  if (process?.env?.REACT_APP_MODE === 'development') {
+    console?.log(methods?.watch());
+  }
 
   const navigate = useNavigate();
   const createMutation = PostCreateQuiz();
