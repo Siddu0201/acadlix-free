@@ -39,13 +39,8 @@ const LeaderboardSection = (props) => {
       marginBottom: "10px",
     },
     leaderboardContainer: {
-      width: "100%",
-      marginX: {
-        md: "10%",
-        xs: "0px",
-      },
       paddingX: {
-        md: "auto",
+        md: "10%",
         xs: "10px",
       }
     },
