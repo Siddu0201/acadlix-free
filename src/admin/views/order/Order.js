@@ -21,6 +21,7 @@ import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const Order = () => {
   const defaultPaginationModel = {
@@ -251,11 +252,9 @@ const Order = () => {
                       {__("Add", "acadlix")}
                     </Button>
                   }
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch}>
-                      <IoMdRefresh style={{ fontSize: "x-large" }} />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                  />
                 </Box>
               }
               sx={{

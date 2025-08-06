@@ -22,6 +22,7 @@ import { GetUserOrders } from "@acadlix/requests/front/FrontDashboardRequest";
 import { FaSearch, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -80,11 +81,12 @@ const Courses = () => {
             }}>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 7 }}>
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} >
-                      <IoMdRefresh style={{ fontSize: "x-large" }} />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                    sx={{
+                      paddingY: 1.5,
+                    }}
+                  />
                   {/* <Grid container spacing={3}>
                     <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete

@@ -22,6 +22,7 @@ import { GetUserPurchases } from "@acadlix/requests/front/FrontDashboardRequest"
 import { dateI18n } from "@wordpress/date";
 import { currencyPosition } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const PurchaseHistory = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -182,11 +183,12 @@ const PurchaseHistory = () => {
                   >
                     {__("Purchase History", "acadlix")}
                   </Typography>
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch}>
-                      <IoMdRefresh style={{ fontSize: "x-large" }} />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                    sx={{
+                      paddingY: 1.5,
+                    }}
+                  />
                 </Box>
               }
               sx={{

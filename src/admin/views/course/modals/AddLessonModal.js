@@ -22,6 +22,7 @@ import { IoClose, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import TitleSection from "../../lesson/sections/TitleSection";
 import OptionSection from "../../lesson/sections/OptionSection";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 
 const AddLessonModal = (props) => {
@@ -167,23 +168,13 @@ const AddFromExisting = (props) => {
 
   return (
     <Box>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={(e) => {
-          refetch();
-        }}
+      <CustomRefresh
+        refetch={refetch}
         disabled={isFetching}
         sx={{
           marginTop: 2,
         }}
-      >
-        <IoMdRefresh
-          style={{
-            fontSize: 18,
-          }}
-        />
-      </Button>
+      />
       {isFetching ? (
         <CircularProgress
           size={20}

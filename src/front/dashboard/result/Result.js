@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { GetStatisticByUserId } from "@acadlix/requests/front/FrontStatisticRequest";
 import { useNavigate } from "react-router-dom";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 export default function Result() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -171,11 +172,12 @@ export default function Result() {
                 >
                   {__("My Result", "acadlix")}
                 </Typography>
-                <Tooltip title={__("Refresh", "acadlix")} arrow>
-                  <Button variant="contained" onClick={refetch}>
-                    <IoMdRefresh style={{ fontSize: "x-large" }} />
-                  </Button>
-                </Tooltip>
+                <CustomRefresh
+                  refetch={refetch}
+                  sx={{
+                    paddingY: 1.5,
+                  }}
+                />
               </Box>
             } />
             <CardContent>

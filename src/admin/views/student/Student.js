@@ -8,6 +8,7 @@ import { GetStudents } from '@acadlix/requests/admin/AdminStudentRequest';
 import { FaSearch, IoMdRefresh } from '@acadlix/helpers/icons';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomTextField from '@acadlix/components/CustomTextField';
+import CustomRefresh from '@acadlix/components/CustomRefresh';
 
 const Student = () => {
   const defaultPaginationModel = {
@@ -107,11 +108,9 @@ const Student = () => {
                   >
                     {__("Student Overview", "acadlix")}
                   </Typography>
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch}>
-                      <IoMdRefresh style={{ fontSize: "x-large" }} />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                  />
                 </Box>
               }
             />

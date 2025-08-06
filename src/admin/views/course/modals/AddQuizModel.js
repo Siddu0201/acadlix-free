@@ -18,6 +18,7 @@ import { GetQuizzesForCourse } from "@acadlix/requests/admin/AdminCourseRequest"
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { IoClose, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const AddQuizModel = (props) => {
   const { isFetching, data, refetch } = GetQuizzesForCourse();
@@ -73,20 +74,10 @@ const AddQuizModel = (props) => {
             >
               {__("Add New", "acadlix")}
             </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={(e) => {
-                refetch();
-              }}
+            <CustomRefresh
+              refetch={refetch}
               disabled={isFetching}
-            >
-              <IoMdRefresh
-                style={{
-                  fontSize: 18,
-                }}
-              />
-            </Button>
+            />
           </Box>
           <AddFromExisting {...props} isFetching={isFetching} data={data} />
         </DialogContent>

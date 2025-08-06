@@ -41,6 +41,7 @@ import CategoryModel from "./actions/CategoryModel";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const PragraphOptionButton = React.lazy(() => 
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -427,15 +428,9 @@ const Quiz = () => {
                       {__("Add", "acadlix")}
                     </Button>
                   }
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button 
-                      variant="contained" 
-                      onClick={refetch} 
-                      size="medium"
-                    >
-                      <IoMdRefresh style={{ fontSize: 'x-large' }} />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                  />
                 </Box>
               }
               sx={{

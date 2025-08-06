@@ -1,21 +1,47 @@
 import React from 'react'
-import { Tooltip, Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 import { IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { useTheme } from "@mui/material";
 
-const CustomRefresh = ({ refetch }) => {
+const CustomRefresh = ({
+    refetch = () => { },
+    disabled = false,
+    sx = {}
+}) => {
     const theme = useTheme();
-  return (
-    <Tooltip title={__("Refresh", "acadlix")} arrow>
-      <Button
-        variant="contained"
-        onClick={refetch}
-      >
-        <IoMdRefresh style={{ fontSize: theme.breakpoints.down('sm') ? 'large' : 'x-large' }} />
-      </Button>
-    </Tooltip>
-  )
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    return (
+        <>
+            {isMobile ? (
+                <Button
+                    disabled={disabled}
+                    onClick={refetch}
+                    variant="contained"
+                    size="large"
+                    sx={{
+                        minWidth: '48px',
+                        padding: '9px 6px',
+                        ...sx,
+                    }}
+                >
+                    <IoMdRefresh style={{ fontSize: '1.25rem' }} />
+                </Button>
+            ) : (
+                <Button
+                    disabled={disabled}
+                    onClick={refetch}
+                    variant="contained"
+                    startIcon={<IoMdRefresh />}
+                    sx={{
+                        ...sx,
+                    }}
+                >
+                    {__("Refresh", "acadlix")}
+                </Button>
+            )}
+        </>
+    )
 }
 
 export default CustomRefresh

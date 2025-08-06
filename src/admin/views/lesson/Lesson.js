@@ -33,6 +33,7 @@ import {
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const Lesson = () => {
   const defaultPaginationModel = {
@@ -238,11 +239,9 @@ const Lesson = () => {
                       {__("Add", "acadlix")}
                     </Button>
                   }
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="large">
-                      <IoMdRefresh />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                  />
                 </Box>
               }
               sx={{

@@ -23,6 +23,7 @@ import Grid from "@mui/material/Grid2";
 import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff, FaExternalLinkAlt, FaTrash } from "@acadlix/helpers/icons";
 import { DataGrid } from "@mui/x-data-grid";
 import { PostRemoveWishlist } from '@acadlix/requests/front/FrontCourseRequest';
+import CustomRefresh from '@acadlix/components/CustomRefresh';
 
 const Wishlist = () => {
     const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -180,14 +181,12 @@ const Wishlist = () => {
                                     >
                                         {__("Wishlist", "acadlix")}
                                     </Typography>
-                                    <Tooltip title={__("Refresh", "acadlix")} arrow>
-                                        <Button
-                                            variant="contained"
-                                            onClick={refetch}
-                                        >
-                                            <IoMdRefresh style={{ fontSize: 'x-large' }} />
-                                        </Button>
-                                    </Tooltip>
+                                    <CustomRefresh
+                                        refetch={refetch}
+                                        sx={{
+                                            paddingY: 1.5,
+                                          }}
+                                    />
                                 </Box>
                             }
                             sx={{

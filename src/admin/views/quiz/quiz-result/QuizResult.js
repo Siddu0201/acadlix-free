@@ -34,6 +34,7 @@ import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import toast from "react-hot-toast";
+import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const ViewAnswerSheetButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -266,11 +267,9 @@ const QuizResult = () => {
                   >
                     {isFetching ? "" : methods?.watch("title")}
                   </Typography>
-                  <Tooltip title={__("Refresh", "acadlix")} arrow>
-                    <Button variant="contained" onClick={refetch} size="medium">
-                      <IoMdRefresh style={{ fontSize: 'x-large' }} />
-                    </Button>
-                  </Tooltip>
+                  <CustomRefresh
+                    refetch={refetch}
+                  />
                 </Box>
               }
             />
