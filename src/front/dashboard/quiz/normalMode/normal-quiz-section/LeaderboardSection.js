@@ -9,27 +9,6 @@ import { __ } from "@wordpress/i18n";
 
 const LeaderboardSection = (props) => {
   const styles = {
-    activeItem: {
-      backgroundColor: "#37afca",
-      alignItems: "center",
-      display: "flex",
-      justifyContent: "center",
-      color: "white",
-      textAlign: "center",
-      borderRadius: "16px",
-      flex: 1,
-      padding: "10px 0",
-    },
-    inactiveItem: {
-      backgroundColor: "white",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      textAlign: "center",
-      borderRadius: "16px",
-      flex: 1,
-      padding: "10px 0",
-    },
     header: {
       color: "white",
       display: "flex",
@@ -60,12 +39,9 @@ const LeaderboardSection = (props) => {
       marginBottom: "10px",
     },
     leaderboardContainer: {
-      width: {
-        md: "70%",
-        xs: "100%",
-      },
+      width: "100%",
       marginX: {
-        md: "auto",
+        md: "10%",
         xs: "0px",
       },
       paddingX: {
