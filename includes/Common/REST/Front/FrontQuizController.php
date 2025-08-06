@@ -403,6 +403,9 @@ class FrontQuizController
         $quiz_id = $request['quiz_id'];
         $params = $request->get_json_params();
 
+        $leaderboard_total_number_of_entries = $params['leaderboard_total_number_of_entries'] ?? 0;
+        $toplist_view_count = $params['toplist_view_count'] ?? 0;
+
         if (empty($quiz_id)) {
             return new WP_Error(
                 'missing_id',
@@ -411,13 +414,13 @@ class FrontQuizController
             );
         }
 
-        $toplist = acadlix()->model()->toplist()->where("quiz_id", $quiz_id);
-        $res["toplist_count"] = $toplist->count();
-        if ($params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"] < 10) {
-            $res["toplist"] = $toplist->getTopList($quiz_id, $params["toplist_view_count"], $params['leaderboard_total_number_of_entries'] - $params["toplist_view_count"])->get();
+        $toplist = acadlix()->model()->toplist();
+        if ($leaderboard_total_number_of_entries - $toplist_view_count < 10) {
+            $res["toplist"] = $toplist->getTopList($quiz_id, $toplist_view_count, $leaderboard_total_number_of_entries - $toplist_view_count);
         } else {
-            $res["toplist"] = $toplist->getTopList($quiz_id, $params["toplist_view_count"], 10)->get();
+            $res["toplist"] = $toplist->getTopList($quiz_id, $toplist_view_count, 10);
         }
+        $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
         return rest_ensure_response($res);
     }
 
