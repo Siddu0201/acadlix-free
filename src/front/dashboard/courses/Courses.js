@@ -81,12 +81,25 @@ const Courses = () => {
             }}>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 7 }}>
-                  <CustomRefresh
-                    refetch={refetch}
+                  <Box
                     sx={{
-                      paddingY: 1.5,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
                     }}
-                  />
+                  >
+                    <Typography
+                      variant="h3"
+                    >
+                      {__("My Courses", "acadlix")}
+                    </Typography>
+                    <CustomRefresh
+                      refetch={refetch}
+                      sx={{
+                        paddingY: 1.5,
+                      }}
+                    />
+                  </Box>
                   {/* <Grid container spacing={3}>
                     <Grid size={{ xs: 4, sm: 4 }}>
                       <Autocomplete

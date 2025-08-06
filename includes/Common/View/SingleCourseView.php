@@ -80,18 +80,29 @@ if (!function_exists('acadlix_course_breadcrumb')) {
             }
         </style>
         <nav class="<?php echo esc_attr($unique_class); ?>">
-            <a href="<?php echo esc_url(home_url()); ?>" class="acadlix-course-breadcrumb acadlix-subtitle1"><?php esc_html_e('Home', 'acadlix'); ?></a>&nbsp;>&nbsp;
+            <a href="<?php echo esc_url(home_url()); ?>"
+                class="acadlix-course-breadcrumb acadlix-subtitle1"><?php esc_html_e('Home', 'acadlix'); ?></a>&nbsp;>&nbsp;
             <?php
             $categories = get_the_terms($course->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY);
             if ($categories && !is_wp_error($categories)) {
                 ?>
-                <a href="<?php echo esc_attr(get_term_link($categories[0]->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)); ?>" class="acadlix-course-breadcrumb acadlix-subtitle1">
+                <a href="<?php echo esc_attr(get_term_link($categories[0]->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)); ?>"
+                    class="acadlix-course-breadcrumb acadlix-subtitle1">
                     <?php echo esc_html($categories[0]->name); ?>
                 </a>
                 &nbsp;>&nbsp;
             <?php }
             ?>
-            <a href="#" disabled="true" class="acadlix-course-breadcrumb acadlix-subtitle1"><?php echo esc_html($course->post_title); ?></a>
+            <a href="#" disabled="true" class="acadlix-course-breadcrumb acadlix-subtitle1">
+                <?php
+                $title = $course->post_title;
+                if ($mobile && strlen($title) > 15) {
+                    echo esc_html(mb_substr($title, 0, 15)) . '...';
+                } else {
+                    echo esc_html($title);
+                }
+                ?>
+            </a>
         </nav>
         <?php
         return ob_get_clean();
@@ -317,7 +328,8 @@ if (!function_exists('acadlix_course_action_buttons')) {
                         <?php
                     } else {
                         ?>
-                        <button class="acadlix-action-button acadlix-subtitle2 acadlix-start-now" data-id="<?php echo esc_attr($course->ID); ?>">
+                        <button class="acadlix-action-button acadlix-subtitle2 acadlix-start-now"
+                            data-id="<?php echo esc_attr($course->ID); ?>">
                             <div class="acadlix-action-button-text">
                                 <?php esc_html_e('Start Now', 'acadlix'); ?>
                             </div>
@@ -339,7 +351,8 @@ if (!function_exists('acadlix_course_action_buttons')) {
                         <?php
                     } else {
                         ?>
-                        <button class="acadlix-action-button acadlix-subtitle2 acadlix-buy-now" data-id="<?php echo esc_attr($course->ID); ?>">
+                        <button class="acadlix-action-button acadlix-subtitle2 acadlix-buy-now"
+                            data-id="<?php echo esc_attr($course->ID); ?>">
                             <div class="acadlix-action-button-text">
                                 <i class="fa fa-shopping-cart"></i> <?php esc_html_e('Buy Now', 'acadlix'); ?>
                             </div>
@@ -467,11 +480,14 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                 <!-- navbar tabs  -->
                 <nav class="acadlix-course-main-navbar">
                     <ul class="acadlix-course-main-navbar-list">
-                        <li><a href="#overview" class="acadlix-subtitle1"><?php esc_html_e('Overview', 'acadlix'); ?></a>
+                        <li><a href="#overview"
+                                class="acadlix-subtitle1"><?php esc_html_e('Overview', 'acadlix'); ?></a>
                         </li>
-                        <li><a href="#curriculum" class="acadlix-subtitle1"><?php esc_html_e('Curriculum', 'acadlix'); ?></a>
+                        <li><a href="#curriculum"
+                                class="acadlix-subtitle1"><?php esc_html_e('Curriculum', 'acadlix'); ?></a>
                         </li>
-                        <li><a href="#instructor" class="acadlix-subtitle1"><?php esc_html_e('Instructor', 'acadlix'); ?></a>
+                        <li><a href="#instructor"
+                                class="acadlix-subtitle1"><?php esc_html_e('Instructor', 'acadlix'); ?></a>
                         </li>
                     </ul>
                 </nav>
@@ -592,11 +608,11 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                             <?php
                                                             ?>
                                                         </div>
-                                                        <?php 
+                                                        <?php
                                                         // phpcs:ignore
                                                         echo isset($content->rendered_metas['preview']) && $content->rendered_metas['preview'] ?
                                                             '<div><i class="fas fa-eye"></i></div>'
-                                                            : '<i class="fas fa-lock"></i>'; 
+                                                            : '<i class="fas fa-lock"></i>';
                                                         ?>
                                                     </div>
                                                 </div>
@@ -656,7 +672,7 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
                                                     <?php echo acadlix()->helper()->course()->getUserLinkHtml($user->ID); // phpcs:ignore ?>
                                                 </div>
                                                 <div class="acadlix-course-user-description acadlix-body1">
-                                                    <?php echo esc_html(get_user_meta($user->ID, 'description', true));?>
+                                                    <?php echo esc_html(get_user_meta($user->ID, 'description', true)); ?>
                                                 </div>
                                             </div>
                                         </div>
