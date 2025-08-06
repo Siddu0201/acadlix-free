@@ -60,22 +60,27 @@ const ViewAnswersheet = () => {
                 </Grid>
                 <Grid size={{ xs: 12, lg: 12 }}>
                     <Card>
-                        <CardHeader 
-                            title={__("AnswerSheet", "acadlix")} 
+                        <CardHeader
+                            title={__("AnswerSheet", "acadlix")}
                             subheader={`${isFetching ? "" : data?.data?.quiz?.post_title}`}
+                            slotProps={{
+                                title: {
+                                    variant: "h3",
+                                },
+                            }}
                         />
                         <CardContent>
                             {isFetching ?
                                 <CircularProgress color="inherit" size={20} />
                                 : (
                                     (data?.data?.statistic_ref && !data?.data?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet) ?
-                                    <AnswerSheet
-                                        statistic={data?.data?.statistic}
-                                        colorCode={colorCode}
-                                        quiz={data?.data?.quiz}
-                                    />
-                                    :
-                                    __("You are not allowed to access this page.", "acadlix")
+                                        <AnswerSheet
+                                            statistic={data?.data?.statistic}
+                                            colorCode={colorCode}
+                                            quiz={data?.data?.quiz}
+                                        />
+                                        :
+                                        __("You are not allowed to access this page.", "acadlix")
                                 )}
                         </CardContent>
                     </Card>

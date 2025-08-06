@@ -61,6 +61,7 @@ const Wishlist = () => {
                         sx={{
                             width: 80,
                             height: 50,
+                            marginY: 1,
                         }}
                         variant='rounded'
                     />
@@ -232,14 +233,17 @@ const Wishlist = () => {
                                             columnVisibilityModel={{
                                                 id: false,
                                             }}
-                                            autoHeight
-                                            // getRowHeight={() => "auto"}
+                                            getRowHeight={() => "auto"}
                                             // getEstimatedRowHeight={() => 200}
                                             sx={{
                                                 "& .PrivateSwitchBase-input": {
                                                     height: "100% !important",
                                                     width: "100% !important",
                                                     margin: "0 !important",
+                                                },
+                                                '& .MuiDataGrid-cell': {
+                                                    display: 'flex',
+                                                    alignItems: 'center',
                                                 },
                                             }}
                                         />
