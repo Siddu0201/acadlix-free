@@ -277,7 +277,8 @@
 
 .acadlix-all-course-page .acadlix-course-page-chip {
   width: fit-content;
-  background-color: var(--acadlix-primary-100);
+  background-color: color-mix(in srgb, var(--acadlix-primary-main) 30%, transparent);
+  /* background-color: var(--acadlix-primary-100); */
   color: var(--acadlix-primary-main);
   padding: 0.125rem 0.4rem;
   border-radius: var(--acadlix-border-radius);
