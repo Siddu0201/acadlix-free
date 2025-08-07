@@ -6,7 +6,7 @@ import {
   Divider,
   Alert,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomTextField from "@acadlix/components/CustomTextField";

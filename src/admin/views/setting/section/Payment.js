@@ -11,7 +11,7 @@ import {
   InputAdornment,
   Typography,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { useForm } from "react-hook-form";

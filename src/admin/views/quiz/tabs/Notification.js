@@ -1,6 +1,6 @@
 import React from "react";
 import { FormControlLabel, Typography, Box, Divider } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomSwitch from "@acadlix/components/CustomSwitch";

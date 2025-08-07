@@ -1,6 +1,6 @@
 import React from "react";
 import { CardHeader, CardContent, Card } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 

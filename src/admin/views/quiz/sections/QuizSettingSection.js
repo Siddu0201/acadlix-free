@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Tab, Tabs } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React, { useEffect, useRef, useState } from "react";
 import General from "../tabs/General";
 import Question from "../tabs/Question";

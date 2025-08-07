@@ -19,7 +19,7 @@ import {
     IconButton,
     Avatar,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff, FaExternalLinkAlt, FaTrash } from "@acadlix/helpers/icons";
 import { DataGrid } from "@mui/x-data-grid";
 import { PostRemoveWishlist } from '@acadlix/requests/front/FrontCourseRequest';

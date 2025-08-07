@@ -6,7 +6,7 @@ import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
 import MatrixSortingChoice from "./types/MatrixSortingChoice";
 import { Button, Box, Typography, CircularProgress } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
 import LanguageSection from "./sections/LanguageSection";
 import GeneralOptionSection from "./sections/GeneralOptionSection";

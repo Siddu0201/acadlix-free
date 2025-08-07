@@ -6,7 +6,7 @@ import {
     DialogContent,
     DialogTitle,
     FormControl,
-    Grid2,
+    Grid,
     IconButton,
     InputLabel,
     MenuItem,
@@ -204,18 +204,18 @@ const DescriptionModel = ({
             <DialogContent sx={{
                 marginX: 2
             }}>
-                <Grid2
+                <Grid
                     container
                     spacing={4}>
-                    <Grid2 size={{ xs: 12, lg: 12 }}>
-                        <Grid2 container spacing={2}>
+                    <Grid size={{ xs: 12, lg: 12 }}>
+                        <Grid container spacing={2}>
 
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <CustomTypography>
                                     {__("Min. Words", "acadlix")}
                                 </CustomTypography>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <CustomTextField
                                     fullWidth
                                     placeholder={__("Min. Words", "acadlix")}
@@ -242,13 +242,13 @@ const DescriptionModel = ({
                                         },
                                     }}
                                 />
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <CustomTypography>
                                     {__("Max. Words", "acadlix")}
                                 </CustomTypography>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <CustomTextField
                                     fullWidth
                                     placeholder={__("Max. Words", "acadlix")}
@@ -269,13 +269,13 @@ const DescriptionModel = ({
                                     }}
                                     
                                 />
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <CustomTypography>
                                     {__("Level", "acadlix")}
                                 </CustomTypography>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <FormControl fullWidth size="small">
                                     <InputLabel id="demo-simple-select-label">
                                         {__("Level", "acadlix")}
@@ -295,13 +295,13 @@ const DescriptionModel = ({
                                         <MenuItem value="Advanced">{__("Advanced", "acadlix")}</MenuItem>
                                     </Select>
                                 </FormControl>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <CustomTypography>
                                     {__("Tone", "acadlix")}
                                 </CustomTypography>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, lg: 3 }}>
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 3 }}>
                                 <FormControl fullWidth size="small">
                                     <InputLabel id="demo-simple-select-label">
                                         {__("Tone", "acadlix")}
@@ -324,10 +324,10 @@ const DescriptionModel = ({
                                         <MenuItem value="Technical & Precise">{__("Technical & Precise", "acadlix")}</MenuItem>
                                     </Select>
                                 </FormControl>
-                            </Grid2>
-                        </Grid2>
-                    </Grid2>
-                    <Grid2 size={{ xs: 12, lg: 12 }}>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid size={{ xs: 12, lg: 12 }}>
                         <TextField
                             fullWidth
                             multiline
@@ -345,8 +345,8 @@ const DescriptionModel = ({
                                 }
                             }}
                         />
-                    </Grid2>
-                    <Grid2 size={{ xs: 12, lg: 12 }}>
+                    </Grid>
+                    <Grid size={{ xs: 12, lg: 12 }}>
                         <Box sx={{
                             display: "flex",
                             gap: 2,
@@ -369,8 +369,8 @@ const DescriptionModel = ({
                                 {__("Improve", "acadlix")}
                             </Button> */}
                         </Box>
-                    </Grid2>
-                    <Grid2 size={{ xs: 12, lg: 12 }}>
+                    </Grid>
+                    <Grid size={{ xs: 12, lg: 12 }}>
                         <Typography variant='h6'>{__('Response', 'acadlix')}</Typography>
                         <Typography variant="body1" component="div">
                             {
@@ -392,8 +392,8 @@ const DescriptionModel = ({
                                 {__("Add", "acadlix")}
                             </Button>
                         }
-                    </Grid2>
-                </Grid2>
+                    </Grid>
+                </Grid>
             </DialogContent>
             <DialogActions>
                 <Button

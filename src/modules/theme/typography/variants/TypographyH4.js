@@ -1,5 +1,5 @@
 import React from 'react'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import CustomTypography from '@acadlix/components/CustomTypography'
 import CustomFontSize from '@acadlix/components/CustomFontSize'
 import CustomFontWeight from '@acadlix/components/CustomFontWeight'

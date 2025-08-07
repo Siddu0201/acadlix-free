@@ -7,7 +7,7 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import AcadlixLogo from "@acadlix/images/acadlix_logo.png";
 import {

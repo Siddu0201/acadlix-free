@@ -1,5 +1,5 @@
 import React from 'react'
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { __ } from "@wordpress/i18n";
 import GridItem1 from "@acadlix/components/GridItem1";

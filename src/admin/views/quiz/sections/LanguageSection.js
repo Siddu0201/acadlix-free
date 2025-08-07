@@ -27,7 +27,7 @@ import {
     Typography,
 } from "@mui/material";
 import React, { memo, useState } from "react";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { IoClose } from "@acadlix/helpers/icons";

@@ -24,7 +24,7 @@ import {
   CardContent,
   CardHeader,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import GridItem1 from "@acadlix/components/GridItem1";
 import Card1 from "@acadlix/components/Card1";
 import { __ } from "@wordpress/i18n";

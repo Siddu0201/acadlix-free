@@ -10,7 +10,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import { IoClose, MdVisibility, MdVisibilityOff } from "@acadlix/helpers/icons";
 import CustomTextField from "@acadlix/components/CustomTextField";

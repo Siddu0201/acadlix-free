@@ -12,7 +12,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { MediaUpload } from "@wordpress/media-utils";
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";

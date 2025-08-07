@@ -13,7 +13,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import { PostCreateCategory } from "@acadlix/requests/admin/AdminCategoryRequest";
 import toast from "react-hot-toast";

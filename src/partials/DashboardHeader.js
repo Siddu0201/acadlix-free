@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Box, styled, useMediaQuery } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Picture1 from "@acadlix/images/dashboard.svg";
 import Picture2 from "@acadlix/images/blob-4-light-teal.svg";
 import Picture3 from "@acadlix/images/blob-5-blue.svg";

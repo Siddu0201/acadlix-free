@@ -23,12 +23,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React, { memo, useState } from "react";
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { FaMinus, FaPlus, FaTrash, IoClose } from "@acadlix/helpers/icons";
-import { LoadingButton } from "@mui/lab";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { __ } from "@wordpress/i18n";
@@ -233,14 +232,14 @@ const Language = (props) => {
                   methods?.setValue("language_id", newValue?.term_id);
                 }}
               />
-              <LoadingButton
+              <Button
                 variant="contained"
                 color="primary"
                 size="small"
                 onClick={handleAddLanguage}
               >
                 {__('Add', 'acadlix')}
-              </LoadingButton>
+              </Button>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 6 }} >
               <List >

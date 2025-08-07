@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { PostCreateSubject } from "@acadlix/requests/admin/AdminSubjectRequest";

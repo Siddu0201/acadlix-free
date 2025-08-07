@@ -138,25 +138,10 @@ if (!class_exists('Lesson')) {
             }
 
             // Delete related course section content (cs_content) posts
-            $related_contents = get_posts([
-                'post_type' => ACADLIX_COURSE_SECTION_CONTENT_CPT,
-                'meta_query' => [ // phpcs:ignore
-                    [
-                        'key' => '_acadlix_course_section_content_assignment_id',
-                        'value' => $postId,
-                        'compare' => '='
-                    ]
-                ],
-                'posts_per_page' => -1,
-                'fields' => 'ids', // only get post IDs
-            ]);
-
-            if (!empty($related_contents)) {
-                foreach ($related_contents as $content_id) {
-                    $content = acadlix()->model()->courseSectionContent()->deleteCourseSectionContent($content_id);
-                    if (is_wp_error($content)) {
-                        return $content;
-                    }
+            $courseSectionContents = acadlix()->model()->courseSectionContent()->getByLessonId($postId);
+            if ($courseSectionContents) {
+                foreach ($courseSectionContents as $csc) {
+                    acadlix()->model()->courseSectionContent()->deleteCourseSectionContent($csc->ID);
                 }
             }
 

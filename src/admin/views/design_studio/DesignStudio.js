@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, Card, CardActions, CardContent, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, MenuItem, MenuList, Paper, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { IoMenu } from '@acadlix/helpers/icons';
 import { __ } from '@wordpress/i18n';
 import { useNavigate } from 'react-router-dom';

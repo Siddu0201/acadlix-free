@@ -1,5 +1,5 @@
 import React from 'react'
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import CustomTypography from "@acadlix/components/CustomTypography";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CustomSwitch from "@acadlix/components/CustomSwitch";

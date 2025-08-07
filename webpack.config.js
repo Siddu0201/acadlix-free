@@ -7,11 +7,11 @@ const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const isPremium = process.env.REACT_APP_IS_PREMIUM === 'true';
-  const outputPath = isPremium ? 'Pro' : 'Common'; 
+  const outputPath = isPremium ? 'Pro' : 'Common';
   const existingDefinePlugin = defaultConfig.plugins.find(
     (plugin) => plugin.constructor.name === 'DefinePlugin'
   );
-  
+
   if (existingDefinePlugin) {
     Object.assign(existingDefinePlugin.definitions, {
       'process.env.REACT_APP_IS_PREMIUM': JSON.stringify(process.env.REACT_APP_IS_PREMIUM || 'false'),
@@ -85,12 +85,16 @@ module.exports = (env, argv) => {
       hot: true,
       watchFiles: ["src/**/*"],
       liveReload: false,
-      proxy: [
-        {
-          context: ['/api'],
-          target: 'http://localhost:3000',
-        },
-      ],
+      allowedHosts: 'all',
+      // proxy: [
+      //   {
+      //     context: ['/api'],
+      //     target: 'http://localhost:3000',
+      //   },
+      // ],
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     },
     plugins: [
       ...defaultConfig.plugins,

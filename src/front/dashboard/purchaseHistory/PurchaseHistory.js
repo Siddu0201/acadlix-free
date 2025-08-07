@@ -16,7 +16,7 @@ import {
   TablePagination,
   Tooltip,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { DataGrid } from "@mui/x-data-grid";
 import { GetUserPurchases } from "@acadlix/requests/front/FrontDashboardRequest";
 import { dateI18n } from "@wordpress/date";

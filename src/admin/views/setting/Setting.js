@@ -13,7 +13,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import General from "./section/General";
 import Payment from "./section/Payment";
 import Notification from "./section/Notification";

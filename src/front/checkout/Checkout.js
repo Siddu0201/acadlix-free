@@ -9,7 +9,7 @@ import {
   PostVerifyRazorpayPayment,
 } from "../../requests/front/FrontCheckoutRequest";
 import { Box, CircularProgress, Link, Typography } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import BillingDetail from "./BillingDetail";
 import PaymentMethod from "./PaymentMethod";
 import OrderDetail from "./OrderDetail";

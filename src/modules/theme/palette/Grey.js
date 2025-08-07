@@ -1,5 +1,5 @@
 import React from 'react'
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import CustomTypography from '@acadlix/components/CustomTypography';
 import CustomColorPicker from '@acadlix/components/CustomColorPicker';
 import { __ } from '@wordpress/i18n';

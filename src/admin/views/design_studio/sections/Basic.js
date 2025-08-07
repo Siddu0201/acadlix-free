@@ -1,6 +1,6 @@
 import { CardContent, CardHeader, Box, Button, Typography, CardActions, Card } from '@mui/material'
 import React from 'react'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import { __ } from '@wordpress/i18n'
 import CustomTypography from '@acadlix/components/CustomTypography'
 import CustomColorPicker from '@acadlix/components/CustomColorPicker'

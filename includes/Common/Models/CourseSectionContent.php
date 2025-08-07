@@ -83,6 +83,27 @@ if (!class_exists(class: 'CourseSectionContent')) {
             return $renderedMetas;
         }
 
+        public function getByLessonId($lesson_id)
+        {
+            $args = [
+                'post_type' => self::$postType,
+                'posts_per_page' => -1, // Fetch all matching posts
+                'meta_query' => [ // phpcs:ignore
+                    'relation' => 'AND',
+                    [
+                        'key' => '_acadlix_course_section_content_type',
+                        'value' => 'lesson',
+                    ],
+                    [
+                        'key' => '_acadlix_course_section_content_lesson_id',
+                        'value' => $lesson_id,
+                    ],
+                ],
+            ];
+            $query = new WP_Query($args);
+            return $query->posts;
+        }
+
         public function getByQuizId($quiz_id)
         {
             $args = [

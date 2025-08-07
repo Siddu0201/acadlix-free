@@ -3,7 +3,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import TickImage from "@acadlix/images/icons8-correct-96.png";
 import ClockImage from "@acadlix/images/clock-svgrepo-com.png";

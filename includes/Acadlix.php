@@ -55,7 +55,7 @@ namespace Yuvayana\Acadlix {
                     define($constant, $value);
                 }
             }
-
+            $this->isDev = defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local';
             $this->version = ACADLIX_VERSION;
         }
 

@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import First from "@acadlix/images/medal-1.svg";
 import Second from "@acadlix/images/medal-2.svg";

@@ -3,7 +3,7 @@ import { GetStatisticByStatisticId } from '@acadlix/requests/front/FrontStatisti
 import { Link, useParams } from 'react-router-dom';
 import AnswerSheet from '@acadlix/modules/answersheet/AnswerSheet';
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { TiArrowLeftThick } from '@acadlix/helpers/icons';
 import { __ } from "@wordpress/i18n";
 

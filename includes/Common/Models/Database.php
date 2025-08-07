@@ -13,7 +13,8 @@ if (!class_exists('Database')) {
     class Database
     {
         protected $bootedPrefix = null;
-        public function __construct(){
+        public function __construct()
+        {
             $this->boot();
         }
         public function boot()
@@ -42,8 +43,7 @@ if (!class_exists('Database')) {
             $charset = $charset ?: 'utf8mb4';
             $collate = $collate ?: 'utf8mb4_unicode_ci';
 
-            $capsule = new Capsule;
-            $capsule->addConnection([
+            $options = [
                 'driver' => 'mysql',
                 'host' => DB_HOST,
                 'database' => DB_NAME,
@@ -51,8 +51,16 @@ if (!class_exists('Database')) {
                 'password' => DB_PASSWORD,
                 'charset' => $charset,
                 'collation' => $collate,
-            ]);
-            
+            ];
+
+            if (acadlix()->isDev) {
+                $options['port'] = 10005;
+            }
+
+
+            $capsule = new Capsule;
+            $capsule->addConnection($options);
+
             // $timezone_string = Helper::instance()->acadlix_get_time_zone_string();
             // if (!empty($timezone_string)) {
             //     date_default_timezone_set($timezone_string);

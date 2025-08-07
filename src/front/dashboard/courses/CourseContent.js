@@ -10,7 +10,7 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import CourseOverview from "./contentTabs/CourseOverview";
 import CourseSidebar from "./contentTabs/CourseSidebar";
