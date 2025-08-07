@@ -37,7 +37,9 @@ if (!class_exists('WpUsers')) {
                 'order_id',    // Foreign key on OrderItem table
                 'ID',          // Local key on User table
                 'id'           // Local key on Order table
-            );
+            )->whereHas('order', function ($query) {
+                $query->ofSuccess();
+            });
         }
     }
 }
