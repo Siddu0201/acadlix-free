@@ -22,7 +22,6 @@ import {
 import SaveTemplateSection from "./sections/SaveTemplateSection";
 import LanguageSection from "./sections/LanguageSection";
 import { __ } from "@wordpress/i18n";
-import toast from "react-hot-toast";
 
 const QuizContent = (props) => {
   const methods = useForm({

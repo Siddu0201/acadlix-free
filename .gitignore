@@ -2,4 +2,6 @@ node_modules
 build
 *.zip
 vendor/
+composer.lock
+package-lock.json
 
