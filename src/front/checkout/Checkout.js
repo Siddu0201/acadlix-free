@@ -4,9 +4,8 @@ import {
   PostCheckoutPaypal,
   PostCheckoutPayu,
   PostCheckoutRazorpay,
-  PostFailRazorpayPayment,
+  PostCheckoutStripe,
   PostFreeCheckout,
-  PostVerifyRazorpayPayment,
 } from "../../requests/front/FrontCheckoutRequest";
 import { Box, CircularProgress, Link, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
@@ -20,6 +19,7 @@ import toast from "react-hot-toast";
 import UserAuth from "@acadlix/modules/user-auth/UserAuth";
 import { __ } from "@wordpress/i18n";
 import { formatPrice } from "@acadlix/helpers/util";
+import { Country } from "country-state-city";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -40,35 +40,23 @@ const Checkout = () => {
         phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
         address: getUserMetaValue("_acadlix_profile_address") ?? "",
         user_url: acadlixOptions?.user?.user_url ?? "",
+        country_code: Country.getAllCountries()?.find((country) => country?.name === getUserMetaValue("_acadlix_profile_country"))?.isoCode ?? null,
         country: getUserMetaValue("_acadlix_profile_country") ?? null,
         city: getUserMetaValue("_acadlix_profile_city") ?? "",
         zip_code: getUserMetaValue("_acadlix_profile_zip_code") ?? "",
       },
-      payment_method: "",
+      payment_method: acadlixOptions?.settings?.acadlix_default_payment_gateway ?? "",
       user_id: acadlixOptions?.user_id,
       is_user_logged_in: acadlixOptions?.user_id > 0 ? true : false,
       cart_token: acadlixOptions?.cart_token,
       cart: [],
       order_items: [],
       total_amount: 0,
-      //Payment Gatway
       currency: acadlixOptions?.settings?.acadlix_currency,
-      razorpay: acadlixOptions?.settings?.acadlix_razorpay_active === "yes",
-      razorpay_client_id: acadlixOptions?.settings?.acadlix_razorpay_client_id,
-      razorpay_secret_key:
-        acadlixOptions?.settings?.acadlix_razorpay_secret_key,
-      paypal: acadlixOptions?.settings?.acadlix_paypal_active === "yes",
-      paypal_client_id: acadlixOptions?.settings?.acadlix_paypal_client_id,
-      paypal_secret_key: acadlixOptions?.settings?.acadlix_paypal_secret_key,
-      paypal_sandbox:
-        acadlixOptions?.settings?.acadlix_paypal_sandbox === "yes",
-      payu: acadlixOptions?.settings?.acadlix_payu_active === "yes",
-      payu_merchant_key:
-        acadlixOptions?.settings?.acadlix_payu_merchant_key,
-      payu_salt: acadlixOptions?.settings?.acadlix_payu_salt,
-      payu_sandbox: acadlixOptions?.settings?.acadlix_payu_sandbox === "yes",
     },
   });
+
+  console.log(methods?.watch("billing_info"));
 
   const getCart = GetCheckoutCart(
     methods?.watch("user_id"),
@@ -127,7 +115,7 @@ const Checkout = () => {
     }
   }, [methods?.watch("cart")?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const convertToRazorpayUnit = (amount = 0) => {
+  const convertToUnitPrice = (amount = 0) => {
     if (isNaN(amount)) {
       throw new Error(__('Invalid amount', 'acadlix'));
     }
@@ -147,93 +135,38 @@ const Checkout = () => {
   };
 
   const razorpayMutation = PostCheckoutRazorpay();
-  const verifyRazorpayMutation = PostVerifyRazorpayPayment();
-  const failRazorpayMutation = PostFailRazorpayPayment();
   const handleRazorpay = (data = {}) => {
     razorpayMutation?.mutate(
       {
-        ...data,
-        amount: convertToRazorpayUnit(methods?.watch("total_amount")),
+        currency: data?.currency,
+        billing_info: data?.billing_info,
+        user_id: data?.user_id,
+        payment_method: data?.payment_method,
+        order_items: data?.order_items,
+        total_amount: data?.total_amount,
+        amount: convertToUnitPrice(data?.total_amount),
       },
       {
         onSuccess: (data) => {
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
-          if (data?.data?.success) {
-            const options = {
-              key: methods?.watch("razorpay_client_id"), // Replace with your Razorpay key ID
-              amount: convertToRazorpayUnit(methods?.watch("total_amount")), // Amount in paise (1000 paise = INR 10)
-              currency: methods?.watch("currency"),
-              name: acadlixOptions?.site_title,
-              description: "Buy now",
-              order_id: data?.data?.data?.id, // Get this order ID from your backend
-              handler: function (response) {
-                methods?.setValue("is_checkout_loading", true, {
-                  shouldDirty: true,
-                });
-                verifyRazorpayMutation?.mutate(response, {
-                  onSuccess: (data) => {
-                    if (data?.data?.success) {
-                      if (data?.data?.data?.razorpay_order_id) {
-                        window.location.href = `${acadlixOptions?.thankyou_url}?token=${data?.data?.data?.razorpay_order_id}`;
-                      }
-                    }
-                    methods?.setValue("is_checkout_loading", false, {
-                      shouldDirty: true,
-                    });
-                  },
-                  onError: (data) => {
-                    methods?.setValue("is_checkout_loading", false, {
-                      shouldDirty: true,
-                    });
-                  },
-                });
-                // Send payment response to your server for verification
-              },
-              prefill: {
-                name: methods?.watch("billing_info.first_name"),
-                email: methods?.watch("billing_info.email"),
-              },
-              notes: {
-                address: methods?.watch("address"),
-              },
-              theme: {
-                color: "#F37254",
-              },
-              modal: {
-                ondismiss: function () {
-                  console.log(data?.data?.data?.id);
-                  methods?.setValue("is_checkout_loading", true, {
-                    shouldDirty: true,
-                  });
-                  failRazorpayMutation.mutate(
-                    {
-                      razorpay_order_id: data?.data?.data?.id,
-                    },
-                    {
-                      onSuccess: (data) => {
-                        toast.error(__('Payment failed.', 'acadlix'));
-                      },
-                      onSettled: () => {
-                        methods?.setValue("is_checkout_loading", false, {
-                          shouldDirty: true,
-                        });
-                      }
-                    }
-                  );
-                },
-              },
-            };
-            const razorpay = new window.Razorpay(options);
-            razorpay.open();
-          }
+          let options = {
+            ...data?.data,
+            modal: {
+              ondismiss: function () {
+                window.location.href = data?.data?.cancel_url;
+              }
+            }
+          };
+          const razorpay = new window.Razorpay(options);
+          razorpay.open();
         },
         onError: (data) => {
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
-          toast?.error(__('Opps! Something went wrong', 'acadlix'));
+          toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
         },
       }
     );
@@ -241,18 +174,26 @@ const Checkout = () => {
 
   const paypalMutation = PostCheckoutPaypal();
   const handlePaypal = (data = {}) => {
-    paypalMutation?.mutate(data, {
+    paypalMutation?.mutate({
+      currency: data?.currency,
+      billing_info: data?.billing_info,
+      user_id: data?.user_id,
+      payment_method: data?.payment_method,
+      order_items: data?.order_items,
+      total_amount: data?.total_amount,
+    }, {
       onSuccess: async (data) => {
         methods?.setValue("is_checkout_loading", false, {
           shouldDirty: true,
         });
-        const paypalUrl = methods?.watch("paypal_sandbox")
-          ? `https://www.sandbox.paypal.com/checkoutnow?token=${data?.data.orderId}`
-          : `https://www.paypal.com/checkoutnow?token=${data?.data?.orderId}`;
-        window.location.href = paypalUrl;
+        if (data?.data?.redirect_url) {
+          window.location.href = data?.data?.redirect_url;
+        } else {
+          toast?.error(__('Opps! Something went wrong', 'acadlix'));
+        }
       },
       onError: (data) => {
-        toast?.error(__('Opps! Something went wrong', 'acadlix'));
+        toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
         methods?.setValue("is_checkout_loading", false, {
           shouldDirty: true,
         });
@@ -262,11 +203,17 @@ const Checkout = () => {
 
   const payuMutation = PostCheckoutPayu();
   const handlePayu = (data = {}) => {
-    payuMutation?.mutate(data, {
+    payuMutation?.mutate({
+      currency: data?.currency,
+      billing_info: data?.billing_info,
+      user_id: data?.user_id,
+      payment_method: data?.payment_method,
+      order_items: data?.order_items,
+      total_amount: data?.total_amount,
+    }, {
       onSuccess: (data) => {
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
         if (
-          data?.data?.status === "success" &&
           data?.data?.payment_url &&
           data?.data?.formData
         ) {
@@ -284,12 +231,10 @@ const Checkout = () => {
 
           document.body.appendChild(form);
           form.submit();
-
-          // window.location.href = data?.data?.payment_url;
         }
       },
       onError: (data) => {
-        toast?.error(__("Opps! Something went wrong", "acadlix"));
+        toast?.error(data?.response?.data?.message ?? __("Opps! Something went wrong", "acadlix"));
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
       },
     });
@@ -303,16 +248,39 @@ const Checkout = () => {
         window.location.href = `${acadlixOptions?.dashboard_url}`;
       },
       onError: (data) => {
-        toast?.error(__('Opps! Something went wrong', 'acadlix'));
+        toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
       },
     })
   };
 
+  const stripeMutation = PostCheckoutStripe();
+  const handleStripe = (data = {}) => {
+    stripeMutation?.mutate({
+      currency: data?.currency,
+      billing_info: data?.billing_info,
+      user_id: data?.user_id,
+      payment_method: data?.payment_method,
+      order_items: data?.order_items,
+      total_amount: data?.total_amount,
+      amount: convertToUnitPrice(data?.total_amount),
+    }, {
+      onSuccess: (data) => {
+        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+        window.location.href = data?.data?.redirect_url;
+      },
+      onError: (data) => {
+        toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
+        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+      },
+    })
+  }
+
   const paymentHandlers = {
     razorpay: handleRazorpay,
     paypal: handlePaypal,
     payu: handlePayu,
+    stripe: handleStripe,
   };
 
   const handlePaymentGateway = (data = {}) => {

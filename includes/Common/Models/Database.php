@@ -54,7 +54,7 @@ if (!class_exists('Database')) {
             ];
 
             if (acadlix()->isDev) {
-                $options['port'] = 10005;
+                $options['port'] = 10007;
             }
 
 

@@ -109,6 +109,7 @@ namespace Yuvayana\Acadlix {
 
             $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
             $this->integrations = $this->pro ? new Pro\Integrations\Integrations() : new Common\Integrations\Integrations();
+            $this->payments = new Common\Payments\Payments();
         }
     }
 }

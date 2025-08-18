@@ -60,6 +60,11 @@ if (!class_exists('Order')) {
             return $meta?->meta_value ?? null;
         }
 
+        public function updateStatus($status = 'pending')
+        {
+            return $this->update(['status' => $status]);
+        }
+
         public function updateOrCreateMeta($metaKey, $metaValue)
         {
             return $this->order_metas()->updateOrCreate(
@@ -70,9 +75,29 @@ if (!class_exists('Order')) {
             );
         }
 
+        public function createActivityLog($message = '')
+        {
+            return acadlix()->model()->userActivityMeta()->create([
+                'user_id' => $this->user_id ?? 0,
+                'type' => "order",
+                'type_id' => $this->id,
+                'meta_key' => "activity_log", // phpcs:ignore
+                'meta_value' => $message // phpcs:ignore
+            ]);
+        }
+
         public function user()
         {
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
+        }
+
+        public function delete()
+        {
+            acadlix()->model()->userActivityMeta()
+                ->where('type', 'order')
+                ->where('type_id', $this->id)
+                ->delete();
+            return parent::delete();
         }
 
         public function getTodaySalesTotal()
@@ -87,6 +112,7 @@ if (!class_exists('Order')) {
             return $this->ofSuccess()
                         ->sum('total_amount');
         }
+
 
     }
 }

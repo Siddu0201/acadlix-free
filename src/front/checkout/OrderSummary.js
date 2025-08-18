@@ -16,9 +16,9 @@ import { currencyPosition } from "@acadlix/helpers/util";
 const OrderSummary = (props) => {
   const is_payment_gateway_active = () => {
     if (
-      props?.watch("razorpay") ||
-      props?.watch("paypal") ||
-      props?.watch("payumoney")
+      acadlixOptions?.is_razorpay_active ||
+      acadlixOptions?.is_paypal_active ||
+      acadlixOptions?.is_payu_active
     ) {
       return true;
     }

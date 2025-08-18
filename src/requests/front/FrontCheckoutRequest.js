@@ -51,15 +51,6 @@ export const PostVerifyRazorpayPayment = () => {
   });
 };
 
-export const PostFailRazorpayPayment = () => {
-  const instance = useInstance();
-  return useMutation({
-    mutationFn: (data) => {
-      return instance.post(`${base}/post-fail-razorpay-payment`, data);
-    },
-  });
-};
-
 export const PostCheckoutPaypal = () => {
   const instance = useInstance();
   return useMutation({
@@ -83,6 +74,15 @@ export const PostFreeCheckout = () => {
   return useMutation({
     mutationFn: (data) => {
       return instance.post(`${base}/post-free-checkout`, data);
+    },
+  });
+};
+
+export const PostCheckoutStripe = () => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/post-checkout-stripe`, data);
     },
   });
 };

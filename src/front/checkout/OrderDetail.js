@@ -16,7 +16,7 @@ import React from "react";
 import { FaTrashAlt } from "@acadlix/helpers/icons";
 import { DeleteCourseFromCart } from "@acadlix/requests/front/FrontCheckoutRequest";
 import { RawHTML } from "@wordpress/element";
-import { currencyPosition } from "@acadlix/helpers/util";
+import { currencyPosition, formatPrice } from "@acadlix/helpers/util";
 
 const OrderDetail = (props) => {
   return (

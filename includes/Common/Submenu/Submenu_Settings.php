@@ -53,7 +53,7 @@ class Submenu_Settings
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'currecies_with_symbol' => acadlix()->helper()->acadlix_get_currency_with_symbols(),
-            'options' => acadlix()->helper()->acadlix_get_all_options(),
+            'options' => acadlix()->helper()->acadlix_get_all_options(array_merge(acadlix()->helper()->acadlix_options(),acadlix()->helper()->acadlix_advance_options())),
             'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'all_pages' => get_pages(),
             'user_id' => get_current_user_id(),

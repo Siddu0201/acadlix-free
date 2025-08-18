@@ -13,18 +13,19 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const PaymentMethod = (props) => {
-  const useActivePaymentGateways = (props) => {
+  const useActivePaymentGateways = () => {
     const gateways = {
-      razorpay: ["razorpay_client_id", "razorpay_secret_key"],
-      paypal: ["paypal_client_id", "paypal_secret_key"],
-      payu: ["payu_merchant_key", "payu_salt"],
+      razorpay: acadlixOptions?.is_razorpay_active,
+      paypal: acadlixOptions?.is_paypal_active,
+      payu: acadlixOptions?.is_payu_active,
+      stripe: acadlixOptions?.is_stripe_active,
     };
 
     return React.useMemo(() => {
       let activeGateways = 0;
       let activeGatewayName = "";
       Object.keys(gateways).forEach((gateway) => {
-        if (props.watch(gateway) && gateways[gateway].every(key => props.watch(key))) {
+        if (gateways[gateway]) {
           activeGateways++;
           activeGatewayName = gateway;
         }
@@ -33,7 +34,7 @@ const PaymentMethod = (props) => {
     }, []);
   };
 
-  const { activeGateways, activeGatewayName } = useActivePaymentGateways(props);
+  const { activeGateways, activeGatewayName } = useActivePaymentGateways();
 
   React.useEffect(() => {
     if (activeGateways === 1) {
@@ -47,9 +48,7 @@ const PaymentMethod = (props) => {
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
-            {props?.watch("razorpay") &&
-              props?.watch("razorpay_client_id") &&
-              props?.watch("razorpay_secret_key") && (
+            {acadlixOptions?.is_razorpay_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -102,9 +101,7 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {props?.watch("paypal") &&
-              props?.watch("paypal_client_id") &&
-              props?.watch("paypal_secret_key") && (
+            {acadlixOptions?.is_paypal_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -157,9 +154,7 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {props?.watch("payu") &&
-              props?.watch("payu_merchant_key") &&
-              props?.watch("payu_salt") && (
+            {acadlixOptions?.is_payu_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -212,9 +207,64 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {!props?.watch("razorpay") &&
-              !props?.watch("paypal") &&
-              !props?.watch("payu") && (
+            {acadlixOptions?.is_stripe_active && (
+                <Grid size={{ xs: 12, lg: 12 }}>
+                  <Card>
+                    <CardContent
+                      sx={{
+                        paddingY: 1,
+                        paddingX: 3,
+                        ":last-child": {
+                          paddingY: 1,
+                          paddingX: 3,
+                        },
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FormControlLabel
+                        slotProps={{
+                          typography: {
+                            sx: {
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                            },
+                          },
+                        }}
+                        sx={{
+                          width: "100%"
+                        }}
+                        label={__("Stripe", "acadlix")}
+                        disabled={!props?.watch("is_user_logged_in")}
+                        control={
+                          <Radio
+                            size="small"
+                            name="payment_method"
+                            checked={
+                              props?.watch("payment_method") === "stripe"
+                            }
+                            value="stripe"
+                            onClick={(e) => {
+                              props?.setValue(
+                                "payment_method",
+                                e?.target?.value,
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+                            }}
+                          />
+                        }
+                      />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              )}
+            {!acadlixOptions?.is_razorpay_active &&
+              !acadlixOptions?.is_paypal_active &&
+              !acadlixOptions?.is_payu_active &&
+              !acadlixOptions?.is_stripe_active &&
+               (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Typography variant="body1">
                     {__("No payment gatway is activated, contact admin.", "acadlix")}

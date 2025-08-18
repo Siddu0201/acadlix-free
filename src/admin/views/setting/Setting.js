@@ -90,12 +90,16 @@ const Setting = ({ selected = 'general' }) => {
     acadlix_delete_data_on_plugin_uninstall:
       acadlixOptions?.options?.acadlix_delete_data_on_plugin_uninstall ?? "no",
     // Payment option
+    acadlix_default_payment_gateway:
+      acadlixOptions?.options?.acadlix_default_payment_gateway ?? "",
     acadlix_razorpay_active:
       acadlixOptions?.options?.acadlix_razorpay_active ?? "no",
     acadlix_razorpay_client_id:
       acadlixOptions?.options?.acadlix_razorpay_client_id ?? "",
     acadlix_razorpay_secret_key:
       acadlixOptions?.options?.acadlix_razorpay_secret_key ?? "",
+    acadlix_razorpay_webhook_secret:
+      acadlixOptions?.options?.acadlix_razorpay_webhook_secret ?? "",
     acadlix_paypal_active:
       acadlixOptions?.options?.acadlix_paypal_active ?? "no",
     acadlix_paypal_client_id:
@@ -104,6 +108,8 @@ const Setting = ({ selected = 'general' }) => {
       acadlixOptions?.options?.acadlix_paypal_secret_key ?? "",
     acadlix_paypal_sandbox:
       acadlixOptions?.options?.acadlix_paypal_sandbox ?? "no",
+    acadlix_paypal_webhook_id:
+      acadlixOptions?.options?.acadlix_paypal_webhook_id ?? "",
     acadlix_payu_active:
       acadlixOptions?.options?.acadlix_payu_active ?? "no",
     acadlix_payu_merchant_key:
@@ -112,6 +118,16 @@ const Setting = ({ selected = 'general' }) => {
       acadlixOptions?.options?.acadlix_payu_salt ?? "",
     acadlix_payu_sandbox:
       acadlixOptions?.options?.acadlix_payu_sandbox ?? "no",
+    acadlix_stripe_active:
+      acadlixOptions?.options?.acadlix_stripe_active ?? "no",
+    acadlix_stripe_public_key:
+      acadlixOptions?.options?.acadlix_stripe_public_key ?? "",
+    acadlix_stripe_secret_key:
+      acadlixOptions?.options?.acadlix_stripe_secret_key ?? "",
+    acadlix_stripe_webhook_signature_key:
+      acadlixOptions?.options?.acadlix_stripe_webhook_signature_key ?? "",
+    acadlix_stripe_sandbox:
+      acadlixOptions?.options?.acadlix_stripe_sandbox ?? "no",
     acadlix_offline_payment:
       acadlixOptions?.options?.acadlix_offline_payment ?? "no",
     // Notification option

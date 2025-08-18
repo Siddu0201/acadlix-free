@@ -42,15 +42,12 @@ if (!class_exists("CheckoutController")) {
         public function enqueue_front_checkout()
         {
             $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
-            $paypal_active = acadlix()->helper()->acadlix_get_option('acadlix_paypal_active') == 'yes';
             if ($checkout_page_id && is_page($checkout_page_id)) {
                 // wp_dequeue_style('acadlix-front-css');
                 // wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_style('acadlix-front-checkout-css');
                 wp_enqueue_script('acadlix-razorpay-js');
-                if ($paypal_active) {
-                    wp_enqueue_script('acadlix-paypal-js');
-                }
+               
                 wp_enqueue_script('acadlix-front-checkout-js');
                 wp_localize_script('acadlix-front-checkout-js', 'acadlixOptions', array(
                     'is_admin_bar_showing' => is_admin_bar_showing(),
@@ -68,6 +65,10 @@ if (!class_exists("CheckoutController")) {
                     'dashboard_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_dashboard_page_id"))),
                     'users_can_register' => acadlix()->helper()->acadlix_get_option("users_can_register"),
                     'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
+                    'is_paypal_active' => acadlix()->payments()->paypal()->is_paypal_active() ?? false,
+                    'is_razorpay_active' => acadlix()->payments()->razorpay()->is_razorpay_active() ?? false,
+                    'is_payu_active' => acadlix()->payments()->payu()->is_payu_active() ?? false,
+                    'is_stripe_active' => acadlix()->payments()->stripe()->is_stripe_active() ?? false,
                 ));
             }
         }

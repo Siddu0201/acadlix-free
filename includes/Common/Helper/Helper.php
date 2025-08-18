@@ -542,6 +542,7 @@ if (!class_exists('Helper')) {
                 'acadlix_thousand_separator' => ",",
                 'acadlix_decimal_seprator' => ".",
                 'acadlix_number_of_decimals' => 2,
+                'acadlix_default_payment_gateway' => "",
                 // Admin Option
                 'acadlix_admin_auto_registration_to_courses' => "no",
                 'acadlix_admin_can_assign_courses_to_student' => "no",
@@ -555,19 +556,6 @@ if (!class_exists('Helper')) {
                 'acadlix_enable_site_logo_in_header' => "no",
                 // Data management
                 'acadlix_delete_data_on_plugin_uninstall' => "no",
-                // Payment option
-                'acadlix_razorpay_active' => "no",
-                'acadlix_razorpay_client_id' => "",
-                'acadlix_razorpay_secret_key' => "",
-                'acadlix_paypal_active' => "no",
-                'acadlix_paypal_client_id' => "",
-                'acadlix_paypal_secret_key' => "",
-                'acadlix_paypal_sandbox' => "no",
-                'acadlix_payu_active' => "no",
-                'acadlix_payu_merchant_key' => "",
-                'acadlix_payu_salt' => "",
-                'acadlix_payu_sandbox' => "no",
-                'acadlix_offline_payment' => "no",
                 // Notification option
                 'acadlix_notify_course_purchase_to_student' => "no",
                 'acadlix_notify_course_purchase_to_admin' => "no",
@@ -589,9 +577,60 @@ if (!class_exists('Helper')) {
             return $options;
         }
 
-        public function acadlix_get_all_options()
+        public function acadlix_advance_options()
         {
-            $options = $this->acadlix_options();
+            $options = [
+                'acadlix_razorpay_active' => "no",
+                'acadlix_razorpay_client_id' => "",
+                'acadlix_razorpay_secret_key' => "",
+                'acadlix_razorpay_webhook_secret' => "",
+                'acadlix_razorpay_webhook_url' => $this->acadlix_get_webhook_url('razorpay'),
+                'acadlix_paypal_active' => "no",
+                'acadlix_paypal_client_id' => "",
+                'acadlix_paypal_secret_key' => "",
+                'acadlix_paypal_sandbox' => "no",
+                'acadlix_paypal_webhook_id' => "",
+                'acadlix_paypal_webhook_url' => $this->acadlix_get_webhook_url('paypal'),
+                'acadlix_payu_active' => "no",
+                'acadlix_payu_merchant_key' => "",
+                'acadlix_payu_salt' => "",
+                'acadlix_payu_sandbox' => "no",
+                'acadlix_payu_webhook_url' => $this->acadlix_get_webhook_url('payu'),
+                'acadlix_offline_payment' => "no",
+                'acadlix_stripe_active' => "no",
+                'acadlix_stripe_public_key' => "",
+                'acadlix_stripe_secret_key' => "",
+                'acadlix_stripe_sandbox' => "no",
+                'acadlix_stripe_webhook_signature_key' => "",
+                'acadlix_stripe_webhook_url' => $this->acadlix_get_webhook_url('stripe'),
+            ];
+            return $options;
+        }
+
+        public function acadlix_get_webhook_url($payment_method = 'paypal')
+        {
+            // Ensure method is safe for URLs
+            $payment_method = sanitize_key($payment_method);
+
+            // Base REST route
+            $rest_route = sprintf(
+                'acadlix/v1/front-checkout/handle-webhook'
+            );
+
+            // Build REST URL
+            $url = add_query_arg(
+                array('payment_method' => $payment_method),
+                rest_url($rest_route)
+            );
+
+            return esc_url_raw($url);
+        }
+
+        public function acadlix_get_all_options($options = [])
+        {
+            if (empty($options)) {
+                $options = $this->acadlix_options();
+            }
             $new_options = [];
             if (count($options) > 0) {
                 foreach ($options as $key => $option) {
@@ -917,29 +956,29 @@ if (!class_exists('Helper')) {
         public function is_bulk_question_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false);
-            if($value != "yes"){
+            if ($value != "yes") {
                 return false;
             }
-            if(!acadlix()->pro){
+            if (!acadlix()->pro) {
                 return false;
-            }else{
-                if(!acadlix()->license()->isActive){
+            } else {
+                if (!acadlix()->license()->isActive) {
                     return false;
                 }
             }
             return true;
         }
-        
+
         public function is_assignment_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_assignments_enabled', false);
-            if($value != "yes"){
+            if ($value != "yes") {
                 return false;
             }
-            if(!acadlix()->pro){
+            if (!acadlix()->pro) {
                 return false;
-            }else{
-                if(!acadlix()->license()->isActive){
+            } else {
+                if (!acadlix()->license()->isActive) {
                     return false;
                 }
             }
@@ -949,13 +988,13 @@ if (!class_exists('Helper')) {
         public function is_zoom_integration_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false);
-            if($value != "yes"){
+            if ($value != "yes") {
                 return false;
             }
-            if(!acadlix()->pro){
+            if (!acadlix()->pro) {
                 return false;
-            }else{
-                if(!acadlix()->license()->isActive){
+            } else {
+                if (!acadlix()->license()->isActive) {
                     return false;
                 }
             }
@@ -965,13 +1004,13 @@ if (!class_exists('Helper')) {
         public function is_advanced_report_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false);
-            if($value != "yes"){
+            if ($value != "yes") {
                 return false;
             }
-            if(!acadlix()->pro){
+            if (!acadlix()->pro) {
                 return false;
-            }else{
-                if(!acadlix()->license()->isActive){
+            } else {
+                if (!acadlix()->license()->isActive) {
                     return false;
                 }
             }
@@ -995,7 +1034,7 @@ if (!class_exists('Helper')) {
                 $this->acadlix_delete_option($option);
             }
         }
-        
+
 
         public static function instance()
         {

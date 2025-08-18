@@ -28,6 +28,8 @@ abstract class AcadlixAbstract {
 	protected $model = null;
 
 	protected $integrations = null;
+
+	protected $payments = null;
 	
 	public function database()
 	{
@@ -81,4 +83,8 @@ abstract class AcadlixAbstract {
 	public function integrations(){
 		return $this->integrations;
 	}	
+
+	public function payments(){
+		return $this->payments;
+	}
 }

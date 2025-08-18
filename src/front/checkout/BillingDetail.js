@@ -251,6 +251,9 @@ const BillingDetail = (props) => {
                     : null
                 }
                 onChange={(_, newValue) => {
+                  props.setValue("billing_info.country_code", newValue?.isoCode, {
+                    shouldDirty: true,
+                  });
                   props.setValue("billing_info.country", newValue?.name, {
                     shouldDirty: true,
                   });

@@ -8,7 +8,7 @@ import { __ } from "@wordpress/i18n";
 import CustomCopyableText from '@acadlix/components/CustomCopyableText';
 import { Box, Divider, Typography } from '@mui/material';
 
-const RazorPay = (props) => {
+const Stripe = (props) => {
     return (
         <>
             <Box
@@ -30,13 +30,13 @@ const RazorPay = (props) => {
                             paddingY: 2,
                         }}
                     >
-                        {__("RazorPay", "acadlix")}
+                        {__("Stripe", "acadlix")}
                     </Typography>
                     <FormControlLabel
                         control={<CustomSwitch />}
                         label={__("Default", "acadlix")}
-                        value="razorpay"
-                        checked={props?.watch("acadlix_default_payment_gateway") === "razorpay"}
+                        value="stripe"
+                        checked={props?.watch("acadlix_default_payment_gateway") === "stripe"}
                         onClick={(e) => {
                             if (e?.target?.checked !== undefined) {
                                 props?.setValue("acadlix_default_payment_gateway", e?.target?.checked ? e?.target?.value : "", {
@@ -65,23 +65,23 @@ const RazorPay = (props) => {
                     xs: 12
                 }}>
                     <CustomTypography>
-                        {__('Enable RazorPay', 'acadlix')}
+                        {__('Enable Stripe', 'acadlix')}
                     </CustomTypography>
                 </Grid>
                 <Grid size={{
                     lg: 3,
                     md: 3,
                     sm: 6,
-                    xs: 12,
+                    xs: 12
                 }}>
                     <FormControlLabel
                         control={<CustomSwitch />}
-                        label={__("Activate", "acadlix")}
+                        label={__("Stripe", "acadlix")}
                         value="yes"
-                        checked={props?.watch("acadlix_razorpay_active") === "yes"}
+                        checked={props?.watch("acadlix_stripe_active") === "yes"}
                         onClick={(e) => {
                             if (e?.target?.checked !== undefined) {
-                                props?.setValue("acadlix_razorpay_active", e?.target?.checked ? e?.target?.value : "no", {
+                                props?.setValue("acadlix_stripe_active", e?.target?.checked ? e?.target?.value : "no", {
                                     shouldDirty: true,
                                 });
                             }
@@ -89,20 +89,34 @@ const RazorPay = (props) => {
                     />
                 </Grid>
                 <Grid size={{
-                    lg: 6,
-                    md: 6,
-                    sm: 0,
-                    xs: 0,
-                }}
-                    sx={{
-                        display: {
-                            lg: "block",
-                            md: "block",
-                            sm: "none",
-                            xs: "none",
-                        }
-                    }}
-                >
+                    lg: 3,
+                    md: 3,
+                    sm: 6,
+                    xs: 12
+                }}>
+                    <CustomTypography>
+                        {__('Enable Sandbox', 'acadlix')}
+                    </CustomTypography>
+                </Grid>
+                <Grid size={{
+                    lg: 3,
+                    md: 3,
+                    sm: 6,
+                    xs: 12
+                }}>
+                    <FormControlLabel
+                        control={<CustomSwitch />}
+                        label={__("Sandbox", "acadlix")}
+                        value="yes"
+                        checked={props?.watch("acadlix_stripe_sandbox") === "yes"}
+                        onClick={(e) => {
+                            if (e?.target?.checked !== undefined) {
+                                props?.setValue("acadlix_stripe_sandbox", e?.target?.checked ? e?.target?.value : "no", {
+                                    shouldDirty: true,
+                                });
+                            }
+                        }}
+                    />
                 </Grid>
                 <Grid size={{
                     lg: 3,
@@ -111,7 +125,7 @@ const RazorPay = (props) => {
                     xs: 12
                 }}>
                     <CustomTypography>
-                        {__('Client ID', 'acadlix')}
+                        {__('Public key', 'acadlix')}
                     </CustomTypography>
                 </Grid>
                 <Grid size={{
@@ -123,10 +137,10 @@ const RazorPay = (props) => {
                     <PasswordTextField
                         fullWidth
                         size="small"
-                        label={__("Client ID", "acadlix")}
-                        value={props?.watch("acadlix_razorpay_client_id")}
+                        label={__("Public key", "acadlix")}
+                        value={props?.watch("acadlix_stripe_public_key")}
                         onChange={(e) => {
-                            props?.setValue("acadlix_razorpay_client_id", e?.target?.value, {
+                            props?.setValue("acadlix_stripe_public_key", e?.target?.value, {
                                 shouldDirty: true,
                             });
                         }}
@@ -152,9 +166,9 @@ const RazorPay = (props) => {
                         fullWidth
                         size="small"
                         label={__("Secret Key", "acadlix")}
-                        value={props?.watch("acadlix_razorpay_secret_key")}
+                        value={props?.watch("acadlix_stripe_secret_key")}
                         onChange={(e) => {
-                            props?.setValue("acadlix_razorpay_secret_key", e?.target?.value, {
+                            props?.setValue("acadlix_stripe_secret_key", e?.target?.value, {
                                 shouldDirty: true,
                             });
                         }}
@@ -167,7 +181,7 @@ const RazorPay = (props) => {
                     xs: 12
                 }}>
                     <CustomTypography>
-                        {__('Webhook Secret', 'acadlix')}
+                        {__('Webhook Signature Key', 'acadlix')}
                     </CustomTypography>
                 </Grid>
                 <Grid size={{
@@ -179,10 +193,10 @@ const RazorPay = (props) => {
                     <PasswordTextField
                         fullWidth
                         size="small"
-                        label={__("Webhook Secret", "acadlix")}
-                        value={props?.watch("acadlix_razorpay_webhook_secret")}
+                        label={__("Webhook Signature Key", "acadlix")}
+                        value={props?.watch("acadlix_stripe_webhook_signature_key")}
                         onChange={(e) => {
-                            props?.setValue("acadlix_razorpay_webhook_secret", e?.target?.value, {
+                            props?.setValue("acadlix_stripe_webhook_signature_key", e?.target?.value, {
                                 shouldDirty: true,
                             });
                         }}
@@ -205,7 +219,7 @@ const RazorPay = (props) => {
                     xs: 12
                 }}>
                     <CustomCopyableText
-                        value={acadlixOptions?.options?.acadlix_razorpay_webhook_url}
+                        value={acadlixOptions?.options?.acadlix_stripe_webhook_url}
                     />
                 </Grid>
             </Grid>
@@ -213,4 +227,4 @@ const RazorPay = (props) => {
     )
 }
 
-export default RazorPay
+export default Stripe
