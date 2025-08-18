@@ -393,7 +393,7 @@ const Question = () => {
                       refetch={refetch}
                     />
                     <React.Suspense fallback={null}>
-                      <CopyQuestionButton />
+                      <CopyQuestionButton quiz_id={quiz_id} />
                     </React.Suspense>
                     <React.Suspense fallback={null}>
                       <BulkImportButton quiz_id={quiz_id} />
