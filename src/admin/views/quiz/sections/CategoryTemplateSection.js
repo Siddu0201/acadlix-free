@@ -244,7 +244,7 @@ const CategoryTemplateSection = (props) => {
                 {isDesktop ? (
                   <Button
                     variant="contained"
-                    color="success"
+                    color="primary"
                     size="small"
                     onClick={handleLoadTemplate}
                   >
@@ -252,7 +252,7 @@ const CategoryTemplateSection = (props) => {
                   </Button>
                 ) : (
                   <IconButton
-                    color="success"
+                    color="primary"
                     onClick={handleLoadTemplate}
                     title="load"
                   >
