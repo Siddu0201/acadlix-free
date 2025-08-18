@@ -224,9 +224,13 @@ if (!class_exists('Quiz')) {
             return $questions;
         }
 
+        public function questions()
+        {
+            return $this->hasMany(acadlix()->model()->question(), "quiz_id", "ID")->ofOnline()->sortBy("sort");
+        }
+
         public function getQuestionsAttribute()
         {
-            // return $this->hasMany(acadlix()->model()->question(), "quiz_id", "ID");
             return acadlix()->model()->question()->ofOnline()->where('quiz_id', $this->ID)->get();
         }
 
