@@ -31,17 +31,23 @@ import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
 import ParagraphModel from "./actions/ParagraphModel";
 import { IoMdRefresh } from "@acadlix/helpers/icons";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
-const BulkImportButton = React.lazy(() => 
+const CopyQuestionButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/CopyQuestionButton") :
+    import("@acadlix/free/admin/question/CopyQuestionButton")
+);
+
+const BulkImportButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/question/BulkImportButton") :
     import("@acadlix/free/admin/question/BulkImportButton")
 );
-const BulkSetParagraph = React.lazy(() => 
+const BulkSetParagraph = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/question/BulkSetParagraph") :
     import("@acadlix/free/admin/question/BulkSetParagraph")
@@ -56,6 +62,7 @@ const Question = () => {
   const methods = useForm({
     defaultValues: {
       search: "",
+      title: "",
       rows: [],
       question_ids: [],
       action: "",
@@ -181,6 +188,9 @@ const Question = () => {
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
+    }
+    if (data?.data?.quiz) {
+      methods.setValue("title", data?.data?.quiz?.post_title, { shouldDirty: true });
     }
   }, [data]);
 
@@ -346,36 +356,49 @@ const Question = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    flexDirection: "column",
+                    alignItems: "left",
                     gap: 2,
                   }}
                 >
                   <Typography
                     variant="h3"
                   >
-                    {__("Question Overview", "acadlix")}
+                    {/* translators: %s is the quiz title */}
+                    {sprintf(
+                      __("Question Overview (%s)", "acadlix"),
+                      methods?.watch("title")
+                    )}
                   </Typography>
-                  {
-                    hasCapability("acadlix_add_question") &&
-                    <Button
-                      variant="contained"
-                      LinkComponent={Link}
-                      to={`/${quiz_id}/question/create`}
-                      color="primary"
-                    >
-                      {__("Add", "acadlix")}
-                    </Button>
-                  }
-                  <CustomRefresh
-                    refetch={refetch}
-                  />
-                  {
-                    hasCapability("acadlix_import_question") && 
-                    (
-                      <React.Suspense fallback={null}>
-                        <BulkImportButton quiz_id={quiz_id} />
-                      </React.Suspense>
-                  )}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+
+                    {
+                      hasCapability("acadlix_add_question") &&
+                      <Button
+                        variant="contained"
+                        LinkComponent={Link}
+                        to={`/${quiz_id}/question/create`}
+                        color="primary"
+                      >
+                        {__("Add", "acadlix")}
+                      </Button>
+                    }
+                    <CustomRefresh
+                      refetch={refetch}
+                    />
+                    <React.Suspense fallback={null}>
+                      <CopyQuestionButton />
+                    </React.Suspense>
+                    <React.Suspense fallback={null}>
+                      <BulkImportButton quiz_id={quiz_id} />
+                    </React.Suspense>
+                  </Box>
                 </Box>
               }
               sx={{
@@ -503,7 +526,7 @@ const Question = () => {
                     });
                   }}
                   rowSelectionModel={methods?.watch("question_ids")}
-                  loading={isFetching}
+                  loading={isFetching || deleteMutation?.isPending}
                   columnVisibilityModel={{
                     id: false,
                   }}

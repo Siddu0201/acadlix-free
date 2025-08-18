@@ -144,6 +144,7 @@ class AdminQuestionController
                 $query->where('question', 'LIKE', "%{$search}%"); 
             });
         }
+        $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $res['total'] = $question->count();
         $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);

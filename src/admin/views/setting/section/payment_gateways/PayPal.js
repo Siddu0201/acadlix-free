@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import PasswordTextField from "@acadlix/components/PasswordTextField";
 import { __ } from "@wordpress/i18n";
-import { Box, Divider, Typography } from '@mui/material';
+import { Alert, Box, Divider, Typography } from '@mui/material';
 import CustomCopyableText from '@acadlix/components/CustomCopyableText';
 
 const PayPal = (props) => {
@@ -58,6 +58,17 @@ const PayPal = (props) => {
                     alignItems: "center",
                 }}
             >
+                <Grid size={{
+                    lg: 12,
+                    md: 12,
+                    sm: 12,
+                    xs: 12,
+                }}
+                >
+                    <Alert severity="info">
+                        {__('Required webhook event: CHECKOUT.ORDER.APPROVED', 'acadlix')}
+                    </Alert>
+                </Grid>
                 <Grid size={{
                     lg: 3,
                     md: 3,

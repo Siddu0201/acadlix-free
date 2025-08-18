@@ -117,7 +117,7 @@ const SaveTemplateSection = (props) => {
         </Button>
       ) : (
         <IconButton 
-          color="success" 
+          color="primary" 
           onClick={saveTemplate} 
           title="load"
           disabled={!hasCapability('acadlix_add_template')}

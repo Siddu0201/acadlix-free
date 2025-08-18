@@ -267,7 +267,7 @@ const PaymentMethod = (props) => {
                (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Typography variant="body1">
-                    {__("No payment gatway is activated, contact admin.", "acadlix")}
+                    {__("No payment gateway is activated, contact admin.", "acadlix")}
                   </Typography>
                 </Grid>
               )}

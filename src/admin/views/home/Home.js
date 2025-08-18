@@ -222,7 +222,7 @@ const Home = () => {
           <CardActions>
             <Button
               variant="contained"
-              color="success"
+              color="primary"
               LinkComponent="a"
               target="__blank"
               href={acadlixOptions?.acadlix_contact_us_url}
@@ -271,7 +271,7 @@ const Home = () => {
           <CardActions>
             <Button
               variant="contained"
-              color="success"
+              color="primary"
               LinkComponent="a"
               target="__blank"
               href={acadlixOptions?.acadlix_contact_us_url}
@@ -321,7 +321,7 @@ const Home = () => {
           <CardActions>
             <Button
               variant="contained"
-              color="success"
+              color="primary"
               LinkComponent="a"
               target="__blank"
               href={acadlixOptions?.acadlix_documentation_url}

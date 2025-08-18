@@ -289,9 +289,8 @@ const QuizResult = () => {
                       }}
                     >
                       <Typography
-                        variant="subtitle1"
+                        variant="body1"
                         sx={{ 
-                          fontWeight: "bold",
                           color: 'primary.contrastText'
                          }}
                       >
@@ -309,9 +308,8 @@ const QuizResult = () => {
                       }}
                     >
                       <Typography
-                        variant="subtitle1"
+                        variant="body1"
                         sx={{ 
-                          fontWeight: "bold",
                           color: 'success.contrastText'
                          }}
                       >
@@ -328,9 +326,8 @@ const QuizResult = () => {
                       }}
                     >
                       <Typography
-                        variant="subtitle1"
+                        variant="body1"
                         sx={{ 
-                          fontWeight: "bold",
                           color: 'error.contrastText'
                          }}
                       >
@@ -348,9 +345,8 @@ const QuizResult = () => {
                       }}
                     >
                       <Typography
-                        variant="subtitle1"
+                        variant="body1"
                         sx={{ 
-                          fontWeight: "bold",
                           color: 'warning.contrastText'
                          }}
                       >

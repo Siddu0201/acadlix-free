@@ -6,7 +6,7 @@ import CustomSwitch from "@acadlix/components/CustomSwitch";
 import PasswordTextField from "@acadlix/components/PasswordTextField";
 import { __ } from "@wordpress/i18n";
 import CustomCopyableText from '@acadlix/components/CustomCopyableText';
-import { Box, Divider, Typography } from '@mui/material';
+import { Alert, Box, Divider, Typography } from '@mui/material';
 
 const Stripe = (props) => {
     return (
@@ -58,6 +58,17 @@ const Stripe = (props) => {
                     alignItems: "center",
                 }}
             >
+                <Grid size={{
+                    lg: 12,
+                    md: 12,
+                    sm: 12,
+                    xs: 12,
+                }}
+                >
+                    <Alert severity="info">
+                        {__('Required webhook event: checkout*', 'acadlix')}
+                    </Alert>
+                </Grid>
                 <Grid size={{
                     lg: 3,
                     md: 3,

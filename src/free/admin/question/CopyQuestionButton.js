@@ -1,9 +1,9 @@
-import React from 'react'
+import { TbCopyCheckFilled } from '@acadlix/helpers/icons';
 import { Button, useMediaQuery, useTheme } from '@mui/material';
+import React from 'react'
 import { __ } from "@wordpress/i18n";
-import { FaFileWord } from '@acadlix/helpers/icons';
 
-const BulkImportButton = (props) => {
+const CopyQuestionButton = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -20,7 +20,7 @@ const BulkImportButton = (props) => {
                             padding: '9px 6px',
                         }}
                     >
-                        <FaFileWord style={{ fontSize: '1.25rem' }} />
+                        <TbCopyCheckFilled style={{ fontSize: '1.25rem' }} />
                     </Button>
                 ) : (
                     <Button
@@ -28,7 +28,7 @@ const BulkImportButton = (props) => {
                         variant="contained"
                         color="primary"
                     >
-                        {__("Import from .docx", "acadlix")}
+                        {__("Copy Question", "acadlix")}
                     </Button>
                 )
             }
@@ -36,4 +36,4 @@ const BulkImportButton = (props) => {
     )
 }
 
-export default BulkImportButton
+export default CopyQuestionButton
