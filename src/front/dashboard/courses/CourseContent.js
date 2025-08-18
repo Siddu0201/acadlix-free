@@ -510,6 +510,15 @@ const CourseContent = () => {
         block: "start", // Align the element in the center of the viewport
       });
     }
+
+    // Scroll to header when user change location mainly for mobile
+    const headerElement = document.getElementById("acadlix_course_content_header");
+    if (headerElement) {
+      headerElement.scrollIntoView({
+        behavior: "smooth", // Smooth scroll animation
+        block: "start", // Align the element in the center of the viewport
+      });
+    }
   }, [location]);
 
 

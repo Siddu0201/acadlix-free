@@ -48,6 +48,7 @@ const SidebarListItem = (props) => {
               <Typography
                 color="text.secondary"
                 variant="body2"
+                component="div"
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -97,9 +98,7 @@ const SidebarListItem = (props) => {
             }
           },
           secondary: {
-            typography: {
-              component: "div",
-            }
+            component: "div",
           }
         }}
       />
