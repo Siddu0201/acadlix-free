@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import { DeleteOrderById, GetOrders } from "@acadlix/requests/admin/AdminOrderRequest";
 import { currencyPosition, getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import { dateI18n } from "@wordpress/date";
-import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from "@acadlix/helpers/icons";
+import { FaEdit, FaSearch, FaTrash, IoMdRefresh, MdFileCopy } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import CustomTextField from "@acadlix/components/CustomTextField";
@@ -71,7 +71,41 @@ const Order = () => {
       minWidth: 100,
     },
     { field: "order_id", headerName: __("Order ID", "acadlix"), flex: 1, minWidth: 80 },
-    { field: "transaction_id", headerName: __("Txn ID", "acadlix"), flex: 1, minWidth: 120 },
+    {
+      field: "transaction_id",
+      headerName: __("Txn ID", "acadlix"),
+      flex: 1,
+      minWidth: 120,
+      renderCell: (params) => {
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Tooltip title={__("Copy Txn ID", "acadlix")} arrow>
+              <IconButton
+                onClick={() => {
+                  navigator?.clipboard
+                    ?.writeText(params?.value)
+                    .then(function () {
+                      toast.success(__("Txn ID copied to clipboard!", "acadlix"));
+                    })
+                    .catch(function (err) {
+                      console.error(__("Failed to copy text: ", "acadlix"), err);
+                    });
+                }}
+                size="small"
+              >
+                <MdFileCopy />
+              </IconButton>
+            </Tooltip>
+            <Box>{params.value}</Box>
+          </Box>
+        );
+      },
+    },
     { field: "order_date", headerName: __("Order Date", "acadlix"), minWidth: 180 },
     { field: "user_name", headerName: __("Name", "acadlix"), flex: 2, minWidth: 130 },
     { field: "user_email", headerName: __("Email", "acadlix"), minWidth: 250 },
