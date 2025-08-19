@@ -131,7 +131,7 @@ class AdminOrderController
                     $q->where('course_title', 'LIKE', "%{$search}%");
                 })
                     ->orWhereHas('order_metas', function ($q) use ($search) {
-                        $q->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id'])
+                        $q->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id', 'stripe_order_id'])
                             ->where('meta_value', 'LIKE', "%{$search}%");
                     })
                     ->orWhereHas('user', function ($q) use ($search) {
