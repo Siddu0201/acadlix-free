@@ -111,6 +111,8 @@ const PurchaseHistory = () => {
         return getOrderMetaValue(order_metas, "paypal_order_id");
       case "payu":
         return getOrderMetaValue(order_metas, "payu_txn_id");
+      case "stripe":
+        return getOrderMetaValue(order_metas, "stripe_order_id");
       default:
         return "N/A";
     }
