@@ -188,12 +188,19 @@ class Razorpay implements PaymentGatewayInterface
             : null;
     }
 
-    private function successOrder($order)
+    private function successOrder($order, $payment_id = '')
     {
         if (!$order) {
             throw new Exception('Order not found');
         }
+        $order->updateOrCreateMeta('razorpay_payment_id', $payment_id);
+        $message = "Razorpay PaymentId: {$payment_id}";
+        $order->createActivityLog($message);
+
         $order->updateStatus('success');
+        $message = "Order status updated to success";
+        $order->createActivityLog($message);
+
         if ($order->order_items()->count() > 0) {
             foreach ($order->order_items as $item) {
                 $cart = acadlix()->model()->courseCart()
@@ -216,6 +223,9 @@ class Razorpay implements PaymentGatewayInterface
             throw new Exception('Order not found');
         }
         $order->updateStatus('failed');
+        $message = "Order status updated to failed";
+        $order->createActivityLog($message);
+
         $order->updateOrCreateMeta('failure_reason', $message);
         acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
         return ['success' => true, 'message' => $message];
@@ -303,15 +313,12 @@ class Razorpay implements PaymentGatewayInterface
                     $razorpay_payment = $razorpay_payment_item;
                 }
             }
-            // save this in user activity meta table
-            $message = '<strong>Razorpay Order Details:</strong><br><pre>' . print_r($razorpay_payment, true) . '</pre><br>';
-            $order->createActivityLog($message);
 
             if (!empty($razorpay_payment->error_description)) {
                 return $this->failedOrder($order, $razorpay_payment->error_description);
             }
 
-            return $this->successOrder($order);
+            return $this->successOrder($order, $razorpay_payment->id);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

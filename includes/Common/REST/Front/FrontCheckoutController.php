@@ -240,6 +240,8 @@ class FrontCheckoutController
                     'status' => "pending",
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
+                $message = "Razorpay OrderId: {$response['order_id']}";
+                $order->createActivityLog($message);
 
                 if ($order) {
                     foreach ($request->get_param("order_items") as $item) {
@@ -318,6 +320,9 @@ class FrontCheckoutController
                     'status' => "pending",
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
+
+                $message = "PayPal OrderId: {$paypal_order_id}";
+                $order->createActivityLog($message);
 
                 if ($order) {
                     foreach ($request->get_param("order_items") as $item) {
@@ -398,6 +403,9 @@ class FrontCheckoutController
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
 
+                $message = "PayU txn id: {$response['payu_data']['txnid']}";
+                $order->createActivityLog($message);
+
                 if ($order) {
                     foreach ($request->get_param("order_items") as $item) {
                         $order->order_items()->create([
@@ -432,73 +440,6 @@ class FrontCheckoutController
         } catch (Exception $e) {
             return new WP_Error('error', $e->getMessage(), array('status' => 400));
         }
-    }
-
-    public function post_free_checkout($request)
-    {
-        $required_fields = array('currency', 'user_id');
-        $params = $request->get_json_params();
-        if (is_array($params) && count($params) == 0) {
-            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
-        }
-
-        if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
-            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
-        }
-
-        foreach ($required_fields as $field) {
-            $param = $request->get_param($field);
-
-            if (empty($param)) {
-                /* translators: %s is the required field */
-                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
-            }
-        }
-
-        if (!empty($errors)) {
-            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
-        }
-
-        $order = acadlix()->model()->order()->create([
-            'user_id' => $request->get_param('user_id'),
-            'status' => "pending",
-            'total_amount' => $request->get_param('total_amount'),
-        ]);
-
-        if ($order) {
-            foreach ($request->get_param("order_items") as $item) {
-                $order->order_items()->create([
-                    'course_id' => $item['course_id'],
-                    'course_title' => $item['course_title'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'discount' => $item['discount'],
-                    'price_after_discount' => $item['price_after_discount'],
-                    'tax' => $item['tax'],
-                    'price_after_tax' => $item['price_after_tax'],
-                ]);
-            }
-
-            if (!empty($request->get_param("billing_info"))) {
-                $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
-            }
-
-            $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-            $order->update([
-                'status' => 'success',
-            ]);
-            if ($order->order_items()->count() > 0) {
-                foreach ($order->order_items as $item) {
-                    $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
-                    $cart->delete();
-                }
-            }
-            // send mail on success
-            acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
-        }
-        return rest_ensure_response([
-            'status' => 'success',
-        ]);
     }
 
     public function post_checkout_stripe($request)
@@ -536,7 +477,7 @@ class FrontCheckoutController
                 ->setCurrency($request->get_param("currency"))
                 ->setBillingInfo($request->get_param("billing_info"))
                 ->processOrder();
-            error_log(print_r($response, true));
+
             // Check if the order was successfully created
             if ($response && $response->id && $response->url) {
                 $order = acadlix()->model()->order()->create([
@@ -544,6 +485,8 @@ class FrontCheckoutController
                     'status' => "pending",
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
+                $message = "Stripe OrderId: {$response->id}";
+                $order->createActivityLog($message);
 
                 if ($order) {
                     foreach ($request->get_param("order_items") as $item) {
@@ -580,6 +523,78 @@ class FrontCheckoutController
         } catch (Exception $e) {
             return new WP_Error('error', $e->getMessage(), array('status' => 400));
         }
+    }
+
+    public function post_free_checkout($request)
+    {
+        $required_fields = array('currency', 'user_id');
+        $params = $request->get_json_params();
+        if (is_array($params) && count($params) == 0) {
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
+        }
+
+        if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
+        }
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $order = acadlix()->model()->order()->create([
+            'user_id' => $request->get_param('user_id'),
+            'status' => "pending",
+            'total_amount' => $request->get_param('total_amount'),
+        ]);
+
+        $message = "Free OrderId: {$order->id}";
+        $order->createActivityLog($message);
+
+        if ($order) {
+            foreach ($request->get_param("order_items") as $item) {
+                $order->order_items()->create([
+                    'course_id' => $item['course_id'],
+                    'course_title' => $item['course_title'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'discount' => $item['discount'],
+                    'price_after_discount' => $item['price_after_discount'],
+                    'tax' => $item['tax'],
+                    'price_after_tax' => $item['price_after_tax'],
+                ]);
+            }
+
+            if (!empty($request->get_param("billing_info"))) {
+                $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+            }
+
+            $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
+            $order->update([
+                'status' => 'success',
+            ]);
+            $message = "Order status updated to success";
+            $order->createActivityLog($message);
+            if ($order->order_items()->count() > 0) {
+                foreach ($order->order_items as $item) {
+                    $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                    $cart->delete();
+                }
+            }
+            // send mail on success
+            acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
+        }
+        return rest_ensure_response([
+            'status' => 'success',
+        ]);
     }
 
     public function handle_webhook()

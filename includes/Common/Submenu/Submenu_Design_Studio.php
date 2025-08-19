@@ -56,6 +56,8 @@ class Submenu_Design_Studio
             'user_id' => get_current_user_id(),
             'isActive' => acadlix()->license()->isActive ?? false,
             'home_url' => home_url(),
+            'pricing_link' => ACADLIX_MARKETPLACE_URL . 'pricing',
+            'basic_palette_link' => ACADLIX_DOCUMENTATION_URL . 'design-studio/basic-palette/',
         ];
     }
 

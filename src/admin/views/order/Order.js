@@ -5,8 +5,13 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -15,7 +20,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { DeleteOrderById, GetOrders } from "@acadlix/requests/admin/AdminOrderRequest";
-import { currencyPosition, hasCapability } from "@acadlix/helpers/util";
+import { currencyPosition, getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import { dateI18n } from "@wordpress/date";
 import { FaEdit, FaSearch, FaTrash, IoMdRefresh } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
@@ -35,6 +40,10 @@ const Order = () => {
       rows: [],
       order_ids: [],
       action: "",
+      status: "",
+      payment_method: "",
+      start_date: "",
+      end_date: "",
     },
   });
 
@@ -137,7 +146,11 @@ const Order = () => {
   const { isFetching, data, refetch } = GetOrders(
     paginationModel?.page,
     paginationModel?.pageSize,
-    methods?.watch("search")
+    methods?.watch("search"),
+    methods?.watch("status"),
+    methods?.watch("payment_method"),
+    methods?.watch("start_date"),
+    methods?.watch("end_date"),
   );
 
   const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
@@ -152,6 +165,8 @@ const Order = () => {
         return getOrderMetaValue(order_metas, "paypal_order_id");
       case "payu":
         return getOrderMetaValue(order_metas, "payu_txn_id");
+      case "stripe":
+        return getOrderMetaValue(order_metas, "stripe_order_id");
       default:
         return "N/A";
     }
@@ -177,7 +192,7 @@ const Order = () => {
           order_date: formattedDateTime,
           user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
           user_email: order?.user?.user_email,
-          total_amount: currencyPosition(order?.total_amount),
+          total_amount: currencyPosition(order?.total_amount, getStripHtml(acadlixOptions?.currency_symbols[getOrderMetaValue(order?.order_metas, "currency", "USD")])),
           order_items: order?.order_items
             ?.map((items) => items?.course_title)
             ?.join(", "),
@@ -268,14 +283,22 @@ const Order = () => {
                 sx={{
                   paddingBottom: 2,
                   display: "flex",
+                  flexDirection: {
+                    xs: "column",
+                    sm: "row",
+                  },
                   gap: 2,
                   alignItems: "baseline",
-                  justifyContent: "flex-end",
+                  justifyContent: "space-between",
                 }}
               >
-                {/* <Box
+                <Box
                   sx={{
                     display: "flex",
+                    flexDirection: {
+                      xs: "column",
+                      sm: "row",
+                    },
                     gap: 2,
                     alignItems: "baseline",
                   }}
@@ -283,36 +306,113 @@ const Order = () => {
                   <FormControl
                     sx={{ minWidth: 150 }}
                     size="small"
-                    error={Boolean(methods?.formState?.errors?.action)}
+                    error={Boolean(methods?.formState?.errors?.status)}
                   >
                     <InputLabel id="demo-simple-select-label">
-                      Bulk Actions
+                      {__("Status", "acadlix")}
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={methods?.watch("action")}
-                      label="Bulk Actions"
-                      onChange={handleActionChange}
+                      value={methods?.watch("status")}
+                      label={__("Status", "acadlix")}
+                      onChange={(e) => methods?.setValue("status", e?.target?.value, { shouldDirty: true })}
                     >
-                      <MenuItem value="">Bulk Actions</MenuItem>
-                      <MenuItem value="delete">Delete</MenuItem>
+                      <MenuItem value="">{__("All", "acadlix")}</MenuItem>
+                      <MenuItem value="pending">{__("Pending", "acadlix")}</MenuItem>
+                      <MenuItem value="success">{__("Success", "acadlix")}</MenuItem>
+                      <MenuItem value="failed">{__("Failed", "acadlix")}</MenuItem>
                     </Select>
                     <FormHelperText>
-                      {methods?.formState?.errors?.action?.message}
+                      {methods?.formState?.errors?.status?.message}
                     </FormHelperText>
                   </FormControl>
+                  <FormControl
+                    sx={{ minWidth: 180 }}
+                    size="small"
+                    error={Boolean(methods?.formState?.errors?.payment_method)}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      {__("Payment Method", "acadlix")}
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={methods?.watch("payment_method")}
+                      label={__("Payment Method", "acadlix")}
+                      onChange={(e) => methods?.setValue("payment_method", e?.target?.value, { shouldDirty: true })}
+                    >
+                      <MenuItem value="">{__("All", "acadlix")}</MenuItem>
+                      <MenuItem value="razorpay">{__("Razorpay", "acadlix")}</MenuItem>
+                      <MenuItem value="paypal">{__("PayPal", "acadlix")}</MenuItem>
+                      <MenuItem value="payu">{__("PayU", "acadlix")}</MenuItem>
+                      <MenuItem value="stripe">{__("Stripe", "acadlix")}</MenuItem>
+                      <MenuItem value="free">{__("Free", "acadlix")}</MenuItem>
+                      <MenuItem value="admin">{__("Admin", "acadlix")}</MenuItem>
+                    </Select>
+                    <FormHelperText>
+                      {methods?.formState?.errors?.payment_method?.message}
+                    </FormHelperText>
+                  </FormControl>
+                  {/* <DemoContainer components={['DatePicker', 'DatePicker']}>
+                    <DatePicker
+                      format="DD/MM/YYYY"
+                      label={__("Start Date", "acadlix")}
+                      timeSteps={{
+                        minutes: 1,
+                      }}
+                      value={methods?.watch("start_date")}
+                      onChange={(newValue) => methods?.setValue("start_date", newValue, { shouldDirty: true })}
+                      sx={{
+
+                        ".MuiInputBase-input": {
+                          padding: "8px 14px !important",
+                        },
+                        ".MuiInputBase-input:focus": {
+                          padding: "8px 14px !important",
+                        },
+                      }}
+                    />
+                    <DatePicker
+                      format="DD/MM/YYYY"
+                      label={__("End Date", "acadlix")}
+                      timeSteps={{
+                        minutes: 1,
+                      }}
+                      value={methods?.watch("end_date")}
+                      onChange={(newValue) => methods?.setValue("end_date", newValue, { shouldDirty: true })}
+                      sx={{
+
+                        ".MuiInputBase-input": {
+                          padding: "8px 14px !important",
+                        },
+                        ".MuiInputBase-input:focus": {
+                          padding: "8px 14px !important",
+                        },
+                      }}
+                    />
+                  </DemoContainer> */}
                   <Button
                     variant="contained"
                     sx={{
                       marginRight: 2,
                     }}
                     color="primary"
+                    onClick={() => {
+                      methods?.setValue("status", "", { shouldDirty: true });
+                      methods?.setValue("payment_method", "", { shouldDirty: true });
+                    }}
                   >
-                    Apply
+                    {__("Reset", "acadlix")}
                   </Button>
-                </Box> */}
-                <Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    alignItems: "baseline",
+                  }}
+                >
                   <CustomTextField
                     fullWidth
                     size="small"

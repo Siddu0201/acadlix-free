@@ -1,4 +1,4 @@
-import { CardContent, CardHeader, Box, Button, Typography, CardActions, Card } from '@mui/material'
+import { CardContent, CardHeader, Box, Button, Typography, CardActions, Card, Link } from '@mui/material'
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import { __ } from '@wordpress/i18n'
@@ -67,6 +67,26 @@ const Basic = (props) => {
                         alignItems: "center",
                     }}
                 >
+                    <Grid
+                        size={{ lg: 12, md: 12, sm: 12, xs: 12 }}
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2,
+                        }}
+                    >
+                        <CustomTypography>
+                            {__('Learn how to personalize your LMS in our documentation →', 'acadlix')}
+                        </CustomTypography>
+                        <Typography variant="body1">
+                            <Link 
+                                href={acadlixOptions?.basic_palette_link}
+                                target="_blank"
+                            >
+                                {__('Click here', 'acadlix')}
+                            </Link>
+                        </Typography>
+                    </Grid>
                     <Grid
                         size={{ lg: 3, md: 3, sm: 3, xs: 6 }}
                     >

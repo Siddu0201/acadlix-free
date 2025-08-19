@@ -11,7 +11,6 @@ class Stripe implements PaymentGatewayInterface
 {
     const CONNECTION_TIMEOUT = 30;
     const API_URL = 'https://api.stripe.com';
-    // const API_URL_TEST = 'https://api-m.stripe.com';
     private bool $is_stripe_active;
     private string $stripe_url;
     private bool $sandbox;
@@ -102,7 +101,7 @@ class Stripe implements PaymentGatewayInterface
     {
         $url = $this->stripe_url . '/v1/checkout/sessions';
         $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token={CHECKOUT_SESSION_ID}';
-        $cancel_url = add_query_arg( 'cancelled', true, $return_url );
+        // $cancel_url = add_query_arg( 'cancelled', true, $return_url );
         $session_data = [
             'mode' => 'payment',
             'success_url' => $return_url,
@@ -144,12 +143,19 @@ class Stripe implements PaymentGatewayInterface
             : null;
     }
 
-    private function successOrder($order)
+    private function successOrder($order, $payment_intent_id)
     {
         if (!$order) {
             throw new Exception('Order not found');
         }
+        $message = "Stripe PaymentIntentId: {$payment_intent_id}";
+        $order->createActivityLog($message);
+        $order->updateOrCreateMeta('stripe_payment_intent_id', $payment_intent_id);
+
         $order->updateStatus('success');
+        $message = "Order status updated to success";
+        $order->createActivityLog($message);
+
         if ($order->order_items()->count() > 0) {
             foreach ($order->order_items as $item) {
                 $cart = acadlix()->model()->courseCart()
@@ -172,6 +178,9 @@ class Stripe implements PaymentGatewayInterface
             throw new Exception('Order not found');
         }
         $order->updateStatus('failed');
+        $message = "Order status updated to failed";
+        $order->createActivityLog($message);
+        
         $order->updateOrCreateMeta('failure_reason', $message);
         acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
         return ['success' => true, 'message' => $message];
@@ -256,9 +265,6 @@ class Stripe implements PaymentGatewayInterface
             }
 
             $checkout_session = $this->retriveCheckoutSession($stripe_order_id);
-            // save this in user activity meta table
-            $message = '<strong>Stripe Order Details:</strong><br><pre>' . print_r($checkout_session, true) . '</pre><br>';
-            $order->createActivityLog($message);
 
             if (!isset($checkout_session->payment_intent)) {
                 return;
@@ -268,14 +274,11 @@ class Stripe implements PaymentGatewayInterface
             unset($payment_intent->next_action);
             unset($payment_intent->client_secret);
 
-            $message = '<strong>Stripe Payment Intent:</strong><br><pre>' . print_r($payment_intent, true) . '</pre><br>';
-            $order->createActivityLog($message);
-
             if (isset($payment_intent->last_payment_error)) {
                 return $this->failedOrder($order, $payment_intent->last_payment_error->message);
             }
 
-            return $this->successOrder($order);
+            return $this->successOrder($order, $payment_intent->id);
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

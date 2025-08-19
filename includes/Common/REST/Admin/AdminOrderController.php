@@ -119,22 +119,37 @@ class AdminOrderController
         $res = [];
         $params = $request->get_params();
         $search = $params['search'] ?? "";
+        $status = $params['status'] ?? "";
+        $payment_method = $params['payment_method'] ?? "";
 
         $skip = $params['page'] * $params['pageSize'];
         $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->orderBy('ID', 'desc');
 
         if (!empty($search)) {
-            $order->whereHas('order_items', function ($query) use ($search) {
-                $query->where('course_title', 'LIKE', "%{$search}%"); // Search in course_title
-            })
-            ->orWhereHas('order_metas', function ($query) use ($search) {
-                $query->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id'])
-                        ->where('meta_value', 'LIKE', "%{$search}%"); // Search in transaction_id
-            })
-            ->orWhereHas('user', function ($query) use ($search) {
-                $query->where('display_name', 'LIKE', "%{$search}%") // Search in user_name
-                      ->orWhere('user_login', 'LIKE', "%{$search}%") // Search in user_login
-                      ->orWhere('user_email', 'LIKE', "%{$search}%"); // Search in user_email
+            $order->where(function ($query) use ($search) {
+                $query->whereHas('order_items', function ($q) use ($search) {
+                    $q->where('course_title', 'LIKE', "%{$search}%");
+                })
+                    ->orWhereHas('order_metas', function ($q) use ($search) {
+                        $q->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id'])
+                            ->where('meta_value', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('display_name', 'LIKE', "%{$search}%")
+                            ->orWhere('user_login', 'LIKE', "%{$search}%")
+                            ->orWhere('user_email', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        if (!empty($status)) {
+            $order->where('status', $status);
+        }
+
+        if (!empty($payment_method)) {
+            $order->whereHas('order_metas', function ($q) use ($payment_method) {
+                $q->where('meta_key', 'payment_method')
+                    ->where('meta_value', $payment_method);
             });
         }
         $res['total'] = $order->count();
@@ -203,6 +218,7 @@ class AdminOrderController
         $params = $request->get_params();
         $user_id = $params['user_id'];
         $order_items = $params['order_items'];
+        $admin_id = $params['admin_id'];
 
         if (empty($user_id)) {
             $errors[] = __('User id is required.', 'acadlix');
@@ -212,7 +228,8 @@ class AdminOrderController
             $errors[] = __('Order items is required.', 'acadlix');
         }
         foreach ($order_items as $order_item) {
-            if(!$order_item['course_id']) continue;
+            if (!$order_item['course_id'])
+                continue;
             $alreadyPurchased = acadlix()->model()->orderItem()->with('order')->whereHas('order', function ($query) use ($user_id) {
                 $query->ofSuccess()->where('user_id', $user_id);
             })->where('course_id', $order_item['course_id'])->exists();
@@ -231,6 +248,12 @@ class AdminOrderController
             'status' => $params['status'],
             'total_amount' => (float) $params['total_amount'],
         ]);
+        $admin = get_userdata($admin_id);
+        $message = "Order created by {$admin->display_name}";
+        $order->createActivityLog($message);
+
+        $message = "Order status updated to {$params['status']} by {$admin->display_name}";
+        $order->createActivityLog($message);
 
         if ($order) {
             foreach ($order_items as $item) {
@@ -265,7 +288,15 @@ class AdminOrderController
                 ['status' => 400]
             );
         }
-        $res['order'] = acadlix()->model()->order()->with(['order_items', 'order_items.course', 'order_metas', 'user'])->find($orderId);
+        $res['order'] = acadlix()->model()->order()
+            ->with([
+                'order_items',
+                'order_items.course',
+                'order_metas',
+                'user',
+                'activity_logs'
+            ])
+            ->find($orderId);
         return rest_ensure_response($res);
     }
 
@@ -277,6 +308,7 @@ class AdminOrderController
         $orderId = $request['order_id'];
         $user_id = $params['user_id'];
         $order_items = $params['order_items'];
+        $admin_id = $params['admin_id'];
 
         if (empty($orderId)) {
             $errors[] = __('Order id is required.', 'acadlix');
@@ -291,10 +323,14 @@ class AdminOrderController
         }
 
         foreach ($order_items as $order_item) {
-            if(!$order_item['course_id']) continue;
-            $alreadyPurchased = acadlix()->model()->orderItem()->with('order')->whereHas('order', function ($query) use ($user_id, $orderId) {
-                $query->ofSuccess()->where('user_id', $user_id)->whereNot('id', $orderId);
-            })->where('course_id', $order_item['course_id'])->exists();
+            if (!$order_item['course_id'])
+                continue;
+            $alreadyPurchased = acadlix()->model()->orderItem()->with('order')
+                ->whereHas('order', function ($query) use ($user_id, $orderId) {
+                    $query->ofSuccess()->where('user_id', $user_id)->whereNot('id', $orderId);
+                })
+                ->where('course_id', $order_item['course_id'])
+                ->exists();
             if ($alreadyPurchased) {
                 /* translators: %s is the course title */
                 $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $order_item['course_title']);
@@ -312,10 +348,15 @@ class AdminOrderController
                 'status' => $params['status'],
                 'total_amount' => (float) $params['total_amount'],
             ]);
+            $admin = get_userdata($admin_id);
+            $message = "Order status updated to {$params['status']} by {$admin->display_name}";
+            $order->createActivityLog($message);
+
             $course_ids = array_column($order_items, 'course_id');
             $order->order_items()->whereNotIn('course_id', $course_ids)->delete();
             foreach ($order_items as $item) {
-                if(!$item['course_id']) continue;
+                if (!$item['course_id'])
+                    continue;
                 $order->order_items()->updateOrCreate([
                     'course_id' => $item['course_id'],
                 ], [
@@ -330,7 +371,7 @@ class AdminOrderController
             }
 
             $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
-            $order->updateOrCreateMeta('is_free', (bool)$params['meta']['is_free']);
+            $order->updateOrCreateMeta('is_free', (bool) $params['meta']['is_free']);
         }
 
         return rest_ensure_response($res);

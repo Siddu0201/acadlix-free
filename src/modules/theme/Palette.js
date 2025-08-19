@@ -7,6 +7,7 @@ import {
     CardContent,
     CardHeader,
     Divider,
+    Link,
     Typography
 } from '@mui/material';
 import { __ } from '@wordpress/i18n';
@@ -19,6 +20,7 @@ import Info from './palette/Info';
 import Error from './palette/Error';
 import Grey from './palette/Grey';
 import Text from './palette/Text';
+import CustomTypography from '@acadlix/components/CustomTypography';
 
 const Palette = (props) => {
     const handleReset = () => {
@@ -113,6 +115,25 @@ const Palette = (props) => {
                     pointerEvents: props?.free ? 'none' : 'auto',
                 }}
             >
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                    }}
+                >
+                    <CustomTypography>
+                        {__('Learn how to personalize your LMS in our documentation →', 'acadlix')}
+                    </CustomTypography>
+                    <Typography variant="body1">
+                        <Link
+                            href={acadlixOptions?.basic_palette_link}
+                            target="_blank"
+                        >
+                            {__('Click here', 'acadlix')}
+                        </Link>
+                    </Typography>
+                </Box>
                 <Box>
                     {/* Primary */}
                     <Box
@@ -296,8 +317,13 @@ const Palette = (props) => {
                                 textAlign: 'center',
                             }}
                         >
-                            <Button variant="contained" color="primary">
-                                Upgrade to Pro
+                            <Button 
+                                variant="contained" 
+                                color="primary"
+                                href={acadlixOptions?.pricing_link}
+                                target="_blank"
+                            >
+                                {__('Upgrade to Pro', 'acadlix')}
                             </Button>
                         </Box>
                     </Box>

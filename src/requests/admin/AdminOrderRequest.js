@@ -4,16 +4,24 @@ import toast from "react-hot-toast";
 
 const base = "/admin-order";
 
-export const GetOrders = (page = 0, pageSize = 10, search = '') => {
+export const GetOrders = (
+    page = 0,
+    pageSize = 10,
+    search = '',
+    status = '',
+    payment_method = ''
+) => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getOrders", page, pageSize, search],
+        queryKey: ["getOrders", page, pageSize, search, status, payment_method],
         queryFn: () => {
             return instance.get(`${base}`, {
                 params: {
                     page: page,
                     pageSize: pageSize,
                     search: search,
+                    status: status,
+                    payment_method: payment_method,
                     _t: Date.now(),
                 },
                 headers: {

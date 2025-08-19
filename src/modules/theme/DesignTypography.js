@@ -5,7 +5,6 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    Divider,
     IconButton,
     Typography,
     useTheme
@@ -370,8 +369,13 @@ const DesignTypography = (props) => {
                                 textAlign: 'center',
                             }}
                         >
-                            <Button variant="contained" color="primary">
-                                Upgrade to Pro
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                href={acadlixOptions?.pricing_link} 
+                                target="_blank"
+                            >
+                                {__('Upgrade to Pro', 'acadlix')}
                             </Button>
                         </Box>
                     </Box>

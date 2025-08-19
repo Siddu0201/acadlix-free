@@ -9,6 +9,7 @@ import OrderItems from './sections/OrderItems';
 import OrderOptions from './sections/OrderOptions';
 import toast from 'react-hot-toast';
 import { PostCreateOrder, UpdateOrderById } from '@acadlix/requests/admin/AdminOrderRequest';
+import OrderActivityLogs from './sections/OrderActivityLogs';
 
 const OrderContent = (props) => {
     const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
@@ -17,6 +18,7 @@ const OrderContent = (props) => {
 
     const methods = useForm({
         defaultValues: {
+            admin_id: acadlixOptions?.user_id ?? 0,
             status: props?.order?.status ?? "pending",
             user_id: props?.order?.user_id ?? null,
             user_name: props?.order?.user?.display_name ?? "",
@@ -52,7 +54,11 @@ const OrderContent = (props) => {
                 is_free: props?.order?.order_metas ?
                     Boolean(Number(getOrderMetaValue(props?.order?.order_metas, "is_free", 0)))
                     : false,
+                currency: props?.order?.order_metas ?
+                    getOrderMetaValue(props?.order?.order_metas, "currency", "USD")
+                    : "USD",
             },
+            activity_logs: props?.order?.activity_logs ?? [],
             
         },
     });
@@ -136,6 +142,12 @@ const OrderContent = (props) => {
                     <OrderOptions {...methods} {...props} />
 
                     <OrderItems {...methods} {...props} />
+
+                    {
+                        methods?.watch("activity_logs")?.length > 0 && (
+                            <OrderActivityLogs {...methods} {...props} />
+                        )
+                    }
 
                     <Grid size={{ xs: 12, sm: 12 }}>
                         <Card>

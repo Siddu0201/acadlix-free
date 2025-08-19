@@ -132,7 +132,7 @@ class Paypal implements PaymentGatewayInterface
 
         $status_code = wp_remote_retrieve_response_code($response);
 
-        if ($status_code < 200 || $status_code > 299) {
+        if ($status_code === 401) {
             throw new Exception($result->error_description);
         }
 
@@ -259,7 +259,10 @@ class Paypal implements PaymentGatewayInterface
         if (!$order) {
             throw new Exception('Order not found');
         }
+
         $order->updateStatus('success');
+        $message = "Order status updated to success";
+        $order->createActivityLog($message);
         if ($order->order_items()->count() > 0) {
             foreach ($order->order_items as $item) {
                 $cart = acadlix()->model()->courseCart()
@@ -282,6 +285,8 @@ class Paypal implements PaymentGatewayInterface
             throw new Exception('Order not found');
         }
         $order->updateStatus('failed');
+        $message = "Order status updated to failed";
+        $order->createActivityLog($message);
         $order->updateOrCreateMeta('failure_reason', $message);
         acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
         return ['success' => true, 'message' => $message];
@@ -374,9 +379,6 @@ class Paypal implements PaymentGatewayInterface
             }
 
             $order_details = $this->getPaypalOrderDetail($paypal_order_id);
-            // save this in user activity meta table
-            $message = '<strong>PayPal Order Details:</strong><br><pre>' . print_r($order_details, true) . '</pre><br>';
-            $order->createActivityLog($message);
 
             if ($order_details->status !== 'APPROVED') {
                 return $this->failedOrder($order, 'Order not approved');
@@ -384,9 +386,6 @@ class Paypal implements PaymentGatewayInterface
 
             // capture order if order status is approved.
             $capture = $this->capturePayment($paypal_order_id);
-            // save this in user activity meta table
-            $message = '<strong>PayPal Capture Status:</strong><br><pre>' . print_r($capture, true) . '</pre><br>';
-            $order->createActivityLog($message);
 
             if (isset($capture->details)) {
                 $this->failedOrder($order, $capture->details[0]->description);

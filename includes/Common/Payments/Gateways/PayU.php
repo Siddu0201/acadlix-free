@@ -169,6 +169,9 @@ class PayU implements PaymentGatewayInterface
             throw new Exception('Order not found');
         }
         $order->updateStatus('success');
+        $message = "Order status updated to success";
+        $order->createActivityLog($message);
+
         if ($order->order_items()->count() > 0) {
             foreach ($order->order_items as $item) {
                 $cart = acadlix()->model()->courseCart()
@@ -191,6 +194,9 @@ class PayU implements PaymentGatewayInterface
             throw new Exception('Order not found');
         }
         $order->updateStatus('failed');
+        $message = "Order status updated to failed";
+        $order->createActivityLog($message);
+
         $order->updateOrCreateMeta('failure_reason', $message);
         acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
         return ['success' => true, 'message' => $message];
@@ -260,9 +266,6 @@ class PayU implements PaymentGatewayInterface
 
             if (isset($payu_payment->status)) {
                 $transaction_status = $payu_payment->status;
-                $message = '<strong>PayU Transaction Details:</strong><br><pre>' . print_r($payu_payment, true) . '</pre>';
-                $order->createActivityLog($message);
-
                 if ('success' === $transaction_status) {
                     return $this->successOrder($order);
                 } elseif (isset($payu_payment->error_Message)) {

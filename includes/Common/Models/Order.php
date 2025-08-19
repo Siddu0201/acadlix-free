@@ -52,6 +52,14 @@ if (!class_exists('Order')) {
             return $this->hasMany(acadlix()->model()->orderMeta(), 'order_id', 'id');
         }
 
+        public function activity_logs()
+        {
+            return $this->hasMany(acadlix()->model()->userActivityMeta(), 'type_id', 'id')
+                ->where('type', 'order')
+                ->where('meta_key', 'activity_log')
+                ->orderBy('id', 'desc');
+        }
+
         public function getMetaValue($key)
         {
             $meta = $this->order_metas()->where('meta_key', $key)->first();

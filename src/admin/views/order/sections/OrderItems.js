@@ -23,6 +23,7 @@ import { __ } from '@wordpress/i18n';
 import { FaTrash } from '@acadlix/helpers/icons';
 import { GetOrderCourses } from '@acadlix/requests/admin/AdminOrderRequest';
 import CustomTypography from '@acadlix/components/CustomTypography';
+import { currencyPosition, getStripHtml } from '@acadlix/helpers/util';
 
 const OrderItems = (props) => {
     const handleRemoveOrder = (id) => {
@@ -35,6 +36,7 @@ const OrderItems = (props) => {
             { shouldDirty: true }
         );
     }
+    
     return (
         <Grid size={{ xs: 12, sm: 12 }}>
             <Card>
@@ -87,11 +89,11 @@ const OrderItems = (props) => {
                                                         {item?.course_title}
                                                     </TableCell>
                                                     <TableCell>{item?.quantity}</TableCell>
-                                                    <TableCell>{item?.price}</TableCell>
-                                                    <TableCell>{item?.discount}</TableCell>
-                                                    <TableCell>{item?.price_after_discount}</TableCell>
-                                                    <TableCell>{item?.tax}</TableCell>
-                                                    <TableCell>{item?.price_after_tax}</TableCell>
+                                                    <TableCell>{currencyPosition(item?.price, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
+                                                    <TableCell>{currencyPosition(item?.discount, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
+                                                    <TableCell>{currencyPosition(item?.price_after_discount, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
+                                                    <TableCell>{currencyPosition(item?.tax, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
+                                                    <TableCell>{currencyPosition(item?.price_after_tax, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
                                                     <TableCell>
                                                         <IconButton onClick={handleRemoveOrder.bind(this, item?.course_id)}>
                                                             <FaTrash style={{
@@ -107,19 +109,19 @@ const OrderItems = (props) => {
                                                 <TableRow>
                                                     <TableCell rowSpan={4} colSpan={5} />
                                                     <TableCell>{__("Subtotal", "acadlix")}</TableCell>
-                                                    <TableCell>{props?.watch("order_items")?.reduce((total, item) => total + item?.price, 0)}</TableCell>
+                                                    <TableCell>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>{__("Discount", "acadlix")}</TableCell>
-                                                    <TableCell>{props?.watch("order_items")?.reduce((total, item) => total + item?.discount, 0)}</TableCell>
+                                                    <TableCell>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>{__("Tax", "acadlix")}</TableCell>
-                                                    <TableCell>{props?.watch("order_items")?.reduce((total, item) => total + item?.tax, 0)}</TableCell>
+                                                    <TableCell>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.tax, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>{__("Total", "acadlix")}</TableCell>
-                                                    <TableCell><b>{props?.watch("order_items")?.reduce((total, item) => total + item?.price_after_tax, 0)}</b></TableCell>
+                                                    <TableCell><b>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price_after_tax, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</b></TableCell>
                                                 </TableRow>
                                             </>
                                         )}
