@@ -111,6 +111,11 @@ const TypeFill = (props) => {
             ?.split(rxp)
             ?.map((data, index) => {
               if (found?.includes(data)) {
+                const maxLen = Math.max(
+                  ...(
+                    props?.answer_data?.[props?.type]?.correctOption?.[i]?.option || []
+                  ).map(opt => opt.length)
+                );
                 return (
                   <CustomTextField
                     key={index}
@@ -120,6 +125,7 @@ const TypeFill = (props) => {
                       ".MuiInputBase-inputSizeSmall": {
                         padding: "0px 3px",
                       },
+                      width: `${maxLen + 4}ch`,
                     }}
                     inputProps={{
                       sx: {
@@ -196,6 +202,9 @@ const TypeFill = (props) => {
                 ?.split(rxp)
                 ?.map((data, index) => {
                   if (found?.includes(data)) {
+                    const maxLen = Math.max(
+                      ...(props?.answer_data?.[props?.type]?.correctOption?.[i]?.option || []).map(opt => opt.length)
+                    );
                     return (
                       <React.Fragment key={index}>
                         <CustomTextField
@@ -205,6 +214,7 @@ const TypeFill = (props) => {
                             ".MuiInputBase-inputSizeSmall": {
                               padding: "0px 3px",
                             },
+                            width: `${maxLen + 4}ch`,
                           }}
                           inputProps={{
                             sx: {

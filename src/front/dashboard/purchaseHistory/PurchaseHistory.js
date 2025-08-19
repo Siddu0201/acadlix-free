@@ -272,15 +272,17 @@ const MobileOnlyView = (props) => {
             key={index}
             sx={{
               padding: "8px",
+              marginTop: "8px",
+              marginBottom: "8px",
+              marginLeft: "8px",
+              marginRight: "8px",
               borderBottom: "1px solid #e0e0e0",
               display: "flex",
               flexDirection: "column",
               gap: "4px",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.4)",
-              marginBottom: "8px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
               borderRadius: "8px",
               backgroundColor: "white",
-              marginX: "8px",
             }}
           >
             <Box
@@ -294,8 +296,8 @@ const MobileOnlyView = (props) => {
                 {row.order_items}
               </Typography>
             </Box>
-            <Box 
-              sx={{ 
+            <Box
+              sx={{
                 marginY: "4px",
                 display: "flex",
                 alignItems: "center",
@@ -319,7 +321,7 @@ const MobileOnlyView = (props) => {
                       "warning" :
                       "error"
                 }
-                sx={{ 
+                sx={{
                   marginLeft: "auto",
                 }}
                 variant="filled"
@@ -330,16 +332,16 @@ const MobileOnlyView = (props) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography 
-                variant="body2" 
+              <Typography
+                variant="body2"
               >
                 {row?.total_amount}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ 
-                  display: "flex", 
-                  alignItems: "center" 
+                sx={{
+                  display: "flex",
+                  alignItems: "center"
                 }}
               >
                 <FaMoneyBillTransfer style={{ marginRight: "4px" }} />

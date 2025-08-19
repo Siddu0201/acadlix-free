@@ -140,8 +140,8 @@ export const defaultTypography = {
       mobile: 400,
     },
     body2: {
-      desktop: 400,
-      tablet: 400,
+      desktop: 500,
+      tablet: 500,
       mobile: 400,
     },
     subtitle1: {

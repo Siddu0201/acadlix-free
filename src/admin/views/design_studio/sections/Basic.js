@@ -9,28 +9,13 @@ import { defaultPaletteColor } from '@acadlix/provider/CustomThemeProvider'
 const Basic = (props) => {
     const handleReset = () => {
         const defaultTheme = defaultPaletteColor;
-        props?.reset({
-            ...props?.watch(),
-            palette: {
-                ...props?.watch('palette'),
-                primary: {
-                    ...props?.watch('palette.primary'),
-                    main: defaultTheme?.main?.primary,
-                    dark: defaultTheme?.dark?.primary,
-                },
-                text: {
-                    ...props?.watch('palette.text'),
-                    primary: defaultTheme?.text?.primary,
-                    secondary: defaultTheme?.text?.secondary,
-                },
-                grey: {
-                    ...props?.watch('palette.grey'),
-                    main: defaultTheme?.main?.grey,
-                    dark: defaultTheme?.dark?.grey,
-                    light: defaultTheme?.light?.grey,
-                },
-            }
-        });
+        props?.setValue('palette.primary.main', defaultTheme?.main?.primary, {shouldDirty: true});
+        props?.setValue('palette.primary.dark', defaultTheme?.dark?.primary, {shouldDirty: true});
+        props?.setValue('palette.text.primary', defaultTheme?.text?.primary, {shouldDirty: true});
+        props?.setValue('palette.text.secondary', defaultTheme?.text?.secondary, {shouldDirty: true});
+        props?.setValue('palette.grey.main', defaultTheme?.main?.grey, {shouldDirty: true});
+        props?.setValue('palette.grey.dark', defaultTheme?.dark?.grey, {shouldDirty: true});
+        props?.setValue('palette.grey.light', defaultTheme?.light?.grey, {shouldDirty: true});
     }
     return (
         <Card>

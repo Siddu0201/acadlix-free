@@ -245,7 +245,7 @@ const MobileOnlyView = (props) => {
       border: "none",
       boxShadow: "none"
     }}>
-      <Box padding={1} sx={{ mx: 1 }}>
+      {/* <Box padding={1} sx={{ mx: 1 }}>
         <TextField
           fullWidth
           variant="outlined"
@@ -258,7 +258,7 @@ const MobileOnlyView = (props) => {
             },
           }}
         />
-      </Box>
+      </Box> */}
 
       {props?.isFetching ? (
         <Box
