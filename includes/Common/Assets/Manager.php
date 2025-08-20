@@ -420,7 +420,16 @@ class Manager
             'logout_url' => esc_url(wp_logout_url(acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') !== "" ? acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') : home_url())),
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
-            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+            'user' => get_current_user_id() > 0 ? 
+                        acadlix()->model()->wpUsers()
+                        ->select([
+                            'ID', 
+                            'user_email', 
+                            'display_name', 
+                            'user_url'
+                        ])
+                        ->where('ID', get_current_user_id())
+                        ->first() : [],
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'logo_url' => $logo_url,
@@ -446,7 +455,16 @@ class Manager
             'checkout_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'))),
             'cart_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id'))),
             'user_id' => get_current_user_id() ?? 0,
-            'user' => get_current_user_id() > 0 ? get_userdata(get_current_user_id())?->data : [],
+            'user' => get_current_user_id() > 0 ? 
+                        acadlix()->model()->wpUsers()
+                        ->select([
+                            'ID', 
+                            'user_email', 
+                            'display_name', 
+                            'user_url'
+                        ])
+                        ->where('ID', get_current_user_id())
+                        ->first() : [],
             'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
