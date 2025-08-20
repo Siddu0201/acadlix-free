@@ -17,6 +17,8 @@ class Core
         add_action('init', [$this, 'acadlix_flush_rewrite_rules']);
 
         add_filter('plugin_action_links_' . ACADLIX_PLUGIN_BASENAME, [$this, 'acadlix_plugin_action_links']);
+
+        add_action('admin_bar_menu', [$this, 'add_toolbar_menu'], 100);
     }
 
     public function acadlix_sync_data_on_login($user_login, WP_User $user)
@@ -194,6 +196,40 @@ class Core
             $links['go_pro'] = sprintf('<a href="%s" target="_blank" style="color: #00a3a3; font-weight: bold;">%s</a>', ACADLIX_MARKETPLACE_URL . 'pricing', __('Get Acadlix Pro', "acadlix"));
         }
         return $links;
+    }
+
+    public function add_toolbar_menu($admin_bar)
+    {
+        $admin_bar->add_menu([
+            'id' => 'acadlix-menu',
+            'title' => 'Acadlix',
+            'href' => admin_url('admin.php?page=acadlix'),
+        ]);
+
+        $admin_bar->add_menu([
+            'id' => 'acadlix-courses',
+            'parent' => 'acadlix-menu',
+            'title' => 'Create Courses',
+            'href' => admin_url('post-new.php?post_type=acadlix_course'),
+        ]);
+        $admin_bar->add_menu([
+            'id' => 'acadlix-lessons',
+            'parent' => 'acadlix-menu',
+            'title' => 'Create Lessons',
+            'href' => admin_url('admin.php?page=acadlix_lesson#/create'),
+        ]);
+        $admin_bar->add_menu([
+            'id' => 'acadlix-quizzes',
+            'parent' => 'acadlix-menu',
+            'title' => 'Create Quizzes',
+            'href' => admin_url('admin.php?page=acadlix_quiz#/create'),
+        ]);
+        $admin_bar->add_menu([
+            'id' => 'acadlix-settings',
+            'parent' => 'acadlix-menu',
+            'title' => 'Settings',
+            'href' => admin_url('admin.php?page=acadlix_setting'),
+        ]);
     }
 
     public static function instance()
