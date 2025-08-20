@@ -98,11 +98,13 @@ class AdminStatisticController
         $res['pass_count'] = (clone $stat_ref)->where('status', 'Pass')->count();
         $res['fail_count'] = (clone $stat_ref)->where('status', 'Fail')->count();
 
-        if(!empty($search)) {
-            $stat_ref->whereHas('user',function ($query) use ($search) {
-                $query->where('display_name', 'LIKE', "%{$search}%")
-                    ->orWhere('user_email', 'LIKE', "%{$search}%")
-                    ->orWhere('user_login', 'LIKE', "%{$search}%");
+        if (!empty($search)) {
+            $stat_ref->whereHas('user', function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('display_name', 'LIKE', "%{$search}%")
+                      ->orWhere('user_email', 'LIKE', "%{$search}%")
+                      ->orWhere('user_login', 'LIKE', "%{$search}%");
+                });
             });
         }
         $res['total'] = $stat_ref->count();

@@ -185,11 +185,11 @@ class AdminQuizController
         $quiz = acadlix()->model()->quiz()->ofQuiz()->whereHas('quiz_shortcode')->orderBy('ID', 'desc');
         if (!empty($search)) {
             $quiz->where(function ($query) use ($search) {
-                $query->where('post_title', 'LIKE', "%{$search}%");
-            })
-                ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
-                    $query->where('id', 'LIKE', "%{$search}%");
-                });
+                $query->where('post_title', 'LIKE', "%{$search}%")
+                      ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
+                          $query->where('id', 'LIKE', "%{$search}%");
+                      });
+            });
         }
         $res['total'] = $quiz->count();
         $res['quizes'] = $quiz->skip($skip)->take($params['pageSize'])

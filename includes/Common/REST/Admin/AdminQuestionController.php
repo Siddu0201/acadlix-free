@@ -135,13 +135,16 @@ class AdminQuestionController
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
         $search = $params['search'];
-        $question = acadlix()->model()->question()->ofOnline()->where('quiz_id', $quiz_id)->orderBy("sort");
+        $question = acadlix()->model()->question()
+                    ->ofOnline()
+                    ->where('quiz_id', $quiz_id)
+                    ->orderBy("sort");
         if (!empty($search)) {
             $question->where(function ($query) use ($search) {
-                $query->where('title', 'LIKE', "%{$search}%"); // Search in quiz title
-            })
-            ->orWhereHas('question_languages', function ($query) use ($search) {
-                $query->where('question', 'LIKE', "%{$search}%"); 
+                $query->where('title', 'LIKE', "%{$search}%")
+                      ->orWhereHas('question_languages', function ($query) use ($search) {
+                          $query->where('question', 'LIKE', "%{$search}%");
+                      });
             });
         }
         $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);

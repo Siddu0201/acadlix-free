@@ -42,8 +42,10 @@ class AdminStudentController
             })
             ->orderBy('ID', 'desc'); // or 'asc'
         if (!empty($search)) {
-            $student->where('display_name', 'like', "%$search%")
-                ->orWhere("user_email", "like", "%$search%");
+            $student->where(function ($query) use ($search) {
+                $query->where('display_name', 'like', "%{$search}%")
+                    ->orWhere('user_email', 'like', "%{$search}%");
+            });
         }
         $res['total'] = $student->count();
         $res['students'] = $student->skip($skip)->take($params['pageSize'])->get();
