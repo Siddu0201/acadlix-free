@@ -179,6 +179,7 @@ class UserRole
             'acadlix_show_quiz_setting' => true,
             'acadlix_show_notification_setting' => true,
             'acadlix_show_permalink_setting' => true,
+            'acadlix_show_integration_setting' => true,
             'acadlix_update_setting' => true,
             'acadlix_create_page_setting' => true,
         ];
