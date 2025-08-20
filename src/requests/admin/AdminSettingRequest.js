@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useInstance } from "@acadlix/helpers/util";
 
 const base = "/admin-setting";
@@ -17,6 +17,18 @@ export const PostCreatePage = () => {
             toast.error(error?.response?.data?.message);
             console.error(error);
         },
+    });
+}
+
+export const GetUpdateSetting = () => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ['getUpdateSetting'],
+        queryFn: () => instance.get(`${base}`, {
+            headers: {
+                "X-WP-Nonce": acadlixOptions?.nonce,
+            }
+        }),
     });
 }
 

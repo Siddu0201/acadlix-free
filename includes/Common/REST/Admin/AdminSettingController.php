@@ -31,6 +31,11 @@ class AdminSettingController
             '/' . $this->base,
             [
                 [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_update_settings'],
+                    'permission_callback' => fn() => current_user_can('acadlix_update_setting') && $this->check_permission(),
+                ],
+                [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_update_settings'],
                     'permission_callback' => fn() => current_user_can('acadlix_update_setting') && $this->check_permission(),
@@ -65,6 +70,20 @@ class AdminSettingController
         return rest_ensure_response($res);
     }
 
+    public function get_update_settings($request)
+    {
+        $res = [];
+        $res['options'] = acadlix()->helper()->acadlix_get_all_options(
+            array_merge(
+                acadlix()->helper()->acadlix_options(),
+                acadlix()->helper()->acadlix_advance_options()
+            )
+        );
+        $res['all_pages'] = get_pages();
+        $res['currencies_with_symbol'] = acadlix()->helper()->acadlix_get_currency_with_symbols();
+        return rest_ensure_response($res);
+    }
+
     public function post_update_settings($request)
     {
         $res = [];
@@ -79,13 +98,13 @@ class AdminSettingController
         $old_course_tag_base = acadlix()->helper()->acadlix_get_option('acadlix_course_tag_base') ?? null;
         $new_course_tag_base = array_key_exists('acadlix_course_tag_base', $params) ? $params['acadlix_course_tag_base'] : null;
 
-        if($old_course_base && $new_course_base && $old_course_base != $new_course_base){
+        if ($old_course_base && $new_course_base && $old_course_base != $new_course_base) {
             acadlix()->helper()->acadlix_update_option('acadlix_flush_rewrite', true);
         }
-        if($old_course_category_base && $new_course_category_base && $old_course_category_base != $new_course_category_base){
+        if ($old_course_category_base && $new_course_category_base && $old_course_category_base != $new_course_category_base) {
             acadlix()->helper()->acadlix_update_option('acadlix_flush_rewrite', true);
         }
-        if($old_course_tag_base && $new_course_tag_base && $old_course_tag_base != $new_course_tag_base){
+        if ($old_course_tag_base && $new_course_tag_base && $old_course_tag_base != $new_course_tag_base) {
             acadlix()->helper()->acadlix_update_option('acadlix_flush_rewrite', true);
         }
         if (is_array($params)) {
