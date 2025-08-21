@@ -3,6 +3,9 @@ import {
   Backdrop,
   Box,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
   CircularProgress,
   Typography,
   useMediaQuery,
@@ -82,6 +85,7 @@ const QuizLeaderboard = () => {
     defaultValues: {
       toplist: [],
       toplist_count: 0,
+      title: "",
     },
   });
   const resetLeaderboardMutation = PostResetLeaderboardByQuizId(quiz_id);
@@ -120,6 +124,11 @@ const QuizLeaderboard = () => {
           methods.setValue("toplist_count", data?.data?.toplist_count, {
             shouldDirty: true,
           });
+          if (data?.data?.quiz) {
+            methods.setValue("title", data?.data?.quiz?.post_title, {
+              shouldDirty: true,
+            });
+          }
         },
       }
     );
@@ -171,77 +180,104 @@ const QuizLeaderboard = () => {
             </Button>
           }
         </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          backgroundColor: "primary.main",
-          marginY: 2,
-          marginX: {
-            md: "auto",
-            xs: "auto",
-          },
-          width: {
-            md: "70%",
-            xs: "90%",
-          },
-          justifyContent: "center",
-          flexDirection: "column",
-        }}
-      >
-        <Backdrop
-          sx={{ color: "primary.contrastText", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={loadMoreMutation?.isPending}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-        <Box sx={styles.header}>
-          <Typography variant="h3" sx={{ color: "primary.contrastText" }}>
-            {__("Leaderboard", "acadlix")}
-          </Typography>
-        </Box>
-
-        <Box sx={styles.leaderboardContainer}>
-          {methods?.watch("toplist")?.map((item, index) => (
-            <Box key={index} sx={{
-              display: "flex",
-              alignItems: "center",
-              backgroundColor: "primary.contrastText",
-              borderRadius: "8px",
-              padding: "10px",
-              justifyContent: "space-between",
-              marginBottom: "10px",
-            }}>
-              <Box sx={styles.rankNameContainer}>
-                <Typography variant="body1" sx={styles.rank}>
-                  {item?.rank}
-                </Typography>
-                <Typography variant="body1" sx={styles.name}>
-                  {item?.name ?? "Anonymous"}
-                </Typography>
-              </Box>
-              <Typography
-                variant="body1"
-                sx={{ fontWeight: "bold", color: "primary.main" }}
+        <Grid size={{ xs: 12, lg: 12 }}>
+          <Card>
+            <CardHeader
+              title={
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h3"
+                  >
+                    {/* translators: %s is the quiz title */}
+                    {sprintf(
+                      __("Leaderboard (%s)", "acadlix"),
+                      methods?.watch("title")
+                    )}
+                  </Typography>
+                </Box>
+              }
+            />
+            <CardContent>
+              <Grid
+                container
+                sx={{
+                  backgroundColor: "primary.main",
+                  marginY: 2,
+                  marginX: {
+                    md: "auto",
+                    xs: "auto",
+                  },
+                  width: {
+                    md: "70%",
+                    xs: "90%",
+                  },
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
               >
-                {item?.result?.toFixed(2)}%
-              </Typography>
-            </Box>
-          ))}
-        </Box>
-        {methods?.watch("toplist_count") > methods?.watch("toplist").length && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginY: 2,
-            }}
-          >
-            <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
-              {__("Load More", "acadlix")}
-            </Button>
-          </Box>
-        )}
+                <Backdrop
+                  sx={{ color: "primary.contrastText", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  open={loadMoreMutation?.isPending}
+                >
+                  <CircularProgress color="inherit" />
+                </Backdrop>
+                <Box sx={styles.header}>
+                  <Typography variant="h3" sx={{ color: "primary.contrastText" }}>
+                    {__("Leaderboard", "acadlix")}
+                  </Typography>
+                </Box>
+
+                <Box sx={styles.leaderboardContainer}>
+                  {methods?.watch("toplist")?.map((item, index) => (
+                    <Box key={index} sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "primary.contrastText",
+                      borderRadius: "8px",
+                      padding: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "10px",
+                    }}>
+                      <Box sx={styles.rankNameContainer}>
+                        <Typography variant="body1" sx={styles.rank}>
+                          {item?.rank}
+                        </Typography>
+                        <Typography variant="body1" sx={styles.name}>
+                          {item?.name ?? "Anonymous"}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        variant="body1"
+                        sx={{ fontWeight: "bold", color: "primary.main" }}
+                      >
+                        {item?.result?.toFixed(2)}%
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+                {methods?.watch("toplist_count") > methods?.watch("toplist").length && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginY: 2,
+                    }}
+                  >
+                    <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
+                      {__("Load More", "acadlix")}
+                    </Button>
+                  </Box>
+                )}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </Box>
   );

@@ -30,7 +30,7 @@ export const PostResetStatisticByQuizId = (quiz_id = 0) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => {
-            return instance.post(`${base}/${quiz_id}/reset-statistic`, {
+            return instance.post(`${base}/${quiz_id}/reset-statistic`, {}, {
                 headers: {
                     "X-WP-Nonce": acadlixOptions?.nonce,
                 }

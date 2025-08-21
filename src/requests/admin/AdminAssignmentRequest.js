@@ -145,11 +145,13 @@ export const PostEvaluateAssignment = (assignment_id = '', course_statistics_id 
     const instance = useInstance();
     return useMutation({
         mutationFn: (data) => {
-            return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
+            return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`,
+                data,
+                {
+                    headers: {
+                        "X-WP-Nonce": acadlixOptions?.nonce,
+                    }
+                });
         },
         onSuccess: (data) => {
             toast.success(data?.data?.message);

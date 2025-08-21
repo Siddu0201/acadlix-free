@@ -265,7 +265,11 @@ const QuizResult = () => {
                   <Typography
                     variant="h3"
                   >
-                    {isFetching ? "" : methods?.watch("title")}
+                    {/* translators: %s is the quiz title */}
+                    {sprintf(
+                      __("Statistics (%s)", "acadlix"),
+                      methods?.watch("title")
+                    )}
                   </Typography>
                   <CustomRefresh
                     refetch={refetch}

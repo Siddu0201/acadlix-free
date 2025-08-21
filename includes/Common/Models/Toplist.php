@@ -81,7 +81,7 @@ if (!class_exists('Toplist')) {
             return DB::table($this->table)
                 ->select(
                     '*',
-                    DB::raw('RANK() OVER (ORDER BY result DESC, quiz_time ASC) as rank')
+                    DB::raw('RANK() OVER (ORDER BY result DESC, quiz_time ASC) as `rank`')
                 )
                 ->where('quiz_id', $quiz_id)
                 ->skip($skip)

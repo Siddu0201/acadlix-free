@@ -59,7 +59,7 @@ export const DefaultLanguageById = (id) => {
     const instance = useInstance();
     return useMutation({
         mutationFn: () => {
-            return instance.post(`${base}/default-language/${id}`, {
+            return instance.post(`${base}/default-language/${id}`, {}, {
                 headers: {
                     "X-WP-Nonce": acadlixOptions?.nonce,
                 }

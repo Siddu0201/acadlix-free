@@ -63,6 +63,7 @@ class AdminLeaderboardController {
                 ['status' => 400]
             );
         }
+        $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $toplist = acadlix()->model()->toplist();
         $res['toplist'] = $toplist->getTopList($quiz_id, $params['toplist_view_count'], 10);
         $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();

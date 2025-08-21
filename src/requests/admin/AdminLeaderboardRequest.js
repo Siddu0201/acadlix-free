@@ -25,7 +25,7 @@ export const PostResetLeaderboardByQuizId = (quiz_id) => {
     const instance = useInstance();
     return useMutation({
         mutationFn: () => {
-            return instance.post(`${base}/${quiz_id}/reset-leaderboard`, {
+            return instance.post(`${base}/${quiz_id}/reset-leaderboard`, {}, {
                 headers: {
                     "X-WP-Nonce": acadlixOptions?.nonce,
                 }
