@@ -213,9 +213,9 @@ class AdminLessonController
         try {
             // Update the lesson post
             $lessonId = acadlix()->model()->lesson()->updateLesson($lessonId, [
-                'post_title' => sanitize_text_field($params['title']),
-                'post_content' => wp_kses_post($params['content']),
-                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+                'post_title' => $params['title'],
+                'post_content' => $params['content'],
+                'post_author' => (int) $params['post_author'], // Assign to current user
             ], $meta);
 
             if (is_wp_error($lessonId)) {

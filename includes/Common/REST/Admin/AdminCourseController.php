@@ -387,8 +387,8 @@ class AdminCourseController
             $courseSectionId = acadlix()->model()->courseSection()->updateCourseSection(
                 $section_id,
                 [
-                    'post_title' => sanitize_text_field($params['post_title']),
-                    'post_content' => wp_kses_post($params['post_content']),
+                    'post_title' => $params['post_title'],
+                    'post_content' => $params['post_content'],
                 ]
             );
 
@@ -732,8 +732,8 @@ class AdminCourseController
 
         // Update the lesson post
         $lessonId = acadlix()->model()->lesson()->updateLesson($lesson_id, [
-            'post_title' => sanitize_text_field($params['title']),
-            'post_content' => wp_kses_post($params['content']),
+            'post_title' => $params['title'],
+            'post_content' => $params['content'],
         ], $meta);
 
         if (is_wp_error($lessonId)) {

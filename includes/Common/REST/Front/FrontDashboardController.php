@@ -534,7 +534,7 @@ class FrontDashboardController
         $attachment_id = wp_insert_attachment(array(
             'guid' => $uploaded_file['url'],
             'post_mime_type' => $file['type'],
-            'post_title' => sanitize_file_name($file['name']),
+            'post_title' => $file['name'],
             'post_content' => '',
             'post_status' => 'inherit'
         ), $uploaded_file['file']);
