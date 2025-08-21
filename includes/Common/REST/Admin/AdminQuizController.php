@@ -254,9 +254,9 @@ class AdminQuizController
         try {
             // create quiz with meta data
             $quizId = acadlix()->model()->quiz()->insertQuiz([
-                'post_title' => sanitize_text_field($params['post_title']),
-                'post_content' => wp_kses_post($params['post_content']),
-                'post_author' => (int) sanitize_text_field($params['post_author']),
+                'post_title' => $params['post_title'],
+                'post_content' => $params['post_content'],
+                'post_author' => (int) $params['post_author'],
                 'post_status' => "draft",
             ], $meta);
 

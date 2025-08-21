@@ -324,9 +324,9 @@ class AdminCourseController
             $course = acadlix()->model()->course()->ofCourse()->with('sections')->find($courseId);
             // Insert the section post
             $courseSectionId = acadlix()->model()->courseSection()->insertCourseSection([
-                'post_title' => sanitize_text_field($params['post_title']),
-                'post_content' => wp_kses_post($params['post_content']),
-                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+                'post_title' => $params['post_title'],
+                'post_content' => $params['post_content'],
+                'post_author' => (int) $params['post_author'], // Assign to current user
                 'post_parent' => $courseId,
                 'menu_order' => $course->sections()->max('menu_order') + 1 ?? 1,
             ]);
@@ -608,9 +608,9 @@ class AdminCourseController
 
             // Insert the lesson post
             $lessonId = acadlix()->model()->lesson()->insertLesson([
-                'post_title' => sanitize_text_field($params['title']),
-                'post_content' => wp_kses_post($params['content']),
-                'post_author' => (int) sanitize_text_field($params['post_author']), // Assign to current user
+                'post_title' => $params['title'],
+                'post_content' => $params['content'],
+                'post_author' => (int) $params['post_author'], // Assign to current user
             ], $meta);
 
             if (is_wp_error($lessonId)) {
@@ -632,8 +632,8 @@ class AdminCourseController
             // add data to section content
             $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
                 [
-                    'post_title' => sanitize_text_field($params['title']),
-                    'post_author' => (int) sanitize_text_field($params['post_author']),
+                    'post_title' => $params['title'],
+                    'post_author' => (int) $params['post_author'],
                     'post_parent' => $section_id,
                     'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
                 ],
@@ -679,8 +679,8 @@ class AdminCourseController
                 // add data to section content
                 $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
                     [
-                        'post_title' => sanitize_text_field($lesson['post_title']),
-                        'post_author' => (int) sanitize_text_field($lesson['post_author']),
+                        'post_title' => $lesson['post_title'],
+                        'post_author' => (int) $lesson['post_author'],
                         'post_parent' => $section_id,
                         'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
                     ],
@@ -808,8 +808,8 @@ class AdminCourseController
             // add data to section content
             $courseSectionContentId = acadlix()->model()->courseSectionContent()->insertCourseSectionContent(
                 [
-                    'post_title' => sanitize_text_field($quiz['post_title']),
-                    'post_author' => (int) sanitize_text_field($quiz['post_author']),
+                    'post_title' => $quiz['post_title'],
+                    'post_author' => (int) $quiz['post_author'],
                     'post_parent' => $section_id,
                     'menu_order' => $section->contents()->max('menu_order') + 1 ?? 1,
                 ],
