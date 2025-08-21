@@ -45,11 +45,6 @@ const BulkImportButton = React.lazy(() =>
     import("@acadlix/pro/admin/question/BulkImportButton") :
     import("@acadlix/free/admin/question/BulkImportButton")
 );
-const BulkSetParagraph = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/BulkSetParagraph") :
-    import("@acadlix/free/admin/question/BulkSetParagraph")
-);
 
 const ParagraphModel = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -467,7 +462,9 @@ const Question = () => {
                             }
                             {
                               hasCapability("acadlix_bulk_set_paragraph_question") &&
-                              <BulkSetParagraph />
+                              <MenuItem value="set_paragraph" disabled={!acadlixOptions?.isActive}>
+                                {__("Set Paragraph", "acadlix")}
+                              </MenuItem>
                             }
                           </Select>
                         </React.Suspense>
