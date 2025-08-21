@@ -444,33 +444,33 @@ const Question = () => {
                         <InputLabel id="demo-simple-select-label">
                           {__("Bulk Actions", "acadlix")}
                         </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={methods?.watch("action")}
-                          label={__("Bulk Actions", "acadlix")}
-                          onChange={handleActionChange}
-                        >
-                          <MenuItem value="">
-                            {__("Bulk Actions", "acadlix")}
-                          </MenuItem>
-                          {
-                            hasCapability("acadlix_bulk_delete_question") &&
-                            <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                          }
-                          {
-                            hasCapability("acadlix_bulk_set_subject_and_point_question") &&
-                            <MenuItem value="set_subject_and_points">
-                              {__("Set Subject and Points", "acadlix")}
+                        <React.Suspense fallback={null}>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={methods?.watch("action")}
+                            label={__("Bulk Actions", "acadlix")}
+                            onChange={handleActionChange}
+                          >
+                            <MenuItem value="">
+                              {__("Bulk Actions", "acadlix")}
                             </MenuItem>
-                          }
-                          {
-                            hasCapability("acadlix_bulk_set_paragraph_question") &&
-                            <React.Suspense fallback={null}>
+                            {
+                              hasCapability("acadlix_bulk_delete_question") &&
+                              <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                            }
+                            {
+                              hasCapability("acadlix_bulk_set_subject_and_point_question") &&
+                              <MenuItem value="set_subject_and_points">
+                                {__("Set Subject and Points", "acadlix")}
+                              </MenuItem>
+                            }
+                            {
+                              hasCapability("acadlix_bulk_set_paragraph_question") &&
                               <BulkSetParagraph />
-                            </React.Suspense>
-                          }
-                        </Select>
+                            }
+                          </Select>
+                        </React.Suspense>
                         <FormHelperText>
                           {methods?.formState?.errors?.action?.message}
                         </FormHelperText>
