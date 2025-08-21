@@ -29,8 +29,6 @@ import { FaEdit, FaSearch, FaTrash, TiArrowLeftThick } from "@acadlix/helpers/ic
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SubjectAndPointModel from "./actions/SubjectAndPointModel";
-import ParagraphModel from "./actions/ParagraphModel";
-import { IoMdRefresh } from "@acadlix/helpers/icons";
 import { __, sprintf } from "@wordpress/i18n";
 import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
@@ -51,6 +49,12 @@ const BulkSetParagraph = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/admin/question/BulkSetParagraph") :
     import("@acadlix/free/admin/question/BulkSetParagraph")
+);
+
+const ParagraphModel = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/admin/question/actions/ParagraphModel") :
+    Promise.resolve({ default: () => null })
 );
 
 const Question = () => {
@@ -313,12 +317,14 @@ const Question = () => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <ParagraphModel
-              {...methods}
-              handleClose={handleParagraphClose}
-              quiz_id={quiz_id}
-              paragraphs={data?.data?.paragraphs}
-            />
+            <React.Suspense fallback={null}>
+              <ParagraphModel
+                {...methods}
+                handleClose={handleParagraphClose}
+                quiz_id={quiz_id}
+                paragraphs={data?.data?.paragraphs}
+              />
+            </React.Suspense>
           </BootstrapDialog>
         </>
       )}
