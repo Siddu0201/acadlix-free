@@ -1,0 +1,43 @@
+.acadlix-thankyou-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.acadlix-thankyou-container .acadlix-thankyou-img {
+    width: 220px;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.acadlix-thankyou-container .acadlix-thankyou-text {
+    max-width: 600px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.acadlix-thankyou-container .acadlix-thankyou-btn {
+    width: 150px;
+    justify-content: center;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--acadlix-primary-main);
+    border-radius: var(--acadlix-border-radius);
+    color: var(--acadlix-primary-contrastText);
+    box-shadow: var(--acadlix-box-shadow-2);
+}
+
+
+@media (max-width: 600px) {
+    .acadlix-thankyou-container .acadlix-thankyou-text {
+        max-width: 90%;
+    }
+}

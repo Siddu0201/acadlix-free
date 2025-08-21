@@ -2,61 +2,10 @@
 
 defined('ABSPATH') || exit();
 
-global $post, $wp_version;
-$success = false;
-$status = 'pending';
+global $wp_version;
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- payerID for paypal
-$payerID = isset($_GET['payerID']) ? sanitize_text_field(wp_unslash($_GET['payerID'])) : "";
-
-$courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
-$dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
-
-if (isset($_GET['token'])) { //phpcs:ignore
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- token verification for payment
-    $token = sanitize_text_field(wp_unslash($_GET['token']));
-    $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $token)->first();
-    if ($order_meta) {
-        $order = acadlix()->model()->order()->find($order_meta->order_id);
-        $payment_method = $order->getMetaValue("payment_method");
-        if ($order) {
-            try {
-                if (isset($_GET["cancelled"]) && !empty($_GET["cancelled"]) && $order->status != "failed") {
-                    acadlix()
-                        ->payments()
-                        ->{$payment_method}()
-                        ->failedOrder($order, "Payment Cancelled");
-                    $status = $order->status;
-                } else {
-                    switch ($payment_method) {
-                        case "razorpay":
-                        case "paypal":
-                        case "stripe":
-                        case "payu":
-                            if ($order->status == "pending") {
-                                acadlix()->payments()
-                                    ->{$payment_method}()
-                                        ->verifyOrder($token);
-                                        
-                                $order = acadlix()->payments()
-                                    ->{$payment_method}()
-                                        ->getOrder($token);
-                                $status = $order->status;
-                            } else {
-                                $status = $order->status;
-                            }
-                            break;
-                            
-                        default:
-                            $status = $order->status;
-                    }
-                }
-            } catch (Exception $e) {
-                // error_log($e->getMessage());
-            }
-        }
-    }
-}
+$acadlix_data = isset($GLOBALS['acadlix_thankyou_data']) ? $GLOBALS['acadlix_thankyou_data'] : [];
+extract($acadlix_data, EXTR_SKIP); // gives $status, $courses_url, $dashboard_url
 
 if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
     ?>
@@ -79,40 +28,49 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
 } else {
     get_header();
 }
-
-if ($status == "success") {
-    ?>
-            <div>
-                <h2><?php esc_html_e('Payment Success', 'acadlix'); ?> ✅</h2>
-                <div><?php esc_html_e('Thank you! Your payment was completed successfully.', 'acadlix'); ?></div>
-                <div><?php esc_html_e('You can now access your purchased course or content.', 'acadlix'); ?></div>
-                <a href="<?php echo esc_url($dashboard_url) ?>"><?php esc_html_e('Go to Dashboard', 'acadlix'); ?></a>
-            </div>
+?>
+        <div class="acadlix-thankyou-container">
             <?php
-} elseif ($status == "failed") {
-    ?>
-            <div>
-                <h2><?php esc_html_e('Payemnt Failed', 'acadlix'); ?> ❌</h2>
-                <div><?php esc_html_e('Sorry, your payment could not be completed.', 'acadlix'); ?></div>
-                <div>
+
+            if ($status == "success") {
+                ?>
+                <img src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . 'success-icon.svg') ?>"
+                    alt="<?php esc_attr_e('Payment Success', 'acadlix'); ?>" class="acadlix-thankyou-img">
+                <h2><?php esc_html_e('Payment Success', 'acadlix'); ?></h2>
+                <div class="acadlix-thankyou-text">
+                    <?php esc_html_e('Thank you! Your payment was completed successfully.', 'acadlix'); ?></div>
+                <div class="acadlix-thankyou-text">
+                    <?php esc_html_e('You can now access your purchased course or content.', 'acadlix'); ?></div>
+                <a href="<?php echo esc_url($dashboard_url) ?>"
+                    class="acadlix-thankyou-btn"><?php esc_html_e('Go to Dashboard', 'acadlix'); ?></a>
+                <?php
+            } elseif ($status == "failed") {
+                ?>
+                <img src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . 'failed-icon.svg') ?>"
+                    alt="<?php esc_attr_e('Payment Failed', 'acadlix'); ?>" class="acadlix-thankyou-img">
+                <h2><?php esc_html_e('Payemnt Failed', 'acadlix'); ?></h2>
+                <div class="acadlix-thankyou-text">
+                    <?php esc_html_e('Sorry, your payment could not be completed.', 'acadlix'); ?></div>
+                <div class="acadlix-thankyou-text">
                     <?php esc_html_e('Payment Failed. If any amount has been deducted, please contact the administrator for assistance. You may also try the payment again.', 'acadlix'); ?>
                 </div>
-                <a href="<?php echo esc_url($courses_url) ?>"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
-            </div>
-            <?php
-} elseif ($status == 'pending') {
-    ?>
-            <div>
-                <h2><?php esc_html_e('Payment Pending', 'acadlix'); ?> ⏳</h2>
-                <div>
+                <a href="<?php echo esc_url($courses_url) ?>"
+                    class="acadlix-thankyou-btn"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
+                <?php
+            } elseif ($status == 'pending') {
+                ?>
+                <img src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . 'pending-icon.svg') ?>"
+                    alt="<?php esc_attr_e('Payment Pending', 'acadlix'); ?>" class="acadlix-thankyou-img">
+                <h2><?php esc_html_e('Payment Pending', 'acadlix'); ?></h2>
+                <div class="acadlix-thankyou-text">
                     <?php esc_html_e('Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete.', 'acadlix'); ?>
                 </div>
-                <a href="<?php echo esc_url($courses_url) ?>"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
-            </div>
-            <?php
-}
-?>
-
+                <a href="<?php echo esc_url($courses_url) ?>"
+                    class="acadlix-thankyou-btn"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
+                <?php
+            }
+            ?>
+        </div>
         <?php the_content(); ?>
         <?php
 

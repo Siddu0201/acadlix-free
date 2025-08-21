@@ -41,7 +41,11 @@ const SubjectResultSection = (props) => {
         >
           <TableHead
             align="center"
-            sx={{ backgroundColor: "#fec901", border: "2px solid black" }}
+            sx={{ 
+              backgroundColor: (theme) => theme.palette.primary.main,
+              color: (theme) => theme.palette.primary.contrastText,
+              border: "2px solid black" 
+            }}
           >
             <TableRow>
               <TableCell sx={{ fontWeight: "700", border: "2px solid black" }}>

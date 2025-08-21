@@ -207,6 +207,11 @@ class Manager
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
+            'acadlix-front-thankyou-css' => [
+                'src' => ACADLIX_ASSETS_CSS_URL . 'frontend/thankyou.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
             'acadlix-front-font-awesome-css' => [
                 'src' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css',
                 'version' => ACADLIX_VERSION,
