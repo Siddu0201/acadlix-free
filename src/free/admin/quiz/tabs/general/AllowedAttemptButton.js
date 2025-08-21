@@ -7,7 +7,12 @@ import { RiQuestionFill } from "@acadlix/helpers/icons";
 
 const AllowedAttemptButton = (props) => {
     return (
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}
+            sx={{
+                display: "flex",
+                alignItems: "center",
+            }}
+        >
             <CustomTextField
                 disabled
                 label={__("Per User Allowed Attempt", "acadlix")}
