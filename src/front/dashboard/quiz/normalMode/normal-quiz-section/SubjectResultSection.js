@@ -44,41 +44,32 @@ const SubjectResultSection = (props) => {
             sx={{ 
               backgroundColor: (theme) => theme.palette.primary.main,
               color: (theme) => theme.palette.primary.contrastText,
-              border: "2px solid black" 
+              border: "2px solid black" ,
+              '& th': {
+                fontWeight: "700",
+                border: "2px solid black",
+                align: "center",
+                color: (theme) => theme.palette.primary.contrastText
+              }
             }}
           >
             <TableRow>
-              <TableCell sx={{ fontWeight: "700", border: "2px solid black" }}>
+              <TableCell>
                 {__("Subject", "acadlix")}
               </TableCell>
-              <TableCell
-                sx={{ fontWeight: "700", border: "2px solid black" }}
-                align="center"
-              >
+              <TableCell>
                 {__("Correct", "acadlix")}
               </TableCell>
-              <TableCell
-                sx={{ fontWeight: "700", border: "2px solid black" }}
-                align="center"
-              >
+              <TableCell>
                 {__("Incorrect", "acadlix")}
               </TableCell>
-              <TableCell
-                sx={{ fontWeight: "700", border: "2px solid black" }}
-                align="center"
-              >
+              <TableCell>
                 {__("Skipped", "acadlix")}
               </TableCell>
-              <TableCell
-                sx={{ fontWeight: "700", border: "2px solid black" }}
-                align="center"
-              >
+              <TableCell>
                 {__("Time", "acadlix")}
               </TableCell>
-              <TableCell
-                sx={{ fontWeight: "700", border: "2px solid black" }}
-                align="center"
-              >
+              <TableCell>
                 {__("Score", "acadlix")}
               </TableCell>
             </TableRow>
@@ -89,7 +80,7 @@ const SubjectResultSection = (props) => {
                 <TableCell
                   component="th"
                   scope="row"
-                  sx={{ backgroundColor: "#f4f0e2", border: "2px solid black" }}
+                  sx={{ border: "2px solid black" }}
                 >
                   {subject?.subject_name}
                 </TableCell>
