@@ -25,15 +25,30 @@ import { AnswerSheetFunction } from "./AnswerSheetFunction";
 import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
 import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
 import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
-import Accuracy from "@acadlix/front/dashboard/quiz/normalMode/result-components/Accuracy";
-import ResultStatus from "@acadlix/front/dashboard/quiz/normalMode/result-components/ResultStatus";
-import ResultSpeed from "@acadlix/front/dashboard/quiz/normalMode/result-components/ResultSpeed";
 
 const QuestionSubjectAndPointSection = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true'
         ? import("@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
         : import("@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection")           // Provide fallback if in Free build
 );
+
+const ResultStatus = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true'?
+  import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
+  Promise.resolve({ default: () => null })
+});
+
+const Accuracy = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true'?
+  import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
+  Promise.resolve({ default: () => null })
+});
+
+const ResultSpeed = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true'?
+  import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
+  Promise.resolve({ default: () => null })
+});
 
 const AnswerSheet = ({
     statistic = [],

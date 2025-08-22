@@ -92,13 +92,7 @@ const NormalQuiz = (props) => {
                 isDesktop={isDesktop}
                 {...props}
               /> */}
-              {props?.watch("show_subject_wise_analysis") && (
-                <SubjectResultSection
-                  colorCode={colorCode}
-                  isDesktop={isDesktop}
-                  {...props}
-                />
-              )}
+              
             </>
           )}
           {props?.watch("leaderboard") &&

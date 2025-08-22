@@ -1,35 +1,57 @@
 import {
-  Avatar,
   Box,
   Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
-import TickImage from "@acadlix/images/icons8-correct-96.png";
-import ClockImage from "@acadlix/images/clock-svgrepo-com.png";
-import AccuracyImage from "@acadlix/images/percentage-discount-svgrepo-com.svg";
-import Rank from "@acadlix/images/cup-award-svgrepo-com.svg";
-import Percentile from "@acadlix/images/percentage-percent-svgrepo-com.svg";
-import Speed from "@acadlix/images/speed-svgrepo-com.svg";
-import Pass from "@acadlix/images/grinning-face-svgrepo-com.svg";
-import Fail from "@acadlix/images/sad-but-relieved-face-svgrepo-com.svg";
-import Negative from "@acadlix/images/wrong-way-svgrepo-com.svg";
-import Average from "@acadlix/images/bars-graph-svgrepo-com.svg";
-import Name from "@acadlix/images/avatar-people-person-profile-user-svgrepo-com.svg";
-import Result from "@acadlix/images/certificate-manager-svgrepo-com.svg";
-import { secondsToHms } from "@acadlix/helpers/util";
-import ResultComparisionSection from "./ResultComparisionSection";
-import ResultTextSection from "./ResultTextSection";
 import { __ } from "@wordpress/i18n";
 import MarksObtained from "../result-components/MarksObtained";
 import AverageScore from "../result-components/AverageScore";
 import NegativeMarks from "../result-components/NegativeMarks";
-import ResultStatus from "../result-components/ResultStatus";
-import Accuracy from "../result-components/Accuracy";
 import TimeTaken from "../result-components/TimeTaken";
-import ResultRank from "../result-components/ResultRank";
-import ResultPercentile from "../result-components/ResultPercentile";
-import ResultSpeed from "../result-components/ResultSpeed";
+import ResultText from "../result-components/ResultText";
+
+const ResultStatus = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
+    Promise.resolve({ default: () => null })
+});
+
+const Accuracy = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
+    Promise.resolve({ default: () => null })
+});
+
+const ResultRank = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultRank") :
+    Promise.resolve({ default: () => null })
+});
+
+const ResultPercentile = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultPercentile") :
+    Promise.resolve({ default: () => null })
+});
+
+const ResultSpeed = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
+    Promise.resolve({ default: () => null })
+});
+
+const ResultComparission = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultComparission") :
+    Promise.resolve({ default: () => null })
+});
+
+const SubjectWiseResult = React.lazy(() => {
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import("@acadlix/pro/front/dashboard/quiz/result-components/SubjectWiseResult") :
+    Promise.resolve({ default: () => null })
+});
 
 const ResultSection = (props) => {
   return (
@@ -58,7 +80,7 @@ const ResultSection = (props) => {
         </Typography>
         "
       </Typography>
-      <ResultTextSection {...props} />
+      <ResultText {...props} />
       <Grid
         container
         sx={{
@@ -72,8 +94,8 @@ const ResultSection = (props) => {
         }}
       >
         <MarksObtained
-            getPoints={props?.getPoints}
-            getTotalPoints={props?.getTotalPoints}
+          getPoints={props?.getPoints}
+          getTotalPoints={props?.getTotalPoints}
         />
         {!props?.watch("hide_negative_marks") && (
           <NegativeMarks
@@ -87,16 +109,20 @@ const ResultSection = (props) => {
           />
         )}
         {props?.watch("show_status_based_on_min_percent") && (
-          <ResultStatus
-            getResult={props?.getResult}
-            getStatus={props?.getStatus}
-            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
-          />
+          <React.Suspense fallback={null}>
+            <ResultStatus
+              getResult={props?.getResult}
+              getStatus={props?.getStatus}
+              minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+            />
+          </React.Suspense>
         )}
         {props?.watch("show_accuracy") && (
-          <Accuracy
-            getAccuracy={props?.getAccuracy}
-          />
+          <React.Suspense fallback={null}>
+            <Accuracy
+              getAccuracy={props?.getAccuracy}
+            />
+          </React.Suspense>
         )}
         {!props?.watch("hide_quiz_time") && (
           <TimeTaken
@@ -104,37 +130,45 @@ const ResultSection = (props) => {
           />
         )}
         {props?.watch("leaderboard") && props?.watch("show_rank") && (
-          <ResultRank
-            isPending={props?.isPending}
-            rank={props?.watch("rank")}
-          />
+          <React.Suspense fallback={null}>
+            <ResultRank
+              isPending={props?.isPending}
+              rank={props?.watch("rank")}
+            />
+          </React.Suspense>
         )}
         {props?.watch("save_statistic") && props?.watch("show_percentile") && (
-          <ResultPercentile
-            isPending={props?.isPending}
-            percentile={props?.watch("percentile")}
-          />
+          <React.Suspense fallback={null}>
+            <ResultPercentile
+              isPending={props?.isPending}
+              percentile={props?.watch("percentile")}
+            />
+          </React.Suspense>
         )}
         {props?.watch("show_speed") && (
-          <ResultSpeed
-            getSolvedCount={props?.getSolvedCount}
-            getTimeTaken={props?.getTimeTaken}
-          />
+          <React.Suspense fallback={null}>
+            <ResultSpeed
+              getSolvedCount={props?.getSolvedCount}
+              getTimeTaken={props?.getTimeTaken}
+            />
+          </React.Suspense>
         )}
       </Grid>
       {props?.watch("leaderboard") &&
         props?.watch("result_comparision_with_topper") && (
-          <ResultComparisionSection
-            {...props}
-            TickImage={TickImage}
-            ClockImage={ClockImage}
-            AccuracyImage={AccuracyImage}
-            Pass={Pass}
-            Fail={Fail}
-            Name={Name}
-            Result={Result}
-          />
+          <React.Suspense fallback={null}>
+            <ResultComparission
+              {...props}
+            />
+          </React.Suspense>
         )}
+      {props?.watch("show_subject_wise_analysis") && (
+        <React.Suspense fallback={null}>
+          <SubjectWiseResult
+            {...props}
+          />
+        </React.Suspense>
+      )}
     </Box>
   );
 };
