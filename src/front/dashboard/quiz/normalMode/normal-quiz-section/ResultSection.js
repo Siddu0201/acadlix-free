@@ -35,11 +35,11 @@ const ResultPercentile = React.lazy(() =>
     Promise.resolve({ default: () => null })
 );
 
-const ResultSpeed = React.lazy(() => {
+const ResultSpeed = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
     Promise.resolve({ default: () => null })
-});
+);
 
 const ResultComparission = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
