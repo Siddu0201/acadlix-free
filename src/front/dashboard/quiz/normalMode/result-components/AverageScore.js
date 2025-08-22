@@ -51,5 +51,8 @@ export default AverageScore
 
 AverageScore.propTypes = {
     isPending: PropTypes.bool.isRequired,
-    average_score: PropTypes.number.isRequired,
+    average_score: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]).isRequired,
 }
