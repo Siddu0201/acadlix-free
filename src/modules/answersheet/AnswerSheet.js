@@ -33,21 +33,21 @@ const QuestionSubjectAndPointSection = React.lazy(() =>
 );
 
 const ResultStatus = React.lazy(() => {
-  process.env.REACT_APP_IS_PREMIUM === 'true'?
-  import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
-  Promise.resolve({ default: () => null })
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
+        Promise.resolve({ default: () => null })
 });
 
 const Accuracy = React.lazy(() => {
-  process.env.REACT_APP_IS_PREMIUM === 'true'?
-  import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
-  Promise.resolve({ default: () => null })
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
+        Promise.resolve({ default: () => null })
 });
 
 const ResultSpeed = React.lazy(() => {
-  process.env.REACT_APP_IS_PREMIUM === 'true'?
-  import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
-  Promise.resolve({ default: () => null })
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
+        Promise.resolve({ default: () => null })
 });
 
 const AnswerSheet = ({
@@ -200,8 +200,8 @@ const AnswerSheet = ({
         },
     });
 
-    if(process.env.REACT_APP_MODE === 'development') {
-        console.log( methods?.watch());
+    if (process.env.REACT_APP_MODE === 'development') {
+        console.log(methods?.watch());
     }
 
     let questionRef = React.useRef([]);
@@ -567,7 +567,7 @@ const ViewQuestionSection = (props) => {
                                     lang={lang}
                                 />
                                 <Box className="acadlix-normal-quiz-question-answer-container">
-                                  {answerType(lang, lang_index)}
+                                    {answerType(lang, lang_index)}
                                 </Box>
                             </Box>
                         </React.Fragment>
@@ -631,16 +631,20 @@ const ResultSection = (props) => {
                     />
                 )}
                 {props?.watch("show_status_based_on_min_percent") && (
-                    <ResultStatus
-                        getResult={props?.getResult}
-                        getStatus={props?.getStatus}
-                        minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
-                    />
+                    <React.Suspense fallback={null}>
+                        <ResultStatus
+                            getResult={props?.getResult}
+                            getStatus={props?.getStatus}
+                            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+                        />
+                    </React.Suspense>
                 )}
                 {props?.watch("show_accuracy") && (
-                    <Accuracy
-                        getAccuracy={props?.getAccuracy}
-                    />
+                    <React.Suspense fallback={null}>
+                        <Accuracy
+                            getAccuracy={props?.getAccuracy}
+                        />
+                    </React.Suspense>
                 )}
                 {!props?.watch("hide_quiz_time") && (
                     <TimeTaken
@@ -648,10 +652,12 @@ const ResultSection = (props) => {
                     />
                 )}
                 {props?.watch("show_speed") && (
-                    <ResultSpeed
-                        getSolvedCount={props?.getSolvedCount}
-                        getTimeTaken={props?.getTimeTaken}
-                    />
+                    <React.Suspense fallback={null}>
+                        <ResultSpeed
+                            getSolvedCount={props?.getSolvedCount}
+                            getTimeTaken={props?.getTimeTaken}
+                        />
+                    </React.Suspense>
                 )}
             </Grid>
         </Box>
