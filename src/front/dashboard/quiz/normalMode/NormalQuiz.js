@@ -1,7 +1,6 @@
 import { Container, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import ResultSection from "./normal-quiz-section/ResultSection";
-import SubjectResultSection from "./normal-quiz-section/SubjectResultSection";
 import LeaderboardSection from "./normal-quiz-section/LeaderboardSection";
 import ViewButtonSection from "./normal-quiz-section/ViewButtonSection";
 import QuestionOverviewSection from "./normal-quiz-section/QuestionOverviewSection";
