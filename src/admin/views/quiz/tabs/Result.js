@@ -678,8 +678,7 @@ const Result = (props) => {
           props?.watch("meta.quiz_settings.percent_based_result_text") ? (
             <React.Fragment>
               <GridItem1
-                xs={12}
-                lg={12}
+                size={{ xs: 12, lg: 12 }}
                 sx={{
                   display: props?.watch("meta.quiz_settings.percent_based_result_text")
                     ? "flex"
@@ -740,8 +739,7 @@ const Result = (props) => {
                 ))
               }
               <GridItem1
-                xs={12}
-                lg={12}
+                size={{ xs: 12, lg: 12 }}
                 sx={{
                   display: props?.watch("meta.quiz_settings.percent_based_result_text")
                     ? "flex"
