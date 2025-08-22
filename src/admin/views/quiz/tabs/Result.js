@@ -10,6 +10,7 @@ import {
   Divider,
   Tooltip,
   IconButton,
+  Alert,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import GridItem1 from "@acadlix/components/GridItem1";
@@ -80,8 +81,8 @@ const Result = (props) => {
       <Grid
         container
         spacing={{
-            xs: 2,
-            sm: 4,
+          xs: 2,
+          sm: 4,
         }}
         alignItems="center"
       >
@@ -203,8 +204,8 @@ const Result = (props) => {
       <Grid
         container
         spacing={{
-            xs: 2,
-            sm: 4,
+          xs: 2,
+          sm: 4,
         }}
         alignItems="center"
       >
@@ -285,37 +286,37 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Its an average speed per question - total_time_taken/question  */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <React.Suspense fallback={null}>
-              <SpeedButton
-                {...props}
-              />
-            </React.Suspense>
+        <React.Suspense fallback={null}>
+          <SpeedButton
+            {...props}
+          />
+        </React.Suspense>
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <React.Suspense fallback={null}>
-              <PercentileButton
-                {...props}
-              />
-            </React.Suspense>
+        <React.Suspense fallback={null}>
+          <PercentileButton
+            {...props}
+          />
+        </React.Suspense>
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <React.Suspense fallback={null}>
-              <AccuracyButton
-                {...props}
-              />
-            </React.Suspense>
+        <React.Suspense fallback={null}>
+          <AccuracyButton
+            {...props}
+          />
+        </React.Suspense>
 
         {/* Used to Show Average Score  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -345,46 +346,46 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show subject wise analysis of quiz  */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <React.Suspense fallback={null}>
-              <SubjectWiseButton
-                {...props}
-              />
-            </React.Suspense>
-            
-            <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        <React.Suspense fallback={null}>
+          <SubjectWiseButton
+            {...props}
+          />
+        </React.Suspense>
+
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
 
         {/* 
           Used to show Status - Pass /Fail on the basis of Percent 
           On check - Minimum % to pass option will open
            */}
-           <React.Suspense fallback={null}>
-            <MinPercentOptions
-              {...props}
-            />
-           </React.Suspense>
+        <React.Suspense fallback={null}>
+          <MinPercentOptions
+            {...props}
+          />
+        </React.Suspense>
       </Grid>
 
       {/* End of Result options */}
 
       {/* Start of Answer Sheet options */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Answer Sheet Options", "acadlix")}</Typography>
-            <Divider />
-          </Box>
-          <React.Suspense fallback={null}>
-            <AnswerSheetOptions
-              {...props}
-            />
-          </React.Suspense>
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h4">{__("Answer Sheet Options", "acadlix")}</Typography>
+        <Divider />
+      </Box>
+      <React.Suspense fallback={null}>
+        <AnswerSheetOptions
+          {...props}
+        />
+      </React.Suspense>
       {/* End of Answer Sheet options */}
 
       {/* Start of Leaderboard options */}
@@ -400,8 +401,8 @@ const Result = (props) => {
       <Grid
         container
         spacing={{
-            xs: 2,
-            sm: 4,
+          xs: 2,
+          sm: 4,
         }}
         alignItems="center"
       >
@@ -480,25 +481,25 @@ const Result = (props) => {
         </GridItem1>
 
         {/* Used to show rank  */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
-            </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
+        </GridItem1>
 
-            <React.Suspense fallback={null}>
-              <RankButton
-                {...props}
-              />
-            </React.Suspense>
-            
+        <React.Suspense fallback={null}>
+          <RankButton
+            {...props}
+          />
+        </React.Suspense>
+
         {/* Option for Result Comparison with topper    */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <React.Suspense fallback={null}>
-              <ResultComparissionButton
-                {...props}
-              />
-            </React.Suspense>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
+        </GridItem1>
+        <React.Suspense fallback={null}>
+          <ResultComparissionButton
+            {...props}
+          />
+        </React.Suspense>
 
         {/* User can apply multiple times for leaderboard */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -653,29 +654,42 @@ const Result = (props) => {
       <Grid
         container
         spacing={{
-            xs: 2,
-            sm: 4,
+          xs: 2,
+          sm: 4,
         }}
         alignItems="center"
       >
         {/* Show result Text
             - show simple text or based on %
           */}
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>
-            </GridItem1>
-            <React.Suspense fallback={null}>
-              <PercentBasedText
-                {...props}
-              />
-            </React.Suspense>
-          
-            <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>
+        </GridItem1>
+        <React.Suspense fallback={null}>
+          <PercentBasedText
+            {...props}
+          />
+        </React.Suspense>
+
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
 
         {/* Result Text - based on % */}
         {
           props?.watch("meta.quiz_settings.percent_based_result_text") ? (
             <React.Fragment>
+              <GridItem1
+                xs={12}
+                lg={12}
+                sx={{
+                  display: props?.watch("meta.quiz_settings.percent_based_result_text")
+                    ? "flex"
+                    : "none",
+                }}
+              >
+                <Alert severity="warning">
+                  {__("If a student's result does not fall into any of the defined percentage ranges, no message will be displayed to them.", "acadlix")}
+                </Alert>
+              </GridItem1>
               {
                 Array.isArray(props?.watch("meta.quiz_settings.result_text")) &&
                 props?.watch("meta.quiz_settings.result_text")?.map((val, index) => (
