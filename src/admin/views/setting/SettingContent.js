@@ -268,6 +268,7 @@ const SettingContent = ({
               selected === "payment" && (
                 <Payment
                   {...methods}
+                  options={options}
                   isPending={updateMutation?.isPending}
                 />
               )

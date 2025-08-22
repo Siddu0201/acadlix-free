@@ -230,7 +230,7 @@ const Stripe = (props) => {
                     xs: 12
                 }}>
                     <CustomCopyableText
-                        value={acadlixOptions?.options?.acadlix_stripe_webhook_url}
+                        value={props?.options?.acadlix_stripe_webhook_url}
                     />
                 </Grid>
             </Grid>

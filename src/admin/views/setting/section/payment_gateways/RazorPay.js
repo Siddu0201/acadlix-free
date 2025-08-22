@@ -216,7 +216,7 @@ const RazorPay = (props) => {
                     xs: 12
                 }}>
                     <CustomCopyableText
-                        value={acadlixOptions?.options?.acadlix_razorpay_webhook_url}
+                        value={props?.options?.acadlix_razorpay_webhook_url}
                     />
                 </Grid>
             </Grid>
