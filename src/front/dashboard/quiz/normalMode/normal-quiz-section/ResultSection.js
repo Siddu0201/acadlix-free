@@ -11,29 +11,29 @@ import NegativeMarks from "../result-components/NegativeMarks";
 import TimeTaken from "../result-components/TimeTaken";
 import ResultText from "../result-components/ResultText";
 
-const ResultStatus = React.lazy(() => {
+const ResultStatus = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
     Promise.resolve({ default: () => null })
-});
+);
 
-const Accuracy = React.lazy(() => {
+const Accuracy = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
     Promise.resolve({ default: () => null })
-});
+);
 
-const ResultRank = React.lazy(() => {
+const ResultRank = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/ResultRank") :
     Promise.resolve({ default: () => null })
-});
+);
 
-const ResultPercentile = React.lazy(() => {
+const ResultPercentile = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/ResultPercentile") :
     Promise.resolve({ default: () => null })
-});
+);
 
 const ResultSpeed = React.lazy(() => {
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -41,17 +41,17 @@ const ResultSpeed = React.lazy(() => {
     Promise.resolve({ default: () => null })
 });
 
-const ResultComparission = React.lazy(() => {
+const ResultComparission = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/ResultComparission") :
     Promise.resolve({ default: () => null })
-});
+);
 
-const SubjectWiseResult = React.lazy(() => {
+const SubjectWiseResult = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/SubjectWiseResult") :
     Promise.resolve({ default: () => null })
-});
+);
 
 const ResultSection = (props) => {
   return (

@@ -2,11 +2,11 @@ import { Box, Typography } from "@mui/material";
 import React from 'react'
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
-const PercentBasedText = React.lazy(() => {
+const PercentBasedText = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import("@acadlix/pro/front/dashboard/quiz/result-components/PercentBasedText") :
     Promise.resolve({ default: () => null })
-})
+)
 
 const ResultText = (props) => {
   return (

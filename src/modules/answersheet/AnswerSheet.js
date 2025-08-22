@@ -32,23 +32,23 @@ const QuestionSubjectAndPointSection = React.lazy(() =>
         : import("@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection")           // Provide fallback if in Free build
 );
 
-const ResultStatus = React.lazy(() => {
+const ResultStatus = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
         import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
         Promise.resolve({ default: () => null })
-});
+);
 
-const Accuracy = React.lazy(() => {
+const Accuracy = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
         import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
         Promise.resolve({ default: () => null })
-});
+);
 
-const ResultSpeed = React.lazy(() => {
+const ResultSpeed = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
         import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
         Promise.resolve({ default: () => null })
-});
+);
 
 const AnswerSheet = ({
     statistic = [],
