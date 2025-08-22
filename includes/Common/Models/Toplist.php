@@ -57,25 +57,6 @@ if (!class_exists('Toplist')) {
             return is_null($value) ? "Anonymous" : $value;
         }
 
-        public function getEntryRank($quiz_id, $entry_id)
-        {
-            $ranks = DB::table($this->table)
-                ->select('id', DB::raw('RANK() OVER (ORDER BY result DESC, quiz_time ASC) as rank'))
-                ->where('quiz_id', $quiz_id)
-                ->get();
-
-            $rank = $ranks->where('id', $entry_id)->first();
-            return $rank?->rank;
-        }
-
-        public function getTopper($quiz_id)
-        {
-            return self::where('quiz_id', $quiz_id)
-                ->orderByDesc('result')
-                ->orderBy('quiz_time')
-                ->first();
-        }
-
         public function getTopList($quiz_id, $skip = 0, $take = 10)
         {
             return DB::table($this->table)

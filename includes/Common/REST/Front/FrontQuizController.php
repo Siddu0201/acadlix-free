@@ -307,10 +307,8 @@ class FrontQuizController
                 }
             }
             $show_average_score = $quiz->rendered_metas['quiz_settings']['show_average_score'] ?? false;
-            $show_percentile = $quiz->rendered_metas['quiz_settings']['show_percentile'] ?? false;
             $statistic_ref = acadlix()->model()->statisticRef()->where('quiz_id', $quiz_id);
             $res['average_score'] = $statistic_ref->count() > 0 && $show_average_score ? (float) $statistic_ref->avg('points') : 0;
-            $res['percentile'] = $statistic_ref->count() > 0 && $show_percentile ? (float) round($data['result'] / ($statistic_ref->max('result') >= $data['result'] ? $statistic_ref->max('result') : $data['result']) * 100, 2) : 0;
         }
 
         // Check and save toplist
@@ -331,17 +329,9 @@ class FrontQuizController
                     "ip" => $ip,
                 ]);
             }
-            $show_rank = $quiz->rendered_metas['quiz_settings']['show_rank'] ?? false;
-            $result_comparision_with_topper = $quiz->rendered_metas['quiz_settings']['result_comparision_with_topper'] ?? false;
             $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
             $res['toplist_id'] = $top->id;
             $toplist = acadlix()->model()->toplist();
-            if ($show_rank) {
-                $res['rank'] = (int) $toplist->getEntryRank($quiz_id, $top->id);
-            }
-            if ($result_comparision_with_topper) {
-                $res['topper'] = $toplist->getTopper($quiz_id);
-            }
             if ($leaderboard_total_number_of_entries > 0 && $leaderboard_total_number_of_entries < 10) {
                 $res['toplist'] = $toplist->getTopList($quiz_id, 0, $leaderboard_total_number_of_entries);
             } else {
