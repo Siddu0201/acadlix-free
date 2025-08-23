@@ -1,13 +1,14 @@
 import { Group } from '@visx/group';
 import { Pie } from '@visx/shape';
+import PropTypes from 'prop-types';
 import React from 'react'
 
-const DonutChart = ({ value, color, size = 100 }) => {
-    const COLORS = {
-        green: "#4CAF50",
-        red: "#F44336",
-        gray: "#E0E0E0",
-    };
+const DonutChart = ({
+    value = 0,
+    color = "#4CAF50",
+    restColor = "#E0E0E0",
+    size = 100
+}) => {
 
     const data = [
         { label: "progress", value },
@@ -31,7 +32,7 @@ const DonutChart = ({ value, color, size = 100 }) => {
                     {(pie) =>
                         pie.arcs.map((arc, i) => {
                             const fill =
-                                arc.data.label === "progress" ? color : COLORS.gray;
+                                arc.data.label === "progress" ? color : restColor;
                             return (
                                 <path
                                     key={i}
@@ -56,3 +57,12 @@ const DonutChart = ({ value, color, size = 100 }) => {
 };
 
 export default DonutChart
+
+DonutChart.propTypes = {
+    value: PropTypes.oneOfType(
+        [PropTypes.number, PropTypes.string]
+    ).isRequired,
+    color: PropTypes.string,
+    restColor: PropTypes.string,
+    size: PropTypes.number,
+};
