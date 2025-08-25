@@ -91,7 +91,7 @@ const AiDescription = ({
                 disabled={disabled}
                 onClick={handleOpen}
             >
-                Generate From AI
+                {__("Generate From AI", "acadlix")}
             </Button>
         </>
     )
