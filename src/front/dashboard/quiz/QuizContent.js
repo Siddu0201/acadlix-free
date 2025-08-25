@@ -524,7 +524,7 @@ const QuizContent = (props) => {
       onSuccess: (data) => {
         let topper = data?.data?.topper;
         const topper_result = {
-          quiz_time: topper?.result > getResult() ? secondsToHms(topper.quiz_time ?? 0) : secondsToHms(getTimeTaken()),
+          quiz_time: topper?.result > getResult() ? topper.quiz_time ?? 0 : getTimeTaken(),
           accuracy: topper?.result > getResult() ? topper?.accuracy?.toFixed(2) ?? 0 : getAccuracy()?.toFixed(2),
           status: topper?.result > getResult() ? topper?.status ?? "" : getStatus(),
           result: topper?.result > getResult() ? topper?.result?.toFixed(2) ?? 0 : getResult()?.toFixed(2),
