@@ -64,13 +64,14 @@ class Submenu_Settings
 
     public function admin_print_scripts()
     {
-        wp_enqueue_style("acadlix-admin-setting-css");
+        acadlix()->assets()->manager()->load_assets('admin_setting', $this->localize_options());
+        // wp_enqueue_style("acadlix-admin-setting-css");
 
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-setting");
-        wp_localize_script("acadlix-admin-setting", "acadlixOptions", $this->localize_options());
-        wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-vendors-js');
+        // wp_enqueue_script("acadlix-admin-setting");
+        // wp_localize_script("acadlix-admin-setting", "acadlixOptions", $this->localize_options());
+        // wp_set_script_translations('acadlix-admin-setting', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function setting_callback()

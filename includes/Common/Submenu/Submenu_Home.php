@@ -23,7 +23,8 @@ class Submenu_Home
         ];
     }
 
-    public function get_position(){
+    public function get_position()
+    {
         return $this->_options['position'];
     }
 
@@ -54,17 +55,19 @@ class Submenu_Home
             'acadlix_documentation_url' => ACADLIX_DOCUMENTATION_URL,
             'acadlix_contact_us_url' => ACADLIX_CONTACT_US_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
-            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
+            'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
         ];
     }
 
     public function admin_print_scripts()
     {
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-home");
-        wp_localize_script('acadlix-admin-home', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-home', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
+
+        acadlix()->assets()->manager()->load_assets('admin_home', $this->localize_options());
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-vendors-js');
+        // wp_enqueue_script("acadlix-admin-home");
+        // wp_localize_script('acadlix-admin-home', 'acadlixOptions', $this->localize_options());
+        // wp_set_script_translations('acadlix-admin-home', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function home_callback()

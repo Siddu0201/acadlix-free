@@ -63,14 +63,15 @@ class Submenu_Design_Studio
 
     public function admin_print_scripts()
     {
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
+        acadlix()->assets()->manager()->load_assets('admin_design_studio', $this->localize_options());
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-vendors-js');
 
-        wp_enqueue_script("acadlix-admin-design-studio");
-        wp_enqueue_style("acadlix-admin-design-studio-css");
+        // wp_enqueue_script("acadlix-admin-design-studio");
+        // wp_enqueue_style("acadlix-admin-design-studio-css");
 
-        wp_localize_script('acadlix-admin-design-studio', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-design-studio', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        // wp_localize_script('acadlix-admin-design-studio', 'acadlixOptions', $this->localize_options());
+        // wp_set_script_translations('acadlix-admin-design-studio', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function design_studio_callback()

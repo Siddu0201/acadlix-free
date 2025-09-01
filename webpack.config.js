@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
+const { WebpackAssetsManifest } = require('webpack-assets-manifest');
 
 module.exports = (env, argv) => {
   const isPremium = process.env.REACT_APP_IS_PREMIUM === 'true';
@@ -68,15 +69,15 @@ module.exports = (env, argv) => {
         chunks: "all",
         // maxInitialRequests: 10, // Prevents too many separate requests
         // minSize: 20 * 1024, // Minimum size to split (20KB)
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/, // Extract dependencies from node_modules
-            name: "vendors",
-            chunks: "all",
-            priority: -10,
-          },
-          default: false
-        },
+        // cacheGroups: {
+        //   vendors: {
+        //     test: /[\\/]node_modules[\\/]/, // Extract dependencies from node_modules
+        //     name: "vendors",
+        //     chunks: "all",
+        //     priority: -10,
+        //   },
+        //   default: false
+        // },
       },
     },
 
@@ -98,6 +99,59 @@ module.exports = (env, argv) => {
     },
     plugins: [
       ...defaultConfig.plugins,
+      new WebpackAssetsManifest({
+        output: 'assets-manifest.json',
+        publicPath: true,
+        writeToDisk: true,
+        entrypoints: true,       // ✅ include entrypoints + their chunks
+        // done(manifest) {
+        //   const stats = manifest.compiler.getStats().toJson({ all: false, chunks: true, assets: true, entrypoints: true });
+        //   const manifestPath = path.resolve(manifest.options.output);
+
+        //   // Collect chunks per entrypoint
+        //   const entries = {};
+        //   for (const [entryName, entryData] of Object.entries(stats.entrypoints)) {
+        //     entries[entryName] = {
+        //       js: entryData.assets.filter(a => a.endsWith('.js')),
+        //       css: entryData.assets.filter(a => a.endsWith('.css')),
+        //     };
+        //   }
+
+        //   // Save PHP manifest
+        //   const phpFile = path.resolve(path.dirname(manifestPath), 'manifest.php');
+        //   const phpContent = `<?php\nreturn ${phpArray(entries)};\n`;
+        //   fs.writeFileSync(phpFile, phpContent, 'utf8');
+        // },
+      }),
+      {
+        apply: (compiler) => {
+          compiler.hooks.afterEmit.tap('ConvertManifestToPHP', (compilation) => {
+            const manifestFile = path.resolve(compiler.options.output.path, 'assets-manifest.json');
+            const phpFile = path.resolve(compiler.options.output.path, 'assets-manifest.php');
+
+            if (fs.existsSync(manifestFile)) {
+              const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+
+              const phpContent = `<?php\nreturn ${phpArray(manifest)};\n`;
+              fs.writeFileSync(phpFile, phpContent, 'utf8');
+            }
+          });
+        },
+      },
     ],
+    externals: {
+      ...defaultConfig.externals,
+      '@wordpress/i18n': 'wp.i18n',
+    },
   }
 };
+
+function phpArray(obj) {
+  if (typeof obj === 'object' && !Array.isArray(obj)) {
+    return "array(\n" + Object.entries(obj).map(([k, v]) => `  '${k}' => ${phpArray(v)}`).join(",\n") + "\n)";
+  } else if (Array.isArray(obj)) {
+    return "array(" + obj.map(v => phpArray(v)).join(", ") + ")";
+  } else {
+    return `'${obj}'`;
+  }
+}

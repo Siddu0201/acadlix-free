@@ -61,12 +61,13 @@ class Submenu_Student
 
     public function admin_print_scripts()
     {
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-student");
-        wp_enqueue_style("acadlix-admin-student-css");
-        wp_localize_script('acadlix-admin-student', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-student', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
+        acadlix()->assets()->manager()->load_assets('admin_student', $this->localize_options());
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-vendors-js');
+        // wp_enqueue_script("acadlix-admin-student");
+        // wp_enqueue_style("acadlix-admin-student-css");
+        // wp_localize_script('acadlix-admin-student', 'acadlixOptions', $this->localize_options());
+        // wp_set_script_translations('acadlix-admin-student', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function student_callback()

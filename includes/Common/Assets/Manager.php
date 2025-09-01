@@ -240,161 +240,213 @@ class Manager
         ];
     }
 
+    public function get_assets(): array
+    {
+        $manifest_file = ACADLIX_BUILD_PATH . acadlix()->versionPath . '/assets-manifest.php';
+
+        if (!file_exists($manifest_file)) {
+            return [];
+        }
+
+        $assets = include $manifest_file;
+
+        return $assets;
+    }
+
+    public function load_assets(string $entrypoint, $localized_options = []): void
+    {
+        $assets = $this->get_assets();
+        $entry = $assets['entrypoints'][$entrypoint] ?? null;
+
+        if ($entry) {
+            foreach ($entry['assets']['js'] as $js_file) {
+                $handle = 'acadlix-' . pathinfo($js_file, PATHINFO_FILENAME);
+                $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $js_file;
+
+                // Optional: load dependencies from PHP asset file
+                $asset_file = ACADLIX_BUILD_PATH . acadlix()->versionPath . '/' . str_replace('.js', '.asset.php', $js_file);
+                $deps = [];
+                if (file_exists($asset_file)) {
+                    $asset_data = include $asset_file;
+                    $deps = $asset_data['dependencies'] ?? [];
+                }
+                $deps = [...$deps, 'acadlix-global-hooks'];
+
+                wp_enqueue_script($handle, $src, $deps, null, true);
+                wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
+
+                if (!empty($localized_options)) {
+                    wp_localize_script($handle, 'acadlixOptions', $localized_options);
+                }
+            }
+            if (isset($entry['assets']['css']) && $entry['assets']['css']) {
+                foreach ($entry['assets']['css'] as $css_file) {
+                    $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
+                    $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $css_file;
+                    if (file_exists($src)) {
+                        wp_enqueue_style($handle, $src);
+                    }
+                }
+            }
+        }
+    }
+
     public function get_scripts(): array
     {
-        $runtime_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/runtime.asset.php';
-        $vendors_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/vendors.asset.php';
-        $admin_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_course.asset.php';
-        $admin_home_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_home.asset.php';
-        $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_lesson.asset.php';
-        $admin_order_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_order.asset.php';
-        $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_quiz.asset.php';
-        $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
-        $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
-        $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
-        $admin_student_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_student.asset.php';
-        $admin_design_studio_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_design_studio.asset.php';
+        // return [];
+            // $runtime_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/runtime.asset.php';
+            // $vendors_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/vendors.asset.php';
+            // $admin_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_course.asset.php';
+            // $admin_home_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_home.asset.php';
+            // $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_lesson.asset.php';
+            // $admin_order_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_order.asset.php';
+            // $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_quiz.asset.php';
+            // $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
+            // $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
+            // $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
+            // $admin_student_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_student.asset.php';
+            // $admin_design_studio_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_design_studio.asset.php';
 
-        $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
-        $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
-        $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_single_course.asset.php';
+            // $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
+            // $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
+            // $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_single_course.asset.php';
 
-        $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
+            $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
 
-        return [
-            'acadlix-global-hooks' => [
-                'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
-                'version' => ACADLIX_VERSION,
-                'deps' => ['wp-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-runtime-js' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
-                'version' => $runtime_dependency['version'],
-                'deps' => $runtime_dependency['dependencies'],
-                'in_footer' => true,
-            ],
-            'acadlix-vendors-js' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/vendors.js',
-                'version' => $vendors_dependency['version'],
-                'deps' => $vendors_dependency['dependencies'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-course' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_course.js',
-                'version' => $admin_course_dependency['version'],
-                'deps' => [...$admin_course_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-home' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_home.js',
-                'version' => $admin_home_dependency['version'],
-                'deps' => [...$admin_home_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-lesson' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.js',
-                'version' => $admin_lesson_dependency['version'],
-                'deps' => [...$admin_lesson_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-order' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.js',
-                'version' => $admin_order_dependency['version'],
-                'deps' => [...$admin_order_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-quiz' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.js',
-                'version' => $admin_quiz_dependency['version'],
-                'deps' => [...$admin_quiz_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-setting' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.js',
-                'version' => $admin_setting_dependency['version'],
-                'deps' => [...$admin_setting_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-tool' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
-                'version' => $admin_tool_dependency['version'],
-                'deps' => [...$admin_tool_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-addon' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.js',
-                'version' => $admin_addon_dependency['version'],
-                'deps' => [...$admin_addon_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-student' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.js',
-                'version' => $admin_student_dependency['version'],
-                'deps' => [...$admin_student_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-admin-design-studio' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_design_studio.js',
-                'version' => $admin_design_studio_dependency['version'],
-                'deps' => [...$admin_design_studio_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-front-js' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.js',
-                'version' => $front_dependency['version'],
-                'deps' => [...$front_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-front-checkout-js' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.js',
-                'version' => $front_checkout_dependency['version'],
-                'deps' => [...$front_checkout_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-front-single-course-js' => [
-                'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_single_course.js',
-                'version' => $front_single_course_dependency['version'],
-                'deps' => [...$front_single_course_dependency['dependencies'], 'acadlix-global-hooks'],
-                'in_footer' => true,
-            ],
-            'acadlix-razorpay-js' => [
-                'src' => 'https://checkout.razorpay.com/v1/checkout.js',
-                'version' => ACADLIX_VERSION,
-                'deps' => [],
-                'in_footer' => true,
-            ],
-            'acadlix-paypal-js' => [
-                'src' => "https://www.paypal.com/sdk/js?client-id=$paypal_client_id",
-                'version' => ACADLIX_VERSION,
-                'deps' => [],
-                'in_footer' => true,
-            ],
-            'acadlix-front-action-button-course-js' => [
-                'src' => ACADLIX_ASSETS_JS_URL . 'course-action-button.js',
-                'version' => ACADLIX_VERSION,
-                'deps' => ['jquery'],
-                'in_footer' => true,
-            ],
-            // 'acadlix-front-all-course-js' => [
-            //     'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
-            //     'version' => ACADLIX_VERSION,
-            //     'deps' => ['jquery'],
-            //     'in_footer' => true,
-            // ],
-            'acadlix-katex-js' => [
-                'src' => ACADLIX_ASSETS_JS_URL . 'katex/katex.min.js',
-                'version' => ACADLIX_VERSION,
-                'deps' => [],
-                'in_footer' => true,
-            ],
-            'acadlix-katex-auto-render-js' => [
-                'src' => ACADLIX_ASSETS_JS_URL . 'katex/auto-render.min.js',
-                'version' => ACADLIX_VERSION,
-                'deps' => ['acadlix-katex-js'],
-                'in_footer' => true,
-            ],
-        ];
+            return [
+                'acadlix-global-hooks' => [
+                    'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
+                    'version' => ACADLIX_VERSION,
+                    'deps' => ['wp-hooks'],
+                    'in_footer' => true,
+                ],
+                // 'acadlix-runtime-js' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
+                //     'version' => $runtime_dependency['version'],
+                //     'deps' => $runtime_dependency['dependencies'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-vendors-js' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/vendors.js',
+                //     'version' => $vendors_dependency['version'],
+                //     'deps' => $vendors_dependency['dependencies'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-course' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_course.js',
+                //     'version' => $admin_course_dependency['version'],
+                //     'deps' => [...$admin_course_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-home' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_home.js',
+                //     'version' => $admin_home_dependency['version'],
+                //     'deps' => [...$admin_home_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-lesson' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.js',
+                //     'version' => $admin_lesson_dependency['version'],
+                //     'deps' => [...$admin_lesson_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-order' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.js',
+                //     'version' => $admin_order_dependency['version'],
+                //     'deps' => [...$admin_order_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-quiz' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.js',
+                //     'version' => $admin_quiz_dependency['version'],
+                //     'deps' => [...$admin_quiz_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-setting' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.js',
+                //     'version' => $admin_setting_dependency['version'],
+                //     'deps' => [...$admin_setting_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-tool' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
+                //     'version' => $admin_tool_dependency['version'],
+                //     'deps' => [...$admin_tool_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-addon' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.js',
+                //     'version' => $admin_addon_dependency['version'],
+                //     'deps' => [...$admin_addon_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-student' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.js',
+                //     'version' => $admin_student_dependency['version'],
+                //     'deps' => [...$admin_student_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-admin-design-studio' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_design_studio.js',
+                //     'version' => $admin_design_studio_dependency['version'],
+                //     'deps' => [...$admin_design_studio_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-front-js' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.js',
+                //     'version' => $front_dependency['version'],
+                //     'deps' => [...$front_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-front-checkout-js' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.js',
+                //     'version' => $front_checkout_dependency['version'],
+                //     'deps' => [...$front_checkout_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                // 'acadlix-front-single-course-js' => [
+                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_single_course.js',
+                //     'version' => $front_single_course_dependency['version'],
+                //     'deps' => [...$front_single_course_dependency['dependencies'], 'acadlix-global-hooks'],
+                //     'in_footer' => true,
+                // ],
+                'acadlix-razorpay-js' => [
+                    'src' => 'https://checkout.razorpay.com/v1/checkout.js',
+                    'version' => ACADLIX_VERSION,
+                    'deps' => [],
+                    'in_footer' => true,
+                ],
+                'acadlix-paypal-js' => [
+                    'src' => "https://www.paypal.com/sdk/js?client-id=$paypal_client_id",
+                    'version' => ACADLIX_VERSION,
+                    'deps' => [],
+                    'in_footer' => true,
+                ],
+                'acadlix-front-action-button-course-js' => [
+                    'src' => ACADLIX_ASSETS_JS_URL . 'course-action-button.js',
+                    'version' => ACADLIX_VERSION,
+                    'deps' => ['jquery'],
+                    'in_footer' => true,
+                ],
+                'acadlix-front-all-course-js' => [
+                    'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
+                    'version' => ACADLIX_VERSION,
+                    'deps' => ['jquery'],
+                    'in_footer' => true,
+                ],
+                'acadlix-katex-js' => [
+                    'src' => ACADLIX_ASSETS_JS_URL . 'katex/katex.min.js',
+                    'version' => ACADLIX_VERSION,
+                    'deps' => [],
+                    'in_footer' => true,
+                ],
+                'acadlix-katex-auto-render-js' => [
+                    'src' => ACADLIX_ASSETS_JS_URL . 'katex/auto-render.min.js',
+                    'version' => ACADLIX_VERSION,
+                    'deps' => ['acadlix-katex-js'],
+                    'in_footer' => true,
+                ],
+            ];
     }
 
     public function register_styles(array $styles)
@@ -425,18 +477,18 @@ class Manager
             'logout_url' => esc_url(wp_logout_url(acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') !== "" ? acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') : home_url())),
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
-            'user' => get_current_user_id() > 0 ? 
-                        acadlix()->model()->wpUsers()
-                        ->select([
-                            'ID', 
-                            'user_email', 
-                            'display_name', 
-                            'user_url'
-                        ])
-                        ->where('ID', get_current_user_id())
-                        ->first() : [],
+            'user' => get_current_user_id() > 0 ?
+                acadlix()->model()->wpUsers()
+                    ->select([
+                        'ID',
+                        'user_email',
+                        'display_name',
+                        'user_url'
+                    ])
+                    ->where('ID', get_current_user_id())
+                    ->first() : [],
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
-            'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
+            'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'logo_url' => $logo_url,
             'blog_name' => get_bloginfo('name'),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
@@ -460,16 +512,16 @@ class Manager
             'checkout_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'))),
             'cart_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id'))),
             'user_id' => get_current_user_id() ?? 0,
-            'user' => get_current_user_id() > 0 ? 
-                        acadlix()->model()->wpUsers()
-                        ->select([
-                            'ID', 
-                            'user_email', 
-                            'display_name', 
-                            'user_url'
-                        ])
-                        ->where('ID', get_current_user_id())
-                        ->first() : [],
+            'user' => get_current_user_id() > 0 ?
+                acadlix()->model()->wpUsers()
+                    ->select([
+                        'ID',
+                        'user_email',
+                        'display_name',
+                        'user_url'
+                    ])
+                    ->where('ID', get_current_user_id())
+                    ->first() : [],
             'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
@@ -510,18 +562,18 @@ class Manager
         wp_enqueue_style('acadlix-front-base-style-css');
         $theme = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
         // acadlix()->helper()->acadlix_ddd($theme['typography']['h1']['lineHeight']['desktop']);
-        $primaryMain     = $theme['palette']['primary']['main'] ?? 'hsl(210, 100%, 50%)';
-        $primaryDark     = $theme['palette']['primary']['dark'] ?? 'hsl(210, 100%, 38%)';
-        $textPrimary     = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
-        $textSecondary    = $theme['palette']['text']['secondary'] ?? 'hsl(218, 10%, 55%)';
+        $primaryMain = $theme['palette']['primary']['main'] ?? 'hsl(210, 100%, 50%)';
+        $primaryDark = $theme['palette']['primary']['dark'] ?? 'hsl(210, 100%, 38%)';
+        $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
+        $textSecondary = $theme['palette']['text']['secondary'] ?? 'hsl(218, 10%, 55%)';
         // $grey            = $theme['palette']['grey']['main'] ?? 'hsl(215, 15%, 97%)';
-        $grey            = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 97%)';
+        $grey = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 97%)';
         // $borderColor     = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 82%)';
-        $borderColor     = 'hsl(215, 15%, 82%)';
+        $borderColor = 'hsl(215, 15%, 82%)';
         // H1
-        $h1_fs_desktop    = $theme['typography']['h1']['fontSize']['desktop'] ?? '2.5rem';
-        $h1_fs_tablet    = $theme['typography']['h1']['fontSize']['tablet'] ?? '2rem';
-        $h1_fs_mobile    = $theme['typography']['h1']['fontSize']['mobile'] ?? '1.75rem';
+        $h1_fs_desktop = $theme['typography']['h1']['fontSize']['desktop'] ?? '2.5rem';
+        $h1_fs_tablet = $theme['typography']['h1']['fontSize']['tablet'] ?? '2rem';
+        $h1_fs_mobile = $theme['typography']['h1']['fontSize']['mobile'] ?? '1.75rem';
         $h1_fw_desktop = $theme['typography']['h1']['fontWeight']['desktop'] ?? 700;
         $h1_fw_tablet = $theme['typography']['h1']['fontWeight']['tablet'] ?? 700;
         $h1_fw_mobile = $theme['typography']['h1']['fontWeight']['mobile'] ?? 700;
@@ -532,9 +584,9 @@ class Manager
         $h1_ls_tablet = $theme['typography']['h1']['letterSpacing']['tablet'] ?? '0.3px';
         $h1_ls_mobile = $theme['typography']['h1']['letterSpacing']['mobile'] ?? '0.3px';
         // H2
-        $h2_fs_desktop    = $theme['typography']['h2']['fontSize']['desktop'] ?? '1.875rem';
-        $h2_fs_tablet    = $theme['typography']['h2']['fontSize']['tablet'] ?? '1.625rem';
-        $h2_fs_mobile    = $theme['typography']['h2']['fontSize']['mobile'] ?? '1.5rem';
+        $h2_fs_desktop = $theme['typography']['h2']['fontSize']['desktop'] ?? '1.875rem';
+        $h2_fs_tablet = $theme['typography']['h2']['fontSize']['tablet'] ?? '1.625rem';
+        $h2_fs_mobile = $theme['typography']['h2']['fontSize']['mobile'] ?? '1.5rem';
         $h2_fw_desktop = $theme['typography']['h2']['fontWeight']['desktop'] ?? 600;
         $h2_fw_tablet = $theme['typography']['h2']['fontWeight']['tablet'] ?? 600;
         $h2_fw_mobile = $theme['typography']['h2']['fontWeight']['mobile'] ?? 600;
@@ -545,9 +597,9 @@ class Manager
         $h2_ls_tablet = $theme['typography']['h2']['letterSpacing']['tablet'] ?? '0.3px';
         $h2_ls_mobile = $theme['typography']['h2']['letterSpacing']['mobile'] ?? '0.3px';
         // H3
-        $h3_fs_desktop    = $theme['typography']['h3']['fontSize']['desktop'] ?? '1.5rem';
-        $h3_fs_tablet    = $theme['typography']['h3']['fontSize']['tablet'] ?? '1.375rem';
-        $h3_fs_mobile    = $theme['typography']['h3']['fontSize']['mobile'] ?? '1.25rem';
+        $h3_fs_desktop = $theme['typography']['h3']['fontSize']['desktop'] ?? '1.5rem';
+        $h3_fs_tablet = $theme['typography']['h3']['fontSize']['tablet'] ?? '1.375rem';
+        $h3_fs_mobile = $theme['typography']['h3']['fontSize']['mobile'] ?? '1.25rem';
         $h3_fw_desktop = $theme['typography']['h3']['fontWeight']['desktop'] ?? 600;
         $h3_fw_tablet = $theme['typography']['h3']['fontWeight']['tablet'] ?? 600;
         $h3_fw_mobile = $theme['typography']['h3']['fontWeight']['mobile'] ?? 600;
@@ -558,9 +610,9 @@ class Manager
         $h3_ls_tablet = $theme['typography']['h3']['letterSpacing']['tablet'] ?? '0.3px';
         $h3_ls_mobile = $theme['typography']['h3']['letterSpacing']['mobile'] ?? '0.3px';
         // H4
-        $h4_fs_desktop    = $theme['typography']['h4']['fontSize']['desktop'] ?? '1.25rem';
-        $h4_fs_tablet    = $theme['typography']['h4']['fontSize']['tablet'] ?? '1.125rem';
-        $h4_fs_mobile    = $theme['typography']['h4']['fontSize']['mobile'] ?? '1rem';
+        $h4_fs_desktop = $theme['typography']['h4']['fontSize']['desktop'] ?? '1.25rem';
+        $h4_fs_tablet = $theme['typography']['h4']['fontSize']['tablet'] ?? '1.125rem';
+        $h4_fs_mobile = $theme['typography']['h4']['fontSize']['mobile'] ?? '1rem';
         $h4_fw_desktop = $theme['typography']['h4']['fontWeight']['desktop'] ?? 600;
         $h4_fw_tablet = $theme['typography']['h4']['fontWeight']['tablet'] ?? 600;
         $h4_fw_mobile = $theme['typography']['h4']['fontWeight']['mobile'] ?? 600;
@@ -571,9 +623,9 @@ class Manager
         $h4_ls_tablet = $theme['typography']['h4']['letterSpacing']['tablet'] ?? '0.3px';
         $h4_ls_mobile = $theme['typography']['h4']['letterSpacing']['mobile'] ?? '0.3px';
         // H5
-        $h5_fs_desktop    = $theme['typography']['h5']['fontSize']['desktop'] ?? '1.125rem';
-        $h5_fs_tablet    = $theme['typography']['h5']['fontSize']['tablet'] ?? '1rem';
-        $h5_fs_mobile    = $theme['typography']['h5']['fontSize']['mobile'] ?? '0.9375rem';
+        $h5_fs_desktop = $theme['typography']['h5']['fontSize']['desktop'] ?? '1.125rem';
+        $h5_fs_tablet = $theme['typography']['h5']['fontSize']['tablet'] ?? '1rem';
+        $h5_fs_mobile = $theme['typography']['h5']['fontSize']['mobile'] ?? '0.9375rem';
         $h5_fw_desktop = $theme['typography']['h5']['fontWeight']['desktop'] ?? 600;
         $h5_fw_tablet = $theme['typography']['h5']['fontWeight']['tablet'] ?? 600;
         $h5_fw_mobile = $theme['typography']['h5']['fontWeight']['mobile'] ?? 600;
@@ -584,9 +636,9 @@ class Manager
         $h5_ls_tablet = $theme['typography']['h5']['letterSpacing']['tablet'] ?? '0.3px';
         $h5_ls_mobile = $theme['typography']['h5']['letterSpacing']['mobile'] ?? '0.3px';
         // H6
-        $h6_fs_desktop    = $theme['typography']['h6']['fontSize']['desktop'] ?? '1rem';
-        $h6_fs_tablet    = $theme['typography']['h6']['fontSize']['tablet'] ?? '0.9375rem';
-        $h6_fs_mobile    = $theme['typography']['h6']['fontSize']['mobile'] ?? '0.875rem';
+        $h6_fs_desktop = $theme['typography']['h6']['fontSize']['desktop'] ?? '1rem';
+        $h6_fs_tablet = $theme['typography']['h6']['fontSize']['tablet'] ?? '0.9375rem';
+        $h6_fs_mobile = $theme['typography']['h6']['fontSize']['mobile'] ?? '0.875rem';
         $h6_fw_desktop = $theme['typography']['h6']['fontWeight']['desktop'] ?? 600;
         $h6_fw_tablet = $theme['typography']['h6']['fontWeight']['tablet'] ?? 600;
         $h6_fw_mobile = $theme['typography']['h6']['fontWeight']['mobile'] ?? 600;
@@ -597,9 +649,9 @@ class Manager
         $h6_ls_tablet = $theme['typography']['h6']['letterSpacing']['tablet'] ?? '0.3px';
         $h6_ls_mobile = $theme['typography']['h6']['letterSpacing']['mobile'] ?? '0.3px';
         // body1
-        $body1_fs_desktop    = $theme['typography']['body1']['fontSize']['desktop'] ?? '1rem';
-        $body1_fs_tablet    = $theme['typography']['body1']['fontSize']['tablet'] ?? '0.9375rem';
-        $body1_fs_mobile    = $theme['typography']['body1']['fontSize']['mobile'] ?? '0.875rem';
+        $body1_fs_desktop = $theme['typography']['body1']['fontSize']['desktop'] ?? '1rem';
+        $body1_fs_tablet = $theme['typography']['body1']['fontSize']['tablet'] ?? '0.9375rem';
+        $body1_fs_mobile = $theme['typography']['body1']['fontSize']['mobile'] ?? '0.875rem';
         $body1_fw_desktop = $theme['typography']['body1']['fontWeight']['desktop'] ?? 400;
         $body1_fw_tablet = $theme['typography']['body1']['fontWeight']['tablet'] ?? 400;
         $body1_fw_mobile = $theme['typography']['body1']['fontWeight']['mobile'] ?? 400;
@@ -610,9 +662,9 @@ class Manager
         $body1_ls_tablet = $theme['typography']['body1']['letterSpacing']['tablet'] ?? '0.3px';
         $body1_ls_mobile = $theme['typography']['body1']['letterSpacing']['mobile'] ?? '0.3px';
         // body2
-        $body2_fs_desktop    = $theme['typography']['body2']['fontSize']['desktop'] ?? '0.875rem';
-        $body2_fs_tablet    = $theme['typography']['body2']['fontSize']['tablet'] ?? '0.75rem';
-        $body2_fs_mobile    = $theme['typography']['body2']['fontSize']['mobile'] ?? '0.625rem';
+        $body2_fs_desktop = $theme['typography']['body2']['fontSize']['desktop'] ?? '0.875rem';
+        $body2_fs_tablet = $theme['typography']['body2']['fontSize']['tablet'] ?? '0.75rem';
+        $body2_fs_mobile = $theme['typography']['body2']['fontSize']['mobile'] ?? '0.625rem';
         $body2_fw_desktop = $theme['typography']['body2']['fontWeight']['desktop'] ?? 400;
         $body2_fw_tablet = $theme['typography']['body2']['fontWeight']['tablet'] ?? 400;
         $body2_fw_mobile = $theme['typography']['body2']['fontWeight']['mobile'] ?? 400;
@@ -623,9 +675,9 @@ class Manager
         $body2_ls_tablet = $theme['typography']['body2']['letterSpacing']['tablet'] ?? '0.3px';
         $body2_ls_mobile = $theme['typography']['body2']['letterSpacing']['mobile'] ?? '0.3px';
         // subtitle1
-        $subtitle1_fs_desktop    = $theme['typography']['subtitle1']['fontSize']['desktop'] ?? '1rem';
-        $subtitle1_fs_tablet    = $theme['typography']['subtitle1']['fontSize']['tablet'] ?? '0.9375rem';
-        $subtitle1_fs_mobile    = $theme['typography']['subtitle1']['fontSize']['mobile'] ?? '0.875rem';
+        $subtitle1_fs_desktop = $theme['typography']['subtitle1']['fontSize']['desktop'] ?? '1rem';
+        $subtitle1_fs_tablet = $theme['typography']['subtitle1']['fontSize']['tablet'] ?? '0.9375rem';
+        $subtitle1_fs_mobile = $theme['typography']['subtitle1']['fontSize']['mobile'] ?? '0.875rem';
         $subtitle1_fw_desktop = $theme['typography']['subtitle1']['fontWeight']['desktop'] ?? 400;
         $subtitle1_fw_tablet = $theme['typography']['subtitle1']['fontWeight']['tablet'] ?? 400;
         $subtitle1_fw_mobile = $theme['typography']['subtitle1']['fontWeight']['mobile'] ?? 400;
@@ -636,9 +688,9 @@ class Manager
         $subtitle1_ls_tablet = $theme['typography']['subtitle1']['letterSpacing']['tablet'] ?? '0.3px';
         $subtitle1_ls_mobile = $theme['typography']['subtitle1']['letterSpacing']['mobile'] ?? '0.3px';
         // subtitle2
-        $subtitle2_fs_desktop    = $theme['typography']['subtitle2']['fontSize']['desktop'] ?? '0.875rem';
-        $subtitle2_fs_tablet    = $theme['typography']['subtitle2']['fontSize']['tablet'] ?? '0.75rem';
-        $subtitle2_fs_mobile    = $theme['typography']['subtitle2']['fontSize']['mobile'] ?? '0.625rem';
+        $subtitle2_fs_desktop = $theme['typography']['subtitle2']['fontSize']['desktop'] ?? '0.875rem';
+        $subtitle2_fs_tablet = $theme['typography']['subtitle2']['fontSize']['tablet'] ?? '0.75rem';
+        $subtitle2_fs_mobile = $theme['typography']['subtitle2']['fontSize']['mobile'] ?? '0.625rem';
         $subtitle2_fw_desktop = $theme['typography']['subtitle2']['fontWeight']['desktop'] ?? 500;
         $subtitle2_fw_tablet = $theme['typography']['subtitle2']['fontWeight']['tablet'] ?? 500;
         $subtitle2_fw_mobile = $theme['typography']['subtitle2']['fontWeight']['mobile'] ?? 500;
@@ -779,9 +831,9 @@ class Manager
                     }
                 ";
 
-        wp_add_inline_style('acadlix-front-base-style-css', $custom_css);        
+        wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
 
-       
+
 
         wp_enqueue_script('acadlix-front-action-button-course-js');
         wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());

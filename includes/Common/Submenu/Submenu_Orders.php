@@ -66,12 +66,13 @@ class Submenu_Orders
     public function admin_print_scripts()
     {
         wp_enqueue_script('wp-date');
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-order");
-        wp_enqueue_style("acadlix-admin-order-css");
-        wp_localize_script('acadlix-admin-order', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
+        acadlix()->assets()->manager()->load_assets('admin_order', $this->localize_options());
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-vendors-js');
+        // wp_enqueue_script("acadlix-admin-order");
+        // wp_enqueue_style("acadlix-admin-order-css");
+        // wp_localize_script('acadlix-admin-order', 'acadlixOptions', $this->localize_options());
+        // wp_set_script_translations('acadlix-admin-order', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
     }
 
     public function order_callback()

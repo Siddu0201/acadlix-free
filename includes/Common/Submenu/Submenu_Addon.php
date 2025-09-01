@@ -64,12 +64,13 @@ class Submenu_Addon
 
     public function admin_print_scripts()
     {
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-addon");
-        wp_enqueue_style("acadlix-admin-addon-css");
-        wp_localize_script('acadlix-admin-addon', 'acadlixOptions', $this->localize_options());
-        wp_set_script_translations('acadlix-admin-addon', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        acadlix()->assets()->manager()->load_assets('admin_addon', $this->localize_options());
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-vendors-js');
+        // wp_enqueue_script("acadlix-admin-addon");
+        // wp_enqueue_style("acadlix-admin-addon-css");
+        // wp_localize_script('acadlix-admin-addon', 'acadlixOptions', $this->localize_options());
+        // wp_set_script_translations('acadlix-admin-addon', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function addon_callback()
