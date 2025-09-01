@@ -554,18 +554,20 @@ class Manager
             wp_enqueue_script('wp-mediaelement');
             wp_enqueue_style('wp-mediaelement');
         }
-
-        wp_enqueue_style('acadlix-vendor-css');
-        wp_enqueue_style('acadlix-front-css');
-
         wp_enqueue_script('acadlix-katex-js');
         wp_enqueue_script('acadlix-katex-auto-render-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script('acadlix-runtime-js');
         wp_enqueue_script('wp-date');
-        wp_enqueue_script('acadlix-front-js');
-        wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
-        wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+
+        acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
+
+        // wp_enqueue_style('acadlix-vendor-css');
+        // wp_enqueue_style('acadlix-front-css');
+
+        // wp_enqueue_script('acadlix-vendors-js');
+        // wp_enqueue_script('acadlix-runtime-js');
+        // wp_enqueue_script('acadlix-front-js');
+        // wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
+        // wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
     }
 
     public function enqueue_front_assets()
