@@ -4,7 +4,9 @@ import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 
 const PercentBasedText = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/PercentBasedText") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_result_text_percent_based_text" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/PercentBasedText") :
     Promise.resolve({ default: () => null })
 )
 

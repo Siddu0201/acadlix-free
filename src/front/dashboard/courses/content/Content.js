@@ -22,12 +22,16 @@ import { __ } from "@wordpress/i18n";
 
 const AssignmentContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/front/dashboard/courses/content/AssignmentContent") // Use pro version in Pro build
+    ? import(
+        /* webpackChunkName: "front_dashboard_courses_content_assignment_content" */
+        "@acadlix/pro/front/dashboard/courses/content/AssignmentContent") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 const ProContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/front/dashboard/courses/content/ProContent") // Use pro version in Pro build
+    ? import(
+        /* webpackChunkName: "front_dashboard_courses_content_pro_content" */
+        "@acadlix/pro/front/dashboard/courses/content/ProContent") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 

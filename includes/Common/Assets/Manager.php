@@ -290,19 +290,12 @@ class Manager
             }
 
             if ($assets) {
-                foreach ($assets as $key => $entry) {
-                    if ($key != 'entrypoints' && str_ends_with($entry, '.bundle.js')) {
-                        $handle = 'acadlix-' . pathinfo($entry, PATHINFO_FILENAME);
-                        $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $entry;
-                        wp_enqueue_script($handle, $src, [], null, true);
-                        wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
-                    }
-                }
                 foreach ($assets as $file => $mappedFile) {
-                    if ($key != 'entrypoints' && strpos($file, $entrypoint) !== false && str_ends_with($entry, '.bundle.js')) {
+                    if ($file != 'entrypoints' && str_contains($mappedFile, $entrypoint) && str_ends_with($mappedFile, '.bundle.js')) {
                         $handle = 'acadlix-' . pathinfo($file, PATHINFO_FILENAME);
                         $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $mappedFile;
-                        wp_enqueue_script($handle, $src, [], null, true);
+                        $deps = ['acadlix-global-hooks'];
+                        wp_enqueue_script($handle, $src, $deps, null, true);
                         wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
                     }
                 }

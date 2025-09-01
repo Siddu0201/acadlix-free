@@ -13,14 +13,22 @@ import { __ } from "@wordpress/i18n";
 
 const StartDate = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/course_settings/StartDate") :
-    import("@acadlix/free/admin/course_settings/StartDate")
+    import(
+      /* webpackChunkName: "admin_course_settings_general_start_date" */
+      "@acadlix/pro/admin/course_settings/StartDate") :
+    import(
+      /* webpackChunkName: "admin_course_settings_general_start_date" */
+      "@acadlix/free/admin/course_settings/StartDate")
 );
 
 const EndDate = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/course_settings/EndDate") :
-    import("@acadlix/free/admin/course_settings/EndDate")
+    import(
+      /* webpackChunkName: "admin_course_settings_general_end_date" */
+      "@acadlix/pro/admin/course_settings/EndDate") :
+    import(
+      /* webpackChunkName: "admin_course_settings_general_end_date" */
+      "@acadlix/free/admin/course_settings/EndDate")
 );
 
 const General = (props) => {

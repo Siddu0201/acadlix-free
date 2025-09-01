@@ -2,8 +2,12 @@ import React from 'react'
 
 const AiCourseButton = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/admin/course_ai/AiCourseButton") :
-        import("@acadlix/free/admin/course_ai/AiCourseButton")
+        import(
+            /* webpackChunkName: "admin_course_ai_pro_ai_course_button" */
+            "@acadlix/pro/admin/course_ai/AiCourseButton") :
+        import(
+            /* webpackChunkName: "admin_course_ai_free_ai_course_button" */
+            "@acadlix/free/admin/course_ai/AiCourseButton")
 );
 
 const CourseAi = () => {

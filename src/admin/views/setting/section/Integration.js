@@ -7,8 +7,12 @@ import CustomTypography from '@acadlix/components/CustomTypography';
 
 const OpenAiOption = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/admin/setting/integration/OpenAiOption") :
-        import("@acadlix/free/admin/setting/integration/OpenAiOption")
+        import(
+            /* webpackChunkName: "admin_setting_integration_open_ai_option" */
+            "@acadlix/pro/admin/setting/integration/OpenAiOption") :
+        import(
+            /* webpackChunkName: "admin_setting_integration_open_ai_option" */
+            "@acadlix/free/admin/setting/integration/OpenAiOption")
 );
 
 const Integration = (props) => {

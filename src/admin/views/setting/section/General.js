@@ -28,8 +28,12 @@ import CustomTypography from "@acadlix/components/CustomTypography";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/setting/general/AdvanceQuizOption") :
-    import("@acadlix/free/admin/setting/general/AdvanceQuizOption")
+    import(
+      /* webpackChunkName: "admin_setting_general_advance_quiz_option" */
+      "@acadlix/pro/admin/setting/general/AdvanceQuizOption") :
+    import(
+      /* webpackChunkName: "admin_setting_general_advance_quiz_option" */
+      "@acadlix/free/admin/setting/general/AdvanceQuizOption")
 );
 
 function General(props) {

@@ -13,43 +13,57 @@ import ResultText from "../result-components/ResultText";
 
 const ResultStatus = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_result_status" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
     Promise.resolve({ default: () => null })
 );
 
 const Accuracy = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_accuracy" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
     Promise.resolve({ default: () => null })
 );
 
 const ResultRank = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultRank") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_result_rank" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultRank") :
     Promise.resolve({ default: () => null })
 );
 
 const ResultPercentile = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultPercentile") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_result_percentile" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultPercentile") :
     Promise.resolve({ default: () => null })
 );
 
 const ResultSpeed = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_result_speed" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
     Promise.resolve({ default: () => null })
 );
 
 const ResultComparission = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/ResultComparission") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_result_comparission" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultComparission") :
     Promise.resolve({ default: () => null })
 );
 
 const SubjectWiseResult = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/front/dashboard/quiz/result-components/SubjectWiseResult") :
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_result_section_subject_wise_result" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/SubjectWiseResult") :
     Promise.resolve({ default: () => null })
 );
 

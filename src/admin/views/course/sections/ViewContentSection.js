@@ -36,13 +36,19 @@ import { hasCapability } from "@acadlix/helpers/util";
 
 const Preview = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/course/Preview") :
-    import("@acadlix/free/admin/course/Preview")
+    import(
+      /* webpackChunkName: "admin_course_preview" */
+      "@acadlix/pro/admin/course/Preview") :
+    import(
+      /* webpackChunkName: "admin_course_preview" */
+      "@acadlix/free/admin/course/Preview")
 );
 
 const ViewProContentSection = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/views/course/sections/ViewProContentSection") :
+    import(
+      /* webpackChunkName: "admin_course_view_pro_content_section" */
+      "@acadlix/pro/admin/views/course/sections/ViewProContentSection") :
     Promise.resolve({ default: () => null })
 );
 

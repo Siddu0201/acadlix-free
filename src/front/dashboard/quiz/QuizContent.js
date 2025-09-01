@@ -23,7 +23,9 @@ import { QuizFunction } from "./QuizFunction";
 
 const AdvanceQuizMode = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import("@acadlix/pro/front/dashboard/quiz/AdvanceQuizMode") // Use pro version in Pro build
+    ? import(
+        /* webpackChunkName: "front_dashboard_quiz_advance_quiz_mode" */
+        "@acadlix/pro/front/dashboard/quiz/AdvanceQuizMode") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 

@@ -13,8 +13,12 @@ import { defaultPaletteColor, defaultTypography } from '@acadlix/provider/Custom
 
 const DesignSections = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/admin/views/design_studio/DesignSections") :
-        import("@acadlix/free/admin/design_studio/DesignSections")
+        import(
+            /* webpackChunkName: "admin_design_studio_design_sections" */
+            "@acadlix/pro/admin/views/design_studio/DesignSections") :
+        import(
+            /* webpackChunkName: "admin_design_studio_design_sections" */
+            "@acadlix/free/admin/design_studio/DesignSections")
 );
 
 const DesignStudio = ({ selected = 'palette' }) => {

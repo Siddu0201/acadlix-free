@@ -28,25 +28,33 @@ import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-component
 
 const QuestionSubjectAndPointSection = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true'
-        ? import("@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
+        ? import(
+            /* webpackChunkName: "front_dashboard_quiz_normal_mode_answer_sheet_question_subject_and_point_section" */
+            "@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
         : import("@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection")           // Provide fallback if in Free build
 );
 
 const ResultStatus = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
+        import(
+            /* webpackChunkName: "front_dashboard_quiz_normal_mode_answer_sheet_result_status" */
+            "@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus") :
         Promise.resolve({ default: () => null })
 );
 
 const Accuracy = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
+        import(
+            /* webpackChunkName: "front_dashboard_quiz_normal_mode_answer_sheet_accuracy" */
+            "@acadlix/pro/front/dashboard/quiz/result-components/Accuracy") :
         Promise.resolve({ default: () => null })
 );
 
 const ResultSpeed = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
+        import(
+            /* webpackChunkName: "front_dashboard_quiz_normal_mode_answer_sheet_result_speed" */
+            "@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed") :
         Promise.resolve({ default: () => null })
 );
 

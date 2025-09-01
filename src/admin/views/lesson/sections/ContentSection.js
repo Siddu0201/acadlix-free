@@ -3,8 +3,12 @@ import React from "react";
 
 const AiButton = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import("@acadlix/pro/admin/lesson/AiButton") :
-        import("@acadlix/free/admin/lesson/AiButton")
+        import(
+            /* webpackChunkName: "admin_lesson_pro_lesson_ai_button" */
+            "@acadlix/pro/admin/lesson/AiButton") :
+        import(
+            /* webpackChunkName: "admin_lesson_free_lesson_ai_button" */
+            "@acadlix/free/admin/lesson/AiButton")
 );
 
 const ContentSection = (props) => {
