@@ -281,10 +281,18 @@ class Manager
             }
             if (isset($entry['assets']['css']) && $entry['assets']['css']) {
                 foreach ($entry['assets']['css'] as $css_file) {
-                    $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
-                    $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $css_file;
-                    if (file_exists($src)) {
-                        wp_enqueue_style($handle, $src);
+                    if (is_rtl()) {
+                        if (str_contains($css_file, 'rtl')) {
+                            $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
+                            $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $css_file;
+                            wp_enqueue_style($handle, $src);
+                        }
+                    } else {
+                        if (!str_contains($css_file, 'rtl')) {
+                            $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
+                            $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $css_file;
+                            wp_enqueue_style($handle, $src);
+                        }
                     }
                 }
             }
