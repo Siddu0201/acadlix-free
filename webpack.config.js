@@ -69,7 +69,7 @@ module.exports = (env, argv) => {
       ...defaultConfig.output,
       // chunkFilename: '[name].bundle.js'
       filename: "[name].js",
-      chunkFilename: "[name].[contenthash].bundle.js",
+      chunkFilename: "[name].bundle.js",
       path: path.resolve(process.cwd(), "build", outputPath),
     },
 
