@@ -47,7 +47,7 @@ if (!class_exists("SingleCourseController")) {
                 wp_enqueue_style('acadlix-front-font-awesome-css');
                 wp_enqueue_style('acadlix-front-line-awesome-css');
 
-                acadlix()->assets()->manager()->load_assets('front_single_course', $this->localize_single_course_options());
+                acadlix()->assets()->manager()->load_assets('front_single_course', $this->localize_single_course_options(), 'acadlixSingleCourse');
 
                 // wp_enqueue_script('acadlix-front-single-course-js');
                 // wp_localize_script( 'acadlix-front-single-course-js', 'acadlixSingleCourse', array(

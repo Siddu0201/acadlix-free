@@ -15,7 +15,7 @@ import { loadFrontSingleCourseHooks } from '@acadlix/modules/extensions/hooksLoa
 
             course.__REACT_ROOT__.render(
                 <Provider>
-                    <FrontSingleCourse course={JSON.parse(acadlixOptions?.course) ?? {}} />
+                    <FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}} />
                 </Provider>
             );
         }

@@ -253,7 +253,7 @@ class Manager
         return $assets;
     }
 
-    public function load_assets(string $entrypoint, $localized_options = []): void
+    public function load_assets(string $entrypoint, $localized_options = [], $localized_name = 'acadlixOptions'): void
     {
         $assets = $this->get_assets();
         $entry = $assets['entrypoints'][$entrypoint] ?? null;
@@ -276,7 +276,7 @@ class Manager
                 wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
 
                 if (!empty($localized_options)) {
-                    wp_localize_script($handle, 'acadlixOptions', $localized_options);
+                    wp_localize_script($handle, $localized_name, $localized_options);
                 }
             }
             if (isset($entry['assets']['css']) && $entry['assets']['css']) {
