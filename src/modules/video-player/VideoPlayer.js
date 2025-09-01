@@ -40,6 +40,7 @@ const VideoPlayer = ({
     ...props
 }) => {
     const playerRef = useRef(null);
+    
 
     useEffect(() => {
         // Initialize Plyr when the component mounts
