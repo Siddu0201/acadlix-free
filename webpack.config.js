@@ -129,7 +129,7 @@ module.exports = (env, argv) => {
     ],
     externals: {
       ...defaultConfig.externals,
-      '@wordpress/i18n': 'wp.i18n',
+      // '@wordpress/i18n': 'wp.i18n',
     },
   }
 };
