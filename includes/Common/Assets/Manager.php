@@ -303,6 +303,24 @@ class Manager
         }
     }
 
+    public function unload_assets(string $entrypoint)
+    {
+        $assets = $this->get_assets();
+        $entry = $assets['entrypoints'][$entrypoint] ?? null;
+        if ($entry) {
+            foreach ($entry['assets']['js'] as $js_file) {
+                $handle = 'acadlix-' . pathinfo($js_file, PATHINFO_FILENAME);
+                wp_dequeue_script($handle);
+            }
+            if (isset($entry['assets']['css']) && $entry['assets']['css']) {
+                foreach ($entry['assets']['css'] as $css_file) {
+                    $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
+                    wp_dequeue_style($handle);
+                }
+            }
+        }
+    }
+
     public function get_scripts(): array
     {
         // return [];
