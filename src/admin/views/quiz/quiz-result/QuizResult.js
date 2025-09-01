@@ -271,8 +271,8 @@ const QuizResult = () => {
                   <Typography
                     variant="h3"
                   >
-                    {/* translators: %s is the quiz title */}
                     {sprintf(
+                      /* translators: %s is the quiz title */
                       __("Statistics (%s)", "acadlix"),
                       methods?.watch("title")
                     )}

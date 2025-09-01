@@ -380,8 +380,8 @@ const Question = () => {
                   <Typography
                     variant="h3"
                   >
-                    {/* translators: %s is the quiz title */}
                     {sprintf(
+                      /* translators: %s is the quiz title */
                       __("Question Overview (%s)", "acadlix"),
                       methods?.watch("title")
                     )}

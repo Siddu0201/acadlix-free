@@ -194,8 +194,8 @@ const QuizLeaderboard = () => {
                   <Typography
                     variant="h3"
                   >
-                    {/* translators: %s is the quiz title */}
                     {sprintf(
+                      /* translators: %s is the quiz title */
                       __("Leaderboard (%s)", "acadlix"),
                       methods?.watch("title")
                     )}
