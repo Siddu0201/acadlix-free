@@ -31,6 +31,12 @@ module.exports = (env, argv) => {
       ...defaultConfig.resolve,
       alias: {
         ...defaultConfig.resolve.alias,
+        extensions: [
+          ...(defaultConfig.resolve?.extensions || []),
+          '.js',
+          '.jsx',
+          '.mjs'
+        ],
         "@acadlix": path.resolve(process.cwd(), "src"),
       },
     },
