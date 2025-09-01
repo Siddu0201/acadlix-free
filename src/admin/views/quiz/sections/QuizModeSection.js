@@ -15,24 +15,48 @@ import { __ } from "@wordpress/i18n";
 import { RiQuestionFill } from "@acadlix/helpers/icons";
 
 const BackButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/sections/mode/BackButton") :
-    import("@acadlix/free/admin/quiz/sections/mode/BackButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_back_button" */
+        "@acadlix/pro/admin/quiz/sections/mode/BackButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_back_button" */
+        "@acadlix/free/admin/quiz/sections/mode/BackButton"
+      )
 );
 const CheckOptionButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/sections/mode/CheckOptionButton") :
-    import("@acadlix/free/admin/quiz/sections/mode/CheckOptionButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_check_option_button" */
+        "@acadlix/pro/admin/quiz/sections/mode/CheckOptionButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_check_option_button" */
+        "@acadlix/free/admin/quiz/sections/mode/CheckOptionButton"
+      )
 );
 const SkipQuestionButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/sections/mode/SkipQuestionButton") :
-    import("@acadlix/free/admin/quiz/sections/mode/SkipQuestionButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_skip_question_button" */
+        "@acadlix/pro/admin/quiz/sections/mode/SkipQuestionButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_skip_question_button" */
+        "@acadlix/free/admin/quiz/sections/mode/SkipQuestionButton"
+      )
 );
 const AdvanceModeOptions = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/sections/mode/AdvanceModeOptions") :
-    import("@acadlix/free/admin/quiz/sections/mode/AdvanceModeOptions")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_advance_mode_options" */
+        "@acadlix/pro/admin/quiz/sections/mode/AdvanceModeOptions"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_advance_mode_options" */
+        "@acadlix/free/admin/quiz/sections/mode/AdvanceModeOptions"
+      )
 );
 
 const QuizModeSection = (props) => {

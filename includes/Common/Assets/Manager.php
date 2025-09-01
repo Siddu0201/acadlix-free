@@ -288,165 +288,184 @@ class Manager
                     }
                 }
             }
+
+            if ($assets) {
+                foreach ($assets as $key => $entry) {
+                    if ($key != 'entrypoints' && str_ends_with($entry, '.bundle.js')) {
+                        $handle = 'acadlix-' . pathinfo($entry, PATHINFO_FILENAME);
+                        $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $entry;
+                        wp_enqueue_script($handle, $src, [], null, true);
+                        wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
+                    }
+                }
+                foreach ($assets as $file => $mappedFile) {
+                    if ($key != 'entrypoints' && strpos($file, $entrypoint) !== false && str_ends_with($entry, '.bundle.js')) {
+                        $handle = 'acadlix-' . pathinfo($file, PATHINFO_FILENAME);
+                        $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $mappedFile;
+                        wp_enqueue_script($handle, $src, [], null, true);
+                        wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
+                    }
+                }
+            }
         }
     }
 
     public function get_scripts(): array
     {
         // return [];
-            // $runtime_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/runtime.asset.php';
-            // $vendors_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/vendors.asset.php';
-            // $admin_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_course.asset.php';
-            // $admin_home_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_home.asset.php';
-            // $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_lesson.asset.php';
-            // $admin_order_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_order.asset.php';
-            // $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_quiz.asset.php';
-            // $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
-            // $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
-            // $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
-            // $admin_student_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_student.asset.php';
-            // $admin_design_studio_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_design_studio.asset.php';
+        // $runtime_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/runtime.asset.php';
+        // $vendors_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/vendors.asset.php';
+        // $admin_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_course.asset.php';
+        // $admin_home_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_home.asset.php';
+        // $admin_lesson_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_lesson.asset.php';
+        // $admin_order_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_order.asset.php';
+        // $admin_quiz_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_quiz.asset.php';
+        // $admin_setting_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_setting.asset.php';
+        // $admin_tool_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_tool.asset.php';
+        // $admin_addon_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_addon.asset.php';
+        // $admin_student_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_student.asset.php';
+        // $admin_design_studio_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/admin_design_studio.asset.php';
 
-            // $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
-            // $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
-            // $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_single_course.asset.php';
+        // $front_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front.asset.php';
+        // $front_checkout_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_checkout.asset.php';
+        // $front_single_course_dependency = require_once ACADLIX_BUILD_PATH . acadlix()->versionPath . '/front_single_course.asset.php';
 
-            $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
+        $paypal_client_id = acadlix()->helper()->acadlix_get_option('acadlix_paypal_client_id');
 
-            return [
-                'acadlix-global-hooks' => [
-                    'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
-                    'version' => ACADLIX_VERSION,
-                    'deps' => ['wp-hooks'],
-                    'in_footer' => true,
-                ],
-                // 'acadlix-runtime-js' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
-                //     'version' => $runtime_dependency['version'],
-                //     'deps' => $runtime_dependency['dependencies'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-vendors-js' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/vendors.js',
-                //     'version' => $vendors_dependency['version'],
-                //     'deps' => $vendors_dependency['dependencies'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-course' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_course.js',
-                //     'version' => $admin_course_dependency['version'],
-                //     'deps' => [...$admin_course_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-home' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_home.js',
-                //     'version' => $admin_home_dependency['version'],
-                //     'deps' => [...$admin_home_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-lesson' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.js',
-                //     'version' => $admin_lesson_dependency['version'],
-                //     'deps' => [...$admin_lesson_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-order' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.js',
-                //     'version' => $admin_order_dependency['version'],
-                //     'deps' => [...$admin_order_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-quiz' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.js',
-                //     'version' => $admin_quiz_dependency['version'],
-                //     'deps' => [...$admin_quiz_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-setting' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.js',
-                //     'version' => $admin_setting_dependency['version'],
-                //     'deps' => [...$admin_setting_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-tool' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
-                //     'version' => $admin_tool_dependency['version'],
-                //     'deps' => [...$admin_tool_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-addon' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.js',
-                //     'version' => $admin_addon_dependency['version'],
-                //     'deps' => [...$admin_addon_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-student' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.js',
-                //     'version' => $admin_student_dependency['version'],
-                //     'deps' => [...$admin_student_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-admin-design-studio' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_design_studio.js',
-                //     'version' => $admin_design_studio_dependency['version'],
-                //     'deps' => [...$admin_design_studio_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-front-js' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.js',
-                //     'version' => $front_dependency['version'],
-                //     'deps' => [...$front_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-front-checkout-js' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.js',
-                //     'version' => $front_checkout_dependency['version'],
-                //     'deps' => [...$front_checkout_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                // 'acadlix-front-single-course-js' => [
-                //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_single_course.js',
-                //     'version' => $front_single_course_dependency['version'],
-                //     'deps' => [...$front_single_course_dependency['dependencies'], 'acadlix-global-hooks'],
-                //     'in_footer' => true,
-                // ],
-                'acadlix-razorpay-js' => [
-                    'src' => 'https://checkout.razorpay.com/v1/checkout.js',
-                    'version' => ACADLIX_VERSION,
-                    'deps' => [],
-                    'in_footer' => true,
-                ],
-                'acadlix-paypal-js' => [
-                    'src' => "https://www.paypal.com/sdk/js?client-id=$paypal_client_id",
-                    'version' => ACADLIX_VERSION,
-                    'deps' => [],
-                    'in_footer' => true,
-                ],
-                'acadlix-front-action-button-course-js' => [
-                    'src' => ACADLIX_ASSETS_JS_URL . 'course-action-button.js',
-                    'version' => ACADLIX_VERSION,
-                    'deps' => ['jquery'],
-                    'in_footer' => true,
-                ],
-                'acadlix-front-all-course-js' => [
-                    'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
-                    'version' => ACADLIX_VERSION,
-                    'deps' => ['jquery'],
-                    'in_footer' => true,
-                ],
-                'acadlix-katex-js' => [
-                    'src' => ACADLIX_ASSETS_JS_URL . 'katex/katex.min.js',
-                    'version' => ACADLIX_VERSION,
-                    'deps' => [],
-                    'in_footer' => true,
-                ],
-                'acadlix-katex-auto-render-js' => [
-                    'src' => ACADLIX_ASSETS_JS_URL . 'katex/auto-render.min.js',
-                    'version' => ACADLIX_VERSION,
-                    'deps' => ['acadlix-katex-js'],
-                    'in_footer' => true,
-                ],
-            ];
+        return [
+            'acadlix-global-hooks' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'modules/hooks.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['wp-hooks'],
+                'in_footer' => true,
+            ],
+            // 'acadlix-runtime-js' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
+            //     'version' => $runtime_dependency['version'],
+            //     'deps' => $runtime_dependency['dependencies'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-vendors-js' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/vendors.js',
+            //     'version' => $vendors_dependency['version'],
+            //     'deps' => $vendors_dependency['dependencies'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-course' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_course.js',
+            //     'version' => $admin_course_dependency['version'],
+            //     'deps' => [...$admin_course_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-home' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_home.js',
+            //     'version' => $admin_home_dependency['version'],
+            //     'deps' => [...$admin_home_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-lesson' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_lesson.js',
+            //     'version' => $admin_lesson_dependency['version'],
+            //     'deps' => [...$admin_lesson_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-order' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_order.js',
+            //     'version' => $admin_order_dependency['version'],
+            //     'deps' => [...$admin_order_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-quiz' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_quiz.js',
+            //     'version' => $admin_quiz_dependency['version'],
+            //     'deps' => [...$admin_quiz_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-setting' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_setting.js',
+            //     'version' => $admin_setting_dependency['version'],
+            //     'deps' => [...$admin_setting_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-tool' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_tool.js',
+            //     'version' => $admin_tool_dependency['version'],
+            //     'deps' => [...$admin_tool_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-addon' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_addon.js',
+            //     'version' => $admin_addon_dependency['version'],
+            //     'deps' => [...$admin_addon_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-student' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_student.js',
+            //     'version' => $admin_student_dependency['version'],
+            //     'deps' => [...$admin_student_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-admin-design-studio' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/admin_design_studio.js',
+            //     'version' => $admin_design_studio_dependency['version'],
+            //     'deps' => [...$admin_design_studio_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-front-js' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front.js',
+            //     'version' => $front_dependency['version'],
+            //     'deps' => [...$front_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-front-checkout-js' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_checkout.js',
+            //     'version' => $front_checkout_dependency['version'],
+            //     'deps' => [...$front_checkout_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            // 'acadlix-front-single-course-js' => [
+            //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/front_single_course.js',
+            //     'version' => $front_single_course_dependency['version'],
+            //     'deps' => [...$front_single_course_dependency['dependencies'], 'acadlix-global-hooks'],
+            //     'in_footer' => true,
+            // ],
+            'acadlix-razorpay-js' => [
+                'src' => 'https://checkout.razorpay.com/v1/checkout.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+                'in_footer' => true,
+            ],
+            'acadlix-paypal-js' => [
+                'src' => "https://www.paypal.com/sdk/js?client-id=$paypal_client_id",
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+                'in_footer' => true,
+            ],
+            'acadlix-front-action-button-course-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'course-action-button.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
+            'acadlix-front-all-course-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'all-courses.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
+            'acadlix-katex-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'katex/katex.min.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+                'in_footer' => true,
+            ],
+            'acadlix-katex-auto-render-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'katex/auto-render.min.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['acadlix-katex-js'],
+                'in_footer' => true,
+            ],
+        ];
     }
 
     public function register_styles(array $styles)

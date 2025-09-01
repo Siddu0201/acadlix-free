@@ -37,9 +37,15 @@ import toast from "react-hot-toast";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const ViewAnswerSheetButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/quiz-result/ViewAnswerSheetButton") :
-    import("@acadlix/free/admin/quiz/quiz-result/ViewAnswerSheetButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_view_answer_sheet_button" */
+        "@acadlix/pro/admin/quiz/quiz-result/ViewAnswerSheetButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_view_answer_sheet_button" */
+        "@acadlix/free/admin/quiz/quiz-result/ViewAnswerSheetButton"
+      )
 )
 
 const QuizResult = () => {

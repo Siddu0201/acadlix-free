@@ -24,19 +24,37 @@ import { __ } from "@wordpress/i18n";
 import FreeChoice from "./types/FreeChoice";
 
 const QuestionParagraphSection = React.lazy(() => 
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/sections/QuestionParagraphSection") :
-    import("@acadlix/free/admin/question/sections/QuestionParagraphSection")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_question_paragraph_section" */
+        "@acadlix/pro/admin/question/sections/QuestionParagraphSection"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_question_paragraph_section" */
+        "@acadlix/free/admin/question/sections/QuestionParagraphSection"
+      )
 );
 const Numerical = React.lazy(() => 
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/types/Numerical") :
-    import("@acadlix/free/admin/question/types/Numerical")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_numerical" */
+        "@acadlix/pro/admin/question/types/Numerical"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_numerical" */
+        "@acadlix/free/admin/question/types/Numerical"
+      )
 );
 const RangeType = React.lazy(() => 
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/types/RangeType") :
-    import("@acadlix/free/admin/question/types/RangeType")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_range_type" */
+        "@acadlix/pro/admin/question/types/RangeType"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_range_type" */
+        "@acadlix/free/admin/question/types/RangeType"
+      )
 );
 
 const QuestionContent = (props) => {

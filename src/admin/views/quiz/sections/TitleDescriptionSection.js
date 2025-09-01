@@ -5,9 +5,15 @@ import { __ } from "@wordpress/i18n";
 import Grid from "@mui/material/Grid";
 
 const AiButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/description/AiButton") :
-    import("@acadlix/free/admin/quiz/description/AiButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_ai_button" */
+        "@acadlix/pro/admin/quiz/description/AiButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_ai_button" */
+        "@acadlix/free/admin/quiz/description/AiButton"
+      )
 )
 
 const TitleDescriptionSection = (props) => {

@@ -21,49 +21,103 @@ import { RiQuestionFill } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const SpeedButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/SpeedButton") :
-    import("@acadlix/free/admin/quiz/tabs/result/SpeedButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_speed_button" */
+        "@acadlix/pro/admin/quiz/tabs/result/SpeedButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_speed_button" */
+        "@acadlix/free/admin/quiz/tabs/result/SpeedButton"
+      )
 );
 const PercentileButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/PercentileButton") :
-    import("@acadlix/free/admin/quiz/tabs/result/PercentileButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_percentile_button" */
+        "@acadlix/pro/admin/quiz/tabs/result/PercentileButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_percentile_button" */
+        "@acadlix/free/admin/quiz/tabs/result/PercentileButton"
+      )
 );
 const AccuracyButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/AccuracyButton") :
-    import("@acadlix/free/admin/quiz/tabs/result/AccuracyButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_accuracy_button" */
+        "@acadlix/pro/admin/quiz/tabs/result/AccuracyButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_accuracy_button" */
+        "@acadlix/free/admin/quiz/tabs/result/AccuracyButton"
+      )
 );
 const SubjectWiseButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/SubjectWiseButton") :
-    import("@acadlix/free/admin/quiz/tabs/result/SubjectWiseButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_subject_wise_button" */
+        "@acadlix/pro/admin/quiz/tabs/result/SubjectWiseButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_subject_wise_button" */
+        "@acadlix/free/admin/quiz/tabs/result/SubjectWiseButton"
+      )
 );
 const RankButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/RankButton") :
-    import("@acadlix/free/admin/quiz/tabs/result/RankButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_rank_button" */
+        "@acadlix/pro/admin/quiz/tabs/result/RankButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_rank_button" */
+        "@acadlix/free/admin/quiz/tabs/result/RankButton"
+      )
 );
 const PercentBasedText = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/PercentBasedText") :
-    import("@acadlix/free/admin/quiz/tabs/result/PercentBasedText")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_percent_based_text" */
+        "@acadlix/pro/admin/quiz/tabs/result/PercentBasedText"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_percent_based_text" */
+        "@acadlix/free/admin/quiz/tabs/result/PercentBasedText"
+      )
 );
 const MinPercentOptions = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/MinPercentOptions") :
-    import("@acadlix/free/admin/quiz/tabs/result/MinPercentOptions")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_min_percent_options" */
+        "@acadlix/pro/admin/quiz/tabs/result/MinPercentOptions"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_min_percent_options" */
+        "@acadlix/free/admin/quiz/tabs/result/MinPercentOptions"
+      )
 );
 const ResultComparissionButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/ResultComparissionButton") :
-    import("@acadlix/free/admin/quiz/tabs/result/ResultComparissionButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_result_comparission_button" */
+        "@acadlix/pro/admin/quiz/tabs/result/ResultComparissionButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_result_comparission_button" */
+        "@acadlix/free/admin/quiz/tabs/result/ResultComparissionButton"
+      )
 );
 const AnswerSheetOptions = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/result/AnswerSheetOptions") :
-    import("@acadlix/free/admin/quiz/tabs/result/AnswerSheetOptions")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_answer_sheet_options" */
+        "@acadlix/pro/admin/quiz/tabs/result/AnswerSheetOptions"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_answer_sheet_options" */
+        "@acadlix/free/admin/quiz/tabs/result/AnswerSheetOptions"
+      )
 );
 
 const Result = (props) => {

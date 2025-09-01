@@ -17,19 +17,37 @@ import { RiQuestionFill } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const RandomLastOptionButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/question/RandomLastOptionButton") :
-    import("@acadlix/free/admin/quiz/tabs/question/RandomLastOptionButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_random_last_option_button" */
+        "@acadlix/pro/admin/quiz/tabs/question/RandomLastOptionButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_random_last_option_button" */
+        "@acadlix/free/admin/quiz/tabs/question/RandomLastOptionButton"
+      )
 );
 const AttemptMoveForwardButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/question/AttemptMoveForwardButton") :
-    import("@acadlix/free/admin/quiz/tabs/question/AttemptMoveForwardButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_attempt_move_forward_button" */
+        "@acadlix/pro/admin/quiz/tabs/question/AttemptMoveForwardButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_attempt_move_forward_button" */
+        "@acadlix/free/admin/quiz/tabs/question/AttemptMoveForwardButton"
+      )
 );
 const ForceUserButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/question/ForceUserButton") :
-    import("@acadlix/free/admin/quiz/tabs/question/ForceUserButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_force_user_button" */
+        "@acadlix/pro/admin/quiz/tabs/question/ForceUserButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_force_user_button" */
+        "@acadlix/free/admin/quiz/tabs/question/ForceUserButton"
+      )
 );
 
 const Question = (props) => {

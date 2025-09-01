@@ -14,44 +14,92 @@ import CustomTypography from "@acadlix/components/CustomTypography";
 import { __ } from "@wordpress/i18n";
 
 const ClearResponseButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/ClearResponseButton") :
-    import("@acadlix/free/admin/quiz/tabs/general/ClearResponseButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_clear_response_button" */
+        "@acadlix/pro/admin/quiz/tabs/general/ClearResponseButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_clear_response_button" */
+        "@acadlix/free/admin/quiz/tabs/general/ClearResponseButton"
+      )
 );
 const QuizTimeType = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/QuizTimeType") :
-    import("@acadlix/free/admin/quiz/tabs/general/QuizTimeType")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_quiz_time_type" */
+        "@acadlix/pro/admin/quiz/tabs/general/QuizTimeType"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_quiz_time_type" */
+        "@acadlix/free/admin/quiz/tabs/general/QuizTimeType"
+      )
 );
 const StartDate = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/StartDate") :
-    import("@acadlix/free/admin/quiz/tabs/general/StartDate")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_start_date" */
+        "@acadlix/pro/admin/quiz/tabs/general/StartDate"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_start_date" */
+        "@acadlix/free/admin/quiz/tabs/general/StartDate"
+      )
 );
 const EndDate = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/EndDate") :
-    import("@acadlix/free/admin/quiz/tabs/general/EndDate")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_end_date" */
+        "@acadlix/pro/admin/quiz/tabs/general/EndDate"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_end_date" */
+        "@acadlix/free/admin/quiz/tabs/general/EndDate"
+      )
 );
 const AllowedAttemptButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/AllowedAttemptButton") :
-    import("@acadlix/free/admin/quiz/tabs/general/AllowedAttemptButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_allowed_attempt_button" */
+        "@acadlix/pro/admin/quiz/tabs/general/AllowedAttemptButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_allowed_attempt_button" */
+        "@acadlix/free/admin/quiz/tabs/general/AllowedAttemptButton"
+      )
 );
 const PrerequisiteButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/PrerequisiteButton") :
-    import("@acadlix/free/admin/quiz/tabs/general/PrerequisiteButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_prerequisite_button" */
+        "@acadlix/pro/admin/quiz/tabs/general/PrerequisiteButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_prerequisite_button" */
+        "@acadlix/free/admin/quiz/tabs/general/PrerequisiteButton"
+      )
 );
 const PrerequisiteOptions = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/PrerequisiteOptions") :
-    import("@acadlix/free/admin/quiz/tabs/general/PrerequisiteOptions")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_prerequisite_options" */
+        "@acadlix/pro/admin/quiz/tabs/general/PrerequisiteOptions"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_prerequisite_options" */
+        "@acadlix/free/admin/quiz/tabs/general/PrerequisiteOptions"
+      )
 );
 const AdvanceOptions = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/tabs/general/AdvanceOptions") :
-    import("@acadlix/free/admin/quiz/tabs/general/AdvanceOptions")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_advance_options" */
+        "@acadlix/pro/admin/quiz/tabs/general/AdvanceOptions"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_advance_options" */
+        "@acadlix/free/admin/quiz/tabs/general/AdvanceOptions"
+      )
 );
 
 const General = (props) => {

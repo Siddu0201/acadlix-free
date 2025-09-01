@@ -35,21 +35,36 @@ import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const CopyQuestionButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/CopyQuestionButton") :
-    import("@acadlix/free/admin/question/CopyQuestionButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_copy_question_button" */
+        "@acadlix/pro/admin/question/CopyQuestionButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_copy_question_button" */
+        "@acadlix/free/admin/question/CopyQuestionButton"
+      )
 );
 
 const BulkImportButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/BulkImportButton") :
-    import("@acadlix/free/admin/question/BulkImportButton")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_bulk_import_button" */
+        "@acadlix/pro/admin/question/BulkImportButton"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_bulk_import_button" */
+        "@acadlix/free/admin/question/BulkImportButton"
+      )
 );
 
 const ParagraphModel = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/actions/ParagraphModel") :
-    Promise.resolve({ default: () => null })
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_paragraph_model" */
+        "@acadlix/pro/admin/question/actions/ParagraphModel"
+      )
+    : Promise.resolve({ default: () => null })
 );
 
 const Question = () => {

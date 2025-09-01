@@ -11,15 +11,27 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const RangeTypeOption = React.lazy(() => 
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/sections/RangeTypeOption") :
-    import("@acadlix/free/admin/question/sections/RangeTypeOption")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_range_type_option" */
+        "@acadlix/pro/admin/question/sections/RangeTypeOption"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_range_type_option" */
+        "@acadlix/free/admin/question/sections/RangeTypeOption"
+      )
 );
 
 const NumericalOption = React.lazy(() => 
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/question/sections/NumericalOption") :
-    import("@acadlix/free/admin/question/sections/NumericalOption")
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_numerical_option" */
+        "@acadlix/pro/admin/question/sections/NumericalOption"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_numerical_option" */
+        "@acadlix/free/admin/question/sections/NumericalOption"
+      )
 );
 
 const QuestionAnswerTypeSection = (props) => {

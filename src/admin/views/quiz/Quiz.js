@@ -45,22 +45,37 @@ import { hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
-const PragraphOptionButton = React.lazy(() => 
+const PragraphOptionButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_pro_pragraph_option_button" */
+      "@acadlix/pro/admin/quiz/PragraphOptionButton"
+    )
+    : import(
+      /* webpackChunkName: "admin_quiz_free_pragraph_option_button" */
+      "@acadlix/free/admin/quiz/PragraphOptionButton"
+    )
+);
+const SubjectOptionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/PragraphOptionButton") :
-    import("@acadlix/free/admin/quiz/PragraphOptionButton")
-  );
-const SubjectOptionButton = React.lazy(() => 
-  process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/SubjectOptionButton") :
-    import("@acadlix/free/admin/quiz/SubjectOptionButton")
-  );
+    import(
+      /* webpackChunkName: "admin_quiz_pro_subject_option_button" */
+      "@acadlix/pro/admin/quiz/SubjectOptionButton"
+    ) :
+    import(
+      /* webpackChunkName: "admin_quiz_free_subject_option_button" */
+      "@acadlix/free/admin/quiz/SubjectOptionButton"
+    )
+);
 
-const SubjectTimeModel = React.lazy(() => 
+const SubjectTimeModel = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
-    import("@acadlix/pro/admin/quiz/actions/SubjectTimeModel") :
-    Promise.resolve({ default: () => null }) 
-  );
+    import(
+      /* webpackChunkName: "admin_quiz_pro_subject_time_model" */
+      "@acadlix/pro/admin/quiz/actions/SubjectTimeModel"
+    ) :
+    Promise.resolve({ default: () => null })
+);
 
 const Quiz = () => {
   const defaultPaginationModel = {
@@ -396,8 +411,8 @@ const Quiz = () => {
       <Grid
         container
         spacing={{
-            xs: 2,
-            sm: 4,
+          xs: 2,
+          sm: 4,
         }}
         sx={{
           padding: {

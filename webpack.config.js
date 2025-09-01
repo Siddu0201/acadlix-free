@@ -103,25 +103,7 @@ module.exports = (env, argv) => {
         output: 'assets-manifest.json',
         publicPath: true,
         writeToDisk: true,
-        entrypoints: true,       // ✅ include entrypoints + their chunks
-        // done(manifest) {
-        //   const stats = manifest.compiler.getStats().toJson({ all: false, chunks: true, assets: true, entrypoints: true });
-        //   const manifestPath = path.resolve(manifest.options.output);
-
-        //   // Collect chunks per entrypoint
-        //   const entries = {};
-        //   for (const [entryName, entryData] of Object.entries(stats.entrypoints)) {
-        //     entries[entryName] = {
-        //       js: entryData.assets.filter(a => a.endsWith('.js')),
-        //       css: entryData.assets.filter(a => a.endsWith('.css')),
-        //     };
-        //   }
-
-        //   // Save PHP manifest
-        //   const phpFile = path.resolve(path.dirname(manifestPath), 'manifest.php');
-        //   const phpContent = `<?php\nreturn ${phpArray(entries)};\n`;
-        //   fs.writeFileSync(phpFile, phpContent, 'utf8');
-        // },
+        entrypoints: true,
       }),
       {
         apply: (compiler) => {
