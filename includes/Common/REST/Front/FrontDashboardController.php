@@ -548,7 +548,6 @@ class FrontDashboardController
 
         // Update user image
         update_user_meta($request->get_param("user_id"), '_acadlix_profile_photo', $image_url);
-
         return rest_ensure_response(array('success' => true, 'url' => $image_url));
     }
 
@@ -575,7 +574,7 @@ class FrontDashboardController
         update_user_meta($user_id, '_acadlix_profile_country', sanitize_text_field($params['country']));
         update_user_meta($user_id, '_acadlix_profile_city', sanitize_text_field($params['city']));
         update_user_meta($user_id, '_acadlix_profile_zip_code', sanitize_text_field($params['zip_code']));
-        update_user_meta($user_id, '_acadlix_profile_photo', sanitize_text_field($params['photo']));
+        // update_user_meta($user_id, '_acadlix_profile_photo', sanitize_text_field($params['photo']));
 
         $res['user'] = acadlix()->model()->wpUsers()->with('user_metas')->where('ID', $user_id)->first();
         return rest_ensure_response($res);

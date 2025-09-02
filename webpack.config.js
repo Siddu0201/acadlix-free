@@ -29,19 +29,10 @@ module.exports = (env, argv) => {
 
     resolve: {
       ...defaultConfig.resolve,
-      mainFields: ['browser', 'main', 'module'],
       alias: {
         ...defaultConfig.resolve.alias,
-        "plyr": path.resolve(__dirname, "node_modules/plyr/dist/plyr.js"),
         "@acadlix": path.resolve(process.cwd(), "src"),
       },
-      extensions: [
-        ...(defaultConfig.resolve?.extensions || []),
-        '.js',
-        '.jsx',
-        '.mjs'
-      ],
-      fullySpecified: false,
     },
     entry: {
       ...defaultConfig.entry,
@@ -56,7 +47,6 @@ module.exports = (env, argv) => {
       admin_addon: path.resolve(process.cwd(), "src", "admin-addon.js"),
       admin_student: path.resolve(process.cwd(), "src", "admin-student.js"),
       admin_design_studio: path.resolve(process.cwd(), "src", "admin-design-studio.js"),
-      // admin_assignment: path.resolve(process.cwd(), "src", "admin-assignment.js"),
 
       front: path.resolve(process.cwd(), "src", "front.js"),
       front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),

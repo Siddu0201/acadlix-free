@@ -19,6 +19,7 @@ class Core
         add_filter('plugin_action_links_' . ACADLIX_PLUGIN_BASENAME, [$this, 'acadlix_plugin_action_links']);
 
         add_action('admin_bar_menu', [$this, 'add_toolbar_menu'], 100);
+        add_filter('get_avatar_url', [$this, 'filter_avatar'], 10, 3);
     }
 
     public function acadlix_sync_data_on_login($user_login, WP_User $user)
@@ -230,6 +231,47 @@ class Core
             'title' => 'Settings',
             'href' => admin_url('admin.php?page=acadlix_setting'),
         ]);
+    }
+
+    public function filter_avatar($url, $id_or_email, $args)
+    {
+        $finder = false;
+        $is_id = is_numeric($id_or_email);
+
+        if ($is_id) {
+            $finder = absint($id_or_email);
+        } elseif (is_string($id_or_email)) {
+            $finder = $id_or_email;
+        } elseif ($id_or_email instanceof \WP_User) {
+            // User Object.
+            $finder = $id_or_email->ID;
+        } elseif ($id_or_email instanceof \WP_Post) {
+            // Post Object.
+            $finder = (int) $id_or_email->post_author;
+        } elseif ($id_or_email instanceof \WP_Comment) {
+            return $url;
+        }
+
+        if (!$finder) {
+            return $url;
+        }
+
+        $user = get_user_by($is_id ? 'ID' : 'email', $finder);
+
+        if ($user) {
+            $profile_photo = get_user_meta($user->ID, '_acadlix_profile_photo', true);
+            $attachment_id = acadlix()->model()->wpPosts()
+                ->select('ID')
+                ->where('guid', $profile_photo)
+                ->where('post_type', 'attachment')
+                ->first();
+            if ($attachment_id) {
+                $size = isset($args['size']) ? $args['size'] : 'thumbnail';
+                $url = wp_get_attachment_image_url($attachment_id->ID, $size);
+                error_log(print_r($url, true));
+            }
+        }
+        return $url;
     }
 
     public static function instance()
