@@ -484,6 +484,12 @@ class Manager
                 'deps' => ['acadlix-katex-js'],
                 'in_footer' => true,
             ],
+            'acadlix-plyr-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL. 'plyr/plyr.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
         ];
     }
 
@@ -583,6 +589,7 @@ class Manager
         wp_enqueue_script('acadlix-katex-js');
         wp_enqueue_script('acadlix-katex-auto-render-js');
         wp_enqueue_script('wp-date');
+        wp_enqueue_script('acadlix-plyr-js');
 
         acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
 

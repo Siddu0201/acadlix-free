@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { createRoot } from "@wordpress/element";
-import Plyr from "plyr";
+// import Plyr from "plyr";
 import { RawHTML } from "@wordpress/element";
-import { 
-    GiNextButton, 
-    GiPreviousButton, 
-    RiExpandDiagonalFill, 
-    MdCloseFullscreen 
+import {
+    GiNextButton,
+    GiPreviousButton,
+    RiExpandDiagonalFill,
+    MdCloseFullscreen
 } from "@acadlix/helpers/icons";
 import { convertTime } from "@acadlix/helpers/util";
 import PropTypes from "prop-types";
@@ -40,9 +40,13 @@ const VideoPlayer = ({
     ...props
 }) => {
     const playerRef = useRef(null);
-    
 
     useEffect(() => {
+        const Plyr = window.Plyr;
+        if (!Plyr) {
+            console.error('Plyr not loaded');
+            return;
+        }
         // Initialize Plyr when the component mounts
         const plyrInstance = new Plyr(playerRef.current, {
             controls: [
