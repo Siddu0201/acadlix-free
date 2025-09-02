@@ -44,7 +44,7 @@ const VideoPlayer = ({
     useEffect(() => {
         const Plyr = window.Plyr;
         if (!Plyr) {
-            console.error('Plyr not loaded');
+            console.error('Plyr not loaded');   
             return;
         }
         // Initialize Plyr when the component mounts
