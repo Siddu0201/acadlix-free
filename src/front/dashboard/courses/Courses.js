@@ -246,7 +246,7 @@ const CourseCard = (props) => {
             md: "inherit",
             lg: "inherit",
           },
-          height: "200px",
+          height: "200px", 
           aspectRatio: "auto 240/135",
         }}
         image={
