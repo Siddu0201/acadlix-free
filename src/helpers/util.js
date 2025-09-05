@@ -356,4 +356,11 @@ export const getStripHtml = (html) => {
   return doc.body.textContent || "";
 }
 
+export const nameToInitials = (name) => {
+  return name
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase())
+    .join("");
+}
+
 

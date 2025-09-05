@@ -268,7 +268,6 @@ class Core
             if ($attachment_id) {
                 $size = isset($args['size']) ? $args['size'] : 'thumbnail';
                 $url = wp_get_attachment_image_url($attachment_id->ID, $size);
-                error_log(print_r($url, true));
             }
         }
         return $url;

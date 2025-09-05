@@ -1,133 +1,54 @@
-import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
+import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import React from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import dashboardMenu from "@acadlix/menu/dashboardMenu";
 import { __ } from "@wordpress/i18n";
 
-const DashboardNavbar = () => {
+const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
   const path = useLocation();
-
   const navigate = useNavigate();
-
   return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: { xs: "transparent", sm: "white" },
-        borderRadius: "10px",
-        my: {
-          lg: "10px",
-          md: "10px",
-
-          sm: "10px",
-          xs: "1px",
-        },
-
-        boxShadow: {
-          xs: "none",
-          lg: "0px 4px 12px rgba(0, 0, 0, 0.3)",
-          md: "0px 4px 12px rgba(0, 0, 0, 0.3)",
-          sm: "0px 4px 12px rgba(0, 0, 0, 0.3)",
-        },
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar
-          disableGutters
-          sx={{
-            borderRadius: "10px",
-            minHeight: {
-              sm: "50px",
-              xs: "45px",
-            },
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              justifyContent: "flex-start",
-              marginLeft: 2,
-              overflowX: "auto",
+    <List component="nav">
+      {
+        dashboardMenu.map((route, index) => (
+          <ListItemButton
+            key={index}
+            selected={path?.pathname.includes(route?.path)}
+            onClick={() => {
+              if(route?.isRedirect) {
+                window.location.href = route.path;
+                return;
+              }
+              navigate(route.path);
+              if(!isDesktop) {
+                handleDrawerToggle();
+              }
             }}
           >
-            {
-              acadlixOptions?.settings?.acadlix_disable_home_menu === "yes" ? null : (
-                <Button
-                  sx={{
-                    // my: 0,
-                    // display: "block",
-                    // padding: {
-                    //   sm: "6px 8px",
-                    //   xs: 0,
-                    // },
-                    // textDecoration: "none",
-                    // whiteSpace: "nowrap",
-                    // minWidth: "auto",
-                  }}
-                  variant="text"
-                  color="primary"
-                  size="small"
-                  onClick={() => {
-                    window.location.href = acadlixOptions?.home_url;
-                  }}
-                >
-                  {__("Home", "acadlix")}
-                </Button>
-              )}
-            {dashboardMenu.map((page) => (
-              <Button
-                key={page?.id}
-                variant={path?.pathname.includes(page?.path) ? "contained" : "text"}
-                color="primary"
-                size="small"
-                onClick={() => {
-                  navigate(page?.path);
-                }}
-                sx={{
-                  whiteSpace: "nowrap",
-                  minWidth: "auto",
-                  // my: 0,
-                  // color: path?.pathname === page?.path ? "blue" : "black",
-                  // display: "block",
-                  // padding: {
-                  //   sm: "6px 8px",
-                  //   xs: 0,
-                  // },
-                  // textDecoration: "none",
-                  // whiteSpace: "nowrap",
-                  // minWidth: "auto",
-                }}
-              >
-                {page?.name}
-              </Button>
-            ))}
-            <Button
+            <ListItemIcon
               sx={{
-                // my: 0,
-                // display: "block",
-                // padding: {
-                //   sm: "6px 8px",
-                //   xs: 0,
-                // },
-                // textDecoration: "none",
-                // whiteSpace: "nowrap",
-                // minWidth: "auto",
-              }}
-              variant="text"
-              color="primary"
-              size="small"
-              onClick={() => {
-                window.location.href = acadlixOptions?.logout_url;
+                color: (theme) => theme.palette.primary.main,
+                minWidth: 30,
+                fontSize: 20,
               }}
             >
-              {__("Logout", "acadlix")}
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
+              {route.icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={route.name}
+              slotProps={{
+                primary: {
+                  sx: {
+                    color: path?.pathname.includes(route?.path) ? 'primary.main' : 'text.primary',
+                  }
+                }
+              }}
+            />
+          </ListItemButton>
+        ))
+      }
+    </List>
+  )
 };
 
 export default DashboardNavbar;

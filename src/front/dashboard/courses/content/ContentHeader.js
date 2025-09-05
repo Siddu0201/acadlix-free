@@ -116,7 +116,7 @@ const ContentHeader = (props) => {
           <CircularProgress
             variant="determinate"
             value={props?.watch("course_completion_percentage")}
-            size={35}
+            size={40}
             sx={{
               color: "white",
             }}
@@ -134,7 +134,7 @@ const ContentHeader = (props) => {
             }}
           >
             <Typography
-              variant="subtitle2"
+              variant="caption"
               component="div"
               color="primary.contrastText"
             >

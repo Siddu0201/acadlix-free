@@ -11,7 +11,6 @@ import {
   Backdrop,
   CircularProgress,
   Avatar,
-  Popper,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import {
@@ -25,6 +24,8 @@ import toast from "react-hot-toast";
 import { GrUserManager, SlLocationPin } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomTextField from "@acadlix/components/CustomTextField";
+import { nameToInitials } from "@acadlix/helpers/util";
+import { useOutletContext } from "react-router-dom";
 
 const Profile = () => {
   const methods = useForm({
@@ -46,6 +47,7 @@ const Profile = () => {
       user_login: "",
     },
   });
+  const { open } = useOutletContext();
   const { isFetching, data } = GetUserProfile(acadlixOptions?.user?.ID);
 
   const getUserMetaValue = (user_metas = [], field = "") => {
@@ -122,8 +124,6 @@ const Profile = () => {
     <Box
       sx={{
         width: "100%",
-        ml: 5,
-        width: { xs: "99%", sm: "100%", md: "100%" },
         margin: { xs: "auto", md: "0" },
       }}
     >
@@ -134,147 +134,184 @@ const Profile = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <form onSubmit={methods?.handleSubmit(onSubmit)}>
-        <Grid container spacing={2.5}>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                flexDirection: {
-                  xs: "column",
-                  sm: "row",
-                  md: "column",
-                  lg: "column",
-                },
-                boxShadow: (theme) => theme.shadows[1],
-              }}
-            >
-              <Box
-                sx={{
-                  paddingX: 4,
-                  paddingY: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Avatar
-                  src={
-                    methods?.watch("photo") !== ""
-                      ? methods?.watch("photo")
-                      : "https://via.placeholder.com/150"
-                  }
-                  alt="Profile"
-                  sx={{
-                    height: {
-                      xs: "150px",
-                      sm: "150px",
-                      md: "151px",
-                      lg: "165px",
-                    },
-                    width: {
-                      xs: "150px",
-                      sm: "150px",
-                      md: "151px",
-                      lg: "165px",
-                    },
-                    margin: { lg: "20px auto", xs: "10px" },
-                  }}
-                />
-                <Box
+        <Grid container spacing={{ xs: 2, md: 4 }}>
+          <Grid size={{
+            xs: 12,
+            md: open ? 4 : 3
+          }}
+          >
+            <Grid container spacing={{ xs: 2, md: 4 }}>
+              <Grid size={{ xs: 12, md: 12 }}>
+                <Card
                   sx={{
                     display: "flex",
-                    justifyContent: "center",
-                    marginY: {
-                      sm: 2,
-                      md: 2,
-                      lg: 0,
+                    justifyContent: "space-evenly",
+                    flexDirection: {
+                      xs: "column",
+                      sm: "row",
+                      md: "column",
+                      lg: "column",
                     },
                   }}
                 >
-                  <>
-                    <input
-                      type="file"
-                      ref={inputRef}
-                      style={{ display: "none" }}
-                      onChange={handleMediaChange}
-                      accept=".jpg,.jpeg,.png"
-                    />
-                    <Button variant="contained" onClick={handleUploadPhoto}>
-                      {updatePhotoMutation?.isPending ? (
-                        <CircularProgress size={20} color="inherit" />
-                      ) : (
-                        __("Upload Profile Photo", "acadlix")
-                      )}
-                    </Button>
-                  </>
-                </Box>
-              </Box>
-              <CardContent
-                sx={{
-                  textAlign: "left",
-                  paddingY: 2,
-                }}
-              >
-                <Typography variant="h4" component="div">
-                  {methods?.watch("display_name")}
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    flexDirection: "column",
-                    gap: 1,
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
+                  <Box
                     sx={{
+                      paddingX: 4,
+                      paddingY: 2,
                       display: "flex",
+                      flexDirection: "column",
                       alignItems: "center",
                     }}
                   >
-                    <GrUserManager
-                      style={{
-                        marginRight: 6,
+                    {
+                      methods?.watch("photo") !== ""
+                        ? (
+                          <Avatar
+                            src={
+                              methods?.watch("photo") !== ""
+                                ? methods?.watch("photo")
+                                : "https://via.placeholder.com/150"
+                            }
+                            alt="Profile"
+                            sx={{
+                              height: {
+                                xs: "150px",
+                                sm: "150px",
+                                md: "151px",
+                                lg: "165px",
+                              },
+                              width: {
+                                xs: "150px",
+                                sm: "150px",
+                                md: "151px",
+                                lg: "165px",
+                              },
+                              margin: { lg: "20px auto", xs: "10px" },
+                            }}
+                          />
+                        )
+                        :
+                        (
+                          <Avatar
+                            sx={{
+                              height: {
+                                xs: "150px",
+                                sm: "150px",
+                                md: "151px",
+                                lg: "165px",
+                              },
+                              width: {
+                                xs: "150px",
+                                sm: "150px",
+                                md: "151px",
+                                lg: "165px",
+                              },
+                              margin: { lg: "20px auto", xs: "10px" },
+                            }}>
+                            {nameToInitials(methods?.watch("display_name"))}
+                          </Avatar>
+                        )
+                    }
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginY: {
+                          sm: 2,
+                          md: 2,
+                          lg: 0,
+                        },
                       }}
-                    />
-                    {methods?.watch("user_login")}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
+                    >
+                      <>
+                        <input
+                          type="file"
+                          ref={inputRef}
+                          style={{ display: "none" }}
+                          onChange={handleMediaChange}
+                          accept=".jpg,.jpeg,.png"
+                        />
+                        <Button variant="contained" onClick={handleUploadPhoto}>
+                          {updatePhotoMutation?.isPending ? (
+                            <CircularProgress size={20} color="inherit" />
+                          ) : (
+                            __("Upload Profile Photo", "acadlix")
+                          )}
+                        </Button>
+                      </>
+                    </Box>
+                  </Box>
+                  <CardContent
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
+                      textAlign: "left",
+                      paddingY: 2,
                     }}
                   >
-                    <SlLocationPin
-                      style={{
-                        marginRight: 6,
+                    <Typography variant="h4" component="div">
+                      {methods?.watch("display_name")}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        flexDirection: "column",
+                        gap: 1,
                       }}
-                    />
-                    {methods?.watch("city")}{methods?.watch("city") ? ", " : ""}{methods?.watch("country")}
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
+                    >
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <GrUserManager
+                          style={{
+                            marginRight: 6,
+                          }}
+                        />
+                        {methods?.watch("user_login")}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <SlLocationPin
+                          style={{
+                            marginRight: 6,
+                          }}
+                        />
+                        {methods?.watch("city")}{methods?.watch("city") ? ", " : ""}{methods?.watch("country")}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid size={{ xs: 12, md: 12 }}>
+                <Card>
+                  <CardContent sx={{ mb: 4 }}>
+                    <Typography variant="h4" component="div" gutterBottom>
+                      {__("Bio", "acadlix")}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {methods?.watch("description")}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 8 }}>
-            <Card sx={{ mb: 2.5, boxShadow: (theme) => theme.shadows[1] }}>
-              <CardContent sx={{ mb: 4 }}>
-                <Typography variant="h4" component="div" gutterBottom>
-                  {__("Bio", "acadlix")}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {methods?.watch("description")}
-                </Typography>
-              </CardContent>
-            </Card>
-
-            <Card sx={{ mb: 5, boxShadow: (theme) => theme.shadows[1] }}>
+          <Grid size={{ 
+            xs: 12, 
+            md: open ? 8 : 9 
+          }}>
+            <Card>
               <CardContent>
                 <Typography variant="h4" component="div" gutterBottom>
                   {__("Personal", "acadlix")}
@@ -334,7 +371,7 @@ const Profile = () => {
                       disabled={true}
                     />
                   </Grid>
-                  <Grid size={{ xs: 4, sm: 3 }}>
+                  <Grid size={{ xs: 4, sm: open ? 4 : 3 }}>
                     <Autocomplete
                       fullWidth
                       slotProps={{
@@ -393,7 +430,7 @@ const Profile = () => {
                       )}
                     />
                   </Grid>
-                  <Grid size={{ xs: 8, sm: 9 }}>
+                  <Grid size={{ xs: 8, sm: open ? 8 : 9 }}>
                     <CustomTextField
                       fullWidth
                       label={__("Phone / Mobile", "acadlix")}

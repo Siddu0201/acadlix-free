@@ -531,6 +531,8 @@ class Manager
                     ])
                     ->where('ID', get_current_user_id())
                     ->first() : [],
+            'user_avatar_url' => get_current_user_id() > 0 ?
+                get_user_meta(get_current_user_id(), '_acadlix_profile_photo', true) : '',
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'logo_url' => $logo_url,

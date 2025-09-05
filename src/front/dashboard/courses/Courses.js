@@ -4,28 +4,24 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Autocomplete,
-  TextField,
   InputAdornment,
   Typography,
   LinearProgress,
   Stack,
   Pagination,
   CircularProgress,
-  IconButton,
-  Button,
-  Tooltip,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { GetUserOrders } from "@acadlix/requests/front/FrontDashboardRequest";
-import { FaSearch, IoMdRefresh } from "@acadlix/helpers/icons";
+import { FaSearch } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const {open} = useOutletContext();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -182,7 +178,12 @@ const Courses = () => {
           data?.data?.order_items?.map((item, index) => (
             <React.Fragment key={index}>
               {item?.course_id && (
-                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <Grid size={{ 
+                  xs: 12, 
+                  sm: 6, 
+                  md: 4, 
+                  lg: open ? 4 : 3 
+                }}>
                   <CourseCard {...item} />
                 </Grid>
               )}

@@ -274,8 +274,6 @@ const MobileOnlyView = (props) => {
               padding: "8px",
               marginTop: "8px",
               marginBottom: "8px",
-              marginLeft: "8px",
-              marginRight: "8px",
               borderBottom: "1px solid #e0e0e0",
               display: "flex",
               flexDirection: "column",

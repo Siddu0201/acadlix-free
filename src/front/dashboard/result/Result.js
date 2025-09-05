@@ -46,8 +46,8 @@ export default function Result() {
 
   const columns = [
     { field: "id", headerName: __("ID", "acadlix") },
-    { field: "title", headerName: __("Title", "acadlix"), flex: 3, minWidth: 250 },
-    { field: "date", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 250 },
+    { field: "title", headerName: __("Title", "acadlix"), flex: 3, minWidth: 220 },
+    { field: "date", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 180 },
     {
       field: "score",
       headerName: __("Score", "acadlix"),
@@ -278,8 +278,6 @@ const MobileOnlyView = (props) => {
               padding: "8px",
               marginTop: "8px",
               marginBottom: "8px",
-              marginLeft: "8px",
-              marginRight: "8px",
               borderBottom: "1px solid #e0e0e0",
               display: "flex",
               flexDirection: "column",
