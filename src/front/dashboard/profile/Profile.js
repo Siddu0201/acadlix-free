@@ -134,13 +134,13 @@ const Profile = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <form onSubmit={methods?.handleSubmit(onSubmit)}>
-        <Grid container spacing={{ xs: 2, md: 4 }}>
+        <Grid container spacing={{ xs: 2, md: 3 }}>
           <Grid size={{
             xs: 12,
             md: open ? 4 : 3
           }}
           >
-            <Grid container spacing={{ xs: 2, md: 4 }}>
+            <Grid container spacing={{ xs: 2, md: 3 }}>
               <Grid size={{ xs: 12, md: 12 }}>
                 <Card
                   sx={{

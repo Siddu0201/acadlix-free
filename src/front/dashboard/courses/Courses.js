@@ -240,6 +240,12 @@ const CourseCard = (props) => {
       <CardMedia
         component="img"
         sx={{
+          objectFit: {
+            xs: "cover",
+            sm: "cover",
+            md: "inherit",
+            lg: "inherit",
+          },
           height: "200px",
           aspectRatio: "auto 240/135",
         }}

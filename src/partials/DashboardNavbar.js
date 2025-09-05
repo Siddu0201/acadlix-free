@@ -7,6 +7,7 @@ import { __ } from "@wordpress/i18n";
 const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
   const path = useLocation();
   const navigate = useNavigate();
+
   return (
     <List component="nav">
       {
