@@ -132,7 +132,7 @@ const Order = () => {
     },
     {
       field: "total_amount",
-      headerName: "Total amount",
+      headerName: __("Total amount", "acadlix"),
       flex: 2,
       minWidth: 100,
     },
