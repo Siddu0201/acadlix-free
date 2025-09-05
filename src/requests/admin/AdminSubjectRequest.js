@@ -37,3 +37,37 @@ export const PostCreateSubject = () => {
         }
     });
 }
+
+export const UpdateSubjectById = (id) => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/${id}`, data, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                }
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
+        }
+    })
+}
+
+export const DeleteSubjectById = (id) => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: () => {
+            return instance.delete(`${base}/${id}`, {
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                },
+            });
+        },
+        onError: (error) => {
+            toast.error(error?.response?.data?.message);
+            console.error(error);
+        }
+    });
+}

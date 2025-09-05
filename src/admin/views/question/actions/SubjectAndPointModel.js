@@ -47,7 +47,7 @@ const SubjectAndPointModel = (props) => {
         });
       } else {
         createSubjectMutation.mutate(
-          { subject: input },
+          { subject_name: input },
           {
             onSuccess: (data) => {
               methods?.clearErrors("subject_id");

@@ -30,6 +30,7 @@ import {
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from '@acadlix/components/CustomTypography';
+import { DeleteSubjectById, GetSubjects, PostCreateSubject, UpdateSubjectById } from '@acadlix/requests/admin/AdminSubjectRequest';
 
 const QuizSettings = (props) => {
     const methods = useForm({
@@ -40,11 +41,15 @@ const QuizSettings = (props) => {
             languages: [],
             language_id: null,
             language_name: "",
+            subjects: [],
+            subject_id: null,
+            subject_name: "",
         }
     });
 
     const getCategories = GetCategories();
     const getLanguages = GetLanguages();
+    const getSubjects = GetSubjects();
 
     useEffect(() => {
         if (getCategories?.data?.data?.categories?.length > 0) {
@@ -54,9 +59,13 @@ const QuizSettings = (props) => {
         if (getLanguages?.data?.data?.languages?.length > 0) {
             methods.setValue("languages", getLanguages?.data?.data?.languages);
         }
-    }, [getCategories?.data?.data, getLanguages?.data?.data]);
 
-    if (getCategories?.isFetching || getLanguages?.isFetching) {
+        if (getSubjects?.data?.data?.subjects?.length > 0) {
+            methods.setValue("subjects", getSubjects?.data?.data?.subjects);
+        }
+    }, [getCategories?.data?.data, getLanguages?.data?.data, getSubjects?.data?.data]);
+
+    if (getCategories?.isFetching || getLanguages?.isFetching || getSubjects?.isFetching) {
         return (
             <Box>
                 <CircularProgress />
@@ -70,6 +79,7 @@ const QuizSettings = (props) => {
                 <Box>
                     <CategorySettings methods={methods} />
                     {/* <LanguageSettings methods={methods} /> */}
+                    <SubjectSettings methods={methods} />
                 </Box>
             </CardContent>
             <CardActions>
@@ -541,6 +551,231 @@ const LanguageSettings = ({ methods }) => {
                                                         minWidth: "90px",
                                                     }}
                                                 >{__("Set Default", 'acadlix')}</Button>
+                                            }
+                                        </>
+                                }
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </React.Fragment>
+    )
+}
+
+const SubjectSettings = ({ methods }) => {
+
+    const addSubjectMutation = PostCreateSubject();
+    const updateSubjectMutation = UpdateSubjectById(methods?.watch("subject_id"));
+    const deleteSubjectMutation = DeleteSubjectById(methods?.watch("subject_id"));
+
+    const handleAddSubject = () => {
+        if (methods?.watch("subject_name") === "") {
+            toast.error(__("Please enter subject name.", "acadlix"));
+            return;
+        }
+
+        if (methods?.watch("subjects")?.find((c) => c?.name?.toLowerCase() === methods?.watch("subject_name")?.toLowerCase())) {
+            toast.error(__("Subject name is already exist.", "acadlix"));
+            return;
+        }
+
+        addSubjectMutation.mutate({
+            subject_name: methods?.watch("subject_name"),
+        }, {
+            onSuccess: (data) => {
+                methods.setValue("subject_name", "");
+                methods?.setValue("subjects", data?.data?.subjects);
+                toast.success(__("Category added successfully.", "acadlix"));
+            },
+        })
+    }
+
+    const handleUpdateSubject = () => {
+        if (methods?.watch("subject_name") === "") {
+            toast.error(__("Please enter subject name.", "acadlix"));
+            return;
+        }
+
+        if (methods?.watch("subjects")?.filter(c => c?.term_id !== methods?.watch("subject_id"))?.find((c) => c?.name?.toLowerCase() === methods?.watch("subject_name")?.toLowerCase())) {
+            toast.error(__("Subject name is already exist.", "acadlix"));
+            return;
+        }
+
+        if (methods?.watch("subject_id") === null) {
+            toast.error(__("Please select subject.", "acadlix"));
+            return;
+        }
+
+        updateSubjectMutation?.mutate({
+            subject_name: methods?.watch("subject_name"),
+        }, {
+            onSuccess: (data) => {
+                methods.setValue("subject_name", "");
+                methods.setValue("subject_id", null);
+                methods?.setValue("subjects", data?.data?.subjects);
+                toast.success(__("Subject updated successfully.", "acadlix"));
+            },
+        })
+    }
+
+    const handleDeleteSubject = () => {
+        if (methods?.watch("subject_id") === null) {
+            toast.error(__("Please select subject.", "acadlix"));
+            return;
+        }
+
+        if (confirm(__("Do you really want to delete this subject?", "acadlix"))) {
+            deleteSubjectMutation?.mutate({}, {
+                onSuccess: (data) => {
+                    methods.setValue("subject_name", "");
+                    methods.setValue("subject_id", null);
+                    methods?.setValue("subjects", data?.data?.subjects);
+                    toast.success(__("Subject deleted successfully.", "acadlix"));
+                },
+            });
+        }
+    }
+    return (
+        <React.Fragment>
+            <Box
+                sx={{
+                    marginY: 2,
+                }}
+            >
+                <Typography variant="h6">{__("Question Subjects", "acadlix")}</Typography>
+                <Divider />
+            </Box>
+            <Grid container spacing={{
+                xs: 2,
+                sm: 4,
+            }}>
+                <Grid size={{ xs: 12, sm: 12, lg: 7 }}>
+                    <Grid
+                        container
+                        spacing={{
+                            xs: 2,
+                            sm: 4,
+                        }}
+                        sx={{
+                            alignItems: "center",
+                        }}
+                    >
+                        <Grid size={{ xs: 12, sm: 4 }}>
+                            <CustomTypography>
+                                {__("Select Subject", "acadlix")}
+                            </CustomTypography>
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 8 }}>
+                            <Autocomplete
+                                size="small"
+                                value={
+                                    methods?.watch("subject_id") !== null
+                                        ? methods?.watch("subjects")?.find(
+                                            (p) =>
+                                                p?.id ===
+                                                Number(methods?.watch("subject_id"))
+                                        )
+                                        : null
+                                }
+                                options={methods?.watch("subjects")?.length > 0 ? methods?.watch("subjects") : []}
+                                getOptionLabel={(option) =>
+                                    `${option?.subject_name} ${option?.default ? __(" (Default)", "acadlix") : ""}` || ""
+                                }
+                                isOptionEqualToValue={(option, value) => {
+                                    return option?.id === value?.id;
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: "subject",
+                                        }}
+                                        label={__("Select Subject", "acadlix")}
+                                    />
+                                )}
+                                onChange={(_, newValue) => {
+                                    methods?.setValue(
+                                        "subject_id",
+                                        newValue?.id ?? null,
+                                        {
+                                            shouldDirty: true,
+                                        }
+                                    );
+                                    methods?.setValue(
+                                        "subject_name",
+                                        newValue?.subject_name ?? "",
+                                        {
+                                            shouldDirty: true,
+                                        }
+                                    );
+                                }}
+
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 4 }}>
+                            <CustomTypography>
+                                {methods?.watch("subject_id") === null
+                                    ? __("Add Subject", "acadlix")
+                                    : methods?.watch("subjects")?.find(
+                                        (c) => c?.id === methods?.watch("subject_id")
+                                    )?.default
+                                        ? __("Edit Subject", "acadlix")
+                                        : __("Edit/Delete Subject", "acadlix")
+                                }
+                            </CustomTypography>
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 8 }}>
+                            <Box sx={{
+                                display: "flex",
+                                gap: 2,
+                            }}>
+                                <CustomTextField
+                                    fullWidth
+                                    name="subject_name"
+                                    size="small"
+                                    label={__("Enter subject name", "acadlix") + " *"}
+                                    value={methods?.watch("subject_name") ?? ""}
+                                    onChange={(e) => {
+                                        methods?.setValue("subject_name", e?.target?.value, {
+                                            shouldDirty: true,
+                                        });
+                                    }}
+                                />
+                                {
+                                    methods?.watch("subject_id") === null
+                                        ? (
+                                            hasCapability("acadlix_add_subject") &&
+                                            <Button
+                                                loading={addSubjectMutation?.isPending}
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={handleAddSubject}
+                                            >{__("Add", "acadlix")}</Button>
+                                        )
+                                        :
+                                        <>
+                                            {
+                                                hasCapability("acadlix_edit_subject") &&
+                                                <Button
+                                                    loading={updateSubjectMutation?.isPending}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleUpdateSubject}
+                                                >{__("Update", "acadlix")}</Button>
+                                            }
+                                            {!methods?.watch("subjects")?.find(
+                                                (c) => c?.id === methods?.watch("subject_id")
+                                            )?.default && (
+                                                    hasCapability("acadlix_delete_subject") &&
+                                                    <Button
+                                                        loading={deleteSubjectMutation?.isPending}
+                                                        variant="contained"
+                                                        color="error"
+                                                        onClick={handleDeleteSubject}
+                                                    >{__("Delete", "acadlix")}</Button>
+                                                )
                                             }
                                         </>
                                 }

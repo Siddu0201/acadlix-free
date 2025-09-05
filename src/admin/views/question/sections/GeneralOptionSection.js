@@ -34,7 +34,7 @@ const GeneralOptionSection = (props) => {
         });
       } else {
         createSubjectMutation.mutate(
-          { subject: input },
+          { subject_name: input },
           {
             onSuccess: (data) => {
               props?.clearErrors("subject_id");
