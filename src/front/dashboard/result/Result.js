@@ -1,12 +1,10 @@
 import * as React from "react";
-import { FaExpandArrowsAlt, HistoryToggleOff, IoMdRefresh } from "@acadlix/helpers/icons";
+import { FaExpandArrowsAlt, HistoryToggleOff } from "@acadlix/helpers/icons";
 import {
   Box,
   Typography,
   Paper,
-  Button,
   useMediaQuery,
-  TextField,
   Card,
   CardContent,
   Tooltip,
@@ -69,15 +67,15 @@ export default function Result() {
           }}>
             {params?.value === "Pass" && <Chip
               color="success"
-              label={params?.value}
+              label={__("Pass", "acadlix")}
             />}
             {params?.value === "Fail" && <Chip
               color="error"
-              label={params?.value}
+              label={__("Fail", "acadlix")}
             />}
             {params?.value === "NA" && <Chip
               color="grey"
-              label={params?.value}
+              label={__("NA", "acadlix")}
             />}
           </div>
         );
@@ -271,75 +269,89 @@ const MobileOnlyView = (props) => {
           <CircularProgress />
         </Box>
       ) : (
-        props?.watch("rows")?.map((row, index) => (
-          <Box
-            key={index}
-            sx={{
-              padding: "8px",
-              marginTop: "8px",
-              marginBottom: "8px",
-              borderBottom: "1px solid #e0e0e0",
-              display: "flex",
-              flexDirection: "column",
-              gap: "4px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-              borderRadius: "8px",
-              backgroundColor: "white",
-            }}
-          >
+        props?.watch("rows")?.map((row, index) => {
+          let color = "default";
+          let label = "";
+          if (row?.status === "Pass") {
+            color = "success";
+            label = __("Pass", "acadlix");
+          } else if (row?.status === "Fail") {
+            color = "error";
+            label = __("Fail", "acadlix");
+          } else if (row?.status === "NA") {
+            color = "grey";
+            label = __("NA", "acadlix");
+          }
+          return (
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+              key={index}
+              sx={{
+                padding: "8px",
+                marginTop: "8px",
+                marginBottom: "8px",
+                borderBottom: "1px solid #e0e0e0",
+                display: "flex",
+                flexDirection: "column",
+                gap: "4px",
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                borderRadius: "8px",
+                backgroundColor: "white",
+              }}
             >
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: "14px",
-                }}
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                {row?.title}
-              </Typography>
-              <Tooltip title={__("View Answersheet", "acadlix")} arrow>
-                <IconButton
-                  aria-label="expand"
-                  size="small"
-                  color="warning"
-                  LinkComponent={Link}
-                  to={`/result/${row?.id}`}
-                  disabled={row?.hide_answer_sheet}
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "14px",
+                  }}
                 >
-                  <FaExpandArrowsAlt fontSize="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box display="flex" alignItems="center" gap="4px">
-              <HistoryToggleOff style={{ color: "gray" }} />
-              <Typography
-                variant="body2"
-                color="text.secondary"
+                  {row?.title}
+                </Typography>
+                <Tooltip title={__("View Answersheet", "acadlix")} arrow>
+                  <IconButton
+                    aria-label="expand"
+                    size="small"
+                    color="warning"
+                    LinkComponent={Link}
+                    to={`/result/${row?.id}`}
+                    disabled={row?.hide_answer_sheet}
+                  >
+                    <FaExpandArrowsAlt fontSize="inherit" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box display="flex" alignItems="center" gap="4px">
+                <HistoryToggleOff style={{ color: "gray" }} />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  {row?.date}
+                </Typography>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                {row?.date}
-              </Typography>
+                <Typography
+                  variant="body2"
+                >
+                  {__("Score: ", "acadlix")}{row?.score}
+                </Typography>
+                <Chip
+                  color={color}
+                  label={label}
+                />
+              </Box>
             </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography
-                variant="body2"
-              >
-                {__("Score: ", "acadlix")}{row?.score}
-              </Typography>
-              <Chip
-                color={row?.status === "Pass" ? "success" : "error"}
-                label={row?.status}
-              />
-            </Box>
-          </Box>
-        )
-        ))}
+          )
+        })
+      )}
 
       <Box display="flex" justifyContent="center" padding={1}>
         <TablePagination

@@ -19,7 +19,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import {
   FaTrash,
   TiArrowLeftThick,
-  IoMdRefresh,
   FaSearch
 } from "@acadlix/helpers/icons";
 import { Link, useParams } from "react-router-dom";
@@ -111,21 +110,21 @@ const QuizResult = () => {
               params?.value === "Pass" &&
               <Chip
                 color="success"
-                label={params?.value}
+                label={__('Pass', 'acadlix')}
               />
             }
             {
               params?.value === "Fail" &&
               <Chip
                 color="error"
-                label={params?.value}
+                label={__('Fail', 'acadlix')}
               />
             }
             {
               params?.value === "NA" &&
               <Chip
                 color="grey"
-                label={params?.value}
+                label={__('NA', 'acadlix')}
               />
             }
           </>
