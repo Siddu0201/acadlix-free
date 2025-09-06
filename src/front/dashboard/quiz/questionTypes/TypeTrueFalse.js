@@ -11,6 +11,7 @@ import {
 import React from "react";
 import { TiTick, RxCross2 } from "@acadlix/helpers/icons";
 import { getCurrentDateString } from "@acadlix/helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const TypeTrueFalse = (props) => {
   const handleChange = (e) => {
@@ -116,7 +117,7 @@ const TypeTrueFalse = (props) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography>{data?.option}</Typography>
+                    <Typography>{data?.option == "True" ? __("True", "acadlix") : __("False", "acadlix")}</Typography>
                     <Box
                       sx={{
                         position: "relative",

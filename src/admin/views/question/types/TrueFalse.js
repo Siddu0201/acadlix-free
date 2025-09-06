@@ -78,7 +78,7 @@ function TrueFalse(props) {
                           }}
                         />
                       }
-                      label={option?.option}
+                      label={option?.option === "True" ? __("True", "acadlix") : __("False", "acadlix")}
                     />
                   )}
                 />

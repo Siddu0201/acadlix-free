@@ -87,8 +87,8 @@ const QuestionContent = (props) => {
         break;
       case "trueFalse":
         answerData = [
-          { option: __("True", "acadlix"), isCorrect: false, isChecked: false },
-          { option: __("False", "acadlix"), isCorrect: false, isChecked: false },
+          { option: "True", isCorrect: false, isChecked: false },
+          { option: "False", isCorrect: false, isChecked: false },
         ];
         break;
       case "freeChoice":
