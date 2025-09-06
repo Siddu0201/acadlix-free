@@ -1,7 +1,6 @@
 import {
   Box,
   Checkbox,
-  colors,
   ListItem,
   ListItemText,
   Typography,
@@ -9,6 +8,7 @@ import {
 import React from "react";
 import ListItemResource from "./ListItemResource";
 import { FaFile, FaVideo, MdQuiz } from "@acadlix/helpers/icons";
+import { __ } from "@wordpress/i18n";
 
 const SidebarListItem = (props) => {
   return (
@@ -78,7 +78,7 @@ const SidebarListItem = (props) => {
                 {props?.c?.lesson_type === "video" &&
                 props?.c?.type === "lesson"
                   ? `${props?.c?.hours}:${props?.c?.minutes}:${props?.c?.seconds}`
-                  : "1 min"}
+                  : __("1 min", "acadlix")}
               </Typography>
             </Box>
             {(props?.c?.type === "lesson") &&
