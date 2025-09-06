@@ -48,7 +48,7 @@ const TypeSortingChoice = (props) => {
           return lang;
         })
       );
-    setActiveId(null);
+      setActiveId(null);
 
       let data = props?.watch(
         `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`
@@ -157,7 +157,7 @@ const TypeSortingChoice = (props) => {
                 paddingY: 2,
               }}
             >
-              <b>Correct answer</b>
+              <b>{__("Correct answer", "acadlix")}</b>
             </Typography>
             <List
               sx={{
@@ -218,7 +218,7 @@ const SortableItem = (props) => {
     id: props.item?.option,
     disabled: props?.isDisabled,
   });
- 
+
   const style = {
     transform: transform ? `translate(0, ${transform?.y}px)` : undefined,
   };
