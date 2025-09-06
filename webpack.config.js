@@ -64,6 +64,8 @@ module.exports = (env, argv) => {
     optimization: {
       ...defaultConfig.optimization,
       runtimeChunk: "single",
+      chunkIds: 'named',   // instead of 'deterministic' or 'natural'
+      moduleIds: 'named',
       splitChunks: {
         chunks: "all",
         // maxInitialRequests: 10, // Prevents too many separate requests
