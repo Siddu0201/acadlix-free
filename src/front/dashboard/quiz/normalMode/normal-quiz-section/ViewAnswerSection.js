@@ -11,7 +11,7 @@ import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 import CustomButton from "@acadlix/components/CustomButton";
-import QuestionStatusSection from "./QuestionStatusSection";
+// import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import { __ } from "@wordpress/i18n";
 
@@ -20,6 +20,12 @@ import IncorrectMsgSection from "../normal-quiz-components/IncorrectMsgSection";
 import CorrectMsgSection from "../normal-quiz-components/CorrectMsgSection";
 import ParagraphText from "../normal-quiz-components/ParagraphText";
 import QuestionText from "../normal-quiz-components/QuestionText";
+
+const QuestionStatusSection = React.lazy(() =>
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_question_status_section" */
+    "./QuestionStatusSection")
+);
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
@@ -367,7 +373,10 @@ const ViewQuestionSection = (props) => {
               </Box>
             </React.Fragment>
           ))}
-        <QuestionStatusSection {...props} />
+
+        <React.Suspense fallback={null}>
+          <QuestionStatusSection {...props} />
+        </React.Suspense>
         <Box
           sx={{
             display: "flex",

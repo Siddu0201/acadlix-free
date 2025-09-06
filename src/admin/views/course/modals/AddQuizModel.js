@@ -16,7 +16,7 @@ import {
 import React from "react";
 import { GetQuizzesForCourse } from "@acadlix/requests/admin/AdminCourseRequest";
 import CustomTextField from "@acadlix/components/CustomTextField";
-import { IoClose, IoMdRefresh } from "@acadlix/helpers/icons";
+import { IoClose } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
@@ -90,7 +90,7 @@ const AddQuizModel = (props) => {
             {__("Cancel", "acadlix")}
           </Button>
           <Button variant="contained" type="submit" disabled={props?.isPending}>
-            {props?.isPending ? "...loading" : "Save Changes"}
+            {props?.isPending ? __("...loading", "acadlix") : __("Save Changes", "acadlix")}
           </Button>
         </DialogActions>
       </form>

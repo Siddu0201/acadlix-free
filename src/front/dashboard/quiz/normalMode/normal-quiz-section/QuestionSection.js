@@ -11,12 +11,19 @@ import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
-import QuestionStatusSection from "./QuestionStatusSection";
+// import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import QuestionText from "../normal-quiz-components/QuestionText";
 import ParagraphText from "../normal-quiz-components/ParagraphText";
+
+
+const QuestionStatusSection = React.lazy(() =>
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_question_status_section" */
+    "./QuestionStatusSection")
+);
 
 const QuestionSection = (props) => {
   const isDisabled = () => {
@@ -194,7 +201,9 @@ const QuestionSection = (props) => {
           </React.Fragment>
         ))
       }
-      <QuestionStatusSection {...props} />
+      <React.Suspense fallback={null}>
+        <QuestionStatusSection {...props} />
+      </React.Suspense>
       <OptionButtonSection {...props} />
       {props?.question?.language?.length > 0 &&
         props?.question?.language?.map((lang, index) => (

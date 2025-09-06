@@ -13,7 +13,6 @@ import TypeFill from "@acadlix/front/dashboard/quiz/questionTypes/TypeFill";
 import TypeNumerical from "@acadlix/front/dashboard/quiz/questionTypes/TypeNumerical";
 import TypeRange from "@acadlix/front/dashboard/quiz/questionTypes/TypeRange";
 import LanguageSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/LanguageSection";
-import QuestionStatusSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection";
 import PropTypes from "prop-types";
 import TypeFreeChoice from "@acadlix/front/dashboard/quiz/questionTypes/TypeFreeChoice";
 
@@ -22,9 +21,33 @@ import QuestionText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-c
 import CorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/CorrectMsgSection";
 import IncorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/IncorrectMsgSection";
 import { AnswerSheetFunction } from "./AnswerSheetFunction";
-import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
-import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
-import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
+// import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
+// import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
+// import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
+
+const QuestionStatusSection = React.lazy(() =>
+    import(
+        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_question_status_section" */
+        "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection")
+);
+
+const MarksObtained = React.lazy(() =>
+    import(
+        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_marks_obtained" */
+        "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained")
+);
+
+const NegativeMarks = React.lazy(() =>
+    import(
+        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_negative_marks" */
+        "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks")
+);
+
+const TimeTaken = React.lazy(() =>
+    import(
+        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_time_taken" */
+        "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken")
+);
 
 const QuestionSubjectAndPointSection = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -586,7 +609,9 @@ const ViewQuestionSection = (props) => {
                             </Box>
                         </React.Fragment>
                     ))}
-                <QuestionStatusSection {...props} />
+                <React.Suspense fallback={null}>
+                    <QuestionStatusSection {...props} />
+                </React.Suspense>
                 {props?.question?.language?.length > 0 &&
                     props?.question?.language?.map((lang, index) => (
                         <Box key={index} sx={{
@@ -635,14 +660,18 @@ const ResultSection = (props) => {
                     sm: 4,
                 }}
             >
-                <MarksObtained
-                    getPoints={props?.getPoints}
-                    getTotalPoints={props?.getTotalPoints}
-                />
-                {!props?.watch("hide_negative_marks") && (
-                    <NegativeMarks
-                        getNegativePoints={props?.getNegativePoints}
+                <React.Suspense fallback={null}>
+                    <MarksObtained
+                        getPoints={props?.getPoints}
+                        getTotalPoints={props?.getTotalPoints}
                     />
+                </React.Suspense>
+                {!props?.watch("hide_negative_marks") && (
+                    <React.Suspense fallback={null}>
+                        <NegativeMarks
+                            getNegativePoints={props?.getNegativePoints}
+                        />
+                    </React.Suspense>
                 )}
                 {props?.watch("show_status_based_on_min_percent") && (
                     <React.Suspense fallback={null}>
@@ -661,9 +690,11 @@ const ResultSection = (props) => {
                     </React.Suspense>
                 )}
                 {!props?.watch("hide_quiz_time") && (
-                    <TimeTaken
-                        getTimeTaken={props?.getTimeTaken}
-                    />
+                    <React.Suspense fallback={null}>
+                        <TimeTaken
+                            getTimeTaken={props?.getTimeTaken}
+                        />
+                    </React.Suspense>
                 )}
                 {props?.watch("show_speed") && (
                     <React.Suspense fallback={null}>

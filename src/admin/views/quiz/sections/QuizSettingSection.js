@@ -11,7 +11,13 @@ const QuizSettingSection = (props) => {
   const [activeTab, setActiveTab] = useState(0);
   const sectionsRef = useRef([]);
 
-  const sectionIds = ["GENERAL", "QUESTION", "RESULT", "NOTIFICATION", "INSTRUCTION"];
+  const sectionIds = [
+    { id: "GENERAL", label: __("GENERAL", "acadlix") }, 
+    { id: "QUESTION", label: __("QUESTION", "acadlix") }, 
+    { id: "RESULT", label: __("RESULT", "acadlix") }, 
+    { id: "NOTIFICATION", label: __("NOTIFICATION", "acadlix") }, 
+    { id: "INSTRUCTION", label: __("INSTRUCTION", "acadlix") },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,8 +68,8 @@ const QuizSettingSection = (props) => {
         >
           {sectionIds.map((id, index) => (
             <Tab
-              key={id}
-              label={id}
+              key={id?.id}
+              label={id?.label}
               sx={{
                 display:
                   index === 4 && props?.watch("meta.mode") !== "advance_mode" ? "none" : "",
@@ -75,8 +81,8 @@ const QuizSettingSection = (props) => {
       {/* Sections */}
       {sectionIds.map((id, index) => (
         <Card
-          key={id}
-          id={id}
+          key={id?.id}
+          id={id?.id}
           ref={(el) => (sectionsRef.current[index] = el)}
           sx={{
             marginY: 3,
@@ -85,11 +91,11 @@ const QuizSettingSection = (props) => {
           }}
         >
           <CardContent>
-            {id === "GENERAL" && <General {...props} />}
-            {id === "QUESTION" && <Question {...props} />}
-            {id === "RESULT" && <Result {...props} />}
-            {id === "NOTIFICATION" && <Notification {...props} />}
-            {id === "INSTRUCTION" && <Instruction {...props} />}
+            {id?.id === "GENERAL" && <General {...props} />}
+            {id?.id === "QUESTION" && <Question {...props} />}
+            {id?.id === "RESULT" && <Result {...props} />}
+            {id?.id === "NOTIFICATION" && <Notification {...props} />}
+            {id?.id === "INSTRUCTION" && <Instruction {...props} />}
           </CardContent>
         </Card>
       ))}

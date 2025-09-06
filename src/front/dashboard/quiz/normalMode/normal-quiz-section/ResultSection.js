@@ -5,11 +5,29 @@ import {
 import Grid from '@mui/material/Grid';
 import React from "react";
 import { __ } from "@wordpress/i18n";
-import MarksObtained from "../result-components/MarksObtained";
 import AverageScore from "../result-components/AverageScore";
-import NegativeMarks from "../result-components/NegativeMarks";
-import TimeTaken from "../result-components/TimeTaken";
 import ResultText from "../result-components/ResultText";
+// import MarksObtained from "../result-components/MarksObtained";
+// import NegativeMarks from "../result-components/NegativeMarks";
+// import TimeTaken from "../result-components/TimeTaken";
+
+const MarksObtained = React.lazy(() =>
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_marks_obtained" */
+    "../result-components/MarksObtained")
+);
+
+const NegativeMarks = React.lazy(() =>
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_negative_marks" */
+    "../result-components/NegativeMarks")
+);
+
+const TimeTaken = React.lazy(() =>
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_time_taken" */
+    "../result-components/TimeTaken")
+);
 
 const ResultStatus = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -107,14 +125,18 @@ const ResultSection = (props) => {
           sm: 4,
         }}
       >
-        <MarksObtained
-          getPoints={props?.getPoints}
-          getTotalPoints={props?.getTotalPoints}
-        />
-        {!props?.watch("hide_negative_marks") && (
-          <NegativeMarks
-            getNegativePoints={props?.getNegativePoints}
+        <React.Suspense fallback={null}>
+          <MarksObtained
+            getPoints={props?.getPoints}
+            getTotalPoints={props?.getTotalPoints}
           />
+        </React.Suspense>
+        {!props?.watch("hide_negative_marks") && (
+          <React.Suspense fallback={null}>
+            <NegativeMarks
+              getNegativePoints={props?.getNegativePoints}
+            />
+          </React.Suspense>
         )}
         {props?.watch("save_statistic") && props?.watch("show_average_score") && (
           <AverageScore
@@ -139,9 +161,11 @@ const ResultSection = (props) => {
           </React.Suspense>
         )}
         {!props?.watch("hide_quiz_time") && (
-          <TimeTaken
-            getTimeTaken={props?.getTimeTaken}
-          />
+          <React.Suspense fallback={null}>
+            <TimeTaken
+              getTimeTaken={props?.getTimeTaken}
+            />
+          </React.Suspense>
         )}
         {props?.watch("leaderboard") && props?.watch("show_rank") && (
           <React.Suspense fallback={null}>
