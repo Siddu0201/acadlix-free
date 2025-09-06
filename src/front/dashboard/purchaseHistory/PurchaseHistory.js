@@ -65,9 +65,17 @@ const PurchaseHistory = () => {
         const { value } = params;
 
         let color = "default";
-        if (value === "success") color = "success";
-        else if (value === "pending") color = "warning";
-        else if (value === "failed") color = "error";
+        let label = "";
+        if (value === "success") {
+          color = "success";
+          label = __("Success", "acadlix");
+        } else if (value === "pending") {
+          color = "warning";
+          label = __("Pending", "acadlix");
+        } else if (value === "failed") {
+          color = "error";
+          label = __("Failed", "acadlix");
+        }
         return (
           <div style={{
             height: "100%",
@@ -75,7 +83,7 @@ const PurchaseHistory = () => {
             alignItems: "center",
           }}>
             <Chip
-              label={value.charAt(0).toUpperCase() + value.slice(1)}
+              label={label}
               color={color}
               variant="filled"
             />
@@ -267,87 +275,95 @@ const MobileOnlyView = (props) => {
           <CircularProgress />
         </Box>
       ) : (
-        props?.watch("rows")?.map((row, index) => (
-          <Box
-            key={index}
-            sx={{
-              padding: "8px",
-              marginTop: "8px",
-              marginBottom: "8px",
-              borderBottom: "1px solid #e0e0e0",
-              display: "flex",
-              flexDirection: "column",
-              gap: "4px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-              borderRadius: "8px",
-              backgroundColor: "white",
-            }}
-          >
+        props?.watch("rows")?.map((row, index) => {
+          let color = "default";
+          let label = "";
+          if (row?.status === "success") {
+            color = "success";
+            label = __("Success", "acadlix");
+          } else if (row?.status === "pending") {
+            color = "warning";
+            label = __("Pending", "acadlix");
+          } else if (row?.status === "failed") {
+            color = "error";
+            label = __("Failed", "acadlix");
+          }
+          return (
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography
-                variant="h6"
-              >
-                {row.order_items}
-              </Typography>
-            </Box>
-            <Box
+              key={index}
               sx={{
-                marginY: "4px",
+                padding: "8px",
+                marginTop: "8px",
+                marginBottom: "8px",
+                borderBottom: "1px solid #e0e0e0",
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
+                gap: "4px",
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                borderRadius: "8px",
+                backgroundColor: "white",
               }}
             >
-              <HistoryToggleOff
-                sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                {row?.order_date}
-              </Typography>
-              <Chip
-                label={row?.status.charAt(0).toUpperCase() + row?.status.slice(1)}
-                color={
-                  row?.status === "success" ?
-                    "success" :
-                    row?.status === "pending" ?
-                      "warning" :
-                      "error"
-                }
+                <Typography
+                  variant="h6"
+                >
+                  {row.order_items}
+                </Typography>
+              </Box>
+              <Box
                 sx={{
-                  marginLeft: "auto",
-                }}
-                variant="filled"
-              />
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography
-                variant="body2"
-              >
-                {row?.total_amount}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
+                  marginY: "4px",
                   display: "flex",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
-                <FaMoneyBillTransfer style={{ marginRight: "4px" }} />
-                {row?.payment_method}
-              </Typography>
+                <HistoryToggleOff
+                  sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
+                />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  {row?.order_date}
+                </Typography>
+                <Chip
+                  label={label}
+                  color={color}
+                  sx={{
+                    marginLeft: "auto",
+                  }}
+                  variant="filled"
+                />
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography
+                  variant="body2"
+                >
+                  {row?.total_amount}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center"
+                  }}
+                >
+                  <FaMoneyBillTransfer style={{ marginRight: "4px" }} />
+                  {row?.payment_method}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-        ))
+          )
+        })
       )}
       <Box display="flex" justifyContent="center" padding={2}>
         <TablePagination

@@ -118,12 +118,20 @@ const Order = () => {
         const { value } = params;
 
         let color = "default";
-        if (value === "success") color = "success";
-        else if (value === "pending") color = "warning";
-        else if (value === "failed") color = "error";
+        let label = "";
+        if (value === "success") {
+          color = "success";
+          label = __("Success", "acadlix");
+        } else if (value === "pending") {
+          color = "warning";
+          label = __("Pending", "acadlix");
+        } else if (value === "failed") {
+          color = "error";
+          label = __("Failed", "acadlix");
+        }
         return (
           <Chip
-            label={value.charAt(0).toUpperCase() + value.slice(1)}
+            label={label}
             color={color}
             variant="filled"
           />
