@@ -6,6 +6,7 @@ import Question from "../tabs/Question";
 import Result from "../tabs/Result";
 import Notification from "../tabs/Notification";
 import Instruction from "../tabs/Instruction";
+import { __ } from "@wordpress/i18n";
 
 const QuizSettingSection = (props) => {
   const [activeTab, setActiveTab] = useState(0);
