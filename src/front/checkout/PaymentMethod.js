@@ -15,10 +15,10 @@ import { __ } from "@wordpress/i18n";
 const PaymentMethod = (props) => {
   const useActivePaymentGateways = () => {
     const gateways = {
-      razorpay: acadlixOptions?.is_razorpay_active,
-      paypal: acadlixOptions?.is_paypal_active,
-      payu: acadlixOptions?.is_payu_active,
-      stripe: acadlixOptions?.is_stripe_active,
+      razorpay: acadlixCheckoutOptions?.is_razorpay_active,
+      paypal: acadlixCheckoutOptions?.is_paypal_active,
+      payu: acadlixCheckoutOptions?.is_payu_active,
+      stripe: acadlixCheckoutOptions?.is_stripe_active,
     };
 
     return React.useMemo(() => {
@@ -48,7 +48,7 @@ const PaymentMethod = (props) => {
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
-            {acadlixOptions?.is_razorpay_active && (
+            {acadlixCheckoutOptions?.is_razorpay_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -101,7 +101,7 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {acadlixOptions?.is_paypal_active && (
+            {acadlixCheckoutOptions?.is_paypal_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -154,7 +154,7 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {acadlixOptions?.is_payu_active && (
+            {acadlixCheckoutOptions?.is_payu_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -207,7 +207,7 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {acadlixOptions?.is_stripe_active && (
+            {acadlixCheckoutOptions?.is_stripe_active && (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Card>
                     <CardContent
@@ -260,10 +260,10 @@ const PaymentMethod = (props) => {
                   </Card>
                 </Grid>
               )}
-            {!acadlixOptions?.is_razorpay_active &&
-              !acadlixOptions?.is_paypal_active &&
-              !acadlixOptions?.is_payu_active &&
-              !acadlixOptions?.is_stripe_active &&
+            {!acadlixCheckoutOptions?.is_razorpay_active &&
+              !acadlixCheckoutOptions?.is_paypal_active &&
+              !acadlixCheckoutOptions?.is_payu_active &&
+              !acadlixCheckoutOptions?.is_stripe_active &&
                (
                 <Grid size={{ xs: 12, lg: 12 }}>
                   <Typography variant="body1">

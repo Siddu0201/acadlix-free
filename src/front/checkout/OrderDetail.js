@@ -82,7 +82,7 @@ const OrderItem = (props) => {
           }}
           image={
             props?.c?.course?.thumbnail?.url ??
-            acadlixOptions?.default_img_url
+            acadlixCheckoutOptions?.default_img_url
           }
           title="product image"
         />

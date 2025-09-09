@@ -79,11 +79,9 @@ if (!class_exists("CheckoutController")) {
         {
             $checkout_page_id = acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id');
             if ($checkout_page_id && is_page($checkout_page_id)) {
-                // wp_dequeue_style('acadlix-front-css');
-                // wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_script('acadlix-razorpay-js');
                 
-                acadlix()->assets()->manager()->load_assets('front_checkout', $this->localize_checkout_options());
+                acadlix()->assets()->manager()->load_assets('front_checkout', $this->localize_checkout_options(), 'acadlixCheckoutOptions');
                 // wp_enqueue_style('acadlix-front-checkout-css');
                 // wp_enqueue_script('acadlix-front-checkout-js');
                 // wp_localize_script('acadlix-front-checkout-js', 'acadlixOptions', array(

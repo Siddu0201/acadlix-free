@@ -23,7 +23,7 @@ import { Country } from "country-state-city";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
-    return acadlixOptions?.user?.user_metas?.find((m) => m?.meta_key === key)
+    return acadlixCheckoutOptions?.user?.user_metas?.find((m) => m?.meta_key === key)
       ?.meta_value;
   };
 
@@ -35,11 +35,11 @@ const Checkout = () => {
       billing_info: {
         first_name: getUserMetaValue("first_name") ?? "",
         last_name: getUserMetaValue("last_name") ?? "",
-        email: acadlixOptions?.user?.user_email ?? "",
+        email: acadlixCheckoutOptions?.user?.user_email ?? "",
         phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
         phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
         address: getUserMetaValue("_acadlix_profile_address") ?? "",
-        user_url: acadlixOptions?.user?.user_url ?? "",
+        user_url: acadlixCheckoutOptions?.user?.user_url ?? "",
         country_code:
           Country.getAllCountries()?.find(
             (country) =>
@@ -50,14 +50,14 @@ const Checkout = () => {
         zip_code: getUserMetaValue("_acadlix_profile_zip_code") ?? "",
       },
       payment_method:
-        acadlixOptions?.settings?.acadlix_default_payment_gateway ?? "",
-      user_id: acadlixOptions?.user?.ID,
-      is_user_logged_in: acadlixOptions?.user?.ID > 0 ? true : false,
-      cart_token: acadlixOptions?.cart_token,
+        acadlixCheckoutOptions?.settings?.acadlix_default_payment_gateway ?? "",
+      user_id: acadlixCheckoutOptions?.user_id,
+      is_user_logged_in: acadlixCheckoutOptions?.user_id > 0 ? true : false,
+      cart_token: acadlixCheckoutOptions?.cart_token,
       cart: [],
       order_items: [],
       total_amount: 0,
-      currency: acadlixOptions?.settings?.acadlix_currency,
+      currency: acadlixCheckoutOptions?.settings?.acadlix_currency,
     },
   });
 
@@ -137,14 +137,14 @@ const Checkout = () => {
       throw new Error(__("Invalid amount", "acadlix"));
     }
     const decimalPlaces =
-      acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
+      acadlixCheckoutOptions?.settings?.acadlix_number_of_decimals ?? 2;
     const multiplier = Math.pow(10, decimalPlaces);
     return Math.round(
       Number(
         amount
           .toString()
           .replace(
-            acadlixOptions?.settings?.acadlix_thousand_separator || "",
+            acadlixCheckoutOptions?.settings?.acadlix_thousand_separator || "",
             ""
           )
       ) * multiplier
@@ -278,7 +278,7 @@ const Checkout = () => {
     freeMutation?.mutate(data, {
       onSuccess: (data) => {
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-        window.location.href = `${acadlixOptions?.dashboard_url}`;
+        window.location.href = `${acadlixCheckoutOptions?.dashboard_url}`;
       },
       onError: (data) => {
         toast?.error(
@@ -399,9 +399,9 @@ const Checkout = () => {
     >
       <UserAuth
         login_modal={methods?.watch("login_modal")}
-        users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
-        ajax_url={acadlixOptions?.ajax_url}
-        nonce={acadlixOptions?.nonce}
+        users_can_register={Boolean(Number(acadlixCheckoutOptions?.users_can_register))}
+        ajax_url={acadlixCheckoutOptions?.ajax_url}
+        nonce={acadlixCheckoutOptions?.nonce}
         handleClose={() => methods?.setValue("login_modal", false)}
       />
       {methods?.watch("cart")?.length > 0 ? (
