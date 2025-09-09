@@ -88,9 +88,9 @@ class Razorpay implements PaymentGatewayInterface
         $result = json_decode($result);
 
         $status_code = wp_remote_retrieve_response_code($response);
-
+        
         if ($status_code < 200 || $status_code > 299) {
-            throw new Exception($result->error_description);
+            throw new Exception($result?->error?->description ?? 'Something went wrong. Please try again later.');
         }
 
         return $result;

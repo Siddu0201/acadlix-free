@@ -201,36 +201,52 @@ class Core
 
     public function add_toolbar_menu($admin_bar)
     {
-        $admin_bar->add_menu([
-            'id' => 'acadlix-menu',
-            'title' => 'Acadlix',
-            'href' => admin_url('admin.php?page=acadlix'),
-        ]);
+        if (
+            current_user_can('acadlix_edit_course') ||
+            current_user_can('acadlix_add_lesson') ||
+            current_user_can('acadlix_add_quiz') ||
+            current_user_can('acadlix_show_setting')
+        ) {
+            $admin_bar->add_menu([
+                'id' => 'acadlix-menu',
+                'title' => 'Acadlix',
+                'href' => admin_url('admin.php?page=acadlix'),
+            ]);
 
-        $admin_bar->add_menu([
-            'id' => 'acadlix-courses',
-            'parent' => 'acadlix-menu',
-            'title' => 'Create Courses',
-            'href' => admin_url('post-new.php?post_type=acadlix_course'),
-        ]);
-        $admin_bar->add_menu([
-            'id' => 'acadlix-lessons',
-            'parent' => 'acadlix-menu',
-            'title' => 'Create Lessons',
-            'href' => admin_url('admin.php?page=acadlix_lesson#/create'),
-        ]);
-        $admin_bar->add_menu([
-            'id' => 'acadlix-quizzes',
-            'parent' => 'acadlix-menu',
-            'title' => 'Create Quizzes',
-            'href' => admin_url('admin.php?page=acadlix_quiz#/create'),
-        ]);
-        $admin_bar->add_menu([
-            'id' => 'acadlix-settings',
-            'parent' => 'acadlix-menu',
-            'title' => 'Settings',
-            'href' => admin_url('admin.php?page=acadlix_setting'),
-        ]);
+            if (current_user_can('acadlix_edit_course')) {
+                $admin_bar->add_menu([
+                    'id' => 'acadlix-courses',
+                    'parent' => 'acadlix-menu',
+                    'title' => 'Create Courses',
+                    'href' => admin_url('post-new.php?post_type=acadlix_course'),
+                ]);
+            }
+            if (current_user_can('acadlix_add_lesson')) {
+                $admin_bar->add_menu([
+                    'id' => 'acadlix-lessons',
+                    'parent' => 'acadlix-menu',
+                    'title' => 'Create Lessons',
+                    'href' => admin_url('admin.php?page=acadlix_lesson#/create'),
+                ]);
+            }
+            if (current_user_can('acadlix_add_quiz')) {
+                $admin_bar->add_menu([
+                    'id' => 'acadlix-quizzes',
+                    'parent' => 'acadlix-menu',
+                    'title' => 'Create Quizzes',
+                    'href' => admin_url('admin.php?page=acadlix_quiz#/create'),
+                ]);
+            }
+
+            if (current_user_can('acadlix_show_setting')) {
+                $admin_bar->add_menu([
+                    'id' => 'acadlix-settings',
+                    'parent' => 'acadlix-menu',
+                    'title' => 'Settings',
+                    'href' => admin_url('admin.php?page=acadlix_setting'),
+                ]);
+            }
+        }
     }
 
     public function filter_avatar($url, $id_or_email, $args)
