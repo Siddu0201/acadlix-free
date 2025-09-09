@@ -8,7 +8,7 @@ import {
   PostFreeCheckout,
 } from "../../requests/front/FrontCheckoutRequest";
 import { Box, CircularProgress, Link, Typography } from "@mui/material";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import BillingDetail from "./BillingDetail";
 import PaymentMethod from "./PaymentMethod";
 import OrderDetail from "./OrderDetail";
@@ -40,14 +40,19 @@ const Checkout = () => {
         phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
         address: getUserMetaValue("_acadlix_profile_address") ?? "",
         user_url: acadlixOptions?.user?.user_url ?? "",
-        country_code: Country.getAllCountries()?.find((country) => country?.name === getUserMetaValue("_acadlix_profile_country"))?.isoCode ?? null,
+        country_code:
+          Country.getAllCountries()?.find(
+            (country) =>
+              country?.name === getUserMetaValue("_acadlix_profile_country")
+          )?.isoCode ?? null,
         country: getUserMetaValue("_acadlix_profile_country") ?? null,
         city: getUserMetaValue("_acadlix_profile_city") ?? "",
         zip_code: getUserMetaValue("_acadlix_profile_zip_code") ?? "",
       },
-      payment_method: acadlixOptions?.settings?.acadlix_default_payment_gateway ?? "",
-      user_id: acadlixOptions?.user_id,
-      is_user_logged_in: acadlixOptions?.user_id > 0 ? true : false,
+      payment_method:
+        acadlixOptions?.settings?.acadlix_default_payment_gateway ?? "",
+      user_id: acadlixOptions?.user?.ID,
+      is_user_logged_in: acadlixOptions?.user?.ID > 0 ? true : false,
       cart_token: acadlixOptions?.cart_token,
       cart: [],
       order_items: [],
@@ -56,7 +61,9 @@ const Checkout = () => {
     },
   });
 
-  console.log(methods?.watch("billing_info"));
+  if (process?.env?.REACT_APP_MODE === "development") {
+    console.log(methods?.watch());
+  }
 
   const getCart = GetCheckoutCart(
     methods?.watch("user_id"),
@@ -73,11 +80,18 @@ const Checkout = () => {
       "order_items",
       cart?.map((c) => {
         let price = formatPrice(
-          Boolean(Number(c?.course?.rendered_metas?.enable_sale_price)) ? c?.course?.rendered_metas?.sale_price : c?.course?.rendered_metas?.price
+          Boolean(Number(c?.course?.rendered_metas?.enable_sale_price))
+            ? c?.course?.rendered_metas?.sale_price
+            : c?.course?.rendered_metas?.price
         );
         let tax = 0;
-        if (c?.course?.rendered_metas?.tax !== 0 && c?.course?.rendered_metas?.tax_percent !== 0) {
-          tax = formatPrice((price * c?.course?.rendered_metas?.tax_percent) / 100);
+        if (
+          c?.course?.rendered_metas?.tax !== 0 &&
+          c?.course?.rendered_metas?.tax_percent !== 0
+        ) {
+          tax = formatPrice(
+            (price * c?.course?.rendered_metas?.tax_percent) / 100
+          );
         }
         return {
           course_id: c?.course_id,
@@ -110,14 +124,17 @@ const Checkout = () => {
   }, [getCart?.isFetching, getCart?.data?.data?.cart]);
 
   React.useEffect(() => {
-    if (!methods?.watch("is_user_logged_in") && methods?.watch("cart")?.length > 0) {
+    if (
+      !methods?.watch("is_user_logged_in") &&
+      methods?.watch("cart")?.length > 0
+    ) {
       methods?.setValue("login_modal", true, { shouldDirty: true });
     }
   }, [methods?.watch("cart")?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const convertToUnitPrice = (amount = 0) => {
     if (isNaN(amount)) {
-      throw new Error(__('Invalid amount', 'acadlix'));
+      throw new Error(__("Invalid amount", "acadlix"));
     }
     const decimalPlaces =
       acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
@@ -156,8 +173,8 @@ const Checkout = () => {
             modal: {
               ondismiss: function () {
                 window.location.href = data?.data?.cancel_url;
-              }
-            }
+              },
+            },
           };
           const razorpay = new window.Razorpay(options);
           razorpay.open();
@@ -166,7 +183,10 @@ const Checkout = () => {
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
-          toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
+          toast?.error(
+            data?.response?.data?.message ??
+              __("Opps! Something went wrong", "acadlix")
+          );
         },
       }
     );
@@ -174,70 +194,83 @@ const Checkout = () => {
 
   const paypalMutation = PostCheckoutPaypal();
   const handlePaypal = (data = {}) => {
-    paypalMutation?.mutate({
-      currency: data?.currency,
-      billing_info: data?.billing_info,
-      user_id: data?.user_id,
-      payment_method: data?.payment_method,
-      order_items: data?.order_items,
-      total_amount: data?.total_amount,
-    }, {
-      onSuccess: async (data) => {
-        methods?.setValue("is_checkout_loading", false, {
-          shouldDirty: true,
-        });
-        if (data?.data?.redirect_url) {
-          window.location.href = data?.data?.redirect_url;
-        } else {
-          toast?.error(__('Opps! Something went wrong', 'acadlix'));
-        }
+    paypalMutation?.mutate(
+      {
+        currency: data?.currency,
+        billing_info: data?.billing_info,
+        user_id: data?.user_id,
+        payment_method: data?.payment_method,
+        order_items: data?.order_items,
+        total_amount: data?.total_amount,
       },
-      onError: (data) => {
-        toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
-        methods?.setValue("is_checkout_loading", false, {
-          shouldDirty: true,
-        });
-      },
-    });
+      {
+        onSuccess: async (data) => {
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+          if (data?.data?.redirect_url) {
+            window.location.href = data?.data?.redirect_url;
+          } else {
+            toast?.error(__("Opps! Something went wrong", "acadlix"));
+          }
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+              __("Opps! Something went wrong", "acadlix")
+          );
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
   };
 
   const payuMutation = PostCheckoutPayu();
   const handlePayu = (data = {}) => {
-    payuMutation?.mutate({
-      currency: data?.currency,
-      billing_info: data?.billing_info,
-      user_id: data?.user_id,
-      payment_method: data?.payment_method,
-      order_items: data?.order_items,
-      total_amount: data?.total_amount,
-    }, {
-      onSuccess: (data) => {
-        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-        if (
-          data?.data?.payment_url &&
-          data?.data?.formData
-        ) {
-          const form = document.createElement("form");
-          form.method = "POST";
-          form.action = data?.data.payment_url;
-
-          Object.keys(data?.data?.formData).forEach((key) => {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = data?.data?.formData[key];
-            form.appendChild(input);
+    payuMutation?.mutate(
+      {
+        currency: data?.currency,
+        billing_info: data?.billing_info,
+        user_id: data?.user_id,
+        payment_method: data?.payment_method,
+        order_items: data?.order_items,
+        total_amount: data?.total_amount,
+      },
+      {
+        onSuccess: (data) => {
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
           });
+          if (data?.data?.payment_url && data?.data?.formData) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = data?.data.payment_url;
 
-          document.body.appendChild(form);
-          form.submit();
-        }
-      },
-      onError: (data) => {
-        toast?.error(data?.response?.data?.message ?? __("Opps! Something went wrong", "acadlix"));
-        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-      },
-    });
+            Object.keys(data?.data?.formData).forEach((key) => {
+              const input = document.createElement("input");
+              input.type = "hidden";
+              input.name = key;
+              input.value = data?.data?.formData[key];
+              form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+          }
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+              __("Opps! Something went wrong", "acadlix")
+          );
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
   };
 
   const freeMutation = PostFreeCheckout();
@@ -248,33 +281,46 @@ const Checkout = () => {
         window.location.href = `${acadlixOptions?.dashboard_url}`;
       },
       onError: (data) => {
-        toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
+        toast?.error(
+          data?.response?.data?.message ??
+            __("Opps! Something went wrong", "acadlix")
+        );
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
       },
-    })
+    });
   };
 
   const stripeMutation = PostCheckoutStripe();
   const handleStripe = (data = {}) => {
-    stripeMutation?.mutate({
-      currency: data?.currency,
-      billing_info: data?.billing_info,
-      user_id: data?.user_id,
-      payment_method: data?.payment_method,
-      order_items: data?.order_items,
-      total_amount: data?.total_amount,
-      amount: convertToUnitPrice(data?.total_amount),
-    }, {
-      onSuccess: (data) => {
-        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-        window.location.href = data?.data?.redirect_url;
+    stripeMutation?.mutate(
+      {
+        currency: data?.currency,
+        billing_info: data?.billing_info,
+        user_id: data?.user_id,
+        payment_method: data?.payment_method,
+        order_items: data?.order_items,
+        total_amount: data?.total_amount,
+        amount: convertToUnitPrice(data?.total_amount),
       },
-      onError: (data) => {
-        toast?.error(data?.response?.data?.message ?? __('Opps! Something went wrong', 'acadlix'));
-        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-      },
-    })
-  }
+      {
+        onSuccess: (data) => {
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+          window.location.href = data?.data?.redirect_url;
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+              __("Opps! Something went wrong", "acadlix")
+          );
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
+  };
 
   const paymentHandlers = {
     razorpay: handleRazorpay,
@@ -291,12 +337,12 @@ const Checkout = () => {
   };
 
   /**
-   * Initiates the checkout process by setting the loading state and 
-   * validating the selected payment method. If no payment method is 
-   * selected, it displays an error message. If a payment method is 
-   * selected, it delegates the payment process to the appropriate 
+   * Initiates the checkout process by setting the loading state and
+   * validating the selected payment method. If no payment method is
+   * selected, it displays an error message. If a payment method is
+   * selected, it delegates the payment process to the appropriate
    * handler based on the selected payment gateway.
-   * 
+   *
    * @param {Object} data - The data to be used in the checkout process.
    */
   const handleCheckout = (data) => {
@@ -308,7 +354,7 @@ const Checkout = () => {
       // Check if a payment method has been selected
       if (!selectedPaymentMethod) {
         // If no payment method is selected, display an error message to the user
-        toast.error(__('Please select a payment gateway.', 'acadlix'));
+        toast.error(__("Please select a payment gateway.", "acadlix"));
 
         // Set the loading state back to false since the process cannot proceed
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
@@ -326,18 +372,19 @@ const Checkout = () => {
 
   if (getCart?.isFetching) {
     return (
-      <Box sx={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingY: 5
-      }}>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingY: 5,
+        }}
+      >
         <CircularProgress size={30} />
       </Box>
     );
   }
-
 
   return (
     <Box
@@ -357,64 +404,67 @@ const Checkout = () => {
         nonce={acadlixOptions?.nonce}
         handleClose={() => methods?.setValue("login_modal", false)}
       />
-      {
-        methods?.watch("cart")?.length > 0 ?
-          <Grid container spacing={4}>
-            <Grid size={{ xs: 12, sm: 12, md: 7 }}>
-              <Grid container spacing={4}>
-                {
-                  !methods?.watch("is_user_logged_in") &&
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <Typography>
-                      {__('Please login/register to proceed: ', 'acadlix')}
-                      <Link
-                        onClick={() => methods?.setValue("login_modal", true, { shouldDirty: true })}
-                        sx={{
-                          cursor: "pointer"
-                        }}
-                      >
-                        {__('Login/Register', 'acadlix')}
-                      </Link>
-                    </Typography>
-                  </Grid>
-                }
+      {methods?.watch("cart")?.length > 0 ? (
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12, sm: 12, md: 7 }}>
+            <Grid container spacing={4}>
+              {!methods?.watch("is_user_logged_in") && (
                 <Grid size={{ xs: 12, lg: 12 }}>
-                  <BillingDetail {...methods} />
+                  <Typography>
+                    {__("Please login/register to proceed: ", "acadlix")}
+                    <Link
+                      onClick={() =>
+                        methods?.setValue("login_modal", true, {
+                          shouldDirty: true,
+                        })
+                      }
+                      sx={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      {__("Login/Register", "acadlix")}
+                    </Link>
+                  </Typography>
                 </Grid>
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <OrderDetail
-                    {...methods}
-                    isFetching={getCart?.isFetching}
-                    setCartData={setCartData}
-                  />
-                </Grid>
+              )}
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <BillingDetail {...methods} />
               </Grid>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 12, md: 5 }}>
-              <Grid container spacing={4}>
-                {
-                  methods?.watch("total_amount") > 0 &&
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <PaymentMethod {...methods} />
-                  </Grid>
-                }
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <OrderSummary
-                    {...methods}
-                    isFetching={getCart?.isFetching}
-                    handleCheckout={handleCheckout}
-                  />
-                </Grid>
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <OrderDetail
+                  {...methods}
+                  isFetching={getCart?.isFetching}
+                  setCartData={setCartData}
+                />
               </Grid>
             </Grid>
           </Grid>
-          :
-          <Grid container spacing={4}>
-            <Grid size={{ xs: 12, md: 12 }}>
-              <Typography variant="body1">{__('Your cart is currently empty.', 'acadlix')}</Typography>
+          <Grid size={{ xs: 12, sm: 12, md: 5 }}>
+            <Grid container spacing={4}>
+              {methods?.watch("total_amount") > 0 && (
+                <Grid size={{ xs: 12, lg: 12 }}>
+                  <PaymentMethod {...methods} />
+                </Grid>
+              )}
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <OrderSummary
+                  {...methods}
+                  isFetching={getCart?.isFetching}
+                  handleCheckout={handleCheckout}
+                />
+              </Grid>
             </Grid>
           </Grid>
-      }
+        </Grid>
+      ) : (
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12, md: 12 }}>
+            <Typography variant="body1">
+              {__("Your cart is currently empty.", "acadlix")}
+            </Typography>
+          </Grid>
+        </Grid>
+      )}
     </Box>
   );
 };
