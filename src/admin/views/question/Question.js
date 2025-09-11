@@ -503,7 +503,7 @@ const Question = () => {
                   <Box>
                     <CustomTextField
                       label={__("Search", "acadlix")}
-                      helperText={__("Search by question text/title", "acadlix")}
+                      helperText={__("Search by question text/title/subject", "acadlix")}
                       fullWidth
                       size="small"
                       value={methods?.watch("search")}

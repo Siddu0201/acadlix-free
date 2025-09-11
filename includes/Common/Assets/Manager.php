@@ -272,7 +272,7 @@ class Manager
                 }
                 $deps = [...$deps, 'acadlix-global-hooks'];
 
-                wp_enqueue_script($handle, $src, $deps, null, true);
+                wp_enqueue_script($handle, $src, $deps, ACADLIX_VERSION, true);
                 wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
 
                 if (!empty($localized_options)) {
@@ -285,13 +285,13 @@ class Manager
                         if (str_contains($css_file, 'rtl')) {
                             $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
                             $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $css_file;
-                            wp_enqueue_style($handle, $src);
+                            wp_enqueue_style($handle, $src, [], ACADLIX_VERSION);
                         }
                     } else {
                         if (!str_contains($css_file, 'rtl')) {
                             $handle = 'acadlix-' . pathinfo($css_file, PATHINFO_FILENAME);
                             $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $css_file;
-                            wp_enqueue_style($handle, $src);
+                            wp_enqueue_style($handle, $src, [], ACADLIX_VERSION);
                         }
                     }
                 }
@@ -303,7 +303,7 @@ class Manager
                         $handle = 'acadlix-' . pathinfo($file, PATHINFO_FILENAME);
                         $src = ACADLIX_BUILD_URL . acadlix()->versionPath . '/' . $mappedFile;
                         $deps = ['acadlix-global-hooks'];
-                        wp_enqueue_script($handle, $src, $deps, null, true);
+                        wp_enqueue_script($handle, $src, $deps, ACADLIX_VERSION, true);
                         wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
                     }
                 }
@@ -485,7 +485,7 @@ class Manager
                 'in_footer' => true,
             ],
             'acadlix-plyr-js' => [
-                'src' => ACADLIX_ASSETS_JS_URL. 'plyr/plyr.js',
+                'src' => ACADLIX_ASSETS_JS_URL . 'plyr/plyr.js',
                 'version' => ACADLIX_VERSION,
                 'deps' => ['jquery'],
                 'in_footer' => true,
@@ -582,7 +582,10 @@ class Manager
         if (is_admin()) {
             return;
         }
-        wp_enqueue_editor();
+        $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
+        if ($dashboard_page_id && is_page($dashboard_page_id) && function_exists('wp_enqueue_editor')) {
+            wp_enqueue_editor();
+        }
         if (function_exists('wp_enqueue_media')) {
             wp_enqueue_media();
             wp_enqueue_script('wp-mediaelement');

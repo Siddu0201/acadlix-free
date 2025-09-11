@@ -152,7 +152,8 @@ class Activator
             3 => 'updateV3',
             4 => 'updateV4',
             5 => 'updateV5',
-            6 => 'updateV6',
+            6 => 'updateV6', // update 1.3.0
+            7 => 'updateV7', // update 1.4.0
         ];
 
         foreach ($updates as $version => $method) {
@@ -168,6 +169,15 @@ class Activator
             acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
             acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         }
+    }
+
+    
+
+    protected function updateV7()
+    {
+        /**
+         * In this update some user roles.
+         */
     }
 
     protected function updateV6()
