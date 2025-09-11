@@ -16,7 +16,7 @@ class WpOptimize
         if(!is_array($excluded)) {
             $excluded = [];
         }
-        $excluded[] = 'acadlix';
+        $excluded[] = '/wp-content/plugins/' . ACADLIX_PLUGIN_FOLDER_NAME . '/build/' . acadlix()->versionPath. '/';
         return $excluded;
     }
 }
