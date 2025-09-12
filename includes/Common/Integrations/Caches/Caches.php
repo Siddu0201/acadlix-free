@@ -11,6 +11,7 @@ if (!class_exists('Caches')) {
         protected $autoptimize;
         protected $w3totalcache;
         protected $wpoptimize;
+        protected $prefmatters;
 
         public function __construct()
         {
@@ -18,6 +19,7 @@ if (!class_exists('Caches')) {
             $this->autoptimize();
             $this->w3totalcache();
             $this->wpoptimize();
+            $this->prefmatters();
         }   
 
         public function litespeed(): LiteSpeedCache
@@ -50,6 +52,14 @@ if (!class_exists('Caches')) {
                 $this->wpoptimize = new WpOptimize();
             }
             return $this->wpoptimize;
+        }
+
+        public function prefmatters(): Prefmatters
+        {
+            if ($this->prefmatters === null) {
+                $this->prefmatters = new Prefmatters();
+            }
+            return $this->prefmatters;
         }
     }
 }
