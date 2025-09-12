@@ -897,7 +897,7 @@ class Manager
         if (is_admin())
             return;
         ?>
-        <script>
+        <script id="acadlix-front-katex-inline-js">
             document.addEventListener("DOMContentLoaded", function () {
                 renderMathInElement(document.body, {
                     delimiters: [

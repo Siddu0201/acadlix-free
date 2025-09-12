@@ -17,8 +17,8 @@ if (!class_exists('LiteSpeedCache')) {
             if(!is_array($excluded)) {
                 $excluded = [];
             }
-            $excluded[] = 'date.js';
-            $excluded[] = '/wp-content/plugins/' . ACADLIX_PLUGIN_FOLDER_NAME . '/build/' . acadlix()->versionPath. '/';
+            $excluded[] = 'wp';
+            $excluded[] = 'acadlix';
             return $excluded;
         }
     }
