@@ -1,18 +1,27 @@
 import {
   Box,
   Checkbox,
-  FormControl,
   FormControlLabel,
-  MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
+import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const Payment = (props) => {
+  const payment_after = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.course_settings.payment.after",
+    [],
+    {
+      register: props?.register,
+      control: props?.control,
+      watch: props?.watch,
+      setValue: props?.setValue,
+    }
+  ) ?? [];
+
   return (
     <Box>
       <Grid container spacing={3}>
@@ -182,6 +191,21 @@ const Payment = (props) => {
             </Grid>
           </Grid>
         </Grid>
+
+        {payment_after.map((field, i) => (
+          <React.Fragment key={i}>
+            <DynamicMUIRenderer
+              item={field}
+              index={i}
+              formProps={{
+                register: props?.register,
+                setValue: props?.setValue,
+                watch: props?.watch,
+                control: props?.control,
+              }}
+            />
+          </React.Fragment>
+        ))}
       </Grid>
     </Box>
   );

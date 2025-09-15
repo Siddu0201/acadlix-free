@@ -5,59 +5,65 @@ import General from "./sections/General";
 import Payment from "./sections/Payment";
 import Instructor from "./sections/Instructor";
 import Outcome from "./sections/Outcome";
-import Faq from "./sections/Faq";
-import FeaturedVideo from "./sections/FeaturedVideo";
 import { PostCreateUpdateCourse } from "@acadlix/requests/admin/AdminCourseRequest";
 import { __ } from "@wordpress/i18n";
 
 const CourseSettings = (props) => {
-  const methods = useForm({
-    defaultValues: {
-      id: props?.course?.ID,
-      post_status: props?.course?.post_status,
-      users: props?.users ?? [],
-      tab: "general",
-      meta: {
-        duration: {
-          type: props?.course?.rendered_metas?.duration?.type ?? "", // week, day, hour, minute
-          duration: props?.course?.rendered_metas?.duration?.duration ?? 0,
-        },
-        start_date: props?.course?.rendered_metas?.start_date ?? null,
-        end_date: props?.course?.rendered_metas?.end_date ?? null,
-        difficulty_level: props?.course?.rendered_metas?.difficulty_level ?? "all_levels",
-        price: props?.course?.rendered_metas?.price ?? 0,
-        enable_sale_price: Boolean(Number(props?.course?.rendered_metas?.enable_sale_price)),
-        sale_price: props?.course?.rendered_metas?.sale_price ?? 0,
-        tax: Boolean(Number(props?.course?.rendered_metas?.tax)),
-        tax_percent: props?.course?.rendered_metas?.tax_percent ?? 0,
-        user_ids:
-          props?.course?.rendered_metas?.user_ids?.length > 0
-            ? props?.course?.rendered_metas?.user_ids
-            : [],
-        outcomes: 
-          props?.course?.rendered_metas?.outcomes?.length > 0
-            ? props?.course?.rendered_metas?.outcomes
-            : [],
-        // faqs:
-        //   props?.course_setting?.outcomes?.length > 0
-        //     ? props?.course_setting?.faqs?.map((f) => {
-        //         return { id: f?.id, question: f?.question, answer: f?.answer };
-        //       })
-        //     : [],
-        // video: {
-        //   video_type: props?.course_setting?.video?.video_type ?? "",
-        //   video_data: {
-        //     html_5: props?.course_setting?.video?.video_data?.html_5 ?? "",
-        //     external_link: props?.course_setting?.video?.video_data?.external_link ?? "",
-        //     youtube: props?.course_setting?.video?.video_data?.youtube ?? "",
-        //     vimeo: props?.course_setting?.video?.video_data?.vimeo ?? "",
-        //     embedded: props?.course_setting?.video?.video_data?.embedded ?? "",
-        //     shortcode: props?.course_setting?.video?.video_data?.shortcode ?? "",
-        //   },
-        //   video_thumbnail: props?.course_setting?.video?.video_thumbnail ?? "",
-        // },
+  const baseDefaults = {
+    id: props?.course?.ID,
+    post_status: props?.course?.post_status,
+    users: props?.users ?? [],
+    tab: "general",
+    meta: {
+      duration: {
+        type: props?.course?.rendered_metas?.duration?.type ?? "", // week, day, hour, minute
+        duration: props?.course?.rendered_metas?.duration?.duration ?? 0,
       },
+      start_date: props?.course?.rendered_metas?.start_date ?? null,
+      end_date: props?.course?.rendered_metas?.end_date ?? null,
+      difficulty_level: props?.course?.rendered_metas?.difficulty_level ?? "all_levels",
+      price: props?.course?.rendered_metas?.price ?? 0,
+      enable_sale_price: Boolean(Number(props?.course?.rendered_metas?.enable_sale_price)),
+      sale_price: props?.course?.rendered_metas?.sale_price ?? 0,
+      tax: Boolean(Number(props?.course?.rendered_metas?.tax)),
+      tax_percent: props?.course?.rendered_metas?.tax_percent ?? 0,
+      user_ids:
+        props?.course?.rendered_metas?.user_ids?.length > 0
+          ? props?.course?.rendered_metas?.user_ids
+          : [],
+      outcomes:
+        props?.course?.rendered_metas?.outcomes?.length > 0
+          ? props?.course?.rendered_metas?.outcomes
+          : [],
+      // faqs:
+      //   props?.course_setting?.outcomes?.length > 0
+      //     ? props?.course_setting?.faqs?.map((f) => {
+      //         return { id: f?.id, question: f?.question, answer: f?.answer };
+      //       })
+      //     : [],
+      // video: {
+      //   video_type: props?.course_setting?.video?.video_type ?? "",
+      //   video_data: {
+      //     html_5: props?.course_setting?.video?.video_data?.html_5 ?? "",
+      //     external_link: props?.course_setting?.video?.video_data?.external_link ?? "",
+      //     youtube: props?.course_setting?.video?.video_data?.youtube ?? "",
+      //     vimeo: props?.course_setting?.video?.video_data?.vimeo ?? "",
+      //     embedded: props?.course_setting?.video?.video_data?.embedded ?? "",
+      //     shortcode: props?.course_setting?.video?.video_data?.shortcode ?? "",
+      //   },
+      //   video_thumbnail: props?.course_setting?.video?.video_thumbnail ?? "",
+      // },
     },
+  };
+
+  const filteredDefaults = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.course_settings.defaultValues",
+    baseDefaults,
+    props ?? {}
+  ) ?? baseDefaults;
+
+  const methods = useForm({
+    defaultValues: filteredDefaults,
   });
 
   const courseMutation = PostCreateUpdateCourse();
