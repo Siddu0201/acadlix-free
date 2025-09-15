@@ -984,7 +984,7 @@ if (!class_exists('Helper')) {
 
         public function is_assignment_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_assignments_enabled', false);
+            $value = get_option('acadlix_addon_assignments_enabled', false);
             if ($value != "yes") {
                 return false;
             }
@@ -1000,7 +1000,7 @@ if (!class_exists('Helper')) {
 
         public function is_zoom_integration_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false);
+            $value = get_option('acadlix_addon_zoom_integration_enabled', false);
             if ($value != "yes") {
                 return false;
             }
@@ -1016,7 +1016,7 @@ if (!class_exists('Helper')) {
 
         public function is_advanced_report_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false);
+            $value = get_option('acadlix_addon_advanced_report_enabled', false);
             if ($value != "yes") {
                 return false;
             }
@@ -1032,7 +1032,7 @@ if (!class_exists('Helper')) {
 
         public function is_subscriptions_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_subscriptions_enabled', false);
+            $value = get_option('acadlix_addon_subscriptions_enabled', false);
             if ($value != "yes") {
                 return false;
             }
