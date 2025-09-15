@@ -27,6 +27,14 @@ import Integration from "./section/Integration";
 import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
 
+const SettingProContent = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_setting_pro_content" */
+        "@acadlix/pro/admin/views/setting/SettingProContent") :
+    Promise.resolve({ default: () => null })
+);
+
 const SettingContent = ({ 
     selected = 'general', 
     options = {}, 
@@ -307,6 +315,12 @@ const SettingContent = ({
                 />
               )
             }
+            <React.Suspense fallback={null}>
+              <SettingProContent 
+                {...methods}
+                isPending={updateMutation?.isPending}
+              />
+            </React.Suspense>
           </Grid>
         </Grid>
       </form>
