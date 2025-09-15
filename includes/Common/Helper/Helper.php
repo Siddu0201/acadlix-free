@@ -899,6 +899,7 @@ if (!class_exists('Helper')) {
             }
         }
 
+
         public function acadlix_get_all_addons(): array
         {
             return [
@@ -949,6 +950,18 @@ if (!class_exists('Helper')) {
                     'option_name' => 'acadlix_addon_advanced_report_enabled',
                     'icon' => 'HiDocumentReport',
                     'icon_color' => '#4A90E2',
+                ],
+                [
+                    'name' => __('Acadlix Subscriptions', 'acadlix'),
+                    'description' => __('Manage subscriptions for your students and courses.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_subscriptions_enabled', false) == "yes",
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_subscriptions_enabled',
+                    'icon' => 'MdSubscriptions',
+                    'icon_color' => '#22C55E',
                 ],
             ];
         }
@@ -1004,6 +1017,22 @@ if (!class_exists('Helper')) {
         public function is_advanced_report_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false);
+            if ($value != "yes") {
+                return false;
+            }
+            if (!acadlix()->pro) {
+                return false;
+            } else {
+                if (!acadlix()->license()->isActive) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public function is_subscriptions_addon_active()
+        {
+            $value = $this->acadlix_get_option('acadlix_addon_subscriptions_enabled', false);
             if ($value != "yes") {
                 return false;
             }

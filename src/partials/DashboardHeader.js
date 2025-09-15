@@ -16,7 +16,10 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
             color="inherit"
             aria-label="menu"
             sx={{
-              mr: 2,
+              mr: {
+                xs: 0,
+                sm: 2,
+              },
               '&:hover,&:active,&:focus': {
                 backgroundColor: 'transparent',
               },
@@ -31,7 +34,11 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
             justifyContent: "space-between",
             width: "100%",
           }}>
-            <HeaderLogo />
+            <HeaderLogo
+              sx={{
+                height: isDesktop ? 50 : 40,
+              }}
+            />
             <Box sx={{
               display: "flex",
               alignItems: "center",
