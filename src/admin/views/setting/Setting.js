@@ -3,7 +3,7 @@ import { GetUpdateSetting } from '@acadlix/requests/admin/AdminSettingRequest';
 import React from 'react'
 import SettingContent from './SettingContent';
 
-const Setting = ({ selected = 'general' }) => {
+const Setting = ({ selected = 'general', filteredSettingRoutes = [] }) => {
   const {isFetching, data} = GetUpdateSetting();
 
   if(isFetching)
@@ -17,6 +17,7 @@ const Setting = ({ selected = 'general' }) => {
       all_pages={data?.data?.all_pages}
       currencies_with_symbol={data?.data?.currencies_with_symbol}
       selected={selected}
+      filteredSettingRoutes={filteredSettingRoutes}
     />
   )
 }

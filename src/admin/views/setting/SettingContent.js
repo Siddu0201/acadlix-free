@@ -26,13 +26,13 @@ import { __ } from "@wordpress/i18n";
 import Integration from "./section/Integration";
 import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
-import { filteredSettingRoutes } from "@acadlix/admin/AdminSetting";
 
 const SettingContent = ({ 
     selected = 'general', 
     options = {}, 
     all_pages = [], 
-    currencies_with_symbol = [] 
+    currencies_with_symbol = [],
+    filteredSettingRoutes = [] 
 }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -239,12 +239,14 @@ const SettingContent = ({
             selected={selected}
             isDesktop={isDesktop}
             open={open}
+            filteredSettingRoutes={filteredSettingRoutes}
           />
           <MobileSidebar
             selected={selected}
             isDesktop={isDesktop}
             open={open}
             setOpen={setOpen}
+            filteredSettingRoutes={filteredSettingRoutes}
           />
 
           <Grid size={{
@@ -314,7 +316,7 @@ const SettingContent = ({
 
 export default SettingContent;
 
-const DesktopSidebar = ({ selected, isDesktop, open }) => {
+const DesktopSidebar = ({ selected, isDesktop, open, filteredSettingRoutes }) => {
   const navigate = useNavigate();
   if (!isDesktop) return null;
   return (
@@ -362,7 +364,7 @@ const DesktopSidebar = ({ selected, isDesktop, open }) => {
   )
 }
 
-const MobileSidebar = ({ selected, isDesktop, open, setOpen }) => {
+const MobileSidebar = ({ selected, isDesktop, open, setOpen, filteredSettingRoutes }) => {
   const navigate = useNavigate();
   if (isDesktop) return null;
   return (
