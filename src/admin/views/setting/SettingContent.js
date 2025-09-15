@@ -318,6 +318,7 @@ const SettingContent = ({
             <React.Suspense fallback={null}>
               <SettingProContent 
                 {...methods}
+                selected={selected}
                 isPending={updateMutation?.isPending}
               />
             </React.Suspense>
