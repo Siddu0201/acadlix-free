@@ -22,6 +22,7 @@ const CourseSettings = (props) => {
       start_date: props?.course?.rendered_metas?.start_date ?? null,
       end_date: props?.course?.rendered_metas?.end_date ?? null,
       difficulty_level: props?.course?.rendered_metas?.difficulty_level ?? "all_levels",
+      payment_type: props?.course?.rendered_metas?.payment_type ?? "one_time",
       price: props?.course?.rendered_metas?.price ?? 0,
       enable_sale_price: Boolean(Number(props?.course?.rendered_metas?.enable_sale_price)),
       sale_price: props?.course?.rendered_metas?.sale_price ?? 0,

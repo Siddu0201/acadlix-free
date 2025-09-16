@@ -84,31 +84,7 @@ const COMPONENT_MAP = {
   Fragment: React.Fragment,
 };
 
-// export const renderMUIComponent = (field, formContext = {}) => {
-//   if (!field || typeof field !== "object") return null;
-
-//   const { name, component, props = {}, value, children = [] } = field;
-//   const Component = COMPONENT_MAP[component];
-//   if (!Component) return null;
-
-//   const registeredProps =
-//     formContext?.register && name ? formContext.register(name) : {};
-
-//   const childElements = Array.isArray(children)
-//     ? children.map((child, idx) => (
-//         <React.Fragment key={`${name || component}-${idx}`}>
-//           {renderMUIComponent(child, formContext)}
-//         </React.Fragment>
-//       ))
-//     : null;
-
-//   return (
-//     <Component key={name || component} {...registeredProps} {...props}>
-//       {value}
-//       {childElements}
-//     </Component>
-//   );
-// };
+const FUNCTION_PROPS = ["renderInput", "renderOption", "renderValue"];
 
 const resolveComponentInProps = async (propObj, register, name, formProps) => {
   const result = {};
@@ -119,9 +95,21 @@ const resolveComponentInProps = async (propObj, register, name, formProps) => {
     if (typeof value === "object" && value?.component) {
       const Component = COMPONENT_MAP[value.component];
       const resolvedNestedProps = await resolveComponentInProps(value.props, register, name, formProps);
-      result[key] = (params) => (
-        <Component {...params} {...resolvedNestedProps} />
-      );
+      // result[key] = (params) => (
+      //   <Component {...params} {...resolvedNestedProps} />
+      // );
+      if (FUNCTION_PROPS.includes(key)) {
+        // ✅ For function-style props (Autocomplete etc.)
+        result[key] = (params) => (
+          <Component {...params} {...resolvedNestedProps} />
+        );
+      } else {
+        // ✅ For element-style props (control, endAdornment, icon etc.)
+        result[key] = <Component {...resolvedNestedProps} />;
+      }
+    } else if (typeof value === "function") {
+      // 🔑 pass formProps into functions
+      result[key] = (...args) => value(...args, formProps);
     } else {
       result[key] = value;
     }
@@ -130,15 +118,6 @@ const resolveComponentInProps = async (propObj, register, name, formProps) => {
   return result;
 };
 
-const handleChangeUniversal = (field) => (...args) => {
-  if (args.length === 1) {
-    const event = args[0];
-    field.onChange(event?.target?.value ?? event);
-  } else if (args.length === 2) {
-    const [, value] = args;
-    field.onChange(value);
-  }
-};
 
 export const renderMUIComponent = async (item, index, formProps = {}) => {
   const { component, props, children, value, name } = item;
@@ -156,27 +135,6 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
       )
     );
   }
-
-  // if (name && formProps?.control) {
-  //   console.log(resolvedProps);
-  //   return (
-  //     <Controller
-  //       key={index}
-  //       name={name}
-  //       control={formProps.control}
-  //       render={({ field }) => (
-  //         <Component
-  //           {...resolvedProps}
-  //           {...field}
-  //           // onChange={handleChangeUniversal(field)}
-  //         >
-  //           {childrenElements || value}
-  //         </Component>
-  //       )}
-  //     />
-  //   );
-  // }
-  // console.log(resolvedProps);
   return (
     <Component
       key={index}
@@ -193,6 +151,10 @@ export const DynamicMUIRenderer = ({ item, index, formProps }) => {
   React.useEffect(() => {
     const renderComponent = async () => {
       const element = await renderMUIComponent(item, index, formProps);
+      if (item.component_name) {
+        formProps.refs = formProps.refs || {};
+        formProps.refs[item.component_name] = element;
+      }
       setComponentEl(element);
     };
     renderComponent();
@@ -200,5 +162,37 @@ export const DynamicMUIRenderer = ({ item, index, formProps }) => {
 
   return componentEl;
 };
+
+export const modifyComponentTree = (tree, name, action, payload) => {
+  if (!tree) return tree;
+
+  if (tree.props?.component_name === name) {
+    if (action === "updateProps") {
+      return { ...tree, props: payload(tree.props) };
+    }
+    if (action === "addChild") {
+      return { ...tree, children: [...(tree.children || []), payload] };
+    }
+    if (action === "removeProp") {
+      const { [payload]: _, ...rest } = tree.props;
+      return { ...tree, props: rest };
+    }
+    if (action === "removeNode") {
+      return null; // mark for deletion
+    }
+  }
+
+  if (Array.isArray(tree.children)) {
+    return {
+      ...tree,
+      children: tree.children
+        .map(child => modifyComponentTree(child, name, action, payload))
+        .filter(Boolean) // remove nulls
+    };
+  }
+
+  return tree;
+}
+
 
 
