@@ -118,7 +118,7 @@ const Payment = (props) => {
                                     props: {
                                     }
                                   },
-                                  disabled: !acadlixOptions?.isActive,
+                                  disabled: !acadlixOptions?.isActive && !acadlixOptions?.isPro,
                                   label: "Recurring",
                                 }
                               },
@@ -133,7 +133,7 @@ const Payment = (props) => {
                                      
                                     }
                                   },
-                                  disabled: !acadlixOptions?.isActive,
+                                  disabled: !acadlixOptions?.isActive && !acadlixOptions?.isPro,
                                   label: "Closed",
                                 }
                               }
