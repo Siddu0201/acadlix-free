@@ -67,6 +67,10 @@ const CourseSettings = (props) => {
     defaultValues: filteredDefaults,
   });
 
+  if(process.env.REACT_APP_MODE == 'development'){
+    console.log(methods?.watch());
+  }
+
   const courseMutation = PostCreateUpdateCourse();
   const handleSaveOrPublish = (e) => {
     // e.preventDefault();
