@@ -1,14 +1,15 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-} from "@mui/material";
-import Grid from '@mui/material/Grid';
 import React from "react";
-import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+
+const PaymentPro = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_course_settings_payment_pro" */
+      "@acadlix/pro/admin/course_settings/sections/PaymentPro"
+    )
+    : Promise.resolve({ default: null })
+);
 
 const Payment = (props) => {
   let defaultSetting = {
@@ -25,128 +26,6 @@ const Payment = (props) => {
           spacing: 3
         },
         children: [
-          {
-            component: "Grid",
-            props: {
-              size: {
-                xs: 12,
-                sm: 12
-              },
-              component_name: "course_payment_payment_type_outer_grid_item",
-            },
-            children: [
-              {
-                component: "Grid",
-                props: {
-                  container: true,
-                  spacing: 2,
-                  component_name: "course_payment_payment_type_inner_grid",
-                },
-                children: [
-                  {
-                    component: "Grid",
-                    props: {
-                      size: {
-                        xs: 12,
-                        sm: 12
-                      },
-                      component_name: "course_payment_payment_type_label_grid_item",
-                    },
-                    children: [
-                      {
-                        component: "Typography",
-                        props: {
-                          sx: {
-                            fontWeight: 600,
-                          },
-                          component_name: "course_payment_payment_type_label_typography",
-                        },
-                        value: __('Payment Type', 'acadlix')
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: {
-                        xs: 12,
-                        sm: 12
-                      },
-                      component_name: "course_payment_payment_type_form_control_grid_item",
-                    },
-                    children: [
-                      {
-                        component: "FormControl",
-                        props: {
-                          component_name: "course_payment_payment_type_form_control",
-                        },
-                        children: [
-                          {
-                            component: "RadioGroup",
-                            props: {
-                              component_name: "course_payment_payment_type_form_control_radio_group",
-                              row: true,
-                              value: props?.watch("meta.payment_type") ?? "",
-                              onChange: (e) => {
-                                props?.setValue("meta.payment_type", e?.target?.value, {
-                                  shouldDirty: true,
-                                });
-                              },
-                              onKeyDown: props?.handleKeyDown,
-                            },
-                            children: [
-                              {
-                                component: "FormControlLabel",
-                                props: {
-                                  component_name: "course_payment_payment_type_form_control_one_time",
-                                  value: "one_time",
-                                  control: {
-                                    component: "Radio",
-                                    props: {
-                                    }
-                                  },
-                                  label: "One Time",
-                                }
-                              },
-                              {
-                                component: "FormControlLabel",
-                                props: {
-                                  component_name: "course_payment_payment_type_form_control_recurring",
-                                  value: "recurring",
-                                  control: {
-                                    component: "Radio",
-                                    props: {
-                                    }
-                                  },
-                                  disabled: !acadlixOptions?.isActive && !acadlixOptions?.isPro,
-                                  label: "Recurring",
-                                }
-                              },
-                              {
-                                component: "FormControlLabel",
-                                props: {
-                                  component_name: "course_payment_payment_type_form_control_closed",
-                                  value: "closed",
-                                  control: {
-                                    component: "Radio",
-                                    props: {
-                                     
-                                    }
-                                  },
-                                  disabled: !acadlixOptions?.isActive && !acadlixOptions?.isPro,
-                                  label: "Closed",
-                                }
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                ]
-              }
-            ]
-          },
           {
             component: "Grid",
             props: {
@@ -578,6 +457,11 @@ const Payment = (props) => {
           />
         </React.Fragment>
       ))}
+      <React.Suspense fallback={null}>
+        <PaymentPro
+          {...props}
+        />
+      </React.Suspense>
     </>
   );
 };

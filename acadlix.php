@@ -17,29 +17,59 @@ defined('ABSPATH') || exit();
 
 if (!defined('ACADLIX_PLUGIN_FILE')) {
     define('ACADLIX_PLUGIN_FILE', __FILE__);
-    include_once 'includes/acadlix-contant.php';
+    include_once 'includes/acadlix-constant.php';
 }
 
-if ( ! version_compare( PHP_VERSION, '8.2', '>=' ) ) {
-    add_action( 'admin_notices', function() {
-        ?>
-        <div class="notice notice-warning">
-            <p><?php printf( __( 'Acadlix requires PHP %s or higher. You are running PHP %s.', 'acadlix' ), '8.2', PHP_VERSION ); ?></p>
-        </div>
-        <?php
-    } );
-    return;
+/**
+ * Environment checks
+ */
+function acadlix_environment_check()
+{
+    global $wp_version;
+
+    // PHP check
+    if (version_compare(PHP_VERSION, '8.2', '<')) {
+        add_action('admin_notices', function () {
+            ?>
+            <div class="notice notice-error">
+                <p><?php printf(
+                    __('Acadlix requires PHP %s or higher. You are running PHP %s.', 'acadlix'),
+                    '8.2',
+                    PHP_VERSION
+                ); ?></p>
+            </div>
+            <?php
+        });
+
+        // deactivate and prevent reactivation
+        deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
+        return false;
+    }
+
+    // WordPress check
+    if (version_compare($wp_version, '6.8', '<')) {
+        add_action('admin_notices', function () use ($wp_version) {
+            ?>
+            <div class="notice notice-error">
+                <p><?php printf(
+                    __('Acadlix requires WordPress %s or higher. You are running WordPress %s.', 'acadlix'),
+                    '6.8',
+                    $wp_version
+                ); ?></p>
+            </div>
+            <?php
+        });
+
+        deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
+        return false;
+    }
+
+    return true;
 }
 
-if(!version_compare(get_bloginfo( 'version' ), '6.8', '>=')) {
-    add_action( 'admin_notices', function() {
-        ?>
-        <div class="notice notice-warning">
-            <p><?php printf( __( 'Acadlix requires WordPress %s or higher. You are running WordPress %s.', 'acadlix' ), '6.8', get_bloginfo( 'version' ) ); ?></p>
-        </div>
-        <?php
-    } );
-    return;
+// Run environment check early
+if (!acadlix_environment_check()) {
+    return; // stop loading the plugin completely
 }
 
 if (function_exists('acadlix')) {

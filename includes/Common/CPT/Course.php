@@ -268,7 +268,7 @@ final class Course extends CPT_Abstract
             array($this, 'admin_course_settings'),        // Content callback
             $this->_post_type,          // Post type
             'normal',                    // Context (normal, side, advanced)
-            'core'                  // Priority
+            'high'                  // Priority
         );
     }
 
