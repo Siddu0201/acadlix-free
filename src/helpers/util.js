@@ -364,3 +364,11 @@ export const nameToInitials = (name) => {
 }
 
 
+export const getNumberStep = (step = 2) => {
+  if (typeof step !== "number" || Number.isNaN(step) || step <= 0) {
+    return 0.01;
+  }
+  return 1 / Math.pow(10, step);
+};
+
+
