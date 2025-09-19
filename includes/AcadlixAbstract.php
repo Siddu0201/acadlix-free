@@ -11,6 +11,8 @@ abstract class AcadlixAbstract {
 
 	protected $controller = null;
 
+	protected $view = null;
+
 	protected $rest = null;
 
 	protected $assets = null;
@@ -46,6 +48,10 @@ abstract class AcadlixAbstract {
 
 	public function controller(){
 		return $this->controller;
+	}
+
+	public function view(){
+		return $this->view;
 	}
 
 	public function rest(){

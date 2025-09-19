@@ -332,6 +332,13 @@
 }
 
 .acadlix-all-course-page .acadlix-course-page-card-price {
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.acadlix-all-course-page .acadlix-course-page-price {
   font-weight: bold;
 }
 

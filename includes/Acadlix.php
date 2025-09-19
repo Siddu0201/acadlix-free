@@ -101,6 +101,7 @@ namespace Yuvayana\Acadlix {
             $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
             $this->assets = $this->pro ? new Pro\Assets\Assets() : new Common\Assets\Assets();
             $this->controller = $this->pro ? new Pro\Controller\Controller() : new Common\Controller\Controller();
+            $this->view = $this->pro ? new Pro\View\View() : new Common\View\View();
             $this->cpt = $this->pro ? new Pro\CPT\CPT() : new Common\CPT\CPT();
             $this->migration = $this->pro  ? new Pro\Migrations\Migrations() : new Common\Migrations\Migrations();
             $this->model = $this->pro  ? new Pro\Models\Models() : new Common\Models\Models();

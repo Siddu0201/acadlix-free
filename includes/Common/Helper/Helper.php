@@ -46,11 +46,10 @@ if (!class_exists('Helper')) {
             return $this->queryLogger;
         }
 
-
         public function acadlix_modify_video_shortcode($content)
         {
             if (empty($content)) {
-                return $content; // If content is empty, return it as-is
+                return $content;  // If content is empty, return it as-is
             }
             if (has_shortcode($content, 'video')) {
                 // Use regex to find all [video] shortcodes in the content
@@ -75,11 +74,10 @@ if (!class_exists('Helper')) {
                         // Return the modified shortcode
                         return sprintf('[%s%s]%s[/%s]', $matches[2], $attr_string, $matches[5], $matches[2]);
                     }
-                    return $matches[0]; // Return original shortcode if not [video]
+                    return $matches[0];  // Return original shortcode if not [video]
                 }, $content);
             }
             return $content;
-
         }
 
         public function renderShortCode($content)
@@ -91,17 +89,16 @@ if (!class_exists('Helper')) {
 
         public function upload_base64_image_to_wordpress($content)
         {
-
             $pattern = '/<img[^>]+src="data:image\/([^;]+);base64,([^"]+)"[^>]*>/i';
 
             // Callback function to handle each match
             $callback = function ($matches) {
-                require_once(ABSPATH . 'wp-admin/includes/file.php');
+                require_once (ABSPATH . 'wp-admin/includes/file.php');
 
                 // Initialize the filesystem
                 global $wp_filesystem;
                 if (empty($wp_filesystem)) {
-                    WP_Filesystem(); // This initializes the $wp_filesystem global
+                    WP_Filesystem();  // This initializes the $wp_filesystem global
                 }
                 // Extract mime type and base64 data from matches
                 $mime_type = $matches[1];
@@ -136,15 +133,13 @@ if (!class_exists('Helper')) {
                     $attach_id = wp_insert_attachment($attachment, $file_path);
 
                     // // Generate attachment metadata
-                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+                    require_once (ABSPATH . 'wp-admin/includes/image.php');
                     $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
                     wp_update_attachment_metadata($attach_id, $attach_data);
 
                     // Return the URL of the uploaded image
                     return "<img src='" . $upload_dir['url'] . '/' . $filename . "' alt='" . $filename . "' />";
-
                 }
-
             };
 
             // Perform the replacement
@@ -535,40 +530,40 @@ if (!class_exists('Helper')) {
                 'acadlix_checkout_page_id' => null,
                 'acadlix_thankyou_page_id' => null,
                 'acadlix_no_of_courses_per_page' => 10,
-                'acadlix_one_click_checkout' => "no",
+                'acadlix_one_click_checkout' => 'no',
                 // Currency Option
-                'acadlix_currency' => "USD",
-                'acadlix_currency_position' => "Left ( $99.99 )",
-                'acadlix_thousand_separator' => ",",
-                'acadlix_decimal_seprator' => ".",
+                'acadlix_currency' => 'USD',
+                'acadlix_currency_position' => 'Left ( $99.99 )',
+                'acadlix_thousand_separator' => ',',
+                'acadlix_decimal_seprator' => '.',
                 'acadlix_number_of_decimals' => 2,
-                'acadlix_default_payment_gateway' => "",
+                'acadlix_default_payment_gateway' => '',
                 // Admin Option
-                'acadlix_admin_auto_registration_to_courses' => "no",
-                'acadlix_admin_can_assign_courses_to_student' => "no",
-                'acadlix_admin_can_remove_student_from_course' => "no",
+                'acadlix_admin_auto_registration_to_courses' => 'no',
+                'acadlix_admin_can_assign_courses_to_student' => 'no',
+                'acadlix_admin_can_remove_student_from_course' => 'no',
                 // Course Option
                 'acadlix_default_rows_per_page' => 20,
-                'acadlix_disable_wishlist' => "no",
+                'acadlix_disable_wishlist' => 'no',
                 // Student Dashboard Option
-                'acadlix_logout_redirect_url' => "",
-                'acadlix_disable_home_menu' => "no",
-                'acadlix_enable_site_logo_in_header' => "no",
+                'acadlix_logout_redirect_url' => '',
+                'acadlix_disable_home_menu' => 'no',
+                'acadlix_enable_site_logo_in_header' => 'no',
                 // Data management
-                'acadlix_delete_data_on_plugin_uninstall' => "no",
+                'acadlix_delete_data_on_plugin_uninstall' => 'no',
                 // Notification option
-                'acadlix_notify_course_purchase_to_student' => "no",
-                'acadlix_notify_course_purchase_to_admin' => "no",
-                'acadlix_notify_course_completion_to_student' => "no",
-                'acadlix_notify_course_completion_to_admin' => "no",
-                'acadlix_notify_failed_transation_to_student' => "no",
-                'acadlix_notify_failed_transation_to_admin' => "no",
+                'acadlix_notify_course_purchase_to_student' => 'no',
+                'acadlix_notify_course_purchase_to_admin' => 'no',
+                'acadlix_notify_course_completion_to_student' => 'no',
+                'acadlix_notify_course_completion_to_admin' => 'no',
+                'acadlix_notify_failed_transation_to_student' => 'no',
+                'acadlix_notify_failed_transation_to_admin' => 'no',
                 // Permalink option
-                'acadlix_course_base' => "courses",
-                'acadlix_course_category_base' => "course-category",
-                'acadlix_course_tag_base' => "course-tag",
+                'acadlix_course_base' => 'courses',
+                'acadlix_course_category_base' => 'course-category',
+                'acadlix_course_tag_base' => 'course-tag',
                 // DB option
-                'acadlix_db_version' => "",
+                'acadlix_db_version' => '',
             ];
 
             // Filter options
@@ -580,28 +575,28 @@ if (!class_exists('Helper')) {
         public function acadlix_advance_options()
         {
             $options = [
-                'acadlix_razorpay_active' => "no",
-                'acadlix_razorpay_client_id' => "",
-                'acadlix_razorpay_secret_key' => "",
-                'acadlix_razorpay_webhook_secret' => "",
+                'acadlix_razorpay_active' => 'no',
+                'acadlix_razorpay_client_id' => '',
+                'acadlix_razorpay_secret_key' => '',
+                'acadlix_razorpay_webhook_secret' => '',
                 'acadlix_razorpay_webhook_url' => $this->acadlix_get_webhook_url('razorpay'),
-                'acadlix_paypal_active' => "no",
-                'acadlix_paypal_client_id' => "",
-                'acadlix_paypal_secret_key' => "",
-                'acadlix_paypal_sandbox' => "no",
-                'acadlix_paypal_webhook_id' => "",
+                'acadlix_paypal_active' => 'no',
+                'acadlix_paypal_client_id' => '',
+                'acadlix_paypal_secret_key' => '',
+                'acadlix_paypal_sandbox' => 'no',
+                'acadlix_paypal_webhook_id' => '',
                 'acadlix_paypal_webhook_url' => $this->acadlix_get_webhook_url('paypal'),
-                'acadlix_payu_active' => "no",
-                'acadlix_payu_merchant_key' => "",
-                'acadlix_payu_salt' => "",
-                'acadlix_payu_sandbox' => "no",
+                'acadlix_payu_active' => 'no',
+                'acadlix_payu_merchant_key' => '',
+                'acadlix_payu_salt' => '',
+                'acadlix_payu_sandbox' => 'no',
                 'acadlix_payu_webhook_url' => $this->acadlix_get_webhook_url('payu'),
-                'acadlix_offline_payment' => "no",
-                'acadlix_stripe_active' => "no",
-                'acadlix_stripe_public_key' => "",
-                'acadlix_stripe_secret_key' => "",
-                'acadlix_stripe_sandbox' => "no",
-                'acadlix_stripe_webhook_signature_key' => "",
+                'acadlix_offline_payment' => 'no',
+                'acadlix_stripe_active' => 'no',
+                'acadlix_stripe_public_key' => '',
+                'acadlix_stripe_secret_key' => '',
+                'acadlix_stripe_sandbox' => 'no',
+                'acadlix_stripe_webhook_signature_key' => '',
                 'acadlix_stripe_webhook_url' => $this->acadlix_get_webhook_url('stripe'),
             ];
             return $options;
@@ -709,7 +704,6 @@ if (!class_exists('Helper')) {
             if ($timezone) {
                 return $timezone;
             }
-
         }
 
         public function acadlix_get_date_time_format()
@@ -720,18 +714,18 @@ if (!class_exists('Helper')) {
         public function acadlix_ddd($data)
         {
             foreach (func_get_args() as $arg) {
-                echo "<pre>";
-                print_r($arg); // phpcs:ignore 
-                echo "</pre>";
+                echo '<pre>';
+                print_r($arg);  // phpcs:ignore
+                echo '</pre>';
             }
         }
 
         public function acadlix_dd($data)
         {
             foreach (func_get_args() as $arg) {
-                echo "<pre>";
-                print_r($arg); // phpcs:ignore 
-                echo "</pre>";
+                echo '<pre>';
+                print_r($arg);  // phpcs:ignore
+                echo '</pre>';
             }
             die;
         }
@@ -741,7 +735,7 @@ if (!class_exists('Helper')) {
             return ini_get('max_execution_time') * 1000;
         }
 
-        public function acadlix_get_email_template($template_name, $type = "student")
+        public function acadlix_get_email_template($template_name, $type = 'student')
         {
             $file_path = ACADLIX_TEMPLATE_PATH . 'email/' . $type . '/' . $template_name;
             if (file_exists($file_path)) {
@@ -808,11 +802,11 @@ if (!class_exists('Helper')) {
             global $wpdb;
             $exists = $wpdb->get_var(
                 $wpdb->prepare(
-                    "SELECT CONSTRAINT_NAME 
+                    'SELECT CONSTRAINT_NAME 
                      FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
                      WHERE TABLE_SCHEMA = %s 
                      AND TABLE_NAME = %s 
-                     AND CONSTRAINT_NAME = %s",
+                     AND CONSTRAINT_NAME = %s',
                     DB_NAME,
                     $table,
                     $oldConstraint
@@ -831,11 +825,11 @@ if (!class_exists('Helper')) {
             // Step 2: Check if new constraint already exists
             $newExists = $wpdb->get_var(
                 $wpdb->prepare(
-                    "SELECT CONSTRAINT_NAME 
+                    'SELECT CONSTRAINT_NAME 
                     FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
                     WHERE TABLE_SCHEMA = %s 
                     AND TABLE_NAME = %s 
-                    AND CONSTRAINT_NAME = %s",
+                    AND CONSTRAINT_NAME = %s',
                     DB_NAME,
                     $table,
                     $newConstraint
@@ -843,7 +837,8 @@ if (!class_exists('Helper')) {
             );
             if (!$newExists) {
                 Manager::schema()->table($table, function ($table) use ($column, $referencedTable, $newConstraint) {
-                    $table->foreign($column, $newConstraint)
+                    $table
+                        ->foreign($column, $newConstraint)
                         ->references('id')
                         ->on($referencedTable)
                         ->onDelete('cascade');
@@ -858,11 +853,11 @@ if (!class_exists('Helper')) {
             // Step 1: Drop old index if it exists
             $oldExists = $wpdb->get_var(
                 $wpdb->prepare(
-                    "SELECT INDEX_NAME
+                    'SELECT INDEX_NAME
                  FROM INFORMATION_SCHEMA.STATISTICS
                  WHERE TABLE_SCHEMA = %s
                  AND TABLE_NAME = %s
-                 AND INDEX_NAME = %s",
+                 AND INDEX_NAME = %s',
                     DB_NAME,
                     $table,
                     $oldIndex
@@ -872,7 +867,7 @@ if (!class_exists('Helper')) {
             if ($oldExists) {
                 try {
                     Manager::schema()->table($table, function ($table) use ($oldIndex) {
-                        $table->dropIndex($oldIndex); // Drop old index
+                        $table->dropIndex($oldIndex);  // Drop old index
                     });
                 } catch (\Throwable $e) {
                     // Optional: log or silently ignore
@@ -881,11 +876,11 @@ if (!class_exists('Helper')) {
 
             $newExists = $wpdb->get_var(
                 $wpdb->prepare(
-                    "SELECT INDEX_NAME
+                    'SELECT INDEX_NAME
                      FROM INFORMATION_SCHEMA.STATISTICS
                      WHERE TABLE_SCHEMA = %s
                      AND TABLE_NAME = %s
-                     AND INDEX_NAME = %s",
+                     AND INDEX_NAME = %s',
                     DB_NAME,
                     $table,
                     $newIndex
@@ -899,7 +894,6 @@ if (!class_exists('Helper')) {
             }
         }
 
-
         public function acadlix_get_all_addons(): array
         {
             return [
@@ -909,7 +903,7 @@ if (!class_exists('Helper')) {
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
-                    'active' => $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false) == "yes",
+                    'active' => $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_bulk_question_upload_enabled',
                     'icon' => 'FaCloudUploadAlt',
@@ -921,7 +915,7 @@ if (!class_exists('Helper')) {
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
-                    'active' => $this->acadlix_get_option('acadlix_addon_assignments_enabled', false) == "yes",
+                    'active' => $this->acadlix_get_option('acadlix_addon_assignments_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_assignments_enabled',
                     'icon' => 'MdAssignment',
@@ -933,7 +927,7 @@ if (!class_exists('Helper')) {
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
-                    'active' => $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false) == "yes",
+                    'active' => $this->acadlix_get_option('acadlix_addon_zoom_integration_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_zoom_integration_enabled',
                     'icon' => 'BiLogoZoom',
@@ -945,7 +939,7 @@ if (!class_exists('Helper')) {
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
-                    'active' => $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false) == "yes",
+                    'active' => $this->acadlix_get_option('acadlix_addon_advanced_report_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_advanced_report_enabled',
                     'icon' => 'HiDocumentReport',
@@ -957,7 +951,7 @@ if (!class_exists('Helper')) {
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
-                    'active' => $this->acadlix_get_option('acadlix_addon_subscriptions_enabled', false) == "yes",
+                    'active' => $this->acadlix_get_option('acadlix_addon_subscriptions_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_subscriptions_enabled',
                     'icon' => 'MdSubscriptions',
@@ -969,7 +963,7 @@ if (!class_exists('Helper')) {
         public function is_bulk_question_addon_active()
         {
             $value = $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false);
-            if ($value != "yes") {
+            if ($value != 'yes') {
                 return false;
             }
             if (!acadlix()->pro) {
@@ -985,7 +979,7 @@ if (!class_exists('Helper')) {
         public function is_assignment_addon_active()
         {
             $value = get_option('acadlix_addon_assignments_enabled', false);
-            if ($value != "yes") {
+            if ($value != 'yes') {
                 return false;
             }
             if (!acadlix()->pro) {
@@ -1001,7 +995,7 @@ if (!class_exists('Helper')) {
         public function is_zoom_integration_addon_active()
         {
             $value = get_option('acadlix_addon_zoom_integration_enabled', false);
-            if ($value != "yes") {
+            if ($value != 'yes') {
                 return false;
             }
             if (!acadlix()->pro) {
@@ -1017,7 +1011,7 @@ if (!class_exists('Helper')) {
         public function is_advanced_report_addon_active()
         {
             $value = get_option('acadlix_addon_advanced_report_enabled', false);
-            if ($value != "yes") {
+            if ($value != 'yes') {
                 return false;
             }
             if (!acadlix()->pro) {
@@ -1033,7 +1027,7 @@ if (!class_exists('Helper')) {
         public function is_subscriptions_addon_active()
         {
             $value = get_option('acadlix_addon_subscriptions_enabled', false);
-            if ($value != "yes") {
+            if ($value != 'yes') {
                 return false;
             }
             if (!acadlix()->pro) {
@@ -1064,6 +1058,88 @@ if (!class_exists('Helper')) {
             }
         }
 
+        public function acadlix_render_component($node)
+        {
+            // Allow plain string or callable directly
+            if (is_string($node)) {
+                echo $node;
+                return;
+            }
+
+            if (is_callable($node)) {
+                echo call_user_func($node);
+                return;
+            }
+            // Skip if not visible
+            if (isset($node['visible']) && $node['visible'] === false) {
+                return;
+            }
+
+            $tag = $node['component'] ?? 'div';
+
+            // Special case: "php" pseudo-component
+            if ($tag === 'php') {
+                if (isset($node['value'])) {
+                    if (is_callable($node['value'])) {
+                        echo call_user_func($node['value']);
+                    } else {
+                        echo $node['value'];  // Raw HTML/text
+                    }
+                }
+                return;
+            }
+            $props = '';
+
+            // Build attributes
+            if (!empty($node['props']) && is_array($node['props'])) {
+                foreach ($node['props'] as $k => $v) {
+                    if (is_bool($v)) {
+                        if ($v) {
+                            $props .= ' ' . esc_attr($k);  // boolean attributes
+                        }
+                    } elseif ($v !== null) {
+                        $props .= sprintf(' %s="%s"', esc_attr($k), esc_attr($v));
+                    }
+                }
+            }
+
+            // Self-closing tags
+            $self_closing = in_array(strtolower($tag), ['input', 'img', 'br', 'hr', 'meta', 'link']);
+
+            if ($self_closing) {
+                echo "<{$tag}{$props} />";
+                return;
+            }
+
+            echo "<{$tag}{$props}>";
+
+            // Inner text or HTML
+            if (isset($node['value']) && $node['value'] !== null) {
+                echo $node['value'];  // developer is responsible for escaping if needed
+            }
+
+            // Render children
+            if (!empty($node['children']) && is_array($node['children'])) {
+                foreach ($node['children'] as $child) {
+                    $this->acadlix_render_component($child);
+                }
+            }
+
+            echo "</{$tag}>";
+        }
+
+        public function acadlix_render_tree($tree)
+        {
+            // $tree = apply_filters('acadlix_render_tree', $tree);
+
+            if (is_array($tree)) {
+                foreach ($tree as $node) {
+                    $this->acadlix_render_component($node);
+                }
+            } elseif (is_string($tree) || is_callable($tree)) {
+                $this->acadlix_render_component($tree);
+            }
+        }
 
         public static function instance()
         {

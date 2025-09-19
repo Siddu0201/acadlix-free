@@ -21,10 +21,11 @@ if (!class_exists("AllCourseController")) {
         {
             if ( is_post_type_archive( ACADLIX_COURSE_CPT ) ){
                 !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
-                $all_course_template = ACADLIX_INCLUDES_PATH .'Common/View/AllCourseView.php';
-                if ($all_course_template) {
-                    return $all_course_template;
-                }
+                // $all_course_template = ACADLIX_INCLUDES_PATH .'Common/View/AllCourseView.php';
+                // if ($all_course_template) {
+                //     return $all_course_template;
+                // }
+                return acadlix()->view()->allCourse()->render();
             }
             return $template;
         }
