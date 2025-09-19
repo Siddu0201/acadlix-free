@@ -1,6 +1,7 @@
 import React from "react";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import { getNumberStep } from "@acadlix/helpers/util";
 
 const PaymentPro = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -8,7 +9,7 @@ const PaymentPro = React.lazy(() =>
       /* webpackChunkName: "admin_course_settings_payment_pro" */
       "@acadlix/pro/admin/course_settings/sections/PaymentPro"
     )
-    : Promise.resolve({ default: null })
+    : Promise.resolve({ default: () => null })
 );
 
 const Payment = (props) => {
@@ -57,9 +58,7 @@ const Payment = (props) => {
                       {
                         component: "Typography",
                         props: {
-                          sx: {
-                            fontWeight: 600,
-                          },
+                          variant: "h6",
                           component_name: "course_payment_price_label_typography",
                         },
                         value: __('Price (0 => Free)', 'acadlix')
@@ -84,6 +83,12 @@ const Payment = (props) => {
                           size: "small",
                           type: "number",
                           value: props?.watch("meta.price") ?? 0,
+                          slotProps: {
+                            htmlInput: {
+                              min: 0, // 👈 set minimum value here
+                              step: getNumberStep(Number(acadlixOptions?.settings?.acadlix_number_of_decimals))
+                            },
+                          },
                           onChange: (e) => {
                             props?.setValue("meta.price", Number(e?.target?.value), {
                               shouldDirty: true,
@@ -138,9 +143,7 @@ const Payment = (props) => {
                       {
                         component: "Typography",
                         props: {
-                          sx: {
-                            fontWeight: 600,
-                          },
+                          variant: "h6",
                           component_name: "course_payment_enable_sale_price_label_typography",
                         },
                         value: __("Activate Sale Price", "acadlix")
@@ -216,9 +219,7 @@ const Payment = (props) => {
                         component: "Typography",
                         props: {
                           component_name: "course_payment_sale_price_label_typography",
-                          sx: {
-                            fontWeight: 600,
-                          }
+                          variant: "h6"
                         },
                         value: __('Sale Price', 'acadlix')
                       }
@@ -242,6 +243,12 @@ const Payment = (props) => {
                           size: "small",
                           type: "number",
                           value: props?.watch("meta.sale_price") ?? 0,
+                          slotProps: {
+                            htmlInput: {
+                              min: 0, // 👈 set minimum value here
+                              step: getNumberStep(Number(acadlixOptions?.settings?.acadlix_number_of_decimals))
+                            },
+                          },
                           onChange: (e) => {
                             props?.setValue("meta.sale_price", Number(e?.target?.value), {
                               shouldDirty: true,
@@ -298,9 +305,7 @@ const Payment = (props) => {
                         component: "Typography",
                         props: {
                           component_name: "course_payment_tax_label_typography",
-                          sx: {
-                            fontWeight: 600,
-                          }
+                          variant: "h6"
                         },
                         value: __('Tax', 'acadlix')
                       }
@@ -375,9 +380,7 @@ const Payment = (props) => {
                         component: "Typography",
                         props: {
                           component_name: "course_payment_tax_percent_label_typography",
-                          sx: {
-                            fontWeight: 600,
-                          }
+                          variant: "h6"
                         },
                         value: __('Tax (%)', 'acadlix')
                       }
@@ -402,6 +405,12 @@ const Payment = (props) => {
                           type: "number",
                           disabled: !props?.watch("meta.tax"),
                           value: props?.watch("meta.tax_percent") ?? 0,
+                          slotProps: {
+                            htmlInput: {
+                              min: 0, // 👈 set minimum value here
+                              step: 0.01
+                            },
+                          },
                           onChange: (e) => {
                             props?.setValue("meta.tax_percent", Number(e?.target?.value), {
                               shouldDirty: true,

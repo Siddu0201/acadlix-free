@@ -37,10 +37,7 @@ const General = (props) => {
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, sm: 12 }}>
           <Typography
-            sx={{
-              fontSize: "20px",
-              fontWeight: 700,
-            }}
+            variant="h4"
           >
             {__("Course Duration", "acadlix")}
           </Typography>
@@ -49,9 +46,7 @@ const General = (props) => {
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
+                variant="h6"
               >
                 {__("Duration Type", "acadlix")}
               </Typography>
@@ -88,9 +83,7 @@ const General = (props) => {
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
+                variant="h6"
               >
                 {__("Duration", "acadlix")}
               </Typography>
@@ -122,10 +115,7 @@ const General = (props) => {
         </Grid>
         <Grid size={{ xs: 12, sm: 12 }}>
           <Typography
-            sx={{
-              fontSize: "20px",
-              fontWeight: 700,
-            }}
+            variant="h4"
           >
             {__("Registration Scheduling", "acadlix")}
           </Typography>
@@ -134,9 +124,7 @@ const General = (props) => {
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
+                variant="h6"
               >
                 {__("Registration Start Date", "acadlix")}
               </Typography>
@@ -150,9 +138,7 @@ const General = (props) => {
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
+                variant="h6"
               >
                 {__("Registration End Date", "acadlix")}
               </Typography>
@@ -167,9 +153,7 @@ const General = (props) => {
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
+                variant="h6"
               >
                 {__("Difficulty Level", "acadlix")}
               </Typography>
@@ -202,9 +186,7 @@ const General = (props) => {
           <Grid container  spacing={2}>
             <Grid size={{  xs: 12 ,  sm: 12  }}>
               <Typography
-                sx={{
-                  fontWeight: 600,
-                }}
+                variant="h6"
               >
                 {__("Q&A", "acadlix")}
               </Typography>

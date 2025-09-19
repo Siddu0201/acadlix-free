@@ -27,9 +27,7 @@ const Outcome = (props) => {
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, sm: 12 }}>
           <Typography
-            sx={{
-              fontWeight: 600,
-            }}
+            variant="h6"
           >
             {__("What you Learn", "acadlix")}
           </Typography>
