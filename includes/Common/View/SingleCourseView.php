@@ -1,698 +1,1367 @@
 <?php
+namespace Yuvayana\Acadlix\Common\View;
 
 use Yuvayana\Acadlix\Common\Models\Course;
 
 defined('ABSPATH') || exit();
 
-global $post, $wp_version;
+class SingleCourseView
+{
+    protected $checkout_url = '';
+    protected $dashboard_url = '';
+    protected $course = null;
+    protected $cart = [];
+    protected $order_item = [];
 
-// $course = acadlix()->model()->course()->withCount(['users', 'cart'])->find($post->ID);
-$course = acadlix()->model()->course()->ofCourse()->with('sections')->find($post->ID);
-
-$checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option("acadlix_checkout_page_id"));
-$dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
-
-
-$cart = [];
-$order_item = [];
-if (is_user_logged_in()) {
-    $userId = get_current_user_id();
-    $cart = acadlix()->model()->courseCart()->where([
-        ['user_id', '=', $userId],
-        ['course_id', '=', $post->ID],
-    ])->get();
-    $order_item = acadlix()->model()->orderItem()->with(['order'])->whereHas('order', function ($query) use ($userId) {
-        $query->where('user_id', $userId)->where('status', 'success');
-    })->where('course_id', $post->ID)
-        ->get();
-} else {
-    if (isset($_COOKIE['acadlix_cart_token'])) {
-        $cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
-            ->where('course_id', $post->ID)
-            ->get();
+    public function __construct()
+    {
+        $this->setup_query();
     }
-}
 
+    protected function setup_query()
+    {
+        global $post;
 
-if (!function_exists('acadlix_course_breadcrumb')) {
+        $this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
+        $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
+        $this->course = acadlix()->model()->course()->ofCourse()->with('sections')->find($post->ID);
+
+        if (is_user_logged_in()) {
+            $userId = get_current_user_id();
+            $this->cart = acadlix()->model()->courseCart()->where([
+                ['user_id', '=', $userId],
+                ['course_id', '=', $post->ID],
+            ])->get();
+            $this->order_item = acadlix()
+                ->model()
+                ->orderItem()
+                ->with(['order'])
+                ->whereHas('order', function ($query) use ($userId) {
+                    $query->where('user_id', $userId)->where('status', 'success');
+                })
+                ->where('course_id', $post->ID)
+                ->get();
+        } else {
+            if (isset($_COOKIE['acadlix_cart_token'])) {
+                $this->cart = acadlix()
+                    ->model()
+                    ->courseCart()
+                    ->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
+                    ->where('course_id', $post->ID)
+                    ->get();
+            }
+        }
+    }
+
     /**
      * Outputs the HTML for a course breadcrumb navigation with specific display settings.
      *
      * @param bool $desktop Determines if the breadcrumb should be displayed on desktop.
      * @param bool $mobile  Determines if the breadcrumb should be displayed on mobile.
      *
-     * @return string The HTML for a course breadcrumb navigation
+     * @return array The HTML for a course breadcrumb navigation
      */
-    function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true, Course $course = null)
+    protected function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true, Course $course = null)
     {
         if (!is_bool($desktop) || !is_bool($mobile)) {
             // error_log('The parameters must be boolean values.');
         }
 
         $unique_class = 'acadlix-course-breadcrumb-' . esc_attr(uniqid());
-        ob_start();
         ?>
-        <style>
-            .<?php echo esc_attr($unique_class); ?> {
-                display:
-                    <?php echo $desktop ? "flex" : "none"; ?>
-                ;
-                padding-bottom: 0.5rem;
-            }
-
-            .<?php echo esc_attr($unique_class); ?> a {
-                color: var(--acadlix-text-tertiary);
-                text-decoration: none;
-            }
-
-            .<?php echo esc_attr($unique_class); ?> a:hover {
-                color: var(--acadlix-primary-main);
-                text-decoration: none;
-                border-bottom: 1px solid var(--acadlix-primary-main);
-            }
-
-            @media (max-width: 768px) {
+            <style>
                 .<?php echo esc_attr($unique_class); ?> {
                     display:
-                        <?php echo $mobile ? "flex" : "none"; ?>
+                        <?php echo $desktop ? 'flex' : 'none'; ?>
                     ;
+                    padding-bottom: 0.5rem;
                 }
-            }
-        </style>
-        <nav class="<?php echo esc_attr($unique_class); ?>">
-            <a href="<?php echo esc_url(home_url()); ?>"
-                class="acadlix-course-breadcrumb acadlix-subtitle1"><?php esc_html_e('Home', 'acadlix'); ?></a>&nbsp;>&nbsp;
+    
+                .<?php echo esc_attr($unique_class); ?> a {
+                    color: var(--acadlix-text-tertiary);
+                    text-decoration: none;
+                }
+    
+                .<?php echo esc_attr($unique_class); ?> a:hover {
+                    color: var(--acadlix-primary-main);
+                    text-decoration: none;
+                    border-bottom: 1px solid var(--acadlix-primary-main);
+                }
+    
+                @media (max-width: 768px) {
+                    .<?php echo esc_attr($unique_class); ?> {
+                        display:
+                            <?php echo $mobile ? 'flex' : 'none'; ?>
+                        ;
+                    }
+                }
+            </style>
             <?php
-            $categories = get_the_terms($course->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY);
-            if ($categories && !is_wp_error($categories)) {
-                ?>
-                <a href="<?php echo esc_attr(get_term_link($categories[0]->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)); ?>"
-                    class="acadlix-course-breadcrumb acadlix-subtitle1">
-                    <?php echo esc_html($categories[0]->name); ?>
-                </a>
-                &nbsp;>&nbsp;
-            <?php }
-            ?>
-            <a href="#" disabled="true" class="acadlix-course-breadcrumb acadlix-subtitle1">
-                <?php
-                $title = $course->post_title;
-                if ($mobile && strlen($title) > 15) {
-                    echo esc_html(mb_substr($title, 0, 15)) . '...';
-                } else {
-                    echo esc_html($title);
-                }
-                ?>
-            </a>
-        </nav>
-        <?php
-        return ob_get_clean();
+        $breadcrumb = [
+            'component' => 'nav',
+            'props' => [
+                'class' => esc_attr($unique_class)
+            ],
+            'children' =>
+                [
+                    [
+                        'component' => 'a',
+                        'props' => [
+                            'href' => esc_url(home_url()),
+                            'class' => 'acadlix-course-breadcrumb acadlix-subtitle1'
+                        ],
+                        'value' => __('Home', 'acadlix')
+                    ],
+                    [
+                        'component' => 'span',
+                        'value' => '&nbsp;&gt;&nbsp;'
+                    ],
+                    !empty($categories = get_the_terms($course->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY)) && !is_wp_error($categories) ? [
+                        'component' => 'a',
+                        'props' => [
+                            'href' => esc_attr(get_term_link($categories[0]->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)),
+                            'class' => 'acadlix-course-breadcrumb acadlix-subtitle1'
+                        ],
+                        'value' => esc_html($categories[0]->name)
+                    ] : null,
+                    !empty($categories) && !is_wp_error($categories) ? [
+                        'component' => 'span',
+                        'value' => '&nbsp;&gt;&nbsp;'
+                    ] : null,
+                    [
+                        'component' => 'a',
+                        'props' => [
+                            'href' => '#',
+                            'disabled' => 'true',
+                            'class' => 'acadlix-course-breadcrumb acadlix-subtitle1'
+                        ],
+                        'children' => [
+                            [
+                                'component' => 'php',
+                                'value' => function () use ($course, $mobile) {
+                                    $title = $course->post_title;
+                                    if ($mobile && strlen($title) > 15) {
+                                        return esc_html(mb_substr($title, 0, 15)) . '...';
+                                    }
+                                    return esc_html($title);
+                                }
+                            ]
+                        ]
+                    ]
+                ]
+        ];
+        return apply_filters('acadlix_single_course_breadcrumb', $breadcrumb, $course, $desktop, $mobile);
     }
-}
 
-if (!function_exists('acadlix_course_img')) {
     /**
      * Outputs the HTML for a course image with specific display settings.
      *
      * @param bool $desktop Determines if the course image should be displayed on desktop.
      * @param bool $mobile  Determines if the course image should be displayed on mobile.
      *
-     * @return string The HTML for a course image
+     * @return array The HTML for a course image
      */
-    function acadlix_course_img(bool $desktop = true, bool $mobile = true, Course $course = null)
+    protected function acadlix_course_img(bool $desktop = true, bool $mobile = true, Course $course = null)
     {
         if (is_null($desktop) || is_null($mobile)) {
             // error_log('The parameters must be boolean values.');
         }
 
         $unique_class = 'acadlix-course-featured-item-' . esc_attr(uniqid());
-        ob_start();
         ?>
-        <style>
-            .<?php echo esc_attr($unique_class); ?> {
-                display:
-                    <?php echo $desktop ? "block" : "none"; ?>
-                ;
-                border-top-left-radius: var(--acadlix-border-radius);
-                border-top-right-radius: var(--acadlix-border-radius);
-                width: 100%;
-                height: 200px;
-            }
-
-            @media (max-width: 768px) {
+            <style>
                 .<?php echo esc_attr($unique_class); ?> {
                     display:
-                        <?php echo $mobile ? "block" : "none"; ?>
+                        <?php echo $desktop ? 'block' : 'none'; ?>
                     ;
+                    border-top-left-radius: var(--acadlix-border-radius);
+                    border-top-right-radius: var(--acadlix-border-radius);
+                    width: 100%;
+                    height: 200px;
                 }
-            }
-        </style>
-        <img class="<?php echo esc_attr($unique_class); ?>" loading="lazy"
-            src="<?php echo esc_url(isset($course->thumbnail['url']) ? $course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"); ?>"
-            alt="<?php echo isset($course->thumbnail['alt']) ? esc_attr($course->thumbnail['alt']) : esc_attr($course?->post_title); ?>" />
-        <?php
-        return ob_get_clean();
+    
+                @media (max-width: 768px) {
+                    .<?php echo esc_attr($unique_class); ?> {
+                        display:
+                            <?php echo $mobile ? 'block' : 'none'; ?>
+                        ;
+                    }
+                }
+            </style>
+            <?php
+        $img_component = [
+            'component' => 'img',
+            'props' => [
+                'class' => esc_attr($unique_class),
+                'loading' => 'lazy',
+                'src' => esc_url(isset($course->thumbnail['url']) ? $course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
+                'alt' => isset($course->thumbnail['alt']) ? esc_attr($course->thumbnail['alt']) : esc_attr($course?->post_title)
+            ]
+        ];
+        return apply_filters('acadlix_single_course_img', $img_component, $course, $desktop, $mobile);
     }
-}
 
-if (!function_exists('acadlix_course_pricing')) {
     /**
      * Function to display course pricing
      *
-     * @return string
+     * @return array
      */
-    function acadlix_course_pricing(Course $course)
+    protected function acadlix_course_pricing(Course $course)
     {
-        ob_start();
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
         $price = $course->rendered_metas['price'] ?? 0;
         $sale_price = $course->rendered_metas['sale_price'] ?? 0;
-        ?>
-        <div class="acadlix-pricing-info">
-            <div class="acadlix-pricing">
-                <div class="acadlix-course-sale-price acadlix-h4">
-                    <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
-                </div>
-                <?php
-                if ($enable_sale_price) {
-                    ?>
-                    <div class="acadlix-course-price acadlix-subtitle1">
-                        <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price'])); ?>
-                    </div>
-                    <?php
-                }
-                ?>
-            </div>
-            <?php
-            if ($enable_sale_price && $price != 0 && $price > $sale_price) {
-                ?>
-                <div class="acadlix-discount-tag acadlix-body1">
-                    <?php echo esc_html(ceil((($price - $sale_price) / $price) * 100)); ?>%
-                    <?php esc_html_e('OFF', 'acadlix'); ?>
-                </div>
-                <?php
-            }
-            ?>
-
-        </div>
-        <?php
-        return ob_get_clean();
+        $price_component = [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-pricing-info'
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-pricing'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-course-sale-price acadlix-h4'
+                            ],
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price))
+                        ],
+                        $enable_sale_price ? [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-course-price acadlix-subtitle1'
+                            ],
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price']))
+                        ] : null
+                    ]
+                ],
+                ($enable_sale_price && $price != 0 && $price > $sale_price) ? [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-discount-tag acadlix-body1'
+                    ],
+                    'value' => esc_html(ceil((($price - $sale_price) / $price) * 100)) . '% ' . esc_html__('OFF', 'acadlix')
+                ] : null
+            ]
+        ];
+        return apply_filters('acadlix_single_course_pricing', $price_component, $course);
     }
-}
 
-if (!function_exists('acadlix_mobile_course_price')) {
     /**
      * Displays the price of a course in a mobile-friendly format.
-     * 
+     *
      * @param Course $course The course object to display the price for.
-     * 
-     * @return string The HTML content for the mobile price info.
+     *
+     * @return array The HTML content for the mobile price info.
      */
-    function acadlix_mobile_course_price(Course $course)
+    protected function acadlix_mobile_course_price(Course $course)
     {
-        ob_start();
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
         $price = $course->rendered_metas['price'] ?? 0;
         $sale_price = $course->rendered_metas['sale_price'] ?? 0;
-        ?>
-        <div class="acadlix-mobile-price-info">
-            <div class="acadlix-pricing">
-                <div class="acadlix-course-sale-price acadlix-h4">
-                    <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price)); ?>
-                </div>
-                <?php
-                if ($enable_sale_price) {
-                    ?>
-                    <div class="acadlix-course-price acadlix-subtitle1">
-                        <?php echo esc_html(acadlix()->helper()->course()->getCoursePrice($price)); ?>
-                    </div>
-                    <?php
-                }
-                ?>
-            </div>
 
-        </div>
-        <?php
-        return ob_get_clean();
+        $price_component = [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-mobile-price-info'
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-pricing'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-course-sale-price acadlix-h4'
+                            ],
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($enable_sale_price ? $sale_price : $price))
+                        ],
+                        $enable_sale_price ? [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-course-price acadlix-subtitle1'
+                            ],
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price']))
+                        ] : null
+                    ]
+                ],
+            ]
+        ];
+        return apply_filters('acadlix_single_course_mobile_price', $price_component, $course);
     }
-}
 
-if (!function_exists('acadlix_basic_course_details')) {
-    function acadlix_basic_course_details(Course $course, bool $desktop = true, bool $mobile = true)
+    protected function acadlix_basic_course_details(Course $course, bool $desktop = true, bool $mobile = true)
     {
         if (!is_bool($desktop) || !is_bool($mobile)) {
             // error_log('The parameters must be boolean values.');
         }
 
         $unique_class = 'acadlix-course-aside-details-' . esc_attr(uniqid());
-        ob_start();
         $duration = $course->rendered_metas['duration']['duration'] ?? 0;
         $duration_type = $course->rendered_metas['duration']['type'] ?? '';
         $difficulty_level = $course->rendered_metas['difficulty_level'] ?? '';
         ?>
-        <style>
-            .<?php echo esc_attr($unique_class); ?> {
-                display:
-                    <?php echo $desktop ? "flex" : "none"; ?>
-                ;
-            }
-
-            @media (max-width: 768px) {
+            <style>
                 .<?php echo esc_attr($unique_class); ?> {
                     display:
-                        <?php echo $mobile ? "flex" : "none"; ?>
+                        <?php echo $desktop ? 'flex' : 'none'; ?>
                     ;
                 }
-            }
-        </style>
-        <div class="acadlix-course-aside-details acadlix-subtitle2 <?php echo esc_attr($unique_class); ?>">
-            <div class="acadlix-course-aside-details-option">
-                <div><strong><?php esc_html_e('Course Duration:', 'acadlix'); ?></strong></div>
-                <div>
-                    <?php echo esc_html("{$duration} {$duration_type}"); ?>
-                </div>
-            </div>
-            <div class="acadlix-course-aside-details-option">
-                <div><strong><?php esc_html_e('Course Level:', 'acadlix'); ?></strong></div>
-                <div>
-                    <?php echo esc_html(acadlix()->helper()->course()->getCourseLevelName($difficulty_level ?? '')); ?>
-                </div>
-            </div>
-            <div class="acadlix-course-aside-details-option">
-                <div><strong><?php esc_html_e('Students Enrolled:', 'acadlix'); ?></strong></div>
-                <div> <?php echo esc_html($course->student_count); ?></div>
-            </div>
-        </div>
-        <?php
-        return ob_get_clean();
+    
+                @media (max-width: 768px) {
+                    .<?php echo esc_attr($unique_class); ?> {
+                        display:
+                            <?php echo $mobile ? 'flex' : 'none'; ?>
+                        ;
+                    }
+                }
+            </style>
+            <?php
+        $basic_course_details = [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-course-aside-details acadlix-subtitle2 ' . esc_attr($unique_class)
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-course-aside-details-option'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'children' => [
+                                [
+                                    'component' => 'strong',
+                                    'value' => esc_html__('Course Duration:', 'acadlix'),
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'div',
+                            'value' => esc_html("{$duration} {$duration_type}"),
+                        ]
+                    ]
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-course-aside-details-option'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'children' => [
+                                [
+                                    'component' => 'strong',
+                                    'value' => esc_html__('Course Level:', 'acadlix'),
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'div',
+                            'value' => esc_html(acadlix()->helper()->course()->getCourseLevelName($difficulty_level ?? '')),
+                        ],
+                    ]
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-course-aside-details-option'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'children' => [
+                                [
+                                    'component' => 'strong',
+                                    'value' => esc_html__('Students Enrolled:', 'acadlix'),
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'div',
+                            'value' => esc_html($course->student_count),
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        return apply_filters('acadlix_single_course_basic_course_details', $basic_course_details, $course, $desktop, $mobile);
     }
-}
 
-if (!function_exists('acadlix_course_action_buttons')) {
+    protected function acadlix_course_checkout_button()
+    {
+        return apply_filters('acadlix_single_course_checkout_button', [
+            'component' => 'a',
+            'props' => [
+                'href' => esc_url($this->checkout_url),
+                'class' => 'acadlix-action-button acadlix-subtitle2',
+            ],
+            'value' => __('Go to Checkout', 'acadlix'),
+        ], $this->course);
+    }
+
+    protected function acadlix_course_go_to_course_button()
+    {
+        return apply_filters('acadlix_single_course_go_to_course_button', [
+            'component' => 'a',
+            'props' => [
+                'href' => esc_url($this->dashboard_url),
+                'class' => 'acadlix-action-button acadlix-subtitle2',
+            ],
+            'value' => __('Go to Course', 'acadlix'),
+        ], $this->course);
+    }
+
+    protected function acadlix_course_start_now_button()
+    {
+        return apply_filters('acadlix_single_course_start_now_button', [
+            'component' => 'button',
+            'props' => [
+                'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
+                'data-id' => esc_attr($this->course->ID),
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-action-button-text',
+                    ],
+                    'value' => __('Start Now', 'acadlix'),
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-btn-loader',
+                        'style' => 'display: none;',
+                    ],
+                ],
+            ],
+        ], $this->course);
+    }
+
+    protected function acadlix_course_buy_now_button()
+    {
+        return apply_filters('acadlix_single_course_buy_now_button', [
+            'component' => 'button',
+            'props' => [
+                'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
+                'data-id' => esc_attr($this->course->ID),
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-action-button-text',
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'i',
+                            'props' => [
+                                'class' => 'fa fa-shopping-cart',
+                            ],
+                        ],
+                        [
+                            'component' => 'php',
+                            'value' => __('Buy Now', 'acadlix'),
+                        ],
+                    ],
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-btn-loader',
+                        'style' => 'display: none;',
+                    ],
+                ],
+            ],
+        ], $this->course);    
+    }
+
+    protected function acadlix_course_error_button($check_registration_date)
+    {
+        return apply_filters('acadlix_single_course_error_button', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-action-error-message',
+            ],
+            'value' => wp_kses($check_registration_date['message'], ['br' => []]),
+        ], $this->course);
+    }
+
+    protected function acadlix_course_wishlist()
+    {
+        $wishlist = [];
+        if (is_user_logged_in() && acadlix()->helper()->acadlix_get_option('acadlix_disable_wishlist') === 'no') {
+            $course_wishlist_count = acadlix()
+                ->model()
+                ->userActivityMeta()
+                ->ofCourse()
+                ->ofCourseWishlist()
+                ->where([
+                    'type_id' => $this->course->ID,
+                    'user_id' => get_current_user_id(),
+                ])
+                ->count();
+            $wishlist = apply_filters('acadlix_single_course_whishlist', [
+                'component' => 'div',
+                'props' => [
+                    'class' => 'acadlix-course-wishlist',
+                ],
+                'children' => [
+                    [
+                        'component' => 'div',
+                        'props' => [
+                            'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist',
+                            'id' => 'add-to-wishlist-' . esc_attr($this->course->ID),
+                            'title' => __('Add to Wishlist', 'acadlix'),
+                            'data-id' => esc_attr($this->course->ID),
+                            'style' => 'display: ' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
+                        ],
+                        'children' => [
+                            ['component' => 'i', 'props' => ['class' => 'fa-regular fa-heart']],
+                            ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+                        ],
+                    ],
+                    [
+                        'component' => 'div',
+                        'props' => [
+                            'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist',
+                            'id' => 'remove-from-wishlist-' . esc_attr($this->course->ID),
+                            'title' => __('Remove From Wishlist', 'acadlix'),
+                            'data-id' => esc_attr($this->course->ID),
+                            'style' => 'display: ' . ($course_wishlist_count > 0 ? 'flex' : 'none'),
+                        ],
+                        'children' => [
+                            ['component' => 'i', 'props' => ['class' => 'fa-solid fa-heart']],
+                            ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+                        ],
+                    ],
+                ]
+            ], $this->course, $course_wishlist_count);
+        }
+        return $wishlist;
+    }
+
     /**
      * Outputs the HTML for the course action buttons.
-     * 
+     *
      * @param object $cart The cart object.
      * @param object $order_item The order item object.
      * @param object $course The course object.
      *
-     * @return string The HTML for the course action buttons.
+     * @return array The HTML for the course action buttons.
      */
-    function acadlix_course_action_buttons(Course $course, array|object $cart, array|object $order_item, string $dashboard_url, string $checkout_url): string
+    protected function acadlix_course_action_buttons(array|object $cart, array|object $order_item): array
     {
-        ob_start();
+        $course = $this->course;
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
         $price = $course->rendered_metas['price'] ?? 0;
         $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         $start_date = $course->rendered_metas['start_date'] ?? null;
         $end_date = $course->rendered_metas['end_date'] ?? null;
         if ($course->post_status != 'publish') {
-            return "";
+            return [];
         }
-        ?>
-        <div class="acadlix-course-action-buttons">
-
-            <?php
-            $check_registration_date = acadlix()->helper()->course()->checkRegistrationDate($start_date, $end_date);
-            if ($check_registration_date['status']) {
-                if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
-                    if (count($cart) > 0) {
-                        ?>
-                        <a href="<?php echo esc_url($checkout_url); ?>"
-                            class="acadlix-action-button acadlix-subtitle2"><?php esc_html_e('Go to Checkout', 'acadlix'); ?></a>
-                        <?php
-                    } elseif (count($order_item) > 0) {
-                        ?>
-                        <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button acadlix-subtitle2">
-                            <?php esc_html_e('Go to Course', 'acadlix'); ?>
-                        </a>
-                        <?php
-                    } else {
-                        ?>
-                        <button class="acadlix-action-button acadlix-subtitle2 acadlix-start-now"
-                            data-id="<?php echo esc_attr($course->ID); ?>">
-                            <div class="acadlix-action-button-text">
-                                <?php esc_html_e('Start Now', 'acadlix'); ?>
-                            </div>
-                            <div class="acadlix-btn-loader" style="display: none;"></div>
-                        </button>
-                        <?php
-                    }
+        $check_registration_date = acadlix()->helper()->course()->checkRegistrationDate($start_date, $end_date);
+        $button = [];
+        $checkout_button = $this->acadlix_course_checkout_button();
+        $go_to_course_button = $this->acadlix_course_go_to_course_button();
+        $start_now_button = $this->acadlix_course_start_now_button();
+        $buy_now_button = $this->acadlix_course_buy_now_button();
+        $error_button = $this->acadlix_course_error_button($check_registration_date);
+        if ($check_registration_date['status']) {
+            if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
+                if (count($cart) > 0) {
+                    $button = $checkout_button;
+                } elseif (count($order_item) > 0) {
+                    $button = $go_to_course_button;
                 } else {
-                    if (count($cart) > 0) {
-                        ?>
-                        <a href="<?php echo esc_url($checkout_url); ?>"
-                            class="acadlix-action-button acadlix-subtitle2"><?php esc_html_e('Go to Checkout', 'acadlix'); ?></a>
-                        <?php
-                    } elseif (count($order_item) > 0) {
-                        ?>
-                        <a href="<?php echo esc_url($dashboard_url); ?>" class="acadlix-action-button acadlix-subtitle2">
-                            <?php esc_html_e('Go to Course', 'acadlix'); ?>
-                        </a>
-                        <?php
-                    } else {
-                        ?>
-                        <button class="acadlix-action-button acadlix-subtitle2 acadlix-buy-now"
-                            data-id="<?php echo esc_attr($course->ID); ?>">
-                            <div class="acadlix-action-button-text">
-                                <i class="fa fa-shopping-cart"></i> <?php esc_html_e('Buy Now', 'acadlix'); ?>
-                            </div>
-                            <div class="acadlix-btn-loader" style="display: none;"></div>
-                        </button>
-                        <?php
-                    }
+                    $button = $start_now_button;
                 }
             } else {
-                ?>
-                <div class="acadlix-action-error-message">
-                    <?php echo wp_kses($check_registration_date['message'], ["br" => []]); ?>
-                </div>
-                <?php
+                if (count($cart) > 0) {
+                    $button = $checkout_button;
+                } elseif (count($order_item) > 0) {
+                    $button = $go_to_course_button;
+                } else {
+                    $button = $buy_now_button;
+                }
             }
+        } else {
+            $button = $error_button;
+        }
 
-            if (is_user_logged_in() && acadlix()->helper()->acadlix_get_option('acadlix_disable_wishlist') === 'no') {
-                $course_wishlist_count = acadlix()->model()->userActivityMeta()->ofCourse()
-                    ->ofCourseWishlist()
-                    ->where([
-                        'type_id' => $course->ID,
-                        'user_id' => get_current_user_id(),
-                    ])->count();
-                ?>
-                <div class="acadlix-course-wishlist">
-                    <div class="acadlix-course-page-icon-element acadlix-add-to-wishlist"
-                        id="add-to-wishlist-<?php echo esc_attr($course?->ID); ?>"
-                        title="<?php esc_attr_e('Add to Wishlist', 'acadlix'); ?>" data-id="<?php echo esc_attr($course?->ID); ?>"
-                        style="display: <?php echo $course_wishlist_count == 0 ? 'flex' : 'none'; ?>">
-                        <i class="fa-regular fa-heart"></i>
-                        <div class="acadlix-btn-loader" style="display: none;"></div>
-                    </div>
-                    <div class="acadlix-course-page-icon-element acadlix-remove-from-wishlist"
-                        id="remove-from-wishlist-<?php echo esc_attr($course?->ID); ?>"
-                        title="<?php esc_attr_e('Remove From Wishlist', 'acadlix'); ?>"
-                        data-id="<?php echo esc_attr($course?->ID); ?>"
-                        style="display: <?php echo $course_wishlist_count > 0 ? 'flex' : 'none'; ?>">
-                        <i class="fa-solid fa-heart"></i>
-                        <div class="acadlix-btn-loader" style="display: none;"></div>
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
+        $wishlist = $this->acadlix_course_wishlist();
 
-
-        </div>
-        <?php
-        return ob_get_clean();
+        $action_button_component = [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-course-action-buttons',
+            ],
+            'children' => [
+                $button,
+                $wishlist,
+            ],
+        ];
+        return apply_filters('acadlix_single_course_action_buttons', $action_button_component, $course, $button, $wishlist);
     }
-}
 
+    public function render()
+    {
+        $this->render_header();
+        $this->render_content();
+        $this->render_footer();
+    }
 
-
-if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
-    ?>
-    <!doctype html>
-    <html <?php language_attributes(); ?>>
-
-    <head>
-        <meta charset="<?php bloginfo('charset'); ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <?php wp_head(); ?>
-
-    </head>
-
-    <body <?php body_class(); ?>>
-        <?php wp_body_open(); ?>
-        <div class="wp-site-blocks">
-            <?php
+    protected function render_header()
+    {
+        global $wp_version;
+        if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
+            ?>
+            <!doctype html>
+            <html <?php language_attributes(); ?>>
+        
+            <head>
+                <meta charset="<?php bloginfo('charset'); ?>">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <?php wp_head(); ?>
+        
+            </head>
+        
+            <body <?php body_class(); ?>>
+                <?php wp_body_open(); ?>
+                <div class="wp-site-blocks">
+                    <?php
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
             echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
-} else {
-    get_header();
-}
-?>
-        <main class="acadlix-course-page acadlix-my-16" id="acadlix-single-course-page">
-            <?php echo acadlix_course_breadcrumb(false, true, $course); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-            <section class="acadlix-card acadlix-course-header-section acadlix-box-shadow-2">
-                <?php echo acadlix_course_img(false, true, $course); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                <div class="acadlix-card-body acadlix-course-header-body">
-                    <?php echo acadlix_course_breadcrumb(true, false, $course); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                    <h1 class="acadlix-course-header-title acadlix-my-8">
-                        <?php echo esc_html($course->post_title); ?>
-                    </h1>
-                    <div class="acadlix-course-header-last-updated acadlix-body1 acadlix-mb-8">
-                        <i class="fa fa-exclamation-circle"></i>
-                        <?php esc_html_e('Last updated', 'acadlix'); ?>:
-                        <?php echo esc_html(acadlix()->helper()->formatDate($course->post_date)); ?>
-                    </div>
-                    <div class="acadlix-course-header-author">
-                        <div class="acadlix-course-header-created-at-text acadlix-subtitle2">
-                            <?php esc_html_e('Created by', 'acadlix'); ?>:
-                        </div>
-                        <div class="acadlix-course-author acadlix-body1">
-                            <?php echo acadlix()->helper()->course()->getCourseUserHtml($course); // phpcs:ignore ?>
-                        </div>
-                    </div>
+        } else {
+            get_header();
+        }
+    }
 
-                    <div class="acadlix-mobile-price-info">
-                        <?php echo acadlix_course_pricing($course); // phpcs:ignore ?>
-                    </div>
+    protected function render_content()
+    {
+        // acadlix()->helper()->acadlix_dd($this->course);
+        $course_content = [
+            [
+                'component' => 'main',
+                'props' => [
+                    'class' => 'acadlix-course-page acadlix-my-16',
+                    'id' => 'acadlix-single-course-page'
+                ],
+                'children' => [
+                    $this->acadlix_course_breadcrumb(false, true, $this->course),
+                    $this->course_header(),
+                    $this->course_main(),
+                    $this->course_mobile_footer(),
+                ]
+            ]
+        ];
+        $course_content = apply_filters('acadlix_single_course_content', $course_content, $this->course);
+        acadlix()->helper()->acadlix_render_tree($course_content);
+    }
 
-                    <?php echo acadlix_basic_course_details($course, false, true); // phpcs:ignore ?>
-                </div>
+    protected function course_header()
+    {
+        $course_header = [
+            'component' => 'section',
+            'props' => [
+                'class' => 'acadlix-card acadlix-course-header-section acadlix-box-shadow-2'
+            ],
+            'children' => [
+                // Main course image
+                $this->acadlix_course_img(false, true, $this->course),
+                // Body
+                $this->course_header_body(),
+                // Aside
+                $this->course_header_aside()
+            ]
+        ];
+        $course_header = apply_filters('acadlix_single_course_header', $course_header, $this->course);
+        return $course_header;
+    }
 
-                <div class="acadlix-course-aside acadlix-card">
-                    <?php echo acadlix_course_img(true, false, $course); // phpcs:ignore ?>
-                    <div class="acadlix-card-body acadlix-course-aside-body">
-                        <!-- acadlix aside pricing  -->
-                        <?php echo acadlix_course_pricing($course); // phpcs:ignore ?>
+    protected function course_header_title()
+    {
+        return apply_filters('acadlix_single_course_header_title', [
+            'component' => 'h1',
+            'props' => [
+                'class' => 'acadlix-course-header-title acadlix-my-8'
+            ],
+            'value' => esc_html($this->course->post_title)
+        ], $this->course);
+    }
 
-                        <!-- acadlix aside details  -->
-                        <?php echo acadlix_basic_course_details($course, true, false); // phpcs:ignore ?>
+    protected function course_header_last_update()
+    {
+        return apply_filters('acadlix_single_course_header_last_update', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-course-header-last-updated acadlix-body1 acadlix-mb-8'
+            ],
+            'children' => [
+                [
+                    'component' => 'i',
+                    'props' => ['class' => 'fa fa-exclamation-circle']
+                ],
+                [
+                    'component' => 'span',
+                    'value' => esc_html__('Last updated', 'acadlix') . ': '
+                        . esc_html(acadlix()->helper()->formatDate($this->course->post_date))
+                ]
+            ]
+        ], $this->course);
+    }
 
-                        <!-- acadlix aside button for purchase and whishlist -->
-                        <div class="acadlix-course-aside-purchase-options">
-                            <?php echo acadlix_course_action_buttons($course, $cart, $order_item, $dashboard_url, $checkout_url); // phpcs:ignore ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="acadlix-course-main-section">
-                <!-- navbar tabs  -->
-                <nav class="acadlix-course-main-navbar">
-                    <ul class="acadlix-course-main-navbar-list">
-                        <li><a href="#overview"
-                                class="acadlix-subtitle1"><?php esc_html_e('Overview', 'acadlix'); ?></a>
-                        </li>
-                        <li><a href="#curriculum"
-                                class="acadlix-subtitle1"><?php esc_html_e('Curriculum', 'acadlix'); ?></a>
-                        </li>
-                        <li><a href="#instructor"
-                                class="acadlix-subtitle1"><?php esc_html_e('Instructor', 'acadlix'); ?></a>
-                        </li>
-                    </ul>
-                </nav>
-                <div id="overview" class="acadlix-course-overview acadlix-mb-16">
-                    <!-- Add detailed outcomes for this course to enhance understanding and expectations -->
-                    <?php
-                    $outcomes = $course->rendered_metas['outcomes'] ?? [];
-                    if (isset($outcomes) && count($outcomes) > 0) {
-                        ?>
-                        <div class="acadlix-card acadlix-box-shadow-2">
-                            <h2 class="acadlix-card-header">
-                                <?php esc_html_e('What you will learn in this course', 'acadlix'); ?>
-                            </h2>
-                            <div class="acadlix-card-body">
-                                <div class="acadlix-row">
-                                    <?php
-                                    foreach ($outcomes as $outcome) {
-                                        ?>
-                                        <div
-                                            class="acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-mt-8">
-                                            <div class="acadlix-button-icon acadlix-p-4">
-                                                <i class="fa fa-check"></i>
-                                            </div>
-                                            <span class="acadlix-body1">
-                                                <?php echo esc_html($outcome); ?>
-                                            </span>
-                                        </div>
-                                        <?php
+    protected function course_header_author()
+    {
+        return apply_filters('acadlix_single_course_header_author', [
+            'component' => 'div',
+            'props' => ['class' => 'acadlix-course-header-author'],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-course-header-created-at-text acadlix-subtitle2'],
+                    'value' => esc_html__('Created by', 'acadlix') . ':'
+                ],
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-course-author acadlix-body1'],
+                    'value' => acadlix()->helper()->course()->getCourseUserHtml($this->course)
+                ]
+            ]
+        ], $this->course);
+    }
+
+    protected function course_header_body()
+    {
+        return apply_filters('acadlix_single_course_header_body', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-card-body acadlix-course-header-body'
+            ],
+            'children' => [
+                $this->acadlix_course_breadcrumb(true, false, $this->course),
+                $this->course_header_title(),
+                $this->course_header_last_update(),
+                $this->course_header_author(),
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-mobile-price-info'
+                    ],
+                    'children' => [
+                        $this->acadlix_course_pricing($this->course)
+                    ]
+                ],
+                $this->acadlix_basic_course_details($this->course, false, true),
+            ]
+        ], $this->course);
+    }
+
+    protected function course_header_aside()
+    {
+        return apply_filters('acadlix_single_course_header_aside', [
+            'component' => 'div',
+            'props' => ['class' => 'acadlix-course-aside acadlix-card'],
+            'children' => [
+                $this->acadlix_course_img(true, false, $this->course),
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-card-body acadlix-course-aside-body'],
+                    'children' => [
+                        $this->acadlix_course_pricing($this->course),
+                        $this->acadlix_basic_course_details($this->course, true, false),
+                        [
+                            'component' => 'div',
+                            'props' => ['class' => 'acadlix-course-aside-purchase-options'],
+                            'children' => [
+                                $this->acadlix_course_action_buttons(
+                                    $this->cart,
+                                    $this->order_item
+                                )
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ], $this->course);
+    }
+
+    protected function course_main()
+    {
+        return apply_filters('acadlix_single_course_main', [
+            'component' => 'section',
+            'props' => [
+                'class' => 'acadlix-course-main-section'
+            ],
+            'children' => [
+                // Navbar Tabs
+                $this->course_main_navbar(),
+                // Overview Section
+                $this->course_main_overview(),
+                // Curriculum Section
+                $this->course_main_curriculum(),
+                // Instructor Section
+                $this->course_main_instructor()
+            ]
+        ], $this->course);
+    }
+
+    protected function course_main_navbar()
+    {
+        return apply_filters('acadlix_single_course_main_navbar', [
+            'component' => 'nav',
+            'props' => ['class' => 'acadlix-course-main-navbar'],
+            'children' => [
+                [
+                    'component' => 'ul',
+                    'props' => ['class' => 'acadlix-course-main-navbar-list'],
+                    'children' => [
+                        [
+                            'component' => 'li',
+                            'children' => [
+                                [
+                                    'component' => 'a',
+                                    'props' => [
+                                        'href' => '#overview',
+                                        'class' => 'acadlix-subtitle1'
+                                    ],
+                                    'value' => esc_html__('Overview', 'acadlix')
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'li',
+                            'children' => [
+                                [
+                                    'component' => 'a',
+                                    'props' => [
+                                        'href' => '#curriculum',
+                                        'class' => 'acadlix-subtitle1'
+                                    ],
+                                    'value' => esc_html__('Curriculum', 'acadlix')
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'li',
+                            'children' => [
+                                [
+                                    'component' => 'a',
+                                    'props' => [
+                                        'href' => '#instructor',
+                                        'class' => 'acadlix-subtitle1'
+                                    ],
+                                    'value' => esc_html__('Instructor', 'acadlix')
+                                ]
+                            ]
+                        ],
+                    ]
+                ]
+            ]
+        ], $this->course);
+    }
+
+    protected function course_main_overview_outcomes_heading()
+    {
+        return apply_filters('acadlix_single_course_main_overview_outcomes_heading', [
+            'component' => 'h2',
+            'props' => [
+                'class' => 'acadlix-card-header'
+            ],
+            'value' => esc_html__('What you will learn in this course', 'acadlix')
+        ], $this->course);
+    }
+
+    protected function course_main_overview_single_outcome($outcome = '')
+    {
+        return apply_filters('acadlix_single_course_main_overview_single_outcome', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-col-12 acadlix-col-lg-6 acadlix-d-flex acadlix-align-center acadlix-gap-1 acadlix-mt-8'
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-button-icon acadlix-p-4'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'i',
+                            'props' => [
+                                'class' => 'fa fa-check'
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'component' => 'span',
+                    'props' => [
+                        'class' => 'acadlix-body1'
+                    ],
+                    'value' => esc_html($outcome)
+                ]
+            ]
+        ], $this->course);
+    }
+
+    protected function course_main_overview_outcomes()
+    {
+        $outcome_list = [];
+        $outcomes = $this->course->rendered_metas['outcomes'] ?? [];
+        if (isset($outcomes) && count($outcomes) > 0) {
+            foreach ($outcomes as $outcome) {
+                $outcome_list[] = $this->course_main_overview_single_outcome($outcome);
+            }
+            return [
+                'component' => 'div',
+                'props' => [
+                    'class' => 'acadlix-card acadlix-box-shadow-2'
+                ],
+                'children' => [
+                    $this->course_main_overview_outcomes_heading(),
+                    [
+                        'component' => 'div',
+                        'props' => [
+                            'class' => 'acadlix-card-body'
+                        ],
+                        'children' => [
+                            [
+                                'component' => 'div',
+                                'props' => [
+                                    'class' => 'acadlix-row'
+                                ],
+                                'children' => $outcome_list
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+        }
+
+        return null;
+    }
+
+    protected function course_main_overview_description_heading()
+    {
+        return apply_filters('acadlix_single_course_main_overview_description_heading', [
+            'component' => 'h2',
+            'props' => ['class' => 'acadlix-card-header'],
+            'value' => esc_html__('Description', 'acadlix')
+        ], $this->course);
+    }
+
+    protected function course_main_overview_description()
+    {
+        return apply_filters('acadlix_single_course_main_overview_description', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-card acadlix-box-shadow-2'
+            ],
+            'children' => [
+                $this->course_main_overview_description_heading(),
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-card-body'],
+                    'value' => $this->course->rendered_post_content
+                ]
+            ]
+        ], $this->course);
+    }
+
+    protected function course_main_overview()
+    {
+        return apply_filters('acadlix_single_course_main_overview', [
+            'component' => 'div',
+            'props' => [
+                'id' => 'overview',
+                'class' => 'acadlix-course-overview acadlix-mb-16'
+            ],
+            'children' => [
+                $this->course_main_overview_outcomes(),
+                $this->course_main_overview_description()
+            ]
+        ], $this->course);
+    }
+
+    protected function course_main_curriculum_content($i, $content, $c_index, $preview = false)
+    {
+        return apply_filters('acadlix_single_course_main_curriculum_content', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-curriculum-content-item',
+                'data-section-index' => esc_attr($i),
+                'data-content-index' => esc_attr($c_index),
+                'data-is-preview' => esc_attr($preview),
+            ],
+            'children' => [
+                // left: icon + title
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-d-flex acadlix-align-center acadlix-gap-1'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'span',
+                            'props' => [
+                                'class' => 'acadlix-content-icon'
+                            ],
+                            'children' => [
+                                [
+                                    'component' => 'php',
+                                    'value' => function () use ($content) {
+                                        $type = $content->contentable['type'];
+                                        $icon = '';
+
+                                        if ($type === 'lesson') {
+                                            $icon = $content->contentable_data?->rendered_metas['type'] === 'video'
+                                                ? '<i class="fas fa-video"></i>'
+                                                : '<i class="fas fa-file"></i>';
+                                        } elseif ($type === 'quiz') {
+                                            $icon = '<i class="fas fa-question"></i>';
+                                        } elseif ($type === 'assignment') {
+                                            $icon = '<i class="fas fa-file-signature"></i>';
+                                        }
+
+                                        return apply_filters(
+                                            'acadlix/single-course/content/icon',
+                                            $icon,
+                                            $content
+                                        );
                                     }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <!-- Add Description to course page  -->
-                    <div class="acadlix-card acadlix-box-shadow-2">
-                        <h2 class="acadlix-card-header">
-                            <?php esc_html_e('Description', 'acadlix'); ?>
-                        </h2>
-                        <div class="acadlix-card-body">
-                            <?php
-                            echo $course->rendered_post_content; // phpcs:ignore
-                            ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Curriculum to course -->
-                <div id="curriculum" class="acadlix-course-curriculum acadlix-card acadlix-mb-16 acadlix-box-shadow-2">
-                    <h2 class="acadlix-card-header">
-                        <?php esc_html_e('Curriculum', 'acadlix'); ?>
-                    </h2>
-                    <div class="acadlix-d-flex acadlix-flex-column acadlix-gap-1 acadlix-card-body">
-                        <div id="acadlix-curriculam-react-preview"></div>
-                        <?php
-                        $sections = $course->sections;
-                        if ($sections->count() > 0) {
-                            foreach ($sections as $i => $section) {
-                                ?>
-                                <div class="acadlix-curriculum-item">
-                                    <details class="acadlix-curriculum-details" <?php echo $i == 0 ? 'open' : ''; ?>>
-                                        <summary class="acadlix-curriculum-summary">
-                                            <h3 role="term" aria-details="pure-css">
-                                                <i class="fa-solid fa-caret-right"></i>
-                                                <?php echo esc_html($section->post_title); ?>
-                                            </h3>
-                                        </summary>
-                                    </details>
-                                    <div class="acadlix-curriculum-content">
-                                        <?php
-                                        $contents = $section->contents;
-                                        if ($contents->count() > 0) {
-                                            foreach ($contents as $c_index => $content) {
-                                                // acadlix()->helper()->acadlix_dd($content->contentable_data?->rendered_metas);
-                                                $preview = $content->rendered_metas['preview'] ?? false;
-                                                ?>
-                                                <div class="acadlix-curriculum-content-item"
-                                                    data-section-index="<?php echo esc_attr($i); ?>"
-                                                    data-content-index="<?php echo esc_attr($c_index); ?>"
-                                                    data-is-preview="<?php echo esc_attr($preview); ?>">
-                                                    <div class="acadlix-d-flex acadlix-align-center acadlix-gap-1">
-                                                        <span class="acadlix-content-icon">
-                                                            <?php
-                                                            $type = $content->contentable['type'];
-                                                            $icon = '';
-                                                            if ($type === 'lesson') {
-                                                                $icon = $content->contentable_data?->rendered_metas['type'] === 'video'
-                                                                    ? '<i class="fas fa-video"></i>'
-                                                                    : '<i class="fas fa-file"></i>';
-                                                            } elseif ($type === 'quiz') {
-                                                                $icon = '<i class="fas fa-question"></i>';
-                                                            } elseif ($type === 'assignment') {
-                                                                $icon = '<i class="fas fa-file-signature"></i>';
-                                                            }
-
-                                                            echo apply_filters("acadlix/single-course/content/icon", $icon, $content); // phpcs:ignore
-                                                            ?>
-                                                        </span>
-                                                        <span class="acadlix-content-text acadlix-body1">
-                                                            <?php echo esc_html($content->contentable['title']); ?>
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        class="acadlix-content-duration-icon acadlix-d-flex acadlix-gap-1 acadlix-justify-center acadlix-align-center">
-                                                        <div class="acadlix-content-duration">
-                                                            <?php echo esc_html($content->contentable['type'] == "lesson"
-                                                                ? $content->contentable_data?->rendered_metas['type'] == 'video'
-                                                                ? acadlix()->helper()->course()->intToTimeFormat(
-                                                                    $content->contentable_data?->rendered_metas['hours'] ?? 0,
-                                                                    $content->contentable_data?->rendered_metas['minutes'] ?? 0,
-                                                                    $content->contentable_data?->rendered_metas['seconds'] ?? 0,
-                                                                )
-                                                                : ''
-                                                                : '')
-                                                            ; ?>
-                                                            <?php
-                                                            ?>
-                                                        </div>
-                                                        <?php
-                                                        // phpcs:ignore
-                                                        echo isset($content->rendered_metas['preview']) && $content->rendered_metas['preview'] ?
-                                                            '<div><i class="fas fa-eye"></i></div>'
-                                                            : '<i class="fas fa-lock"></i>';
-                                                        ?>
-                                                    </div>
-                                                </div>
-                                                <?php
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'span',
+                            'props' => [
+                                'class' => 'acadlix-content-text acadlix-body1'
+                            ],
+                            'value' => esc_html($content->contentable['title'])
+                        ]
+                    ]
+                ],
+                // right: duration + lock/eye
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-content-duration-icon acadlix-d-flex acadlix-gap-1 acadlix-justify-center acadlix-align-center'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-content-duration'
+                            ],
+                            'children' => [
+                                [
+                                    'component' => 'php',
+                                    'value' => function () use ($content) {
+                                        if ($content->contentable['type'] === 'lesson') {
+                                            if ($content->contentable_data?->rendered_metas['type'] === 'video') {
+                                                return esc_html(
+                                                    acadlix()->helper()->course()->intToTimeFormat(
+                                                        $content->contentable_data?->rendered_metas['hours'] ?? 0,
+                                                        $content->contentable_data?->rendered_metas['minutes'] ?? 0,
+                                                        $content->contentable_data?->rendered_metas['seconds'] ?? 0
+                                                    )
+                                                );
                                             }
                                         }
-                                        ?>
-                                    </div>
-                                </div>
-                                <?php
+                                        return '';
+                                    }
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'php',
+                            'value' => function () use ($content) {
+                                return isset($content->rendered_metas['preview']) && $content->rendered_metas['preview']
+                                    ? '<div><i class="fas fa-eye"></i></div>'
+                                    : '<i class="fas fa-lock"></i>';
                             }
-                        }
-                        ?>
-                    </div>
-                </div>
+                        ]
+                    ]
+                ]
+            ]
+        ], $content, $c_index, $preview);
+    }
 
-                <div id="instructor" class="acadlix-card acadlix-course-instructor acadlix-mb-16 acadlix-box-shadow-2">
-                    <h2 class="acadlix-card-header">
-                        <?php esc_html_e('Course Instructor', 'acadlix'); ?>
-                    </h2>
-                    <div class="acadlix-card-body">
-                        <div class="acadlix-row">
-                            <?php
-                            if (count($course->users) === 0) {
-                                ?>
-                                <div class="acadlix-col-12">
-                                    <div class="acadlix-card">
-                                        <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
-                                            <img src="<?php echo esc_url(get_avatar_url($course->post_author, ['size' => 80])); ?>"
-                                                alt="<?php echo esc_attr(get_userdata($course->post_author)->display_name); ?>"
-                                                class="acadlix-card-img acadlix-course-instructor-img">
-                                            <div class="acadlix-course-instructor-detail">
-                                                <div class="acadlix-course-author acadlix-h3">
-                                                    <?php echo acadlix()->helper()->course()->getUserLinkHtml($course->post_author); // phpcs:ignore ?>
-                                                </div>
-                                                <div class="acadlix-course-user-description acadlix-body1">
-                                                    <?php echo esc_html(get_user_meta($course->post_author, 'description', true)); // phpcs:ignore ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            // acadlix()->helper()->acadlix_dd(count($course->users));
-                            
-                            foreach ($course->users as $user) {
-                                ?>
-                                <div class="acadlix-col-12">
-                                    <div class="acadlix-card">
-                                        <div class="acadlix-card-body acadlix-d-flex acadlix-align-center">
-                                            <img src="<?php echo esc_url(get_avatar_url($user->ID, ['size' => 80])); ?>"
-                                                alt="<?php echo esc_attr(get_userdata($user->ID)->display_name); ?>"
-                                                class="acadlix-card-img acadlix-course-instructor-img">
-                                            <div class="acadlix-course-instructor-detail">
-                                                <div class="acadlix-course-author acadlix-h3">
-                                                    <?php echo acadlix()->helper()->course()->getUserLinkHtml($user->ID); // phpcs:ignore ?>
-                                                </div>
-                                                <div class="acadlix-course-user-description acadlix-body1">
-                                                    <?php echo esc_html(get_user_meta($user->ID, 'description', true)); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div class="acadlix-mobile-sticky-footer">
-                <?php echo acadlix_mobile_course_price($course); // phpcs:ignore ?>
-                <?php echo acadlix_course_action_buttons($course, $cart, $order_item, $dashboard_url, $checkout_url); // phpcs:ignore ?>
-            </div>
-        </main>
+    protected function course_main_curriculum_section($section, $i)
+    {
+        $contents = $section->contents;
+        $content_list = [];
+        if ($contents->count() > 0) {
+            foreach ($contents as $c_index => $content) {
+                $preview = $content->rendered_metas['preview'] ?? false;
+                $content_list[] = $this->course_main_curriculum_content(
+                    $i,
+                    $content,
+                    $c_index,
+                    $preview
+                );
+            }
+        }
+        return [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-curriculum-item'
+            ],
+            'children' =>
+                [
+                    [
+                        'component' => 'details',
+                        'props' => [
+                            'class' => 'acadlix-curriculum-details',
+                            // add open attribute if first section
+                            'open' => $i === 0 ? true : null,
+                        ],
+                        'children' => [
+                            [
+                                'component' => 'summary',
+                                'props' => [
+                                    'class' => 'acadlix-curriculum-summary'
+                                ],
+                                'children' => [
+                                    [
+                                        'component' => 'h3',
+                                        'props' => [
+                                            'role' => 'term',
+                                            'aria-details' => 'pure-css'
+                                        ],
+                                        'children' => [
+                                            [
+                                                'component' => 'i',
+                                                'props' => [
+                                                    'class' => 'fa-solid fa-caret-right'
+                                                ]
+                                            ],
+                                            [
+                                                'component' => 'php',
+                                                'value' => function () use ($section) {
+                                                    return esc_html($section->post_title);
+                                                }
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'component' => 'div',
+                        'props' => [
+                            'class' => 'acadlix-curriculum-content'
+                        ],
+                        'children' => $content_list
+                    ]
+                ]
+        ];
+    }
 
-        <?php
+    protected function course_main_curriculum_heading()
+    {
+        return apply_filters('acadlix_single_course_main_curriculum_heading', [
+            'component' => 'h2',
+            'props' => [
+                'class' => 'acadlix-card-header'
+            ],
+            'value' => esc_html__('Curriculum', 'acadlix')
+        ], $this->course);
+    }
 
+    protected function course_main_curriculum()
+    {
+        $sections = $this->course->sections;
+        $section_list = [];
+        $section_list[] = [
+            'component' => 'div',
+            'props' => [
+                'id' => 'acadlix-curriculam-react-preview'
+            ]
+        ];
+        if ($sections->count() > 0) {
+            foreach ($sections as $i => $section) {
+                $section_list[] = $this->course_main_curriculum_section($section, $i);
+            }
+        }
+        return [
+            'component' => 'div',
+            'props' => [
+                'id' => 'curriculum',
+                'class' => 'acadlix-course-curriculum acadlix-card acadlix-mb-16 acadlix-box-shadow-2'
+            ],
+            'children' => [
+                $this->course_main_curriculum_heading(),
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-d-flex acadlix-flex-column acadlix-gap-1 acadlix-card-body'
+                    ],
+                    'children' => $section_list
+                ]
+            ]
+        ];
+    }
+
+    protected function course_single_instructor_img($user_id = 0)
+    {
+        $author_data = get_userdata($user_id);
+        $author_name = $author_data ? $author_data->display_name : '';
+        return apply_filters('acadlix_single_course_single_instructor_img', [
+            'component' => 'img',
+            'props' => [
+                'src' => esc_url(get_avatar_url($user_id, ['size' => 80])),
+                'alt' => esc_attr($author_name),
+                'class' => 'acadlix-card-img acadlix-course-instructor-img',
+            ]
+        ], $user_id);
+    }
+
+    protected function course_single_instructor_name($user_id = 0)
+    {
+        return apply_filters('acadlix_single_course_single_instructor_name', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-course-author acadlix-h3'
+            ],
+            'value' => acadlix()->helper()->course()->getUserLinkHtml($user_id)
+        ], $user_id);
+    }
+
+    protected function course_single_instructor_desc($user_id = 0)
+    {
+        $author_desc = get_user_meta($user_id, 'description', true);
+        return apply_filters('acadlix_single_course_single_instructor_desc', !empty($author_desc) ? [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-course-user-description acadlix-body1'
+            ],
+            'value' => esc_html($author_desc)
+        ] : null, $user_id);
+    }
+
+    protected function course_single_instructor($user_id = 0)
+    {
+        return apply_filters('acadlix_single_course_single_instructor', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-col-12'
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-card'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-card-body acadlix-d-flex acadlix-align-center'
+                            ],
+                            'children' => [
+                                $this->course_single_instructor_img($user_id),
+                                [
+                                    'component' => 'div',
+                                    'props' => [
+                                        'class' => 'acadlix-course-instructor-detail'
+                                    ],
+                                    'children' => [
+                                        $this->course_single_instructor_name($user_id),
+                                        $this->course_single_instructor_desc($user_id)
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ], $this->course, $user_id);
+    }
+
+    protected function course_main_instructor_heading()
+    {
+        return apply_filters('acadlix_single_course_main_instructor_heading', [
+            'component' => 'h2',
+            'props' => [
+                'class' => 'acadlix-card-header'
+            ],
+            'value' => esc_html__('Course Instructor', 'acadlix')
+        ], $this->course);
+    }
+
+    protected function course_main_instructor()
+    {
+        $course_instructors = [];
+        if (count($this->course->users) === 0) {
+            $course_instructors[] = $this->course_single_instructor($this->course->post_author);
+        } else {
+            foreach ($this->course->users as $user) {
+                $course_instructors[] = $this->course_single_instructor($user->ID);
+            }
+        }
+        return apply_filters('acadlix_single_course_main_instructor', [
+            'component' => 'div',
+            'props' => [
+                'id' => 'instructor',
+                'class' => 'acadlix-card acadlix-course-instructor acadlix-mb-16 acadlix-box-shadow-2'
+            ],
+            'children' => [
+                $this->course_main_instructor_heading(),
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-card-body'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'props' => [
+                                'class' => 'acadlix-row'
+                            ],
+                            'children' => $course_instructors
+                        ]
+                    ]
+                ]
+            ]
+        ], $this->course);
+    }
+
+    protected function course_mobile_footer()
+    {
+        return apply_filters('acadlix_single_course_mobile_footer', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-mobile-sticky-footer',
+            ],
+            'children' => [
+                $this->acadlix_mobile_course_price($this->course),
+                $this->acadlix_course_action_buttons(
+                    $this->cart,
+                    $this->order_item
+                ),
+            ],
+        ], $this->course);
+    }
+
+    protected function render_footer()
+    {
+        global $wp_version;
         if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
@@ -704,3 +1373,5 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
         } else {
             get_footer();
         }
+    }
+}

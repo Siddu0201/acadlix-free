@@ -7,6 +7,7 @@ defined('ABSPATH') || exit();
 class View {
     protected static $_instance = null;
     protected $allCourse = null;
+    protected $singleCourse = null;
 
     public function __construct() {
         
@@ -17,6 +18,13 @@ class View {
             $this->allCourse = new AllCourseView();
         }
         return $this->allCourse;
+    }
+
+    public function singleCourse(): SingleCourseView {
+        if (is_null($this->singleCourse)) {
+            $this->singleCourse = new SingleCourseView();
+        }
+        return $this->singleCourse;
     }
     
     public static function instance() {

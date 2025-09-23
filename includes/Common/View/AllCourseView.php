@@ -23,8 +23,6 @@ class AllCourseView
 
     protected function setup_query()
     {
-        global $wp, $wp_version;
-
         $this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
         $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
         $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
@@ -321,13 +319,13 @@ class AllCourseView
             ];
         }
 
-        return [
+        return apply_filters('acadlix_all_course_single_course_price', [
             'component' => 'div',
             'props' => [
                 'class' => 'acadlix-course-page-card-price'
             ],
             'children' => $children
-        ];
+        ], $course);
     }
 
     protected function render_course_buttons($course)
