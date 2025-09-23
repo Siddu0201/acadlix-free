@@ -501,7 +501,7 @@ class SingleCourseView
         ], $this->course);
     }
 
-    protected function acadlix_course_wishlist()
+    protected function acadlix_course_wishlist($type = "desktop")
     {
         $wishlist = [];
         if (is_user_logged_in() && acadlix()->helper()->acadlix_get_option('acadlix_disable_wishlist') === 'no') {
@@ -555,7 +555,7 @@ class SingleCourseView
         return $wishlist;
     }
 
-    protected function acadlix_course_button()
+    protected function acadlix_course_button($type = "desktop")
     {
         $course = $this->course;
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
@@ -610,8 +610,8 @@ class SingleCourseView
     {
         $course = $this->course;
 
-        $button = $this->acadlix_course_button();
-        $wishlist = $this->acadlix_course_wishlist();
+        $button = $this->acadlix_course_button($type);
+        $wishlist = $this->acadlix_course_wishlist($type);
 
         $action_button_component = [
             'component' => 'div',
