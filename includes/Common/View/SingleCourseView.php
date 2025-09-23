@@ -248,7 +248,12 @@ class SingleCourseView
                 ] : null
             ]
         ];
-        return apply_filters('acadlix_single_course_pricing', $price_component, $this->course);
+        return apply_filters(
+            'acadlix_single_course_pricing',
+            $price_component,
+            $this->course,
+            $type
+        );
     }
 
     /**
@@ -618,7 +623,14 @@ class SingleCourseView
                 $wishlist,
             ],
         ];
-        return apply_filters('acadlix_single_course_action_buttons', $action_button_component, $course, $button, $wishlist);
+        return apply_filters(
+            'acadlix_single_course_action_buttons',
+            $action_button_component,
+            $course,
+            $button,
+            $wishlist,
+            $type
+        );
     }
 
     public function render()
