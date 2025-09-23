@@ -206,7 +206,7 @@ class SingleCourseView
      *
      * @return array
      */
-    protected function acadlix_course_pricing()
+    protected function acadlix_course_pricing($type = 'desktop')
     {
         $enable_sale_price = $this->course->rendered_metas['enable_sale_price'] ?? false;
         $price = $this->course->rendered_metas['price'] ?? 0;
@@ -601,7 +601,7 @@ class SingleCourseView
      *
      * @return array The HTML for the course action buttons.
      */
-    protected function acadlix_course_action_buttons(): array
+    protected function acadlix_course_action_buttons($type = "desktop"): array
     {
         $course = $this->course;
 
@@ -767,7 +767,7 @@ class SingleCourseView
                         'class' => 'acadlix-mobile-price-info'
                     ],
                     'children' => [
-                        $this->acadlix_course_pricing()
+                        $this->acadlix_course_pricing('mobile')
                     ]
                 ],
                 $this->acadlix_basic_course_details(false, true),
@@ -786,12 +786,12 @@ class SingleCourseView
                     'component' => 'div',
                     'props' => ['class' => 'acadlix-card-body acadlix-course-aside-body'],
                     'children' => [
-                        $this->acadlix_course_pricing(),
+                        $this->acadlix_course_pricing('desktop'),
                         [
                             'component' => 'div',
                             'props' => ['class' => 'acadlix-course-aside-purchase-options'],
                             'children' => [
-                                $this->acadlix_course_action_buttons()
+                                $this->acadlix_course_action_buttons('desktop')
                             ]
                         ],
                         $this->acadlix_basic_course_details(true, false),
@@ -1353,7 +1353,7 @@ class SingleCourseView
             ],
             'children' => [
                 $this->acadlix_mobile_course_price(),
-                $this->acadlix_course_action_buttons(),
+                $this->acadlix_course_action_buttons('mobile'),
             ],
         ], $this->course);
     }
