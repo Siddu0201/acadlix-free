@@ -121,27 +121,13 @@ class AllCourseView
                     'class' => 'acadlix-all-course-page',
                 ],
                 'children' => [
-                    [
-                        'component' => 'php',
-                        'value' => function () {
-                            ob_start();
-                            $this->render_search();
-                            return ob_get_clean();
-                        },
-                    ],
+                    $this->render_search(),
                     [
                         'component' => 'section',
                         'props' => ['class' => 'acadlix-row'],
                         'children' => $course_children,
                     ],
-                    [
-                        'component' => 'php',
-                        'value' => function () {
-                            ob_start();
-                            $this->render_pagination();
-                            return ob_get_clean();
-                        },
-                    ],
+                    $this->render_pagination(),
                 ],
             ]
         ];
@@ -487,34 +473,32 @@ class AllCourseView
     public function render_search()
     {
         $search_ui = [
-            [
-                'component' => 'section',
-                'props' => ['class' => 'acadlix-card acadlix-my-8'],
-                'children' => [
-                    [
-                        'component' => 'div',
-                        'props' => ['class' => 'acadlix-course-filter-bar-body acadlix-card-body'],
-                        'children' => [
-                            [
-                                'component' => 'div',
-                                'props' => ['class' => 'acadlix-h4'],
-                                'value' => sprintf(
-                                    __('We found %s courses available for you', 'acadlix'),
-                                    '<span>' . esc_html($this->course_count) . '</span>'
-                                )
-                            ],
-                            [
-                                'component' => 'form',
-                                'props' => ['method' => 'GET', 'class' => 'acadlix-d-flex'],
-                                'children' => [
-                                    [
-                                        'component' => 'input',
-                                        'props' => [
-                                            'type' => 'text',
-                                            'name' => 'search',
-                                            'value' => $this->search,
-                                            'placeholder' => 'Search...'
-                                        ]
+            'component' => 'section',
+            'props' => ['class' => 'acadlix-card acadlix-my-8'],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-course-filter-bar-body acadlix-card-body'],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'props' => ['class' => 'acadlix-h4'],
+                            'value' => sprintf(
+                                __('We found %s courses available for you', 'acadlix'),
+                                '<span>' . esc_html($this->course_count) . '</span>'
+                            )
+                        ],
+                        [
+                            'component' => 'form',
+                            'props' => ['method' => 'GET', 'class' => 'acadlix-d-flex'],
+                            'children' => [
+                                [
+                                    'component' => 'input',
+                                    'props' => [
+                                        'type' => 'text',
+                                        'name' => 'search',
+                                        'value' => $this->search,
+                                        'placeholder' => 'Search...'
                                     ]
                                 ]
                             ]
@@ -523,8 +507,7 @@ class AllCourseView
                 ]
             ]
         ];
-        $search_ui = apply_filters('acadlix_all_course_search_ui', $search_ui);
-        acadlix()->helper()->acadlix_render_tree($search_ui);
+        return apply_filters('acadlix_all_course_search_ui', $search_ui);
     }
 
     public function render_pagination()
@@ -630,12 +613,11 @@ class AllCourseView
         $end = min($this->course_count, $this->page * $this->per_page);
 
         $pagination_ui = [
-            [
-                'component' => 'section',
-                'props' => ['class' => 'acadlix-course-pagination-container'],
-                'children' => [
-                    [
-                        'component' => 'nav',
+            'component' => 'section',
+            'props' => ['class' => 'acadlix-course-pagination-container'],
+            'children' => [
+                [
+                    'component' => 'nav',
                         'props' => ['class' => 'acadlix-course-pagination-nav'],
                         'children' => [
                             [
@@ -656,12 +638,10 @@ class AllCourseView
                         )
                     ]
                 ]
-            ]
-        ];
+                        ];
 
         // Render via helper
-        $pagination_ui = apply_filters('acadlix_all_course_pagination_ui', $pagination_ui);
-        acadlix()->helper()->acadlix_render_tree($pagination_ui);
+        return apply_filters('acadlix_all_course_pagination_ui', $pagination_ui);
     }
 
     public function render_footer()
