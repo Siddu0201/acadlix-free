@@ -61,7 +61,7 @@ class SingleCourseView
      *
      * @return array The HTML for a course breadcrumb navigation
      */
-    protected function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true, Course $course = null)
+    protected function acadlix_course_breadcrumb(bool $desktop = true, bool $mobile = true)
     {
         if (!is_bool($desktop) || !is_bool($mobile)) {
             // error_log('The parameters must be boolean values.');
@@ -116,7 +116,7 @@ class SingleCourseView
                         'component' => 'span',
                         'value' => '&nbsp;&gt;&nbsp;'
                     ],
-                    !empty($categories = get_the_terms($course->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY)) && !is_wp_error($categories) ? [
+                    !empty($categories = get_the_terms($this->course->ID, ACADLIX_COURSE_CATEGORY_TAXONOMY)) && !is_wp_error($categories) ? [
                         'component' => 'a',
                         'props' => [
                             'href' => esc_attr(get_term_link($categories[0]->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)),
@@ -138,8 +138,8 @@ class SingleCourseView
                         'children' => [
                             [
                                 'component' => 'php',
-                                'value' => function () use ($course, $mobile) {
-                                    $title = $course->post_title;
+                                'value' => function () use ($mobile) {
+                                    $title = $this->course->post_title;
                                     if ($mobile && strlen($title) > 15) {
                                         return esc_html(mb_substr($title, 0, 15)) . '...';
                                     }
@@ -150,7 +150,7 @@ class SingleCourseView
                     ]
                 ]
         ];
-        return apply_filters('acadlix_single_course_breadcrumb', $breadcrumb, $course, $desktop, $mobile);
+        return apply_filters('acadlix_single_course_breadcrumb', $breadcrumb, $this->course, $desktop, $mobile);
     }
 
     /**
@@ -161,7 +161,7 @@ class SingleCourseView
      *
      * @return array The HTML for a course image
      */
-    protected function acadlix_course_img(bool $desktop = true, bool $mobile = true, Course $course = null)
+    protected function acadlix_course_img(bool $desktop = true, bool $mobile = true)
     {
         if (is_null($desktop) || is_null($mobile)) {
             // error_log('The parameters must be boolean values.');
@@ -194,11 +194,11 @@ class SingleCourseView
             'props' => [
                 'class' => esc_attr($unique_class),
                 'loading' => 'lazy',
-                'src' => esc_url(isset($course->thumbnail['url']) ? $course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
-                'alt' => isset($course->thumbnail['alt']) ? esc_attr($course->thumbnail['alt']) : esc_attr($course?->post_title)
+                'src' => esc_url(isset($this->course->thumbnail['url']) ? $this->course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
+                'alt' => isset($this->course->thumbnail['alt']) ? esc_attr($this->course->thumbnail['alt']) : esc_attr($this->course?->post_title)
             ]
         ];
-        return apply_filters('acadlix_single_course_img', $img_component, $course, $desktop, $mobile);
+        return apply_filters('acadlix_single_course_img', $img_component, $this->course, $desktop, $mobile);
     }
 
     /**
@@ -206,11 +206,11 @@ class SingleCourseView
      *
      * @return array
      */
-    protected function acadlix_course_pricing(Course $course)
+    protected function acadlix_course_pricing()
     {
-        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
-        $price = $course->rendered_metas['price'] ?? 0;
-        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
+        $enable_sale_price = $this->course->rendered_metas['enable_sale_price'] ?? false;
+        $price = $this->course->rendered_metas['price'] ?? 0;
+        $sale_price = $this->course->rendered_metas['sale_price'] ?? 0;
         $price_component = [
             'component' => 'div',
             'props' => [
@@ -235,7 +235,7 @@ class SingleCourseView
                             'props' => [
                                 'class' => 'acadlix-course-price acadlix-subtitle1'
                             ],
-                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price']))
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($this->course->rendered_metas['price']))
                         ] : null
                     ]
                 ],
@@ -248,21 +248,19 @@ class SingleCourseView
                 ] : null
             ]
         ];
-        return apply_filters('acadlix_single_course_pricing', $price_component, $course);
+        return apply_filters('acadlix_single_course_pricing', $price_component, $this->course);
     }
 
     /**
      * Displays the price of a course in a mobile-friendly format.
      *
-     * @param Course $course The course object to display the price for.
-     *
      * @return array The HTML content for the mobile price info.
      */
-    protected function acadlix_mobile_course_price(Course $course)
+    protected function acadlix_mobile_course_price()
     {
-        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
-        $price = $course->rendered_metas['price'] ?? 0;
-        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
+        $enable_sale_price = $this->course->rendered_metas['enable_sale_price'] ?? false;
+        $price = $this->course->rendered_metas['price'] ?? 0;
+        $sale_price = $this->course->rendered_metas['sale_price'] ?? 0;
 
         $price_component = [
             'component' => 'div',
@@ -288,25 +286,25 @@ class SingleCourseView
                             'props' => [
                                 'class' => 'acadlix-course-price acadlix-subtitle1'
                             ],
-                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($course->rendered_metas['price']))
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($this->course->rendered_metas['price']))
                         ] : null
                     ]
                 ],
             ]
         ];
-        return apply_filters('acadlix_single_course_mobile_price', $price_component, $course);
+        return apply_filters('acadlix_single_course_mobile_price', $price_component, $this->course);
     }
 
-    protected function acadlix_basic_course_details(Course $course, bool $desktop = true, bool $mobile = true)
+    protected function acadlix_basic_course_details(bool $desktop = true, bool $mobile = true)
     {
         if (!is_bool($desktop) || !is_bool($mobile)) {
             // error_log('The parameters must be boolean values.');
         }
 
         $unique_class = 'acadlix-course-aside-details-' . esc_attr(uniqid());
-        $duration = $course->rendered_metas['duration']['duration'] ?? 0;
-        $duration_type = $course->rendered_metas['duration']['type'] ?? '';
-        $difficulty_level = $course->rendered_metas['difficulty_level'] ?? '';
+        $duration = $this->course->rendered_metas['duration']['duration'] ?? 0;
+        $duration_type = $this->course->rendered_metas['duration']['type'] ?? '';
+        $difficulty_level = $this->course->rendered_metas['difficulty_level'] ?? '';
         ?>
             <style>
                 .<?php echo esc_attr($unique_class); ?> {
@@ -389,13 +387,13 @@ class SingleCourseView
                         ],
                         [
                             'component' => 'div',
-                            'value' => esc_html($course->student_count),
+                            'value' => esc_html($this->course->student_count),
                         ]
                     ]
                 ]
             ]
         ];
-        return apply_filters('acadlix_single_course_basic_course_details', $basic_course_details, $course, $desktop, $mobile);
+        return apply_filters('acadlix_single_course_basic_course_details', $basic_course_details, $this->course, $desktop, $mobile);
     }
 
     protected function acadlix_course_checkout_button()
@@ -484,7 +482,7 @@ class SingleCourseView
                     ],
                 ],
             ],
-        ], $this->course);    
+        ], $this->course);
     }
 
     protected function acadlix_course_error_button($check_registration_date)
@@ -552,16 +550,7 @@ class SingleCourseView
         return $wishlist;
     }
 
-    /**
-     * Outputs the HTML for the course action buttons.
-     *
-     * @param object $cart The cart object.
-     * @param object $order_item The order item object.
-     * @param object $course The course object.
-     *
-     * @return array The HTML for the course action buttons.
-     */
-    protected function acadlix_course_action_buttons(array|object $cart, array|object $order_item): array
+    protected function acadlix_course_button()
     {
         $course = $this->course;
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
@@ -581,17 +570,17 @@ class SingleCourseView
         $error_button = $this->acadlix_course_error_button($check_registration_date);
         if ($check_registration_date['status']) {
             if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
-                if (count($cart) > 0) {
+                if (count($this->cart) > 0) {
                     $button = $checkout_button;
-                } elseif (count($order_item) > 0) {
+                } elseif (count($this->order_item) > 0) {
                     $button = $go_to_course_button;
                 } else {
                     $button = $start_now_button;
                 }
             } else {
-                if (count($cart) > 0) {
+                if (count($this->cart) > 0) {
                     $button = $checkout_button;
-                } elseif (count($order_item) > 0) {
+                } elseif (count($this->order_item) > 0) {
                     $button = $go_to_course_button;
                 } else {
                     $button = $buy_now_button;
@@ -600,7 +589,23 @@ class SingleCourseView
         } else {
             $button = $error_button;
         }
+        return $button;
+    }
 
+    /**
+     * Outputs the HTML for the course action buttons.
+     *
+     * @param object $cart The cart object.
+     * @param object $order_item The order item object.
+     * @param object $course The course object.
+     *
+     * @return array The HTML for the course action buttons.
+     */
+    protected function acadlix_course_action_buttons(): array
+    {
+        $course = $this->course;
+
+        $button = $this->acadlix_course_button();
         $wishlist = $this->acadlix_course_wishlist();
 
         $action_button_component = [
@@ -661,7 +666,7 @@ class SingleCourseView
                     'id' => 'acadlix-single-course-page'
                 ],
                 'children' => [
-                    $this->acadlix_course_breadcrumb(false, true, $this->course),
+                    $this->acadlix_course_breadcrumb(false, true),
                     $this->course_header(),
                     $this->course_main(),
                     $this->course_mobile_footer(),
@@ -681,7 +686,7 @@ class SingleCourseView
             ],
             'children' => [
                 // Main course image
-                $this->acadlix_course_img(false, true, $this->course),
+                $this->acadlix_course_img(false, true),
                 // Body
                 $this->course_header_body(),
                 // Aside
@@ -752,7 +757,7 @@ class SingleCourseView
                 'class' => 'acadlix-card-body acadlix-course-header-body'
             ],
             'children' => [
-                $this->acadlix_course_breadcrumb(true, false, $this->course),
+                $this->acadlix_course_breadcrumb(true, false    ),
                 $this->course_header_title(),
                 $this->course_header_last_update(),
                 $this->course_header_author(),
@@ -762,10 +767,10 @@ class SingleCourseView
                         'class' => 'acadlix-mobile-price-info'
                     ],
                     'children' => [
-                        $this->acadlix_course_pricing($this->course)
+                        $this->acadlix_course_pricing()
                     ]
                 ],
-                $this->acadlix_basic_course_details($this->course, false, true),
+                $this->acadlix_basic_course_details(false, true),
             ]
         ], $this->course);
     }
@@ -776,21 +781,18 @@ class SingleCourseView
             'component' => 'div',
             'props' => ['class' => 'acadlix-course-aside acadlix-card'],
             'children' => [
-                $this->acadlix_course_img(true, false, $this->course),
+                $this->acadlix_course_img(true, false),
                 [
                     'component' => 'div',
                     'props' => ['class' => 'acadlix-card-body acadlix-course-aside-body'],
                     'children' => [
-                        $this->acadlix_course_pricing($this->course),
-                        $this->acadlix_basic_course_details($this->course, true, false),
+                        $this->acadlix_course_pricing(),
+                        $this->acadlix_basic_course_details(true, false),
                         [
                             'component' => 'div',
                             'props' => ['class' => 'acadlix-course-aside-purchase-options'],
                             'children' => [
-                                $this->acadlix_course_action_buttons(
-                                    $this->cart,
-                                    $this->order_item
-                                )
+                                $this->acadlix_course_action_buttons()
                             ]
                         ]
                     ]
@@ -1350,11 +1352,8 @@ class SingleCourseView
                 'class' => 'acadlix-mobile-sticky-footer',
             ],
             'children' => [
-                $this->acadlix_mobile_course_price($this->course),
-                $this->acadlix_course_action_buttons(
-                    $this->cart,
-                    $this->order_item
-                ),
+                $this->acadlix_mobile_course_price(),
+                $this->acadlix_course_action_buttons(),
             ],
         ], $this->course);
     }
