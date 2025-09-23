@@ -757,7 +757,7 @@ class SingleCourseView
                 'class' => 'acadlix-card-body acadlix-course-header-body'
             ],
             'children' => [
-                $this->acadlix_course_breadcrumb(true, false    ),
+                $this->acadlix_course_breadcrumb(true, false),
                 $this->course_header_title(),
                 $this->course_header_last_update(),
                 $this->course_header_author(),
@@ -787,14 +787,14 @@ class SingleCourseView
                     'props' => ['class' => 'acadlix-card-body acadlix-course-aside-body'],
                     'children' => [
                         $this->acadlix_course_pricing(),
-                        $this->acadlix_basic_course_details(true, false),
                         [
                             'component' => 'div',
                             'props' => ['class' => 'acadlix-course-aside-purchase-options'],
                             'children' => [
                                 $this->acadlix_course_action_buttons()
                             ]
-                        ]
+                        ],
+                        $this->acadlix_basic_course_details(true, false),
                     ]
                 ]
             ]
