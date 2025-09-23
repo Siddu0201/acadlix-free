@@ -235,7 +235,7 @@ class SingleCourseView
                             'props' => [
                                 'class' => 'acadlix-course-price acadlix-subtitle1'
                             ],
-                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($this->course->rendered_metas['price']))
+                            'value' => esc_html(acadlix()->helper()->course()->getCoursePrice($price))
                         ] : null
                     ]
                 ],
