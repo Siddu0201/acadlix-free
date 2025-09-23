@@ -452,7 +452,7 @@ class SingleCourseView
         ], $this->course);
     }
 
-    protected function acadlix_course_buy_now_button()
+    protected function acadlix_course_buy_now_button($type = 'desktop')
     {
         return apply_filters('acadlix_single_course_buy_now_button', [
             'component' => 'button',
@@ -571,7 +571,7 @@ class SingleCourseView
         $checkout_button = $this->acadlix_course_checkout_button();
         $go_to_course_button = $this->acadlix_course_go_to_course_button();
         $start_now_button = $this->acadlix_course_start_now_button();
-        $buy_now_button = $this->acadlix_course_buy_now_button();
+        $buy_now_button = $this->acadlix_course_buy_now_button($type);
         $error_button = $this->acadlix_course_error_button($check_registration_date);
         if ($check_registration_date['status']) {
             if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
