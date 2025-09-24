@@ -14,6 +14,8 @@ if (!class_exists('Order')) {
 
         protected $fillable = [
             'user_id',
+            'subscription_id',
+            'parent_id',
             'status',
             'extra_charges',
             'total_amount'

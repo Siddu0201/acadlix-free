@@ -15,6 +15,7 @@ if (!class_exists('CourseCart')) {
             'cart_token',
             'course_id',
             'user_id',
+            'subscription_id',
             'quantity',
             'token_expiry',
         ];
