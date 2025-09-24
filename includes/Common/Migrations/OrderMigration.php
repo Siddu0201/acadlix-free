@@ -50,13 +50,13 @@ if (!class_exists('OrderMigration')) {
 
             if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'subscription_id')) {
                 Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
-                    $table->unsignedBigInteger('subscription_id')->nullable();
+                    $table->unsignedBigInteger('subscription_id')->nullable()->after('user_id');
                 });
             }
 
             if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'parent_id')) {
                 Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
-                    $table->unsignedBigInteger('parent_id')->nullable();
+                    $table->unsignedBigInteger('parent_id')->nullable()->after('subscription_id');
                 });
             }
         }

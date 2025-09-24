@@ -19,6 +19,7 @@ if (!class_exists('CourseCartMigration')) {
                     $table->string('cart_token')->nullable();
                     $table->bigInteger('course_id')->nullable(); // Index for filtering courses
                     $table->unsignedBigInteger('user_id')->nullable(); // Index for user lookup
+                    $table->unsignedBigInteger('subscription_id')->nullable(); // Pro-only usage
                     $table->integer('quantity')->default(1);
                     $table->bigInteger('token_expiry')->nullable()->default(0); // Index for expiring carts
                     $table->timestamps();
@@ -54,6 +55,12 @@ if (!class_exists('CourseCartMigration')) {
                 'user_id',
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_id'),
             );
+
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'subscription_id')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->unsignedBigInteger('subscription_id')->nullable()->after('user_id');
+                });
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class Activator
 {
-    public $dbVersion = 6;
+    public $dbVersion = 7;
     public function __construct()
     {
         if (!is_admin())
@@ -162,7 +162,6 @@ class Activator
                 $didUpdate = true;
             }
         }
-
         if ($didUpdate) {
             acadlix()->migration()->createTable(); // function to update schema/data
             acadlix()->seeder()->seed(); // function to upadte schema/data
