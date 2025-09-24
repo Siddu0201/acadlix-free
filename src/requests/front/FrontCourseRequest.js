@@ -13,6 +13,9 @@ export const PostBuyNow = () => {
                 },
             });
         },
+        onError: (error) => {
+            handleMutationError(error);
+        }
     });
 }
 
@@ -26,6 +29,9 @@ export const PostStartNow = () => {
                 },
             });
         },
+        onError: (error) => {
+            handleMutationError(error);
+        }
     });
 }
 
@@ -39,6 +45,9 @@ export const PostAddWishlist = () => {
                 },
             });
         },
+        onError: (error) => {
+            handleMutationError(error);
+        }
     });
 }
 
