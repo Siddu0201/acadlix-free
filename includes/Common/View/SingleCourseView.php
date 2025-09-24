@@ -678,6 +678,7 @@ class SingleCourseView
                     'id' => 'acadlix-single-course-page'
                 ],
                 'children' => [
+                    $this->course_listener(),
                     $this->acadlix_course_breadcrumb(false, true),
                     $this->course_header(),
                     $this->course_main(),
@@ -687,6 +688,16 @@ class SingleCourseView
         ];
         $course_content = apply_filters('acadlix_single_course_content', $course_content, $this->course);
         acadlix()->helper()->acadlix_render_tree($course_content);
+    }
+
+    protected function course_listener()
+    {
+        return apply_filters('acadlix_single_course_listener', [
+            'component' => 'div',
+            'props' => [
+                'id' => 'acadlix-course-listener',
+            ],
+        ], $this->course);
     }
 
     protected function course_header()

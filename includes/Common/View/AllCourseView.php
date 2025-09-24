@@ -71,6 +71,7 @@ class AllCourseView
         $this->render_courses();
         $this->render_footer();
     }
+    
 
     public function render_header()
     {
@@ -122,6 +123,7 @@ class AllCourseView
                 ],
                 'children' => [
                     $this->render_search(),
+                    $this->course_listener(),
                     [
                         'component' => 'section',
                         'props' => ['class' => 'acadlix-row'],
@@ -134,6 +136,16 @@ class AllCourseView
 
         $all_course_page = apply_filters('acadlix_all_courses_page', $all_course_page);
         acadlix()->helper()->acadlix_render_tree($all_course_page);
+    }
+
+    protected function course_listener()
+    {
+        return apply_filters('acadlix_all_course_listener', [
+            'component' => 'div',
+            'props' => [
+                'id' => 'acadlix-course-listener',
+            ],
+        ]);
     }
 
     public function render_single_course($course)

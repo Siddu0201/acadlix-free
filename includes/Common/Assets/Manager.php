@@ -98,7 +98,7 @@ class Manager
                 </script>
                 <?php
             } else {
-                echo "[Acadlix_Quiz " . esc_html($id) . "]";
+                echo '[Acadlix_Quiz ' . esc_html($id) . ']';
             }
             $content = ob_get_contents();
             ob_get_clean();
@@ -117,7 +117,6 @@ class Manager
         $content = ob_get_contents();
         ob_get_clean();
         return $content;
-
     }
 
     public function acadlix_advance_quiz_shortcode()
@@ -518,11 +517,13 @@ class Manager
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'home_url' => esc_url(home_url()),
-            'logout_url' => esc_url(wp_logout_url(acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') !== "" ? acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') : home_url())),
+            'logout_url' => esc_url(wp_logout_url(acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') !== '' ? acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') : home_url())),
             'nonce' => wp_create_nonce('wp_rest'),
             'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
-            'user' => get_current_user_id() > 0 ?
-                acadlix()->model()->wpUsers()
+            'user' => get_current_user_id() > 0
+                ? acadlix()
+                    ->model()
+                    ->wpUsers()
                     ->select([
                         'ID',
                         'user_email',
@@ -530,9 +531,11 @@ class Manager
                         'user_url'
                     ])
                     ->where('ID', get_current_user_id())
-                    ->first() : [],
-            'user_avatar_url' => get_current_user_id() > 0 ?
-                get_user_meta(get_current_user_id(), '_acadlix_profile_photo', true) : '',
+                    ->first()
+                : [],
+            'user_avatar_url' => get_current_user_id() > 0
+                ? get_user_meta(get_current_user_id(), '_acadlix_profile_photo', true)
+                : '',
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'logo_url' => $logo_url,
@@ -540,34 +543,18 @@ class Manager
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
             'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
-            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
-            'users_can_register' => acadlix()->helper()->acadlix_get_option("users_can_register"),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
+            'users_can_register' => acadlix()->helper()->acadlix_get_option('users_can_register'),
             'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
 
-    public function localize_front_action_button_course_js_options()
+    public function localize_front_button_listener_js_options()
     {
         return [
-            'is_admin_bar_showing' => is_admin_bar_showing(),
             'api_url' => esc_url_raw(rest_url('acadlix/v1')),
-            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
-            'nonce' => wp_create_nonce('wp_rest'),
-            'home_url' => esc_url(home_url()),
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
-            'checkout_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'))),
-            'cart_url' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_cart_page_id'))),
             'user_id' => get_current_user_id() ?? 0,
-            'user' => get_current_user_id() > 0 ?
-                acadlix()->model()->wpUsers()
-                    ->select([
-                        'ID',
-                        'user_email',
-                        'display_name',
-                        'user_url'
-                    ])
-                    ->where('ID', get_current_user_id())
-                    ->first() : [],
             'isActive' => acadlix()->license()->isActive ?? false,
         ];
     }
@@ -598,19 +585,13 @@ class Manager
 
         acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
 
-        // wp_enqueue_style('acadlix-vendor-css');
-        // wp_enqueue_style('acadlix-front-css');
-
-        // wp_enqueue_script('acadlix-vendors-js');
-        // wp_enqueue_script('acadlix-runtime-js');
-        // wp_enqueue_script('acadlix-front-js');
-        // wp_localize_script('acadlix-front-js', 'acadlixOptions', $this->localize_front_js_options());
-        // wp_set_script_translations('acadlix-front-js', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        if (is_singular(ACADLIX_COURSE_CPT) || is_post_type_archive( ACADLIX_COURSE_CPT )) {
+            acadlix()->assets()->manager()->load_assets('front_button_listener', $this->localize_front_button_listener_js_options(), 'acadlixListeners');
+        }
     }
 
     public function enqueue_front_assets()
     {
-
         wp_enqueue_style('acadlix-front-base-style-css');
         $theme = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
         // acadlix()->helper()->acadlix_ddd($theme['typography']['h1']['lineHeight']['desktop']);
@@ -885,11 +866,8 @@ class Manager
 
         wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
 
-
-
-        wp_enqueue_script('acadlix-front-action-button-course-js');
-        wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());
-
+        // wp_enqueue_script('acadlix-front-action-button-course-js');
+        // wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());
     }
 
     public function acadlix_front_footer()

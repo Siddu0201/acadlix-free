@@ -3,6 +3,45 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const base = "/front-course";
 
+export const PostBuyNow = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/buy-now`, data, {
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
+            });
+        },
+    });
+}
+
+export const PostStartNow = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/start-now`, data, {
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
+            });
+        },
+    });
+}
+
+export const PostAddWishlist = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/add-wishlist`, data, {
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
+            });
+        },
+    });
+}
+
 export const PostRemoveWishlist = () => {
     const instance = useInstance();
     const queryClient = useQueryClient();

@@ -262,6 +262,28 @@ export const loadFrontSingleCourseHooks = async (hooks) => {
     }
 }
 
+export const loadFrontButtonListenerHooks = async (hooks) => {
+    try {
+        const mod = await (
+            process.env.REACT_APP_IS_PREMIUM === 'true'
+                ? import(
+                    /* webpackChunkName: "front_button_listener_hooks" */
+                    '@acadlix/pro/hooks/FrontButtonListenerHooks'
+                )
+                : import(
+                    /* webpackChunkName: "front_button_listener_hooks" */
+                    '@acadlix/free/hooks/FrontButtonListenerHooks'
+                )
+        );
+
+        if (typeof mod.registerPluginHooks === 'function') {
+            mod.registerPluginHooks(hooks);
+        }
+    } catch (e) {
+        // console.log(e);
+    }
+}
+
 export const loadFrontHooks = async (hooks) => {
     try {
         const mod = await (
