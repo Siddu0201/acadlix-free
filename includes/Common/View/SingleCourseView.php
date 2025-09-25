@@ -31,7 +31,7 @@ class SingleCourseView
             $this->cart = acadlix()->model()->courseCart()->where([
                 ['user_id', '=', $userId],
                 ['course_id', '=', $post->ID],
-            ])->get();
+            ])->first();
             $this->order_item = acadlix()
                 ->model()
                 ->orderItem()
@@ -48,7 +48,7 @@ class SingleCourseView
                     ->courseCart()
                     ->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
                     ->where('course_id', $post->ID)
-                    ->get();
+                    ->first();
             }
         }
     }
@@ -575,7 +575,7 @@ class SingleCourseView
         $error_button = $this->acadlix_course_error_button($check_registration_date);
         if ($check_registration_date['status']) {
             if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
-                if (count($this->cart) > 0) {
+                if ($this->cart) {
                     $button = $checkout_button;
                 } elseif (count($this->order_item) > 0) {
                     $button = $go_to_course_button;
@@ -583,7 +583,7 @@ class SingleCourseView
                     $button = $start_now_button;
                 }
             } else {
-                if (count($this->cart) > 0) {
+                if ($this->cart) {
                     $button = $checkout_button;
                 } elseif (count($this->order_item) > 0) {
                     $button = $go_to_course_button;
