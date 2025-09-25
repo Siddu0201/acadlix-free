@@ -186,7 +186,13 @@ export const modifyComponentTree = (tree, name, action, payload) => {
       return { ...tree, value: payload(tree.value) };
     }
     if (action === "addChild") {
-      return { ...tree, children: [...(tree.children || []), payload] };
+      let newChildren = [...(tree.children || [])];
+      if (index !== null && index >= 0 && index <= newChildren.length) {
+        newChildren.splice(index, 0, payload); // insert at given index
+      } else {
+        newChildren.push(payload); // fallback to push
+      }
+      return { ...tree, children: newChildren };
     }
     if (action === "removeProp") {
       const { [payload]: _, ...rest } = tree.props;
