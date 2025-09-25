@@ -207,7 +207,7 @@ export const modifyComponentTree = (tree, name, action, payload, index = null) =
     return {
       ...tree,
       children: tree.children
-        .map(child => modifyComponentTree(child, name, action, payload))
+        .map(child => modifyComponentTree(child, name, action, payload, index))
         .filter(Boolean) // remove nulls
     };
   }
