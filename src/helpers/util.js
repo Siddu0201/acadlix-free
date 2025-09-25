@@ -316,11 +316,16 @@ export const getDbFormatDate = (date) => {
  *
  * @returns {string} - The formatted date string.
  */
-export const getFormatDate = (date) => {
+export const getFormatDate = (date, withTime = true) => {
   if (!date) return "";
   const date_settings = getSettings();
-  const date_time_format = `${date_settings?.formats?.date || "Y-m-d"} ${date_settings?.formats?.time || "H:i:s"}`;
-  return format(date_time_format, date);
+  let date_format = date_settings?.formats?.date || "Y-m-d";
+  
+  if (withTime) {
+    const time_format = date_settings?.formats?.time || "H:i:s";
+    date_format = `${date_format} ${time_format}`;
+  }
+  return format(date_format, date);
 }
 
 /**
