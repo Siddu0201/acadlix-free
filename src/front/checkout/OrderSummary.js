@@ -228,7 +228,7 @@ const OrderSummary = (props) => {
                                 value: currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + c?.price + c?.tax, 0)
+                                    ?.reduce((total, c) => total + c?.price_after_tax, 0)
                                 )
                               },
                             ]
