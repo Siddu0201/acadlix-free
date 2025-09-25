@@ -175,7 +175,7 @@ export const DynamicMUIRenderer = ({ item, index, formProps }) => {
   return componentEl;
 };
 
-export const modifyComponentTree = (tree, name, action, payload) => {
+export const modifyComponentTree = (tree, name, action, payload, index = null) => {
   if (!tree) return tree;
 
   if (tree.component_name === name) {
