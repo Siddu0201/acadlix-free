@@ -371,4 +371,23 @@ export const getNumberStep = (step = 2) => {
   return 1 / Math.pow(10, step);
 };
 
+export const convertToUnitPrice = (amount = 0) => {
+  if (isNaN(amount)) {
+    throw new Error(__("Invalid amount", "acadlix"));
+  }
+  const decimalPlaces =
+    acadlixCheckoutOptions?.settings?.acadlix_number_of_decimals ?? 2;
+  const multiplier = Math.pow(10, decimalPlaces);
+  return Math.round(
+    Number(
+      amount
+        .toString()
+        .replace(
+          acadlixCheckoutOptions?.settings?.acadlix_thousand_separator || "",
+          ""
+        )
+    ) * multiplier
+  );
+};
+
 

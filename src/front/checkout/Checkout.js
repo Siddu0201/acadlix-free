@@ -18,7 +18,7 @@ import parse from "html-react-parser";
 import toast from "react-hot-toast";
 import UserAuth from "@acadlix/modules/user-auth/UserAuth";
 import { __ } from "@wordpress/i18n";
-import { formatPrice } from "@acadlix/helpers/util";
+import { convertToUnitPrice, formatPrice } from "@acadlix/helpers/util";
 import { Country } from "country-state-city";
 
 const Checkout = () => {
@@ -72,13 +72,18 @@ const Checkout = () => {
 
   const setCartData = (cart = []) => {
     methods?.setValue("is_checkout_locked", false, { shouldDirty: true });
-    methods?.setValue("cart", [...cart], {
-      shouldDirty: true,
-    });
+    methods?.setValue("cart",
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_cart_data", [...cart], {
+        cart: cart,
+        methods: methods,
+      }) ?? [...cart],
+      {
+        shouldDirty: true,
+      });
 
     methods?.setValue(
       "order_items",
-      cart?.map((c) => {
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_order_items", cart?.map((c) => {
         let price = formatPrice(
           Boolean(Number(c?.course?.rendered_metas?.enable_sale_price))
             ? c?.course?.rendered_metas?.sale_price
@@ -103,16 +108,28 @@ const Checkout = () => {
           tax: tax,
           price_after_tax: price + tax,
         };
-      })
+      }),
+        {
+          cart: cart,
+          methods: methods,
+        }
+      ),
+      {
+        shouldDirty: true,
+      }
     );
 
     methods?.setValue(
       "total_amount",
-      formatPrice(
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_total_amount", formatPrice(
         methods
           ?.watch("order_items")
           ?.reduce((total, c) => total + c?.price_after_tax, 0)
       ),
+        {
+          cart: cart,
+          methods: methods,
+        }),
       { shouldDirty: true }
     );
   };
@@ -132,29 +149,11 @@ const Checkout = () => {
     }
   }, [methods?.watch("cart")?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const convertToUnitPrice = (amount = 0) => {
-    if (isNaN(amount)) {
-      throw new Error(__("Invalid amount", "acadlix"));
-    }
-    const decimalPlaces =
-      acadlixCheckoutOptions?.settings?.acadlix_number_of_decimals ?? 2;
-    const multiplier = Math.pow(10, decimalPlaces);
-    return Math.round(
-      Number(
-        amount
-          .toString()
-          .replace(
-            acadlixCheckoutOptions?.settings?.acadlix_thousand_separator || "",
-            ""
-          )
-      ) * multiplier
-    );
-  };
 
   const razorpayMutation = PostCheckoutRazorpay();
   const handleRazorpay = (data = {}) => {
     razorpayMutation?.mutate(
-      {
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_razorpay_data", {
         currency: data?.currency,
         billing_info: data?.billing_info,
         user_id: data?.user_id,
@@ -163,6 +162,10 @@ const Checkout = () => {
         total_amount: data?.total_amount,
         amount: convertToUnitPrice(data?.total_amount),
       },
+      {
+        methods: methods,
+      }
+      ),
       {
         onSuccess: (data) => {
           methods?.setValue("is_checkout_loading", false, {
@@ -185,7 +188,7 @@ const Checkout = () => {
           });
           toast?.error(
             data?.response?.data?.message ??
-              __("Opps! Something went wrong", "acadlix")
+            __("Opps! Something went wrong", "acadlix")
           );
         },
       }
@@ -195,7 +198,7 @@ const Checkout = () => {
   const paypalMutation = PostCheckoutPaypal();
   const handlePaypal = (data = {}) => {
     paypalMutation?.mutate(
-      {
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_paypal_data", {
         currency: data?.currency,
         billing_info: data?.billing_info,
         user_id: data?.user_id,
@@ -203,6 +206,10 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
       },
+      {
+        methods: methods,
+      }
+      ),
       {
         onSuccess: async (data) => {
           methods?.setValue("is_checkout_loading", false, {
@@ -217,7 +224,7 @@ const Checkout = () => {
         onError: (data) => {
           toast?.error(
             data?.response?.data?.message ??
-              __("Opps! Something went wrong", "acadlix")
+            __("Opps! Something went wrong", "acadlix")
           );
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
@@ -230,7 +237,7 @@ const Checkout = () => {
   const payuMutation = PostCheckoutPayu();
   const handlePayu = (data = {}) => {
     payuMutation?.mutate(
-      {
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_payu_data", {
         currency: data?.currency,
         billing_info: data?.billing_info,
         user_id: data?.user_id,
@@ -238,6 +245,10 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
       },
+      {
+        methods: methods,
+      }
+      ),
       {
         onSuccess: (data) => {
           methods?.setValue("is_checkout_loading", false, {
@@ -263,7 +274,7 @@ const Checkout = () => {
         onError: (data) => {
           toast?.error(
             data?.response?.data?.message ??
-              __("Opps! Something went wrong", "acadlix")
+            __("Opps! Something went wrong", "acadlix")
           );
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
@@ -275,7 +286,11 @@ const Checkout = () => {
 
   const freeMutation = PostFreeCheckout();
   const handleFreeCheckout = (data = {}) => {
-    freeMutation?.mutate(data, {
+    freeMutation?.mutate(
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_free_data", data, {
+        methods: methods,
+      }),
+      {
       onSuccess: (data) => {
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
         window.location.href = `${acadlixCheckoutOptions?.dashboard_url}`;
@@ -283,7 +298,7 @@ const Checkout = () => {
       onError: (data) => {
         toast?.error(
           data?.response?.data?.message ??
-            __("Opps! Something went wrong", "acadlix")
+          __("Opps! Something went wrong", "acadlix")
         );
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
       },
@@ -293,7 +308,7 @@ const Checkout = () => {
   const stripeMutation = PostCheckoutStripe();
   const handleStripe = (data = {}) => {
     stripeMutation?.mutate(
-      {
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_stripe_data", {
         currency: data?.currency,
         billing_info: data?.billing_info,
         user_id: data?.user_id,
@@ -301,7 +316,8 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
         amount: convertToUnitPrice(data?.total_amount),
-      },
+      }
+      ),
       {
         onSuccess: (data) => {
           methods?.setValue("is_checkout_loading", false, {
@@ -312,7 +328,7 @@ const Checkout = () => {
         onError: (data) => {
           toast?.error(
             data?.response?.data?.message ??
-              __("Opps! Something went wrong", "acadlix")
+            __("Opps! Something went wrong", "acadlix")
           );
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,

@@ -19,6 +19,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardMedia,
   IconButton,
   List,
   ListItem,
@@ -30,6 +31,8 @@ import {
   FormHelperText,
   InputLabel,
   InputAdornment,
+  CircularProgress,
+  CardActions,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -40,6 +43,8 @@ import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import CustomButton from "@acadlix/components/CustomButton";
 import PasswordTextField from "@acadlix/components/PasswordTextField";
+import { iconMap } from "@acadlix/helpers/icons";
+import { RawHTML } from "@wordpress/element";
 
 const COMPONENT_MAP = {
   CustomTextField,
@@ -58,18 +63,14 @@ const COMPONENT_MAP = {
   Button,
   Box,
   Grid,
-  // Custom Components
-  GridItem1,
-  CustomSwitch,
-  CustomTypography,
-  CustomButton,
-  PasswordTextField,
   Typography,
   Alert,
   Chip,
   Card,
+  CardMedia,
   CardContent,
   CardHeader,
+  CardActions,
   IconButton,
   List,
   ListItem,
@@ -81,6 +82,14 @@ const COMPONENT_MAP = {
   FormHelperText,
   InputLabel,
   InputAdornment,
+  // Custom Components
+  GridItem1,
+  CustomSwitch,
+  CustomTypography,
+  CustomButton,
+  CircularProgress,
+  PasswordTextField,
+  RawHTML,
   Fragment: React.Fragment,
 };
 
@@ -122,6 +131,10 @@ const resolveComponentInProps = async (propObj, register, name, formProps) => {
 export const renderMUIComponent = async (item, index, formProps = {}) => {
   const { component, props, children, value, name } = item;
   const Component = COMPONENT_MAP[component];
+  // ✅ If not found, check iconMap
+  if (!Component && iconMap[component]) {
+    return React.cloneElement(iconMap[component], { key: index, ...(props || {}) });
+  }
   if (!Component) return null;
 
   const rawProps = typeof props === "function" ? await props() : props;
@@ -147,7 +160,6 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
 
 export const DynamicMUIRenderer = ({ item, index, formProps }) => {
   const [componentEl, setComponentEl] = React.useState(null);
-
   React.useEffect(() => {
     const renderComponent = async () => {
       const element = await renderMUIComponent(item, index, formProps);
