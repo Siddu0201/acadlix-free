@@ -178,9 +178,12 @@ export const DynamicMUIRenderer = ({ item, index, formProps }) => {
 export const modifyComponentTree = (tree, name, action, payload) => {
   if (!tree) return tree;
 
-  if (tree.props?.component_name === name) {
+  if (tree.component_name === name) {
     if (action === "updateProps") {
       return { ...tree, props: payload(tree.props) };
+    }
+    if (action === "updateValue") {
+      return { ...tree, value: payload(tree.value) };
     }
     if (action === "addChild") {
       return { ...tree, children: [...(tree.children || []), payload] };
