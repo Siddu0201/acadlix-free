@@ -89,6 +89,8 @@ const Checkout = () => {
             ? c?.course?.rendered_metas?.sale_price
             : c?.course?.rendered_metas?.price
         );
+        let discount = 0;
+        let price_after_discount = price - discount;
         let tax = 0;
         if (
           c?.course?.rendered_metas?.tax !== 0 &&
@@ -98,15 +100,16 @@ const Checkout = () => {
             (price * c?.course?.rendered_metas?.tax_percent) / 100
           );
         }
+        let price_after_tax = price_after_discount + tax;
         return {
           course_id: c?.course_id,
           course_title: c?.course?.post_title,
           quantity: 1,
           price: price,
-          discount: 0,
-          price_after_discount: 0,
+          discount: discount,
+          price_after_discount: price_after_discount,
           tax: tax,
-          price_after_tax: price + tax,
+          price_after_tax: price_after_tax,
         };
       }),
         {

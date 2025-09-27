@@ -137,6 +137,58 @@ const OrderSummary = (props) => {
                       },
                       {
                         component: "Grid",
+                        component_name: "checkout_order_summary_price_grid_item",
+                        props: {
+                          size: {
+                            xs: 12,
+                            lg: 12,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Box",
+                            component_name: "checkout_order_summary_price_box",
+                            props: {
+                              sx: {
+                                display: "flex",
+                                justifyContent: "space-between",
+                                paddingBottom: 2,
+                              },
+                            },
+                            children: [
+                              {
+                                component: "Typography",
+                                component_name: "checkout_order_summary_price_label_typography",
+                                props: {
+                                  variant: "body1",
+                                  sx: {
+                                    fontWeight: "bold",
+                                  },
+                                },
+                                value: __('Discount:', 'acadlix')
+                              },
+                              {
+                                component: "Typography",
+                                component_name: "checkout_order_summary_price_value_typography",
+                                props: {
+                                  variant: "body2",
+                                },
+                                value: currencyPosition(
+                                  props
+                                    ?.watch("order_items")
+                                    ?.reduce((total, c) => total + c?.discount, 0)
+                                )
+                              },
+                            ]
+                          },
+                          {
+                            component: "Divider",
+                            component_name: "checkout_order_summary_price_divider",
+                          },
+                        ]
+                      },
+                      {
+                        component: "Grid",
                         component_name: "checkout_order_summary_tax_grid_item",
                         props: {
                           size: {
