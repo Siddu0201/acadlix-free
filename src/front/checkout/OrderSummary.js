@@ -173,11 +173,14 @@ const OrderSummary = (props) => {
                                 props: {
                                   variant: "body2",
                                 },
-                                value: currencyPosition(
+                                value: `${props
+                                  ?.watch("order_items")
+                                  ?.reduce((total, c) => total + c?.discount, 0) > 0 ? "-" : ""}
+                                  ${currencyPosition(
                                   props
                                     ?.watch("order_items")
                                     ?.reduce((total, c) => total + c?.discount, 0)
-                                )
+                                )}`
                               },
                             ]
                           },
