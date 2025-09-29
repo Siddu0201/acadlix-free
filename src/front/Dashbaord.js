@@ -89,7 +89,7 @@ const Dashbaord = () => {
             }
             <Route path="/profile" element={<Profile />} />
           </Route>
-          <Route path="/course/:orderItemId">
+          <Route path="/course/:courseId">
             <Route index element={<CourseContent />} />
             <Route path="content/:courseSectionContentId" element={<CourseContent />} />
           </Route>

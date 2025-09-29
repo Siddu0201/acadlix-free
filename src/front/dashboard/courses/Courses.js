@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { GetUserOrders } from "@acadlix/requests/front/FrontDashboardRequest";
+import { GetUserCourses } from "@acadlix/requests/front/FrontDashboardRequest";
 import { FaSearch } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomTextField from "@acadlix/components/CustomTextField";
@@ -37,7 +37,7 @@ const Courses = () => {
     page: 0,
   });
 
-  const { isFetching, data, isError, refetch } = GetUserOrders(
+  const { isFetching, data, isError, refetch } = GetUserCourses(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
     paginationModel?.pageSize,
@@ -174,19 +174,17 @@ const Courses = () => {
           <Grid size={{ xs: 12, lg: 12 }}>
             <Typography variant="h3">{__("Something went wrong", "acadlix")}</Typography>
           </Grid>
-        ) : data?.data?.order_items?.length > 0 ?
-          data?.data?.order_items?.map((item, index) => (
+        ) : data?.data?.courses?.length > 0 ?
+          data?.data?.courses?.map((course, index) => (
             <React.Fragment key={index}>
-              {item?.course_id && (
                 <Grid size={{ 
                   xs: 12, 
                   sm: 6, 
                   md: 4, 
                   lg: open ? 4 : 3 
                 }}>
-                  <CourseCard {...item} />
+                  <CourseCard course={course} />
                 </Grid>
-              )}
             </React.Fragment>
           )) : (
             <Grid size={{ xs: 12, lg: 12 }}>
@@ -235,7 +233,7 @@ const CourseCard = (props) => {
           boxShadow: (theme) => theme.shadows[6], // Optional: darker shadow on hover
         },
       }}
-      onClick={(e) => navigate(`/course/${props.id}`)}
+      onClick={(e) => navigate(`/course/${props.course?.ID}`)}
     >
       <CardMedia
         component="img"
@@ -293,7 +291,7 @@ const CourseCard = (props) => {
             marginTop: "auto"
           }}
         >
-          <LinearProgress variant="determinate" value={props?.course_completion_percentage} />
+          <LinearProgress variant="determinate" value={props?.course?.completion_percentage} />
           <Typography
             variant="body2"
             color="text.secondary"
@@ -301,7 +299,7 @@ const CourseCard = (props) => {
               marginTop: 1
             }}
           >
-            {props?.course_completion_percentage}% {__("Complete", "acadlix")}
+            {props?.course?.completion_percentage}% {__("Complete", "acadlix")}
           </Typography>
         </Box>
       </CardContent>

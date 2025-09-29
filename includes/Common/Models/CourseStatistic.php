@@ -13,6 +13,7 @@ if (!class_exists(class: 'CourseStatistic')) {
 
         protected $fillable = [
             'order_item_id',
+            'course_id',
             'course_section_content_id',
             'user_id',
             'is_active',

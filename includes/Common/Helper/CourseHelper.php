@@ -325,30 +325,31 @@ if (!class_exists('CourseHelper')) {
         }
 
 
-        public function handleCourseCompletionEmail($order_item_id = 0)
+        public function handleCourseCompletionEmail($course_id = 0, $user_id = 0)
         {
-            if ($order_item_id == 0) {
+            if ($course_id == 0) {
                 return;
             }
-            $order_item = acadlix()->model()->orderItem()->with(['course'])->find($order_item_id);
+            $course = acadlix()->model()->course()->find($course_id);
+            $user = acadlix()->model()->wpUsers()->find($user_id);
 
-            if (!$order_item || empty($order_item->course_id)) {
+            if (!$course || !$user) {
                 return "";
             }
 
-            $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
+            $course_completion_percentage = $course->getCourseCompletionPercentage($user_id) ?? 0;
             if ($course_completion_percentage != 100) {
                 return "";
             }
             $r = [
-                '$username' => $order_item->order->user->display_name ?? "",
-                '$coursename' => $order_item->course->title ?? $order_item->course_title ?? "",
+                '$username' => $user->display_name ?? "",
+                '$coursename' => $course->post_title ?? "",
                 '$date' => acadlix()->helper()->formatDate(current_time('mysql')),
                 '$year' => date('Y'),
                 '$sitename' => get_bloginfo('name'),
             ];
 
-            $student_email = $order_item->order->user->user_email;
+            $student_email = $user->user_email;
             $acadlix_notify_course_completion_to_student = acadlix()->helper()->acadlix_get_option("acadlix_notify_course_completion_to_student");
             if ($acadlix_notify_course_completion_to_student == "yes" && !empty($student_email)) {
                 $student_email_template = acadlix()->helper()->acadlix_get_email_template("CourseCompletion.html", "student");

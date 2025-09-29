@@ -143,7 +143,6 @@ class Activator
 
     protected function run_db_update()
     {
-        $didUpdate = false;
 
         $installed_ver = (int) acadlix()->helper()->acadlix_get_option('acadlix_db_version') ?: 1;
 
@@ -154,20 +153,34 @@ class Activator
             5 => 'updateV5',
             6 => 'updateV6', // update 1.3.0
             7 => 'updateV7', // update 1.4.0
+            8 => 'updateV8', // update 1.5.0
         ];
 
         foreach ($updates as $version => $method) {
             if ($installed_ver < $version && method_exists($this, $method)) {
+                acadlix()->migration()->createTable(); // function to update schema/data
+                acadlix()->seeder()->seed(); // function to upadte schema/data
+                acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
+                acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
                 $this->$method();
-                $didUpdate = true;
             }
         }
-        if ($didUpdate) {
-            acadlix()->migration()->createTable(); // function to update schema/data
-            acadlix()->seeder()->seed(); // function to upadte schema/data
-            acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
-            acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
-        }
+    }
+
+    protected function updateV8()
+    {
+        /**
+         * In this update modify course statistic
+         */
+
+         $course_statistic = acadlix()->model()->courseStatistic()
+                            ->whereNull('course_id')
+                            ->get();
+         foreach ($course_statistic as $statistic) {
+            $statistic->update([
+                'course_id' => $statistic->order_item->course_id,
+            ]);
+         }
     }
 
     

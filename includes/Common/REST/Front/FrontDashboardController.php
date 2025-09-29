@@ -2,9 +2,8 @@
 
 namespace Yuvayana\Acadlix\Common\REST\Front;
 
-use WP_REST_Server;
 use WP_Error;
-
+use WP_REST_Server;
 
 defined('ABSPATH') || exit();
 
@@ -30,11 +29,35 @@ class FrontDashboardController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/get-user-courses',
+            [
+                [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_user_courses'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/get-user-order-by-id',
             [
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_user_order_by_id'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/get-user-course-by-id',
+            [
+                [
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_user_course_by_id'],
                     'permission_callback' => [$this, 'check_permission'],
                 ],
             ]
@@ -155,15 +178,15 @@ class FrontDashboardController
         $params = $request->get_params();
         $search = $params['search'];
 
-        if ($request->get_param("user_id") == 0) {
+        if ($request->get_param('user_id') == 0) {
             return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
 
         $skip = $params['page'] * $params['pageSize'];
-        $userId = $request->get_param("user_id");
+        $userId = $request->get_param('user_id');
         $order_items = acadlix()->model()->orderItem()->with(['order', 'course'])->whereHas('order', function ($query) use ($userId) {
-            $query->where("user_id", $userId)->where("status", "success");
-        })->orderByDesc("created_at");
+            $query->where('user_id', $userId)->where('status', 'success');
+        })->orderByDesc('created_at');
 
         if (!empty($search)) {
             $order_items->whereHas('course', function ($query) use ($search) {
@@ -175,6 +198,34 @@ class FrontDashboardController
         $res['order_items'] = $order_items->skip($skip)->take($params['pageSize'])->get()->each(function ($orderItem) {
             $orderItem->setAppends(['course_completion_percentage']);
         });
+        return rest_ensure_response($res);
+    }
+
+    public function get_user_courses($request)
+    {
+        $res = [];
+        $params = $request->get_params();
+        $search = $params['search'];
+
+        if ($request->get_param('user_id') == 0) {
+            return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
+        }
+
+        $skip = $params['page'] * $params['pageSize'];
+        $userId = $request->get_param('user_id');
+
+        $courses = acadlix()
+            ->model()
+            ->course()
+            ->getPurchasedCourses(
+                $userId,
+                $search,
+                $skip,
+                $params['pageSize'],
+                ['order_items']
+            );
+        $res['total'] = $courses['total'];
+        $res['courses'] = $courses['courses'];
         return rest_ensure_response($res);
     }
 
@@ -200,9 +251,13 @@ class FrontDashboardController
         $userId = $request->get_param('user_id');
 
         // Retrieve the order item with associated order and course if conditions match
-        $orderItem = acadlix()->model()->orderItem()->with(['order', 'course', 'course.sections'])
+        $orderItem = acadlix()
+            ->model()
+            ->orderItem()
+            ->with(['order', 'course', 'course.sections'])
             ->whereHas('order', function ($query) use ($userId) {
-                $query->where('user_id', $userId)
+                $query
+                    ->where('user_id', $userId)
                     ->where('status', 'success');
             })
             ->find($orderItemId)
@@ -214,11 +269,51 @@ class FrontDashboardController
 
         // Add course statistics if the order item exists
         if ($orderItem) {
-            $res['course_statistic'] = acadlix()->model()->courseStatistic()
+            $res['course_statistic'] = acadlix()
+                ->model()
+                ->courseStatistic()
                 ->where('order_item_id', $orderItemId)
                 ->where('user_id', $userId)
                 ->get();
         }
+
+        return rest_ensure_response($res);
+    }
+
+    public function get_user_course_by_id($request)
+    {
+        $res = [];
+        $required_fields = array('course_id', 'user_id');
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $courseId = $request->get_param('course_id');
+        $userId = $request->get_param('user_id');
+
+        $course = acadlix()
+            ->model()
+            ->course()
+            ->with(['sections', 'sections.contents' => function ($query) use ($userId) {
+                $query->with(['course_statistics' => function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                }]);
+            }])
+            ->find($courseId);
+
+        $course->completion_percentage = $course->getCourseCompletionPercentage($userId);
+
+        $res['course'] = $course;
 
         return rest_ensure_response($res);
     }
@@ -238,11 +333,11 @@ class FrontDashboardController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $lessonId = $request->get_param("lesson_id");
+        $lessonId = $request->get_param('lesson_id');
         $meta = [
-            "hours" => $request->get_param("hours"),
-            "minutes" => $request->get_param("minutes"),
-            "seconds" => $request->get_param("seconds"),
+            'hours' => $request->get_param('hours'),
+            'minutes' => $request->get_param('minutes'),
+            'seconds' => $request->get_param('seconds'),
         ];
 
         $meta = !empty($meta) && is_array($meta)
@@ -258,7 +353,7 @@ class FrontDashboardController
 
     public function post_set_active($request)
     {
-        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+        $required_fields = array('course_id', 'course_section_content_id', 'user_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -272,12 +367,17 @@ class FrontDashboardController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $userId = $request->get_param("user_id");
-        $orderItemId = $request->get_param("order_item_id");
-        $courseSectionContentId = $request->get_param("course_section_content_id");
-        $metaType = $request->get_param("meta_type");
+        $userId = $request->get_param('user_id');
+        $courseId = $request->get_param('course_id');
+        $courseSectionContentId = $request->get_param('course_section_content_id');
+        $metaType = $request->get_param('meta_type');
 
-        $course_statistics = acadlix()->model()->courseStatistic()->where("order_item_id", $orderItemId)->get();
+        $course_statistics = acadlix()
+            ->model()
+            ->courseStatistic()
+            ->where('course_id', $courseId)
+            ->where('user_id', $userId)
+            ->get();
         if ($course_statistics->count() > 0) {
             foreach ($course_statistics as $course_statistic) {
                 $course_statistic->update([
@@ -286,22 +386,29 @@ class FrontDashboardController
             }
         }
 
-        $active_statistic = acadlix()->model()->courseStatistic()->where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)->first();
+        $active_statistic = acadlix()
+            ->model()
+            ->courseStatistic()
+            ->where('course_id', $courseId)
+            ->where('course_section_content_id', $courseSectionContentId)
+            ->where('user_id', $userId)
+            ->first();
         if ($active_statistic) {
             $active_statistic->update([
                 'is_active' => true
             ]);
         } else {
-            $active_statistic = acadlix()->model()->courseStatistic()->create([
-                'order_item_id' => $orderItemId,
-                'course_section_content_id' => $courseSectionContentId,
-                'user_id' => $userId,
-                'is_active' => true,
-                'is_completed' => false,
-                'meta_type' => $metaType,
-            ]);
+            $active_statistic = acadlix()
+                ->model()
+                ->courseStatistic()
+                ->create([
+                    'course_id' => $courseId,
+                    'course_section_content_id' => $courseSectionContentId,
+                    'user_id' => $userId,
+                    'is_active' => true,
+                    'is_completed' => false,
+                    'meta_type' => $metaType,
+                ]);
         }
 
         $res['active_statistic'] = $active_statistic;
@@ -312,7 +419,7 @@ class FrontDashboardController
 
     public function post_mark_as_complete($request)
     {
-        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+        $required_fields = array('course_id', 'course_section_content_id', 'user_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -326,54 +433,63 @@ class FrontDashboardController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $userId = $request->get_param("user_id");
-        $orderItemId = $request->get_param("order_item_id");
-        $courseSectionContentId = $request->get_param("course_section_content_id");
+        $userId = $request->get_param('user_id');
+        $courseId = $request->get_param('course_id');
+        $courseSectionContentId = $request->get_param('course_section_content_id');
         $courseFullCompleted = false;
 
-        $active_statistic = acadlix()->model()->courseStatistic()->where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)
+        $active_statistic = acadlix()
+            ->model()
+            ->courseStatistic()
+            ->where('course_id', $courseId)
+            ->where('course_section_content_id', $courseSectionContentId)
+            ->where('user_id', $userId)
             ->first();
         if ($active_statistic) {
             $active_statistic->update([
                 'is_completed' => true
             ]);
         } else {
-            $active_statistic = acadlix()->model()->courseStatistic()->create([
-                'order_item_id' => $orderItemId,
-                'course_section_content_id' => $courseSectionContentId,
-                'user_id' => $userId,
-                'is_active' => true,
-                'is_completed' => true,
-            ]);
+            $active_statistic = acadlix()
+                ->model()
+                ->courseStatistic()
+                ->create([
+                    'course_id' => $courseId,
+                    'course_section_content_id' => $courseSectionContentId,
+                    'user_id' => $userId,
+                    'is_active' => true,
+                    'is_completed' => true,
+                ]);
         }
 
         // Save complete date
         if ($active_statistic) {
-            acadlix()->model()->userActivityMeta()
-            ->create([
-                'user_id' => $userId,
-                'type' => 'course_statistic',
-                'type_id' => $active_statistic->id,
-                'meta_key' => 'course_statistic_complete_time',
-                'meta_value' => time(),
-            ]);
+            acadlix()
+                ->model()
+                ->userActivityMeta()
+                ->create([
+                    'user_id' => $userId,
+                    'type' => 'course_statistic',
+                    'type_id' => $active_statistic->id,
+                    'meta_key' => 'course_statistic_complete_time',
+                    'meta_value' => time(),
+                ]);
         }
 
-        $order_item = acadlix()->model()->orderItem()->with(['course', 'course.sections'])
-            ->find($orderItemId);
+        $course = acadlix()
+            ->model()
+            ->course()
+            ->find($courseId);
 
         $course_completion_percentage = 0;
-        if ($order_item && !empty($order_item->course_id)) {
-            $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
+        if ($course) {
+            $course_completion_percentage = $course->getCourseCompletionPercentage($userId) ?? 0;
             if ($course_completion_percentage == 100) {
                 $courseFullCompleted = true;
                 // send email for course completion
-                acadlix()->helper()->course()->handleCourseCompletionEmail($orderItemId);
+                acadlix()->helper()->course()->handleCourseCompletionEmail($courseId, $userId);
             }
         }
-
 
         return rest_ensure_response([
             'success' => true,
@@ -385,7 +501,7 @@ class FrontDashboardController
 
     public function post_mark_as_incomplete($request)
     {
-        $required_fields = array('order_item_id', 'course_section_content_id', 'user_id');
+        $required_fields = array('course_id', 'course_section_content_id', 'user_id');
 
         foreach ($required_fields as $field) {
             $param = $request->get_param($field);
@@ -399,13 +515,16 @@ class FrontDashboardController
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
         }
-        $userId = $request->get_param("user_id");
-        $orderItemId = $request->get_param("order_item_id");
-        $courseSectionContentId = $request->get_param("course_section_content_id");
+        $userId = $request->get_param('user_id');
+        $courseId = $request->get_param('course_id');
+        $courseSectionContentId = $request->get_param('course_section_content_id');
 
-        $active_statistic = acadlix()->model()->courseStatistic()->where("order_item_id", $orderItemId)
-            ->where("course_section_content_id", $courseSectionContentId)
-            ->where("user_id", $userId)
+        $active_statistic = acadlix()
+            ->model()
+            ->courseStatistic()
+            ->where('course_id', $courseId)
+            ->where('course_section_content_id', $courseSectionContentId)
+            ->where('user_id', $userId)
             ->first();
         if ($active_statistic) {
             $active_statistic->update([
@@ -413,7 +532,7 @@ class FrontDashboardController
             ]);
         } else {
             $active_statistic = acadlix()->model()->courseStatistic()->create([
-                'order_item_id' => $orderItemId,
+                'course_id' => $courseId,
                 'course_section_content_id' => $courseSectionContentId,
                 'user_id' => $userId,
                 'is_active' => true,
@@ -422,21 +541,25 @@ class FrontDashboardController
         }
         // Save incomplete date
         if ($active_statistic) {
-            acadlix()->model()->userActivityMeta()
-            ->create([
-                'user_id' => $userId,
-                'type' => 'course_statistic',
-                'type_id' => $active_statistic->id,
-                'meta_key' => 'course_statistic_incomplete_time',
-                'meta_value' => time(),
-            ]);
+            acadlix()
+                ->model()
+                ->userActivityMeta()
+                ->create([
+                    'user_id' => $userId,
+                    'type' => 'course_statistic',
+                    'type_id' => $active_statistic->id,
+                    'meta_key' => 'course_statistic_incomplete_time',
+                    'meta_value' => time(),
+                ]);
         }
 
-        $order_item = acadlix()->model()->orderItem()->with(['course', 'course.sections'])
-            ->find($orderItemId);
+        $course = acadlix()
+            ->model()
+            ->course()
+            ->find($courseId);
         $course_completion_percentage = 0;
-        if ($order_item && !empty($order_item->course_id)) {
-            $course_completion_percentage = $order_item->course_completion_percentage ?? 0;
+        if ($course && !empty($course->id)) {
+            $course_completion_percentage = $course->getCourseCompletionPercentage($userId) ?? 0;
         }
         return rest_ensure_response([
             'success' => true,
@@ -449,11 +572,11 @@ class FrontDashboardController
     {
         $res = [];
         $params = $request->get_params();
-        if ($request->get_param("user_id") == 0) {
+        if ($request->get_param('user_id') == 0) {
             return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $skip = $params['page'] * $params['pageSize'];
-        $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->where("user_id", $request->get_param("user_id"))->orderBy('created_at', 'desc');
+        $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->where('user_id', $request->get_param('user_id'))->orderBy('created_at', 'desc');
         $res['total'] = $order->count();
         $res['orders'] = $order->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);
@@ -463,41 +586,43 @@ class FrontDashboardController
     {
         $res = [];
         $params = $request->get_params();
-        if ($request->get_param("user_id") == 0) {
+        if ($request->get_param('user_id') == 0) {
             return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
         $skip = $params['page'] * $params['pageSize'];
-        $wishlist = acadlix()->model()->userActivityMeta()
-                    ->ofCourse()
-                    ->ofCourseWishlist()
-                    ->where("user_id", $request->get_param("user_id"))
-                    ->orderBy('created_at', 'desc');
+        $wishlist = acadlix()
+            ->model()
+            ->userActivityMeta()
+            ->ofCourse()
+            ->ofCourseWishlist()
+            ->where('user_id', $request->get_param('user_id'))
+            ->orderBy('created_at', 'desc');
         $res['total'] = $wishlist->count();
         $res['wishlist'] = $wishlist
-                        ->skip($skip)
-                        ->take($params['pageSize'])
-                        ->get()
-                        ->map(function ($item) {
-                            // Safely enrich only if type is 'course'
-                            if ($item->type === 'course') {
-                                $course = acadlix()->model()->course()->find($item->type_id);
-                                if ($course) {
-                                    $item->course = $course;
-                                    $item->permalink = get_permalink($course->ID);
-                                }
-                            }
-                            return $item;
-                        });
+            ->skip($skip)
+            ->take($params['pageSize'])
+            ->get()
+            ->map(function ($item) {
+                // Safely enrich only if type is 'course'
+                if ($item->type === 'course') {
+                    $course = acadlix()->model()->course()->find($item->type_id);
+                    if ($course) {
+                        $item->course = $course;
+                        $item->permalink = get_permalink($course->ID);
+                    }
+                }
+                return $item;
+            });
         return rest_ensure_response($res);
     }
 
     public function get_user_profile($request)
     {
         $res = [];
-        if ($request->get_param("user_id") == 0) {
+        if ($request->get_param('user_id') == 0) {
             return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
-        $res['user'] = acadlix()->model()->wpUsers()->with('user_metas')->where('ID', $request->get_param("user_id"))->first();
+        $res['user'] = acadlix()->model()->wpUsers()->with('user_metas')->where('ID', $request->get_param('user_id'))->first();
         return rest_ensure_response($res);
     }
 
@@ -517,9 +642,9 @@ class FrontDashboardController
         }
 
         // Handle the upload using WordPress functions
-        require_once(ABSPATH . 'wp-admin/includes/file.php');
-        require_once(ABSPATH . 'wp-admin/includes/media.php');
-        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        require_once (ABSPATH . 'wp-admin/includes/file.php');
+        require_once (ABSPATH . 'wp-admin/includes/media.php');
+        require_once (ABSPATH . 'wp-admin/includes/image.php');
 
         $upload_overrides = array(
             'test_form' => false
@@ -547,7 +672,7 @@ class FrontDashboardController
         $image_url = wp_get_attachment_url($attachment_id);
 
         // Update user image
-        update_user_meta($request->get_param("user_id"), '_acadlix_profile_photo', $image_url);
+        update_user_meta($request->get_param('user_id'), '_acadlix_profile_photo', $image_url);
         return rest_ensure_response(array('success' => true, 'url' => $image_url));
     }
 
@@ -555,13 +680,13 @@ class FrontDashboardController
     {
         $res = [];
         $params = $request->get_json_params();
-        $user_id = $request->get_param("user_id");
+        $user_id = $request->get_param('user_id');
         if ($user_id == 0) {
             return new WP_Error('no_data_found', __('Required user_id', 'acadlix'), array('status' => 404));
         }
         wp_update_user([
             'ID' => $user_id,
-            'display_name' => sanitize_text_field($params['first_name']) . " " . sanitize_text_field($params['last_name']),
+            'display_name' => sanitize_text_field($params['first_name']) . ' ' . sanitize_text_field($params['last_name']),
             'user_url' => sanitize_text_field($params['user_url'])
         ]);
 

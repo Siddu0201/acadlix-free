@@ -28,6 +28,29 @@ export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10, search = '' 
     return result;
 }
 
+export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10, search = '' ) => {
+    const instance = useInstance();
+    const result = useQuery({
+        queryKey: ["getUserCourses", user_id, page, pageSize, search],
+        queryFn: () => {
+            return instance.get(`${base}/get-user-courses`, {
+                params: {
+                    user_id: user_id,
+                    page: page,
+                    pageSize: pageSize,
+                    search: search,
+                    _t: Date.now(),
+                },
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
+            });
+        }
+    });
+    handleQueryError(result);
+    return result;
+}
+
 export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
     const instance = useInstance();
     const result = useQuery({
@@ -36,6 +59,27 @@ export const GetUserOrderById = (order_item_id = 0, user_id = 0) => {
             return instance.get(`${base}/get-user-order-by-id`, {
                 params: {
                     order_item_id: order_item_id,
+                    user_id: user_id,
+                    _t: Date.now(),
+                },
+                headers: { 
+                    'X-WP-Nonce': acadlixOptions.nonce 
+                },
+            });
+        }
+    });
+    handleQueryError(result);
+    return result;
+}
+
+export const GetUserCourseById = (course_id = 0, user_id = 0) => {
+    const instance = useInstance();
+    const result = useQuery({
+        queryKey: ["getUserCourseById", course_id, user_id],
+        queryFn: () => {
+            return instance.get(`${base}/get-user-course-by-id`, {
+                params: {
+                    course_id: course_id,
                     user_id: user_id,
                     _t: Date.now(),
                 },

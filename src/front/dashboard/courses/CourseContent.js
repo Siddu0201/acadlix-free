@@ -12,11 +12,10 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import CourseOverview from "./contentTabs/CourseOverview";
 import CourseSidebar from "./contentTabs/CourseSidebar";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  GetUserOrderById,
+  GetUserCourseById,
   PostMarkAsComplete,
   PostMarkAsIncomplete,
   PostSetActive,
@@ -32,7 +31,6 @@ import {
   strtotime
 } from "@acadlix/helpers/util";
 import CourseCompletionModal from "./modals/CourseCompletionModal";
-import toast from "react-hot-toast";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -52,7 +50,7 @@ const CourseContent = () => {
     },
   });
 
-  const { orderItemId, courseSectionContentId } = useParams();
+  const { courseId, courseSectionContentId } = useParams();
 
   const navigate = useNavigate();
 
@@ -75,7 +73,7 @@ const CourseContent = () => {
         };
       })
     );
-    navigate(`/course/${methods?.watch("order_item_id")}/content/${id}`);
+    navigate(`/course/${methods?.watch("course_id")}/content/${id}`);
 
     const sectionIndex = methods?.watch("sections")?.findIndex((s) => s?.content?.find((c) => c?.id === id));
     const contentIndex = methods?.watch("sections")?.[sectionIndex]?.content?.findIndex((c) => c?.id === id);
@@ -100,7 +98,7 @@ const CourseContent = () => {
     }
     activeMutation?.mutate(
       {
-        order_item_id: orderItemId,
+        course_id: courseId,
         course_section_content_id: id,
         user_id: acadlixOptions?.user?.ID,
         meta_type: metaType,
@@ -154,52 +152,37 @@ const CourseContent = () => {
     );
   };
 
-  const { data, isFetching } = GetUserOrderById(
-    orderItemId,
+  const { data, isFetching } = GetUserCourseById(
+    courseId,
     acadlixOptions?.user?.ID
   );
 
   React.useEffect(() => {
-    if (data?.data?.order_item) {
-      let item = data?.data?.order_item;
-      methods?.setValue("order_item_id", item?.id, { shouldDirty: true });
-      methods?.setValue("course_id", item?.course_id, { shouldDirty: true });
-      methods?.setValue("order_id", item?.order_id, { shouldDirty: true });
-      methods?.setValue("course_completion_percentage", item?.course_completion_percentage, { shouldDirty: true });
-      methods?.setValue("course_title", item?.course?.post_title, {
+    if (data?.data?.course) {
+      let course = data?.data?.course;
+      methods?.setValue("course_id", course?.ID, { shouldDirty: true });
+      methods?.setValue("course_completion_percentage", course?.completion_percentage, { shouldDirty: true });
+      methods?.setValue("course_title", course?.post_title, {
         shouldDirty: true,
       });
-      methods?.setValue("course_content", item?.course?.rendered_post_content, {
+      methods?.setValue("course_content", course?.rendered_post_content, {
         shouldDirty: true,
       });
       let i = 0;
-      const sections = item?.course?.sections?.map((s, index) => {
+      const sections = course?.sections?.map((s, index) => {
         let open = false;
         if (courseSectionContentId === undefined || courseSectionContentId == 0) {
-          if (data?.data?.course_statistic?.length > 0) {
-            if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
               open =
                 s?.contents?.find(
                   (c) =>
                     c?.ID ==
-                    data?.data?.course_statistic?.find((cs) => cs?.is_active)
+                    c?.course_statistics?.find((cs) => cs?.is_active)
                       ?.course_section_content_id
                 )
                   ? true
                   : false;
-            } else {
-              open = s?.contents?.find(
-                (c) => c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id
-              ) ? true : false;
-            }
-          } else {
-            open = index === 0 ? true : false;
-          }
         } else {
-          open =
-            s?.contents?.find((c) => c?.ID == courseSectionContentId)
-              ? true
-              : false;
+          open = index === 0 ? true : false;
         }
         return {
           id: s?.ID ?? null,
@@ -210,33 +193,14 @@ const CourseContent = () => {
           active: open,
           content:
             s?.contents?.map((c, c_index) => {
-              let active = false;
-              if (courseSectionContentId === undefined || courseSectionContentId == 0) {
-                if (data?.data?.course_statistic?.length > 0) {
-                  if (data?.data?.course_statistic?.find((cs) => cs?.is_active)) {
-                    active =
-                      c?.ID ==
-                      data?.data?.course_statistic?.find((cs) => cs?.is_active)
-                        ?.course_section_content_id;
-                  } else {
-                    active = c?.ID == data?.data?.course_statistic?.[0]?.course_section_content_id;
-                  }
-                } else {
-                  active = c_index === 0 ? true : false;
-                }
-              } else {
-                active = c?.ID == courseSectionContentId;
-              }
-              const statistic = data?.data?.course_statistic?.find(
-                (cs) => cs?.course_section_content_id == c?.ID
-              ) ?? {};
+              const statistic = c?.course_statistics?.length > 0 ? c?.course_statistics?.[0] : {};
               return {
                 i: i++,
                 id: c?.ID ?? null,
                 sort: c?.menu_order ?? "",
                 content_type_id: c?.contentable?.id ?? null,
                 course_statistic_id: statistic?.id ?? null,
-                is_active: active,
+                is_active: statistic?.is_active,
                 is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
                 type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
                 lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
@@ -339,7 +303,7 @@ const CourseContent = () => {
       const filteredSection = window?.acadlixHooks?.applyFilters?.(
         "acadlix.front.courseContent.sections",
         sections,
-        item?.course,
+        course,
         data?.data?.course_statistic,
         courseSectionContentId
       ) ?? sections;
@@ -424,7 +388,7 @@ const CourseContent = () => {
   ) => {
     completeMutation?.mutate(
       {
-        order_item_id: methods?.watch("order_item_id"),
+        course_id: methods?.watch("course_id"),
         course_section_content_id: course_section_content_id,
         user_id: acadlixOptions?.user?.ID,
       },
@@ -470,7 +434,7 @@ const CourseContent = () => {
   ) => {
     incompleteMutation?.mutate(
       {
-        order_item_id: methods?.watch("order_item_id"),
+        course_id: methods?.watch("course_id"),
         course_section_content_id: course_section_content_id,
         user_id: acadlixOptions?.user?.ID,
       },

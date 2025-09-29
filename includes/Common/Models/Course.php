@@ -11,11 +11,13 @@ if (!class_exists('Course')) {
     {
         protected $table;
         protected $primaryKey = 'ID';
+
         protected $with = [
             'author',
             'metas',
             // 'sections',
         ];
+
         protected $appends = [
             'rendered_post_content',
             'rendered_metas',
@@ -107,11 +109,14 @@ if (!class_exists('Course')) {
 
         public function getStudentCountAttribute()
         {
-            return acadlix()->model()->orderItem()->with(["order"])
-            ->where("course_id", $this->ID)
-            ->whereHas("order", function ($query) {
-                $query->where("status", "success");
-            })->count();
+            return acadlix()
+                ->model()
+                ->orderItem()
+                ->where('course_id', $this->ID)
+                ->whereHas('order', function ($query) {
+                    $query->where('status', 'success');
+                })
+                ->count();
         }
 
         /**
@@ -119,7 +124,6 @@ if (!class_exists('Course')) {
          *
          * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
          */
-
         public function author()
         {
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'post_author', 'ID');
@@ -170,8 +174,11 @@ if (!class_exists('Course')) {
             }
 
             // Delete other course related data like user activity meta
-            acadlix()->model()->userActivityMeta()->ofCourse()
-                ->where("type_id", $postId)
+            acadlix()
+                ->model()
+                ->userActivityMeta()
+                ->ofCourse()
+                ->where('type_id', $postId)
                 ->delete();
 
             // Remove course id from order items
@@ -183,19 +190,106 @@ if (!class_exists('Course')) {
             return true;
         }
 
-
         public function sections()
         {
-            return $this->hasMany(acadlix()->model()->courseSection(), 'post_parent', 'ID')
+            return $this
+                ->hasMany(acadlix()->model()->courseSection(), 'post_parent', 'ID')
                 ->ofCourseSection()
-                ->orderBy("menu_order");
+                ->orderBy('menu_order');
         }
 
+        public function order_items()
+        {
+            return $this->hasMany(acadlix()->model()->orderItem(), 'course_id', 'ID');
+        }
 
-        // public function cart()
-        // {
-        //     return $this->hasOne(acadlix()->model()->courseCart(), 'course_id', 'id');
-        // }
+        public function cart()
+        {
+            return $this->hasMany(acadlix()->model()->courseCart(), 'course_id', 'id');
+        }
+
+        public function isPurchasedBy($userId)
+        {
+            return acadlix()
+                ->model()
+                ->orderItem()
+                ->where('course_id', $this->ID)
+                ->whereHas('order', function ($q) use ($userId) {
+                    $q
+                        ->where('user_id', $userId)
+                        ->where('status', 'success');
+                })
+                ->exists();
+        }
+
+        public function getPurchasedCourses($userId, $search = null, $skip = 0, $take = 10, $with = [])
+        {
+            // Base query for one-time purchases
+            $query = self::whereHas('order_items', function ($oi) use ($userId) {
+                $oi
+                    ->whereHas('order', function ($q) use ($userId) {
+                        $q
+                            ->where('user_id', $userId)
+                            ->where('status', 'success');
+                    })
+                    ->whereNull('subscription_id');  // exclude subscription items
+            });
+
+            // Apply eager loading if any
+            if (!empty($with)) {
+                $query->with($with);
+            }
+
+            // Apply search before fetching
+            if (!empty($search)) {
+                $query->where('post_title', 'like', "%$search%");
+            }
+
+            // Get all matching courses
+            $courses = $query->get();
+
+            // Remove duplicates
+            $courses = $courses->unique('ID')->values();
+
+            // Get total count before pagination
+            $total = $courses->count();
+
+            // Apply skip/take for pagination
+            $paginatedCourses = $courses->slice($skip, $take);
+
+            // Add completion percentage
+            $paginatedCourses->each(function ($course) use ($userId) {
+                $course->completion_percentage = $course->getCourseCompletionPercentage($userId);
+            });
+
+            return [
+                'total' => $total,
+                'courses' => $paginatedCourses,
+            ];
+        }
+
+        public function course_statistics()
+        {
+            return $this->hasMany(acadlix()->model()->courseStatistic(), 'course_id', 'ID');
+        }
+
+        public function getCourseCompletionPercentage($userId)
+        {
+            $statistics = $this->course_statistics()->where('user_id', $userId)->get();
+
+            if ($statistics->isEmpty()) {
+                return 0;
+            }
+
+            $total_count = $this->sections->flatMap->contents->count();
+            if ($total_count === 0) {
+                return 0;
+            }
+
+            $completed_count = $statistics->where('is_completed', 1)->count();
+
+            return round(($completed_count / $total_count) * 100, 0);
+        }
 
         // public function wishlist()
         // {

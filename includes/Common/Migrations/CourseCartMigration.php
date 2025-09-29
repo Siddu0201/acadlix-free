@@ -56,7 +56,7 @@ if (!class_exists('CourseCartMigration')) {
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_id'),
             );
 
-            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'subscription_id')) {
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'subscription_plan_id')) {
                 Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
                     $table->unsignedBigInteger('subscription_plan_id')->nullable()->after('user_id');
                 });

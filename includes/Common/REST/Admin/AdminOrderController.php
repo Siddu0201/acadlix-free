@@ -5,6 +5,7 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
+use Yuvayana\Acadlix\Common\Models\Course;
 
 defined('ABSPATH') || exit();
 
@@ -230,12 +231,18 @@ class AdminOrderController
         foreach ($order_items as $order_item) {
             if (!$order_item['course_id'])
                 continue;
-            $alreadyPurchased = acadlix()->model()->orderItem()->with('order')->whereHas('order', function ($query) use ($user_id) {
-                $query->ofSuccess()->where('user_id', $user_id);
-            })->where('course_id', $order_item['course_id'])->exists();
-            if ($alreadyPurchased) {
+            $course = acadlix()->model()->course()->find($order_item['course_id']);
+            if ($course->isPurchasedBy($user_id)) {
                 /* translators: %s is the course title */
-                $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $order_item['course_title']);
+                $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
+            }else{
+                $cartItem = acadlix()->model()->courseCart()
+                    ->where('user_id', $user_id)
+                    ->where('course_id', $order_item['course_id'])
+                    ->first();
+                if ($cartItem && $params['status'] == 'success') {
+                    $cartItem->delete();
+                }
             }
         }
 
@@ -325,15 +332,17 @@ class AdminOrderController
         foreach ($order_items as $order_item) {
             if (!$order_item['course_id'])
                 continue;
-            $alreadyPurchased = acadlix()->model()->orderItem()->with('order')
-                ->whereHas('order', function ($query) use ($user_id, $orderId) {
-                    $query->ofSuccess()->where('user_id', $user_id)->whereNot('id', $orderId);
-                })
-                ->where('course_id', $order_item['course_id'])
-                ->exists();
-            if ($alreadyPurchased) {
+            $course = acadlix()->model()->course()->find($order_item['course_id']);
+            if ($course->isPurchasedBy($user_id)) {
                 /* translators: %s is the course title */
-                $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $order_item['course_title']);
+                $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
+            }
+            $cartItem = acadlix()->model()->courseCart()
+                        ->where('user_id', $user_id)
+                        ->where('course_id', $order_item['course_id'])
+                        ->first();
+            if ($cartItem && $params['status'] == 'success') {
+                $cartItem->delete();
             }
         }
 

@@ -14,6 +14,7 @@ if (!class_exists('OrderItem')) {
         protected $fillable = [
             'course_id',
             'order_id',
+            'subscription_id',
             'course_title',
             'quantity',
             'price',

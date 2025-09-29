@@ -21,6 +21,7 @@ if (!class_exists('OrderItemMigration')) {
                         ->references('id')
                         ->on(acadlix()->helper()->acadlix_table_prefix('orders'))
                         ->onDelete('cascade');
+                    $table->unsignedBigInteger('subscription_id')->nullable();
                     $table->string('course_title')->nullable();
                     $table->integer('quantity')->nullable()->default(1);
                     $table->float('price')->nullable()->default(0);
@@ -47,6 +48,12 @@ if (!class_exists('OrderItemMigration')) {
                 acadlix()->helper()->acadlix_table_prefix('orders'),
                 acadlix()->helper()->acadlix_fk_prefix($this->_table_name, 'order_id'),
             );
+
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'subscription_id')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->unsignedBigInteger('subscription_id')->nullable()->after('order_id');
+                });
+            }
         }
     }
 }

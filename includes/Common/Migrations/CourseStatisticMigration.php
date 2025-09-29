@@ -20,6 +20,7 @@ if (!class_exists(('CourseStatisticMigration'))) {
                         ->references('id')
                         ->on(acadlix()->helper()->acadlix_table_prefix('order_items'))
                         ->onDelete('cascade');
+                    $table->unsignedBigInteger('course_id')->nullable();
                     $table->bigInteger('course_section_content_id')->nullable();
                     $table->integer('user_id')->unsigned()->nullable()->default(0);
                     $table->boolean('is_active')->nullable()->default(false); 
@@ -82,6 +83,12 @@ if (!class_exists(('CourseStatisticMigration'))) {
                 'user_id', 
                 acadlix()->helper()->acadlix_index_prefix($this->_table_name, 'user_id'), 
             );
+
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'course_id')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->unsignedBigInteger('course_id')->nullable()->after('order_item_id');
+                });
+            }
         }
     }
 }
