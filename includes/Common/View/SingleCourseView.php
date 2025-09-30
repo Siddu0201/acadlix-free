@@ -310,6 +310,8 @@ class SingleCourseView
         $duration = $this->course->rendered_metas['duration']['duration'] ?? 0;
         $duration_type = $this->course->rendered_metas['duration']['type'] ?? '';
         $difficulty_level = $this->course->rendered_metas['difficulty_level'] ?? '';
+        $tax = $this->course->rendered_metas['tax'] ?? 0;
+        $tax_percent = $this->course->rendered_metas['tax_percent'] ?? 0;
         ?>
             <style>
                 .<?php echo esc_attr($unique_class); ?> {
@@ -393,6 +395,27 @@ class SingleCourseView
                         [
                             'component' => 'div',
                             'value' => esc_html($this->course->student_count),
+                        ]
+                    ]
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-course-aside-details-option'
+                    ],
+                    'children' => [
+                        [
+                            'component' => 'div',
+                            'children' => [
+                                [
+                                    'component' => 'strong',
+                                    'value' => esc_html__('Tax:', 'acadlix'),
+                                ]
+                            ]
+                        ],
+                        [
+                            'component' => 'div',
+                            'value' => esc_html($tax ? $tax_percent : 0) . '%',
                         ]
                     ]
                 ]
@@ -501,7 +524,7 @@ class SingleCourseView
         ], $this->course);
     }
 
-    protected function acadlix_course_wishlist($type = "desktop")
+    protected function acadlix_course_wishlist($type = 'desktop')
     {
         $wishlist = [];
         if (is_user_logged_in() && acadlix()->helper()->acadlix_get_option('acadlix_disable_wishlist') === 'no') {
@@ -555,7 +578,7 @@ class SingleCourseView
         return $wishlist;
     }
 
-    protected function acadlix_course_button($type = "desktop")
+    protected function acadlix_course_button($type = 'desktop')
     {
         $course = $this->course;
         $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
@@ -606,7 +629,7 @@ class SingleCourseView
      *
      * @return array The HTML for the course action buttons.
      */
-    protected function acadlix_course_action_buttons($type = "desktop"): array
+    protected function acadlix_course_action_buttons($type = 'desktop'): array
     {
         $course = $this->course;
 
