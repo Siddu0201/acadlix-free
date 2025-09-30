@@ -1141,6 +1141,74 @@ if (!class_exists('Helper')) {
             }
         }
 
+        public function acadlix_add_to_date($date = '', $format = 'Y-m-d H:i:s', $number = 1, $type = 'day')
+        {
+            // Convert given date to timestamp (WP timezone aware)
+            if (empty($date)) {
+                $date = current_time('timestamp');
+            }
+            $timestamp = is_numeric($date) ? (int) $date : strtotime($date);
+
+            if (!$timestamp) {
+                return false;
+            }
+
+            switch (strtolower($type)) {
+                case 'day':
+                case 'days':
+                    $timestamp += $number * DAY_IN_SECONDS;
+                    break;
+
+                case 'week':
+                case 'weeks':
+                    $timestamp += $number * WEEK_IN_SECONDS;
+                    break;
+
+                case 'month':
+                case 'months':
+                    $timestamp = strtotime("+{$number} month", $timestamp);
+                    break;
+
+                case 'year':
+                case 'years':
+                    $timestamp = strtotime("+{$number} year", $timestamp);
+                    break;
+
+                default:
+                    return false;
+            }
+
+            $tz_string = $this->acadlix_get_option('timezone_string') ?: 'UTC';
+            $timezone = new \DateTimeZone($tz_string);
+
+            return wp_date($format, $timestamp, $timezone);
+        }
+
+        public function acadlix_convert_to_unit_price($amount = 0)
+        {
+            // Convert null/empty to string
+            if ($amount === null) {
+                $amount = '0';
+            }
+
+            // Get decimal places (default 2)
+            $decimal_places = $this->acadlix_get_option('acadlix_number_of_decimals', 2);
+            $multiplier = pow(10, $decimal_places);
+
+            // Get thousand separator (default empty string)
+            $thousand_separator = $this->acadlix_get_option('acadlix_thousand_separator', '');
+
+            // Remove thousand separator from string if present
+            if ($thousand_separator !== '') {
+                $amount = str_replace($thousand_separator, '', strval($amount));
+            }
+
+            // Convert to number and multiply
+            $amount = floatval($amount);
+
+            return round($amount * $multiplier);
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {
