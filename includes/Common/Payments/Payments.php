@@ -12,10 +12,10 @@ defined('ABSPATH') || exit();
 
 class Payments
 {
-    private $_razorpay;
-    private $_paypal;
-    private $_payu;
-    private $_stripe;
+    protected $_razorpay;
+    protected $_paypal;
+    protected $_payu;
+    protected $_stripe;
 
     public function razorpay(): Razorpay
     {
