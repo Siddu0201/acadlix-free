@@ -16,15 +16,15 @@ class PayU implements PaymentGatewayInterface
     const REDIRECT_URL_LIVE = 'https://secure.payu.in';
     const API_URL_SANDBOX = 'https://test.payu.in';
     const API_URL_LIVE = 'https://info.payu.in';
-    private bool $is_payu_active;
-    private string $payu_url;
-    private string $redirect_url;
-    private bool $sandbox;
-    private string $merchant_key;
-    private string $salt;
-    private float $amount;
-    private string $currency;
-    private array $billing_info;
+    protected bool $is_payu_active;
+    protected string $payu_url;
+    protected string $redirect_url;
+    protected bool $sandbox;
+    protected string $merchant_key;
+    protected string $salt;
+    protected float $amount;
+    protected string $currency;
+    protected array $billing_info;
 
     public function __construct()
     {
@@ -61,7 +61,7 @@ class PayU implements PaymentGatewayInterface
         return $this;
     }
 
-    private function verifyPayment($payu_order_id)
+    protected function verifyPayment($payu_order_id)
     {
         $command = 'verify_payment';
 
@@ -106,7 +106,7 @@ class PayU implements PaymentGatewayInterface
         throw new Exception('Something went wrong. Please try again later.');
     }
 
-    private function getOutputField()
+    protected function getOutputField()
     {
         $first_name = $this->billing_info['first_name'] ?? '';
         $last_name = $this->billing_info['last_name'] ?? '';
@@ -163,7 +163,7 @@ class PayU implements PaymentGatewayInterface
             : null;
     }
 
-    private function successOrder($order)
+    protected function successOrder($order)
     {
         if (!$order) {
             throw new Exception('Order not found');
@@ -243,7 +243,7 @@ class PayU implements PaymentGatewayInterface
         }
     }
 
-    private function orderCapture($payu_txn_id)
+    protected function orderCapture($payu_txn_id)
     {
         try {
             if (!$payu_txn_id) {

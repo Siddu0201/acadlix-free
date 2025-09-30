@@ -11,15 +11,15 @@ class Stripe implements PaymentGatewayInterface
 {
     const CONNECTION_TIMEOUT = 30;
     const API_URL = 'https://api.stripe.com';
-    private bool $is_stripe_active;
-    private string $stripe_url;
-    private bool $sandbox;
-    private string $public_key;
-    private string $secret_key;
-    private string $webhook_signature_key;
-    private float $amount;
-    private string $currency;
-    private array $billing_info;
+    protected bool $is_stripe_active;
+    protected string $stripe_url;
+    protected bool $sandbox;
+    protected string $public_key;
+    protected string $secret_key;
+    protected string $webhook_signature_key;
+    protected float $amount;
+    protected string $currency;
+    protected array $billing_info;
 
     public function __construct()
     {
@@ -58,14 +58,14 @@ class Stripe implements PaymentGatewayInterface
         return $this;
     }
 
-    private function get_request_headers(): array
+    protected function get_request_headers(): array
     {
         return [
             'Authorization' => 'Bearer ' . $this->secret_key,
         ];
     }
 
-    private function createConnection($url, $method, $data = [], $retry = 1)
+    protected function createConnection($url, $method, $data = [], $retry = 1)
     {
         $args = [
             'method' => $method,
@@ -97,7 +97,7 @@ class Stripe implements PaymentGatewayInterface
         return $result;
     }
 
-    private function createCheckoutSession(): array|object|null
+    protected function createCheckoutSession(): array|object|null
     {
         $url = $this->stripe_url . '/v1/checkout/sessions';
         $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token={CHECKOUT_SESSION_ID}';
@@ -120,13 +120,13 @@ class Stripe implements PaymentGatewayInterface
         return $this->createConnection($url, 'POST', $session_data);
     }
 
-    private function retriveCheckoutSession($session_id): array|object|null
+    protected function retriveCheckoutSession($session_id): array|object|null
     {
         $url = $this->stripe_url . '/v1/checkout/sessions/' . $session_id;
         return $this->createConnection($url, 'GET');
     }
 
-    private function retrivePaymentIntent($payment_intent_id)
+    protected function retrivePaymentIntent($payment_intent_id)
     {
         $url = $this->stripe_url . '/v1/payment_intents/' . $payment_intent_id;
         return $this->createConnection($url, 'GET');
@@ -143,7 +143,7 @@ class Stripe implements PaymentGatewayInterface
             : null;
     }
 
-    private function successOrder($order, $payment_intent_id)
+    protected function successOrder($order, $payment_intent_id)
     {
         if (!$order) {
             throw new Exception('Order not found');
@@ -249,7 +249,7 @@ class Stripe implements PaymentGatewayInterface
     }
 
 
-    private function orderCapture($stripe_order_id)
+    protected function orderCapture($stripe_order_id)
     {
         try {
             if (empty($stripe_order_id)) {

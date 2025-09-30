@@ -13,14 +13,14 @@ class Razorpay implements PaymentGatewayInterface
 {
     const API_URL = 'https://api.razorpay.com';
     const CONNECTION_TIMEOUT = 30;
-    private bool $is_razorpay_active;
-    private string $razorpay_url;
-    private string $client_id;
-    private string $secret_key;
-    private string $webhook_secret;
-    private float $amount;
-    private string $currency;
-    private array $billing_info;
+    protected bool $is_razorpay_active;
+    protected string $razorpay_url;
+    protected string $client_id;
+    protected string $secret_key;
+    protected string $webhook_secret;
+    protected float $amount;
+    protected string $currency;
+    protected array $billing_info;
 
     public function __construct()
     {
@@ -58,7 +58,7 @@ class Razorpay implements PaymentGatewayInterface
         return $this;
     }
 
-    private function get_request_headers(): array
+    protected function get_request_headers(): array
     {
         return [
             'Authorization' => 'Basic ' . base64_encode($this->client_id . ':' . $this->secret_key),
@@ -66,7 +66,7 @@ class Razorpay implements PaymentGatewayInterface
         ];
     }
 
-    private function createConnection($url, $method, $data = [], $retry = 1)
+    protected function createConnection($url, $method, $data = [], $retry = 1)
     {
         $args = [
             'method' => $method,
@@ -96,7 +96,7 @@ class Razorpay implements PaymentGatewayInterface
         return $result;
     }
 
-    private function createRazorpayOrder()
+    protected function createRazorpayOrder()
     {
         $body = [
             'receipt' => uniqid('order_'),
@@ -116,7 +116,7 @@ class Razorpay implements PaymentGatewayInterface
         throw new Exception('Something went wrong. Please try again later.');
     }
 
-    private function fetchRazorpayPaymentOrder($razorpay_order_id)
+    protected function fetchRazorpayPaymentOrder($razorpay_order_id)
     {
         $result = $this->createConnection(
             $this->razorpay_url . '/v1/orders/' . $razorpay_order_id . '/payments',
@@ -125,7 +125,7 @@ class Razorpay implements PaymentGatewayInterface
         return $result;
     }
 
-    private function getOutputField($razorpay_order_id)
+    protected function getOutputField($razorpay_order_id)
     {
         $box_title = '';
         if (empty($box_title)) {
@@ -188,7 +188,7 @@ class Razorpay implements PaymentGatewayInterface
             : null;
     }
 
-    private function successOrder($order, $payment_id = '')
+    protected function successOrder($order, $payment_id = '')
     {
         if (!$order) {
             throw new Exception('Order not found');
@@ -285,7 +285,7 @@ class Razorpay implements PaymentGatewayInterface
         }
     }
 
-    private function orderCapture($razorpay_order_id)
+    protected function orderCapture($razorpay_order_id)
     {
         try {
             if (empty($razorpay_order_id)) {

@@ -15,16 +15,16 @@ class Paypal implements PaymentGatewayInterface
     const API_URL_TEST = 'https://api-m.sandbox.paypal.com';
     const API_URL_LIVE = 'https://api-m.paypal.com';
     const CONNECTION_TIMEOUT = 30;
-    private bool $is_paypal_active;
-    private string $paypal_url;
-    private bool $sandbox;
-    private string $client_id;
-    private string $secret_key;
-    private string $webhook_id;
-    private float $amount;
-    private string $currency;
-    private array $billing_info;
-    private array $order_items;
+    protected bool $is_paypal_active;
+    protected string $paypal_url;
+    protected bool $sandbox;
+    protected string $client_id;
+    protected string $secret_key;
+    protected string $webhook_id;
+    protected float $amount;
+    protected string $currency;
+    protected array $billing_info;
+    protected array $order_items;
 
     public function __construct()
     {
@@ -68,7 +68,7 @@ class Paypal implements PaymentGatewayInterface
         return $this;
     }
 
-    private function getPayPalAccessToken(): ?string
+    protected function getPayPalAccessToken(): ?string
     {
         $header = [
             'Authorization' => 'Basic ' . base64_encode($this->client_id . ':' . $this->secret_key),
@@ -98,7 +98,7 @@ class Paypal implements PaymentGatewayInterface
         return $result->access_token ?? null;
     }
 
-    private function get_request_headers(): array
+    protected function get_request_headers(): array
     {
         if (!$this->getPayPalAccessToken()) {
             throw new Exception('PayPal access token failed');
@@ -109,7 +109,7 @@ class Paypal implements PaymentGatewayInterface
         ];
     }
 
-    private function createConnection($url, $method, $data = [], $retry = 1)
+    protected function createConnection($url, $method, $data = [], $retry = 1)
     {
         $args = [
             'method' => $method,
@@ -139,7 +139,7 @@ class Paypal implements PaymentGatewayInterface
         return $result;
     }
 
-    private function createPaypalOrder()
+    protected function createPaypalOrder()
     {
         $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
         $cancel_url = add_query_arg( 'cancelled', true, $return_url );
@@ -205,7 +205,7 @@ class Paypal implements PaymentGatewayInterface
         }
         throw new Exception('Something went wrong. Please try again later.');
     }
-    private function getPaypalOrderDetail($paypal_order_id)
+    protected function getPaypalOrderDetail($paypal_order_id)
     {
         $result = $this->createConnection(
             $this->paypal_url . '/v2/checkout/orders/' . $paypal_order_id,
@@ -219,7 +219,7 @@ class Paypal implements PaymentGatewayInterface
         return $result;
     }
 
-    private function capturePayment($paypal_order_id)
+    protected function capturePayment($paypal_order_id)
     {
         $result = $this->createConnection(
             $this->paypal_url . '/v2/checkout/orders/' . $paypal_order_id . '/capture',
@@ -233,7 +233,7 @@ class Paypal implements PaymentGatewayInterface
         throw new Exception('Something went wrong. Please try again later.');
     }
 
-    private function get_action_link($payment_order, $action)
+    protected function get_action_link($payment_order, $action)
     {
         foreach ($payment_order->links as $link) {
             if ($action === $link->rel) {
@@ -254,7 +254,7 @@ class Paypal implements PaymentGatewayInterface
             : null;
     }
 
-    private function successOrder($order)
+    protected function successOrder($order)
     {
         if (!$order) {
             throw new Exception('Order not found');
@@ -302,7 +302,7 @@ class Paypal implements PaymentGatewayInterface
         return $result;
     }
 
-    private function getPayPalWebhookHeaders(array $server): array
+    protected function getPayPalWebhookHeaders(array $server): array
     {
         $header_keys = [
             'PAYPAL-TRANSMISSION-ID' => 'HTTP_PAYPAL_TRANSMISSION_ID',
@@ -363,7 +363,7 @@ class Paypal implements PaymentGatewayInterface
         }
     }
 
-    private function orderCapture($paypal_order_id)
+    protected function orderCapture($paypal_order_id)
     {
         try {
             if (empty($paypal_order_id)) {
