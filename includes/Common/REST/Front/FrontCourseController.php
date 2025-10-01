@@ -253,6 +253,7 @@ class FrontCourseController
                     'price' => 0,
                     'discount' => 0,
                     'price_after_discount' => 0,
+                    'additional_fee' => 0,
                     'tax' => 0,
                     'price_after_tax' => 0
                 ]);

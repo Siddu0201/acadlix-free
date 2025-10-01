@@ -27,6 +27,7 @@ if (!class_exists('OrderItemMigration')) {
                     $table->float('price')->nullable()->default(0);
                     $table->float('discount')->nullable()->default(0);
                     $table->float('price_after_discount')->nullable()->default(0);
+                    $table->float('additional_fee')->nullable()->default(0);
                     $table->float('tax')->nullable()->default(0);
                     $table->float('price_after_tax')->nullable()->default(0);
                     $table->timestamps();
@@ -52,6 +53,12 @@ if (!class_exists('OrderItemMigration')) {
             if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'subscription_id')) {
                 Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
                     $table->unsignedBigInteger('subscription_id')->nullable()->after('order_id');
+                });
+            }
+            
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'additional_fee')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->float('additional_fee')->nullable()->default(0)->after('price_after_discount');
                 });
             }
         }

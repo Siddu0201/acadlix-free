@@ -33,6 +33,7 @@ const OrderContent = (props) => {
                         price: item?.price,
                         discount: item?.discount,
                         price_after_discount: item?.price_after_discount,
+                        additional_fee: item?.additional_fee ?? 0,
                         tax: item?.tax,
                         price_after_tax: item?.price_after_tax
                     }

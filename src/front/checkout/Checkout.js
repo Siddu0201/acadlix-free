@@ -91,6 +91,7 @@ const Checkout = () => {
         );
         let discount = 0;
         let price_after_discount = price - discount;
+        let additional_fee = 0;
         let tax = 0;
         if (
           c?.course?.rendered_metas?.tax !== 0 &&
@@ -108,6 +109,7 @@ const Checkout = () => {
           price: price,
           discount: discount,
           price_after_discount: price_after_discount,
+          additional_fee: additional_fee,
           tax: tax,
           price_after_tax: price_after_tax,
         };
@@ -174,14 +176,17 @@ const Checkout = () => {
           methods?.setValue("is_checkout_loading", false, {
             shouldDirty: true,
           });
-          let options = {
+          let options = window.acadlixHooks?.applyFilters?.("acadlix.front.checkout.razorpay_options", {
             ...data?.data,
             modal: {
               ondismiss: function () {
                 window.location.href = data?.data?.cancel_url;
               },
             },
-          };
+          },
+          {
+            methods: methods,
+          });
           const razorpay = new window.Razorpay(options);
           razorpay.open();
         },

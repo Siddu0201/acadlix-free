@@ -20,6 +20,7 @@ if (!class_exists('OrderItem')) {
             'price',
             'discount',
             'price_after_discount',
+            'additional_fee',
             'tax',
             'price_after_tax'
         ];
