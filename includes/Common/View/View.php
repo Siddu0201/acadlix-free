@@ -9,6 +9,8 @@ class View {
     protected $allCourse = null;
     protected $singleCourse = null;
 
+    protected $thankyou = null;
+
     public function __construct() {
         
     }
@@ -25,6 +27,13 @@ class View {
             $this->singleCourse = new SingleCourseView();
         }
         return $this->singleCourse;
+    }
+
+    public function thankyou(): ThankyouView {
+        if (is_null($this->thankyou)) {
+            $this->thankyou = new ThankyouView();
+        }
+        return $this->thankyou;
     }
     
     public static function instance() {

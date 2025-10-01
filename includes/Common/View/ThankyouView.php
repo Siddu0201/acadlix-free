@@ -1,79 +1,271 @@
 <?php
 
+namespace Yuvayana\Acadlix\Common\View;
+
 defined('ABSPATH') || exit();
 
-global $wp_version;
+class ThankyouView
+{
+    protected $status;
+    protected $courses_url;
+    protected $dashboard_url;
+    protected $token;
 
-$acadlix_data = isset($GLOBALS['acadlix_thankyou_data']) ? $GLOBALS['acadlix_thankyou_data'] : [];
-extract($acadlix_data, EXTR_SKIP); // gives $status, $courses_url, $dashboard_url
+    public function __construct()
+    {
+        $this->status = 'pending';
+        $this->courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
+        $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
+        $this->token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : '';
+        $this->setup_query();
+    }
 
-if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
-    ?>
-    <!doctype html>
-    <html <?php language_attributes(); ?>>
+    protected function setup_query()
+    {
+        if ($this->token) {
+            $order_meta = acadlix()->model()->orderMeta()->where('meta_value', $this->token)->first();
+            if ($order_meta) {
+                $order = acadlix()->model()->order()->find($order_meta->order_id);
+                $payment_method = $order->getMetaValue('payment_method');
 
-    <head>
-        <meta charset="<?php bloginfo('charset'); ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <?php wp_head(); ?>
-    </head>
+                if ($order) {
+                    try {
+                        if (isset($_GET['cancelled']) && !empty($_GET['cancelled']) && $order->status != 'failed') {
+                            acadlix()
+                                ->payments()
+                                ->{$payment_method}()
+                                ->failedOrder($order, 'Payment Cancelled');
+                            $this->status = $order->status;
+                        } else {
+                            if ($order->status == 'pending') {
+                                acadlix()
+                                    ->payments()
+                                    ->{$payment_method}()
+                                    ->verifyOrder($this->token);
+                                $order = acadlix()
+                                    ->payments()
+                                    ->{$payment_method}()
+                                    ->getOrder($this->token);
+                            }
+                            $this->status = $order->status ?? 'pending';
+                        }
+                    } catch (\Exception $e) {
+                        error_log($e->getMessage());
+                        $this->status = 'failed';
+                    }
+                }
+            }
+        }
+    }
 
-    <body <?php body_class(); ?>>
-        <?php wp_body_open(); ?>
-        <div class="wp-site-blocks">
-            <?php
+    public function render()
+    {
+        $this->render_header();
+        $this->render_content();
+        $this->render_footer();
+    }
+
+    protected function render_header()
+    {
+        global $wp_version;
+        if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && wp_is_block_theme()) {
+            ?>
+            <!doctype html>
+            <html <?php language_attributes(); ?>>
+
+            <head>
+                <meta charset="<?php bloginfo('charset'); ?>">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <?php wp_head(); ?>
+            </head>
+
+            <body <?php body_class(); ?>>
+                <?php wp_body_open(); ?>
+                <div class="wp-site-blocks">
+                    <?php
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
             echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
-} else {
-    get_header();
-}
-?>
-        <div class="acadlix-thankyou-container">
-            <?php
+        } else {
+            get_header();
+        }
+    }
 
-            if ($status == "success") {
-                ?>
-                <img src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . 'success-icon.svg') ?>"
-                    alt="<?php esc_attr_e('Payment Success', 'acadlix'); ?>" class="acadlix-thankyou-img">
-                <h2><?php esc_html_e('Payment Success', 'acadlix'); ?></h2>
-                <div class="acadlix-thankyou-text">
-                    <?php esc_html_e('Thank you! Your payment was completed successfully.', 'acadlix'); ?></div>
-                <div class="acadlix-thankyou-text">
-                    <?php esc_html_e('You can now access your purchased course or content.', 'acadlix'); ?></div>
-                <a href="<?php echo esc_url($dashboard_url) ?>"
-                    class="acadlix-thankyou-btn"><?php esc_html_e('Go to Dashboard', 'acadlix'); ?></a>
-                <?php
-            } elseif ($status == "failed") {
-                ?>
-                <img src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . 'failed-icon.svg') ?>"
-                    alt="<?php esc_attr_e('Payment Failed', 'acadlix'); ?>" class="acadlix-thankyou-img">
-                <h2><?php esc_html_e('Payemnt Failed', 'acadlix'); ?></h2>
-                <div class="acadlix-thankyou-text">
-                    <?php esc_html_e('Sorry, your payment could not be completed.', 'acadlix'); ?></div>
-                <div class="acadlix-thankyou-text">
-                    <?php esc_html_e('Payment Failed. If any amount has been deducted, please contact the administrator for assistance. You may also try the payment again.', 'acadlix'); ?>
-                </div>
-                <a href="<?php echo esc_url($courses_url) ?>"
-                    class="acadlix-thankyou-btn"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
-                <?php
-            } elseif ($status == 'pending') {
-                ?>
-                <img src="<?php echo esc_url(ACADLIX_ASSETS_IMAGE_URL . 'pending-icon.svg') ?>"
-                    alt="<?php esc_attr_e('Payment Pending', 'acadlix'); ?>" class="acadlix-thankyou-img">
-                <h2><?php esc_html_e('Payment Pending', 'acadlix'); ?></h2>
-                <div class="acadlix-thankyou-text">
-                    <?php esc_html_e('Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete.', 'acadlix'); ?>
-                </div>
-                <a href="<?php echo esc_url($courses_url) ?>"
-                    class="acadlix-thankyou-btn"><?php esc_html_e('Go to Courses', 'acadlix'); ?></a>
-                <?php
-            }
-            ?>
-        </div>
-        <?php the_content(); ?>
-        <?php
+    protected function render_content()
+    {
+        $content = apply_filters('acadlix_thankyou_content', [
+            [
+                'component' => 'div',
+                'children' => [
+                    $this->render_status(),
+                    [
+                        'component' => 'php',
+                        'value' => function () {
+                            return the_content();
+                        }
+                    ]
+                ]
+            ]
+        ], $this->status);
 
+        acadlix()->helper()->acadlix_render_tree($content);
+    }
+
+    protected function render_status()
+    {
+        switch ($this->status) {
+            case 'success':
+                return $this->render_order_success();
+            case 'failed':
+                return $this->render_order_failed();
+            case 'pending':
+                return $this->render_order_pending();
+        }
+    }
+
+    protected function render_order_success()
+    {
+        return apply_filters('acadlix_thankyou_success', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-thankyou-container'
+            ],
+            'children' => [
+                [
+                    'component' => 'img',
+                    'props' => [
+                        'src' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'success-icon.svg'),
+                        'alt' => esc_attr__('Payment Success', 'acadlix'),
+                        'class' => 'acadlix-thankyou-img',
+                    ],
+                ],
+                [
+                    'component' => 'h2',
+                    'props' => [
+                        // 'class' => 'acadlix-thankyou-title',
+                    ],
+                    'value' => esc_html__('Payment Success', 'acadlix'),
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-thankyou-text',
+                    ],
+                    'value' => esc_html__('Thank you! Your payment was completed successfully.', 'acadlix'),
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-thankyou-text',
+                    ],
+                    'value' => esc_html__('You can now access your purchased course or content.', 'acadlix'),
+                ],
+                [
+                    'component' => 'a',
+                    'props' => [
+                        'href' => esc_url($this->dashboard_url),
+                        'class' => 'acadlix-thankyou-btn',
+                    ],
+                    'value' => esc_html__('Go to Dashboard', 'acadlix'),
+                ],
+            ]
+        ]);
+    }
+
+    protected function render_order_failed()
+    {
+        return apply_filters('acadlix_thankyou_failed', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-thankyou-container'
+            ],
+            'children' => [
+                [
+                    'component' => 'img',
+                    'props' => [
+                        'src' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'failed-icon.svg'),
+                        'alt' => esc_attr__('Payment Failed', 'acadlix'),
+                        'class' => 'acadlix-thankyou-img',
+                    ],
+                ],
+                [
+                    'component' => 'h2',
+                    'props' => [
+                        // 'class' => 'acadlix-thankyou-title',
+                    ],
+                    'value' => esc_html__('Payment Failed', 'acadlix'),
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-thankyou-text',
+                    ],
+                    'value' => esc_html__('Sorry, your payment could not be completed.', 'acadlix'),
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-thankyou-text',
+                    ],
+                    'value' => esc_html__('Payment Failed. If any amount has been deducted, please contact the administrator for assistance. You may also try the payment again.', 'acadlix'),
+                ],
+                [
+                    'component' => 'a',
+                    'props' => [
+                        'href' => esc_url($this->courses_url),
+                        'class' => 'acadlix-thankyou-btn',
+                    ],
+                    'value' => esc_html__('Go to Courses', 'acadlix'),
+                ],
+            ]
+        ]);
+    }
+
+    protected function render_order_pending()
+    {
+        return apply_filters('acadlix_thankyou_pending', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-thankyou-container'
+            ],
+            'children' => [
+                [
+                    'component' => 'img',
+                    'props' => [
+                        'src' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'pending-icon.svg'),
+                        'alt' => esc_attr__('Payment Pending', 'acadlix'),
+                        'class' => 'acadlix-thankyou-img',
+                    ],
+                ],
+                [
+                    'component' => 'h2',
+                    'props' => [
+                        // 'class' => 'acadlix-thankyou-title',
+                    ],
+                    'value' => esc_html__('Payment Pending', 'acadlix'),
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-thankyou-text',
+                    ],
+                    'value' => esc_html('Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete.', 'acadlix'),
+                ],
+                [
+                    'component' => 'a',
+                    'props' => [
+                        'href' => esc_url($this->courses_url),
+                        'class' => 'acadlix-thankyou-btn',
+                    ],
+                    'value' => esc_html__('Go to Courses', 'acadlix'),
+                ],
+            ]
+        ]);
+    }
+
+    protected function render_footer()
+    {
+        global $wp_version;
         if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_theme') && true === wp_is_block_theme()) {
             $theme = wp_get_theme();
             $theme_slug = $theme->get('TextDomain');
@@ -85,3 +277,5 @@ if (version_compare($wp_version, '5.9', '>=') && function_exists('wp_is_block_th
         } else {
             get_footer();
         }
+    }
+}

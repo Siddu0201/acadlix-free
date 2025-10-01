@@ -1,8 +1,6 @@
 <?php
 namespace Yuvayana\Acadlix\Common\View;
 
-use Yuvayana\Acadlix\Common\Models\Course;
-
 defined('ABSPATH') || exit();
 
 class SingleCourseView

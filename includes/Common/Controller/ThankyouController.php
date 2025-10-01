@@ -23,10 +23,11 @@ if (!class_exists("ThankyouController")) {
             if ($thankyou_page_id && is_page($thankyou_page_id)) {
                 !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
 
-                $thankyou_template = $this->processData();
-                if ($thankyou_template) {
-                    return $thankyou_template;
-                }
+                // $thankyou_template = $this->processData();
+                // if ($thankyou_template) {
+                //     return $thankyou_template;
+                // }
+                return acadlix()->view()->thankyou()->render();
             }
 
             return $template;
