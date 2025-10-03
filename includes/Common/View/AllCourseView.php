@@ -71,7 +71,6 @@ class AllCourseView
         $this->render_courses();
         $this->render_footer();
     }
-    
 
     public function render_header()
     {
@@ -326,108 +325,136 @@ class AllCourseView
         ], $course);
     }
 
+    protected function render_go_to_checkout_button($course)
+    {
+        return apply_filters('acadlix_all_course_single_course_go_to_checkout_button', [
+            'component' => 'a',
+            'props' => [
+                'href' => esc_url($this->checkout_url),
+                'class' => 'acadlix-action-button acadlix-subtitle2'
+            ],
+            'value' => esc_html__('Go to Checkout', 'acadlix')
+        ], $course);
+    }
+
+    protected function render_go_to_course_button($course)
+    {
+        return apply_filters('acadlix_all_course_single_course_go_to_course_button', [
+            'component' => 'a',
+            'props' => [
+                'href' => esc_url($this->dashboard_url),
+                'class' => 'acadlix-action-button acadlix-subtitle2'
+            ],
+            'value' => esc_html__('Go to Course', 'acadlix')
+        ], $course);
+    }
+
+    protected function render_start_now_button($course)
+    {
+        return apply_filters('acadlix_all_course_single_course_start_now_button', [
+            'component' => 'button',
+            'props' => [
+                'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
+                'data-id' => esc_attr($course->ID)
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-action-button-text'],
+                    'value' => esc_html__('Start Now', 'acadlix')
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-btn-loader',
+                        'style' => 'display:none;'
+                    ]
+                ]
+            ]
+        ], $course);
+    }
+
+    protected function render_buy_now_button($course)
+    {
+        return apply_filters('acadlix_all_course_single_course_buy_now_button', [
+            'component' => 'button',
+            'props' => [
+                'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
+                'data-id' => esc_attr($course->ID)
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-action-button-text'],
+                    'value' => '<i class="fa fa-shopping-cart"></i> ' . esc_html__('Buy Now', 'acadlix')
+                ],
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-btn-loader',
+                        'style' => 'display:none;'
+                    ]
+                ]
+            ]
+        ], $course);
+    }
+
     protected function render_course_buttons($course)
     {
-        $buttons = [];
+        // acadlix()->helper()->acadlix_dd($course, true);
         $check_registration_date = acadlix()->helper()->course()->checkRegistrationDate(
             $course->rendered_metas['start_date'] ?? null,
             $course->rendered_metas['end_date'] ?? null
         );
 
+        $button = [];
+        $checkout_button = $this->render_go_to_checkout_button($course);
+        $go_to_course_button = $this->render_go_to_course_button($course);
+        $start_now_button = $this->render_start_now_button($course);
+        $buy_now_button = $this->render_buy_now_button($course);
+
+        $is_course_purchased = false;
+        $cart = [];
+        if(is_user_logged_in()){
+            $userId = get_current_user_id();
+            $is_course_purchased = $course->isPurchasedBy($userId);
+            $cart = acadlix()->model()->courseCart()->where([
+                ['user_id', '=', $userId],
+                ['course_id', '=', $course->ID],
+            ])->first();
+        }else{
+            if (isset($_COOKIE['acadlix_cart_token'])) {
+                $cart = acadlix()
+                    ->model()
+                    ->courseCart()
+                    ->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
+                    ->where('course_id', $course->ID)
+                    ->first();
+            }
+        }
+
         if ($check_registration_date['status']) {
-            if (acadlix()->helper()->course()->isCourseFree(
-                $course->rendered_metas['price'],
-                $course->rendered_metas['enable_sale_price'],
-                $course->rendered_metas['sale_price']
-            )) {
+            if ($course->isCourseFree()) {
                 // Free course flow
-                if (in_array($course->ID, $this->cart, true)) {
-                    $buttons = [
-                        'component' => 'a',
-                        'props' => [
-                            'href' => esc_url($this->checkout_url),
-                            'class' => 'acadlix-action-button acadlix-subtitle2'
-                        ],
-                        'value' => esc_html__('Go to Checkout', 'acadlix')
-                    ];
-                } elseif (in_array($course->ID, $this->order_item, true)) {
-                    $buttons = [
-                        'component' => 'a',
-                        'props' => [
-                            'href' => esc_url($this->dashboard_url),
-                            'class' => 'acadlix-action-button acadlix-subtitle2'
-                        ],
-                        'value' => esc_html__('Go to Course', 'acadlix')
-                    ];
+                if ($is_course_purchased) {
+                    $button = $go_to_course_button;
+                } elseif ($cart) {
+                    $button = $checkout_button;
                 } else {
-                    $buttons = [
-                        'component' => 'button',
-                        'props' => [
-                            'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
-                            'data-id' => esc_attr($course->ID)
-                        ],
-                        'children' => [
-                            [
-                                'component' => 'div',
-                                'props' => ['class' => 'acadlix-action-button-text'],
-                                'value' => esc_html__('Start Now', 'acadlix')
-                            ],
-                            [
-                                'component' => 'div',
-                                'props' => [
-                                    'class' => 'acadlix-btn-loader',
-                                    'style' => 'display:none;'
-                                ]
-                            ]
-                        ]
-                    ];
+                    $button = $start_now_button;
                 }
             } else {
                 // Paid course flow
-                if (in_array($course->ID, $this->cart, true)) {
-                    $buttons = [
-                        'component' => 'a',
-                        'props' => [
-                            'href' => esc_url($this->checkout_url),
-                            'class' => 'acadlix-action-button acadlix-subtitle2'
-                        ],
-                        'value' => esc_html__('Go to Checkout', 'acadlix')
-                    ];
-                } elseif (in_array($course->ID, $this->order_item, true)) {
-                    $buttons = [
-                        'component' => 'a',
-                        'props' => [
-                            'href' => esc_url($this->dashboard_url),
-                            'class' => 'acadlix-action-button acadlix-subtitle2'
-                        ],
-                        'value' => esc_html__('Go to Course', 'acadlix')
-                    ];
+                if ($is_course_purchased) {
+                    $button = $go_to_course_button;
+                } elseif ($cart) {
+                    $button = $checkout_button;
                 } else {
-                    $buttons = [
-                        'component' => 'button',
-                        'props' => [
-                            'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
-                            'data-id' => esc_attr($course->ID)
-                        ],
-                        'children' => [
-                            [
-                                'component' => 'div',
-                                'props' => ['class' => 'acadlix-action-button-text'],
-                                'value' => '<i class="fa fa-shopping-cart"></i> ' . esc_html__('Buy Now', 'acadlix')
-                            ],
-                            [
-                                'component' => 'div',
-                                'props' => [
-                                    'class' => 'acadlix-btn-loader',
-                                    'style' => 'display:none;'
-                                ]
-                            ]
-                        ]
-                    ];
+                    $button = $buy_now_button;
                 }
             }
         }
-        return apply_filters('acadlix_all_course_single_course_buttons', $buttons, $course);
+        return apply_filters('acadlix_all_course_single_course_buttons', $button, $course);
     }
 
     /**
@@ -630,27 +657,27 @@ class AllCourseView
             'children' => [
                 [
                     'component' => 'nav',
-                        'props' => ['class' => 'acadlix-course-pagination-nav'],
-                        'children' => [
-                            [
-                                'component' => 'ul',
-                                'props' => ['class' => 'acadlix-course-pagination-list acadlix-box-shadow-2'],
-                                'children' => $page_items
-                            ]
+                    'props' => ['class' => 'acadlix-course-pagination-nav'],
+                    'children' => [
+                        [
+                            'component' => 'ul',
+                            'props' => ['class' => 'acadlix-course-pagination-list acadlix-box-shadow-2'],
+                            'children' => $page_items
                         ]
-                    ],
-                    [
-                        'component' => 'div',
-                        'props' => ['class' => 'acadlix-course-pagination-info acadlix-subtitle1'],
-                        'value' => sprintf(
-                            __('Showing %1$s-%2$s of %3$s results', 'acadlix'),
-                            esc_html($start),
-                            esc_html($end),
-                            esc_html($this->course_count)
-                        )
                     ]
+                ],
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-course-pagination-info acadlix-subtitle1'],
+                    'value' => sprintf(
+                        __('Showing %1$s-%2$s of %3$s results', 'acadlix'),
+                        esc_html($start),
+                        esc_html($end),
+                        esc_html($this->course_count)
+                    )
                 ]
-                        ];
+            ]
+        ];
 
         // Render via helper
         return apply_filters('acadlix_all_course_pagination_ui', $pagination_ui);

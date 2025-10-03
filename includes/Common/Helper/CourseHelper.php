@@ -71,19 +71,6 @@ if (!class_exists('CourseHelper')) {
             };
         }
 
-        /**
-         * Determines if a course is free based on its price and sale price.
-         *
-         * @param float $price The original price of the course.
-         * @param float $sale_price The sale price of the course.
-         * 
-         * @return bool True if both the price and sale price are zero, indicating the course is free; otherwise, false.
-         */
-        public function isCourseFree(float $price, bool $enable_sale_price, float $sale_price): bool
-        {
-            return $enable_sale_price ? 0 == $sale_price : 0 == $price;
-        }
-
 
         /**
          * Generates an HTML string containing links to the profile pages of users enrolled in a course.

@@ -9,7 +9,7 @@ class SingleCourseView
     protected $dashboard_url = '';
     protected $course = null;
     protected $cart = [];
-    protected $order_item = [];
+    protected $is_course_purchased = false;
 
     public function __construct()
     {
@@ -30,15 +30,7 @@ class SingleCourseView
                 ['user_id', '=', $userId],
                 ['course_id', '=', $post->ID],
             ])->first();
-            $this->order_item = acadlix()
-                ->model()
-                ->orderItem()
-                ->with(['order'])
-                ->whereHas('order', function ($query) use ($userId) {
-                    $query->where('user_id', $userId)->where('status', 'success');
-                })
-                ->where('course_id', $post->ID)
-                ->get();
+            $this->is_course_purchased = $this->course->isPurchasedBy($userId);
         } else {
             if (isset($_COOKIE['acadlix_cart_token'])) {
                 $this->cart = acadlix()
@@ -579,9 +571,6 @@ class SingleCourseView
     protected function acadlix_course_button($type = 'desktop')
     {
         $course = $this->course;
-        $enable_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
-        $price = $course->rendered_metas['price'] ?? 0;
-        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
         $start_date = $course->rendered_metas['start_date'] ?? null;
         $end_date = $course->rendered_metas['end_date'] ?? null;
         if ($course->post_status != 'publish') {
@@ -595,19 +584,19 @@ class SingleCourseView
         $buy_now_button = $this->acadlix_course_buy_now_button($type);
         $error_button = $this->acadlix_course_error_button($check_registration_date);
         if ($check_registration_date['status']) {
-            if (acadlix()->helper()->course()->isCourseFree($price, $enable_sale_price, $sale_price)) {
-                if ($this->cart) {
-                    $button = $checkout_button;
-                } elseif (count($this->order_item) > 0) {
+            if ($course->isCourseFree()) {
+                if($this->is_course_purchased){
                     $button = $go_to_course_button;
+                }elseif ($this->cart) {
+                    $button = $checkout_button;
                 } else {
                     $button = $start_now_button;
                 }
             } else {
-                if ($this->cart) {
-                    $button = $checkout_button;
-                } elseif (count($this->order_item) > 0) {
+                if($this->is_course_purchased){
                     $button = $go_to_course_button;
+                }elseif ($this->cart) {
+                    $button = $checkout_button;
                 } else {
                     $button = $buy_now_button;
                 }
@@ -622,7 +611,6 @@ class SingleCourseView
      * Outputs the HTML for the course action buttons.
      *
      * @param object $cart The cart object.
-     * @param object $order_item The order item object.
      * @param object $course The course object.
      *
      * @return array The HTML for the course action buttons.

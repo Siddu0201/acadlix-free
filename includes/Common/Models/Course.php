@@ -208,8 +208,19 @@ if (!class_exists('Course')) {
             return $this->hasMany(acadlix()->model()->courseCart(), 'course_id', 'id');
         }
 
-        public function isPurchasedBy($userId)
+        public function isCourseFree()
         {
+            $price = $this->rendered_metas['price'];
+            $enable_sale_price = $this->rendered_metas['enable_sale_price'];
+            $sale_price = $this->rendered_metas['sale_price'];
+            return $enable_sale_price ? 0 == $sale_price : 0 == $price;
+        }
+
+        public function isPurchasedBy($userId = '')
+        {
+            if(empty($userId)){
+                return false;
+            }
             return acadlix()
                 ->model()
                 ->orderItem()
@@ -219,11 +230,15 @@ if (!class_exists('Course')) {
                         ->where('user_id', $userId)
                         ->where('status', 'success');
                 })
+                ->whereNull('subscription_id')
                 ->exists();
         }
 
-        public function getPurchasedCourses($userId, $search = null, $skip = 0, $take = 10, $with = [])
+        public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [])
         {
+            if(empty($userId)){
+                return [];
+            }
             // Base query for one-time purchases
             $query = self::whereHas('order_items', function ($oi) use ($userId) {
                 $oi
