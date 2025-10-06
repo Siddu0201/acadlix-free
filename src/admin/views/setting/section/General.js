@@ -771,9 +771,9 @@ function General(props) {
                 fullWidth
                 size="small"
                 type="text"
-                value={props?.watch("acadlix_decimal_seprator")}
+                value={props?.watch("acadlix_decimal_separator")}
                 onChange={(e) => {
-                  props?.setValue("acadlix_decimal_seprator", e?.target?.value, {
+                  props?.setValue("acadlix_decimal_separator", e?.target?.value, {
                     shouldDirty: true,
                   });
                 }}

@@ -36,6 +36,25 @@ if (!class_exists('CourseHelper')) {
             return $courseLevels[$level] ?? __("All Level", "acadlix");
         }
 
+        public function formatPrice($price = 0, $asString = false) {
+            // Fallback settings if not provided
+            $decimals     = acadlix()->helper()->acadlix_get_option('acadlix_number_of_decimals')?? 2;
+            $thousandSep  = acadlix()->helper()->acadlix_get_option('acadlix_thousand_separator') ?? ',';
+            $decimalSep   = acadlix()->helper()->acadlix_get_option('acadlix_decimal_separator') ?? '.';
+            
+            if (!is_numeric($price)) {
+                return $asString ? number_format(0, $decimals, $decimalSep, $thousandSep) : 0;
+            }
+        
+            if ($asString) {
+                // Return formatted string with thousand & decimal separator
+                return number_format((float) $price, $decimals, $decimalSep, $thousandSep);
+            }
+        
+            // Return numeric (no formatting)
+            return round((float) $price, $decimals);
+        }
+
 
         /**
          * Format the price according to the currency settings and return it as a string.
@@ -61,6 +80,8 @@ if (!class_exists('CourseHelper')) {
             }
 
             $currency_symbol = $currency_symbols[$currency_option];
+
+            $price = $this->formatPrice($price, true);
 
             return match ($currency_position_option) {
                 "Left ( $99.99 )" => "$currency_symbol$price",

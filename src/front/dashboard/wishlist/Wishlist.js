@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { __ } from '@wordpress/i18n';
 import { GetUserWishlist } from "@acadlix/requests/front/FrontDashboardRequest";
 import { dateI18n } from "@wordpress/date";
-import { currencyPosition, formatPrice, getFormatDate } from "@acadlix/helpers/util";
+import { currencyPosition, getFormatDate } from "@acadlix/helpers/util";
 import {
     Chip,
     Button,

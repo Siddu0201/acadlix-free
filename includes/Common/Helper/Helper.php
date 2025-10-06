@@ -535,7 +535,7 @@ if (!class_exists('Helper')) {
                 'acadlix_currency' => 'USD',
                 'acadlix_currency_position' => 'Left ( $99.99 )',
                 'acadlix_thousand_separator' => ',',
-                'acadlix_decimal_seprator' => '.',
+                'acadlix_decimal_separator' => '.',
                 'acadlix_number_of_decimals' => 2,
                 'acadlix_default_payment_gateway' => '',
                 // Admin Option

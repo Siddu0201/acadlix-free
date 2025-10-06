@@ -74,8 +74,8 @@ const SettingContent = ({
       options?.acadlix_currency_position ?? "Left ( $99.99 )",
     acadlix_thousand_separator:
       options?.acadlix_thousand_separator ?? ",",
-    acadlix_decimal_seprator:
-      options?.acadlix_decimal_seprator ?? ".",
+    acadlix_decimal_separator:
+      options?.acadlix_decimal_separator ?? ".",
     acadlix_number_of_decimals:
       options?.acadlix_number_of_decimals ?? 2,
     // Admin Options

@@ -179,34 +179,56 @@ export const shuffleArrayBasedOnOrder = (arr, order) => {
   return shuffledArray;
 };
 
-export const formatPrice = (price = 0) => {
-  if (isNaN(price)) return price;
+// Contain some error
+// export const formatPrice = (price = 0, as) => {
+//   if (isNaN(price)) return price;
 
-  // Split the number into the integer and decimal parts
-  let [integerPart, decimalPart] = parseFloat(price)
-    .toFixed(acadlixOptions?.settings?.acadlix_number_of_decimals)
-    .split(".");
+//   // Split the number into the integer and decimal parts
+//   let [integerPart, decimalPart] = parseFloat(price)
+//     .toFixed(acadlixOptions?.settings?.acadlix_number_of_decimals)
+//     .split(".");
 
-  // Add thousand separators to the integer part
-  integerPart = integerPart.replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    acadlixOptions?.settings?.acadlix_thousand_separator
-  );
+//   // Add thousand separators to the integer part
+//   integerPart = integerPart.replace(
+//     /\B(?=(\d{3})+(?!\d))/g,
+//     acadlixOptions?.settings?.acadlix_thousand_separator
+//   );
 
-  // Join the integer and decimal parts with the custom decimal separator
-  return decimalPart
-    ? isNaN(integerPart +
-      acadlixOptions?.settings?.acadlix_decimal_seprator +
-      decimalPart)
-      ? integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart
-      : Number(integerPart + acadlixOptions?.settings?.acadlix_decimal_seprator + decimalPart)
-    : Number(integerPart)
-    ;
+//   // Join the integer and decimal parts with the custom decimal separator
+//   return decimalPart
+//     ? isNaN(integerPart +
+//       acadlixOptions?.settings?.acadlix_decimal_separator +
+//       decimalPart)
+//       ? integerPart + acadlixOptions?.settings?.acadlix_decimal_separator + decimalPart
+//       : Number(integerPart + acadlixOptions?.settings?.acadlix_decimal_separator + decimalPart)
+//     : Number(integerPart)
+//     ;
+// };
+
+export const formatPrice = (price = 0, asString = false) => {
+  if (isNaN(price)) return asString ? "0.00" : 0;
+
+  const decimals = acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
+  const thousandSep = acadlixOptions?.settings?.acadlix_thousand_separator ?? ",";
+  const decimalSep = acadlixOptions?.settings?.acadlix_decimal_separator ?? ".";
+
+  const fixed = parseFloat(price).toFixed(decimals);
+
+  if (!asString) {
+    // return as clean number
+    return parseFloat(fixed);
+  }
+
+  // format as string with thousand + decimal separators
+  let [integerPart, decimalPart] = fixed.split(".");
+  integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSep);
+
+  return `${integerPart}${decimalSep}${decimalPart}`;
 };
 
 export const currencyPosition = (price = 0, currency_symbol = '') => {
   let symbol = currency_symbol !== '' ? currency_symbol : acadlixOptions?.currency_symbol;
-  let newPrice = formatPrice(price);
+  let newPrice = formatPrice(price, true);
   switch (acadlixOptions?.settings?.acadlix_currency_position) {
     case "Left ( $99.99 )":
       return `${symbol}${newPrice}`;
@@ -320,7 +342,7 @@ export const getFormatDate = (date, withTime = true) => {
   if (!date) return "";
   const date_settings = getSettings();
   let date_format = date_settings?.formats?.date || "Y-m-d";
-  
+
   if (withTime) {
     const time_format = date_settings?.formats?.time || "H:i:s";
     date_format = `${date_format} ${time_format}`;
