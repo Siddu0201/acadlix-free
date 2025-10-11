@@ -111,7 +111,7 @@ class Stripe implements PaymentGatewayInterface
             // Flattened line_items
             'line_items[0][price_data][currency]' => $this->currency,
             'line_items[0][price_data][product_data][name]' => 'Course Purchase',
-            'line_items[0][price_data][unit_amount]' => $this->amount,
+            'line_items[0][price_data][unit_amount]' => acadlix()->helper()->acadlix_convert_to_unit_price($this->amount),
             'line_items[0][quantity]' => 1,
         ];
         if (isset($this->billing_info['email']) && !empty($this->billing_info['email'])) {

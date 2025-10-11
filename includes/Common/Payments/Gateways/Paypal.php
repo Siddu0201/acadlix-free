@@ -68,6 +68,15 @@ class Paypal implements PaymentGatewayInterface
         return $this;
     }
 
+    protected function formatPayPalAmount($amount)
+    {
+        // Round safely to 2 decimal places
+        $rounded = round((float) $amount, 2);
+
+        // Format with 2 decimals as string
+        return number_format($rounded, 2, '.', '');
+    }
+
     protected function getPayPalAccessToken(): ?string
     {
         $header = [
@@ -150,7 +159,7 @@ class Paypal implements PaymentGatewayInterface
                 [
                     'amount' => [
                         'currency_code' => $this->currency,
-                        'value' => $this->amount,
+                        'value' => $this->formatPayPalAmount($this->amount),
                     ],
                 ]
             ],

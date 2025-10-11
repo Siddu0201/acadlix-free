@@ -201,7 +201,7 @@ class FrontCheckoutController
     public function post_checkout_razorpay($request)
     {
         try {
-            $required_fields = array('currency', 'user_id', 'total_amount', 'amount');
+            $required_fields = array('currency', 'user_id', 'total_amount');
             $params = $request->get_json_params();
             if (is_array($params) && count($params) == 0) {
                 throw new Exception(__('Required course id and user_id', 'acadlix'), 404);
@@ -229,7 +229,7 @@ class FrontCheckoutController
             }
 
             $response = acadlix()->payments()->razorpay()
-                ->setAmount($request->get_param('amount'))
+                ->setAmount($request->get_param('total_amount'))
                 ->setCurrency($request->get_param('currency'))
                 ->setBillingInfo($request->get_param('billing_info'))
                 ->processOrder();
@@ -266,7 +266,7 @@ class FrontCheckoutController
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
                     $order->updateOrCreateMeta('currency', $request->get_param("currency"));
                     $order->updateOrCreateMeta('razorpay_order_id', $response['order_id']);
-                    $order->updateOrCreateMeta('razorpay_amount', $request->get_param('amount'));
+                    $order->updateOrCreateMeta('razorpay_amount', acadlix()->helper()->acadlix_convert_to_unit_price($request->get_param('total_amount')));
                 }
             }
             // Send back the order data to the frontend
@@ -448,7 +448,7 @@ class FrontCheckoutController
     public function post_checkout_stripe($request)
     {
         try {
-            $required_fields = array('currency', 'user_id', 'total_amount', 'amount');
+            $required_fields = array('currency', 'user_id', 'total_amount');
             $params = $request->get_json_params();
             if (is_array($params) && count($params) == 0) {
                 throw new Exception('No data found');
@@ -476,7 +476,7 @@ class FrontCheckoutController
             }
 
             $response = acadlix()->payments()->stripe()
-                ->setAmount($request->get_param("amount"))
+                ->setAmount($request->get_param("total_amount"))
                 ->setCurrency($request->get_param("currency"))
                 ->setBillingInfo($request->get_param("billing_info"))
                 ->processOrder();
@@ -513,7 +513,7 @@ class FrontCheckoutController
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
                     $order->updateOrCreateMeta('currency', $request->get_param("currency"));
                     $order->updateOrCreateMeta('stripe_order_id', $response->id);
-                    $order->updateOrCreateMeta('stripe_amount', $request->get_param('amount'));
+                    $order->updateOrCreateMeta('stripe_amount', acadlix()->helper()->acadlix_convert_to_unit_price($request->get_param('total_amount')));
                 }
                 // Return PayPal order ID for further processing
                 return rest_ensure_response([

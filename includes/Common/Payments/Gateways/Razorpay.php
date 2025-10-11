@@ -100,7 +100,7 @@ class Razorpay implements PaymentGatewayInterface
     {
         $body = [
             'receipt' => uniqid('order_'),
-            'amount' => $this->amount,
+            'amount' => acadlix()->helper()->acadlix_convert_to_unit_price($this->amount),
             'currency' => $this->currency,
         ];
 
@@ -125,6 +125,25 @@ class Razorpay implements PaymentGatewayInterface
         return $result;
     }
 
+    protected function captureRazorpayPayment($razorpay_payment_id, $body)
+    {
+        $result = $this->createConnection(
+            $this->razorpay_url . '/v1/payments/' . $razorpay_payment_id . '/capture',
+            'POST',
+            $body
+        );
+        return $result;
+    }
+
+    protected function fetchRazorpayPayment($razorpay_payment_id)
+    {
+        $result = $this->createConnection(
+            $this->razorpay_url . '/v1/payments/' . $razorpay_payment_id,
+            'GET'
+        );
+        return $result;
+    }
+
     protected function getOutputField($razorpay_order_id)
     {
         $box_title = '';
@@ -142,7 +161,7 @@ class Razorpay implements PaymentGatewayInterface
         $data = [
             'key' => $this->client_id,
             'order_id' => $razorpay_order_id,
-            'amount' => $this->amount,
+            'amount' => acadlix()->helper()->acadlix_convert_to_unit_price($this->amount),
             'currency' => $this->currency,
             'name' => $box_title,
             'description' => 'Buy now',
@@ -318,7 +337,23 @@ class Razorpay implements PaymentGatewayInterface
                 return $this->failedOrder($order, $razorpay_payment->error_description);
             }
 
-            return $this->successOrder($order, $razorpay_payment->id);
+            if($razorpay_payment->status == 'authorized'){
+                $this->captureRazorpayPayment(
+                    $razorpay_payment->id,
+                    [
+                        'amount' => $razorpay_payment->amount,
+                        'currency' => $razorpay_payment->currency,
+                    ]
+                );
+            }
+
+            $razorpay_payment = $this->fetchRazorpayPayment($razorpay_payment->id);
+
+            if($razorpay_payment->status == 'captured'){
+                return $this->successOrder($order, $razorpay_payment->id);
+            }
+
+            return ['success' => false, 'message' => 'Order not captured'];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
