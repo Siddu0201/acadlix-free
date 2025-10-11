@@ -57,22 +57,23 @@ class Menu
         }
     }
 
-    public function acadlix_admin_head(){
-        if (!isset($_GET['page'])) return;
-
-        $target_pages = [
+    protected function acadlix_admin_screen_list()
+    {
+        return [
             'acadlix',
             'acadlix_lesson', 
             'acadlix_quiz', 
             'acadlix_order', 
-            'acadlix_assignment', 
-            'acadlix_zoom',
             'acadlix_student',
-            'acadlix_design_studio',
             'acadlix_setting',
             'acadlix_addon',
-            'abqu'
-        ]; // your submenu slugs
+        ];
+    }
+
+    public function acadlix_admin_head(){
+        if (!isset($_GET['page'])) return;
+
+        $target_pages = $this->acadlix_admin_screen_list(); // your submenu slugs
     
         // Remove screen options for specific pages (built in react)
         if (in_array($_GET['page'], $target_pages, true)) {
