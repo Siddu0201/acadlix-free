@@ -37,7 +37,6 @@ import {
 import Grid from '@mui/material/Grid';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
-import { Controller } from "react-hook-form";
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
@@ -45,6 +44,7 @@ import CustomButton from "@acadlix/components/CustomButton";
 import PasswordTextField from "@acadlix/components/PasswordTextField";
 import { iconMap } from "@acadlix/helpers/icons";
 import { RawHTML } from "@wordpress/element";
+import CustomCopyableText from "@acadlix/components/CustomCopyableText";
 
 const COMPONENT_MAP = {
   CustomTextField,
@@ -89,6 +89,7 @@ const COMPONENT_MAP = {
   CustomButton,
   CircularProgress,
   PasswordTextField,
+  CustomCopyableText,
   RawHTML,
   Fragment: React.Fragment,
 };
@@ -130,6 +131,15 @@ const resolveComponentInProps = async (propObj, register, name, formProps) => {
 
 export const renderMUIComponent = async (item, index, formProps = {}) => {
   const { component, props, children, value, name } = item;
+
+  // 🟢 NEW — if component is already a valid React element (like <RazorPay />)
+  if (React.isValidElement(component)) {
+    // clone it to inject props (like {...props})
+    const cloned = React.cloneElement(component, { key: index, ...(props || {}) });
+    return cloned;
+  }
+
+  // 🟢 Otherwise, fallback to your COMPONENT_MAP logic
   const Component = COMPONENT_MAP[component];
   // ✅ If not found, check iconMap
   if (!Component && iconMap[component]) {
