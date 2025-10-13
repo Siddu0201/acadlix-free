@@ -31,7 +31,7 @@ const PayU = (props) => {
                                 component: "Typography",
                                 component_name: "payu_header_title",
                                 props: {
-                                    variant: "h6",
+                                    variant: "h5",
                                     sx: {
                                         paddingX: 2,
                                         paddingY: 2,

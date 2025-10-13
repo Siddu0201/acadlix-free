@@ -31,7 +31,7 @@ const PayPal = (props) => {
                                 component: "Typography",
                                 component_name: "paypal_header_title",
                                 props: {
-                                    variant: "h6",
+                                    variant: "h5",
                                     sx: {
                                         paddingX: 2,
                                         paddingY: 2,

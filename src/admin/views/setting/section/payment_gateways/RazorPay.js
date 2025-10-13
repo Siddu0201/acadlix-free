@@ -31,7 +31,7 @@ const RazorPay = (props) => {
                                 component: "Typography",
                                 component_name: "razorpay_header_title",
                                 props: {
-                                    variant: "h6",
+                                    variant: "h5",
                                     sx: {
                                         paddingX: 2,
                                         paddingY: 2,
