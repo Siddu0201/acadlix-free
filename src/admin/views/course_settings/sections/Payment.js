@@ -15,14 +15,12 @@ const PaymentPro = React.lazy(() =>
 const Payment = (props) => {
   let defaultSetting = {
     component: "Box",
-    props: {
-      component_name: "course_payment_box",
-    },
+    component_name: "course_payment_box",
     children: [
       {
         component: "Grid",
+        component_name: "course_payment_main_grid",
         props: {
-          component_name: "course_payment_main_grid",
           container: true,
           spacing: 3
         },
@@ -34,15 +32,15 @@ const Payment = (props) => {
                 xs: 12,
                 sm: 4
               },
-              component_name: "course_payment_price_outer_grid_item",
             },
+            component_name: "course_payment_price_outer_grid_item",
             children: [
               {
                 component: "Grid",
+                component_name: "course_payment_price_inner_grid",
                 props: {
                   container: true,
                   spacing: 2,
-                  component_name: "course_payment_price_inner_grid",
                 },
                 children: [
                   {
@@ -52,33 +50,33 @@ const Payment = (props) => {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_price_label_grid_item",
                     },
+                    component_name: "course_payment_price_label_grid_item",
                     children: [
                       {
                         component: "Typography",
                         props: {
                           variant: "h6",
-                          component_name: "course_payment_price_label_typography",
                         },
+                        component_name: "course_payment_price_label_typography",
                         value: __('Price (0 => Free)', 'acadlix')
                       }
                     ]
                   },
                   {
                     component: "Grid",
+                    component_name: "course_payment_price_text_field_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_price_text_field_grid_item",
                     },
                     children: [
                       {
                         component: "CustomTextField",
+                        component_name: "course_payment_price_text_field",
                         props: {
-                          component_name: "course_payment_price_text_field",
                           fullWidth: true,
                           size: "small",
                           type: "number",
@@ -114,37 +112,37 @@ const Payment = (props) => {
           },
           {
             component: "Grid",
+            component_name: "course_payment_enable_sale_price_outer_grid_item",
             props: {
               size: {
                 xs: 12,
                 sm: 4
               },
-              component_name: "course_payment_enable_sale_price_outer_grid_item",
             },
             children: [
               {
                 component: "Grid",
+                component_name: "course_payment_enable_sale_price_inner_grid",
                 props: {
                   container: true,
                   spacing: 2,
-                  component_name: "course_payment_enable_sale_price_inner_grid",
                 },
                 children: [
                   {
                     component: "Grid",
+                    component_name: "course_payment_enable_sale_price_label_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_enable_sale_price_label_grid_item",
                     },
                     children: [
                       {
                         component: "Typography",
+                        component_name: "course_payment_enable_sale_price_label_typography",
                         props: {
                           variant: "h6",
-                          component_name: "course_payment_enable_sale_price_label_typography",
                         },
                         value: __("Activate Sale Price", "acadlix")
                       }
@@ -152,18 +150,18 @@ const Payment = (props) => {
                   },
                   {
                     component: "Grid",
+                    component_name: "course_payment_enable_sale_price_form_control_label_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_enable_sale_price_form_control_label_grid_item",
                     },
                     children: [
                       {
                         component: "FormControlLabel",
+                        component_name: "course_payment_enable_sale_price_form_control_label",
                         props: {
-                          component_name: "course_payment_enable_sale_price_form_control_label",
                           label: __("Activate", "acadlix"),
                           checked: props?.watch("meta.enable_sale_price") ?? false,
                           control:
@@ -189,36 +187,36 @@ const Payment = (props) => {
           },
           {
             component: "Grid",
+            component_name: "course_payment_sale_price_outer_grid_item",
             props: {
               size: {
                 xs: 12,
                 sm: 4
               },
-              component_name: "course_payment_sale_price_outer_grid_item",
             },
             children: [
               {
                 component: "Grid",
+                component_name: "course_payment_sale_price_inner_grid",
                 props: {
                   container: true,
                   spacing: 2,
-                  component_name: "course_payment_sale_price_inner_grid",
                 },
                 children: [
                   {
                     component: "Grid",
+                    component_name: "course_payment_sale_price_label_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_sale_price_label_grid_item",
                     },
                     children: [
                       {
                         component: "Typography",
+                        component_name: "course_payment_sale_price_label_typography",
                         props: {
-                          component_name: "course_payment_sale_price_label_typography",
                           variant: "h6"
                         },
                         value: __('Sale Price', 'acadlix')
@@ -227,18 +225,18 @@ const Payment = (props) => {
                   },
                   {
                     component: "Grid",
+                    component_name: "course_payment_sale_price_text_field_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_sale_price_text_field_grid_item",
                     },
                     children: [
                       {
                         component: "CustomTextField",
+                        component_name: "course_payment_sale_price_text_field",
                         props: {
-                          component_name: "course_payment_sale_price_text_field",
                           fullWidth: true,
                           size: "small",
                           type: "number",
@@ -275,36 +273,36 @@ const Payment = (props) => {
           },
           {
             component: "Grid",
+            component_name: "course_payment_tax_outer_grid_item",
             props: {
               size: {
                 xs: 12,
                 sm: 6
               },
-              component_name: "course_payment_tax_outer_grid_item",
             },
             children: [
               {
                 component: "Grid",
+                component_name: "course_payment_tax_inner_grid",
                 props: {
                   container: true,
                   spacing: 2,
-                  component_name: "course_payment_tax_inner_grid",
                 },
                 children: [
                   {
                     component: "Grid",
+                    component_name: "course_payment_tax_label_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_tax_label_grid_item",
                     },
                     children: [
                       {
                         component: "Typography",
+                        component_name: "course_payment_tax_label_typography",
                         props: {
-                          component_name: "course_payment_tax_label_typography",
                           variant: "h6"
                         },
                         value: __('Tax', 'acadlix')
@@ -313,18 +311,18 @@ const Payment = (props) => {
                   },
                   {
                     component: "Grid",
+                    component_name: "course_payment_tax_form_control_label_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_tax_form_control_label_grid_item",
                     },
                     children: [
                       {
                         component: "FormControlLabel",
+                        component_name: "course_payment_tax_form_control_label",
                         props: {
-                          component_name: "course_payment_tax_form_control_label",
                           label: __('Activate', 'acadlix'),
                           checked: props?.watch("meta.tax") ?? false,
                           control:
@@ -350,36 +348,36 @@ const Payment = (props) => {
           },
           {
             component: "Grid",
+            component_name: "course_payment_tax_percent_outer_grid_item",
             props: {
               size: {
                 xs: 12,
                 sm: 6
               },
-              component_name: "course_payment_tax_percent_outer_grid_item",
             },
             children: [
               {
                 component: "Grid",
+                component_name: "course_payment_tax_percent_inner_grid",
                 props: {
                   container: true,
                   spacing: 2,
-                  component_name: "course_payment_tax_percent_inner_grid",
                 },
                 children: [
                   {
                     component: "Grid",
+                    component_name: "course_payment_tax_percent_label_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_tax_percent_label_grid_item",
                     },
                     children: [
                       {
                         component: "Typography",
+                        component_name: "course_payment_tax_percent_label_typography",
                         props: {
-                          component_name: "course_payment_tax_percent_label_typography",
                           variant: "h6"
                         },
                         value: __('Tax (%)', 'acadlix')
@@ -388,18 +386,18 @@ const Payment = (props) => {
                   },
                   {
                     component: "Grid",
+                    component_name: "course_payment_tax_percent_text_field_grid_item",
                     props: {
                       size: {
                         xs: 12,
                         sm: 12
                       },
-                      component_name: "course_payment_tax_percent_text_field_grid_item",
                     },
                     children: [
                       {
                         component: "CustomTextField",
+                        component_name: "course_payment_tax_percent_text_field",
                         props: {
-                          component_name: "course_payment_tax_percent_text_field",
                           fullWidth: true,
                           size: "small",
                           type: "number",

@@ -9,24 +9,19 @@ import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRend
 function Payment(props) {
   const defaultSetting = {
     component: "Card",
-    props: {
-      component_name: "setting_payment_card",
-    },
+    component_name: "setting_payment_card",
     children: [
       {
         component: "CardContent",
-        props: {
-          component_name: "setting_payment_card_content",
-        },
+        component_name: "setting_payment_card_content",
         children: [
           {
             component: "Box",
-            props: {
-              component_name: "setting_payment_card_box",
-            },
+            component_name: "setting_payment_card_box",
             children: [
               {
                 component: "Box",
+                component_name: "setting_payment_card_box_sx",
                 props: {
                   sx: {
                     marginY: 2,
@@ -35,8 +30,8 @@ function Payment(props) {
                 children: [
                   {
                     component: "Typography",
+                    component_name: "setting_payment_card_title",
                     props: {
-                      component_name: "setting_payment_card_title",
                       variant: "h4",
                     },
                     value: __("Payment Gateway", "acadlix"),
@@ -64,14 +59,12 @@ function Payment(props) {
       },
       {
         component: "CardActions",
-        props: {
-          component_name: "setting_payment_card_actions",
-        },
+        component_name: "setting_payment_card_actions",
         children: [
           {
             component: "Button",
+            component_name: "setting_payment_card_actions_button",
             props: {
-              component_name: "setting_payment_card_actions_button",
               variant: "contained",
               color: "primary",
               type: "submit",

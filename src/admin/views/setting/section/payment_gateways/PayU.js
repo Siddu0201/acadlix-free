@@ -5,11 +5,12 @@ import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRend
 const PayU = (props) => {
     const payuSetting = {
         component: "Fragment",
+        component_name: "payu_settings_fragment",
         children: [
             {
                 component: "Box",
+                component_name: "payu_settings_box",
                 props: {
-                    component_name: "payu_settings_box",
                     sx: {
                         marginY: 2,
                         backgroundColor: "grey.light",
@@ -18,19 +19,19 @@ const PayU = (props) => {
                 children: [
                     {
                         component: "Box",
+                        component_name: "payu_header_box",
                         props: {
                             sx: {
                                 display: "flex",
                                 justifyContent: "space-between",
                             },
-                            component_name: "payu_header_box",
                         },
                         children: [
                             {
                                 component: "Typography",
+                                component_name: "payu_header_title",
                                 props: {
                                     variant: "h6",
-                                    component_name: "payu_header_title",
                                     sx: {
                                         paddingX: 2,
                                         paddingY: 2,
@@ -40,8 +41,8 @@ const PayU = (props) => {
                             },
                             {
                                 component: "FormControlLabel",
+                                component_name: "payu_default_gateway_switch",
                                 props: {
-                                    component_name: "payu_default_gateway_switch",
                                     label: __("Default", "acadlix"),
                                     value: "payu",
                                     checked: props?.watch("acadlix_default_payment_gateway") === "payu",
@@ -64,32 +65,32 @@ const PayU = (props) => {
                     },
                     {
                         component: "Divider",
-                        props: { component_name: "payu_header_divider" },
+                        component_name: "payu_header_divider",
                     },
                 ],
             },
             {
                 component: "Grid",
+                component_name: "payu_main_grid",
                 props: {
                     container: true,
                     spacing: { xs: 2, sm: 4 },
                     sx: { alignItems: "center" },
-                    component_name: "payu_main_grid",
                 },
                 children: [
                     // 🔹 Info Alert
                     {
                         component: "Grid",
+                        component_name: "payu_webhook_info_grid",
                         props: {
                             size: { lg: 12, md: 12, sm: 12, xs: 12 },
-                            component_name: "payu_webhook_info_grid",
                         },
                         children: [
                             {
                                 component: "Alert",
+                                component_name: "payu_webhook_info_alert",
                                 props: {
                                     severity: "info",
-                                    component_name: "payu_webhook_info_alert",
                                 },
                                 value: __("Required webhook event: Successful", "acadlix"),
                             },
@@ -98,29 +99,29 @@ const PayU = (props) => {
                     // 🔹 Enable PayU
                     {
                         component: "Grid",
+                        component_name: "payu_enable_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "payu_enable_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "payu_enable_label" },
+                                component_name: "payu_enable_label",
                                 value: __("Enable PayU", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "payu_enable_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "payu_enable_switch_grid",
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
+                                component_name: "payu_enable_switch",
                                 props: {
-                                    component_name: "payu_enable_switch",
                                     label: __("Activate", "acadlix"),
                                     value: "yes",
                                     checked: props?.watch("acadlix_payu_active") === "yes",
@@ -141,29 +142,29 @@ const PayU = (props) => {
                     // 🔹 Enable Sandbox
                     {
                         component: "Grid",
+                        component_name: "payu_enable_sandbox_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "payu_enable_sandbox_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "payu_enable_sandbox_label" },
+                                component_name: "payu_enable_sandbox_label",
                                 value: __("Enable Sandbox", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "payu_enable_sandbox_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "payu_enable_sandbox_switch_grid",
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
+                                component_name: "payu_enable_sandbox_switch",
                                 props: {
-                                    component_name: "payu_enable_sandbox_switch",
                                     label: __("Activate", "acadlix"),
                                     value: "yes",
                                     checked: props?.watch("acadlix_payu_sandbox") === "yes",
@@ -184,29 +185,29 @@ const PayU = (props) => {
                     // 🔹 Merchant Key
                     {
                         component: "Grid",
+                        component_name: "payu_merchant_key_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "payu_merchant_key_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "payu_merchant_key_label" },
+                                component_name: "payu_merchant_key_label",
                                 value: __("Merchant Key", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "payu_merchant_key_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "payu_merchant_key_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "payu_merchant_key_input",
                                 props: {
-                                    component_name: "payu_merchant_key_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Merchant Key", "acadlix"),
@@ -223,29 +224,29 @@ const PayU = (props) => {
                     // 🔹 Salt
                     {
                         component: "Grid",
+                        component_name: "payu_salt_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "payu_salt_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "payu_salt_label" },
+                                component_name: "payu_salt_label",
                                 value: __("Salt", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "payu_salt_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "payu_salt_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "payu_salt_input",
                                 props: {
-                                    component_name: "payu_salt_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Salt", "acadlix"),
@@ -262,29 +263,29 @@ const PayU = (props) => {
                     // 🔹 Webhook URL
                     {
                         component: "Grid",
+                        component_name: "payu_webhook_url_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "payu_webhook_url_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "payu_webhook_url_label" },
+                                component_name: "payu_webhook_url_label",
                                 value: __("Webhook URL", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "payu_webhook_url_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "payu_webhook_url_input_grid",
                         },
                         children: [
                             {
                                 component: "CustomCopyableText",
+                                component_name: "payu_webhook_url_input",
                                 props: {
-                                    component_name: "payu_webhook_url_input",
                                     value: props?.options?.acadlix_payu_webhook_url,
                                 },
                             },

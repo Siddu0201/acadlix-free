@@ -5,34 +5,35 @@ import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRend
 const Stripe = (props) => {
     const stripeSetting = {
         component: "Fragment",
+        component_name: "stripe_settings_fragment",
         children: [
             {
                 component: "Box",
+                component_name: "stripe_settings_box",
                 props: {
-                    component_name: "stripe_settings_box",
                     sx: { marginY: 2, backgroundColor: "grey.light" },
                 },
                 children: [
                     {
                         component: "Box",
+                        component_name: "stripe_header_box",
                         props: {
                             sx: { display: "flex", justifyContent: "space-between" },
-                            component_name: "stripe_header_box",
                         },
                         children: [
                             {
                                 component: "Typography",
+                                component_name: "stripe_header_title",
                                 props: {
                                     variant: "h6",
                                     sx: { paddingX: 2, paddingY: 2 },
-                                    component_name: "stripe_header_title",
                                 },
                                 value: __("Stripe", "acadlix"),
                             },
                             {
                                 component: "FormControlLabel",
+                                component_name: "stripe_default_gateway_switch",
                                 props: {
-                                    component_name: "stripe_default_gateway_switch",
                                     label: __("Default", "acadlix"),
                                     value: "stripe",
                                     checked: props?.watch("acadlix_default_payment_gateway") === "stripe",
@@ -52,32 +53,32 @@ const Stripe = (props) => {
                     },
                     {
                         component: "Divider",
-                        props: { component_name: "stripe_header_divider" },
+                        component_name: "stripe_header_divider",
                     },
                 ],
             },
             {
                 component: "Grid",
+                component_name: "stripe_main_grid",
                 props: {
                     container: true,
                     spacing: { xs: 2, sm: 4 },
                     sx: { alignItems: "center" },
-                    component_name: "stripe_main_grid",
                 },
                 children: [
                     // 🔹 Info Alert
                     {
                         component: "Grid",
+                        component_name: "stripe_webhook_info_grid",
                         props: {
                             size: { lg: 12, md: 12, sm: 12, xs: 12 },
-                            component_name: "stripe_webhook_info_grid",
                         },
                         children: [
                             {
                                 component: "Alert",
+                                component_name: "stripe_webhook_info_alert",
                                 props: {
                                     severity: "info",
-                                    component_name: "stripe_webhook_info_alert",
                                 },
                                 value: __("Required webhook event: checkout*", "acadlix"),
                             },
@@ -87,29 +88,29 @@ const Stripe = (props) => {
                     // 🔹 Enable Stripe
                     {
                         component: "Grid",
+                        component_name: "stripe_enable_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "stripe_enable_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "stripe_enable_label" },
+                                component_name: "stripe_enable_label",
                                 value: __("Enable Stripe", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "stripe_enable_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "stripe_enable_switch_grid",
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
+                                component_name: "stripe_enable_switch",
                                 props: {
-                                    component_name: "stripe_enable_switch",
                                     label: __("Activate", "acadlix"),
                                     value: "yes",
                                     checked: props?.watch("acadlix_stripe_active") === "yes",
@@ -131,29 +132,29 @@ const Stripe = (props) => {
                     // 🔹 Enable Sandbox
                     {
                         component: "Grid",
+                        component_name: "stripe_enable_sandbox_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "stripe_enable_sandbox_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "stripe_enable_sandbox_label" },
+                                component_name: "stripe_enable_sandbox_label",
                                 value: __("Enable Sandbox", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "stripe_enable_sandbox_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "stripe_enable_sandbox_switch_grid",
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
+                                component_name: "stripe_enable_sandbox_switch",
                                 props: {
-                                    component_name: "stripe_enable_sandbox_switch",
                                     label: __("Activate", "acadlix"),
                                     value: "yes",
                                     checked: props?.watch("acadlix_stripe_sandbox") === "yes",
@@ -175,29 +176,29 @@ const Stripe = (props) => {
                     // 🔹 Public Key
                     {
                         component: "Grid",
+                        component_name: "stripe_public_key_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "stripe_public_key_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "stripe_public_key_label" },
+                                component_name: "stripe_public_key_label",
                                 value: __("Public key", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "stripe_public_key_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "stripe_public_key_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "stripe_public_key_input",
                                 props: {
-                                    component_name: "stripe_public_key_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Public key", "acadlix"),
@@ -217,29 +218,29 @@ const Stripe = (props) => {
                     // 🔹 Secret Key
                     {
                         component: "Grid",
+                        component_name: "stripe_secret_key_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "stripe_secret_key_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "stripe_secret_key_label" },
+                                component_name: "stripe_secret_key_label",
                                 value: __("Secret Key", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "stripe_secret_key_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "stripe_secret_key_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "stripe_secret_key_input",
                                 props: {
-                                    component_name: "stripe_secret_key_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Secret Key", "acadlix"),
@@ -259,29 +260,29 @@ const Stripe = (props) => {
                     // 🔹 Webhook Signature Key
                     {
                         component: "Grid",
+                        component_name: "stripe_webhook_signature_key_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "stripe_webhook_signature_key_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "stripe_webhook_signature_key_label" },
+                                component_name: "stripe_webhook_signature_key_label",
                                 value: __("Webhook Signature Key", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "stripe_webhook_signature_key_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "stripe_webhook_signature_key_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "stripe_webhook_signature_key_input",
                                 props: {
-                                    component_name: "stripe_webhook_signature_key_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Webhook Signature Key", "acadlix"),
@@ -301,29 +302,29 @@ const Stripe = (props) => {
                     // 🔹 Webhook URL
                     {
                         component: "Grid",
+                        component_name: "stripe_webhook_url_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "stripe_webhook_url_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "stripe_webhook_url_label" },
+                                component_name: "stripe_webhook_url_label",
                                 value: __("Webhook URL", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "stripe_webhook_url_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "stripe_webhook_url_input_grid",
                         },
                         children: [
                             {
                                 component: "CustomCopyableText",
+                                component_name: "stripe_webhook_url_input",
                                 props: {
-                                    component_name: "stripe_webhook_url_input",
                                     value: props?.options?.acadlix_stripe_webhook_url,
                                 },
                             },

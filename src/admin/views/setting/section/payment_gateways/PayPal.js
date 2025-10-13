@@ -5,11 +5,12 @@ import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRend
 const PayPal = (props) => {
     const paypalSetting = {
         component: "Fragment",
+        component_name: "paypal_settings_fragment",
         children: [
             {
                 component: "Box",
+                component_name: "paypal_settings_box",
                 props: {
-                    component_name: "paypal_settings_box",
                     sx: {
                         marginY: 2,
                         backgroundColor: "grey.light",
@@ -18,19 +19,19 @@ const PayPal = (props) => {
                 children: [
                     {
                         component: "Box",
+                        component_name: "paypal_header_box",
                         props: {
                             sx: {
                                 display: "flex",
                                 justifyContent: "space-between",
                             },
-                            component_name: "paypal_header_box",
                         },
                         children: [
                             {
                                 component: "Typography",
+                                component_name: "paypal_header_title",
                                 props: {
                                     variant: "h6",
-                                    component_name: "paypal_header_title",
                                     sx: {
                                         paddingX: 2,
                                         paddingY: 2,
@@ -40,8 +41,8 @@ const PayPal = (props) => {
                             },
                             {
                                 component: "FormControlLabel",
+                                component_name: "paypal_default_gateway_switch",
                                 props: {
-                                    component_name: "paypal_default_gateway_switch",
                                     label: __("Default", "acadlix"),
                                     value: "paypal",
                                     checked: props?.watch("acadlix_default_payment_gateway") === "paypal",
@@ -64,32 +65,32 @@ const PayPal = (props) => {
                     },
                     {
                         component: "Divider",
-                        props: { component_name: "paypal_header_divider" },
+                        component_name: "paypal_header_divider",
                     },
                 ],
             },
             {
                 component: "Grid",
+                component_name: "paypal_main_grid",
                 props: {
                     container: true,
                     spacing: { xs: 2, sm: 4 },
                     sx: { alignItems: "center" },
-                    component_name: "paypal_main_grid",
                 },
                 children: [
                     // 🔹 Info Alert
                     {
                         component: "Grid",
+                        component_name: "paypal_webhook_info_grid",
                         props: {
                             size: { lg: 12, md: 12, sm: 12, xs: 12 },
-                            component_name: "paypal_webhook_info_grid",
                         },
                         children: [
                             {
                                 component: "Alert",
+                                component_name: "paypal_webhook_info_alert",
                                 props: {
                                     severity: "info",
-                                    component_name: "paypal_webhook_info_alert",
                                 },
                                 value: __("Required webhook event: CHECKOUT.ORDER.APPROVED", "acadlix"),
                             },
@@ -98,35 +99,35 @@ const PayPal = (props) => {
                     // 🔹 Enable PayPal
                     {
                         component: "Grid",
+                        component_name: "paypal_enable_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "paypal_enable_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "paypal_enable_label" },
+                                component_name: "paypal_enable_label",
                                 value: __("Enable PayPal", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_enable_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "paypal_enable_switch_grid",
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
+                                component_name: "paypal_enable_switch",
                                 props: {
-                                    component_name: "paypal_enable_switch",
                                     label: __("Activate", "acadlix"),
                                     value: "yes",
                                     checked: props?.watch("acadlix_paypal_active") === "yes",
-                                    control: { 
-                                        component: "CustomSwitch", 
-                                        props: {} 
+                                    control: {
+                                        component: "CustomSwitch",
+                                        props: {}
                                     },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
@@ -143,29 +144,29 @@ const PayPal = (props) => {
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_enable_sandbox_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "paypal_enable_sandbox_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "paypal_enable_sandbox_label" },
+                                component_name: "paypal_enable_sandbox_label",
                                 value: __("Enable Sandbox", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_enable_sandbox_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
-                            component_name: "paypal_enable_sandbox_switch_grid",
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
+                                component_name: "paypal_enable_sandbox_switch",
                                 props: {
-                                    component_name: "paypal_enable_sandbox_switch",
                                     label: __("Activate", "acadlix"),
                                     value: "yes",
                                     checked: props?.watch("acadlix_paypal_sandbox") === "yes",
@@ -186,23 +187,23 @@ const PayPal = (props) => {
                     // 🔹 Client ID
                     {
                         component: "Grid",
+                        component_name: "paypal_client_id_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "paypal_client_id_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "paypal_client_id_label" },
+                                component_name: "paypal_client_id_label",
                                 value: __("Client ID", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_client_id_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "paypal_client_id_input_grid",
                         },
                         children: [
                             {
@@ -225,29 +226,29 @@ const PayPal = (props) => {
                     // 🔹 Secret Key
                     {
                         component: "Grid",
+                        component_name: "paypal_secret_key_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "paypal_secret_key_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "paypal_secret_key_label" },
+                                component_name: "paypal_secret_key_label",
                                 value: __("Secret Key", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_secret_key_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "paypal_secret_key_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "paypal_secret_key_input",
                                 props: {
-                                    component_name: "paypal_secret_key_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Secret Key", "acadlix"),
@@ -264,29 +265,29 @@ const PayPal = (props) => {
                     // 🔹 Webhook Id
                     {
                         component: "Grid",
+                        component_name: "paypal_webhook_id_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "paypal_webhook_id_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "paypal_webhook_id_label" },
+                                component_name: "paypal_webhook_id_label",
                                 value: __("Webhook ID", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_webhook_id_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "paypal_webhook_id_input_grid",
                         },
                         children: [
                             {
                                 component: "PasswordTextField",
+                                component_name: "paypal_webhook_id_input",
                                 props: {
-                                    component_name: "paypal_webhook_id_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Webhook ID", "acadlix"),
@@ -303,29 +304,29 @@ const PayPal = (props) => {
                     // 🔹 Webhook URL
                     {
                         component: "Grid",
+                        component_name: "paypal_webhook_url_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 3, xs: 12 },
-                            component_name: "paypal_webhook_url_label_grid",
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                props: { component_name: "paypal_webhook_url_label" },
+                                component_name: "paypal_webhook_url_label",
                                 value: __("Webhook URL", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
+                        component_name: "paypal_webhook_url_input_grid",
                         props: {
                             size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                            component_name: "paypal_webhook_url_input_grid",
                         },
                         children: [
                             {
                                 component: "CustomCopyableText",
+                                component_name: "paypal_webhook_url_input",
                                 props: {
-                                    component_name: "paypal_webhook_url_input",
                                     value: props?.options?.acadlix_paypal_webhook_url,
                                 },
                             },
