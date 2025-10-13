@@ -189,27 +189,69 @@ export const modifyComponentTree = (tree, name, action, payload, index = null) =
   if (!tree) return tree;
 
   if (tree.component_name === name) {
-    if (action === "updateProps") {
-      return { ...tree, props: payload(tree.props) };
-    }
-    if (action === "updateValue") {
-      return { ...tree, value: payload(tree.value) };
-    }
-    if (action === "addChild") {
-      let newChildren = [...(tree.children || [])];
-      if (index !== null && index >= 0 && index <= newChildren.length) {
-        newChildren.splice(index, 0, payload); // insert at given index
-      } else {
-        newChildren.push(payload); // fallback to push
+    switch (action) {
+      case "updateProps":
+        return { ...tree, props: payload(tree.props) };
+
+      case "updateValue":
+        return { ...tree, value: payload(tree.value) };
+
+      case "addChild": {
+        const newChildren = [...(tree.children || [])];
+        if (index !== null && index >= 0 && index <= newChildren.length) {
+          newChildren.splice(index, 0, payload);
+        } else {
+          newChildren.push(payload);
+        }
+        return { ...tree, children: newChildren };
       }
-      return { ...tree, children: newChildren };
-    }
-    if (action === "removeProp") {
-      const { [payload]: _, ...rest } = tree.props;
-      return { ...tree, props: rest };
-    }
-    if (action === "removeNode") {
-      return null; // mark for deletion
+
+      case "removeProp": {
+        const { [payload]: _, ...rest } = tree.props;
+        return { ...tree, props: rest };
+      }
+
+      case "removeValue":
+        return { ...tree, value: undefined };
+
+      case "removeNode":
+        return null;
+
+      case "changeComponent":
+        return { ...tree, component: payload };
+
+      case "updateChildren":
+        return { ...tree, children: payload };
+
+      case "replaceNode":
+        return payload;
+
+      case "updateStyle": {
+        const sx = { ...(tree.props?.sx || {}), ...(payload || {}) };
+        return { ...tree, props: { ...tree.props, sx } };
+      }
+
+      case "renameNode":
+        return { ...tree, component_name: payload };
+
+      case "duplicateNode": {
+        if (!parent) return tree;
+        const cloned = JSON.parse(JSON.stringify(tree));
+        const idx = parent.children.findIndex(c => c.component_name === name);
+        const newChildren = [...parent.children];
+        newChildren.splice(idx + 1, 0, cloned);
+        return { ...parent, children: newChildren };
+      }
+
+      case "wrapNode":
+        return {
+          component: payload.component || "Box",
+          props: payload.props || {},
+          children: [tree],
+        };
+
+      case "unwrapNode":
+        return tree.children && tree.children.length === 1 ? tree.children[0] : tree;
     }
   }
 
