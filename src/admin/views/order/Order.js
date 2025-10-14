@@ -153,35 +153,93 @@ const Order = () => {
         flex: 1,
         minWidth: 100,
         renderCell: (params) => {
+          const actionSetting = {
+            component: "Fragment",
+            component_name: "order_action_fragment",
+            props: {},
+            children: [
+              hasCapability("acadlix_edit_order") && ({
+                component: "Tooltip",
+                component_name: "order_action_edit_tooltip",
+                props: {
+                  title: __("Edit Order", "acadlix"),
+                  arrow: true,
+                },
+                children: [
+                  {
+                    component: "IconButton",
+                    component_name: "order_action_edit_icon_button",
+                    props: {
+                      "aria-label": "edit",
+                      size: "small",
+                      color: "primary",
+                      LinkComponent: Link,
+                      to: `/edit/${params?.id}`,
+                    },
+                    children: [
+                      {
+                        component_name: "order_action_edit_icon",
+                        component: "FaEdit",
+                      },
+                    ],
+                  },
+                ],
+              }),
+              hasCapability("acadlix_delete_order") && ({
+                component: "Tooltip",
+                component_name: "order_action_delete_tooltip",
+                props: {
+                  title: __("Delete Order", "acadlix"),
+                  arrow: true,
+                },
+                children: [
+                  {
+                    component: "IconButton",
+                    component_name: "order_action_delete_icon_button",
+                    props: {
+                      "aria-label": "delete",
+                      size: "small",
+                      color: "error",
+                      onClick: deleteOrderById.bind(this, params?.id),
+                    },
+                    children: [
+                      {
+                        component_name: "order_action_delete_icon",
+                        component: "FaTrash",
+                      },
+                    ],
+                  },
+                ],
+              })
+            ],
+          }
+
+          const actionElements = window?.acadlixHooks?.applyFilters(
+            "acadlix.admin.order.actions",
+            [actionSetting],
+            {
+              register: methods?.register,
+              control: methods?.control,
+              watch: methods?.watch,
+              setValue: methods?.setValue,
+            }
+          ) ?? [];
           return (
             <>
-              {
-                hasCapability("acadlix_edit_order") &&
-                <Tooltip title={__("Edit Order", "acadlix")} arrow>
-                  <IconButton
-                    aria-label="edit"
-                    size="small"
-                    color="primary"
-                    LinkComponent={Link}
-                    to={`/edit/${params?.id}`}
-                  >
-                    <FaEdit />
-                  </IconButton>
-                </Tooltip>
-              }
-              {
-                hasCapability("acadlix_delete_order") &&
-                <Tooltip title={__("Delete Lesson", "acadlix")} arrow>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    color="error"
-                    onClick={deleteOrderById.bind(this, params?.id)}
-                  >
-                    <FaTrash />
-                  </IconButton>
-                </Tooltip>
-              }
+              {actionElements.map((field, i) => (
+                <React.Fragment key={i}>
+                  <DynamicMUIRenderer
+                    item={field}
+                    index={i}
+                    formProps={{
+                      register: methods?.register,
+                      setValue: methods?.setValue,
+                      watch: methods?.watch,
+                      control: methods?.control,
+                    }}
+                  />
+                </React.Fragment>
+              ))}
             </>
           )
         }
@@ -597,7 +655,7 @@ const Order = () => {
                               paginationModel: paginationModel,
                               onPaginationModelChange: handlePaginationChange,
                               paginationMode: "server",
-                              pageSizeOptions: [10, 25, 50],
+                              pageSizeOptions: [10, 20, 50, 100],
                               checkboxSelection: false,
                               disableRowSelectionOnClick: true,
                               disableColumnMenu: true,

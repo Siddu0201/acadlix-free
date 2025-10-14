@@ -211,12 +211,22 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
       )
     );
   }
+  // return (
+  //   <Component
+  //     key={index}
+  //     {...resolvedProps}
+  //   >
+  //     {childrenElements || value}
+  //   </Component>
+  // );
   return (
     <Component
       key={index}
       {...resolvedProps}
     >
-      {childrenElements || value}
+      {Array.isArray(childrenElements)
+        ? <>{childrenElements}</> // 👈 Wrap array children in Fragment
+        : childrenElements || value}
     </Component>
   );
 };
