@@ -66,10 +66,6 @@ const OrderContent = (props) => {
         props?.order
     ) ?? baseSetting;
 
-    if (process.env.REACT_APP_MODE === 'development') {
-        console.log(filteredDefaults);
-    }
-
     const methods = useForm({
         defaultValues: filteredDefaults,
     });
