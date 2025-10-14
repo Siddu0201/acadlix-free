@@ -222,6 +222,7 @@ const Order = () => {
               control: methods?.control,
               watch: methods?.watch,
               setValue: methods?.setValue,
+              params: params
             }
           ) ?? [];
           return (
