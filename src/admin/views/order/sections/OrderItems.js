@@ -2,28 +2,14 @@ import {
     Autocomplete,
     Box,
     Button,
-    Card,
-    CardContent,
     CircularProgress,
-    Divider,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     TextField,
-    Typography
 } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import React from 'react'
 import { __ } from '@wordpress/i18n';
-import { FaTrash } from '@acadlix/helpers/icons';
 import { GetOrderCourses } from '@acadlix/requests/admin/AdminOrderRequest';
-import CustomTypography from '@acadlix/components/CustomTypography';
 import { currencyPosition, getStripHtml } from '@acadlix/helpers/util';
+import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const OrderItems = (props) => {
     const handleRemoveOrder = (id) => {
@@ -36,103 +22,367 @@ const OrderItems = (props) => {
             { shouldDirty: true }
         );
     }
-    
+
+    const defaultSetting = {
+        component: "Grid",
+        component_name: "order_items_grid",
+        props: {
+            size: { xs: 12, sm: 12 },
+        },
+        children: [
+            {
+                component: "Card",
+                component_name: "order_items_card",
+                children: [
+                    {
+                        component: "CardContent",
+                        component_name: "order_items_card_content",
+                        children: [
+                            {
+                                component: "Box",
+                                component_name: "order_items_box",
+                                props: {
+                                    sx: {
+                                        marginY: 2,
+                                    }
+                                },
+                                children: [
+                                    {
+                                        component: "Typography",
+                                        component_name: "order_items_title_typography",
+                                        props: {
+                                            variant: "h4"
+                                        },
+                                        value: __("Add Course(s) to Order", "acadlix")
+                                    },
+                                    {
+                                        component: "Divider",
+                                        component_name: "order_items_divider",
+                                    }
+                                ]
+                            },
+                            {
+                                component: "Grid",
+                                component_name: "order_items_grid_container",
+                                props: {
+                                    container: true,
+                                    spacing: {
+                                        xs: 2,
+                                        sm: 4,
+                                    },
+                                    alignItems: "center",
+                                },
+                                children: [
+                                    {
+                                        component: "Grid",
+                                        component_name: "order_items_grid_item",
+                                        props: {
+                                            size: { xs: 12, sm: 6, lg: 2 },
+                                        },
+                                        children: [
+                                            {
+                                                component: "CustomTypography",
+                                                component_name: "order_items_add_courses_typography",
+                                                value: __("Add Courses", "acadlix")
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        component: "Grid",
+                                        component_name: "order_items_grid_order_courses",
+                                        props: {
+                                            size: { xs: 12, sm: 6, lg: 4 },
+                                        },
+                                        children: [
+                                            {
+                                                component: <OrderCourse {...props} />
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        component: "Grid",
+                                        component_name: "order_items_grid_table",
+                                        props: {
+                                            size: { xs: 12, sm: 12, lg: 12 },
+                                        },
+                                        children: [
+                                            {
+                                                component: "TableContainer",
+                                                component_name: "order_items_table_container",
+                                                children: [
+                                                    {
+                                                        component: "Table",
+                                                        component_name: "order_items_table",
+                                                        props: {
+                                                            sx: {
+                                                                minWidth: 650,
+                                                            },
+                                                            "aria-label": "simple table",
+                                                        },
+                                                        children: [
+                                                            {
+                                                                component: "TableHead",
+                                                                component_name: "order_items_table_head",
+                                                                children: [
+                                                                    {
+                                                                        component: "TableRow",
+                                                                        component_name: "order_items_head_table_row",
+                                                                        children: [
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_course_label_table_cell",
+                                                                                value: __("Course", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_quantity_label_table_cell",
+                                                                                value: __("Quantity", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_price_label_table_cell",
+                                                                                value: __("Price", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_discount_label_table_cell",
+                                                                                value: __("Discount", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_price_after_discount_label_table_cell",
+                                                                                value: __("Price After Discount", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_tax_label_table_cell",
+                                                                                value: __("Tax", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_price_after_tax_label_table_cell",
+                                                                                value: __("Price After Tax", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
+                                                                                component_name: "order_items_action_label_table_cell",
+                                                                                value: __("Action", "acadlix")
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                component: "TableBody",
+                                                                component_name: "order_items_table_body",
+                                                                children: [
+                                                                    ...props?.watch("order_items")?.map((item, index) => {
+                                                                        return {
+                                                                            component: "TableRow",
+                                                                            component_name: "order_items_detail_table_row",
+                                                                            index: index,
+                                                                            props: {
+                                                                                sx: {
+                                                                                    '&:last-child td, &:last-child th': { border: 0 },
+                                                                                }
+                                                                            },
+                                                                            children: [
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_title_table_cell",
+                                                                                    props: {
+                                                                                        component: "th",
+                                                                                        scope: "row"
+                                                                                    },
+                                                                                    value: item?.course_title
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_quantity_table_cell",
+                                                                                    value: item?.quantity
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_price_table_cell",
+                                                                                    value: currencyPosition(item?.price)
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_discount_table_cell",
+                                                                                    value: currencyPosition(item?.discount)
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_price_after_discount_table_cell",
+                                                                                    value: currencyPosition(item?.price_after_discount)
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_tax_table_cell",
+                                                                                    value: currencyPosition(item?.tax)
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_price_after_tax_table_cell",
+                                                                                    value: currencyPosition(item?.price_after_tax)
+                                                                                },
+                                                                                {
+                                                                                    component: "TableCell",
+                                                                                    component_name: "order_items_action_table_cell",
+                                                                                    children: [
+                                                                                        {
+                                                                                            component: "IconButton",
+                                                                                            component_name: "order_items_action_table_cell_icon_button",
+                                                                                            props: {
+                                                                                                onClick: handleRemoveOrder.bind(this, item?.course_id)
+                                                                                            },
+                                                                                            children: [
+                                                                                                {
+                                                                                                    component_name: "order_items_action_fa_trash_table_cell_icon_button",
+                                                                                                    component: "FaTrash",
+                                                                                                    props: {
+                                                                                                        style: {
+                                                                                                            fontSize: 14,
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }),
+                                                                    props?.watch("order_items")?.length > 0 && ({
+                                                                        component: "Fragment",
+                                                                        component_name: "order_items_total_row_fragment",
+                                                                        children: [
+                                                                            {
+                                                                                component: "TableRow",
+                                                                                component_name: "order_items_total_table_row",
+                                                                                children: [
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_span_table_cell",
+                                                                                        props: {
+                                                                                            colSpan: 5,
+                                                                                            rowSpan: 4,
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_subtotal_label_table_cell",
+                                                                                        value: __("Subtotal", "acadlix")
+                                                                                    },
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_subtotal_value_table_cell",
+                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                component: "TableRow",
+                                                                                component_name: "order_items_discount_row",
+                                                                                children: [
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_total_discount_label_table_cell",
+                                                                                        value: __("Discount", "acadlix")
+                                                                                    },
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_total_discount_value_table_cell",
+                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                component: "TableRow",
+                                                                                component_name: "order_items_tax_row",
+                                                                                children: [
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_total_tax_label_table_cell",
+                                                                                        value: __("Tax", "acadlix")
+                                                                                    },
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_total_tax_value_table_cell",
+                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.tax, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                component: "TableRow",
+                                                                                component_name: "order_items_total_row",
+                                                                                children: [
+
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_total_label_table_cell",
+                                                                                        value: __("Total", "acadlix")
+                                                                                    },
+                                                                                    {
+                                                                                        component: "TableCell",
+                                                                                        component_name: "order_items_total_value_table_cell",
+                                                                                        children: [
+                                                                                            {
+                                                                                                component: "b",
+                                                                                                component_name: "order_items_total_value_table_cell_b",
+                                                                                                value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price_after_tax, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                            }
+                                                                                        ]
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                        ]
+                                                                    })
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    const order_items = window?.acadlixHooks?.applyFilters?.(
+        "acadlix.admin.order.order_items",
+        [defaultSetting],
+        {
+            register: props?.register,
+            control: props?.control,
+            watch: props?.watch,
+            setValue: props?.setValue,
+        }
+    ) ?? [];
+
     return (
-        <Grid size={{ xs: 12, sm: 12 }}>
-            <Card>
-                <CardContent>
-                    <Box
-                        sx={{
-                            marginY: 2,
+        <>
+            {order_items.map((field, i) => (
+                <React.Fragment key={i}>
+                    <DynamicMUIRenderer
+                        item={field}
+                        index={i}
+                        formProps={{
+                            register: props?.register,
+                            setValue: props?.setValue,
+                            watch: props?.watch,
+                            control: props?.control,
                         }}
-                    >
-                        <Typography variant="h4">{__("Add Course(s) to Order", "acadlix")}</Typography>
-                        <Divider />
-                    </Box>
-                    <Grid
-                        container
-                        spacing={{
-                            xs: 2,
-                            sm: 4,
-                        }}
-                        alignItems="center"
-                    >
-                        <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
-                            <CustomTypography>{__("Add Courses", "acadlix")}</CustomTypography>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
-                            <OrderCourse {...props} />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 12, lg: 12 }}>
-                            <TableContainer>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>{__("Course", "acadlix")}</TableCell>
-                                            <TableCell>{__("Quantity", "acadlix")}</TableCell>
-                                            <TableCell>{__("Price", "acadlix")}</TableCell>
-                                            <TableCell>{__("Discount", "acadlix")}</TableCell>
-                                            <TableCell>{__("Price After Discount", "acadlix")}</TableCell>
-                                            <TableCell>{__("Tax", "acadlix")}</TableCell>
-                                            <TableCell>{__("Price After Tax", "acadlix")}</TableCell>
-                                            <TableCell>{__("Action", "acadlix")}</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {props?.watch("order_items")?.map((item, index) => {
-                                            return (
-                                                <TableRow
-                                                    key={index}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell component="th" scope="row">
-                                                        {item?.course_title}
-                                                    </TableCell>
-                                                    <TableCell>{item?.quantity}</TableCell>
-                                                    <TableCell>{currencyPosition(item?.price, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                    <TableCell>{currencyPosition(item?.discount, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                    <TableCell>{currencyPosition(item?.price_after_discount, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                    <TableCell>{currencyPosition(item?.tax, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                    <TableCell>{currencyPosition(item?.price_after_tax, getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                    <TableCell>
-                                                        <IconButton onClick={handleRemoveOrder.bind(this, item?.course_id)}>
-                                                            <FaTrash style={{
-                                                                fontSize: 14,
-                                                            }} />
-                                                        </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })}
-                                        {props?.watch("order_items")?.length > 0 && (
-                                            <>
-                                                <TableRow>
-                                                    <TableCell rowSpan={4} colSpan={5} />
-                                                    <TableCell>{__("Subtotal", "acadlix")}</TableCell>
-                                                    <TableCell>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>{__("Discount", "acadlix")}</TableCell>
-                                                    <TableCell>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>{__("Tax", "acadlix")}</TableCell>
-                                                    <TableCell>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.tax, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>{__("Total", "acadlix")}</TableCell>
-                                                    <TableCell><b>{currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price_after_tax, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}</b></TableCell>
-                                                </TableRow>
-                                            </>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
-        </Grid>
+                    />
+                </React.Fragment>
+            ))}
+        </>
     )
 }
 

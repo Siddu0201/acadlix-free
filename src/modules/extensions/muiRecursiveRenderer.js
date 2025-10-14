@@ -33,6 +33,12 @@ import {
   InputAdornment,
   CircularProgress,
   CardActions,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -45,10 +51,44 @@ import PasswordTextField from "@acadlix/components/PasswordTextField";
 import { iconMap } from "@acadlix/helpers/icons";
 import { RawHTML } from "@wordpress/element";
 import CustomCopyableText from "@acadlix/components/CustomCopyableText";
+import { DataGrid } from "@mui/x-data-grid";
+import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from "@mui/lab";
+
+const HTML_COMPONENTS = [
+  "form",
+  "div",
+  "button",
+  "input",
+  "select",
+  "option",
+  "label",
+  "span",
+  "b",
+  "p",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "ul",
+  "li",
+  "table",
+  "thead",
+  "tbody",
+  "tr",
+  "td",
+  "th",
+  "svg",
+  "path",
+  "img"
+];
 
 const COMPONENT_MAP = {
+  ...Object.fromEntries(HTML_COMPONENTS.map(tag => [tag, tag])),
   CustomTextField,
   Divider,
+  DataGrid,
   Select,
   MenuItem,
   FormControl,
@@ -82,6 +122,19 @@ const COMPONENT_MAP = {
   FormHelperText,
   InputLabel,
   InputAdornment,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
   // Custom Components
   GridItem1,
   CustomSwitch,
