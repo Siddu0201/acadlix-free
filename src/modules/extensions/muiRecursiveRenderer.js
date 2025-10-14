@@ -211,6 +211,21 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
       )
     );
   }
+
+  const singleChildComponents = [
+    "Tooltip",
+    "Popover",
+    "Dialog",
+    "Menu",
+    "MenuList"
+  ];
+  return (
+    <Component key={index} {...resolvedProps}>
+      {singleChildComponents.includes(component)
+        ? <>{childrenElements}</>
+        : (childrenElements || value)}
+    </Component>
+  );
   // return (
   //   <Component
   //     key={index}
@@ -219,16 +234,6 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
   //     {childrenElements || value}
   //   </Component>
   // );
-  return (
-    <Component
-      key={index}
-      {...resolvedProps}
-    >
-      {Array.isArray(childrenElements)
-        ? <>{childrenElements}</> // 👈 Wrap array children in Fragment
-        : childrenElements || value}
-    </Component>
-  );
 };
 
 export const DynamicMUIRenderer = ({ item, index, formProps }) => {

@@ -289,6 +289,7 @@ const OrderOptions = (props) => {
                                                                             labelId: "demo-simple-select-label",
                                                                             id: "demo-simple-select",
                                                                             value: props?.watch("status"),
+                                                                            name: "status",
                                                                             label: __("Status", "acadlix"),
                                                                             onChange: (e) => {
                                                                                 props?.setValue("status", e?.target?.value, {
@@ -309,7 +310,7 @@ const OrderOptions = (props) => {
                                                                                 component: "MenuItem",
                                                                                 component_name: "order_options_order_status_success_menu_item",
                                                                                 props: {
-                                                                                    value: "success",
+                                                                                    value: "success",                                                                                    
                                                                                 },
                                                                                 value: __("Success", "acadlix")
                                                                             },
