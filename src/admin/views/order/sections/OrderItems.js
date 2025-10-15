@@ -187,7 +187,7 @@ const OrderItems = (props) => {
                                                                                         component: "TableCell",
                                                                                         component_name: "order_items_span_table_cell",
                                                                                         props: {
-                                                                                            colSpan: 5,
+                                                                                            colSpan: 6,
                                                                                             rowSpan: 4,
                                                                                         }
                                                                                     },
