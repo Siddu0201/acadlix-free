@@ -23,6 +23,8 @@ const OrderItems = (props) => {
         );
     }
 
+    console.log(props);
+
     const defaultSetting = {
         component: "Grid",
         component_name: "order_items_grid",
@@ -73,7 +75,7 @@ const OrderItems = (props) => {
                                     alignItems: "center",
                                 },
                                 children: [
-                                    {
+                                    props?.create && ({
                                         component: "Grid",
                                         component_name: "order_items_grid_item",
                                         props: {
@@ -86,8 +88,8 @@ const OrderItems = (props) => {
                                                 value: __("Add Courses", "acadlix")
                                             }
                                         ]
-                                    },
-                                    {
+                                    }),
+                                    props?.create && ({
                                         component: "Grid",
                                         component_name: "order_items_grid_order_courses",
                                         props: {
@@ -98,7 +100,7 @@ const OrderItems = (props) => {
                                                 component: <OrderCourse {...props} />
                                             }
                                         ]
-                                    },
+                                    }),
                                     {
                                         component: "Grid",
                                         component_name: "order_items_grid_table",
@@ -163,11 +165,11 @@ const OrderItems = (props) => {
                                                                                 component_name: "order_items_price_after_tax_label_table_cell",
                                                                                 value: __("Price After Tax", "acadlix")
                                                                             },
-                                                                            {
+                                                                            props?.create && ({
                                                                                 component: "TableCell",
                                                                                 component_name: "order_items_action_label_table_cell",
                                                                                 value: __("Action", "acadlix")
-                                                                            }
+                                                                            })
                                                                         ]
                                                                     }
                                                                 ]
@@ -226,7 +228,7 @@ const OrderItems = (props) => {
                                                                                     component_name: "order_items_price_after_tax_table_cell",
                                                                                     value: currencyPosition(item?.price_after_tax)
                                                                                 },
-                                                                                {
+                                                                                props?.create && ({
                                                                                     component: "TableCell",
                                                                                     component_name: "order_items_action_table_cell",
                                                                                     children: [
@@ -249,7 +251,7 @@ const OrderItems = (props) => {
                                                                                             ]
                                                                                         }
                                                                                     ]
-                                                                                }
+                                                                                })
                                                                             ]
                                                                         }
                                                                     }),
@@ -363,6 +365,7 @@ const OrderItems = (props) => {
             control: props?.control,
             watch: props?.watch,
             setValue: props?.setValue,
+            create: props?.create,
         }
     ) ?? [];
 
@@ -413,17 +416,25 @@ const OrderCourse = (props) => {
             props?.setValue(
                 "order_items",
                 [...props?.watch("order_items"),
-                {
-                    course_id: course?.ID,
-                    course_title: course?.post_title,
-                    quantity: 1,
-                    price: price,
-                    discount: discount,
-                    price_after_discount: price_after_discount,
-                    additional_fee: 0,
-                    tax: tax,
-                    price_after_tax: price_after_tax
-                }
+                window?.acadlixHooks?.applyFilters?.(
+                    "acadlix.admin.order.order_items.add_order_items",
+                    {
+                        course_id: course?.ID,
+                        course_title: course?.post_title,
+                        quantity: 1,
+                        price: price,
+                        additional_fee: 0,
+                        discount: discount,
+                        price_after_discount: price_after_discount,
+                        tax: tax,
+                        price_after_tax: price_after_tax
+                    },
+                    {
+                        course: course,
+                        watch: props?.watch,
+                        setValue: props?.setValue,
+                    }
+                )
                 ]);
 
             props?.setValue("total_amount",

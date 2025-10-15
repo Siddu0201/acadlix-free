@@ -330,29 +330,29 @@ class AdminOrderController
             $errors[] = __('Order items is required.', 'acadlix');
         }
 
-        foreach ($order_items as $order_item) {
-            if (!$order_item['course_id'])
-                continue;
-            $orderItem = acadlix()->model()->orderItem()
-                        ->where('order_id', $orderId)
-                        ->where('course_id', $order_item['course_id'])
-                        ->first();
-            if($orderItem){
-               continue;
-            }
-            $course = acadlix()->model()->course()->ofCourse()->find($order_item['course_id']);
-            if ($course->isPurchasedBy($user_id)) {
-                /* translators: %s is the course title */
-                $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
-            }
-            $cartItem = acadlix()->model()->courseCart()
-                        ->where('user_id', $user_id)
-                        ->where('course_id', $order_item['course_id'])
-                        ->first();
-            if ($cartItem && $params['status'] == 'success') {
-                $cartItem->delete();
-            }
-        }
+        // foreach ($order_items as $order_item) {
+        //     if (!$order_item['course_id'])
+        //         continue;
+        //     $orderItem = acadlix()->model()->orderItem()
+        //                 ->where('order_id', $orderId)
+        //                 ->where('course_id', $order_item['course_id'])
+        //                 ->first();
+        //     if($orderItem){
+        //        continue;
+        //     }
+        //     $course = acadlix()->model()->course()->ofCourse()->find($order_item['course_id']);
+        //     if ($course->isPurchasedBy($user_id)) {
+        //         /* translators: %s is the course title */
+        //         $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
+        //     }
+        //     $cartItem = acadlix()->model()->courseCart()
+        //                 ->where('user_id', $user_id)
+        //                 ->where('course_id', $order_item['course_id'])
+        //                 ->first();
+        //     if ($cartItem && $params['status'] == 'success') {
+        //         $cartItem->delete();
+        //     }
+        // }
 
         if (!empty($errors)) {
             return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
@@ -363,33 +363,33 @@ class AdminOrderController
             $order->update([
                 'user_id' => $user_id,
                 'status' => $params['status'],
-                'total_amount' => (float) $params['total_amount'],
+                // 'total_amount' => (float) $params['total_amount'],
             ]);
             $admin = get_userdata($admin_id);
             $message = "Order status updated to {$params['status']} by {$admin->display_name}";
             $order->createActivityLog($message);
 
-            $course_ids = array_column($order_items, 'course_id');
-            $order->order_items()->whereNotIn('course_id', $course_ids)->delete();
-            foreach ($order_items as $item) {
-                if (!$item['course_id'])
-                    continue;
-                $order->order_items()->updateOrCreate([
-                    'course_id' => $item['course_id'],
-                ], [
-                    'course_title' => $item['course_title'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'discount' => $item['discount'],
-                    'price_after_discount' => $item['price_after_discount'],
-                    'additional_fee' => $item['additional_fee'],
-                    'tax' => $item['tax'],
-                    'price_after_tax' => $item['price_after_tax'],
-                ]);
-            }
+            // $course_ids = array_column($order_items, 'course_id');
+            // $order->order_items()->whereNotIn('course_id', $course_ids)->delete();
+            // foreach ($order_items as $item) {
+            //     if (!$item['course_id'])
+            //         continue;
+            //     $order->order_items()->updateOrCreate([
+            //         'course_id' => $item['course_id'],
+            //     ], [
+            //         'course_title' => $item['course_title'],
+            //         'quantity' => $item['quantity'],
+            //         'price' => $item['price'],
+            //         'discount' => $item['discount'],
+            //         'price_after_discount' => $item['price_after_discount'],
+            //         'additional_fee' => $item['additional_fee'],
+            //         'tax' => $item['tax'],
+            //         'price_after_tax' => $item['price_after_tax'],
+            //     ]);
+            // }
 
-            $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
-            $order->updateOrCreateMeta('is_free', (bool) $params['meta']['is_free']);
+            // $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
+            // $order->updateOrCreateMeta('is_free', (bool) $params['meta']['is_free']);
         }
 
         return rest_ensure_response($res);

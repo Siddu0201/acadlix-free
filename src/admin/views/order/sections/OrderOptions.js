@@ -1,6 +1,6 @@
 import {
-    Autocomplete, 
-    CircularProgress, 
+    Autocomplete,
+    CircularProgress,
     TextField
 } from '@mui/material';
 import React from 'react'
@@ -17,7 +17,7 @@ const OrderOptions = (props) => {
         },
         children: [
             {
-                component: "Card",  
+                component: "Card",
                 component_name: "order_options_card",
                 children: [
                     {
@@ -169,7 +169,7 @@ const OrderOptions = (props) => {
                                                                 ]
                                                             }
                                                         ),
-                                                    {
+                                                    props?.create && ({
                                                         component: "Grid",
                                                         component_name: "order_options_is_free_label_grid_item",
                                                         props: {
@@ -181,8 +181,8 @@ const OrderOptions = (props) => {
                                                                 value: __("Is Free", "acadlix")
                                                             }
                                                         ]
-                                                    },
-                                                    {
+                                                    }),
+                                                    props?.create && ({
                                                         component: "Grid",
                                                         component_name: "order_options_is_free_grid_item",
                                                         props: {
@@ -244,7 +244,7 @@ const OrderOptions = (props) => {
                                                                 }
                                                             }
                                                         ]
-                                                    },
+                                                    }),
                                                     {
                                                         component: "Grid",
                                                         component_name: "order_options_order_status_label_grid_item",
@@ -310,7 +310,7 @@ const OrderOptions = (props) => {
                                                                                 component: "MenuItem",
                                                                                 component_name: "order_options_order_status_success_menu_item",
                                                                                 props: {
-                                                                                    value: "success",                                                                                    
+                                                                                    value: "success",
                                                                                 },
                                                                                 value: __("Success", "acadlix")
                                                                             },
@@ -349,6 +349,7 @@ const OrderOptions = (props) => {
             control: props?.control,
             watch: props?.watch,
             setValue: props?.setValue,
+            create: props?.create,
         }
     ) ?? [];
 
