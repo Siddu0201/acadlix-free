@@ -315,7 +315,7 @@ class AdminOrderController
         $params = $request->get_params();
         $orderId = $request['order_id'];
         $user_id = $params['user_id'];
-        $order_items = $params['order_items'];
+        // $order_items = $params['order_items'];
         $admin_id = $params['admin_id'];
 
         if (empty($orderId)) {
@@ -326,9 +326,9 @@ class AdminOrderController
             $errors[] = __('User id is required.', 'acadlix');
         }
 
-        if (empty($order_items)) {
-            $errors[] = __('Order items is required.', 'acadlix');
-        }
+        // if (empty($order_items)) {
+        //     $errors[] = __('Order items is required.', 'acadlix');
+        // }
 
         // foreach ($order_items as $order_item) {
         //     if (!$order_item['course_id'])
