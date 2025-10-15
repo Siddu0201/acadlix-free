@@ -333,14 +333,14 @@ class AdminOrderController
         foreach ($order_items as $order_item) {
             if (!$order_item['course_id'])
                 continue;
-            $order_item = acadlix()->model()->orderItem()
+            $orderItem = acadlix()->model()->orderItem()
                         ->where('order_id', $orderId)
                         ->where('course_id', $order_item['course_id'])
                         ->first();
-            if($order_item){
+            if($orderItem){
                continue;
             }
-            $course = acadlix()->model()->course()->find($order_item['course_id']);
+            $course = acadlix()->model()->course()->ofCourse()->find($order_item['course_id']);
             if ($course->isPurchasedBy($user_id)) {
                 /* translators: %s is the course title */
                 $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
