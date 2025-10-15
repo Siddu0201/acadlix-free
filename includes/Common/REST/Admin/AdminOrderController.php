@@ -333,6 +333,13 @@ class AdminOrderController
         foreach ($order_items as $order_item) {
             if (!$order_item['course_id'])
                 continue;
+            $order_item = acadlix()->model()->orderItem()
+                        ->where('order_id', $orderId)
+                        ->where('course_id', $order_item['course_id'])
+                        ->first();
+            if($order_item){
+               continue;
+            }
             $course = acadlix()->model()->course()->find($order_item['course_id']);
             if ($course->isPurchasedBy($user_id)) {
                 /* translators: %s is the course title */
