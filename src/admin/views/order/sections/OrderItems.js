@@ -12,19 +12,6 @@ import { currencyPosition, getStripHtml } from '@acadlix/helpers/util';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const OrderItems = (props) => {
-    const handleRemoveOrder = (id) => {
-        props.setValue("order_items",
-            props?.watch("order_items").filter((item) => item?.course_id !== id),
-            { shouldDirty: true }
-        );
-        props.setValue("courses",
-            props?.watch("courses").filter((item) => item?.ID !== id),
-            { shouldDirty: true }
-        );
-    }
-
-    console.log(props);
-
     const defaultSetting = {
         component: "Grid",
         component_name: "order_items_grid",
@@ -55,7 +42,7 @@ const OrderItems = (props) => {
                                         props: {
                                             variant: "h4"
                                         },
-                                        value: __("Add Course(s) to Order", "acadlix")
+                                        value: props?.create ? __("Add Course(s) to Order", "acadlix") : __("Order Items", "acadlix")
                                     },
                                     {
                                         component: "Divider",
@@ -180,79 +167,7 @@ const OrderItems = (props) => {
                                                                 children: [
                                                                     ...props?.watch("order_items")?.map((item, index) => {
                                                                         return {
-                                                                            component: "TableRow",
-                                                                            component_name: "order_items_detail_table_row",
-                                                                            index: index,
-                                                                            props: {
-                                                                                sx: {
-                                                                                    '&:last-child td, &:last-child th': { border: 0 },
-                                                                                }
-                                                                            },
-                                                                            children: [
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_title_table_cell",
-                                                                                    props: {
-                                                                                        component: "th",
-                                                                                        scope: "row"
-                                                                                    },
-                                                                                    value: item?.course_title
-                                                                                },
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_quantity_table_cell",
-                                                                                    value: item?.quantity
-                                                                                },
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_price_table_cell",
-                                                                                    value: currencyPosition(item?.price)
-                                                                                },
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_discount_table_cell",
-                                                                                    value: currencyPosition(item?.discount)
-                                                                                },
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_price_after_discount_table_cell",
-                                                                                    value: currencyPosition(item?.price_after_discount)
-                                                                                },
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_tax_table_cell",
-                                                                                    value: currencyPosition(item?.tax)
-                                                                                },
-                                                                                {
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_price_after_tax_table_cell",
-                                                                                    value: currencyPosition(item?.price_after_tax)
-                                                                                },
-                                                                                props?.create && ({
-                                                                                    component: "TableCell",
-                                                                                    component_name: "order_items_action_table_cell",
-                                                                                    children: [
-                                                                                        {
-                                                                                            component: "IconButton",
-                                                                                            component_name: "order_items_action_table_cell_icon_button",
-                                                                                            props: {
-                                                                                                onClick: handleRemoveOrder.bind(this, item?.course_id)
-                                                                                            },
-                                                                                            children: [
-                                                                                                {
-                                                                                                    component_name: "order_items_action_fa_trash_table_cell_icon_button",
-                                                                                                    component: "FaTrash",
-                                                                                                    props: {
-                                                                                                        style: {
-                                                                                                            fontSize: 14,
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                })
-                                                                            ]
+                                                                            component: <OrderItem key={index} item={item} index={index} {...props} />
                                                                         }
                                                                     }),
                                                                     props?.watch("order_items")?.length > 0 && ({
@@ -501,5 +416,134 @@ const OrderCourse = (props) => {
         </Box>
     )
 }
+
+const OrderItem = ({ item, index, ...props }) => {
+    const handleRemoveOrder = (id) => {
+        props.setValue("order_items",
+            props?.watch("order_items").filter((item) => item?.course_id !== id),
+            { shouldDirty: true }
+        );
+        props.setValue("courses",
+            props?.watch("courses").filter((item) => item?.ID !== id),
+            { shouldDirty: true }
+        );
+    }
+    const defaultSetting = {
+        component: "Fragment",
+        children: [
+            {
+                component: "TableRow",
+                component_name: "order_items_detail_table_row",
+                index: index,
+                props: {
+                    sx: {
+                        '&:last-child td, &:last-child th': { border: 0 },
+                    }
+                },
+                children: [
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_title_table_cell",
+                        props: {
+                            component: "th",
+                            scope: "row"
+                        },
+                        value: item?.course_title
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_quantity_table_cell",
+                        value: item?.quantity
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_price_table_cell",
+                        value: currencyPosition(item?.price)
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_discount_table_cell",
+                        value: currencyPosition(item?.discount)
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_price_after_discount_table_cell",
+                        value: currencyPosition(item?.price_after_discount)
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_tax_table_cell",
+                        value: currencyPosition(item?.tax)
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_price_after_tax_table_cell",
+                        value: currencyPosition(item?.price_after_tax)
+                    },
+                    props?.create && ({
+                        component: "TableCell",
+                        component_name: "order_items_action_table_cell",
+                        children: [
+                            {
+                                component: "IconButton",
+                                component_name: "order_items_action_table_cell_icon_button",
+                                props: {
+                                    onClick: handleRemoveOrder.bind(this, item?.course_id)
+                                },
+                                children: [
+                                    {
+                                        component_name: "order_items_action_fa_trash_table_cell_icon_button",
+                                        component: "FaTrash",
+                                        props: {
+                                            style: {
+                                                fontSize: 14,
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                ]
+            }
+        ]
+    }
+
+    const order_item = window?.acadlixHooks?.applyFilters?.(
+        "acadlix.admin.order.order_item",
+        [defaultSetting],
+        {
+            register: props?.register,
+            control: props?.control,
+            watch: props?.watch,
+            setValue: props?.setValue,
+            create: props?.create,
+            item,
+            index,
+            handleRemoveOrder,
+        }
+    ) ?? [];
+
+    return (
+        <>
+            {order_item.map((field, i) => (
+                <React.Fragment key={i}>
+                    <DynamicMUIRenderer
+                        item={field}
+                        index={i}
+                        formProps={{
+                            register: props?.register,
+                            setValue: props?.setValue,
+                            watch: props?.watch,
+                            control: props?.control,
+                        }}
+                    />
+                </React.Fragment>
+            ))}
+        </>
+    )
+};
+
+
 
 export default OrderItems
