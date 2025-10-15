@@ -12,6 +12,57 @@ import { currencyPosition, getStripHtml } from '@acadlix/helpers/util';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const OrderItems = (props) => {
+    const [inputValue, setInputValue] = React.useState("");
+    const [course, setCourse] = React.useState(null);
+
+    const handleAddOrderItem = () => {
+        if (course) {
+            const price = course?.rendered_metas?.enable_sale_price ?
+                Number(course?.rendered_metas?.sale_price) || 0
+                : Number(course?.rendered_metas?.price) || 0;
+            const discount = props?.watch("meta.is_free") ? price : 0;
+            const price_after_discount = price - discount;
+            const tax = course?.rendered_metas?.tax && Number(course?.rendered_metas?.tax_percent) > 0 ?
+                price > 0 ?
+                    Math.round((Number(course?.rendered_metas?.tax_percent) * price_after_discount / 100) * 100) / 100
+                    : 0
+                : 0;
+            const price_after_tax = price_after_discount + tax;
+            props?.setValue("courses", [...props?.watch("courses"), course], { shouldDirty: true });
+            props?.setValue(
+                "order_items",
+                [...props?.watch("order_items"),
+                window?.acadlixHooks?.applyFilters?.(
+                    "acadlix.admin.order.order_items.add_order_items",
+                    {
+                        course_id: course?.ID,
+                        course_title: course?.post_title,
+                        quantity: 1,
+                        price: price,
+                        additional_fee: 0,
+                        discount: discount,
+                        price_after_discount: price_after_discount,
+                        tax: tax,
+                        price_after_tax: price_after_tax
+                    },
+                    {
+                        course: course,
+                        watch: props?.watch,
+                        setValue: props?.setValue,
+                    }
+                )
+                ]);
+
+            props?.setValue("total_amount",
+                props?.watch("order_items")?.reduce((acc, item) => acc + item?.price_after_tax, 0),
+                {
+                    shouldDirty: true
+                });
+            setInputValue("");
+            setCourse(null);
+        }
+    }
+
     const defaultSetting = {
         component: "Grid",
         component_name: "order_items_grid",
@@ -84,7 +135,29 @@ const OrderItems = (props) => {
                                         },
                                         children: [
                                             {
-                                                component: <OrderCourse {...props} />
+                                                component: "Box",
+                                                component_name: "order_items_grid_order_courses_box",
+                                                props: {
+                                                    sx: {
+                                                        display: "flex",
+                                                        gap: 2,
+                                                    }
+                                                },
+                                                children: [
+                                                    {
+                                                        component: <OrderCourse {...props} inputValue={inputValue} setInputValue={setInputValue} course={course} setCourse={setCourse} />,
+                                                        component_name: "order_items_grid_order_courses_order_course"
+                                                    },
+                                                    {
+                                                        component: "Button",
+                                                        component_name: "order_items_grid_order_courses_button",
+                                                        props: {
+                                                            variant: "contained",
+                                                            onClick: handleAddOrderItem
+                                                        },
+                                                        value: __("Add", "acadlix")
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }),
@@ -310,115 +383,53 @@ const OrderItems = (props) => {
 }
 
 const OrderCourse = (props) => {
-    const [inputValue, setInputValue] = React.useState("");
-    const [course, setCourse] = React.useState(null);
-
-    const { data, isFetching, refetch } = GetOrderCourses(inputValue);
+    const { data, isFetching, refetch } = GetOrderCourses(props?.inputValue);
     React.useEffect(() => {
-        if (inputValue?.length >= 3) {
+        if (props?.inputValue?.length >= 3) {
             refetch();
         }
-    }, [inputValue]);
-    const handleAddOrderItem = () => {
-        if (course) {
-            const price = course?.rendered_metas?.enable_sale_price ?
-                Number(course?.rendered_metas?.sale_price) || 0
-                : Number(course?.rendered_metas?.price) || 0;
-            const discount = props?.watch("meta.is_free") ? price : 0;
-            const price_after_discount = price - discount;
-            const tax = course?.rendered_metas?.tax && Number(course?.rendered_metas?.tax_percent) > 0 ?
-                price > 0 ?
-                    Math.round((Number(course?.rendered_metas?.tax_percent) * price_after_discount / 100) * 100) / 100
-                    : 0
-                : 0;
-            const price_after_tax = price_after_discount + tax;
-            props?.setValue("courses", [...props?.watch("courses"), course], { shouldDirty: true });
-            props?.setValue(
-                "order_items",
-                [...props?.watch("order_items"),
-                window?.acadlixHooks?.applyFilters?.(
-                    "acadlix.admin.order.order_items.add_order_items",
-                    {
-                        course_id: course?.ID,
-                        course_title: course?.post_title,
-                        quantity: 1,
-                        price: price,
-                        additional_fee: 0,
-                        discount: discount,
-                        price_after_discount: price_after_discount,
-                        tax: tax,
-                        price_after_tax: price_after_tax
-                    },
-                    {
-                        course: course,
-                        watch: props?.watch,
-                        setValue: props?.setValue,
-                    }
-                )
-                ]);
-
-            props?.setValue("total_amount",
-                props?.watch("order_items")?.reduce((acc, item) => acc + item?.price_after_tax, 0),
-                {
-                    shouldDirty: true
-                });
-            setInputValue("");
-            setCourse(null);
-        }
-    }
+    }, [props?.inputValue]);
 
 
     return (
-        <Box sx={{
-            display: "flex",
-            gap: 2
-        }}>
-            <Autocomplete
-                size="small"
-                freeSolo
-                disableClearable
-                inputValue={inputValue}
-                loading={isFetching}
-                fullWidth
-                value={course}
-                options={data?.data?.courses?.length > 0 ?
-                    data?.data?.courses?.filter(c => !props?.watch("order_items")?.some(o => o?.course_id === c?.ID)) : []}
-                getOptionLabel={(option) => option?.post_title || ""}
-                isOptionEqualToValue={(option, value) => option?.ID === value?.ID}
-                filterOptions={(x) => x}
-                onInputChange={(event, newValue) => setInputValue(newValue)}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        variant="outlined"
-                        label={__('Type atleast 3 character', 'acadlix')}
-                        slotProps={{
-                            input: {
-                                ...params.InputProps,
-                                type: "search",
-                                endAdornment: (
-                                    <>
-                                        {isFetching ? <CircularProgress color="inherit" size={20} /> : null}
-                                        {params.InputProps.endAdornment}
-                                    </>
-                                ),
-                            }
-                        }}
-                    />
-                )}
-                onChange={(_, newValue) => {
-                    setCourse(newValue);
-                }}
-            />
-            <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={handleAddOrderItem}
-            >
-                {__('Add', 'acadlix')}
-            </Button>
-        </Box>
+        <Autocomplete
+            size="small"
+            freeSolo
+            disableClearable
+            inputValue={props?.inputValue}
+            loading={isFetching}
+            fullWidth
+            value={props?.course}
+            options={data?.data?.courses?.length > 0 ?
+                data?.data?.courses?.filter(c => !props?.watch("order_items")?.some(o => o?.course_id === c?.ID)) : []}
+            getOptionLabel={(option) => option?.post_title || ""}
+            isOptionEqualToValue={(option, value) => option?.ID === value?.ID}
+            filterOptions={(x) => x}
+            onInputChange={(event, newValue) => props?.setInputValue(newValue)}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    variant="outlined"
+                    label={__('Type atleast 3 character', 'acadlix')}
+                    slotProps={{
+                        input: {
+                            ...params.InputProps,
+                            type: "search",
+                            endAdornment: (
+                                <>
+                                    {isFetching ? <CircularProgress color="inherit" size={20} /> : null}
+                                    {params.InputProps.endAdornment}
+                                </>
+                            ),
+                        }
+                    }}
+                />
+            )}
+            onChange={(_, newValue) => {
+                props?.setCourse(newValue);
+            }}
+        />
+
     )
 }
 

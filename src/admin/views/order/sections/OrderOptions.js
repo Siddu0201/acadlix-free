@@ -9,6 +9,49 @@ import { GetOrderUsers } from '@acadlix/requests/admin/AdminOrderRequest';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const OrderOptions = (props) => {
+    const handleToogleFree = (e) => {
+        if (e?.target?.checked) {
+            props?.setValue("order_items",
+                props?.watch("order_items")?.map((item) => {
+                    return {
+                        ...item,
+                        discount: item?.price + item?.additional_fee,
+                        price_after_discount: 0,
+                        tax: 0,
+                        price_after_tax: 0
+                    }
+                })
+            );
+        } else {
+            props?.setValue("order_items",
+                props?.watch("order_items")?.map((item) => {
+                    const course = props?.watch("courses")?.find(c => c?.ID === item?.course_id);
+                    const price_after_discount = item?.price + item?.additional_fee;
+                    const tax = course?.rendered_metas?.tax && Number(course?.rendered_metas?.tax_percent) > 0 ?
+                        (item?.price + item?.additional_fee) > 0 ?
+                            Math.round((Number(course?.rendered_metas?.tax_percent) * price_after_discount / 100) * 100) / 100
+                            : 0
+                        : 0;
+                    const price_after_tax = price_after_discount + tax;
+                    return {
+                        ...item,
+                        discount: 0,
+                        price_after_discount: price_after_discount,
+                        tax: tax,
+                        price_after_tax: price_after_tax
+                    }
+                })
+            );
+        }
+        props?.setValue("total_amount",
+            props?.watch("order_items")?.reduce((acc, item) => acc + item?.price_after_tax, 0),
+            {
+                shouldDirty: true
+            });
+        props?.setValue("meta.is_free", e?.target?.checked, {
+            shouldDirty: true,
+        });
+    }
     const defaultSetting = {
         component: "Grid",
         component_name: "order_options_grid",
@@ -198,49 +241,7 @@ const OrderOptions = (props) => {
                                                                     },
                                                                     label: __("Activate", "acadlix"),
                                                                     checked: props.watch("meta.is_free") ?? false,
-                                                                    onChange: (e) => {
-                                                                        if (e?.target?.checked) {
-                                                                            props?.setValue("order_items",
-                                                                                props?.watch("order_items")?.map((item) => {
-                                                                                    return {
-                                                                                        ...item,
-                                                                                        discount: item?.price,
-                                                                                        price_after_discount: 0,
-                                                                                        tax: 0,
-                                                                                        price_after_tax: 0
-                                                                                    }
-                                                                                })
-                                                                            );
-                                                                        } else {
-                                                                            props?.setValue("order_items",
-                                                                                props?.watch("order_items")?.map((item) => {
-                                                                                    const course = props?.watch("courses")?.find(c => c?.ID === item?.course_id);
-                                                                                    const price_after_discount = item?.price;
-                                                                                    const tax = course?.rendered_metas?.tax && Number(course?.rendered_metas?.tax_percent) > 0 ?
-                                                                                        item?.price > 0 ?
-                                                                                            Math.round((Number(course?.rendered_metas?.tax_percent) * price_after_discount / 100) * 100) / 100
-                                                                                            : 0
-                                                                                        : 0;
-                                                                                    const price_after_tax = price_after_discount + tax;
-                                                                                    return {
-                                                                                        ...item,
-                                                                                        discount: 0,
-                                                                                        price_after_discount: price_after_discount,
-                                                                                        tax: tax,
-                                                                                        price_after_tax: price_after_tax
-                                                                                    }
-                                                                                })
-                                                                            );
-                                                                        }
-                                                                        props?.setValue("total_amount",
-                                                                            props?.watch("order_items")?.reduce((acc, item) => acc + item?.price_after_tax, 0),
-                                                                            {
-                                                                                shouldDirty: true
-                                                                            });
-                                                                        props?.setValue("meta.is_free", e?.target?.checked, {
-                                                                            shouldDirty: true,
-                                                                        });
-                                                                    },
+                                                                    onChange: handleToogleFree,
                                                                 }
                                                             }
                                                         ]
