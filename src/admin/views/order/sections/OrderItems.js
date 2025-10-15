@@ -134,6 +134,11 @@ const OrderItems = (props) => {
                                                                             },
                                                                             {
                                                                                 component: "TableCell",
+                                                                                component_name: "order_items_additional_fee_label_table_cell",
+                                                                                value: __("Additional Fee", "acadlix")
+                                                                            },
+                                                                            {
+                                                                                component: "TableCell",
                                                                                 component_name: "order_items_discount_label_table_cell",
                                                                                 value: __("Discount", "acadlix")
                                                                             },
@@ -194,7 +199,7 @@ const OrderItems = (props) => {
                                                                                     {
                                                                                         component: "TableCell",
                                                                                         component_name: "order_items_subtotal_value_table_cell",
-                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price_after_discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
                                                                                     }
                                                                                 ]
                                                                             },
@@ -459,6 +464,11 @@ const OrderItem = ({ item, index, ...props }) => {
                         component: "TableCell",
                         component_name: "order_items_price_table_cell",
                         value: currencyPosition(item?.price)
+                    },
+                    {
+                        component: "TableCell",
+                        component_name: "order_items_additional_fee_table_cell",
+                        value: currencyPosition(item?.additional_fee)
                     },
                     {
                         component: "TableCell",
