@@ -32,6 +32,26 @@ if (!class_exists('Order')) {
             $this->table = acadlix()->helper()->acadlix_table_prefix('orders');
         }
 
+        public function setExtraChargesAttribute($value)
+        {
+            $this->attributes['extra_charges'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getExtraChargesAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
+        public function setTotalAmountAttribute($value)
+        {
+            $this->attributes['total_amount'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getTotalAmountAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
         public function scopeOfSuccess($query)
         {
             return $query->where('status', 'success');
@@ -44,7 +64,9 @@ if (!class_exists('Order')) {
 
         public function getCourseNames()
         {
-            return $this->order_items->map(fn($item) => $item->course->post_title ?? $item->course_title ?? "")
+            return $this
+                ->order_items
+                ->map(fn($item) => $item->course->post_title ?? $item->course_title ?? '')
                 ->filter()
                 ->implode(', ');
         }
@@ -56,7 +78,8 @@ if (!class_exists('Order')) {
 
         public function activity_logs()
         {
-            return $this->hasMany(acadlix()->model()->userActivityMeta(), 'type_id', 'id')
+            return $this
+                ->hasMany(acadlix()->model()->userActivityMeta(), 'type_id', 'id')
                 ->where('type', 'order')
                 ->where('meta_key', 'activity_log')
                 ->orderBy('id', 'desc');
@@ -79,9 +102,9 @@ if (!class_exists('Order')) {
         {
             return $this->order_metas()->updateOrCreate(
                 // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Its custom order meta table
-                ['meta_key' => $metaKey], // Condition to check for existing meta_key
+                ['meta_key' => $metaKey],  // Condition to check for existing meta_key
                 // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Its custom order meta table
-                ['meta_value' => $metaValue] // Values to update or create
+                ['meta_value' => $metaValue]  // Values to update or create
             );
         }
 
@@ -89,10 +112,10 @@ if (!class_exists('Order')) {
         {
             return acadlix()->model()->userActivityMeta()->create([
                 'user_id' => $this->user_id ?? 0,
-                'type' => "order",
+                'type' => 'order',
                 'type_id' => $this->id,
-                'meta_key' => "activity_log", // phpcs:ignore
-                'meta_value' => $message // phpcs:ignore
+                'meta_key' => 'activity_log',  // phpcs:ignore
+                'meta_value' => $message  // phpcs:ignore
             ]);
         }
 
@@ -103,7 +126,9 @@ if (!class_exists('Order')) {
 
         public function delete()
         {
-            acadlix()->model()->userActivityMeta()
+            acadlix()
+                ->model()
+                ->userActivityMeta()
                 ->where('type', 'order')
                 ->where('type_id', $this->id)
                 ->delete();
@@ -112,17 +137,17 @@ if (!class_exists('Order')) {
 
         public function getTodaySalesTotal()
         {
-            return $this->whereDate('created_at', Carbon::today())
-                        ->ofSuccess()
-                        ->sum('total_amount');
+            return $this
+                ->whereDate('created_at', Carbon::today())
+                ->ofSuccess()
+                ->sum('total_amount');
         }
 
         public function getTotalSales()
         {
-            return $this->ofSuccess()
-                        ->sum('total_amount');
+            return $this
+                ->ofSuccess()
+                ->sum('total_amount');
         }
-
-
     }
 }

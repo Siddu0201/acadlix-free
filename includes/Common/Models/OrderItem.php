@@ -32,6 +32,7 @@ if (!class_exists('OrderItem')) {
             'price' => 'double',
             'discount' => 'double',
             'price_after_discount' => 'double',
+            'additional_fee' => 'double',
             'tax' => 'double',
             'price_after_tax' => 'double',
         ];
@@ -43,6 +44,66 @@ if (!class_exists('OrderItem')) {
             parent::__construct($attributes);
 
             $this->table = acadlix()->helper()->acadlix_table_prefix('order_items');
+        }
+
+        public function setPriceAttribute($value)
+        {
+            $this->attributes['price'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getPriceAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
+        public function setDiscountAttribute($value)
+        {
+            $this->attributes['discount'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getDiscountAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
+        public function setPriceAfterDiscountAttribute($value)
+        {
+            $this->attributes['price_after_discount'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getPriceAfterDiscountAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
+        public function setAdditionalFeeAttribute($value)
+        {
+            $this->attributes['additional_fee'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getAdditionalFeeAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
+        public function setTaxAttribute($value)
+        {
+            $this->attributes['tax'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getTaxAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
+        }
+
+        public function setPriceAfterTaxAttribute($value)
+        {
+            $this->attributes['price_after_tax'] = acadlix()->helper()->acadlix_format_price_for_storage($value);
+        }
+
+        public function getPriceAfterTaxAttribute($value)
+        {
+            return acadlix()->helper()->acadlix_format_price_for_display($value);
         }
 
         public function course()

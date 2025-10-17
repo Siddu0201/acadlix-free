@@ -1209,6 +1209,20 @@ if (!class_exists('Helper')) {
             return round($amount * $multiplier);
         }
 
+        public function acadlix_format_price_for_storage($price)
+        {
+            $decimal_places = $this->acadlix_get_option('acadlix_number_of_decimals', 2);
+            return round((float) $price, (int) $decimal_places);
+        }
+
+        public function acadlix_format_price_for_display($price)
+        {
+            $decimal_places = $this->acadlix_get_option('acadlix_number_of_decimals', 2);
+            $decimal_separator = $this->acadlix_get_option('acadlix_decimal_separator', '.');
+            $thousand_separator = $this->acadlix_get_option('acadlix_thousand_separator', '');
+            return number_format((float) $price, (int) $decimal_places, $decimal_separator, $thousand_separator);
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {
