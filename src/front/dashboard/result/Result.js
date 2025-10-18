@@ -193,6 +193,7 @@ export default function Result() {
                       isFetching={isFetching}
                       paginationModel={paginationModel}
                       handlePaginationChange={handlePaginationChange}
+                      rowCount={rowCount}
                     />
                   ) : (
                     <DataGrid
@@ -356,7 +357,7 @@ const MobileOnlyView = (props) => {
       <Box display="flex" justifyContent="center" padding={1}>
         <TablePagination
           component="div"
-          count={props?.watch("rows").length}
+          count={props?.rowCount}
           page={props?.paginationModel?.page}
           onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
           rowsPerPage={props?.paginationModel?.pageSize}
@@ -367,6 +368,21 @@ const MobileOnlyView = (props) => {
               pageSize: pageSize,
               page: page,
             })
+          }}
+          sx={{
+            '& .MuiToolbar-root': {
+              paddingLeft: 0,
+              paddingRight: 0,
+            },
+            '& .MuiTablePagination-selectLabel': {
+              margin: 0,
+            },
+            '& .MuiTablePagination-displayedRows': {
+              margin: 0,
+            },
+            '& .MuiInputBase-root': {
+              marginX: 0,
+            },
           }}
         />
         {/* <Stack spacing={2}> */}

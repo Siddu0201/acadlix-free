@@ -39,6 +39,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  TablePagination,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -135,6 +136,7 @@ const COMPONENT_MAP = {
   TimelineItem,
   TimelineOppositeContent,
   TimelineSeparator,
+  TablePagination,
   // Custom Components
   GridItem1,
   CustomSwitch,

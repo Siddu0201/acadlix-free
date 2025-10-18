@@ -18,7 +18,7 @@ import { Toaster } from 'react-hot-toast'
 import Wishlist from "./dashboard/wishlist/Wishlist";
 
 const Dashbaord = () => {
-  
+
   const methods = useForm({
     defaultValues: {
       login_modal: false,
@@ -57,6 +57,61 @@ const Dashbaord = () => {
     )
   }
 
+  const routes = [
+    {
+      parent: <DashboardLayout />,
+      path: "/",
+      element: <Navigate to="/courses" replace={true} />
+    },
+    {
+      parent: <DashboardLayout />,
+      path: "/courses",
+      element: <Courses />
+    },
+    {
+      parent: <DashboardLayout />,
+      path: "/result",
+      element: <Result />
+    },
+    {
+      parent: <DashboardLayout />,
+      path: "/result/:statistic_ref_id",
+      element: <ViewAnswersheet />
+    },
+    {
+      parent: <DashboardLayout />,
+      path: "/purchase",
+      element: <PurchaseHistory />
+    },
+    acadlixOptions?.settings?.acadlix_disable_wishlist === 'no' && {
+      parent: <DashboardLayout />,
+      path: "/wishlist",
+      element: <Wishlist />
+    },
+    {
+      parent: <DashboardLayout />,
+      path: "/profile",
+      element: <Profile />
+    },
+    {
+      path: "/course/:courseId",
+      element: <CourseContent />
+    },
+    {
+      path: "/course/:courseId/content/:courseSectionContentId",
+      element: <CourseContent />
+    },
+    {
+      path: "*",
+      element: <div>{__('No path found', 'acadlix')}</div>
+    }
+  ];
+
+  const filteredRoutes = window.acadlixHooks?.applyFilters(
+    'acadlix.front.dashboard.routes',
+    routes
+  )?.filter(Boolean) || [];
+
   useEffect(() => {
     const script = document.querySelector('script[src*="adsbygoogle"]');
     if (script) {
@@ -69,31 +124,17 @@ const Dashbaord = () => {
       <Toaster position="bottom-right" />
       <HashRouter>
         <Routes>
-          <Route element={<DashboardLayout />}>
-            <Route path="/">
-              <Route
-                index
-                element={<Navigate to="/courses" replace={true} />}
-              />
-            </Route>
-            <Route index path="/courses" element={<Courses />} />
-            <Route path="result">
-              <Route index element={<Result />} />
-              <Route path=":statistic_ref_id" element={<ViewAnswersheet />} />
-            </Route>
-            <Route path="/purchase" element={<PurchaseHistory />} />
-            {
-              acadlixOptions?.settings?.acadlix_disable_wishlist === 'no' && (
-                <Route path="/wishlist" element={<Wishlist />} />
+          {
+            filteredRoutes.map((route, index) =>
+              route.parent ? (
+                <Route key={index} element={route.parent}>
+                  <Route path={route.path} element={route.element} />
+                </Route>
+              ) : (
+                <Route key={index} path={route.path} element={route.element} />
               )
-            }
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route path="/course/:courseId">
-            <Route index element={<CourseContent />} />
-            <Route path="content/:courseSectionContentId" element={<CourseContent />} />
-          </Route>
-          <Route path="*" element={<div>{__('No path found', 'acadlix')}</div>}></Route>
+            )
+          }
         </Routes>
       </HashRouter>
     </Provider>

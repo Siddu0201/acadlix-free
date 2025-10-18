@@ -185,7 +185,7 @@ const Wishlist = () => {
                                         refetch={refetch}
                                         sx={{
                                             paddingY: 1.5,
-                                          }}
+                                        }}
                                     />
                                 </Box>
                             }
@@ -209,6 +209,7 @@ const Wishlist = () => {
                                             paginationModel={paginationModel}
                                             handlePaginationChange={handlePaginationChange}
                                             removeFromWishlist={removeFromWishlist}
+                                            rowCount={rowCount}
                                         />
                                     ) : (
                                         <DataGrid
@@ -381,7 +382,7 @@ const MobileOnlyView = (props) => {
             <Box display="flex" justifyContent="center" alignItems="center" padding={2}>
                 <TablePagination
                     component="div"
-                    count={props?.watch("rows").length}
+                    count={props?.rowCount}
                     page={props?.paginationModel?.page}
                     onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
                     rowsPerPage={props?.paginationModel?.pageSize}
@@ -394,8 +395,21 @@ const MobileOnlyView = (props) => {
                         })
                     }}
                     sx={{
-                        alignItems: "center",
+                        '& .MuiToolbar-root': {
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                        },
+                        '& .MuiTablePagination-selectLabel': {
+                            margin: 0,
+                        },
+                        '& .MuiTablePagination-displayedRows': {
+                            margin: 0,
+                        },
+                        '& .MuiInputBase-root': {
+                            marginX: 0,
+                        },
                     }}
+
                 />
                 {/* <Stack spacing={2}>
           <Pagination

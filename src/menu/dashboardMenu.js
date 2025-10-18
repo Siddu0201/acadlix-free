@@ -1,71 +1,69 @@
-import {
-  MdLibraryBooks,
-  MdAssessment,
-  MdReceiptLong,
-  FaHeart,
-  FaUserCircle,
-  FaHome,
-  FiLogOut,
-} from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
-let menus = [];
-
-if (acadlixOptions?.settings?.acadlix_disable_home_menu === 'no') {
-  menus.push({
+let menus = window.acadlixHooks?.applyFilters('acadlix.front.dashboard.menu', [
+  {
     id: "home",
     name: __("Home", 'acadlix'),
     path: acadlixOptions?.home_url,
     isRedirect: true,
-    icon: <FaHome />,
-  });
-}
-menus.push({
-  id: "courses",
-  name: __("My Courses", 'acadlix'),
-  path: "/courses",
-  isRedirect: false,
-  icon: <MdLibraryBooks />,
-});
-menus.push({
-  id: "result",
-  name: __("My Result", 'acadlix'),
-  path: "/result",
-  isRedirect: false,
-  icon: <MdAssessment />,
-});
-menus.push({
-  id: "purcahse",
-  name: __("Purchase History", 'acadlix'),
-  path: "/purchase",
-  isRedirect: false,
-  icon: <MdReceiptLong />,
-});
-
-if (acadlixOptions?.settings?.acadlix_disable_wishlist === 'no') {
-  menus.push({
+    icon: "FaHome",
+    default: true,
+    enabled: acadlixOptions?.settings?.acadlix_disable_home_menu === 'no',
+  },
+  {
+    id: "courses",
+    name: __("My Courses", 'acadlix'),
+    path: "/courses",
+    isRedirect: false,
+    icon: "MdLibraryBooks",
+    default: true,
+    enabled: true,
+  },
+  {
+    id: "result",
+    name: __("My Result", 'acadlix'),
+    path: "/result",
+    isRedirect: false,
+    icon: "MdAssessment",
+    default: true,
+    enabled: true,
+  },
+  {
+    id: "purcahse",
+    name: __("Purchase History", 'acadlix'),
+    path: "/purchase",
+    isRedirect: false,
+    icon: "MdReceiptLong",
+    default: true,
+    enabled: true,
+  },
+  {
     id: "wishlist",
     name: __("Wishlist", 'acadlix'),
     path: "/wishlist",
     isRedirect: false,
-    icon: <FaHeart />,
-  });
-}
-
-menus.push({
-  id: "profile",
-  name: __("Profile", 'acadlix'),
-  path: "/profile",
-  isRedirect: false,
-  icon: <FaUserCircle />,
-});
-
-menus.push({
-  id: "logout",
-  name: __("Logout", 'acadlix'),
-  path: acadlixOptions?.logout_url,
-  isRedirect: true,
-  icon: <FiLogOut />,
-});
+    icon: "FaHeart",
+    default: true,
+    enabled: acadlixOptions?.settings?.acadlix_disable_wishlist === 'no',
+  },
+  {
+    id: "profile",
+    name: __("Profile", 'acadlix'),
+    path: "/profile",
+    isRedirect: false,
+    icon: "FaUserCircle",
+    default: true,
+    enabled: true,
+  },
+  {
+    id: "logout",
+    name: __("Logout", 'acadlix'),
+    path: acadlixOptions?.logout_url,
+    isRedirect: true,
+    icon: "FiLogOut",
+    default: true,
+    enabled: true,
+  },
+], acadlixOptions)?.filter(Boolean) || [];
 
 export default menus;
