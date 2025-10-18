@@ -319,178 +319,14 @@ const MobileOnlyView = (props) => {
           component: "Fragment",
           component_name: "purchase_history_box_content",
           children: props?.watch("rows")?.map((row, index) => {
-            let color = "default";
-            let label = "";
-            if (row?.status === "success") {
-              color = "success";
-              label = __("Success", "acadlix");
-            } else if (row?.status === "pending") {
-              color = "warning";
-              label = __("Pending", "acadlix");
-            } else if (row?.status === "failed") {
-              color = "error";
-              label = __("Failed", "acadlix");
-            }
             return {
-              component: "Box",
+              component: <SingleOrder
+                key={index}
+                row={row}
+                {...props}
+              />,
               component_name: "purchase_history_box_content_item",
-              props: {
-                sx: {
-                  padding: "8px",
-                  marginTop: "8px",
-                  marginBottom: "8px",
-                  borderBottom: "1px solid #e0e0e0",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "4px",
-                  boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-                  borderRadius: "8px",
-                  backgroundColor: "white",
-                }
-              },
-              children: [
-                {
-                  component: "Box",
-                  component_name: "purchase_history_box_content_item_header",
-                  props: {
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  },
-                  children: [
-                    {
-                      component: "Typography",
-                      component_name: "purchase_history_box_content_typography",
-                      props: {
-                        variant: "h6",
-                      },
-                      value: `#${row?.id} - ${row?.order_items}`
-                    }
-                  ]
-                },
-                {
-                  component: "Box",
-                  component_name: "purchase_history_txn_id_box",
-                  props: {
-                    sx: {
-                      display: "flex",
-                      alignItems: "center",
-                    }
-                  },
-                  children: [
-                    {
-                      component: "FaMoneyBillTransfer",
-                      component_name: "purchase_history_txn_id_icon",
-                      props: {
-                        style: {
-                          marginRight: "4px",
-                          color: "gray",
-                          fontSize: "18px",
-                        }
-                      }
-                    },
-                    {
-                      component: "Typography",
-                      component_name: "purchase_history_txn_id_typography",
-                      props: {
-                        variant: "body2",
-                        color: "text.secondary",
-                      },
-                      value: row?.order_id
-                    },
-                  ]
-                },
-                {
-                  component: "Box",
-                  component_name: "purchase_history_date_box",
-                  props: {
-                    sx: {
-                      display: "flex",
-                      alignItems: "center",
-                    }
-                  },
-                  children: [
-                    {
-                      component: "HistoryToggleOff",
-                      component_name: "purchase_history_date_icon",
-                      props: {
-                        style: {
-                          marginRight: "4px",
-                          color: "gray",
-                          fontSize: "18px",
-                        }
-                      }
-                    },
-                    {
-                      component: "Typography",
-                      component_name: "purchase_history_date_typography",
-                      props: {
-                        variant: "body2",
-                        color: "text.secondary",
-                      },
-                      value: row?.order_date
-                    },
-                    {
-                      component: "Chip",
-                      component_name: "purchase_history_status_chip",
-                      props: {
-                        label: label,
-                        color: color,
-                        sx: {
-                          marginLeft: "auto",
-                        },
-                        variant: "filled",
-                      }
-                    }
-                  ]
-                },
-                {
-                  component: "Box",
-                  component_name: "purchase_history_amount_box",
-                  props: {
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  },
-                  children: [
-                    {
-                      component: "Typography",
-                      component_name: "purchase_history_amount_typography",
-                      props: {
-                        variant: "body2",
-                      },
-                      value: row?.total_amount
-                    },
-                    {
-                      component: "Typography",
-                      component_name: "purchase_history_amount_payment_method_typography",
-                      props: {
-                        variant: "body2",
-                        sx: {
-                          display: "flex",
-                          alignItems: "center"
-                        }
-                      },
-                      children: [
-                        {
-                          component: "FaMoneyBillTransfer",
-                          component_name: "purchase_history_amount_payment_method_icon",
-                          props: {
-                            style: {
-                              marginRight: "4px",
-                            }
-                          }
-                        },
-                        {
-                          component: "Fragment",
-                          component_name: "purchase_history_amount_payment_method_value",
-                          value: row?.payment_method
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+
             }
           })
         },
@@ -517,7 +353,7 @@ const MobileOnlyView = (props) => {
               onRowsPerPageChange: (e) => {
                 const pageSize = parseInt(e?.target?.value);
                 const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
-                props?.handlePaginationChange({ 
+                props?.handlePaginationChange({
                   pageSize: pageSize,
                   page: page,
                 });
@@ -575,121 +411,208 @@ const MobileOnlyView = (props) => {
       ))}
     </>
   )
+};
+
+const SingleOrder = ({ row, ...props }) => {
+  let color = "default";
+  let label = "";
+  if (row?.status === "success") {
+    color = "success";
+    label = __("Success", "acadlix");
+  } else if (row?.status === "pending") {
+    color = "warning";
+    label = __("Pending", "acadlix");
+  } else if (row?.status === "failed") {
+    color = "error";
+    label = __("Failed", "acadlix");
+  }
+  const defaultSetting = {
+    component: "Box",
+    component_name: "purchase_history_box_content_item",
+    props: {
+      sx: {
+        padding: "8px",
+        marginTop: "8px",
+        marginBottom: "8px",
+        borderBottom: "1px solid #e0e0e0",
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+        borderRadius: "8px",
+        backgroundColor: "white",
+      }
+    },
+    children: [
+      {
+        component: "Box",
+        component_name: "purchase_history_box_content_item_header",
+        props: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        },
+        children: [
+          {
+            component: "Typography",
+            component_name: "purchase_history_box_content_typography",
+            props: {
+              variant: "h6",
+            },
+            value: `#${row?.id} - ${row?.order_items}`
+          }
+        ]
+      },
+      {
+        component: "Box",
+        component_name: "purchase_history_txn_id_box",
+        props: {
+          sx: {
+            display: "flex",
+            alignItems: "center",
+          }
+        },
+        children: [
+          {
+            component: "FaMoneyBillTransfer",
+            component_name: "purchase_history_txn_id_icon",
+            props: {
+              style: {
+                marginRight: "4px",
+                color: "gray",
+                fontSize: "18px",
+              }
+            }
+          },
+          {
+            component: "Typography",
+            component_name: "purchase_history_txn_id_typography",
+            props: {
+              variant: "body2",
+              color: "text.secondary",
+            },
+            value: row?.order_id
+          },
+        ]
+      },
+      {
+        component: "Box",
+        component_name: "purchase_history_date_box",
+        props: {
+          sx: {
+            display: "flex",
+            alignItems: "center",
+          }
+        },
+        children: [
+          {
+            component: "HistoryToggleOff",
+            component_name: "purchase_history_date_icon",
+            props: {
+              style: {
+                marginRight: "4px",
+                color: "gray",
+                fontSize: "18px",
+              }
+            }
+          },
+          {
+            component: "Typography",
+            component_name: "purchase_history_date_typography",
+            props: {
+              variant: "body2",
+              color: "text.secondary",
+            },
+            value: row?.order_date
+          },
+          {
+            component: "Chip",
+            component_name: "purchase_history_status_chip",
+            props: {
+              label: label,
+              color: color,
+              sx: {
+                marginLeft: "auto",
+              },
+              variant: "filled",
+            }
+          }
+        ]
+      },
+      {
+        component: "Box",
+        component_name: "purchase_history_amount_box",
+        props: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        },
+        children: [
+          {
+            component: "Typography",
+            component_name: "purchase_history_amount_typography",
+            props: {
+              variant: "body2",
+            },
+            value: row?.total_amount
+          },
+          {
+            component: "Typography",
+            component_name: "purchase_history_amount_payment_method_typography",
+            props: {
+              variant: "body2",
+              sx: {
+                display: "flex",
+                alignItems: "center"
+              }
+            },
+            children: [
+              {
+                component: "FaMoneyBillTransfer",
+                component_name: "purchase_history_amount_payment_method_icon",
+                props: {
+                  style: {
+                    marginRight: "4px",
+                  }
+                }
+              },
+              {
+                component: "Fragment",
+                component_name: "purchase_history_amount_payment_method_value",
+                value: row?.payment_method
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  const singleOrder = window.acadlixHooks?.applyFilters(
+    'acadlix.front.dashboard.purchaseHistory.singleOrder',
+    [defaultSetting],
+    {
+      register: props?.register,
+      watch: props?.watch,
+      setValue: props?.setValue,
+      isDesktop: props?.isDesktop,
+      row: row,
+    }
+  )?.filter(Boolean) || [];
 
   return (
-    <Box>
-      {props?.isFetching ? (
-        <Box display="flex" justifyContent="center" padding={2}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        props?.watch("rows")?.map((row, index) => {
-          let color = "default";
-          let label = "";
-          if (row?.status === "success") {
-            color = "success";
-            label = __("Success", "acadlix");
-          } else if (row?.status === "pending") {
-            color = "warning";
-            label = __("Pending", "acadlix");
-          } else if (row?.status === "failed") {
-            color = "error";
-            label = __("Failed", "acadlix");
-          }
-          return (
-            <Box
-              key={index}
-              sx={{
-                padding: "8px",
-                marginTop: "8px",
-                marginBottom: "8px",
-                borderBottom: "1px solid #e0e0e0",
-                display: "flex",
-                flexDirection: "column",
-                gap: "4px",
-                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-                borderRadius: "8px",
-                backgroundColor: "white",
-              }}
-            >
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography
-                  variant="h6"
-                >
-                  {row.order_items}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  marginY: "4px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <HistoryToggleOff
-                  sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
-                />
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  {row?.order_date}
-                </Typography>
-                <Chip
-                  label={label}
-                  color={color}
-                  sx={{
-                    marginLeft: "auto",
-                  }}
-                  variant="filled"
-                />
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography
-                  variant="body2"
-                >
-                  {row?.total_amount}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center"
-                  }}
-                >
-                  <FaMoneyBillTransfer style={{ marginRight: "4px" }} />
-                  {row?.payment_method}
-                </Typography>
-              </Box>
-            </Box>
-          )
-        })
-      )}
-      <Box display="flex" justifyContent="center" padding={2}>
-        <TablePagination
-          component="div"
-          count={props?.watch("rows").length}
-          page={props?.paginationModel?.page}
-          onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
-          rowsPerPage={props?.paginationModel?.pageSize}
-          onRowsPerPageChange={(e) => {
-            const pageSize = parseInt(e?.target?.value);
-            const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
-            props?.handlePaginationChange({
-              pageSize: pageSize,
-              page: page,
-            })
+    <>
+      {singleOrder.map((field, i) => (
+        <DynamicMUIRenderer
+          item={field}
+          index={i}
+          formProps={{
+            register: props?.register,
+            watch: props?.watch,
+            setValue: props?.setValue,
           }}
         />
-      </Box>
-    </Box>
-  );
-};
+      ))}
+    </>
+  )
+}
