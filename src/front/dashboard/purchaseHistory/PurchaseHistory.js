@@ -400,7 +400,7 @@ const MobileOnlyView = (props) => {
         <React.Fragment key={i}>
           <DynamicMUIRenderer
             item={field}
-            index={i}
+            key={i}
             formProps={{
               register: props?.register,
               watch: props?.watch,
@@ -605,7 +605,7 @@ const SingleOrder = ({ row, ...props }) => {
       {singleOrder.map((field, i) => (
         <DynamicMUIRenderer
           item={field}
-          index={i}
+          key={i}
           formProps={{
             register: props?.register,
             watch: props?.watch,
