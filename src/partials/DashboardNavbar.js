@@ -113,7 +113,6 @@ const DashboardMenuItem = ({ route, index, handleDrawerToggle, isDesktop }) => {
       sx: {
         display: route?.enabled ? "flex" : "none",
       },
-      key: index,
       selected: path?.pathname.includes(route?.path),
       onClick: () => {
         if (route?.isRedirect) {

@@ -54,6 +54,7 @@ import { RawHTML } from "@wordpress/element";
 import CustomCopyableText from "@acadlix/components/CustomCopyableText";
 import { DataGrid } from "@mui/x-data-grid";
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from "@mui/lab";
+import DashboardLayout from "@acadlix/layout/DashboardLayout";
 
 const HTML_COMPONENTS = [
   "form",
@@ -145,6 +146,7 @@ const COMPONENT_MAP = {
   CircularProgress,
   PasswordTextField,
   CustomCopyableText,
+  DashboardLayout,
   RawHTML,
   Fragment: React.Fragment,
 };

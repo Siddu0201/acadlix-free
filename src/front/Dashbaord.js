@@ -59,37 +59,37 @@ const Dashbaord = () => {
 
   const routes = [
     {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/",
       element: <Navigate to="/courses" replace={true} />
     },
     {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/courses",
       element: <Courses />
     },
     {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/result",
       element: <Result />
     },
     {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/result/:statistic_ref_id",
       element: <ViewAnswersheet />
     },
     {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/purchase",
       element: <PurchaseHistory />
     },
     acadlixOptions?.settings?.acadlix_disable_wishlist === 'no' && {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/wishlist",
       element: <Wishlist />
     },
     {
-      parent: <DashboardLayout />,
+      parent: "DashboardLayout",
       path: "/profile",
       element: <Profile />
     },
