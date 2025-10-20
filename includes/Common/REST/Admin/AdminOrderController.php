@@ -296,7 +296,7 @@ class AdminOrderController
                     'price_after_tax' => $item['price_after_tax'],
                 ]);
             }
-            $order->updateOrCreateMeta('billing_info', wp_json_encode($billing_info));
+            $order->updateOrCreateMeta('billing_info', $billing_info);
             $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
             $order->updateOrCreateMeta('is_free', $params['meta']['is_free']);
         }

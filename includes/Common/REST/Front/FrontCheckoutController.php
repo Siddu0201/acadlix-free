@@ -260,7 +260,7 @@ class FrontCheckoutController
                     }
 
                     if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
                     }
 
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
@@ -342,7 +342,7 @@ class FrontCheckoutController
                     }
 
                     if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
                     }
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
                     $order->updateOrCreateMeta('currency', $request->get_param("currency"));
@@ -425,7 +425,7 @@ class FrontCheckoutController
                     }
 
                     if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
                     }
 
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
@@ -508,7 +508,7 @@ class FrontCheckoutController
                     }
 
                     if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
                     }
                     $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
                     $order->updateOrCreateMeta('currency', $request->get_param("currency"));
@@ -579,7 +579,7 @@ class FrontCheckoutController
             }
 
             if (!empty($request->get_param("billing_info"))) {
-                $order->updateOrCreateMeta("billing_info", wp_json_encode($request->get_param("billing_info")));
+                $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
             }
 
             $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
