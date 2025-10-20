@@ -2,6 +2,7 @@ input, input:focus, textarea, textarea:focus {
     border: 0 !important;
     box-shadow: none !important;
     min-height: auto !important;
+    line-height: 0 !important;
 }
 
 input[type="radio"]:checked::before, input[type="checkbox"]:checked::before{

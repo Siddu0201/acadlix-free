@@ -272,7 +272,7 @@ const OrderItems = (props) => {
                                                                                     {
                                                                                         component: "TableCell",
                                                                                         component_name: "order_items_subtotal_value_table_cell",
-                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.price_after_discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + (item?.price + item?.additional_fee), 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
                                                                                     }
                                                                                 ]
                                                                             },
@@ -288,7 +288,12 @@ const OrderItems = (props) => {
                                                                                     {
                                                                                         component: "TableCell",
                                                                                         component_name: "order_items_total_discount_value_table_cell",
-                                                                                        value: currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
+                                                                                        props: {
+                                                                                            sx: {
+                                                                                                color: "error.main",
+                                                                                            }
+                                                                                        },
+                                                                                        value: `- ${currencyPosition(props?.watch("order_items")?.reduce((total, item) => total + item?.discount, 0), getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))}`
                                                                                     }
                                                                                 ]
                                                                             },

@@ -402,7 +402,14 @@ const OrderUser = (props) => {
             getOptionLabel={(option) => `${option?.display_name} (${option?.user_login})` || ""}
             isOptionEqualToValue={(option, value) => option?.ID === value?.ID}
             filterOptions={(x) => x}
-            onInputChange={(event, newValue) => setInputValue(newValue)}
+            onInputChange={(_, newValue) => {
+                if(newValue === ""){
+                    props?.setValue("user_id", null, {
+                        shouldDirty: true
+                    });
+                }
+                setInputValue(newValue);
+            }}
             renderInput={(params) => (
                 <TextField
                     {...params}
@@ -422,11 +429,29 @@ const OrderUser = (props) => {
                     }}
                 />
             )}
-            onChange={(_, newValue) => {
-                props?.setValue("user_id", newValue?.ID, {
-                    shouldDirty: true
-                });
-                setInputValue("");
+            onChange={(_, newValue, reason) => {
+                if (newValue?.ID) {
+                    props?.setValue("user_id", newValue?.ID ?? "", {
+                        shouldDirty: true
+                    });
+                    // console.log(newValue);
+                    if (newValue?.user_metas) {
+                        props?.setValue("billing_info", {
+                            first_name: newValue?.user_metas?.find(m => m?.meta_key == "first_name")?.meta_value,
+                            last_name: newValue?.user_metas?.find(m => m?.meta_key == "last_name")?.meta_value,
+                            email: newValue?.user_email,
+                            phonecode: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_phonecode")?.meta_value,
+                            phone_number: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_phone_number")?.meta_value,
+                            address: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_address")?.meta_value,
+                            country: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_country")?.meta_value,
+                            city: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_city")?.meta_value,
+                            zip_code: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_zip_code")?.meta_value,
+                        }, {
+                            shouldDirty: true
+                        });
+                    }
+                    setInputValue("");
+                }
             }}
         />
     )

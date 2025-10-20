@@ -2,16 +2,15 @@
 
 namespace Yuvayana\Acadlix\Common\REST\Admin;
 
-use WP_Error;
-use WP_REST_Server;
-use WP_REST_Request;
 use Yuvayana\Acadlix\Common\Models\Course;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
 
 defined('ABSPATH') || exit();
 
 class AdminOrderController
 {
-
     protected $namespace = 'acadlix/v1';
     protected $base = 'admin-order';
 
@@ -112,31 +111,33 @@ class AdminOrderController
                 ],
             ]
         );
-
     }
 
     public function get_orders($request)
     {
         $res = [];
         $params = $request->get_params();
-        $search = $params['search'] ?? "";
-        $status = $params['status'] ?? "";
-        $payment_method = $params['payment_method'] ?? "";
+        $search = $params['search'] ?? '';
+        $status = $params['status'] ?? '';
+        $payment_method = $params['payment_method'] ?? '';
 
         $skip = $params['page'] * $params['pageSize'];
         $order = acadlix()->model()->order()->with(['order_items', 'order_metas', 'user'])->orderBy('ID', 'desc');
 
         if (!empty($search)) {
             $order->where(function ($query) use ($search) {
-                $query->whereHas('order_items', function ($q) use ($search) {
-                    $q->where('course_title', 'LIKE', "%{$search}%");
-                })
+                $query
+                    ->whereHas('order_items', function ($q) use ($search) {
+                        $q->where('course_title', 'LIKE', "%{$search}%");
+                    })
                     ->orWhereHas('order_metas', function ($q) use ($search) {
-                        $q->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id', 'stripe_order_id'])
+                        $q
+                            ->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id', 'stripe_order_id'])
                             ->where('meta_value', 'LIKE', "%{$search}%");
                     })
                     ->orWhereHas('user', function ($q) use ($search) {
-                        $q->where('display_name', 'LIKE', "%{$search}%")
+                        $q
+                            ->where('display_name', 'LIKE', "%{$search}%")
                             ->orWhere('user_login', 'LIKE', "%{$search}%")
                             ->orWhere('user_email', 'LIKE', "%{$search}%");
                     });
@@ -149,7 +150,8 @@ class AdminOrderController
 
         if (!empty($payment_method)) {
             $order->whereHas('order_metas', function ($q) use ($payment_method) {
-                $q->where('meta_key', 'payment_method')
+                $q
+                    ->where('meta_key', 'payment_method')
                     ->where('meta_value', $payment_method);
             });
         }
@@ -161,13 +163,18 @@ class AdminOrderController
     public function get_create_order($request)
     {
         $res = [];
-        $res['courses'] = acadlix()->model()->course()->ofCourse()
+        $res['courses'] = acadlix()
+            ->model()
+            ->course()
+            ->ofCourse()
             ->ofPublish()
             ->without(['author', 'metas'])
-            ->get(["ID", "post_title"])
+            ->get(['ID', 'post_title'])
             ->each
-            ->setAppends(['rendered_metas',]);
-        $res['users'] = acadlix()->model()->wpUsers()->get(["ID", "display_name"]);
+            ->setAppends([
+                'rendered_metas',
+            ]);
+        $res['users'] = acadlix()->model()->wpUsers()->get(['ID', 'display_name']);
         return rest_ensure_response($res);
     }
 
@@ -178,7 +185,10 @@ class AdminOrderController
         $search = $params['search'];
 
         if (!empty($search)) {
-            $res['courses'] = acadlix()->model()->course()->ofCourse()
+            $res['courses'] = acadlix()
+                ->model()
+                ->course()
+                ->ofCourse()
                 ->ofPublish()
                 ->without(['author', 'metas'])
                 ->where(function ($query) use ($search) {
@@ -186,9 +196,11 @@ class AdminOrderController
                 })
                 ->skip(0)
                 ->take(50)
-                ->get(["ID", "post_title"])
+                ->get(['ID', 'post_title'])
                 ->each
-                ->setAppends(['rendered_metas',]);
+                ->setAppends([
+                    'rendered_metas',
+                ]);
         }
         return rest_ensure_response($res);
     }
@@ -200,14 +212,19 @@ class AdminOrderController
         $search = $params['search'];
 
         if (!empty($search)) {
-            $res['users'] = acadlix()->model()->wpUsers()->skip(0)
-                ->take(50)
+            $res['users'] = acadlix()
+                ->model()
+                ->wpUsers()
+                ->with(['user_metas'])
                 ->where(function ($query) use ($search) {
-                    $query->where('display_name', 'LIKE', "%{$search}%")
+                    $query
+                        ->where('display_name', 'LIKE', "%{$search}%")
                         ->orWhere('user_login', 'LIKE', "%{$search}%")
                         ->orWhere('user_email', 'LIKE', "%{$search}%");
                 })
-                ->get(["ID", "display_name", "user_email", "user_login"]);
+                ->skip(0)
+                ->take(50)
+                ->get(['ID', 'display_name', 'user_email', 'user_login']);
         }
         return rest_ensure_response($res);
     }
@@ -220,6 +237,7 @@ class AdminOrderController
         $user_id = $params['user_id'];
         $order_items = $params['order_items'];
         $admin_id = $params['admin_id'];
+        $billing_info = $params['billing_info'];
 
         if (empty($user_id)) {
             $errors[] = __('User id is required.', 'acadlix');
@@ -235,8 +253,10 @@ class AdminOrderController
             if ($course->isPurchasedBy($user_id)) {
                 /* translators: %s is the course title */
                 $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
-            }else{
-                $cartItem = acadlix()->model()->courseCart()
+            } else {
+                $cartItem = acadlix()
+                    ->model()
+                    ->courseCart()
                     ->where('user_id', $user_id)
                     ->where('course_id', $order_item['course_id'])
                     ->first();
@@ -276,7 +296,7 @@ class AdminOrderController
                     'price_after_tax' => $item['price_after_tax'],
                 ]);
             }
-
+            $order->updateOrCreateMeta('billing_info', wp_json_encode($billing_info));
             $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
             $order->updateOrCreateMeta('is_free', $params['meta']['is_free']);
         }
@@ -296,7 +316,9 @@ class AdminOrderController
                 ['status' => 400]
             );
         }
-        $res['order'] = acadlix()->model()->order()
+        $res['order'] = acadlix()
+            ->model()
+            ->order()
             ->with([
                 'order_items',
                 'order_items.course',

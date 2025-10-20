@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { PostCreateOrder, UpdateOrderById } from '@acadlix/requests/admin/AdminOrderRequest';
 import OrderActivityLogs from './sections/OrderActivityLogs';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
+import OrderBillingInfo from './sections/OrderBillingInfo';
 
 const OrderContent = (props) => {
     const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
@@ -30,8 +31,8 @@ const OrderContent = (props) => {
                     quantity: item?.quantity,
                     price: item?.price,
                     discount: item?.discount,
-                    price_after_discount: item?.price_after_discount,
                     additional_fee: item?.additional_fee ?? 0,
+                    price_after_discount: item?.price_after_discount,
                     tax: item?.tax,
                     price_after_tax: item?.price_after_tax
                 }
@@ -58,6 +59,17 @@ const OrderContent = (props) => {
                 : "USD",
         },
         activity_logs: props?.order?.activity_logs ?? [],
+        billing_info: {
+            first_name: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.first_name ?? "",
+            last_name: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.last_name ?? "",
+            email: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.email ?? "",
+            phonecode: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.phonecode ?? "",
+            phone_number: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.phone_number ?? "",
+            address: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.address ?? "",
+            country: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.country ?? "",
+            city: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.city ?? "",
+            zip_code: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.zip_code ?? "",
+        },
     };
 
     const filteredDefaults = window?.acadlixHooks?.applyFilters(
@@ -184,6 +196,10 @@ const OrderContent = (props) => {
                             {
                                 component_name: "order_content_order_options",
                                 component: <OrderOptions {...methods} {...props} />
+                            },
+                            {
+                                component_name: "order_content_order_billing_info",
+                                component: <OrderBillingInfo {...methods} {...props} />
                             },
                             {
                                 component_name: "order_content_order_items",

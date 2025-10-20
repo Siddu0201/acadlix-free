@@ -126,6 +126,58 @@ const OrderSummary = (props) => {
                       },
                       {
                         component: "Grid",
+                        component_name: "checkout_order_summary_subtotal_grid_item",
+                        props: {
+                          size: {
+                            xs: 12,
+                            lg: 12,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Box",
+                            component_name: "checkout_order_summary_subtotal_box",
+                            props: {
+                              sx: {
+                                display: "flex",
+                                justifyContent: "space-between",
+                                paddingBottom: 2,
+                              },
+                            },
+                            children: [
+                              {
+                                component: "Typography",
+                                component_name: "checkout_order_summary_subtotal_label_typography",
+                                props: {
+                                  variant: "body1",
+                                  sx: {
+                                    fontWeight: "bold",
+                                  },
+                                },
+                                value: __('Subtotal:', 'acadlix')
+                              },
+                              {
+                                component: "Typography",
+                                component_name: "checkout_order_summary_subtotal_value_typography",
+                                props: {
+                                  variant: "body2",
+                                },
+                                value: currencyPosition(
+                                  props
+                                    ?.watch("order_items")
+                                    ?.reduce((total, c) => total + (c?.price + c?.additional_fee), 0)
+                                )
+                              },
+                            ]
+                          },
+                          {
+                            component: "Divider",
+                            component_name: "checkout_order_summary_subtotal_divider",
+                          },
+                        ]
+                      },
+                      {
+                        component: "Grid",
                         component_name: "checkout_order_summary_price_grid_item",
                         props: {
                           size: {
@@ -161,6 +213,11 @@ const OrderSummary = (props) => {
                                 component_name: "checkout_order_summary_price_value_typography",
                                 props: {
                                   variant: "body2",
+                                  sx: {
+                                    color: props
+                                      ?.watch("order_items")
+                                      ?.reduce((total, c) => total + c?.discount, 0) > 0 ? "error.main" : "text.primary",
+                                  },
                                 },
                                 value: `${props
                                   ?.watch("order_items")
