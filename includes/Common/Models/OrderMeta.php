@@ -35,7 +35,7 @@ if (!class_exists('OrderMeta')) {
 
         public function getMetaValueAttribute($value)
         {
-            return maybe_unserialize($value);
+            return is_serialized($value) ? maybe_unserialize($value) : json_decode($value);
         }
 
         public function order()
