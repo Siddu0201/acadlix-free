@@ -35,7 +35,18 @@ if (!class_exists('OrderMeta')) {
 
         public function getMetaValueAttribute($value)
         {
-            return is_serialized($value) ? maybe_unserialize($value) : json_decode($value);
+            // Case 1: Serialized data
+            if (is_serialized($value)) {
+                return maybe_unserialize($value);
+            }
+
+            // Case 2: JSON data
+            if (acadlix()->helper()->acadlix_is_json($value)) {
+                return json_decode($value, true);
+            }
+
+            // Case 3: Plain string
+            return $value;
         }
 
         public function order()

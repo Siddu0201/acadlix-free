@@ -1223,6 +1223,16 @@ if (!class_exists('Helper')) {
             return number_format((float) $price, (int) $decimal_places, $decimal_separator, $thousand_separator);
         }
 
+        public function acadlix_is_json($string)
+        {
+            if (!is_string($string)) {
+                return false;
+            }
+
+            json_decode($string);
+            return json_last_error() === JSON_ERROR_NONE;
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {
