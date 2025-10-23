@@ -279,6 +279,26 @@ const General = (props) => {
           />
         </React.Suspense>
 
+        {/* Start Button text */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Start Button text", "acadlix")}</CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTextField
+            fullWidth
+            label={__("Start Button text", "acadlix")}
+            size="small"
+            type="text"
+            value={props?.watch("meta.quiz_settings.start_button_text") ?? "Start Quiz"}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.start_button_text", e?.target?.value, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        </GridItem1>
+
       </Grid>
 
       <Box

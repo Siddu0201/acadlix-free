@@ -175,7 +175,7 @@ const DescriptionSection = (props) => {
         disabled={checkQuiz?.isPending}
         className="acadlix-start-quiz-button"
       >
-        {checkQuiz?.isPending ? __("Loading...", "acadlix") : __("Start Quiz", "acadlix")}
+        {checkQuiz?.isPending ? __("Loading...", "acadlix") : props?.watch("start_button_text")}
       </CustomButton>
       <UserAuth
         login_modal={props?.watch("login_modal")}

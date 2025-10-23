@@ -77,6 +77,7 @@ const QuizContent = (props) => {
       quiz_timing_type: props?.quiz?.rendered_metas?.quiz_settings?.quiz_timing_type, // full_quiz_time/per_question_time
       quiz_time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time * 1000, // 0 => Infinity (no limit)
       show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
+      start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
       enable_login_register: Boolean(
         Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
       ),
