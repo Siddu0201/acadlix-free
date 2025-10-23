@@ -2,11 +2,11 @@
 
 namespace Yuvayana\Acadlix\Common\REST\Front;
 
-use WP_REST_Server;
+use Exception;
+use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use WP_Error;
-use Exception;
+use WP_REST_Server;
 
 defined('ABSPATH') || exit();
 
@@ -119,7 +119,6 @@ class FrontCheckoutController
         );
     }
 
-
     /**
      * Get user cart.
      *
@@ -129,7 +128,10 @@ class FrontCheckoutController
      */
     public function get_user_cart($userId)
     {
-        $cart = acadlix()->model()->courseCart()->where('user_id', $userId)
+        $cart = acadlix()
+            ->model()
+            ->courseCart()
+            ->where('user_id', $userId)
             ->get();
 
         $result = [
@@ -138,12 +140,7 @@ class FrontCheckoutController
 
         foreach ($cart as $key => $item) {
             $errors = [];
-            $orderItem = acadlix()->model()->orderItem()->whereHas('order', function ($query) use ($userId) {
-                $query->where('user_id', $userId)->where('status', 'success');
-            })->where('course_id', $item->course_id)
-                ->get();
-
-            if ($orderItem->count() > 0) {
+            if ($item->course->isPurchasedBy($userId)) {
                 $errors[] = __('Course already purchased.', 'acadlix');
             }
 
@@ -170,7 +167,7 @@ class FrontCheckoutController
         if ($userId != 0) {
             $res = $this->get_user_cart($userId);
         } else {
-            $res['cart'] = !empty($params['cart_token']) ? acadlix()->model()->courseCart()->where("cart_token", $params['cart_token'])->get() : [];
+            $res['cart'] = !empty($params['cart_token']) ? acadlix()->model()->courseCart()->where('cart_token', $params['cart_token'])->get() : [];
         }
         return rest_ensure_response($res);
     }
@@ -179,20 +176,20 @@ class FrontCheckoutController
     {
         $res = [];
 
-        if ($request->get_param("id") == 0) {
-            return new WP_Error("cart_id_not_found", __('Cart id is required.', 'acadlix'), array('status' => 404));
+        if ($request->get_param('id') == 0) {
+            return new WP_Error('cart_id_not_found', __('Cart id is required.', 'acadlix'), array('status' => 404));
         }
 
-        $cart = acadlix()->model()->courseCart()->find($request->get_param("id"));
+        $cart = acadlix()->model()->courseCart()->find($request->get_param('id'));
         if (!$cart) {
-            return new WP_Error("cart_not_found", __('No course found.', 'acadlix'), array('status' => 404));
+            return new WP_Error('cart_not_found', __('No course found.', 'acadlix'), array('status' => 404));
         }
         $cart->delete();
 
         if ($cart->user_id != 0) {
             $res = $this->get_user_cart($cart->user_id);
         } else {
-            $res['cart'] = acadlix()->model()->courseCart()->where("cart_token", $cart->cart_token)->get();
+            $res['cart'] = acadlix()->model()->courseCart()->where('cart_token', $cart->cart_token)->get();
         }
 
         return rest_ensure_response($res);
@@ -207,11 +204,11 @@ class FrontCheckoutController
                 throw new Exception(__('Required course id and user_id', 'acadlix'), 404);
             }
 
-            if ($request->get_param("payment_method") != "razorpay") {
+            if ($request->get_param('payment_method') != 'razorpay') {
                 throw new Exception(__('Unacceptable payment gateway', 'acadlix'), 404);
             }
 
-            if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+            if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
                 throw new Exception(__('No order found', 'acadlix'), 404);
             }
 
@@ -228,7 +225,9 @@ class FrontCheckoutController
                 throw new Exception(implode(' ', $errors), 400);
             }
 
-            $response = acadlix()->payments()->razorpay()
+            $response = acadlix()
+                ->payments()
+                ->razorpay()
                 ->setAmount($request->get_param('total_amount'))
                 ->setCurrency($request->get_param('currency'))
                 ->setBillingInfo($request->get_param('billing_info'))
@@ -237,14 +236,14 @@ class FrontCheckoutController
             if ($response && $response['order_id']) {
                 $order = acadlix()->model()->order()->create([
                     'user_id' => $request->get_param('user_id'),
-                    'status' => "pending",
+                    'status' => 'pending',
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
                 $message = "Razorpay OrderId: {$response['order_id']}";
                 $order->createActivityLog($message);
 
                 if ($order) {
-                    foreach ($request->get_param("order_items") as $item) {
+                    foreach ($request->get_param('order_items') as $item) {
                         $order->order_items()->create([
                             'course_id' => $item['course_id'],
                             'course_title' => $item['course_title'],
@@ -255,16 +254,15 @@ class FrontCheckoutController
                             'additional_fee' => $item['additional_fee'],
                             'tax' => $item['tax'],
                             'price_after_tax' => $item['price_after_tax'],
-
                         ]);
                     }
 
-                    if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
+                    if (!empty($request->get_param('billing_info'))) {
+                        $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
                     }
 
-                    $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-                    $order->updateOrCreateMeta('currency', $request->get_param("currency"));
+                    $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
+                    $order->updateOrCreateMeta('currency', $request->get_param('currency'));
                     $order->updateOrCreateMeta('razorpay_order_id', $response['order_id']);
                     $order->updateOrCreateMeta('razorpay_amount', acadlix()->helper()->acadlix_convert_to_unit_price($request->get_param('total_amount')));
                 }
@@ -285,11 +283,11 @@ class FrontCheckoutController
                 throw new Exception('No data found');
             }
 
-            if ($request->get_param("payment_method") != "paypal") {
+            if ($request->get_param('payment_method') != 'paypal') {
                 throw new Exception('Unacceptable payment gateway');
             }
 
-            if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+            if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
                 throw new Exception('No order found');
             }
 
@@ -306,11 +304,13 @@ class FrontCheckoutController
                 throw new Exception(implode(' ', $errors));
             }
 
-            $response = acadlix()->payments()->paypal()
-                ->setAmount($request->get_param("total_amount"))
-                ->setCurrency($request->get_param("currency"))
-                ->setBillingInfo($request->get_param("billing_info"))
-                ->setOrderItems($request->get_param("order_items"))
+            $response = acadlix()
+                ->payments()
+                ->paypal()
+                ->setAmount($request->get_param('total_amount'))
+                ->setCurrency($request->get_param('currency'))
+                ->setBillingInfo($request->get_param('billing_info'))
+                ->setOrderItems($request->get_param('order_items'))
                 ->processOrder();
 
             $paypal_order_id = $response->id ?? null;
@@ -318,7 +318,7 @@ class FrontCheckoutController
             if ($response && $paypal_order_id && $response->redirect_url) {
                 $order = acadlix()->model()->order()->create([
                     'user_id' => $request->get_param('user_id'),
-                    'status' => "pending",
+                    'status' => 'pending',
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
 
@@ -326,7 +326,7 @@ class FrontCheckoutController
                 $order->createActivityLog($message);
 
                 if ($order) {
-                    foreach ($request->get_param("order_items") as $item) {
+                    foreach ($request->get_param('order_items') as $item) {
                         $order->order_items()->create([
                             'course_id' => $item['course_id'],
                             'course_title' => $item['course_title'],
@@ -337,15 +337,14 @@ class FrontCheckoutController
                             'additional_fee' => $item['additional_fee'],
                             'tax' => $item['tax'],
                             'price_after_tax' => $item['price_after_tax'],
-
                         ]);
                     }
 
-                    if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
+                    if (!empty($request->get_param('billing_info'))) {
+                        $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
                     }
-                    $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-                    $order->updateOrCreateMeta('currency', $request->get_param("currency"));
+                    $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
+                    $order->updateOrCreateMeta('currency', $request->get_param('currency'));
                     $order->updateOrCreateMeta('paypal_order_id', $paypal_order_id);
                     $order->updateOrCreateMeta('paypal_amount', $request->get_param('total_amount'));
                 }
@@ -371,11 +370,11 @@ class FrontCheckoutController
                 throw new Exception('No data found');
             }
 
-            if ($request->get_param("payment_method") != "payu") {
+            if ($request->get_param('payment_method') != 'payu') {
                 throw new Exception('Unacceptable payment gateway');
             }
 
-            if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+            if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
                 throw new Exception('No order found');
             }
 
@@ -392,16 +391,18 @@ class FrontCheckoutController
                 throw new Exception('Missing parameters');
             }
 
-            $response = acadlix()->payments()->payu()
-                ->setAmount($request->get_param("total_amount"))
-                ->setCurrency($request->get_param("currency"))
-                ->setBillingInfo($request->get_param("billing_info"))
+            $response = acadlix()
+                ->payments()
+                ->payu()
+                ->setAmount($request->get_param('total_amount'))
+                ->setCurrency($request->get_param('currency'))
+                ->setBillingInfo($request->get_param('billing_info'))
                 ->processOrder();
 
             if ($response && !empty($response['payu_url'])) {
                 $order = acadlix()->model()->order()->create([
                     'user_id' => $request->get_param('user_id'),
-                    'status' => "pending",
+                    'status' => 'pending',
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
 
@@ -409,7 +410,7 @@ class FrontCheckoutController
                 $order->createActivityLog($message);
 
                 if ($order) {
-                    foreach ($request->get_param("order_items") as $item) {
+                    foreach ($request->get_param('order_items') as $item) {
                         $order->order_items()->create([
                             'course_id' => $item['course_id'],
                             'course_title' => $item['course_title'],
@@ -420,16 +421,15 @@ class FrontCheckoutController
                             'additional_fee' => $item['additional_fee'],
                             'tax' => $item['tax'],
                             'price_after_tax' => $item['price_after_tax'],
-
                         ]);
                     }
 
-                    if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
+                    if (!empty($request->get_param('billing_info'))) {
+                        $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
                     }
 
-                    $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-                    $order->updateOrCreateMeta('currency', $request->get_param("currency"));
+                    $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
+                    $order->updateOrCreateMeta('currency', $request->get_param('currency'));
                     $order->updateOrCreateMeta('payu_txn_id', $response['payu_data']['txnid']);
                     $order->updateOrCreateMeta('payu_amount', $request->get_param('total_amount'));
                 }
@@ -454,11 +454,11 @@ class FrontCheckoutController
                 throw new Exception('No data found');
             }
 
-            if ($request->get_param("payment_method") != "stripe") {
+            if ($request->get_param('payment_method') != 'stripe') {
                 throw new Exception('Unacceptable payment gateway');
             }
 
-            if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+            if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
                 throw new Exception('No order found');
             }
 
@@ -475,24 +475,26 @@ class FrontCheckoutController
                 throw new Exception(implode(' ', $errors));
             }
 
-            $response = acadlix()->payments()->stripe()
-                ->setAmount($request->get_param("total_amount"))
-                ->setCurrency($request->get_param("currency"))
-                ->setBillingInfo($request->get_param("billing_info"))
+            $response = acadlix()
+                ->payments()
+                ->stripe()
+                ->setAmount($request->get_param('total_amount'))
+                ->setCurrency($request->get_param('currency'))
+                ->setBillingInfo($request->get_param('billing_info'))
                 ->processOrder();
 
             // Check if the order was successfully created
             if ($response && $response->id && $response->url) {
                 $order = acadlix()->model()->order()->create([
                     'user_id' => $request->get_param('user_id'),
-                    'status' => "pending",
+                    'status' => 'pending',
                     'total_amount' => $request->get_param('total_amount'),
                 ]);
                 $message = "Stripe OrderId: {$response->id}";
                 $order->createActivityLog($message);
 
                 if ($order) {
-                    foreach ($request->get_param("order_items") as $item) {
+                    foreach ($request->get_param('order_items') as $item) {
                         $order->order_items()->create([
                             'course_id' => $item['course_id'],
                             'course_title' => $item['course_title'],
@@ -503,15 +505,14 @@ class FrontCheckoutController
                             'additional_fee' => $item['additional_fee'],
                             'tax' => $item['tax'],
                             'price_after_tax' => $item['price_after_tax'],
-
                         ]);
                     }
 
-                    if (!empty($request->get_param("billing_info"))) {
-                        $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
+                    if (!empty($request->get_param('billing_info'))) {
+                        $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
                     }
-                    $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
-                    $order->updateOrCreateMeta('currency', $request->get_param("currency"));
+                    $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
+                    $order->updateOrCreateMeta('currency', $request->get_param('currency'));
                     $order->updateOrCreateMeta('stripe_order_id', $response->id);
                     $order->updateOrCreateMeta('stripe_amount', acadlix()->helper()->acadlix_convert_to_unit_price($request->get_param('total_amount')));
                 }
@@ -537,7 +538,7 @@ class FrontCheckoutController
             return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
         }
 
-        if (empty($request->get_param("order_items")) && count($request->get_param("order_items")) == 0) {
+        if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
             return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
         }
 
@@ -556,7 +557,7 @@ class FrontCheckoutController
 
         $order = acadlix()->model()->order()->create([
             'user_id' => $request->get_param('user_id'),
-            'status' => "pending",
+            'status' => 'pending',
             'total_amount' => $request->get_param('total_amount'),
         ]);
 
@@ -564,7 +565,7 @@ class FrontCheckoutController
         $order->createActivityLog($message);
 
         if ($order) {
-            foreach ($request->get_param("order_items") as $item) {
+            foreach ($request->get_param('order_items') as $item) {
                 $order->order_items()->create([
                     'course_id' => $item['course_id'],
                     'course_title' => $item['course_title'],
@@ -578,19 +579,19 @@ class FrontCheckoutController
                 ]);
             }
 
-            if (!empty($request->get_param("billing_info"))) {
-                $order->updateOrCreateMeta("billing_info", $request->get_param("billing_info"));
+            if (!empty($request->get_param('billing_info'))) {
+                $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
             }
 
-            $order->updateOrCreateMeta('payment_method', $request->get_param("payment_method"));
+            $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
             $order->update([
                 'status' => 'success',
             ]);
-            $message = "Order status updated to success";
+            $message = 'Order status updated to success';
             $order->createActivityLog($message);
             if ($order->order_items()->count() > 0) {
                 foreach ($order->order_items as $item) {
-                    $cart = acadlix()->model()->courseCart()->where("user_id", $order->user_id)->where("course_id", $item->course_id)->first();
+                    $cart = acadlix()->model()->courseCart()->where('user_id', $order->user_id)->where('course_id', $item->course_id)->first();
                     $cart->delete();
                 }
             }
@@ -605,7 +606,6 @@ class FrontCheckoutController
     public function handle_webhook()
     {
         try {
-
             $webhook_data = array(
                 'get' => $_GET,
                 'post' => $_POST,
@@ -641,5 +641,4 @@ class FrontCheckoutController
     {
         return true;
     }
-
 }

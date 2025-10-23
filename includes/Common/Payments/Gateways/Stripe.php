@@ -88,7 +88,7 @@ class Stripe implements PaymentGatewayInterface
         $result = json_decode($result);
         $status_code = wp_remote_retrieve_response_code($response);
 
-        error_log(print_r($result, true));
+        // error_log(print_r($result, true));
 
         if ($status_code < 200 || $status_code > 299) {
             throw new Exception($result->error->message);
