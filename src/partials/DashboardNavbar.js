@@ -19,7 +19,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
       {
         id: "courses",
         name: __("My Courses", 'acadlix'),
-        path: "/courses",
+        path: "courses",
         isRedirect: false,
         icon: "MdLibraryBooks",
         default: true,
@@ -28,7 +28,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
       {
         id: "result",
         name: __("My Result", 'acadlix'),
-        path: "/result",
+        path: "result",
         isRedirect: false,
         icon: "MdAssessment",
         default: true,
@@ -37,7 +37,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
       {
         id: "purcahse",
         name: __("Purchase History", 'acadlix'),
-        path: "/purchase",
+        path: "purchase",
         isRedirect: false,
         icon: "MdReceiptLong",
         default: true,
@@ -46,7 +46,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
       {
         id: "wishlist",
         name: __("Wishlist", 'acadlix'),
-        path: "/wishlist",
+        path: "wishlist",
         isRedirect: false,
         icon: "FaHeart",
         default: true,
@@ -55,7 +55,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
       {
         id: "profile",
         name: __("Profile", 'acadlix'),
-        path: "/profile",
+        path: "profile",
         isRedirect: false,
         icon: "FaUserCircle",
         default: true,

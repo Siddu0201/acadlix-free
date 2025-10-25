@@ -318,17 +318,41 @@ const MobileOnlyView = (props) => {
         {
           component: "Fragment",
           component_name: "purchase_history_box_content",
-          children: props?.watch("rows")?.map((row, index) => {
-            return {
-              component: <SingleOrder
-                key={index}
-                row={row}
-                {...props}
-              />,
-              component_name: "purchase_history_box_content_item",
+          children: props?.watch("rows")?.length > 0 ?
+            props?.watch("rows")?.map((row, index) => {
+              return {
+                component: <SingleOrder
+                  key={index}
+                  row={row}
+                  {...props}
+                />,
+                component_name: "purchase_history_box_content_item",
 
-            }
-          })
+              }
+            }) : [{
+              component: "Box",
+              component_name: "purchase_history_box_content_no_data",
+              props: {
+                sx: {
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 2,
+                }
+              },
+              children: [
+                {
+                  component_name: "purchase_history_box_content_no_data_text",
+                  component: "Typography",
+                  props: {
+                    variant: "h6",
+                    sx: {
+                      color: "text.secondary",
+                    }
+                  },
+                  value: __("No Data Found", "acadlix")
+                }
+              ]
+            }]
         },
       {
         component: "Box",
