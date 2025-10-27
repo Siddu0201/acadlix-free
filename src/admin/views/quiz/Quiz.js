@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Chip,
   Dialog,
   FormControl,
   FormHelperText,
@@ -119,7 +120,32 @@ const Quiz = () => {
       flex: 1,
       minWidth: 100,
       renderCell: (params) => {
-        return <>{getMode(params?.value)}</>;
+        let mode = params?.value;
+        let label = '';
+        let color = '';
+        switch (mode) {
+          case "normal":
+            label = __("Normal", "acadlix");
+            color = "primary";
+            break;
+          case "check_and_continue":
+            label = __("Check and continue", "acadlix");
+            color = "warning";
+            break;
+          case "question_below_each_other":
+            label = __("Question below each other", "acadlix");
+            color = "info";
+            break;
+          case "advance_mode":
+            label = __("Advance mode", "acadlix");
+            color = "success";
+            break;
+          default:
+            label = __("Normal", "acadlix");
+            color = "primary";
+            break;
+        }
+        return <><Chip label={label} color={color} variant="filled" /></>;
       },
     },
     { field: "category", headerName: __("Category", "acadlix"), flex: 1, minWidth: 90 },
@@ -269,20 +295,6 @@ const Quiz = () => {
     methods?.watch("search"),
   );
 
-  const getMode = (mode = "") => {
-    switch (mode) {
-      case "normal":
-        return __("Normal", "acadlix");
-      case "check_and_continue":
-        return __("Check and continue", "acadlix");
-      case "question_below_each_other":
-        return __("Question below each other", "acadlix");
-      case "advance_mode":
-        return __("Advance mode", "acadlix");
-      default:
-        return __("Normal", "acadlix");
-    }
-  };
 
   React.useMemo(() => {
     if (Array.isArray(data?.data?.quizes)) {
@@ -529,7 +541,7 @@ const Quiz = () => {
                     fullWidth
                     size="small"
                     label={__("Search", "acadlix")}
-                    helperText={__("Search by title, id", "acadlix")}
+                    helperText={__("Search by title, id, category", "acadlix")}
                     name="search"
                     value={methods?.watch("search") ?? ""}
                     onChange={handleSearch}

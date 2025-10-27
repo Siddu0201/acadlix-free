@@ -2,15 +2,14 @@
 
 namespace Yuvayana\Acadlix\Common\REST\Admin;
 
-use WP_REST_Server;
-use WP_REST_Request;
 use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
 
 defined('ABSPATH') || exit();
 
 class AdminQuizController
 {
-
     protected $namespace = 'acadlix/v1';
 
     protected $base = 'admin-quiz';
@@ -170,6 +169,7 @@ class AdminQuizController
             ]
         );
     }
+
     /**
      * @api /admin-quiz
      * @method GET get_quizes()
@@ -178,24 +178,49 @@ class AdminQuizController
      */
     public function get_quizes($request)
     {
+        global $wpdb;
         $res = [];
         $params = $request->get_params();
         $skip = $params['page'] * $params['pageSize'];
         $search = $params['search'];
-        $quiz = acadlix()->model()->quiz()->ofQuiz()->whereHas('quiz_shortcode')->orderBy('ID', 'desc');
+        $quiz = acadlix()
+            ->model()
+            ->quiz()
+            ->ofQuiz()
+            ->whereHas('quiz_shortcode')
+            ->orderBy('ID', 'desc');
         if (!empty($search)) {
-            $quiz->where(function ($query) use ($search) {
-                $query->where('post_title', 'LIKE', "%{$search}%")
-                      ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
-                          $query->where('id', 'LIKE', "%{$search}%");
-                      });
+            $quiz->where(function ($query) use ($search, $wpdb) {
+                $query
+                    ->where('post_title', 'LIKE', "%{$search}%")
+                    ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
+                        $query->where('id', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereIn('ID', function ($sub) use ($wpdb, $search) {
+                        $sub
+                            ->select('tr.object_id')
+                            ->from("{$wpdb->term_relationships} as tr")
+                            ->join("{$wpdb->term_taxonomy} as tt", 'tr.term_taxonomy_id', '=', 'tt.term_taxonomy_id')
+                            ->join("{$wpdb->terms} as t", 'tt.term_id', '=', 't.term_id')
+                            ->where('tt.taxonomy', '=', ACADLIX_QUIZ_CATEGORY_TAXONOMY)
+                            ->where(function ($q) use ($search) {
+                                $q
+                                    ->where('t.name', 'LIKE', "%{$search}%");
+                            });
+                    });
             });
         }
         $res['total'] = $quiz->count();
-        $res['quizes'] = $quiz->skip($skip)->take($params['pageSize'])
-            ->get(["ID", "post_title", "post_author"])
+        $res['quizes'] = $quiz
+            ->skip($skip)
+            ->take($params['pageSize'])
+            ->get(['ID', 'post_title', 'post_author'])
             ->each
-            ->setAppends(['category', 'questions_count', 'rendered_metas']);
+            ->setAppends([
+                'category',
+                'questions_count',
+                'rendered_metas'
+            ]);
         return rest_ensure_response($res);
     }
 
@@ -204,14 +229,17 @@ class AdminQuizController
         $res = [];
         $res['categories'] = acadlix()->model()->category()->all();
         $res['languages'] = acadlix()->model()->language()->all();
-        $res['quizzes'] = acadlix()->model()->quiz()->ofQuiz()
+        $res['quizzes'] = acadlix()
+            ->model()
+            ->quiz()
+            ->ofQuiz()
             ->without(['author', 'metas'])
-            ->whereHas("quiz_shortcode")
+            ->whereHas('quiz_shortcode')
             ->orderBy('ID', 'desc')
-            ->get(["ID", "post_title"])
+            ->get(['ID', 'post_title'])
             ->each
             ->setAppends([]);
-        $res['templates'] = acadlix()->model()->template()->where("type", "quiz")->get(["id", "name"]);
+        $res['templates'] = acadlix()->model()->template()->where('type', 'quiz')->get(['id', 'name']);
         return rest_ensure_response($res);
     }
 
@@ -228,7 +256,6 @@ class AdminQuizController
                 ['status' => 400]
             );
         }
-
 
         if (is_null($params['category_id'])) {
             return new WP_Error(
@@ -257,7 +284,7 @@ class AdminQuizController
                 'post_title' => $params['post_title'],
                 'post_content' => $params['post_content'],
                 'post_author' => (int) $params['post_author'],
-                'post_status' => "draft",
+                'post_status' => 'draft',
             ], $meta);
 
             if (is_wp_error($quizId) || $quizId == 0) {
@@ -317,7 +344,6 @@ class AdminQuizController
             $res['quizId'] = $quizId;
             $res['quiz'] = $quiz;
             return rest_ensure_response($res);
-
         } catch (Exception $e) {
             return new WP_Error(
                 'exception_occurred',
@@ -334,13 +360,16 @@ class AdminQuizController
         $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
         $res['categories'] = acadlix()->model()->category()->all();
         $res['languages'] = acadlix()->model()->language()->all();
-        $res['templates'] = acadlix()->model()->template()->where("type", "quiz")->get(["id", "name"]);
-        $res['quizzes'] = acadlix()->model()->quiz()->ofQuiz()
+        $res['templates'] = acadlix()->model()->template()->where('type', 'quiz')->get(['id', 'name']);
+        $res['quizzes'] = acadlix()
+            ->model()
+            ->quiz()
+            ->ofQuiz()
             ->without(['author', 'metas'])
-            ->whereHas("quiz_shortcode")
+            ->whereHas('quiz_shortcode')
             ->whereNot('ID', $quiz_id)
             ->orderBy('ID', 'desc')
-            ->get(["ID", "post_title"])
+            ->get(['ID', 'post_title'])
             ->each
             ->setAppends([]);
         return rest_ensure_response($res);
@@ -442,7 +471,6 @@ class AdminQuizController
 
             $res['quiz'] = $quiz;
             return rest_ensure_response($res);
-
         } catch (Exception $e) {
             return new WP_Error(
                 'exception_occurred',
@@ -529,7 +557,6 @@ class AdminQuizController
                 ['status' => 500]
             );
         }
-
     }
 
     public function update_add_language_to_quiz($request)
@@ -597,9 +624,8 @@ class AdminQuizController
                 }
             }
 
-            $res['message'] = __("Language added successfully", "acadlix");
+            $res['message'] = __('Language added successfully', 'acadlix');
             return rest_ensure_response($res);
-
         } catch (Exception $e) {
             return new WP_Error(
                 'exception_occurred',
@@ -607,8 +633,6 @@ class AdminQuizController
                 ['status' => 500]
             );
         }
-
-
     }
 
     public function update_set_default_language_to_quiz($request)
@@ -659,9 +683,8 @@ class AdminQuizController
                 }
             }
 
-            $res['message'] = __("Default language set successfully", "acadlix");
+            $res['message'] = __('Default language set successfully', 'acadlix');
             return rest_ensure_response($res);
-
         } catch (Exception $e) {
             return new WP_Error(
                 'exception_occurred',
@@ -735,7 +758,7 @@ class AdminQuizController
                 }
             }
 
-            $res['message'] = __("Language removed successfully", "acadlix");
+            $res['message'] = __('Language removed successfully', 'acadlix');
             return rest_ensure_response($res);
         } catch (Exception $e) {
             return new WP_Error(
@@ -744,8 +767,8 @@ class AdminQuizController
                 ['status' => 500]
             );
         }
-
     }
+
     public function check_permission()
     {
         return true;
