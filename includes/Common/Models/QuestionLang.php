@@ -60,22 +60,30 @@ if (!class_exists('QuestionLang')) {
 
         public function getRenderedQuestionAttribute()
         {
-            return acadlix()->helper()->renderShortCode($this->question);
+            return !empty($this->question)
+                ? acadlix()->helper()->renderShortCode($this->question)
+                : '';
         }
 
         public function getRenderedCorrectMsgAttribute()
         {
-            return acadlix()->helper()->renderShortCode($this->correct_msg);
+            return !empty($this->correct_msg)
+                ? acadlix()->helper()->renderShortCode($this->correct_msg)
+                : '';
         }
 
         public function getRenderedIncorrectMsgAttribute()
         {
-            return acadlix()->helper()->renderShortCode($this->incorrect_msg);
+            return !empty($this->incorrect_msg)
+                ? acadlix()->helper()->renderShortCode($this->incorrect_msg)
+                : '';
         }
 
         public function getRenderedHintMsgAttribute()
         {
-            return acadlix()->helper()->renderShortCode($this->hint_msg);
+            return !empty($this->hint_msg)
+                ? acadlix()->helper()->renderShortCode($this->hint_msg)
+                : '';
         }
 
         public function setAnswerDataAttribute($value)

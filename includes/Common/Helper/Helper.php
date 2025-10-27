@@ -82,6 +82,9 @@ if (!class_exists('Helper')) {
 
         public function renderShortCode($content)
         {
+            // Prevent null warnings — always ensure it's a string
+            $content = (string) ($content ?? '');
+            
             $content = $this->acadlix_modify_video_shortcode($content);
             $content = apply_filters('the_content', $content);
             return $content;
