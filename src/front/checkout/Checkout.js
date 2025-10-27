@@ -20,6 +20,7 @@ import UserAuth from "@acadlix/modules/user-auth/UserAuth";
 import { __ } from "@wordpress/i18n";
 import { convertToUnitPrice, formatPrice } from "@acadlix/helpers/util";
 import { Country } from "country-state-city";
+import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -167,9 +168,9 @@ const Checkout = () => {
         total_amount: data?.total_amount,
         amount: convertToUnitPrice(data?.total_amount),
       },
-      {
-        methods: methods,
-      }
+        {
+          methods: methods,
+        }
       ),
       {
         onSuccess: (data) => {
@@ -184,9 +185,9 @@ const Checkout = () => {
               },
             },
           },
-          {
-            methods: methods,
-          });
+            {
+              methods: methods,
+            });
           const razorpay = new window.Razorpay(options);
           razorpay.open();
         },
@@ -214,9 +215,9 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
       },
-      {
-        methods: methods,
-      }
+        {
+          methods: methods,
+        }
       ),
       {
         onSuccess: async (data) => {
@@ -253,9 +254,9 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
       },
-      {
-        methods: methods,
-      }
+        {
+          methods: methods,
+        }
       ),
       {
         onSuccess: (data) => {
@@ -299,18 +300,18 @@ const Checkout = () => {
         methods: methods,
       }),
       {
-      onSuccess: (data) => {
-        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-        window.location.href = `${acadlixCheckoutOptions?.dashboard_url}`;
-      },
-      onError: (data) => {
-        toast?.error(
-          data?.response?.data?.message ??
-          __("Opps! Something went wrong", "acadlix")
-        );
-        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
-      },
-    });
+        onSuccess: (data) => {
+          methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+          window.location.href = `${acadlixCheckoutOptions?.dashboard_url}`;
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+            __("Opps! Something went wrong", "acadlix")
+          );
+          methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+        },
+      });
   };
 
   const stripeMutation = PostCheckoutStripe();
@@ -410,87 +411,319 @@ const Checkout = () => {
     );
   }
 
-  return (
-    <Box
-      sx={{
+  const defaultSetting = {
+    component: "Box",
+    component_name: "checkout_box",
+    props: {
+      sx: {
         width: {
           xs: "95%",
           md: "85%",
         },
         marginX: "auto",
         marginY: 2,
-      }}
-    >
-      <UserAuth
-        login_modal={methods?.watch("login_modal")}
-        users_can_register={Boolean(Number(acadlixCheckoutOptions?.users_can_register))}
-        ajax_url={acadlixCheckoutOptions?.ajax_url}
-        nonce={acadlixCheckoutOptions?.nonce}
-        handleClose={() => methods?.setValue("login_modal", false)}
-      />
-      {methods?.watch("cart")?.length > 0 ? (
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, sm: 12, md: 7 }}>
-            <Grid container spacing={4}>
-              {!methods?.watch("is_user_logged_in") && (
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <Typography>
-                    {__("Please login/register to proceed: ", "acadlix")}
-                    <Link
-                      onClick={() =>
-                        methods?.setValue("login_modal", true, {
-                          shouldDirty: true,
-                        })
-                      }
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    >
-                      {__("Login/Register", "acadlix")}
-                    </Link>
-                  </Typography>
-                </Grid>
-              )}
-              <Grid size={{ xs: 12, lg: 12 }}>
-                <BillingDetail {...methods} />
-              </Grid>
-              <Grid size={{ xs: 12, lg: 12 }}>
-                <OrderDetail
-                  {...methods}
-                  isFetching={getCart?.isFetching}
-                  setCartData={setCartData}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 5 }}>
-            <Grid container spacing={4}>
-              {methods?.watch("total_amount") > 0 && (
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <PaymentMethod {...methods} />
-                </Grid>
-              )}
-              <Grid size={{ xs: 12, lg: 12 }}>
-                <OrderSummary
-                  {...methods}
-                  isFetching={getCart?.isFetching}
-                  handleCheckout={handleCheckout}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+      },
+    },
+    children: [
+      {
+        component: <UserAuth
+          login_modal={methods?.watch("login_modal")}
+          users_can_register={Boolean(Number(acadlixCheckoutOptions?.users_can_register))}
+          ajax_url={acadlixCheckoutOptions?.ajax_url}
+          nonce={acadlixCheckoutOptions?.nonce}
+          handleClose={() => methods?.setValue("login_modal", false)}
+        />,
+        component_name: "checkout_user_auth",
+      },
+      methods?.watch("cart")?.length > 0 ? (
+        {
+          component: "Grid",
+          component_name: "checkout_cart_grid_container",
+          props: {
+            container: true,
+            spacing: 4,
+          },
+          children: [
+            {
+              component: "Grid",
+              component_name: "checkout_cart_first_grid_item",
+              props: {
+                size: { xs: 12, sm: 12, md: 7 },
+              },
+              children: [
+                {
+                  component: "Grid",
+                  component_name: "checkout_cart_first_grid_container",
+                  props: {
+                    container: true,
+                    spacing: 4,
+                  },
+                  children: [
+                    !methods?.watch("is_user_logged_in") && ({
+                      component: "Grid",
+                      component_name: "checkout_login_grid_item",
+                      props: {
+                        size: { xs: 12, sm: 12 },
+                      },
+                      children: [
+                        {
+                          component: "Typography",
+                          component_name: "checkout_login_grid_item_typography",
+                          children: [
+                            {
+                              component: "span",
+                              component_name: "checkout_login_grid_item_span",
+                              value: __("Please login/register to proceed: ", "acadlix"),
+                            },
+                            {
+                              component: "Link",
+                              component_name: "checkout_login_grid_item_link",
+                              props: {
+                                onClick: () =>
+                                  methods?.setValue("login_modal", true, {
+                                    shouldDirty: true,
+                                  }),
+                                sx: {
+                                  cursor: "pointer",
+                                },
+                              },
+                              value: __("Login/Register", "acadlix"),
+                            },
+                          ],
+                        },
+                      ],
+                    }),
+                    {
+                      component: "Grid",
+                      component_name: "checkout_billing_detail_grid_item",
+                      props: {
+                        size: { xs: 12, sm: 12 },
+                      },
+                      children: [
+                        {
+                          component: <BillingDetail {...method} />,
+                          component_name: "checkout_billing_detail",
+                        },
+                      ],
+                    },
+                    {
+                      component: "Grid",
+                      component_name: "checkout_order_detail_grid_item",
+                      props: {
+                        size: { xs: 12, sm: 12 },
+                      },
+                      children: [
+                        {
+                          component: <OrderDetail
+                            {...method}
+                            isFetching={getCart?.isFetching}
+                            setCartData={setCartData}
+                          />,
+                          component_name: "checkout_order_detail",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              component: "Grid",
+              component_name: "checkout_cart_second_grid_item",
+              props: {
+                size: { xs: 12, sm: 12, md: 5 },
+              },
+              children: [
+                {
+                  component: "Grid",
+                  component_name: "checkout_cart_second_grid_container",
+                  props: {
+                    container: true,
+                    spacing: 4,
+                  },
+                  children: [
+                    methods?.watch("total_amount") > 0 && ({
+                      component: "Grid",
+                      component_name: "checkout_payment_method_grid_item",
+                      props: {
+                        size: { xs: 12, sm: 12 },
+                      },
+                      children: [
+                        {
+                          component: <PaymentMethod {...method} />,
+                          component_name: "checkout_payment_method",
+                        }
+                      ]
+                    }),
+                    {
+                      component: "Grid",
+                      component_name: "checkout_order_summary_grid_item",
+                      props: {
+                        size: { xs: 12, sm: 12 },
+                      },
+                      children: [
+                        {
+                          component: <OrderSummary
+                            {...method}
+                            isFetching={getCart?.isFetching}
+                            handleCheckout={handleCheckout}
+                          />,
+                          component_name: "checkout_order_summary",
+                        }
+                      ]
+                    }
+                  ],
+                },
+              ],
+            },
+          ],
+        }
       ) : (
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 12 }}>
-            <Typography variant="body1">
-              {__("Your cart is currently empty.", "acadlix")}
-            </Typography>
-          </Grid>
-        </Grid>
-      )}
-    </Box>
+        {
+          component: "Grid",
+          component_name: "checkout_cart_empty_grid_container",
+          props: {
+            container: true,
+            spacing: 4,
+          },
+          children: [
+            {
+              component: "Grid",
+              component_name: "checkout_cart_empty_grid_item",
+              props: {
+                container: true,
+                spacing: 4,
+              },
+              children: [
+                {
+                  component: "Typography",
+                  component_name: "checkout_cart_empty_grid_item_typography",
+                  props: {
+                    variant: "body1",
+                  },
+                  value: __("Your cart is currently empty.", "acadlix"),
+                },
+              ],
+            }
+          ],
+        }
+      ),
+    ],
+  };
+
+  const checkout = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.front.checkout",
+    [defaultSetting],
+    {
+      register: methods?.register,
+      control: methods?.control,
+      watch: methods?.watch,
+      setValue: methods?.setValue,
+      handleCheckout: handleCheckout,
+      isFetching: getCart?.isFetching,
+    }
+  ) ?? [];
+
+  return (
+    <>
+      {checkout.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            index={i}
+            formProps={{
+              register: methods?.register,
+              setValue: methods?.setValue,
+              watch: methods?.watch,
+              control: methods?.control,
+            }}
+          />
+        </React.Fragment>
+      ))}
+    </>
   );
+
+  // return (
+  //   <Box
+  //     sx={{
+  //       width: {
+  //         xs: "95%",
+  //         md: "85%",
+  //       },
+  //       marginX: "auto",
+  //       marginY: 2,
+  //     }}
+  //   >
+  //     <UserAuth
+  //       login_modal={methods?.watch("login_modal")}
+  //       users_can_register={Boolean(Number(acadlixCheckoutOptions?.users_can_register))}
+  //       ajax_url={acadlixCheckoutOptions?.ajax_url}
+  //       nonce={acadlixCheckoutOptions?.nonce}
+  //       handleClose={() => methods?.setValue("login_modal", false)}
+  //     />
+  //     {methods?.watch("cart")?.length > 0 ? (
+  //       <Grid container spacing={4}>
+  //         <Grid size={{ xs: 12, sm: 12, md: 7 }}>
+  //           <Grid container spacing={4}>
+  //             {!methods?.watch("is_user_logged_in") && (
+  //               <Grid size={{ xs: 12, lg: 12 }}>
+  //                 <Typography>
+  //                   {__("Please login/register to proceed: ", "acadlix")}
+  //                   <Link
+  //                     onClick={() =>
+  //                       methods?.setValue("login_modal", true, {
+  //                         shouldDirty: true,
+  //                       })
+  //                     }
+  //                     sx={{
+  //                       cursor: "pointer",
+  //                     }}
+  //                   >
+  //                     {__("Login/Register", "acadlix")}
+  //                   </Link>
+  //                 </Typography>
+  //               </Grid>
+  //             )}
+  //             <Grid size={{ xs: 12, lg: 12 }}>
+  //               <BillingDetail {...methods} />
+  //             </Grid>
+  //             <Grid size={{ xs: 12, lg: 12 }}>
+  //               <OrderDetail
+  //                 {...methods}
+  //                 isFetching={getCart?.isFetching}
+  //                 setCartData={setCartData}
+  //               />
+  //             </Grid>
+  //           </Grid>
+  //         </Grid>
+  //         <Grid size={{ xs: 12, sm: 12, md: 5 }}>
+  //           <Grid container spacing={4}>
+  //             {methods?.watch("total_amount") > 0 && (
+  //               <Grid size={{ xs: 12, lg: 12 }}>
+  //                 <PaymentMethod {...methods} />
+  //               </Grid>
+  //             )}
+  //             <Grid size={{ xs: 12, lg: 12 }}>
+  //               <OrderSummary
+  //                 {...methods}
+  //                 isFetching={getCart?.isFetching}
+  //                 handleCheckout={handleCheckout}
+  //               />
+  //             </Grid>
+  //           </Grid>
+  //         </Grid>
+  //       </Grid>
+  //     ) : (
+  //       <Grid container spacing={4}>
+  //         <Grid size={{ xs: 12, md: 12 }}>
+  //           <Typography variant="body1">
+  //             {__("Your cart is currently empty.", "acadlix")}
+  //           </Typography>
+  //         </Grid>
+  //       </Grid>
+  //     )}
+  //   </Box>
+  // );
 };
 
 export default Checkout;
