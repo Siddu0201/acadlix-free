@@ -12,21 +12,21 @@ if (!class_exists('QuestionLang')) {
         protected $table;
 
         protected $fillable = [
-            "question_id",
-            "language_id",
-            "default",
-            "question",
-            "correct_msg",
-            "incorrect_msg",
-            "hint_msg",
-            "answer_data",
-            "meta",
+            'question_id',
+            'language_id',
+            'default',
+            'question',
+            'correct_msg',
+            'incorrect_msg',
+            'hint_msg',
+            'answer_data',
+            'meta',
         ];
 
         protected $casts = [
-            "question_id" => "integer",
-            "language_id" => "integer",
-            "default" => "integer",
+            'question_id' => 'integer',
+            'language_id' => 'integer',
+            'default' => 'integer',
         ];
 
         protected $appends = [
@@ -52,7 +52,7 @@ if (!class_exists('QuestionLang')) {
 
         public function getLanguageAttribute()
         {
-            if(!is_null($this->language_id)){
+            if (!is_null($this->language_id)) {
                 return acadlix()->model()->language()->find($this->language_id);
             }
             return [];
@@ -78,25 +78,34 @@ if (!class_exists('QuestionLang')) {
             return acadlix()->helper()->renderShortCode($this->hint_msg);
         }
 
-        public function setAnswerDataAttribute($value){
+        public function setAnswerDataAttribute($value)
+        {
             $this->attributes['answer_data'] = maybe_serialize($value);
         }
 
-        public function getAnswerDataAttribute($value){
-            return maybe_unserialize( $value );
+        public function getAnswerDataAttribute($value)
+        {
+            return maybe_unserialize($value);
         }
 
         public function getRenderedAnswerDataAttribute()
         {
             $value = $this->answer_data;
-            $answer_type = $this->question()->first()->answer_type;
-            if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
-                foreach ($value[$answer_type] as $okey => $opt) {
-                    $opt['option'] = acadlix()->helper()->renderShortCode($opt["option"]);
-                    $value[$answer_type][$okey] = $opt;
+            $answer_type = $this->question()->value('answer_type');  // faster than ->first()
+
+            // Validate before looping
+            if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'], true)) {
+                // Ensure the key exists and is an array
+                if (!empty($value[$answer_type]) && is_array($value[$answer_type])) {
+                    foreach ($value[$answer_type] as $okey => $opt) {
+                        if (!empty($opt['option'])) {
+                            $opt['option'] = acadlix()->helper()->renderShortCode($opt['option']);
+                        }
+                        $value[$answer_type][$okey] = $opt;
+                    }
                 }
-                return $value;
             }
+
             return $value;
         }
 
@@ -106,13 +115,12 @@ if (!class_exists('QuestionLang')) {
             $answer_type = $this->question()->first()->answer_type;
             if (in_array($answer_type, ['singleChoice', 'multipleChoice', 'sortingChoice'])) {
                 foreach ($value[$answer_type] as $okey => $opt) {
-                    $opt['option'] = "";
+                    $opt['option'] = '';
                     $value[$answer_type][$okey] = $opt;
                 }
                 return $value;
             }
             return $value;
         }
-
     }
 }
