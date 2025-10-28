@@ -102,7 +102,7 @@ class Stripe implements PaymentGatewayInterface
         $args = [
             'token' => '{CHECKOUT_SESSION_ID}',
         ];
-        return add_query_arg($args, esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))));
+        return add_query_arg($args, get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
     }
 
     protected function cancelUrl()
