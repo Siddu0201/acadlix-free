@@ -5,17 +5,47 @@ const base = "/front-checkout";
 
 export const GetCheckoutCart = (user_id = 0, cart_token = "") => {
   const instance = useInstance();
-  return useQuery({
-    queryKey: ["getCheckoutCart", user_id, cart_token],
-    queryFn: () => {
+  // return useQuery({
+  //   queryKey: ["getCheckoutCart", user_id, cart_token],
+  //   queryFn: () => {
+  //     return instance.get(`${base}/get-checkout-cart`, {
+  //       params: {
+  //         user_id: user_id,
+  //         cart_token: cart_token,
+  //         _t: Date.now(),
+  //       },
+  //     });
+  //   },
+  // });
+  // Allow overriding the fetch logic before running it
+  const fetchFn =
+    window?.acadlixHooks?.applyFilters?.(
+      "acadlix.front.checkout.fetch_cart",
+      async ({ user_id, cart_token, instance }) => {
+        // Default fetch logic
+        return instance.get(`${base}/get-checkout-cart`, {
+          params: {
+            user_id,
+            cart_token,
+            _t: Date.now(),
+          },
+        });
+      },
+      { user_id, cart_token, instance }
+    ) ??
+    (async ({ user_id, cart_token, instance }) => {
+      // Fallback if filter not available
       return instance.get(`${base}/get-checkout-cart`, {
         params: {
-          user_id: user_id,
-          cart_token: cart_token,
+          user_id,
+          cart_token,
           _t: Date.now(),
         },
       });
-    },
+    });
+  return useQuery({
+    queryKey: ["getCheckoutCart", user_id, cart_token],
+    queryFn: () => fetchFn({ user_id, cart_token, instance }),
   });
 };
 
@@ -27,7 +57,7 @@ export const DeleteCourseFromCart = (id) => {
         headers: {
           "X-WP-Nonce": acadlixOptions?.nonce,
         },
-        data: {id: id},
+        data: { id: id },
       });
     },
   });

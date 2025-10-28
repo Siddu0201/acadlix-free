@@ -142,7 +142,12 @@ const Checkout = () => {
 
   React.useLayoutEffect(() => {
     if (!getCart?.isFetching && getCart?.data?.data?.cart?.length > 0) {
-      setCartData(getCart?.data?.data?.cart);
+      setCartData(
+        window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_cart_data", getCart?.data?.data?.cart, {
+          cart: getCart?.data?.data?.cart,
+          methods: methods,
+        })
+      );
     }
   }, [getCart?.isFetching, getCart?.data?.data?.cart]);
 
@@ -501,7 +506,7 @@ const Checkout = () => {
                       },
                       children: [
                         {
-                          component: <BillingDetail {...method} />,
+                          component: <BillingDetail {...methods} />,
                           component_name: "checkout_billing_detail",
                         },
                       ],
@@ -515,7 +520,7 @@ const Checkout = () => {
                       children: [
                         {
                           component: <OrderDetail
-                            {...method}
+                            {...methods}
                             isFetching={getCart?.isFetching}
                             setCartData={setCartData}
                           />,
@@ -550,7 +555,7 @@ const Checkout = () => {
                       },
                       children: [
                         {
-                          component: <PaymentMethod {...method} />,
+                          component: <PaymentMethod {...methods} />,
                           component_name: "checkout_payment_method",
                         }
                       ]
@@ -564,7 +569,7 @@ const Checkout = () => {
                       children: [
                         {
                           component: <OrderSummary
-                            {...method}
+                            {...methods}
                             isFetching={getCart?.isFetching}
                             handleCheckout={handleCheckout}
                           />,
