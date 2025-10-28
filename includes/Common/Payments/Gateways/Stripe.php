@@ -102,7 +102,8 @@ class Stripe implements PaymentGatewayInterface
         $args = [
             'token' => '{CHECKOUT_SESSION_ID}',
         ];
-        return add_query_arg($args, get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
+        $url = add_query_arg($args, get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
+        return str_replace('%7B', '{', str_replace('%7D', '}', $url));
     }
 
     protected function cancelUrl()
@@ -110,7 +111,8 @@ class Stripe implements PaymentGatewayInterface
         $args = [
             'cancelled' => true,
         ];
-        return add_query_arg($args, $this->returnUrl());
+        $url = add_query_arg($args, $this->returnUrl());
+        return str_replace('%7B', '{', str_replace('%7D', '}', $url));
     }
 
     protected function getOrderBody(): array
