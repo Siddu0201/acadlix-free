@@ -97,26 +97,48 @@ class Stripe implements PaymentGatewayInterface
         return $result;
     }
 
-    protected function createCheckoutSession(): array|object|null
+    protected function returnUrl()
     {
-        $url = $this->stripe_url . '/v1/checkout/sessions';
-        $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token={CHECKOUT_SESSION_ID}';
-        // $cancel_url = add_query_arg( 'cancelled', true, $return_url );
-        $session_data = [
+        $args = [
+            'token' => '{CHECKOUT_SESSION_ID}',
+        ];
+        return add_query_arg($args, esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))));
+    }
+
+    protected function cancelUrl()
+    {
+        $args = [
+            'cancelled' => true,
+        ];
+        return add_query_arg($args, $this->returnUrl());
+    }
+
+    protected function getOrderBody(): array
+    {
+        $body = [
             'mode' => 'payment',
-            'success_url' => $return_url,
-            'cancel_url'  => $return_url,
+            'success_url' => $this->returnUrl(),
+            'cancel_url'  => $this->cancelUrl(),
             'payment_method_types[0]' => 'card',
-        
+            
             // Flattened line_items
             'line_items[0][price_data][currency]' => $this->currency,
             'line_items[0][price_data][product_data][name]' => 'Course Purchase',
             'line_items[0][price_data][unit_amount]' => acadlix()->helper()->acadlix_convert_to_unit_price($this->amount),
             'line_items[0][quantity]' => 1,
         ];
+
         if (isset($this->billing_info['email']) && !empty($this->billing_info['email'])) {
-            $session_data['customer_email'] = $this->billing_info['email'];
+            $body['customer_email'] = $this->billing_info['email'];
         }
+
+        return $body;
+    }
+
+    protected function createCheckoutSession(): array|object|null
+    {
+        $url = $this->stripe_url . '/v1/checkout/sessions';
+        $session_data = $this->getOrderBody();
         return $this->createConnection($url, 'POST', $session_data);
     }
 

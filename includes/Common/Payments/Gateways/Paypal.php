@@ -2,19 +2,19 @@
 
 namespace Yuvayana\Acadlix\Common\Payments\Gateways;
 
-
 defined('ABSPATH') || exit();
 
 use Yuvayana\Acadlix\Common\Payments\PaymentGatewayInterface;
 use Exception;
-use WP_REST_Response;
 use WP_Error;
+use WP_REST_Response;
 
 class Paypal implements PaymentGatewayInterface
 {
     const API_URL_TEST = 'https://api-m.sandbox.paypal.com';
     const API_URL_LIVE = 'https://api-m.paypal.com';
     const CONNECTION_TIMEOUT = 30;
+
     protected bool $is_paypal_active;
     protected string $paypal_url;
     protected bool $sandbox;
@@ -148,10 +148,18 @@ class Paypal implements PaymentGatewayInterface
         return $result;
     }
 
-    protected function createPaypalOrder()
+    protected function returnUrl()
     {
-        $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
-        $cancel_url = add_query_arg( 'cancelled', true, $return_url );
+        return esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
+    }
+
+    protected function cancelUrl()
+    {
+        return add_query_arg('cancelled', true, $this->returnUrl());
+    }
+
+    protected function getOrderBody(): array
+    {
         $billing_info = $this->billing_info;
         $body = [
             'intent' => 'CAPTURE',
@@ -169,26 +177,25 @@ class Paypal implements PaymentGatewayInterface
                         'shipping_preference' => 'NO_SHIPPING',
                         'user_action' => 'PAY_NOW',
                         'locale' => str_replace('_', '-', get_locale()),
-                        'return_url' => $return_url,
-                        'cancel_url' => $cancel_url,
+                        'return_url' => $this->returnUrl(),
+                        'cancel_url' => $this->cancelUrl(),
                         'payment_method_preference' => 'IMMEDIATE_PAYMENT_REQUIRED',
                     ],
                 ],
             ],
         ];
-
         if (isset($billing_info) && null !== $billing_info['country_code']) {
             $body['purchase_units'][0]['shipping'] = [
                 'name' => [
                     'full_name' => $billing_info['first_name'] . ' ' . $billing_info['last_name'],
                 ],
-                'email_address' => $billing_info['email'] ?? "",
+                'email_address' => $billing_info['email'] ?? '',
                 'address' => [
-                    'address_line_1' => $billing_info['address'] ?? "",
-                    'admin_area_2' => $billing_info['city'] ?? "",
-                    'admin_area_1' => $billing_info['city'] ?? "",
-                    'postal_code' => $billing_info['zip_code'] ?? "",
-                    'country_code' => $billing_info['country_code'] ?? "",
+                    'address_line_1' => $billing_info['address'] ?? '',
+                    'admin_area_2' => $billing_info['city'] ?? '',
+                    'admin_area_1' => $billing_info['city'] ?? '',
+                    'postal_code' => $billing_info['zip_code'] ?? '',
+                    'country_code' => $billing_info['country_code'] ?? '',
                 ],
             ];
 
@@ -196,6 +203,12 @@ class Paypal implements PaymentGatewayInterface
         } else {
             $body['payment_source']['paypal']['experience_context']['shipping_preference'] = 'NO_SHIPPING';
         }
+        return $body;
+    }
+
+    protected function createPaypalOrder()
+    {
+        $body = $this->getOrderBody();
 
         $result = $this->createConnection(
             $this->paypal_url . '/v2/checkout/orders',
@@ -214,6 +227,7 @@ class Paypal implements PaymentGatewayInterface
         }
         throw new Exception('Something went wrong. Please try again later.');
     }
+
     protected function getPaypalOrderDetail($paypal_order_id)
     {
         $result = $this->createConnection(
@@ -254,9 +268,11 @@ class Paypal implements PaymentGatewayInterface
 
     public function getOrder($paypal_order_id)
     {
-        $order_meta = acadlix()->model()->orderMeta()
-            ->where("meta_key", "paypal_order_id")
-            ->where("meta_value", $paypal_order_id)
+        $order_meta = acadlix()
+            ->model()
+            ->orderMeta()
+            ->where('meta_key', 'paypal_order_id')
+            ->where('meta_value', $paypal_order_id)
             ->first();
         return $order_meta
             ? acadlix()->model()->order()->find($order_meta->order_id)
@@ -270,13 +286,15 @@ class Paypal implements PaymentGatewayInterface
         }
 
         $order->updateStatus('success');
-        $message = "Order status updated to success";
+        $message = 'Order status updated to success';
         $order->createActivityLog($message);
         if ($order->order_items()->count() > 0) {
             foreach ($order->order_items as $item) {
-                $cart = acadlix()->model()->courseCart()
-                    ->where("user_id", $order->user_id)
-                    ->where("course_id", $item->course_id)
+                $cart = acadlix()
+                    ->model()
+                    ->courseCart()
+                    ->where('user_id', $order->user_id)
+                    ->where('course_id', $item->course_id)
                     ->first();
                 if ($cart) {
                     $cart->delete();
@@ -294,7 +312,7 @@ class Paypal implements PaymentGatewayInterface
             throw new Exception('Order not found');
         }
         $order->updateStatus('failed');
-        $message = "Order status updated to failed";
+        $message = 'Order status updated to failed';
         $order->createActivityLog($message);
         $order->updateOrCreateMeta('failure_reason', $message);
         acadlix()->helper()->course()->handleFailedTransationEmail($order->id);

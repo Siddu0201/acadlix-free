@@ -106,6 +106,23 @@ class PayU implements PaymentGatewayInterface
         throw new Exception('Something went wrong. Please try again later.');
     }
 
+    protected function returnUrl($txn_id)
+    {
+        $args = [
+            'token' => $txn_id,
+        ];
+        return add_query_arg($args, esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))));
+    }
+
+    protected function cancelUrl($txn_id)
+    {
+        $args = [
+            'cancelled' => true,
+        ];
+        return add_query_arg($args, $this->returnUrl($txn_id));
+    }
+
+
     protected function getOutputField()
     {
         $first_name = $this->billing_info['first_name'] ?? '';
@@ -127,7 +144,8 @@ class PayU implements PaymentGatewayInterface
         $str = "{$this->merchant_key}|{$txnid}|{$this->amount}|Product Info|{$first_name}|{$email}|{$udf1}|{$udf2}|{$udf3}|{$udf4}|{$udf5}||||||{$this->salt}";
         $hash = strtolower(hash('sha512', $str));
 
-        $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token=' . $txnid; // Change to your success page URL
+        $return_url = $this->returnUrl($txnid);
+        $cancel_url = $this->cancelUrl($txnid);
         return [
             'key' => $this->merchant_key,
             'txnid' => $txnid,
@@ -142,7 +160,7 @@ class PayU implements PaymentGatewayInterface
             'email' => $email,
             'phone' => $phone,
             'surl' => $return_url,
-            'furl' => $return_url,
+            'furl' => $cancel_url,
             'hash' => $hash,
             'udf1' => $udf1,
             'udf2' => $udf2,

@@ -144,6 +144,22 @@ class Razorpay implements PaymentGatewayInterface
         return $result;
     }
 
+    protected function returnUrl($razorpay_order_id)
+    {
+        $args = [
+            'token' => $razorpay_order_id,
+        ];
+        return add_query_arg($args, esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))));
+    }
+
+    protected function cancelUrl($razorpay_order_id)
+    {
+        $args = [
+            'cancelled' => true,
+        ];
+        return add_query_arg($args, $this->returnUrl($razorpay_order_id));
+    }
+
     protected function getOutputField($razorpay_order_id)
     {
         $box_title = '';
@@ -155,8 +171,8 @@ class Razorpay implements PaymentGatewayInterface
         if (empty($box_title)) {
             $box_title = 'Pay via Razorpay';
         }
-        $return_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id'))) . '?token=' . $razorpay_order_id;
-        $cancel_url = add_query_arg('cancelled', true, $return_url);
+        $return_url = $this->returnUrl($razorpay_order_id);
+        $cancel_url = $this->cancelUrl($razorpay_order_id);
         $theme_settings = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
         $data = [
             'key' => $this->client_id,
