@@ -31,7 +31,7 @@ export const GetCheckoutCart = (user_id = 0, cart_token = "") => {
           },
         });
       },
-      { user_id, cart_token, instance }
+      { user_id, cart_token, instance, base }
     ) ??
     (async ({ user_id, cart_token, instance }) => {
       // Fallback if filter not available
