@@ -59,6 +59,7 @@ class Activator
         acadlix()->admin()->option()->createOption();
         acadlix()->admin()->userRole()->addCapabilities();
         acadlix()->cpt()->register_all_cpts();
+        acadlix()->schedule()->createSchedules();
     }
 
     public function deactivate($network_wide)
@@ -78,6 +79,7 @@ class Activator
     {
         acadlix()->admin()->userRole()->removeCapabilities();
         acadlix()->cpt()->unregister_all_cpts();
+        acadlix()->schedule()->deleteSchedules();
     }
 
     public function uninstall()
@@ -171,6 +173,7 @@ class Activator
     {
         /**
          * In this update modify course statistic
+         * Add Schedule
          */
 
          $course_statistic = acadlix()->model()->courseStatistic()
@@ -181,6 +184,8 @@ class Activator
                 'course_id' => $statistic->order_item->course_id,
             ]);
          }
+
+         acadlix()->schedule()->createSchedules();  
     }
 
     
