@@ -519,7 +519,6 @@ class Manager
             'home_url' => esc_url(home_url()),
             'logout_url' => esc_url(wp_logout_url(acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') !== '' ? acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') : home_url())),
             'nonce' => wp_create_nonce('wp_rest'),
-            'advance_quiz_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_advance_quiz_page_id')),
             'user' => get_current_user_id() > 0
                 ? acadlix()
                     ->model()

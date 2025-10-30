@@ -53,8 +53,6 @@ const SettingContent = ({
     // Page Setup
     acadlix_dashboard_page_id:
       options?.acadlix_dashboard_page_id ?? null,
-    acadlix_advance_quiz_page_id:
-      options?.acadlix_advance_quiz_page_id ?? null,
     acadlix_cart_page_id:
       options?.acadlix_cart_page_id ?? null,
     acadlix_checkout_page_id:
