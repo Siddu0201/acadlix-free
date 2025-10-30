@@ -1406,3 +1406,6 @@ class SingleCourseView
         }
     }
 }
+
+$single_course_view = new SingleCourseView();
+$single_course_view->render();
