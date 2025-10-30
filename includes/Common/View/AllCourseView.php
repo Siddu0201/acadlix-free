@@ -699,7 +699,3 @@ class AllCourseView
         }
     }
 }
-
-$all_course_view = new AllCourseView();
-$all_course_view->render();
-

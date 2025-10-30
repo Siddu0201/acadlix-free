@@ -20,11 +20,11 @@ if (!class_exists("SingleCourseController")) {
         {
             if (is_singular(ACADLIX_COURSE_CPT)) {
                 !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
-                $single_course_template = ACADLIX_INCLUDES_PATH .'Common/View/SingleCourseView.php';
-                if ($single_course_template) {
-                    return $single_course_template;
-                }
-                // return acadlix()->view()->singleCourse()->render();
+                // $single_course_template = ACADLIX_INCLUDES_PATH .'Common/View/SingleCourseView.php';
+                // if ($single_course_template) {
+                //     return $single_course_template;
+                // }
+                return acadlix()->view()->singleCourse()->render();
             }
             return $template;
         }
