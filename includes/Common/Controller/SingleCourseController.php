@@ -4,27 +4,27 @@ namespace Yuvayana\Acadlix\Common\Controller;
 
 defined('ABSPATH') || exit();
 
-if (!class_exists("SingleCourseController")) {
+if (!class_exists('SingleCourseController')) {
     class SingleCourseController
     {
         protected static $_instance = null;
 
         public function __construct()
         {
-            if(is_admin(  ))return;
+            if (is_admin())
+                return;
             add_action('wp_enqueue_scripts', [$this, 'enqueue_front_single_course']);
-            add_filter("template_include", [$this, 'template_loader'], 99);
+            add_filter('template_include', [$this, 'template_loader'], 99);
         }
 
         public function template_loader($template)
         {
             if (is_singular(ACADLIX_COURSE_CPT)) {
                 !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
-                // $single_course_template = ACADLIX_INCLUDES_PATH .'Common/View/SingleCourseView.php';
-                // if ($single_course_template) {
-                //     return $single_course_template;
-                // }
-                return acadlix()->view()->singleCourse()->render();
+                $single_course_template = ACADLIX_INCLUDES_PATH .'Common/Wrappers/SingleCourseWrapper.php';
+                if ($single_course_template) {
+                    return $single_course_template;
+                }
             }
             return $template;
         }
@@ -35,7 +35,6 @@ if (!class_exists("SingleCourseController")) {
             $course = acadlix()->model()->course()->ofCourse()->with('sections')->find($post->ID);
             return [
                 'course' => wp_json_encode($course)
-
             ];
         }
 
@@ -55,7 +54,6 @@ if (!class_exists("SingleCourseController")) {
                 // ) );
             }
         }
-
 
         public static function instance()
         {
