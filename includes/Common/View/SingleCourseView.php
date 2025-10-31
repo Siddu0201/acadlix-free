@@ -487,7 +487,10 @@ class SingleCourseView
                             ],
                         ],
                         [
-                            'component' => 'php',
+                            'component' => 'span',
+                            'props' => [
+                                'class' => 'acadlix-action-button-buy-now-text',
+                            ],
                             'value' => __('Buy Now', 'acadlix'),
                         ],
                     ],
