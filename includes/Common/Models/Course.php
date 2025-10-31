@@ -261,7 +261,7 @@ if (!class_exists('Course')) {
             }
 
             // Get all matching courses
-            $courses = $query->get();
+            $courses = $query->orderBy('ID', 'desc')->get();
 
             // Remove duplicates
             $courses = $courses->unique('ID')->values();
