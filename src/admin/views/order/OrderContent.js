@@ -234,7 +234,7 @@ const OrderContent = (props) => {
                                                             variant: "contained",
                                                             size: "medium",
                                                             type: "submit",
-                                                            loading: createMutation?.isLoading || updateMutation?.isLoading,
+                                                            loading: createMutation?.isPending || updateMutation?.isPending,
                                                         },
                                                         value: __("Save Change", "acadlix")
                                                     }

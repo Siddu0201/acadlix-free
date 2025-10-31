@@ -20,6 +20,7 @@ import { currencyPosition } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import Loader from "@acadlix/components/Loader";
 
 const PurchaseHistory = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -134,7 +135,7 @@ const PurchaseHistory = () => {
     }
   };
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (Array.isArray(data?.data?.orders)) {
       const newRows = data?.data?.orders?.map((order) => {
         const formattedDateTime = dateI18n(
@@ -172,7 +173,7 @@ const PurchaseHistory = () => {
       });
       methods?.setValue("rows", newRows, { shouldDirty: true });
     }
-  }, [data]);
+  }, [data?.data]);
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
 
@@ -188,6 +189,10 @@ const PurchaseHistory = () => {
     localStorage.setItem('frontPurchaseHistoryPage', model.page);
     localStorage.setItem('frontPurchaseHistoryPageSize', model.pageSize);
   };
+
+  if (process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch("rows"));
+  }
 
   return (
     <Box>
@@ -417,7 +422,10 @@ const MobileOnlyView = (props) => {
     }
   )?.filter(Boolean) || [];
 
-
+  if (props?.isFetching) {
+    return <Loader />;
+  }
+  
   return (
     <>
       {purchaseHistoryMobile.map((field, i) => (

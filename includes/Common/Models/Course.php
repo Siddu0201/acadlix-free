@@ -2,6 +2,7 @@
 
 namespace Yuvayana\Acadlix\Common\Models;
 
+use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model;
 
 defined('ABSPATH') || exit();
@@ -218,7 +219,7 @@ if (!class_exists('Course')) {
 
         public function isPurchasedBy($userId = '')
         {
-            if(empty($userId)){
+            if (empty($userId)) {
                 return false;
             }
             return acadlix()
@@ -236,19 +237,34 @@ if (!class_exists('Course')) {
 
         public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [])
         {
-            if(empty($userId)){
+            if (empty($userId)) {
                 return [];
             }
             // Base query for one-time purchases
-            $query = self::whereHas('order_items', function ($oi) use ($userId) {
-                $oi
-                    ->whereHas('order', function ($q) use ($userId) {
-                        $q
-                            ->where('user_id', $userId)
-                            ->where('status', 'success');
-                    })
-                    ->whereNull('subscription_id');  // exclude subscription items
-            });
+            // $query = self::whereHas('order_items', function ($oi) use ($userId) {
+            //     $oi
+            //         ->whereHas('order', function ($q) use ($userId) {
+            //             $q
+            //                 ->where('user_id', $userId)
+            //                 ->where('status', 'success')
+            //                 ->orderByDesc('created_at');
+            //         })
+            //         ->whereNull('subscription_id');  // exclude subscription items
+            // });
+
+            $courseTable = (new static)->getTable();
+            $orderItemTable = acadlix()->model()->orderItem()->getTable();
+            $ordersTable = acadlix()->model()->order()->getTable();
+
+            // Base query
+            $query = self::select("{$courseTable}.*")
+                ->join("{$orderItemTable} as oi", 'oi.course_id', '=', "{$courseTable}.ID")
+                ->join("{$ordersTable} as o", 'o.id', '=', 'oi.order_id')
+                ->where('o.user_id', $userId)
+                ->where('o.status', 'success')
+                ->whereNull('oi.subscription_id')
+                ->groupBy("{$courseTable}.ID")
+                ->orderByDesc(DB::raw('MAX(o.created_at)'));
 
             // Apply eager loading if any
             if (!empty($with)) {
@@ -257,14 +273,11 @@ if (!class_exists('Course')) {
 
             // Apply search before fetching
             if (!empty($search)) {
-                $query->where('post_title', 'like', "%$search%");
+                $query->where("{$courseTable}.post_title", 'like', "%$search%");
             }
 
-            // Get all matching courses
-            $courses = $query->orderBy('ID', 'desc')->get();
-
-            // Remove duplicates
-            $courses = $courses->unique('ID')->values();
+            // Fetch results
+            $courses = $query->get()->unique('ID')->values();
 
             // Get total count before pagination
             $total = $courses->count();
