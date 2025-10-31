@@ -171,7 +171,7 @@ const CourseContent = () => {
       let i = 0;
       const sections = course?.sections?.map((s, index) => {
         let open = false;
-        if (courseSectionContentId === undefined || courseSectionContentId == 0) {
+        if (courseSectionContentId === undefined || courseSectionContentId == 0) { 
               open =
                 s?.contents?.find(
                   (c) =>
