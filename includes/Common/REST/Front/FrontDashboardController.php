@@ -312,8 +312,23 @@ class FrontDashboardController
             ->find($courseId);
 
         $course->completion_percentage = $course->getCourseCompletionPercentage($userId);
+        $course_statistics = acadlix()
+            ->model()
+            ->courseStatistic()
+            ->where('course_id', $courseId)
+            ->where('user_id', $userId)
+            ->where('is_active', true)
+            ->first();
+        if ($course_statistics) {
+            $courseSectionContentId = $course_statistics->course_section_content_id ?? null;
+        } else {
+            $firstSection = $course->sections->first();
+            $firstContent = $firstSection?->contents?->first();
+            $courseSectionContentId = $firstContent?->ID ?? null;
+        }
 
         $res['course'] = $course;
+        $res['course_section_content_id'] = $courseSectionContentId;
 
         return rest_ensure_response($res);
     }

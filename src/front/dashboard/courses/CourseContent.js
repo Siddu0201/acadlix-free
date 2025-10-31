@@ -31,6 +31,7 @@ import {
   strtotime
 } from "@acadlix/helpers/util";
 import CourseCompletionModal from "./modals/CourseCompletionModal";
+import toast from "react-hot-toast";
 
 const CourseContent = () => {
   const theme = useTheme();
@@ -56,6 +57,10 @@ const CourseContent = () => {
 
   const activeMutation = PostSetActive();
   const handleNavigate = (id = 0) => {
+    if (id == 0) {
+      toast.error("Invalid content id");
+      return;
+    }
     methods?.setValue(
       `sections`,
       methods?.watch("sections")?.map((s) => {
@@ -71,7 +76,8 @@ const CourseContent = () => {
             };
           }),
         };
-      })
+      }),
+      { shouldDirty: true }
     );
     navigate(`/course/${methods?.watch("course_id")}/content/${id}`);
 
@@ -139,7 +145,7 @@ const CourseContent = () => {
                 { shouldDirty: true }
               );
             }
-            if(data?.data?.active_statistic){
+            if (data?.data?.active_statistic) {
               methods?.setValue(
                 `sections.${sectionIndex}.content.${contentIndex}.course_statistic_id`,
                 data?.data?.active_statistic?.id,
@@ -171,16 +177,15 @@ const CourseContent = () => {
       let i = 0;
       const sections = course?.sections?.map((s, index) => {
         let open = false;
-        if (courseSectionContentId === undefined || courseSectionContentId == 0) { 
-              open =
-                s?.contents?.find(
-                  (c) =>
-                    c?.ID ==
-                    c?.course_statistics?.find((cs) => cs?.is_active)
-                      ?.course_section_content_id
-                )
-                  ? true
-                  : false;
+        if (data?.data?.course_section_content_id) {
+          open =
+            s?.contents?.find(
+              (c) =>
+                c?.ID ==
+                data?.data?.course_section_content_id
+            )
+              ? true
+              : false;
         } else {
           open = index === 0 ? true : false;
         }
@@ -200,7 +205,7 @@ const CourseContent = () => {
                 sort: c?.menu_order ?? "",
                 content_type_id: c?.contentable?.id ?? null,
                 course_statistic_id: statistic?.id ?? null,
-                is_active: statistic?.is_active,
+                is_active: data?.data?.course_section_content_id == c?.ID,
                 is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
                 type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
                 lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
@@ -315,13 +320,14 @@ const CourseContent = () => {
           shouldDirty: true,
         }
       );
-      if ((courseSectionContentId === undefined || courseSectionContentId == 0) && methods?.watch("sections")?.length > 0) {
-        handleNavigate(methods
-          ?.watch("sections")
+      if (filteredSection?.length > 0) {
+        const activeId = filteredSection
           ?.find((s) => s?.active)
-          ?.content?.find((c) => c?.is_active)?.id);
+          ?.content?.find((c) => c?.is_active)?.id;
+        handleNavigate(activeId);
       }
     }
+
   }, [data?.data]);
 
   if (process?.env?.REACT_APP_MODE === 'development') {
