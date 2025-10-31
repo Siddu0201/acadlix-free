@@ -145,7 +145,7 @@ const FrontButtonListener = () => {
                 }
             }
             const onSuccess = (data) => {
-                console.log(data);
+                // console.log(data);
                 if (data?.data?.status === "success" && data?.data?.redirect) {
                     if (typeof window !== "undefined" && window.location) {
                         window.location.href = data?.data?.redirect;

@@ -226,11 +226,14 @@ class FrontCourseController
             $res = array(
                 'status' => 'success',
                 'code' => array('status' => 200),
-                'data' => $cart,
                 'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id')))
             );
         } else {
             $userId = $params['user_id'];
+            $course = acadlix()->model()->course()->ofCourse()->find($params['course_id']);
+            if (!$course) {
+                return new WP_Error('course_not_found', __('Course not found', 'acadlix'), array('status' => 404));
+            }
             $order_items = acadlix()->model()->orderItem()
                 ->with(['order','course'])
                 ->whereHas('order', function ($query) use ($userId) {
@@ -238,9 +241,9 @@ class FrontCourseController
                 })
                 ->where('course_id', $params['course_id'])
                 ->get();
-            if (count($order_items) == 0) {
+            if (!$course->isPurchasedBy($userId)) {
                 $order = acadlix()->model()->order()->create([
-                    'user_id' => $params['user_id'],
+                    'user_id' => $userId,
                     'status' => 'pending',
                     'extra_charges' => 0,
                     'total_amount' => 0
@@ -267,14 +270,12 @@ class FrontCourseController
                 $res = array(
                     'status' => 'success',
                     'code' => array('status' => 200),
-                    'data' => $order,
                     'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id')))
                 );
             }
             $res = array(
                 'status' => 'success',
                 'code' => array('status' => 200),
-                'data' => $order_items,
                 'redirect' => esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id')))
             );
         }

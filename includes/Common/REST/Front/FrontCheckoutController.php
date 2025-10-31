@@ -583,7 +583,7 @@ class FrontCheckoutController
                 $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
             }
 
-            $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
+            $order->updateOrCreateMeta('payment_method', 'free');
             $order->update([
                 'status' => 'success',
             ]);
