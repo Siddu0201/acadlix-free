@@ -127,21 +127,22 @@ class AdminOrderController
         if (!empty($search)) {
             $order->where(function ($query) use ($search) {
                 $query
-                    ->whereHas('order_items', function ($q) use ($search) {
-                        $q->where('course_title', 'LIKE', "%{$search}%");
-                    })
-                    ->orWhereHas('order_metas', function ($q) use ($search) {
-                        $q
-                            ->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id', 'stripe_order_id'])
-                            ->where('meta_value', 'LIKE', "%{$search}%");
-                    })
+                    // ->whereHas('order_items', function ($q) use ($search) {
+                    //     $q->where('course_title', 'LIKE', "%{$search}%");
+                    // })
+                    // ->orWhereHas('order_metas', function ($q) use ($search) {
+                    //     $q
+                    //         ->whereIn('meta_key', ['razorpay_order_id', 'paypal_order_id', 'payu_txn_id', 'stripe_order_id'])
+                    //         ->where('meta_value', 'LIKE', "%{$search}%");
+                    // })
                     ->orWhereHas('user', function ($q) use ($search) {
                         $q
                             ->where('display_name', 'LIKE', "%{$search}%")
                             ->orWhere('user_login', 'LIKE', "%{$search}%")
                             ->orWhere('user_email', 'LIKE', "%{$search}%");
                     });
-            });
+            })
+            ->orWhere('id', 'LIKE', "%{$search}%");
         }
 
         if (!empty($status)) {

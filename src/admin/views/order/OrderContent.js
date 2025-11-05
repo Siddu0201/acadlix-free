@@ -10,13 +10,30 @@ import { PostCreateOrder, UpdateOrderById } from '@acadlix/requests/admin/AdminO
 import OrderActivityLogs from './sections/OrderActivityLogs';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 import OrderBillingInfo from './sections/OrderBillingInfo';
+import OrderDetails from './sections/OrderDetails';
 
 const OrderContent = (props) => {
     const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
         return order_metas?.find((o) => o?.meta_key === meta_key)?.meta_value ?? order_default;
     };
 
+    const getTransactionId = (order_metas = []) => {
+        switch (getOrderMetaValue(order_metas, "payment_method")) {
+            case "razorpay":
+                return getOrderMetaValue(order_metas, "razorpay_order_id");
+            case "paypal":
+                return getOrderMetaValue(order_metas, "paypal_order_id");
+            case "payu":
+                return getOrderMetaValue(order_metas, "payu_txn_id");
+            case "stripe":
+                return getOrderMetaValue(order_metas, "stripe_order_id");
+            default:
+                return "N/A";
+        }
+    };
+
     const baseSetting = {
+        id: props?.order?.id ?? 0,
         admin_id: acadlixOptions?.user_id ?? 0,
         status: props?.order?.status ?? "pending",
         user_id: props?.order?.user_id ?? null,
@@ -57,6 +74,7 @@ const OrderContent = (props) => {
             currency: props?.order?.order_metas ?
                 getOrderMetaValue(props?.order?.order_metas, "currency", "USD")
                 : "USD",
+            transaction_id: getTransactionId(props?.order?.order_metas),
         },
         activity_logs: props?.order?.activity_logs ?? [],
         billing_info: {
@@ -198,6 +216,10 @@ const OrderContent = (props) => {
                                 component: <OrderOptions {...methods} {...props} />
                             },
                             {
+                                component_name: "order_content_order_details",
+                                component: <OrderDetails {...methods} {...props} />
+                            },
+                            {
                                 component_name: "order_content_order_billing_info",
                                 component: <OrderBillingInfo {...methods} {...props} />
                             },
@@ -255,31 +277,31 @@ const OrderContent = (props) => {
         "acadlix.admin.order.order_content",
         [defaultSetting],
         {
-          register: methods?.register,
-          control: methods?.control,
-          watch: methods?.watch,
-          setValue: methods?.setValue,
+            register: methods?.register,
+            control: methods?.control,
+            watch: methods?.watch,
+            setValue: methods?.setValue,
         }
-      ) ?? [];
-    
-      return (
+    ) ?? [];
+
+    return (
         <>
-          {order_content.map((field, i) => (
-            <React.Fragment key={i}>
-              <DynamicMUIRenderer
-                item={field}
-                index={i}
-                formProps={{
-                  register: methods?.register,
-                  setValue: methods?.setValue,
-                  watch: methods?.watch,
-                  control: methods?.control,
-                }}
-              />
-            </React.Fragment>
-          ))}
+            {order_content.map((field, i) => (
+                <React.Fragment key={i}>
+                    <DynamicMUIRenderer
+                        item={field}
+                        index={i}
+                        formProps={{
+                            register: methods?.register,
+                            setValue: methods?.setValue,
+                            watch: methods?.watch,
+                            control: methods?.control,
+                        }}
+                    />
+                </React.Fragment>
+            ))}
         </>
-      )
+    )
 }
 
 export default OrderContent

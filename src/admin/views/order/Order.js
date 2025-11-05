@@ -51,54 +51,54 @@ const Order = () => {
     "acadlix.admin.order.columns",
     [
       { field: "id", headerName: __("ID", "acadlix") },
-      {
-        field: "order_items",
-        headerName: __("Order Items", "acadlix"),
-        flex: 2,
-        minWidth: 130,
-      },
-      {
-        field: "payment_method",
-        headerName: __("Method", "acadlix"),
-        flex: 1,
-        minWidth: 100,
-      },
+      // {
+      //   field: "order_items",
+      //   headerName: __("Order Items", "acadlix"),
+      //   flex: 2,
+      //   minWidth: 130,
+      // },
+      // {
+      //   field: "payment_method",
+      //   headerName: __("Method", "acadlix"),
+      //   flex: 1,
+      //   minWidth: 100,
+      // },
       { field: "order_id", headerName: __("Order ID", "acadlix"), flex: 1, minWidth: 80 },
-      {
-        field: "transaction_id",
-        headerName: __("Txn ID", "acadlix"),
-        flex: 1,
-        minWidth: 120,
-        renderCell: (params) => {
-          return (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Tooltip title={__("Copy Txn ID", "acadlix")} arrow>
-                <IconButton
-                  onClick={() => {
-                    navigator?.clipboard
-                      ?.writeText(params?.value)
-                      .then(function () {
-                        toast.success(__("Txn ID copied to clipboard!", "acadlix"));
-                      })
-                      .catch(function (err) {
-                        console.error(__("Failed to copy text: ", "acadlix"), err);
-                      });
-                  }}
-                  size="small"
-                >
-                  <MdFileCopy />
-                </IconButton>
-              </Tooltip>
-              <Box>{params.value}</Box>
-            </Box>
-          );
-        },
-      },
+      // {
+      //   field: "transaction_id",
+      //   headerName: __("Txn ID", "acadlix"),
+      //   flex: 1,
+      //   minWidth: 120,
+      //   renderCell: (params) => {
+      //     return (
+      //       <Box
+      //         sx={{
+      //           display: "flex",
+      //           alignItems: "center",
+      //         }}
+      //       >
+      //         <Tooltip title={__("Copy Txn ID", "acadlix")} arrow>
+      //           <IconButton
+      //             onClick={() => {
+      //               navigator?.clipboard
+      //                 ?.writeText(params?.value)
+      //                 .then(function () {
+      //                   toast.success(__("Txn ID copied to clipboard!", "acadlix"));
+      //                 })
+      //                 .catch(function (err) {
+      //                   console.error(__("Failed to copy text: ", "acadlix"), err);
+      //                 });
+      //             }}
+      //             size="small"
+      //           >
+      //             <MdFileCopy />
+      //           </IconButton>
+      //         </Tooltip>
+      //         <Box>{params.value}</Box>
+      //       </Box>
+      //     );
+      //   },
+      // },
       { field: "order_date", headerName: __("Order Date", "acadlix"), minWidth: 180 },
       { field: "user_name", headerName: __("Name", "acadlix"), flex: 2, minWidth: 130 },
       { field: "user_email", headerName: __("Email", "acadlix"), minWidth: 250 },
@@ -613,7 +613,7 @@ const Order = () => {
                                   name: "search",
                                   value: methods?.watch("search") ?? "",
                                   onChange: handleSearch,
-                                  helperText: __("Search by order items,txn id, name, email", "acadlix"),
+                                  helperText: __("Search by id, name, email", "acadlix"),
                                   slotProps: {
                                     input: {
                                       endAdornment: (
