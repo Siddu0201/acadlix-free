@@ -215,10 +215,10 @@ const OrderContent = (props) => {
                                 component_name: "order_content_order_options",
                                 component: <OrderOptions {...methods} {...props} />
                             },
-                            {
+                            !props?.create && ({
                                 component_name: "order_content_order_details",
                                 component: <OrderDetails {...methods} {...props} />
-                            },
+                            }),
                             {
                                 component_name: "order_content_order_billing_info",
                                 component: <OrderBillingInfo {...methods} {...props} />
