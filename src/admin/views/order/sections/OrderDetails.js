@@ -77,7 +77,7 @@ const OrderDetails = (props) => {
                                         children: [
                                             {
                                                 component: "Typography",
-                                                component_name: "order_details_order_id_value_custom_typography",
+                                                component_name: "order_details_order_id_value_typography",
                                                 props: {
                                                     variant: "body1",
                                                 },
@@ -87,28 +87,28 @@ const OrderDetails = (props) => {
                                     },
                                     {
                                         component: "Grid",
-                                        component_name: "order_details_order_id_label_grid_item",
+                                        component_name: "order_details_payment_method_grid_item",
                                         props: {
                                             size: { xs: 12, sm: 6, lg: 3 },
                                         },
                                         children: [
                                             {
                                                 component: "CustomTypography",
-                                                component_name: "order_details_label_custom_typography",
+                                                component_name: "order_details_payment_method_label_custom_typography",
                                                 value: __("Payment Method", "acadlix")
                                             }
                                         ]
                                     },
                                     {
                                         component: "Grid",
-                                        component_name: "order_details_order_id_value_grid_item",
+                                        component_name: "order_details_payment_method_value_grid_item",
                                         props: {
                                             size: { xs: 12, sm: 6, lg: 3 },
                                         },
                                         children: [
                                             {
                                                 component: "Typography",
-                                                component_name: "order_details_order_id_value_custom_typography",
+                                                component_name: "order_details_payment_method_value_typography",
                                                 props: {
                                                     variant: "body1",
                                                     sx: {
