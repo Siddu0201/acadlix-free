@@ -198,7 +198,7 @@ function General(props) {
               </CustomTypography>
             </Grid>
             <React.Suspense fallback={null}>
-              <AdvanceQuizOption {...props} />
+              <AdvanceQuizOption {...props} methods={methods} />
             </React.Suspense>
             {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
