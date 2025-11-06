@@ -557,11 +557,12 @@ const Checkout = () => {
                     spacing: 4,
                   },
                   children: [
-                    methods?.watch("total_amount") > 0 && ({
+                    {
                       component: "Grid",
                       component_name: "checkout_payment_method_grid_item",
                       props: {
                         size: { xs: 12, sm: 12 },
+                        display: methods?.watch("total_amount") > 0 ? "block" : "none",
                       },
                       children: [
                         {
@@ -569,7 +570,7 @@ const Checkout = () => {
                           component_name: "checkout_payment_method",
                         }
                       ]
-                    }),
+                    },
                     {
                       component: "Grid",
                       component_name: "checkout_order_summary_grid_item",
