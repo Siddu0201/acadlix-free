@@ -301,9 +301,12 @@ const Checkout = () => {
   const freeMutation = PostFreeCheckout();
   const handleFreeCheckout = (data = {}) => {
     freeMutation?.mutate(
-      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_free_data", data, {
-        methods: methods,
-      }),
+      window?.acadlixHooks?.applyFilters?.(
+        "acadlix.front.checkout.set_free_data",
+        data,
+        {
+          methods: methods,
+        }),
       {
         onSuccess: (data) => {
           methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
