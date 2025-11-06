@@ -182,7 +182,7 @@ function General(props) {
             <React.Suspense fallback={null}>
               <AdvanceQuizOption {...props} />
             </React.Suspense>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+            {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
                 {__("Cart page", "acadlix")}
               </CustomTypography>
@@ -274,7 +274,7 @@ function General(props) {
                   );
                 }}
               />
-            </Grid>
+            </Grid> */}
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
                 {__("Checkout page", "acadlix")}

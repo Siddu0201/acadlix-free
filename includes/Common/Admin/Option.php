@@ -24,12 +24,12 @@ if (!class_exists("Option")) {
                     'post_author' => get_current_user_id(),
                     'post_type' => 'page',
                 ],
-                'acadlix_cart_page_id' => [
-                    'post_title' => __('Cart', 'acadlix'),
-                    'post_status' => 'publish',
-                    'post_author' => get_current_user_id(),
-                    'post_type' => 'page',
-                ],
+                // 'acadlix_cart_page_id' => [
+                //     'post_title' => __('Cart', 'acadlix'),
+                //     'post_status' => 'publish',
+                //     'post_author' => get_current_user_id(),
+                //     'post_type' => 'page',
+                // ],
                 'acadlix_checkout_page_id' => [
                     'post_title' => __('Checkout', 'acadlix'),
                     'post_status' => 'publish',

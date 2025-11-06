@@ -529,7 +529,7 @@ if (!class_exists('Helper')) {
             $options = [
                 // Page Setup
                 'acadlix_dashboard_page_id' => null,
-                'acadlix_cart_page_id' => null,
+                // 'acadlix_cart_page_id' => null,
                 'acadlix_checkout_page_id' => null,
                 'acadlix_thankyou_page_id' => null,
                 'acadlix_no_of_courses_per_page' => 10,
