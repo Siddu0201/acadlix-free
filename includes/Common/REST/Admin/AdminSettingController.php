@@ -60,6 +60,18 @@ class AdminSettingController
     {
         $res = [];
         $params = $request->get_json_params();
+        $required_fields = array('title', 'user_id');
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+        if (!empty($errors)) {
+            throw new Exception(implode(' ', $errors), 400);
+        }
         $res['page_id'] = wp_insert_post([
             'post_title' => $params['title'],
             'post_status' => 'publish',
