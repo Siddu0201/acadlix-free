@@ -42,7 +42,7 @@ function General(props) {
     defaultValues: window?.acadlixHooks?.applyFilters?.(
       "acadlix.admin.settings.general.default_values",
       {
-        all_pages: props?.pages ?? [],
+        all_pages: props?.all_pages ?? [],
         dashboardInput: "",
         cartInput: "",
         checkoutInput: "",
