@@ -45,7 +45,6 @@ const SettingContent = ({
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const [pages, setPages] = React.useState(all_pages ?? []);
   const [currencies, setCurrency] = React.useState(currencies_with_symbol ?? []);
 
   const baseDefaults = {
@@ -265,9 +264,8 @@ const SettingContent = ({
               selected === "general" && (
                 <General
                   {...methods}
-                  pages={pages}
+                  all_pages={all_pages}
                   currencies={currencies}
-                  setPages={setPages}
                   isPending={updateMutation?.isPending}
                 />
               )

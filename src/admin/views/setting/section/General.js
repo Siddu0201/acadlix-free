@@ -25,6 +25,7 @@ import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer, renderMUIComponent } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from "@acadlix/components/CustomTypography";
+import { useForm } from "react-hook-form";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -37,11 +38,18 @@ const AdvanceQuizOption = React.lazy(() =>
 );
 
 function General(props) {
-  const [courseInput, setCourseInput] = React.useState("");
-  const [dashboardInput, setDashboardInput] = React.useState("");
-  const [cartInput, setCartInput] = React.useState("");
-  const [checkoutInput, setCheckoutInput] = React.useState("");
-  const [thankyouInput, setThankyouInput] = React.useState("");
+  const methods = useForm({
+    defaultValues: window?.acadlixHooks?.applyFilters?.(
+      "acadlix.admin.settings.general.default_values",
+      {
+        all_pages: props?.pages ?? [],
+        dashboardInput: "",
+        cartInput: "",
+        checkoutInput: "",
+        thankyouInput: "",
+      }
+    )
+  })
 
   const createPageMutation = PostCreatePage();
   const general_page_setup_after = window?.acadlixHooks?.applyFilters?.(
@@ -88,14 +96,14 @@ function General(props) {
                 size="small"
                 value={
                   props?.watch("acadlix_dashboard_page_id") !== null
-                    ? props?.pages?.find(
+                    ? methods?.watch("all_pages")?.find(
                       (p) =>
                         p?.ID ===
                         Number(props?.watch("acadlix_dashboard_page_id"))
-                    )
+                    ) || null
                     : null
                 }
-                options={props?.pages?.length > 0 ? props?.pages : []}
+                options={methods?.watch("all_pages") || []}
                 getOptionLabel={(option) =>
                   `${option?.post_title} (#${option?.ID})` || ""
                 }
@@ -105,23 +113,21 @@ function General(props) {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "spoc_gender",
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        endAdornment: (
+                          <React.Fragment>
+                            {methods?.watch("dashboardInput") !== "" &&
+                              createPageMutation?.isPending ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </React.Fragment>
+                        ),
+                      }
                     }}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {dashboardInput !== "" &&
-                            createPageMutation?.isPending ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
-                    onChange={(e) => setDashboardInput(e.target.value)}
+                    onChange={(e) => methods?.setValue("dashboardInput", e.target.value)}
                   />
                 )}
                 onChange={(_, newValue) => {
@@ -133,42 +139,54 @@ function General(props) {
                     }
                   );
                 }}
-                PaperComponent={(data) => {
-                  return (
-                    <Paper>
-                      {data?.children}
-                      <Button
-                        color="primary"
-                        fullWidth
-                        disabled={!hasCapability("acadlix_create_page_setting")}
-                        sx={{ justifyContent: "flex-start", pl: 2 }}
-                        onMouseDown={(e) => {
-                          if (dashboardInput === "") {
-                            toast.error(__("Title cannot be empty.", "acadlix"));
-                            return;
-                          }
-                          createPageMutation?.mutate(
-                            {
-                              title: dashboardInput,
-                              user_id: acadlixOptions?.user_id,
-                            },
-                            {
-                              onSuccess: (data) => {
-                                props?.setPages(data?.data?.all_pages);
-                                props?.setValue(
-                                  "acadlix_dashboard_page_id",
-                                  data?.data?.page_id,
-                                  { shouldDirty: true }
-                                );
-                              },
+                slots={{
+                  paper: (data) => {
+                    return (
+                      <Paper>
+                        {data?.children}
+                        <Button
+                          color="primary"
+                          fullWidth
+                          disabled={!hasCapability("acadlix_create_page_setting")}
+                          sx={{ justifyContent: "flex-start", pl: 2 }}
+                          onMouseDown={(e) => {
+                            if (methods?.watch("dashboardInput") === "") {
+                              toast.error(__("Title cannot be empty.", "acadlix"));
+                              return;
                             }
-                          );
-                        }}
-                      >
-                        + {__("Add New", "acadlix")}
-                      </Button>
-                    </Paper>
-                  );
+                            createPageMutation?.mutate(
+                              {
+                                title: methods?.watch("dashboardInput"),
+                                user_id: acadlixOptions?.user_id,
+                              },
+                              {
+                                onSuccess: (data) => {
+                                  console.log(data?.data);
+                                  methods?.setValue(
+                                    "dashboardInput",
+                                    "",
+                                    { shouldDirty: true }
+                                  );
+                                  methods?.setValue(
+                                    "all_pages",
+                                    data?.data?.all_pages,
+                                    { shouldDirty: true }
+                                  );
+                                  props?.setValue(
+                                    "acadlix_dashboard_page_id",
+                                    data?.data?.page_id,
+                                    { shouldDirty: true }
+                                  );
+                                },
+                              }
+                            );
+                          }}
+                        >
+                          + {__("Add New", "acadlix")}
+                        </Button>
+                      </Paper>
+                    );
+                  }
                 }}
               />
             </Grid>
@@ -285,14 +303,14 @@ function General(props) {
                 size="small"
                 value={
                   props?.watch("acadlix_checkout_page_id") !== null
-                    ? props?.pages?.find(
+                    ? methods?.watch("all_pages")?.find(
                       (p) =>
                         p?.ID ===
                         Number(props?.watch("acadlix_checkout_page_id"))
-                    )
+                    ) || null
                     : null
                 }
-                options={props?.pages?.length > 0 ? props?.pages : []}
+                options={methods?.watch("all_pages") || []}
                 getOptionLabel={(option) =>
                   `${option?.post_title} (#${option?.ID})` || ""
                 }
@@ -302,22 +320,20 @@ function General(props) {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "spoc_gender",
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        endAdornment: (
+                          <React.Fragment>
+                            {methods?.watch("checkoutInput") !== "" && createPageMutation?.isPending ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </React.Fragment>
+                        ),
+                      }
                     }}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {checkoutInput !== "" && createPageMutation?.isPending ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
-                    onChange={(e) => setCheckoutInput(e.target.value)}
+                    onChange={(e) => methods?.setValue("checkoutInput", e.target.value)}
                   />
                 )}
                 onChange={(_, newValue) => {
@@ -329,42 +345,50 @@ function General(props) {
                     }
                   );
                 }}
-                PaperComponent={(data) => {
-                  return (
-                    <Paper>
-                      {data?.children}
-                      <Button
-                        color="primary"
-                        fullWidth
-                        sx={{ justifyContent: "flex-start", pl: 2 }}
-                        disabled={!hasCapability("acadlix_create_page_setting")}
-                        onMouseDown={(e) => {
-                          if (checkoutInput === "") {
-                            toast.error(__("Title cannot be empty.", "acadlix"));
-                            return;
-                          }
-                          createPageMutation?.mutate(
-                            {
-                              title: checkoutInput,
-                              user_id: acadlixOptions?.user_id,
-                            },
-                            {
-                              onSuccess: (data) => {
-                                props?.setPages(data?.data?.all_pages);
-                                props?.setValue(
-                                  "acadlix_checkout_page_id",
-                                  data?.data?.page_id,
-                                  { shouldDirty: true }
-                                );
-                              },
+
+                slots={{
+                  paper: (data) => {
+                    return (
+                      <Paper>
+                        {data?.children}
+                        <Button
+                          color="primary"
+                          fullWidth
+                          sx={{ justifyContent: "flex-start", pl: 2 }}
+                          disabled={!hasCapability("acadlix_create_page_setting")}
+                          onMouseDown={(e) => {
+                            if (methods?.watch("checkoutInput") === "") {
+                              toast.error(__("Title cannot be empty.", "acadlix"));
+                              return;
                             }
-                          );
-                        }}
-                      >
-                        + {__("Add New", "acadlix")}
-                      </Button>
-                    </Paper>
-                  );
+                            createPageMutation?.mutate(
+                              {
+                                title: methods?.watch("checkoutInput"),
+                                user_id: acadlixOptions?.user_id,
+                              },
+                              {
+                                onSuccess: (data) => {
+                                  methods?.setValue("checkoutInput", "", { shouldDirty: true });
+                                  methods?.setValue(
+                                    "all_pages",
+                                    data?.data?.all_pages,
+                                    { shouldDirty: true }
+                                  );
+                                  props?.setValue(
+                                    "acadlix_checkout_page_id",
+                                    data?.data?.page_id,
+                                    { shouldDirty: true }
+                                  );
+                                },
+                              }
+                            );
+                          }}
+                        >
+                          + {__("Add New", "acadlix")}
+                        </Button>
+                      </Paper>
+                    );
+                  }
                 }}
               />
             </Grid>
@@ -378,14 +402,14 @@ function General(props) {
                 size="small"
                 value={
                   props?.watch("acadlix_thankyou_page_id") !== null
-                    ? props?.pages?.find(
+                    ? methods?.watch("all_pages")?.find(
                       (p) =>
                         p?.ID ===
                         Number(props?.watch("acadlix_thankyou_page_id"))
-                    )
+                    ) || null
                     : null
                 }
-                options={props?.pages?.length > 0 ? props?.pages : []}
+                options={methods?.watch("all_pages") || []}
                 getOptionLabel={(option) =>
                   `${option?.post_title} (#${option?.ID})` || ""
                 }
@@ -395,22 +419,20 @@ function General(props) {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "spoc_gender",
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        endAdornment: (
+                          <React.Fragment>
+                            {methods?.watch("thankyouInput") !== "" && createPageMutation?.isPending ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </React.Fragment>
+                        )
+                      },
                     }}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {thankyouInput !== "" && createPageMutation?.isPending ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
-                    onChange={(e) => setThankyouInput(e.target.value)}
+                    onChange={(e) => methods?.setValue("thankyouInput", e.target.value)}
                   />
                 )}
                 onChange={(_, newValue) => {
@@ -422,42 +444,49 @@ function General(props) {
                     }
                   );
                 }}
-                PaperComponent={(data) => {
-                  return (
-                    <Paper>
-                      {data?.children}
-                      <Button
-                        color="primary"
-                        fullWidth
-                        sx={{ justifyContent: "flex-start", pl: 2 }}
-                        disabled={!hasCapability("acadlix_create_page_setting")}
-                        onMouseDown={(e) => {
-                          if (thankyouInput === "") {
-                            toast.error(__("Title cannot be empty.", "acadlix"));
-                            return;
-                          }
-                          createPageMutation?.mutate(
-                            {
-                              title: thankyouInput,
-                              user_id: acadlixOptions?.user_id,
-                            },
-                            {
-                              onSuccess: (data) => {
-                                props?.setPages(data?.data?.all_pages);
-                                props?.setValue(
-                                  "acadlix_thankyou_page_id",
-                                  data?.data?.page_id,
-                                  { shouldDirty: true }
-                                );
-                              },
+                slots={{
+                  paper: (data) => {
+                    return (
+                      <Paper>
+                        {data?.children}
+                        <Button
+                          color="primary"
+                          fullWidth
+                          sx={{ justifyContent: "flex-start", pl: 2 }}
+                          disabled={!hasCapability("acadlix_create_page_setting")}
+                          onMouseDown={(e) => {
+                            if (methods?.watch("thankyouInput") === "") {
+                              toast.error(__("Title cannot be empty.", "acadlix"));
+                              return;
                             }
-                          );
-                        }}
-                      >
-                        + {__("Add New", "acadlix")}
-                      </Button>
-                    </Paper>
-                  );
+                            createPageMutation?.mutate(
+                              {
+                                title: methods?.watch("thankyouInput"),
+                                user_id: acadlixOptions?.user_id,
+                              },
+                              {
+                                onSuccess: (data) => {
+                                  methods?.setValue("thankyouInput", "", { shouldDirty: true });
+                                  methods?.setValue(
+                                    "all_pages",
+                                    data?.data?.all_pages,
+                                    { shouldDirty: true }
+                                  );
+                                  props?.setValue(
+                                    "acadlix_thankyou_page_id",
+                                    data?.data?.page_id,
+                                    { shouldDirty: true }
+                                  );
+                                },
+                              }
+                            );
+                          }}
+                        >
+                          + {__("Add New", "acadlix")}
+                        </Button>
+                      </Paper>
+                    );
+                  }
                 }}
               />
             </Grid>
@@ -980,7 +1009,7 @@ function General(props) {
           type="submit"
           loading={props?.isPending}
         >
-         {__("Save", "acadlix")}
+          {__("Save", "acadlix")}
         </Button>
       </CardActions>
     </Card >
