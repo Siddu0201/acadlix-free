@@ -12,28 +12,17 @@ const BootstrapDialog = ({
   const [container, setContainer] = useState(undefined);
 
   useEffect(() => {
-    const el = document.querySelector(".edit-post-layout, .block-editor");
-    if (el) {
-      // Using document.body is safer because WordPress editors sometimes re-render
-      setContainer(document.body);
+    const editor = window?.tinymce?.activeEditor;
+    if(!editor) return;
+    if(!props?.open) return;
+    const originalFocus = editor.focus;
+    editor.focus = () => {};
 
-      // 🧠 Patch: Temporarily disable editor focus trap on tablets/iPads
-      const restoreFn = () => {
-        const active = document.activeElement;
-        if (active && active.tagName === "INPUT") {
-          editorRoot.removeAttribute("tabindex");
-        }
-      };
-
-      document.addEventListener("touchstart", restoreFn, true);
-      document.addEventListener("focusin", restoreFn, true);
-
-      return () => {
-        document.removeEventListener("touchstart", restoreFn, true);
-        document.removeEventListener("focusin", restoreFn, true);
-      };
-    }
-  }, []);
+    return () => {
+      editor.focus = originalFocus;
+    };
+    
+  }, [props?.open]);
 
   return (
     <Dialog
