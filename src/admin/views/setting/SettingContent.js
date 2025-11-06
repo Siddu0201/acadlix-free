@@ -90,8 +90,8 @@ const SettingContent = ({
     // Student Dashboard Options
     acadlix_logout_redirect_url:
       options?.acadlix_logout_redirect_url ?? "",
-    acadlix_disable_home_menu:
-      options?.acadlix_disable_home_menu ?? "no",
+    acadlix_enable_dashboard_fullwidth:
+      options?.acadlix_enable_dashboard_fullwidth ?? "no",
     acadlix_enable_site_logo_in_header:
       options?.acadlix_enable_site_logo_in_header ?? "no",
     // Data management

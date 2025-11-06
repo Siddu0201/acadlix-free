@@ -916,7 +916,7 @@ function General(props) {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
-                {__("Disable home in menu", "acadlix")}
+                {__("Enable dashboard fullwidth", "acadlix")}
               </CustomTypography>
             </Grid>
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -924,11 +924,11 @@ function General(props) {
                 label={__("Activate", "acadlix")}
                 control={<CustomSwitch />}
                 value="yes"
-                checked={props?.watch("acadlix_disable_home_menu") === "yes"}
+                checked={props?.watch("acadlix_enable_dashboard_fullwidth") === "yes"}
                 onClick={(e) => {
                   if (e?.target?.checked !== undefined) {
                     props?.setValue(
-                      "acadlix_disable_home_menu",
+                      "acadlix_enable_dashboard_fullwidth",
                       e?.target?.checked ? e?.target?.value : "no",
                       { shouldDirty: true }
                     );

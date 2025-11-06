@@ -13,14 +13,16 @@ const DashboardLayout = () => {
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
+
+  const isFullWidth = acadlixOptions?.settings?.acadlix_enable_dashboard_fullwidth === 'yes';
   return (
     <Container
       disableGutters
-      maxWidth="lg"
+      maxWidth={isFullWidth ? "xl" : "lg"}
       sx={{
         px: {
           xs: 0,
-          sm: 2,
+          sm: isFullWidth ? 4 : 2,
         },
         width: {
           xs: "100%",
@@ -42,7 +44,7 @@ const DashboardLayout = () => {
           sx={{
             padding: {
               xs: 0,
-              sm: 4,
+              sm: isFullWidth ? 0 : 4,
             },
           }}
         >
