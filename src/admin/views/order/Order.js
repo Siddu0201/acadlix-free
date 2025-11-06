@@ -7,6 +7,7 @@ import {
   InputAdornment,
   Tooltip,
   Typography,
+  Link as MuiLink
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -63,7 +64,23 @@ const Order = () => {
       //   flex: 1,
       //   minWidth: 100,
       // },
-      { field: "order_id", headerName: __("Order ID", "acadlix"), flex: 1, minWidth: 80 },
+      { 
+        field: "order_id", 
+        headerName: __("Order ID", "acadlix"), 
+        flex: 1, 
+        minWidth: 80,
+        renderCell: (params) => {
+          return (
+            <MuiLink
+              variant="text"
+              color="primary"
+              href={`/wp-admin/admin.php?page=acadlix_order#/edit/${params?.row?.id}`}
+            >
+              {`#${params?.row?.id}`}
+            </MuiLink>
+          );
+        },
+      },
       // {
       //   field: "transaction_id",
       //   headerName: __("Txn ID", "acadlix"),
@@ -290,7 +307,6 @@ const Order = () => {
               "payment_method",
               __("Free", "acadlix")
             )?.toUpperCase(),
-            order_id: `#${order?.id}`,
             transaction_id: getTransactionId(order?.order_metas),
             order_date: formattedDateTime,
             user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
