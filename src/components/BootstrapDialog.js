@@ -16,6 +16,22 @@ const BootstrapDialog = ({
     if (el) {
       // Using document.body is safer because WordPress editors sometimes re-render
       setContainer(document.body);
+
+      // 🧠 Patch: Temporarily disable editor focus trap on tablets/iPads
+      const restoreFn = () => {
+        const active = document.activeElement;
+        if (active && active.tagName === "INPUT") {
+          editorRoot.removeAttribute("tabindex");
+        }
+      };
+
+      document.addEventListener("touchstart", restoreFn, true);
+      document.addEventListener("focusin", restoreFn, true);
+
+      return () => {
+        document.removeEventListener("touchstart", restoreFn, true);
+        document.removeEventListener("focusin", restoreFn, true);
+      };
     }
   }, []);
 
