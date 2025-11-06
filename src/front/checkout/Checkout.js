@@ -379,8 +379,15 @@ const Checkout = () => {
     // Set the loading state to true to indicate that the checkout process is starting
     methods?.setValue("is_checkout_loading", true, { shouldDirty: true });
     const totalAmount = methods?.watch("total_amount");
-    if (totalAmount > 0) {
-      const selectedPaymentMethod = methods.watch("payment_method");
+    const selectedPaymentMethod = methods.watch("payment_method");
+
+    const checkoutType = applyFilters(
+      'acadlix.front.checkout.checkout_type',
+      totalAmount > 0 ? 'paid' : 'free',
+      data
+    );
+
+    if (checkoutType === 'paid') {
       // Check if a payment method has been selected
       if (!selectedPaymentMethod) {
         // If no payment method is selected, display an error message to the user
@@ -394,7 +401,7 @@ const Checkout = () => {
       // If a payment method is selected, proceed to handle the payment
       // The appropriate payment handler is called based on the selected payment gateway
       handlePaymentGateway(data);
-    } else {
+    } else if (checkoutType === 'free') {
       // handle free checkout
       handleFreeCheckout(data);
     }

@@ -14,21 +14,26 @@ const BootstrapDialog = ({
       open={props?.open}
       onClose={props?.onClose}
       maxWidth="md"
-      PaperProps={{
-        sx: {
-          width: {
-            xs: xs,
-            sm: sm,
-            md: md,
-            xl: xl,
+      disableAutoFocus
+      disableEnforceFocus
+      disableRestoreFocus
+      slotProps={{
+        paper: {
+          sx: {
+            width: {
+              xs: xs,
+              sm: sm,
+              md: md,
+              xl: xl,
+            },
+            height: {
+              xs: "auto", // 70% height on small screens
+              sm: "auto", // 60% height on medium screens
+              md: "auto",
+              xl: "auto", // 50% height on larger screens
+            },
+            margin: 4,
           },
-          height: {
-            xs: "auto", // 70% height on small screens
-            sm: "auto", // 60% height on medium screens
-            md: "auto",
-            xl: "auto", // 50% height on larger screens
-          },
-          margin: 4,
         },
       }}
       sx={{
@@ -41,8 +46,8 @@ const BootstrapDialog = ({
             xl: "450px",
           },
         },
-        "& .MuiDialogActions-root": {
-          padding: 2,
+        "& .MuiIconButton-root": {
+          padding: 0,
         },
       }}
     >
