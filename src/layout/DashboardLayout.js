@@ -18,7 +18,7 @@ const DashboardLayout = () => {
   return (
     <Container
       disableGutters
-      maxWidth={isFullWidth ? "xl" : "lg"}
+      maxWidth={isFullWidth ? false : "lg"}
       sx={{
         px: {
           xs: 0,
