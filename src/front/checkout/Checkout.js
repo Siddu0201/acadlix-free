@@ -384,7 +384,7 @@ const Checkout = () => {
     const totalAmount = methods?.watch("total_amount");
     const selectedPaymentMethod = methods.watch("payment_method");
 
-    const checkoutType = applyFilters(
+    const checkoutType = window?.acadlixHooks?.applyFilters?.(
       'acadlix.front.checkout.checkout_type',
       totalAmount > 0 ? 'paid' : 'free',
       data
