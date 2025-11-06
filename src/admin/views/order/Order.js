@@ -3,9 +3,7 @@ import {
   Button,
   CardHeader,
   Chip,
-  IconButton,
   InputAdornment,
-  Tooltip,
   Typography,
   Link as MuiLink
 } from "@mui/material";
@@ -14,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { DeleteOrderById, GetOrders } from "@acadlix/requests/admin/AdminOrderRequest";
 import { currencyPosition, getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import { dateI18n } from "@wordpress/date";
-import { FaSearch, MdFileCopy } from "@acadlix/helpers/icons";
+import { FaSearch } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import CustomRefresh from "@acadlix/components/CustomRefresh";

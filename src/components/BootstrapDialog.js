@@ -1,5 +1,5 @@
 import { Dialog } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const BootstrapDialog = ({
   xs = "100%",
@@ -8,11 +8,23 @@ const BootstrapDialog = ({
   xl = "100%",
   ...props
 }) => {
+
+  const [container, setContainer] = useState(undefined);
+
+  useEffect(() => {
+    const el = document.querySelector(".edit-post-layout, .block-editor");
+    if (el) {
+      // Using document.body is safer because WordPress editors sometimes re-render
+      setContainer(document.body);
+    }
+  }, []);
+
   return (
     <Dialog
       {...props}
       open={props?.open}
       onClose={props?.onClose}
+      {...(container ? { container } : {})}
       maxWidth="md"
       disableAutoFocus
       disableEnforceFocus
