@@ -14,7 +14,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
         isRedirect: true,
         icon: "FaHome",
         default: true,
-        enabled: acadlixOptions?.settings?.acadlix_disable_home_menu === 'no',
+        enabled: true,
       },
       {
         id: "courses",
