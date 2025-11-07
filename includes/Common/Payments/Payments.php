@@ -9,7 +9,6 @@ use Yuvayana\Acadlix\Common\Payments\Gateways\Stripe;
 
 defined('ABSPATH') || exit();
 
-
 class Payments
 {
     protected $_razorpay;

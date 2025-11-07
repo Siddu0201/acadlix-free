@@ -596,7 +596,7 @@ class FrontCheckoutController
                 }
             }
             // send mail on success
-            acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
+            acadlix()->notifications()->email()->handleCoursePurchaseEmail($order->id);
         }
         return rest_ensure_response([
             'status' => 'success',

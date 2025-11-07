@@ -502,7 +502,7 @@ class FrontDashboardController
             if ($course_completion_percentage == 100) {
                 $courseFullCompleted = true;
                 // send email for course completion
-                acadlix()->helper()->course()->handleCourseCompletionEmail($courseId, $userId);
+                acadlix()->notifications()->email()->handleCourseCompletionEmail($courseId, $userId);
             }
         }
 

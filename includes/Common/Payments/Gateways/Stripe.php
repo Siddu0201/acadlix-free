@@ -192,7 +192,7 @@ class Stripe implements PaymentGatewayInterface
             }
         }
         // send mail on success
-        acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
+        acadlix()->notifications()->email()->handleCoursePurchaseEmail($order->id);
         return ['success' => true, 'message' => 'Order captured successfully'];
     }
 
@@ -206,7 +206,7 @@ class Stripe implements PaymentGatewayInterface
         $order->createActivityLog($message);
         
         $order->updateOrCreateMeta('failure_reason', $message);
-        acadlix()->helper()->course()->handleFailedTransationEmail($order->id);
+        acadlix()->notifications()->email()->handleFailedTransationEmail($order->id);
         return ['success' => true, 'message' => $message];
     }
 

@@ -266,7 +266,7 @@ class FrontCourseController
                     'status' => 'success',
                 ]);
                 // send mail on success
-                acadlix()->helper()->course()->handleCoursePurchaseEmail($order->id);
+                acadlix()->notifications()->email()->handleCoursePurchaseEmail($order->id);
                 $res = array(
                     'status' => 'success',
                     'code' => array('status' => 200),
