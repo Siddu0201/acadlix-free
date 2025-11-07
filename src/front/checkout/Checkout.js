@@ -7,14 +7,12 @@ import {
   PostCheckoutStripe,
   PostFreeCheckout,
 } from "../../requests/front/FrontCheckoutRequest";
-import { Box, CircularProgress, Link, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import { Box, CircularProgress } from "@mui/material";
 import BillingDetail from "./BillingDetail";
 import PaymentMethod from "./PaymentMethod";
 import OrderDetail from "./OrderDetail";
 import OrderSummary from "./OrderSummary";
 import { useForm } from "react-hook-form";
-import parse from "html-react-parser";
 import toast from "react-hot-toast";
 import UserAuth from "@acadlix/modules/user-auth/UserAuth";
 import { __ } from "@wordpress/i18n";

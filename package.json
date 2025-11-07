@@ -50,7 +50,6 @@
     "country-state-city": "^3.2.1",
     "dateformat": "^5.0.3",
     "dayjs": "^1.11.13",
-    "html-react-parser": "^5.2.2",
     "mammoth": "^1.9.1",
     "plyr": "^3.7.8",
     "prop-types": "^15.8.1",

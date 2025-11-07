@@ -18,12 +18,11 @@ import {
 import Grid from '@mui/material/Grid';
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
-import parse from "html-react-parser";
 import { PostCreatePage } from "@acadlix/requests/admin/AdminSettingRequest";
 import toast from "react-hot-toast";
 import { __ } from "@wordpress/i18n";
-import { DynamicMUIRenderer, renderMUIComponent } from "@acadlix/modules/extensions/muiRecursiveRenderer";
-import { hasCapability } from "@acadlix/helpers/util";
+import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import { useForm } from "react-hook-form";
 
@@ -716,7 +715,7 @@ function General(props) {
                 }
                 options={props?.currencies ?? []}
                 getOptionLabel={(option) =>
-                  `${option?.name} (${parse(option?.symbol)})` || ""
+                  `(${getStripHtml(option?.symbol)} ${option?.short_name}) ${option?.name}` || ""
                 }
                 isOptionEqualToValue={(option, value) =>
                   option?.name === value?.name
