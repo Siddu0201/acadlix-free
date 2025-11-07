@@ -359,9 +359,12 @@ const OrderSummary = (props) => {
                             component: "Button",
                             component_name: "checkout_order_summary_button",
                               props: {
-                              color: "success",
+                              color: "primary",
                               variant: "contained",
                               fullWidth: true,
+                              sx: {
+                                textTransform: "uppercase",
+                              },
                               loading: props?.watch("is_checkout_loading"),
                               disabled: props?.watch("cart")?.length === 0 ||
                                 !is_payment_gateway_active() ||
