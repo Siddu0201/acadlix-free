@@ -83,7 +83,7 @@ const Dashbaord = () => {
       path: "/purchase",
       element: <PurchaseHistory />
     },
-    acadlixOptions?.settings?.acadlix_disable_wishlist === 'no' && {
+    {
       parent: <DashboardLayout />,
       path: "/wishlist",
       element: <Wishlist />

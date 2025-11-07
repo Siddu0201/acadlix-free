@@ -50,7 +50,7 @@ const DashboardNavbar = ({ handleDrawerToggle, isDesktop }) => {
         isRedirect: false,
         icon: "FaHeart",
         default: true,
-        enabled: acadlixOptions?.settings?.acadlix_disable_wishlist === 'no',
+        enabled: true,
       },
       {
         id: "profile",
