@@ -28,38 +28,47 @@ const Checkout = () => {
       ?.meta_value;
   };
 
-  const methods = useForm({
-    defaultValues: {
-      is_checkout_locked: false,
-      is_checkout_loading: false,
-      login_modal: false,
-      billing_info: {
-        first_name: getUserMetaValue("first_name") ?? "",
-        last_name: getUserMetaValue("last_name") ?? "",
-        email: acadlixCheckoutOptions?.user?.user_email ?? "",
-        phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
-        phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
-        address: getUserMetaValue("_acadlix_profile_address") ?? "",
-        user_url: acadlixCheckoutOptions?.user?.user_url ?? "",
-        country_code:
-          Country.getAllCountries()?.find(
-            (country) =>
-              country?.name === getUserMetaValue("_acadlix_profile_country")
-          )?.isoCode ?? null,
-        country: getUserMetaValue("_acadlix_profile_country") ?? null,
-        city: getUserMetaValue("_acadlix_profile_city") ?? "",
-        zip_code: getUserMetaValue("_acadlix_profile_zip_code") ?? "",
-      },
-      payment_method:
-        acadlixCheckoutOptions?.settings?.acadlix_default_payment_gateway ?? "",
-      user_id: acadlixCheckoutOptions?.user_id,
-      is_user_logged_in: acadlixCheckoutOptions?.user_id > 0 ? true : false,
-      cart_token: acadlixCheckoutOptions?.cart_token,
-      cart: [],
-      order_items: [],
-      total_amount: 0,
-      currency: acadlixCheckoutOptions?.settings?.acadlix_currency,
+  const baseSetting = {
+    is_checkout_locked: false,
+    is_checkout_loading: false,
+    login_modal: false,
+    billing_info: {
+      first_name: getUserMetaValue("first_name") ?? "",
+      last_name: getUserMetaValue("last_name") ?? "",
+      email: acadlixCheckoutOptions?.user?.user_email ?? "",
+      phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
+      phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
+      address: getUserMetaValue("_acadlix_profile_address") ?? "",
+      user_url: acadlixCheckoutOptions?.user?.user_url ?? "",
+      country_code:
+        Country.getAllCountries()?.find(
+          (country) =>
+            country?.name === getUserMetaValue("_acadlix_profile_country")
+        )?.isoCode ?? null,
+      country: getUserMetaValue("_acadlix_profile_country") ?? null,
+      city: getUserMetaValue("_acadlix_profile_city") ?? "",
+      zip_code: getUserMetaValue("_acadlix_profile_zip_code") ?? "",
     },
+    payment_method:
+      acadlixCheckoutOptions?.settings?.acadlix_default_payment_gateway ?? "",
+    user_id: acadlixCheckoutOptions?.user_id,
+    is_user_logged_in: acadlixCheckoutOptions?.user_id > 0 ? true : false,
+    cart_token: acadlixCheckoutOptions?.cart_token,
+    cart: [],
+    order_items: [],
+    total_amount: 0,
+    currency: acadlixCheckoutOptions?.settings?.acadlix_currency,
+    currency_symbol: acadlixCheckoutOptions?.currency_symbol,
+  };
+
+  const filteredDefaults = window?.acadlixHooks?.applyFilters(
+        "acadlix.admin.checkout.defaultValues",
+        baseSetting,
+        acadlixCheckoutOptions
+    ) ?? baseSetting;
+
+  const methods = useForm({
+    defaultValues: filteredDefaults,
   });
 
   if (process?.env?.REACT_APP_MODE === "development") {

@@ -153,7 +153,8 @@ const OrderItem = (props) => {
                     value: `${currencyPosition(
                       Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price))
                         ? props?.c?.course?.rendered_metas?.sale_price
-                        : props?.c?.course?.rendered_metas?.price
+                        : props?.c?.course?.rendered_metas?.price,
+                        props?.watch("currency_symbol")
                     )} `,
                   },
                   Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price)) && (
@@ -166,7 +167,7 @@ const OrderItem = (props) => {
                           textDecoration: "line-through",
                         }
                       },
-                      value: currencyPosition(props?.c?.course?.rendered_metas?.price),
+                      value: currencyPosition(props?.c?.course?.rendered_metas?.price, props?.watch("currency_symbol")),
                     }
                   )
                 ],

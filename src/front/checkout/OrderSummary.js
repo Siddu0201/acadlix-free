@@ -113,7 +113,8 @@ const OrderSummary = (props) => {
                                 value: currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + c?.price, 0)
+                                    ?.reduce((total, c) => total + c?.price, 0),
+                                  props?.watch("currency_symbol")
                                 )
                               },
                             ]
@@ -165,7 +166,8 @@ const OrderSummary = (props) => {
                                 value: currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + (c?.price + c?.additional_fee), 0)
+                                    ?.reduce((total, c) => total + (c?.price + c?.additional_fee), 0),
+                                  props?.watch("currency_symbol")
                                 )
                               },
                             ]
@@ -225,7 +227,8 @@ const OrderSummary = (props) => {
                                   ${currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + c?.discount, 0)
+                                    ?.reduce((total, c) => total + c?.discount, 0),
+                                  props?.watch("currency_symbol")
                                 )}`
                               },
                             ]
@@ -277,7 +280,8 @@ const OrderSummary = (props) => {
                                 value: currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + c?.tax, 0)
+                                    ?.reduce((total, c) => total + c?.tax, 0),
+                                  props?.watch("currency_symbol")
                                 )
                               },
                             ]
@@ -329,7 +333,8 @@ const OrderSummary = (props) => {
                                 value: currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + c?.price_after_tax, 0)
+                                    ?.reduce((total, c) => total + c?.price_after_tax, 0),
+                                  props?.watch("currency_symbol")
                                 )
                               },
                             ]
