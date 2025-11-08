@@ -1226,6 +1226,32 @@ if (!class_exists('Helper')) {
             return number_format((float) $price, (int) $decimal_places, $decimal_separator, $thousand_separator);
         }
 
+        public function acadlix_get_price_with_currency(float $price, $currency = '')
+        {
+            if(empty($currency)){
+                $currency = $this->acadlix_get_option('acadlix_currency');
+            }
+            $currency_position_option = $this->acadlix_get_option('acadlix_currency_position');
+
+            $currency_symbols = $this->acadlix_currency_symbols();
+
+            if (!array_key_exists($currency, $currency_symbols)) {
+                return new \WP_Error("currency_symbol_not_found", __("Currency symbol not found for the selected currency.", "acadlix"));
+            }
+
+            $currency_symbol = $currency_symbols[$currency];
+
+            $price = $this->acadlix_format_price_for_display($price);
+
+            return match ($currency_position_option) {
+                "Left ( $99.99 )" => "$currency_symbol$price",
+                "Right ( 99.99$ )" => "$price$currency_symbol",
+                "Left with space ( $ 99.99 )" => "$currency_symbol $price",
+                "Right with space ( 99.99 $ )" => "$price $currency_symbol",
+                default => "$currency_symbol$price",
+            };
+        }
+
         public function acadlix_is_json($string)
         {
             if (!is_string($string)) {
