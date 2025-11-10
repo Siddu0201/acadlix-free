@@ -84,7 +84,7 @@ if (!class_exists('Helper')) {
         {
             // Prevent null warnings — always ensure it's a string
             $content = (string) ($content ?? '');
-            
+
             $content = $this->acadlix_modify_video_shortcode($content);
             $content = apply_filters('the_content', $content);
             return $content;
@@ -738,14 +738,29 @@ if (!class_exists('Helper')) {
             return ini_get('max_execution_time') * 1000;
         }
 
-        public function acadlix_get_email_template($template_name, $type = 'student')
+        public function acadlix_get_email_template($template_name, $type = 'student', $vars = [])
         {
             $file_path = ACADLIX_TEMPLATE_PATH . 'email/' . $type . '/' . $template_name;
-            if (file_exists($file_path)) {
-                return file_get_contents($file_path);
-            }
+            // if (file_exists($file_path)) {
+            //     return file_get_contents($file_path);
+            // }
 
-            return '';
+            // return '';
+
+            if (!file_exists($file_path)) {
+                return '';
+            }
+            extract($vars, EXTR_SKIP);
+            // Start output buffering
+            ob_start();
+
+            // Execute the PHP template file
+            include $file_path;
+
+            // Get the final rendered HTML and clear the buffer
+            $content = ob_get_clean();
+
+            return $content;
         }
 
         public function acadlix_preload_scripts($script = '')
@@ -1228,7 +1243,7 @@ if (!class_exists('Helper')) {
 
         public function acadlix_get_price_with_currency(float $price, $currency = '')
         {
-            if(empty($currency)){
+            if (empty($currency)) {
                 $currency = $this->acadlix_get_option('acadlix_currency');
             }
             $currency_position_option = $this->acadlix_get_option('acadlix_currency_position');
@@ -1236,7 +1251,7 @@ if (!class_exists('Helper')) {
             $currency_symbols = $this->acadlix_currency_symbols();
 
             if (!array_key_exists($currency, $currency_symbols)) {
-                return new \WP_Error("currency_symbol_not_found", __("Currency symbol not found for the selected currency.", "acadlix"));
+                return new \WP_Error('currency_symbol_not_found', __('Currency symbol not found for the selected currency.', 'acadlix'));
             }
 
             $currency_symbol = $currency_symbols[$currency];
@@ -1244,10 +1259,10 @@ if (!class_exists('Helper')) {
             $price = $this->acadlix_format_price_for_display($price);
 
             return match ($currency_position_option) {
-                "Left ( $99.99 )" => "$currency_symbol$price",
-                "Right ( 99.99$ )" => "$price$currency_symbol",
-                "Left with space ( $ 99.99 )" => "$currency_symbol $price",
-                "Right with space ( 99.99 $ )" => "$price $currency_symbol",
+                'Left ( $99.99 )' => "$currency_symbol$price",
+                'Right ( 99.99$ )' => "$price$currency_symbol",
+                'Left with space ( $ 99.99 )' => "$currency_symbol $price",
+                'Right with space ( 99.99 $ )' => "$price $currency_symbol",
                 default => "$currency_symbol$price",
             };
         }

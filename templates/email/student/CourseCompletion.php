@@ -1,15 +1,21 @@
+<?php
+$theme = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
+$primaryMain = $theme['palette']['primary']['main'] ?? 'hsl(210, 100%, 50%)';
+$textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <title><?php echo sprintf(__('🎉 Congratulations, %s!', 'acadlix'), esc_html($username)); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            color: <?php echo esc_attr($textPrimary); ?>;
         }
         .container {
             max-width: 600px;
@@ -21,21 +27,20 @@
         }
         .header {
             text-align: center;
-            background: #0073e6;
+            background: <?php echo esc_attr($primaryMain); ?>;
             color: #ffffff;
             padding: 15px;
             border-radius: 8px 8px 0 0;
         }
         .content {
             padding: 20px;
-            color: #333;
             line-height: 1.6;
         }
         .button {
             display: inline-block;
             padding: 12px 20px;
-            margin: 10px 0;
-            background: #0073e6;
+            margin: 12px 0;
+            background: <?php echo esc_attr($primaryMain); ?>;
             color: #ffffff !important;
             text-decoration: none;
             border-radius: 5px;
@@ -52,26 +57,33 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h2>Payment failed for order - #$order_id</h2>
+            <h2><?php echo sprintf(__('🎉 Congratulations, %s!', 'acadlix'), esc_html($username)); ?></h2>
         </div>
+
         <!-- Content -->
         <div class="content">
-            <p>Hi admin,</p>
-            <p>A payment attempt for $course_names by $username has failed. </p>
-            <p><strong>Order Details:</strong></p>
-            <ul>
-                <li><strong>Order ID:</strong> $order_id</li>
-                <li><strong>Customer Name:</strong> $username</li>
-                <li><strong>Course Purchased:</strong> $course_names</li>
-                <li><strong>Amount Paid:</strong> $order_amount</li>
-                <li><strong>Payment Method:</strong> $payment_method</li>
-                <li><strong>Order Date:</strong> $order_date</li>
-            </ul>
-            <p><a href="$admin_order_url" class="button" target="_blank">View Order Details</a></p>
+            <p>
+                <?php
+                echo sprintf(
+                    __('You have successfully completed <strong>%s</strong>! Your dedication and hard work have paid off. 🎓', 'acadlix'),
+                    esc_html($coursename)
+                );
+                ?>
+            </p>
+
+            <p>
+                <?php
+                echo sprintf(
+                    __('Thank you for choosing %s. Keep learning and growing! 🚀', 'acadlix'),
+                    esc_html($sitename)
+                );
+                ?>
+            </p>
         </div>
+
         <!-- Footer -->
         <div class="footer">
-            <p>&copy; $year $sitename. All rights reserved.</p>
+            <p>&copy; <?php echo esc_html($year); ?> <?php echo esc_html($sitename); ?>. <?php echo __('All rights reserved.', 'acadlix'); ?></p>
         </div>
     </div>
 </body>
