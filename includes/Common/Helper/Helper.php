@@ -1245,8 +1245,9 @@ if (!class_exists('Helper')) {
             return number_format((float) $price, (int) $decimal_places, $decimal_separator, $thousand_separator);
         }
 
-        public function acadlix_get_price_with_currency(float $price, $currency = '')
+        public function acadlix_get_price_with_currency(float|string $price, $currency = '')
         {
+            $price = (float) $price;
             if (empty($currency)) {
                 $currency = $this->acadlix_get_option('acadlix_currency');
             }
