@@ -113,6 +113,7 @@ namespace Yuvayana\Acadlix {
             $this->payments = $this->pro ? new Pro\Payments\Payments() : new Common\Payments\Payments();
             $this->schedule = $this->pro ? new Pro\Schedule\ScheduleAction() : new Common\Schedule\ScheduleAction();
             $this->notifications = $this->pro ? new Pro\Notifications\Notifications(): new Common\Notifications\Notifications();
+            $this->authentications = $this->pro ? new Pro\Authentications\Authentications() : new Common\Authentications\Authentications();
         }
     }
 }

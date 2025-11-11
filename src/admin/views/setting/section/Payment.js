@@ -79,7 +79,7 @@ function Payment(props) {
 
   // 🔹 Apply WordPress-style filter for extensibility
   const payment_setting = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.payment_gateways.payment",
+    "acadlix.admin.settings.payment",
     [defaultSetting],
     {
       register: props?.register,

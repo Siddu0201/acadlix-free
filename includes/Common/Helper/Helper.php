@@ -567,6 +567,9 @@ if (!class_exists('Helper')) {
                 'acadlix_course_tag_base' => 'course-tag',
                 // DB option
                 'acadlix_db_version' => '',
+                // Authentication option
+                'acadlix_enable_fraud_protection' => 'no',
+                'acadlix_v3_site_key' => '',
             ];
 
             // Filter options
@@ -601,6 +604,7 @@ if (!class_exists('Helper')) {
                 'acadlix_stripe_sandbox' => 'no',
                 'acadlix_stripe_webhook_signature_key' => '',
                 'acadlix_stripe_webhook_url' => $this->acadlix_get_webhook_url('stripe'),
+                'acadlix_v3_secret_key' => '',
             ];
             return $options;
         }

@@ -36,6 +36,15 @@ const UserAuth = ({
     },
   }));
 
+  React.useEffect(() => {
+    if (acadlixOptions.isReCaptchaEnabled) {
+      const script = document.createElement("script");
+      script.src = `https://www.google.com/recaptcha/api.js?render=${acadlixOptions.settings.acadlix_v3_site_key}`;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
 
   return (
     <BootstrapDialog

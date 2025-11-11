@@ -19,9 +19,13 @@ const ForgotPassword = (props) => {
         }
     });
 
-    const handleSubmit = (data) => {
+    const handleSubmit = async (data) => {
         methods?.setValue("error", "", { shouldDirty: true });
         setIsLoading(true);
+        if (acadlixOptions.isReCaptchaEnabled) {
+            const response = await window.grecaptcha.execute(acadlixOptions.settings.acadlix_v3_site_key, { action: 'acadlix_forgot_password' });
+            data['g-recaptcha-response'] = response;
+        }
         axios.post(
             props?.ajax_url,
             new URLSearchParams({
@@ -128,7 +132,7 @@ const ForgotPassword = (props) => {
                                         />
                                     </Grid>
                                     <Grid size={{ xs: 12, lg: 12 }}>
-                                        <Button 
+                                        <Button
                                             loading={isLoading}
                                             fullWidth
                                             variant="contained"

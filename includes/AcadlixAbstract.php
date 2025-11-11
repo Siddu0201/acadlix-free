@@ -36,6 +36,8 @@ abstract class AcadlixAbstract {
 	protected $schedule = null;
 
 	protected $notifications = null;
+
+	protected $authentications = null;
 	
 	public function database()
 	{
@@ -104,5 +106,9 @@ abstract class AcadlixAbstract {
 
 	public function notifications(){
 		return $this->notifications;
+	}
+
+	public function authentications(){
+		return $this->authentications;
 	}
 }

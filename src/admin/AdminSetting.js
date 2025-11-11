@@ -41,6 +41,12 @@ const AdminSetting = () => {
       label: __('Quiz', 'acadlix'),
       isFree: false,
     },
+    hasCapability("acadlix_show_authentication_setting") && {
+      path: "/authentication",
+      name: "authentication",
+      label: __('Authentication', 'acadlix'),
+      isFree: false,
+    },
     hasCapability("acadlix_show_integration_setting") && {
       path: "/integration",
       name: "integration",

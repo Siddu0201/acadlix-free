@@ -36,9 +36,13 @@ const Login = (props) => {
     },
   });
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     methods?.setValue("error", "", { shouldDirty: true });
     setIsLoading(true);
+    if(acadlixOptions.isReCaptchaEnabled){
+      const response = await window.grecaptcha.execute(acadlixOptions.settings.acadlix_v3_site_key, { action: 'acadlix_login' });
+      data['g-recaptcha-response'] = response;
+    }
     axios
       .post(
         props?.ajax_url,

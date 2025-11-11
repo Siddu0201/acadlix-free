@@ -26,6 +26,7 @@ import { __ } from "@wordpress/i18n";
 import Integration from "./section/Integration";
 import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
+import Authentication from "./section/Authentication";
 
 const SettingProContent = React.lazy(() => 
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -165,6 +166,13 @@ const SettingContent = ({
       "course-category",
     acadlix_course_tag_base:
       options?.acadlix_course_tag_base ?? "course-tag",
+    // Authentication option
+    acadlix_enable_fraud_protection:
+      options?.acadlix_enable_fraud_protection ?? "no",
+    acadlix_v3_site_key:
+      options?.acadlix_v3_site_key ?? "",
+    acadlix_v3_secret_key:
+      options?.acadlix_v3_secret_key ?? "",
     // Integration option
     acadlix_openai_api_key:
       options?.acadlix_openai_api_key ?? "",
@@ -298,6 +306,14 @@ const SettingContent = ({
             {
               selected === "quiz" && (
                 <QuizSettings
+                  {...methods}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "authentication" && (
+                <Authentication
                   {...methods}
                   isPending={updateMutation?.isPending}
                 />

@@ -7,6 +7,7 @@ defined('ABSPATH') || exit();
 class Ajax
 {
     protected static $_instance = null;
+
     public function __construct()
     {
         add_action('wp_ajax_check_user_login_status', [$this, 'check_user_login_status']);
@@ -31,67 +32,104 @@ class Ajax
 
     public function acadlix_login()
     {
-        check_ajax_referer("wp_rest", "nonce");
+        try {
+            check_ajax_referer('wp_rest', 'nonce');
 
-        $creds = array(
-            'user_login' => isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "",
-            'user_password' => isset($_POST['password']) ? sanitize_text_field(wp_unslash($_POST['password'])) : "",
-            'remember' => true
-        );
-        $user = wp_signon($creds, false);
+            $username = isset($_POST['username']) ? $_POST['username'] : '';
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-        if (is_wp_error($user)) {
-            wp_send_json_error(['message' => $user->get_error_message(), 'error_code' => $user->get_error_code()]);
-        } else {
-            wp_send_json_success(['user' => $user, 'message' => __('Login successful', 'acadlix')]);
-        }
-        wp_die();
-    }
+            if (empty($username) || empty($password)) {
+                wp_send_json_error(['message' => __('All fields are required', 'acadlix')]);
+                wp_die();
+            }
 
-    public function acadlix_register()
-    {
-        check_ajax_referer("wp_rest", "nonce");
+            if(isset($_POST['g-recaptcha-response'])){
+                $recaptchav3 = acadlix()->authentications()->recaptchav3()->verify($_POST['g-recaptcha-response']);
+                if (is_wp_error($recaptchav3)) {
+                    wp_send_json_error(['message' => $recaptchav3->get_error_message(), 'error_code' => $recaptchav3->get_error_code()]);
+                }
+            }
 
-        $username = isset($_POST['username']) ? sanitize_user(wp_unslash($_POST['username'])) : "";
-        $email = isset($_POST['email']) ? filter_var(sanitize_email(wp_unslash($_POST['email'])), FILTER_VALIDATE_EMAIL) : "";
-        $password = isset($_POST['password']) ? sanitize_text_field(wp_unslash($_POST['password'])) : "";
-
-        // Ensure username, email, and password are provided
-        if (empty($username) || empty($email) || empty($password)) {
-            wp_send_json_error(['message' => __('All fields are required', 'acadlix')]);
-            wp_die();
-        }
-
-        // Register the user
-        $user_id = wp_create_user($username, $password, $email);
-
-        if (is_wp_error($user_id)) {
-            wp_send_json_error(['message' => $user_id->get_error_message()]);
-            wp_die();
-        } else {
-            // Automatically log in the user
             $creds = array(
                 'user_login' => $username,
                 'user_password' => $password,
                 'remember' => true
             );
-
             $user = wp_signon($creds, false);
 
             if (is_wp_error($user)) {
-                wp_send_json_error(['message' => $user->get_error_message()]);
+                wp_send_json_error(['message' => $user->get_error_message(), 'error_code' => $user->get_error_code()]);
             } else {
-                wp_send_json_success(['user' => $user, 'message' => __('Registration and login successful', 'acadlix')]);
+                wp_send_json_success(['user' => $user, 'message' => __('Login successful', 'acadlix')]);
             }
+            wp_die();
+        } catch (\Throwable $th) {
+            wp_send_json_error(['message' => $th->getMessage(), 'error_code' => $th->getCode()]);
         }
-        wp_die();
+    }
+
+    public function acadlix_register()
+    {
+        try {
+            check_ajax_referer('wp_rest', 'nonce');
+
+            $username = isset($_POST['username']) ? $_POST['username'] : '';
+            $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : '';
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
+
+            // Ensure username, email, and password are provided
+            if (empty($username) || empty($email) || empty($password)) {
+                wp_send_json_error(['message' => __('All fields are required', 'acadlix')]);
+                wp_die();
+            }
+
+            if(isset($_POST['g-recaptcha-response'])){
+                $recaptchav3 = acadlix()->authentications()->recaptchav3()->verify($_POST['g-recaptcha-response']);
+                if (is_wp_error($recaptchav3)) {
+                    wp_send_json_error(['message' => $recaptchav3->get_error_message(), 'error_code' => $recaptchav3->get_error_code()]);
+                }
+            }
+
+            // Register the user
+            $user_id = wp_create_user($username, $password, $email);
+
+            if (is_wp_error($user_id)) {
+                wp_send_json_error(['message' => $user_id->get_error_message()]);
+                wp_die();
+            } else {
+                // Automatically log in the user
+                $creds = array(
+                    'user_login' => $username,
+                    'user_password' => $password,
+                    'remember' => true
+                );
+
+                $user = wp_signon($creds, false);
+
+                if (is_wp_error($user)) {
+                    wp_send_json_error(['message' => $user->get_error_message()]);
+                } else {
+                    wp_send_json_success(['user' => $user, 'message' => __('Registration and login successful', 'acadlix')]);
+                }
+            }
+            wp_die();
+        } catch (\Throwable $th) {
+            wp_send_json_error(['message' => $th->getMessage(), 'error_code' => $th->getCode()]);
+        }
     }
 
     public function acadlix_forgot_password()
     {
-        check_ajax_referer("wp_rest", "nonce");
+        check_ajax_referer('wp_rest', 'nonce');
 
-        $user_identifier = isset($_POST['username']) ? sanitize_text_field(wp_unslash($_POST['username'])) : "";
+        $user_identifier = isset($_POST['username']) ? sanitize_text_field(wp_unslash($_POST['username'])) : '';
+
+        if(isset($_POST['g-recaptcha-response'])){
+            $recaptchav3 = acadlix()->authentications()->recaptchav3()->verify($_POST['g-recaptcha-response']);
+            if (is_wp_error($recaptchav3)) {
+                wp_send_json_error(['message' => $recaptchav3->get_error_message(), 'error_code' => $recaptchav3->get_error_code()]);
+            }
+        }
 
         if (is_email($user_identifier)) {
             // If it's an email, get the user by email
@@ -110,8 +148,8 @@ class Ajax
         // // Register the user
         $result = retrieve_password($user->user_login);
         if (is_wp_error($result)) {
-           return wp_send_json_error(['message' => $result->get_error_message()]);
-        } 
+            return wp_send_json_error(['message' => $result->get_error_message()]);
+        }
 
         return wp_send_json_success(array(
             'message' => __('Password reset email sent successfully.', 'acadlix'),

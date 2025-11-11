@@ -545,6 +545,7 @@ class Manager
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
             'users_can_register' => acadlix()->helper()->acadlix_get_option('users_can_register'),
             'isActive' => acadlix()->license()->isActive ?? false,
+            'isReCaptchaEnabled' => acadlix()->authentications()->recaptchav3()->is_enabled(),
         ];
     }
 
