@@ -206,13 +206,14 @@ export const shuffleArrayBasedOnOrder = (arr, order) => {
 // };
 
 export const formatPrice = (price = 0, asString = false) => {
-  if (isNaN(price)) return asString ? "0.00" : 0;
+  const num = parseFloat(String(price).replace(/[^0-9.-]/g, ""));
+  if (isNaN(num)) return asString ? "0.00" : 0;
 
   const decimals = acadlixOptions?.settings?.acadlix_number_of_decimals ?? 2;
   const thousandSep = acadlixOptions?.settings?.acadlix_thousand_separator ?? ",";
   const decimalSep = acadlixOptions?.settings?.acadlix_decimal_separator ?? ".";
 
-  const fixed = parseFloat(price).toFixed(decimals);
+  const fixed = num.toFixed(decimals);
 
   if (!asString) {
     // return as clean number
@@ -220,15 +221,20 @@ export const formatPrice = (price = 0, asString = false) => {
   }
 
   // format as string with thousand + decimal separators
-  let [integerPart, decimalPart] = fixed.split(".");
+  let [integerPart, decimalPart = ""] = fixed.split(".");
   integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSep);
 
-  return `${integerPart}${decimalSep}${decimalPart}`;
+  // return `${integerPart}${decimalSep}${decimalPart}`;
+  return decimalPart
+    ? `${integerPart}${decimalSep}${decimalPart}`
+    : integerPart;
 };
 
 export const currencyPosition = (price = 0, currency_symbol = '') => {
   let symbol = currency_symbol !== '' ? currency_symbol : acadlixOptions?.currency_symbol;
   let newPrice = formatPrice(price, true);
+  // console.log(newPrice);
+  // let newPrice = price;
   switch (acadlixOptions?.settings?.acadlix_currency_position) {
     case "Left ( $99.99 )":
       return `${symbol}${newPrice}`;

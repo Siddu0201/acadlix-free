@@ -62,10 +62,10 @@ const Order = () => {
       //   flex: 1,
       //   minWidth: 100,
       // },
-      { 
-        field: "order_id", 
-        headerName: __("Order ID", "acadlix"), 
-        flex: 1, 
+      {
+        field: "order_id",
+        headerName: __("Order ID", "acadlix"),
+        flex: 1,
         minWidth: 80,
         renderCell: (params) => {
           return (
@@ -322,6 +322,10 @@ const Order = () => {
       methods?.setValue("rows", newRows, { shouldDirty: true });
     }
   }, [data]);
+
+  if (process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch());
+  }
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
 
