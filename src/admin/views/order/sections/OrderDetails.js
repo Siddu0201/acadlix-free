@@ -146,7 +146,7 @@ const OrderDetails = (props) => {
                                                 props: {
                                                     variant: "body1",
                                                 },
-                                                value: props?.watch("meta.transaction_id"),
+                                                value: props?.watch("meta.transaction_id") ?? "N/A",
                                             }
                                         ]
                                     },
