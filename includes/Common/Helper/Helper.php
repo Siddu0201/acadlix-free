@@ -1247,7 +1247,7 @@ if (!class_exists('Helper')) {
 
         public function acadlix_get_price_with_currency(float|string $price, $currency = '')
         {
-            $price = (float) $price;
+            $price = (float) preg_replace('/[^\d.-]/', '', (string) $price);
             if (empty($currency)) {
                 $currency = $this->acadlix_get_option('acadlix_currency');
             }
