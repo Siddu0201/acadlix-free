@@ -523,6 +523,7 @@ class AllCourseView
                             'component' => 'div',
                             'props' => ['class' => 'acadlix-h4'],
                             'value' => sprintf(
+                                /* translators: %s: course count */
                                 __('We found %s courses available for you', 'acadlix'),
                                 '<span>' . esc_html($this->course_count) . '</span>'
                             )
@@ -670,6 +671,7 @@ class AllCourseView
                     'component' => 'div',
                     'props' => ['class' => 'acadlix-course-pagination-info acadlix-subtitle1'],
                     'value' => sprintf(
+                        /* translators: %1$s: start, %2$s: end, %3$s: course count */
                         __('Showing %1$s-%2$s of %3$s results', 'acadlix'),
                         esc_html($start),
                         esc_html($end),
