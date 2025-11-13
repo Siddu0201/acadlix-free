@@ -7,7 +7,9 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><?php echo sprintf(__('Payment failed for order #%d', 'acadlix'), $order_id); ?></title>
+    <title><?php echo sprintf(
+        /* translators: %d: order id */
+        __('Payment failed for order #%d', 'acadlix'), $order_id); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,11 +52,14 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <body>
     <div class="container">
         <div class="header">
-            <h2><?php echo sprintf(__('Payment failed for order #%d', 'acadlix'), $order_id); ?></h2>
+            <h2><?php echo sprintf(
+                /* translators: %d: order id */
+                __('Payment failed for order #%d', 'acadlix'), $order_id); ?></h2>
         </div>
         <div class="content">
             <p><?php echo __('Hi admin,', 'acadlix'); ?></p>
             <p><?php echo sprintf(
+                /* translators: %s: course names, %s: username */
                 __('A payment attempt for %1$s by %2$s has failed.', 'acadlix'),
                 esc_html($course_names),
                 esc_html($username)

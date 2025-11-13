@@ -8,7 +8,9 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo sprintf(__('🎉 Congratulations, %s!', 'acadlix'), esc_html($username)); ?></title>
+    <title><?php echo sprintf(
+        /* translators: %s: username */
+        __('🎉 Congratulations, %s!', 'acadlix'), esc_html($username)); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,7 +59,8 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h2><?php echo sprintf(__('🎉 Congratulations, %s!', 'acadlix'), esc_html($username)); ?></h2>
+            <h2><?php echo sprintf(
+                __('🎉 Congratulations, %s!', 'acadlix'), esc_html($username)); ?></h2>
         </div>
 
         <!-- Content -->
@@ -65,6 +68,7 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
             <p>
                 <?php
                 echo sprintf(
+                    /* translators: %s: coursename */
                     __('You have successfully completed <strong>%s</strong>! Your dedication and hard work have paid off. 🎓', 'acadlix'),
                     esc_html($coursename)
                 );
@@ -74,6 +78,7 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
             <p>
                 <?php
                 echo sprintf(
+                    /* translators: %s: sitename */
                     __('Thank you for choosing %s. Keep learning and growing! 🚀', 'acadlix'),
                     esc_html($sitename)
                 );

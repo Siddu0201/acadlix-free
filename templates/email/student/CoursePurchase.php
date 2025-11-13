@@ -8,7 +8,9 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo sprintf(__('✅ Your order #%d is confirmed', 'acadlix'), $order_id); ?></title>
+    <title><?php echo sprintf(
+        /* translators: %d: order id */
+        __('✅ Your order #%d is confirmed', 'acadlix'), $order_id); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,13 +59,19 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h2><?php echo sprintf(__('✅ Your order #%d is confirmed', 'acadlix'), $order_id); ?></h2>
+            <h2><?php echo sprintf(
+                /* translators: %d: order id */
+                __('✅ Your order #%d is confirmed', 'acadlix'), $order_id); ?></h2>
         </div>
 
         <!-- Content -->
         <div class="content">
-            <p><?php echo sprintf(__('Hi %s,', 'acadlix'), esc_html($username)); ?></p>
-            <p><?php echo sprintf(__('Thank you for your purchase! Your order #%d has been successfully placed. 🎉', 'acadlix'), $order_id); ?></p>
+            <p><?php echo sprintf(
+                /* translators: %s: username */
+                __('Hi %s,', 'acadlix'), esc_html($username)); ?></p>
+            <p><?php echo sprintf(
+                /* translators: %d: order id */
+                __('Thank you for your purchase! Your order #%d has been successfully placed. 🎉', 'acadlix'), $order_id); ?></p>
 
             <p><strong><?php echo __('Order Details:', 'acadlix'); ?></strong></p>
             <ul>

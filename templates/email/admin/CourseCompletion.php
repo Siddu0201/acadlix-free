@@ -8,7 +8,10 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo sprintf(__('🎓 %s completed %s', 'acadlix'), $username, $coursename); ?></title>
+    <title><?php echo sprintf(
+    /* translators: %s: username, %s: coursename */ 
+    __('🎓 %s completed %s', 'acadlix'), $username, $coursename
+); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,18 +60,21 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h2><?php echo sprintf(__('🎉 %s has completed %s', 'acadlix'), esc_html($username), esc_html($coursename)); ?></h2>
+            <h2><?php echo sprintf(
+    /* translators: %s: username, %s: coursename */
+    __('🎉 %s has completed %s', 'acadlix'), esc_html($username), esc_html($coursename)); ?></h2>
         </div>
 
         <!-- Content -->
         <div class="content">
             <p><?php echo __('Hi admin,', 'acadlix'); ?></p>
             <p><?php echo sprintf(
-                __('%s has successfully completed the course <strong>%s</strong> on %s 🎓', 'acadlix'),
-                esc_html($username),
-                esc_html($coursename),
-                esc_html($date)
-            ); ?></p>
+    /* translators: %s: username, %s: coursename, %s: date */
+    __('%s has successfully completed the course <strong>%s</strong> on %s 🎓', 'acadlix'),
+    esc_html($username),
+    esc_html($coursename),
+    esc_html($date)
+); ?></p>
 
             <p><?php echo __('You can review their progress in the admin panel.', 'acadlix'); ?></p>
 

@@ -8,7 +8,9 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo sprintf(__('Payment failed for order #%d', 'acadlix'), $order_id); ?></title>
+    <title><?php echo sprintf(
+        /* translators: %d: order id */
+        __('Payment failed for order #%d', 'acadlix'), $order_id); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,14 +59,20 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h2><?php echo sprintf(__('Payment failed for order #%d', 'acadlix'), $order_id); ?></h2>
+            <h2><?php echo sprintf(
+                /* translators: %d: order id */
+                __('Payment failed for order #%d', 'acadlix'), $order_id); ?></h2>
         </div>
 
         <!-- Content -->
         <div class="content">
-            <p><?php echo sprintf(__('Hi %s,', 'acadlix'), esc_html($username)); ?></p>
+            <p><?php echo sprintf(
+                /* translators: %s: username */
+                __('Hi %s,', 'acadlix'), esc_html($username)); ?></p>
 
-            <p><?php echo sprintf(__('We noticed that your payment for %s was unsuccessful. Don’t worry — you can try again to complete your purchase.', 'acadlix'), esc_html($course_names)); ?></p>
+            <p><?php echo sprintf(
+                /* translators: %s: course names */
+                __('We noticed that your payment for %s was unsuccessful. Don’t worry — you can try again to complete your purchase.', 'acadlix'), esc_html($course_names)); ?></p>
 
             <p><strong><?php echo __('Order Details:', 'acadlix'); ?></strong></p>
             <ul>

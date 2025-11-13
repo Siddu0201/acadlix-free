@@ -7,7 +7,9 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><?php echo sprintf(__('New Order Received - #%d', 'acadlix'), $order_id); ?></title>
+    <title><?php echo sprintf(
+        /* translators: %d: order id */
+        __('New Order Received - #%d', 'acadlix'), $order_id); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,13 +57,16 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h2><?php echo sprintf(__('✅ New Order Received - #%d', 'acadlix'), $order_id); ?></h2>
+            <h2><?php echo sprintf(
+                /* translators: %d: order id */
+                __('✅ New Order Received - #%d', 'acadlix'), $order_id); ?></h2>
         </div>
 
         <!-- Content -->
         <div class="content">
             <p><?php echo __('Hi admin,', 'acadlix'); ?></p>
             <p><?php echo sprintf(
+                /* translators: %s: sitename */
                 __('A new order has been placed on %s! 🎉', 'acadlix'),
                 esc_html($sitename)
             ); ?></p>
