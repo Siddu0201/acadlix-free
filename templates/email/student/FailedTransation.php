@@ -9,7 +9,7 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo sprintf(
-        /* translators: %d: order id */
+        /* translators: %d is the order ID */
         __('Payment failed for order #%d', 'acadlix'), $order_id); ?></title>
     <style>
         body {
@@ -60,14 +60,14 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
         <!-- Header -->
         <div class="header">
             <h2><?php echo sprintf(
-                /* translators: %d: order id */
+                /* translators: %d is the order ID */
                 __('Payment failed for order #%d', 'acadlix'), $order_id); ?></h2>
         </div>
 
         <!-- Content -->
         <div class="content">
             <p><?php echo sprintf(
-                /* translators: %s: username */
+                /* translators: %s will be replaced with username */
                 __('Hi %s,', 'acadlix'), esc_html($username)); ?></p>
 
             <p><?php echo sprintf(

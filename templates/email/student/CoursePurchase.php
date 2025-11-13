@@ -67,7 +67,7 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
         <!-- Content -->
         <div class="content">
             <p><?php echo sprintf(
-                /* translators: %s: username */
+                /* translators: %s will be replaced with username */
                 __('Hi %s,', 'acadlix'), esc_html($username)); ?></p>
             <p><?php echo sprintf(
                 /* translators: %d: order id */

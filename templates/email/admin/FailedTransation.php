@@ -8,7 +8,7 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
 <head>
     <meta charset="UTF-8">
     <title><?php echo sprintf(
-        /* translators: %d: order id */
+        /* translators: %d is the order ID */
         __('Payment failed for order #%d', 'acadlix'), $order_id); ?></title>
     <style>
         body {
@@ -53,7 +53,7 @@ $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
     <div class="container">
         <div class="header">
             <h2><?php echo sprintf(
-                /* translators: %d: order id */
+                /* translators: %d is the order ID */
                 __('Payment failed for order #%d', 'acadlix'), $order_id); ?></h2>
         </div>
         <div class="content">
