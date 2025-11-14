@@ -6,7 +6,7 @@ use WP_Error;
 
 defined('ABSPATH') || exit();
 
-class ReCaptchav3
+class ReCaptchaV3
 {
     protected $_enabled = false;
     protected $_secret_key = '';
