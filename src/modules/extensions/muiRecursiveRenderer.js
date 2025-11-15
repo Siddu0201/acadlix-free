@@ -40,6 +40,7 @@ import {
   TableCell,
   TableBody,
   TablePagination,
+  Paper,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -88,6 +89,7 @@ const HTML_COMPONENTS = [
 const COMPONENT_MAP = {
   ...Object.fromEntries(HTML_COMPONENTS.map(tag => [tag, tag])),
   CustomTextField,
+  Paper,
   Divider,
   DataGrid,
   Select,
@@ -149,7 +151,11 @@ const COMPONENT_MAP = {
   Fragment: React.Fragment,
 };
 
-const FUNCTION_PROPS = ["renderInput", "renderOption", "renderValue"];
+const FUNCTION_PROPS = [
+  "renderInput",
+  "renderOption",
+  "renderValue",
+];
 
 const resolveComponentInProps = async (propObj, register, name, formProps) => {
   const result = {};
@@ -170,7 +176,15 @@ const resolveComponentInProps = async (propObj, register, name, formProps) => {
         );
       } else {
         // ✅ For element-style props (control, endAdornment, icon etc.)
-        result[key] = <Component {...resolvedNestedProps} />;
+        result[key] = <Component {...resolvedNestedProps} >
+          {value.children
+            ? await Promise.all(
+              value.children.map((c, idx) =>
+                renderMUIComponent(c, idx, formProps)
+              )
+            )
+            : value.value}
+        </Component>;
       }
     } else if (typeof value === "function") {
       // 🔑 pass formProps into functions
