@@ -423,4 +423,14 @@ export const convertToUnitPrice = (amount = 0) => {
   );
 };
 
+export const generateFileName = (name, separator = "_") => {
+  return name
+    .trim()                                // remove leading/trailing spaces
+    .toLowerCase()                         // lowercase
+    .replace(/[\s]+/g, separator)          // replace spaces with separator
+    .replace(/[^a-z0-9\-_]+/g, "")         // remove all unsafe filename chars
+    .replace(new RegExp(`${separator}+`, "g"), separator) // remove duplicate separators
+    .replace(new RegExp(`^${separator}|${separator}$`, "g"), ""); // remove separators at start/end
+}
+
 
