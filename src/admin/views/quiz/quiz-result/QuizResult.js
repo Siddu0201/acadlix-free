@@ -1,21 +1,13 @@
 import React from "react";
 import {
-  Typography,
-  Paper,
   useMediaQuery,
   useTheme,
   Box,
-  Card,
-  CardHeader,
-  CardContent,
   IconButton,
   Tooltip,
-  Button,
   Chip,
   InputAdornment,
 } from "@mui/material";
-import Grid from '@mui/material/Grid';
-import { DataGrid } from "@mui/x-data-grid";
 import {
   FaTrash,
   TiArrowLeftThick,
@@ -31,9 +23,7 @@ import {
 import dateFormat from "dateformat";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
-import CustomTextField from "@acadlix/components/CustomTextField";
 import toast from "react-hot-toast";
-import CustomRefresh from "@acadlix/components/CustomRefresh";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const ViewAnswerSheetButton = React.lazy(() =>
@@ -625,6 +615,7 @@ const QuizResult = () => {
       control: methods?.control,
       watch: methods?.watch,
       setValue: methods?.setValue,
+      quiz_id: quiz_id,
     }
   ) ?? [];
 
