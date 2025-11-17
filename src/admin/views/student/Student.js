@@ -89,9 +89,11 @@ const Student = () => {
 
   const defaultSetting = {
     component: "Box",
+    component_name: "admin_student_box",
     children: [
       {
         component: "Grid",
+        component_name: "admin_student_grid",
         props: {
           container: true,
           spacing: {
@@ -108,6 +110,7 @@ const Student = () => {
         children: [
           {
             component: "Grid",
+            component_name: "admin_student_grid_item",
             props: {
               size: {
                 xs: 12,
@@ -117,12 +120,15 @@ const Student = () => {
             children: [
               {
                 component: "Card",
+                component_name: "admin_student_card",
                 children: [
                   {
                     component: "CardHeader",
+                    component_name: "admin_student_card_header",
                     props: {
                       title: {
                         component: "Box",
+                        component_name: "admin_student_card_header_box",
                         props: {
                           sx: {
                             display: "flex",
@@ -133,6 +139,7 @@ const Student = () => {
                         children: [
                           {
                             component: "Typography",
+                            component_name: "admin_student_card_header_typography",
                             props: {
                               variant: "h3",
                             },
@@ -140,6 +147,7 @@ const Student = () => {
                           },
                           {
                             component: "CustomRefresh",
+                            component_name: "admin_student_card_header_custom_refresh",
                             props: {
                               refetch: refetch,
                             },
@@ -150,9 +158,11 @@ const Student = () => {
                   },
                   {
                     component: "CardContent",
+                    component_name: "admin_student_card_content",
                     children: [
                       {
                         component: "Box",
+                        component_name: "admin_student_card_content_box",
                         props: {
                           display: "flex",
                           justifyContent: "flex-end",
@@ -161,6 +171,7 @@ const Student = () => {
                         children: [
                           {
                             component: "Box",
+                            component_name: "admin_student_card_content_search_box",
                             props: {
                               sx: {
                                 display: "flex",
@@ -171,6 +182,7 @@ const Student = () => {
                             children: [
                               {
                                 component: "CustomTextField",
+                                component_name: "admin_student_card_content_search_box_custom_text_field",
                                 props: {
                                   label: __("Search", "acadlix"),
                                   helperText: __("Search by name, email", "acadlix"),
@@ -196,6 +208,7 @@ const Student = () => {
                       },
                       {
                         component: "Box",
+                        component_name: "admin_student_card_content_data_grid_box",
                         props: {
                           sx: {
                             height: "100%",
@@ -204,6 +217,7 @@ const Student = () => {
                         children: [
                           {
                             component: "DataGrid",
+                            component_name: "admin_student_card_content_data_grid",
                             props: {
                               rows: methods?.watch("rows"),
                               columns: filteredColumn,
