@@ -251,20 +251,6 @@ if (!class_exists('Course')) {
                     ->whereNull('subscription_id');  // exclude subscription items
             });
 
-            // $courseTable = (new static)->getTable();
-            // $orderItemTable = acadlix()->model()->orderItem()->getTable();
-            // $ordersTable = acadlix()->model()->order()->getTable();
-
-            // // Base query
-            // $query = self::select("{$courseTable}.*")
-            //     ->join("{$orderItemTable} as oi", 'oi.course_id', '=', "{$courseTable}.ID")
-            //     ->join("{$ordersTable} as o", 'o.id', '=', 'oi.order_id')
-            //     ->where('o.user_id', $userId)
-            //     ->where('o.status', 'success')
-            //     ->whereNull('oi.subscription_id')
-            //     ->groupBy("{$courseTable}.ID")
-            //     ->orderByDesc(DB::raw('MAX(o.created_at)'));
-
             // Apply eager loading if any
             if (!empty($with)) {
                 $query->with($with);
