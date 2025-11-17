@@ -988,7 +988,7 @@ if (!class_exists('Helper')) {
                     'active' => $this->acadlix_get_option('acadlix_addon_data_exporter_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_data_exporter_enabled',
-                    'icon' => 'HiOutlineDocumentReport',
+                    'icon' => 'FaFileExport',
                     'icon_color' => '#3B82F6',
                 ],
             ];
