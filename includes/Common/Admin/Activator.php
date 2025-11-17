@@ -156,6 +156,7 @@ class Activator
             6 => 'updateV6', // update 1.3.0
             7 => 'updateV7', // update 1.4.0
             8 => 'updateV8', // update 1.5.0
+            9 => 'updateV9', // update 1.6.0
         ];
 
         foreach ($updates as $version => $method) {
@@ -167,6 +168,13 @@ class Activator
                 $this->$method();
             }
         }
+    }
+
+    protected function updateV9()
+    {
+        /**
+         * In this update add export functionality.
+         */
     }
 
     protected function updateV8()
