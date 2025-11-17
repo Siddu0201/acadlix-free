@@ -380,7 +380,7 @@ const QuizResult = () => {
                                             color: 'primary.contrastText'
                                           }
                                         },
-                                        value: `${isMobile ? __("Qs:", "acadlix") : __("Questions:", "acadlix")} ${methods?.watch("question_count")}`,
+                                        value: `${isMobile ? __("Qs:", "acadlix") : __("Questions:", "acadlix")} ${methods?.watch("question_count") ?? 0}`,
                                       },
                                     ],
                                   },
@@ -418,7 +418,7 @@ const QuizResult = () => {
                                             color: 'success.contrastText'
                                           }
                                         },
-                                        value: `${__("Pass", "acadlix")} ${methods?.watch("pass_count")}`,
+                                        value: `${__("Pass", "acadlix")} ${methods?.watch("pass_count") ?? 0}`,
                                       },
                                     ],
                                   },
@@ -455,7 +455,7 @@ const QuizResult = () => {
                                             color: 'error.contrastText'
                                           }
                                         },
-                                        value: `${__("Fail", "acadlix")} ${methods?.watch("fail_count")}`,
+                                        value: `${__("Fail", "acadlix")} ${methods?.watch("fail_count") ?? 0}`,
                                       },
                                     ],
                                   },
@@ -492,7 +492,7 @@ const QuizResult = () => {
                                             color: 'warning.contrastText'
                                           }
                                         },
-                                        value: `${__("Total Attempt:", "acadlix")} ${methods?.watch("attempt_counts")}`,
+                                        value: `${__("Total Attempt:", "acadlix")} ${methods?.watch("attempt_counts") ?? 0}`,
                                       },
                                     ],
                                   },

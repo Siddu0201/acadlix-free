@@ -979,6 +979,18 @@ if (!class_exists('Helper')) {
                     'icon' => 'MdSubscriptions',
                     'icon_color' => '#22C55E',
                 ],
+                [
+                    'name' => __('Acadlix Data Exporter', 'acadlix'),
+                    'description' => __('Export results, answer sheets, and sales data in PDF or Excel.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_data_exporter_enabled', false) == 'yes',
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_data_exporter_enabled',
+                    'icon' => 'HiOutlineDocumentReport',
+                    'icon_color' => '#3B82F6',
+                ],
             ];
         }
 
@@ -1049,6 +1061,22 @@ if (!class_exists('Helper')) {
         public function is_subscriptions_addon_active()
         {
             $value = get_option('acadlix_addon_subscriptions_enabled', false);
+            if ($value != 'yes') {
+                return false;
+            }
+            if (!acadlix()->pro) {
+                return false;
+            } else {
+                if (!acadlix()->license()->isActive) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public function is_data_exporter_addon_active()
+        {
+            $value = get_option('acadlix_addon_data_exporter_enabled', false);
             if ($value != 'yes') {
                 return false;
             }

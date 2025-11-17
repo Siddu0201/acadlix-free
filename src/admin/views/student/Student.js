@@ -1,14 +1,21 @@
-import { Box, Button, Card, CardContent, CardHeader, InputAdornment, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  InputAdornment,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { __ } from '@wordpress/i18n';
-import { hasCapability } from '@acadlix/helpers/util';
 import { GetStudents } from '@acadlix/requests/admin/AdminStudentRequest';
-import { FaSearch, IoMdRefresh } from '@acadlix/helpers/icons';
+import { FaSearch } from '@acadlix/helpers/icons';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomTextField from '@acadlix/components/CustomTextField';
 import CustomRefresh from '@acadlix/components/CustomRefresh';
+import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const Student = () => {
   const defaultPaginationModel = {
@@ -36,7 +43,7 @@ const Student = () => {
   ];
 
   let filteredColumn = window?.acadlixHooks?.applyFilters(
-    "acadlix.admin.student.columns", 
+    "acadlix.admin.student.columns",
     columns,
   ) ?? columns;
 
@@ -80,110 +87,298 @@ const Student = () => {
     localStorage.setItem('adminStudentPageSize', model.pageSize);
   };
 
-  return (
-    <Box>
-      <Grid
-        container
-        spacing={{ xs: 2, sm: 4 }}
-        sx={{
-          padding: {
+  const defaultSetting = {
+    component: "Box",
+    children: [
+      {
+        component: "Grid",
+        props: {
+          container: true,
+          spacing: {
             xs: 2,
             sm: 4,
           },
-        }}
-      >
-        <Grid size={{ xs: 12, lg: 12 }}>
-          <Card>
-            <CardHeader
-              title={
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                  >
-                    {__("Student Overview", "acadlix")}
-                  </Typography>
-                  <CustomRefresh
-                    refetch={refetch}
-                  />
-                </Box>
-              }
-            />
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: 2,
-                }}
-              >
-                <Box>
-                  <CustomTextField
-                    label={__("Search", "acadlix")}
-                    helperText={__("Search by name, email", "acadlix")}
-                    fullWidth
-                    size="small"
-                    type="search"
-                    value={methods?.watch("search")}
-                    onChange={handleSearch}
-                    slotProps={{
-                      input: {
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <FaSearch />
-                          </InputAdornment>
-                        )
-                      }
-                    }}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  height: "100%",
-                }}
-              >
-                <DataGrid
-                  rows={methods?.watch("rows")}
-                  columns={filteredColumn}
-                  rowCount={rowCount}
-                  paginationModel={paginationModel}
-                  onPaginationModelChange={handlePaginationChange}
-                  paginationMode="server"
-                  pageSizeOptions={[10, 20, 50, 100]}
-                  checkboxSelection
-                  disableRowSelectionOnClick
-                  disableColumnMenu
-                  onRowSelectionModelChange={(data) => {
-                    methods?.setValue("student_ids", data, {
-                      shouldDirty: true,
-                    });
-                  }}
-                  rowSelectionModel={methods?.watch("student_ids")}
-                  loading={isFetching}
-                  columnVisibilityModel={{
-                    id: false,
-                  }}
-                  sx={{
-                    "& .PrivateSwitchBase-input": {
-                      height: "100% !important",
-                      width: "100% !important",
-                      margin: "0 !important",
+          sx: {
+            padding: {
+              xs: 2,
+              sm: 4,
+            },
+          },
+        },
+        children: [
+          {
+            component: "Grid",
+            props: {
+              size: {
+                xs: 12,
+                lg: 12,
+              },
+            },
+            children: [
+              {
+                component: "Card",
+                children: [
+                  {
+                    component: "CardHeader",
+                    props: {
+                      title: {
+                        component: "Box",
+                        props: {
+                          sx: {
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2,
+                          }
+                        },
+                        children: [
+                          {
+                            component: "Typography",
+                            props: {
+                              variant: "h3",
+                            },
+                            value: __("Student Overview", "acadlix"),
+                          },
+                          {
+                            component: "CustomRefresh",
+                            props: {
+                              refetch: refetch,
+                            },
+                          },
+                        ],
+                      },
                     },
-                  }}
-                />
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Box>
+                  },
+                  {
+                    component: "CardContent",
+                    children: [
+                      {
+                        component: "Box",
+                        props: {
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          gap: 2,
+                        },
+                        children: [
+                          {
+                            component: "Box",
+                            props: {
+                              sx: {
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                gap: 2,
+                              }
+                            },
+                            children: [
+                              {
+                                component: "CustomTextField",
+                                props: {
+                                  label: __("Search", "acadlix"),
+                                  helperText: __("Search by name, email", "acadlix"),
+                                  fullWidth: true,
+                                  size: "small",
+                                  type: "search",
+                                  value: methods?.watch("search"),
+                                  onChange: handleSearch,
+                                  slotProps: {
+                                    input: {
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <FaSearch />
+                                        </InputAdornment>
+                                      )
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        component: "Box",
+                        props: {
+                          sx: {
+                            height: "100%",
+                          }
+                        },
+                        children: [
+                          {
+                            component: "DataGrid",
+                            props: {
+                              rows: methods?.watch("rows"),
+                              columns: filteredColumn,
+                              rowCount: rowCount,
+                              paginationModel: paginationModel,
+                              onPaginationModelChange: handlePaginationChange,
+                              paginationMode: "server",
+                              pageSizeOptions: [10, 20, 50, 100],
+                              checkboxSelection: true,
+                              disableRowSelectionOnClick: true,
+                              disableColumnMenu: true,
+                              onRowSelectionModelChange: (model) => {
+                                methods.setValue("student_ids", model, { shouldDirty: true });
+                              },
+                              rowSelectionModel: methods?.watch("student_ids"),
+                              loading: isFetching,
+                              columnVisibilityModel: {
+                                id: false,
+                              },
+                              sx: {
+                                '& .PrivateSwitchBase-input': {
+                                  height: '100% !important',
+                                  width: '100% !important',
+                                  margin: "0 !important"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ]
+      },
+    ]
+  }
+
+  const student_setting = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.student.student",
+    [defaultSetting],
+    {
+      register: methods?.register,
+      control: methods?.control,
+      watch: methods?.watch,
+      setValue: methods?.setValue,
+    }
+  ) ?? [];
+
+  return (
+    <>
+      {student_setting.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            index={i}
+            formProps={{
+              register: methods?.register,
+              setValue: methods?.setValue,
+              watch: methods?.watch,
+              control: methods?.control,
+            }}
+          />
+        </React.Fragment>
+      ))}
+    </>
   )
+
+  // return (
+  //   <Box>
+  //     <Grid
+  //       container
+  //       spacing={{ xs: 2, sm: 4 }}
+  //       sx={{
+  //         padding: {
+  //           xs: 2,
+  //           sm: 4,
+  //         },
+  //       }}
+  //     >
+  //       <Grid size={{ xs: 12, lg: 12 }}>
+  //         <Card>
+  //           <CardHeader
+  //             title={
+  //               <Box
+  //                 sx={{
+  //                   display: "flex",
+  //                   alignItems: "center",
+  //                   gap: 2,
+  //                 }}
+  //               >
+  //                 <Typography
+  //                   variant="h3"
+  //                 >
+  //                   {__("Student Overview", "acadlix")}
+  //                 </Typography>
+  //                 <CustomRefresh
+  //                   refetch={refetch}
+  //                 />
+  //               </Box>
+  //             }
+  //           />
+  //           <CardContent>
+  //             <Box
+  //               sx={{
+  //                 display: "flex",
+  //                 justifyContent: "flex-end",
+  //                 gap: 2,
+  //               }}
+  //             >
+  //               <Box>
+  //                 <CustomTextField
+  //                   label={__("Search", "acadlix")}
+  //                   helperText={__("Search by name, email", "acadlix")}
+  //                   fullWidth
+  //                   size="small"
+  //                   type="search"
+  //                   value={methods?.watch("search")}
+  //                   onChange={handleSearch}
+  //                   slotProps={{
+  //                     input: {
+  //                       endAdornment: (
+  //                         <InputAdornment position="end">
+  //                           <FaSearch />
+  //                         </InputAdornment>
+  //                       )
+  //                     }
+  //                   }}
+  //                 />
+  //               </Box>
+  //             </Box>
+  //             <Box
+  //               sx={{
+  //                 height: "100%",
+  //               }}
+  //             >
+  //               <DataGrid
+  //                 rows={methods?.watch("rows")}
+  //                 columns={filteredColumn}
+  //                 rowCount={rowCount}
+  //                 paginationModel={paginationModel}
+  //                 onPaginationModelChange={handlePaginationChange}
+  //                 paginationMode="server"
+  //                 pageSizeOptions={[10, 20, 50, 100]}
+  //                 checkboxSelection
+  //                 disableRowSelectionOnClick
+  //                 disableColumnMenu
+  //                 onRowSelectionModelChange={(data) => {
+  //                   methods?.setValue("student_ids", data, {
+  //                     shouldDirty: true,
+  //                   });
+  //                 }}
+  //                 rowSelectionModel={methods?.watch("student_ids")}
+  //                 loading={isFetching}
+  //                 columnVisibilityModel={{
+  //                   id: false,
+  //                 }}
+  //                 sx={{
+  //                   "& .PrivateSwitchBase-input": {
+  //                     height: "100% !important",
+  //                     width: "100% !important",
+  //                     margin: "0 !important",
+  //                   },
+  //                 }}
+  //               />
+  //             </Box>
+  //           </CardContent>
+  //         </Card>
+  //       </Grid>
+  //     </Grid>
+  //   </Box>
+  // )
 }
 
 export default Student
