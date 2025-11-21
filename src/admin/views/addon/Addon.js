@@ -15,6 +15,8 @@ const Addon = () => {
     return <Loader />
   }
 
+  console.log(data?.data);
+
   return (
     <Box>
       <Grid

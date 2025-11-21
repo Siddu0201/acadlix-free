@@ -991,6 +991,18 @@ if (!class_exists('Helper')) {
                     'icon' => 'FaFileExport',
                     'icon_color' => '#3B82F6',
                 ],
+                [
+                    'name' => __('Question Error Reporting', 'acadlix'),
+                    'description' => __('This addon lets students flag and report incorrect or unclear questions, helping admins maintain accuracy and improve question quality.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_question_error_reporting_enabled', false) == 'yes',
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_question_error_reporting_enabled',
+                    'icon' => 'TbAlertTriangleFilled',
+                    'icon_color' => '#FFAB00',
+                ],
             ];
         }
 
@@ -1077,6 +1089,22 @@ if (!class_exists('Helper')) {
         public function is_data_exporter_addon_active()
         {
             $value = get_option('acadlix_addon_data_exporter_enabled', false);
+            if ($value != 'yes') {
+                return false;
+            }
+            if (!acadlix()->pro) {
+                return false;
+            } else {
+                if (!acadlix()->license()->isActive) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public function is_question_error_reporting_addon_active()
+        {
+            $value = get_option('acadlix_addon_question_error_reporting_enabled', false);
             if ($value != 'yes') {
                 return false;
             }
