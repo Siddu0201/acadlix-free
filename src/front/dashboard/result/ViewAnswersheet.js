@@ -155,6 +155,9 @@ const ViewAnswersheet = () => {
         [defaultSetting],
         {
             statistic_ref_id: statistic_ref_id,
+            isFetching: isFetching,
+            statistic: data?.data?.statistic ?? {},
+            quiz: data?.data?.quiz ?? {}
         }
     ) ?? [];
 
