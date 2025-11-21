@@ -128,33 +128,117 @@ const QuizResult = () => {
       sortable: false,
       flex: 1,
       minWidth: 100,
-      renderCell: (params) => (
-        <Box>
+      renderCell: (params) => {
+        const actionSetting = {
+          component: "Box",
+          component_name: "quiz_result_action_box",
+          children: [
+            hasCapability("acadlix_show_answersheet") && {
+              component: "Suspense",
+              component_name: "quiz_result_action_answer_sheet_suspense",
+              props: {
+                fallback: null,
+              },
+              children: [
+                {
+                  component: "ViewAnswerSheetButton",
+                  component_name: "quiz_result_action_view_answer_sheet_button",
+                  props: {
+                    quiz_id: quiz_id,
+                    id: params?.id,
+                  },
+                },
+              ],
+            },
+            hasCapability("acadlix_delete_statistic") && {
+              component: "Tooltip",
+              component_name: "quiz_result_action_delete_tooltip",
+              props: {
+                title: __("Delete", "acadlix"),
+              },
+              children: [
+                {
+                  component: "IconButton",
+                  component_name: "quiz_result_action_delete_icon_button",
+                  props: {
+                    size: "small",
+                    color: "error",
+                    sx: { ml: 1 },
+                    onClick: deleteStatisticById.bind(this, params?.id),
+                  },
+                  children: [
+                    {
+                      component: "FaTrash",
+                      component_name: "quiz_result_action_delete_icon",
+                      props: {
+                        fontSize: "inherit",
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ]
+        }
+
+        const actionElements = window?.acadlixHooks?.applyFilters(
+          "acadlix.admin.quiz_result.actions",
+          [actionSetting],
           {
-            hasCapability("acadlix_show_answersheet") &&
-            <React.Suspense fallback={null}>
-              <ViewAnswerSheetButton
-                quiz_id={quiz_id}
-                id={params?.id}
-              />
-            </React.Suspense>
+            register: methods?.register,
+            control: methods?.control,
+            watch: methods?.watch,
+            setValue: methods?.setValue,
+            params: params,
+            quiz_id: quiz_id,
           }
-          {
-            hasCapability("acadlix_delete_statistic") &&
-            <Tooltip title={__("Delete", "acadlix")}>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="error"
-                sx={{ ml: 1 }}
-                onClick={deleteStatisticById.bind(this, params?.id)}
-              >
-                <FaTrash fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-          }
-        </Box>
-      ),
+        ) ?? [];
+        return (
+          <>
+            {actionElements.map((field, i) => (
+              <React.Fragment key={i}>
+                <DynamicMUIRenderer
+                  item={field}
+                  index={i}
+                  formProps={{
+                    register: methods?.register,
+                    setValue: methods?.setValue,
+                    watch: methods?.watch,
+                    control: methods?.control,
+                  }}
+                />
+              </React.Fragment>
+            ))}
+          </>
+        )
+        // return (
+        //   <Box>
+        //     {
+        //       hasCapability("acadlix_show_answersheet") &&
+        //       <React.Suspense fallback={null}>
+        //         <ViewAnswerSheetButton
+        //           quiz_id={quiz_id}
+        //           id={params?.id}
+        //         />
+        //       </React.Suspense>
+        //     }
+        //     {
+        //       hasCapability("acadlix_delete_statistic") &&
+        //       <Tooltip title={__("Delete", "acadlix")}>
+        //         <IconButton
+        //           aria-label="delete"
+        //           size="small"
+        //           color="error"
+        //           sx={{ ml: 1 }}
+        //           onClick={deleteStatisticById.bind(this, params?.id)}
+        //         >
+        //           <FaTrash fontSize="inherit" />
+        //         </IconButton>
+        //       </Tooltip>
+        //     }
+        //   </Box>
+        // );
+      },
     },
   ];
 
@@ -168,14 +252,21 @@ const QuizResult = () => {
   React.useMemo(() => {
     if (Array.isArray(data?.data?.stat_refs)) {
       const newRows = data?.data?.stat_refs?.map((stat_ref) => {
-        return {
-          id: stat_ref?.id,
-          name: stat_ref?.user ? `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})` : __("Anonymous", "acadlix"),
-          date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
-          score: stat_ref?.points?.toFixed(2),
-          percentage: stat_ref?.result?.toFixed(2),
-          status: stat_ref?.status ?? "NA",
-        };
+        return window?.acadlixHooks?.applyFilters(
+          "acadlix.admin.quiz_result.row",
+          {
+            id: stat_ref?.id,
+            name: stat_ref?.user ? `${stat_ref?.user?.display_name} (${stat_ref?.user?.user_login})` : __("Anonymous", "acadlix"),
+            date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
+            score: stat_ref?.points?.toFixed(2),
+            percentage: stat_ref?.result?.toFixed(2),
+            status: stat_ref?.status ?? "NA",
+          },
+          {
+            stat_ref: stat_ref,
+            quiz_id: quiz_id,
+          }
+        );
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
     }

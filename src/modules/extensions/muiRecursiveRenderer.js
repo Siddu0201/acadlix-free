@@ -43,7 +43,7 @@ import {
   Paper,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import React from "react";
+import React, { Suspense } from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
@@ -151,6 +151,7 @@ const COMPONENT_MAP = {
   CustomRefresh,
   RawHTML,
   Fragment: React.Fragment,
+  Suspense: React.Suspense,
 };
 
 const FUNCTION_PROPS = [
