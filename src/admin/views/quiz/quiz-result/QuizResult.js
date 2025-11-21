@@ -141,12 +141,11 @@ const QuizResult = () => {
               },
               children: [
                 {
-                  component: "ViewAnswerSheetButton",
+                  component: <ViewAnswerSheetButton
+                    quiz_id={quiz_id}
+                    id={params?.id}
+                  />,
                   component_name: "quiz_result_action_view_answer_sheet_button",
-                  props: {
-                    quiz_id: quiz_id,
-                    id: params?.id,
-                  },
                 },
               ],
             },
