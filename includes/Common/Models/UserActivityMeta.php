@@ -12,17 +12,17 @@ if (!class_exists('UserActivityMeta')) {
         protected $table;
 
         protected $fillable = [
-            "user_token",
-            "user_id",
-            "type",
-            "type_id",
-            "meta_key",
-            "meta_value"
+            'user_token',
+            'user_id',
+            'type',
+            'type_id',
+            'meta_key',
+            'meta_value'
         ];
 
         protected $casts = [
-            "user_id" => "integer",
-            "type_id" => "integer",
+            'user_id' => 'integer',
+            'type_id' => 'integer',
         ];
 
         public function __construct(array $attributes = [])
@@ -34,89 +34,72 @@ if (!class_exists('UserActivityMeta')) {
 
         public function scopeOfQuiz($query)
         {
-            return $query->where("type", "quiz");
+            return $query->where('type', 'quiz');
         }
 
         public function scopeOfQuizAttempt($query)
         {
-            return $query->where("meta_key", "quiz_attempt");
+            return $query->where('meta_key', 'quiz_attempt');
         }
 
         public function scopeOfCourse($query)
         {
-            return $query->where("type", "course");
+            return $query->where('type', 'course');
         }
 
         public function course()
         {
-            if ($this->type === 'course') {
-                return $this->belongsTo(acadlix()->model()->course(), 'type_id', 'ID');
-            }
-
-            return null;
+            return $this->belongsTo(acadlix()->model()->course(), 'type_id', 'ID');
         }
 
         public function quiz()
         {
-            if($this->type === 'quiz'){
-                return $this->belongsTo(acadlix()->model()->quiz(), 'type_id', 'ID' );
-            }
-            return null;
+            return $this->belongsTo(acadlix()->model()->quiz(), 'type_id', 'ID');
         }
 
         public function question()
         {
-            if($this->type === "question"){
-                return $this->belongsTo(acadlix()->model()->question(), 'type_id', 'id' );
-            }
-            return null;
+            return $this->belongsTo(acadlix()->model()->question(), 'type_id', 'id');
         }
 
         public function order()
         {
-            if($this->type === "order"){
-                return $this->belongsTo(acadlix()->model()->order(), 'type_id', 'id' );
-            }
-            return null;
+            return $this->belongsTo(acadlix()->model()->order(), 'type_id', 'id');
         }
 
         public function course_statistic()
         {
-            if($this->type === "course_statistic"){
-                return $this->belongsTo(acadlix()->model()->courseStatistic(), 'type_id', 'id' );
-            }
-            return null;
+            return $this->belongsTo(acadlix()->model()->courseStatistic(), 'type_id', 'id');
         }
-
 
         public function scopeOfCourseWishlist($query)
         {
-            return $query->where("meta_key", "wishlist");
+            return $query->where('meta_key', 'wishlist');
         }
 
         public function scopeOfQuestion($query)
         {
-            return $query->where("type", "question");
+            return $query->where('type', 'question');
         }
 
         public function scopeOfCourseStatistic($query)
         {
-            return $query->where("type", "course_statistic");
+            return $query->where('type', 'course_statistic');
         }
 
         public function scopeOfCourseStatisticIncompleteTime($query)
         {
-            return $query->where("meta_key", "course_statistic_incomplete_time");
+            return $query->where('meta_key', 'course_statistic_incomplete_time');
         }
 
         public function scopeOfCourseStatisticCompleteTime($query)
         {
-            return $query->where("meta_key", "course_statistic_complete_time");
+            return $query->where('meta_key', 'course_statistic_complete_time');
         }
 
         public function scopeOfCourseStatisticsQuizAttemptTime($query)
         {
-            return $query->where("meta_key", "course_statistic_quiz_attempt_time");
+            return $query->where('meta_key', 'course_statistic_quiz_attempt_time');
         }
 
         public function setUserIdAttribute($value)
@@ -133,6 +116,5 @@ if (!class_exists('UserActivityMeta')) {
         {
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
-
     }
 }
