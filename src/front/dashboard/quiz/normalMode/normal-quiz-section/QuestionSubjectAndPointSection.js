@@ -166,7 +166,7 @@ const QuestionSubjectAndPointSection = (props) => {
             </Typography>
           </Box>
         )}
-        {props?.watch("enable_question_reporting") && (
+        {props?.watch("enable_question_reporting") && props?.watch('view_answer') && (
           <React.Suspense fallback={null}>
             <AdvanceQuestionReport {...props} />
           </React.Suspense>
