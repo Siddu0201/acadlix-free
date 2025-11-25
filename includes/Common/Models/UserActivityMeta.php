@@ -17,7 +17,8 @@ if (!class_exists('UserActivityMeta')) {
             'type',
             'type_id',
             'meta_key',
-            'meta_value'
+            'meta_value',
+            'created_at',
         ];
 
         protected $casts = [
