@@ -94,147 +94,157 @@ const AnswerSheet = ({
     ...props
 }) => {
     const theme = useTheme();
-    const methods = useForm({
-        defaultValues: {
-            view_answer: true,
-            multi_language: Boolean(Number(quiz?.multi_language)),
-            mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
-            advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
-            // Question settings
-            show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
-            display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
-            hide_question_numbering: Boolean(
-                Number(quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
-            ),
-            // Result settings
-            save_statistic: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.save_statistic)),
-            hide_result: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_result)),
-            hide_negative_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
-            hide_quiz_time: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
-            show_speed: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_speed)),
-            show_percentile: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_percentile)),
-            show_accuracy: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
-            show_average_score: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_average_score)),
-            show_status_based_on_min_percent: Boolean(
-                Number(quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
-            ),
-            minimum_percent_to_pass: quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
-            hide_answer_sheet: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
-            show_per_question_time: Boolean(
-                Number(quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
-            ),
-            enable_selectable_questions_rule: Boolean(
-                Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
-            ),
-            subject_times:
-                quiz?.subject_times ?
-                    quiz?.subject_times?.map((s) => {
-                        return {
-                            ...s,
-                            optional: Boolean(Number(s?.optional)),
-                        };
-                    }) : [],
-            subjects: statistic?.reduce((acc, stat) => {
-                if (!acc?.some((d) => d?.subject_id === stat?.question?.subject_id)) {
-                    acc.push({
-                        subject_id: stat?.question?.subject_id,
-                        subject_name:
-                            stat?.question?.subject?.subject_name ?? "Uncategorized",
-                        selectable_rule_number_of_questions: quiz?.subject_times?.find(s => s?.subject_id === stat?.question?.subject_id)?.selectable_rule_number_of_questions ?? 0,
-                    });
-                }
-                return acc;
-            }, []) ?? [],
-            questions: statistic?.map((stat) => {
-                return {
-                    selected: true,
-                    check: true,
-                    question_id: stat?.question_id,
+    const baseSettings = {
+        view_answer: true,
+        multi_language: Boolean(Number(quiz?.multi_language)),
+        mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
+        advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
+        // Question settings
+        show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
+        display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
+        hide_question_numbering: Boolean(
+            Number(quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
+        ),
+        // Result settings
+        save_statistic: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.save_statistic)),
+        hide_result: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_result)),
+        hide_negative_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
+        hide_quiz_time: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
+        show_speed: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_speed)),
+        show_percentile: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_percentile)),
+        show_accuracy: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
+        show_average_score: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_average_score)),
+        show_status_based_on_min_percent: Boolean(
+            Number(quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
+        ),
+        minimum_percent_to_pass: quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
+        hide_answer_sheet: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+        show_per_question_time: Boolean(
+            Number(quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
+        ),
+        enable_selectable_questions_rule: Boolean(
+            Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
+        ),
+        subject_times:
+            quiz?.subject_times ?
+                quiz?.subject_times?.map((s) => {
+                    return {
+                        ...s,
+                        optional: Boolean(Number(s?.optional)),
+                    };
+                }) : [],
+        subjects: statistic?.reduce((acc, stat) => {
+            if (!acc?.some((d) => d?.subject_id === stat?.question?.subject_id)) {
+                acc.push({
                     subject_id: stat?.question?.subject_id,
                     subject_name:
                         stat?.question?.subject?.subject_name ?? "Uncategorized",
-                    online: stat?.question?.online,
-                    sort: stat?.question?.sort,
-                    title: stat?.question?.title,
-                    points: stat?.question?.points,
-                    negative_points: stat?.question?.negative_points,
-                    different_points_for_each_answer: Boolean(
-                        Number(stat?.question?.different_points_for_each_answer)
-                    ),
-                    different_incorrect_msg: Boolean(
-                        Number(stat?.question?.different_incorrect_msg)
-                    ),
-                    hint_enabled: Boolean(Number(stat?.question?.hint_enabled)),
-                    paragraph_enabled: Boolean(Number(stat?.question?.paragraph_enabled)),
-                    paragraph_id: stat?.question?.paragraph_id,
-                    answer_type: stat?.question?.answer_type,
-                    result: {
-                        correct_count: stat?.correct_count,
-                        incorrect_count: stat?.incorrect_count,
-                        solved_count: stat?.solved_count,
-                        hint_count: stat?.hint_count,
-                        time: stat?.question_time,
-                        answer_data: stat?.answer_data,
-                        attempted_at: Number(stat?.attempted_at) ?? null,
-                    },
-                    language:
-                        stat?.question?.question_languages?.map((lang) => {
-                            return {
-                                language_id: lang?.language_id,
-                                language_name: lang?.language?.name,
-                                default: Boolean(Number(lang?.default)),
-                                selected: Boolean(Number(lang?.default)),
-                                paragraph: stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "" ?? "",
-                                question: lang?.rendered_question,
-                                correct_msg: lang?.rendered_correct_msg,
-                                incorrect_msg: lang?.rendered_incorrect_msg,
-                                hint_msg: lang?.rendered_hint_msg,
-                                answer_data: {
-                                    singleChoice:
-                                        stat?.question?.answer_type === "singleChoice" && stat?.answer_data
-                                            ? lang?.rendered_answer_data?.singleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
-                                            : lang?.rendered_answer_data?.singleChoice,
-                                    multipleChoice:
-                                        stat?.question?.answer_type === "multipleChoice" && stat?.answer_data
-                                            ? lang?.rendered_answer_data?.multipleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
-                                            : lang?.rendered_answer_data?.multipleChoice,
-                                    trueFalse:
-                                        stat?.question?.answer_type === "trueFalse" && stat?.answer_data
-                                            ? lang?.rendered_answer_data?.trueFalse?.map((answer, index) => ({ ...answer, isChecked: stat?.answer_data == index ?? false }))
-                                            : lang?.rendered_answer_data?.trueFalse,
-                                    freeChoice:
-                                        stat?.question?.answer_type === "freeChoice" && stat?.answer_data
-                                            ? { ...lang?.rendered_answer_data?.freeChoice, yourAnswer: stat?.answer_data }
-                                            : lang?.rendered_answer_data?.freeChoice,
-                                    sortingChoice:
-                                        stat?.question?.answer_type === "sortingChoice" && stat?.answer_data
-                                            ? shuffleArrayBasedOnOrder(lang?.rendered_answer_data?.sortingChoice, stat?.answer_data)
-                                            : lang?.rendered_answer_data?.sortingChoice,
-                                    matrixSortingChoice:
-                                        stat?.question?.answer_type === "matrixSortingChoice" && stat?.answer_data
-                                            ? lang?.rendered_answer_data?.matrixSortingChoice?.map((c, index) => ({ ...c, yourPosition: stat?.answer_data?.[index] ?? null }))
-                                            : lang?.rendered_answer_data?.matrixSortingChoice,
-                                    fillInTheBlank:
-                                        stat?.question?.answer_type === "fillInTheBlank" && stat?.answer_data
-                                            ? {
-                                                ...lang?.rendered_answer_data?.fillInTheBlank,
-                                                correctOption: lang?.rendered_answer_data?.fillInTheBlank?.correctOption?.map((c, index) => ({ ...c, yourAnswer: stat?.answer_data?.[index] ?? '' })),
-                                            }
-                                            : lang?.rendered_answer_data?.fillInTheBlank,
-                                    numerical:
-                                        stat?.question?.answer_type === "numerical" && stat?.answer_data
-                                            ? { ...lang?.rendered_answer_data?.numerical, yourAnswer: stat?.answer_data }
-                                            : lang?.rendered_answer_data?.numerical,
-                                    rangeType:
-                                        stat?.question?.answer_type === "rangeType" && stat?.answer_data
-                                            ? { ...lang?.rendered_answer_data?.rangeType, yourAnswer: stat?.answer_data }
-                                            : lang?.rendered_answer_data?.rangeType,
-                                },
-                            };
-                        }) ?? [],
-                };
-            }),
-        },
+                    selectable_rule_number_of_questions: quiz?.subject_times?.find(s => s?.subject_id === stat?.question?.subject_id)?.selectable_rule_number_of_questions ?? 0,
+                });
+            }
+            return acc;
+        }, []) ?? [],
+        questions: statistic?.map((stat) => {
+            return {
+                selected: true,
+                check: true,
+                question_id: stat?.question_id,
+                subject_id: stat?.question?.subject_id,
+                subject_name:
+                    stat?.question?.subject?.subject_name ?? "Uncategorized",
+                online: stat?.question?.online,
+                sort: stat?.question?.sort,
+                title: stat?.question?.title,
+                points: stat?.question?.points,
+                negative_points: stat?.question?.negative_points,
+                different_points_for_each_answer: Boolean(
+                    Number(stat?.question?.different_points_for_each_answer)
+                ),
+                different_incorrect_msg: Boolean(
+                    Number(stat?.question?.different_incorrect_msg)
+                ),
+                hint_enabled: Boolean(Number(stat?.question?.hint_enabled)),
+                paragraph_enabled: Boolean(Number(stat?.question?.paragraph_enabled)),
+                paragraph_id: stat?.question?.paragraph_id,
+                answer_type: stat?.question?.answer_type,
+                result: {
+                    correct_count: stat?.correct_count,
+                    incorrect_count: stat?.incorrect_count,
+                    solved_count: stat?.solved_count,
+                    hint_count: stat?.hint_count,
+                    time: stat?.question_time,
+                    answer_data: stat?.answer_data,
+                    attempted_at: Number(stat?.attempted_at) ?? null,
+                },
+                language:
+                    stat?.question?.question_languages?.map((lang) => {
+                        return {
+                            language_id: lang?.language_id,
+                            language_name: lang?.language?.name,
+                            default: Boolean(Number(lang?.default)),
+                            selected: Boolean(Number(lang?.default)),
+                            paragraph: stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "" ?? "",
+                            question: lang?.rendered_question,
+                            correct_msg: lang?.rendered_correct_msg,
+                            incorrect_msg: lang?.rendered_incorrect_msg,
+                            hint_msg: lang?.rendered_hint_msg,
+                            answer_data: {
+                                singleChoice:
+                                    stat?.question?.answer_type === "singleChoice" && stat?.answer_data
+                                        ? lang?.rendered_answer_data?.singleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
+                                        : lang?.rendered_answer_data?.singleChoice,
+                                multipleChoice:
+                                    stat?.question?.answer_type === "multipleChoice" && stat?.answer_data
+                                        ? lang?.rendered_answer_data?.multipleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
+                                        : lang?.rendered_answer_data?.multipleChoice,
+                                trueFalse:
+                                    stat?.question?.answer_type === "trueFalse" && stat?.answer_data
+                                        ? lang?.rendered_answer_data?.trueFalse?.map((answer, index) => ({ ...answer, isChecked: stat?.answer_data == index ?? false }))
+                                        : lang?.rendered_answer_data?.trueFalse,
+                                freeChoice:
+                                    stat?.question?.answer_type === "freeChoice" && stat?.answer_data
+                                        ? { ...lang?.rendered_answer_data?.freeChoice, yourAnswer: stat?.answer_data }
+                                        : lang?.rendered_answer_data?.freeChoice,
+                                sortingChoice:
+                                    stat?.question?.answer_type === "sortingChoice" && stat?.answer_data
+                                        ? shuffleArrayBasedOnOrder(lang?.rendered_answer_data?.sortingChoice, stat?.answer_data)
+                                        : lang?.rendered_answer_data?.sortingChoice,
+                                matrixSortingChoice:
+                                    stat?.question?.answer_type === "matrixSortingChoice" && stat?.answer_data
+                                        ? lang?.rendered_answer_data?.matrixSortingChoice?.map((c, index) => ({ ...c, yourPosition: stat?.answer_data?.[index] ?? null }))
+                                        : lang?.rendered_answer_data?.matrixSortingChoice,
+                                fillInTheBlank:
+                                    stat?.question?.answer_type === "fillInTheBlank" && stat?.answer_data
+                                        ? {
+                                            ...lang?.rendered_answer_data?.fillInTheBlank,
+                                            correctOption: lang?.rendered_answer_data?.fillInTheBlank?.correctOption?.map((c, index) => ({ ...c, yourAnswer: stat?.answer_data?.[index] ?? '' })),
+                                        }
+                                        : lang?.rendered_answer_data?.fillInTheBlank,
+                                numerical:
+                                    stat?.question?.answer_type === "numerical" && stat?.answer_data
+                                        ? { ...lang?.rendered_answer_data?.numerical, yourAnswer: stat?.answer_data }
+                                        : lang?.rendered_answer_data?.numerical,
+                                rangeType:
+                                    stat?.question?.answer_type === "rangeType" && stat?.answer_data
+                                        ? { ...lang?.rendered_answer_data?.rangeType, yourAnswer: stat?.answer_data }
+                                        : lang?.rendered_answer_data?.rangeType,
+                            },
+                        };
+                    }) ?? [],
+            };
+        }),
+    };
+    const filteredDefaults = window?.acadlixHooks?.applyFilters(
+        "acadlix.front.answerSheet.defaultValues",
+        baseSettings,
+        {
+            quiz: quiz,
+            statistic: statistic,
+            
+        }
+    ) ?? baseSettings;
+    const methods = useForm({
+        defaultValues: filteredDefaults,
     });
 
     if (process.env.REACT_APP_MODE === 'development') {

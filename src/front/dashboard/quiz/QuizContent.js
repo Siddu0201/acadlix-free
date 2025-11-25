@@ -24,295 +24,305 @@ import { QuizFunction } from "./QuizFunction";
 const AdvanceQuizMode = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "front_dashboard_quiz_advance_quiz_mode" */
-        "@acadlix/pro/front/dashboard/quiz/AdvanceQuizMode") // Use pro version in Pro build
+      /* webpackChunkName: "front_dashboard_quiz_advance_quiz_mode" */
+      "@acadlix/pro/front/dashboard/quiz/AdvanceQuizMode") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 
 const QuizContent = (props) => {
   const userToken = "acadlix_user_token";
-  const methods = useForm({
-    defaultValues: {
-      logo: props?.logo,
-      login_modal: false,
-      start: props?.start ?? false,
-      view_instruction1: props?.start ?? false,
-      view_instruction2: false,
-      ready_to_begin: false,
-      view_question: false,
-      finsih: false,
-      view_result: false,
-      view_answer: false,
-      view_leaderboard: false,
-      user_id: acadlixOptions?.user?.ID ? Number(acadlixOptions?.user?.ID) : 0,
-      name: acadlixOptions?.user?.display_name,
-      email: acadlixOptions?.user?.user_email,
-      user_token: "",
-      id: props?.quiz?.ID,
-      category: props?.quiz?.category?.name ?? "Uncategorized",
-      title: props?.quiz?.post_title,
-      description: props?.quiz?.rendered_post_content ?? "",
-      // Mode settings
-      mode: props?.quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
-      advance_mode_type: props?.quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
-      start_date: props?.quiz?.rendered_metas?.start_date ?? "",
-      end_date: props?.quiz?.rendered_metas?.end_date ?? "",
-      multi_language: Boolean(Number(props?.quiz?.rendered_metas?.multi_language)),
-      // Quiz settings
-      // Mode settings
-      enable_back_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_back_button)),
-      enable_check_on_option_selected: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_on_option_selected)
-      ),
-      skip_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.skip_question)),
-      question_per_page: props?.quiz?.rendered_metas?.quiz_settings?.question_per_page, // 0 => all question
-      pagination_page: 1,
-      // General settings
-      hide_quiz_title: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_quiz_title)),
-      hide_restart_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_restart_button)),
-      show_clear_response_button: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.show_clear_response_button)
-      ),
-      enable_check_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_button)),
-      quiz_timing_type: props?.quiz?.rendered_metas?.quiz_settings?.quiz_timing_type, // full_quiz_time/per_question_time
-      quiz_time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time * 1000, // 0 => Infinity (no limit)
-      show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
-      start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
-      enable_login_register: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
-      ),
-      per_user_allowed_attempt: Number(props?.quiz?.rendered_metas?.quiz_settings?.per_user_allowed_attempt), // 0 => infinity
-      enable_prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_prerequisite)),
-      save_statistic: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.save_statistic)),
-      statistic_ip_lock: Number(props?.quiz?.rendered_metas?.quiz_settings?.statistic_ip_lock),
-      save_statistic_number_of_times:
-        props?.quiz?.rendered_metas?.quiz_settings?.save_statistic_number_of_times, // 0 =>  infinity
-      show_only_specific_number_of_questions: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.show_only_specific_number_of_questions)
-      ),
-      specific_number_of_questions: props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions, // 0 => all
-      result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
-      result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
-      scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
-      // Question settings
-      show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
-      display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
-      answer_bullet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.answer_bullet)),
-      answer_bullet_type: props?.quiz?.rendered_metas?.quiz_settings?.answer_bullet_type, // numeric/alphabet
-      random_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.random_question)),
-      random_option: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.random_option)),
-      do_not_randomize_last_option: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.do_not_randomize_last_option)
-      ),
-      question_overview: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.question_overview)),
-      hide_question_numbering: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
-      ),
-      sort_by_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.sort_by_subject)),
-      attempt_and_move_forward: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.attempt_and_move_forward)
-      ),
-      force_user_to_answer_each_question: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.force_user_to_answer_each_question)
-      ),
-      // Subject wise settings
-      optional_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.optional_subject)),
-      subject_wise_question: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question)
-      ),
-      enable_selectable_questions_rule: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
-      ),
-      selectable_questions_rule: props?.quiz?.rendered_metas?.quiz_settings?.selectable_questions_rule, //evaluate_first_x_attempted_questions/allow_only_x_attempts
-      // Result settings
-      hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
-      hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
-      hide_quiz_time: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
-      show_speed: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_speed)),
-      show_percentile: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_percentile)),
-      show_accuracy: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
-      show_average_score: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_average_score)),
-      show_subject_wise_analysis: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.show_subject_wise_analysis)
-      ),
-      show_marks_distribution: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks_distribution)
-      ),
-      show_status_based_on_min_percent: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
-      ),
-      minimum_percent_to_pass: props?.quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
-      hide_answer_sheet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
-      show_per_question_time: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
-      ),
-      leaderboard: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.leaderboard)),
-      show_rank: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_rank)),
-      result_comparision_with_topper: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.result_comparision_with_topper)
-      ),
-      leaderboard_total_number_of_entries:
-        props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_total_number_of_entries, // 0 => all,
-      leaderboard_user_can_apply_multiple_times: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_user_can_apply_multiple_times)
-      ),
-      leaderboard_apply_multiple_number_of_times:
-        props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_apply_multiple_number_of_times, // 0 => infinite
-      display_leaderboard_in_quiz_result:
-        props?.quiz?.rendered_metas?.quiz_settings?.display_leaderboard_in_quiz_result, // do_not_display/below_the_result/in_the_button
-      percent_based_result_text: Boolean(
-        Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text)
-      ),
-      result_text: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text))
-        ? props?.quiz?.rendered_metas?.quiz_settings?.result_text
-        : props?.quiz?.rendered_metas?.quiz_settings?.result_text, // ""/[{percent: number, text: ""}]
-      // Language settings
-      default_language_id: props?.quiz?.rendered_metas?.default_language_id
-        ? Number(props?.quiz?.rendered_metas?.default_language_id)
-        : null,
-      language_data:
-        props?.quiz?.rendered_metas?.language_data?.map((l) => {
+  const baseSettings = {
+    logo: props?.logo,
+    login_modal: false,
+    start: props?.start ?? false,
+    view_instruction1: props?.start ?? false,
+    view_instruction2: false,
+    ready_to_begin: false,
+    view_question: false,
+    finsih: false,
+    view_result: false,
+    view_answer: false,
+    view_leaderboard: false,
+    user_id: acadlixOptions?.user?.ID ? Number(acadlixOptions?.user?.ID) : 0,
+    name: acadlixOptions?.user?.display_name,
+    email: acadlixOptions?.user?.user_email,
+    user_token: "",
+    id: props?.quiz?.ID,
+    category: props?.quiz?.category?.name ?? "Uncategorized",
+    title: props?.quiz?.post_title,
+    description: props?.quiz?.rendered_post_content ?? "",
+    // Mode settings
+    mode: props?.quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
+    advance_mode_type: props?.quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
+    start_date: props?.quiz?.rendered_metas?.start_date ?? "",
+    end_date: props?.quiz?.rendered_metas?.end_date ?? "",
+    multi_language: Boolean(Number(props?.quiz?.rendered_metas?.multi_language)),
+    // Quiz settings
+    // Mode settings
+    enable_back_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_back_button)),
+    enable_check_on_option_selected: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_on_option_selected)
+    ),
+    skip_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.skip_question)),
+    question_per_page: props?.quiz?.rendered_metas?.quiz_settings?.question_per_page, // 0 => all question
+    pagination_page: 1,
+    // General settings
+    hide_quiz_title: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_quiz_title)),
+    hide_restart_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_restart_button)),
+    show_clear_response_button: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.show_clear_response_button)
+    ),
+    enable_check_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_button)),
+    quiz_timing_type: props?.quiz?.rendered_metas?.quiz_settings?.quiz_timing_type, // full_quiz_time/per_question_time
+    quiz_time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time * 1000, // 0 => Infinity (no limit)
+    show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
+    start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
+    enable_login_register: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
+    ),
+    per_user_allowed_attempt: Number(props?.quiz?.rendered_metas?.quiz_settings?.per_user_allowed_attempt), // 0 => infinity
+    enable_prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_prerequisite)),
+    save_statistic: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.save_statistic)),
+    statistic_ip_lock: Number(props?.quiz?.rendered_metas?.quiz_settings?.statistic_ip_lock),
+    save_statistic_number_of_times:
+      props?.quiz?.rendered_metas?.quiz_settings?.save_statistic_number_of_times, // 0 =>  infinity
+    show_only_specific_number_of_questions: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.show_only_specific_number_of_questions)
+    ),
+    specific_number_of_questions: props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions, // 0 => all
+    result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
+    result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
+    scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+    // Question settings
+    show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
+    display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
+    answer_bullet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.answer_bullet)),
+    answer_bullet_type: props?.quiz?.rendered_metas?.quiz_settings?.answer_bullet_type, // numeric/alphabet
+    random_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.random_question)),
+    random_option: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.random_option)),
+    do_not_randomize_last_option: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.do_not_randomize_last_option)
+    ),
+    question_overview: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.question_overview)),
+    hide_question_numbering: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
+    ),
+    sort_by_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.sort_by_subject)),
+    attempt_and_move_forward: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.attempt_and_move_forward)
+    ),
+    force_user_to_answer_each_question: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.force_user_to_answer_each_question)
+    ),
+    // Subject wise settings
+    optional_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.optional_subject)),
+    subject_wise_question: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_question)
+    ),
+    enable_selectable_questions_rule: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
+    ),
+    selectable_questions_rule: props?.quiz?.rendered_metas?.quiz_settings?.selectable_questions_rule, //evaluate_first_x_attempted_questions/allow_only_x_attempts
+    // Result settings
+    hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
+    hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
+    hide_quiz_time: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
+    show_speed: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_speed)),
+    show_percentile: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_percentile)),
+    show_accuracy: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
+    show_average_score: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_average_score)),
+    show_subject_wise_analysis: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.show_subject_wise_analysis)
+    ),
+    show_marks_distribution: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks_distribution)
+    ),
+    show_status_based_on_min_percent: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
+    ),
+    minimum_percent_to_pass: props?.quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
+    hide_answer_sheet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+    show_per_question_time: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
+    ),
+    leaderboard: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.leaderboard)),
+    show_rank: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_rank)),
+    result_comparision_with_topper: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.result_comparision_with_topper)
+    ),
+    leaderboard_total_number_of_entries:
+      props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_total_number_of_entries, // 0 => all,
+    leaderboard_user_can_apply_multiple_times: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_user_can_apply_multiple_times)
+    ),
+    leaderboard_apply_multiple_number_of_times:
+      props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_apply_multiple_number_of_times, // 0 => infinite
+    display_leaderboard_in_quiz_result:
+      props?.quiz?.rendered_metas?.quiz_settings?.display_leaderboard_in_quiz_result, // do_not_display/below_the_result/in_the_button
+    percent_based_result_text: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text)
+    ),
+    result_text: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text))
+      ? props?.quiz?.rendered_metas?.quiz_settings?.result_text
+      : props?.quiz?.rendered_metas?.quiz_settings?.result_text, // ""/[{percent: number, text: ""}]
+    // Language settings
+    default_language_id: props?.quiz?.rendered_metas?.default_language_id
+      ? Number(props?.quiz?.rendered_metas?.default_language_id)
+      : null,
+    language_data:
+      props?.quiz?.rendered_metas?.language_data?.map((l) => {
+        return {
+          ...l,
+          language_name: props?.quiz?.languages?.find((d) => d?.term_id === l?.language_id)?.name,
+          instruction1: l?.instruction1,
+          instruction2: l?.instruction2,
+          default: Boolean(Number(l?.default)),
+          selected: Boolean(Number(l?.default)),
+        };
+      }) ?? [],
+    languages: props?.quiz?.languages ?? [],
+    selected_language_id: props?.quiz?.rendered_metas?.default_language_id,
+    // Question Section
+    subjects: [],
+    subject_times:
+      props?.quiz?.subject_times ?
+        props?.quiz?.subject_times?.map((s) => {
           return {
-            ...l,
-            language_name: props?.quiz?.languages?.find((d) => d?.term_id === l?.language_id)?.name,
-            instruction1: l?.instruction1,
-            instruction2: l?.instruction2,
-            default: Boolean(Number(l?.default)),
-            selected: Boolean(Number(l?.default)),
+            ...s,
+            optional: Boolean(Number(s?.optional)),
           };
-        }) ?? [],
-      languages: props?.quiz?.languages ?? [],
-      selected_language_id: props?.quiz?.rendered_metas?.default_language_id,
-      // Question Section
-      subjects: [],
-      subject_times:
-        props?.quiz?.subject_times ?
-          props?.quiz?.subject_times?.map((s) => {
-            return {
-              ...s,
-              optional: Boolean(Number(s?.optional)),
-            };
-          }) : [],
-      questions:
-        props?.quiz?.rendered_questions?.map((question, index) => {
-          return {
-            index: index,
-            selected:
-              props?.quiz?.rendered_metas?.mode === "question_below_each_other"
-                ? props?.quiz?.rendered_metas?.quiz_settings?.question_per_page > 0
-                  ? props?.quiz?.rendered_metas?.quiz_settings?.question_per_page > index ?? false
-                  : true
-                : index === 0 ?? false,
-            question_id: question?.id,
-            quiz_id: props?.quiz?.ID,
-            subject_id: question?.subject_id,
-            subject_name: question?.subject?.subject_name ?? "Uncategorized",
-            online: question?.online,
-            sort: question?.sort,
-            title: question?.title,
-            points: question?.points,
-            negative_points: question?.negative_points,
-            different_points_for_each_answer: Boolean(
-              Number(question?.different_points_for_each_answer)
-            ),
-            different_incorrect_msg: Boolean(
-              Number(question?.different_incorrect_msg)
-            ),
-            hint_enabled: Boolean(Number(question?.hint_enabled)),
-            paragraph_enabled: Boolean(Number(question?.paragraph_enabled)),
-            paragraph_id: question?.paragraph_id,
-            answer_type: question?.answer_type,
-            time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time * 1000,
-            bookmark: false,
-            like: false,
-            dislike: false,
-            report: false,
-            report_msg: "",
-            review: false,
-            hint: false,
-            check: false,
-            visit: index === 0,
-            result: {
-              correct_count: 0,
-              incorrect_count: 0,
-              solved_count: 0,
-              hint_count: 0,
-              time: 0,
-              answer_data: question?.answer_type === "sortingChoice"
-                ? question
-                  ?.question_languages
-                  ?.find((lang) => Boolean(Number(lang?.default)))
-                  ?.rendered_answer_data
-                  ?.sortingChoice
-                  ?.map((d) => d.position)
-                : null,
-              attempted_at: null,
-            },
-            shuffle_order: question?.answer_type === "matrixSortingChoice"
-              ? arrayRandomize(question
+        }) : [],
+    questions:
+      props?.quiz?.rendered_questions?.map((question, index) => {
+        return {
+          index: index,
+          selected:
+            props?.quiz?.rendered_metas?.mode === "question_below_each_other"
+              ? props?.quiz?.rendered_metas?.quiz_settings?.question_per_page > 0
+                ? props?.quiz?.rendered_metas?.quiz_settings?.question_per_page > index ?? false
+                : true
+              : index === 0 ?? false,
+          question_id: question?.id,
+          quiz_id: props?.quiz?.ID,
+          subject_id: question?.subject_id,
+          subject_name: question?.subject?.subject_name ?? "Uncategorized",
+          online: question?.online,
+          sort: question?.sort,
+          title: question?.title,
+          points: question?.points,
+          negative_points: question?.negative_points,
+          different_points_for_each_answer: Boolean(
+            Number(question?.different_points_for_each_answer)
+          ),
+          different_incorrect_msg: Boolean(
+            Number(question?.different_incorrect_msg)
+          ),
+          hint_enabled: Boolean(Number(question?.hint_enabled)),
+          paragraph_enabled: Boolean(Number(question?.paragraph_enabled)),
+          paragraph_id: question?.paragraph_id,
+          answer_type: question?.answer_type,
+          time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time * 1000,
+          bookmark: false,
+          like: false,
+          dislike: false,
+          report: false,
+          report_msg: "",
+          review: false,
+          hint: false,
+          check: false,
+          visit: index === 0,
+          result: {
+            correct_count: 0,
+            incorrect_count: 0,
+            solved_count: 0,
+            hint_count: 0,
+            time: 0,
+            answer_data: question?.answer_type === "sortingChoice"
+              ? question
                 ?.question_languages
                 ?.find((lang) => Boolean(Number(lang?.default)))
                 ?.rendered_answer_data
-                ?.matrixSortingChoice
-                ?.map((d) => String(d?.correctPosition)) ?? [])
+                ?.sortingChoice
+                ?.map((d) => d.position)
               : null,
-            language:
-              question?.question_languages?.map((lang) => {
-                return {
-                  language_id: lang?.language_id,
-                  language_name: lang?.language?.name,
-                  default: Boolean(Number(lang?.default)),
-                  selected: Boolean(Number(lang?.default)),
-                  paragraph:
-                    question?.paragraph?.rendered_metas?.language_data?.find(
-                      (p) => p?.language_id === lang?.language_id
-                    )?.content ?? ""
-                    ?? "",
-                  question: lang?.rendered_question,
-                  correct_msg: lang?.rendered_correct_msg,
-                  incorrect_msg: lang?.rendered_incorrect_msg,
-                  hint_msg: lang?.rendered_hint_msg,
-                  answer_data: {
-                    singleChoice: lang?.rendered_answer_data?.singleChoice,
-                    multipleChoice: lang?.rendered_answer_data
-                      ?.multipleChoice,
-                    trueFalse: lang?.rendered_answer_data?.trueFalse,
-                    freeChoice: lang?.rendered_answer_data?.freeChoice,
-                    sortingChoice: lang?.rendered_answer_data?.sortingChoice ?? [],
-                    matrixSortingChoice: lang?.rendered_answer_data?.matrixSortingChoice ?? [],
-                    fillInTheBlank: lang?.rendered_answer_data
-                      ?.fillInTheBlank,
-                    numerical: lang?.rendered_answer_data?.numerical,
-                    rangeType: lang?.rendered_answer_data?.rangeType,
-                  },
-                };
-              }) ?? [],
-          };
-        }
-        ) ?? [],
-      last: Date.now(),
-      now: Date.now(),
+            attempted_at: null,
+          },
+          shuffle_order: question?.answer_type === "matrixSortingChoice"
+            ? arrayRandomize(question
+              ?.question_languages
+              ?.find((lang) => Boolean(Number(lang?.default)))
+              ?.rendered_answer_data
+              ?.matrixSortingChoice
+              ?.map((d) => String(d?.correctPosition)) ?? [])
+            : null,
+          language:
+            question?.question_languages?.map((lang) => {
+              return {
+                language_id: lang?.language_id,
+                language_name: lang?.language?.name,
+                default: Boolean(Number(lang?.default)),
+                selected: Boolean(Number(lang?.default)),
+                paragraph:
+                  question?.paragraph?.rendered_metas?.language_data?.find(
+                    (p) => p?.language_id === lang?.language_id
+                  )?.content ?? ""
+                  ?? "",
+                question: lang?.rendered_question,
+                correct_msg: lang?.rendered_correct_msg,
+                incorrect_msg: lang?.rendered_incorrect_msg,
+                hint_msg: lang?.rendered_hint_msg,
+                answer_data: {
+                  singleChoice: lang?.rendered_answer_data?.singleChoice,
+                  multipleChoice: lang?.rendered_answer_data
+                    ?.multipleChoice,
+                  trueFalse: lang?.rendered_answer_data?.trueFalse,
+                  freeChoice: lang?.rendered_answer_data?.freeChoice,
+                  sortingChoice: lang?.rendered_answer_data?.sortingChoice ?? [],
+                  matrixSortingChoice: lang?.rendered_answer_data?.matrixSortingChoice ?? [],
+                  fillInTheBlank: lang?.rendered_answer_data
+                    ?.fillInTheBlank,
+                  numerical: lang?.rendered_answer_data?.numerical,
+                  rangeType: lang?.rendered_answer_data?.rangeType,
+                },
+              };
+            }) ?? [],
+        };
+      }
+      ) ?? [],
+    last: Date.now(),
+    now: Date.now(),
+    rank: 0,
+    percentile: 0,
+    average_score: 0,
+    topper_result: {
+      quiz_time: 0,
+      accuracy: 0,
+      status: "",
+      result: 0,
+      points: 0,
       rank: 0,
-      percentile: 0,
-      average_score: 0,
-      topper_result: {
-        quiz_time: 0,
-        accuracy: 0,
-        status: "",
-        result: 0,
-        points: 0,
-        rank: 0,
-        name: "",
-        email: "",
-      },
-      toplist_id: 0,
-      toplist: [],
-      toplist_count: 0,
-      quiz_error: "",
-      // ai
-      result_ai_response: "",
-      show_calculator: false,
+      name: "",
+      email: "",
     },
+    toplist_id: 0,
+    toplist: [],
+    toplist_count: 0,
+    quiz_error: "",
+    // ai
+    result_ai_response: "",
+    show_calculator: false,
+  };
+
+  const filteredDefaults = window?.acadlixHooks?.applyFilters(
+        "acadlix.front.quiz.defaultValues",
+        baseSettings,
+        {
+          quiz: props?.quiz,
+        }
+    ) ?? baseSettings;
+
+  const methods = useForm({
+    defaultValues: filteredDefaults,
   });
 
   if (process.env.REACT_APP_MODE === 'development') {
