@@ -1003,7 +1003,35 @@ if (!class_exists('Helper')) {
                     'icon' => 'TbAlertTriangleFilled',
                     'icon_color' => '#FFAB00',
                 ],
+                [
+                    'name' => __('Social Login', 'acadlix'),
+                    'description' => __('This addon lets students flag and report incorrect or unclear questions, helping admins maintain accuracy and improve question quality.', 'acadlix'),
+                    'pro' => true,
+                    'internal' => true,
+                    'installed' => true,
+                    'active' => $this->acadlix_get_option('acadlix_addon_social_login_enabled', false) == 'yes',
+                    'url' => '',
+                    'option_name' => 'acadlix_addon_social_login_enabled',
+                    'icon' => 'TbAlertTriangleFilled',
+                    'icon_color' => '#3B82F6',
+                ],
             ];
+        }
+
+        public function is_social_login_addon_active()
+        {
+            $value = $this->acadlix_get_option('acadlix_addon_social_login_enabled', false);
+            if ($value != 'yes') {
+                return false;
+            }
+            if (!acadlix()->pro) {
+                return false;
+            } else {
+                if (!acadlix()->license()->isActive) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public function is_bulk_question_addon_active()
