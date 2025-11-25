@@ -72,7 +72,7 @@ if (!class_exists('Question')) {
 
 
         public function quiz(){
-            return $this->belongsTo(acadlix()->model()->quiz(), 'quiz_id', 'id');
+            return $this->belongsTo(acadlix()->model()->quiz(), 'quiz_id', 'ID');
         }
 
         public function subject()
