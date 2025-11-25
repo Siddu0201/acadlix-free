@@ -56,6 +56,38 @@ if (!class_exists('UserActivityMeta')) {
             return null;
         }
 
+        public function quiz()
+        {
+            if($this->type === 'quiz'){
+                return $this->belongsTo(acadlix()->model()->quiz(), 'type_id', 'ID' );
+            }
+            return null;
+        }
+
+        public function question()
+        {
+            if($this->type === "question"){
+                return $this->belongsTo(acadlix()->model()->question(), 'type_id', 'id' );
+            }
+            return null;
+        }
+
+        public function order()
+        {
+            if($this->type === "order"){
+                return $this->belongsTo(acadlix()->model()->order(), 'type_id', 'id' );
+            }
+            return null;
+        }
+
+        public function course_statistic()
+        {
+            if($this->type === "course_statistic"){
+                return $this->belongsTo(acadlix()->model()->courseStatistic(), 'type_id', 'id' );
+            }
+            return null;
+        }
+
 
         public function scopeOfCourseWishlist($query)
         {
