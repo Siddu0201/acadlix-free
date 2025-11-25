@@ -4,6 +4,14 @@ import { secondsToHms } from "@acadlix/helpers/util";
 import { MdOutlineReviews, MdReviews, FaRegBookmark } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
+const AdvanceQuestionReport = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+  ? import(
+    /* webpackChunkName: "front_dashboard_quiz_result_section_advance_question_report" */
+    "@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionReport"
+  ): Promise.resolve({ default: () => null })
+);
+
 const QuestionSubjectAndPointSection = (props) => {
   const handleReview = () => {
     props?.setValue(
@@ -157,6 +165,11 @@ const QuestionSubjectAndPointSection = (props) => {
               {props?.watch(`questions.${props?.index}.subject_name`)}
             </Typography>
           </Box>
+        )}
+        {props?.watch("enable_question_reporting") && (
+          <React.Suspense fallback={null}>
+            <AdvanceQuestionReport {...props} />
+          </React.Suspense>
         )}
         {/* <Box>
           <Tooltip title="Bookmark">
