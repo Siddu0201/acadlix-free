@@ -92,7 +92,9 @@ const CategoryTemplateSection = (props) => {
               for (const [metaKey, metaValue] of Object.entries(value)) {
                 if (metaKey === "quiz_settings") {
                   for (const [settingKey, settingValue] of Object.entries(metaValue)) {
-                    if (["result_text", "admin_message", "student_message"].includes(settingKey)) handleEditorContent(settingKey, settingValue);
+                    let editorSetting = ["admin_message","student_message"];
+                    if(settingKey === "result_text" && !Array.isArray(settingValue)) editorSetting.push("result_text");
+                    if (editorSetting.includes(settingKey)) handleEditorContent(settingKey, settingValue);
                     props?.setValue(`meta.${metaKey}.${settingKey}`, settingValue, { shouldDirty: true });
                   }
                   continue;
