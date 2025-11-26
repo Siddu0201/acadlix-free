@@ -981,7 +981,7 @@ if (!class_exists('Helper')) {
                 ],
                 [
                     'name' => __('Acadlix Data Exporter', 'acadlix'),
-                    'description' => __('Export results, answer sheets, and sales data in PDF or Excel.', 'acadlix'),
+                    'description' => __('Export results, answer sheets in PDF or Excel.', 'acadlix'),
                     'pro' => true,
                     'internal' => true,
                     'installed' => true,
