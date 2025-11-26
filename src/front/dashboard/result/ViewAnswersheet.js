@@ -105,7 +105,7 @@ const ViewAnswersheet = () => {
                                                         props: {
                                                             variant: "h3",
                                                         },
-                                                        value: __("AnserSheet", "acadlix")
+                                                        value: __("AnswerSheet", "acadlix")
                                                     }
                                                 ]
                                             },
