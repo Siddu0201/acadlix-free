@@ -272,6 +272,7 @@ const SettingContent = ({
               selected === "general" && (
                 <General
                   {...methods}
+                  options={options}
                   all_pages={all_pages}
                   currencies={currencies}
                   isPending={updateMutation?.isPending}
@@ -291,6 +292,7 @@ const SettingContent = ({
               selected === "notification" && (
                 <Notification
                   {...methods}
+                  options={options}
                   isPending={updateMutation?.isPending}
                 />
               )
@@ -299,6 +301,7 @@ const SettingContent = ({
               selected === "permalink" && (
                 <Permalink
                   {...methods}
+                  options={options}
                   isPending={updateMutation?.isPending}
                 />
               )
@@ -307,6 +310,7 @@ const SettingContent = ({
               selected === "quiz" && (
                 <QuizSettings
                   {...methods}
+                  options={options}
                   isPending={updateMutation?.isPending}
                 />
               )
@@ -315,6 +319,7 @@ const SettingContent = ({
               selected === "authentication" && (
                 <Authentication
                   {...methods}
+                  options={options}
                   isPending={updateMutation?.isPending}
                 />
               )
@@ -323,6 +328,7 @@ const SettingContent = ({
               selected === "integration" && (
                 <Integration
                   {...methods}
+                  options={options}
                   isPending={updateMutation?.isPending}
                 />
               )
