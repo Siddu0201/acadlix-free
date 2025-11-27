@@ -185,6 +185,7 @@ const Authentication = (props) => {
             control: props?.control,
             watch: props?.watch,
             setValue: props?.setValue,
+            options: props?.options,
         }
     ) ?? [];
     return (
