@@ -1020,7 +1020,7 @@ if (!class_exists('Helper')) {
 
         public function is_social_login_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_social_login_enabled', false);
+            $value = get_option('acadlix_addon_social_login_enabled', false);
             if ($value != 'yes') {
                 return false;
             }
@@ -1036,7 +1036,7 @@ if (!class_exists('Helper')) {
 
         public function is_bulk_question_addon_active()
         {
-            $value = $this->acadlix_get_option('acadlix_addon_bulk_question_upload_enabled', false);
+            $value = get_option('acadlix_addon_bulk_question_upload_enabled', false);
             if ($value != 'yes') {
                 return false;
             }
