@@ -41,6 +41,8 @@ import {
   TableBody,
   TablePagination,
   Paper,
+  Link,
+  DialogContent,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React, { Suspense } from "react";
@@ -107,6 +109,7 @@ const COMPONENT_MAP = {
   Button,
   Box,
   Grid,
+  Link,
   Typography,
   Alert,
   Chip,
@@ -125,6 +128,7 @@ const COMPONENT_MAP = {
   Tooltip,
   FormHelperText,
   InputLabel,
+  DialogContent,
   InputAdornment,
   TableContainer,
   Table,
