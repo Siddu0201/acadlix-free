@@ -621,6 +621,33 @@ export const TbAlertTriangleFilled = (props) => {
     )
 }
 
+export const SocialLogin = (props) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24" fill="none" {...props}>
+            <g clipPath="url(#clip0_629_10)">
+                <path d="M10.5 0.5C13.9504 0.5 16.75 3.29958 16.75 6.75V9.5H18C19.3785 9.5 20.5 10.6215 20.5 12V21C20.5 22.3785 19.3785 23.5 18 23.5H3C1.62145 23.5 0.5 22.3785 0.5 21V12C0.5 10.6215 1.62145 9.5 3 9.5H4.25V6.75C4.25 3.29958 7.04958 0.5 10.5 0.5ZM10.5 2.5C8.15198 2.5 6.25 4.40198 6.25 6.75V9.5H14.75V6.75C14.75 4.40198 12.848 2.5 10.5 2.5Z" stroke="white" />
+                <g clipPath="url(#clip1_629_10)">
+                    <path d="M18 17.068C18 18.7262 16.8086 19.9062 15.0492 19.9062C13.3623 19.9062 12 18.6078 12 17C12 15.3922 13.3623 14.0938 15.0492 14.0938C15.8705 14.0938 16.5615 14.3809 17.0939 14.8543L16.2639 15.6148C15.1783 14.6164 13.1594 15.3664 13.1594 17C13.1594 18.0137 14.009 18.8352 15.0492 18.8352C16.2566 18.8352 16.709 18.0102 16.7803 17.5824H15.0492V16.5828H17.952C17.9803 16.7316 18 16.8746 18 17.068Z" fill="white" />
+                </g>
+            </g>
+            <g clipPath="url(#clip2_629_10)">
+                <path d="M9 16.513C9 14.5726 7.4332 13 5.5 13C3.5668 13 2 14.5726 2 16.513C2 18.1598 3.13066 19.543 4.65508 19.9232V17.5862H3.9332V16.513H4.65508V16.0506C4.65508 14.8553 5.19375 14.3009 6.36406 14.3009C6.58555 14.3009 6.96836 14.3448 7.12559 14.3887V15.3603C7.04355 15.3521 6.9 15.3466 6.7209 15.3466C6.14668 15.3466 5.9252 15.5648 5.9252 16.1315V16.513H7.06816L6.87129 17.5862H5.92383V20C7.65742 19.79 9 18.3094 9 16.513Z" fill="white" />
+            </g>
+            <defs>
+                <clipPath id="clip0_629_10">
+                    <rect width="21" height="24" fill="white" />
+                </clipPath>
+                <clipPath id="clip1_629_10">
+                    <rect width="6" height="6" fill="white" transform="translate(12 14)" />
+                </clipPath>
+                <clipPath id="clip2_629_10">
+                    <rect width="7" height="7" fill="white" transform="translate(2 13)" />
+                </clipPath>
+            </defs>
+        </svg>
+    )
+}
+
 export const iconMap = {
     IoClose: <IoClose />,
     IoMdRefresh: <IoMdRefresh />,
@@ -722,4 +749,5 @@ export const iconMap = {
     FaFilePdf: <FaFilePdf />,
     FaFileExport: <FaFileExport />,
     TbAlertTriangleFilled: <TbAlertTriangleFilled />,
+    SocialLogin: <SocialLogin />
 };

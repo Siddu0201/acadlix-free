@@ -1012,7 +1012,7 @@ if (!class_exists('Helper')) {
                     'active' => $this->acadlix_get_option('acadlix_addon_social_login_enabled', false) == 'yes',
                     'url' => '',
                     'option_name' => 'acadlix_addon_social_login_enabled',
-                    'icon' => 'TbAlertTriangleFilled',
+                    'icon' => 'SocialLogin',
                     'icon_color' => '#3B82F6',
                 ],
             ];
