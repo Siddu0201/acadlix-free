@@ -349,7 +349,6 @@ const Login = (props) => {
                         component: "PasswordTextField",
                         component_name: "login_modal_form_password_textfield",
                         props: {
-                          ...methods?.register("password", { required: true }),
                           fullWidth: true,
                           required: true,
                           autoComplete: "password",
