@@ -1,12 +1,14 @@
-import { Dialog, styled } from '@mui/material';
+import { Box, Dialog, DialogContent, IconButton, styled, useTheme } from '@mui/material';
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Login from './modal/Login';
 import Register from './modal/Register';
 import ForgotPassword from './modal/ForgotPassword';
 import PropTypes from 'prop-types';
+import { IoClose } from '@acadlix/helpers/icons';
 
 const UserAuth = ({
+  isModal = true,
   login_modal = false,
   users_can_register = false,
   maxWidth = "xs",
@@ -17,6 +19,7 @@ const UserAuth = ({
   onSuccessRegister = null,
   onSuccessForgotPassword = null,
 }) => {
+  const theme = useTheme();
   const methods = useForm({
     defaultValues: {
       users_can_register: Boolean(Number(users_can_register)),
@@ -45,6 +48,26 @@ const UserAuth = ({
     }
   }, []);
 
+  if (!isModal) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+        }}
+      >
+        <LoginContent
+          methods={methods}
+          isModal={isModal}
+          ajax_url={ajax_url}
+          nonce={nonce}
+          handleClose={handleClose}
+          onSuccessLogin={onSuccessLogin}
+          onSuccessRegister={onSuccessRegister}
+          onSuccessForgotPassword={onSuccessForgotPassword}
+        />
+      </Box>
+    );
+  }
 
   return (
     <BootstrapDialog
@@ -54,9 +77,61 @@ const UserAuth = ({
       aria-describedby="alert-dialog-description"
       maxWidth={maxWidth}
     >
+      <IconButton
+        onClick={handleClose}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+          boxShadow: "none",
+        }}
+      >
+        <IoClose style={{
+          fontSize: 20
+        }} />
+      </IconButton>
+      <DialogContent
+        sx={{
+          paddingX: {
+            xs: `${theme.spacing(4)} !important`,
+            sm: `${theme.spacing(8)} !important`,
+          },
+          paddingY: `${theme.spacing(8)} !important`,
+        }}
+      >
+
+        <LoginContent
+          methods={methods}
+          isModal={isModal}
+          ajax_url={ajax_url}
+          nonce={nonce}
+          handleClose={handleClose}
+          onSuccessLogin={onSuccessLogin}
+          onSuccessRegister={onSuccessRegister}
+          onSuccessForgotPassword={onSuccessForgotPassword}
+        />
+      </DialogContent>
+    </BootstrapDialog>
+  )
+}
+
+const LoginContent = ({
+  methods,
+  isModal,
+  ajax_url,
+  nonce,
+  handleClose,
+  onSuccessLogin,
+  onSuccessRegister,
+  onSuccessForgotPassword,
+}) => {
+  return (
+    <React.Fragment>
       {methods?.watch("login_modal_type") === "login" && (
         <Login
           {...methods}
+          isModal={isModal}
           ajax_url={ajax_url}
           nonce={nonce}
           handleClose={handleClose}
@@ -66,6 +141,7 @@ const UserAuth = ({
       {methods?.watch("login_modal_type") === "register" && (
         <Register
           {...methods}
+          isModal={isModal}
           ajax_url={ajax_url}
           nonce={nonce}
           handleClose={handleClose}
@@ -75,13 +151,14 @@ const UserAuth = ({
       {methods?.watch("login_modal_type") === "forgot-password" && (
         <ForgotPassword
           {...methods}
+          isModal={isModal}
           ajax_url={ajax_url}
           nonce={nonce}
           handleClose={handleClose}
           onSuccessForgotPassword={onSuccessForgotPassword}
         />
       )}
-    </BootstrapDialog>
+    </React.Fragment>
   )
 }
 

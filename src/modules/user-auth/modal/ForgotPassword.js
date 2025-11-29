@@ -1,16 +1,10 @@
-import { Alert, Box, Button, DialogContent, Divider, IconButton, Link, Typography, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { IoClose } from '@acadlix/helpers/icons';
-import CustomTextField from '@acadlix/components/CustomTextField';
 import axios from 'axios';
-import { RawHTML } from '@wordpress/element';
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const ForgotPassword = (props) => {
-    const theme = useTheme();
     const [isLoading, setIsLoading] = React.useState(false);
     const methods = useForm({
         defaultValues: {
@@ -57,244 +51,204 @@ const ForgotPassword = (props) => {
         component_name: "forgot_password_modal_fragment",
         children: [
             {
-                component: "IconButton",
-                component_name: "forgot_password_modal_close_icon_button",
+                component: "Box",
+                component_name: "forgot_password_modal_header_box",
                 props: {
-                    onClick: props?.handleClose,
                     sx: {
-                        position: "absolute",
-                        right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
-                        boxShadow: "none",
-                    },
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        alignItems: "center",
+                        marginBottom: 4
+                    }
                 },
                 children: [
                     {
-                        component: "IoClose",
-                        component_name: "forgot_password_modal_close_icon",
+                        component: "Alert",
+                        component_name: "forgot_password_modal_info_alert",
                         props: {
-                            style: {
-                                fontSize: 20
+                            severity: "info",
+                            sx: { alignItems: "center" }
+                        },
+                        value: __("Please enter your username or email address. You will receive an email message with instructions on how to reset your password.", 'acadlix')
+                    },
+                    {
+                        component: "Alert",
+                        component_name: "forgot_password_modal_error_alert",
+                        props: {
+                            severity: "error",
+                            sx: {
+                                display: methods?.watch("error") ? "flex" : "none",
+                                alignItems: "center"
                             }
-                        }
+                        },
+                        children: [
+                            {
+                                component: "RawHTML",
+                                component_name: "forgot_password_modal_error_rawhtml",
+                                value: methods?.watch("error")
+                            }
+                        ]
                     }
                 ]
             },
             {
-                component: "DialogContent",
-                component_name: "forgot_password_modal_dialog_content",
+                component: "Divider",
+                component_name: "forgot_password_modal_divider",
+                props: { sx: { marginBottom: 4 } }
+            },
+            {
+                component: "form",
                 props: {
-                    sx: {
-                        paddingX: {
-                            xs: `${theme.spacing(4)} !important`,
-                            sm: `${theme.spacing(8)} !important`,
-                        },
-                        paddingY: `${theme.spacing(8)} !important`,
-                    }
+                    onSubmit: methods?.handleSubmit(handleSubmit)
                 },
                 children: [
                     {
-                        component: "Box",
-                        component_name: "forgot_password_modal_header_box",
-                        props: {
-                            sx: {
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: 2,
-                                alignItems: "center",
-                                marginBottom: 4
-                            }
-                        },
+                        component: "Grid",
+                        component_name: "forgot_password_modal_form_grid",
+                        props: { container: true, gap: 3 },
                         children: [
-                            {
-                                component: "Alert",
-                                component_name: "forgot_password_modal_info_alert",
-                                props: {
-                                    severity: "info",
-                                    sx: { alignItems: "center" }
-                                },
-                                value: __("Please enter your username or email address. You will receive an email message with instructions on how to reset your password.", 'acadlix')
-                            },
-                            {
-                                component: "Alert",
-                                component_name: "forgot_password_modal_error_alert",
-                                props: {
-                                    severity: "error",
-                                    sx: {
-                                        display: methods?.watch("error") ? "flex" : "none",
-                                        alignItems: "center"
-                                    }
-                                },
-                                children: [
-                                    {
-                                        component: "RawHTML",
-                                        component_name: "forgot_password_modal_error_rawhtml",
-                                        value: methods?.watch("error")
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        component: "Divider",
-                        component_name: "forgot_password_modal_divider",
-                        props: { sx: { marginBottom: 4 } }
-                    },
-                    {
-                        component: "form",
-                        props: {
-                            onSubmit: methods?.handleSubmit(handleSubmit)
-                        },
-                        children: [
-                            {
-                                component: "Grid",
-                                component_name: "forgot_password_modal_form_grid",
-                                props: { container: true, gap: 3 },
-                                children: [
-                                    !methods?.watch("submit") ?
-                                        ({
-                                            component: "Fragment",
-                                            component_name: "forgot_password_modal_form_fragment",
+                            !methods?.watch("submit") ?
+                                ({
+                                    component: "Fragment",
+                                    component_name: "forgot_password_modal_form_fragment",
+                                    children: [
+                                        {
+                                            component: "Grid",
+                                            component_name: "forgot_password_modal_username_grid",
+                                            props: {
+                                                size: { xs: 12, lg: 12 },
+                                                sx: { display: methods?.watch("submit") ? "none" : "block" }
+                                            },
                                             children: [
                                                 {
-                                                    component: "Grid",
-                                                    component_name: "forgot_password_modal_username_grid",
-                                                    props: {
-                                                        size: { xs: 12, lg: 12 },
-                                                        sx: { display: methods?.watch("submit") ? "none" : "block" }
-                                                    },
+                                                    component: "Typography",
+                                                    component_name: "forgot_password_modal_username_typography",
+                                                    props: { variant: "body2", sx: { paddingY: 1 } },
                                                     children: [
-                                                        {
-                                                            component: "Typography",
-                                                            component_name: "forgot_password_modal_username_typography",
-                                                            props: { variant: "body2", sx: { paddingY: 1 } },
-                                                            children: [
-                                                                { component: "span", value: __("Username/Email", 'acadlix') },
-                                                                { component: "span", props: { style: { color: "red" } }, value: "*" }
-                                                            ]
-                                                        },
-                                                        {
-                                                            component: "CustomTextField",
-                                                            component_name: "forgot_password_modal_username_textfield",
-                                                            props: {
-                                                                ...methods?.register("username", { required: true }),
-                                                                fullWidth: true,
-                                                                required: true,
-                                                                autoComplete: "username",
-                                                                autoCapitalize: "off",
-                                                                size: "small",
-                                                                type: "text",
-                                                                name: "username",
-                                                                placeholder: __("Username/email", 'acadlix'),
-                                                                value: methods?.watch("username"),
-                                                                onChange: (e) => methods?.setValue("username", e?.target?.value, { shouldDirty: true }),
-                                                                error: Boolean(methods?.formState?.errors?.username)
-                                                            }
-                                                        }
+                                                        { component: "span", value: __("Username/Email", 'acadlix') },
+                                                        { component: "span", props: { style: { color: "red" } }, value: "*" }
                                                     ]
                                                 },
                                                 {
-                                                    component: "Grid",
-                                                    component_name: "forgot_password_modal_button_grid",
+                                                    component: "CustomTextField",
+                                                    component_name: "forgot_password_modal_username_textfield",
                                                     props: {
-                                                        size: { xs: 12, lg: 12 },
-                                                        sx: {
-                                                            display: methods?.watch("submit") ? "none" : "block"
-                                                        }
-                                                    },
-                                                    children: [
-                                                        {
-                                                            component: "Button",
-                                                            component_name: "forgot_password_modal_button",
-                                                            props: {
-                                                                loading: isLoading,
-                                                                fullWidth: true,
-                                                                variant: "contained",
-                                                                type: "submit"
-                                                            },
-                                                            value: __("Get New Password", 'acadlix')
-                                                        }
-                                                    ]
-                                                },
+                                                        ...methods?.register("username", { required: true }),
+                                                        fullWidth: true,
+                                                        required: true,
+                                                        autoComplete: "username",
+                                                        autoCapitalize: "off",
+                                                        size: "small",
+                                                        type: "text",
+                                                        name: "username",
+                                                        placeholder: __("Username/email", 'acadlix'),
+                                                        value: methods?.watch("username"),
+                                                        onChange: (e) => methods?.setValue("username", e?.target?.value, { shouldDirty: true }),
+                                                        error: Boolean(methods?.formState?.errors?.username)
+                                                    }
+                                                }
                                             ]
-                                        })
-                                        :
-                                        ({
+                                        },
+                                        {
                                             component: "Grid",
-                                            component_name: "forgot_password_modal_success_grid",
+                                            component_name: "forgot_password_modal_button_grid",
                                             props: {
                                                 size: { xs: 12, lg: 12 },
                                                 sx: {
-                                                    display: methods?.watch("submit") ? "flex" : "none"
+                                                    display: methods?.watch("submit") ? "none" : "block"
                                                 }
                                             },
                                             children: [
                                                 {
-                                                    component: "Alert",
-                                                    component_name: "forgot_password_modal_success_alert",
+                                                    component: "Button",
+                                                    component_name: "forgot_password_modal_button",
                                                     props: {
-                                                        severity: "success"
+                                                        loading: isLoading,
+                                                        fullWidth: true,
+                                                        variant: "contained",
+                                                        type: "submit"
                                                     },
-                                                    value: __("Check your email for the confirmation link, then visit the login page.", 'acadlix')
+                                                    value: __("Get New Password", 'acadlix')
                                                 }
                                             ]
-                                        }),
-                                    {
-                                        component: "Grid",
-                                        component_name: "forgot_password_modal_login_grid",
-                                        props: {
-                                            size: { xs: 12, lg: 12 },
-                                            sx: {
-                                                display: "flex",
-                                                justifyContent: "center"
-                                            }
                                         },
+                                    ]
+                                })
+                                :
+                                ({
+                                    component: "Grid",
+                                    component_name: "forgot_password_modal_success_grid",
+                                    props: {
+                                        size: { xs: 12, lg: 12 },
+                                        sx: {
+                                            display: methods?.watch("submit") ? "flex" : "none"
+                                        }
+                                    },
+                                    children: [
+                                        {
+                                            component: "Alert",
+                                            component_name: "forgot_password_modal_success_alert",
+                                            props: {
+                                                severity: "success"
+                                            },
+                                            value: __("Check your email for the confirmation link, then visit the login page.", 'acadlix')
+                                        }
+                                    ]
+                                }),
+                            {
+                                component: "Grid",
+                                component_name: "forgot_password_modal_login_grid",
+                                props: {
+                                    size: { xs: 12, lg: 12 },
+                                    sx: {
+                                        display: "flex",
+                                        justifyContent: "center"
+                                    }
+                                },
+                                children: [
+                                    {
+                                        component: "Typography",
+                                        component_name: "forgot_password_modal_login_typography",
+                                        props: { variant: "body2" },
                                         children: [
                                             {
-                                                component: "Typography",
-                                                component_name: "forgot_password_modal_login_typography",
-                                                props: { variant: "body2" },
+                                                component: "Link",
+                                                component_name: "forgot_password_modal_login_link",
+                                                props: {
+                                                    href: "#",
+                                                    onClick: (e) => {
+                                                        e?.preventDefault();
+                                                        props?.setValue("login_modal_type", "login", { shouldDirty: true });
+                                                    }
+                                                },
+                                                value: __("Login", 'acadlix')
+                                            },
+                                            {
+                                                component: "span",
+                                                component_name: "forgot_password_modal_register_span",
+                                                props: {
+                                                    style: {
+                                                        display: props?.watch("users_can_register") ? "inline" : "none"
+                                                    }
+                                                },
                                                 children: [
                                                     {
+                                                        component: "span",
+                                                        component_name: "forgot_password_modal_register_separator_span",
+                                                        value: " \u00A0|\u00A0 "
+                                                    },
+                                                    {
                                                         component: "Link",
-                                                        component_name: "forgot_password_modal_login_link",
+                                                        component_name: "forgot_password_modal_register_link",
                                                         props: {
                                                             href: "#",
                                                             onClick: (e) => {
                                                                 e?.preventDefault();
-                                                                props?.setValue("login_modal_type", "login", { shouldDirty: true });
+                                                                props?.setValue("login_modal_type", "register", { shouldDirty: true });
                                                             }
                                                         },
-                                                        value: __("Login", 'acadlix')
-                                                    },
-                                                    {
-                                                        component: "span",
-                                                        component_name: "forgot_password_modal_register_span",
-                                                        props: {
-                                                            style: {
-                                                                display: props?.watch("users_can_register") ? "inline" : "none"
-                                                            }
-                                                        },
-                                                        children: [
-                                                            {
-                                                                component: "span",
-                                                                component_name: "forgot_password_modal_register_separator_span",
-                                                                value: " \u00A0|\u00A0 "
-                                                            },
-                                                            {
-                                                                component: "Link",
-                                                                component_name: "forgot_password_modal_register_link",
-                                                                props: {
-                                                                    href: "#",
-                                                                    onClick: (e) => {
-                                                                        e?.preventDefault();
-                                                                        props?.setValue("login_modal_type", "register", { shouldDirty: true });
-                                                                    }
-                                                                },
-                                                                value: __("Register", 'acadlix')
-                                                            }
-                                                        ]
+                                                        value: __("Register", 'acadlix')
                                                     }
                                                 ]
                                             }

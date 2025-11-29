@@ -4,10 +4,11 @@ import { jsx as _jsx } from 'react/jsx-runtime'
 import domReady from '@wordpress/dom-ready';
 import { createRoot } from '@wordpress/element';
 import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
+import FrontLogin from './front/FrontLogin';
 
 (async () => {
     await loadFrontHooks(window?.acadlixHooks);
-    window.initializeQuizShortcodes = () => {
+    window.initializeShortcodes = () => {
         const shortcode = document.querySelectorAll('.acadlix-front');
         if (shortcode.length > 0) {
             shortcode.forEach((short, index) => {
@@ -31,11 +32,20 @@ import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
                 }
             });
         }
+        const loginShortcode = document.querySelectorAll('.acadlix-front-login');
+        if (loginShortcode.length > 0) {
+            loginShortcode.forEach((short, index) => {
+                if (!short.__REACT_ROOT__) {
+                    short.__REACT_ROOT__ = createRoot(short);
+                }
+                short.__REACT_ROOT__.render(<FrontLogin />);
+            });
+        }
     }
 
-    document.addEventListener('shortcodeLoaded', initializeQuizShortcodes);
+    document.addEventListener('shortcodeLoaded', initializeShortcodes);
 
-    window.initializeQuizShortcodes();
+    window.initializeShortcodes();
 
     domReady(() => {
         const dashboard = document.getElementById("acadlix_dashboard");
@@ -56,7 +66,8 @@ import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
                 mutation.addedNodes.forEach((node) => {
                     if (node.nodeType === 1) {
                         const targetElement = node.querySelector(".acadlix-front");
-                        if (targetElement) {
+                        const loginElement = node.querySelector(".acadlix-front-login");
+                        if (targetElement || loginElement) {
                             document.dispatchEvent(new Event('shortcodeLoaded'));
                             // observer.disconnect(); // Stop observing after first detection
                         }

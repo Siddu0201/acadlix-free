@@ -1,29 +1,10 @@
-import {
-  Alert,
-  Box,
-  Button,
-  DialogContent,
-  Divider,
-  IconButton,
-  InputAdornment,
-  Link,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import Grid from '@mui/material/Grid';
 import React from "react";
-import { IoClose, MdVisibility, MdVisibilityOff } from "@acadlix/helpers/icons";
-import CustomTextField from "@acadlix/components/CustomTextField";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { RawHTML } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const Register = (props) => {
-  const theme = useTheme();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const methods = useForm({
@@ -76,459 +57,416 @@ const Register = (props) => {
     component_name: "register_modal_fragment",
     children: [
       {
-        component: "IconButton",
-        component_name: "register_modal_close_icon_button",
+        component: "Box",
+        component_name: "register_modal_header_box",
         props: {
-          onClick: props?.handleClose,
           sx: {
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-            boxShadow: "none",
-          },
-        },
-        children: [
-          {
-            component: "IoClose",
-            component_name: "register_modal_close_icon",
-            props: {
-              style: {
-                fontSize: 20
-              }
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: {
+              xs: 4,
+              sm: 2,
             }
-          }
-        ]
-      },
-      {
-        component: "DialogContent",
-        component_name: "register_modal_dialog_content",
-        props: {
-          sx: {
-            paddingX: {
-              xs: `${theme.spacing(4)} !important`,
-              sm: `${theme.spacing(8)} !important`,
-            },
-            paddingY: {
-              xs: `${theme.spacing(8)} !important`,
-              sm: `${theme.spacing(4)} !important`
-            },
           }
         },
         children: [
           {
             component: "Box",
-            component_name: "register_modal_header_box",
-            props: {
-              sx: {
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: {
-                  xs: 4,
-                  sm: 2,
-                }
-              }
-            },
+            component_name: "register_modal_welcome_box",
             children: [
               {
-                component: "Box",
-                component_name: "register_modal_welcome_box",
-                children: [
-                  {
-                    component: "Typography",
-                    props: {
-                      variant: "h4",
-                    },
-                    value: __("Welcome Back", "acadlix")
-                  }
-                ]
-              },
-              {
-                component: "Box",
-                component_name: "register_modal_details_box",
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "register_modal_details_typography",
-                    props: {
-                      variant: "body2",
-                    },
-                    value: __("Please enter your details to sign up.", "acadlix")
-                  }
-                ]
-              },
-              {
-                component: "Alert",
-                component_name: "register_modal_error_alert",
+                component: "Typography",
                 props: {
-                  severity: "error",
-                  sx: {
-                    display: methods?.watch("error") ? "flex" : "none",
-                    alignItems: "center"
-                  }
+                  variant: "h4",
                 },
-                children: [
-                  {
-                    component: "RawHTML",
-                    component_name: "register_modal_error_rawhtml",
-                    value: methods?.watch("error")
-                  }
-                ]
+                value: __("Welcome Back", "acadlix")
               }
             ]
           },
           {
-            component: "Divider",
-            component_name: "register_modal_divider",
-            props: {
-              sx: {
-                marginBottom: {
-                  xs: 4,
-                  sm: 2,
-                }
+            component: "Box",
+            component_name: "register_modal_details_box",
+            children: [
+              {
+                component: "Typography",
+                component_name: "register_modal_details_typography",
+                props: {
+                  variant: "body2",
+                },
+                value: __("Please enter your details to sign up.", "acadlix")
               }
-            }
+            ]
           },
           {
-            component: "form",
-            component_name: "register_modal_form",
+            component: "Alert",
+            component_name: "register_modal_error_alert",
             props: {
-              onSubmit: methods?.handleSubmit(handleSubmit)
+              severity: "error",
+              sx: {
+                display: methods?.watch("error") ? "flex" : "none",
+                alignItems: "center"
+              }
+            },
+            children: [
+              {
+                component: "RawHTML",
+                component_name: "register_modal_error_rawhtml",
+                value: methods?.watch("error")
+              }
+            ]
+          }
+        ]
+      },
+      {
+        component: "Divider",
+        component_name: "register_modal_divider",
+        props: {
+          sx: {
+            marginBottom: {
+              xs: 4,
+              sm: 2,
+            }
+          }
+        }
+      },
+      {
+        component: "form",
+        component_name: "register_modal_form",
+        props: {
+          onSubmit: methods?.handleSubmit(handleSubmit)
+        },
+        children: [
+          {
+            component: "Grid",
+            component_name: "register_modal_form_grid",
+            props: {
+              container: true,
+              gap: { xs: 3, sm: 2 },
             },
             children: [
               {
                 component: "Grid",
-                component_name: "register_modal_form_grid",
+                component_name: "register_modal_form_grid_item_username",
                 props: {
-                  container: true,
-                  gap: { xs: 3, sm: 2 },
+                  size: { xs: 12, lg: 12 },
                 },
                 children: [
                   {
-                    component: "Grid",
-                    component_name: "register_modal_form_grid_item_username",
+                    component: "Typography",
+                    component_name: "register_modal_form_username_typography",
                     props: {
-                      size: { xs: 12, lg: 12 },
-                    },
-                    children: [
-                      {
-                        component: "Typography",
-                        component_name: "register_modal_form_username_typography",
-                        props: {
-                          variant: "body2",
-                          sx: {
-                            paddingY: 1,
-                          }
-                        },
-                        children: [
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_username_label_span",
-                            value: __("Username", "acadlix")
-                          },
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_username_required_span",
-                            props: {
-                              style: { color: "red" }
-                            },
-                            value: "*"
-                          }
-                        ]
-                      },
-                      {
-                        component: "CustomTextField",
-                        component_name: "register_modal_form_username_textfield",
-                        props: {
-                          ...methods?.register("username", { required: __('Username is required', 'acadlix') }),
-                          fullWidth: true,
-                          required: true,
-                          autoComplete: "username",
-                          autoCapitalize: "off",
-                          size: "small",
-                          type: "text",
-                          name: "username",
-                          placeholder: __("Username", 'acadlix'),
-                          value: methods?.watch("username"),
-                          onChange: (e) => {
-                            methods?.setValue("username", e?.target?.value, {
-                              shouldDirty: true,
-                            });
-                          },
-                          error: Boolean(methods?.formState?.errors?.username),
-                          helperText: methods?.formState?.errors?.username?.message,
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "register_modal_form_grid_item_email",
-                    props: {
-                      size: { xs: 12, lg: 12 },
-                    },
-                    children: [
-                      {
-                        component: "Typography",
-                        component_name: "register_modal_form_email_typography",
-                        props: {
-                          variant: "body2",
-                          sx: {
-                            paddingY: 1,
-                          }
-                        },
-                        children: [
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_email_label_span",
-                            value: __("Email", "acadlix")
-                          },
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_email_required_span",
-                            props: {
-                              style: { color: "red" }
-                            },
-                            value: "*"
-                          }
-                        ]
-                      },
-                      {
-                        component: "CustomTextField",
-                        component_name: "register_modal_form_email_textfield",
-                        props: {
-                          ...methods?.register("email", { required: __('Email is required', 'acadlix') }),
-                          fullWidth: true,
-                          required: true,
-                          autoComplete: "email",
-                          autoCapitalize: "off",
-                          size: "small",
-                          type: "email",
-                          name: "email",
-                          placeholder: __("Email", 'acadlix'),
-                          value: methods?.watch("email"),
-                          onChange: (e) => {
-                            methods?.setValue("email", e?.target?.value, {
-                              shouldDirty: true,
-                            });
-                          },
-                          error: Boolean(methods?.formState?.errors?.email),
-                          helperText: methods?.formState?.errors?.email?.message,
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "register_modal_form_grid_item_password",
-                    props: {
-                      size: { xs: 12, lg: 12 },
-                    },
-                    children: [
-                      {
-                        component: "Typography",
-                        component_name: "register_modal_form_password_typography",
-                        props: {
-                          variant: "body2",
-                          sx: {
-                            paddingY: 1,
-                          }
-                        },
-                        children: [
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_password_label_span",
-                            value: __("Password", "acadlix")
-                          },
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_password_required_span",
-                            props: {
-                              style: { color: "red" }
-                            },
-                            value: "*"
-                          }
-                        ]
-                      },
-                      {
-                        component: "PasswordTextField",
-                        component_name: "register_modal_form_password_textfield",
-                        props: {
-                          ...methods?.register("password", {
-                            required: __('Password is required', 'acadlix'),
-                            minLength: {
-                              value: 8,
-                              message: __('Password must have at least 8 characters', 'acadlix')
-                            },
-                          }),
-                          fullWidth: true,
-                          required: true,
-                          autoComplete: "password",
-                          autoCapitalize: "off",
-                          size: "small",
-                          name: "password",
-                          placeholder: __("Password", 'acadlix'),
-                          value: methods?.watch("password"),
-                          onChange: (e) => {
-                            methods?.setValue("password", e?.target?.value, {
-                              shouldDirty: true,
-                            });
-                          },
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "register_modal_form_grid_item_confirm_password",
-                    props: {
-                      size: { xs: 12, lg: 12 },
-                    },
-                    children: [
-                      {
-                        component: "Typography",
-                        component_name: "register_modal_form_confirm_password_typography",
-                        props: {
-                          variant: "body2",
-                          sx: {
-                            paddingY: 1,
-                          }
-                        },
-                        children: [
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_confirm_password_label_span",
-                            value: __("Confirm Password", "acadlix")
-                          },
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_confirm_password_required_span",
-                            props: {
-                              style: { color: "red" }
-                            },
-                            value: "*"
-                          }
-                        ]
-                      },
-                      {
-                        component: "PasswordTextField",
-                        component_name: "register_modal_form_confirm_password_textfield",
-                        props: {
-                          ...methods?.register("confirm_password", {
-                            required: __('Confirm Password is required', 'acadlix'),
-                            minLength: {
-                              value: 8,
-                              message: __('Confirm Password must have at least 8 characters', 'acadlix')
-                            },
-                            validate: (val) => {
-                              if (methods?.watch("password") != val) {
-                                return __('Your passwords do no match', 'acadlix');
-                              }
-                            }
-                          }),
-                          fullWidth: true,
-                          required: true,
-                          autoComplete: "confirm-password",
-                          autoCapitalize: "off",
-                          size: "small",
-                          name: "confirm_password",
-                          placeholder: __("Confirm Password", 'acadlix'),
-                          value: methods?.watch("confirm_password"),
-                          onChange: (e) => {
-                            methods?.setValue("confirm_password", e?.target?.value, {
-                              shouldDirty: true,
-                            });
-                          },
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "register_modal_form_grid_item_register_button",
-                    props: {
-                      size: { xs: 12, lg: 12 },
-                    },
-                    children: [
-                      {
-                        component: "Button",
-                        component_name: "register_modal_form_register_button",
-                        props: {
-                          loading: isLoading,
-                          fullWidth: true,
-                          variant: "contained",
-                          type: "submit",
-                        },
-                        value: __("Register", "acadlix")
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "register_modal_form_grid_item_login_forgot_password_links",
-                    props: {
-                      size: { xs: 12, lg: 12 },
+                      variant: "body2",
                       sx: {
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        paddingY: 1,
                       }
                     },
                     children: [
                       {
-                        component: "Typography",
-                        component_name: "register_modal_form_login_forgot_password_typography",
+                        component: "span",
+                        component_name: "register_modal_form_username_label_span",
+                        value: __("Username", "acadlix")
+                      },
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_username_required_span",
                         props: {
-                          variant: "body2",
+                          style: { color: "red" }
                         },
-                        children: [
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_already_have_account_span",
-                            value: __("Already have account? ", "acadlix")
-                          },
-                          {
-                            component: "Link",
-                            component_name: "register_modal_form_login_link",
-                            props: {
-                              href: "#",
-                              onClick: (e) => {
-                                e?.preventDefault();
-                                props?.setValue("login_modal_type", "login", {
-                                  shouldDirty: true,
-                                });
-                              },
-                              sx: {
-                                cursor: "pointer",
-                              }
-                            },
-                            value: __("Login", "acadlix")
-                          },
-                          {
-                            component: "span",
-                            component_name: "register_modal_form_separator_span",
-                            value: " | "
-                          },
-                          {
-                            component: "Link",
-                            component_name: "register_modal_form_forgot_password_link",
-                            props: {
-                              href: "#",
-                              onClick: (e) => {
-                                e?.preventDefault();
-                                props?.setValue("login_modal_type", "forgot-password", {
-                                  shouldDirty: true,
-                                });
-                              },
-                              sx: {
-                                cursor: "pointer",
-                              }
-                            },
-                            value: __("Lost your password?", "acadlix")
+                        value: "*"
+                      }
+                    ]
+                  },
+                  {
+                    component: "CustomTextField",
+                    component_name: "register_modal_form_username_textfield",
+                    props: {
+                      ...methods?.register("username", { required: __('Username is required', 'acadlix') }),
+                      fullWidth: true,
+                      required: true,
+                      autoComplete: "username",
+                      autoCapitalize: "off",
+                      size: "small",
+                      type: "text",
+                      name: "username",
+                      placeholder: __("Username", 'acadlix'),
+                      value: methods?.watch("username"),
+                      onChange: (e) => {
+                        methods?.setValue("username", e?.target?.value, {
+                          shouldDirty: true,
+                        });
+                      },
+                      error: Boolean(methods?.formState?.errors?.username),
+                      helperText: methods?.formState?.errors?.username?.message,
+                    }
+                  }
+                ]
+              },
+              {
+                component: "Grid",
+                component_name: "register_modal_form_grid_item_email",
+                props: {
+                  size: { xs: 12, lg: 12 },
+                },
+                children: [
+                  {
+                    component: "Typography",
+                    component_name: "register_modal_form_email_typography",
+                    props: {
+                      variant: "body2",
+                      sx: {
+                        paddingY: 1,
+                      }
+                    },
+                    children: [
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_email_label_span",
+                        value: __("Email", "acadlix")
+                      },
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_email_required_span",
+                        props: {
+                          style: { color: "red" }
+                        },
+                        value: "*"
+                      }
+                    ]
+                  },
+                  {
+                    component: "CustomTextField",
+                    component_name: "register_modal_form_email_textfield",
+                    props: {
+                      ...methods?.register("email", { required: __('Email is required', 'acadlix') }),
+                      fullWidth: true,
+                      required: true,
+                      autoComplete: "email",
+                      autoCapitalize: "off",
+                      size: "small",
+                      type: "email",
+                      name: "email",
+                      placeholder: __("Email", 'acadlix'),
+                      value: methods?.watch("email"),
+                      onChange: (e) => {
+                        methods?.setValue("email", e?.target?.value, {
+                          shouldDirty: true,
+                        });
+                      },
+                      error: Boolean(methods?.formState?.errors?.email),
+                      helperText: methods?.formState?.errors?.email?.message,
+                    }
+                  }
+                ]
+              },
+              {
+                component: "Grid",
+                component_name: "register_modal_form_grid_item_password",
+                props: {
+                  size: { xs: 12, lg: 12 },
+                },
+                children: [
+                  {
+                    component: "Typography",
+                    component_name: "register_modal_form_password_typography",
+                    props: {
+                      variant: "body2",
+                      sx: {
+                        paddingY: 1,
+                      }
+                    },
+                    children: [
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_password_label_span",
+                        value: __("Password", "acadlix")
+                      },
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_password_required_span",
+                        props: {
+                          style: { color: "red" }
+                        },
+                        value: "*"
+                      }
+                    ]
+                  },
+                  {
+                    component: "PasswordTextField",
+                    component_name: "register_modal_form_password_textfield",
+                    props: {
+                      ...methods?.register("password", {
+                        required: __('Password is required', 'acadlix'),
+                        minLength: {
+                          value: 8,
+                          message: __('Password must have at least 8 characters', 'acadlix')
+                        },
+                      }),
+                      fullWidth: true,
+                      required: true,
+                      autoComplete: "password",
+                      autoCapitalize: "off",
+                      size: "small",
+                      name: "password",
+                      placeholder: __("Password", 'acadlix'),
+                      value: methods?.watch("password"),
+                      onChange: (e) => {
+                        methods?.setValue("password", e?.target?.value, {
+                          shouldDirty: true,
+                        });
+                      },
+                    }
+                  }
+                ]
+              },
+              {
+                component: "Grid",
+                component_name: "register_modal_form_grid_item_confirm_password",
+                props: {
+                  size: { xs: 12, lg: 12 },
+                },
+                children: [
+                  {
+                    component: "Typography",
+                    component_name: "register_modal_form_confirm_password_typography",
+                    props: {
+                      variant: "body2",
+                      sx: {
+                        paddingY: 1,
+                      }
+                    },
+                    children: [
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_confirm_password_label_span",
+                        value: __("Confirm Password", "acadlix")
+                      },
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_confirm_password_required_span",
+                        props: {
+                          style: { color: "red" }
+                        },
+                        value: "*"
+                      }
+                    ]
+                  },
+                  {
+                    component: "PasswordTextField",
+                    component_name: "register_modal_form_confirm_password_textfield",
+                    props: {
+                      ...methods?.register("confirm_password", {
+                        required: __('Confirm Password is required', 'acadlix'),
+                        minLength: {
+                          value: 8,
+                          message: __('Confirm Password must have at least 8 characters', 'acadlix')
+                        },
+                        validate: (val) => {
+                          if (methods?.watch("password") != val) {
+                            return __('Your passwords do no match', 'acadlix');
                           }
-                        ]
+                        }
+                      }),
+                      fullWidth: true,
+                      required: true,
+                      autoComplete: "confirm-password",
+                      autoCapitalize: "off",
+                      size: "small",
+                      name: "confirm_password",
+                      placeholder: __("Confirm Password", 'acadlix'),
+                      value: methods?.watch("confirm_password"),
+                      onChange: (e) => {
+                        methods?.setValue("confirm_password", e?.target?.value, {
+                          shouldDirty: true,
+                        });
+                      },
+                    }
+                  }
+                ]
+              },
+              {
+                component: "Grid",
+                component_name: "register_modal_form_grid_item_register_button",
+                props: {
+                  size: { xs: 12, lg: 12 },
+                },
+                children: [
+                  {
+                    component: "Button",
+                    component_name: "register_modal_form_register_button",
+                    props: {
+                      loading: isLoading,
+                      fullWidth: true,
+                      variant: "contained",
+                      type: "submit",
+                    },
+                    value: __("Register", "acadlix")
+                  }
+                ]
+              },
+              {
+                component: "Grid",
+                component_name: "register_modal_form_grid_item_login_forgot_password_links",
+                props: {
+                  size: { xs: 12, lg: 12 },
+                  sx: {
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }
+                },
+                children: [
+                  {
+                    component: "Typography",
+                    component_name: "register_modal_form_login_forgot_password_typography",
+                    props: {
+                      variant: "body2",
+                    },
+                    children: [
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_already_have_account_span",
+                        value: __("Already have account? ", "acadlix")
+                      },
+                      {
+                        component: "Link",
+                        component_name: "register_modal_form_login_link",
+                        props: {
+                          href: "#",
+                          onClick: (e) => {
+                            e?.preventDefault();
+                            props?.setValue("login_modal_type", "login", {
+                              shouldDirty: true,
+                            });
+                          },
+                          sx: {
+                            cursor: "pointer",
+                          }
+                        },
+                        value: __("Login", "acadlix")
+                      },
+                      {
+                        component: "span",
+                        component_name: "register_modal_form_separator_span",
+                        value: " | "
+                      },
+                      {
+                        component: "Link",
+                        component_name: "register_modal_form_forgot_password_link",
+                        props: {
+                          href: "#",
+                          onClick: (e) => {
+                            e?.preventDefault();
+                            props?.setValue("login_modal_type", "forgot-password", {
+                              shouldDirty: true,
+                            });
+                          },
+                          sx: {
+                            cursor: "pointer",
+                          }
+                        },
+                        value: __("Lost your password?", "acadlix")
                       }
                     ]
                   }

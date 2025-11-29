@@ -26,6 +26,7 @@ class Manager
         add_action('wp_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
+        add_shortcode('acadlix_login', [$this, 'add_shortcode_login']);
         // add_shortcode('Acadlix_Dashboard', [$this, 'acadlix_dashboard_shortcode']);
         // add_shortcode('Acadlix_Advance_Quiz', [$this, 'acadlix_advance_quiz_shortcode']);
 
@@ -103,6 +104,21 @@ class Manager
             $content = ob_get_contents();
             ob_get_clean();
         }
+        return $content;
+    }
+
+    public function add_shortcode_login()
+    {
+        $content = '';
+        $user_id = get_current_user_id();
+        ob_start();
+        if (!$user_id) {
+            ?>
+            <div class="acadlix-front-login"></div>
+            <?php
+        }
+        $content = ob_get_contents();
+        ob_get_clean();
         return $content;
     }
 
@@ -585,7 +601,7 @@ class Manager
 
         acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
 
-        if (is_singular(ACADLIX_COURSE_CPT) || is_post_type_archive( ACADLIX_COURSE_CPT )) {
+        if (is_singular(ACADLIX_COURSE_CPT) || is_post_type_archive(ACADLIX_COURSE_CPT)) {
             acadlix()->assets()->manager()->load_assets('front_button_listener', $this->localize_front_button_listener_js_options(), 'acadlixListeners');
         }
     }
