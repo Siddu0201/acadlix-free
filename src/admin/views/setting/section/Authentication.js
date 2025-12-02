@@ -90,66 +90,72 @@ const Authentication = (props) => {
                                             },
                                         ],
                                     },
-                                    {
-                                        component: "Grid",
-                                        props: {
-                                            size: { xs: 12, sm: 6, lg: 3 },
-                                        },
+                                    props?.watch("acadlix_enable_fraud_protection") === "yes" && ({
+                                        component: "Fragment",
+                                        component_name: "setting_authentication_fraud_protection_keys_fragment",
                                         children: [
                                             {
-                                                component: "CustomTypography",
-                                                value: __("v3 Site Key", "acadlix"),
-                                            }
-                                        ],
-                                    },
-                                    {
-                                        component: "Grid",
-                                        props: {
-                                            size: { xs: 12, sm: 6, lg: 9 },
-                                        },
-                                        children: [
-                                            {
-                                                component: "PasswordTextField",
+                                                component: "Grid",
                                                 props: {
-                                                    fullWidth: true,
-                                                    size: "small",
-                                                    label: __("Enter v3 Site Key", "acadlix"),
-                                                    value: props?.watch("acadlix_v3_site_key"),
-                                                    onChange: (e) => props?.setValue("acadlix_v3_site_key", e.target.value, { shouldDirty: true }),
+                                                    size: { xs: 12, sm: 6, lg: 3 },
                                                 },
-                                            }
-                                        ],
-                                    },
-                                    {
-                                        component: "Grid",
-                                        props: {
-                                            size: { xs: 12, sm: 6, lg: 3 },
-                                        },
-                                        children: [
+                                                children: [
+                                                    {
+                                                        component: "CustomTypography",
+                                                        value: __("v3 Site Key", "acadlix"),
+                                                    }
+                                                ],
+                                            },
                                             {
-                                                component: "CustomTypography",
-                                                value: __("v3 Secret Key", "acadlix"),
-                                            }
-                                        ],
-                                    },
-                                    {
-                                        component: "Grid",
-                                        props: {
-                                            size: { xs: 12, sm: 6, lg: 9 },
-                                        },
-                                        children: [
-                                            {
-                                                component: "PasswordTextField",
+                                                component: "Grid",
                                                 props: {
-                                                    fullWidth: true,
-                                                    size: "small",
-                                                    label: __("Enter v3 Secret Key", "acadlix"),
-                                                    value: props?.watch("acadlix_v3_secret_key"),
-                                                    onChange: (e) => props?.setValue("acadlix_v3_secret_key", e.target.value, { shouldDirty: true }),
+                                                    size: { xs: 12, sm: 6, lg: 9 },
                                                 },
-                                            }
-                                        ],
-                                    },
+                                                children: [
+                                                    {
+                                                        component: "PasswordTextField",
+                                                        props: {
+                                                            fullWidth: true,
+                                                            size: "small",
+                                                            label: __("Enter v3 Site Key", "acadlix"),
+                                                            value: props?.watch("acadlix_v3_site_key"),
+                                                            onChange: (e) => props?.setValue("acadlix_v3_site_key", e.target.value, { shouldDirty: true }),
+                                                        },
+                                                    }
+                                                ],
+                                            },
+                                            {
+                                                component: "Grid",
+                                                props: {
+                                                    size: { xs: 12, sm: 6, lg: 3 },
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "CustomTypography",
+                                                        value: __("v3 Secret Key", "acadlix"),
+                                                    }
+                                                ],
+                                            },
+                                            {
+                                                component: "Grid",
+                                                props: {
+                                                    size: { xs: 12, sm: 6, lg: 9 },
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "PasswordTextField",
+                                                        props: {
+                                                            fullWidth: true,
+                                                            size: "small",
+                                                            label: __("Enter v3 Secret Key", "acadlix"),
+                                                            value: props?.watch("acadlix_v3_secret_key"),
+                                                            onChange: (e) => props?.setValue("acadlix_v3_secret_key", e.target.value, { shouldDirty: true }),
+                                                        },
+                                                    }
+                                                ],
+                                            },
+                                        ]
+                                    })
                                 ],
                             }
                         ],
