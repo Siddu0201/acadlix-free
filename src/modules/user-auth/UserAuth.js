@@ -130,6 +130,7 @@ const LoginContent = ({
 
   const defaultSetting = {
     component: "Fragment",
+    component_name: "login_content_fragment",
     children: [
       methods?.watch("login_modal_type") === "login" && ({
         component: <Login
@@ -139,7 +140,8 @@ const LoginContent = ({
           nonce={nonce}
           handleClose={handleClose}
           onSuccessLogin={onSuccessLogin}
-        />
+        />,
+        component_name: "login_component",
       }),
       methods?.watch("login_modal_type") === "register" && ({
         component: <Register
@@ -149,7 +151,8 @@ const LoginContent = ({
           nonce={nonce}
           handleClose={handleClose}
           onSuccessRegister={onSuccessRegister}
-        />
+        />,
+        component_name: "register_component",
       }),
       methods?.watch("login_modal_type") === "forgot-password" && ({
         component: <ForgotPassword
@@ -159,7 +162,8 @@ const LoginContent = ({
           nonce={nonce}
           handleClose={handleClose}
           onSuccessForgotPassword={onSuccessForgotPassword}
-        />
+        />,
+        component_name: "forgot_password_component",
       })
     ]
   }
