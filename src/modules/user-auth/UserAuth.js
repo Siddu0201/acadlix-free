@@ -6,6 +6,7 @@ import Register from './modal/Register';
 import ForgotPassword from './modal/ForgotPassword';
 import PropTypes from 'prop-types';
 import { IoClose } from '@acadlix/helpers/icons';
+import { DynamicMUIRenderer } from '../extensions/muiRecursiveRenderer';
 
 const UserAuth = ({
   isModal = true,
@@ -126,10 +127,12 @@ const LoginContent = ({
   onSuccessRegister,
   onSuccessForgotPassword,
 }) => {
-  return (
-    <React.Fragment>
-      {methods?.watch("login_modal_type") === "login" && (
-        <Login
+
+  const defaultSetting = {
+    component: "Fragment",
+    children: [
+      methods?.watch("login_modal_type") === "login" && ({
+        component: <Login
           {...methods}
           isModal={isModal}
           ajax_url={ajax_url}
@@ -137,9 +140,9 @@ const LoginContent = ({
           handleClose={handleClose}
           onSuccessLogin={onSuccessLogin}
         />
-      )}
-      {methods?.watch("login_modal_type") === "register" && (
-        <Register
+      }),
+      methods?.watch("login_modal_type") === "register" && ({
+        component: <Register
           {...methods}
           isModal={isModal}
           ajax_url={ajax_url}
@@ -147,9 +150,9 @@ const LoginContent = ({
           handleClose={handleClose}
           onSuccessRegister={onSuccessRegister}
         />
-      )}
-      {methods?.watch("login_modal_type") === "forgot-password" && (
-        <ForgotPassword
+      }),
+      methods?.watch("login_modal_type") === "forgot-password" && ({
+        component: <ForgotPassword
           {...methods}
           isModal={isModal}
           ajax_url={ajax_url}
@@ -157,9 +160,77 @@ const LoginContent = ({
           handleClose={handleClose}
           onSuccessForgotPassword={onSuccessForgotPassword}
         />
-      )}
-    </React.Fragment>
+      })
+    ]
+  }
+
+  const settings = window?.acadlixHooks?.applyFilters?.(
+    'acadlix.front.user_auth.modal.settings',
+    [defaultSetting],
+    {
+      methods,
+      isModal,
+      ajax_url,
+      nonce,
+      handleClose,
+      onSuccessLogin,
+      onSuccessRegister,
+      onSuccessForgotPassword,
+    }
+  );
+
+  return (
+    <>
+      {settings?.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            index={i}
+            formProps={{
+              register: methods?.register,
+              control: methods?.control,
+              watch: methods?.watch,
+              setValue: methods?.setValue,
+            }}
+          />
+        </React.Fragment>
+      ))}
+    </>
   )
+  // return (
+  //   <React.Fragment>
+  //     {methods?.watch("login_modal_type") === "login" && (
+  //       <Login
+  //         {...methods}
+  //         isModal={isModal}
+  //         ajax_url={ajax_url}
+  //         nonce={nonce}
+  //         handleClose={handleClose}
+  //         onSuccessLogin={onSuccessLogin}
+  //       />
+  //     )}
+  //     {methods?.watch("login_modal_type") === "register" && (
+  //       <Register
+  //         {...methods}
+  //         isModal={isModal}
+  //         ajax_url={ajax_url}
+  //         nonce={nonce}
+  //         handleClose={handleClose}
+  //         onSuccessRegister={onSuccessRegister}
+  //       />
+  //     )}
+  //     {methods?.watch("login_modal_type") === "forgot-password" && (
+  //       <ForgotPassword
+  //         {...methods}
+  //         isModal={isModal}
+  //         ajax_url={ajax_url}
+  //         nonce={nonce}
+  //         handleClose={handleClose}
+  //         onSuccessForgotPassword={onSuccessForgotPassword}
+  //       />
+  //     )}
+  //   </React.Fragment>
+  // )
 }
 
 UserAuth.propTypes = {
