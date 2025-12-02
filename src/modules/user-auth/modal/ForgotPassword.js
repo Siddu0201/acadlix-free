@@ -29,7 +29,7 @@ const ForgotPassword = (props) => {
         ...data
       }))
       .then((res) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.forgot_password.response', res);
+        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.forgot_password.response', res, props);
         setIsLoading(false);
         if (res?.data?.success) {
           methods?.setValue("submit", true, { shouldDirty: true });
@@ -41,7 +41,7 @@ const ForgotPassword = (props) => {
         }
       })
       .catch((err) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.forgot_password.error', err);
+        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.forgot_password.error', err, props);
         setIsLoading(false);
         methods?.setValue("error", __("Opps! Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);

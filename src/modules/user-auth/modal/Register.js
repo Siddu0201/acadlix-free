@@ -34,7 +34,7 @@ const Register = (props) => {
         })
       )
       .then((res) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.register.response', res);
+        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.register.response', res, props);
         setIsLoading(false);
         if (res?.data?.success) {
           if (props?.onSuccessRegister) {
@@ -47,7 +47,7 @@ const Register = (props) => {
         }
       })
       .catch((err) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.register.error', err);
+        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.register.error', err, props);
         setIsLoading(false);
         methods?.setValue("error", __("Opps!Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);
