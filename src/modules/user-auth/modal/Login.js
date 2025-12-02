@@ -25,7 +25,7 @@ const Login = (props) => {
       data['g-recaptcha-response'] = response;
     }
     axios
-      .post(
+      .post(  
         props?.ajax_url,
         new URLSearchParams({
           action: "acadlix_login",
@@ -34,8 +34,13 @@ const Login = (props) => {
         })
       )
       .then((res) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.login.response', res, props);
         setIsLoading(false);
+        // Allow hooks to handle the response and control whether to continue
+        const shouldContinue = window?.acadlixHooks?.applyFilters?.('acadlix.front.user_auth.login.response', true, res, props);
+        
+        if (!shouldContinue) {
+          return; // Stop here if hook handled it
+        }
         if (res?.data?.success) {
           if (props?.onSuccessLogin) {
             props?.onSuccessLogin(res?.data?.data);
@@ -48,8 +53,11 @@ const Login = (props) => {
         }
       })
       .catch((err) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.login.error', err, props);
         setIsLoading(false);
+        const shouldContinue = window?.acadlixHooks?.applyFilters?.('acadlix.front.user_auth.login.error', true, err, props);
+        if (!shouldContinue) {
+          return; // Stop here if hook handled it
+        }
         methods?.setValue("error", __("Opps! Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);
       });

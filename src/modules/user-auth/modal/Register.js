@@ -34,8 +34,12 @@ const Register = (props) => {
         })
       )
       .then((res) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.register.response', res, props);
         setIsLoading(false);
+        const shouldContinue = window?.acadlixHooks?.applyFilters?.('acadlix.front.user_auth.register.response', true, res, props);
+        
+        if (!shouldContinue) {
+          return; // Stop here if hook handled it
+        }
         if (res?.data?.success) {
           if (props?.onSuccessRegister) {
             props?.onSuccessRegister(res?.data?.data);
@@ -47,8 +51,11 @@ const Register = (props) => {
         }
       })
       .catch((err) => {
-        window?.acadlixHooks?.doAction?.('acadlix.front.user_auth.register.error', err, props);
         setIsLoading(false);
+        const shouldContinue = window?.acadlixHooks?.applyFilters?.('acadlix.front.user_auth.register.error', true, err, props);
+        if (!shouldContinue) {
+          return; // Stop here if hook handled it
+        }
         methods?.setValue("error", __("Opps!Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);
       });
