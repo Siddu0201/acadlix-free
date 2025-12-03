@@ -4,9 +4,12 @@ import { Box, Button } from '@mui/material';
 import { MdFileCopy } from '@acadlix/helpers/icons';
 import CustomTypography from "@acadlix/components/CustomTypography";
 import toast from "react-hot-toast";
+import PropTypes from 'prop-types';
 
 const CustomCopyableText = ({
-    value = ''
+    value = '',
+    successMessage = __("Webhook URL copied to clipboard!", "acadlix"),
+    errorMessage = __("Failed to copy text: ", "acadlix"),
 }) => {
     return (
         <Box
@@ -35,10 +38,10 @@ const CustomCopyableText = ({
                     navigator?.clipboard
                         ?.writeText(value)
                         .then(function () {
-                            toast.success(__("Webhook URL copied to clipboard!", "acadlix"));
+                            toast.success(successMessage);
                         })
                         .catch(function (err) {
-                            console.error(__("Failed to copy text: ", "acadlix"), err);
+                            console.error(errorMessage, err);
                         });
                 }}
             >
@@ -48,4 +51,11 @@ const CustomCopyableText = ({
     )
 }
 
+
 export default CustomCopyableText
+
+CustomCopyableText.propTypes = {
+    value: PropTypes.string.isRequired,
+    successMessage: PropTypes.string,
+    errorMessage: PropTypes.string,
+};

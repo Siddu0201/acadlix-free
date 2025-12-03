@@ -13,6 +13,77 @@ const Authentication = (props) => {
                 children: [
                     {
                         component: "Box",
+                        component_name: "setting_authentication_login_option_card_box",
+                        children: [
+                            {
+                                component: "Box",
+                                component_name: "setting_authentication_login_option_card_box_header",
+                                props: {
+                                    sx: {
+                                        marginY: 2,
+                                    },
+                                },
+                                children: [
+                                    {
+                                        component: "Typography",
+                                        component_name: "setting_authentication_login_option_card_title",
+                                        props: {
+                                            variant: "h4",
+                                        },
+                                        value: __("Login Options", "acadlix"),
+                                    },
+                                    {
+                                        component: "Divider",
+                                    },
+                                ],
+                            },
+                            {
+                                component: "Grid",
+                                props: {
+                                    container: true,
+                                    spacing: {
+                                        xs: 2,
+                                        sm: 4,
+                                    },
+                                    sx: {
+                                        alignItems: "center",
+                                    },
+                                },
+                                children: [
+                                    {
+                                        component: "Grid",
+                                        props: {
+                                            size: { xs: 12, sm: 6, lg: 3 },
+                                        },
+                                        children: [
+                                            {
+                                                component: "CustomTypography",
+                                                value: __("Login Shortcode", "acadlix"),
+                                            }
+                                        ],
+                                    },
+                                    {
+                                        component: "Grid",
+                                        props: {
+                                            size: { xs: 12, sm: 6, lg: 4 },
+                                        },
+                                        children: [
+                                            {
+                                                component: "CustomCopyableText",
+                                                props: {
+                                                    value: "[acadlix_login]",
+                                                    successMessage: __("Login shortcode copied to clipboard!", "acadlix"),
+                                                    errorMessage: __("Failed to copy login shortcode: ", "acadlix"),
+                                                },
+                                            }
+                                        ],
+                                    },
+                                ],
+                            }
+                        ],
+                    },
+                    {
+                        component: "Box",
                         component_name: "setting_authentication_card_box",
                         children: [
                             {
