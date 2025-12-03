@@ -68,6 +68,8 @@ const CategoryTemplateSection = (props) => {
     "id",
     "load_template_id",
     "templates",
+    "quizzes",
+    "prerequisite",
   ];
 
   const handleEditorContent = (key, value) => {
