@@ -497,6 +497,7 @@ const Register = (props) => {
       watch: methods?.watch,
       setValue: methods?.setValue,
       handleSubmit: handleSubmit,
+      props: props,
     }
   );
 

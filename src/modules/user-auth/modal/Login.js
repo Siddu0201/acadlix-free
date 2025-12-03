@@ -457,6 +457,7 @@ const Login = (props) => {
       watch: methods?.watch,
       setValue: methods?.setValue,
       handleSubmit: methods?.handleSubmit,
+      props: props,
     }
   );
 

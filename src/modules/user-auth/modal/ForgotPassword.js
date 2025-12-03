@@ -280,6 +280,7 @@ const ForgotPassword = (props) => {
       setValue: methods?.setValue,
       control: methods?.control,
       handleSubmit: handleSubmit,
+      props: props,
     }
   );
 
