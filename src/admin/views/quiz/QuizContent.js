@@ -36,7 +36,11 @@ const QuizContent = (props) => {
     languages: props?.quiz?.languages?.map(l => l?.term_id) ?? [],
     quizzes: props?.quizzes ?? [],
     prerequisite: props?.prerequisites
-      ? props?.prerequisites?.map(p => ({ ID: p?.prerequisite_id, post_title: p?.quiz_title }))
+      ? props?.prerequisites?.map(p => ({
+        ID: p?.prerequisite_id,
+        post_title: p?.quiz_title,
+        meta: p?.meta,
+      }))
       : [],
     meta: {
       mode: props?.quiz?.rendered_metas?.mode ?? "normal", // normal/check_and_continue/question_below_each_other/advance_mode
@@ -186,15 +190,15 @@ const QuizContent = (props) => {
   }
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters(
-        "acadlix.admin.quiz.defaultValues",
-        baseSettings,
-        {
-          quiz: props?.quiz,
-          categories: props?.categories,
-          templates: props?.templates,
-          prerequisites: props?.prerequisites,
-        }
-    ) ?? baseSettings;
+    "acadlix.admin.quiz.defaultValues",
+    baseSettings,
+    {
+      quiz: props?.quiz,
+      categories: props?.categories,
+      templates: props?.templates,
+      prerequisites: props?.prerequisites,
+    }
+  ) ?? baseSettings;
   const methods = useForm({
     defaultValues: filteredDefaults,
   });
