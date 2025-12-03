@@ -82,6 +82,13 @@ class Ajax
                 'user' => $user
             ], $user);
 
+            if ($after_auth instanceof WP_Error) {
+                wp_send_json_error([
+                    'error_stage' => 'after_authenticate',
+                    'message' => $after_auth->get_error_message(),
+                ]);
+            }
+
             if (!$after_auth['allow_login']) {
                 // PRO plugin will return custom JSON (e.g., MFA REQUIRED)
                 wp_send_json_success($after_auth);
@@ -109,6 +116,13 @@ class Ajax
                     'display_name' => $user->display_name,
                 ]
             ], $user);
+
+            if ($response instanceof WP_Error) {
+                wp_send_json_error([
+                    'error_stage' => 'final_response',
+                    'message' => $response->get_error_message(),
+                ]);
+            }
 
             wp_send_json_success($response);
         } catch (\Throwable $th) {
@@ -182,7 +196,18 @@ class Ajax
              * 5. AUTO-LOGIN CONTROL
              *    PRO plugin can disable auto-login (e.g., require email verification)
              */
-            $auto_login = apply_filters('acadlix_register_auto_login', true, $user_id);
+            $auto_login = apply_filters(
+                'acadlix_register_auto_login',
+                true,
+                $user_id
+            );
+
+            if($auto_login instanceof WP_Error){
+                wp_send_json_error([
+                    'error_stage' => 'auto_login_check',
+                    'message' => $auto_login->get_error_message(),
+                ]);
+            }
 
             if ($auto_login) {
                 wp_set_auth_cookie($user_id, true);
@@ -196,6 +221,13 @@ class Ajax
                 'auto_login' => $auto_login,
                 'message' => __('Registration successful', 'acadlix'),
             ], $user_id);
+
+            if($response instanceof WP_Error){
+                wp_send_json_error([
+                    'error_stage' => 'final_response',
+                    'message' => $response->get_error_message(),
+                ]);
+            }
 
             wp_send_json_success($response);
 
@@ -248,7 +280,7 @@ class Ajax
 
     public function acadlix_verify_captcha($return)
     {
-        if(!acadlix()->authentications()->recaptchav3()->is_enabled()){
+        if (!acadlix()->authentications()->recaptchav3()->is_enabled()) {
             return $return; // skip if captcha not enabled
         }
         if (empty($_POST['g-recaptcha-response'])) {
