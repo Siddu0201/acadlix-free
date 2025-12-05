@@ -41,20 +41,17 @@ const RazorPay = (props) => {
                             },
                             {
                                 component: "FormControlLabel",
-                                component_name: "razorpay_default_gateway_switch",
+                                component_name: "razorpay_enable_switch",
                                 props: {
-                                    label: __("Default", "acadlix"),
-                                    value: "razorpay",
-                                    checked: props?.watch("acadlix_default_payment_gateway") === "razorpay",
-                                    control: {
-                                        component: "CustomSwitch",
-                                        props: {},
-                                    },
+                                    label: __("Enable RazorPay", "acadlix"),
+                                    value: "yes",
+                                    checked: props?.watch("acadlix_razorpay_active") === "yes",
+                                    control: { component: "CustomSwitch", props: {} },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_default_payment_gateway",
-                                                e?.target?.checked ? e?.target?.value : "",
+                                                "acadlix_razorpay_active",
+                                                e?.target?.checked ? e?.target?.value : "no",
                                                 { shouldDirty: true }
                                             );
                                         }
@@ -69,7 +66,7 @@ const RazorPay = (props) => {
                     },
                 ],
             },
-            {
+            (props?.watch("acadlix_razorpay_active") === "yes" && {
                 component: "Grid",
                 component_name: "razorpay_main_grid",
                 props: {
@@ -96,47 +93,51 @@ const RazorPay = (props) => {
                             },
                         ],
                     },
-                    // 🔹 Enable Razorpay
+                    // 🔹 Make Default Razorpay
                     {
                         component: "Grid",
-                        component_name: "razorpay_enable_label_grid",
+                        component_name: "razorpay_make_default_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                component_name: "razorpay_enable_label",
-                                value: __("Enable RazorPay", "acadlix"),
+                                component_name: "razorpay_make_default_label",
+                                value: __("Make Default", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
-                        component_name: "razorpay_enable_switch_grid",
+                        component_name: "razorpay_make_default_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
-                                component_name: "razorpay_enable_switch",
+                                component_name: "razorpay_default_gateway_switch",
                                 props: {
-                                    label: __("Activate", "acadlix"),
-                                    value: "yes",
-                                    checked: props?.watch("acadlix_razorpay_active") === "yes",
-                                    control: { component: "CustomSwitch", props: {} },
+                                    label: __("Default", "acadlix"),
+                                    value: "razorpay",
+                                    checked: props?.watch("acadlix_default_payment_gateway") === "razorpay",
+                                    control: {
+                                        component: "CustomSwitch",
+                                        props: {},
+                                    },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_razorpay_active",
-                                                e?.target?.checked ? e?.target?.value : "no",
+                                                "acadlix_default_payment_gateway",
+                                                e?.target?.checked ? e?.target?.value : "",
                                                 { shouldDirty: true }
                                             );
                                         }
                                     },
                                 },
                             },
+
                         ],
                     },
                     {
@@ -297,7 +298,7 @@ const RazorPay = (props) => {
                         ],
                     },
                 ],
-            },
+            }),
         ]
     };
 

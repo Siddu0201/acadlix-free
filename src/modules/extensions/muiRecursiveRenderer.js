@@ -58,6 +58,8 @@ import CustomCopyableText from "@acadlix/components/CustomCopyableText";
 import { DataGrid } from "@mui/x-data-grid";
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from "@mui/lab";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
+import MimeAutocomplete from "@acadlix/components/MimeAutocomplete";
+import CustomWpEditor from "@acadlix/components/CustomWpEditor";
 
 const HTML_COMPONENTS = [
   "form",
@@ -153,6 +155,8 @@ const COMPONENT_MAP = {
   PasswordTextField,
   CustomCopyableText,
   CustomRefresh,
+  MimeAutocomplete,
+  CustomWpEditor,
   RawHTML,
   Fragment: React.Fragment,
   Suspense: React.Suspense,

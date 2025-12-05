@@ -64,6 +64,9 @@ class Submenu_Settings
 
     public function admin_print_scripts()
     {
+        wp_enqueue_editor();
+        wp_enqueue_media();
+        
         acadlix()->assets()->manager()->load_assets('admin_setting', $this->localize_options());
         // wp_enqueue_style("acadlix-admin-setting-css");
 

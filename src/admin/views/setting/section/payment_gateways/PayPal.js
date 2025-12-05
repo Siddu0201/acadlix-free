@@ -41,20 +41,20 @@ const PayPal = (props) => {
                             },
                             {
                                 component: "FormControlLabel",
-                                component_name: "paypal_default_gateway_switch",
+                                component_name: "paypal_active_switch",
                                 props: {
-                                    label: __("Default", "acadlix"),
-                                    value: "paypal",
-                                    checked: props?.watch("acadlix_default_payment_gateway") === "paypal",
+                                    label: __("Enable PayPal", "acadlix"),
+                                    value: "yes",
+                                    checked: props?.watch("acadlix_paypal_active") === "yes",
                                     control: {
                                         component: "CustomSwitch",
-                                        props: {},
+                                        props: {}
                                     },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_default_payment_gateway",
-                                                e?.target?.checked ? e?.target?.value : "",
+                                                "acadlix_paypal_active",
+                                                e?.target?.checked ? e?.target?.value : "no",
                                                 { shouldDirty: true }
                                             );
                                         }
@@ -69,7 +69,7 @@ const PayPal = (props) => {
                     },
                 ],
             },
-            {
+            props?.watch("acadlix_paypal_active") === "yes" && ({
                 component: "Grid",
                 component_name: "paypal_main_grid",
                 props: {
@@ -96,44 +96,44 @@ const PayPal = (props) => {
                             },
                         ],
                     },
-                    // 🔹 Enable PayPal
+                    // 🔹 Make Default
                     {
                         component: "Grid",
-                        component_name: "paypal_enable_label_grid",
+                        component_name: "paypal_make_default_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                component_name: "paypal_enable_label",
-                                value: __("Enable PayPal", "acadlix"),
+                                component_name: "paypal_make_default_label",
+                                value: __("Make Default", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
-                        component_name: "paypal_enable_switch_grid",
+                        component_name: "paypal_make_default_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
-                                component_name: "paypal_enable_switch",
+                                component_name: "paypal_make_default_switch",
                                 props: {
-                                    label: __("Activate", "acadlix"),
-                                    value: "yes",
-                                    checked: props?.watch("acadlix_paypal_active") === "yes",
+                                    label: __("Default", "acadlix"),
+                                    value: "paypal",
+                                    checked: props?.watch("acadlix_default_payment_gateway") === "paypal",
                                     control: {
                                         component: "CustomSwitch",
-                                        props: {}
+                                        props: {},
                                     },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_paypal_active",
-                                                e?.target?.checked ? e?.target?.value : "no",
+                                                "acadlix_default_payment_gateway",
+                                                e?.target?.checked ? e?.target?.value : "",
                                                 { shouldDirty: true }
                                             );
                                         }
@@ -333,7 +333,7 @@ const PayPal = (props) => {
                         ],
                     },
                 ],
-            },
+            }),
         ]
     };
 

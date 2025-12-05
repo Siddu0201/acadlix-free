@@ -41,20 +41,17 @@ const PayU = (props) => {
                             },
                             {
                                 component: "FormControlLabel",
-                                component_name: "payu_default_gateway_switch",
+                                component_name: "payu_enable_switch",
                                 props: {
-                                    label: __("Default", "acadlix"),
-                                    value: "payu",
-                                    checked: props?.watch("acadlix_default_payment_gateway") === "payu",
-                                    control: {
-                                        component: "CustomSwitch",
-                                        props: {},
-                                    },
+                                    label: __("Enable PayU", "acadlix"),
+                                    value: "yes",
+                                    checked: props?.watch("acadlix_payu_active") === "yes",
+                                    control: { component: "CustomSwitch", props: {} },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_default_payment_gateway",
-                                                e?.target?.checked ? e?.target?.value : "",
+                                                "acadlix_payu_active",
+                                                e?.target?.checked ? e?.target?.value : "no",
                                                 { shouldDirty: true }
                                             );
                                         }
@@ -69,7 +66,7 @@ const PayU = (props) => {
                     },
                 ],
             },
-            {
+            props?.watch("acadlix_payu_active") === "yes" && ({
                 component: "Grid",
                 component_name: "payu_main_grid",
                 props: {
@@ -96,41 +93,45 @@ const PayU = (props) => {
                             },
                         ],
                     },
-                    // 🔹 Enable PayU
+                    // 🔹 Make Default PayU
                     {
                         component: "Grid",
-                        component_name: "payu_enable_label_grid",
+                        component_name: "payu_make_default_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                component_name: "payu_enable_label",
-                                value: __("Enable PayU", "acadlix"),
+                                component_name: "payu_make_default_label",
+                                value: __("Make Default", "acadlix"),
                             },
                         ],
                     },
+
                     {
                         component: "Grid",
-                        component_name: "payu_enable_switch_grid",
+                        component_name: "payu_make_default_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
-                                component_name: "payu_enable_switch",
+                                component_name: "payu_default_gateway_switch",
                                 props: {
-                                    label: __("Activate", "acadlix"),
-                                    value: "yes",
-                                    checked: props?.watch("acadlix_payu_active") === "yes",
-                                    control: { component: "CustomSwitch", props: {} },
+                                    label: __("Default", "acadlix"),
+                                    value: "payu",
+                                    checked: props?.watch("acadlix_default_payment_gateway") === "payu",
+                                    control: {
+                                        component: "CustomSwitch",
+                                        props: {},
+                                    },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_payu_active",
-                                                e?.target?.checked ? e?.target?.value : "no",
+                                                "acadlix_default_payment_gateway",
+                                                e?.target?.checked ? e?.target?.value : "",
                                                 { shouldDirty: true }
                                             );
                                         }
@@ -292,8 +293,8 @@ const PayU = (props) => {
                         ],
                     },
                 ],
-            },
-        ],
+            }),
+        ],  
     };
 
     // 🔹 Apply WordPress-style filter for extensibility

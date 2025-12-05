@@ -137,8 +137,16 @@ const SettingContent = ({
       options?.acadlix_stripe_webhook_signature_key ?? "",
     acadlix_stripe_sandbox:
       options?.acadlix_stripe_sandbox ?? "no",
-    acadlix_offline_payment:
-      options?.acadlix_offline_payment ?? "no",
+    acadlix_offline_active:
+      options?.acadlix_offline_active ?? "no",
+    acadlix_offline_instructions:
+      options?.acadlix_offline_instructions ?? "",
+    acadlix_offline_enable_file_upload:
+      options?.acadlix_offline_enable_file_upload ?? "no",
+    acadlix_offline_max_upload_file_size:
+      options?.acadlix_offline_max_upload_file_size ?? 2,
+    acadlix_offline_allowed_mime_types:
+      options?.acadlix_offline_allowed_mime_types ?? [],
     // Notification option
     acadlix_notify_course_purchase_to_student:
       options?.acadlix_notify_course_purchase_to_student ??

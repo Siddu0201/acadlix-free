@@ -605,6 +605,11 @@ if (!class_exists('Helper')) {
                 'acadlix_stripe_webhook_signature_key' => '',
                 'acadlix_stripe_webhook_url' => $this->acadlix_get_webhook_url('stripe'),
                 'acadlix_v3_secret_key' => '',
+                'acadlix_offline_active' => 'no',
+                'acadlix_offline_instructions' => '',
+                'acadlix_offline_enable_file_upload' => 'no',
+                'acadlix_offline_max_upload_file_size' => 2,
+                'acadlix_offline_allowed_mime_types' => [],
             ];
             return $options;
         }

@@ -5,6 +5,7 @@ import PayPal from "./payment_gateways/PayPal";
 import RazorPay from "./payment_gateways/RazorPay";
 import Stripe from "./payment_gateways/Stripe";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import Offline from "./payment_gateways/Offline";
 
 function Payment(props) {
   const defaultSetting = {
@@ -52,6 +53,9 @@ function Payment(props) {
               },
               {
                 component: <Stripe {...props} />,
+              },
+              {
+                component: <Offline {...props} />,
               },
             ],
           },

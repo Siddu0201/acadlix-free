@@ -32,17 +32,17 @@ const Stripe = (props) => {
                             },
                             {
                                 component: "FormControlLabel",
-                                component_name: "stripe_default_gateway_switch",
+                                component_name: "stripe_enable_switch",
                                 props: {
-                                    label: __("Default", "acadlix"),
-                                    value: "stripe",
-                                    checked: props?.watch("acadlix_default_payment_gateway") === "stripe",
+                                    label: __("Enable Stripe", "acadlix"),
+                                    value: "yes",
+                                    checked: props?.watch("acadlix_stripe_active") === "yes",
                                     control: { component: "CustomSwitch", props: {} },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_default_payment_gateway",
-                                                e?.target?.checked ? e?.target?.value : "",
+                                                "acadlix_stripe_active",
+                                                e?.target?.checked ? e?.target?.value : "no",
                                                 { shouldDirty: true }
                                             );
                                         }
@@ -57,7 +57,7 @@ const Stripe = (props) => {
                     },
                 ],
             },
-            {
+            props?.watch("acadlix_stripe_active") === "yes" && ({
                 component: "Grid",
                 component_name: "stripe_main_grid",
                 props: {
@@ -85,47 +85,48 @@ const Stripe = (props) => {
                         ],
                     },
 
-                    // 🔹 Enable Stripe
+                    // 🔹 Make Default
                     {
                         component: "Grid",
-                        component_name: "stripe_enable_label_grid",
+                        component_name: "stripe_make_default_label_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "CustomTypography",
-                                component_name: "stripe_enable_label",
-                                value: __("Enable Stripe", "acadlix"),
+                                component_name: "stripe_make_default_label",
+                                value: __("Make Default", "acadlix"),
                             },
                         ],
                     },
                     {
                         component: "Grid",
-                        component_name: "stripe_enable_switch_grid",
+                        component_name: "stripe_make_default_switch_grid",
                         props: {
                             size: { lg: 3, md: 3, sm: 6, xs: 12 },
                         },
                         children: [
                             {
                                 component: "FormControlLabel",
-                                component_name: "stripe_enable_switch",
+                                component_name: "stripe_default_gateway_switch",
                                 props: {
-                                    label: __("Activate", "acadlix"),
-                                    value: "yes",
-                                    checked: props?.watch("acadlix_stripe_active") === "yes",
+                                    label: __("Default", "acadlix"),
+                                    value: "stripe",
+                                    checked: props?.watch("acadlix_default_payment_gateway") === "stripe",
                                     control: { component: "CustomSwitch", props: {} },
                                     onClick: (e) => {
                                         if (e?.target?.checked !== undefined) {
                                             props?.setValue(
-                                                "acadlix_stripe_active",
-                                                e?.target?.checked ? e?.target?.value : "no",
+                                                "acadlix_default_payment_gateway",
+                                                e?.target?.checked ? e?.target?.value : "",
                                                 { shouldDirty: true }
                                             );
                                         }
                                     },
                                 },
                             },
+
                         ],
                     },
 
@@ -331,7 +332,7 @@ const Stripe = (props) => {
                         ],
                     },
                 ],
-            },
+            }),
         ],
     };
 

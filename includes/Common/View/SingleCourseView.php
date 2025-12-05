@@ -1228,7 +1228,7 @@ class SingleCourseView
         $section_list[] = [
             'component' => 'div',
             'props' => [
-                'id' => 'acadlix-curriculam-react-preview'
+                'id' => 'acadlix-curriculum-react-preview'
             ]
         ];
         if ($sections->count() > 0) {
