@@ -1,4 +1,4 @@
-input, input:focus, textarea, textarea:focus {
+input, input:focus {
     border: 0 !important;
     box-shadow: none !important;
     min-height: auto !important;

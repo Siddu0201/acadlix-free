@@ -72,6 +72,8 @@ if (!class_exists("CheckoutController")) {
                 'is_razorpay_active' => acadlix()->payments()->razorpay()->is_razorpay_active() ?? false,
                 'is_payu_active' => acadlix()->payments()->payu()->is_payu_active() ?? false,
                 'is_stripe_active' => acadlix()->payments()->stripe()->is_stripe_active() ?? false,
+                'is_offline_active' => acadlix()->payments()->offline()->is_offline_active() ?? false,
+                'offline_data' => acadlix()->payments()->offline()->getData() ?? [],
             ];
         }
 

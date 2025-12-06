@@ -1,6 +1,7 @@
 import React from "react";
 import {
   GetCheckoutCart,
+  PostCheckoutOfflinePayment,
   PostCheckoutPaypal,
   PostCheckoutPayu,
   PostCheckoutRazorpay,
@@ -19,6 +20,7 @@ import { __ } from "@wordpress/i18n";
 import { convertToUnitPrice, formatPrice } from "@acadlix/helpers/util";
 import { Country } from "country-state-city";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import OfflinePaymentModal from "./modal/OfflinePaymentModal";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -30,6 +32,7 @@ const Checkout = () => {
     is_checkout_locked: false,
     is_checkout_loading: false,
     login_modal: false,
+    offline_modal: false,
     billing_info: {
       first_name: getUserMetaValue("first_name") ?? "",
       last_name: getUserMetaValue("last_name") ?? "",
@@ -57,13 +60,15 @@ const Checkout = () => {
     total_amount: 0,
     currency: acadlixCheckoutOptions?.settings?.acadlix_currency,
     currency_symbol: acadlixCheckoutOptions?.currency_symbol,
+    offline_user_text: "",
+    offline_upload_file: null,
   };
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters(
-        "acadlix.admin.checkout.defaultValues",
-        baseSetting,
-        acadlixCheckoutOptions
-    ) ?? baseSetting;
+    "acadlix.admin.checkout.defaultValues",
+    baseSetting,
+    acadlixCheckoutOptions
+  ) ?? baseSetting;
 
   const methods = useForm({
     defaultValues: filteredDefaults,
@@ -362,6 +367,49 @@ const Checkout = () => {
     );
   };
 
+  const offlineMutation = PostCheckoutOfflinePayment();
+  const handleOfflinePayment = () => {
+    const offlineData = window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_offline_payment_data", {
+      currency: methods?.watch("currency"),
+      billing_info: methods?.watch("billing_info"),
+      user_id: methods?.watch("user_id"),
+      payment_method: methods?.watch("payment_method"),
+      order_items: methods?.watch("order_items"),
+      total_amount: methods?.watch("total_amount"),
+      offline_user_text: methods?.watch("offline_user_text"),
+      offline_upload_file: methods?.watch("offline_upload_file"),
+    });
+
+    // Convert to FormData
+    const formData = new FormData();
+    Object.entries(offlineData).forEach(([key, value]) => {
+      if (key === 'offline_upload_file' && value) {
+        formData.append(key, value); // File object
+      } else if (typeof value === 'object' && value !== null) {
+        formData.append(key, JSON.stringify(value)); // For objects/arrays
+      } else if (value !== undefined && value !== null) {
+        formData.append(key, value);
+      }
+    });
+    offlineMutation?.mutate(
+      formData,
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          window.location.href = data?.data?.redirect_url;
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+            __("Opps! Something went wrong", "acadlix")
+          );
+        },
+      });
+  };
+  const handleOfflineModal = () => {
+    methods?.setValue("offline_modal", true, { shouldDirty: true });
+  };
+
   const paymentHandlers = {
     razorpay: handleRazorpay,
     paypal: handlePaypal,
@@ -398,14 +446,18 @@ const Checkout = () => {
     );
 
     if (checkoutType === 'paid') {
-      // Check if a payment method has been selected
       if (!selectedPaymentMethod) {
         // If no payment method is selected, display an error message to the user
         toast.error(__("Please select a payment gateway.", "acadlix"));
-
-        // Set the loading state back to false since the process cannot proceed
         methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
         return; // Exit the function early
+      }
+
+      if (selectedPaymentMethod === 'offline' && !methods?.watch("offline_modal")) {
+        // Handle offline modal
+        handleOfflineModal(data);
+        methods?.setValue("is_checkout_loading", false, { shouldDirty: true });
+        return;
       }
 
       // If a payment method is selected, proceed to handle the payment
@@ -456,6 +508,16 @@ const Checkout = () => {
           handleClose={() => methods?.setValue("login_modal", false)}
         />,
         component_name: "checkout_user_auth",
+      },
+      {
+        component: <OfflinePaymentModal
+          {...methods}
+          open={methods?.watch("offline_modal")}
+          handleClose={() => methods?.setValue("offline_modal", false)}
+          handleOfflinePayment={handleOfflinePayment}
+          isPending={offlineMutation?.isPending}
+        />,
+        component_name: "checkout_offline_payment_modal",
       },
       methods?.watch("cart")?.length > 0 ? (
         {
@@ -668,87 +730,6 @@ const Checkout = () => {
     </>
   );
 
-  // return (
-  //   <Box
-  //     sx={{
-  //       width: {
-  //         xs: "95%",
-  //         md: "85%",
-  //       },
-  //       marginX: "auto",
-  //       marginY: 2,
-  //     }}
-  //   >
-  //     <UserAuth
-  //       login_modal={methods?.watch("login_modal")}
-  //       users_can_register={Boolean(Number(acadlixCheckoutOptions?.users_can_register))}
-  //       ajax_url={acadlixCheckoutOptions?.ajax_url}
-  //       nonce={acadlixCheckoutOptions?.nonce}
-  //       handleClose={() => methods?.setValue("login_modal", false)}
-  //     />
-  //     {methods?.watch("cart")?.length > 0 ? (
-  //       <Grid container spacing={4}>
-  //         <Grid size={{ xs: 12, sm: 12, md: 7 }}>
-  //           <Grid container spacing={4}>
-  //             {!methods?.watch("is_user_logged_in") && (
-  //               <Grid size={{ xs: 12, lg: 12 }}>
-  //                 <Typography>
-  //                   {__("Please login/register to proceed: ", "acadlix")}
-  //                   <Link
-  //                     onClick={() =>
-  //                       methods?.setValue("login_modal", true, {
-  //                         shouldDirty: true,
-  //                       })
-  //                     }
-  //                     sx={{
-  //                       cursor: "pointer",
-  //                     }}
-  //                   >
-  //                     {__("Login/Register", "acadlix")}
-  //                   </Link>
-  //                 </Typography>
-  //               </Grid>
-  //             )}
-  //             <Grid size={{ xs: 12, lg: 12 }}>
-  //               <BillingDetail {...methods} />
-  //             </Grid>
-  //             <Grid size={{ xs: 12, lg: 12 }}>
-  //               <OrderDetail
-  //                 {...methods}
-  //                 isFetching={getCart?.isFetching}
-  //                 setCartData={setCartData}
-  //               />
-  //             </Grid>
-  //           </Grid>
-  //         </Grid>
-  //         <Grid size={{ xs: 12, sm: 12, md: 5 }}>
-  //           <Grid container spacing={4}>
-  //             {methods?.watch("total_amount") > 0 && (
-  //               <Grid size={{ xs: 12, lg: 12 }}>
-  //                 <PaymentMethod {...methods} />
-  //               </Grid>
-  //             )}
-  //             <Grid size={{ xs: 12, lg: 12 }}>
-  //               <OrderSummary
-  //                 {...methods}
-  //                 isFetching={getCart?.isFetching}
-  //                 handleCheckout={handleCheckout}
-  //               />
-  //             </Grid>
-  //           </Grid>
-  //         </Grid>
-  //       </Grid>
-  //     ) : (
-  //       <Grid container spacing={4}>
-  //         <Grid size={{ xs: 12, md: 12 }}>
-  //           <Typography variant="body1">
-  //             {__("Your cart is currently empty.", "acadlix")}
-  //           </Typography>
-  //         </Grid>
-  //       </Grid>
-  //     )}
-  //   </Box>
-  // );
 };
 
 export default Checkout;

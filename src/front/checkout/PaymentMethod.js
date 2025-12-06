@@ -1,14 +1,3 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  FormControlLabel,
-  Radio,
-  Typography,
-} from "@mui/material";
-import Grid from '@mui/material/Grid';
 import React from "react";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
@@ -20,6 +9,7 @@ const PaymentMethod = (props) => {
       paypal: acadlixCheckoutOptions?.is_paypal_active,
       payu: acadlixCheckoutOptions?.is_payu_active,
       stripe: acadlixCheckoutOptions?.is_stripe_active,
+      offline: acadlixCheckoutOptions?.is_offline_active,
     };
 
     return React.useMemo(() => {
@@ -370,10 +360,86 @@ const PaymentMethod = (props) => {
                       },
                     ],
                   }),
+                  acadlixCheckoutOptions?.is_offline_active && ({
+                    component: "Grid",
+                    component_name: "checkout_payment_method_offline_grid",
+                    props: {
+                      size: {
+                        xs: 12,
+                        lg: 12,
+                      },
+                    },
+                    children: [
+                      {
+                        component: "Card",
+                        component_name: "checkout_payment_method_offline_card",
+                        children: [
+                          {
+                            component: "CardContent",
+                            component_name: "checkout_payment_method_offline_card_content",
+                            props: {
+                              sx: {
+                                paddingY: 1,
+                                paddingX: 3,
+                                ":last-child": {
+                                  paddingY: 1,
+                                  paddingX: 3,
+                                },
+                                display: "flex",
+                                alignItems: "center",
+                              }
+                            },
+                            children: [
+                              {
+                                component: "FormControlLabel",
+                                component_name: "checkout_payment_method_offline_card_form_control_label",
+                                props: {
+                                  slotProps: {
+                                    typography: {
+                                      sx: {
+                                        fontWeight: "bold",
+                                        fontSize: "14px",
+                                      },
+                                    },
+                                  },
+                                  sx: {
+                                    width: "100%"
+                                  },
+                                  label: __("Offline", "acadlix"),
+                                  disabled: !props?.watch("is_user_logged_in"),
+                                  control: {
+                                    component: "Radio",
+                                    component_name: "checkout_payment_method_offline_card_form_control_label_radio",
+                                    props: {
+                                      size: "small",
+                                      name: "payment_method",
+                                      checked: props?.watch("payment_method") === "offline",
+                                      value: "offline",
+                                      onClick: (e) => {
+                                        props?.setValue(
+                                          "payment_method",
+                                          e?.target?.value,
+                                          {
+                                            shouldDirty: true,
+                                          }
+                                        );
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            ]
+                          },
+                        ],
+                      },
+                    ],
+                  }),
                   !acadlixCheckoutOptions?.is_razorpay_active &&
                   !acadlixCheckoutOptions?.is_paypal_active &&
                   !acadlixCheckoutOptions?.is_payu_active &&
-                  !acadlixCheckoutOptions?.is_stripe_active && ({
+                  !acadlixCheckoutOptions?.is_stripe_active &&
+                  !acadlixCheckoutOptions?.is_offline_active &&
+                   ({
                     component: "Grid",
                     component_name: "checkout_payment_method_no_payment_gateway_grid",
                     props: {
@@ -431,239 +497,6 @@ const PaymentMethod = (props) => {
           />
         </React.Fragment>
       ))}
-      {/* <Box>
-        <Card>
-          <CardHeader title={__("Payment Method", "acadlix")} />
-          <Divider />
-          <CardContent>
-            <Grid container spacing={2}>
-              {acadlixCheckoutOptions?.is_razorpay_active && (
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <Card>
-                    <CardContent
-                      sx={{
-                        paddingY: 1,
-                        paddingX: 3,
-                        ":last-child": {
-                          paddingY: 1,
-                          paddingX: 3,
-                        },
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FormControlLabel
-                        slotProps={{
-                          typography: {
-                            sx: {
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                            },
-                          },
-                        }}
-                        sx={{
-                          width: "100%"
-                        }}
-                        label={__('Razorpay', 'acadlix')}
-                        disabled={!props?.watch("is_user_logged_in")}
-                        control={
-                          <Radio
-                            size="small"
-                            name="payment_method"
-                            checked={
-                              props?.watch("payment_method") === "razorpay"
-                            }
-                            value="razorpay"
-                            onClick={(e) => {
-                              props?.setValue(
-                                "payment_method",
-                                e?.target?.value,
-                                {
-                                  shouldDirty: true,
-                                }
-                              );
-                            }}
-                          />
-                        }
-                      />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )}
-              {acadlixCheckoutOptions?.is_paypal_active && (
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <Card>
-                    <CardContent
-                      sx={{
-                        paddingY: 1,
-                        paddingX: 3,
-                        ":last-child": {
-                          paddingY: 1,
-                          paddingX: 3,
-                        },
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FormControlLabel
-                        slotProps={{
-                          typography: {
-                            sx: {
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                            },
-                          },
-                        }}
-                        sx={{
-                          width: "100%"
-                        }}
-                        label={__('Paypal', 'acadlix')}
-                        disabled={!props?.watch("is_user_logged_in")}
-                        control={
-                          <Radio
-                            size="small"
-                            name="payment_method"
-                            checked={
-                              props?.watch("payment_method") === "paypal"
-                            }
-                            value="paypal"
-                            onClick={(e) => {
-                              props?.setValue(
-                                "payment_method",
-                                e?.target?.value,
-                                {
-                                  shouldDirty: true,
-                                }
-                              );
-                            }}
-                          />
-                        }
-                      />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )}
-              {acadlixCheckoutOptions?.is_payu_active && (
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <Card>
-                    <CardContent
-                      sx={{
-                        paddingY: 1,
-                        paddingX: 3,
-                        ":last-child": {
-                          paddingY: 1,
-                          paddingX: 3,
-                        },
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FormControlLabel
-                        slotProps={{
-                          typography: {
-                            sx: {
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                            },
-                          },
-                        }}
-                        sx={{
-                          width: "100%"
-                        }}
-                        label={__("PayU", "acadlix")}
-                        disabled={!props?.watch("is_user_logged_in")}
-                        control={
-                          <Radio
-                            size="small"
-                            name="payment_method"
-                            checked={
-                              props?.watch("payment_method") === "payu"
-                            }
-                            value="payu"
-                            onClick={(e) => {
-                              props?.setValue(
-                                "payment_method",
-                                e?.target?.value,
-                                {
-                                  shouldDirty: true,
-                                }
-                              );
-                            }}
-                          />
-                        }
-                      />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )}
-              {acadlixCheckoutOptions?.is_stripe_active && (
-                <Grid size={{ xs: 12, lg: 12 }}>
-                  <Card>
-                    <CardContent
-                      sx={{
-                        paddingY: 1,
-                        paddingX: 3,
-                        ":last-child": {
-                          paddingY: 1,
-                          paddingX: 3,
-                        },
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FormControlLabel
-                        slotProps={{
-                          typography: {
-                            sx: {
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                            },
-                          },
-                        }}
-                        sx={{
-                          width: "100%"
-                        }}
-                        label={__("Stripe", "acadlix")}
-                        disabled={!props?.watch("is_user_logged_in")}
-                        control={
-                          <Radio
-                            size="small"
-                            name="payment_method"
-                            checked={
-                              props?.watch("payment_method") === "stripe"
-                            }
-                            value="stripe"
-                            onClick={(e) => {
-                              props?.setValue(
-                                "payment_method",
-                                e?.target?.value,
-                                {
-                                  shouldDirty: true,
-                                }
-                              );
-                            }}
-                          />
-                        }
-                      />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )}
-              {!acadlixCheckoutOptions?.is_razorpay_active &&
-                !acadlixCheckoutOptions?.is_paypal_active &&
-                !acadlixCheckoutOptions?.is_payu_active &&
-                !acadlixCheckoutOptions?.is_stripe_active &&
-                (
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <Typography variant="body1">
-                      {__("No payment gateway is activated, contact admin.", "acadlix")}
-                    </Typography>
-                  </Grid>
-                )}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Box> */}
     </>
   );
 };

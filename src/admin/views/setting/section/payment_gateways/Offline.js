@@ -272,6 +272,7 @@ const Offline = (props) => {
                                             slotProps: {
                                                 htmlInput: {
                                                     min: 0, // 👈 set minimum value here
+                                                    step: 1,
                                                 },
                                             },
                                             onChange: (e) => {

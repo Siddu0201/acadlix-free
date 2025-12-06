@@ -106,6 +106,19 @@ class FrontCheckoutController
                 ],
             ]
         );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/post-checkout-offline-payment',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_checkout_offline_payment'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
         register_rest_route(
             $this->namespace,
             '/' . $this->base . '/handle-webhook',
@@ -600,6 +613,148 @@ class FrontCheckoutController
         }
         return rest_ensure_response([
             'status' => 'success',
+        ]);
+    }
+
+    public function post_checkout_offline_payment($request)
+    {
+        $required_fields = array('currency', 'user_id');
+        $params = $request->get_json_params();
+        $files = $request->get_file_params();
+        if (is_array($params) && count($params) == 0) {
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
+        }
+        if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
+            return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
+        }
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+        if (!empty($errors)) {
+            return new WP_Error('missing_parameters', implode(' ', $errors), array('status' => 400));
+        }
+        $new_file = [];
+        if (!empty($files['offline_upload_file'])) {
+            // Include WordPress upload functions
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+
+            // Get the base uploads directory
+            $upload_dir = wp_upload_dir();  // Gives [basedir] and [baseurl]
+
+            // Define custom subdirectory path
+            $custom_subdir = '/acadlix-offline-payments';
+            $custom_dir_path = $upload_dir['basedir'] . $custom_subdir;
+
+            // Create the folder if it doesn't exist
+            if (!file_exists($custom_dir_path)) {
+                if (!wp_mkdir_p($custom_dir_path)) {
+                    return new WP_Error('mkdir_failed', __('Failed to create acadlix-offline-payments folder.', 'acadlix'), ['status' => 500]);
+                }
+            }
+
+            // Upload override settings
+            $upload_overrides = ['test_form' => false];
+            $file = [
+                'name' => $files['offline_upload_file']['name'],
+                'type' => $files['offline_upload_file']['type'],
+                'tmp_name' => $files['offline_upload_file']['tmp_name'],
+                'error' => $files['offline_upload_file']['error'],
+                'size' => $files['offline_upload_file']['size'],
+            ];
+            $original_filename = sanitize_file_name($file['name']);
+            $timestamp = time();
+            $extension = pathinfo($original_filename, PATHINFO_EXTENSION);
+            $filename_wo_ext = pathinfo($original_filename, PATHINFO_FILENAME);
+            $file['name'] = "{$filename_wo_ext}_{$timestamp}.{$extension}";
+
+            // Set upload_dir filter for each file
+            add_filter('upload_dir', function ($dirs) use ($custom_subdir) {
+                $dirs['subdir'] = $custom_subdir;
+                $dirs['path'] = $dirs['basedir'] . $custom_subdir;
+                $dirs['url'] = $dirs['baseurl'] . $custom_subdir;
+                return $dirs;
+            });
+
+            $result = wp_handle_upload($file, $upload_overrides);
+
+            // Remove the filter (important when looping)
+            remove_filter('upload_dir', '__return_custom_acadlix_offline_payments_dir');
+
+            if ($result && !isset($result['error'])) {
+                $new_file = [
+                    'file_name' => $file['name'],
+                    'file_size' => $file['size'],
+                    'file_extension' => $extension,
+                    'file_url' => $result['url'],
+                    'file_path' => $result['file'],
+                    'file_type' => $result['type'],
+                ];
+            } else {
+                return new WP_Error('upload_failed', __('Failed to upload file.', 'acadlix'), array('status' => 500));
+            }
+        }
+
+
+        $order = acadlix()->model()->order()->create([
+            'user_id' => $request->get_param('user_id'),
+            'status' => 'pending',
+            'total_amount' => $request->get_param('total_amount'),
+        ]);
+
+        $message = "Offline Payment OrderId: {$order->id}";
+        $order->createActivityLog($message);
+
+        if( $order ) {
+            $order_items = json_decode($request['order_items'], true);
+            foreach ( $order_items as $item ) {
+                $order->order_items()->create( [
+                    'course_id'             => $item['course_id'],
+                    'course_title'          => $item['course_title'],
+                    'quantity'              => $item['quantity'],
+                    'price'                 => $item['price'],
+                    'discount'              => $item['discount'],
+                    'price_after_discount'  => $item['price_after_discount'],
+                    'additional_fee'        => $item['additional_fee'],
+                    'tax'                   => $item['tax'],
+                    'price_after_tax'       => $item['price_after_tax'],
+                ] );
+            }
+
+            if ( ! empty( $request->get_param( 'billing_info' ) ) ) {
+                $order->updateOrCreateMeta( 'billing_info', $request->get_param( 'billing_info' ) );
+            }
+
+            $order->updateOrCreateMeta( 'payment_method', 'offline' );
+            $order->updateOrCreateMeta( 'currency', $request->get_param( 'currency' ) );
+            $order->updateOrCreateMeta( 'offline_user_text', $request->get_param( 'offline_user_text' ) );
+            if ( ! empty( $new_file ) ) {
+                $order->updateOrCreateMeta( 'offline_upload_file', $new_file );
+            }
+            
+            if ( $order->order_items()->count() > 0 ) {
+                foreach ( $order->order_items as $item ) {
+                    $cart = acadlix()->model()->courseCart()->where( 'user_id', $order->user_id )->where( 'course_id', $item->course_id )->first();
+                    $cart->delete();
+                }
+            }
+            // send mail on success
+            // acadlix()->notifications()->email()->handleCoursePurchaseEmail( $order->id );
+        }
+        $thankyou_page_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
+        $redirect_url = !empty($thankyou_page_url) 
+                        ? add_query_arg([
+                            'order_id' => $order->id,
+                            'offline' => true
+                        ], $thankyou_page_url)
+                        : '';
+        return rest_ensure_response([
+            'status' => 'success',
+            'redirect_url' => $redirect_url,
         ]);
     }
 

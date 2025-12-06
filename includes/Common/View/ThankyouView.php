@@ -10,6 +10,7 @@ class ThankyouView
     protected $courses_url;
     protected $dashboard_url;
     protected $token;
+    protected $is_payment_offline = false;
 
     public function __construct()
     {
@@ -17,6 +18,7 @@ class ThankyouView
         $this->courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
         $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
         $this->token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : '';
+        $this->is_payment_offline = isset($_GET['offline']) ? true : false;
         $this->setup_query();
     }
 
@@ -32,20 +34,20 @@ class ThankyouView
                     try {
                         if (isset($_GET['cancelled']) && !empty($_GET['cancelled']) && $order->status != 'failed') {
                             acadlix()
-                                ->payments()
+                                        ->payments()
                                 ->{$payment_method}()
-                                ->failedOrder($order, 'Payment Cancelled');
+                                    ->failedOrder($order, 'Payment Cancelled');
                             $this->status = $order->status;
                         } else {
                             if ($order->status == 'pending') {
                                 acadlix()
-                                    ->payments()
+                                            ->payments()
                                     ->{$payment_method}()
-                                    ->verifyOrder($this->token);
+                                        ->verifyOrder($this->token);
                                 $order = acadlix()
-                                    ->payments()
+                                            ->payments()
                                     ->{$payment_method}()
-                                    ->getOrder($this->token);
+                                        ->getOrder($this->token);
                             }
                             $this->status = $order->status ?? 'pending';
                         }
@@ -53,6 +55,14 @@ class ThankyouView
                         error_log($e->getMessage());
                         $this->status = 'failed';
                     }
+                }
+            }
+        }else{
+            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+            if ($order_id) {
+                $order = acadlix()->model()->order()->find($order_id);
+                if ($order) {
+                    $this->status = $order->status;
                 }
             }
         }
@@ -83,9 +93,9 @@ class ThankyouView
                 <?php wp_body_open(); ?>
                 <div class="wp-site-blocks">
                     <?php
-            $theme = wp_get_theme();
-            $theme_slug = $theme->get('TextDomain');
-            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
+                    $theme = wp_get_theme();
+                    $theme_slug = $theme->get('TextDomain');
+                    echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
         } else {
             get_header();
         }
@@ -242,14 +252,18 @@ class ThankyouView
                     'props' => [
                         // 'class' => 'acadlix-thankyou-title',
                     ],
-                    'value' => esc_html__('Payment Pending', 'acadlix'),
+                    'value' => $this->is_payment_offline
+                        ? esc_html__('Thanks for your order!', 'acadlix')
+                        : esc_html__('Payment Pending', 'acadlix'),
                 ],
                 [
                     'component' => 'div',
                     'props' => [
                         'class' => 'acadlix-thankyou-text',
                     ],
-                    'value' => esc_html('Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete.', 'acadlix'),
+                    'value' => $this->is_payment_offline
+                        ? esc_html__('Your payment information has been submitted successfully. We’ll review it and activate your access as soon as the payment is verified.', 'acadlix')
+                        : esc_html__('Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete.', 'acadlix'),
                 ],
                 [
                     'component' => 'a',

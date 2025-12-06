@@ -116,3 +116,12 @@ export const PostCheckoutStripe = () => {
     },
   });
 };
+
+export const PostCheckoutOfflinePayment = () => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/post-checkout-offline-payment`, data);
+    },
+  });
+};

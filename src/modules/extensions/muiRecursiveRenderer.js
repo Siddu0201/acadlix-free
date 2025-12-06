@@ -43,6 +43,8 @@ import {
   Paper,
   Link,
   DialogContent,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React, { Suspense } from "react";
@@ -60,6 +62,8 @@ import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import MimeAutocomplete from "@acadlix/components/MimeAutocomplete";
 import CustomWpEditor from "@acadlix/components/CustomWpEditor";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
+import DragDropUpload from "@acadlix/components/DragDropUpload";
 
 const HTML_COMPONENTS = [
   "form",
@@ -88,7 +92,8 @@ const HTML_COMPONENTS = [
   "th",
   "svg",
   "path",
-  "img"
+  "img",
+  "textarea",
 ];
 
 const COMPONENT_MAP = {
@@ -130,7 +135,9 @@ const COMPONENT_MAP = {
   Tooltip,
   FormHelperText,
   InputLabel,
+  DialogTitle,
   DialogContent,
+  DialogActions,
   InputAdornment,
   TableContainer,
   Table,
@@ -157,7 +164,11 @@ const COMPONENT_MAP = {
   CustomRefresh,
   MimeAutocomplete,
   CustomWpEditor,
+  BootstrapDialog,
+  DragDropUpload,
+  // WordPress Components
   RawHTML,
+  // React Components
   Fragment: React.Fragment,
   Suspense: React.Suspense,
 };

@@ -150,6 +150,82 @@ const OrderDetails = (props) => {
                                             }
                                         ]
                                     },
+                                    props?.watch("meta.offline_user_text") && {
+                                        component: "Fragment",
+                                        component_name: "order_details_offline_payment_user_text_fragment",
+                                        children: [
+                                            {
+                                                component: "Grid",
+                                                component_name: "order_details_offline_user_text_label_grid_item",
+                                                props: {
+                                                    size: { xs: 12, sm: 6, lg: 3 },
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "CustomTypography",
+                                                        component_name: "order_details_offline_user_text_label_custom_typography",
+                                                        value: __("Offline User Text", "acadlix")
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                component: "Grid",
+                                                component_name: "order_details_offline_user_text_value_grid_item",
+                                                props: {
+                                                    size: { xs: 12, sm: 6, lg: 9 },
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "Typography",
+                                                        component_name: "order_details_offline_user_text_value_custom_typography",
+                                                        props: {
+                                                            variant: "body1",
+                                                        },
+                                                        value: props?.watch("meta.offline_user_text") ?? "N/A",
+                                                    }
+                                                ]
+                                            },
+                                        ]
+                                    },
+                                    props?.watch("meta.offline_upload_file") != null && {
+                                        component: "Fragment",
+                                        component_name: "order_details_offline_payment_upload_file_fragment",
+                                        children: [
+                                            {
+                                                component: "Grid",
+                                                component_name: "order_details_offline_upload_file_label_grid_item",
+                                                props: {
+                                                    size: { xs: 12, sm: 6, lg: 3 },
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "CustomTypography",
+                                                        component_name: "order_details_offline_upload_file_label_custom_typography",
+                                                        value: __("Offline Upload File", "acadlix")
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                component: "Grid",
+                                                component_name: "order_details_offline_upload_file_value_grid_item",
+                                                props: {
+                                                    size: { xs: 12, sm: 6, lg: 9 },
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "Link",
+                                                        component_name: "order_details_offline_upload_file_value_custom_typography",
+                                                        props: {
+                                                            href: props?.watch("meta.offline_upload_file")?.file_url ?? "#",
+                                                            target: "_blank",
+                                                            rel: "noopener noreferrer",
+                                                        },
+                                                        value: props?.watch("meta.offline_upload_file")?.file_name ?? "N/A",
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
                                 ]
                             }
                         ]

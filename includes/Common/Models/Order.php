@@ -132,6 +132,17 @@ if (!class_exists('Order')) {
                 ->where('type', 'order')
                 ->where('type_id', $this->id)
                 ->delete();
+            // check if payment if offline to delete uploaded files
+            $payment_method = $this->getMetaValue('payment_method');
+            if ($payment_method === 'offline') {
+                // Add logic to delete uploaded files related to offline payment
+                $uploaded_files = $this->getMetaValue('offline_upload_file');
+                if ($uploaded_files) {
+                    if (file_exists($uploaded_files['file_path'])) {
+                        unlink($uploaded_files['file_path']);
+                    }
+                }
+            }
             return parent::delete();
         }
 

@@ -2,6 +2,7 @@
 
 namespace Yuvayana\Acadlix\Common\Payments;
 
+use Yuvayana\Acadlix\Common\Payments\Gateways\Offline;
 use Yuvayana\Acadlix\Common\Payments\Gateways\Paypal;
 use Yuvayana\Acadlix\Common\Payments\Gateways\PayU;
 use Yuvayana\Acadlix\Common\Payments\Gateways\Razorpay;
@@ -15,6 +16,7 @@ class Payments
     protected $_paypal;
     protected $_payu;
     protected $_stripe;
+    protected $_offline;
 
     public function razorpay(): Razorpay
     {
@@ -46,5 +48,13 @@ class Payments
             $this->_stripe = new Stripe();
         }
         return $this->_stripe;
+    }
+
+    public function offline(): Offline
+    {
+        if (!$this->_offline) {
+            $this->_offline = new Offline();
+        }
+        return $this->_offline;
     }
 }

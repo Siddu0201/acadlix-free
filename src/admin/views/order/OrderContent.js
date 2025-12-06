@@ -75,6 +75,12 @@ const OrderContent = (props) => {
                 getOrderMetaValue(props?.order?.order_metas, "currency", "USD")
                 : "USD",
             transaction_id: getTransactionId(props?.order?.order_metas),
+            offline_user_text: props?.order?.order_metas ?
+                getOrderMetaValue(props?.order?.order_metas, "offline_user_text", "")
+                : "",
+            offline_upload_file: props?.order?.order_metas ?
+                getOrderMetaValue(props?.order?.order_metas, "offline_upload_file", null)
+                : null,
         },
         activity_logs: props?.order?.activity_logs ?? [],
         billing_info: {
