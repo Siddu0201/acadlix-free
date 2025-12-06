@@ -151,7 +151,7 @@ if (!class_exists('Helper')) {
             return $new_content;
         }
 
-        public function acadlix_upload_file_to_wordpress($subdir = '/', $file, $allowed_extensions = [], $max_size_mb = null)
+        public function acadlix_upload_file_to_wordpress($file, $subdir = '/', $allowed_extensions = [], $max_size_mb = null)
         {
             require_once(ABSPATH . 'wp-admin/includes/file.php');
 

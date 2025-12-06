@@ -647,8 +647,8 @@ class FrontCheckoutController
             $max_file_size = acadlix()->helper()->acadlix_get_option('acadlix_offline_max_upload_file_size', 2);
             // Include WordPress upload functions
             $new_file = acadlix()->helper()->acadlix_upload_file_to_wordpress(
-                '/acadlix-offline-payments',
                 $files['offline_upload_file'],
+                '/acadlix-offline-payments',
                 $allowed_extensions,
                 (float)$max_file_size
             );
