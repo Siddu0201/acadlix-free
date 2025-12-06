@@ -151,15 +151,6 @@ if (!class_exists('Helper')) {
             return $new_content;
         }
 
-
-        /**
-         * Upload a single file to WordPress uploads directory with extension validation.
-         *
-         * @param string $subdir Subdirectory under uploads (e.g. '/acadlix-offline-payments/')
-         * @param array $file File array ($_FILES['file'])
-         * @param array $allowed_extensions Array of allowed extensions (e.g. ['pdf', 'jpg'])
-         * @return array|WP_Error File info array or WP_Error on failure
-         */
         public function acadlix_upload_file_to_wordpress($subdir = '/', $file, $allowed_extensions = [], $max_size_mb = null)
         {
             require_once(ABSPATH . 'wp-admin/includes/file.php');
