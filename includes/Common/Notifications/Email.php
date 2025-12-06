@@ -221,7 +221,6 @@ class Email
         ];
         $student_email = $order->user->user_email;
         if ($this->notify_offline_purchase_to_student && !empty($student_email)) {
-            error_log('Sending offline purchase email to student: ' . $student_email);
             $student_email_template = acadlix()->helper()->acadlix_get_email_template(
                 'OfflinePurchase.php',
                 'student',
