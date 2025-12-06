@@ -640,62 +640,20 @@ class FrontCheckoutController
         }
         $new_file = [];
         if (!empty($files['offline_upload_file'])) {
+            $allowed_extensions = array_column(
+                acadlix()->helper()->acadlix_get_option('acadlix_offline_allowed_mime_types', []),
+                'extension'
+            );
+            $max_file_size = acadlix()->helper()->acadlix_get_option('acadlix_offline_max_upload_file_size', 2);
             // Include WordPress upload functions
-            require_once ABSPATH . 'wp-admin/includes/file.php';
-
-            // Get the base uploads directory
-            $upload_dir = wp_upload_dir();  // Gives [basedir] and [baseurl]
-
-            // Define custom subdirectory path
-            $custom_subdir = '/acadlix-offline-payments';
-            $custom_dir_path = $upload_dir['basedir'] . $custom_subdir;
-
-            // Create the folder if it doesn't exist
-            if (!file_exists($custom_dir_path)) {
-                if (!wp_mkdir_p($custom_dir_path)) {
-                    return new WP_Error('mkdir_failed', __('Failed to create acadlix-offline-payments folder.', 'acadlix'), ['status' => 500]);
-                }
-            }
-
-            // Upload override settings
-            $upload_overrides = ['test_form' => false];
-            $file = [
-                'name' => $files['offline_upload_file']['name'],
-                'type' => $files['offline_upload_file']['type'],
-                'tmp_name' => $files['offline_upload_file']['tmp_name'],
-                'error' => $files['offline_upload_file']['error'],
-                'size' => $files['offline_upload_file']['size'],
-            ];
-            $original_filename = sanitize_file_name($file['name']);
-            $timestamp = time();
-            $extension = pathinfo($original_filename, PATHINFO_EXTENSION);
-            $filename_wo_ext = pathinfo($original_filename, PATHINFO_FILENAME);
-            $file['name'] = "{$filename_wo_ext}_{$timestamp}.{$extension}";
-
-            // Set upload_dir filter for each file
-            add_filter('upload_dir', function ($dirs) use ($custom_subdir) {
-                $dirs['subdir'] = $custom_subdir;
-                $dirs['path'] = $dirs['basedir'] . $custom_subdir;
-                $dirs['url'] = $dirs['baseurl'] . $custom_subdir;
-                return $dirs;
-            });
-
-            $result = wp_handle_upload($file, $upload_overrides);
-
-            // Remove the filter (important when looping)
-            remove_filter('upload_dir', '__return_custom_acadlix_offline_payments_dir');
-
-            if ($result && !isset($result['error'])) {
-                $new_file = [
-                    'file_name' => $file['name'],
-                    'file_size' => $file['size'],
-                    'file_extension' => $extension,
-                    'file_url' => $result['url'],
-                    'file_path' => $result['file'],
-                    'file_type' => $result['type'],
-                ];
-            } else {
-                return new WP_Error('upload_failed', __('Failed to upload file.', 'acadlix'), array('status' => 500));
+            $new_file = acadlix()->helper()->acadlix_upload_file_to_wordpress(
+                '/acadlix-offline-payments',
+                $files['offline_upload_file'],
+                $allowed_extensions,
+                (float)$max_file_size
+            );
+            if( is_wp_error( $new_file ) ) {
+                return $new_file; // Return the error if upload failed
             }
         }
 

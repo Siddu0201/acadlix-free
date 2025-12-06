@@ -96,7 +96,7 @@ if (!class_exists('Helper')) {
 
             // Callback function to handle each match
             $callback = function ($matches) {
-                require_once (ABSPATH . 'wp-admin/includes/file.php');
+                require_once(ABSPATH . 'wp-admin/includes/file.php');
 
                 // Initialize the filesystem
                 global $wp_filesystem;
@@ -136,7 +136,7 @@ if (!class_exists('Helper')) {
                     $attach_id = wp_insert_attachment($attachment, $file_path);
 
                     // // Generate attachment metadata
-                    require_once (ABSPATH . 'wp-admin/includes/image.php');
+                    require_once(ABSPATH . 'wp-admin/includes/image.php');
                     $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
                     wp_update_attachment_metadata($attach_id, $attach_data);
 
@@ -149,6 +149,85 @@ if (!class_exists('Helper')) {
             $new_content = preg_replace_callback($pattern, $callback, $content);
 
             return $new_content;
+        }
+
+
+        /**
+         * Upload a single file to WordPress uploads directory with extension validation.
+         *
+         * @param string $subdir Subdirectory under uploads (e.g. '/acadlix-offline-payments/')
+         * @param array $file File array ($_FILES['file'])
+         * @param array $allowed_extensions Array of allowed extensions (e.g. ['pdf', 'jpg'])
+         * @return array|WP_Error File info array or WP_Error on failure
+         */
+        public function acadlix_upload_file_to_wordpress($subdir = '/', $file, $allowed_extensions = [], $max_size_mb = null)
+        {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+            // Validate file array
+            if (!is_array($file) || empty($file['tmp_name']) || empty($file['name'])) {
+                return new WP_Error('invalid_file', __('Invalid file upload.', 'acadlix'));
+            }
+
+            // Validate extension
+            $original_filename = sanitize_file_name($file['name']);
+            $extension = strtolower(pathinfo($original_filename, PATHINFO_EXTENSION));
+            if (!empty($allowed_extensions) && !in_array($extension, array_map('strtolower', $allowed_extensions))) {
+                return new WP_Error('invalid_extension', __('File extension not allowed.', 'acadlix'));
+            }
+
+            // Validate file size (max size in MB from argument, option, or default 2MB)
+            if ($max_size_mb !== null) {
+                $max_size_bytes = $max_size_mb * 1024 * 1024;
+                if (!empty($file['size']) && $file['size'] > $max_size_bytes) {
+                    return new WP_Error('file_too_large', sprintf(__('File size exceeds the maximum allowed size of %s MB.', 'acadlix'), $max_size_mb));
+                }
+            }
+
+            // Get the base uploads directory
+            $upload_dir = wp_upload_dir();
+            $custom_dir_path = $upload_dir['basedir'] . $subdir;
+
+            // Create the folder if it doesn't exist
+            if (!file_exists($custom_dir_path)) {
+                if (!wp_mkdir_p($custom_dir_path)) {
+                    return new WP_Error('mkdir_failed', __('Failed to create upload folder.', 'acadlix'), ['status' => 500]);
+                }
+            }
+
+            // Prepare file for upload
+            $timestamp = time();
+            $filename_wo_ext = pathinfo($original_filename, PATHINFO_FILENAME);
+            $file['name'] = "{$filename_wo_ext}_{$timestamp}.{$extension}";
+
+            // Set upload_dir filter for each file
+            add_filter('upload_dir', function ($dirs) use ($subdir) {
+                $dirs['subdir'] = $subdir;
+                $dirs['path'] = $dirs['basedir'] . $subdir;
+                $dirs['url'] = $dirs['baseurl'] . $subdir;
+                return $dirs;
+            });
+
+            // Handle the file upload using WordPress functions
+            $upload = wp_handle_upload($file, array('test_form' => false));
+
+            // Remove the filter (important when looping)
+            remove_filter('upload_dir', '__return_false');
+
+            if (isset($upload['error'])) {
+                return new WP_Error('upload_error', $upload['error']);
+            }
+
+            $new_file = [
+                'file_name' => $file['name'],
+                'file_size' => $file['size'],
+                'file_extension' => $extension,
+                'file_url' => $upload['url'],
+                'file_path' => $upload['file'],
+                'file_type' => $upload['type'],
+            ];
+
+            return $new_file;
         }
 
         public function acadlix_get_system_languages()
