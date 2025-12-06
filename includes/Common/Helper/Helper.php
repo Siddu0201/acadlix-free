@@ -561,6 +561,8 @@ if (!class_exists('Helper')) {
                 'acadlix_notify_course_completion_to_admin' => 'no',
                 'acadlix_notify_failed_transation_to_student' => 'no',
                 'acadlix_notify_failed_transation_to_admin' => 'no',
+                'acadlix_notify_offline_purchase_to_student' => 'no',
+                'acadlix_notify_offline_purchase_to_admin' => 'no',
                 // Permalink option
                 'acadlix_course_base' => 'courses',
                 'acadlix_course_category_base' => 'course-category',

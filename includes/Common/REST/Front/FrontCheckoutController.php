@@ -743,7 +743,7 @@ class FrontCheckoutController
                 }
             }
             // send mail on success
-            // acadlix()->notifications()->email()->handleCoursePurchaseEmail( $order->id );
+            acadlix()->notifications()->email()->handleOfflinePurchaseEmail( $order->id );
         }
         $thankyou_page_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
         $redirect_url = !empty($thankyou_page_url) 

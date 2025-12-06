@@ -3,7 +3,6 @@ import React from 'react'
 import { __ } from '@wordpress/i18n';
 
 const OrderDetails = (props) => {
-
     const defaultSetting = {
         component: "Grid",
         component_name: "order_details_grid",

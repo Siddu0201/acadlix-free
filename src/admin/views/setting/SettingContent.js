@@ -166,6 +166,12 @@ const SettingContent = ({
     acadlix_notify_failed_transation_to_admin:
       options?.acadlix_notify_failed_transation_to_admin ??
       "no",
+    acadlix_notify_offline_purchase_to_student:
+      options?.acadlix_notify_offline_purchase_to_student ??
+      "no",
+    acadlix_notify_offline_purchase_to_admin:
+      options?.acadlix_notify_offline_purchase_to_admin ??
+      "no",
     // Permalink option
     acadlix_course_base:
       options?.acadlix_course_base ?? "courses",

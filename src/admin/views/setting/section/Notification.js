@@ -329,6 +329,93 @@ function Notification(props) {
                       },
                     ],
                   },
+                  {
+                    component: "Grid",
+                    component_name: "notification_offline_purchase_title_grid_item",
+                    props: {
+                      size: {
+                        xs: 12,
+                        lg: 4,
+                      },
+                    },
+                    children: [
+                      {
+                        component: "CustomTypography",
+                        component_name: "notification_offline_purchase_title_typography",
+                        value: __("Notify Offline Purchase To", "acadlix")
+                      },
+                    ],
+                  },
+                  {
+                    component: "Grid",
+                    component_name: "notification_offline_purchase_student_grid_item",
+                    props: {
+                      size: {
+                        xs: 12,
+                        lg: 4,
+                      },
+                    },
+                    children: [
+                      {
+                        component: "FormControlLabel",
+                        component_name: "notification_offline_purchase_student_form_control_label",
+                        props: {
+                          control: {
+                            component: "CustomSwitch",
+                          },
+                          label: __("Student", "acadlix"),
+                          value: "yes",
+                          checked: props?.watch("acadlix_notify_offline_purchase_to_student") === "yes",
+                          onClick: (e) => {
+                            if (e?.target?.checked !== undefined) {
+                              props?.setValue(
+                                "acadlix_notify_offline_purchase_to_student",
+                                e?.target?.checked ? e?.target?.value : "no",
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+                            }
+                          }
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    component: "Grid",
+                    component_name: "notification_offline_purchase_admin_grid_item",
+                    props: {
+                      size: {
+                        xs: 12,
+                        lg: 4,
+                      },
+                    },
+                    children: [
+                      {
+                        component: "FormControlLabel",
+                        component_name: "notification_offline_purchase_admin_form_control_label",
+                        props: {
+                          control: {
+                            component: "CustomSwitch",
+                          },
+                          label: __("Admin", "acadlix"),
+                          value: "yes",
+                          checked: props?.watch("acadlix_notify_offline_purchase_to_admin") === "yes",
+                          onClick: (e) => {
+                            if (e?.target?.checked !== undefined) {
+                              props?.setValue(
+                                "acadlix_notify_offline_purchase_to_admin",
+                                e?.target?.checked ? e?.target?.value : "no",
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+                            }
+                          }
+                        }
+                      },
+                    ],
+                  },
                 ],
               }
             ],
