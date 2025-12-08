@@ -25,7 +25,7 @@ const Login = (props) => {
       data['g-recaptcha-response'] = response;
     }
     axios
-      .post(  
+      .post(
         props?.ajax_url,
         new URLSearchParams({
           action: "acadlix_login",
@@ -37,7 +37,7 @@ const Login = (props) => {
         setIsLoading(false);
         // Allow hooks to handle the response and control whether to continue
         const shouldContinue = window?.acadlixHooks?.applyFilters?.('acadlix.front.user_auth.login.response', true, res, props);
-        
+
         if (!shouldContinue) {
           return; // Stop here if hook handled it
         }
@@ -357,18 +357,30 @@ const Login = (props) => {
                         },
                       },
                       {
-                        component: "Link",
-                        component_name: "login_modal_form_link_forgot_password",
+                        component: "Typography",
+                        component_name: "login_modal_form_typography_forgot_password",
                         props: {
-                          href: "#",
-                          onClick: (e) => {
-                            e?.preventDefault();
-                            props?.setValue("login_modal_type", "forgot-password", {
-                              shouldDirty: true,
-                            });
-                          }
+                          variant: "body2"
                         },
-                        value: __("Lost your password?", "acadlix")
+                        children: [
+                          {
+                            component: "Link",
+                            component_name: "login_modal_form_link_forgot_password",
+                            props: {
+                              href: "#",
+                              onClick: (e) => {
+                                e?.preventDefault();
+                                props?.setValue("login_modal_type", "forgot-password", {
+                                  shouldDirty: true,
+                                });
+                              },
+                              sx: {
+                                cursor: "pointer"
+                              }
+                            },
+                            value: __("Lost your password?", "acadlix")
+                          }
+                        ]
                       }
                     ]
                   },
