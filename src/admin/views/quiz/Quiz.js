@@ -153,6 +153,41 @@ const Quiz = () => {
       field: "shortcode",
       headerName: __("Shortcode", "acadlix"),
       flex: 2,
+      minWidth: 110,
+      renderCell: (params) => {
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Tooltip title={__("Copy Shortcode", "acadlix")} arrow>
+              <IconButton
+                onClick={() => {
+                  navigator?.clipboard
+                    ?.writeText(params?.value)
+                    .then(function () {
+                      toast.success(__("Shortcode copied to clipboard!", "acadlix"));
+                    })
+                    .catch(function (err) {
+                      console.error(__("Failed to copy text: ", "acadlix"), err);
+                    });
+                }}
+                size="small"
+              >
+                <MdFileCopy />
+              </IconButton>
+            </Tooltip>
+            <Box>{params.value}</Box>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "leaderboard",
+      headerName: __("Leaderboard", "acadlix"),
+      flex: 2,
       minWidth: 150,
       renderCell: (params) => {
         return (
@@ -305,6 +340,7 @@ const Quiz = () => {
           mode: quiz?.rendered_metas?.mode,
           category: quiz?.category?.name ?? "Uncategorized",
           shortcode: `[Acadlix_Quiz ${quiz?.quiz_shortcode?.id}]`,
+          leaderboard: `[Acadlix_Leaderboard ${quiz?.quiz_shortcode?.id}]`,
           total_questions: quiz?.questions_count,
         };
       });

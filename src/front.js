@@ -5,6 +5,7 @@ import domReady from '@wordpress/dom-ready';
 import { createRoot } from '@wordpress/element';
 import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
 import FrontLogin from './front/FrontLogin';
+import AppFrontLeaderboard from './front/AppFrontLeaderboard';
 
 (async () => {
     await loadFrontHooks(window?.acadlixHooks);
@@ -30,6 +31,21 @@ import FrontLogin from './front/FrontLogin';
                         />
                     );
                 }
+            });
+        }
+        const leaderboardShortcode = document.querySelectorAll('.acadlix-front-leaderboard');
+        if (leaderboardShortcode.length > 0) {
+            leaderboardShortcode.forEach((short, index) => {
+                if (!short.__REACT_ROOT__) {
+                    short.__REACT_ROOT__ = createRoot(short);
+                }
+                short.__REACT_ROOT__.render(
+                    <AppFrontLeaderboard
+                        quiz_elm={short}
+                        elm_index={index}
+                        quiz_id={short.getAttribute('id')}  
+                    />
+                );
             });
         }
         const loginShortcode = document.querySelectorAll('.acadlix-front-login');
@@ -66,8 +82,9 @@ import FrontLogin from './front/FrontLogin';
                 mutation.addedNodes.forEach((node) => {
                     if (node.nodeType === 1) {
                         const targetElement = node.querySelector(".acadlix-front");
+                        const leaderboardElement = node.querySelector(".acadlix-front-leaderboard");
                         const loginElement = node.querySelector(".acadlix-front-login");
-                        if (targetElement || loginElement) {
+                        if (targetElement || leaderboardElement || loginElement) {
                             document.dispatchEvent(new Event('shortcodeLoaded'));
                             // observer.disconnect(); // Stop observing after first detection
                         }

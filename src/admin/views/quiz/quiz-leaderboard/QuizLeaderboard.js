@@ -15,13 +15,11 @@ import Grid from '@mui/material/Grid';
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
-import First from "@acadlix/images/medal-1.svg";
-import Second from "@acadlix/images/medal-2.svg";
-import Third from "@acadlix/images/medal-3.svg";
 import { PostQuizLoadMoreLeaderderboard, PostResetLeaderboardByQuizId } from "@acadlix/requests/admin/AdminLeaderboardRequest";
 import { TiArrowLeftThick } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
+import { sprintf } from "@wordpress/i18n";
 
 const QuizLeaderboard = () => {
   const styles = {

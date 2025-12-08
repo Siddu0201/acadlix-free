@@ -66,6 +66,25 @@ class FrontQuizController
 
         register_rest_route(
             $this->namespace,
+            '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/leaderboard',
+            [
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => [$this, 'get_front_quiz_leaderboard_by_id'],
+                'permission_callback' => [$this, 'check_permission'],
+                'args' => array(
+                    'quiz_id' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            return is_numeric($param);
+                        }
+                    ),
+                ),
+            ],
+        );
+
+
+
+        register_rest_route(
+            $this->namespace,
             '/' . $this->base . '/load-more-leaderboard/(?P<quiz_id>[\d]+)',
             [
                 [
@@ -219,16 +238,16 @@ class FrontQuizController
         }
 
         // Save course statistic attempt time
-        if($type == "course_statistic" && $course_statistic_id) {
+        if ($type == "course_statistic" && $course_statistic_id) {
             acadlix()->model()->userActivityMeta()
-            ->create([
-                "user_token" => $params['user_token'],
-                "user_id" => $params['user_id'],
-                "type" => $type,
-                "type_id" => $course_statistic_id,
-                "meta_key" => "course_statistic_quiz_attempt_time", // phpcs:ignore
-                "meta_value" => time() // phpcs:ignore
-            ]);
+                ->create([
+                    "user_token" => $params['user_token'],
+                    "user_id" => $params['user_id'],
+                    "type" => $type,
+                    "type_id" => $course_statistic_id,
+                    "meta_key" => "course_statistic_quiz_attempt_time", // phpcs:ignore
+                    "meta_value" => time() // phpcs:ignore
+                ]);
         }
         $res['attempts'] = $attempts;
 
@@ -252,7 +271,7 @@ class FrontQuizController
         $user_token = $params['user_token'];
         $type = $params['quiz_attempt_type'] ?? "shortcode";
         $course_statistic_id = $params['course_statistic_id'] ?? 0;
-        
+
         $data = [
             "quiz_id" => (int) $quiz_id,
             "user_token" => $params["user_token"],
@@ -294,16 +313,16 @@ class FrontQuizController
                 }
 
                 // Save statistic_ref_id if type is course_statistic
-                if($type == "course_statistic" && $course_statistic_id) {
+                if ($type == "course_statistic" && $course_statistic_id) {
                     acadlix()->model()->userActivityMeta()
-                    ->create([
-                        "user_token" => $params['user_token'],
-                        "user_id" => $params['user_id'],
-                        "type" => $type,
-                        "type_id" => $course_statistic_id,
-                        "meta_key" => "statistic_ref_id", // phpcs:ignore
-                        "meta_value" => $stat_ref->id // phpcs:ignore
-                    ]);
+                        ->create([
+                            "user_token" => $params['user_token'],
+                            "user_id" => $params['user_id'],
+                            "type" => $type,
+                            "type_id" => $course_statistic_id,
+                            "meta_key" => "statistic_ref_id", // phpcs:ignore
+                            "meta_value" => $stat_ref->id // phpcs:ignore
+                        ]);
                 }
             }
             $show_average_score = $quiz->rendered_metas['quiz_settings']['show_average_score'] ?? false;
@@ -384,6 +403,43 @@ class FrontQuizController
             );
         }
 
+        return rest_ensure_response($res);
+    }
+
+    public function get_front_quiz_leaderboard_by_id($request)
+    {
+         $res = [];
+        $quiz_id = $request['quiz_id'];
+
+        // Validate required fields
+        if (empty($quiz_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('Quiz id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
+        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id)->setAppends([
+            'rendered_post_content',
+            'rendered_metas',
+            'category',
+            'languages',
+        ]);
+
+        $res['quiz'] = $quiz;
+
+        $leaderboard = $quiz->rendered_metas['quiz_settings']['leaderboard'] ?? false;
+        if ($leaderboard) {
+            $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
+            $toplist = acadlix()->model()->toplist();
+            $entry = 10;
+            if ($leaderboard_total_number_of_entries > 0 && $leaderboard_total_number_of_entries < $entry) {
+                $res['toplist'] = $toplist->getTopList($quiz_id, 0, $leaderboard_total_number_of_entries);
+            } else {
+                $res['toplist'] = $toplist->getTopList($quiz_id, 0, $entry);
+            }
+            $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
+        }
         return rest_ensure_response($res);
     }
 

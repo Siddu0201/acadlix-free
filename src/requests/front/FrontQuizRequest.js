@@ -38,6 +38,20 @@ export const PostSaveResultById = (quiz_id = '') => {
     })
 }
 
+export const GetFrontQuizLeaderboardById = (quiz_id = '', params = {}) => {
+    const instance = useInstance();
+    return useQuery({
+        queryKey: ["getFrontQuizLeaderboardById", quiz_id],
+        queryFn: () => {
+            return instance.get(`${base}/${quiz_id}/leaderboard`, {
+                params: {
+                    _t: Date.now(),
+                }
+            });
+        },
+    })
+}
+
 export const PostLoadMoreLeaderboard = (quiz_id = '') => {
     const instance = useInstance();
     return useMutation({

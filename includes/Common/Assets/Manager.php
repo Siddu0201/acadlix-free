@@ -26,6 +26,7 @@ class Manager
         add_action('wp_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_common_assets']);
         add_shortcode('Acadlix_Quiz', [$this, 'add_shortcode_quiz']);
+        add_shortcode('Acadlix_Leaderboard', [$this, 'add_shortcode_leaderboard']);
         add_shortcode('acadlix_login', [$this, 'add_shortcode_login']);
         // add_shortcode('Acadlix_Dashboard', [$this, 'acadlix_dashboard_shortcode']);
         // add_shortcode('Acadlix_Advance_Quiz', [$this, 'acadlix_advance_quiz_shortcode']);
@@ -100,6 +101,34 @@ class Manager
                 <?php
             } else {
                 echo '[Acadlix_Quiz ' . esc_html($id) . ']';
+            }
+            $content = ob_get_contents();
+            ob_get_clean();
+        }
+        return $content;
+    }
+
+    public function add_shortcode_leaderboard($atts)
+    {
+        $id = $atts[0];
+        $content = '';
+
+        if (is_numeric($id)) {
+            ob_start();
+            $quiz = acadlix()->model()->quiz()->ofQuiz()->whereHas('quiz_shortcode', function ($query) use ($id) {
+                $query->where('id', $id);
+            })->first();
+            if ($quiz) {
+                ?>
+                <div class="acadlix-front-leaderboard" id="<?php echo esc_html($quiz->ID); ?>"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        document.dispatchEvent(new Event('shortcodeLoaded'));
+                    });
+                </script>
+                <?php
+            } else {
+                echo '[Acadlix_Leaderboard ' . esc_html($id) . ']';
             }
             $content = ob_get_contents();
             ob_get_clean();

@@ -1,13 +1,14 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
-import First from "@acadlix/images/medal-1.svg";
-import Second from "@acadlix/images/medal-2.svg";
-import Third from "@acadlix/images/medal-3.svg";
 import { PostLoadMoreLeaderboard } from "@acadlix/requests/front/FrontQuizRequest";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 
-const LeaderboardSection = (props) => {
+const LeaderboardSection = ({
+  via_shortcode = false,
+  ...props
+}
+) => {
   const styles = {
     header: {
       color: "white",
@@ -131,7 +132,11 @@ const LeaderboardSection = (props) => {
           sx={{ fontWeight: "600" }}
           className="acadlix-normal-quiz-leaderboard-header-text"
         >
-          {__("Leaderboard", "acadlix")}
+          {via_shortcode ? sprintf(
+            /* translators: %s - quiz title */
+            __("Leaderboard for %s", "acadlix"),
+            props?.watch("title")
+          ) : __("Leaderboard", "acadlix")}
         </Typography>
       </Box>
 
