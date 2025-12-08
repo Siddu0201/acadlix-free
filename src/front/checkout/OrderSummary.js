@@ -9,7 +9,8 @@ const OrderSummary = (props) => {
       acadlixCheckoutOptions?.is_razorpay_active ||
       acadlixCheckoutOptions?.is_paypal_active ||
       acadlixCheckoutOptions?.is_payu_active ||
-      acadlixCheckoutOptions?.is_stripe_active
+      acadlixCheckoutOptions?.is_stripe_active ||
+      acadlixCheckoutOptions?.is_offline_active
     ) {
       return true;
     }
