@@ -44,6 +44,7 @@ class Ajax
 
             $username = sanitize_text_field($_POST['username'] ?? '');
             $password = sanitize_text_field($_POST['password'] ?? '');
+            $remember = isset($_POST['remember']) ? boolval($_POST['remember']) : true;
 
             /**
              * 1. PRE-VALIDATION HOOK
@@ -103,7 +104,18 @@ class Ajax
             /**
              * 5. LOG THE USER IN
              */
-            wp_set_auth_cookie($user->ID, true);
+            $creds = array(
+                'user_login' => $username,
+                'user_password' => $password,
+                'remember' => $remember,
+            );
+            $signed_in_user = wp_signon($creds, false);
+            if (is_wp_error($signed_in_user)) {
+                wp_send_json_error([
+                    'error_stage' => 'signon',
+                    'message' => $signed_in_user->get_error_message(),
+                ]);
+            }
 
             /**
              * 6. FINAL RESPONSE (can be customized entirely)
@@ -202,7 +214,7 @@ class Ajax
                 $user_id
             );
 
-            if($auto_login instanceof WP_Error){
+            if ($auto_login instanceof WP_Error) {
                 wp_send_json_error([
                     'error_stage' => 'auto_login_check',
                     'message' => $auto_login->get_error_message(),
@@ -210,7 +222,19 @@ class Ajax
             }
 
             if ($auto_login) {
-                wp_set_auth_cookie($user_id, true);
+                $creds = array(
+                    'user_login' => $username,
+                    'user_password' => $password,
+                    'remember' => true,
+                );
+                $signed_in_user = wp_signon($creds, false);
+                if (is_wp_error($signed_in_user)) {
+                    wp_send_json_error([
+                        'error_stage' => 'signon',
+                        'message' => $signed_in_user->get_error_message(),
+                    ]);
+                }
+                // wp_set_auth_cookie($user_id, true);
             }
 
             /**
@@ -222,7 +246,7 @@ class Ajax
                 'message' => __('Registration successful', 'acadlix'),
             ], $user_id);
 
-            if($response instanceof WP_Error){
+            if ($response instanceof WP_Error) {
                 wp_send_json_error([
                     'error_stage' => 'final_response',
                     'message' => $response->get_error_message(),
