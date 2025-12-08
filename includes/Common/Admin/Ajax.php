@@ -109,11 +109,11 @@ class Ajax
                 'user_password' => $password,
                 'remember' => $remember,
             );
-            $signed_in_user = wp_signon($creds, false);
-            if (is_wp_error($signed_in_user)) {
+            $user = wp_signon($creds, false);
+            if (is_wp_error($user)) {
                 wp_send_json_error([
                     'error_stage' => 'signon',
-                    'message' => $signed_in_user->get_error_message(),
+                    'message' => $user->get_error_message(),
                 ]);
             }
 
@@ -227,11 +227,11 @@ class Ajax
                     'user_password' => $password,
                     'remember' => true,
                 );
-                $signed_in_user = wp_signon($creds, false);
-                if (is_wp_error($signed_in_user)) {
+                $user = wp_signon($creds, false);
+                if (is_wp_error($user)) {
                     wp_send_json_error([
                         'error_stage' => 'signon',
-                        'message' => $signed_in_user->get_error_message(),
+                        'message' => $user->get_error_message(),
                     ]);
                 }
                 // wp_set_auth_cookie($user_id, true);
