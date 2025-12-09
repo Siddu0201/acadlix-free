@@ -45,6 +45,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogActions,
+  FormGroup,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React, { Suspense } from "react";
@@ -104,6 +105,7 @@ const COMPONENT_MAP = {
   DataGrid,
   Select,
   MenuItem,
+  FormGroup,
   FormControl,
   FormLabel,
   FormControlLabel,
