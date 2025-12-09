@@ -39,6 +39,7 @@ const Authentication = (props) => {
                             },
                             {
                                 component: "Grid",
+                                component_name: "setting_authentication_login_option_grid",
                                 props: {
                                     container: true,
                                     spacing: {
@@ -52,6 +53,7 @@ const Authentication = (props) => {
                                 children: [
                                     {
                                         component: "Grid",
+                                        component_name: "setting_authentication_login_option_grid_item_login_shortcode_label",
                                         props: {
                                             size: { xs: 12, sm: 6, lg: 3 },
                                         },
@@ -64,6 +66,7 @@ const Authentication = (props) => {
                                     },
                                     {
                                         component: "Grid",
+                                        component_name: "setting_authentication_login_option_grid_item_login_shortcode_value",
                                         props: {
                                             size: { xs: 12, sm: 6, lg: 4 },
                                         },
@@ -78,6 +81,92 @@ const Authentication = (props) => {
                                             }
                                         ],
                                     },
+                                    {
+                                        component: "Grid",
+                                        component_name: "setting_authentication_login_option_grid_item_spacer",
+                                        props: {
+                                            size: { xs: 0, sm: 0, lg: 5 },
+                                        }
+                                    },
+                                    {
+                                        component: "Grid",
+                                        component_name: "setting_authentication_login_option_grid_item_default_screen_label",
+                                        props: {
+                                            size: { xs: 12, sm: 6, lg: 3 },
+                                        },
+                                        children: [
+                                            {
+                                                component: "CustomTypography",
+                                                value: __("Default Screen", "acadlix"),
+                                            }
+                                        ],
+                                    },
+                                    {
+                                        component: "Grid",
+                                        component_name: "setting_authentication_login_option_grid_item_default_screen_value",
+                                        props: {
+                                            size: { xs: 12, sm: 6, lg: 9 },
+                                        },
+                                        children: [
+                                            {
+                                                component: "FormGroup",
+                                                component_name: "setting_authentication_login_option_default_screen_form_group",
+                                                props: {
+                                                    row: true,
+                                                },
+                                                children: [
+                                                    {
+                                                        component: "FormControlLabel",
+                                                        component_name: "setting_authentication_login_option_default_screen_form_control_label_login",
+                                                        props: {
+                                                            control: {
+                                                                component: "Radio",
+                                                                props: {
+                                                                    size: "small",
+                                                                },
+                                                            },
+                                                            label: __("Login Screen", "acadlix"),
+                                                            value: "login",
+                                                            checked: props?.watch("acadlix_default_auth_screen") === "login",
+                                                            onClick: (e) => {
+                                                                if (e?.target?.checked !== undefined) {
+                                                                    props?.setValue(
+                                                                        "acadlix_default_auth_screen",
+                                                                        e?.target?.value,
+                                                                        { shouldDirty: true }
+                                                                    )
+                                                                }
+                                                            },
+                                                        },
+                                                    },
+                                                    {
+                                                        component: "FormControlLabel",
+                                                        component_name: "setting_authentication_login_option_default_screen_form_control_label_register",
+                                                        props: {
+                                                            control: {
+                                                                component: "Radio",
+                                                                props: {
+                                                                    size: "small",
+                                                                },
+                                                            },
+                                                            label: __("Register Screen", "acadlix"),
+                                                            value: "register",
+                                                            checked: props?.watch("acadlix_default_auth_screen") === "register",
+                                                            onClick: (e) => {
+                                                                if (e?.target?.checked !== undefined) {
+                                                                    props?.setValue(
+                                                                        "acadlix_default_auth_screen",
+                                                                        e?.target?.value,
+                                                                        { shouldDirty: true }
+                                                                    )
+                                                                }
+                                                            },
+                                                        },
+                                                    },
+                                                ],
+                                            }
+                                        ],
+                                    }
                                 ],
                             }
                         ],

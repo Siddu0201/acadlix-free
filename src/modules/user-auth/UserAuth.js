@@ -24,7 +24,7 @@ const UserAuth = ({
   const methods = useForm({
     defaultValues: {
       users_can_register: Boolean(Number(users_can_register)),
-      login_modal_type: "login", // login/register/forgot-password
+      login_modal_type: acadlixOptions.settings.acadlix_default_auth_screen ?? "login", // login/register/forgot-password
     }
   });
 
