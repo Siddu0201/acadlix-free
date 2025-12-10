@@ -433,4 +433,44 @@ export const generateFileName = (name, separator = "_") => {
     .replace(new RegExp(`^${separator}|${separator}$`, "g"), ""); // remove separators at start/end
 }
 
+export const maskEmail = (email, unmaskCount = 1, maskDomain = false) => {
+    const parts = email.split("@");
+    if (parts.length !== 2) return email;
+
+    let [user, domain] = parts;
+
+    // --- Handle username masking ---
+    if (unmaskCount < 0) unmaskCount = 0;
+    if (unmaskCount > user.length) unmaskCount = user.length;
+
+    const visibleUser = user.slice(0, unmaskCount);
+    const maskedUser = visibleUser + "*".repeat(user.length - unmaskCount);
+
+    // --- Handle domain masking ---
+    if (maskDomain) {
+        const domainParts = domain.split(".");
+        const domainName = domainParts[0];
+        const tld = domainParts.slice(1).join("."); // .com, .in, .co.in
+
+        const maskedDomainName =
+            domainName[0] + "*".repeat(domainName.length - 1);
+
+        domain = maskedDomainName + (tld ? "." + tld : "");
+    }
+
+    return maskedUser + "@" + domain;
+}
+
+export const maskMobile = (mobile, unmaskCount = 4) => {
+    const digits = mobile.replace(/\D/g, ""); // remove non-digits
+
+    if (digits.length < unmaskCount) return mobile; // not enough digits to mask
+
+    const visible = digits.slice(-unmaskCount);
+    const masked = "*".repeat(digits.length - unmaskCount) + visible;
+
+    return masked;
+}
+
+
 
