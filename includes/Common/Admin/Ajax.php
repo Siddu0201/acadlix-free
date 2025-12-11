@@ -252,6 +252,11 @@ class Ajax
             $password = wp_generate_password(12, false);
         }
 
+        $user_can_register = acadlix()->helper()->acadlix_get_option("users_can_register", false);
+        if ( ! $user_can_register ) {
+            return new WP_Error('registration_disabled', __('User registration is currently disabled.', 'acadlix'));
+        }
+
         // Create user
         $user_id = apply_filters(
             'acadlix_register_user',
