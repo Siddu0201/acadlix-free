@@ -183,12 +183,13 @@ class Ajax
              * 3. CORE REGISTRATION LOGIC (filterable)
              *    PRO plugin can override user creation logic completely.
              */
-            $user_id = apply_filters(
-                'acadlix_register_create_user',
-                wp_create_user($username, $password, $email),
+            $user_id = $this->acadlix_register_user(
                 $username,
                 $email,
-                $password
+                $password,
+                [],
+                [],
+                true
             );
 
             if (is_wp_error($user_id)) {
@@ -199,50 +200,10 @@ class Ajax
             }
 
             /**
-             * 4. POST-REGISTRATION HOOK
-             *    For: Email verification, profile creation, CRM connection, welcome SMS
-             */
-            do_action('acadlix_register_after_create', $user_id, $username, $email);
-
-            /**
-             * 5. AUTO-LOGIN CONTROL
-             *    PRO plugin can disable auto-login (e.g., require email verification)
-             */
-            $auto_login = apply_filters(
-                'acadlix_register_auto_login',
-                true,
-                $user_id
-            );
-
-            if ($auto_login instanceof WP_Error) {
-                wp_send_json_error([
-                    'error_stage' => 'auto_login_check',
-                    'message' => $auto_login->get_error_message(),
-                ]);
-            }
-
-            if ($auto_login) {
-                $creds = array(
-                    'user_login' => $username,
-                    'user_password' => $password,
-                    'remember' => true,
-                );
-                $user = wp_signon($creds, false);
-                if (is_wp_error($user)) {
-                    wp_send_json_error([
-                        'error_stage' => 'signon',
-                        'message' => $user->get_error_message(),
-                    ]);
-                }
-                // wp_set_auth_cookie($user_id, true);
-            }
-
-            /**
-             * 6. FINAL RESPONSE TO FRONTEND (customizable)
+             * 4. FINAL RESPONSE TO FRONTEND (customizable)
              */
             $response = apply_filters('acadlix_register_response', [
                 'user_id' => $user_id,
-                'auto_login' => $auto_login,
                 'message' => __('Registration successful', 'acadlix'),
             ], $user_id);
 
@@ -263,6 +224,81 @@ class Ajax
         }
     }
 
+    protected function acadlix_register_user(
+        $username,
+        $email,
+        $password = '',
+        $user_data = [],
+        $user_meta = [],
+        $auto_login = false
+    ) {
+        if (empty($username) || empty($email)) {
+            return new WP_Error('missing_fields', __('Username and email are required.', 'acadlix'));
+        }
+
+        if (!is_email($email)) {
+            return new WP_Error('invalid_email', __('Invalid email address.', 'acadlix'));
+        }
+
+        if (username_exists($username)) {
+            return new WP_Error('username_exists', __('Username already exists.', 'acadlix'));
+        }
+
+        if (email_exists($email)) {
+            return new WP_Error('email_exists', __('Email already registered.', 'acadlix'));
+        }
+
+        if (empty($password)) {
+            $password = wp_generate_password(12, false);
+        }
+
+        // Create user
+        $user_id = apply_filters(
+            'acadlix_register_user',
+            wp_create_user($username, $password, $email),
+            $username,
+            $email,
+            $password
+        );
+        if (is_wp_error($user_id)) {
+            return $user_id; // return error if user creation failed WP_Error
+        }
+
+        do_action('acadlix_register_after_create', $user_id, $username, $email);
+
+        // Update user data
+        if (!empty($user_data)) {
+            $user_data['ID'] = $user_id;
+            wp_update_user($user_data);
+        }
+
+        // Add user meta
+        if (!empty($user_meta)) {
+            foreach ($user_meta as $meta_key => $meta_value) {
+                update_user_meta($user_id, $meta_key, $meta_value);
+            }
+        }
+
+        $auto_login = apply_filters(
+            'acadlix_register_auto_login',
+            $auto_login,
+            $user_id
+        );
+
+        if( is_wp_error($auto_login)) {
+            return $auto_login;
+        }
+
+        // Auto login
+        if ($auto_login) {
+            wp_set_current_user($user_id);
+            wp_set_auth_cookie($user_id, true);
+
+            do_action('wp_login', $username, get_user_by('id', $user_id));
+        }
+
+        return $user_id;
+    }
 
     public function acadlix_forgot_password()
     {
@@ -322,6 +358,8 @@ class Ajax
 
         return $return; // no error → continue login pipeline
     }
+
+
 
     public static function instance()
     {
