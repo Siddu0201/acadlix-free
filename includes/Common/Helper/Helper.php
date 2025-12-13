@@ -1444,6 +1444,28 @@ if (!class_exists('Helper')) {
             return json_last_error() === JSON_ERROR_NONE;
         }
 
+        public function acadlix_format_e164($phone, $country_code)
+        {
+            if (empty($phone) || empty($country_code)) {
+                return '';
+            }
+
+            // If already E.164 → trust but verify
+            if (strpos($phone, '+') === 0) {
+                return preg_replace('/[^\+\d]/', '', $phone);
+            }
+
+            $phone = preg_replace('/\D/', '', $phone);
+            $country_code = preg_replace('/\D/', '', $country_code);
+
+            // Remove leading zero
+            if (substr($phone, 0, 1) === '0') {
+                $phone = substr($phone, 1);
+            }
+
+            return '+' . $country_code . $phone;
+        }
+
         public static function instance()
         {
             if (is_null(self::$_instance)) {
