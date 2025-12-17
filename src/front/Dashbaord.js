@@ -42,7 +42,7 @@ const Dashbaord = () => {
             login_modal={methods?.watch("login_modal")}
             users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
             ajax_url={acadlixOptions?.ajax_url}
-            nonce={acadlixOptions?.nonce}
+            nonce={acadlixOptions?.nonces?.auth || ""}
             handleClose={() => methods?.setValue("login_modal", false)}
           />
           <h3>{__('Please login: ', 'acadlix')}

@@ -181,7 +181,7 @@ const DescriptionSection = (props) => {
         login_modal={props?.watch("login_modal")}
         users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
         ajax_url={acadlixOptions?.ajax_url}
-        nonce={acadlixOptions?.nonce}
+        nonce={acadlixOptions?.nonces?.auth || ""}
         handleClose={() => props?.setValue("login_modal", false)}
         onSuccessLogin={handleUserLogin}
         onSuccessRegister={handleUserLogin}

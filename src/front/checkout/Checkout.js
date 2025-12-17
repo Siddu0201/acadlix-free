@@ -504,7 +504,7 @@ const Checkout = () => {
           login_modal={methods?.watch("login_modal")}
           users_can_register={Boolean(Number(acadlixCheckoutOptions?.users_can_register))}
           ajax_url={acadlixCheckoutOptions?.ajax_url}
-          nonce={acadlixCheckoutOptions?.nonce}
+          nonce={acadlixOptions?.nonces?.auth || ""}
           handleClose={() => methods?.setValue("login_modal", false)}
         />,
         component_name: "checkout_user_auth",
