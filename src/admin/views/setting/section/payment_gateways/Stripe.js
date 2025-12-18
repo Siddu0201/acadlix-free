@@ -200,10 +200,11 @@ const Stripe = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "stripe_public_key_input",
                                 props: {
+                                    ...props?.register("acadlix_stripe_public_key"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Public key", "acadlix"),
-                                    value: props?.watch("acadlix_stripe_public_key"),
+                                    // value: props?.watch("acadlix_stripe_public_key"),
                                     onChange: (e) => {
                                         props?.setValue(
                                             "acadlix_stripe_public_key",
@@ -242,10 +243,11 @@ const Stripe = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "stripe_secret_key_input",
                                 props: {
+                                    ...props?.register("acadlix_stripe_secret_key"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Secret Key", "acadlix"),
-                                    value: props?.watch("acadlix_stripe_secret_key"),
+                                    // value: props?.watch("acadlix_stripe_secret_key"),
                                     onChange: (e) => {
                                         props?.setValue(
                                             "acadlix_stripe_secret_key",
@@ -284,10 +286,11 @@ const Stripe = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "stripe_webhook_signature_key_input",
                                 props: {
+                                    ...props?.register("acadlix_stripe_webhook_signature_key"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Webhook Signature Key", "acadlix"),
-                                    value: props?.watch("acadlix_stripe_webhook_signature_key"),
+                                    // value: props?.watch("acadlix_stripe_webhook_signature_key"),
                                     onChange: (e) => {
                                         props?.setValue(
                                             "acadlix_stripe_webhook_signature_key",

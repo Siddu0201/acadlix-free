@@ -77,10 +77,11 @@ const Payment = (props) => {
                         component: "CustomTextField",
                         component_name: "course_payment_price_text_field",
                         props: {
+                          ...props?.register("meta.price"),
                           fullWidth: true,
                           size: "small",
                           type: "number",
-                          value: props?.watch("meta.price") ?? 0,
+                          // value: props?.watch("meta.price") ?? 0,
                           slotProps: {
                             htmlInput: {
                               min: 0, // 👈 set minimum value here
@@ -237,10 +238,11 @@ const Payment = (props) => {
                         component: "CustomTextField",
                         component_name: "course_payment_sale_price_text_field",
                         props: {
+                          ...props?.register("meta.sale_price"),
                           fullWidth: true,
                           size: "small",
                           type: "number",
-                          value: props?.watch("meta.sale_price") ?? 0,
+                          // value: props?.watch("meta.sale_price") ?? 0,
                           slotProps: {
                             htmlInput: {
                               min: 0, // 👈 set minimum value here
@@ -398,11 +400,12 @@ const Payment = (props) => {
                         component: "CustomTextField",
                         component_name: "course_payment_tax_percent_text_field",
                         props: {
+                          ...props?.register("meta.tax_percent"),
                           fullWidth: true,
                           size: "small",
                           type: "number",
                           disabled: !props?.watch("meta.tax"),
-                          value: props?.watch("meta.tax_percent") ?? 0,
+                          // value: props?.watch("meta.tax_percent") ?? 0,
                           slotProps: {
                             htmlInput: {
                               min: 0, // 👈 set minimum value here

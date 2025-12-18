@@ -184,12 +184,13 @@ const Student = () => {
                                 component: "CustomTextField",
                                 component_name: "admin_student_card_content_search_box_custom_text_field",
                                 props: {
+                                  ...methods?.register("search"),
                                   label: __("Search", "acadlix"),
                                   helperText: __("Search by name, email", "acadlix"),
                                   fullWidth: true,
                                   size: "small",
                                   type: "search",
-                                  value: methods?.watch("search"),
+                                  // value: methods?.watch("search"),
                                   onChange: handleSearch,
                                   slotProps: {
                                     input: {

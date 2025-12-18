@@ -209,11 +209,12 @@ const PayPal = (props) => {
                             {
                                 component: "PasswordTextField",
                                 props: {
+                                    ...props?.register("acadlix_paypal_client_id"),
                                     component_name: "paypal_client_id_input",
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Client ID", "acadlix"),
-                                    value: props?.watch("acadlix_paypal_client_id"),
+                                    // value: props?.watch("acadlix_paypal_client_id"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_paypal_client_id", e?.target?.value, {
                                             shouldDirty: true,
@@ -249,10 +250,11 @@ const PayPal = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "paypal_secret_key_input",
                                 props: {
+                                    ...props?.register("acadlix_paypal_secret_key"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Secret Key", "acadlix"),
-                                    value: props?.watch("acadlix_paypal_secret_key"),
+                                    // value: props?.watch("acadlix_paypal_secret_key"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_paypal_secret_key", e?.target?.value, {
                                             shouldDirty: true,
@@ -288,10 +290,11 @@ const PayPal = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "paypal_webhook_id_input",
                                 props: {
+                                    ...props?.register("acadlix_paypal_webhook_id"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Webhook ID", "acadlix"),
-                                    value: props?.watch("acadlix_paypal_webhook_id"),
+                                    // value: props?.watch("acadlix_paypal_webhook_id"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_paypal_webhook_id", e?.target?.value, {
                                             shouldDirty: true,

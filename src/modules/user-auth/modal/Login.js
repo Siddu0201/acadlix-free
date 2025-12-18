@@ -250,7 +250,7 @@ const Login = (props) => {
                       type: "text",
                       name: "username",
                       placeholder: __("Username/email", "acadlix"),
-                      value: methods?.watch("username"),
+                      // value: methods?.watch("username"),
                       onChange: (e) => {
                         methods?.setValue("username", e?.target?.value, {
                           shouldDirty: true,
@@ -302,6 +302,7 @@ const Login = (props) => {
                     component: "PasswordTextField",
                     component_name: "login_modal_form_password_textfield",
                     props: {
+                      ...methods?.register("password", { required: true }),
                       fullWidth: true,
                       required: true,
                       autoComplete: "password",
@@ -309,13 +310,14 @@ const Login = (props) => {
                       size: "small",
                       name: "password",
                       placeholder: __("Password", "acadlix"),
-                      value: methods?.watch("password"),
+                      // value: methods?.watch("password"),
                       onChange: (e) => {
                         methods?.setValue("password", e?.target?.value, {
                           shouldDirty: true,
                         });
                       },
-                      error: Boolean(methods?.formState?.errors?.password)
+                      error: Boolean(methods?.formState?.errors?.password),
+                      helperText: methods?.formState?.errors?.password?.message,
                     }
                   }
                 ]

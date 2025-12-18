@@ -151,7 +151,7 @@ const ForgotPassword = (props) => {
                             type: "text",
                             name: "username",
                             placeholder: __("Username/email", 'acadlix'),
-                            value: methods?.watch("username"),
+                            // value: methods?.watch("username"),
                             onChange: (e) => methods?.setValue("username", e?.target?.value, { shouldDirty: true }),
                             error: Boolean(methods?.formState?.errors?.username)
                           }

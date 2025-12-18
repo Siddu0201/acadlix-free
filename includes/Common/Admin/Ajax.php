@@ -169,6 +169,21 @@ class Ajax
             $username = sanitize_text_field($_POST['username'] ?? '');
             $email = sanitize_email($_POST['email'] ?? '');
             $password = sanitize_text_field($_POST['password'] ?? '');
+            $phonecode = sanitize_text_field($_POST['phonecode'] ?? '');
+            $phone_number = sanitize_text_field($_POST['phone_number'] ?? '');
+
+            // check if phone number are already used by another user
+            if (!empty($phone_number)) {
+                $existing_users = acadlix()->model()->wpUserMeta()
+                    ->where('meta_key', acadlix()->helper()->acadlix_get_option("acadlix_phone_user_meta_key", '_acadlix_profile_phone_number'))
+                    ->where('meta_value', $phone_number)
+                    ->first();
+
+                if (!empty($existing_users)) {
+                    wp_send_json_error(['message' => __('Phone number is already in use.', 'acadlix')]);
+                }
+            }
+
 
             /**
              * 1. PRE-VALIDATION
@@ -198,12 +213,17 @@ class Ajax
              * 3. CORE REGISTRATION LOGIC (filterable)
              *    PRO plugin can override user creation logic completely.
              */
+            $user_meta = [
+                acadlix()->helper()->acadlix_get_option("acadlix_phonecode_user_meta_key", '_acadlix_profile_phonecode') => $phonecode,
+                acadlix()->helper()->acadlix_get_option("acadlix_phone_user_meta_key", '_acadlix_profile_phone_number') => $phone_number,
+            ];
+
             $user_id = $this->acadlix_register_user(
                 $username,
                 $email,
                 $password,
                 [],
-                [],
+                $user_meta,
                 true
             );
 
@@ -322,7 +342,7 @@ class Ajax
 
     public function acadlix_forgot_password()
     {
-        try{
+        try {
             if (
                 !isset($_POST['nonce']) ||
                 !wp_verify_nonce($_POST['nonce'], 'acadlix_auth_nonce')
@@ -332,16 +352,16 @@ class Ajax
                     'error_code' => 'invalid_nonce'
                 ], 403);
             }
-    
+
             $user_identifier = isset($_POST['username']) ? sanitize_text_field(wp_unslash($_POST['username'])) : '';
-    
+
             if (isset($_POST['g-recaptcha-response'])) {
                 $recaptchav3 = acadlix()->authentications()->recaptchav3()->verify($_POST['g-recaptcha-response']);
                 if (is_wp_error($recaptchav3)) {
                     wp_send_json_error(['message' => $recaptchav3->get_error_message(), 'error_code' => $recaptchav3->get_error_code()]);
                 }
             }
-    
+
             if (is_email($user_identifier)) {
                 // If it's an email, get the user by email
                 $user = get_user_by('email', $user_identifier);
@@ -355,18 +375,18 @@ class Ajax
                     return wp_send_json_error(['message' => __('This username is not registered.', 'acadlix')]);
                 }
             }
-    
+
             // // Register the user
             $result = retrieve_password($user->user_login);
             if (is_wp_error($result)) {
                 return wp_send_json_error(['message' => $result->get_error_message()]);
             }
-    
+
             return wp_send_json_success(array(
                 'message' => __('Password reset email sent successfully.', 'acadlix'),
             ));
-            
-        }catch (\Throwable $th) {
+
+        } catch (\Throwable $th) {
             wp_send_json_error([
                 'message' => $th->getMessage(),
                 'error_code' => $th->getCode()

@@ -83,7 +83,7 @@ const BillingDetail = (props) => {
                           size: "small",
                           type: "text",
                           placeholder: __('e.g. John', 'acadlix'),
-                          value: props?.watch("billing_info.first_name"),
+                          // value: props?.watch("billing_info.first_name"),
                           onChange: (e) => {
                             props?.setValue("billing_info.first_name", e?.target?.value, {
                               shouldDirty: true,
@@ -120,11 +120,12 @@ const BillingDetail = (props) => {
                         component: "CustomTextField",
                         component_name: "checkout_billing_detail_custom_textfield_last_name",
                         props: {
+                          ...props?.register("billing_info.last_name"),
                           fullWidth: true,
                           size: "small",
                           type: "text",
                           placeholder: __('e.g. Doe', 'acadlix'),
-                          value: props?.watch("billing_info.last_name"),
+                          // value: props?.watch("billing_info.last_name"),
                           onChange: (e) => {
                             props?.setValue("billing_info.last_name", e?.target?.value, {
                               shouldDirty: true,
@@ -163,7 +164,7 @@ const BillingDetail = (props) => {
                             props: {
                               style: { color: "red" },
                             },
-                            value: "*",
+                            value: " *",
                           }
                         ],
                       },
@@ -179,7 +180,7 @@ const BillingDetail = (props) => {
                           size: "small",
                           type: "email",
                           placeholder: __("e.g. example@example.com", "acadlix"),
-                          value: props?.watch("billing_info.email"),
+                          // value: props?.watch("billing_info.email"),
                           onChange: (e) => {
                             props?.setValue("billing_info.email", e?.target?.value, {
                               shouldDirty: true,
@@ -291,10 +292,11 @@ const BillingDetail = (props) => {
                         component: "CustomTextField",
                         component_name: "checkout_billing_detail_custom_textfield_phone_number",
                         props: {
+                          ...props?.register("billing_info.phone_number"),
                           fullWidth: true,
                           size: "small",
                           type: "tel", // Input type for telephone numbers
-                          value: props?.watch("billing_info.phone_number"),
+                          // value: props?.watch("billing_info.phone_number"),
                           onChange: (e) => {
                             const inputValue = e?.target?.value;
                             if (/^[0-9\-\(\) ]+$/.test(inputValue) || inputValue === '') {
@@ -334,11 +336,12 @@ const BillingDetail = (props) => {
                         component: "CustomTextField",
                         component_name: "checkout_billing_detail_custom_textfield_address",
                         props: {
+                          ...props?.register("billing_info.address"),
                           fullWidth: true,
                           size: "small",
                           placeholder: __("e.g. 12345 Little baker St, Melbourne", "acadlix"),
                           type: "text",
-                          value: props?.watch("billing_info.address"),
+                          // value: props?.watch("billing_info.address"),
                           onChange: (e) => {
                             props?.setValue("billing_info.address", e?.target?.value, {
                               shouldDirty: true,
@@ -445,11 +448,12 @@ const BillingDetail = (props) => {
                         component: "CustomTextField",
                         component_name: "checkout_billing_detail_custom_textfield_city",
                         props: {
+                          ...props?.register("billing_info.city"),
                           fullWidth: true,
                           size: "small",
                           placeholder: __("Town/City", "acadlix"),
                           type: "text",
-                          value: props?.watch("billing_info.city"),
+                          // value: props?.watch("billing_info.city"),
                           onChange: (e) => {
                             props?.setValue("billing_info.city", e?.target?.value, {
                               shouldDirty: true,
@@ -482,11 +486,12 @@ const BillingDetail = (props) => {
                         component: "CustomTextField",
                         component_name: "checkout_billing_detail_custom_textfield_zip_code",
                         props: {
+                          ...props?.register("billing_info.zip_code"),
                           fullWidth: true,
                           size: "small",
                           placeholder: __("Postal/Zip Code", "acadlix"),
                           type: "text",
-                          value: props?.watch("billing_info.zip_code"),
+                          // value: props?.watch("billing_info.zip_code"),
                           onChange: (e) => {
                             props?.setValue("billing_info.zip_code", e?.target?.value, {
                               shouldDirty: true,

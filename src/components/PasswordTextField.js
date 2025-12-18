@@ -3,11 +3,12 @@ import { IconButton, InputAdornment } from '@mui/material';
 import React from 'react'
 import CustomTextField from './CustomTextField';
 
-const PasswordTextField = (props) => {
+const PasswordTextField = React.forwardRef((props, ref) => {
     const [visible, setVisible] = React.useState(false);
     return (
         <CustomTextField
             {...props}
+            ref={ref}
             type={visible ? "text" : "password"}
             InputProps={{
                 endAdornment: (
@@ -30,6 +31,6 @@ const PasswordTextField = (props) => {
             }}
         />
     )
-}
+});
 
-export default PasswordTextField
+export default PasswordTextField;

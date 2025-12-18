@@ -264,11 +264,12 @@ const Offline = (props) => {
                                         component: "CustomTextField",
                                         component_name: "offline_max_upload_file_size_input",
                                         props: {
+                                            ...props?.register("acadlix_offline_max_upload_file_size"),
                                             fullWidth: true,
                                             size: "small",
                                             type: "number",
                                             label: __("File Size (in MB)", "acadlix"),
-                                            value: props?.watch("acadlix_offline_max_upload_file_size") || "",
+                                            // value: props?.watch("acadlix_offline_max_upload_file_size") || "",
                                             slotProps: {
                                                 htmlInput: {
                                                     min: 0, // 👈 set minimum value here

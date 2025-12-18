@@ -181,6 +181,13 @@ const SettingContent = ({
     acadlix_course_tag_base:
       options?.acadlix_course_tag_base ?? "course-tag",
     // Authentication option
+    acadlix_registration_options:
+      options?.acadlix_registration_options ?? {
+        phone: {
+          enabled: false,
+          required: false,
+        }
+      },
     acadlix_default_auth_screen:
       options?.acadlix_default_auth_screen ?? "login",
     acadlix_enable_fraud_protection:

@@ -175,10 +175,11 @@ const RazorPay = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "razorpay_client_id_input",
                                 props: {
+                                    ...props?.register("acadlix_razorpay_client_id"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Client ID", "acadlix"),
-                                    value: props?.watch("acadlix_razorpay_client_id"),
+                                    // value: props?.watch("acadlix_razorpay_client_id"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_razorpay_client_id", e?.target?.value, {
                                             shouldDirty: true,
@@ -214,10 +215,11 @@ const RazorPay = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "razorpay_secret_key_input",
                                 props: {
+                                    ...props?.register("acadlix_razorpay_secret_key"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Secret Key", "acadlix"),
-                                    value: props?.watch("acadlix_razorpay_secret_key"),
+                                    // value: props?.watch("acadlix_razorpay_secret_key"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_razorpay_secret_key", e?.target?.value, {
                                             shouldDirty: true,
@@ -253,10 +255,11 @@ const RazorPay = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "razorpay_webhook_secret_input",
                                 props: {
+                                    ...props?.register("acadlix_razorpay_webhook_secret"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Webhook Secret", "acadlix"),
-                                    value: props?.watch("acadlix_razorpay_webhook_secret"),
+                                    // value: props?.watch("acadlix_razorpay_webhook_secret"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_razorpay_webhook_secret", e?.target?.value, {
                                             shouldDirty: true,

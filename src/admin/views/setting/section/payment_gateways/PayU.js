@@ -209,10 +209,11 @@ const PayU = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "payu_merchant_key_input",
                                 props: {
+                                    ...props?.register("acadlix_payu_merchant_key"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Merchant Key", "acadlix"),
-                                    value: props?.watch("acadlix_payu_merchant_key"),
+                                    // value: props?.watch("acadlix_payu_merchant_key"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_payu_merchant_key", e?.target?.value, {
                                             shouldDirty: true,
@@ -248,10 +249,11 @@ const PayU = (props) => {
                                 component: "PasswordTextField",
                                 component_name: "payu_salt_input",
                                 props: {
+                                    ...props?.register("acadlix_payu_salt"),
                                     fullWidth: true,
                                     size: "small",
                                     label: __("Salt", "acadlix"),
-                                    value: props?.watch("acadlix_payu_salt"),
+                                    // value: props?.watch("acadlix_payu_salt"),
                                     onChange: (e) => {
                                         props?.setValue("acadlix_payu_salt", e?.target?.value, {
                                             shouldDirty: true,

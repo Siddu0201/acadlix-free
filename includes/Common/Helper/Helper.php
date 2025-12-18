@@ -641,6 +641,12 @@ if (!class_exists('Helper')) {
                 'acadlix_db_version' => '',
                 // Authentication option
                 'acadlix_default_auth_screen' => 'login',
+                'acadlix_registration_options' => [
+                    "phone" => [
+                        'enabled' => false,
+                        'required' => false,
+                    ]
+                ],
                 'acadlix_enable_fraud_protection' => 'no',
                 'acadlix_v3_site_key' => '',
             ];

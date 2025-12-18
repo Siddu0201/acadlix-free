@@ -173,6 +173,114 @@ const Authentication = (props) => {
           },
           {
             component: "Box",
+            children: [
+              {
+                component: "Box",
+                props: {
+                  sx: {
+                    marginY: 2,
+                  },
+                },
+                children: [
+                  {
+                    component: "Typography",
+                    props: {
+                      variant: "h4",
+                    },
+                    value: __("Registration Options", "acadlix"),
+                  },
+                  {                    
+                    component: "Divider",
+                  },
+                ],
+              },
+              {
+                component: "Grid",
+                props: {
+                  container: true,
+                  spacing: {
+                    xs: 2,
+                    sm: 4,
+                  },
+                  sx: {
+                    alignItems: "center",
+                  },
+                },
+                children: [
+                  { 
+                    component: "Grid",
+                    props: {
+                      size: { xs: 12, sm: 4, lg: 4 },
+                    },
+                    children: [
+                      {
+                        component: "CustomTypography",
+                        value: __("Enable Phone Number", "acadlix"),
+                      }
+                    ],
+                  },
+                  {
+                    component: "Grid",
+                    props: {
+                      size: { xs: 12, sm: 4, lg: 4 },
+                    },
+                    children: [
+                      {
+                        component: "FormControlLabel",
+                        props: {
+                          control: {
+                            component: "CustomSwitch",
+                          },
+                          label: __("Enable", "acadlix"),
+                          value: "yes",
+                          checked: props?.watch("acadlix_registration_options.phone.enabled"),
+                          onClick: (e) => {
+                            if (e?.target?.checked !== undefined) {
+                              props?.setValue(
+                                "acadlix_registration_options.phone.enabled",
+                                e?.target?.checked,
+                                { shouldDirty: true }
+                              )
+                            }
+                          },
+                        },
+                      }
+                    ],
+                  },
+                  {
+                    component: "Grid",
+                    props: {
+                      size: { xs: 12, sm: 4, lg: 4 },
+                    },
+                    children: [
+                      {
+                        component: "FormControlLabel",
+                        props: {
+                          control: {
+                            component: "CustomSwitch",
+                          },
+                          label: __("Required", "acadlix"),
+                          value: "yes",
+                          checked: props?.watch("acadlix_registration_options.phone.required"),
+                          onClick: (e) => {
+                            if (e?.target?.checked !== undefined) {
+                              props?.setValue(
+                                "acadlix_registration_options.phone.required",
+                                e?.target?.checked,
+                                { shouldDirty: true }
+                              )
+                            }
+                          },
+                        },
+                      }
+                    ],
+                  }
+                ],
+              }
+            ],
+          },
+          {
+            component: "Box",
             component_name: "setting_authentication_card_box",
             children: [
               {
@@ -286,10 +394,11 @@ const Authentication = (props) => {
                       {
                         component: "PasswordTextField",
                         props: {
+                          ...props?.register("acadlix_v3_site_key"),
                           fullWidth: true,
                           size: "small",
                           label: __("Enter v3 Site Key", "acadlix"),
-                          value: props?.watch("acadlix_v3_site_key"),
+                          // value: props?.watch("acadlix_v3_site_key"),
                           onChange: (e) => props?.setValue("acadlix_v3_site_key", e.target.value, { shouldDirty: true }),
                         },
                       }
@@ -316,10 +425,11 @@ const Authentication = (props) => {
                       {
                         component: "PasswordTextField",
                         props: {
+                          ...props?.register("acadlix_v3_secret_key"),
                           fullWidth: true,
                           size: "small",
                           label: __("Enter v3 Secret Key", "acadlix"),
-                          value: props?.watch("acadlix_v3_secret_key"),
+                          // value: props?.watch("acadlix_v3_secret_key"),
                           onChange: (e) => props?.setValue("acadlix_v3_secret_key", e.target.value, { shouldDirty: true }),
                         },
                       }

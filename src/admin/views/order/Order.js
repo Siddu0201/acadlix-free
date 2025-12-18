@@ -625,11 +625,12 @@ const Order = () => {
                               {
                                 component: "CustomTextField",
                                 props: {
+                                  ...methods?.register("search"),
                                   fullWidth: true,
                                   size: "small",
                                   label: __("Search", "acadlix"),
                                   name: "search",
-                                  value: methods?.watch("search") ?? "",
+                                  // value: methods?.watch("search") ?? "",
                                   onChange: handleSearch,
                                   helperText: __("Search by id, name, email", "acadlix"),
                                   slotProps: {

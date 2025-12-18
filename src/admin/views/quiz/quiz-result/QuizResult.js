@@ -614,10 +614,11 @@ const QuizResult = () => {
                                         component: "CustomTextField",
                                         component_name: "admin_quiz_result_action_box_textfield",
                                         props: {
+                                          ...methods?.register("search"),
                                           size: "small",
                                           label: __("Search", "acadlix"),
                                           name: "search",
-                                          value: methods?.watch("search") ?? "",
+                                          // value: methods?.watch("search") ?? "",
                                           onChange: handleSearch,
                                           type: "search",
                                           slotProps: {
