@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const Login = (props) => {
@@ -137,17 +137,11 @@ const Login = (props) => {
                         {
                           component: "span",
                           component_name: "login_modal_error_span",
-                          value: __("The password you entered for the username ", "acadlix")
-                        },
-                        {
-                          component: "strong",
-                          component_name: "login_modal_username_strong",
-                          value: methods?.watch("username")
-                        },
-                        {
-                          component: "span",
-                          component_name: "login_modal_is_incorrect_span",
-                          value: __(" is incorrect.", "acadlix")
+                          value: sprintf(
+                            /* translators: 1: username */
+                            __("The password you entered for the username <strong>%s</strong> is incorrect.", "acadlix"),
+                            methods?.watch("username")
+                          )
                         },
                       ]
                     },
