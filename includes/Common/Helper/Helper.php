@@ -171,7 +171,14 @@ if (!class_exists('Helper')) {
             if ($max_size_mb !== null) {
                 $max_size_bytes = $max_size_mb * 1024 * 1024;
                 if (!empty($file['size']) && $file['size'] > $max_size_bytes) {
-                    return new WP_Error('file_too_large', sprintf(__('File size exceeds the maximum allowed size of %s MB.', 'acadlix'), $max_size_mb));
+                    return new WP_Error(
+                        'file_too_large',
+                        sprintf(
+                            /* translators: %s is the maximum size in MB */
+                            __('File size exceeds the maximum allowed size of %s MB.', 'acadlix'),
+                            $max_size_mb
+                        )
+                    );
                 }
             }
 
