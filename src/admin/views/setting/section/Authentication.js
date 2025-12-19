@@ -262,6 +262,7 @@ const Authentication = (props) => {
                           label: __("Required", "acadlix"),
                           value: "yes",
                           checked: props?.watch("acadlix_registration_options.phone.required"),
+                          disabled: !props?.watch("acadlix_registration_options.phone.enabled"),
                           onClick: (e) => {
                             if (e?.target?.checked !== undefined) {
                               props?.setValue(
