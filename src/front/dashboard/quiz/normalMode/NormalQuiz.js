@@ -11,6 +11,14 @@ import ViewAnswerSection from "./normal-quiz-section/ViewAnswerSection";
 import PerQuestionTimerSection from "./normal-quiz-section/PerQuestionTimerSection";
 import QuestionPaginationSection from "./normal-quiz-section/QuestionPaginationSection";
 
+const AiResultFeedback = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "front_dashboard_quiz_normal_mode_ai_result_feedback" */
+      "@acadlix/pro/front/dashboard/quiz/ai/AiResultFeedback") :
+    Promise.resolve({ default: () => null })
+);
+
 const NormalQuiz = (props) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -91,7 +99,7 @@ const NormalQuiz = (props) => {
                 isDesktop={isDesktop}
                 {...props}
               /> */}
-              
+
             </>
           )}
           {props?.watch("leaderboard") &&
@@ -103,6 +111,16 @@ const NormalQuiz = (props) => {
                 {...props}
               />
             )}
+
+          {
+            props?.watch("result_feedback_by_ai") &&
+            <React.Suspense fallback={null}>
+              <AiResultFeedback
+                isPending={props?.isPendingResultFeedback}
+                response={props?.watch("result_ai_response")}
+              />
+            </React.Suspense>
+          }
 
           <ViewButtonSection
             colorCode={colorCode}
