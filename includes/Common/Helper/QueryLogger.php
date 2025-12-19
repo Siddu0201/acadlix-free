@@ -3,6 +3,8 @@
 namespace Yuvayana\Acadlix\Common\Helper;
 use Illuminate\Database\Capsule\Manager as DB;
 
+defined('ABSPATH') || exit();
+
 if (!class_exists('QueryLogger')) {
     class QueryLogger
     {

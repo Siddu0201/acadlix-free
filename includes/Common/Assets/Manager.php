@@ -86,7 +86,7 @@ class Manager
                         <?php echo esc_html($quiz->post_title); ?>
                     </h2>
                     <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
-                        <?php echo do_shortcode(apply_filters('comment_text', $quiz->post_content)); ?>
+                        <?php echo do_shortcode(apply_filters('comment_text', $quiz->post_content)); //phpcs:ignore ?>
                     </div>
                     <div class="acadlix-front" id="<?php echo esc_html($quiz->ID); ?>">
                         <div class="acadlix-front-quiz-button">

@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Common\Helper;
 
+defined('ABSPATH') || exit();
+
 if (!class_exists('CptHelper')) {
     class CptHelper
     {

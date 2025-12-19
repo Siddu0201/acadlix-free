@@ -5,6 +5,8 @@ namespace Yuvayana\Acadlix\Common\Helper;
 use Yuvayana\Acadlix\Common\Models\Course;
 use WP_Error;
 
+defined('ABSPATH') || exit();
+
 if (!class_exists('CourseHelper')) {
     class CourseHelper
     {
@@ -36,21 +38,22 @@ if (!class_exists('CourseHelper')) {
             return $courseLevels[$level] ?? __("All Level", "acadlix");
         }
 
-        public function formatPrice($price = 0, $asString = false) {
+        public function formatPrice($price = 0, $asString = false)
+        {
             // Fallback settings if not provided
-            $decimals     = acadlix()->helper()->acadlix_get_option('acadlix_number_of_decimals')?? 2;
-            $thousandSep  = acadlix()->helper()->acadlix_get_option('acadlix_thousand_separator') ?? ',';
-            $decimalSep   = acadlix()->helper()->acadlix_get_option('acadlix_decimal_separator') ?? '.';
-            
+            $decimals = acadlix()->helper()->acadlix_get_option('acadlix_number_of_decimals') ?? 2;
+            $thousandSep = acadlix()->helper()->acadlix_get_option('acadlix_thousand_separator') ?? ',';
+            $decimalSep = acadlix()->helper()->acadlix_get_option('acadlix_decimal_separator') ?? '.';
+
             if (!is_numeric($price)) {
                 return $asString ? number_format(0, $decimals, $decimalSep, $thousandSep) : 0;
             }
-        
+
             if ($asString) {
                 // Return formatted string with thousand & decimal separator
                 return number_format((float) $price, $decimals, $decimalSep, $thousandSep);
             }
-        
+
             // Return numeric (no formatting)
             return round((float) $price, $decimals);
         }
@@ -207,25 +210,35 @@ if (!class_exists('CourseHelper')) {
                 return $response;
             }
             $timezone_string = acadlix()->helper()->acadlix_get_time_zone_string();
-            // Get current date/time in WordPress timezone
-            $current_timestamp = strtotime(wp_date('Y-m-d H:i:s'));
             $dateTimeFormat = acadlix()->helper()->acadlix_get_date_time_format();
+            // Get current date/time in WordPress timezone
+            $current_timestamp = current_time('timestamp');
             // Check start_date
-            if (!empty($start_date) && $current_timestamp < strtotime($start_date)) {
-                /* translators: 1: Registration start date, 2: Timezone string */
-                $message = sprintf(esc_html__('Registration opens after: %1$s %2$s', 'acadlix'),date($dateTimeFormat, strtotime($start_date)), $timezone_string);
-                return [
-                    'status' => false,
-                    'message' => $message,
-                ];
+            if (!empty($start_date)) {
+                $start_timestamp = strtotime($start_date);
+                if ($current_timestamp < $start_timestamp) {
+                    return [
+                        'status' => false,
+                        'message' => sprintf(
+                            /* translators: 1: Registration start date, 2: Timezone string */
+                            esc_html__('Registration opens after: %1$s %2$s', 'acadlix'),
+                            wp_date($dateTimeFormat, $start_timestamp),
+                            esc_html($timezone_string)
+                        ),
+                    ];
+                }
             }
 
             // Check end_date
-            if (!empty($end_date) && $current_timestamp > strtotime($end_date)) {
-                return [
-                    'status' => false,
-                    'message' => __('Registration is closed', 'acadlix'),
-                ];
+            if (!empty($end_date)) {
+                $end_timestamp = strtotime($end_date);
+
+                if ($current_timestamp > $end_timestamp) {
+                    return [
+                        'status' => false,
+                        'message' => __('Registration is closed', 'acadlix'),
+                    ];
+                }
             }
 
             return $response;

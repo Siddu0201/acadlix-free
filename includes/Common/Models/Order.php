@@ -139,7 +139,7 @@ if (!class_exists('Order')) {
                 $uploaded_files = $this->getMetaValue('offline_upload_file');
                 if ($uploaded_files) {
                     if (file_exists($uploaded_files['file_path'])) {
-                        unlink($uploaded_files['file_path']);
+                        wp_delete_file($uploaded_files['file_path']);
                     }
                 }
             }

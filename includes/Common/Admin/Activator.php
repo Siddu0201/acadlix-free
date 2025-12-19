@@ -2,9 +2,7 @@
 
 namespace Yuvayana\Acadlix\Common\Admin;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit();
 
 class Activator
 {

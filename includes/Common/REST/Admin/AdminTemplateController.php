@@ -4,10 +4,7 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 
 use WP_REST_Server;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-}
-
+defined('ABSPATH') || exit();
 class AdminTemplateController {
 
     protected $namespace = 'acadlix/v1';

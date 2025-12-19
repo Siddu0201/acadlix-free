@@ -7,6 +7,8 @@ use WP_REST_Response;
 use WP_Error;
 use Exception;
 
+defined('ABSPATH') || exit();
+
 class Stripe implements PaymentGatewayInterface
 {
     const CONNECTION_TIMEOUT = 30;
@@ -81,7 +83,7 @@ class Stripe implements PaymentGatewayInterface
         $response = wp_remote_request($url, $args);
 
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception(esc_html($response->get_error_message()));
         }
 
         $result = wp_remote_retrieve_body($response);
@@ -91,7 +93,7 @@ class Stripe implements PaymentGatewayInterface
         // error_log(print_r($result, true));
 
         if ($status_code < 200 || $status_code > 299) {
-            throw new Exception($result->error->message);
+            throw new Exception(esc_html($result->error->message));
         }
 
         return $result;
@@ -267,7 +269,6 @@ class Stripe implements PaymentGatewayInterface
             }
             exit;
         } catch (Exception $e) {
-            error_log($e->getMessage());
             exit;
         }
     }
@@ -305,7 +306,7 @@ class Stripe implements PaymentGatewayInterface
             return $this->successOrder($order, $payment_intent->id);
 
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(esc_html($e->getMessage()));
         }
     }
 
@@ -320,7 +321,6 @@ class Stripe implements PaymentGatewayInterface
             }
             $this->orderCapture($stripe_order_id);
         } catch (Exception $e) {
-            error_log($e->getMessage());
             return;
         }
         

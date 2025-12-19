@@ -81,7 +81,7 @@ class Razorpay implements PaymentGatewayInterface
         $response = wp_remote_request($url, $args);
 
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception(    esc_html($response->get_error_message()));
         }
 
         $result = wp_remote_retrieve_body($response);
@@ -90,7 +90,7 @@ class Razorpay implements PaymentGatewayInterface
         $status_code = wp_remote_retrieve_response_code($response);
         
         if ($status_code < 200 || $status_code > 299) {
-            throw new Exception($result?->error?->description ?? 'Something went wrong. Please try again later.');
+            throw new Exception(esc_html($result?->error?->description ?? 'Something went wrong. Please try again later.'));
         }
 
         return $result;
@@ -315,7 +315,6 @@ class Razorpay implements PaymentGatewayInterface
 
             exit;
         } catch (Exception $e) {
-            error_log($e->getMessage());
             exit;
         }
     }
@@ -371,7 +370,7 @@ class Razorpay implements PaymentGatewayInterface
 
             return ['success' => false, 'message' => 'Order not captured'];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(esc_html($e->getMessage()));
         }
     }
 
@@ -388,7 +387,6 @@ class Razorpay implements PaymentGatewayInterface
 
             $this->orderCapture($razorpay_order_id);
         } catch (Exception $e) {
-            error_log($e->getMessage());
             return;
         }
     }

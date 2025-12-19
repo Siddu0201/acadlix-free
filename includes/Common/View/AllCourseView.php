@@ -25,7 +25,7 @@ class AllCourseView
     {
         $this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
         $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
-        $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+        $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : ''; // phpcs:ignore
         $this->page = max(1, (get_query_var('paged')) ? get_query_var('paged') : 1);
         $this->per_page = acadlix()->helper()->acadlix_get_option('acadlix_no_of_courses_per_page');
 

@@ -39,9 +39,10 @@ class Ajax
     public function acadlix_login()
     {
         try {
+            $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
             if (
-                !isset($_POST['nonce']) ||
-                !wp_verify_nonce($_POST['nonce'], 'acadlix_auth_nonce')
+                empty($nonce) ||
+                !wp_verify_nonce($nonce, 'acadlix_auth_nonce')
             ) {
                 wp_send_json_error([
                     'message' => __('Invalid nonce', 'acadlix'),
@@ -49,9 +50,15 @@ class Ajax
                 ], 403);
             }
 
-            $username = sanitize_text_field($_POST['username'] ?? '');
-            $password = sanitize_text_field($_POST['password'] ?? '');
-            $remember = isset($_POST['remember']) ? boolval($_POST['remember']) : true;
+            $username = isset($_POST['username'])
+                ? sanitize_text_field(wp_unslash($_POST['username']))
+                : '';
+            $password = isset($_POST['password'])
+                ? wp_unslash($_POST['password']) // phpcs:ignore
+                : '';
+            $remember = isset($_POST['remember'])
+                ? (bool) wp_unslash($_POST['remember']) // phpcs:ignore
+                : true;
 
             /**
              * 1. PRE-VALIDATION HOOK
@@ -156,9 +163,10 @@ class Ajax
     public function acadlix_register()
     {
         try {
+            $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
             if (
-                !isset($_POST['nonce']) ||
-                !wp_verify_nonce($_POST['nonce'], 'acadlix_auth_nonce')
+                empty($nonce) ||
+                !wp_verify_nonce($nonce, 'acadlix_auth_nonce')
             ) {
                 wp_send_json_error([
                     'message' => __('Invalid nonce', 'acadlix'),
@@ -166,11 +174,26 @@ class Ajax
                 ], 403);
             }
 
-            $username = sanitize_text_field($_POST['username'] ?? '');
-            $email = sanitize_email($_POST['email'] ?? '');
-            $password = sanitize_text_field($_POST['password'] ?? '');
-            $phonecode = sanitize_text_field($_POST['phonecode'] ?? '');
-            $phone_number = sanitize_text_field($_POST['phone_number'] ?? '');
+            $username = isset($_POST['username'])
+                ? sanitize_text_field(wp_unslash($_POST['username']))
+                : '';
+
+            $email = isset($_POST['email'])
+                ? sanitize_email(wp_unslash($_POST['email']))
+                : '';
+
+            // ❗ Password must NOT be sanitized
+            $password = isset($_POST['password'])
+                ? wp_unslash($_POST['password']) // phpcs:ignore
+                : '';
+
+            $phonecode = isset($_POST['phonecode'])
+                ? sanitize_text_field(wp_unslash($_POST['phonecode']))
+                : '';
+
+            $phone_number = isset($_POST['phone_number'])
+                ? sanitize_text_field(wp_unslash($_POST['phone_number']))
+                : '';
 
             // check if phone number are already used by another user
             if (!empty($phone_number)) {
@@ -334,7 +357,7 @@ class Ajax
             wp_set_current_user($user_id);
             wp_set_auth_cookie($user_id, true);
 
-            do_action('wp_login', $username, get_user_by('id', $user_id));
+            do_action('wp_login', $username, get_user_by('id', $user_id)); // phpcs:ignore
         }
 
         return $user_id;
@@ -343,9 +366,10 @@ class Ajax
     public function acadlix_forgot_password()
     {
         try {
+            $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
             if (
-                !isset($_POST['nonce']) ||
-                !wp_verify_nonce($_POST['nonce'], 'acadlix_auth_nonce')
+                empty($nonce) ||
+                !wp_verify_nonce($nonce, 'acadlix_auth_nonce')
             ) {
                 wp_send_json_error([
                     'message' => __('Invalid nonce', 'acadlix'),
@@ -353,31 +377,44 @@ class Ajax
                 ], 403);
             }
 
-            $user_identifier = isset($_POST['username']) ? sanitize_text_field(wp_unslash($_POST['username'])) : '';
+            $user_identifier = isset($_POST['username'])
+                ? sanitize_text_field(wp_unslash($_POST['username']))
+                : '';
 
-            if (isset($_POST['g-recaptcha-response'])) {
-                $recaptchav3 = acadlix()->authentications()->recaptchav3()->verify($_POST['g-recaptcha-response']);
-                if (is_wp_error($recaptchav3)) {
-                    wp_send_json_error(['message' => $recaptchav3->get_error_message(), 'error_code' => $recaptchav3->get_error_code()]);
-                }
+            if (empty($user_identifier)) {
+                wp_send_json_error(
+                    [
+                        'message' => __('Please enter a username or email address.', 'acadlix'),
+                    ]
+                );
             }
 
-            if (is_email($user_identifier)) {
-                // If it's an email, get the user by email
-                $user = get_user_by('email', $user_identifier);
-                if (!$user) {
-                    return wp_send_json_error(['message' => __('This email is not registered.', 'acadlix')]);
-                }
-            } else {
-                // Otherwise, assume it's a username
-                $user = get_user_by('login', $user_identifier);
-                if (!$user) {
-                    return wp_send_json_error(['message' => __('This username is not registered.', 'acadlix')]);
+            // ---------------------------
+            // reCAPTCHA (optional)
+            // ---------------------------
+            if (isset($_POST['g-recaptcha-response'])) {
+
+                $recaptcha_response = sanitize_text_field(
+                    wp_unslash($_POST['g-recaptcha-response'])
+                );
+
+                $recaptchav3 = acadlix()
+                    ->authentications()
+                    ->recaptchav3()
+                    ->verify($recaptcha_response);
+
+                if (is_wp_error($recaptchav3)) {
+                    wp_send_json_error(
+                        [
+                            'message' => $recaptchav3->get_error_message(),
+                            'error_code' => $recaptchav3->get_error_code(),
+                        ]
+                    );
                 }
             }
 
             // // Register the user
-            $result = retrieve_password($user->user_login);
+            $result = retrieve_password($user_identifier);
             if (is_wp_error($result)) {
                 return wp_send_json_error(['message' => $result->get_error_message()]);
             }
@@ -387,10 +424,14 @@ class Ajax
             ));
 
         } catch (\Throwable $th) {
-            wp_send_json_error([
-                'message' => $th->getMessage(),
-                'error_code' => $th->getCode()
-            ]);
+            // ❗ Do not expose internal errors
+            wp_send_json_error(
+                [
+                    'message' => __('Unexpected error occurred.', 'acadlix'),
+                    'error_code' => 'server_error',
+                ],
+                500
+            );
         }
     }
 
@@ -399,13 +440,17 @@ class Ajax
         if (!acadlix()->authentications()->recaptchav3()->is_enabled()) {
             return $return; // skip if captcha not enabled
         }
-        if (empty($_POST['g-recaptcha-response'])) {
+        if (empty($_POST['g-recaptcha-response'])) { // phpcs:ignore
             return new WP_Error('captcha_missing', __('Captcha is required.', 'acadlix'));
         }
 
+        $captcha_token = sanitize_text_field(
+            wp_unslash($_POST['g-recaptcha-response']) // phpcs:ignore
+        );
+
         // Call your existing captcha class
         $verify = acadlix()->authentications()->recaptchav3()->verify(
-            $_POST['g-recaptcha-response']
+            $captcha_token
         );
 
         if (is_wp_error($verify)) {

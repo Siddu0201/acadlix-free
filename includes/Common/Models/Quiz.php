@@ -113,7 +113,7 @@ if (!class_exists('Quiz')) {
                     $lastIndex = $n - 1;  // The index of the last element to be preserved.
                     // Shuffle indices 0 to lastIndex - 1
                     for ($i = $lastIndex - 1; $i >= 0; $i--) {
-                        $j = mt_rand(0, $i);
+                        $j = wp_rand(0, $i);
                         // Swap the elements at indices $i and $j.
                         $temp = $arr[$i];
                         $arr[$i] = $arr[$j];
@@ -122,7 +122,7 @@ if (!class_exists('Quiz')) {
                 } else {
                     // Shuffle the entire array.
                     for ($i = $n - 1; $i > 0; $i--) {
-                        $j = mt_rand(0, $i);
+                        $j = wp_rand(0, $i);
                         $temp = $arr[$i];
                         $arr[$i] = $arr[$j];
                         $arr[$j] = $temp;

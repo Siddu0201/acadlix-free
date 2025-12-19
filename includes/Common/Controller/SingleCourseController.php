@@ -20,7 +20,7 @@ if (!class_exists('SingleCourseController')) {
         public function template_loader($template)
         {
             if (is_singular(ACADLIX_COURSE_CPT)) {
-                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
+                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
                 $single_course_template = ACADLIX_INCLUDES_PATH .'Common/Wrappers/SingleCourseWrapper.php';
                 if ($single_course_template) {
                     return $single_course_template;

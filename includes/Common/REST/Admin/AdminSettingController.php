@@ -70,7 +70,7 @@ class AdminSettingController
             }
         }
         if (!empty($errors)) {
-            throw new Exception(implode(' ', $errors), 400);
+            throw new Exception(implode(' ', array_map('esc_html', $errors)), 400);
         }
         $res['page_id'] = wp_insert_post([
             'post_title' => $params['title'],

@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Common\Models;
 
+defined('ABSPATH') || exit();
+
 class Models
 {
     protected array $instances = [];

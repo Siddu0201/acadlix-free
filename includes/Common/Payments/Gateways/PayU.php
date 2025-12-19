@@ -83,7 +83,7 @@ class PayU implements PaymentGatewayInterface
         );
 
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception(esc_html($response->get_error_message()));
         }
 
         $result = wp_remote_retrieve_body($response);
@@ -92,7 +92,7 @@ class PayU implements PaymentGatewayInterface
         $status_code = wp_remote_retrieve_response_code($response);
 
         if ($status_code < 200 || $status_code > 299) {
-            throw new Exception($result->error_description);
+            throw new Exception( esc_html($result->error_description));
         }
 
         if (isset($result->status) && 1 === $result->status) {
@@ -101,7 +101,7 @@ class PayU implements PaymentGatewayInterface
 
         if (isset($result->msg)) {
             $error = trim($result->msg);
-            throw new Exception($error);
+            throw new Exception(esc_html($error));
         }
         throw new Exception('Something went wrong. Please try again later.');
     }
@@ -256,7 +256,6 @@ class PayU implements PaymentGatewayInterface
             return new WP_REST_Response($response, 200);
 
         } catch (Exception $e) {
-            error_log($e->getMessage());
             exit;
         }
     }
@@ -292,7 +291,7 @@ class PayU implements PaymentGatewayInterface
             }
             return;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(esc_html($e->getMessage()));
         }
 
     }
@@ -308,7 +307,6 @@ class PayU implements PaymentGatewayInterface
             }
             $this->orderCapture($payu_txn_id);
         } catch (Exception $e) {
-            error_log($e->getMessage());
             return;
         }
     }

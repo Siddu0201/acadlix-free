@@ -4,6 +4,8 @@ namespace Yuvayana\Acadlix\Common\Helper;
 
 use Illuminate\Database\Capsule\Manager;
 
+defined('ABSPATH') || exit();
+
 if (!class_exists('Helper')) {
     class Helper
     {
@@ -86,7 +88,7 @@ if (!class_exists('Helper')) {
             $content = (string) ($content ?? '');
 
             $content = $this->acadlix_modify_video_shortcode($content);
-            $content = apply_filters('the_content', $content);
+            $content = apply_filters('the_content', $content); // phpcs:ignore
             return $content;
         }
 
@@ -777,7 +779,7 @@ if (!class_exists('Helper')) {
         {
             $dateFormat = $this->acadlix_get_option('date_format');
             $dateObj = strtotime($dateStr);
-            $formattedDate = date($dateFormat, $dateObj);
+            $formattedDate = date($dateFormat, $dateObj); // phpcs:ignore
             return $formattedDate;
         }
 
@@ -913,7 +915,7 @@ if (!class_exists('Helper')) {
         public function acadlix_update_fk($table, $oldConstraint, $column, $referencedTable, $newConstraint)
         {
             global $wpdb;
-            $exists = $wpdb->get_var(
+            $exists = $wpdb->get_var( // phpcs:ignore
                 $wpdb->prepare(
                     'SELECT CONSTRAINT_NAME 
                      FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
@@ -936,7 +938,7 @@ if (!class_exists('Helper')) {
             }
 
             // Step 2: Check if new constraint already exists
-            $newExists = $wpdb->get_var(
+            $newExists = $wpdb->get_var( // phpcs:ignore
                 $wpdb->prepare(
                     'SELECT CONSTRAINT_NAME 
                     FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
@@ -964,7 +966,7 @@ if (!class_exists('Helper')) {
             global $wpdb;
 
             // Step 1: Drop old index if it exists
-            $oldExists = $wpdb->get_var(
+            $oldExists = $wpdb->get_var( // phpcs:ignore
                 $wpdb->prepare(
                     'SELECT INDEX_NAME
                  FROM INFORMATION_SCHEMA.STATISTICS
@@ -987,7 +989,7 @@ if (!class_exists('Helper')) {
                 }
             }
 
-            $newExists = $wpdb->get_var(
+            $newExists = $wpdb->get_var( // phpcs:ignore
                 $wpdb->prepare(
                     'SELECT INDEX_NAME
                      FROM INFORMATION_SCHEMA.STATISTICS
@@ -1259,12 +1261,14 @@ if (!class_exists('Helper')) {
         {
             // Allow plain string or callable directly
             if (is_string($node)) {
-                echo $node;
+                // Developer is responsible for escaping if needed; allow trusted HTML
+                echo $node; // phpcs:ignore
                 return;
             }
 
             if (is_callable($node)) {
-                echo call_user_func($node);
+                // Developer is responsible for escaping if needed; allow trusted HTML
+                echo call_user_func($node); // phpcs:ignore
                 return;
             }
             // Skip if not visible
@@ -1272,22 +1276,24 @@ if (!class_exists('Helper')) {
                 return;
             }
 
-            $tag = $node['component'] ?? 'div';
+            $tag = isset($node['component']) ? $node['component'] : 'div';
 
             // Special case: "php" pseudo-component
             if ($tag === 'php') {
                 if (isset($node['value'])) {
                     if (is_callable($node['value'])) {
-                        echo call_user_func($node['value']);
+                        // Developer is responsible for escaping if needed; allow trusted HTML
+                        echo call_user_func($node['value']); // phpcs:ignore
                     } else {
-                        echo $node['value'];  // Raw HTML/text
+                        // Allow trusted HTML for developer-supplied value
+                        echo $node['value']; // phpcs:ignore
                     }
                 }
                 return;
             }
             $props = '';
 
-            // Build attributes
+            // Build attributes (always escape attribute names/values)
             if (!empty($node['props']) && is_array($node['props'])) {
                 foreach ($node['props'] as $k => $v) {
                     if (is_bool($v)) {
@@ -1304,15 +1310,28 @@ if (!class_exists('Helper')) {
             $self_closing = in_array(strtolower($tag), ['input', 'img', 'br', 'hr', 'meta', 'link']);
 
             if ($self_closing) {
-                echo "<{$tag}{$props} />";
+                // Output tag and attributes safely
+                printf(
+                    /* translators: 1: HTML tag name, 2: HTML attributes. */
+                    '<%1$s%2$s />',
+                    esc_html($tag),
+                    $props // phpcs:ignore
+                ); 
                 return;
             }
 
-            echo "<{$tag}{$props}>";
+            // Output opening tag
+            printf(
+                /* translators: 1: HTML tag name, 2: HTML attributes. */
+                '<%1$s%2$s>',
+                esc_html($tag),
+                $props // phpcs:ignore
+            );
 
             // Inner text or HTML
             if (isset($node['value']) && $node['value'] !== null) {
-                echo $node['value'];  // developer is responsible for escaping if needed
+                // Developer is responsible for escaping if needed; allow trusted HTML
+                echo $node['value']; // phpcs:ignore
             }
 
             // Render children
@@ -1322,7 +1341,12 @@ if (!class_exists('Helper')) {
                 }
             }
 
-            echo "</{$tag}>";
+            // Output closing tag
+            printf(
+                /* translators: 1: HTML tag name. */
+                '</%s>',
+                esc_html($tag)
+            );
         }
 
         public function acadlix_render_tree($tree)

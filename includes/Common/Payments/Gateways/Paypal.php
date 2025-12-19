@@ -92,7 +92,7 @@ class Paypal implements PaymentGatewayInterface
         ]);
 
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception(esc_html($response->get_error_message()));
         }
 
         $result = wp_remote_retrieve_body($response);
@@ -101,7 +101,7 @@ class Paypal implements PaymentGatewayInterface
         $status_code = wp_remote_retrieve_response_code($response);
 
         if ($status_code < 200 || $status_code > 299) {
-            throw new Exception($result->error_description);
+            throw new Exception(esc_html($result->error_description));
         }
 
         return $result->access_token ?? null;
@@ -133,7 +133,7 @@ class Paypal implements PaymentGatewayInterface
         $response = wp_remote_request($url, $args);
 
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception(esc_html($response->get_error_message()));
         }
 
         $result = wp_remote_retrieve_body($response);
@@ -142,7 +142,7 @@ class Paypal implements PaymentGatewayInterface
         $status_code = wp_remote_retrieve_response_code($response);
 
         if ($status_code === 401) {
-            throw new Exception($result->error_description);
+            throw new Exception(esc_html($result->error_description));
         }
 
         return $result;
@@ -217,9 +217,9 @@ class Paypal implements PaymentGatewayInterface
         );
 
         if (isset($result->details)) {
-            throw new Exception(trim($result->details[0]->description));
+            throw new Exception(esc_html(trim($result->details[0]->description)));
         } elseif (isset($result->message)) {
-            throw new Exception(trim($result->message));
+            throw new Exception(esc_html(trim($result->message)));
         }
 
         if (isset($result->id)) {
@@ -385,7 +385,6 @@ class Paypal implements PaymentGatewayInterface
             }
             exit;
         } catch (Exception $e) {
-            error_log($e->getMessage());
             exit;
         }
     }
@@ -426,7 +425,7 @@ class Paypal implements PaymentGatewayInterface
 
             return $this->successOrder($order);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(esc_html($e->getMessage()));
         }
     }
 
@@ -441,10 +440,6 @@ class Paypal implements PaymentGatewayInterface
             }
             $this->orderCapture($paypal_order_id);
         } catch (Exception $e) {
-            error_log(sprintf(
-                'PayPal Verify Order Error: %s',
-                $e->getMessage()
-            ));
             return;
         }
     }

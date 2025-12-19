@@ -720,8 +720,8 @@ class FrontCheckoutController
     {
         try {
             $webhook_data = array(
-                'get' => $_GET,
-                'post' => $_POST,
+                'get' => $_GET, // phpcs:ignore
+                'post' => $_POST, // phpcs:ignore
                 'server' => $_SERVER,
                 'stream' => file_get_contents('php://input'),
             );

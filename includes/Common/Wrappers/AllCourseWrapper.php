@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('ABSPATH')) exit;
+defined('ABSPATH') || exit();
 
 
 if (has_action('acadlix_all_course_content')) {

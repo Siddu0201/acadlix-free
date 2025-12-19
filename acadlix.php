@@ -32,11 +32,12 @@ function acadlix_environment_check()
         add_action('admin_notices', function () {
             ?>
             <div class="notice notice-error">
-                <p><?php printf(
-                    __('Acadlix requires PHP %s or higher. You are running PHP %s.', 'acadlix'),
+                <p><?php echo esc_html(sprintf(
+                    /* translators: 1: required PHP version 2: current PHP version */
+                    __('Acadlix requires PHP %1$s or higher. You are running PHP %2$s.', 'acadlix'),
                     '8.2',
                     PHP_VERSION
-                ); ?></p>
+                )); ?></p>
             </div>
             <?php
         });
@@ -51,11 +52,12 @@ function acadlix_environment_check()
         add_action('admin_notices', function () use ($wp_version) {
             ?>
             <div class="notice notice-error">
-                <p><?php printf(
-                    __('Acadlix requires WordPress %s or higher. You are running WordPress %s.', 'acadlix'),
+                <p><?php echo esc_html(sprintf(
+                    /* translators: 1: required WP version 2: current WP version */
+                    __('Acadlix requires WordPress %1$s or higher. You are running WordPress %2$s.', 'acadlix'),
                     '6.8',
                     $wp_version
-                ); ?></p>
+                )); ?></p>
             </div>
             <?php
         });

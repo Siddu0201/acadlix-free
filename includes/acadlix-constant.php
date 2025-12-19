@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit();
+
 define('ACADLIX_TEXT_DOMAIN', 'acadlix');
 
 define('ACADLIX_SLUG', 'acadlix');

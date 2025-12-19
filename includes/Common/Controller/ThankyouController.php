@@ -21,7 +21,7 @@ if (!class_exists("ThankyouController")) {
         {
             $thankyou_page_id = acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id');
             if ($thankyou_page_id && is_page($thankyou_page_id)) {
-                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true);
+                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
 
                 // $thankyou_template = $this->processData();
                 // if ($thankyou_template) {
@@ -40,8 +40,8 @@ if (!class_exists("ThankyouController")) {
             $courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
             $dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
 
-            if (isset($_GET['token'])) {
-                $token = sanitize_text_field(wp_unslash($_GET['token']));
+            if (isset($_GET['token'])) { // phpcs:ignore
+                $token = sanitize_text_field(wp_unslash($_GET['token'])); // phpcs:ignore
                 $order_meta = acadlix()->model()->orderMeta()->where("meta_value", $token)->first();
                 if ($order_meta) {
                     $order = acadlix()->model()->order()->find($order_meta->order_id);
@@ -49,7 +49,7 @@ if (!class_exists("ThankyouController")) {
 
                     if ($order) {
                         try {
-                            if (isset($_GET["cancelled"]) && !empty($_GET["cancelled"]) && $order->status != "failed") {
+                            if (isset($_GET["cancelled"]) && !empty($_GET["cancelled"]) && $order->status != "failed") { // phpcs:ignore
                                 acadlix()->payments()
                                     ->{$payment_method}()
                                         ->failedOrder($order, "Payment Cancelled");

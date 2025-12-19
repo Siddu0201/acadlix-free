@@ -4,6 +4,8 @@ namespace Yuvayana\Acadlix\Common\REST\Admin;
 
 use WP_REST_Server;
 
+defined('ABSPATH') || exit();
+
 class AdminHomeController
 {
     protected $namespace = 'acadlix/v1';

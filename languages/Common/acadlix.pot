@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Acadlix plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Acadlix 1.0.0\n"
+"Project-Id-Version: Acadlix {{VERSION}}\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/acadlix\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-23T07:31:50+02:00\n"
+"POT-Creation-Date: 2025-12-19T07:27:25+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: acadlix\n"
 
 #. Plugin Name of the plugin
@@ -23,7 +23,7 @@ msgstr ""
 
 #. Description of the plugin
 #: acadlix.php
-msgid "Wordpress advance quiz plugin by yuvayana"
+msgid "Acadlix is a feature-rich LMS plugin for WordPress, designed to transform your website into a complete e-learning platform. With Acadlix, you can effortlessly create and sell online courses, test series, quizzes, and assignments."
 msgstr ""
 
 #. Author of the plugin
@@ -36,71 +36,134 @@ msgstr ""
 msgid "https://acadlix.com/"
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:46
+#: acadlix.php:36
+#, php-format
+msgid "Acadlix requires PHP %s or higher. You are running PHP %s."
+msgstr ""
+
+#: acadlix.php:55
+#, php-format
+msgid "Acadlix requires WordPress %s or higher. You are running WordPress %s."
+msgstr ""
+
+#: includes/Acadlix.php:73
+msgid "Plugin is missing required dependencies. Please contact support for more information."
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:47
+#: includes/Common/Admin/Ajax.php:164
+#: includes/Common/Admin/Ajax.php:351
+msgid "Invalid nonce"
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:131
 msgid "Login successful"
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:61
-msgid "All fields are required"
+#: includes/Common/Admin/Ajax.php:183
+msgid "Phone number is already in use."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:84
-msgid "Registration and login successful"
+#: includes/Common/Admin/Ajax.php:242
+msgid "Registration successful"
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:100
+#: includes/Common/Admin/Ajax.php:271
+msgid "Username and email are required."
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:275
+msgid "Invalid email address."
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:279
+msgid "Username already exists."
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:283
+msgid "Email already registered."
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:292
+msgid "User registration is currently disabled."
+msgstr ""
+
+#: includes/Common/Admin/Ajax.php:369
 msgid "This email is not registered."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:106
+#: includes/Common/Admin/Ajax.php:375
 msgid "This username is not registered."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:117
+#: includes/Common/Admin/Ajax.php:386
 msgid "Password reset email sent successfully."
 msgstr ""
 
-#: includes/Common/Admin/Menu.php:46
-#: includes/Common/View/SingleCourseView.php:86
-#: build/Common/front.js:1
+#: includes/Common/Admin/Ajax.php:403
+msgid "Captcha is required."
+msgstr ""
+
+#: includes/Common/Admin/Core.php:193
+#: includes/Common/Submenu/Submenu_Settings.php:20
+#: build/Common/admin_setting.js:1
+msgid "Settings"
+msgstr ""
+
+#: includes/Common/Admin/Core.php:197
+msgid "Get Acadlix Pro"
+msgstr ""
+
+#: includes/Common/Admin/Menu.php:55
+#: includes/Common/View/SingleCourseView.php:103
+#: build/Common/front.js:2
 msgid "Home"
 msgstr ""
 
-#: includes/Common/Admin/Option.php:21
-#: build/Common/front.js:13
+#: includes/Common/Admin/Option.php:22
+#: build/Common/front.js:2
 msgid "Dashboard"
 msgstr ""
 
-#: includes/Common/Admin/Option.php:27
-msgid "Cart"
-msgstr ""
-
-#: includes/Common/Admin/Option.php:33
+#: includes/Common/Admin/Option.php:34
 #: build/Common/front_checkout.js:1
 msgid "Checkout"
 msgstr ""
 
-#: includes/Common/Admin/Option.php:39
+#: includes/Common/Admin/Option.php:40
 msgid "Thankyou"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:32
+#: includes/Common/Authentications/ReCaptchaV3.php:38
+msgid "Invalid token"
+msgstr ""
+
+#: includes/Common/Authentications/ReCaptchaV3.php:56
+msgid "reCAPTCHA verification failed. Please try again."
+msgstr ""
+
+#: includes/Common/Authentications/ReCaptchaV3.php:64
+msgid "Invalid action"
+msgstr ""
+
+#: includes/Common/CPT/Course.php:49
 msgctxt "Post Type General Name"
 msgid "Courses"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:33
+#: includes/Common/CPT/Course.php:50
 msgctxt "Post Type Singular Name"
 msgid "Course"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:34
+#: includes/Common/CPT/Course.php:51
 #: includes/Common/Submenu/Submenu_Courses.php:17
 #: includes/Common/Submenu/Submenu_Courses.php:18
+#: build/Common/admin_home.js:1
 msgid "Courses"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:35
+#: includes/Common/CPT/Course.php:52
 #: includes/Common/CPT/CourseSection.php:28
 #: includes/Common/CPT/CourseSectionContent.php:28
 #: includes/Common/CPT/Lesson.php:28
@@ -108,163 +171,166 @@ msgstr ""
 msgid "Parent Item:"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:36
+#: includes/Common/CPT/Course.php:53
 msgid "All Courses"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:37
+#: includes/Common/CPT/Course.php:54
 msgid "View Course"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:38
+#: includes/Common/CPT/Course.php:55
 msgid "Add a New Course"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:39
+#: includes/Common/CPT/Course.php:56
 #: includes/Common/CPT/CourseSection.php:32
 #: includes/Common/CPT/CourseSectionContent.php:32
 #: includes/Common/CPT/Lesson.php:32
 #: includes/Common/CPT/Quiz.php:33
-#: build/Common/4389.62ffb2be6c080a04899a.bundle.js:1
 #: build/Common/admin_course.js:1
 #: build/Common/admin_course.js:3
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 #: build/Common/admin_setting.js:1
+#: build/Common/admin_setting_general_advance_quiz_option.bundle.js:1
 msgid "Add New"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:40
+#: includes/Common/CPT/Course.php:57
 msgid "Edit Course"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:41
+#: includes/Common/CPT/Course.php:58
 msgid "Update Course"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:42
-#: build/Common/front.js:1
+#: includes/Common/CPT/Course.php:59
 msgid "Search Courses"
 msgstr ""
 
 #. translators: %s is the URL to add a new course if no course found
-#: includes/Common/CPT/Course.php:44
+#: includes/Common/CPT/Course.php:61
+#, php-format
 msgid "You have not had any courses yet. Click <a href=\"%s\">Add new</a> to start"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:45
+#: includes/Common/CPT/Course.php:62
 msgid "There was no course found in the trash"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:51
+#: includes/Common/CPT/Course.php:68
 msgid "Course custom post type for acadlix"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:98
-#: includes/Common/CPT/Course.php:100
+#: includes/Common/CPT/Course.php:115
+#: includes/Common/CPT/Course.php:117
 msgid "Course Categories"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:101
+#: includes/Common/CPT/Course.php:118
 msgid "Course Category"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:102
+#: includes/Common/CPT/Course.php:119
 #: includes/Common/CPT/Quiz.php:66
 #: build/Common/admin_quiz.js:1
 msgid "Category"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:103
+#: includes/Common/CPT/Course.php:120
 msgid "Add A New Course Category"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:104
+#: includes/Common/CPT/Course.php:121
 #: includes/Common/CPT/Quiz.php:68
 msgid "All Categories"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:138
-#: includes/Common/CPT/Course.php:152
+#: includes/Common/CPT/Course.php:155
+#: includes/Common/CPT/Course.php:169
 msgid "Course Tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:139
+#: includes/Common/CPT/Course.php:156
 msgid "Tag"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:140
+#: includes/Common/CPT/Course.php:157
 msgid "Search Course Tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:141
+#: includes/Common/CPT/Course.php:158
 msgid "Popular Course Tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:142
+#: includes/Common/CPT/Course.php:159
 msgid "All Course Tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:145
+#: includes/Common/CPT/Course.php:162
 msgid "Edit Course Tag"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:146
+#: includes/Common/CPT/Course.php:163
 msgid "Update Course Tag"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:147
+#: includes/Common/CPT/Course.php:164
 msgid "Add A New Course Tag"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:148
+#: includes/Common/CPT/Course.php:165
 msgid "New Course Tag Name"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:149
+#: includes/Common/CPT/Course.php:166
 msgid "Separate tags with commas"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:150
+#: includes/Common/CPT/Course.php:167
 msgid "Add or remove tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:151
+#: includes/Common/CPT/Course.php:168
 msgid "Choose from the most used tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:197
+#: includes/Common/CPT/Course.php:214
 msgid "Author"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:198
+#: includes/Common/CPT/Course.php:215
 #: includes/Common/Submenu/Submenu_Categories.php:18
 msgid "Categories"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:199
+#: includes/Common/CPT/Course.php:216
 #: includes/Common/Submenu/Submenu_Tags.php:18
 msgid "Tags"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:200
+#: includes/Common/CPT/Course.php:217
+#: includes/Common/Submenu/Submenu_Student.php:16
 msgid "Students"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:201
+#: includes/Common/CPT/Course.php:218
 #: build/Common/admin_order.js:1
+#: build/Common/front.js:2
 msgid "Price"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:241
+#: includes/Common/CPT/Course.php:258
 msgid "Course Builder"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:250
+#: includes/Common/CPT/Course.php:267
 msgid "Course Settings"
 msgstr ""
 
-#: includes/Common/CPT/Course.php:306
-#: includes/Common/REST/Admin/AdminCourseController.php:327
+#: includes/Common/CPT/Course.php:323
+#: includes/Common/REST/Admin/AdminCourseController.php:318
 msgid "Draft Course"
 msgstr ""
 
@@ -378,6 +444,7 @@ msgstr ""
 
 #: includes/Common/CPT/Lesson.php:27
 #: includes/Common/Submenu/Submenu_Lessons.php:18
+#: build/Common/admin_home.js:1
 msgid "Lessons"
 msgstr ""
 
@@ -423,6 +490,7 @@ msgstr ""
 
 #: includes/Common/CPT/Quiz.php:28
 #: includes/Common/Submenu/Submenu_Quiz.php:18
+#: build/Common/admin_home.js:1
 msgid "Quizzes"
 msgstr ""
 
@@ -490,101 +558,64 @@ msgstr ""
 msgid "All Languages"
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:32
-#: includes/Common/Helper/CourseHelper.php:38
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
+#: includes/Common/Helper/CourseHelper.php:30
+#: includes/Common/Helper/CourseHelper.php:36
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
 msgid "All Level"
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:33
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
+#: includes/Common/Helper/CourseHelper.php:31
 #: build/Common/admin_course.js:3
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
 msgid "Beginner"
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:34
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
+#: includes/Common/Helper/CourseHelper.php:32
 #: build/Common/admin_course.js:3
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
 msgid "Intermediate"
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:35
+#: includes/Common/Helper/CourseHelper.php:33
 #: build/Common/admin_course.js:3
 msgid "Advance"
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:56
+#: includes/Common/Helper/CourseHelper.php:73
 msgid "Currency settings are not configured properly."
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:62
+#: includes/Common/Helper/CourseHelper.php:79
+#: includes/Common/Helper/Helper.php:1434
 msgid "Currency symbol not found for the selected currency."
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:102
+#: includes/Common/Helper/CourseHelper.php:108
 msgid "The course object is invalid."
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:113
+#: includes/Common/Helper/CourseHelper.php:119
 msgid "The user objects in the course object are invalid."
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:196
+#: includes/Common/Helper/CourseHelper.php:202
 msgid "Registration is open."
 msgstr ""
 
 #. translators: 1: Registration start date, 2: Timezone string
-#: includes/Common/Helper/CourseHelper.php:210
+#: includes/Common/Helper/CourseHelper.php:216
+#, php-format
 msgid "Registration opens after: %1$s %2$s"
 msgstr ""
 
-#: includes/Common/Helper/CourseHelper.php:221
+#: includes/Common/Helper/CourseHelper.php:227
 msgid "Registration is closed"
-msgstr ""
-
-#: includes/Common/Helper/CourseHelper.php:243
-#: includes/Common/Helper/CourseHelper.php:293
-#: build/Common/admin_order.js:1
-msgid "Free"
-msgstr ""
-
-#. translators: %d is the order ID
-#: includes/Common/Helper/CourseHelper.php:255
-msgid "Your order #%d confirmed!"
-msgstr ""
-
-#. translators: %d is the order ID
-#: includes/Common/Helper/CourseHelper.php:270
-msgid "New order received #%d"
-msgstr ""
-
-#. translators: %d is the order ID
-#: includes/Common/Helper/CourseHelper.php:305
-msgid "Payement failed for order #%d"
-msgstr ""
-
-#. translators: %d is the order ID
-#: includes/Common/Helper/CourseHelper.php:320
-msgid "Payment failed for order #%d"
-msgstr ""
-
-#. translators: %s is the course name
-#: includes/Common/Helper/CourseHelper.php:359
-msgid "You have completed %s!"
-msgstr ""
-
-#. translators: 1: %s is the username, 2: %s is the coursename
-#: includes/Common/Helper/CourseHelper.php:374
-msgid "%1$s has completed %2$s"
 msgstr ""
 
 #: includes/Common/Helper/CptHelper.php:20
@@ -607,1119 +638,1302 @@ msgid "Email not sent"
 msgstr ""
 
 #. translators: %s is the filepath
-#: includes/Common/Helper/Helper.php:117
+#: includes/Common/Helper/Helper.php:123
+#, php-format
 msgid "Failed to write to file: %s"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:173
-msgid "Afghan afghani"
+#: includes/Common/Helper/Helper.php:160
+msgid "Invalid file upload."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:174
-msgid "Albanian lek"
+#: includes/Common/Helper/Helper.php:167
+msgid "File extension not allowed."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:175
-msgid "United Arab Emirates dirham"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:176
-msgid "Angolan kwanza"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:177
-msgid "Argentine peso"
-msgstr ""
-
+#. translators: %s is the maximum size in MB
 #: includes/Common/Helper/Helper.php:178
-msgid "Armenian dram"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:179
-msgid "Netherlands Antilles guilder"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:180
-msgid "Aruban florin"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:181
-msgid "Australian dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:182
-msgid "Azerbaijani manat"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:183
-msgid "Bahamian dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:184
-msgid "Bahraini dinar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:185
-msgid "Bangladeshi taka"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:186
-msgid "Barbadian dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:187
-msgid "Belarusian ruble"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:188
-msgid "Belizean dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:189
-msgid "Bermudian dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:190
-msgid "Bhutanese ngultrum"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:191
-msgid "Bolivian boliviano"
+#, php-format
+msgid "File size exceeds the maximum allowed size of %s MB."
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:192
-msgid "Bosnia and Herzegovina convertible mark"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:193
-msgid "Botswana pula"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:194
-msgid "Brazilian real"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:195
-msgid "Brunei dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:196
-msgid "Bulgarian lev"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:197
-msgid "Burundian franc"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:198
-msgid "Canadian dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:199
-msgid "Cape Verdean escudo"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:200
-msgid "Chilean peso"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:201
-msgid "Chinese renminbi"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:202
-msgid "Colombian peso"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:203
-msgid "Congolese franc"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:204
-msgid "Swiss franc"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:205
-msgid "Costa Rican colón"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:206
-msgid "Cuban peso"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:207
-msgid "Czech koruna"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:208
-msgid "Danish krone"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:209
-msgid "Djiboutian franc"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:210
-msgid "Dominican peso"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:211
-msgid "Algerian dinar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:212
-msgid "Egyptian pound"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:213
-msgid "Eritrean nakfa"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:214
-msgid "Euro"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:215
-msgid "Ethiopian birr"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:216
-msgid "Falkland Islands pound"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:217
-msgid "Fijian dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:218
-msgid "Gambian dalasi"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:219
-msgid "Georgian lari"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:220
-msgid "Ghanian cedi"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:221
-msgid "Gibraltar pound"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:222
-msgid "Guatemalan quetzal"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:223
-msgid "British pound"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:224
-msgid "Guinean franc"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:225
-msgid "Guyanese dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:226
-msgid "Haitian gourde"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:227
-msgid "Honduran lempira"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:228
-msgid "Hong Kong dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:229
-msgid "Croatian kuna"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:230
-msgid "Hungarian forint"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:231
-msgid "Icelandic króna"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:232
-msgid "Indian rupee"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:233
-msgid "Indonesian rupiah"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:234
-msgid "Iranian rial"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:235
-msgid "Iraqi dinar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:236
-msgid "Israeli new sheqel"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:237
-msgid "Jamaican dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:238
-msgid "Japanese yen "
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:239
-msgid "Jersey pound"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:240
-msgid "Jordanian dinar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:241
-msgid "Kazakhstani tenge"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:242
-msgid "Kenyan shilling"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:243
-msgid "North Korean won"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:244
-msgid "Cambodian riel"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:245
-msgid "Kuwaiti dinar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:246
-msgid "Kyrgyzstani som"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:247
-msgid "Cayman Islands dollar"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:248
-msgid "Comorian franc"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:249
-msgid "South Korean won"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:250
-msgid "Lao kip"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:251
-msgid "Latvian lats"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:252
-msgid "Lebanese pound"
-msgstr ""
-
-#: includes/Common/Helper/Helper.php:253
-msgid "Lesotho loti"
+msgid "Failed to create upload folder."
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:254
-msgid "Liberian dollar"
+msgid "Afghan afghani"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:255
+msgid "Albanian lek"
+msgstr ""
+
 #: includes/Common/Helper/Helper.php:256
-msgid "Libyan dinar"
+msgid "United Arab Emirates dirham"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:257
-msgid "Sri Lankan rupee"
+msgid "Angolan kwanza"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:258
-msgid "Lithuanian litas"
+msgid "Argentine peso"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:259
-msgid "Macanese pataca"
+msgid "Armenian dram"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:260
-msgid "Macedonian denar"
+msgid "Netherlands Antilles guilder"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:261
-msgid "Malagasy ariary"
+msgid "Aruban florin"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:262
-msgid "Malawian kwacha"
+msgid "Australian dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:263
-msgid "Malaysian ringgit"
+msgid "Azerbaijani manat"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:264
-msgid "Maldivian rufiyaa"
+msgid "Bahamian dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:265
-msgid "Mauritanian ouguiya"
+msgid "Bahraini dinar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:266
-msgid "Mauritian rupee"
+msgid "Bangladeshi taka"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:267
-msgid "Mexican peso"
+msgid "Barbadian dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:268
-msgid "Moldovan leu"
+msgid "Belarusian ruble"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:269
-msgid "Mongolian tugrik"
+msgid "Belizean dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:270
-msgid "Moroccan dirham"
+msgid "Bermudian dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:271
-msgid "Mozambican metical"
+msgid "Bhutanese ngultrum"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:272
-msgid "Burmese kyat"
+msgid "Bolivian boliviano"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:273
-msgid "Namibian dollar"
+msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:274
-msgid "Nepalese rupee"
+msgid "Botswana pula"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:275
-msgid "Nicaraguan córdoba"
+msgid "Brazilian real"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:276
-msgid "Nigerian naira"
+msgid "Brunei dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:277
-msgid "Norwegian krone"
+msgid "Bulgarian lev"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:278
-msgid "New Zealand dollar"
+msgid "Burundian franc"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:279
-msgid "Omani rial"
+msgid "Canadian dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:280
-msgid "Pakistani rupee"
+msgid "Cape Verdean escudo"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:281
-msgid "Panamanian balboa"
+msgid "Chilean peso"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:282
-msgid "Papua New Guinea kina"
+msgid "Chinese renminbi"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:283
-msgid "Paraguayan guarani"
+msgid "Colombian peso"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:284
-msgid "Peruvian nuevo sol"
+msgid "Congolese franc"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:285
-msgid "Philippine peso"
+msgid "Swiss franc"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:286
-msgid "Polish zloty"
+msgid "Costa Rican colón"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:287
-msgid "Qatari riyal"
+msgid "Cuban peso"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:288
-msgid "Romanian leu"
+msgid "Czech koruna"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:289
-msgid "Russian ruble"
+msgid "Danish krone"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:290
-msgid "Serbian dinar"
+msgid "Djiboutian franc"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:291
-msgid "Rwandan franc"
+msgid "Dominican peso"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:292
-msgid "Salvadoran colón"
+msgid "Algerian dinar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:293
-msgid "São Tomé and Príncipe dobra"
+msgid "Egyptian pound"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:294
-msgid "Saudi riyal"
+msgid "Eritrean nakfa"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:295
-msgid "Seychellois rupee"
+msgid "Euro"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:296
-msgid "Sierra Leonean leone"
+msgid "Ethiopian birr"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:297
-msgid "Singapore dollar"
+msgid "Falkland Islands pound"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:298
-msgid "Solomon Islands dollar"
+msgid "Fijian dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:299
-msgid "Somali shilling"
+msgid "Gambian dalasi"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:300
-msgid "St. Helena pound"
+msgid "Georgian lari"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:301
-msgid "Sudanese pound"
+msgid "Ghanian cedi"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:302
-msgid "Surinamese dollar"
+msgid "Gibraltar pound"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:303
-msgid "Swazi lilangeni"
+msgid "Guatemalan quetzal"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:304
-msgid "Swedish krona"
+msgid "British pound"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:305
-msgid "Syrian pound"
+msgid "Guinean franc"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:306
-msgid "New Taiwan dollar"
+msgid "Guyanese dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:307
-msgid "Tajikistani somoni"
+msgid "Haitian gourde"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:308
-msgid "Tanzanian shilling"
+msgid "Honduran lempira"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:309
-msgid "Thai baht "
+msgid "Hong Kong dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:310
-msgid "Tongan pa’anga"
+msgid "Croatian kuna"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:311
-msgid "Trinidad and Tobago dollar"
+msgid "Hungarian forint"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:312
-msgid "Tunisian dinar"
+msgid "Icelandic króna"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:313
-msgid "Turkish lira"
+msgid "Indian rupee"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:314
-msgid "Turkmenistani manat"
+msgid "Indonesian rupiah"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:315
-msgid "Ugandan shilling"
+msgid "Iranian rial"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:316
-msgid "Ukrainian hryvnia"
+msgid "Iraqi dinar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:317
-msgid "US dollar"
+msgid "Israeli new sheqel"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:318
-msgid "Uruguayan peso"
+msgid "Jamaican dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:319
-msgid "Uzbekistani som"
+msgid "Japanese yen "
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:320
-msgid "Vanuatu vatu"
+msgid "Jersey pound"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:321
-msgid "Venezuelan bolivar"
+msgid "Jordanian dinar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:322
-msgid "Vietnamese dong"
+msgid "Kazakhstani tenge"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:323
-msgid "Samoan tālā"
+msgid "Kenyan shilling"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:324
-msgid "East Caribbean dollar"
+msgid "North Korean won"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:325
-msgid "West African CFA franc"
+msgid "Cambodian riel"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:326
-msgid "Central African CFA franc"
+msgid "Kuwaiti dinar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:327
-msgid "CFP franc"
+msgid "Kyrgyzstani som"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:328
-msgid "Yemeni rial"
+msgid "Cayman Islands dollar"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:329
-msgid "South African rand"
+msgid "Comorian franc"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:330
-msgid "Zambian kwacha"
+msgid "South Korean won"
 msgstr ""
 
 #: includes/Common/Helper/Helper.php:331
+msgid "Lao kip"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:332
+msgid "Latvian lats"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:333
+msgid "Lebanese pound"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:334
+msgid "Lesotho loti"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:335
+msgid "Liberian dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:336
+#: includes/Common/Helper/Helper.php:337
+msgid "Libyan dinar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:338
+msgid "Sri Lankan rupee"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:339
+msgid "Lithuanian litas"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:340
+msgid "Macanese pataca"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:341
+msgid "Macedonian denar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:342
+msgid "Malagasy ariary"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:343
+msgid "Malawian kwacha"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:344
+msgid "Malaysian ringgit"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:345
+msgid "Maldivian rufiyaa"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:346
+msgid "Mauritanian ouguiya"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:347
+msgid "Mauritian rupee"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:348
+msgid "Mexican peso"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:349
+msgid "Moldovan leu"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:350
+msgid "Mongolian tugrik"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:351
+msgid "Moroccan dirham"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:352
+msgid "Mozambican metical"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:353
+msgid "Burmese kyat"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:354
+msgid "Namibian dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:355
+msgid "Nepalese rupee"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:356
+msgid "Nicaraguan córdoba"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:357
+msgid "Nigerian naira"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:358
+msgid "Norwegian krone"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:359
+msgid "New Zealand dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:360
+msgid "Omani rial"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:361
+msgid "Pakistani rupee"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:362
+msgid "Panamanian balboa"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:363
+msgid "Papua New Guinea kina"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:364
+msgid "Paraguayan guarani"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:365
+msgid "Peruvian nuevo sol"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:366
+msgid "Philippine peso"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:367
+msgid "Polish zloty"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:368
+msgid "Qatari riyal"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:369
+msgid "Romanian leu"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:370
+msgid "Russian ruble"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:371
+msgid "Serbian dinar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:372
+msgid "Rwandan franc"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:373
+msgid "Salvadoran colón"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:374
+msgid "São Tomé and Príncipe dobra"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:375
+msgid "Saudi riyal"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:376
+msgid "Seychellois rupee"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:377
+msgid "Sierra Leonean leone"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:378
+msgid "Singapore dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:379
+msgid "Solomon Islands dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:380
+msgid "Somali shilling"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:381
+msgid "St. Helena pound"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:382
+msgid "Sudanese pound"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:383
+msgid "Surinamese dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:384
+msgid "Swazi lilangeni"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:385
+msgid "Swedish krona"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:386
+msgid "Syrian pound"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:387
+msgid "New Taiwan dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:388
+msgid "Tajikistani somoni"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:389
+msgid "Tanzanian shilling"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:390
+msgid "Thai baht "
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:391
+msgid "Tongan pa’anga"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:392
+msgid "Trinidad and Tobago dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:393
+msgid "Tunisian dinar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:394
+msgid "Turkish lira"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:395
+msgid "Turkmenistani manat"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:396
+msgid "Ugandan shilling"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:397
+msgid "Ukrainian hryvnia"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:398
+msgid "US dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:399
+msgid "Uruguayan peso"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:400
+msgid "Uzbekistani som"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:401
+msgid "Vanuatu vatu"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:402
+msgid "Venezuelan bolivar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:403
+msgid "Vietnamese dong"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:404
+msgid "Samoan tālā"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:405
+msgid "East Caribbean dollar"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:406
+msgid "West African CFA franc"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:407
+msgid "Central African CFA franc"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:408
+msgid "CFP franc"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:409
+msgid "Yemeni rial"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:410
+msgid "South African rand"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:411
+msgid "Zambian kwacha"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:412
 msgid "Zimbabwean dollar"
 msgstr ""
 
-#: includes/Common/Models/Course.php:150
+#: includes/Common/Helper/Helper.php:1014
+msgid "Acadlix Bulk Question Upload"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1015
+msgid "Upload hundreds of questions in seconds via MS Word."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1026
+msgid "Acadlix Assignments"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1027
+msgid "Create, assign, and evaluate student assignments seamlessly."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1038
+msgid "Acadlix Zoom Integration"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1039
+msgid "Schedule and manage live classes via Zoom from your dashboard."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1050
+msgid "Acadlix Advanced Report"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1051
+msgid "Generate detailed reports for your students and courses."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1062
+msgid "Acadlix Subscriptions"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1063
+msgid "Manage subscriptions for your students and courses."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1074
+msgid "Acadlix Data Exporter"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1075
+msgid "Export results, answer sheets in PDF or Excel."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1086
+msgid "Question Error Reporting"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1087
+msgid "This addon lets students flag and report incorrect or unclear questions, helping admins maintain accuracy and improve question quality."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1098
+msgid "Social Login"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1099
+msgid "Allow users to log in using their social media accounts."
+msgstr ""
+
+#: includes/Common/Models/Course.php:166
 msgid "Invalid post ID or not a course post type."
 msgstr ""
 
-#: includes/Common/Models/CourseSection.php:116
-#: includes/Common/Models/CourseSectionContent.php:180
+#: includes/Common/Models/CourseSection.php:123
+#: includes/Common/Models/CourseSectionContent.php:208
 msgid "Invalid post ID or not a course section post type."
 msgstr ""
 
-#: includes/Common/Models/CourseSection.php:132
-#: includes/Common/Models/CourseSectionContent.php:187
+#: includes/Common/Models/CourseSection.php:139
+#: includes/Common/Models/CourseSectionContent.php:215
 msgid "Failed to delete course section."
 msgstr ""
 
-#: includes/Common/Models/Question.php:87
+#: includes/Common/Models/Question.php:94
 msgid "Language already exists for this question."
 msgstr ""
 
-#: includes/Common/Models/Question.php:96
+#: includes/Common/Models/Question.php:103
 msgid "Default language data not found for this question."
 msgstr ""
 
-#: includes/Common/Models/Quiz.php:320
-#: includes/Common/Models/Quiz.php:360
-#: includes/Common/Models/Quiz.php:379
+#: includes/Common/Models/Quiz.php:319
+#: includes/Common/Models/Quiz.php:359
+#: includes/Common/Models/Quiz.php:378
 msgid "Invalid post ID or not a quiz post type."
 msgstr ""
 
-#: includes/Common/Models/Quiz.php:327
+#: includes/Common/Models/Quiz.php:326
 msgid "Failed to delete quiz."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCategoryController.php:97
-#: includes/Common/REST/Admin/AdminCategoryController.php:139
+#: includes/Common/Notifications/Email.php:45
+#: includes/Common/Notifications/Email.php:98
+#: includes/Common/Notifications/Email.php:216
+#: build/Common/admin_order.js:1
+msgid "Free"
+msgstr ""
+
+#. translators: %d is the order ID
+#: includes/Common/Notifications/Email.php:60
+#, php-format
+msgid "Your order #%d confirmed!"
+msgstr ""
+
+#. translators: %d is the order ID
+#: includes/Common/Notifications/Email.php:75
+#, php-format
+msgid "New order received #%d"
+msgstr ""
+
+#. translators: %d is the order ID
+#: includes/Common/Notifications/Email.php:112
+#, php-format
+msgid "Payement failed for order #%d"
+msgstr ""
+
+#. translators: %d is the order ID
+#: includes/Common/Notifications/Email.php:127
+#: templates/email/admin/FailedTransation.php:12
+#: templates/email/admin/FailedTransation.php:57
+#: templates/email/student/FailedTransation.php:13
+#: templates/email/student/FailedTransation.php:64
+#, php-format
+msgid "Payment failed for order #%d"
+msgstr ""
+
+#. translators: %s is the course name
+#: includes/Common/Notifications/Email.php:170
+#, php-format
+msgid "You have completed %s!"
+msgstr ""
+
+#. translators: 1: %s is the username, 2: %s is the coursename
+#: includes/Common/Notifications/Email.php:190
+#, php-format
+msgid " %1$s has completed %2$s"
+msgstr ""
+
+#. translators: %d is the order ID
+#: includes/Common/Notifications/Email.php:230
+#: templates/email/student/OfflinePurchase.php:13
+#, php-format
+msgid "Offline Purchase for order #%d"
+msgstr ""
+
+#. translators: %d is the order ID
+#: includes/Common/Notifications/Email.php:245
+#, php-format
+msgid "New Offline Purchase for order #%d"
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminAddonController.php:54
+msgid "Key and value are required."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminAddonController.php:60
+msgid "Addon updated successfully."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminCategoryController.php:95
+#: includes/Common/REST/Admin/AdminCategoryController.php:137
 msgid "Category name is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCategoryController.php:106
+#: includes/Common/REST/Admin/AdminCategoryController.php:104
 msgid "Failed to create the category."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCategoryController.php:131
+#: includes/Common/REST/Admin/AdminCategoryController.php:129
 msgid "Category id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCategoryController.php:150
+#: includes/Common/REST/Admin/AdminCategoryController.php:148
 msgid "Failed to update the category."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCategoryController.php:167
+#: includes/Common/REST/Admin/AdminCategoryController.php:165
 msgid "Failed to delete the category."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:253
-#: includes/Common/REST/Admin/AdminCourseController.php:307
-#: includes/Common/REST/Admin/AdminCourseController.php:471
+#: includes/Common/REST/Admin/AdminCourseController.php:243
+#: includes/Common/REST/Admin/AdminCourseController.php:298
+#: includes/Common/REST/Admin/AdminCourseController.php:462
 msgid "Course id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:270
+#: includes/Common/REST/Admin/AdminCourseController.php:260
 msgid "Failed to update the course."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:280
+#: includes/Common/REST/Admin/AdminCourseController.php:270
 msgid "Updated course not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:315
-#: includes/Common/REST/Admin/AdminCourseController.php:390
+#: includes/Common/REST/Admin/AdminCourseController.php:306
+#: includes/Common/REST/Admin/AdminCourseController.php:381
 msgid "Course section title is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:346
-#: includes/Common/REST/Admin/AdminCourseController.php:407
+#: includes/Common/REST/Admin/AdminCourseController.php:337
+#: includes/Common/REST/Admin/AdminCourseController.php:398
 msgid "Failed to create the course section."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:355
+#: includes/Common/REST/Admin/AdminCourseController.php:346
 msgid "Created course section not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:382
-#: includes/Common/REST/Admin/AdminCourseController.php:442
-#: includes/Common/REST/Admin/AdminCourseController.php:528
-#: includes/Common/REST/Admin/AdminCourseController.php:596
-#: includes/Common/REST/Admin/AdminCourseController.php:783
-#: includes/Common/REST/Admin/AdminCourseController.php:850
+#: includes/Common/REST/Admin/AdminCourseController.php:373
+#: includes/Common/REST/Admin/AdminCourseController.php:433
+#: includes/Common/REST/Admin/AdminCourseController.php:519
+#: includes/Common/REST/Admin/AdminCourseController.php:588
+#: includes/Common/REST/Admin/AdminCourseController.php:774
+#: includes/Common/REST/Admin/AdminCourseController.php:841
 msgid "Section id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:416
+#: includes/Common/REST/Admin/AdminCourseController.php:407
 msgid "Updated course section not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:452
+#: includes/Common/REST/Admin/AdminCourseController.php:443
 msgid "Failed to delete the course section."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:457
+#: includes/Common/REST/Admin/AdminCourseController.php:448
 msgid "Course section successfully deleted."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:481
+#: includes/Common/REST/Admin/AdminCourseController.php:472
 msgid "Course with this doesnt exist. Course id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:493
-#: includes/Common/REST/Admin/AdminCourseController.php:550
+#: includes/Common/REST/Admin/AdminCourseController.php:484
+#: includes/Common/REST/Admin/AdminCourseController.php:541
 msgid "active and over menu order is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:538
+#: includes/Common/REST/Admin/AdminCourseController.php:529
 msgid "Section with this doesnt exist. Section id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:607
-#: includes/Common/REST/Admin/AdminCourseController.php:722
-#: includes/Common/REST/Admin/AdminLessonController.php:125
-#: includes/Common/REST/Admin/AdminLessonController.php:204
+#: includes/Common/REST/Admin/AdminCourseController.php:599
+#: includes/Common/REST/Admin/AdminCourseController.php:714
+#: includes/Common/REST/Admin/AdminLessonController.php:115
+#: includes/Common/REST/Admin/AdminLessonController.php:194
 msgid "Lesson title is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:627
-#: includes/Common/REST/Admin/AdminLessonController.php:146
+#: includes/Common/REST/Admin/AdminCourseController.php:619
+#: includes/Common/REST/Admin/AdminLessonController.php:136
 msgid "Failed to create the lesson."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:654
-#: includes/Common/REST/Admin/AdminCourseController.php:701
-#: includes/Common/REST/Admin/AdminCourseController.php:831
+#: includes/Common/REST/Admin/AdminCourseController.php:646
+#: includes/Common/REST/Admin/AdminCourseController.php:693
+#: includes/Common/REST/Admin/AdminCourseController.php:822
 msgid "Failed to create the course section content."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:664
-#: includes/Common/REST/Admin/AdminLessonController.php:297
+#: includes/Common/REST/Admin/AdminCourseController.php:656
+#: includes/Common/REST/Admin/AdminLessonController.php:287
 msgid "Lesson ids is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:673
+#: includes/Common/REST/Admin/AdminCourseController.php:665
 msgid "Lesson not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:731
-#: includes/Common/REST/Admin/AdminLessonController.php:182
-#: includes/Common/REST/Admin/AdminLessonController.php:213
-#: includes/Common/REST/Admin/AdminLessonController.php:271
-#: includes/Common/REST/Admin/AdminLessonController.php:306
+#: includes/Common/REST/Admin/AdminCourseController.php:723
+#: includes/Common/REST/Admin/AdminLessonController.php:172
+#: includes/Common/REST/Admin/AdminLessonController.php:203
+#: includes/Common/REST/Admin/AdminLessonController.php:261
+#: includes/Common/REST/Admin/AdminLessonController.php:296
 msgid "Lesson id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:750
-#: includes/Common/REST/Admin/AdminLessonController.php:234
+#: includes/Common/REST/Admin/AdminCourseController.php:742
+#: includes/Common/REST/Admin/AdminLessonController.php:224
 msgid "Failed to update the lesson."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:790
-#: includes/Common/REST/Admin/AdminQuizController.php:492
+#: includes/Common/REST/Admin/AdminCourseController.php:781
 #: includes/Common/REST/Admin/AdminQuizController.php:510
+#: includes/Common/REST/Admin/AdminQuizController.php:528
 msgid "Quiz ids is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:802
+#: includes/Common/REST/Admin/AdminCourseController.php:793
 msgid "Quiz not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:858
+#: includes/Common/REST/Admin/AdminCourseController.php:849
 msgid "Content id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminCourseController.php:870
+#: includes/Common/REST/Admin/AdminCourseController.php:861
 msgid "Failed to delete the course section content."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLanguageController.php:114
-#: includes/Common/REST/Admin/AdminLanguageController.php:156
+#: includes/Common/REST/Admin/AdminLanguageController.php:112
+#: includes/Common/REST/Admin/AdminLanguageController.php:154
 msgid "Language name is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLanguageController.php:123
+#: includes/Common/REST/Admin/AdminLanguageController.php:121
 msgid "Failed to create the language."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLanguageController.php:149
-#: includes/Common/REST/Admin/AdminLanguageController.php:184
-#: includes/Common/REST/Admin/AdminQuizController.php:565
-#: includes/Common/REST/Admin/AdminQuizController.php:643
-#: includes/Common/REST/Admin/AdminQuizController.php:703
+#: includes/Common/REST/Admin/AdminLanguageController.php:147
+#: includes/Common/REST/Admin/AdminLanguageController.php:182
+#: includes/Common/REST/Admin/AdminQuizController.php:582
+#: includes/Common/REST/Admin/AdminQuizController.php:657
+#: includes/Common/REST/Admin/AdminQuizController.php:716
 msgid "Language id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLanguageController.php:167
-#: includes/Common/REST/Admin/AdminLanguageController.php:193
+#: includes/Common/REST/Admin/AdminLanguageController.php:165
+#: includes/Common/REST/Admin/AdminLanguageController.php:191
 msgid "Failed to update the language."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLanguageController.php:211
+#: includes/Common/REST/Admin/AdminLanguageController.php:209
 msgid "Failed to delete the language."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminLeaderboardController.php:62
-#: includes/Common/REST/Admin/AdminLeaderboardController.php:78
-#: includes/Common/REST/Admin/AdminQuizController.php:377
-#: includes/Common/REST/Admin/AdminQuizController.php:474
-#: includes/Common/REST/Admin/AdminQuizController.php:557
-#: includes/Common/REST/Admin/AdminQuizController.php:635
-#: includes/Common/REST/Admin/AdminQuizController.php:695
+#: includes/Common/REST/Admin/AdminLeaderboardController.php:79
+#: includes/Common/REST/Admin/AdminQuizController.php:396
+#: includes/Common/REST/Admin/AdminQuizController.php:492
+#: includes/Common/REST/Admin/AdminQuizController.php:574
+#: includes/Common/REST/Admin/AdminQuizController.php:649
+#: includes/Common/REST/Admin/AdminQuizController.php:708
 #: includes/Common/REST/Admin/AdminStatisticController.php:88
-#: includes/Common/REST/Admin/AdminStatisticController.php:120
-#: includes/Common/REST/Front/FrontQuizController.php:115
-#: includes/Common/REST/Front/FrontQuizController.php:144
-#: includes/Common/REST/Front/FrontQuizController.php:191
-#: includes/Common/REST/Front/FrontQuizController.php:232
-#: includes/Common/REST/Front/FrontQuizController.php:378
+#: includes/Common/REST/Admin/AdminStatisticController.php:122
+#: includes/Common/REST/Front/FrontQuizController.php:134
+#: includes/Common/REST/Front/FrontQuizController.php:162
+#: includes/Common/REST/Front/FrontQuizController.php:209
+#: includes/Common/REST/Front/FrontQuizController.php:265
+#: includes/Common/REST/Front/FrontQuizController.php:418
+#: includes/Common/REST/Front/FrontQuizController.php:458
 msgid "Quiz id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLessonController.php:156
+#: includes/Common/REST/Admin/AdminLessonController.php:146
 msgid "Created lesson not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLessonController.php:244
+#: includes/Common/REST/Admin/AdminLessonController.php:234
 msgid "Updated lesson not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLessonController.php:280
-#: includes/Common/REST/Admin/AdminLessonController.php:315
+#: includes/Common/REST/Admin/AdminLessonController.php:270
+#: includes/Common/REST/Admin/AdminLessonController.php:305
 msgid "Failed to delete the lesson."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLessonController.php:284
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
+#: includes/Common/REST/Admin/AdminLessonController.php:274
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
 msgid "Lesson successfully deleted."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminLessonController.php:320
+#: includes/Common/REST/Admin/AdminLessonController.php:310
 msgid "Lessons successfully deleted."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:213
-#: includes/Common/REST/Admin/AdminOrderController.php:291
+#: includes/Common/REST/Admin/AdminOrderController.php:244
+#: includes/Common/REST/Admin/AdminOrderController.php:349
 #: includes/Common/REST/Front/FrontStatisticController.php:66
 msgid "User id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:217
-#: includes/Common/REST/Admin/AdminOrderController.php:295
+#: includes/Common/REST/Admin/AdminOrderController.php:248
 msgid "Order items is required."
 msgstr ""
 
 #. translators: %s is the course title
-#: includes/Common/REST/Admin/AdminOrderController.php:226
-#: includes/Common/REST/Admin/AdminOrderController.php:305
-msgid "%s already purchased."
+#: includes/Common/REST/Admin/AdminOrderController.php:256
+#, php-format
+msgid "Course %s already purchased."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:269
-#: includes/Common/REST/Admin/AdminOrderController.php:287
-#: includes/Common/REST/Admin/AdminOrderController.php:352
+#: includes/Common/REST/Admin/AdminOrderController.php:316
+#: includes/Common/REST/Admin/AdminOrderController.php:345
+#: includes/Common/REST/Admin/AdminOrderController.php:429
 msgid "Order id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:361
+#: includes/Common/REST/Admin/AdminOrderController.php:438
 msgid "Order successfully deleted."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuestionController.php:201
+#: includes/Common/REST/Admin/AdminQuestionController.php:199
 msgid "Question id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuestionController.php:209
+#: includes/Common/REST/Admin/AdminQuestionController.php:207
 msgid "Question language is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuestionController.php:243
-#: includes/Common/REST/Admin/AdminQuestionController.php:265
+#: includes/Common/REST/Admin/AdminQuestionController.php:241
+#: includes/Common/REST/Admin/AdminQuestionController.php:263
 msgid "Question ids is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:237
-#: includes/Common/REST/Admin/AdminQuizController.php:369
+#: includes/Common/REST/Admin/AdminQuizController.php:255
+#: includes/Common/REST/Admin/AdminQuizController.php:388
 msgid "Quiz title is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:246
-#: includes/Common/REST/Admin/AdminQuizController.php:385
-#: includes/Common/REST/Admin/AdminQuizController.php:518
+#: includes/Common/REST/Admin/AdminQuizController.php:263
+#: includes/Common/REST/Admin/AdminQuizController.php:404
+#: includes/Common/REST/Admin/AdminQuizController.php:536
 msgid "Quiz category is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:254
-#: includes/Common/REST/Admin/AdminQuizController.php:393
+#: includes/Common/REST/Admin/AdminQuizController.php:271
+#: includes/Common/REST/Admin/AdminQuizController.php:412
 msgid "Quiz language is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:276
+#: includes/Common/REST/Admin/AdminQuizController.php:293
 msgid "Failed to create the quiz."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:289
-#: includes/Common/REST/Admin/AdminQuizController.php:425
-#: includes/Common/REST/Admin/AdminQuizController.php:529
+#: includes/Common/REST/Admin/AdminQuizController.php:306
+#: includes/Common/REST/Admin/AdminQuizController.php:444
+#: includes/Common/REST/Admin/AdminQuizController.php:547
 msgid "Cannot assign category to quiz."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:302
-#: includes/Common/REST/Admin/AdminQuizController.php:437
+#: includes/Common/REST/Admin/AdminQuizController.php:319
+#: includes/Common/REST/Admin/AdminQuizController.php:456
 msgid "Cannot assign language to quiz."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:313
-#: includes/Common/REST/Admin/AdminQuizController.php:447
+#: includes/Common/REST/Admin/AdminQuizController.php:330
+#: includes/Common/REST/Admin/AdminQuizController.php:466
 msgid "Created quiz not found."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:413
-#: includes/Common/REST/Admin/AdminQuizController.php:588
-#: includes/Common/REST/Admin/AdminQuizController.php:597
-#: includes/Common/REST/Admin/AdminQuizController.php:658
-#: includes/Common/REST/Admin/AdminQuizController.php:726
-#: includes/Common/REST/Admin/AdminQuizController.php:735
+#: includes/Common/REST/Admin/AdminQuizController.php:432
+#: includes/Common/REST/Admin/AdminQuizController.php:605
+#: includes/Common/REST/Admin/AdminQuizController.php:614
+#: includes/Common/REST/Admin/AdminQuizController.php:672
+#: includes/Common/REST/Admin/AdminQuizController.php:739
+#: includes/Common/REST/Admin/AdminQuizController.php:748
 msgid "Failed to update the quiz."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:573
-#: includes/Common/REST/Admin/AdminQuizController.php:711
+#: includes/Common/REST/Admin/AdminQuizController.php:590
+#: includes/Common/REST/Admin/AdminQuizController.php:724
 msgid "Languages are required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:610
+#: includes/Common/REST/Admin/AdminQuizController.php:627
 msgid "Language added successfully"
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:672
+#: includes/Common/REST/Admin/AdminQuizController.php:686
 msgid "Default language set successfully"
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:748
+#: includes/Common/REST/Admin/AdminQuizController.php:761
 msgid "Language removed successfully"
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminSettingController.php:94
-msgid "Email sent successfully"
-msgstr ""
-
-#: includes/Common/REST/Admin/AdminStatisticController.php:136
-msgid "Statistic ref id is required."
-msgstr ""
-
-#: includes/Common/REST/Front/FrontCheckoutController.php:152
-msgid "Course already purchased."
-msgstr ""
-
-#: includes/Common/REST/Front/FrontCheckoutController.php:188
-msgid "Cart id is required."
-msgstr ""
-
-#: includes/Common/REST/Front/FrontCheckoutController.php:193
-msgid "No course found."
-msgstr ""
-
-#: includes/Common/REST/Front/FrontCheckoutController.php:214
-#: includes/Common/REST/Front/FrontCheckoutController.php:389
-#: includes/Common/REST/Front/FrontCheckoutController.php:509
-#: includes/Common/REST/Front/FrontCheckoutController.php:599
-#: includes/Common/REST/Front/FrontCourseController.php:91
-#: includes/Common/REST/Front/FrontCourseController.php:121
-#: includes/Common/REST/Front/FrontCourseController.php:193
-#: includes/Common/REST/Front/FrontCourseController.php:293
-#: includes/Common/REST/Front/FrontCourseController.php:334
-msgid "Required course id and user_id"
-msgstr ""
-
-#: includes/Common/REST/Front/FrontCheckoutController.php:218
-#: includes/Common/REST/Front/FrontCheckoutController.php:393
-#: includes/Common/REST/Front/FrontCheckoutController.php:513
-msgid "Unacceptable payment gateway"
-msgstr ""
-
-#: includes/Common/REST/Front/FrontCheckoutController.php:222
-#: includes/Common/REST/Front/FrontCheckoutController.php:397
-#: includes/Common/REST/Front/FrontCheckoutController.php:517
-#: includes/Common/REST/Front/FrontCheckoutController.php:603
-msgid "No order found"
-msgstr ""
-
 #. translators: %s is the required field
-#: includes/Common/REST/Front/FrontCheckoutController.php:230
-#: includes/Common/REST/Front/FrontCheckoutController.php:313
-#: includes/Common/REST/Front/FrontCheckoutController.php:362
-#: includes/Common/REST/Front/FrontCheckoutController.php:405
-#: includes/Common/REST/Front/FrontCheckoutController.php:525
-#: includes/Common/REST/Front/FrontCheckoutController.php:611
-#: includes/Common/REST/Front/FrontCourseController.php:99
-#: includes/Common/REST/Front/FrontCourseController.php:129
-#: includes/Common/REST/Front/FrontCourseController.php:140
-#: includes/Common/REST/Front/FrontCourseController.php:201
-#: includes/Common/REST/Front/FrontCourseController.php:212
-#: includes/Common/REST/Front/FrontCourseController.php:301
-#: includes/Common/REST/Front/FrontCourseController.php:342
-#: includes/Common/REST/Front/FrontDashboardController.php:179
-#: includes/Common/REST/Front/FrontDashboardController.php:219
-#: includes/Common/REST/Front/FrontDashboardController.php:253
-#: includes/Common/REST/Front/FrontDashboardController.php:307
-#: includes/Common/REST/Front/FrontDashboardController.php:351
+#: includes/Common/REST/Admin/AdminSettingController.php:69
+#: includes/Common/REST/Front/FrontCheckoutController.php:233
+#: includes/Common/REST/Front/FrontCheckoutController.php:312
+#: includes/Common/REST/Front/FrontCheckoutController.php:399
+#: includes/Common/REST/Front/FrontCheckoutController.php:483
+#: includes/Common/REST/Front/FrontCheckoutController.php:563
+#: includes/Common/REST/Front/FrontCheckoutController.php:635
+#: includes/Common/REST/Front/FrontCourseController.php:92
+#: includes/Common/REST/Front/FrontCourseController.php:122
+#: includes/Common/REST/Front/FrontCourseController.php:133
+#: includes/Common/REST/Front/FrontCourseController.php:194
+#: includes/Common/REST/Front/FrontCourseController.php:205
+#: includes/Common/REST/Front/FrontCourseController.php:300
+#: includes/Common/REST/Front/FrontCourseController.php:341
+#: includes/Common/REST/Front/FrontDashboardController.php:242
+#: includes/Common/REST/Front/FrontDashboardController.php:293
+#: includes/Common/REST/Front/FrontDashboardController.php:344
+#: includes/Common/REST/Front/FrontDashboardController.php:378
+#: includes/Common/REST/Front/FrontDashboardController.php:444
+#: includes/Common/REST/Front/FrontDashboardController.php:526
+#, php-format
 msgid "The %s parameter is required."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:259
-msgid "Error creating Razorpay order."
+#: includes/Common/REST/Admin/AdminSettingController.php:140
+msgid "Email sent successfully"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:340
-msgid "Payment verified successfully."
+#: includes/Common/REST/Admin/AdminStatisticController.php:138
+msgid "Statistic ref id is required."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:345
-#: includes/Common/REST/Front/FrontCheckoutController.php:348
-#: includes/Common/REST/Front/FrontCheckoutController.php:374
-msgid "Payment verification failed."
+#: includes/Common/REST/Admin/AdminSubjectController.php:92
+#: includes/Common/REST/Admin/AdminSubjectController.php:133
+msgid "Subject name is required."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:494
-msgid "Error creating PayPal order"
+#: includes/Common/REST/Admin/AdminSubjectController.php:100
+msgid "Failed to create the subject."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCourseController.php:310
-#: includes/Common/REST/Front/FrontCourseController.php:356
+#: includes/Common/REST/Admin/AdminSubjectController.php:125
+msgid "Subject id is required."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminSubjectController.php:149
+msgid "Failed to update the subject."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminSubjectController.php:166
+msgid "Subject not found."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminThemeController.php:37
+#: build/Common/admin_design_studio.js:1
+msgid "Theme updated successfully"
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCheckoutController.php:157
+msgid "Course already purchased."
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCheckoutController.php:193
+msgid "Cart id is required."
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCheckoutController.php:198
+msgid "No course found."
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCheckoutController.php:217
+#: includes/Common/REST/Front/FrontCheckoutController.php:551
+#: includes/Common/REST/Front/FrontCheckoutController.php:625
+#: includes/Common/REST/Front/FrontCourseController.php:84
+#: includes/Common/REST/Front/FrontCourseController.php:114
+#: includes/Common/REST/Front/FrontCourseController.php:186
+#: includes/Common/REST/Front/FrontCourseController.php:292
+#: includes/Common/REST/Front/FrontCourseController.php:333
+msgid "Required course id and user_id"
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCheckoutController.php:221
+msgid "Unacceptable payment gateway"
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCheckoutController.php:225
+#: includes/Common/REST/Front/FrontCheckoutController.php:555
+#: includes/Common/REST/Front/FrontCheckoutController.php:628
+msgid "No order found"
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCourseController.php:235
+msgid "Course not found"
+msgstr ""
+
+#: includes/Common/REST/Front/FrontCourseController.php:309
+#: includes/Common/REST/Front/FrontCourseController.php:355
 msgid "This Course is not available"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCourseController.php:362
+#: includes/Common/REST/Front/FrontCourseController.php:361
 msgid "Course removed from the wishlist"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:147
-#: includes/Common/REST/Front/FrontDashboardController.php:387
-#: includes/Common/REST/Front/FrontDashboardController.php:400
-#: includes/Common/REST/Front/FrontDashboardController.php:463
+#: includes/Common/REST/Front/FrontDashboardController.php:182
+#: includes/Common/REST/Front/FrontDashboardController.php:211
+#: includes/Common/REST/Front/FrontDashboardController.php:591
+#: includes/Common/REST/Front/FrontDashboardController.php:605
+#: includes/Common/REST/Front/FrontDashboardController.php:638
+#: includes/Common/REST/Front/FrontDashboardController.php:700
 msgid "Required user_id"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:411
+#: includes/Common/REST/Front/FrontDashboardController.php:649
 msgid "No file uploaded"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:418
+#: includes/Common/REST/Front/FrontDashboardController.php:656
 msgid "Only JPG and PNG files are allowed"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontQuizController.php:164
+#: includes/Common/REST/Front/FrontQuizController.php:182
 msgid "You have reached your maximum limit of attempts."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontQuizController.php:326
-#: build/Common/admin_quiz.js:1
+#: includes/Common/REST/Front/FrontQuizController.php:366
+#: build/Common/admin_quiz.js:2
 msgid "Anonymous"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontStatisticController.php:86
+#: includes/Common/REST/Front/FrontStatisticController.php:89
 msgid "Statistic id is required."
+msgstr ""
+
+#: includes/Common/Submenu/Submenu_Addon.php:17
+msgid "Acadlix Addons"
+msgstr ""
+
+#: includes/Common/Submenu/Submenu_Addon.php:18
+msgid "Addons"
+msgstr ""
+
+#: includes/Common/Submenu/Submenu_Addon.php:78
+#: includes/Common/Submenu/Submenu_Design_Studio.php:79
+#: includes/Common/Submenu/Submenu_Home.php:75
+#: includes/Common/Submenu/Submenu_Lessons.php:77
+#: includes/Common/Submenu/Submenu_Orders.php:80
+#: includes/Common/Submenu/Submenu_Quiz.php:115
+#: includes/Common/Submenu/Submenu_Settings.php:82
+#: includes/Common/Submenu/Submenu_Student.php:75
+#: includes/Common/Submenu/Submenu_Tools.php:52
+#: templates/app.php:4
+#: build/Common/front.js:2
+msgid "Loading..."
 msgstr ""
 
 #: includes/Common/Submenu/Submenu_Categories.php:17
 msgid "Acadlix Course Category"
 msgstr ""
 
-#: includes/Common/Submenu/Submenu_Home.php:67
-#: includes/Common/Submenu/Submenu_Lessons.php:74
-#: includes/Common/Submenu/Submenu_Orders.php:77
-#: includes/Common/Submenu/Submenu_Quiz.php:106
-#: includes/Common/Submenu/Submenu_Settings.php:79
-#: includes/Common/Submenu/Submenu_Tools.php:52
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-msgid "Loading..."
+#: includes/Common/Submenu/Submenu_Design_Studio.php:17
+msgid "Acadlix Design Studio"
+msgstr ""
+
+#: includes/Common/Submenu/Submenu_Design_Studio.php:18
+#: build/Common/admin_design_studio.js:1
+msgid "Design Studio"
 msgstr ""
 
 #: includes/Common/Submenu/Submenu_Lessons.php:17
@@ -1743,8 +1957,8 @@ msgstr ""
 msgid "Acadlix Settings"
 msgstr ""
 
-#: includes/Common/Submenu/Submenu_Settings.php:20
-msgid "Settings"
+#: includes/Common/Submenu/Submenu_Student.php:15
+msgid "Acadlix Student"
 msgstr ""
 
 #: includes/Common/Submenu/Submenu_Tags.php:17
@@ -1759,616 +1973,402 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#. translators: %s is the number of courses
-#: includes/Common/View/AllCourseView.php:78
-msgid "We found <span>%s</span> courses available for you"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:90
-msgid "All Category"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:91
-msgid "Newest courses"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:92
-msgid "Oldest courses"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:93
-msgid "Popular courses"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:94
-msgid "Price: high to low"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:95
-msgid "Price: low to high"
-msgstr ""
-
-#: includes/Common/View/AllCourseView.php:146
-#: includes/Common/View/AllCourseView.php:172
-#: includes/Common/View/SingleCourseView.php:313
-#: includes/Common/View/SingleCourseView.php:335
+#: includes/Common/View/AllCourseView.php:336
+#: includes/Common/View/SingleCourseView.php:425
 msgid "Go to Checkout"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:153
-#: includes/Common/View/AllCourseView.php:178
-#: includes/Common/View/SingleCourseView.php:318
-#: includes/Common/View/SingleCourseView.php:340
+#: includes/Common/View/AllCourseView.php:348
+#: includes/Common/View/SingleCourseView.php:437
 msgid "Go to Course"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:162
-#: includes/Common/View/SingleCourseView.php:325
+#: includes/Common/View/AllCourseView.php:364
+#: includes/Common/View/SingleCourseView.php:455
 msgid "Start Now"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:187
-#: includes/Common/View/SingleCourseView.php:347
+#: includes/Common/View/AllCourseView.php:389
+#: includes/Common/View/SingleCourseView.php:494
 msgid "Buy Now"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:208
-#: includes/Common/View/SingleCourseView.php:372
+#: includes/Common/View/AllCourseView.php:491
+#: includes/Common/View/SingleCourseView.php:545
 msgid "Add to Wishlist"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:216
-#: includes/Common/View/SingleCourseView.php:379
+#: includes/Common/View/AllCourseView.php:502
+#: includes/Common/View/SingleCourseView.php:559
 msgid "Remove From Wishlist"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:182
+#. translators: %s: course count
+#: includes/Common/View/AllCourseView.php:527
+#, php-format
+msgid "We found %s courses available for you"
+msgstr ""
+
+#. translators: %1$s: start, %2$s: end, %3$s: course count
+#: includes/Common/View/AllCourseView.php:675
+#, php-format
+msgid "Showing %1$s-%2$s of %3$s results"
+msgstr ""
+
+#: includes/Common/View/SingleCourseView.php:237
 msgid "OFF"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:261
+#: includes/Common/View/SingleCourseView.php:339
 msgid "Course Duration:"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:267
+#: includes/Common/View/SingleCourseView.php:360
 msgid "Course Level:"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:273
+#: includes/Common/View/SingleCourseView.php:381
 msgid "Students Enrolled:"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:433
+#: includes/Common/View/SingleCourseView.php:402
+#: build/Common/front_checkout.js:1
+msgid "Tax:"
+msgstr ""
+
+#: includes/Common/View/SingleCourseView.php:760
 msgid "Last updated"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:437
+#: includes/Common/View/SingleCourseView.php:776
 msgid "Created by"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:471
+#: includes/Common/View/SingleCourseView.php:878
 msgid "Overview"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:472
-#: includes/Common/View/SingleCourseView.php:525
+#: includes/Common/View/SingleCourseView.php:891
+#: includes/Common/View/SingleCourseView.php:1220
 msgid "Curriculum"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:473
+#: includes/Common/View/SingleCourseView.php:904
 #: build/Common/admin_course.js:3
 msgid "Instructor"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:484
+#: includes/Common/View/SingleCourseView.php:921
 msgid "What you will learn in this course"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:512
+#: includes/Common/View/SingleCourseView.php:1000
 msgid "Description"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:605
+#: includes/Common/View/SingleCourseView.php:1341
 msgid "Course Instructor"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:134
-msgid "Unknown error"
-msgstr ""
-
-#: includes/Common/View/ThankyouView.php:231
+#: includes/Common/View/ThankyouView.php:148
+#: includes/Common/View/ThankyouView.php:157
 msgid "Payment Success"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:235
-msgid "Payemnt Failed"
+#: includes/Common/View/ThankyouView.php:164
+msgid "Thank you! Your payment was completed successfully."
 msgstr ""
 
-#: build/Common/483.7c76b2b0233b071ac39c.bundle.js:1
-#: build/Common/514.43930a3ff4b8fcb415d9.bundle.js:1
-#: build/Common/1857.f2666b1b228ff29d124f.bundle.js:1
-#: build/Common/2234.4e52268886e483b296e5.bundle.js:1
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-#: build/Common/5138.5e9068006592c4436804.bundle.js:1
-#: build/Common/5183.d39813aad450bfb4bb7b.bundle.js:1
-#: build/Common/5503.70c4fe87e579b75a9cc6.bundle.js:1
-#: build/Common/6357.e9223972c030634f5b08.bundle.js:1
-#: build/Common/7887.fa58a39ebc2b0a4ce2bc.bundle.js:1
-#: build/Common/7928.3de6f76defe29849d5a3.bundle.js:1
-#: build/Common/8237.5827210a1b5674a24a3e.bundle.js:1
-#: build/Common/8789.a71787a4c33f30a6d641.bundle.js:1
-#: build/Common/8911.26f153597b9065f22b95.bundle.js:1
-#: build/Common/9171.d2d14889734c658832e9.bundle.js:1
-#: build/Common/admin_course.js:1
+#: includes/Common/View/ThankyouView.php:171
+msgid "You can now access your purchased course or content."
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:179
+msgid "Go to Dashboard"
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:197
+#: includes/Common/View/ThankyouView.php:206
+msgid "Payment Failed"
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:213
+msgid "Sorry, your payment could not be completed."
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:220
+msgid "Payment Failed. If any amount has been deducted, please contact the administrator for assistance. You may also try the payment again."
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:228
+#: includes/Common/View/ThankyouView.php:274
+msgid "Go to Courses"
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:246
+#: includes/Common/View/ThankyouView.php:257
+msgid "Payment Pending"
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:256
+msgid "Thanks for your order!"
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:265
+msgid "Your payment information has been submitted successfully. We’ll review it and activate your access as soon as the payment is verified."
+msgstr ""
+
+#: includes/Common/View/ThankyouView.php:266
+msgid "Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete."
+msgstr ""
+
+#. translators: 1: username, 2: course name
+#: templates/email/admin/CourseCompletion.php:14
+#, php-format
+msgid "🎓 %1$s completed %2$s"
+msgstr ""
+
+#. translators: 1: username, 2: course name
+#: templates/email/admin/CourseCompletion.php:69
+#, php-format
+msgid "🎉 %1$s has completed %2$s"
+msgstr ""
+
+#: templates/email/admin/CourseCompletion.php:77
+#: templates/email/admin/CoursePurchase.php:67
+#: templates/email/admin/FailedTransation.php:60
+#: templates/email/admin/OfflinePurchase.php:60
+msgid "Hi admin,"
+msgstr ""
+
+#. translators: 1: username, 2: course name, 3: date
+#: templates/email/admin/CourseCompletion.php:80
+#, php-format
+msgid "%1$s has successfully completed the course <strong>%2$s</strong> on %3$s 🎓"
+msgstr ""
+
+#: templates/email/admin/CourseCompletion.php:86
+msgid "You can review their progress in the admin panel."
+msgstr ""
+
+#: templates/email/admin/CourseCompletion.php:92
+#: templates/email/admin/CoursePurchase.php:93
+#: templates/email/admin/FailedTransation.php:85
+#: templates/email/admin/OfflinePurchase.php:87
+#: templates/email/student/CourseCompletion.php:91
+#: templates/email/student/CoursePurchase.php:89
+#: templates/email/student/FailedTransation.php:90
+#: templates/email/student/OfflinePurchase.php:91
+msgid "All rights reserved."
+msgstr ""
+
+#. translators: %d: order id
+#: templates/email/admin/CoursePurchase.php:12
+#, php-format
+msgid "New Order Received - #%d"
+msgstr ""
+
+#. translators: %d: order id
+#: templates/email/admin/CoursePurchase.php:62
+#, php-format
+msgid "✅ New Order Received - #%d"
+msgstr ""
+
+#. translators: %s: sitename
+#: templates/email/admin/CoursePurchase.php:70
+#, php-format
+msgid "A new order has been placed on %s! 🎉"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:74
+#: templates/email/admin/FailedTransation.php:68
+#: templates/email/admin/OfflinePurchase.php:70
+#: templates/email/student/CoursePurchase.php:76
+#: templates/email/student/FailedTransation.php:77
+#: templates/email/student/OfflinePurchase.php:78
+msgid "Order Details:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:76
+#: templates/email/admin/FailedTransation.php:70
+#: templates/email/admin/OfflinePurchase.php:72
+msgid "Order ID:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:77
+#: templates/email/admin/FailedTransation.php:71
+#: templates/email/admin/OfflinePurchase.php:73
+msgid "Student Name:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:78
+#: templates/email/admin/FailedTransation.php:72
+#: templates/email/admin/OfflinePurchase.php:74
+#: templates/email/student/CoursePurchase.php:78
+#: templates/email/student/FailedTransation.php:79
+#: templates/email/student/OfflinePurchase.php:80
+msgid "Course Purchased:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:79
+#: templates/email/admin/FailedTransation.php:73
+#: templates/email/admin/OfflinePurchase.php:75
+#: templates/email/student/CoursePurchase.php:79
+#: templates/email/student/FailedTransation.php:80
+msgid "Amount Paid:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:80
+#: templates/email/admin/FailedTransation.php:74
+#: templates/email/admin/OfflinePurchase.php:76
+#: templates/email/student/CoursePurchase.php:80
+#: templates/email/student/FailedTransation.php:81
+#: templates/email/student/OfflinePurchase.php:82
+msgid "Payment Method:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:81
+#: templates/email/admin/FailedTransation.php:75
+#: templates/email/admin/OfflinePurchase.php:77
+#: templates/email/student/CoursePurchase.php:81
+#: templates/email/student/FailedTransation.php:82
+#: templates/email/student/OfflinePurchase.php:83
+msgid "Order Date:"
+msgstr ""
+
+#: templates/email/admin/CoursePurchase.php:86
+#: templates/email/admin/FailedTransation.php:80
+#: templates/email/admin/OfflinePurchase.php:82
+msgid "View Order Details"
+msgstr ""
+
+#. translators: %s: course names, %s: username
+#: templates/email/admin/FailedTransation.php:63
+#, php-format
+msgid "A payment attempt for %1$s by %2$s has failed."
+msgstr ""
+
+#. translators: %d is the order ID
+#: templates/email/admin/OfflinePurchase.php:12
+#: templates/email/admin/OfflinePurchase.php:57
+#, php-format
+msgid "New Offline Purchase for Order #%d"
+msgstr ""
+
+#. translators: %s: course names, %s: username
+#: templates/email/admin/OfflinePurchase.php:63
+#, php-format
+msgid "A new offline purchase has been initiated for %1$s by %2$s. The order is pending payment verification."
+msgstr ""
+
+#: templates/email/admin/OfflinePurchase.php:68
+msgid "Please review the payment proof and update the order status as appropriate."
+msgstr ""
+
+#. translators: %s: username
+#: templates/email/student/CourseCompletion.php:13
+#: templates/email/student/CourseCompletion.php:63
+#, php-format
+msgid "🎉 Congratulations, %s!"
+msgstr ""
+
+#. translators: %s: coursename
+#: templates/email/student/CourseCompletion.php:72
+#, php-format
+msgid "You have successfully completed <strong>%s</strong>! Your dedication and hard work have paid off. 🎓"
+msgstr ""
+
+#. translators: %s: sitename
+#: templates/email/student/CourseCompletion.php:82
+#, php-format
+msgid "Thank you for choosing %s. Keep learning and growing! 🚀"
+msgstr ""
+
+#. translators: %d: order id
+#: templates/email/student/CoursePurchase.php:13
+#: templates/email/student/CoursePurchase.php:64
+#, php-format
+msgid "✅ Your order #%d is confirmed"
+msgstr ""
+
+#. translators: %s will be replaced with username
+#: templates/email/student/CoursePurchase.php:71
+#: templates/email/student/FailedTransation.php:71
+#: templates/email/student/OfflinePurchase.php:72
+#, php-format
+msgid "Hi %s,"
+msgstr ""
+
+#. translators: %d: order id
+#: templates/email/student/CoursePurchase.php:74
+#, php-format
+msgid "Thank you for your purchase! Your order #%d has been successfully placed. 🎉"
+msgstr ""
+
+#: templates/email/student/CoursePurchase.php:84
+msgid "If you have any questions, feel free to reach out to our support team."
+msgstr ""
+
+#. translators: %s: course names
+#: templates/email/student/FailedTransation.php:75
+#, php-format
+msgid "We noticed that your payment for %s was unsuccessful. Don’t worry — you can try again to complete your purchase."
+msgstr ""
+
+#: templates/email/student/FailedTransation.php:85
+msgid "If you need any assistance, our support team is happy to help."
+msgstr ""
+
+#. translators: %d is the order ID
+#: templates/email/student/OfflinePurchase.php:65
+#, php-format
+msgid "Offline Purchase Initiated for Order #%d"
+msgstr ""
+
+#. translators: %s: course names
+#: templates/email/student/OfflinePurchase.php:76
+#, php-format
+msgid "Thank you for choosing the offline payment method for %s. Your order has been received and is currently pending verification."
+msgstr ""
+
+#: templates/email/student/OfflinePurchase.php:81
+msgid "Amount to Pay:"
+msgstr ""
+
+#: templates/email/student/OfflinePurchase.php:86
+msgid "If you have already submitted your payment proof, our team will review and update your order status soon. For any questions or assistance, please contact our support team."
+msgstr ""
+
+#: build/Common/admin_addon.js:1
+msgid "Available in Pro"
+msgstr ""
+
+#: build/Common/admin_addon.js:1
 #: build/Common/admin_course.js:3
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz_free_accuracy_button.bundle.js:1
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+#: build/Common/admin_quiz_free_answer_sheet_options.bundle.js:1
+#: build/Common/admin_quiz_free_attempt_move_forward_button.bundle.js:1
+#: build/Common/admin_quiz_free_clear_response_button.bundle.js:1
+#: build/Common/admin_quiz_free_force_user_button.bundle.js:1
+#: build/Common/admin_quiz_free_min_percent_options.bundle.js:1
+#: build/Common/admin_quiz_free_percentile_button.bundle.js:1
+#: build/Common/admin_quiz_free_percent_based_text.bundle.js:1
+#: build/Common/admin_quiz_free_prerequisite_button.bundle.js:1
+#: build/Common/admin_quiz_free_random_last_option_button.bundle.js:1
+#: build/Common/admin_quiz_free_rank_button.bundle.js:1
+#: build/Common/admin_quiz_free_result_comparission_button.bundle.js:1
+#: build/Common/admin_quiz_free_speed_button.bundle.js:1
+#: build/Common/admin_quiz_free_subject_wise_button.bundle.js:1
 #: build/Common/admin_setting.js:1
 msgid "Activate"
 msgstr ""
 
-#: build/Common/1080.7dc22b55b7df018fbc05.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Set Paragraph"
-msgstr ""
-
-#: build/Common/1273.d8ca90397651a67b75b4.bundle.js:1
-msgid "Enter Start Date*"
-msgstr ""
-
-#: build/Common/1304.03ed4106d3cce2d2bdec.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Per User Allowed Attempt"
-msgstr ""
-
-#: build/Common/1304.03ed4106d3cce2d2bdec.bundle.js:1
-msgid "Sets allowed attempts (0 = unlimited); requires login at quiz start."
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:1
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:1
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:1
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:1
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Please enter title"
-msgstr ""
-
-#. translators: %s is the type of item
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Generate %s From AI"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Min. Words"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Max. Words"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Level"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Advanced"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Tone"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Formal & Professional"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Conversational & Friendly"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Persuasive & Sales-Oriented"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Storytelling & Creative"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Inspiring & Motivational"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Humorous & Witty"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Technical & Precise"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Prompt (Optional)"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Generate"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-#: build/Common/front.js:1
-msgid "Response"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Generating..."
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/1965.c3011b87894658df073c.bundle.js:1
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-#: build/Common/admin_lesson.js:1
-#: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_setting.js:1
-msgid "Add"
-msgstr ""
-
-#: build/Common/1673.16c630ab23ee074c55ff.bundle.js:2
-#: build/Common/6304.75be7c8f327fbdea1520.bundle.js:2
-#: build/Common/6450.b6a07e61f1754a6739a1.bundle.js:2
-#: build/Common/7680.5ea2f3fda928da19cad9.bundle.js:2
-msgid "Close"
-msgstr ""
-
-#: build/Common/1965.c3011b87894658df073c.bundle.js:1
-msgid "Select Quiz"
-msgstr ""
-
-#: build/Common/1965.c3011b87894658df073c.bundle.js:1
-#: build/Common/admin_lesson.js:1
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_setting.js:1
-msgid "Delete"
-msgstr ""
-
-#: build/Common/2234.4e52268886e483b296e5.bundle.js:1
-msgid "This feature will only work for single choice questions in normal mode"
-msgstr ""
-
-#: build/Common/2280.e17c14cc0d219e9df947.bundle.js:1
-#: build/Common/admin_course.js:1
-msgid "Enter End Date"
-msgstr ""
-
-#: build/Common/2383.9ae596e4b28da0a48726.bundle.js:1
-msgid "Paragraphs"
-msgstr ""
-
-#: build/Common/2416.cd684cf2e4753bd9a80d.bundle.js:1
-msgid "Subject Wise Actions"
-msgstr ""
-
-#: build/Common/2475.8192263d64b36c2174c5.bundle.js:1
-#: build/Common/admin_course.js:1
-msgid "Add Assignment"
-msgstr ""
-
-#: build/Common/2485.ac37cd97e9a50544ba22.bundle.js:1
-msgid "Show Check Button When Option Selected"
-msgstr ""
-
-#: build/Common/2597.74567f30372eac7375e8.bundle.js:1
-#: build/Common/9447.f93cd6f138d503263a61.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Range Type"
-msgstr ""
-
-#: build/Common/2880.8bb51032e9cf94b8db1f.bundle.js:1
-#: build/Common/3882.0b7d37f67d753f34b7f0.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Numerical"
-msgstr ""
-
-#: build/Common/2880.8bb51032e9cf94b8db1f.bundle.js:1
-msgid "Enter number"
-msgstr ""
-
-#: build/Common/2891.14306b346c7a7971e6c5.bundle.js:1
-msgid "Import from .docx"
-msgstr ""
-
-#: build/Common/3705.6a6e627cf7d4133b7fd9.bundle.js:1
-#: build/Common/front.js:1
-msgid "View Answersheet"
-msgstr ""
-
-#: build/Common/3749.1fcabf3884f280401e28.bundle.js:1
-msgid "Enable Back Button"
-msgstr ""
-
-#: build/Common/4021.951bfc0f5f2c8979f57b.bundle.js:1
-msgid "Skip Question"
-msgstr ""
-
-#: build/Common/4044.8a57a9906d0d2b374bd3.bundle.js:1
-msgid "Paragraph Options"
-msgstr ""
-
-#: build/Common/4044.8a57a9906d0d2b374bd3.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Enable Paragraph"
-msgstr ""
-
-#: build/Common/4044.8a57a9906d0d2b374bd3.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Select Paragraph"
-msgstr ""
-
-#: build/Common/4049.555fd0ef55faff039131.bundle.js:1
-msgid "Full Quiz"
-msgstr ""
-
-#: build/Common/4049.555fd0ef55faff039131.bundle.js:1
-msgid "Per Question"
-msgstr ""
-
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-msgid "Show Only Specific Number of Questions"
-msgstr ""
-
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-msgid "Specific Number of Questions"
-msgstr ""
-
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-msgid "Enable Check Button"
-msgstr ""
-
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-msgid "Result Feedback By AI"
-msgstr ""
-
-#: build/Common/4101.89a16d797c43ab6b0a56.bundle.js:1
-msgid "Result Feedback Additional Prompt"
-msgstr ""
-
-#: build/Common/4346.b2c7f74f836b68e43cc9.bundle.js:1
-msgid "Enter OpenAI API Key"
-msgstr ""
-
-#: build/Common/4389.62ffb2be6c080a04899a.bundle.js:1
-msgid "Select Advance Quiz Page"
-msgstr ""
-
-#: build/Common/4389.62ffb2be6c080a04899a.bundle.js:1
-#: build/Common/admin_setting.js:1
-msgid "Title cannot be empty."
-msgstr ""
-
-#: build/Common/6357.e9223972c030634f5b08.bundle.js:1
-msgid "Hide Answer Sheet"
-msgstr ""
-
-#: build/Common/6357.e9223972c030634f5b08.bundle.js:1
-msgid "Show Per Question Time"
-msgstr ""
-
-#: build/Common/7445.90482824adb3def8ca05.bundle.js:1
-msgid "Remove from Preview"
-msgstr ""
-
-#: build/Common/7445.90482824adb3def8ca05.bundle.js:1
-msgid "Add to Preview"
-msgstr ""
-
-#: build/Common/7887.fa58a39ebc2b0a4ce2bc.bundle.js:1
-msgid "Show Status Based On Min % (Pass/Fail)"
-msgstr ""
-
-#: build/Common/7887.fa58a39ebc2b0a4ce2bc.bundle.js:1
-msgid "Minimum % to pass"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Advance mode"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "Quiz Option will only set as per the exam"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "Advance Panel"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "IBPS"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "SSC"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "GATE"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "SBI"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "JEE"
-msgstr ""
-
-#: build/Common/8763.cec85ff759892c522ae3.bundle.js:1
-msgid "Railway"
-msgstr ""
-
-#: build/Common/9447.f93cd6f138d503263a61.bundle.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Required"
-msgstr ""
-
-#: build/Common/9447.f93cd6f138d503263a61.bundle.js:1
-msgid "Range From"
-msgstr ""
-
-#: build/Common/9447.f93cd6f138d503263a61.bundle.js:1
-msgid "Must be greater than from"
-msgstr ""
-
-#: build/Common/9447.f93cd6f138d503263a61.bundle.js:1
-msgid "Range To"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Lessons deleted successfully"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "External link"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Youtube link"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Vimeo link"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Embedded code"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Shortcode"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Link"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Select Video Source"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "HTML:5"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "External Link"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Youtube"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Vimeo"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Embedded"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Only video files are allowed."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Upload Video"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Selected file:"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Only image file is allowed."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Upload Thumbnail"
+#: build/Common/admin_addon.js:1
+msgid "Addon Manager"
 msgstr ""
 
 #: build/Common/admin_course.js:1
@@ -2397,9 +2397,12 @@ msgid "...loading"
 msgstr ""
 
 #: build/Common/admin_course.js:1
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
 #: build/Common/admin_lesson.js:1
-#: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_setting.js:1
 msgid "Save Changes"
 msgstr ""
 
@@ -2413,83 +2416,12 @@ msgstr ""
 
 #: build/Common/admin_course.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/front_checkout.js:1
 msgid "Cancel"
 msgstr ""
 
 #: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Error loading video metadata."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Lesson Title"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Enter Title"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Type"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Video"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Text"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Hours"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Minutes"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Seconds"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Add Resources"
-msgstr ""
-
-#: build/Common/admin_course.js:1
 msgid "Search Lesson..."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Upload"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Upload File"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "https://example.com/"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-#: build/Common/admin_quiz.js:1
-msgid "Remove"
 msgstr ""
 
 #: build/Common/admin_course.js:1
@@ -2508,115 +2440,9 @@ msgstr ""
 msgid "Please select atleast 1 quiz."
 msgstr ""
 
-#: build/Common/admin_course.js:1
-msgid "Assignment Title"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Assignment Title*"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Instruction"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_lesson.js:1
-msgid "Options"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Allow Uploads"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Number of Uploads"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Allowed Mime Type(s)"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Select Mime Type(s)"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Max. File Size (MB)"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Enable marking"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Max. Points"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Start Date"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Enter Start Date"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "End Date"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Enable deadline"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Deadline"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/admin_course.js:3
-msgid "Select Type"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Days"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Weeks"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-#: build/Common/front.js:1
-msgid "Attachments"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Add Attachments"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Search Assignment..."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Please select at least 1 assignment."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Title is required."
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Edit Assignment"
-msgstr ""
-
-#: build/Common/admin_course.js:1
-msgid "Enable Deadline"
-msgstr ""
-
 #. translators: %s is the type of item being removed
 #: build/Common/admin_course.js:3
+#, js-format
 msgid "Are you sure you want to remove this %s from this section?"
 msgstr ""
 
@@ -2627,12 +2453,11 @@ msgstr ""
 
 #: build/Common/admin_course.js:3
 #: build/Common/admin_lesson.js:1
-#: build/Common/admin_order.js:1
 msgid "Delete Lesson"
 msgstr ""
 
 #: build/Common/admin_course.js:3
-msgid "Delete Assignment"
+msgid "Add Assignment"
 msgstr ""
 
 #: build/Common/admin_course.js:3
@@ -2645,6 +2470,10 @@ msgstr ""
 
 #: build/Common/admin_course.js:3
 msgid "Duration Type"
+msgstr ""
+
+#: build/Common/admin_course.js:3
+msgid "Select Type"
 msgstr ""
 
 #: build/Common/admin_course.js:3
@@ -2734,30 +2563,386 @@ msgstr ""
 msgid "Outcome"
 msgstr ""
 
-#: build/Common/admin_course.js:3
-#: build/Common/admin_lesson.js:1
-#: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_setting.js:1
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-#: build/Common/front_single_course.js:1
-msgid "Array length and order length must be the same."
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:1
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:1
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:1
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Please enter title"
 msgstr ""
 
-#: build/Common/admin_course.js:3
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:1
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:1
+#: build/Common/admin_quiz_free_ai_button.bundle.js:1
+msgid "Generate From AI"
+msgstr ""
+
+#. translators: %s is the type of item
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+#, js-format
+msgid "Generate %s From AI"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Min. Words"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Max. Words"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Level"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Advanced"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Tone"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Formal & Professional"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Conversational & Friendly"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Persuasive & Sales-Oriented"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Storytelling & Creative"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Inspiring & Motivational"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Humorous & Witty"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Technical & Precise"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Prompt (Optional)"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Generate"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Response"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Generating..."
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
 #: build/Common/admin_lesson.js:1
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_prerequisite_options.bundle.js:1
 #: build/Common/admin_setting.js:1
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-#: build/Common/front_single_course.js:1
-msgid "Invalid object. Ensure it's a Day.js object."
+msgid "Add"
+msgstr ""
+
+#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
+#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
+#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+msgid "Close"
+msgstr ""
+
+#: build/Common/admin_course_preview.bundle.js:1
+msgid "Remove from Preview"
+msgstr ""
+
+#: build/Common/admin_course_preview.bundle.js:1
+msgid "Add to Preview"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Basic"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+#: build/Common/admin_order.js:1
+msgid "Reset"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Learn how to personalize your LMS in our documentation →"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Click here"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Primary Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Primary Hover Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Primary Text Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Secondary Text Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Grey Main Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Grey Dark Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+msgid "Grey Light Color"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Palette"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Typography"
+msgstr ""
+
+#: build/Common/admin_design_studio.js:1
+#: build/Common/admin_lesson.js:1
+#: build/Common/admin_order.js:1
+#: build/Common/admin_quiz.js:6
+#: build/Common/admin_setting.js:1
+#: build/Common/admin_student.js:1
+#: build/Common/front.js:2
+msgid "No path found"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Font Size"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Font Weight"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Line Height"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Letter Spacing"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "H1"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "H2"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "H3"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "H4"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "H5"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "H6"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Body1"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Body2"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Subtitle1"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Subtitle2"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Main"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Dark"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Light"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Contrast Text"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Primary"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Secondary"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+msgid "Success"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Warning"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Info"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Error"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Grey"
+msgstr ""
+
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Text"
 msgstr ""
 
 #: build/Common/admin_home.js:1
 msgid "Welcome to <b>Acadlix</b>"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "The Next-Gen LMS For WordPress."
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Today's Sale"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Total Sale"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+#: build/Common/admin_quiz.js:1
+msgid "Questions"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Need any custom feature?"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Have unique requirements? We support custom development for specific LMS needs"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Let's Discuss"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Need Help?"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Get expert support when you need it. Fast, reliable, and human."
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Get Help Now"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Documentation"
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "New to Acadlix? Our detailed docs will guide you through every step of setup and beyond."
+msgstr ""
+
+#: build/Common/admin_home.js:1
+msgid "Explore Docs"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
@@ -2767,14 +2952,22 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_student.js:1
+#: build/Common/front.js:2
 msgid "ID"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Title"
+msgstr ""
+
+#: build/Common/admin_lesson.js:1
+#: build/Common/admin_quiz.js:1
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Type"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
@@ -2784,7 +2977,8 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
 msgid "Action"
 msgstr ""
 
@@ -2793,15 +2987,17 @@ msgid "Lesson Overview"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
-#: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-msgid "Refresh"
+#: build/Common/admin_quiz.js:2
+msgid "Bulk Actions"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
-msgid "Bulk Actions"
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz_free_prerequisite_options.bundle.js:1
+#: build/Common/admin_setting.js:1
+msgid "Delete"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
@@ -2810,23 +3006,29 @@ msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Please select atleast 1 entry."
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Action required"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Apply"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_student.js:1
+#: build/Common/front.js:2
 msgid "Search"
 msgstr ""
 
@@ -2835,14 +3037,11 @@ msgid "Search by title"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
-msgid "Enter lesson title"
-msgstr ""
-
-#: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-#: build/Common/front.js:13
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:5
+#: build/Common/front.js:2
 msgid "Back"
 msgstr ""
 
@@ -2851,10 +3050,8 @@ msgid "Create Lesson"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
-#: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:13
-msgid "No path found"
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Refresh"
 msgstr ""
 
 #: build/Common/admin_order.js:1
@@ -2862,43 +3059,44 @@ msgid "If you delete this order, all associated data will also be removed, inclu
 msgstr ""
 
 #: build/Common/admin_order.js:1
-#: build/Common/front.js:1
-msgid "Order Items"
-msgstr ""
-
-#: build/Common/admin_order.js:1
-#: build/Common/front.js:1
-msgid "Method"
-msgstr ""
-
-#: build/Common/admin_order.js:1
 msgid "Order ID"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-msgid "Txn ID"
-msgstr ""
-
-#: build/Common/admin_order.js:1
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Order Date"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_student.js:1
 msgid "Name"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-#: build/Common/front.js:13
+#: build/Common/admin_student.js:1
 #: build/Common/front_checkout.js:1
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Email"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
 msgid "Status"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+msgid "Pending"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+msgid "Failed"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Total amount"
 msgstr ""
 
 #: build/Common/admin_order.js:1
@@ -2910,7 +3108,48 @@ msgid "Edit Order"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-msgid "Search by order items,txn id, name, email"
+msgid "Delete Order"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "All"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "Payment Method"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "Razorpay"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/admin_setting.js:1
+#: build/Common/front_checkout.js:1
+msgid "PayPal"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/admin_setting.js:1
+#: build/Common/front_checkout.js:1
+msgid "PayU"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/admin_setting.js:1
+#: build/Common/front_checkout.js:1
+msgid "Stripe"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/admin_setting.js:1
+msgid "Admin"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Search by id, name, email"
 msgstr ""
 
 #: build/Common/admin_order.js:1
@@ -2922,15 +3161,25 @@ msgid "Add Course(s) to Order"
 msgstr ""
 
 #: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+msgid "Order Items"
+msgstr ""
+
+#: build/Common/admin_order.js:1
 msgid "Add Courses"
 msgstr ""
 
 #: build/Common/admin_order.js:1
+#: build/Common/front.js:2
 msgid "Course"
 msgstr ""
 
 #: build/Common/admin_order.js:1
 msgid "Quantity"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Additional Fee"
 msgstr ""
 
 #: build/Common/admin_order.js:1
@@ -2974,15 +3223,114 @@ msgid "Order Status"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-msgid "Pending"
+msgid "Order Activity Logs"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-msgid "Success"
+msgid "Billing Info"
 msgstr ""
 
 #: build/Common/admin_order.js:1
-msgid "Failed"
+#: build/Common/front_checkout.js:1
+msgid "First Name"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "First name is required."
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "e.g. John"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "Last Name"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Last name is required."
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "e.g. Doe"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "Email is required."
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "e.g. example@example.com"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+#: build/Common/front_checkout.js:1
+msgid "Code"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Phone Number"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+#: build/Common/front_checkout.js:1
+msgid "Address"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "e.g. 12345 Little baker St, Melbourne"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front_checkout.js:1
+msgid "Country"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+#: build/Common/front_checkout.js:1
+msgid "Town/City"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "e.g. Town/City"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+#: build/Common/front.js:2
+#: build/Common/front_checkout.js:1
+msgid "Postal/Zip Code"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "e.g. Postal/Zip Code"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Order Details"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Transaction ID"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Offline User Text"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Offline Upload File"
 msgstr ""
 
 #: build/Common/admin_order.js:1
@@ -2995,6 +3343,10 @@ msgstr ""
 
 #: build/Common/admin_order.js:1
 msgid "Create Order"
+msgstr ""
+
+#: build/Common/admin_order.js:1
+msgid "Save Change"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3019,34 +3371,6 @@ msgid "Select Quiz Category"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-msgid "Set Subject Wise Actions"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Subject wise timing"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Subject wise specific number of questions"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Time (in sec)"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Value should not be less than 0."
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Value should not be more than"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "No. of questions"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
 msgid "Quiz successfully deleted."
 msgstr ""
 
@@ -3056,32 +3380,6 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 msgid "Mode"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Copy Shortcode"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Shortcode copied to clipboard!"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Failed to copy text: "
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Questions"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-msgid "Result"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-msgid "Leaderboard"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3097,6 +3395,39 @@ msgid "Question below each other"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "Advance mode"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Shortcode"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Copy Shortcode"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Shortcode copied to clipboard!"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Failed to copy text: "
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:6
+#: build/Common/front.js:2
+msgid "Leaderboard"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Result"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Quizzes deleted successfully"
 msgstr ""
 
@@ -3109,7 +3440,7 @@ msgid "Do you really want to delete these quizzes?"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-msgid "Search by title, id"
+msgid "Search by title, id, category"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3137,6 +3468,10 @@ msgid "Quiz Description"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+msgid "Choose from various modes. Some features are mode-dependent."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Check And Continue"
 msgstr ""
 
@@ -3149,6 +3484,7 @@ msgid "Question per page"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "General Options"
 msgstr ""
 
@@ -3177,6 +3513,10 @@ msgid "Quiz Timing"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+msgid "Set time from Subject-wise Actions on Quiz page."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Timing (in sec, 0 => infinite)"
 msgstr ""
 
@@ -3189,11 +3529,21 @@ msgid "End date"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+msgid "Start Button text"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_setting.js:1
 msgid "Login Options"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 msgid "Enable login/register"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz_free_allowed_attempt_button.bundle.js:1
+msgid "Per User Allowed Attempt"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3349,7 +3699,6 @@ msgid "Show Rank"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
 msgid "Result comparison with topper"
 msgstr ""
 
@@ -3390,6 +3739,10 @@ msgid "% Based Result Text"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+msgid "If a student's result does not fall into any of the defined percentage ranges, no message will be displayed to them."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Percentage (>=)"
 msgstr ""
 
@@ -3398,7 +3751,13 @@ msgid "% text"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Add More"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Remove"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3426,7 +3785,7 @@ msgid "From"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/front.js:3
 msgid "Subject"
 msgstr ""
 
@@ -3443,8 +3802,7 @@ msgid "User-ID"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Username"
 msgstr ""
 
@@ -3457,7 +3815,6 @@ msgid "Result in percent"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
 msgid "Points"
 msgstr ""
 
@@ -3467,10 +3824,6 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 msgid "Instruction Options"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Change Language:"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3487,6 +3840,26 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 msgid "Term and condition warning"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "GENERAL"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "QUESTION"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "RESULT"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "NOTIFICATION"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "INSTRUCTION"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3519,14 +3892,24 @@ msgid "Acadlix <br/><br/>You have completed the quiz \"$quizname\".<br/><br/>Poi
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+msgid "Quiz successfully created."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Quiz successfully updated."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Create Quiz"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Subject name is already exist"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Subject cannot be empty"
 msgstr ""
 
@@ -3535,27 +3918,24 @@ msgid "Subject and points updated successfully."
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Set Subject and Points"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_setting.js:1
 msgid "Select Subject"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "+ Point"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "- Point"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Paragraph updated successfully."
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "The existing paragraph assigned to the question will be removed if no paragraph is selected before saving."
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3571,6 +3951,7 @@ msgid "Negative Points"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Edit Question"
 msgstr ""
 
@@ -3579,10 +3960,12 @@ msgid "Delete Question"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Single Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Multiple Choice"
 msgstr ""
 
@@ -3591,19 +3974,34 @@ msgid "True False"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Free Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Sorting Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Matrix Sorting Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 msgid "Fill in the blank"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz_free_numerical.bundle.js:1
+#: build/Common/admin_quiz_free_numerical_option.bundle.js:1
+msgid "Numerical"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz_free_range_type.bundle.js:1
+#: build/Common/admin_quiz_free_range_type_option.bundle.js:1
+msgid "Range Type"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -3614,19 +4012,29 @@ msgstr ""
 msgid "Questions deleted successfully"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#. translators: %s is the quiz title
+#: build/Common/admin_quiz.js:2
+#, js-format
+msgid "Question Overview (%s)"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
+msgid "Set Paragraph"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
 msgid "Do you really want to delete these questions?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-msgid "Search by title, question"
+#: build/Common/admin_quiz.js:2
+msgid "Search by question text/title/subject"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Fill in the Blank"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid ""
 "To create a blank space for users to fill in, enclose the correct word(s) in curly brackets { }. For example:\n"
 "              \"The sky is {blue}.\"\n"
@@ -3639,177 +4047,412 @@ msgid ""
 "              "
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz_free_range_type.bundle.js:1
+#: build/Common/admin_setting.js:1
+msgid "Required"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
 msgid "Case Sensitive"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "True/False"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Please set atleast one correct option"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
+msgid "True"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
+msgid "False"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
 msgid "Please set at least one correct option"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-#: build/Common/front.js:13
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz_front_dashboard_quiz_result_section_question_status_section.bundle.js:1
+#: build/Common/front.js:2
 msgid "Correct"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Option is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Option"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Criteria"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Sort Element"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Question Title"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:3
 msgid "Question"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Question is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
-#: build/Common/front.js:13
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
 msgid "Explanation"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Different Explanation for correct and incorrect answer?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Explanation for correct answer"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Explanation for incorrect answer"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
 msgid "Hint"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Enable Hint"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Answer Type"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Free choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "correct answers (one per line)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Create Question"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Statistic successfully reset."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Result successfully deleted."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Do you really want to delete this result?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Name / Username"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Date/Time"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
 msgid "Score"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
 msgid "Percentage"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
+#: build/Common/front.js:2
+msgid "Pass"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
+#: build/Common/front.js:2
+msgid "Fail"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
+#: build/Common/front.js:2
+msgid "NA"
+msgstr ""
+
+#: build/Common/admin_quiz.js:2
 msgid "Do you really want to reset this statistic?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Result successfully reset."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Reset Statistics"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#. translators: %s is the quiz title
+#: build/Common/admin_quiz.js:3
+#, js-format
+msgid "Statistics (%s)"
+msgstr ""
+
+#: build/Common/admin_quiz.js:3
 msgid "Qs:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:3
 msgid "Questions:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-msgid "Pass:"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
-msgid "Fail:"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:3
 msgid "Total Attempt:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-msgid "Search by username"
-msgstr ""
-
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:5
 msgid "Do you really want to reset this leaderboard?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:5
 msgid "Reset Leaderboard"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/front.js:1
+#. translators: %s is the quiz title
+#: build/Common/admin_quiz.js:6
+#, js-format
+msgid "Leaderboard (%s)"
+msgstr ""
+
+#: build/Common/admin_quiz.js:6
+#: build/Common/front.js:2
 msgid "Load More"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "Quiz Option will only set as per the exam"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "Advance Panel"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "IBPS"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "SSC"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "GATE"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "SBI"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "JEE"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
+msgid "Railway"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Show Only Specific Number of Questions"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Specific Number of Questions"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Enable Selectable Questions Rule"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Set questions from Subject-wise Actions on Quiz page."
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Enable Check Button"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Scientific Calculator"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Result Feedback By AI"
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+msgid "Result Feedback Additional Prompt"
+msgstr ""
+
+#: build/Common/admin_quiz_free_allowed_attempt_button.bundle.js:1
+msgid "Sets allowed attempts (0 = unlimited); requires login at quiz start."
+msgstr ""
+
+#: build/Common/admin_quiz_free_answer_sheet_options.bundle.js:1
+msgid "Hide Answer Sheet"
+msgstr ""
+
+#: build/Common/admin_quiz_free_answer_sheet_options.bundle.js:1
+msgid "Show Per Question Time"
+msgstr ""
+
+#: build/Common/admin_quiz_free_attempt_move_forward_button.bundle.js:1
+msgid "This feature will only work for single choice questions in normal mode"
+msgstr ""
+
+#: build/Common/admin_quiz_free_back_button.bundle.js:1
+msgid "Enable Back Button"
+msgstr ""
+
+#: build/Common/admin_quiz_free_back_button.bundle.js:1
+msgid "Allow users to go back to previous questions"
+msgstr ""
+
+#: build/Common/admin_quiz_free_bulk_import_button.bundle.js:1
+msgid "Import from .docx"
+msgstr ""
+
+#: build/Common/admin_quiz_free_check_option_button.bundle.js:1
+msgid "Show Check Button When Option Selected"
+msgstr ""
+
+#: build/Common/admin_quiz_free_check_option_button.bundle.js:1
+msgid "\"Enable this option to display a check button when a student selects an answer.\""
+msgstr ""
+
+#: build/Common/admin_quiz_free_copy_question_button.bundle.js:1
+msgid "Copy Question"
+msgstr ""
+
+#: build/Common/admin_quiz_free_end_date.bundle.js:1
+msgid "Enter End Date"
+msgstr ""
+
+#: build/Common/admin_quiz_free_min_percent_options.bundle.js:1
+msgid "Show Status Based On Min % (Pass/Fail)"
+msgstr ""
+
+#: build/Common/admin_quiz_free_min_percent_options.bundle.js:1
+msgid "Minimum % to pass"
+msgstr ""
+
+#: build/Common/admin_quiz_free_numerical.bundle.js:1
+msgid "Enter number"
+msgstr ""
+
+#: build/Common/admin_quiz_free_pragraph_option_button.bundle.js:1
+msgid "Paragraphs"
+msgstr ""
+
+#: build/Common/admin_quiz_free_prerequisite_options.bundle.js:1
+msgid "Select Quiz"
+msgstr ""
+
+#: build/Common/admin_quiz_free_question_paragraph_section.bundle.js:1
+msgid "Paragraph Options"
+msgstr ""
+
+#: build/Common/admin_quiz_free_question_paragraph_section.bundle.js:1
+msgid "Enable Paragraph"
+msgstr ""
+
+#: build/Common/admin_quiz_free_question_paragraph_section.bundle.js:1
+msgid "Select Paragraph"
+msgstr ""
+
+#: build/Common/admin_quiz_free_quiz_time_type.bundle.js:1
+msgid "Full Quiz"
+msgstr ""
+
+#: build/Common/admin_quiz_free_quiz_time_type.bundle.js:1
+msgid "Per Question"
+msgstr ""
+
+#: build/Common/admin_quiz_free_quiz_time_type.bundle.js:1
+msgid "Subject Wise"
+msgstr ""
+
+#: build/Common/admin_quiz_free_range_type.bundle.js:1
+msgid "Range From"
+msgstr ""
+
+#: build/Common/admin_quiz_free_range_type.bundle.js:1
+msgid "Must be greater than from"
+msgstr ""
+
+#: build/Common/admin_quiz_free_range_type.bundle.js:1
+msgid "Range To"
+msgstr ""
+
+#: build/Common/admin_quiz_free_skip_question_button.bundle.js:1
+msgid "Skip Question"
+msgstr ""
+
+#: build/Common/admin_quiz_free_start_date.bundle.js:1
+msgid "Enter Start Date*"
+msgstr ""
+
+#: build/Common/admin_quiz_free_subject_option_button.bundle.js:1
+msgid "Subject Wise Actions"
+msgstr ""
+
+#: build/Common/admin_quiz_free_view_answer_sheet_button.bundle.js:1
+#: build/Common/front.js:2
+msgid "View Answersheet"
+msgstr ""
+
+#: build/Common/admin_quiz_front_dashboard_quiz_result_section_marks_obtained.bundle.js:1
+msgid "Marks Obtained"
+msgstr ""
+
+#: build/Common/admin_quiz_front_dashboard_quiz_result_section_negative_marks.bundle.js:1
+msgid "Negative Marks"
+msgstr ""
+
+#: build/Common/admin_quiz_front_dashboard_quiz_result_section_question_status_section.bundle.js:1
+#: build/Common/front.js:2
+msgid "Incorrect"
+msgstr ""
+
+#: build/Common/admin_quiz_front_dashboard_quiz_result_section_question_status_section.bundle.js:1
+#: build/Common/front.js:2
+msgid "Skipped"
+msgstr ""
+
+#: build/Common/admin_quiz_front_dashboard_quiz_result_section_time_taken.bundle.js:1
+msgid "Time Taken"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -3821,11 +4464,12 @@ msgid "Student dashboard page"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Advance quiz page"
+#: build/Common/admin_setting_general_advance_quiz_option.bundle.js:1
+msgid "Title cannot be empty."
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Cart page"
+msgid "Advance quiz page"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -3842,6 +4486,10 @@ msgstr ""
 
 #: build/Common/admin_setting.js:1
 msgid "No. of courses per page"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Disable wishlist"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -3869,6 +4517,30 @@ msgid "The number of decimals"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "Admin Options"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Default rows per page"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Student Dashboard Options"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Logout redirect url"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable dashboard fullwidth"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable site logo in header"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "Data Management"
 msgstr ""
 
@@ -3877,7 +4549,55 @@ msgid "Delete Data on Plugin Uninstall"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Payment Gateway"
+msgid "Enable PayU"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Required webhook event: Successful"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Make Default"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Default"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable Sandbox"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Merchant Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Salt"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Webhook URL"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable PayPal"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Required webhook event: CHECKOUT.ORDER.APPROVED"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Client ID"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Secret Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Webhook ID"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -3885,40 +4605,67 @@ msgid "RazorPay"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "RazorPay Client ID"
+msgid "Enable RazorPay"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "RazorPay Secret Key"
+msgid "Required webhook event: payment.authorized, payment.failed"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "PayPal"
+msgid "Webhook Secret"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "PayPal Client ID"
+msgid "Enable Stripe"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "PayPal Secret Key"
+msgid "Required webhook event: checkout*"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Sandbox"
+msgid "Public key"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-#: build/Common/front_checkout.js:1
-msgid "PayU"
+msgid "Webhook Signature Key"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "PayU Merchant Key"
+msgid "Offline Payment"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "PayU Salt"
+msgid "Enable Offline Payment"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Let users pay via bank transfer, cash, or QR code and submit a receipt or transaction ID for verification."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Offline Instructions"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable File Upload"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Upload File Size (Max)"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "File Size (in MB)"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Allowed Mime type"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Payment Gateway"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -3934,15 +4681,15 @@ msgid "Student"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Admin"
-msgstr ""
-
-#: build/Common/admin_setting.js:1
 msgid "Notify Course Completion To"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
 msgid "Notify Failed Transaction To"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Notify Offline Purchase To"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -4014,11 +4761,123 @@ msgid "Category deleted successfully."
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "Question Subjects"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Add Subject"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Edit Subject"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Edit/Delete Subject"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enter subject name"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Subject name is already exist."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Please enter subject name."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Subject updated successfully."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Please select subject."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Do you really want to delete this subject?"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Subject deleted successfully."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enter OpenAI API Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "AI Intergrations"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
 msgid "OpenAI API Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Login Shortcode"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Login shortcode copied to clipboard!"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Failed to copy login shortcode: "
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Default Screen"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Login Screen"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Register Screen"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Registration Options"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable Phone Number"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Fraud Protection"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Fraud Protection (reCAPTCHA v3)"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable Fraud Protection"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "v3 Site Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enter v3 Site Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "v3 Secret Key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enter v3 Secret Key"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -4038,43 +4897,31 @@ msgid "Quiz"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "Authentication"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "Integration"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "You"
+#: build/Common/admin_setting_general_advance_quiz_option.bundle.js:1
+msgid "Select Advance Quiz Page"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Topper"
+#: build/Common/admin_student.js:1
+msgid "Registration Date"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Time"
+#: build/Common/admin_student.js:1
+msgid "Course Count"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Accuracy"
+#: build/Common/admin_student.js:1
+msgid "Student Overview"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Pass"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Fail"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "You have Completed"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Marks Obtained"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Negative Marks"
+#: build/Common/admin_student.js:1
+msgid "Search by name, email"
 msgstr ""
 
 #: build/Common/front.js:1
@@ -4086,564 +4933,337 @@ msgid "Average Score"
 msgstr ""
 
 #: build/Common/front.js:1
-msgid "Time Taken"
+msgid "You have Completed"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Rank"
+#. translators: %s - quiz title
+#: build/Common/front.js:2
+#, js-format
+msgid "Leaderboard for %s"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Percentile"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Q/min"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Speed"
-msgstr ""
-
-#: build/Common/front.js:1
-#: build/Common/front.js:13
-msgid "Incorrect"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Skipped"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Restart Quiz"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "View Answer"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Answered"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Review"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Review and answered"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Quiz Summary"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "Please select an option before checking the answer"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Skip"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Clear Response"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Check"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Next"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Your answer"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Pick Elements"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Correct answer"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "Pick Elements"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Type your answer"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Point"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "s"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Remove from review"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Mark as review"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Time Limit"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "You can finish this quiz when you answer all questions"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Go to First Question"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Finish Quiz"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Previous"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Oops! Something went wrong."
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Start Quiz"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "No questions found"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Quiz will start on"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Quiz has expired"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Page Not Found"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "No Quiz Found"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Welcome Back,"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Unlock your potential and track your progress to success!"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Header Image 2"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Header Image 3"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Header Image 4"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Header Image 1"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "My Courses"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "My Result"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Purchase History"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "Wishlist"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Profile"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "Logout"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Something went wrong"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "No Course Found"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Complete"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Date & Time"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Score: "
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "Method"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Order/Txn ID"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Amount"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "No Data Found"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Profile updated successfully."
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Upload Profile Photo"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Bio"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Personal"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "First name"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Last name"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Email Address"
 msgstr ""
 
-#: build/Common/front.js:1
-#: build/Common/front_checkout.js:1
-msgid "Code"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Phone / Mobile"
 msgstr ""
 
-#: build/Common/front.js:1
-#: build/Common/front_checkout.js:1
-msgid "Address"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Website"
 msgstr ""
 
-#: build/Common/front.js:1
-#: build/Common/front_checkout.js:1
-msgid "Town/City"
-msgstr ""
-
-#: build/Common/front.js:1
-#: build/Common/front_checkout.js:1
-msgid "Postal/Zip Code"
-msgstr ""
-
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Update Profile"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
 msgid "Resources"
 msgstr ""
 
-#: build/Common/front.js:1
+#: build/Common/front.js:2
+msgid "1 min"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Section"
 msgstr ""
 
-#: build/Common/front.js:1
-msgid "Assignment will start on"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Your Deadline:"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Deadline passed on"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Max. Points:"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Status:"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Evaluation Status:"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Feedback:"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Point(s)"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Assignment Submission"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Uploads"
-msgstr ""
-
-#: build/Common/front.js:1
-msgid "Are you sure you want to delete this file?"
-msgstr ""
-
-#. translators: %s is the number of max attachments
 #: build/Common/front.js:2
-msgid "Attach assignment files (Max. <strong>%s</strong> files)"
-msgstr ""
-
-#. translators: %s is the number of files allowed
-#: build/Common/front.js:5
-msgid "You can only upload %s files."
-msgstr ""
-
-#. translators: %s is the file name
-#: build/Common/front.js:8
-msgid "%s has invalid extension."
-msgstr ""
-
-#. translators: %1$s is the file name, %2$s is the file size
-#: build/Common/front.js:11
-msgid "%1$s exceeds the %2$sMB limit."
-msgstr ""
-
-#: build/Common/front.js:11
-msgid "Upload File(s)"
-msgstr ""
-
-#. translators: %s is the number of max attachments
-#: build/Common/front.js:12
-msgid "Only <strong>%s</strong> files are allowed"
-msgstr ""
-
-#. translators: %s is the number of max attachments
-#: build/Common/front.js:13
-msgid "Total size of files should not exceed <strong>%s MB</strong>"
-msgstr ""
-
-#: build/Common/front.js:13
-msgid "Assignment deadline has passed."
-msgstr ""
-
-#: build/Common/front.js:13
-msgid "Save Draft"
-msgstr ""
-
-#: build/Common/front.js:13
-msgid "Please confirm your submission. Once submitted, you will not be able to make changes or resubmit the assignment."
-msgstr ""
-
-#: build/Common/front.js:13
-msgid "Submit Assignment"
-msgstr ""
-
-#: build/Common/front.js:13
 msgid "Mark as incomplete"
 msgstr ""
 
-#: build/Common/front.js:13
+#: build/Common/front.js:2
 msgid "Mark as complete"
 msgstr ""
 
-#: build/Common/front.js:13
+#: build/Common/front.js:2
+msgid "Congratulations! Course Completed"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Course content"
 msgstr ""
 
-#: build/Common/front.js:13
+#: build/Common/front.js:2
 msgid "Course Content"
 msgstr ""
 
-#: build/Common/front.js:13
-msgid "Course Overview"
-msgstr ""
-
-#: build/Common/front.js:13
-msgid "Skippeds"
-msgstr ""
-
-#: build/Common/front.js:13
+#: build/Common/front.js:2
 msgid "AnswerSheet"
 msgstr ""
 
-#: build/Common/front.js:13
-msgid "You are not allowed to access this page."
+#: build/Common/front.js:2
+msgid "You are not alowed to access this page."
 msgstr ""
 
-#: build/Common/front.js:13
+#: build/Common/front.js:2
+msgid "Are you sure you want to remove this course from wishlist?"
+msgstr ""
+
+#: build/Common/front.js:2
+msgid "Thumbnail"
+msgstr ""
+
+#: build/Common/front.js:2
+msgid "Added At"
+msgstr ""
+
+#: build/Common/front.js:2
+msgid "Go to course"
+msgstr ""
+
+#: build/Common/front.js:2
+msgid "Remove from wishlist"
+msgstr ""
+
+#: build/Common/front.js:2
 msgid "Please login: "
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
+#: build/Common/front.js:2
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Login"
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Welcome Back"
+#. translators: %s - quiz title
+#: build/Common/front.js:3
+#, js-format
+msgid "Leaderboard is disabled for this quiz (%s)."
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Please enter your details to sign in."
+#: build/Common/front.js:3
+msgid "of"
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Error:"
+#: build/Common/front.js:3
+msgid "Point"
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "The password you entered for the username"
+#: build/Common/front.js:3
+msgid "s"
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "is incorrect."
+#: build/Common/front.js:3
+msgid "Remove from review"
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Lost your password?"
+#: build/Common/front.js:3
+msgid "Mark as review"
 msgstr ""
 
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Opps! Something went wrong."
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Username/Email"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Username/email"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Password"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Remember me"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Don't have account yet?"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Register"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Please enter your details to sign up."
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Opps!Something went wrong."
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Username is required"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Email is required"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Password is required"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Password must have at least 8 characters"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Confirm Password"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Confirm password is required"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Confirm password must have at least 8 characters"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Your passwords do no match"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Already have account?"
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Please enter your username or email address. You will receive an email message with instructions on how to reset your password."
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Check your email for the confirmation link, then visit the login page."
-msgstr ""
-
-#: build/Common/front.js:13
-#: build/Common/front_checkout.js:1
-msgid "Get New Password"
-msgstr ""
-
-#: build/Common/front.js:13
+#: build/Common/front.js:3
 #: build/Common/front_single_course.js:1
 msgid "Exit Fullscreeen"
 msgstr ""
 
-#: build/Common/front.js:13
+#: build/Common/front.js:3
 #: build/Common/front_single_course.js:1
 msgid "Fullscreeen"
+msgstr ""
+
+#: build/Common/front_button_listener.js:1
+#: build/Common/src_helpers_icons_js-src_helpers_util_js.js:1
+msgid "Array length and order length must be the same."
+msgstr ""
+
+#: build/Common/front_button_listener.js:1
+#: build/Common/src_helpers_icons_js-src_helpers_util_js.js:1
+msgid "Invalid object. Ensure it's a Day.js object."
+msgstr ""
+
+#: build/Common/front_button_listener.js:1
+#: build/Common/src_helpers_icons_js-src_helpers_util_js.js:1
+msgid "Invalid amount"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
@@ -4651,59 +5271,11 @@ msgid "Billing Detail"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
-msgid "First Name"
+msgid "Offline"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
-msgid "First name is required."
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "e.g. John"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Last Name"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "e.g. Doe"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Email is required."
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "e.g. example@example.com"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Phone Number"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "e.g. 12345 Little baker St, Melbourne"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Country"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Payment Method"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Razorpay"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "Paypal"
-msgstr ""
-
-#: build/Common/front_checkout.js:1
-msgid "No payment gatway is activated, contact admin."
+msgid "No payment gateway is activated, contact admin."
 msgstr ""
 
 #: build/Common/front_checkout.js:1
@@ -4715,7 +5287,11 @@ msgid "Price:"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
-msgid "Tax:"
+msgid "Subtotal:"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Discount:"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
@@ -4723,15 +5299,44 @@ msgid "Total:"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
-msgid "Invalid amount"
+msgid "Offline Payment Instructions"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
-msgid "Payment failed."
+msgid "Given Instructions for offline payment go here. Please follow the steps to complete your payment."
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Enter Detail"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Upload File"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Select File"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Drag & drop file here or click to select"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Processing..."
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Submit"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
 msgid "Opps! Something went wrong"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Please select a payment gateway."
 msgstr ""
 
 #: build/Common/front_checkout.js:1
@@ -4743,9 +5348,276 @@ msgid "Login/Register"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
-msgid "Please select a payment gateway."
+msgid "Your cart is currently empty."
 msgstr ""
 
-#: build/Common/front_checkout.js:1
-msgid "Your cart is currently empty."
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "External link"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Youtube link"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Vimeo link"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Embedded code"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Link"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Select Video Source"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "HTML:5"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "External Link"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Youtube"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Vimeo"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Embedded"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Only video files are allowed."
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Upload Video"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Selected file:"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Only image file is allowed."
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Upload Thumbnail"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Error loading video metadata."
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Options"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Video"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Hours"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Minutes"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Seconds"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Add Resources"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Enter Title"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Upload"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "https://example.com/"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Lesson Title"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Enter lesson title"
+msgstr ""
+
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Lessons deleted successfully"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Webhook URL copied to clipboard!"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Copy"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Allowed Mime Type(s)"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Select Mime Type(s)"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Select File(s)"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Please select or drag file(s) to upload"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Some files were too large and not accepted."
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Accepted file types:"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Max file size:"
+msgstr ""
+
+#: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
+msgid "Selected file"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:1
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Welcome Back"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:1
+msgid "Please enter your details to sign in."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:1
+msgid "Error: "
+msgstr ""
+
+#. translators: 1: username
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+#, js-format
+msgid "The password you entered for the username <strong>%s</strong> is incorrect."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Lost your password?"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Opps! Something went wrong."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Username/Email "
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Username/email"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Password "
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Password"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Remember me"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Don't have account yet? "
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Register"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Opps!Something went wrong."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Please enter your details to sign up."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Username is required"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Email is required"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Password is required"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Password must have at least 8 characters"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Confirm Password"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Confirm Password is required"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Confirm Password must have at least 8 characters"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Your passwords do no match"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Already have account? "
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Please enter your username or email address. You will receive an email message with instructions on how to reset your password."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Check your email for the confirmation link, then visit the login page."
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Username/Email"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Get New Password"
 msgstr ""

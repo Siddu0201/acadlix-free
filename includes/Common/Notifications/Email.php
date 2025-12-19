@@ -2,6 +2,8 @@
 
 namespace Yuvayana\Acadlix\Common\Notifications;
 
+defined('ABSPATH') || exit();
+
 class Email
 {
     protected $notify_course_purchase_to_student = false;
@@ -44,7 +46,7 @@ class Email
             'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? 'USD'),
             'payment_method' => $order->getMetaValue('payment_method') ?? __('Free', 'acadlix'),
             'order_date' => acadlix()->helper()->formatDate($order->updated_at),
-            'year' => date('Y'),
+            'year' => wp_date('Y'),
             'sitename' => get_bloginfo('name'),
             'admin_order_url' => admin_url('admin.php?page=acadlix_order#/edit/' . $order_id)
         ];
@@ -97,7 +99,7 @@ class Email
             'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? 'USD'),
             'payment_method' => $order->getMetaValue('payment_method') ?? __('Free', 'acadlix'),
             'order_date' => acadlix()->helper()->formatDate($order->updated_at),
-            'year' => date('Y'),
+            'year' => wp_date('Y'),
             'sitename' => get_bloginfo('name'),
             'admin_order_url' => admin_url('admin.php?page=acadlix_order#/edit/' . $order_id)
         ];
@@ -153,7 +155,7 @@ class Email
             'username' => $user->display_name ?? '',
             'coursename' => $course->post_title ?? '',
             'date' => acadlix()->helper()->formatDate(current_time('mysql')),
-            'year' => date('Y'),
+            'year' => wp_date('Y'),
             'sitename' => get_bloginfo('name'),
         ];
 
@@ -215,7 +217,7 @@ class Email
             'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? 'USD'),
             'payment_method' => $order->getMetaValue('payment_method') ?? __('Free', 'acadlix'),
             'order_date' => acadlix()->helper()->formatDate($order->updated_at),
-            'year' => date('Y'),
+            'year' => wp_date('Y'),
             'sitename' => get_bloginfo('name'),
             'admin_order_url' => admin_url('admin.php?page=acadlix_order#/edit/' . $order_id)
         ];

@@ -486,8 +486,8 @@ class FrontDashboardController
                     'user_id' => $userId,
                     'type' => 'course_statistic',
                     'type_id' => $active_statistic->id,
-                    'meta_key' => 'course_statistic_complete_time',
-                    'meta_value' => time(),
+                    'meta_key' => 'course_statistic_complete_time', // phpcs:ignore
+                    'meta_value' => time(), // phpcs:ignore
                 ]);
         }
 
@@ -563,8 +563,8 @@ class FrontDashboardController
                     'user_id' => $userId,
                     'type' => 'course_statistic',
                     'type_id' => $active_statistic->id,
-                    'meta_key' => 'course_statistic_incomplete_time',
-                    'meta_value' => time(),
+                    'meta_key' => 'course_statistic_incomplete_time', // phpcs:ignore
+                    'meta_value' => time(), // phpcs:ignore
                 ]);
         }
 

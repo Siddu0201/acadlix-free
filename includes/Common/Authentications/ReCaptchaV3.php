@@ -40,11 +40,19 @@ class ReCaptchaV3
             );
         }
 
+        $remote_ip = '';
+
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $remote_ip = sanitize_text_field(
+                wp_unslash($_SERVER['REMOTE_ADDR'])
+            );
+        }
+
         $verify = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
             'body' => [
-                'secret'   => $this->_secret_key,
+                'secret' => $this->_secret_key,
                 'response' => $token,
-                'remoteip' => $_SERVER['REMOTE_ADDR'],
+                'remoteip' => $remote_ip,
             ],
         ]);
 
@@ -58,7 +66,7 @@ class ReCaptchaV3
             );
         }
 
-        if(!in_array($result->action, $this->actions)){
+        if (!in_array($result->action, $this->actions)) {
             return new WP_Error(
                 'acadlix_invalid_action',
                 __('Invalid action', 'acadlix'),

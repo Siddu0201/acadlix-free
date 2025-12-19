@@ -52,7 +52,7 @@ namespace Yuvayana\Acadlix {
 
             foreach ($constants as $constant => $value) {
                 if (!defined($constant)) {
-                    define($constant, $value);
+                    define($constant, $value); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
                 }
             }
             $this->isDev = defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local';

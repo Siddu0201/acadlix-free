@@ -10,7 +10,9 @@
     "start:hot:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts start --hot --config webpack.config.js",
     "start:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts start --config webpack.config.js",
     "build:free": "cross-env REACT_APP_IS_PREMIUM=false wp-scripts build --config webpack.config.js",
-    "build-pot:free": "wp i18n make-pot . languages/Common/acadlix.pot --include=includes,build/Common"
+    "build-pot:free": "wp i18n make-pot . languages/Common/acadlix.pot --include=includes,build/Common,templates,acadlix.php",
+    "build-pot:free:json": "wp i18n make-json languages/Common --no-purge",
+    "build-pot:free:all": "npm run build:free && npm run build-pot:free && npm run build-pot:free:json"
   },
   "author": "Sudhanshu Agarwal",
   "license": "ISC",

@@ -4,6 +4,8 @@ namespace Yuvayana\Acadlix\Common\Helper;
 
 use WP_Error;
 
+defined('ABSPATH') || exit();
+
 if (!class_exists('EmailHelper')) {
     class EmailHelper
     {
@@ -55,7 +57,7 @@ if (!class_exists('EmailHelper')) {
 
         public function contains_html($content)
         {
-            return $content !== strip_tags($content);
+            return $content !== wp_strip_all_tags($content);
         }
     }
 }

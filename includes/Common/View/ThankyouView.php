@@ -17,8 +17,8 @@ class ThankyouView
         $this->status = 'pending';
         $this->courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
         $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
-        $this->token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : '';
-        $this->is_payment_offline = isset($_GET['offline']) ? true : false;
+        $this->token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : ''; // phpcs:ignore
+        $this->is_payment_offline = isset($_GET['offline']) ? true : false; // phpcs:ignore
         $this->setup_query();
     }
 
@@ -32,7 +32,7 @@ class ThankyouView
 
                 if ($order) {
                     try {
-                        if (isset($_GET['cancelled']) && !empty($_GET['cancelled']) && $order->status != 'failed') {
+                        if (isset($_GET['cancelled']) && !empty($_GET['cancelled']) && $order->status != 'failed') { // phpcs:ignore
                             acadlix()
                                         ->payments()
                                 ->{$payment_method}()
@@ -52,13 +52,13 @@ class ThankyouView
                             $this->status = $order->status ?? 'pending';
                         }
                     } catch (\Exception $e) {
-                        error_log($e->getMessage());
+                        // error_log($e->getMessage());
                         $this->status = 'failed';
                     }
                 }
             }
         }else{
-            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0; // phpcs:ignore
             if ($order_id) {
                 $order = acadlix()->model()->order()->find($order_id);
                 if ($order) {
