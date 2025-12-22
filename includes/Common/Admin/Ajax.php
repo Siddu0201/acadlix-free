@@ -138,7 +138,7 @@ class Ajax
                 'message' => __('Login successful', 'acadlix'),
                 'user' => [
                     'ID' => $user->ID,
-                    'email' => $user->user_email,
+                    'user_email' => $user->user_email,
                     'display_name' => $user->display_name,
                 ]
             ], $user);
@@ -260,9 +260,15 @@ class Ajax
             /**
              * 4. FINAL RESPONSE TO FRONTEND (customizable)
              */
+            $user = get_user_by('id', $user_id);
             $response = apply_filters('acadlix_register_response', [
                 'user_id' => $user_id,
                 'message' => __('Registration successful', 'acadlix'),
+                'user' => [
+                    'ID' => $user->ID,
+                    'user_email' => $user->user_email,
+                    'display_name' => $user->display_name,
+                ]
             ], $user_id);
 
             if ($response instanceof WP_Error) {

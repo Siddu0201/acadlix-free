@@ -125,20 +125,21 @@ const DescriptionSection = (props) => {
   }
 
   const handleUserLogin = (data) => {
-    if (data?.user?.data) {
-      props?.setValue("user_id", Number(data?.user?.data?.ID), {
+    if (data?.user) {
+      props?.setValue("user_id", Number(data?.user?.ID), {
         shouldDirty: true,
       });
-      props?.setValue("name", data?.user?.data?.display_name, {
+      props?.setValue("name", data?.user?.display_name, {
         shouldDirty: true,
       });
-      props?.setValue("email", data?.user?.data?.user_email, {
+      props?.setValue("email", data?.user?.user_email, {
         shouldDirty: true,
       });
       props?.setValue("user_token", "", {
         shouldDirty: true,
       });
       deleteCookie(props?.userToken);
+      props?.setValue("login_modal", false);
       handleQuizStart();
     }
   }
