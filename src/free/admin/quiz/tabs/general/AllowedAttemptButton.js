@@ -2,8 +2,6 @@ import React from 'react'
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
-import { Tooltip, IconButton } from "@mui/material";
-import { RiQuestionFill } from "@acadlix/helpers/icons";
 
 const AllowedAttemptButton = (props) => {
     return (
@@ -35,18 +33,6 @@ const AllowedAttemptButton = (props) => {
                     },
                 }}
             />
-            <Tooltip
-                title={__("Sets allowed attempts (0 = unlimited); requires login at quiz start.", "acadlix")}
-                placement="right-start"
-            >
-                <IconButton
-                    sx={{
-                        fontSize: "1.25rem",
-                    }}
-                >
-                    <RiQuestionFill />
-                </IconButton>
-            </Tooltip>
         </GridItem1>
     )
 }

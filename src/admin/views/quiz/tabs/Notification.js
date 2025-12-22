@@ -6,6 +6,7 @@ import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import { __ } from "@wordpress/i18n";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const Notification = (props) => {
   return (
@@ -35,7 +36,14 @@ const Notification = (props) => {
             - Message: Message you want to send in mail
           */}
           <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-            <CustomTypography>{__("Enable Admin Email Notification", "acadlix")}</CustomTypography>
+            <CustomTypography>{__("Enable Admin Email Notification", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("This will enables the email notification of an attempt made by a user to admin", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/email-notification/#admin-email-notification`}
+              />
+            </CustomTypography>
           </GridItem1>
           <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControlLabel
@@ -53,7 +61,13 @@ const Notification = (props) => {
               label={__("Activate", "acadlix")}
             />
           </GridItem1>
-          <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} sx={{
+            display: {
+              xs: 'none',
+              sm: 'none',
+              lg: 'block',
+            }
+          }}></GridItem1>
 
           {
             props?.watch("meta.quiz_settings.admin_email_notification") && (
@@ -88,7 +102,14 @@ const Notification = (props) => {
           */}
 
           <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-            <CustomTypography>{__("Enable Student Email Notification", "acadlix")}</CustomTypography>
+            <CustomTypography>{__("Enable Student Email Notification", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("This will enables the email notification of an attempt made by a user to student", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/email-notification/#student-email-notification`}
+              />
+            </CustomTypography>
           </GridItem1>
           <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControlLabel
@@ -106,7 +127,13 @@ const Notification = (props) => {
               label={__("Activate", "acadlix")}
             />
           </GridItem1>
-          <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+          <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} sx={{
+            display: {
+              xs: 'none',
+              sm: 'none',
+              lg: 'block',
+            }
+          }}></GridItem1>
 
           {
             props?.watch("meta.quiz_settings.student_email_notification") && (

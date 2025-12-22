@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 const PercentBasedText = (props) => {
     return (
-        <GridItem1 size={{ xs: 12, lg: 3 }}>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControlLabel
                 control={
                     <CustomSwitch

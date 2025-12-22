@@ -3,60 +3,58 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   Radio,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
-import { RiQuestionFill } from "@acadlix/helpers/icons";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const BackButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_back_button" */
-        "@acadlix/pro/admin/quiz/sections/mode/BackButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_back_button" */
+      "@acadlix/pro/admin/quiz/sections/mode/BackButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_back_button" */
-        "@acadlix/free/admin/quiz/sections/mode/BackButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_back_button" */
+      "@acadlix/free/admin/quiz/sections/mode/BackButton"
+    )
 );
 const CheckOptionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_check_option_button" */
-        "@acadlix/pro/admin/quiz/sections/mode/CheckOptionButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_check_option_button" */
+      "@acadlix/pro/admin/quiz/sections/mode/CheckOptionButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_check_option_button" */
-        "@acadlix/free/admin/quiz/sections/mode/CheckOptionButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_check_option_button" */
+      "@acadlix/free/admin/quiz/sections/mode/CheckOptionButton"
+    )
 );
 const SkipQuestionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_skip_question_button" */
-        "@acadlix/pro/admin/quiz/sections/mode/SkipQuestionButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_skip_question_button" */
+      "@acadlix/pro/admin/quiz/sections/mode/SkipQuestionButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_skip_question_button" */
-        "@acadlix/free/admin/quiz/sections/mode/SkipQuestionButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_skip_question_button" */
+      "@acadlix/free/admin/quiz/sections/mode/SkipQuestionButton"
+    )
 );
 const AdvanceModeOptions = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_advance_mode_options" */
-        "@acadlix/pro/admin/quiz/sections/mode/AdvanceModeOptions"
-      )
+      /* webpackChunkName: "admin_quiz_pro_advance_mode_options" */
+      "@acadlix/pro/admin/quiz/sections/mode/AdvanceModeOptions"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_advance_mode_options" */
-        "@acadlix/free/admin/quiz/sections/mode/AdvanceModeOptions"
-      )
+      /* webpackChunkName: "admin_quiz_free_advance_mode_options" */
+      "@acadlix/free/admin/quiz/sections/mode/AdvanceModeOptions"
+    )
 );
 
 const QuizModeSection = (props) => {
@@ -71,18 +69,12 @@ const QuizModeSection = (props) => {
               alignItems: "center",
             }}>
               <Typography variant="h3">{__("Mode", "acadlix")}</Typography>
-              <Tooltip
-                title={__("Choose from various modes. Some features are mode-dependent.", "acadlix")}
+              <CustomFeatureTooltip
+                plan="open"
+                msg={__("Choose from various modes. Some features are mode-dependent.", "acadlix")}
                 placement="right-start"
-              >
-                <IconButton
-                  sx={{
-                    fontSize: "1.25rem",
-                  }}
-                >
-                  <RiQuestionFill />
-                </IconButton>
-              </Tooltip>
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/quiz-modes/`}
+              />
             </Box>
           }
         />
@@ -267,6 +259,12 @@ const QuizModeSection = (props) => {
                       }}
                     >
                       {__("Question per page", 'acadlix')}
+                      <CustomFeatureTooltip
+                        plan="open"
+                        msg={__("Set the number of questions to display per page. Users can navigate between pages to answer all questions.", "acadlix")}
+                        placement="right-start"
+                        redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/quiz-modes/#question-below-each-other`}
+                      />
                     </Typography>
                     <CustomTextField
                       size="small"

@@ -11,6 +11,7 @@ import {
     RadioGroup,
     Typography
 } from '@mui/material';
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
 
 const AdvanceModeOptions = (props) => {
     const setAdvanceModeDefaultSettings = () => {
@@ -108,6 +109,11 @@ const AdvanceModeOptions = (props) => {
                             }}
                         >
                             {__("Advance mode", "acadlix")}
+                            <CustomFeatureTooltip
+                                plan={acadlixOptions?.isActive ? "open" : "closed"}
+                                msg={__("This mode is to create Panel exams. You can also create exam specific quizzes from this mode. In this mode, certain features will be preset based on the exam and cannot be modified. Admins can also customize additional settings according to their requirements.", "acadlix")}
+                                placement="right-start"
+                            />
                         </Typography>
                         <Typography
                             variant="body2"

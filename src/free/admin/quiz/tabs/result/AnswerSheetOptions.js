@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import CustomSwitch from '@acadlix/components/CustomSwitch';
 import CustomTypography from '@acadlix/components/CustomTypography';
 import { __ } from "@wordpress/i18n";
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
 
 const AnswerSheetOptions = (props) => {
     return (
@@ -18,7 +19,14 @@ const AnswerSheetOptions = (props) => {
               - Show Per Question Time
                 */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Hide Answer Sheet", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Hide Answer Sheet", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={"open"}
+                        msg={__("This will hide the answer sheet button on frontend.", "acadlix")}
+                        placement="right-start"
+                        redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#hide-answer-sheet`}
+                    />
+                </CustomTypography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                 <FormControlLabel
@@ -41,7 +49,13 @@ const AnswerSheetOptions = (props) => {
 
             {/* Used to show per question time in answer sheet  */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Show Per Question Time", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Show Per Question Time", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Enabling this will display the time consumed per question.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
                 <FormControlLabel

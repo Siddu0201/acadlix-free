@@ -65,6 +65,7 @@ import MimeAutocomplete from "@acadlix/components/MimeAutocomplete";
 import CustomWpEditor from "@acadlix/components/CustomWpEditor";
 import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 import DragDropUpload from "@acadlix/components/DragDropUpload";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const HTML_COMPONENTS = [
   "form",
@@ -168,6 +169,7 @@ const COMPONENT_MAP = {
   CustomWpEditor,
   BootstrapDialog,
   DragDropUpload,
+  CustomFeatureTooltip,
   // WordPress Components
   RawHTML,
   // React Components

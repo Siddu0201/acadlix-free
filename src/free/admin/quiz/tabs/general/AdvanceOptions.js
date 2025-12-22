@@ -7,6 +7,7 @@ import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { Alert } from '@mui/material';
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
 
 const AdvanceOptions = (props) => {
     return (
@@ -17,7 +18,13 @@ const AdvanceOptions = (props) => {
         >
             {/* Used to set limited number of question in a quiz */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Show Only Specific Number of Questions", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Show Only Specific Number of Questions", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Shows only a specific number of questions from the total available questions in the quiz.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -43,7 +50,13 @@ const AdvanceOptions = (props) => {
 
             {/* Number of question to set in quiz */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Specific Number of Questions", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Specific Number of Questions", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Students will be allowed to attempt only this number of questions out of the total available. For example, if the quiz has 100 questions and you set this to 80, students can choose any 80 questions to answer.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -75,7 +88,13 @@ const AdvanceOptions = (props) => {
 
             {/* Used to set selectable question rule in a quiz */}
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Enable Selectable Questions Rule", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Enable Selectable Questions Rule", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Enable this option to apply a selectable questions rule to the quiz, allowing learners to attempt X number of questions out of Y total questions.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -85,7 +104,13 @@ const AdvanceOptions = (props) => {
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Enable Check Button", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Enable Check Button", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Enables check button to verify answers during quiz.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -105,7 +130,13 @@ const AdvanceOptions = (props) => {
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Scientific Calculator", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Scientific Calculator", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("When enabled, an on-screen scientific calculator will be available to learners in advanced quiz modes, helping them perform complex calculations during the quiz.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -125,7 +156,13 @@ const AdvanceOptions = (props) => {
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Result Feedback By AI", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Result Feedback By AI", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__(`Enables AI-generated feedback for quiz attempts, providing students with deeper performance insights.Note: An OpenAI API key must be configured for this feature to work.`, "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -147,7 +184,13 @@ const AdvanceOptions = (props) => {
             {/* <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1> */}
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-                <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}</CustomTypography>
+                <CustomTypography>{__("Result Feedback Additional Prompt", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Use this option to modify the prompt used for generating result feedback, allowing you to tailor the feedback to your requirements.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>

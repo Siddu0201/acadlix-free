@@ -1,7 +1,8 @@
 import React from 'react'
 import { __ } from "@wordpress/i18n";
-import { FormControlLabel } from '@mui/material';
+import { Box, FormControlLabel } from '@mui/material';
 import CustomSwitch from '@acadlix/components/CustomSwitch';
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
 
 const SkipQuestionButton = (props) => {
     return (
@@ -24,7 +25,16 @@ const SkipQuestionButton = (props) => {
                     // }
                 />
             }
-            label={__("Skip Question", 'acadlix')}
+            label={
+                <Box display="flex" alignItems="center" gap={1}>
+                    {__("Skip Question", 'acadlix')}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Enable this option to display a skip button, allowing users to move to the next question without answering or checking.", "acadlix")}
+                        placement="right-start"
+                    />
+                </Box>
+            }
         />
     )
 }

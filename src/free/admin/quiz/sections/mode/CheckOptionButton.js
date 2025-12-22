@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Box, FormControlLabel, IconButton, Tooltip } from '@mui/material';
 import CustomSwitch from '@acadlix/components/CustomSwitch';
 import { RiQuestionFill } from '@acadlix/helpers/icons';
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
 
 const CheckOptionButton = (props) => {
     return (
@@ -30,11 +31,11 @@ const CheckOptionButton = (props) => {
             label={
                 <Box display="flex" alignItems="center" gap={1}>
                     {__('Show Check Button When Option Selected', 'acadlix')}
-                    <Tooltip title={__('"Enable this option to display a check button when a student selects an answer."', 'acadlix')} placement="right">
-                        <IconButton size="small">
-                            <RiQuestionFill size={16} />
-                        </IconButton>
-                    </Tooltip>
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Enable this option to display a check button when a student selects an answer.", "acadlix")}
+                        placement="right-start"
+                    />
                 </Box>
             }
         />

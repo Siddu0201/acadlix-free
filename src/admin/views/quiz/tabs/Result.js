@@ -19,105 +19,106 @@ import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import { RiQuestionFill } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const SpeedButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_speed_button" */
-        "@acadlix/pro/admin/quiz/tabs/result/SpeedButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_speed_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/SpeedButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_speed_button" */
-        "@acadlix/free/admin/quiz/tabs/result/SpeedButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_speed_button" */
+      "@acadlix/free/admin/quiz/tabs/result/SpeedButton"
+    )
 );
 const PercentileButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_percentile_button" */
-        "@acadlix/pro/admin/quiz/tabs/result/PercentileButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_percentile_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/PercentileButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_percentile_button" */
-        "@acadlix/free/admin/quiz/tabs/result/PercentileButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_percentile_button" */
+      "@acadlix/free/admin/quiz/tabs/result/PercentileButton"
+    )
 );
 const AccuracyButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_accuracy_button" */
-        "@acadlix/pro/admin/quiz/tabs/result/AccuracyButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_accuracy_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/AccuracyButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_accuracy_button" */
-        "@acadlix/free/admin/quiz/tabs/result/AccuracyButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_accuracy_button" */
+      "@acadlix/free/admin/quiz/tabs/result/AccuracyButton"
+    )
 );
 const SubjectWiseButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_subject_wise_button" */
-        "@acadlix/pro/admin/quiz/tabs/result/SubjectWiseButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_subject_wise_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/SubjectWiseButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_subject_wise_button" */
-        "@acadlix/free/admin/quiz/tabs/result/SubjectWiseButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_subject_wise_button" */
+      "@acadlix/free/admin/quiz/tabs/result/SubjectWiseButton"
+    )
 );
 const RankButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_rank_button" */
-        "@acadlix/pro/admin/quiz/tabs/result/RankButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_rank_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/RankButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_rank_button" */
-        "@acadlix/free/admin/quiz/tabs/result/RankButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_rank_button" */
+      "@acadlix/free/admin/quiz/tabs/result/RankButton"
+    )
 );
 const PercentBasedText = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_percent_based_text" */
-        "@acadlix/pro/admin/quiz/tabs/result/PercentBasedText"
-      )
+      /* webpackChunkName: "admin_quiz_pro_percent_based_text" */
+      "@acadlix/pro/admin/quiz/tabs/result/PercentBasedText"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_percent_based_text" */
-        "@acadlix/free/admin/quiz/tabs/result/PercentBasedText"
-      )
+      /* webpackChunkName: "admin_quiz_free_percent_based_text" */
+      "@acadlix/free/admin/quiz/tabs/result/PercentBasedText"
+    )
 );
 const MinPercentOptions = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_min_percent_options" */
-        "@acadlix/pro/admin/quiz/tabs/result/MinPercentOptions"
-      )
+      /* webpackChunkName: "admin_quiz_pro_min_percent_options" */
+      "@acadlix/pro/admin/quiz/tabs/result/MinPercentOptions"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_min_percent_options" */
-        "@acadlix/free/admin/quiz/tabs/result/MinPercentOptions"
-      )
+      /* webpackChunkName: "admin_quiz_free_min_percent_options" */
+      "@acadlix/free/admin/quiz/tabs/result/MinPercentOptions"
+    )
 );
 const ResultComparissionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_result_comparission_button" */
-        "@acadlix/pro/admin/quiz/tabs/result/ResultComparissionButton"
-      )
+      /* webpackChunkName: "admin_quiz_pro_result_comparission_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/ResultComparissionButton"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_result_comparission_button" */
-        "@acadlix/free/admin/quiz/tabs/result/ResultComparissionButton"
-      )
+      /* webpackChunkName: "admin_quiz_free_result_comparission_button" */
+      "@acadlix/free/admin/quiz/tabs/result/ResultComparissionButton"
+    )
 );
 const AnswerSheetOptions = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_answer_sheet_options" */
-        "@acadlix/pro/admin/quiz/tabs/result/AnswerSheetOptions"
-      )
+      /* webpackChunkName: "admin_quiz_pro_answer_sheet_options" */
+      "@acadlix/pro/admin/quiz/tabs/result/AnswerSheetOptions"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_answer_sheet_options" */
-        "@acadlix/free/admin/quiz/tabs/result/AnswerSheetOptions"
-      )
+      /* webpackChunkName: "admin_quiz_free_answer_sheet_options" */
+      "@acadlix/free/admin/quiz/tabs/result/AnswerSheetOptions"
+    )
 );
 
 const Result = (props) => {
@@ -142,7 +143,14 @@ const Result = (props) => {
       >
         {/* Save Statistic */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Save Statistics", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Save Statistics", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Enabling this option will save quiz statistics, such as analytics, answer sheets, and top lists.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#save-statistics`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -170,21 +178,27 @@ const Result = (props) => {
             // }
             label={__("Activate", "acadlix")}
           />
-          <Tooltip title={__("Used to save statistic", "acadlix")}>
-            <IconButton
-              sx={{
-                fontSize: "1.25rem",
-              }}
-            >
-              <RiQuestionFill />
-            </IconButton>
-          </Tooltip>
         </GridItem1>
-        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}
+          sx={{
+            display: {
+              xs: 'none',
+              sm: 'none',
+              lg: 'block'
+            }
+          }}
+        ></GridItem1>
 
         {/* Statistic ip Lock */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Statistic IP Lock", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Statistic IP Lock", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Set this to avoid spamming. You can configure an IP lock duration (in seconds), meaning statistics from the same IP for this quiz will be saved only after the specified time has passed.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#save-statistics`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -216,7 +230,14 @@ const Result = (props) => {
 
         {/* Number of time statistic saved per user (0 => infinity) */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Save statistic no. of times", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Save statistic no. of times", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("If users are allowed multiple attempts, you can set a limit for saving the statistics.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#save-statistics`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -264,7 +285,14 @@ const Result = (props) => {
         alignItems="center"
       >
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Hide Result", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Hide Result", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Enabling this will hide the result on the frontend.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#hide-result`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -286,11 +314,24 @@ const Result = (props) => {
           />
         </GridItem1>
 
-        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} sx={{
+          display: {
+            xs: 'none',
+            sm: 'none',
+            lg: 'block'
+          }
+        }}></GridItem1>
 
         {/* Used to hide negative marks in result  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Hide Negative Marks", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Hide Negative Marks", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("It will hide the negative marks card on the frontend.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#hide-negative-marks`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -316,7 +357,14 @@ const Result = (props) => {
 
         {/* Used to hide quiz time in result  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Hide Quiz Time", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Hide Quiz Time", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("It will hide the quiz time card on the frontend, which displays the total time a user took to finish the quiz.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#hide-quiz-time`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -341,7 +389,14 @@ const Result = (props) => {
 
         {/* Its an average speed per question - total_time_taken/question  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Show Speed", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Show Speed", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("Enabling this will display the speed card, showing speed as Total Questions Answered / Total Time in minutes.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#show-speed`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <React.Suspense fallback={null}>
@@ -352,7 +407,14 @@ const Result = (props) => {
 
         {/* Used to calculate percentage on the basis of topper - my_marks/topper_marks * 100  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Show Percentile", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Show Percentile", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("Enabling this will display the percentile scored by the user, calculated as (User's Score x 100) / Topper's Score.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#show-percentile`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <React.Suspense fallback={null}>
@@ -363,7 +425,14 @@ const Result = (props) => {
 
         {/* It tells the % of correct attempt from attempted question - total_correct/total_attempt * 100 */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Show Accuracy %", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Show Accuracy %", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("Enabling this will display the accuracy score of user, calculated as ( Total correct questions / Total attempted questions ) x 100.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#show-accuracy`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <React.Suspense fallback={null}>
@@ -374,7 +443,14 @@ const Result = (props) => {
 
         {/* Used to Show Average Score  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Show Average Score", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Show Average Score", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("This will display the quiz's average score, calculated as Sum of All Users' Scores / Total Users.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#show-average-score`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -401,7 +477,14 @@ const Result = (props) => {
 
         {/* Used to show subject wise analysis of quiz  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Show Subject Wise Analysis", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("This will display detailed subject-wise analysis, useful for quizzes with questions from multiple subjects.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#show-subject-wise-analysis`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <React.Suspense fallback={null}>
@@ -410,7 +493,15 @@ const Result = (props) => {
           />
         </React.Suspense>
 
-        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}
+          sx={{
+            display: {
+              xs: 'none',
+              sm: 'none',
+              lg: 'block'
+            }
+          }}
+        ></GridItem1>
 
 
         {/* 
@@ -470,7 +561,14 @@ const Result = (props) => {
             - automatically display leaderboard in quiz result - don't display(default) , below the result , in a button 
              */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Leaderboard", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Leaderboard", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("The leaderboard displays a list of top performers, with the highest scorer shown at the top and others ranked below. This feature helps increase student engagement and motivation in the quiz. You can enable or disable it and configure the settings based on your requirements.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#leaderboard-options`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -505,7 +603,14 @@ const Result = (props) => {
 
         {/* Total number of entries to be displayed in leaderboard */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Total number of enteries", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Total number of enteries", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("You can set the total number of entries to display on the leaderboard on the frontend.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#total-number-of-entries`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -536,7 +641,14 @@ const Result = (props) => {
 
         {/* Used to show rank  */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Show Rank", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Show Rank", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("Enabling this will display the Rank card on frontend.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#show-rank`}
+            />
+          </CustomTypography>
         </GridItem1>
 
         <React.Suspense fallback={null}>
@@ -547,7 +659,14 @@ const Result = (props) => {
 
         {/* Option for Result Comparison with topper    */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Result comparison with topper", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Result comparison with topper", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("This will display a comparison of the user's result with the topper", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#result-comparison-with-topper`}
+            />
+          </CustomTypography>
         </GridItem1>
         <React.Suspense fallback={null}>
           <ResultComparissionButton
@@ -557,7 +676,14 @@ const Result = (props) => {
 
         {/* User can apply multiple times for leaderboard */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("User can apply multiple times", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("User can apply multiple times", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Enabling this allows users to save multiple attempts in the leaderboard; you can also set a limit.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#user-can-apply-multiple-times`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <FormControlLabel
@@ -584,7 +710,14 @@ const Result = (props) => {
 
         {/* Number of times user can apply for leaderboard */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Number of times", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Number of times user can apply", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Use this option to define how many times a student's quiz results are allowed to appear on the leaderboard.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#number-of-times-a-user-can-apply`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTextField
@@ -624,7 +757,14 @@ const Result = (props) => {
             - in the button
           */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("Automatically display leaderboard in quiz result", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("Automatically display leaderboard in quiz result", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Choose how the leaderboard should be displayed to students after the quiz: don't display it, show it below the result, or display it via a button.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#automatically-display-leaderboard-in-quiz-results`}
+            />
+          </CustomTypography>
         </GridItem1>
         <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
           <FormControl
@@ -701,7 +841,14 @@ const Result = (props) => {
           marginY: 2,
         }}
       >
-        <Typography variant="h4">{__("Result Text", "acadlix")}</Typography>
+        <Typography variant="h4">{__("Result Text", "acadlix")}
+          <CustomFeatureTooltip
+            plan="open"
+            msg={__("This will display a message when a user finishes a quiz. You can add text, images, etc.", "acadlix")}
+            placement="right-start"
+            redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#result-text-options`}
+          />
+        </Typography>
         <Divider />
       </Box>
 
@@ -717,7 +864,14 @@ const Result = (props) => {
             - show simple text or based on %
           */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>{__("% Based Result Text", "acadlix")}</CustomTypography>
+          <CustomTypography>{__("% Based Result Text", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("Enabling this allows you to set multiple messages based on the score.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/result-options/#result-text-options`}
+            />
+          </CustomTypography>
         </GridItem1>
         <React.Suspense fallback={null}>
           <PercentBasedText
@@ -725,7 +879,13 @@ const Result = (props) => {
           />
         </React.Suspense>
 
-        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} sx={{
+          display: {
+            xs: 'none',
+            sm: 'none',
+            lg: 'block'
+          }
+        }}></GridItem1>
 
         {/* Result Text - based on % */}
         {

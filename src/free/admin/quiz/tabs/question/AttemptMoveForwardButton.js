@@ -3,8 +3,6 @@ import GridItem1 from "@acadlix/components/GridItem1";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { __ } from "@wordpress/i18n";
-import { RiQuestionFill } from "@acadlix/helpers/icons";
-import { Tooltip, IconButton } from "@mui/material";
 
 const AttemptMoveForwardButton = (props) => {
     return (
@@ -27,18 +25,6 @@ const AttemptMoveForwardButton = (props) => {
                 // }}
                 label={__("Activate", "acadlix")}
             />
-            <Tooltip
-                title={__("This feature will only work for single choice questions in normal mode", "acadlix")}
-                placement="right-start"
-            >
-                <IconButton
-                    sx={{
-                        fontSize: "1.25rem",
-                    }}
-                >
-                    <RiQuestionFill />
-                </IconButton>
-            </Tooltip>
         </GridItem1>
     )
 }

@@ -58,6 +58,7 @@ class Submenu_Quiz
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
             'timezone_string' => acadlix()->helper()->acadlix_get_time_zone_string(),
             'capabilities' => $capabilities,
+            'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
             'isBulkUploadActive' => acadlix()->helper()->is_bulk_question_addon_active() ?? false,
         ];
