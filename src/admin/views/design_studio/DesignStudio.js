@@ -10,6 +10,7 @@ import { PostUpdateTheme } from '@acadlix/requests/admin/AdminThemeRequest';
 import toast from 'react-hot-toast';
 import { filteredThemeRoutes } from '@acadlix/admin/AdminDesignStudio';
 import { defaultPaletteColor, defaultTypography } from '@acadlix/provider/CustomThemeProvider';
+import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';
 
 const DesignSections = React.lazy(() =>
     process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -442,24 +443,37 @@ const DesktopSidebar = ({ selected, isDesktop, open }) => {
             <Card sx={{ height: '100%' }}>
                 <List component="nav">
                     {
-                        filteredThemeRoutes.map((route, index) => (
-                            <ListItemButton
-                                key={index}
-                                selected={selected === route.name}
-                                onClick={() => navigate(route.path)}
-                            >
-                                <ListItemText
-                                    primary={route.label}
-                                    slotProps={{
-                                        primary: {
-                                            sx: {
-                                                color: selected === route.name ? 'primary.main' : 'text.primary',
+                        filteredThemeRoutes.map((route, index) => {
+                            const isLock = route.isFree ? false : acadlixOptions?.isActive ? false : true;
+                            return (
+                                <ListItemButton
+                                    key={index}
+                                    selected={selected === route.name}
+                                    onClick={() => navigate(route.path)}
+                                >
+                                    <ListItemText
+                                        primary={isLock ?
+                                            <CustomFeatureElement
+                                                element="text"
+                                                label={route.label}
+                                                iconsx={{
+                                                    color: '#fff',
+                                                }}
+                                            />
+                                            :
+                                            route.label}
+                                        slotProps={{
+                                            primary: {
+                                                sx: {
+                                                    color: selected === route.name ? 'primary.main' : 'text.primary',
+                                                }
                                             }
-                                        }
-                                    }}
-                                />
-                            </ListItemButton>
-                        ))
+                                        }}
+                                    />
+                                </ListItemButton>
+                            )
+                        }
+                        )
                     }
                 </List>
             </Card>

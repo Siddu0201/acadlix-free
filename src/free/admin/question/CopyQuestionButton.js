@@ -2,6 +2,7 @@ import { TbCopyCheckFilled } from '@acadlix/helpers/icons';
 import { Button, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react'
 import { __ } from "@wordpress/i18n";
+import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';
 
 const CopyQuestionButton = () => {
     const theme = useTheme();
@@ -23,13 +24,24 @@ const CopyQuestionButton = () => {
                         <TbCopyCheckFilled style={{ fontSize: '1.25rem' }} />
                     </Button>
                 ) : (
-                    <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                    >
-                        {__("Copy Question", "acadlix")}
-                    </Button>
+                    // <Button
+                    //     disabled
+                    //     variant="contained"
+                    //     color="primary"
+                    // >
+                    //     {__("Copy Question", "acadlix")}
+                    // </Button>
+                    <CustomFeatureElement
+                        element="button"
+                        label={__("Copy Question", "acadlix")}
+                        attributes={{
+                            variant: 'contained',
+                            disabled: true,
+                        }}
+                        iconsx={{
+                            color: '#fff',
+                        }}
+                    />
                 )
             }
         </>

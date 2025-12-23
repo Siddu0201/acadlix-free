@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import React from "react";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import { __ } from "@wordpress/i18n";
+import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 
 const QuestionParagraphSection = (props) => {
   return (
@@ -33,7 +34,15 @@ const QuestionParagraphSection = (props) => {
                     }}
                   />
                 }
-                label={__("Enable Paragraph", "acadlix")}
+                label={
+                  <CustomFeatureElement
+                    element="text"
+                    label={__("Enable Paragraph", "acadlix")}
+                    iconsx={{
+                      color: '#fff',
+                    }}
+                  />
+                }
               />
             </Grid>
             {props?.watch("paragraph_enabled") && (

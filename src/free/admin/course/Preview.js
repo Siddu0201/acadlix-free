@@ -3,6 +3,8 @@ import React from 'react'
 import { MdVisibility, MdVisibilityOff } from '@acadlix/helpers/icons'
 import { PostTooglePreviewContent } from '@acadlix/requests/admin/AdminCourseRequest';
 import { __ } from '@wordpress/i18n';
+import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';
+import { Link } from 'react-router-dom';
 
 const Preview = (props) => {
     const tooglePreviewMutation = PostTooglePreviewContent(props?.s?.id, props?.c?.id);
@@ -33,27 +35,46 @@ const Preview = (props) => {
         );
     }
     return (
-        <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
-            <IconButton
-                disabled
-            // onClick={handleTooglePreview}
-            >
-                {
-                    tooglePreviewMutation?.isPending ?
-                        <CircularProgress size={14} color="inherit" />
-                        :
-                        props?.c?.preview ?
-                            <MdVisibility style={{
-                                fontSize: 14
-                            }} />
-                            :
-                            <MdVisibilityOff style={{
-                                fontSize: 14
-                            }} />
+        // <Tooltip title={props?.c?.preview ? __("Remove from Preview", "acadlix") : __("Add to Preview", "acadlix")}>
+        //     <IconButton
+        //         disabled
+        //     // onClick={handleTooglePreview}
+        //     >
+        //         {
+        //             tooglePreviewMutation?.isPending ?
+        //                 <CircularProgress size={14} color="inherit" />
+        //                 :
+        //                 props?.c?.preview ?
+        //                     <MdVisibility style={{
+        //                         fontSize: 14
+        //                     }} />
+        //                     :
+        //                     <MdVisibilityOff style={{
+        //                         fontSize: 14
+        //                     }} />
 
-                }
-            </IconButton>
-        </Tooltip>
+        //         }
+        //     </IconButton>
+        // </Tooltip>
+        <>
+            <CustomFeatureElement
+                element="iconbutton"
+                label="preview"
+                icon={<MdVisibilityOff />}
+                attributes={{
+                    size: 'small',
+                    disabled: true,
+                    color: 'grey',
+                    sx: {
+                        p: 1,
+                    },
+                    LinkComponent: Link
+                }}
+                iconsx={{
+                    color: '#fff',
+                }}
+            />
+        </>
     )
 }
 

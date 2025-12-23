@@ -118,7 +118,7 @@ const Quiz = () => {
       field: "mode",
       headerName: __("Mode", "acadlix"),
       flex: 1,
-      minWidth: 100,
+      minWidth: 90,
       renderCell: (params) => {
         let mode = params?.value;
         let label = '';
@@ -148,12 +148,17 @@ const Quiz = () => {
         return <><Chip label={label} color={color} variant="filled" /></>;
       },
     },
-    { field: "category", headerName: __("Category", "acadlix"), flex: 1, minWidth: 90 },
+    {
+      field: "category",
+      headerName: __("Category", "acadlix"),
+      flex: 1,
+      minWidth: 70,
+    },
     {
       field: "shortcode",
       headerName: __("Shortcode", "acadlix"),
-      flex: 2,
-      minWidth: 110,
+      flex: 1,
+      minWidth: 150,
       renderCell: (params) => {
         return (
           <Box
@@ -187,8 +192,8 @@ const Quiz = () => {
     {
       field: "leaderboard",
       headerName: __("Leaderboard", "acadlix"),
-      flex: 2,
-      minWidth: 150,
+      flex: 1,
+      minWidth: 200,
       renderCell: (params) => {
         return (
           <Box
@@ -223,14 +228,14 @@ const Quiz = () => {
       field: "total_questions",
       headerName: __("Questions", "acadlix"),
       flex: 1,
-      minWidth: 80,
+      minWidth: 40,
     },
     {
       field: "action",
       headerName: __("Action", "acadlix"),
       sortable: false,
       flex: 2,
-      minWidth: isMobile ? 220 : 200,
+      minWidth: 220,
       renderCell: (params) => {
         return (
           <>
@@ -275,11 +280,6 @@ const Quiz = () => {
                 </IconButton>
               </Tooltip>
             }
-            <React.Suspense fallback={null}>
-              <PragraphOptionButton
-                params={params}
-              />
-            </React.Suspense>
             {
               hasCapability("acadlix_show_statistic") &&
               <Tooltip title={__("Result", "acadlix")} arrow>
@@ -318,6 +318,11 @@ const Quiz = () => {
                   />
                 </React.Suspense>
               )}
+            <React.Suspense fallback={null}>
+              <PragraphOptionButton
+                params={params}
+              />
+            </React.Suspense>
           </>
         );
       },

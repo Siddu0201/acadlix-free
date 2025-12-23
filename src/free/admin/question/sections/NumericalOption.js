@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormControlLabel, Radio } from '@mui/material'
 import { __ } from '@wordpress/i18n'
+import CustomFeatureElement from '@acadlix/components/CustomFeatureElement'
 
 const NumericalOption = (props) => {
     return (
@@ -8,7 +9,15 @@ const NumericalOption = (props) => {
             disabled
             value="numerical"
             control={<Radio />}
-            label={__("Numerical", "acadlix")}
+            label={
+                <CustomFeatureElement
+                    element="text"
+                    label={__("Numerical", "acadlix")}
+                    iconsx={{
+                        color: '#fff',
+                    }}
+                />
+            }
         />
     )
 }

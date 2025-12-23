@@ -1,11 +1,13 @@
 import React from 'react'
 import Grid from '@mui/material/Grid';
 import AiDescription from '@acadlix/modules/ai/AiDescription';
+import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';
+import { __ } from "@wordpress/i18n";
 
 const AiButton = (props) => {
     return (
         <Grid size={{ xs: 12, sm: 12 }}>
-            <AiDescription
+            {/* <AiDescription
                 disabled
                 title={props?.watch("title") ?? ""}
                 description=""
@@ -21,6 +23,18 @@ const AiButton = (props) => {
                     props.setValue("content", value, {
                         shouldDirty: true,
                     });
+                }}
+            /> */}
+            <CustomFeatureElement
+                element="button"
+                label={__("Generate with AI", "acadlix")}
+                attributes={{
+                    variant: 'contained',
+                    size: 'small',
+                    disabled: true,
+                }}
+                iconsx={{
+                    color: '#fff',
                 }}
             />
         </Grid>

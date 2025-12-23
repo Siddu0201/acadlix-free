@@ -38,6 +38,7 @@ import toast from "react-hot-toast";
 import ViewContentSection from "./ViewContentSection";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
+import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 
 const ViewProSection = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -552,7 +553,7 @@ const SortableSections = (props) => {
             {
               !acadlixOptions?.isPro &&
               <Box>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="primary"
                   size="small"
@@ -564,7 +565,20 @@ const SortableSections = (props) => {
                     }}
                   />
                   {__("Add Assignment", "acadlix")}
-                </Button>
+                </Button> */}
+                <CustomFeatureElement
+                  element="button"
+                  label={__("Add Assignment", "acadlix")}
+                  attributes={{
+                    variant: 'outlined',
+                    size: 'small',
+                    disabled: true,
+                    startIcon: <FaPlus style={{ fontSize: 10 }}/>
+                  }}
+                  iconsx={{
+                    color: '#fff',
+                  }}
+                />
               </Box>
             }
             <React.Suspense fallback={null}>
