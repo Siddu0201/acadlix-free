@@ -81,6 +81,8 @@ const CustomFeatureTooltip = ({
         onClick={handleClick}
         sx={{
           fontSize: '1.25rem',
+          padding: 0,
+          marginLeft: 1,
           ...iconsx,
         }}
       >
@@ -93,7 +95,7 @@ const CustomFeatureTooltip = ({
 export default CustomFeatureTooltip;
 
 CustomFeatureTooltip.propTypes = {
-  plan: PropTypes.oneOf(['open', 'pro', 'locked']).isRequired,
+  plan: PropTypes.oneOf(['open', 'closed']).isRequired,
   msg: PropTypes.string.isRequired,
   placement: PropTypes.string,
   iconsx: PropTypes.object,

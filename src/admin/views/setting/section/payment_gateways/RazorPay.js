@@ -37,7 +37,22 @@ const RazorPay = (props) => {
                                         paddingY: 2,
                                     },
                                 },
-                                value: __("RazorPay", "acadlix"),
+                                children: [
+                                    {
+                                        component: "span",
+                                        value: __("RazorPay", "acadlix"),
+                                    },
+                                    {
+                                        component: "CustomFeatureTooltip",
+                                        component_name: "razorpay_feature_tooltip",
+                                        props: {
+                                            plan: "open",
+                                            msg: __("Refer docs to configure the RazorPay Payment Gateway Properly.", "acadlix"),
+                                            placement: "right-start",
+                                            redirectTo: `${acadlixOptions?.acadlix_docs_url}monetization/razorpay/`,
+                                        }
+                                    }
+                                ],
                             },
                             {
                                 component: "FormControlLabel",

@@ -59,7 +59,22 @@ const Payment = (props) => {
                           variant: "h6",
                         },
                         component_name: "course_payment_price_label_typography",
-                        value: __('Price (0 => Free)', 'acadlix')
+                        children: [
+                          {
+                            component: "span",
+                            value: __('Price (0 => Free)', 'acadlix')
+                          },
+                          {
+                            component: "CustomFeatureTooltip",
+                            component_name: "course_payment_price_tooltip",
+                            props: {
+                              plan: "open",
+                              msg: __("Sets the Price of the course", "acadlix"),
+                              placement: "right-start",
+                              redirectTo: `${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#payment`,
+                            }
+                          }
+                        ]
                       }
                     ]
                   },
@@ -145,7 +160,22 @@ const Payment = (props) => {
                         props: {
                           variant: "h6",
                         },
-                        value: __("Activate Sale Price", "acadlix")
+                        children: [
+                          {
+                            component: "span",
+                            value: __("Activate Sale Price", "acadlix")
+                          },
+                          {
+                            component: "CustomFeatureTooltip",
+                            component_name: "course_payment_enable_sale_price_tooltip",
+                            props: {
+                              plan: "open",
+                              msg: __("If you want to make the course on sale, then activate the sale price by clicking on the checkbox. It will enable the Sale Price option. Make sure the sale price is lower than the 'Price'", "acadlix"),
+                              placement: "right-start",
+                              redirectTo: `${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#payment`,
+                            }
+                          }
+                        ]
                       }
                     ]
                   },
@@ -220,7 +250,22 @@ const Payment = (props) => {
                         props: {
                           variant: "h6"
                         },
-                        value: __('Sale Price', 'acadlix')
+                        children: [
+                          {
+                            component: "span",
+                            value: __('Sale Price', 'acadlix')
+                          },
+                          {
+                            component: "CustomFeatureTooltip",
+                            component_name: "course_payment_sale_price_tooltip",
+                            props: {
+                              plan: "open",
+                              msg: __("Set a discounted price for the course. This will be displayed as the sale price, offering students a special deal.", "acadlix"),
+                              placement: "right-start",
+                              redirectTo: `${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#payment`,
+                            }
+                          }
+                        ]
                       }
                     ]
                   },
@@ -307,7 +352,22 @@ const Payment = (props) => {
                         props: {
                           variant: "h6"
                         },
-                        value: __('Tax', 'acadlix')
+                        children: [
+                          {
+                            component: "span",
+                            value: __('Tax', 'acadlix'),
+                          },
+                          {
+                            component: "CustomFeatureTooltip",
+                            component_name: "course_payment_enable_tax_tooltip",
+                            props: {
+                              plan: "open",
+                              msg: __("Specify the tax rate to be applied to the course price. This will be calculated and added to the total amount during checkout.", "acadlix"),
+                              placement: "right-start",
+                              redirectTo: `${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#payment`,
+                            }
+                          }
+                        ]
                       }
                     ]
                   },
@@ -382,7 +442,22 @@ const Payment = (props) => {
                         props: {
                           variant: "h6"
                         },
-                        value: __('Tax (%)', 'acadlix')
+                        children: [
+                          {
+                            component: "span",
+                            value: __('Tax (%)', 'acadlix')
+                          },
+                          {
+                            component: "CustomFeatureTooltip",
+                            component_name: "course_payment_tax_tooltip",
+                            props: {
+                              plan: "open",
+                              msg: __("Enter the tax rate as a percentage. This percentage will be applied to the course price during checkout.", "acadlix"),
+                              placement: "right-start",
+                              redirectTo: `${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#payment`,
+                            }
+                          }
+                        ]
                       }
                     ]
                   },

@@ -37,7 +37,22 @@ const PayPal = (props) => {
                                         paddingY: 2,
                                     },
                                 },
-                                value: __("PayPal", "acadlix"),
+                                children: [
+                                    {
+                                        component: "span",
+                                        value: __("PayPal", "acadlix"),
+                                    },
+                                    {
+                                        component: "CustomFeatureTooltip",
+                                        component_name: "paypal_feature_tooltip",
+                                        props: {
+                                            plan: "open",
+                                            msg: __("Refer docs to configure the PayPal Payment Gateway Properly.", "acadlix"),
+                                            placement: "right-start",
+                                            redirectTo: `${acadlixOptions?.acadlix_docs_url}monetization/paypal/`,
+                                        }
+                                    }
+                                ],
                             },
                             {
                                 component: "FormControlLabel",

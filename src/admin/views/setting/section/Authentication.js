@@ -189,7 +189,7 @@ const Authentication = (props) => {
                     },
                     value: __("Registration Options", "acadlix"),
                   },
-                  {                    
+                  {
                     component: "Divider",
                   },
                 ],
@@ -207,7 +207,7 @@ const Authentication = (props) => {
                   },
                 },
                 children: [
-                  { 
+                  {
                     component: "Grid",
                     props: {
                       size: { xs: 12, sm: 4, lg: 4 },
@@ -332,7 +332,22 @@ const Authentication = (props) => {
                             padding: 2
                           },
                         },
-                        value: __("Fraud Protection (reCAPTCHA v3)", "acadlix"),
+                        children: [
+                          {
+                            component: "span",
+                            value: __("Fraud Protection (reCAPTCHA v3)", "acadlix"),
+                          },
+                          {
+                            component: "CustomFeatureTooltip",
+                            component_name: "fraud_protection_feature_tooltip",
+                            props: {
+                              plan: "open",
+                              msg: __("Refer docs to configure the Google reCAPTCHA v3.", "acadlix"),
+                              placement: "right-start",
+                              redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#fraud-protection`,
+                            }
+                          }
+                        ],
                       },
                       {
                         component: "FormControlLabel",

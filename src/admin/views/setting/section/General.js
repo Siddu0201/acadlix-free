@@ -25,6 +25,7 @@ import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRend
 import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import { useForm } from "react-hook-form";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -72,7 +73,14 @@ function General(props) {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Page Setup", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Page Setup", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Set and manage core Acadlix pages used for student access and navigation.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#page-setup`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid
@@ -530,7 +538,14 @@ function General(props) {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Course Options", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Course Options", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Configure how courses are displayed to students, including the number of courses per page and the option to disable the wishlist feature.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#course-options`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid
@@ -685,7 +700,14 @@ function General(props) {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Currency Options", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Currency Options", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Configure the currency, symbol, symbol position, thousand and decimal separators, and the number of decimal places used for displaying prices to students.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#currency-options`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid
@@ -836,7 +858,14 @@ function General(props) {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Admin Options", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Admin Options", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Set how many rows per page will be displayed in the admin panel.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#admin-options`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid
@@ -882,7 +911,14 @@ function General(props) {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Student Dashboard Options", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Student Dashboard Options", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Configure dashboard settings such as the logout redirect URL, enable a full-width dashboard layout, and display the site logo in the header.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#student-dashboard-options`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid
@@ -963,7 +999,14 @@ function General(props) {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Data Management", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Data Management", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Enabling this option will delete all the associated data with the Acadlix LMS when you delete it from your site. If you want to keep the data stored in your database even when you delete the Acadlix LMS from your site, then keep it disabled.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#data-management`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid

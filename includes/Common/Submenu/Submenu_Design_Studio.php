@@ -54,6 +54,7 @@ class Submenu_Design_Studio
             'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'capabilities' => $capabilities,
             'user_id' => get_current_user_id(),
+            'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
             'home_url' => home_url(),
             'pricing_link' => ACADLIX_MARKETPLACE_URL . 'pricing',

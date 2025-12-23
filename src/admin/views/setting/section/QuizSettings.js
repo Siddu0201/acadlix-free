@@ -31,6 +31,7 @@ import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from '@acadlix/components/CustomTypography';
 import { DeleteSubjectById, GetSubjects, PostCreateSubject, UpdateSubjectById } from '@acadlix/requests/admin/AdminSubjectRequest';
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
 
 const QuizSettings = (props) => {
     const methods = useForm({
@@ -176,7 +177,14 @@ const CategorySettings = ({ methods }) => {
                     marginY: 2,
                 }}
             >
-                <Typography variant="h6">{__("Quiz Categories", "acadlix")}</Typography>
+                <Typography variant="h6">{__("Quiz Categories", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan="open"
+                        msg={__("Refer docs to configure quiz categories.", "acadlix")}
+                        placement="right-start"
+                        redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/category-management/`}
+                    />
+                </Typography>
                 <Divider />
             </Box>
             <Grid container spacing={{
@@ -643,7 +651,13 @@ const SubjectSettings = ({ methods }) => {
                     marginY: 2,
                 }}
             >
-                <Typography variant="h6">{__("Question Subjects", "acadlix")}</Typography>
+                <Typography variant="h6">{__("Question Subjects", "acadlix")}
+                    {/* <CustomFeatureTooltip
+                        plan="open"
+                        msg={__("Refer docs to configure question subjects.", "acadlix")}
+                        placement="right-start"
+                    /> */}
+                </Typography>
                 <Divider />
             </Box>
             <Grid container spacing={{

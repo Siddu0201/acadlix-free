@@ -57,6 +57,7 @@ class Submenu_Settings
             'quiz_categories' => acadlix()->model()->category()->all(),
             'quiz_languages' => acadlix()->model()->language()->all(),
             'capabilities' => $capabilities,
+            'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
             'home_url' => home_url(),
         ];

@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const StartDate = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -49,6 +50,12 @@ const General = (props) => {
                 variant="h6"
               >
                 {__("Duration Type", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={"open"}
+                  msg={__("Choose from the available options to set the duration type, such as weeks, days, hours, or minutes. This duration will be displayed on the front-end single course page.", "acadlix")}
+                  placement="right-start"
+                  redirectTo={`${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#general`}
+                />
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, sm: 12 }}>
@@ -86,6 +93,12 @@ const General = (props) => {
                 variant="h6"
               >
                 {__("Duration", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={"open"}
+                  msg={__("Enter the duration value for the course according to the duration type you selected (weeks, days, hours, or minutes).", "acadlix")}
+                  placement="right-start"
+                  redirectTo={`${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#general`}
+                />
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, sm: 12 }}>
@@ -127,6 +140,12 @@ const General = (props) => {
                 variant="h6"
               >
                 {__("Registration Start Date", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={acadlixOptions?.isActive ? "open" : "closed"}
+                  msg={__("Specify the course registration start date and time. Students will be able to purchase the course once this date and time are reached.", "acadlix")}
+                  placement="right-start"
+                  redirectTo={`${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#general`}
+                />
               </Typography>
             </Grid>
             <React.Suspense fallback={null}>
@@ -141,6 +160,12 @@ const General = (props) => {
                 variant="h6"
               >
                 {__("Registration End Date", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={acadlixOptions?.isActive ? "open" : "closed"}
+                  msg={__("Define the course registration end date and time. After this deadline, students will no longer be able to purchase the course. If left unset, registration will remain open indefinitely.", "acadlix")}
+                  placement="right-start"
+                  redirectTo={`${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#general`}
+                />
               </Typography>
             </Grid>
             <React.Suspense fallback={null}>
@@ -156,6 +181,12 @@ const General = (props) => {
                 variant="h6"
               >
                 {__("Difficulty Level", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={"open"}
+                  msg={__("Sets the Difficulty Level of the course", "acadlix")}
+                  placement="right-start"
+                  redirectTo={`${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#general`}
+                />
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, sm: 12 }}>

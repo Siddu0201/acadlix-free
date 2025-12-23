@@ -4,6 +4,7 @@ import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 import CustomTypography from "@acadlix/components/CustomTypography";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const Permalink = (props) => {
   return (
@@ -15,7 +16,14 @@ const Permalink = (props) => {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Course Permalink", "acadlix")}</Typography>
+            <Typography variant="h4">{__("Course Permalink", "acadlix")}
+              <CustomFeatureTooltip
+                plan="open"
+                msg={__("Refer docs to configure Permalinks.", "acadlix")}
+                placement="right-start"
+                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/permalink/`}
+              />
+            </Typography>
             <Divider />
           </Box>
           <Grid

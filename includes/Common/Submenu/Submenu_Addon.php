@@ -57,6 +57,7 @@ class Submenu_Addon
             'user_id' => get_current_user_id(),
             'capabilities' => $capabilities,
             'isPro' => acadlix()->pro,
+            'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
             'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
         ];

@@ -46,7 +46,22 @@ function Notification(props) {
                     props: {
                       variant: "h4",
                     },
-                    value: __("Email Settings", "acadlix"),
+                    children: [
+                      {
+                        component: "span",
+                        value: __("Email Settings", "acadlix"),
+                      },
+                      {
+                        component: "CustomFeatureTooltip",
+                        component_name: "email_notification_feature_tooltip",
+                        props: {
+                          plan: "open",
+                          msg: __("Refer docs to configure Notifications.", "acadlix"),
+                          placement: "right-start",
+                          redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/notification/`,
+                        }
+                      }
+                    ],
                   },
                   {
                     component: "Divider",

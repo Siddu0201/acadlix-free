@@ -60,6 +60,7 @@ class Submenu_Courses
             'capabilities' => $capabilities,
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
             'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
+            'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
             'isPro' => acadlix()->pro,
             'isActive' => acadlix()->license()->isActive ?? false,
             'isAssignmentActive' => acadlix()->helper()->is_assignment_addon_active() ?? false,

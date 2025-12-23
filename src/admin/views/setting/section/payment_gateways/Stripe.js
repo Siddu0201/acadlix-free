@@ -28,7 +28,22 @@ const Stripe = (props) => {
                                     variant: "h5",
                                     sx: { paddingX: 2, paddingY: 2 },
                                 },
-                                value: __("Stripe", "acadlix"),
+                                children: [
+                                    {
+                                        component: "span",
+                                        value: __("Stripe", "acadlix"),
+                                    },
+                                    {
+                                        component: "CustomFeatureTooltip",
+                                        component_name: "stripe_feature_tooltip",
+                                        props: {
+                                            plan: "open",
+                                            msg: __("Refer docs to configure the Stripe Payment Gateway Properly.", "acadlix"),
+                                            placement: "right-start",
+                                            redirectTo: `${acadlixOptions?.acadlix_docs_url}monetization/stripe/`,
+                                        }
+                                    }
+                                ],
                             },
                             {
                                 component: "FormControlLabel",

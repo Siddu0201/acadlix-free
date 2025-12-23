@@ -4,6 +4,7 @@ import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { FaPlus, FaTrash } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const Outcome = (props) => {
   const handleAddOutcome = () => {
@@ -30,6 +31,12 @@ const Outcome = (props) => {
             variant="h6"
           >
             {__("What you Learn", "acadlix")}
+            <CustomFeatureTooltip
+              plan={"open"}
+              msg={__("Define what students will be able to achieve or understand after completing the course. You can add as many outcomes as needed.", "acadlix")}
+              placement="right-start"
+              redirectTo={`${acadlixOptions?.acadlix_docs_url}course-management/creating-a-new-course-in-acadlix/#outcome`}
+            />
           </Typography>
         </Grid>
         {props?.watch("meta.outcomes")?.length > 0 &&

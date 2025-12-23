@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import { IoClose } from "@acadlix/helpers/icons";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from '@wordpress/i18n'
+import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
 const AddEditSectionModal = (props) => {
   return (
@@ -40,6 +41,11 @@ const AddEditSectionModal = (props) => {
           <Grid size={{ xs: 12, lg: 12 }}>
             <Typography variant="h6">
               {__("Section Title", "acadlix")} <span style={{ color: "red" }}>*</span>
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Enter the title for the section. This will help organize and categorize the lessons within the course.", "acadlix")}
+                placement="right-start"
+              />
             </Typography>
           </Grid>
           <Grid size={{ xs: 12, lg: 12 }}>
@@ -60,7 +66,13 @@ const AddEditSectionModal = (props) => {
             />
           </Grid>
           <Grid size={{ xs: 12, lg: 12 }}>
-            <Typography variant="h6">{__("Section Description", "acadlix")}</Typography>
+            <Typography variant="h6">{__("Section Description", "acadlix")}
+              <CustomFeatureTooltip
+                plan={"open"}
+                msg={__("Provide a brief description of the section. This will give students an overview of the content covered in this section of the course.", "acadlix")}
+                placement="right-start"
+              />
+            </Typography>
           </Grid>
           <Grid size={{ xs: 12, lg: 12 }}>
             <textarea
