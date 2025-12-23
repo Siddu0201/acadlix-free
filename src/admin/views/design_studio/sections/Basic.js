@@ -5,17 +5,18 @@ import { __ } from '@wordpress/i18n'
 import CustomTypography from '@acadlix/components/CustomTypography'
 import CustomColorPicker from '@acadlix/components/CustomColorPicker'
 import { defaultPaletteColor } from '@acadlix/provider/CustomThemeProvider'
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip'
 
 const Basic = (props) => {
     const handleReset = () => {
         const defaultTheme = defaultPaletteColor;
-        props?.setValue('palette.primary.main', defaultTheme?.main?.primary, {shouldDirty: true});
-        props?.setValue('palette.primary.dark', defaultTheme?.dark?.primary, {shouldDirty: true});
-        props?.setValue('palette.text.primary', defaultTheme?.text?.primary, {shouldDirty: true});
-        props?.setValue('palette.text.secondary', defaultTheme?.text?.secondary, {shouldDirty: true});
-        props?.setValue('palette.grey.main', defaultTheme?.main?.grey, {shouldDirty: true});
-        props?.setValue('palette.grey.dark', defaultTheme?.dark?.grey, {shouldDirty: true});
-        props?.setValue('palette.grey.light', defaultTheme?.light?.grey, {shouldDirty: true});
+        props?.setValue('palette.primary.main', defaultTheme?.main?.primary, { shouldDirty: true });
+        props?.setValue('palette.primary.dark', defaultTheme?.dark?.primary, { shouldDirty: true });
+        props?.setValue('palette.text.primary', defaultTheme?.text?.primary, { shouldDirty: true });
+        props?.setValue('palette.text.secondary', defaultTheme?.text?.secondary, { shouldDirty: true });
+        props?.setValue('palette.grey.main', defaultTheme?.main?.grey, { shouldDirty: true });
+        props?.setValue('palette.grey.dark', defaultTheme?.dark?.grey, { shouldDirty: true });
+        props?.setValue('palette.grey.light', defaultTheme?.light?.grey, { shouldDirty: true });
     }
     return (
         <Card>
@@ -30,6 +31,12 @@ const Basic = (props) => {
                     >
                         <Typography variant="h3">
                             {__('Basic', 'acadlix')}
+                            <CustomFeatureTooltip
+                                plan="open"
+                                msg={__("Learn how to personalize your LMS in our documentation", "acadlix")}
+                                placement="right-start"
+                                redirectTo={`${acadlixOptions?.acadlix_docs_url}design-studio/basic-palette/`}
+                            />
                         </Typography>
                         <Button
                             variant="contained"
@@ -64,7 +71,7 @@ const Basic = (props) => {
                             {__('Learn how to personalize your LMS in our documentation →', 'acadlix')}
                         </CustomTypography>
                         <Typography variant="body1">
-                            <Link 
+                            <Link
                                 href={acadlixOptions?.basic_palette_link}
                                 target="_blank"
                             >

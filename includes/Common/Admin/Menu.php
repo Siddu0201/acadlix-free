@@ -67,6 +67,7 @@ class Menu
             'acadlix_student',
             'acadlix_setting',
             'acadlix_addon',
+            'acadlix_design_studio',
         ];
     }
 
