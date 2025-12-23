@@ -85,7 +85,7 @@ class Ajax
             if (is_wp_error($user)) {
                 wp_send_json_error([
                     'error_stage' => 'credentials',
-                    'message' => $user->get_error_message(),
+                    'message' => __('Invalid email/username or password.', 'acadlix')
                 ]);
             }
 

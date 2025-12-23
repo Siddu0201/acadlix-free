@@ -135,7 +135,7 @@ const Login = (props) => {
                           value: __("Error: ", "acadlix")
                         },
                         {
-                          component: "span",
+                          component: "RawHTML",
                           component_name: "login_modal_error_span",
                           value: sprintf(
                             /* translators: 1: username */
