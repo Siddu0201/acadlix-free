@@ -1,5 +1,5 @@
 import { FaCrown } from '@acadlix/helpers/icons'
-import { Box, Button, Icon, IconButton } from '@mui/material'
+import { Box, Button, IconButton } from '@mui/material'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -124,9 +124,7 @@ const CustomFeatureElement = ({
     )
   }
 
-  return (
-    <div>CustomFeatureElement</div>
-  )
+  return null;
 }
 
 export default CustomFeatureElement

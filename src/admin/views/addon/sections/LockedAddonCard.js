@@ -1,16 +1,17 @@
 import React from 'react'
-import { 
-    Avatar, 
-    Box, 
-    Card, 
-    CardContent, 
-    CardHeader, 
-    IconButton, 
-    Tooltip, 
-    Typography 
+import {
+    Avatar,
+    Box,
+    Card,
+    CardContent,
+    CardHeader,
+    IconButton,
+    Tooltip,
+    Typography
 } from '@mui/material'
 import { __ } from '@wordpress/i18n'
 import { CiLock, iconMap } from '@acadlix/helpers/icons'
+import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip'
 
 const LockedAddonCard = (props) => {
     const Icon = iconMap[props?.icon] || iconMap['FaLock'];
@@ -29,13 +30,20 @@ const LockedAddonCard = (props) => {
                             height: 32,
                             backgroundColor: `${props?.icon_color || 'primary.main'}`,
                         }}>
-                           {Icon}
+                            {Icon}
                         </Avatar>
-                        <Tooltip title={__('Available in Pro', "acadlix")} arrow placement='top'>
-                            <IconButton>
+                        {/* <Tooltip title={__('Available in Pro', "acadlix")} arrow placement='top'>
+                            <IconButton
+
+                            >
                                 <CiLock />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
+                        <CustomFeatureTooltip
+                            plan="closed"
+                            msg={__('Available in Pro', "acadlix")}
+                            placement="left"
+                        />
                     </Box>
                 }
             />
