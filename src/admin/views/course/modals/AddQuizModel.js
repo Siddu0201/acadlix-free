@@ -157,7 +157,7 @@ const AddFromExisting = (props) => {
                 >
                   <FormControlLabel
                     value={q?.ID}
-                    label={q?.post_title}
+                    label={`${q?.post_title} (${q?.category?.name ?? "Uncategorized"})`}
                     control={
                       <Checkbox
                         checked={

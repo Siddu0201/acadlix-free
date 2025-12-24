@@ -758,7 +758,9 @@ class AdminCourseController
             ->orderBy('ID', 'desc')
             ->get()
             ->each
-            ->setAppends([]);
+            ->setAppends([
+                'category'
+            ]);
         return rest_ensure_response($res);
     }
 
