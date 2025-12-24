@@ -479,18 +479,21 @@ const Question = () => {
                             {
                               hasCapability("acadlix_bulk_set_paragraph_question") &&
                               <MenuItem value="set_paragraph" disabled={!acadlixOptions?.isActive}>
-                                {/* {__("Set Paragraph", "acadlix")} */}
-                                <CustomFeatureElement
-                                  element="text"
-                                  label={__("Set Paragraph", "acadlix")}
-                                  iconsx={{
-                                    color: '#fff',
-                                  }}
-                                  iconboxsx={{
-                                    top: -5,
-                                    right: -7,
-                                  }}
-                                />
+                                {
+                                  acadlixOptions?.isActive
+                                    ? __("Set Paragraph", "acadlix")
+                                    : <CustomFeatureElement
+                                      element="text"
+                                      label={__("Set Paragraph", "acadlix")}
+                                      iconsx={{
+                                        color: '#fff',
+                                      }}
+                                      iconboxsx={{
+                                        top: -5,
+                                        right: -7,
+                                      }}
+                                    />
+                                }
                               </MenuItem>
                             }
                           </Select>
