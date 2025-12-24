@@ -30,7 +30,22 @@ const Authentication = (props) => {
                     props: {
                       variant: "h4",
                     },
-                    value: __("Login Options", "acadlix"),
+                    children: [
+                      {
+                        component: "span",
+                        value: __("Login Options", "acadlix"),
+                      },
+                      {
+                        component: "CustomFeatureTooltip",
+                        component_name: "login_feature_tooltip",
+                        props: {
+                          plan: "open",
+                          msg: __("Refer docs to configure login options.", "acadlix"),
+                          placement: "right-start",
+                          redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#login-options`,
+                        }
+                      }
+                    ]
                   },
                   {
                     component: "Divider",
@@ -187,7 +202,22 @@ const Authentication = (props) => {
                     props: {
                       variant: "h4",
                     },
-                    value: __("Registration Options", "acadlix"),
+                    children: [
+                      {
+                        component: "span",
+                        value: __("Registration Options", "acadlix"),
+                      },
+                      {
+                        component: "CustomFeatureTooltip",
+                        component_name: "register_feature_tooltip",
+                        props: {
+                          plan: "open",
+                          msg: __("Refer docs to configure registration options.", "acadlix"),
+                          placement: "right-start",
+                          redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#registration-options`,
+                        }
+                      }
+                    ]
                   },
                   {
                     component: "Divider",
