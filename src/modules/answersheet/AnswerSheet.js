@@ -99,6 +99,11 @@ const AnswerSheet = ({
         multi_language: Boolean(Number(quiz?.multi_language)),
         mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
         advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
+        enable_inline_answer_options_layout: Boolean(
+            Number(quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
+        ),
+        options_per_row: quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
+        // Question settings
         // Question settings
         show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
         display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
@@ -240,7 +245,7 @@ const AnswerSheet = ({
         {
             quiz: quiz,
             statistic: statistic,
-            
+
         }
     ) ?? baseSettings;
     const methods = useForm({

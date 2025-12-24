@@ -72,10 +72,7 @@ const TypeTrueFalse = (props) => {
         name="radio-buttons-group"
         onChange={handleChange}
         sx={{
-          display: props?.watch("enable_inline_answer_options_layout") ? "grid" : "flex",
-          gridTemplateColumns: props?.watch("enable_inline_answer_options_layout")
-            ? `repeat(${props?.watch("options_per_row") > 0 ? props?.watch("options_per_row") : 1}, minmax(0, 1fr))`
-            : "none",
+          flexDirection: props?.watch("enable_inline_answer_options_layout") ? "row" : "column",
           gap: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "6px" : 0,
         }}
       >
@@ -194,7 +191,7 @@ const TypeTrueFalse = (props) => {
             </Box>
           ))}
       </RadioGroup>
-    </FormControl>
+    </FormControl >
   );
 };
 
