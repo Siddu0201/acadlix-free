@@ -87,7 +87,7 @@ const QuizContent = (props) => {
         enable_inline_answer_options_layout: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
         ),
-        options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 1/2/3/4/5
+        options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 2/3/4/5
         // Question settings
         show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
         display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),

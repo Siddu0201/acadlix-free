@@ -93,6 +93,10 @@ const QuizContent = (props) => {
     result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
     result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
     scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+    enable_inline_answer_options_layout: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
+    ),
+    options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 2/3/4/5
     // Question settings
     show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
     display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
@@ -314,12 +318,12 @@ const QuizContent = (props) => {
   };
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters(
-        "acadlix.front.quiz.defaultValues",
-        baseSettings,
-        {
-          quiz: props?.quiz,
-        }
-    ) ?? baseSettings;
+    "acadlix.front.quiz.defaultValues",
+    baseSettings,
+    {
+      quiz: props?.quiz,
+    }
+  ) ?? baseSettings;
 
   const methods = useForm({
     defaultValues: filteredDefaults,

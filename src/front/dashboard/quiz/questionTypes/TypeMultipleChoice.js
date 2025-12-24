@@ -59,7 +59,11 @@ const TypeMultipleChoice = (props) => {
   return (
     <FormControl
       sx={{
-        flexDirection: props?.nta ? "row" : "column",
+        // flexDirection: props?.nta ? "row" : "column",
+        display: props?.watch("enable_inline_answer_options_layout") ? "grid" : "flex",
+        gridTemplateColumns: props?.watch("enable_inline_answer_options_layout")
+          ? `repeat(${props?.watch("options_per_row") > 0 ? props?.watch("options_per_row") : 1}, minmax(0, 1fr))`
+          : "none",
         width: "100%",
         padding: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 0,
         marginY: props?.watch("mode") !== "advance_mode" || props?.watch("view_answer") ? "5px" : 0,
@@ -144,7 +148,7 @@ const TypeMultipleChoice = (props) => {
                     <CustomLatex>
                       {data?.option}
                     </CustomLatex>
-                    </Typography>
+                  </Typography>
                   <Box
                     sx={{
                       position: "relative",
