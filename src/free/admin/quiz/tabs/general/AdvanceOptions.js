@@ -97,10 +97,73 @@ const AdvanceOptions = (props) => {
                 </CustomTypography>
             </GridItem1>
 
-            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 9 }}>
                 <Alert severity="info">
                     {__("Set questions from Subject-wise Actions on Quiz page.", "acadlix")}
                 </Alert>
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <CustomTypography>{__("Enable Inline Answer Options Layout", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("When enabled, multiple answer options are shown in a row instead of one per line (For Single choice, Multi choice and True / False questions).", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <FormControlLabel
+                    control={
+                        <CustomSwitch />
+                    }
+                    // checked={props?.watch("meta.quiz_settings.enable_inline_answer_options_layout") ?? false}
+                    disabled
+                    // onChange={(e) => {
+                    //     props?.setValue("meta.quiz_settings.enable_inline_answer_options_layout", e?.target?.checked, {
+                    //         shouldDirty: true,
+                    //     });
+                    // }}
+                    label={__("Activate", "acadlix")}
+                />
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <CustomTypography>{__("Options per Row", "acadlix")}
+                    <CustomFeatureTooltip
+                        plan={acadlixOptions?.isActive ? "open" : "closed"}
+                        msg={__("Controls how many answer options appear in each row before wrapping to the next line.", "acadlix")}
+                        placement="right-start"
+                    />
+                </CustomTypography>
+            </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+                <CustomTextField
+                    fullWidth
+                    size="small"
+                    type="number"
+                    label={__("Options per Row", "acadlix")}
+                    // value={props?.watch("meta.quiz_settings.options_per_row") ?? 0}
+                    // onChange={(e) => {
+                    //     props?.setValue(
+                    //         "meta.quiz_settings.options_per_row",
+                    //         Number(e?.target?.value),
+                    //         { shouldDirty: true }
+                    //     );
+                    // }}
+                    disabled
+                    sx={{
+                        "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                        {
+                            display: "none",
+                        },
+                        "& input[type=number]": {
+                            MozAppearance: "textfield",
+                        },
+                    }}
+                />
             </GridItem1>
 
             <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -180,6 +243,14 @@ const AdvanceOptions = (props) => {
                     label={__("Activate", "acadlix")}
                 />
             </GridItem1>
+
+            <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} sx={{
+                display: {
+                    xs: "none",
+                    sm: "none",
+                    lg: "block"
+                }
+            }}></GridItem1>
 
             {/* <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1> */}
 
