@@ -106,6 +106,10 @@ class ThankyouView
         $content = apply_filters('acadlix_thankyou_content', [
             [
                 'component' => 'div',
+                'props' => [
+                    'class' => 'acadlix-thankyou-content-wrapper',
+                    'style' => 'width: 100%;',
+                ],
                 'children' => [
                     $this->render_status(),
                     [
