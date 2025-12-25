@@ -9,14 +9,21 @@ class Acadlix_Bootstrap_Activator
   {
     include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
+    $this_plugin = ACADLIX_PLUGIN_BASENAME;
+
+    // Decide sibling dynamically
+    $sibling = ($this_plugin === 'acadlix/acadlix.php')
+      ? 'acadlix-pro/acadlix.php'
+      : 'acadlix/acadlix.php';
+
     // Deactivate sibling plugin
-    if (defined('ACADLIX_SIBLING_PLUGIN') && is_plugin_active(ACADLIX_SIBLING_PLUGIN)) {
-      deactivate_plugins(ACADLIX_SIBLING_PLUGIN);
+      if (is_plugin_active($sibling)) {
+      deactivate_plugins($sibling);
     }
 
     // Mark activation pending
     update_option('acadlix_activation_pending', [
-      'variant' => ACADLIX_PLUGIN_TYPE,
+      'plugin' => $this_plugin,
       'network' => (bool) $network_wide,
     ]);
   }

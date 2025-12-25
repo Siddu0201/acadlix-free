@@ -46,7 +46,7 @@ class Activator
 
         if (
             empty($pending) ||
-            $pending['variant'] !== ACADLIX_PLUGIN_TYPE
+            $pending['plugin'] !== ACADLIX_PLUGIN_BASENAME
         ) {
             return;
         }

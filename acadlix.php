@@ -19,14 +19,6 @@ if (!defined('ACADLIX_PLUGIN_FILE')) {
     define('ACADLIX_PLUGIN_FILE', __FILE__);
     include_once 'includes/acadlix-constant.php';
 }
-
-if (!defined('ACADLIX_PLUGIN_TYPE')) {
-    define('ACADLIX_PLUGIN_TYPE', '{{PLUGIN_TYPE}}');
-}
-
-if (!defined('ACADLIX_SIBLING_PLUGIN')) {
-    define('ACADLIX_SIBLING_PLUGIN', '{{SIBLING_PLUGIN_BASENAME}}');
-}
 /**
  * Environment checks
  */
