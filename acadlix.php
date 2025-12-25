@@ -24,56 +24,63 @@ if (!defined('ACADLIX_PLUGIN_TYPE')) {
     define('ACADLIX_PLUGIN_TYPE', '{{PLUGIN_TYPE}}');
 }
 
-if(!defined('ACADLIX_SIBLING_PLUGIN')) {
+if (!defined('ACADLIX_SIBLING_PLUGIN')) {
     define('ACADLIX_SIBLING_PLUGIN', '{{SIBLING_PLUGIN_BASENAME}}');
 }
 /**
  * Environment checks
  */
-function acadlix_environment_check()
-{
-    global $wp_version;
+if (!function_exists('acadlix_environment_check')) {
+    /**
+     * Check if the environment meets the plugin requirements.
+     *
+     * @return bool True if the environment is suitable, false otherwise.
+     */
+    function acadlix_environment_check()
+    {
+        global $wp_version;
 
-    // PHP check
-    if (version_compare(PHP_VERSION, '8.2', '<')) {
-        add_action('admin_notices', function () {
-            ?>
-            <div class="notice notice-error">
-                <p><?php echo esc_html(sprintf(
-                    /* translators: 1: required PHP version 2: current PHP version */
-                    __('Acadlix requires PHP %1$s or higher. You are running PHP %2$s.', 'acadlix'),
-                    '8.2',
-                    PHP_VERSION
-                )); ?></p>
-            </div>
-            <?php
-        });
+        // PHP check
+        if (version_compare(PHP_VERSION, '8.2', '<')) {
+            add_action('admin_notices', function () {
+                ?>
+                <div class="notice notice-error">
+                    <p><?php echo esc_html(sprintf(
+                        /* translators: 1: required PHP version 2: current PHP version */
+                        __('Acadlix requires PHP %1$s or higher. You are running PHP %2$s.', 'acadlix'),
+                        '8.2',
+                        PHP_VERSION
+                    )); ?></p>
+                </div>
+                <?php
+            });
 
-        // deactivate and prevent reactivation
-        deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
-        return false;
+            // deactivate and prevent reactivation
+            deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
+            return false;
+        }
+
+        // WordPress check
+        if (version_compare($wp_version, '6.8', '<')) {
+            add_action('admin_notices', function () use ($wp_version) {
+                ?>
+                <div class="notice notice-error">
+                    <p><?php echo esc_html(sprintf(
+                        /* translators: 1: required WP version 2: current WP version */
+                        __('Acadlix requires WordPress %1$s or higher. You are running WordPress %2$s.', 'acadlix'),
+                        '6.8',
+                        $wp_version
+                    )); ?></p>
+                </div>
+                <?php
+            });
+
+            deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
+            return false;
+        }
+
+        return true;
     }
-
-    // WordPress check
-    if (version_compare($wp_version, '6.8', '<')) {
-        add_action('admin_notices', function () use ($wp_version) {
-            ?>
-            <div class="notice notice-error">
-                <p><?php echo esc_html(sprintf(
-                    /* translators: 1: required WP version 2: current WP version */
-                    __('Acadlix requires WordPress %1$s or higher. You are running WordPress %2$s.', 'acadlix'),
-                    '6.8',
-                    $wp_version
-                )); ?></p>
-            </div>
-            <?php
-        });
-
-        deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
-        return false;
-    }
-
-    return true;
 }
 
 // Run environment check early
