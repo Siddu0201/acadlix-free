@@ -81,7 +81,9 @@ if (!acadlix_environment_check()) {
 }
 
 require_once ACADLIX_PLUGIN_DIR . '/bootstrap-activator.php';
-register_activation_hook(ACADLIX_PLUGIN_FILE, ['Acadlix_Bootstrap_Activator', 'activate']);
+register_activation_hook(__FILE__, function ($network_wide) {
+    Acadlix_Bootstrap_Activator::activate(__FILE__, $network_wide);
+});
 
 if (function_exists('acadlix')) {
     return;

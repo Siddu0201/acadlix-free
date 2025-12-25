@@ -5,12 +5,11 @@ defined('ABSPATH') || exit;
 class Acadlix_Bootstrap_Activator
 {
 
-  public static function activate($network_wide)
+  public static function activate($plugin_file, $network_wide)
   {
     include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-    $this_plugin = ACADLIX_PLUGIN_BASENAME;
-
+    $this_plugin = plugin_basename( $plugin_file );
     // Decide sibling dynamically
     $sibling = ($this_plugin === 'acadlix/acadlix.php')
       ? 'acadlix-pro/acadlix.php'
