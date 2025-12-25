@@ -1,6 +1,6 @@
 name: Deploy WordPress Plugin
 
-on: [workflow_dispatch]
+on:
   push:
     branches:
       - yuvayana
