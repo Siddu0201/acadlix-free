@@ -12,6 +12,7 @@ class Activator
         if (!is_admin())
             return;
 
+        add_action('admin_notices', [$this, 'acadlix_deactivation_admin_notices']);
         add_action('admin_init', [$this, 'maybe_run_activation'], 5);
         // register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
@@ -21,6 +22,39 @@ class Activator
 
         add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
+    }
+
+    public function acadlix_deactivation_admin_notices()
+    {
+        if (!current_user_can('activate_plugins')) {
+            return;
+        }
+
+        $notice = get_option('acadlix_deactivated_plugin_notice');
+
+        if (!$notice) {
+            return;
+        }
+
+        delete_option('acadlix_deactivated_plugin_notice');
+
+        $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $notice['plugin'], false, false);
+        $plugin_name = $plugin_data['Name'] ?? __('the other Acadlix plugin', 'acadlix');
+
+        ?>
+        <div class="notice notice-warning is-dismissible">
+            <p>
+                <?php
+                echo esc_html(
+                    sprintf(
+                        __('"%s" was automatically deactivated because only one version of Acadlix can be active at a time.', 'acadlix'),
+                        $plugin_name
+                    )
+                );
+                ?>
+            </p>
+        </div>
+        <?php
     }
 
     public function initialize_new_site($site)
