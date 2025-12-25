@@ -20,7 +20,7 @@ class Activator
         add_action('wp_initialize_site', [$this, 'initialize_new_site'], 10, 1);
         add_action('wp_delete_site', [$this, 'acadlix_delete_site'], 10, 1);
 
-        add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
+        // add_action('plugins_loaded', [$this, 'acadlix_load_textdomain']);
         add_action('admin_init', [$this, 'acadlix_check_db_update']);
     }
 
@@ -47,6 +47,7 @@ class Activator
                 <?php
                 echo esc_html(
                     sprintf(
+                        /* translators: 1: plugin name */
                         __('"%s" was automatically deactivated because only one version of Acadlix can be active at a time.', 'acadlix'),
                         $plugin_name
                     )
@@ -180,7 +181,7 @@ class Activator
 
     public function acadlix_load_textdomain()
     {
-        load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/' . acadlix()->versionPath);
+        // load_plugin_textdomain('acadlix', false, ACADLIX_PLUGIN_FOLDER_NAME . '/languages/' . acadlix()->versionPath);
     }
 
     public function acadlix_check_db_update()
