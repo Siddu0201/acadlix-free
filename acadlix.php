@@ -20,6 +20,13 @@ if (!defined('ACADLIX_PLUGIN_FILE')) {
     include_once 'includes/acadlix-constant.php';
 }
 
+if (!defined('ACADLIX_PLUGIN_TYPE')) {
+    define('ACADLIX_PLUGIN_TYPE', '{{PLUGIN_TYPE}}');
+}
+
+if(!defined('ACADLIX_SIBLING_PLUGIN')) {
+    define('ACADLIX_SIBLING_PLUGIN', '{{SIBLING_PLUGIN_BASENAME}}');
+}
 /**
  * Environment checks
  */
@@ -73,6 +80,9 @@ function acadlix_environment_check()
 if (!acadlix_environment_check()) {
     return; // stop loading the plugin completely
 }
+
+require_once ACADLIX_PLUGIN_DIR . '/bootstrap-activator.php';
+register_activation_hook(ACADLIX_PLUGIN_FILE, ['Acadlix_Bootstrap_Activator', 'activate']);
 
 if (function_exists('acadlix')) {
     return;

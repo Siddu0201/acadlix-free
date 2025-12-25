@@ -12,7 +12,8 @@ class Activator
         if (!is_admin())
             return;
 
-        register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
+        add_action('admin_init', [$this, 'maybe_run_activation'], 5);
+        // register_activation_hook(ACADLIX_PLUGIN_FILE, [$this, 'activate']);
         register_deactivation_hook(ACADLIX_PLUGIN_FILE, [$this, 'deactivate']);
 
         add_action('wp_initialize_site', [$this, 'initialize_new_site'], 10, 1);
@@ -36,10 +37,23 @@ class Activator
         restore_current_blog();
     }
 
-    public function activate($network_wide)
+    public function maybe_run_activation()
     {
-        if (is_multisite() && $network_wide) {
-            // Loop through all existing sites
+        if (!is_admin()) {
+            return;
+        }
+        $pending = get_option('acadlix_activation_pending');
+
+        if (
+            empty($pending) ||
+            $pending['variant'] !== ACADLIX_PLUGIN_TYPE
+        ) {
+            return;
+        }
+
+        delete_option('acadlix_activation_pending');
+
+        if (is_multisite() && !empty($pending['network'])) {
             foreach (get_sites(['fields' => 'ids']) as $site_id) {
                 switch_to_blog($site_id);
                 $this->run_site_activation();
@@ -49,6 +63,20 @@ class Activator
             $this->run_site_activation();
         }
     }
+
+    // public function activate($network_wide)
+    // {
+    //     if (is_multisite() && $network_wide) {
+    //         // Loop through all existing sites
+    //         foreach (get_sites(['fields' => 'ids']) as $site_id) {
+    //             switch_to_blog($site_id);
+    //             $this->run_site_activation();
+    //             restore_current_blog();
+    //         }
+    //     } else {
+    //         $this->run_site_activation();
+    //     }
+    // }
 
     private function run_site_activation()
     {
@@ -182,19 +210,19 @@ class Activator
          * Add Schedule
          */
 
-         $course_statistic = acadlix()->model()->courseStatistic()
-                            ->whereNull('course_id')
-                            ->get();
-         foreach ($course_statistic as $statistic) {
+        $course_statistic = acadlix()->model()->courseStatistic()
+            ->whereNull('course_id')
+            ->get();
+        foreach ($course_statistic as $statistic) {
             $statistic->update([
                 'course_id' => $statistic->order_item->course_id,
             ]);
-         }
+        }
 
-         acadlix()->schedule()->createSchedules();  
+        acadlix()->schedule()->createSchedules();
     }
 
-    
+
 
     protected function updateV7()
     {
