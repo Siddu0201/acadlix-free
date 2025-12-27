@@ -121,23 +121,27 @@ jobs:
           echo "$HOSTINGER_SSH_KEY" > private_key
           chmod 600 private_key
           USER_HOME="/home/$HOSTINGER_USER"
-          PLUGIN_DIR="$USER_HOME/domains/acadlix.in/public_html/dev/wp-content/plugins/acadlix"
+          PLUGIN_DIR_DEV="$USER_HOME/domains/acadlix.in/public_html/dev/wp-content/plugins/acadlix"
+          PLUGIN_DIR_FREE="$USER_HOME/domains/acadlix.in/public_html/free/wp-content/plugins/acadlix"
           ZIP_PATH="$USER_HOME/plugin.zip"
-          PLUGIN_PARENT="$USER_HOME/domains/acadlix.in/public_html/dev/wp-content/plugins/"
 
           ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" << EOF
 
             echo "Deploying to Hostinger..."
 
-            # Remove old plugin
-            rm -rf "$PLUGIN_DIR"
+            # Deploy to dev subdomain
+            echo "Deploying to dev subdomain..."
+            rm -rf "$PLUGIN_DIR_DEV"
+            unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_DEV"
+            find "$PLUGIN_DIR_DEV" -type d -exec chmod 755 {} \;
+            find "$PLUGIN_DIR_DEV" -type f -exec chmod 644 {} \;
 
-            # Unzip new plugin
-            unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR"
-
-            # Fix permissions
-            find "$PLUGIN_DIR" -type d -exec chmod 755 {} \;
-            find "$PLUGIN_DIR" -type f -exec chmod 644 {} \;
+            # Deploy to free subdomain
+            echo "Deploying to free subdomain..."
+            rm -rf "$PLUGIN_DIR_FREE"
+            unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_FREE"
+            find "$PLUGIN_DIR_FREE" -type d -exec chmod 755 {} \;
+            find "$PLUGIN_DIR_FREE" -type f -exec chmod 644 {} \;
 
             # Cleanup
             rm "$ZIP_PATH"
