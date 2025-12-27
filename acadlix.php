@@ -4,11 +4,13 @@
  * Plugin Name:       Acadlix
  * Description:       Acadlix is a feature-rich LMS plugin for WordPress, designed to transform your website into a complete e-learning platform. With Acadlix, you can effortlessly create and sell online courses, test series, quizzes, and assignments.
  * Version:           {{VERSION}}
- * Tested upto:       6.8.2
+ * Tested upto:       6.9
  * Author:            Team Acadlix
  * Author URI:        https://acadlix.com/
  * Text Domain:       acadlix
  * Domain Path:        /languages/Common/
+ * License:           GPL v2 or later
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 

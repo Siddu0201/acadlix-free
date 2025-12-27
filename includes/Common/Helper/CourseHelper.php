@@ -23,10 +23,10 @@ if (!class_exists('CourseHelper')) {
         /**
          * Return the course level name based on the given level string.
          *
-         * @param string $level The course level, one of "all_level", "beginner", "intermediate", "advance"
+         * @param string|null $level The course level, one of "all_level", "beginner", "intermediate", "advance"
          * @return string The course level name
          */
-        public function getCourseLevelName(string $level = ""): string
+        public function getCourseLevelName(?string $level = null): string
         {
             $courseLevels = [
                 "all_level" => __("All Level", "acadlix"),
