@@ -26,6 +26,7 @@ import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTypography from "@acadlix/components/CustomTypography";
 import { useForm } from "react-hook-form";
 import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
+import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -201,7 +202,17 @@ function General(props) {
             {/* Advance Quiz Page Setting  */}
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
-                {__("Advance quiz page", "acadlix")}
+              {
+                acadlixOptions?.isActive ? (
+                  __("Advance quiz page", "acadlix")
+                ) : (
+                  <CustomFeatureElement
+                    element="text"
+                    label={__("Advance quiz page", "acadlix")}
+                    iconsx={{ color: '#fff' }}
+                  />
+                )
+              }
               </CustomTypography>
             </Grid>
             <React.Suspense fallback={null}>
