@@ -107,6 +107,11 @@ const General = (props) => {
                 size="small"
                 type="number"
                 value={props?.watch("meta.duration.duration")}
+                slotProps={{
+                  htmlInput: {
+                    min: 0,
+                  },
+                }}
                 onChange={(e) => {
                   props?.setValue("meta.duration.duration", Number(e?.target?.value), {
                     shouldDirty: true,

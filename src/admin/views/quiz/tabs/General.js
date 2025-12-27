@@ -284,6 +284,11 @@ const General = (props) => {
                   size="small"
                   type="number"
                   value={props?.watch("meta.quiz_settings.quiz_time") ?? 0}
+                  slotProps={{
+                    htmlInput: {
+                      min: 0,
+                    },
+                  }}
                   onChange={(e) => {
                     props?.setValue("meta.quiz_settings.quiz_time", Number(e?.target?.value), {
                       shouldDirty: true,
