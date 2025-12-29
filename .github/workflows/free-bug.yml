@@ -1,4 +1,4 @@
-name: Deploy WordPress Plugin
+name: Deploy WordPress Plugin to Free Bug
 
 on:
   push:
