@@ -33,7 +33,6 @@ class AllCourseView
             ])
         ) {
             $this->term = get_queried_object();
-            error_log(print_r($this->term, true));
         }
         $this->setup_query();
     }
