@@ -129,14 +129,6 @@ class CourseReview extends Model
       );
     }
 
-    if (!comments_open($course_id)) {
-      return new WP_Error(
-        'comments_closed',
-        __('Comments are closed for this course.', 'acadlix'),
-        array('status' => 403)
-      );
-    }
-
     $moderation = acadlix()->helper()
       ->acadlix_get_option('acadlix_require_admin_approval_for_reviews', 'no') === 'yes' ? true : false;
 
