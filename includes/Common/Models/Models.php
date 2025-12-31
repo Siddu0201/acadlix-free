@@ -120,4 +120,20 @@ class Models
         return $this->getInstance('wpUsers', WpUsers::class);
     }
 
+    public function courseReview(): CourseReview|null{
+        return $this->getInstance('courseReview', CourseReview::class);
+    }
+
+    public function commentMeta(): CommentMeta|null{
+        return $this->getInstance('commentMeta', CommentMeta::class);
+    }
+
+    public function wpTerm(): WpTerm|null{
+        return $this->getInstance('wpTerm', WpTerm::class);
+    }
+
+    public function wpTermTaxonomy(): WpTermTaxonomy|null{
+        return $this->getInstance('wpTermTaxonomy', WpTermTaxonomy::class);
+    }
+
 }

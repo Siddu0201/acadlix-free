@@ -47,6 +47,7 @@ module.exports = (env, argv) => {
       admin_addon: path.resolve(process.cwd(), "src", "admin-addon.js"),
       admin_student: path.resolve(process.cwd(), "src", "admin-student.js"),
       admin_design_studio: path.resolve(process.cwd(), "src", "admin-design-studio.js"),
+      admin_review: path.resolve(process.cwd(), "src", "admin-review.js"),
 
       front: path.resolve(process.cwd(), "src", "front.js"),
       front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),

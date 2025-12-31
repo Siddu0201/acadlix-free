@@ -45,6 +45,7 @@ class UserRole
             $this->subject_capabilities(),
             $this->template_capabilities(),
             $this->design_studio_capabilities(),
+            $this->review_capabilities(),
         );
     }
 
@@ -253,6 +254,15 @@ class UserRole
     {
         return [
             'acadlix_show_design_studio' => true,
+        ];
+    }
+
+    public function review_capabilities(): array
+    {
+        return [
+            'acadlix_show_review' => true,
+            'acadlix_edit_review' => true,
+            'acadlix_delete_review' => true,
         ];
     }
 

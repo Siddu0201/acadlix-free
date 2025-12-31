@@ -52,14 +52,11 @@ const OrderBillingInfo = (props) => {
                             />
                         </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 2 }}>
-                            <CustomTypography>{__("Last Name", "acadlix")} <span style={{ color: "red" }}>*</span></CustomTypography>
+                            <CustomTypography>{__("Last Name", "acadlix")} </CustomTypography>
                         </GridItem1>
                         <GridItem1 size={{ xs: 12, sm: 6, lg: 4 }}>
                             <CustomTextField
-                                {...props?.register("billing_info.last_name", {
-                                    required: __("Last name is required.", "acadlix"),
-                                })}
-                                required
+                                {...props?.register("billing_info.last_name")}
                                 fullWidth
                                 size="small"
                                 type="text"

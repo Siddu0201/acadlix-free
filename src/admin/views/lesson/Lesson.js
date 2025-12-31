@@ -28,7 +28,6 @@ import {
   FaEdit, 
   FaSearch, 
   FaTrash, 
-  IoMdRefresh 
 } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";

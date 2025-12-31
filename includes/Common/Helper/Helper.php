@@ -627,6 +627,9 @@ if (!class_exists('Helper')) {
                 // Course Option
                 'acadlix_default_rows_per_page' => 20,
                 'acadlix_disable_wishlist' => 'no',
+                'acadlix_enable_rating_and_reviews' => 'no',
+                'acadlix_require_admin_approval_for_reviews' => 'no',
+                'acadlix_review_pagination_count' => 10,
                 // Student Dashboard Option
                 'acadlix_logout_redirect_url' => '',
                 'acadlix_enable_dashboard_fullwidth' => 'no',

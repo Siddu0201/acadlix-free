@@ -73,6 +73,30 @@ class FrontCourseController
                 ],
             ]
         );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/submit-review',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_submit_review'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->base . '/load-more-reviews',
+            [
+                [
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'post_load_more_reviews'],
+                    'permission_callback' => [$this, 'check_permission'],
+                ],
+            ]
+        );
     }
 
     public function post_add_to_cart($request)
@@ -235,7 +259,7 @@ class FrontCourseController
                 return new WP_Error('course_not_found', __('Course not found', 'acadlix'), array('status' => 404));
             }
             $order_items = acadlix()->model()->orderItem()
-                ->with(['order','course'])
+                ->with(['order', 'course'])
                 ->whereHas('order', function ($query) use ($userId) {
                     $query->where('user_id', $userId)->where('status', 'success');
                 })
@@ -360,6 +384,108 @@ class FrontCourseController
             'code' => array('status' => 200),
             'message' => __('Course removed from the wishlist', 'acadlix')
         );
+        return rest_ensure_response($res);
+    }
+
+    public function post_submit_review($request)
+    {
+        $errors = [];
+        $required_fields = array('course_id', 'user_id', 'rating', 'review_text');
+        $params = $request->get_json_params();
+        if (is_array($params) && count($params) == 0) {
+            return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
+        }
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $review_text = sanitize_text_field($params['review_text']);
+        $rating = intval($params['rating']);
+
+        $review = acadlix()->model()->courseReview()->add_or_update_review(
+            $params['user_id'],
+            $params['course_id'],
+            $rating,
+            $review_text,
+            $params['review_id'] ?? 0
+        );
+
+        if (is_wp_error($review)) {
+            return $review;
+        }
+        $res = array(
+            'status' => 'success',
+            'code' => array('status' => 200),
+            'data' => $review
+        );
+        return rest_ensure_response($res);
+    }
+
+    public function post_load_more_reviews($request)
+    {
+        $errors = [];
+        $required_fields = array('course_id', 'current_page', 'skip_count', 'take_count');
+        $params = $request->get_json_params();
+        if (is_array($params) && count($params) == 0) {
+            return new WP_Error('no_data_found', __('Required course id and page number', 'acadlix'), array('status' => 404));
+        }
+
+        foreach ($required_fields as $field) {
+            $param = $request->get_param($field);
+
+            if (empty($param)) {
+                /* translators: %s is the required field */
+                $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+            }
+        }
+
+        if (!empty($errors)) {
+            return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+        }
+
+        $course_id = intval($params['course_id']);
+        $current_page = intval($params['current_page']);
+        $skip_count = intval($params['skip_count']);
+        $take_count = intval($params['take_count']);
+
+        $reviews_query = acadlix()
+        ->model()
+        ->courseReview()
+        ->ofCourseRating()
+            ->ofApproved()
+            ->where('comment_post_ID', $course_id)
+            ->orderBy('comment_date', 'DESC');
+            
+            $total_reviews = $reviews_query->count();
+            
+            $reviews = $reviews_query
+            ->skip($skip_count)
+            ->take($take_count)
+            ->get();
+            
+        setup_postdata(get_post($course_id));
+        ob_start();
+        acadlix()->view()->singleCourse()->course_main_reviews_list($reviews);
+        $review_html = ob_get_clean();
+        wp_reset_postdata();
+
+        $res = array(
+            'reviews' => $reviews,
+            'reviews_html' => $review_html,
+            'total_reviews' => $total_reviews,
+            'next_page' => $current_page + 1,
+        );
+
         return rest_ensure_response($res);
     }
 

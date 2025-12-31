@@ -783,6 +783,7 @@ class Manager
         $subtitle2_ls_mobile = $theme['typography']['subtitle2']['letterSpacing']['mobile'] ?? '0.3px';
         $custom_css = "
                     :root {
+                        --acadlix-star-color: #ed9700;
                         --acadlix-primary-main: {$primaryMain}; 
                         --acadlix-primary-dark: {$primaryDark};
                         --acadlix-text-primary: {$textPrimary};

@@ -66,6 +66,13 @@ const SettingContent = ({
       options?.acadlix_disable_wishlist ?? "no",
     acadlix_one_click_checkout:
       options?.acadlix_one_click_checkout ?? "no",
+    acadlix_enable_rating_and_reviews:
+      options?.acadlix_enable_rating_and_reviews ?? "no",
+    acadlix_require_admin_approval_for_reviews:
+      options?.acadlix_require_admin_approval_for_reviews ?? "no",
+    acadlix_review_pagination_count:
+      options?.acadlix_review_pagination_count ?? 10,
+    // Enrollment Options
     // Currency Options
     acadlix_currency: options?.acadlix_currency ?? "USD",
     acadlix_currency_position:

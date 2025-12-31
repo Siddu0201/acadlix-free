@@ -244,5 +244,53 @@ if (!class_exists('CourseHelper')) {
             return $response;
         }
 
+        public function courseSingleReviewStar(
+            $type = 'filled', // 'filled', 'half', 'unfilled',
+            $fs = 6 // font size in rem 1-9
+        ) {
+            $class = '';
+            match ($type) {
+                'filled' => $class = 'fa-solid fa-star',
+                'half' => $class = 'fa-solid fa-star-half-stroke', // Placeholder for half star
+                'unfilled' => $class = 'fa-regular fa-star',
+                default => $class = 'fa-regular fa-star',
+            };
+            return [
+                'component' => 'div',
+                'props' => [
+                    'class' => 'acadlix-fs-' . esc_attr($fs),
+                    'style' => 'color: var(--acadlix-star-color);' // Gold color for stars
+                ],
+                'children' => [
+                    [
+                        'component' => 'i',
+                        'props' => [
+                            'class' => esc_attr($class)
+                        ]
+                    ],
+                ]
+            ];
+        }
+
+        public function courseReviewStar(
+            $rating = 0,
+            $fs = 6 // font size in rem 1-9 
+        ) {
+            $stars = [];
+            $filled_stars = floor($rating); // Number of filled stars
+            $has_half = ($rating - $filled_stars) > 0; // Check if there's a decimal part
+
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i <= $filled_stars) {
+                    $stars[] = $this->courseSingleReviewStar("filled", $fs);
+                } elseif ($has_half && $i == $filled_stars + 1) {
+                    $stars[] = $this->courseSingleReviewStar("half", $fs);
+                } else {
+                    $stars[] = $this->courseSingleReviewStar("unfilled", $fs);
+                }
+            }
+            return $stars;
+        }
+
     }
 }

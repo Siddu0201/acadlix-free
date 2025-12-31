@@ -27,6 +27,7 @@ import CustomTypography from "@acadlix/components/CustomTypography";
 import { useForm } from "react-hook-form";
 import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
+import CourseOptions from "./general/CourseOptions";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -202,17 +203,17 @@ function General(props) {
             {/* Advance Quiz Page Setting  */}
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
-              {
-                acadlixOptions?.isActive ? (
-                  __("Advance quiz page", "acadlix")
-                ) : (
-                  <CustomFeatureElement
-                    element="text"
-                    label={__("Advance quiz page", "acadlix")}
-                    iconsx={{ color: '#fff' }}
-                  />
-                )
-              }
+                {
+                  acadlixOptions?.isActive ? (
+                    __("Advance quiz page", "acadlix")
+                  ) : (
+                    <CustomFeatureElement
+                      element="text"
+                      label={__("Advance quiz page", "acadlix")}
+                      iconsx={{ color: '#fff' }}
+                    />
+                  )
+                }
               </CustomTypography>
             </Grid>
             <React.Suspense fallback={null}>
@@ -544,167 +545,7 @@ function General(props) {
             ))}
           </Grid>
           {/* Course options */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Course Options", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Configure how courses are displayed to students, including the number of courses per page and the option to disable the wishlist feature.", "acadlix")}
-                placement="right-start"
-                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#course-options`}
-              />
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("No. of courses per page", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="number"
-                value={props?.watch("acadlix_no_of_courses_per_page")}
-                onChange={(e) => {
-                  props?.setValue(
-                    "acadlix_no_of_courses_per_page",
-                    Number(e?.target?.value),
-                    { shouldDirty: true }
-                  );
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Disable wishlist", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_disable_wishlist") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_disable_wishlist",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
-                }}
-              />
-            </Grid>
-            {/* 
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>
-            {__("One Click Checkout", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            label={__("Activate", "acadlix")}
-            control={<CustomSwitch />}
-            value="yes"
-            checked={props?.watch("acadlix_one_click_checkout") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_one_click_checkout",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  { shouldDirty: true }
-                );
-              }
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>
-            {__("Admin Auto Registration To Courses", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Activate", "acadlix")}
-            value="yes"
-            checked={props?.watch("acadlix_admin_auto_registration_to_courses") === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_admin_auto_registration_to_courses",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  { shouldDirty: true }
-                );
-              }
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>
-            {__("Admin Can Assign Courses To Student", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Activate", "acadlix")}
-            value="yes"
-            checked={props?.watch(
-              "acadlix_admin_can_assign_courses_to_student"
-            ) === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_admin_can_assign_courses_to_student",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  { shouldDirty: true }
-                );
-              }
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <CustomTypography>
-            {__("Admin Can Remove Student From Course", "acadlix")}
-          </CustomTypography>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <FormControlLabel
-            control={<CustomSwitch />}
-            label={__("Activate", "acadlix")}
-            value="yes"
-            checked={props?.watch(
-              "acadlix_admin_can_remove_student_from_course"
-            ) === "yes"}
-            onClick={(e) => {
-              if (e?.target?.checked !== undefined) {
-                props?.setValue(
-                  "acadlix_admin_can_remove_student_from_course",
-                  e?.target?.checked ? e?.target?.value : "no",
-                  { shouldDirty: true }
-                );
-              }
-            }}
-          />
-        </Grid> */}
-          </Grid>
+          <CourseOptions {...props} />
           {/* Currency options */}
           <Box
             sx={{

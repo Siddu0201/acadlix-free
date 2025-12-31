@@ -15,9 +15,26 @@ class AllCourseView
     protected $course_count = 0;
     protected $cart = [];
     protected $order_item = [];
+    protected $enable_rating_and_reviews = false;
+    protected $context = ACADLIX_COURSE_CPT;
+    protected $term = null;
 
     public function __construct()
     {
+        $this->context = apply_filters(
+            'acadlix_course_page_context',
+            ACADLIX_COURSE_CPT
+        );
+
+        if (
+            in_array($this->context, [
+                ACADLIX_COURSE_CATEGORY_TAXONOMY,
+                ACADLIX_COURSE_TAG_TAXONOMY
+            ])
+        ) {
+            $this->term = get_queried_object();
+            error_log(print_r($this->term, true));
+        }
         $this->setup_query();
     }
 
@@ -28,6 +45,7 @@ class AllCourseView
         $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : ''; // phpcs:ignore
         $this->page = max(1, (get_query_var('paged')) ? get_query_var('paged') : 1);
         $this->per_page = acadlix()->helper()->acadlix_get_option('acadlix_no_of_courses_per_page');
+        $this->enable_rating_and_reviews = acadlix()->helper()->acadlix_get_option('acadlix_enable_rating_and_reviews') === 'yes';
 
         $query = acadlix()
             ->model()
@@ -38,6 +56,18 @@ class AllCourseView
 
         if (!empty($this->search)) {
             $query->where('post_title', 'like', "%{$this->search}%");
+        }
+
+        if ($this->context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $this->term) {
+            $query->whereHas('course_categories', function ($q) {
+                $q->where('term_id', $this->term->term_id);
+            });
+        }
+
+        if ($this->context === ACADLIX_COURSE_TAG_TAXONOMY && $this->term) {
+            $query->whereHas('course_tags', function ($q) {
+                $q->where('term_id', $this->term->term_id);
+            });
         }
 
         $this->course_count = $query->count();
@@ -79,20 +109,20 @@ class AllCourseView
             ?>
             <!doctype html>
             <html <?php language_attributes(); ?>>
-        
+
             <head>
                 <meta charset="<?php bloginfo('charset'); ?>">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <?php wp_head(); ?>
             </head>
-        
+
             <body <?php body_class(); ?>>
                 <?php wp_body_open(); ?>
                 <div class="wp-site-blocks">
                     <?php
-            $theme = wp_get_theme();
-            $theme_slug = $theme->get('TextDomain');
-            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
+                    $theme = wp_get_theme();
+                    $theme_slug = $theme->get('TextDomain');
+                    echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
         } else {
             get_header();
         }
@@ -169,6 +199,7 @@ class AllCourseView
                             ],
                             'children' => [
                                 $this->render_course_level($course),
+                                $this->render_course_rating($course),
                                 $this->render_course_title($course),
                                 $this->render_course_user($course),
                                 $this->render_course_footer($course),
@@ -221,6 +252,43 @@ class AllCourseView
             'value' => esc_html(
                 acadlix()->helper()->course()->getCourseLevelName($course->rendered_metas['difficulty_level'] ?? '')
             )
+        ], $course);
+    }
+
+    /**
+     * Rating section
+     */
+    protected function render_course_rating($course)
+    {
+        if (!$this->enable_rating_and_reviews) {
+            return [];
+        }
+        $average_rating = $course->getAverageRating() ?? 0;
+        $total_rating = $course->getTotalRatings() ?? 0;
+        return apply_filters('acadlix_all_course_single_course_rating', [
+            'component' => 'div',
+            'props' => [
+                'class' => 'acadlix-course-rating'
+            ],
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-course-rating-stars'
+                    ],
+                    'children' => acadlix()->helper()->course()->courseReviewStar($average_rating)
+                ],
+                [
+                    'component' => 'div',
+                    'props' => ['class' => 'acadlix-course-rating-value acadlix-body1'],
+                    'value' => sprintf(
+                        /* translators: 1: average rating 2: total ratings */
+                        esc_html__('%.2f (%d ratings)', 'acadlix'),
+                        $average_rating,
+                        $total_rating
+                    )
+                ]
+            ]
         ], $course);
     }
 
@@ -290,8 +358,8 @@ class AllCourseView
     {
         $price_html = acadlix()->helper()->course()->getCoursePrice(
             $course->rendered_metas['enable_sale_price']
-                ? $course->rendered_metas['sale_price']
-                : $course->rendered_metas['price']
+            ? $course->rendered_metas['sale_price']
+            : $course->rendered_metas['price']
         );
 
         $children = [
@@ -415,14 +483,14 @@ class AllCourseView
 
         $is_course_purchased = false;
         $cart = [];
-        if(is_user_logged_in()){
+        if (is_user_logged_in()) {
             $userId = get_current_user_id();
             $is_course_purchased = $course->isPurchasedBy($userId);
             $cart = acadlix()->model()->courseCart()->where([
                 ['user_id', '=', $userId],
                 ['course_id', '=', $course->ID],
             ])->first();
-        }else{
+        } else {
             if (isset($_COOKIE['acadlix_cart_token'])) {
                 $cart = acadlix()
                     ->model()

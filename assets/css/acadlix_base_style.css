@@ -73,7 +73,7 @@
   --acadlix-warning-main: hsl(36, 100%, 50%);
   --acadlix-warning-light: hsl(48, 100%, 64%);
   --acadlix-warning-dark: hsl(36, 100%, 34%);
-  --acadlix-warning-contrastText: rgba(0, 0, 0, 0.87);
+  --acadlix-warning-contrastText: #fff;
   /* Grey  */
   --acadlix-grey-50: hsl(215, 15%, 97%);
   --acadlix-grey-100: hsl(215, 15%, 92%);

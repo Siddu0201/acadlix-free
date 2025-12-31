@@ -78,7 +78,7 @@ final class Course extends CPT_Abstract
             'show_in_nav_menus' => true,
             'show_in_rest' => $show_in_rest,
             'taxonomies' => array($this->get_course_category_taxonomy(), $this->get_course_tag_taxonomy()),
-            'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'comments', 'excerpt'),
+            'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'excerpt'),
             'hierarchical' => false,
             'rewrite' => !empty($course_permalink) ? array(
                 'slug' => untrailingslashit($course_permalink),

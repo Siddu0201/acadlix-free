@@ -8,8 +8,8 @@ export const PostBuyNow = () => {
     return useMutation({
         mutationFn: (data) => {
             return instance.post(`${base}/buy-now`, data, {
-                headers: { 
-                    'X-WP-Nonce': acadlixOptions.nonce 
+                headers: {
+                    'X-WP-Nonce': acadlixOptions.nonce
                 },
             });
         },
@@ -24,8 +24,8 @@ export const PostStartNow = () => {
     return useMutation({
         mutationFn: (data) => {
             return instance.post(`${base}/start-now`, data, {
-                headers: { 
-                    'X-WP-Nonce': acadlixOptions.nonce 
+                headers: {
+                    'X-WP-Nonce': acadlixOptions.nonce
                 },
             });
         },
@@ -40,8 +40,8 @@ export const PostAddWishlist = () => {
     return useMutation({
         mutationFn: (data) => {
             return instance.post(`${base}/add-wishlist`, data, {
-                headers: { 
-                    'X-WP-Nonce': acadlixOptions.nonce 
+                headers: {
+                    'X-WP-Nonce': acadlixOptions.nonce
                 },
             });
         },
@@ -58,14 +58,46 @@ export const PostRemoveWishlist = () => {
         mutationFn: (data) => {
             return instance.delete(`${base}/remove-wishlist`, {
                 data: data,
-                headers: { 
-                    'X-WP-Nonce': acadlixOptions.nonce 
+                headers: {
+                    'X-WP-Nonce': acadlixOptions.nonce
                 },
             });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["getUserWishlist"]
+            });
+        },
+        onError: (error) => {
+            handleMutationError(error);
+        }
+    });
+}
+
+export const PostSubmitReview = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/submit-review`, data, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions.nonce
+                },
+            });
+        },
+        onError: (error) => {
+            handleMutationError(error);
+        }
+    });
+}
+
+export const PostLoadMoreReviews = () => {
+    const instance = useInstance();
+    return useMutation({
+        mutationFn: (data) => {
+            return instance.post(`${base}/load-more-reviews`, data, {
+                headers: {
+                    'X-WP-Nonce': acadlixOptions.nonce
+                },
             });
         },
         onError: (error) => {

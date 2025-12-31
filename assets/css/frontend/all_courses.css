@@ -290,6 +290,20 @@
   gap: 4px;
 }
 
+.acadlix-all-course-page .acadlix-course-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.acadlix-course-rating .acadlix-course-rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .acadlix-all-course-page .acadlix-course-page-card-title{
   margin: 0px;
 }

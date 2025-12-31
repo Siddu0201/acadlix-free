@@ -9,6 +9,7 @@ use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Lessons;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Orders;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Quiz;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Reviews;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Settings;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Student;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Tags;
@@ -30,8 +31,8 @@ class Menu
     protected ?Submenu_Tags $tags = null;
     protected ?Submenu_Addon $addon = null;
     protected ?Submenu_Student $student = null;
-
     protected ?Submenu_Design_Studio $design_studio = null;
+    protected ?Submenu_Reviews $reviews = null;
 
     public function __construct()
     {
@@ -68,6 +69,7 @@ class Menu
             'acadlix_setting',
             'acadlix_addon',
             'acadlix_design_studio',
+            'acadlix_review',
         ];
     }
 
@@ -93,6 +95,7 @@ class Menu
         $this->submenu_addon();
         $this->submenu_student();
         $this->submenu_design_studio();
+        $this->submenu_reviews();
     }
 
     public function init_admin_menu()
@@ -194,6 +197,14 @@ class Menu
         }
         $this->_submenus[] = $this->design_studio;
         return $this->design_studio;
+    }
+
+    public function submenu_reviews(){
+        if(is_null($this->reviews)){
+            $this->reviews = new Submenu_Reviews();
+        }
+        $this->_submenus[] = $this->reviews;
+        return $this->reviews;
     }
 
 

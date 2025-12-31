@@ -2,7 +2,6 @@
 
 namespace Yuvayana\Acadlix\Common\Models;
 
-use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model;
 
 defined('ABSPATH') || exit();
@@ -16,6 +15,8 @@ if (!class_exists('Course')) {
         protected $with = [
             'author',
             'metas',
+            'course_categories',
+            'course_tags',
             // 'sections',
         ];
 
@@ -25,6 +26,8 @@ if (!class_exists('Course')) {
             'thumbnail',
             'users',
             'student_count',
+            'rendered_categories',
+            'rendered_tags',
         ];
 
         protected static $postType = ACADLIX_COURSE_CPT;
@@ -209,6 +212,100 @@ if (!class_exists('Course')) {
             return $this->hasMany(acadlix()->model()->courseCart(), 'course_id', 'id');
         }
 
+        public function course_categories()
+        {
+            return $this->belongsToMany(
+                acadlix()->model()->wpTermTaxonomy(),
+                acadlix()->helper()->acadlix_wp_prefix('term_relationships'),
+                'object_id',
+                'term_taxonomy_id'
+            )
+                ->where('taxonomy', ACADLIX_COURSE_CATEGORY_TAXONOMY)
+                ->with('term');
+        }
+
+        public function getRenderedCategoriesAttribute()
+        {
+            return $this->course_categories->map(function ($cat) {
+                return [
+                    'id' => $cat->term_id,
+                    'name' => $cat->term->name,
+                    'slug' => $cat->term->slug,
+                ];
+            })->values();
+        }
+
+        public function course_tags()
+        {
+            return $this->belongsToMany(
+                acadlix()->model()->wpTermTaxonomy(),
+                acadlix()->helper()->acadlix_wp_prefix('term_relationships'),
+                'object_id',
+                'term_taxonomy_id'
+            )
+                ->where('taxonomy', ACADLIX_COURSE_TAG_TAXONOMY)
+                ->with('term');
+        }
+
+        public function getRenderedTagsAttribute()
+        {
+            return $this->course_tags->map(function ($tag) {
+                return [
+                    'id' => $tag->term_id,
+                    'name' => $tag->term->name,
+                    'slug' => $tag->term->slug,
+                ];
+            })->values();
+        }
+
+        public function comments()
+        {
+            return $this->hasMany(acadlix()->model()->courseReview(), 'comment_post_ID', 'ID')
+                ->ofCourseRating();
+        }
+
+        public function getTotalRatings()
+        {
+            return $this->comments()
+                ->ofApproved()
+                ->count();
+        }
+
+        public function getAverageRating()
+        {
+            $totalRatings = $this->getTotalRatings();
+            if ($totalRatings === 0) {
+                return 0;
+            }
+            $totalRatingValue = 0;
+            $this->comments()
+                ->ofApproved()
+                ->each(function ($comment) use (&$totalRatingValue) {
+                    $ratingValue = (int) $comment->getMetaValue('acadlix_rating') ?? 0;
+                    $totalRatingValue += $ratingValue;
+                });
+            $average = $totalRatingValue / $totalRatings;
+            return $average ? round(floatval($average), 2) : 0;
+        }
+
+        public function getRatingBreakdown()
+        {
+            $breakdown = [];
+            for ($i = 5; $i >= 1; $i--) {
+                $count = 0;
+                $this->comments()
+                    ->ofApproved()
+                    ->each(function ($comment) use (&$count, $i) {
+                        $ratingValue = (int) $comment->getMetaValue('acadlix_rating') ?? 0;
+                        if ($ratingValue == $i) {
+                            $count++;
+                        }
+                    });
+                $breakdown[$i] = $count;
+            }
+            return $breakdown;
+        }
+
         public function isCourseFree()
         {
             $price = $this->rendered_metas['price'];
@@ -262,7 +359,7 @@ if (!class_exists('Course')) {
             }
 
             // Fetch results
-            $courses = $query->get()->unique('ID')->sortByDesc(function($course){
+            $courses = $query->get()->unique('ID')->sortByDesc(function ($course) {
                 return $course->order_items->max('created_at');
             })->values();
 
