@@ -434,6 +434,7 @@
   border-radius: var(--acadlix-border-radius);
   color: var(--acadlix-primary-contrastText);
   box-shadow: var(--acadlix-box-shadow-2);
+  text-decoration: none;
 }
 
 .acadlix-course-page .acadlix-action-button:hover,
