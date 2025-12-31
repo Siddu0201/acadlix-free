@@ -442,6 +442,7 @@
   color: var(--acadlix-primary-contrastText);
   background-color: var(--acadlix-primary-dark);
   box-shadow: var(--acadlix-box-shadow-3);
+  text-decoration: none;
 }
 
 .acadlix-course-page .acadlix-action-button i {
