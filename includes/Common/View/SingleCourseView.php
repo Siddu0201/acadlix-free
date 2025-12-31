@@ -1006,6 +1006,22 @@ class SingleCourseView
 
 	protected function course_main_navbar()
 	{
+		$review_list_item = [];
+		if($this->enable_rating_and_reviews) {
+			$review_list_item[] = [
+				'component' => 'li',
+				'children' => [
+					[
+						'component' => 'a',
+						'props' => [
+							'href' => '#reviews',
+							'class' => 'acadlix-subtitle1'
+						],
+						'value' => esc_html__('Reviews', 'acadlix')
+					]
+				]
+			];
+		}
 		return apply_filters('acadlix_single_course_main_navbar', [
 			'component' => 'nav',
 			'props' => ['class' => 'acadlix-course-main-navbar'],
@@ -1053,6 +1069,7 @@ class SingleCourseView
 								]
 							]
 						],
+						...$review_list_item
 					]
 				]
 			]
