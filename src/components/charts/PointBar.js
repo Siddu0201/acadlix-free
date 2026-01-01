@@ -52,6 +52,7 @@ const PointsBar = ({
                         color: "white",
                         marginRight: 2,
                     }}
+                    component={"div"}
                 >
                     {user1}
                 </Typography>
@@ -68,6 +69,7 @@ const PointsBar = ({
                         color: "white", 
                         marginRight: 2 
                     }}
+                    component={"div"}
                 >
                     {user2}
                 </Typography>
