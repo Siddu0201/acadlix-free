@@ -94,6 +94,30 @@ class AllCourseView
         }
     }
 
+    protected function is_feature_enabled($feature)
+    {
+        $defaults = [
+            'taxonomy_title' => [
+                ACADLIX_COURSE_CPT => false,
+                ACADLIX_COURSE_CATEGORY_TAXONOMY => true,
+                ACADLIX_COURSE_TAG_TAXONOMY => true,
+            ],
+        ];
+
+        $enabled = $defaults[$feature][$this->context] ?? false;
+
+        /**
+         * 🔥 EXTENSION POINT
+         */
+        return apply_filters(
+            'acadlix_course_feature_enabled',
+            $enabled,
+            $feature,
+            $this->context,
+            $this
+        );
+    }
+
     public function render()
     {
         $this->render_header();
@@ -150,6 +174,7 @@ class AllCourseView
                     'class' => 'acadlix-all-course-page',
                 ],
                 'children' => [
+                    $this->render_taxonomy_title(),
                     $this->render_search(),
                     $this->course_listener(),
                     [
@@ -574,6 +599,32 @@ class AllCourseView
                 ]
             ]
         ], $course);
+    }
+
+    public function render_taxonomy_title()
+    {
+        if (!$this->is_feature_enabled('taxonomy_title')) {
+            return [];
+        }
+
+        $title = '';
+        if ($this->context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $this->term) {
+            $title = $this->term->name;
+        }
+
+        if ($this->context === ACADLIX_COURSE_TAG_TAXONOMY && $this->term) {
+            $title = $this->term->name;
+        }
+
+        if (!empty($title)) {
+            $title_ui = [
+                'component' => 'h1',
+                'props' => ['class' => 'acadlix-all-course-taxonomy-title acadlix-h3'],
+                'value' => esc_html($title)
+            ];
+            return apply_filters('acadlix_all_course_taxonomy_title_ui', $title_ui);
+        }
+        return '';
     }
 
     public function render_search()
