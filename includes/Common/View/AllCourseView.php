@@ -380,10 +380,13 @@ class AllCourseView
      */
     protected function render_course_price($course)
     {
+        $enabled_sale_price = $course->rendered_metas['enable_sale_price'] ?? false;
+        $sale_price = $course->rendered_metas['sale_price'] ?? 0;
+        $price = $course->rendered_metas['price'] ?? 0;
         $price_html = acadlix()->helper()->course()->getCoursePrice(
-            $course->rendered_metas['enable_sale_price']
-            ? $course->rendered_metas['sale_price']
-            : $course->rendered_metas['price']
+            $enabled_sale_price
+            ? $sale_price
+            : $price
         );
 
         $children = [
