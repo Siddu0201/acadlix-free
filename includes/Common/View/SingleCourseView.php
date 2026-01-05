@@ -1640,7 +1640,7 @@ class SingleCourseView
 							'value' => sprintf(
 								// translators: %d: number of ratings
 								esc_html__('Based on %d ratings', 'acadlix'),
-								$this->total_rating
+								esc_html($this->total_rating)
 							) // Placeholder value
 						]
 					]
@@ -1812,14 +1812,6 @@ class SingleCourseView
 								'type' => 'hidden',
 								'name' => 'acadlix_user_id',
 								'value' => esc_attr($this->user_id)
-							],
-						],
-						[
-							'component' => 'input',
-							'props' => [
-								'type' => 'hidden',
-								'name' => 'acadlix_review_id',
-								'value' => ''
 							],
 						],
 						[
