@@ -34,7 +34,6 @@ if (!class_exists("AllCourseController")) {
             if ( is_post_type_archive( ACADLIX_COURSE_CPT ) ){
                 wp_enqueue_style('acadlix-front-all-course-css');
                 wp_enqueue_style('acadlix-front-font-awesome-css');
-                wp_enqueue_style('acadlix-front-line-awesome-css');
 
             }
         }

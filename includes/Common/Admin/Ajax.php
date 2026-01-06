@@ -12,8 +12,8 @@ class Ajax
 
     public function __construct()
     {
-        add_action('wp_ajax_check_user_login_status', [$this, 'check_user_login_status']);
-        add_action('wp_ajax_nopriv_check_user_login_status', [$this, 'check_user_login_status']);
+        add_action('wp_ajax_acadlix_check_user_login_status', [$this, 'acadlix_check_user_login_status']);
+        add_action('wp_ajax_nopriv_acadlix_check_user_login_status', [$this, 'acadlix_check_user_login_status']);
 
         add_action('wp_ajax_nopriv_acadlix_login', [$this, 'acadlix_login']);
         add_action('wp_ajax_nopriv_acadlix_register', [$this, 'acadlix_register']);
@@ -24,8 +24,18 @@ class Ajax
         add_filter('acadlix_register_pre_validate', [$this, 'acadlix_verify_captcha'], 10, 1);
     }
 
-    public function check_user_login_status()
+    public function acadlix_check_user_login_status()
     {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (
+            empty($nonce) ||
+            !wp_verify_nonce($nonce, 'acadlix_auth_nonce')
+        ) {
+            wp_send_json_error([
+                'message' => __('Invalid nonce', 'acadlix'),
+                'error_code' => 'invalid_nonce'
+            ], 403);
+        }
         if (is_user_logged_in()) {
             wp_send_json_success(array('logged_in' => true, 'user_id' => get_current_user_id()));
         } else {

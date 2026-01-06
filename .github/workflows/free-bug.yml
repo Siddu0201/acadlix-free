@@ -10,94 +10,98 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ----------------------------------
+      # Checkout
+      # ----------------------------------
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
+      # ----------------------------------
+      # Node / React Build
+      # ----------------------------------
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: npm install
-        working-directory: ./
 
-      - name: Build React app
+      - name: Build React app (Free)
         run: npm run build:free
-        working-directory: ./
 
+      # ----------------------------------
+      # Set Plugin Version
+      # ----------------------------------
       - name: Set plugin version for Free
         run: |
           sed -i 's/{{VERSION}}/1.0.0/' acadlix.php
           sed -i 's/{{VERSION}}/1.0.0/' languages/Common/acadlix.pot
 
+      # ----------------------------------
+      # PHP / Composer
+      # ----------------------------------
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
 
-      - name: Install Composer
+      - name: Install Composer dependencies (production only)
         run: |
           composer install --no-dev --optimize-autoloader --classmap-authoritative
           composer dumpautoload -o --no-dev --classmap-authoritative
-        working-directory: ./
-      
-      - name: Clean vendor folder (safe)
-        run: |
-          find vendor -type d -name "tests" -exec rm -rf {} +
-          find vendor -type d -name "Tests" -exec rm -rf {} +
-          find vendor -type d -name "doc" -exec rm -rf {} +
-          find vendor -type d -name "docs" -exec rm -rf {} +
-          find vendor -type d -name ".github" -exec rm -rf {} +
-          find vendor -type f -name "*.md" -delete
-        working-directory: ./
 
-      - name: Remove Carbon locales
+      # ----------------------------------
+      # 🚨 WordPress.org Compliance Cleanup
+      # ----------------------------------
+      - name: Remove PHPUnit, tests & dev artifacts from vendor
+        run: |
+          rm -rf vendor/**/PHPUnit
+          rm -rf vendor/**/phpunit
+          rm -rf vendor/**/tests
+          rm -rf vendor/**/Tests
+          rm -rf vendor/**/.github
+          rm -rf vendor/**/docs
+          rm -rf vendor/**/doc
+          find vendor -type f -name "*.md" -delete
+
+      # ----------------------------------
+      # Optional: Reduce Carbon locales
+      # ----------------------------------
+      - name: Remove Carbon locales (keep English only)
         run: |
           find vendor/nesbot/carbon/src/Carbon/Lang -type f ! -name "en.php" -delete
-        working-directory: ./
 
+      # ----------------------------------
+      # Create Plugin ZIP
+      # ----------------------------------
       - name: Zip the plugin
         run: |
-          zip -r plugin.zip . -x "node_modules/*" \
-                              -x ".gitignore" \
-                              -x ".git/*" \
-                              -x ".github/*" \
-                              -x "src/*" \
-                              -x "package-lock.json" \
-                              -x "package.json" \
-                              -x "README.md" \
-                              -x "composer.lock" \
-                              -x "webpack.config.js" \
-                              -x "test.json" \
-                              -x "api.txt" \
-                              -x "*.po" \
-                              -x "languages/Pro/*" \
-                              -x handle-dev-server.sh \
-                              -x jsconfig.json \
-        working-directory: ./
+          zip -r plugin.zip . \
+            -x "node_modules/*" \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x ".gitignore" \
+            -x "test.json" \
+            -x "api.txt" \
+            -x "src/*" \
+            -x "tests/*" \
+            -x "package.json" \
+            -x "package-lock.json" \
+            -x "composer.lock" \
+            -x "webpack.config.js" \
+            -x "README.md" \
+            -x "*.po" \
+            -x "languages/Pro/*" \
+            -x "handle-dev-server.sh" \
+            -x "jsconfig.json" \
+            -x "vendor/**/PHPUnit/*" \
+            -x "vendor/**/phpunit/*" \
+            -x "vendor/**/tests/*"
 
-      # - name: Upload ZIP to server
-      #   env:
-      #     EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-      #     EC2_HOST: ${{ secrets.EC2_HOST }}
-      #   run: |
-      #     echo "$EC2_SSH_KEY" > private_key
-      #     chmod 600 private_key
-      #     scp -o StrictHostKeyChecking=no -i private_key plugin.zip bitnami@$EC2_HOST:/home/bitnami/
-
-      # - name: Deploy to WordPress
-      #   env:
-      #     EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-      #     EC2_HOST: ${{ secrets.EC2_HOST }}
-      #   run: |
-      #     echo "$EC2_SSH_KEY" > private_key
-      #     chmod 600 private_key
-      #     ssh -o StrictHostKeyChecking=no -i private_key bitnami@$EC2_HOST << 'EOF'
-      #       unzip -o /home/bitnami/plugin.zip -d /home/bitnami/stack/wordpress/wp-content/plugins/acadlix
-      #       rm /home/bitnami/plugin.zip
-      #     EOF
-
+      # ----------------------------------
+      # Upload ZIP to Hostinger
+      # ----------------------------------
       - name: Upload ZIP to Hostinger
         env:
           HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
@@ -107,9 +111,12 @@ jobs:
         run: |
           echo "$HOSTINGER_SSH_KEY" > private_key
           chmod 600 private_key
-          echo "Uploading as $HOSTINGER_USER@$HOSTINGER_HOST on port $HOSTINGER_PORT"
-          scp -o StrictHostKeyChecking=no -i private_key -P $HOSTINGER_PORT plugin.zip $HOSTINGER_USER@$HOSTINGER_HOST:/home/$HOSTINGER_USER/
+          scp -o StrictHostKeyChecking=no -i private_key -P $HOSTINGER_PORT plugin.zip \
+            $HOSTINGER_USER@$HOSTINGER_HOST:/home/$HOSTINGER_USER/
 
+      # ----------------------------------
+      # Deploy to WordPress (Hostinger)
+      # ----------------------------------
       - name: Deploy to WordPress (Hostinger)
         env:
           HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
@@ -119,21 +126,21 @@ jobs:
         run: |
           echo "$HOSTINGER_SSH_KEY" > private_key
           chmod 600 private_key
+
           USER_HOME="/home/$HOSTINGER_USER"
           PLUGIN_DIR_FREE="$USER_HOME/domains/acadlix.in/public_html/freebug/wp-content/plugins/acadlix"
           ZIP_PATH="$USER_HOME/plugin.zip"
 
-          ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" << EOF
+          ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" \
+            "$HOSTINGER_USER@$HOSTINGER_HOST" << EOF
 
-            echo "Deploying to Hostinger..."
+            echo "Deploying Acadlix Free Bug version..."
 
-            # Deploy to free bug subdomain
-            echo "Deploying to free bug subdomain..."
             rm -rf "$PLUGIN_DIR_FREE"
             unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_FREE"
+
             find "$PLUGIN_DIR_FREE" -type d -exec chmod 755 {} \;
             find "$PLUGIN_DIR_FREE" -type f -exec chmod 644 {} \;
 
-            # Cleanup
             rm "$ZIP_PATH"
           EOF

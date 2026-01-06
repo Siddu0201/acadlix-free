@@ -57,40 +57,22 @@ class SingleCourseView
             // error_log('The parameters must be boolean values.');
         }
 
-        $unique_class = 'acadlix-course-breadcrumb-' . esc_attr(uniqid());
+        $classes = ['acadlix-course-breadcrumb'];
+
+        if ($desktop && !$mobile) {
+            $classes[] = 'acadlix-course-breadcrumb-only-desktop';
+        }
+
+        if (!$desktop && $mobile) {
+            $classes[] = 'acadlix-course-breadcrumb-only-mobile';
+        }
+
         ?>
-            <style>
-                .<?php echo esc_attr($unique_class); ?> {
-                    display:
-                        <?php echo $desktop ? 'flex' : 'none'; ?>
-                    ;
-                    padding-bottom: 0.5rem;
-                }
-    
-                .<?php echo esc_attr($unique_class); ?> a {
-                    color: var(--acadlix-text-tertiary);
-                    text-decoration: none;
-                }
-    
-                .<?php echo esc_attr($unique_class); ?> a:hover {
-                    color: var(--acadlix-primary-main);
-                    text-decoration: none;
-                    border-bottom: 1px solid var(--acadlix-primary-main);
-                }
-    
-                @media (max-width: 768px) {
-                    .<?php echo esc_attr($unique_class); ?> {
-                        display:
-                            <?php echo $mobile ? 'flex' : 'none'; ?>
-                        ;
-                    }
-                }
-            </style>
-            <?php
+        <?php
         $breadcrumb = [
             'component' => 'nav',
             'props' => [
-                'class' => esc_attr($unique_class)
+                'class' => esc_attr(implode(' ', $classes))
             ],
             'children' =>
                 [
@@ -157,32 +139,21 @@ class SingleCourseView
             // error_log('The parameters must be boolean values.');
         }
 
-        $unique_class = 'acadlix-course-featured-item-' . esc_attr(uniqid());
+        $classes = ['acadlix-course-featured-item'];
+
+        if ($desktop && !$mobile) {
+            $classes[] = 'acadlix-course-featured-item-only-desktop';
+        }
+
+        if (!$desktop && $mobile) {
+            $classes[] = 'acadlix-course-featured-item-only-mobile';
+        }
         ?>
-            <style>
-                .<?php echo esc_attr($unique_class); ?> {
-                    display:
-                        <?php echo $desktop ? 'block' : 'none'; ?>
-                    ;
-                    border-top-left-radius: var(--acadlix-border-radius);
-                    border-top-right-radius: var(--acadlix-border-radius);
-                    width: 100%;
-                    height: 200px;
-                }
-    
-                @media (max-width: 768px) {
-                    .<?php echo esc_attr($unique_class); ?> {
-                        display:
-                            <?php echo $mobile ? 'block' : 'none'; ?>
-                        ;
-                    }
-                }
-            </style>
-            <?php
+        <?php
         $img_component = [
             'component' => 'img',
             'props' => [
-                'class' => esc_attr($unique_class),
+                'class' => esc_attr(implode(' ', $classes)),
                 'loading' => 'lazy',
                 'src' => esc_url(isset($this->course->thumbnail['url']) ? $this->course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
                 'alt' => isset($this->course->thumbnail['alt']) ? esc_attr($this->course->thumbnail['alt']) : esc_attr($this->course?->post_title)
@@ -296,33 +267,27 @@ class SingleCourseView
             // error_log('The parameters must be boolean values.');
         }
 
-        $unique_class = 'acadlix-course-aside-details-' . esc_attr(uniqid());
         $duration = $this->course->rendered_metas['duration']['duration'] ?? 0;
         $duration_type = $this->course->rendered_metas['duration']['type'] ?? '';
         $difficulty_level = $this->course->rendered_metas['difficulty_level'] ?? '';
         $tax = $this->course->rendered_metas['tax'] ?? 0;
         $tax_percent = $this->course->rendered_metas['tax_percent'] ?? 0;
+
+        $classes = ['acadlix-course-aside-details'];
+
+        if ($desktop && !$mobile) {
+            $classes[] = 'acadlix-course-aside-details-only-desktop';
+        }
+
+        if (!$desktop && $mobile) {
+            $classes[] = 'acadlix-course-aside-details-only-mobile';
+        }
         ?>
-            <style>
-                .<?php echo esc_attr($unique_class); ?> {
-                    display:
-                        <?php echo $desktop ? 'flex' : 'none'; ?>
-                    ;
-                }
-    
-                @media (max-width: 768px) {
-                    .<?php echo esc_attr($unique_class); ?> {
-                        display:
-                            <?php echo $mobile ? 'flex' : 'none'; ?>
-                        ;
-                    }
-                }
-            </style>
-            <?php
+        <?php
         $basic_course_details = [
             'component' => 'div',
             'props' => [
-                'class' => 'acadlix-course-aside-details acadlix-subtitle2 ' . esc_attr($unique_class)
+                'class' => 'acadlix-course-aside-details acadlix-subtitle2 ' . esc_attr(implode(' ', $classes))
             ],
             'children' => [
                 [
@@ -547,7 +512,7 @@ class SingleCourseView
                             'style' => 'display: ' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
                         ],
                         'children' => [
-                            ['component' => 'i', 'props' => ['class' => 'fa-regular fa-heart']],
+                            ['component' => 'i', 'props' => ['class' => 'far fa-heart']],
                             ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
                         ],
                     ],
@@ -561,7 +526,7 @@ class SingleCourseView
                             'style' => 'display: ' . ($course_wishlist_count > 0 ? 'flex' : 'none'),
                         ],
                         'children' => [
-                            ['component' => 'i', 'props' => ['class' => 'fa-solid fa-heart']],
+                            ['component' => 'i', 'props' => ['class' => 'fas fa-heart']],
                             ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
                         ],
                     ],
@@ -588,17 +553,17 @@ class SingleCourseView
         $error_button = $this->acadlix_course_error_button($check_registration_date);
         if ($check_registration_date['status']) {
             if ($course->isCourseFree()) {
-                if($this->is_course_purchased){
+                if ($this->is_course_purchased) {
                     $button = $go_to_course_button;
-                }elseif ($this->cart) {
+                } elseif ($this->cart) {
                     $button = $checkout_button;
                 } else {
                     $button = $start_now_button;
                 }
             } else {
-                if($this->is_course_purchased){
+                if ($this->is_course_purchased) {
                     $button = $go_to_course_button;
-                }elseif ($this->cart) {
+                } elseif ($this->cart) {
                     $button = $checkout_button;
                 } else {
                     $button = $buy_now_button;
@@ -659,21 +624,21 @@ class SingleCourseView
             ?>
             <!doctype html>
             <html <?php language_attributes(); ?>>
-        
+
             <head>
                 <meta charset="<?php bloginfo('charset'); ?>">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <?php wp_head(); ?>
-        
+
             </head>
-        
+
             <body <?php body_class(); ?>>
                 <?php wp_body_open(); ?>
                 <div class="wp-site-blocks">
                     <?php
-            $theme = wp_get_theme();
-            $theme_slug = $theme->get('TextDomain');
-            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
+                    $theme = wp_get_theme();
+                    $theme_slug = $theme->get('TextDomain');
+                    echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
         } else {
             get_header();
         }
@@ -1184,7 +1149,7 @@ class SingleCourseView
                                             [
                                                 'component' => 'i',
                                                 'props' => [
-                                                    'class' => 'fa-solid fa-caret-right'
+                                                    'class' => 'fas fa-caret-right'
                                                 ]
                                             ],
                                             [

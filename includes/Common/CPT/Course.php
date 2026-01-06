@@ -23,6 +23,7 @@ final class Course extends CPT_Abstract
         parent::__construct();
 
         add_action('init', [$this, 'register_taxonomy']);
+        add_action('admin_enqueue_scripts', [$this, 'acadlix_admin_enqueue_scripts']);
 
         add_filter('wp_insert_post_empty_content', [$this, 'update_title'], 10, 2);
         add_action('edit_form_after_title', [$this, 'add_nonce_field_to_edit_form']);
@@ -272,6 +273,17 @@ final class Course extends CPT_Abstract
         );
     }
 
+    public function acadlix_admin_enqueue_scripts()
+    {
+        global $post;
+
+        if (!$post || $post->post_type !== $this->get_post_type()) {
+            return;
+        }
+
+        wp_enqueue_script('acadlix-admin-course-editor-js');
+    }
+
     public function admin_course_editor($post)
     {
         $args = array(
@@ -282,17 +294,15 @@ final class Course extends CPT_Abstract
 
         $users = get_users($args);
         $course = acadlix()->model()->course()->with('sections')->find($post->ID);
-        ?>
-        <script type="text/javascript">
-            window.acadlixCourseList = window.acadlixCourseList || [];
-
-            window.acadlixCourseList = {
-                user_id: <?php echo esc_js(get_current_user_id()); ?>,
-                course: <?php echo wp_json_encode($course); ?>,
-                users: <?php echo wp_json_encode($users); ?>,
-            };
-        </script>
-        <?php
+        wp_localize_script(
+            'acadlix-admin-course-editor-js',
+            'acadlixCourseList',
+            [
+                'user_id' => get_current_user_id(),
+                'course' => $course,
+                'users' => $users,
+            ]
+        );
         echo '<div id="acadlix-admin-course-editor">Loading...</div>';
     }
 

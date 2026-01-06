@@ -47,42 +47,17 @@ class Manager
                 $query->where('id', $id);
             })->first();
             if ($quiz) {
+                wp_enqueue_style('acadlix-quiz-shortcode-css');
+
+                $title_classes = ['acadlix-front-quiz-title'];
+
+                if (!empty($quiz->rendered_metas['quiz_settings']['hide_quiz_title'])) {
+                    $title_classes[] = 'acadlix-hide';
+                }
                 ?>
-                <style>
-                    .acadlix-front-quiz-button {
-                        height: 32px;
-                        width: 93px;
-                        display: block;
-                        background-color: rgba(0, 0, 0, 0.11);
-                        border-radius: 4px;
-                        animation: 2s ease-in-out 0.5s infinite normal none running animation-c7515d;
-                    }
 
-                    @keyframes animation-c7515d {
-                        0% {
-                            opacity: 1;
-                        }
-
-                        50% {
-                            opacity: 0.4;
-                        }
-
-                        100% {
-                            opacity: 1;
-                        }
-                    }
-
-                    .acadlix-front-quiz-button:hover {
-                        background-color: #f1f1f1;
-                    }
-
-                    .acadlix-front-quiz-button:active {
-                        background-color: #ddd;
-                    }
-                </style>
                 <div class="acadlix-front-quiz-container">
-                    <h2 class="acadlix-front-quiz-title" id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>"
-                        style="display: <?php echo $quiz->rendered_metas['quiz_settings']['hide_quiz_title'] ? 'none' : 'block'; ?>;">
+                    <h2 class="<?php echo esc_attr(implode(' ', $title_classes)); ?>" id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>">
                         <?php echo esc_html($quiz->post_title); ?>
                     </h2>
                     <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
@@ -93,12 +68,8 @@ class Manager
                         </div>
                     </div>
                 </div>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        document.dispatchEvent(new Event('shortcodeLoaded'));
-                    });
-                </script>
                 <?php
+                wp_enqueue_script('acadlix-front-quiz-shortcode-js');
             } else {
                 echo '[Acadlix_Quiz ' . esc_html($id) . ']';
             }
@@ -121,12 +92,8 @@ class Manager
             if ($quiz) {
                 ?>
                 <div class="acadlix-front-leaderboard" id="<?php echo esc_html($quiz->ID); ?>"></div>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        document.dispatchEvent(new Event('shortcodeLoaded'));
-                    });
-                </script>
                 <?php
+                wp_enqueue_script('acadlix-front-leaderboard-shortcode-js');
             } else {
                 echo '[Acadlix_Leaderboard ' . esc_html($id) . ']';
             }
@@ -257,12 +224,7 @@ class Manager
                 'deps' => [],
             ],
             'acadlix-front-font-awesome-css' => [
-                'src' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css',
-                'version' => ACADLIX_VERSION,
-                'deps' => [],
-            ],
-            'acadlix-front-line-awesome-css' => [
-                'src' => 'https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css',
+                'src' => ACADLIX_ASSETS_CSS_URL . 'font-awesome/css/all.min.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
@@ -278,6 +240,11 @@ class Manager
             ],
             'acadlix-katex-css' => [
                 'src' => ACADLIX_ASSETS_CSS_URL . 'katex/Katex.min.css',
+                'version' => ACADLIX_VERSION,
+                'deps' => [],
+            ],
+            'acadlix-quiz-shortcode-css' => [
+                'src' => ACADLIX_ASSETS_CSS_URL . 'frontend/quiz_shortcode.css',
                 'version' => ACADLIX_VERSION,
                 'deps' => [],
             ],
@@ -532,6 +499,30 @@ class Manager
                 'src' => ACADLIX_ASSETS_JS_URL . 'plyr/plyr.js',
                 'version' => ACADLIX_VERSION,
                 'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
+            'acadlix-front-quiz-shortcode-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'frontend/quiz-shortcode.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
+            'acadlix-front-leaderboard-shortcode-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'frontend/leaderboard-shortcode.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
+            'acadlix-katex-inline-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'katex/katex-inline.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['acadlix-katex-js', 'acadlix-katex-auto-render-js'],
+                'in_footer' => true,
+            ],
+            'acadlix-admin-course-editor-js' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'admin/course-editor.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['wp-element'],
                 'in_footer' => true,
             ],
         ];
@@ -922,21 +913,8 @@ class Manager
     {
         if (is_admin())
             return;
-        ?>
-        <script id="acadlix-front-katex-inline-js">
-            document.addEventListener("DOMContentLoaded", function () {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "\\[", right: "\\]", display: true },
-                        { left: "$", right: "$", display: false },
-                        { left: "\\(", right: "\\)", display: false }
-                    ],
-                    throwOnError: false
-                });
-            });
-        </script>
-        <?php
+
+        wp_enqueue_script('acadlix-katex-inline-js');
     }
 
     public static function instance()

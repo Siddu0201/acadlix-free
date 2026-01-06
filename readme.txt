@@ -69,7 +69,98 @@ Initial release of Acadlix
 
 == Privacy Policy ==
 
-Acadlix does not collect or send any user data externally. All data is processed within your WordPress installation.
+Acadlix itself does not store or sell personal user data externally.
+
+However, when payment gateways such as Stripe, PayPal, PayU, or Razorpay are enabled, payment-related data is transmitted to these third-party services strictly for the purpose of processing payments initiated by users.
+
+Acadlix does not store credit card or sensitive payment information on its own servers. All payment data handling is managed securely by the respective payment providers in accordance with their privacy policies.
+
+
+== External Services ==
+
+Acadlix integrates with third-party payment gateways to process online payments for courses, exams, and related services.
+
+These external services are used only when payments are enabled and initiated by the site administrator and end users.
+
+= Stripe =
+
+This plugin integrates with the Stripe payment gateway to securely process online payments.
+
+Stripe is used to handle course purchases, subscriptions, and payment confirmations.
+
+When a user initiates a payment, the following data may be sent to Stripe:
+- Payment amount
+- Currency
+- Billing details provided by the user
+- Transaction metadata required for payment processing
+
+Data is transmitted only during payment processing or webhook-based payment status updates.
+
+Stripe is a third-party service provided by Stripe, Inc.
+
+Stripe Terms of Service:
+[Stripe Terms of Service](https://stripe.com/legal)
+
+Stripe Privacy Policy:
+[Stripe Privacy Policy](https://stripe.com/privacy)
+
+
+= PayPal =
+
+This plugin integrates with PayPal to allow users to complete payments using their PayPal accounts or supported payment methods.
+
+When a payment is initiated, the following data may be sent to PayPal:
+- Payment amount
+- Currency
+- Transaction and order details
+- User-provided billing information
+
+PayPal is a third-party service provided by PayPal Holdings, Inc.
+
+PayPal Terms of Service:
+[PayPal User Agreement](https://www.paypal.com/legalhub/useragreement-full)
+
+PayPal Privacy Policy:
+[PayPal Privacy Policy](https://www.paypal.com/privacy)
+
+
+= PayU =
+
+This plugin supports PayU as a payment gateway for processing online payments.
+
+When PayU is used, the plugin may send:
+- Payment amount
+- Currency
+- Order and transaction details
+- Billing information entered by the user
+
+PayU is a third-party payment service provider.
+
+PayU Terms of Service:
+[PayU Terms of Service](https://www.payu.com/terms)
+
+PayU Privacy Policy:
+[PayU Privacy Policy](https://www.payu.com/privacy)
+
+
+= Razorpay =
+
+This plugin integrates with Razorpay to process payments securely.
+
+When Razorpay is enabled and used, the following data may be transmitted:
+- Payment amount
+- Currency
+- Order identifiers
+- Billing and contact details provided by the user
+
+Razorpay is a third-party service provided by Razorpay Software Private Limited.
+
+Razorpay Terms of Service:
+[Razorpay Terms of Service](https://razorpay.com/terms/)
+
+Razorpay Privacy Policy:
+[Razorpay Privacy Policy](https://razorpay.com/privacy/)
+
 
 == Support ==
 

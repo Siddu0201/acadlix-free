@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Custom Stripe gateway for Acadlix.
+ *
+ * IMPORTANT:
+ * This is NOT the Stripe PHP SDK.
+ * No third-party Stripe library is bundled or loaded.
+ *
+ * @package Acadlix
+ */
+
 namespace Yuvayana\Acadlix\Common\Payments\Gateways;
 
 use Yuvayana\Acadlix\Common\Payments\PaymentGatewayInterface;
@@ -122,9 +132,9 @@ class Stripe implements PaymentGatewayInterface
         $body = [
             'mode' => 'payment',
             'success_url' => $this->returnUrl(),
-            'cancel_url'  => $this->cancelUrl(),
+            'cancel_url' => $this->cancelUrl(),
             'payment_method_types[0]' => 'card',
-            
+
             // Flattened line_items
             'line_items[0][price_data][currency]' => $this->currency,
             'line_items[0][price_data][product_data][name]' => 'Course Purchase',
@@ -206,7 +216,7 @@ class Stripe implements PaymentGatewayInterface
         $order->updateStatus('failed');
         $message = "Order status updated to failed";
         $order->createActivityLog($message);
-        
+
         $order->updateOrCreateMeta('failure_reason', $message);
         acadlix()->notifications()->email()->handleFailedTransationEmail($order->id);
         return ['success' => true, 'message' => $message];
@@ -254,7 +264,7 @@ class Stripe implements PaymentGatewayInterface
 
             if (hash_equals($expected_signature, $parts['v1'])) {
                 $event = json_decode($payload);
-                $event_type = explode( '.', $event->type )[0];
+                $event_type = explode('.', $event->type)[0];
                 switch ($event_type) {
                     case 'checkout':
                         $stripe_order_id = $event->data->object->id;
@@ -312,7 +322,7 @@ class Stripe implements PaymentGatewayInterface
 
     public function verifyOrder($stripe_order_id): void
     {
-        try{
+        try {
             if (!$this->is_stripe_active()) {
                 throw new Exception('Stripe not active');
             }
@@ -323,6 +333,6 @@ class Stripe implements PaymentGatewayInterface
         } catch (Exception $e) {
             return;
         }
-        
+
     }
 }
