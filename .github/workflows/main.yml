@@ -42,15 +42,16 @@ jobs:
           composer dumpautoload -o --no-dev --classmap-authoritative
         working-directory: ./
       
-      - name: Clean vendor folder (safe)
+      - name: Remove PHPUnit, tests & dev artifacts from vendor
         run: |
-          find vendor -type d -name "tests" -exec rm -rf {} +
-          find vendor -type d -name "Tests" -exec rm -rf {} +
-          find vendor -type d -name "doc" -exec rm -rf {} +
-          find vendor -type d -name "docs" -exec rm -rf {} +
-          find vendor -type d -name ".github" -exec rm -rf {} +
+          rm -rf vendor/**/PHPUnit
+          rm -rf vendor/**/phpunit
+          rm -rf vendor/**/tests
+          rm -rf vendor/**/Tests
+          rm -rf vendor/**/.github
+          rm -rf vendor/**/docs
+          rm -rf vendor/**/doc
           find vendor -type f -name "*.md" -delete
-        working-directory: ./
 
       - name: Remove Carbon locales
         run: |
@@ -59,22 +60,27 @@ jobs:
 
       - name: Zip the plugin
         run: |
-          zip -r plugin.zip . -x "node_modules/*" \
-                              -x ".gitignore" \
-                              -x ".git/*" \
-                              -x ".github/*" \
-                              -x "src/*" \
-                              -x "package-lock.json" \
-                              -x "package.json" \
-                              -x "README.md" \
-                              -x "composer.lock" \
-                              -x "webpack.config.js" \
-                              -x "test.json" \
-                              -x "api.txt" \
-                              -x "*.po" \
-                              -x "languages/Pro/*" \
-                              -x handle-dev-server.sh \
-                              -x jsconfig.json \
+          zip -r plugin.zip . \
+            -x "node_modules/*" \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x ".gitignore" \
+            -x "test.json" \
+            -x "api.txt" \
+            -x "src/*" \
+            -x "tests/*" \
+            -x "package.json" \
+            -x "package-lock.json" \
+            -x "composer.lock" \
+            -x "webpack.config.js" \
+            -x "README.md" \
+            -x "*.po" \
+            -x "languages/Pro/*" \
+            -x "handle-dev-server.sh" \
+            -x "jsconfig.json" \
+            -x "vendor/**/PHPUnit/*" \
+            -x "vendor/**/phpunit/*" \
+            -x "vendor/**/tests/*"
         working-directory: ./
 
       # - name: Upload ZIP to server
