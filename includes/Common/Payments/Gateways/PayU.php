@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Custom PayU gateway for Acadlix.
+ *
+ * IMPORTANT:
+ * This is NOT the PayU PHP SDK.
+ * No third-party PayU library is bundled or loaded.
+ *
+ * @package Acadlix
+ */
+
 namespace Yuvayana\Acadlix\Common\Payments\Gateways;
 
 defined('ABSPATH') || exit();

@@ -1,0 +1,146 @@
+name: Deploy WordPress Plugin to Free Bug
+
+on:
+  push:
+    branches:
+      - Free-bug
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ----------------------------------
+      # Checkout
+      # ----------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ----------------------------------
+      # Node / React Build
+      # ----------------------------------
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Build React app (Free)
+        run: npm run build:free
+
+      # ----------------------------------
+      # Set Plugin Version
+      # ----------------------------------
+      - name: Set plugin version for Free
+        run: |
+          sed -i 's/{{VERSION}}/1.0.0/' acadlix.php
+          sed -i 's/{{VERSION}}/1.0.0/' languages/Common/acadlix.pot
+
+      # ----------------------------------
+      # PHP / Composer
+      # ----------------------------------
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Install Composer dependencies (production only)
+        run: |
+          composer install --no-dev --optimize-autoloader --classmap-authoritative
+          composer dumpautoload -o --no-dev --classmap-authoritative
+
+      # ----------------------------------
+      # 🚨 WordPress.org Compliance Cleanup
+      # ----------------------------------
+      - name: Remove PHPUnit, tests & dev artifacts from vendor
+        run: |
+          rm -rf vendor/**/PHPUnit
+          rm -rf vendor/**/phpunit
+          rm -rf vendor/**/tests
+          rm -rf vendor/**/Tests
+          rm -rf vendor/**/.github
+          rm -rf vendor/**/docs
+          rm -rf vendor/**/doc
+          find vendor -type f -name "*.md" -delete
+
+      # ----------------------------------
+      # Optional: Reduce Carbon locales
+      # ----------------------------------
+      - name: Remove Carbon locales (keep English only)
+        run: |
+          find vendor/nesbot/carbon/src/Carbon/Lang -type f ! -name "en.php" -delete
+
+      # ----------------------------------
+      # Create Plugin ZIP
+      # ----------------------------------
+      - name: Zip the plugin
+        run: |
+          zip -r plugin.zip . \
+            -x "node_modules/*" \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x ".gitignore" \
+            -x "test.json" \
+            -x "api.txt" \
+            -x "src/*" \
+            -x "tests/*" \
+            -x "package.json" \
+            -x "package-lock.json" \
+            -x "composer.lock" \
+            -x "webpack.config.js" \
+            -x "README.md" \
+            -x "*.po" \
+            -x "languages/Pro/*" \
+            -x "handle-dev-server.sh" \
+            -x "jsconfig.json" \
+            -x "vendor/**/PHPUnit/*" \
+            -x "vendor/**/phpunit/*" \
+            -x "vendor/**/tests/*"
+
+      # ----------------------------------
+      # Upload ZIP to Hostinger
+      # ----------------------------------
+      - name: Upload ZIP to Hostinger
+        env:
+          HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+        run: |
+          echo "$HOSTINGER_SSH_KEY" > private_key
+          chmod 600 private_key
+          scp -o StrictHostKeyChecking=no -i private_key -P $HOSTINGER_PORT plugin.zip \
+            $HOSTINGER_USER@$HOSTINGER_HOST:/home/$HOSTINGER_USER/
+
+      # ----------------------------------
+      # Deploy to WordPress (Hostinger)
+      # ----------------------------------
+      - name: Deploy to WordPress (Hostinger)
+        env:
+          HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+        run: |
+          echo "$HOSTINGER_SSH_KEY" > private_key
+          chmod 600 private_key
+
+          USER_HOME="/home/$HOSTINGER_USER"
+          PLUGIN_DIR_FREE="$USER_HOME/domains/acadlix.in/public_html/freebug/wp-content/plugins/acadlix"
+          ZIP_PATH="$USER_HOME/plugin.zip"
+
+          ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" \
+            "$HOSTINGER_USER@$HOSTINGER_HOST" << EOF
+
+            echo "Deploying Acadlix Free Bug version..."
+
+            rm -rf "$PLUGIN_DIR_FREE"
+            unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_FREE"
+
+            find "$PLUGIN_DIR_FREE" -type d -exec chmod 755 {} \;
+            find "$PLUGIN_DIR_FREE" -type f -exec chmod 644 {} \;
+
+            rm "$ZIP_PATH"
+          EOF

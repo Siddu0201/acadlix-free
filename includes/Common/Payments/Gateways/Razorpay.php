@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Custom Razorpay gateway for Acadlix.
+ *
+ * IMPORTANT:
+ * This is NOT the Razorpay PHP SDK.
+ * No third-party Razorpay library is bundled or loaded.
+ *
+ * @package Acadlix
+ */
+
 namespace Yuvayana\Acadlix\Common\Payments\Gateways;
 
 defined('ABSPATH') || exit();

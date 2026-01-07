@@ -42,7 +42,7 @@ class Menu
         add_filter('parent_file', [$this, 'acadlix_set_active_menu_class']);
         add_action('admin_menu', [$this, 'modify_admin_menu_title'], 999);
 
-        add_action("admin_head", [$this, 'acadlix_admin_head']);
+        add_action("current_screen", [$this, 'acadlix_maybe_disable_screen_options']);
     }
 
     public function modify_admin_menu_title()
@@ -73,14 +73,14 @@ class Menu
         ];
     }
 
-    public function acadlix_admin_head(){
+    public function acadlix_maybe_disable_screen_options(){
         if (!isset($_GET['page'])) return; // phpcs:ignore
 
         $target_pages = $this->acadlix_admin_screen_list(); // your submenu slugs
     
         // Remove screen options for specific pages (built in react)
         if (in_array($_GET['page'], $target_pages, true)) { // phpcs:ignore
-            echo '<style>#screen-options-link-wrap { display: none !important; }</style>';
+            add_filter('screen_options_show_screen', '__return_false');
         }
     }
 

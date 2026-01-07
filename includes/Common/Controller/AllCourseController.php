@@ -65,7 +65,6 @@ if (!class_exists("AllCourseController")) {
             ) {
                 wp_enqueue_style('acadlix-front-all-course-css');
                 wp_enqueue_style('acadlix-front-font-awesome-css');
-                wp_enqueue_style('acadlix-front-line-awesome-css');
 
             }
         }

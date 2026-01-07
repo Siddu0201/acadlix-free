@@ -27,7 +27,8 @@ const FrontButtonListener = () => {
         ) => {
             if (course.ajaxUrl) {
                 const formData = new FormData();
-                formData.append("action", "check_user_login_status");
+                formData.append("action", "acadlix_check_user_login_status");
+                formData.append("nonce", acadlixOptions?.nonces?.auth || '');
                 axios.post(course.ajaxUrl, formData)
                     .then((response) => {
                         if (response) {
@@ -111,9 +112,7 @@ const FrontButtonListener = () => {
                             })
                         }
                     },
-                    (error) => {
-                        console.error(error?.responseJSON);
-                    }
+                    onError
                 );
             } else {
                 buyNowMutation.mutate({
@@ -186,9 +185,7 @@ const FrontButtonListener = () => {
                             })
                         }
                     },
-                    (error) => {
-                        console.error(error?.responseJSON);
-                    }
+                    onError
                 );
             } else {
                 startNowMutation.mutate({

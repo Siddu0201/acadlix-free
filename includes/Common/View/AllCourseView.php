@@ -587,7 +587,7 @@ class AllCourseView
                         'data-id' => esc_attr($course->ID),
                         'style' => $course_wishlist_count == 0 ? 'display:flex;' : 'display:none;',
                     ],
-                    'value' => '<i class="fa-regular fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
+                    'value' => '<i class="far fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
                 ],
                 [
                     'component' => 'div',
@@ -598,7 +598,7 @@ class AllCourseView
                         'data-id' => esc_attr($course->ID),
                         'style' => $course_wishlist_count > 0 ? 'display:flex;' : 'display:none;',
                     ],
-                    'value' => '<i class="fa-solid fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
+                    'value' => '<i class="fas fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
                 ]
             ]
         ], $course);

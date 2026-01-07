@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Custom Paypal gateway for Acadlix.
+ *
+ * IMPORTANT:
+ * This is NOT the PayPal PHP SDK.
+ * No third-party PayPal library is bundled or loaded.
+ *
+ * @package Acadlix
+ */
+
 namespace Yuvayana\Acadlix\Common\Payments\Gateways;
 
 defined('ABSPATH') || exit();

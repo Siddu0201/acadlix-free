@@ -168,9 +168,7 @@ const Profile = () => {
                         ? (
                           <Avatar
                             src={
-                              methods?.watch("photo") !== ""
-                                ? methods?.watch("photo")
-                                : "https://via.placeholder.com/150"
+                                methods?.watch("photo")
                             }
                             alt="Profile"
                             sx={{

@@ -101,40 +101,22 @@ class SingleCourseView
 			// error_log('The parameters must be boolean values.');
 		}
 
-		$unique_class = 'acadlix-course-breadcrumb-' . esc_attr(uniqid());
+		$classes = ['acadlix-course-breadcrumb'];
+
+		if ($desktop && !$mobile) {
+			$classes[] = 'acadlix-course-breadcrumb-only-desktop';
+		}
+
+		if (!$desktop && $mobile) {
+			$classes[] = 'acadlix-course-breadcrumb-only-mobile';
+		}
+
 		?>
-		<style>
-			.<?php echo esc_attr($unique_class); ?> {
-				display:
-					<?php echo $desktop ? 'flex' : 'none'; ?>
-				;
-				padding-bottom: 0.5rem;
-			}
-
-			.<?php echo esc_attr($unique_class); ?> a {
-				color: var(--acadlix-text-tertiary);
-				text-decoration: none;
-			}
-
-			.<?php echo esc_attr($unique_class); ?> a:hover {
-				color: var(--acadlix-primary-main);
-				text-decoration: none;
-				border-bottom: 1px solid var(--acadlix-primary-main);
-			}
-
-			@media (max-width: 768px) {
-				.<?php echo esc_attr($unique_class); ?> {
-					display:
-						<?php echo $mobile ? 'flex' : 'none'; ?>
-					;
-				}
-			}
-		</style>
 		<?php
 		$breadcrumb = [
 			'component' => 'nav',
 			'props' => [
-				'class' => esc_attr($unique_class)
+				'class' => esc_attr(implode(' ', $classes))
 			],
 			'children' =>
 				[
@@ -201,32 +183,21 @@ class SingleCourseView
 			// error_log('The parameters must be boolean values.');
 		}
 
-		$unique_class = 'acadlix-course-featured-item-' . esc_attr(uniqid());
-		?>
-		<style>
-			.<?php echo esc_attr($unique_class); ?> {
-				display:
-					<?php echo $desktop ? 'block' : 'none'; ?>
-				;
-				border-top-left-radius: var(--acadlix-border-radius);
-				border-top-right-radius: var(--acadlix-border-radius);
-				width: 100%;
-				height: 200px;
-			}
+		$classes = ['acadlix-course-featured-item'];
 
-			@media (max-width: 768px) {
-				.<?php echo esc_attr($unique_class); ?> {
-					display:
-						<?php echo $mobile ? 'block' : 'none'; ?>
-					;
-				}
-			}
-		</style>
+		if ($desktop && !$mobile) {
+			$classes[] = 'acadlix-course-featured-item-only-desktop';
+		}
+
+		if (!$desktop && $mobile) {
+			$classes[] = 'acadlix-course-featured-item-only-mobile';
+		}
+		?>
 		<?php
 		$img_component = [
 			'component' => 'img',
 			'props' => [
-				'class' => esc_attr($unique_class),
+				'class' => esc_attr(implode(' ', $classes)),
 				'loading' => 'lazy',
 				'src' => esc_url(isset($this->course->thumbnail['url']) ? $this->course->thumbnail['url'] : ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
 				'alt' => isset($this->course->thumbnail['alt']) ? esc_attr($this->course->thumbnail['alt']) : esc_attr($this->course?->post_title)
@@ -336,7 +307,7 @@ class SingleCourseView
 
 	protected function acadlix_course_tags()
 	{
-		if( count($this->course->course_tags) == 0) {
+		if (count($this->course->course_tags) == 0) {
 			return [];
 		}
 		$tags = [];
@@ -378,33 +349,27 @@ class SingleCourseView
 			// error_log('The parameters must be boolean values.');
 		}
 
-		$unique_class = 'acadlix-course-aside-details-' . esc_attr(uniqid());
 		$duration = $this->course->rendered_metas['duration']['duration'] ?? 0;
 		$duration_type = $this->course->rendered_metas['duration']['type'] ?? '';
 		$difficulty_level = $this->course->rendered_metas['difficulty_level'] ?? '';
 		$tax = $this->course->rendered_metas['tax'] ?? 0;
 		$tax_percent = $this->course->rendered_metas['tax_percent'] ?? 0;
-		?>
-		<style>
-			.<?php echo esc_attr($unique_class); ?> {
-				display:
-					<?php echo $desktop ? 'flex' : 'none'; ?>
-				;
-			}
 
-			@media (max-width: 768px) {
-				.<?php echo esc_attr($unique_class); ?> {
-					display:
-						<?php echo $mobile ? 'flex' : 'none'; ?>
-					;
-				}
-			}
-		</style>
+		$classes = ['acadlix-course-aside-details'];
+
+		if ($desktop && !$mobile) {
+			$classes[] = 'acadlix-course-aside-details-only-desktop';
+		}
+
+		if (!$desktop && $mobile) {
+			$classes[] = 'acadlix-course-aside-details-only-mobile';
+		}
+		?>
 		<?php
 		$basic_course_details = [
 			'component' => 'div',
 			'props' => [
-				'class' => 'acadlix-course-aside-details acadlix-subtitle2 ' . esc_attr($unique_class)
+				'class' => 'acadlix-course-aside-details acadlix-subtitle2 ' . esc_attr(implode(' ', $classes))
 			],
 			'children' => [
 				[
@@ -490,8 +455,7 @@ class SingleCourseView
 							'value' => esc_html($tax ? $tax_percent : 0) . '%',
 						]
 					]
-				],
-				$this->acadlix_course_tags(),
+				]
 			]
 		];
 		return apply_filters('acadlix_single_course_basic_course_details', $basic_course_details, $this->course, $desktop, $mobile);
@@ -611,7 +575,7 @@ class SingleCourseView
 				->ofCourseWishlist()
 				->where([
 					'type_id' => $this->course->ID,
-					'user_id' => $this->user_id,
+					'user_id' => get_current_user_id(),
 				])
 				->count();
 			$wishlist = apply_filters('acadlix_single_course_whishlist', [
@@ -630,7 +594,7 @@ class SingleCourseView
 							'style' => 'display: ' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
 						],
 						'children' => [
-							['component' => 'i', 'props' => ['class' => 'fa-regular fa-heart']],
+							['component' => 'i', 'props' => ['class' => 'far fa-heart']],
 							['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
 						],
 					],
@@ -644,7 +608,7 @@ class SingleCourseView
 							'style' => 'display: ' . ($course_wishlist_count > 0 ? 'flex' : 'none'),
 						],
 						'children' => [
-							['component' => 'i', 'props' => ['class' => 'fa-solid fa-heart']],
+							['component' => 'i', 'props' => ['class' => 'fas fa-heart']],
 							['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
 						],
 					],
@@ -1007,7 +971,7 @@ class SingleCourseView
 	protected function course_main_navbar()
 	{
 		$review_list_item = [];
-		if($this->enable_rating_and_reviews) {
+		if ($this->enable_rating_and_reviews) {
 			$review_list_item[] = [
 				'component' => 'li',
 				'children' => [
@@ -1349,7 +1313,7 @@ class SingleCourseView
 											[
 												'component' => 'i',
 												'props' => [
-													'class' => 'fa-solid fa-caret-right'
+													'class' => 'fas fa-caret-right'
 												]
 											],
 											[

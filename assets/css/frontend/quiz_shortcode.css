@@ -1,0 +1,34 @@
+.acadlix-front-quiz-button {
+  height: 32px;
+  width: 93px;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.11);
+  border-radius: 4px;
+  animation: 2s ease-in-out 0.5s infinite normal none running animation-c7515d;
+}
+
+@keyframes animation-c7515d {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.acadlix-front-quiz-button:hover {
+  background-color: #f1f1f1;
+}
+
+.acadlix-front-quiz-button:active {
+  background-color: #ddd;
+}
+
+.acadlix-hide {
+    display: none !important;
+}

@@ -290,7 +290,7 @@
 }
 
 .acadlix-course-page .acadlix-course-header-created-at-text,
-.acadlix-course-page .acadlix-course-header-categories-text{
+.acadlix-course-page .acadlix-course-header-categories-text {
   color: var(--acadlix-text-secondary);
 }
 
@@ -886,5 +886,96 @@
 
   .acadlix-course-page .acadlix-course-reviews-summary {
     flex-direction: column;
+  }
+}
+
+/* handle breadcrumb visibility on mobile and desktop */
+
+.acadlix-course-page .acadlix-course-breadcrumb {
+  padding-bottom: 0.5rem;
+  display: flex;
+}
+
+.acadlix-course-page .acadlix-course-breadcrumb a {
+  color: var(--acadlix-text-tertiary);
+  text-decoration: none;
+}
+
+.acadlix-course-page .acadlix-course-breadcrumb a:hover {
+  color: var(--acadlix-primary-main);
+  border-bottom: 1px solid var(--acadlix-primary-main);
+}
+
+/* Mobile only */
+.acadlix-course-page .acadlix-course-breadcrumb-only-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .acadlix-course-page .acadlix-course-breadcrumb-only-mobile {
+    display: flex;
+  }
+}
+
+/* Desktop only */
+.acadlix-course-page .acadlix-course-breadcrumb-only-desktop {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .acadlix-course-page .acadlix-course-breadcrumb-only-desktop {
+    display: none;
+  }
+}
+
+.acadlix-course-page .acadlix-course-featured-item {
+  display: flex;
+  border-top-left-radius: var(--acadlix-border-radius);
+  border-top-right-radius: var(--acadlix-border-radius);
+  width: 100%;
+  height: 200px;
+}
+
+/* Mobile only */
+.acadlix-course-page .acadlix-course-featured-item-only-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .acadlix-course-page .acadlix-course-featured-item-only-mobile {
+    display: flex;
+  }
+}
+
+/* Desktop only */
+.acadlix-course-page .acadlix-course-featured-item-only-desktop {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .acadlix-course-page .acadlix-course-featured-item-only-desktop {
+    display: none;
+  }
+}
+
+/* Mobile only */
+.acadlix-course-page .acadlix-course-aside-details-only-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .acadlix-course-page .acadlix-course-aside-details-only-mobile {
+    display: flex;
+  }
+}
+
+/* Desktop only */
+.acadlix-course-page .acadlix-course-aside-details-only-desktop {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .acadlix-course-page .acadlix-course-aside-details-only-desktop {
+    display: none;
   }
 }
