@@ -6,6 +6,7 @@ import React from 'react'
 const CustomRating = ({
   value = 0,
   fontSize = 16,
+  color = "#ffb400",
   style = {},
 }) => {
   
@@ -13,10 +14,11 @@ const CustomRating = ({
     <Rating 
       name="custom-rating"
       value={Number(value)}
-      icon={<FaStar fontSize="inherit" />} 
-      emptyIcon={<FaRegStar fontSize="inherit" />}
+      icon={<FaStar fontSize="inherit" color={color} />} 
+      emptyIcon={<FaRegStar fontSize="inherit" color={color} />}
+      precision={0.5}
       sx={{
-        color: '#ffb400',
+        // color: color,
         fontSize: fontSize,
         ...style
       }}

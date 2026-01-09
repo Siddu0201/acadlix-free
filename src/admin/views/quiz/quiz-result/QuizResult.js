@@ -21,7 +21,7 @@ import {
   PostResetStatisticByQuizId,
 } from "@acadlix/requests/admin/AdminStatisticRequest";
 import dateFormat from "dateformat";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import toast from "react-hot-toast";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
