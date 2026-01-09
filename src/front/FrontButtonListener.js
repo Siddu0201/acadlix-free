@@ -326,11 +326,11 @@ const FrontButtonListener = () => {
             stars.forEach((star) => {
                 const value = Number(star.getAttribute('data-rating-value'));
                 if (value <= rating) {
-                    star.classList.remove('fa-regular');
-                    star.classList.add('fa-solid');
+                    star.classList.remove('far');
+                    star.classList.add('fas');
                 } else {
-                    star.classList.remove('fa-solid');
-                    star.classList.add('fa-regular');
+                    star.classList.remove('fas');
+                    star.classList.add('far');
                 }
             });
         },

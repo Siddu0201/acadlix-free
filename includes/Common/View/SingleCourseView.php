@@ -1728,7 +1728,7 @@ class SingleCourseView
 	{
 		$selectable_stars = [];
 		for ($i = 1; $i <= 5; $i++) {
-			$class = $i <= $selected_rating ? 'fa-solid fa-star' : 'fa-regular fa-star';
+			$class = $i <= $selected_rating ? 'fas fa-star' : 'far fa-star';
 			$selectable_stars[] = [
 				'component' => 'i',
 				'props' => [
@@ -1781,7 +1781,7 @@ class SingleCourseView
 						[
 							'component' => 'div',
 							'props' => [
-								'class' => 'acadlix-ratings-selectable acadlix-mb-8',
+								'class' => '	 acadlix-mb-8',
 								'acadlix-ratings-selectable' => true,
 							],
 							'children' => [
@@ -1954,7 +1954,7 @@ class SingleCourseView
 								[
 									'component' => 'i',
 									'props' => [
-										'class' => 'fa-regular fa-star acadlix-mr-4'
+										'class' => 'far fa-star acadlix-mr-4'
 									]
 								],
 								[

@@ -250,10 +250,10 @@ if (!class_exists('CourseHelper')) {
         ) {
             $class = '';
             match ($type) {
-                'filled' => $class = 'fa-solid fa-star',
-                'half' => $class = 'fa-solid fa-star-half-stroke', // Placeholder for half star
-                'unfilled' => $class = 'fa-regular fa-star',
-                default => $class = 'fa-regular fa-star',
+                'filled' => $class = 'fas fa-star',
+                'half' => $class = 'fas fa-star-half-stroke', // Placeholder for half star
+                'unfilled' => $class = 'far fa-star',
+                default => $class = 'far fa-star',
             };
             return [
                 'component' => 'div',

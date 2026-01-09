@@ -277,7 +277,7 @@
   margin-bottom: 0.5rem;
 }
 
-.acadlix-course-header-rating .acadlix-course-rating-stars {
+.acadlix-course-page .acadlix-course-header-rating .acadlix-course-rating-stars {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -315,14 +315,14 @@
   margin-top: 0.5rem;
 }
 
-.acadlix-course-categories a {
+.acadlix-course-page .acadlix-course-categories a {
   color: var(--acadlix-text-primary);
   text-decoration: none;
   font-weight: bold;
 }
 
-.acadlix-course-categories a:hover,
-.acadlix-course-categories a:focus {
+.acadlix-course-page .acadlix-course-categories a:hover,
+.acadlix-course-page .acadlix-course-categories a:focus {
   color: var(--acadlix-primary-main);
   border-bottom: 1px solid var(--acadlix-primary-main);
   text-decoration: none;
@@ -393,13 +393,13 @@
   color: var(--acadlix-text-primary);
 }
 
-.acadlix-course-tags a {
+.acadlix-course-page .acadlix-course-tags a {
   color: var(--acadlix-text-primary);
   text-decoration: none;
 }
 
-.acadlix-course-tags a:hover,
-.acadlix-course-tags a:focus {
+.acadlix-course-page .acadlix-course-tags a:hover,
+.acadlix-course-page .acadlix-course-tags a:focus {
   color: var(--acadlix-primary-main);
   border-bottom: 1px solid var(--acadlix-primary-main);
   text-decoration: none;
@@ -475,7 +475,7 @@
   box-shadow: var(--acadlix-box-shadow-3);
 }
 
-.acadlix-course-page .acadlix-btn-loader {
+.acadlix-btn-loader {
   border: 3px solid var(--acadlix-border-color);
   border-top: 3px solid var(--acadlix-primary-main);
   border-radius: 50%;
@@ -706,13 +706,13 @@
   gap: 0.25rem;
 }
 
-.acadlix-course-review-basic-summary .acadlix-rating-value {
+.acadlix-course-page .acadlix-course-review-basic-summary .acadlix-rating-value {
   font-size: 5rem;
   font-weight: bold;
   color: var(--acadlix-text-primary);
 }
 
-.acadlix-course-review-basic-summary .acadlix-rating-stars {
+.acadlix-course-page .acadlix-course-review-basic-summary .acadlix-rating-stars {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -762,37 +762,37 @@
   padding: 1rem 1rem;
 }
 
-.acadlix-course-single-review .acadlix-course-review-user-info {
+.acadlix-course-page .acadlix-course-single-review .acadlix-course-review-user-info {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.acadlix-course-review-user-info .acadlix-course-review-user-avatar {
+.acadlix-course-page .acadlix-course-review-user-info .acadlix-course-review-user-avatar {
   border-radius: 50%;
   width: 50px;
   height: 50px;
 }
 
-.acadlix-course-single-review .acadlix-course-review-user-details {
+.acadlix-course-page .acadlix-course-single-review .acadlix-course-review-user-details {
   display: flex;
   flex-direction: column;
 }
 
-.acadlix-course-single-review .acadlix-course-review-user-name {
+.acadlix-course-page .acadlix-course-single-review .acadlix-course-review-user-name {
   color: var(--acadlix-text-primary);
   text-decoration: none;
 }
 
-.acadlix-course-single-review .acadlix-course-review-user-name:hover,
-.acadlix-course-single-review .acadlix-course-review-user-name:focus {
+.acadlix-course-page .acadlix-course-single-review .acadlix-course-review-user-name:hover,
+.acadlix-course-page .acadlix-course-single-review .acadlix-course-review-user-name:focus {
   color: var(--acadlix-primary-main);
   text-decoration: none;
   outline: none;
 }
 
-.acadlix-course-single-review .acadlix-course-review-pending {
+.acadlix-course-page .acadlix-course-single-review .acadlix-course-review-pending {
   background-color: var(--acadlix-warning-light);
   color: var(--acadlix-warning-contrastText);
   padding: 0.25rem 0.75rem;
@@ -800,7 +800,7 @@
   margin-left: auto;
 }
 
-.acadlix-course-review-rating .acadlix-single-course-review-stars {
+.acadlix-course-page .acadlix-course-review-rating .acadlix-single-course-review-stars {
   display: flex;
   align-items: center;
   gap: 0.25rem;
