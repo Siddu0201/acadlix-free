@@ -251,7 +251,7 @@ if (!class_exists('CourseHelper')) {
             $class = '';
             match ($type) {
                 'filled' => $class = 'fas fa-star',
-                'half' => $class = 'fas fa-star-half-stroke', // Placeholder for half star
+                'half' => $class = 'fas fa-star-half-alt', // Placeholder for half star
                 'unfilled' => $class = 'far fa-star',
                 default => $class = 'far fa-star',
             };
