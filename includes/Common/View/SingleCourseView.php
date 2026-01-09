@@ -1781,7 +1781,7 @@ class SingleCourseView
 						[
 							'component' => 'div',
 							'props' => [
-								'class' => '	 acadlix-mb-8',
+								'class' => 'acadlix-ratings-selectable acadlix-mb-8',
 								'acadlix-ratings-selectable' => true,
 							],
 							'children' => [
