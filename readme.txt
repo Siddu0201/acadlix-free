@@ -173,6 +173,14 @@ For support or feature requests, please visit:
 
 Developed by the **Acadlix Team**, creators of the modern and developer-friendly Acadlix LMS.
 
+== Source Code ==
+
+Acadlix is open-source software.
+
+You can view, fork, and contribute to the source code on GitHub:
+
+[Acadlix Free – GitHub Repository](https://github.com/Siddu0201/acadlix-free)
+
 == Documentation ==
 
 For full usage instructions, setup guides, and advanced tips, visit the official documentation:
