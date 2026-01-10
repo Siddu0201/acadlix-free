@@ -1664,7 +1664,7 @@ class SingleCourseView
 							'props' => [
 								'src' => esc_url(get_avatar_url($comment->user_id, ['size' => 60])), // Placeholder user ID
 								'alt' => esc_attr__('User Avatar', 'acadlix'),
-								'class' => 'acadlix-card-img acadlix-course-review-user-avatar'
+								'class' => 'acadlix-course-review-user-avatar'
 							]
 						],
 						// User Name and Date
