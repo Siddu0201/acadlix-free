@@ -206,7 +206,7 @@ class AllCourseView
         $single_course_ui = [
             'component' => 'div',
             'props' => [
-                'class' => 'acadlix-col-lg-3 acadlix-col-md-6 acadlix-col-sm-12'
+                'class' => 'acadlix-col-lg-4 acadlix-col-md-6 acadlix-col-sm-12'
             ],
             'children' => [
                 [
