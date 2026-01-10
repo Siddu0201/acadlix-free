@@ -286,7 +286,8 @@ class Manager
                 wp_enqueue_script($handle, $src, $deps, ACADLIX_VERSION, true);
                 wp_set_script_translations($handle, 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath . '/');
 
-                if (!empty($localized_options)) {
+                $is_main_entry = $js_file === "{$entrypoint}.js";
+                if ($is_main_entry && !empty($localized_options)) {
                     wp_localize_script($handle, $localized_name, $localized_options);
                 }
             }
