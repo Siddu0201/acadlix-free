@@ -423,24 +423,40 @@ class AllCourseView
     protected function render_go_to_checkout_button($course)
     {
         return apply_filters('acadlix_all_course_single_course_go_to_checkout_button', [
-            'component' => 'a',
+            'component' => 'button',
             'props' => [
-                'href' => esc_url($this->checkout_url),
-                'class' => 'acadlix-action-button acadlix-subtitle2'
+                'data-link' => esc_url($this->checkout_url),
+                'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-go-to-checkout'
             ],
-            'value' => esc_html__('Go to Checkout', 'acadlix')
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-action-button-text'
+                    ],
+                    'value' => esc_html__('Go to Checkout', 'acadlix')
+                ]
+            ]
         ], $course);
     }
 
     protected function render_go_to_course_button($course)
     {
         return apply_filters('acadlix_all_course_single_course_go_to_course_button', [
-            'component' => 'a',
+            'component' => 'button',
             'props' => [
-                'href' => esc_url($this->dashboard_url),
-                'class' => 'acadlix-action-button acadlix-subtitle2'
+                'data-link' => esc_url($this->dashboard_url),
+                'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-go-to-course'
             ],
-            'value' => esc_html__('Go to Course', 'acadlix')
+            'children' => [
+                [
+                    'component' => 'div',
+                    'props' => [
+                        'class' => 'acadlix-action-button-text'
+                    ],
+                    'value' => esc_html__('Go to Course', 'acadlix')
+                ]
+            ]
         ], $course);
     }
 

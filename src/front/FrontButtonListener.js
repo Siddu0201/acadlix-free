@@ -203,6 +203,18 @@ const FrontButtonListener = () => {
                 })
             }
         },
+        goToCheckout: (btn) => {
+            const link = btn.getAttribute("data-link");
+            if (link && typeof window !== "undefined" && window.location) {
+                window.location.href = link;
+            }
+        },
+        goToCourse: (btn) => {
+            const link = btn.getAttribute("data-link");
+            if (link && typeof window !== "undefined" && window.location) {
+                window.location.href = link;
+            }
+        },
         addToWishlist: (btn) => {
             const courseId = btn.getAttribute("data-id");
             const userId = course?.userId;
@@ -508,6 +520,16 @@ const FrontButtonListener = () => {
             selector: ".acadlix-start-now",
             event: "click",
             handler: (btn) => methods?.startNow(btn),
+        },
+        {
+            selector: ".acadlix-go-to-checkout",
+            event: "click",
+            handler: (btn) => methods.goToCheckout(btn),
+        },
+        {
+            selector: ".acadlix-go-to-course",
+            event: "click",
+            handler: (btn) => methods.goToCourse(btn),
         },
         {
             selector: ".acadlix-add-to-wishlist",
