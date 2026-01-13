@@ -57,6 +57,18 @@ const RangeType = React.lazy(() =>
       )
 );
 
+const Assessment = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_assessment" */
+        "@acadlix/pro/admin/question/types/Assessment"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_assessment" */
+        "@acadlix/free/admin/question/types/Assessment"
+      )
+);
+
 const QuestionContent = (props) => {
   const getAnswerData = (type, position = 0) => {
     let answerData = {};
@@ -137,6 +149,13 @@ const QuestionContent = (props) => {
           yourAnswer: "",
         };
         break;
+      case "assessment":
+        answerData = {
+          characterLimit: 500,
+          referenceAnswer: "",
+          yourAnswer: "",
+        };
+        break;
       case "paragraph":
         answerData = {};
         break;
@@ -197,6 +216,7 @@ const QuestionContent = (props) => {
               fillInTheBlank: getAnswerData("fillInTheBlank"),
               numerical: getAnswerData("numerical"),
               rangeType: getAnswerData("rangeType"),
+              assessment: getAnswerData("assessment"),
             },
           };
         })
@@ -221,6 +241,7 @@ const QuestionContent = (props) => {
               fillInTheBlank: getAnswerData("fillInTheBlank"),
               numerical: getAnswerData("numerical"),
               rangeType: getAnswerData("rangeType"),
+              assessment: getAnswerData("assessment"),
             },
           };
         }),
@@ -363,6 +384,19 @@ const QuestionContent = (props) => {
               index={index}
               lang={lang}
               type="rangeType"
+              loadEditor={loadEditor}
+              removeEditor={removeEditor}
+            />
+          </React.Suspense>
+        );
+      case "assessment":
+        return (
+          <React.Suspense fallback={null}>
+            <Assessment
+              {...methods}
+              index={index}
+              lang={lang}
+              type="assessment"
               loadEditor={loadEditor}
               removeEditor={removeEditor}
             />

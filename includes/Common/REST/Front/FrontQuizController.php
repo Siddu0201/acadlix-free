@@ -309,6 +309,7 @@ class FrontQuizController
                         "question_time" => $question["result"]["time"],
                         "answer_data" => $question["result"]["answer_data"],
                         "attempted_at" => $question["result"]["attempted_at"] !== '' ? (int) $question["result"]["attempted_at"] : null,
+                        "is_evaluated" => $question["result"]["is_evaluated"],
                     ]);
                 }
 

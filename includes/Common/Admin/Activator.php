@@ -218,7 +218,8 @@ class Activator
             7 => 'updateV7', // update 1.4.0
             8 => 'updateV8', // update 1.5.0
             9 => 'updateV9', // update 1.6.0,
-            10 => 'updateV10', // update 1.7.0,
+            10 => 'updateV10', // update 1.6.1,
+            11 => 'updateV11', // update 1.7.0,
         ];
 
         foreach ($updates as $version => $method) {
@@ -230,6 +231,13 @@ class Activator
                 $this->$method();
             }
         }
+    }
+
+    protected function updateV11()
+    {
+        /**
+         * In this update add assessment question type.
+         */
     }
 
     protected function updateV10()

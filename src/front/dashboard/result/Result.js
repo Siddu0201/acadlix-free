@@ -42,74 +42,77 @@ export default function Result() {
   });
   const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
-  const columns = [
-    { field: "id", headerName: __("ID", "acadlix") },
-    { field: "title", headerName: __("Title", "acadlix"), flex: 3, minWidth: 220 },
-    { field: "date", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 180 },
-    {
-      field: "score",
-      headerName: __("Score", "acadlix"),
-      flex: 1,
-      minWidth: 100,
-    },
-    { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
-    {
-      field: "status",
-      headerName: __("Status", "acadlix"),
-      flex: 1,
-      minWidth: 100,
-      renderCell: (params) => {
-        return (
-          <div style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}>
-            {params?.value === "Pass" && <Chip
-              color="success"
-              label={__("Pass", "acadlix")}
-            />}
-            {params?.value === "Fail" && <Chip
-              color="error"
-              label={__("Fail", "acadlix")}
-            />}
-            {params?.value === "NA" && <Chip
-              color="grey"
-              label={__("NA", "acadlix")}
-            />}
-          </div>
-        );
+  const columns = window.acadlixHooks?.applyFilters(
+    'acadlix.front.dashboard.result.columns',
+    [
+      { field: "id", headerName: __("ID", "acadlix") },
+      { field: "title", headerName: __("Title", "acadlix"), flex: 3, minWidth: 220 },
+      { field: "date", headerName: __("Date & Time", "acadlix"), flex: 1, minWidth: 180 },
+      {
+        field: "score",
+        headerName: __("Score", "acadlix"),
+        flex: 1,
+        minWidth: 100,
       },
-    },
-    {
-      field: "action",
-      headerName: __("Action", "acadlix"),
-      sortable: false,
-      flex: 1,
-      minWidth: 100,
-      renderCell: (params) => {
-        return (
-          <div style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}>
-            <Tooltip title={__("View Answersheet", "acadlix")} arrow>
-              <IconButton
-                aria-label="expand"
-                size="small"
-                color="warning"
-                disabled={params?.row?.hide_answer_sheet}
-                onClick={() => navigate(`/result/${params?.id}`)}
-              >
-                <FaExpandArrowsAlt fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-          </div>
-        );
+      { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
+      {
+        field: "status",
+        headerName: __("Status", "acadlix"),
+        flex: 1,
+        minWidth: 100,
+        renderCell: (params) => {
+          return (
+            <div style={{
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}>
+              {params?.value === "Pass" && <Chip
+                color="success"
+                label={__("Pass", "acadlix")}
+              />}
+              {params?.value === "Fail" && <Chip
+                color="error"
+                label={__("Fail", "acadlix")}
+              />}
+              {params?.value === "NA" && <Chip
+                color="grey"
+                label={__("NA", "acadlix")}
+              />}
+            </div>
+          );
+        },
       },
-    },
-  ];
+      {
+        field: "action",
+        headerName: __("Action", "acadlix"),
+        sortable: false,
+        flex: 1,
+        minWidth: 100,
+        renderCell: (params) => {
+          return (
+            <div style={{
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}>
+              <Tooltip title={__("View Answersheet", "acadlix")} arrow>
+                <IconButton
+                  aria-label="expand"
+                  size="small"
+                  color="warning"
+                  disabled={params?.row?.hide_answer_sheet}
+                  onClick={() => navigate(`/result/${params?.id}`)}
+                >
+                  <FaExpandArrowsAlt fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            </div>
+          );
+        },
+      },
+    ]
+  );
 
   const { data, isFetching, refetch } = GetStatisticByUserId(
     acadlixOptions?.user?.ID,
@@ -119,15 +122,21 @@ export default function Result() {
   React.useMemo(() => {
     if (Array.isArray(data?.data?.stat_refs)) {
       const newRows = data?.data?.stat_refs?.map((stat_ref) => {
-        return {
-          id: stat_ref?.id,
-          title: stat_ref?.quiz?.post_title,
-          date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
-          score: stat_ref?.points?.toFixed(2),
-          percentage: stat_ref?.result?.toFixed(2),
-          status: stat_ref?.status ?? "NA",
-          hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false
-        };
+        return window.acadlixHooks?.applyFilters(
+          'acadlix.front.dashboard.result.rows',
+          {
+            id: stat_ref?.id,
+            title: stat_ref?.quiz?.post_title,
+            date: dateFormat(stat_ref?.created_at, "mmm dd, yyyy hh:MM:ss TT"),
+            score: stat_ref?.points?.toFixed(2),
+            percentage: stat_ref?.result?.toFixed(2),
+            status: stat_ref?.status ?? "NA",
+            hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false
+          },
+          {
+            stat_ref: stat_ref,
+          }
+        );
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
     }

@@ -177,6 +177,8 @@ const Question = () => {
         return __("Numerical", "acadlix");
       case "rangeType":
         return __("Range Type", "acadlix");
+      case "assessment":
+        return __("Assessment", "acadlix");
       case "paragraph":
         return __("Paragraph", "acadlix");
       default:

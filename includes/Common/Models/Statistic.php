@@ -22,7 +22,11 @@ if (!class_exists('Statistic')) {
             "negative_points",
             "question_time",
             "answer_data",
-            "attempted_at"
+            "attempted_at",
+            "is_evaluated",
+            "evaluated_by",
+            "evaluated_id",
+            "evaluation_remark"
         ];
         
         protected $casts = [
@@ -35,7 +39,11 @@ if (!class_exists('Statistic')) {
             "points" => "double",
             "negative_points" => "double",
             "question_time" => "integer",
-            "attempted_at" => "string"
+            "attempted_at" => "string",
+            "is_evaluated" => "integer",
+            "evaluated_by" => "string",
+            "evaluated_id" => "integer",
+            "evaluation_remark" => "string",
         ];
 
         public function __construct(array $attributes = [])

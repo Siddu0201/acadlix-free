@@ -83,163 +83,165 @@ const QuizResult = () => {
     }
   };
 
-  const columns = [
-    { field: "id", headerName: __("ID", "acadlix") },
-    { field: "name", headerName: __("Name / Username", "acadlix"), flex: 2, minWidth: 250 },
-    { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 250 },
-    { field: "score", headerName: __("Score", "acadlix"), flex: 1, minWidth: 100 },
-    { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
-    {
-      field: "status",
-      headerName: __("Status", "acadlix"),
-      flex: 1,
-      minWidth: 100,
-      renderCell: (params) => {
-        return (
-          <>
-            {
-              params?.value === "Pass" &&
-              <Chip
-                color="success"
-                label={__('Pass', 'acadlix')}
-              />
-            }
-            {
-              params?.value === "Fail" &&
-              <Chip
-                color="error"
-                label={__('Fail', 'acadlix')}
-              />
-            }
-            {
-              params?.value === "NA" &&
-              <Chip
-                color="grey"
-                label={__('NA', 'acadlix')}
-              />
-            }
-          </>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: __("Action", "acadlix"),
-      sortable: false,
-      flex: 1,
-      minWidth: 100,
-      renderCell: (params) => {
-        const actionSetting = {
-          component: "Box",
-          component_name: "quiz_result_action_box",
-          children: [
-            hasCapability("acadlix_show_answersheet") && {
-              component: "Suspense",
-              component_name: "quiz_result_action_answer_sheet_suspense",
-              props: {
-                fallback: null,
-              },
-              children: [
-                {
-                  component: <ViewAnswerSheetButton
-                    quiz_id={quiz_id}
-                    id={params?.id}
-                  />,
-                  component_name: "quiz_result_action_view_answer_sheet_button",
-                },
-              ],
-            },
-            hasCapability("acadlix_delete_statistic") && {
-              component: "Tooltip",
-              component_name: "quiz_result_action_delete_tooltip",
-              props: {
-                title: __("Delete", "acadlix"),
-              },
-              children: [
-                {
-                  component: "IconButton",
-                  component_name: "quiz_result_action_delete_icon_button",
-                  props: {
-                    size: "small",
-                    color: "error",
-                    sx: { ml: 1 },
-                    onClick: deleteStatisticById.bind(this, params?.id),
-                  },
-                  children: [
-                    {
-                      component: "FaTrash",
-                      component_name: "quiz_result_action_delete_icon",
-                      props: {
-                        fontSize: "inherit",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ]
-        }
-
-        const actionElements = window?.acadlixHooks?.applyFilters(
-          "acadlix.admin.quiz_result.actions",
-          [actionSetting],
-          {
-            register: methods?.register,
-            control: methods?.control,
-            watch: methods?.watch,
-            setValue: methods?.setValue,
-            params: params,
-            quiz_id: quiz_id,
-          }
-        ) ?? [];
-        return (
-          <>
-            {actionElements.map((field, i) => (
-              <React.Fragment key={i}>
-                <DynamicMUIRenderer
-                  item={field}
-                  index={i}
-                  formProps={{
-                    register: methods?.register,
-                    setValue: methods?.setValue,
-                    watch: methods?.watch,
-                    control: methods?.control,
-                  }}
+  const columns = window?.acadlixHooks?.applyFilters(
+    "acadlix.admin.quiz_result.columns",
+    [
+      { field: "id", headerName: __("ID", "acadlix") },
+      { field: "name", headerName: __("Name / Username", "acadlix"), flex: 2, minWidth: 250 },
+      { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 250 },
+      { field: "score", headerName: __("Score", "acadlix"), flex: 1, minWidth: 100 },
+      { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
+      {
+        field: "status",
+        headerName: __("Status", "acadlix"),
+        flex: 1,
+        minWidth: 100,
+        renderCell: (params) => {
+          return (
+            <>
+              {
+                params?.value === "Pass" &&
+                <Chip
+                  color="success"
+                  label={__('Pass', 'acadlix')}
                 />
-              </React.Fragment>
-            ))}
-          </>
-        )
-        // return (
-        //   <Box>
-        //     {
-        //       hasCapability("acadlix_show_answersheet") &&
-        //       <React.Suspense fallback={null}>
-        //         <ViewAnswerSheetButton
-        //           quiz_id={quiz_id}
-        //           id={params?.id}
-        //         />
-        //       </React.Suspense>
-        //     }
-        //     {
-        //       hasCapability("acadlix_delete_statistic") &&
-        //       <Tooltip title={__("Delete", "acadlix")}>
-        //         <IconButton
-        //           aria-label="delete"
-        //           size="small"
-        //           color="error"
-        //           sx={{ ml: 1 }}
-        //           onClick={deleteStatisticById.bind(this, params?.id)}
-        //         >
-        //           <FaTrash fontSize="inherit" />
-        //         </IconButton>
-        //       </Tooltip>
-        //     }
-        //   </Box>
-        // );
+              }
+              {
+                params?.value === "Fail" &&
+                <Chip
+                  color="error"
+                  label={__('Fail', 'acadlix')}
+                />
+              }
+              {
+                params?.value === "NA" &&
+                <Chip
+                  color="grey"
+                  label={__('NA', 'acadlix')}
+                />
+              }
+            </>
+          );
+        },
       },
-    },
-  ];
+      {
+        field: "action",
+        headerName: __("Action", "acadlix"),
+        sortable: false,
+        flex: 1,
+        minWidth: 100,
+        renderCell: (params) => {
+          const actionSetting = {
+            component: "Box",
+            component_name: "quiz_result_action_box",
+            children: [
+              hasCapability("acadlix_show_answersheet") && {
+                component: "Suspense",
+                component_name: "quiz_result_action_answer_sheet_suspense",
+                props: {
+                  fallback: null,
+                },
+                children: [
+                  {
+                    component: <ViewAnswerSheetButton
+                      quiz_id={quiz_id}
+                      id={params?.id}
+                    />,
+                    component_name: "quiz_result_action_view_answer_sheet_button",
+                  },
+                ],
+              },
+              hasCapability("acadlix_delete_statistic") && {
+                component: "Tooltip",
+                component_name: "quiz_result_action_delete_tooltip",
+                props: {
+                  title: __("Delete", "acadlix"),
+                },
+                children: [
+                  {
+                    component: "IconButton",
+                    component_name: "quiz_result_action_delete_icon_button",
+                    props: {
+                      size: "small",
+                      color: "error",
+                      sx: { ml: 1 },
+                      onClick: deleteStatisticById.bind(this, params?.id),
+                    },
+                    children: [
+                      {
+                        component: "FaTrash",
+                        component_name: "quiz_result_action_delete_icon",
+                        props: {
+                          fontSize: "inherit",
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]
+          }
+
+          const actionElements = window?.acadlixHooks?.applyFilters(
+            "acadlix.admin.quiz_result.actions",
+            [actionSetting],
+            {
+              register: methods?.register,
+              control: methods?.control,
+              watch: methods?.watch,
+              setValue: methods?.setValue,
+              params: params,
+              quiz_id: quiz_id,
+            }
+          ) ?? [];
+          return (
+            <>
+              {actionElements.map((field, i) => (
+                <React.Fragment key={i}>
+                  <DynamicMUIRenderer
+                    item={field}
+                    index={i}
+                    formProps={{
+                      register: methods?.register,
+                      setValue: methods?.setValue,
+                      watch: methods?.watch,
+                      control: methods?.control,
+                    }}
+                  />
+                </React.Fragment>
+              ))}
+            </>
+          )
+          // return (
+          //   <Box>
+          //     {
+          //       hasCapability("acadlix_show_answersheet") &&
+          //       <React.Suspense fallback={null}>
+          //         <ViewAnswerSheetButton
+          //           quiz_id={quiz_id}
+          //           id={params?.id}
+          //         />
+          //       </React.Suspense>
+          //     }
+          //     {
+          //       hasCapability("acadlix_delete_statistic") &&
+          //       <Tooltip title={__("Delete", "acadlix")}>
+          //         <IconButton
+          //           aria-label="delete"
+          //           size="small"
+          //           color="error"
+          //           sx={{ ml: 1 }}
+          //           onClick={deleteStatisticById.bind(this, params?.id)}
+          //         >
+          //           <FaTrash fontSize="inherit" />
+          //         </IconButton>
+          //       </Tooltip>
+          //     }
+          //   </Box>
+          // );
+        },
+      },
+    ]);
 
   const { data, isFetching, refetch } = GetStatisticByQuizId(
     quiz_id,

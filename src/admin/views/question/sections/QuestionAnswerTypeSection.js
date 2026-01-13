@@ -34,6 +34,18 @@ const NumericalOption = React.lazy(() =>
       )
 );
 
+const AssessmentOption = React.lazy(() => 
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+        /* webpackChunkName: "admin_quiz_pro_assessment_option" */
+        "@acadlix/pro/admin/question/sections/AssessmentOption"
+      )
+    : import(
+        /* webpackChunkName: "admin_quiz_free_assessment_option" */
+        "@acadlix/free/admin/question/sections/AssessmentOption"
+      )
+);
+
 const QuestionAnswerTypeSection = (props) => {
   const handleTypeChange = (e) => {
     props?.setValue("answer_type", e.target.value, { shouldDirty: true });
@@ -91,6 +103,9 @@ const QuestionAnswerTypeSection = (props) => {
             </React.Suspense>
             <React.Suspense fallback={null}>
               <RangeTypeOption />
+            </React.Suspense>
+            <React.Suspense fallback={null}>
+              <AssessmentOption />
             </React.Suspense>
           </RadioGroup>
         </CardContent>

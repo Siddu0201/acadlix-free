@@ -622,6 +622,7 @@ class Manager
         wp_enqueue_script('acadlix-katex-auto-render-js');
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-plyr-js');
+        wp_enqueue_editor();
 
         acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
 

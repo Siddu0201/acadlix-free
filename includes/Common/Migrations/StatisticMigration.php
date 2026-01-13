@@ -34,6 +34,10 @@ if(!class_exists('StatisticMigration')){
                     $table->integer("question_time")->nullable();
                     $table->text("answer_data")->nullable();
                     $table->unsignedBigInteger('attempted_at')->nullable();
+                    $table->boolean('is_evaluated')->default(1);
+                    $table->string('evaluated_by')->nullable();
+                    $table->unsignedBigInteger('evaluated_id')->nullable();
+                    $table->text('evaluation_remark')->nullable();
                     $table->timestamps();
                 });
             }
@@ -46,6 +50,29 @@ if(!class_exists('StatisticMigration')){
 
         public function update()
         {
+            // Add in db version 11
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'is_evaluated')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->boolean('is_evaluated')->default(1)->after('attempted_at');
+                });
+            }
+
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'evaluated_by')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->string('evaluated_by')->nullable()->after('is_evaluated');
+                });
+            }
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'evaluated_id')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->unsignedBigInteger('evaluated_id')->nullable()->after('evaluated_by');
+                });
+            }
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'evaluation_remark')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->text('evaluation_remark')->nullable()->after('evaluated_id');
+                });
+            }
+
             // Added in db version 3
             if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'attempted_at')) {
                 Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {

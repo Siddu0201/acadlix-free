@@ -21,6 +21,7 @@ import QuestionText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-c
 import CorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/CorrectMsgSection";
 import IncorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/IncorrectMsgSection";
 import { AnswerSheetFunction } from "./AnswerSheetFunction";
+import TypeAssessment from "@acadlix/front/dashboard/quiz/questionTypes/TypeAssessment";
 // import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
 // import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
 // import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
@@ -173,6 +174,10 @@ const AnswerSheet = ({
                 paragraph_id: stat?.question?.paragraph_id,
                 answer_type: stat?.question?.answer_type,
                 result: {
+                    is_evaluated: stat?.is_evaluated,
+                    evaluated_by: stat?.evaluated_by,
+                    evaluated_id: stat?.evaluated_id,
+                    evaluation_remark: stat?.evaluation_remark,
                     correct_count: stat?.correct_count,
                     incorrect_count: stat?.incorrect_count,
                     solved_count: stat?.solved_count,
@@ -233,6 +238,11 @@ const AnswerSheet = ({
                                     stat?.question?.answer_type === "rangeType" && stat?.answer_data
                                         ? { ...lang?.rendered_answer_data?.rangeType, yourAnswer: stat?.answer_data }
                                         : lang?.rendered_answer_data?.rangeType,
+                                assessment:
+                                    stat?.question?.answer_type === "assessment" && stat?.answer_data
+                                        ? { ...lang?.rendered_answer_data?.assessment, yourAnswer: stat?.answer_data }
+                                        : lang?.rendered_answer_data?.assessment,
+
                             },
                         };
                     }) ?? [],
@@ -266,6 +276,7 @@ const AnswerSheet = ({
     };
 
     const {
+        hasEvaluatedQuestions,
         isQuestionEvaluated,
         getPoints,
         getNegativePoints,
@@ -291,6 +302,38 @@ const AnswerSheet = ({
         isIncorrect
     } = AnswerSheetFunction(methods);
 
+    const getQuestionColor = (d) => {
+        const solved = d?.result?.solved_count;
+        const correct = d?.result?.correct_count;
+        const incorrect = d?.result?.incorrect_count;
+        const isEvaluated = d?.result?.is_evaluated;
+        const answerType = d?.answer_type;
+        // Skipped
+        if (!solved) {
+            return theme.palette.grey[300];
+        }
+
+        // Assessment questions
+        if (answerType === 'assessment') {
+            if (!isEvaluated) {
+                return theme.palette.warning.main;
+            }
+
+            return theme.palette.info.main;
+        }
+
+        // Non-assessment questions
+        if (correct) {
+            return theme.palette.success.main;
+        }
+
+        if (incorrect) {
+            return theme.palette.error.main;
+        }
+
+        return theme.palette.grey[300];
+    };
+
     return (
         <Box>
             {!methods?.watch("hide_result") && (
@@ -298,6 +341,7 @@ const AnswerSheet = ({
                     {...props}
                     {...methods}
                     colorCode={colorCode}
+                    hasEvaluatedQuestions={hasEvaluatedQuestions}
                     getPoints={getPoints}
                     getNegativePoints={getNegativePoints}
                     getTotalPoints={getTotalPoints}
@@ -361,20 +405,10 @@ const AnswerSheet = ({
                                     : colorCode?.overview_button_border
                                     }`,
                                 boxShadow: d?.selected ? theme.shadows[3] : "none",
-                                backgroundColor:
-                                    d?.result?.correct_count && d?.result?.solved_count
-                                        ? (theme) => theme?.palette?.success?.main
-                                        : d?.result?.incorrect_count && d?.result?.solved_count
-                                            ? (theme) => theme?.palette?.error?.main
-                                            : (theme) => theme?.palette?.grey[300],
+                                backgroundColor: getQuestionColor(d),
                                 color: colorCode?.overview_button_active_text,
                                 ":hover, :focus": {
-                                    backgroundColor:
-                                        d?.result?.correct_count && d?.result?.solved_count
-                                            ? (theme) => theme?.palette?.success?.main
-                                            : d?.result?.incorrect_count && d?.result?.solved_count
-                                                ? (theme) => theme?.palette?.error?.main
-                                                : (theme) => theme?.palette?.grey[300],
+                                    backgroundColor: getQuestionColor(d),
                                     color: colorCode?.overview_button_active_text,
                                     border: `1px solid ${d?.selected
                                         ? colorCode?.overview_button_active_border
@@ -431,6 +465,42 @@ const AnswerSheet = ({
                         }}
                     ></Box>
                     <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
+                    {
+                        hasEvaluatedQuestions && (
+                            <>
+                                <Box
+                                    sx={{
+                                        marginTop: "5px",
+                                        backgroundColor: (theme) => theme?.palette?.warning?.main,
+                                        height: "15px",
+                                        width: "15px",
+                                        marginX: "5px",
+                                        display: "inline-block",
+                                    }}
+                                ></Box>
+                                <Typography
+                                    className="acadlix-normal-quiz-question-overview-label-text"
+                                >
+                                    {__("Pending", "acadlix")}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        marginTop: "5px",
+                                        backgroundColor: (theme) => theme?.palette?.info?.main,
+                                        height: "15px",
+                                        width: "15px",
+                                        marginX: "5px",
+                                        display: "inline-block",
+                                    }}
+                                ></Box>
+                                <Typography
+                                    className="acadlix-normal-quiz-question-overview-label-text"
+                                >
+                                    {__("Evaluated", "acadlix")}
+                                </Typography>
+                            </>
+                        )
+                    }
                 </Box>
             </Box>
 
@@ -556,6 +626,17 @@ const ViewQuestionSection = (props) => {
                 return (
                     <TypeRange
                         type="rangeType"
+                        lang_index={lang_index}
+                        index={props?.index}
+                        isDisabled={true}
+                        {...props}
+                        {...data}
+                    />
+                );
+            case "assessment":
+                return (
+                    <TypeAssessment
+                        type="assessment"
                         lang_index={lang_index}
                         index={props?.index}
                         isDisabled={true}

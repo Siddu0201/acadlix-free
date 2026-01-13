@@ -83,6 +83,7 @@ const OptionButtonSection = (props) => {
         break;
       case "numerical":
       case "rangeType":
+      case "assessment":
         props?.setValue(
           `questions.${currentIndex}.language`,
           props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {

@@ -8,7 +8,6 @@ import {
   getCurrentDateString,
   getFormatDate,
   getOffset,
-  secondsToHms,
   strtotime,
 } from "@acadlix/helpers/util";
 import {
@@ -236,6 +235,10 @@ const QuizContent = (props) => {
           check: false,
           visit: index === 0,
           result: {
+            is_evaluated: question?.answer_type === "assessment" ? 0 : 1,
+            evaluated_by: "",
+            evaluated_id: null,
+            evaluation_remark: "",
             correct_count: 0,
             incorrect_count: 0,
             solved_count: 0,
@@ -287,6 +290,7 @@ const QuizContent = (props) => {
                     ?.fillInTheBlank,
                   numerical: lang?.rendered_answer_data?.numerical,
                   rangeType: lang?.rendered_answer_data?.rangeType,
+                  assessment: lang?.rendered_answer_data?.assessment,
                 },
               };
             }) ?? [],
@@ -334,6 +338,7 @@ const QuizContent = (props) => {
   }
 
   const {
+    hasEvaluatedQuestions,
     getPoints,
     getNegativePoints,
     getTotalPoints,
@@ -583,6 +588,7 @@ const QuizContent = (props) => {
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
+            hasEvaluatedQuestions={hasEvaluatedQuestions}
             getPoints={getPoints}
             getNegativePoints={getNegativePoints}
             getTotalPoints={getTotalPoints}
@@ -619,6 +625,7 @@ const QuizContent = (props) => {
               saveResult={saveResult}
               isPending={saveResultMutation?.isPending}
               isPendingResultFeedback={resultFeedbackMutation?.isPending}
+              hasEvaluatedQuestions={hasEvaluatedQuestions}
               getPoints={getPoints}
               getNegativePoints={getNegativePoints}
               getTotalPoints={getTotalPoints}

@@ -1,6 +1,10 @@
 import { __ } from "@wordpress/i18n";
 
 export const QuizFunction = (methods) => {
+    const hasEvaluatedQuestions = () => {
+        return methods?.watch("questions")?.filter((d) => d?.answer_type === 'assessment')?.length > 0;
+    }
+
     const getPoints = () => {
         let points = methods?.watch("questions")?.reduce((total, d) => {
             if (d?.result?.solved_count && d?.result?.correct_count) {
@@ -398,6 +402,7 @@ export const QuizFunction = (methods) => {
       }
 
     return {
+        hasEvaluatedQuestions,
         getPoints,
         getNegativePoints,
         getTotalPoints,

@@ -1,6 +1,10 @@
 import { __ } from "@wordpress/i18n";
 
 export const AnswerSheetFunction = (methods) => {
+    const hasEvaluatedQuestions = () => {
+        return methods?.watch("questions")?.filter((d) => d?.answer_type === 'assessment')?.length > 0;
+    }
+
     const isQuestionEvaluated = (subjectId = 0, questionId = 0) => {
         const subject = methods?.watch("subject_times")?.find((d) => d?.subject_id === subjectId);
         if (
@@ -171,7 +175,7 @@ export const AnswerSheetFunction = (methods) => {
     const getStatus = () => {
         const points = getPoints();
         const total = getTotalPoints();
-        if(!methods?.watch("show_status_based_on_min_percent")){
+        if (!methods?.watch("show_status_based_on_min_percent")) {
             return null;
         }
         return (points / total) * 100 >= methods?.watch("minimum_percent_to_pass") ? __("Pass", "acadlix") : __("Fail", "acadlix");
@@ -398,6 +402,7 @@ export const AnswerSheetFunction = (methods) => {
     }
 
     return {
+        hasEvaluatedQuestions,
         isQuestionEvaluated,
         getPoints,
         getNegativePoints,

@@ -10,6 +10,7 @@ import TypeMatrixSortingChoice from "../../questionTypes/TypeMatrixSortingChoice
 import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
+import TypeAssessment from "../../questionTypes/TypeAssessment";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 // import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
@@ -136,6 +137,18 @@ const QuestionSection = (props) => {
           <TypeRange
             key={props?.index}
             type="rangeType"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={isDisabled()}
+            {...props}
+            {...data}
+          />
+        );
+      case "assessment":
+        return (
+          <TypeAssessment
+            key={props?.index}  
+            type="assessment"
             lang_index={lang_index}
             index={props?.index}
             isDisabled={isDisabled()}

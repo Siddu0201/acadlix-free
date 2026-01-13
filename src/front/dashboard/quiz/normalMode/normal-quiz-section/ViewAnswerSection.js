@@ -10,6 +10,7 @@ import TypeFill from "../../questionTypes/TypeFill";
 import TypeNumerical from "../../questionTypes/TypeNumerical";
 import TypeRange from "../../questionTypes/TypeRange";
 import TypeFreeChoice from "../../questionTypes/TypeFreeChoice";
+import TypeAssessment from "../../questionTypes/TypeAssessment";
 import CustomButton from "@acadlix/components/CustomButton";
 // import QuestionStatusSection from "./QuestionStatusSection";
 import LanguageSection from "./LanguageSection";
@@ -29,6 +30,39 @@ const QuestionStatusSection = React.lazy(() =>
 
 const ViewAnswerSection = (props) => {
   const theme = useTheme();
+
+  const getQuestionColor = (d) => {
+    const solved = d?.result?.solved_count;
+    const correct = d?.result?.correct_count;
+    const incorrect = d?.result?.incorrect_count;
+    const isEvaluated = d?.result?.is_evaluated;
+    const answerType = d?.answer_type;
+    // Skipped
+    if (!solved) {
+      return theme.palette.grey[300];
+    }
+
+    // Assessment questions
+    if (answerType === 'assessment') {
+      if (!isEvaluated) {
+        return theme.palette.warning.main;
+      }
+
+      return theme.palette.info.main;
+    }
+
+    // Non-assessment questions
+    if (correct) {
+      return theme.palette.success.main;
+    }
+
+    if (incorrect) {
+      return theme.palette.error.main;
+    }
+
+    return theme.palette.grey[300];
+  };
+
 
   const handleClick = (id) => {
     props?.setValue(
@@ -87,20 +121,10 @@ const ViewAnswerSection = (props) => {
                   : props?.colorCode?.overview_button_border
                   }`,
                 boxShadow: d?.selected ? theme.shadows[3] : "none",
-                backgroundColor:
-                  d?.result?.correct_count && d?.result?.solved_count
-                    ? (theme) => theme?.palette?.success?.main
-                    : d?.result?.incorrect_count && d?.result?.solved_count
-                      ? (theme) => theme?.palette?.error?.main
-                      : (theme) => theme?.palette?.grey[300],
+                backgroundColor: getQuestionColor(d),
                 color: props?.colorCode?.overview_button_active_text,
                 ":hover, :focus": {
-                  backgroundColor:
-                    d?.result?.correct_count && d?.result?.solved_count
-                      ? (theme) => theme?.palette?.success?.main
-                      : d?.result?.incorrect_count && d?.result?.solved_count
-                        ? (theme) => theme?.palette?.error?.main
-                        : (theme) => theme?.palette?.grey[300],
+                  backgroundColor: getQuestionColor(d),
                   color: props?.colorCode?.overview_button_active_text,
                   border: `1px solid ${d?.selected
                     ? props?.colorCode?.overview_button_active_border
@@ -169,6 +193,42 @@ const ViewAnswerSection = (props) => {
           >
             {__("Skipped", "acadlix")}
           </Typography>
+          {
+            props?.hasEvaluatedQuestions && (
+              <>
+                <Box
+                  sx={{
+                    marginTop: "5px",
+                    backgroundColor: (theme) => theme?.palette?.warning?.main,
+                    height: "15px",
+                    width: "15px",
+                    marginX: "5px",
+                    display: "inline-block",
+                  }}
+                ></Box>
+                <Typography
+                  className="acadlix-normal-quiz-question-overview-label-text"
+                >
+                  {__("Pending", "acadlix")}
+                </Typography>
+                <Box
+                  sx={{
+                    marginTop: "5px",
+                    backgroundColor: (theme) => theme?.palette?.info?.main,
+                    height: "15px",
+                    width: "15px",
+                    marginX: "5px",
+                    display: "inline-block",
+                  }}
+                ></Box>
+                <Typography
+                  className="acadlix-normal-quiz-question-overview-label-text"
+                >
+                  {__("Evaluated", "acadlix")}
+                </Typography>
+              </>
+            )
+          }
         </Box>
       </Box>
 
@@ -290,6 +350,17 @@ const ViewQuestionSection = (props) => {
         return (
           <TypeRange
             type="rangeType"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "assessment":
+        return (
+          <TypeAssessment
+            type="assessment"
             lang_index={lang_index}
             index={props?.index}
             isDisabled={true}
