@@ -88,14 +88,14 @@ const QuizResult = () => {
     [
       { field: "id", headerName: __("ID", "acadlix") },
       { field: "name", headerName: __("Name / Username", "acadlix"), flex: 2, minWidth: 200 },
-      { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 150 },
-      { field: "score", headerName: __("Score", "acadlix"), flex: 1, minWidth: 100 },
-      { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
+      { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 200 },
+      { field: "score", headerName: __("Score", "acadlix"), flex: 1, minWidth: 80 },
+      { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 80 },
       {
         field: "status",
         headerName: __("Status", "acadlix"),
         flex: 1,
-        minWidth: 100,
+        minWidth: 80,
         renderCell: (params) => {
           return (
             <>
