@@ -87,8 +87,8 @@ const QuizResult = () => {
     "acadlix.admin.quiz_result.columns",
     [
       { field: "id", headerName: __("ID", "acadlix") },
-      { field: "name", headerName: __("Name / Username", "acadlix"), flex: 2, minWidth: 250 },
-      { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 250 },
+      { field: "name", headerName: __("Name / Username", "acadlix"), flex: 2, minWidth: 200 },
+      { field: "date", headerName: __("Date/Time", "acadlix"), flex: 1, minWidth: 150 },
       { field: "score", headerName: __("Score", "acadlix"), flex: 1, minWidth: 100 },
       { field: "percentage", headerName: __("Percentage", "acadlix"), flex: 1, minWidth: 100 },
       {
@@ -164,7 +164,6 @@ const QuizResult = () => {
                     props: {
                       size: "small",
                       color: "error",
-                      sx: { ml: 1 },
                       onClick: deleteStatisticById.bind(this, params?.id),
                     },
                     children: [
