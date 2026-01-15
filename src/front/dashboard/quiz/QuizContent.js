@@ -235,24 +235,26 @@ const QuizContent = (props) => {
           check: false,
           visit: index === 0,
           result: {
-            is_evaluated: question?.answer_type === "assessment" ? 0 : 1,
-            evaluated_by: "",
-            evaluated_id: null,
-            evaluation_remark: "",
             correct_count: 0,
             incorrect_count: 0,
             solved_count: 0,
             hint_count: 0,
+            points: question?.answer_type == "assessment" ? 0 : question?.points,
+            negative_points: question?.answer_type == "assessment" ? 0 : question?.negative_points,
             time: 0,
             answer_data: question?.answer_type === "sortingChoice"
-              ? question
-                ?.question_languages
-                ?.find((lang) => Boolean(Number(lang?.default)))
-                ?.rendered_answer_data
-                ?.sortingChoice
-                ?.map((d) => d.position)
-              : null,
+            ? question
+            ?.question_languages
+            ?.find((lang) => Boolean(Number(lang?.default)))
+            ?.rendered_answer_data
+            ?.sortingChoice
+            ?.map((d) => d.position)
+            : null,
             attempted_at: null,
+            is_evaluated: question?.answer_type === "assessment" ? 0 : 1,
+            evaluated_by: "",
+            evaluated_id: null,
+            evaluation_remark: "",
           },
           shuffle_order: question?.answer_type === "matrixSortingChoice"
             ? arrayRandomize(question
@@ -522,9 +524,6 @@ const QuizContent = (props) => {
         return {
           question_id: d?.question_id,
           result: d?.result,
-          points: d?.points,
-          negative_points: d?.negative_points,
-          answer_data: d?.result?.answer_data,
         };
       }),
       quiz_attempt_type: props?.quiz_attempt_type ?? "shortcode",

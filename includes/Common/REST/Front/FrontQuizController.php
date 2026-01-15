@@ -304,12 +304,15 @@ class FrontQuizController
                         "incorrect_count" => $question["result"]["incorrect_count"],
                         "hint_count" => $question["result"]["hint_count"],
                         "solved_count" => $question["result"]["solved_count"],
-                        "points" => $question["points"],
-                        "negative_points" => $question["negative_points"],
+                        "points" => $question["result"]["points"],
+                        "negative_points" => $question["result"]["negative_points"],
                         "question_time" => $question["result"]["time"],
                         "answer_data" => $question["result"]["answer_data"],
                         "attempted_at" => $question["result"]["attempted_at"] !== '' ? (int) $question["result"]["attempted_at"] : null,
                         "is_evaluated" => $question["result"]["is_evaluated"],
+                        "evaluated_by" => $question["result"]["evaluated_by"],
+                        "evaluated_id" => $question["result"]["evaluated_id"],
+                        "evaluation_remark" => $question["result"]["evaluation_remark"],
                     ]);
                 }
 

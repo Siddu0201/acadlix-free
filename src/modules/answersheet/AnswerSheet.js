@@ -353,6 +353,10 @@ const AnswerSheet = ({
                 <ResultEvaluation
                     {...props}
                     {...methods}
+                    getPoints={getPoints}
+                    getTotalPoints={getTotalPoints}
+                    getResult={getResult}
+                    getStatus={getStatus}
                 />
             </React.Suspense>
         )
