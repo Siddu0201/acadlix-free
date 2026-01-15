@@ -88,10 +88,20 @@ const ResultSpeed = React.lazy(() =>
         Promise.resolve({ default: () => null })
 );
 
+const ResultEvaluation = React.lazy(() =>
+    process.env.REACT_APP_IS_PREMIUM === 'true' ?
+        import(
+            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_evaluation" */
+            "@acadlix/pro/admin/quiz/quiz-result/result-evaluation/ResultEvaluation"
+        ) :
+        Promise.resolve({ default: () => null })
+);
+
 const AnswerSheet = ({
     statistic = [],
     colorCode = {},
     quiz = {},
+    type = "answersheet",
     ...props
 }) => {
     const theme = useTheme();
@@ -174,17 +184,20 @@ const AnswerSheet = ({
                 paragraph_id: stat?.question?.paragraph_id,
                 answer_type: stat?.question?.answer_type,
                 result: {
-                    is_evaluated: stat?.is_evaluated,
-                    evaluated_by: stat?.evaluated_by,
-                    evaluated_id: stat?.evaluated_id,
-                    evaluation_remark: stat?.evaluation_remark,
+                    id: stat?.id,
                     correct_count: stat?.correct_count,
                     incorrect_count: stat?.incorrect_count,
                     solved_count: stat?.solved_count,
                     hint_count: stat?.hint_count,
+                    points: stat?.points,
+                    negative_points: stat?.negative_points,
                     time: stat?.question_time,
                     answer_data: stat?.answer_data,
                     attempted_at: Number(stat?.attempted_at) ?? null,
+                    is_evaluated: stat?.is_evaluated,
+                    evaluated_by: stat?.evaluated_by,
+                    evaluated_id: stat?.evaluated_id,
+                    evaluation_remark: stat?.evaluation_remark,
                 },
                 language:
                     stat?.question?.question_languages?.map((lang) => {
@@ -333,6 +346,17 @@ const AnswerSheet = ({
 
         return theme.palette.grey[300];
     };
+
+    if (type === "result_evaluation") {
+        return (
+            <React.Suspense fallback={null}>
+                <ResultEvaluation
+                    {...props}
+                    {...methods}
+                />
+            </React.Suspense>
+        )
+    }
 
     return (
         <Box>

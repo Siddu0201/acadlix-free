@@ -31,6 +31,9 @@ export const AnswerSheetFunction = (methods) => {
 
     const getPoints = () => {
         let points = methods?.watch("questions")?.reduce((total, d) => {
+            if(d?.answer_type == 'assessment' && d?.result?.is_evaluated) {
+                return total + Number(d?.result?.points);
+            }
             if (d?.result?.solved_count && d?.result?.correct_count) {
                 return total + Number(d?.points);
             } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
@@ -192,6 +195,9 @@ export const AnswerSheetFunction = (methods) => {
         let points = methods?.watch("questions")
             ?.filter((d) => d?.subject_id === subjectId)
             ?.reduce((total, d) => {
+                if(d?.answer_type == 'assessment' && d?.result?.is_evaluated) {
+                    return total + Number(d?.result?.points);
+                }
                 if (d?.result?.solved_count && d?.result?.correct_count) {
                     return total + Number(d?.points);
                 } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
@@ -221,6 +227,9 @@ export const AnswerSheetFunction = (methods) => {
 
             const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
             points = evaluated_questions?.reduce((total, d) => {
+                if(d?.answer_type == 'assessment' && d?.result?.is_evaluated) {
+                    return total + Number(d?.result?.points);
+                }
                 if (d?.result?.solved_count && d?.result?.correct_count) {
                     return total + Number(d?.points);
                 } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
