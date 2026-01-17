@@ -28,16 +28,12 @@ const QuestionSubjectAndPointSection = (props) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginY: "5px",
+          marginY: 1,
         }}
         className="acadlix-normal-quiz-question-subject-and-point-section"
       >
         {!props?.watch("hide_question_numbering") && (
-          <Box
-            sx={{
-              marginY: "5px",
-            }}
-          >
+          <Box>
             <Typography
               sx={{
                 fontWeight: "bold"
@@ -102,13 +98,10 @@ const QuestionSubjectAndPointSection = (props) => {
                 <Tooltip title={__('Remove from review', 'acadlix')}>
                   <Button
                     variant="contained"
-                    size="medium"
+                    size="small"
                     onClick={handleReview}
                     sx={{
-                      fontSize: {
-                        xs: 20,
-                        md: 18
-                      }
+                      fontSize: 18
                     }}
                     className="acadlix-normal-quiz-question-remove-review-button"
                   >
@@ -119,13 +112,10 @@ const QuestionSubjectAndPointSection = (props) => {
                 <Tooltip title={__('Mark as review', 'acadlix')}>
                   <Button
                     variant="contained"
-                    size="medium"
+                    size="small"
                     onClick={handleReview}
                     sx={{
-                      fontSize: {
-                        xs: 20,
-                        md: 18
-                      }
+                      fontSize: 18
                     }}
                     className="acadlix-normal-quiz-question-review-button"
                   >
