@@ -62,5 +62,9 @@ if(!class_exists('StatisticRef')){
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
         }
 
+        public function getEvaluatedCount(){
+            return $this->statistics()->where('is_evaluated', 1)->count();
+        }
+
     }
 }
