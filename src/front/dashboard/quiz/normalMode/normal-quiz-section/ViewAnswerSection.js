@@ -159,6 +159,7 @@ const ViewAnswerSection = (props) => {
           ></Box>
           <Typography
             className="acadlix-normal-quiz-question-overview-label-text"
+            component="span"
           >
             {__("Correct", "acadlix")}
           </Typography>
@@ -174,6 +175,7 @@ const ViewAnswerSection = (props) => {
           ></Box>
           <Typography
             className="acadlix-normal-quiz-question-overview-label-text"
+            component="span"
           >
             {__("Incorrect", "acadlix")}
           </Typography>
@@ -189,6 +191,7 @@ const ViewAnswerSection = (props) => {
           ></Box>
           <Typography
             className="acadlix-normal-quiz-question-overview-label-text"
+            component="span"
           >
             {__("Skipped", "acadlix")}
           </Typography>
@@ -207,6 +210,7 @@ const ViewAnswerSection = (props) => {
                 ></Box>
                 <Typography
                   className="acadlix-normal-quiz-question-overview-label-text"
+                  component="span"
                 >
                   {__("Pending", "acadlix")}
                 </Typography>
@@ -222,6 +226,7 @@ const ViewAnswerSection = (props) => {
                 ></Box>
                 <Typography
                   className="acadlix-normal-quiz-question-overview-label-text"
+                  component="span"
                 >
                   {__("Evaluated", "acadlix")}
                 </Typography>
@@ -254,7 +259,6 @@ const ViewAnswerSection = (props) => {
 };
 
 const ViewQuestionSection = (props) => {
-  const theme = useTheme();
   const answerType = (data = {}, lang_index = 0) => {
     switch (props?.question?.answer_type) {
       case "singleChoice":

@@ -42,6 +42,7 @@ const QuestionSubjectAndPointSection = (props) => {
               sx={{
                 fontWeight: "bold"
               }}
+              component="span"
               className="acadlix-normal-quiz-question-number"
             >
               {__('Question', 'acadlix')} {props?.num} {__('of', 'acadlix')} {props?.watch("questions")?.length}
@@ -159,9 +160,9 @@ const QuestionSubjectAndPointSection = (props) => {
           >
             <Typography
               className="acadlix-normal-quiz-question-subject-content"
-              fontWeight="bold"
+              component="span"
             >
-              {__('Subject', 'acadlix')}: {" "}
+              <b>{__('Subject', 'acadlix')}: {" "}</b>
               {props?.watch(`questions.${props?.index}.subject_name`)}
             </Typography>
           </Box>
