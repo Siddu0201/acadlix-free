@@ -103,9 +103,9 @@ const QuestionOverviewSection = (props) => {
               padding: "3px 3px",
               margin: "3px",
               border: `1px solid ${d?.selected &&
-                  props?.watch("mode") !== "question_below_each_other"
-                  ? props?.colorCode?.overview_button_active_border
-                  : props?.colorCode?.overview_button_border
+                props?.watch("mode") !== "question_below_each_other"
+                ? props?.colorCode?.overview_button_active_border
+                : props?.colorCode?.overview_button_border
                 }`,
               boxShadow:
                 d?.selected &&
@@ -138,8 +138,8 @@ const QuestionOverviewSection = (props) => {
                     ? props?.colorCode?.overview_button_active_text
                     : props?.colorCode?.overview_button_text,
                 border: `1px solid ${d?.selected
-                    ? props?.colorCode?.overview_button_active_border
-                    : props?.colorCode?.overview_button_border
+                  ? props?.colorCode?.overview_button_active_border
+                  : props?.colorCode?.overview_button_border
                   }`,
               },
             }}
@@ -171,6 +171,7 @@ const QuestionOverviewSection = (props) => {
         ></Box>
         <Typography
           className="acadlix-normal-quiz-question-overview-label-text"
+          component="span"
         >
           {__("Answered", "acadlix")}
         </Typography>
@@ -186,7 +187,10 @@ const QuestionOverviewSection = (props) => {
                 display: "inline-block",
               }}
             ></Box>
-            <Typography className="acadlix-normal-quiz-question-overview-label-text">
+            <Typography
+              className="acadlix-normal-quiz-question-overview-label-text"
+              component="span"
+            >
               {__("Review", "acadlix")}
             </Typography>
             <Box
@@ -201,6 +205,7 @@ const QuestionOverviewSection = (props) => {
             ></Box>
             <Typography
               className="acadlix-normal-quiz-question-overview-label-text"
+              component="span"
             >
               {__("Review and answered", "acadlix")}
             </Typography>
