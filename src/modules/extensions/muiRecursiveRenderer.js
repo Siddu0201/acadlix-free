@@ -257,7 +257,7 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
   }
 
   const singleChildComponents = [
-    "Tooltip",
+    // "Tooltip",
     "Popover",
     "Dialog",
     "Menu",
