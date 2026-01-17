@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { FaPlus, FaTrash } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
@@ -14,6 +14,19 @@ const Outcome = (props) => {
       { shouldDirty: true }
     );
   };
+
+  const inputRefs = useRef([]);
+
+  useEffect(() => {
+    const outcomes = props?.watch("meta.outcomes") || [];
+    if (outcomes.length > 0) {
+      const last = inputRefs.current[outcomes.length - 1];
+      if (last && typeof last.focus === "function") {
+        // Focus the newly added input
+        last.focus();
+      }
+    }
+  }, [props?.watch("meta.outcomes")]);
 
   const handleRemoveOutcome = (index) => {
     props?.setValue(
@@ -54,6 +67,7 @@ const Outcome = (props) => {
                 type="text"
                 label={__("Add Outcome", "acadlix")}
                 value={o}
+                inputRef={(el) => (inputRefs.current[index] = el)}
                 onChange={(e) => {
                   props?.setValue(
                     `meta.outcomes.${index}`,
