@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
 import QuestionSubjectAndPointSection from "./QuestionSubjectAndPointSection";
 import TypeSingleChoice from "../../questionTypes/TypeSingleChoice";
@@ -16,7 +16,6 @@ import CustomButton from "@acadlix/components/CustomButton";
 import LanguageSection from "./LanguageSection";
 import { __ } from "@wordpress/i18n";
 
-import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import IncorrectMsgSection from "../normal-quiz-components/IncorrectMsgSection";
 import CorrectMsgSection from "../normal-quiz-components/CorrectMsgSection";
 import ParagraphText from "../normal-quiz-components/ParagraphText";

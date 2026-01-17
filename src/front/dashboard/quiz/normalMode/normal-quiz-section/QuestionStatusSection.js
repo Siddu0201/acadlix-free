@@ -3,12 +3,12 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 
 const QuestionStatusSection = (props) => {
-  const solved = props?.watch(`questions.${props?.index}.result.solved_count`);
-  const correct = props?.watch(`questions.${props?.index}.result.correct_count`);
-  const isEvaluated = props?.watch(`questions.${props?.index}.result.is_evaluated`);
-  const answerType = props?.watch(`questions.${props?.index}.answer_type`);
-
+  
   const getStatusChip = () => {
+    const solved = props?.watch(`questions.${props?.index}.result.solved_count`);
+    const correct = props?.watch(`questions.${props?.index}.result.correct_count`);
+    const isEvaluated = props?.watch(`questions.${props?.index}.result.is_evaluated`);
+    const answerType = props?.watch(`questions.${props?.index}.answer_type`);
     // Skipped
     if (!solved) {
       return {

@@ -1,12 +1,17 @@
 import { Box, Chip, Typography } from '@mui/material';
 import React, { useEffect } from 'react'
 import { __ } from '@wordpress/i18n';
-import { getCurrentDateString } from '@acadlix/helpers/util';
+import { getCurrentDateString, getStripHtml } from '@acadlix/helpers/util';
 import CustomLatex from '@acadlix/modules/latex/CustomLatex';
 
 const TypeAssessment = (props) => {
+  const getTextLength = () => {
+    const answer = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourAnswer`) || "";
+    return getStripHtml(answer)?.trim().length;
+  }
+
   const [characterPercentage, setCharacterPercentage] = React.useState(0);
-  const [characterCount, setCharacterCount] = React.useState(0);
+  const [characterCount, setCharacterCount] = React.useState(getTextLength());
   const getCharacterLimit = () => {
     const limit = props?.watch(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.characterLimit`
