@@ -89,8 +89,18 @@ const OptionButtonSection = (props) => {
           props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].yourAnswer = "";
             return lang;
-          })
+          }),
+          { shouldDirty: true }
         );
+
+        const editorId = `your_answer_${currentIndex}`;
+        const editor = window?.tinymce?.get(editorId);
+        if (editor && typeof editor.setContent === "function") {
+          editor.setContent("");
+        } else {
+          const ta = document.getElementById(editorId);
+          if (ta && typeof ta.value !== "undefined") ta.value = "";
+        }
         break;
       default:
     }
@@ -109,6 +119,7 @@ const OptionButtonSection = (props) => {
     props?.setValue(`questions.${currentIndex}.review`, false, {
       shouldDirty: true,
     });
+
   };
 
   const handleNextClick = () => {
@@ -247,9 +258,9 @@ const OptionButtonSection = (props) => {
           props
             ?.watch(`questions.${props?.index}.language`)
             .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (
-            <CustomButton 
-            onClick={handleHintClick}
-            className="acadlix-normal-quiz-option-button-hint"
+            <CustomButton
+              onClick={handleHintClick}
+              className="acadlix-normal-quiz-option-button-hint"
             >
               {__("Hint", "acadlix")}
             </CustomButton>
@@ -259,9 +270,9 @@ const OptionButtonSection = (props) => {
         {["normal", "question_below_each_other"]?.includes(props?.watch("mode")) &&
           props?.watch("enable_check_button") &&
           !props?.question?.check && (
-            <CustomButton 
-            onClick={handleCheckClick}
-            className="acadlix-normal-quiz-option-button-check"
+            <CustomButton
+              onClick={handleCheckClick}
+              className="acadlix-normal-quiz-option-button-check"
             >
               {__("Check", "acadlix")}
             </CustomButton>
