@@ -30,9 +30,8 @@ const IncorrectMsgSection = ({
             <Box>
                 <Typography
                     className="acadlix-normal-quiz-incorrect-msg-label"
-                    fontWeight={'bold'}
                 >
-                    {__('Explanation', 'acadlix')}
+                    <b>{__('Explanation', 'acadlix')}</b>
                 </Typography>
             </Box>
             <Box>
