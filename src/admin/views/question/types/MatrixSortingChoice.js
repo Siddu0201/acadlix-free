@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CardHeader,
   CardContent,
@@ -11,7 +11,7 @@ import GridItem1 from "@acadlix/components/GridItem1";
 import { __ } from "@wordpress/i18n";
 
 function MatrixSortingChoice(props) {
-
+  const [newlyAddedOptionIndex, setNewlyAddedOptionIndex] = useState(null);
   return (
     <Card>
       <CardHeader title={__('Matrix Sorting Choice', 'acadlix') + ` (${props?.lang?.language_name
@@ -34,6 +34,8 @@ function MatrixSortingChoice(props) {
                   option_index={index}
                   language_index={props?.index}
                   last={props?.lang?.answer_data?.[props?.type]?.length - 1 === index}
+                  autoFocus={index === newlyAddedOptionIndex}
+                  onFocused={() => setNewlyAddedOptionIndex(null)}
                 />
               </Grid>
             ))
@@ -43,6 +45,7 @@ function MatrixSortingChoice(props) {
               variant="contained"
               color="success"
               onClick={() => {
+                const currentLength = props?.lang?.answer_data?.[props?.type]?.length ?? 0;
                 props?.watch("language")?.forEach((_, index) => {
                   props?.setValue(
                     `language.${index}.answer_data.${props?.type}`,
@@ -54,6 +57,7 @@ function MatrixSortingChoice(props) {
                     { shouldDirty: true }
                   );
                 })
+                setNewlyAddedOptionIndex(currentLength);
               }}
             >
               {__('Add More', 'acadlix')}
@@ -82,6 +86,24 @@ const Option = (props) => {
       window.removeEventListener('load', loadPage);
     }
   }, []);
+
+  // autofocus only when this option was just added via Add More
+  useEffect(() => {
+    if (props?.autoFocus) {
+      // give time for editor to initialize
+      const t = setTimeout(() => {
+        const editor = window?.tinymce?.get(props?.criteria_id);
+        if (editor && typeof editor.focus === "function") {
+          editor.focus();
+        } else {
+          const el = document.getElementById(props?.criteria_id);
+          if (el && typeof el.focus === "function") el.focus();
+        }
+        if (typeof props?.onFocused === "function") props.onFocused();
+      }, 50);
+      return () => clearTimeout(t);
+    }
+  }, [props?.autoFocus]);
   return (
     <Card>
       <CardHeader title={props?.title}

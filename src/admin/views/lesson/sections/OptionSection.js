@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { MediaUpload } from "@wordpress/media-utils";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import ContentSection from "./ContentSection";
 import { convertTime } from "@acadlix/helpers/util";
@@ -32,10 +32,12 @@ const OptionSection = ({
   ...props
 }) => {
   const handleAddResoures = () => {
+    const resources = props?.watch("meta.resources") || [];
+    const newIndex = resources.length;
     props?.setValue(
       "meta.resources",
       [
-        ...props?.watch("meta.resources"),
+        ...resources,
         {
           title: "",
           type: "upload",
@@ -46,7 +48,10 @@ const OptionSection = ({
       ],
       { shouldDirty: true }
     );
+    setNewlyAddedResourceIndex(newIndex);
   };
+  
+  const [newlyAddedResourceIndex, setNewlyAddedResourceIndex] = useState(null);
 
   const getVideoDuration = (videoUrl) => {
     return new Promise((resolve, reject) => {
@@ -248,7 +253,14 @@ const OptionSection = ({
               props
                 ?.watch("meta.resources")
                 ?.map((r, index) => (
-                  <Resources key={index} index={index} {...props} {...r} />
+                  <Resources
+                    key={index}
+                    index={index}
+                    {...props}
+                    {...r}
+                    autoFocus={index === newlyAddedResourceIndex}
+                    onFocused={() => setNewlyAddedResourceIndex(null)}
+                  />
                 ))}
 
             <Grid size={{ xs: 12, sm: 12 }}>
@@ -269,7 +281,19 @@ const OptionSection = ({
 
 export default OptionSection;
 
-const Resources = ({ resourcesInputProps = {}, ...props }) => {
+const Resources = ({ resourcesInputProps = {}, autoFocus = false, onFocused, ...props }) => {
+  const titleRef = useRef(null);
+
+  useEffect(() => {
+    if (
+      autoFocus &&
+      titleRef.current &&
+      typeof titleRef.current.focus === "function"
+    ) {
+      titleRef.current.focus();
+      if (typeof onFocused === "function") onFocused();
+    }
+  }, [autoFocus, onFocused]);
   const handleMediaChange = (media) => {
     props?.setValue(`meta.resources.${props?.index}.filename`, media?.filename, {
       shouldDirty: true,
@@ -292,6 +316,7 @@ const Resources = ({ resourcesInputProps = {}, ...props }) => {
                 name="title"
                 size="small"
                 label={__("Enter Title", "acadlix")}
+                inputRef={titleRef}
                 value={props?.watch(`meta.resources.${props?.index}.title`) ?? ""}
                 onChange={(e) => {
                   props?.setValue(

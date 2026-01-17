@@ -2,8 +2,6 @@ import React from 'react'
 import GridItem1 from "@acadlix/components/GridItem1";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import { convertToPostDate } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 import Typography from "@mui/material/Typography";
 
@@ -16,7 +14,7 @@ const StartDate = (props) => {
                 },
             }}>
                 <DateTimePicker
-                    label={__("Enter Start Date*", "acadlix")}
+                    label={__("Enter Start Date", "acadlix")}
                     format="DD/MM/YYYY hh:mm:a"
                     timeSteps={{
                         minutes: 1,
