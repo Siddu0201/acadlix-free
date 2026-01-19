@@ -42,6 +42,7 @@ const GeneralOptionSection = (props) => {
               props?.setValue("subject_id", data?.data?.subject_id ?? null, {
                 shouldDirty: true,
               });
+              setInput("");
             },
           }
         );
@@ -167,26 +168,38 @@ const GeneralOptionSection = (props) => {
                 isOptionEqualToValue={(option, value) =>
                   option?.id === value?.id
                 }
+                freeSolo
+                inputValue={input}
+                onInputChange={(_, newInput) => {
+                  setInput(newInput);
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "spoc_gender",
-                    }}
+                    // onChange={(e) => setInput(e.target.value)}
                     label={__("Select Subject", "acadlix")}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {createSubjectMutation?.isPending ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
+                    error={!!props?.formState?.errors?.subject_id}
+                    helperText={props?.formState?.errors?.subject_id?.message}
+                    onKeyDown={(e) => {
+                      if(e?.key === 'Enter'){
+                        e.preventDefault();
+                        createSubject()
+                      }
                     }}
-                    onChange={(e) => setInput(e.target.value)}
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        autoComplete: "subject",
+                        endAdornment: (
+                          <React.Fragment>
+                            {createSubjectMutation?.isPending ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </React.Fragment>
+                        ),
+                      }
+                    }}
                   />
                 )}
                 onChange={(_, newValue) => {

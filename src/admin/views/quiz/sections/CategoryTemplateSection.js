@@ -58,6 +58,7 @@ const CategoryTemplateSection = (props) => {
           props?.setValue("category_id", data?.data?.category?.term_id ?? null, {
             shouldDirty: true,
           });
+          setInput("");
         },
       }
     );
@@ -94,8 +95,8 @@ const CategoryTemplateSection = (props) => {
               for (const [metaKey, metaValue] of Object.entries(value)) {
                 if (metaKey === "quiz_settings") {
                   for (const [settingKey, settingValue] of Object.entries(metaValue)) {
-                    let editorSetting = ["admin_message","student_message"];
-                    if(settingKey == "result_text" && !Array.isArray(settingValue)) editorSetting.push("result_text");
+                    let editorSetting = ["admin_message", "student_message"];
+                    if (settingKey == "result_text" && !Array.isArray(settingValue)) editorSetting.push("result_text");
                     if (editorSetting.includes(settingKey)) handleEditorContent(settingKey, settingValue);
                     props?.setValue(`meta.${metaKey}.${settingKey}`, settingValue, { shouldDirty: true });
                   }
@@ -149,9 +150,24 @@ const CategoryTemplateSection = (props) => {
                 isOptionEqualToValue={(option, value) =>
                   option?.term_id === value?.term_id
                 }
+                freeSolo
+                inputValue={input}
+                onInputChange={(_, newInput) => {
+                  setInput(newInput);
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    label={__("Select Quiz Category", "acadlix")}
+                    // onChange={(e) => setInput(e.target.value)}
+                    error={!!props?.formState?.errors?.category_id}
+                    helperText={props?.formState?.errors?.category_id?.message}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault(); // 🚫 stop form submit
+                        createCategory();   // ✅ use your existing logic
+                      }
+                    }}
                     slotProps={{
                       input: {
                         ...params.InputProps,
@@ -166,8 +182,6 @@ const CategoryTemplateSection = (props) => {
                         ),
                       }
                     }}
-                    label={__("Select Quiz Category", "acadlix")}
-                    onChange={(e) => setInput(e.target.value)}
                   />
                 )}
                 onChange={(_, newValue) => {
@@ -193,11 +207,6 @@ const CategoryTemplateSection = (props) => {
                   );
                 }}
               />
-              {Boolean(props?.formState?.errors?.category_id) && (
-                <Typography component="p" color="error">
-                  {props?.formState?.errors?.category_id?.message}
-                </Typography>
-              )}
             </Grid>
 
             {/* Used to load quiz data from template  */}

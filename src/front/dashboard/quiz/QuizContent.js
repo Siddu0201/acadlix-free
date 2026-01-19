@@ -243,13 +243,13 @@ const QuizContent = (props) => {
             negative_points: question?.answer_type == "assessment" ? 0 : question?.negative_points,
             time: 0,
             answer_data: question?.answer_type === "sortingChoice"
-            ? question
-            ?.question_languages
-            ?.find((lang) => Boolean(Number(lang?.default)))
-            ?.rendered_answer_data
-            ?.sortingChoice
-            ?.map((d) => d.position)
-            : null,
+              ? question
+                ?.question_languages
+                ?.find((lang) => Boolean(Number(lang?.default)))
+                ?.rendered_answer_data
+                ?.sortingChoice
+                ?.map((d) => d.position)
+              : null,
             attempted_at: null,
             is_evaluated: question?.answer_type === "assessment" ? 0 : 1,
             evaluated_by: "",
@@ -568,6 +568,16 @@ const QuizContent = (props) => {
           {
             shouldDirty: true,
           }
+        );
+
+        // Event after result saved
+        window.dispatchEvent(
+          new CustomEvent("acadlix:quiz:saveResult", {
+            detail: {
+              quizId: methods?.watch("id"),
+              userId: methods?.watch("user_id"),
+            },
+          })
         );
       },
     });

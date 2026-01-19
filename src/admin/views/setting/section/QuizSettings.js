@@ -1,4 +1,4 @@
-import { 
+import {
     Autocomplete,
     Box,
     Button,
@@ -14,14 +14,14 @@ import Grid from '@mui/material/Grid';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from "@acadlix/components/CustomTextField";
-import { 
+import {
     DeleteCategoryById,
     GetCategories,
     PostCreateCategory,
     UpdateCategoryById
 } from "@acadlix/requests/admin/AdminCategoryRequest";
 import toast from 'react-hot-toast';
-import { 
+import {
     DefaultLanguageById,
     GetLanguages,
     PostCreateLanguage,
@@ -102,6 +102,16 @@ const CategorySettings = ({ methods }) => {
     const addCategoryMutation = PostCreateCategory();
     const updateCategoryMutation = UpdateCategoryById(methods?.watch("category_id"));
     const deleteCategoryMutation = DeleteCategoryById(methods?.watch("category_id"));
+
+    const handleCategoryAction = () => {
+        const categoryId = methods?.watch("category_id");
+
+        if (categoryId === null) {
+            handleAddCategory();
+        } else {
+            handleUpdateCategory();
+        }
+    };
 
     const handleAddCategory = () => {
         if (methods?.watch("category_name") === "") {
@@ -271,7 +281,8 @@ const CategorySettings = ({ methods }) => {
                             <Box sx={{
                                 display: "flex",
                                 gap: 2,
-                            }}>
+                            }}
+                            >
                                 <CustomTextField
                                     fullWidth
                                     name="category_name"
@@ -283,6 +294,12 @@ const CategorySettings = ({ methods }) => {
                                             shouldDirty: true,
                                         });
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault(); // 🔥 prevents parent form submit
+                                            handleCategoryAction();
+                                        }
+                                    }}
                                 />
                                 {
                                     methods?.watch("category_id") === null
@@ -292,7 +309,7 @@ const CategorySettings = ({ methods }) => {
                                                 loading={addCategoryMutation?.isPending}
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={handleAddCategory}
+                                                onClick={handleCategoryAction}
                                             >{__("Add", "acadlix")}</Button>
                                         )
                                         :
@@ -303,7 +320,7 @@ const CategorySettings = ({ methods }) => {
                                                     loading={updateCategoryMutation?.isPending}
                                                     variant="contained"
                                                     color="primary"
-                                                    onClick={handleUpdateCategory}
+                                                    onClick={handleCategoryAction}
                                                 >{__("Update", "acadlix")}</Button>
                                             }
                                             {!methods?.watch("categories")?.find(
@@ -577,6 +594,16 @@ const SubjectSettings = ({ methods }) => {
     const updateSubjectMutation = UpdateSubjectById(methods?.watch("subject_id"));
     const deleteSubjectMutation = DeleteSubjectById(methods?.watch("subject_id"));
 
+    const handleSubjectAction = () => {
+        const subjectId = methods?.watch("subject_id");
+
+        if (subjectId === null) {
+            handleAddSubject();
+        } else {
+            handleUpdateSubject();
+        }
+    };
+
     const handleAddSubject = () => {
         if (methods?.watch("subject_name") === "") {
             toast.error(__("Please enter subject name.", "acadlix"));
@@ -756,6 +783,12 @@ const SubjectSettings = ({ methods }) => {
                                             shouldDirty: true,
                                         });
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault(); // 🔥 prevents parent form submit
+                                            handleSubjectAction();
+                                        }
+                                    }}
                                 />
                                 {
                                     methods?.watch("subject_id") === null
@@ -765,7 +798,7 @@ const SubjectSettings = ({ methods }) => {
                                                 loading={addSubjectMutation?.isPending}
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={handleAddSubject}
+                                                onClick={handleSubjectAction}
                                             >{__("Add", "acadlix")}</Button>
                                         )
                                         :
@@ -776,7 +809,7 @@ const SubjectSettings = ({ methods }) => {
                                                     loading={updateSubjectMutation?.isPending}
                                                     variant="contained"
                                                     color="primary"
-                                                    onClick={handleUpdateSubject}
+                                                    onClick={handleSubjectAction}
                                                 >{__("Update", "acadlix")}</Button>
                                             }
                                             {!methods?.watch("subjects")?.find(
