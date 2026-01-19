@@ -1,0 +1,52 @@
+# -----------------------------
+# Node / React
+# -----------------------------
+node_modules/
+src/
+*.map
+package.json
+package-lock.json
+webpack.config.js
+jsconfig.json
+
+# -----------------------------
+# Git / CI
+# -----------------------------
+.git/
+.github/
+.gitignore
+
+# -----------------------------
+# Tests & Dev
+# -----------------------------
+tests/
+phpunit.xml
+phpunit.xml.dist
+
+# -----------------------------
+# Composer Dev Artifacts
+# -----------------------------
+vendor/**/tests/
+vendor/**/Tests/
+vendor/**/PHPUnit/
+vendor/**/phpunit/
+vendor/**/bin/
+vendor/**/stubs/
+vendor/**/.github/
+vendor/**/docs/
+vendor/**/*.md
+vendor/**/*.toml
+vendor/**/*.bat
+vendor/**/*.sh
+
+# -----------------------------
+# Translations
+# -----------------------------
+*.po
+languages/Pro/
+
+# -----------------------------
+# Misc
+# -----------------------------
+README.md
+handle-dev-server.sh

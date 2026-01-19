@@ -49,55 +49,62 @@ jobs:
       - name: Install Composer dependencies (production only)
         run: |
           composer install --no-dev --optimize-autoloader --classmap-authoritative
-          composer dumpautoload -o --no-dev --classmap-authoritative
+      
+      # ----------------------------------
+      # Create WordPress.org compliant ZIP
+      # Uses .distignore
+      # ----------------------------------
+      - name: Build plugin ZIP using wp dist-archive
+        run: |
+          wp dist-archive . plugin.zip
 
       # ----------------------------------
       # 🚨 WordPress.org Compliance Cleanup
       # ----------------------------------
-      - name: Remove PHPUnit, tests & dev artifacts from vendor
-        run: |
-          rm -rf vendor/**/PHPUnit
-          rm -rf vendor/**/phpunit
-          rm -rf vendor/**/tests
-          rm -rf vendor/**/Tests
-          rm -rf vendor/**/.github
-          rm -rf vendor/**/docs
-          rm -rf vendor/**/doc
-          find vendor -type f -name "*.md" -delete
+      # - name: Remove PHPUnit, tests & dev artifacts from vendor
+      #   run: |
+      #     rm -rf vendor/**/PHPUnit
+      #     rm -rf vendor/**/phpunit
+      #     rm -rf vendor/**/tests
+      #     rm -rf vendor/**/Tests
+      #     rm -rf vendor/**/.github
+      #     rm -rf vendor/**/docs
+      #     rm -rf vendor/**/doc
+      #     find vendor -type f -name "*.md" -delete
 
       # ----------------------------------
       # Optional: Reduce Carbon locales
       # ----------------------------------
-      - name: Remove Carbon locales (keep English only)
-        run: |
-          find vendor/nesbot/carbon/src/Carbon/Lang -type f ! -name "en.php" -delete
+      # - name: Remove Carbon locales (keep English only)
+      #   run: |
+      #     find vendor/nesbot/carbon/src/Carbon/Lang -type f ! -name "en.php" -delete
 
       # ----------------------------------
       # Create Plugin ZIP
       # ----------------------------------
-      - name: Zip the plugin
-        run: |
-          zip -r plugin.zip . \
-            -x "node_modules/*" \
-            -x ".git/*" \
-            -x ".github/*" \
-            -x ".gitignore" \
-            -x "test.json" \
-            -x "api.txt" \
-            -x "src/*" \
-            -x "tests/*" \
-            -x "package.json" \
-            -x "package-lock.json" \
-            -x "composer.lock" \
-            -x "webpack.config.js" \
-            -x "README.md" \
-            -x "*.po" \
-            -x "languages/Pro/*" \
-            -x "handle-dev-server.sh" \
-            -x "jsconfig.json" \
-            -x "vendor/**/PHPUnit/*" \
-            -x "vendor/**/phpunit/*" \
-            -x "vendor/**/tests/*"
+      # - name: Zip the plugin
+      #   run: |
+      #     zip -r plugin.zip . \
+      #       -x "node_modules/*" \
+      #       -x ".git/*" \
+      #       -x ".github/*" \
+      #       -x ".gitignore" \
+      #       -x "test.json" \
+      #       -x "api.txt" \
+      #       -x "src/*" \
+      #       -x "tests/*" \
+      #       -x "package.json" \
+      #       -x "package-lock.json" \
+      #       -x "composer.lock" \
+      #       -x "webpack.config.js" \
+      #       -x "README.md" \
+      #       -x "*.po" \
+      #       -x "languages/Pro/*" \
+      #       -x "handle-dev-server.sh" \
+      #       -x "jsconfig.json" \
+      #       -x "vendor/**/PHPUnit/*" \
+      #       -x "vendor/**/phpunit/*" \
+      #       -x "vendor/**/tests/*"
 
       # ----------------------------------
       # Upload ZIP to Hostinger
