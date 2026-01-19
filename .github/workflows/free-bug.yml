@@ -49,7 +49,23 @@ jobs:
       - name: Install Composer dependencies (production only)
         run: |
           composer install --no-dev --optimize-autoloader --classmap-authoritative
-      
+
+      # ----------------------------------
+      # Install WP-CLI (REQUIRED)
+      # ----------------------------------
+      - name: Install WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          php wp-cli.phar --info
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      # ----------------------------------
+      # Verify WP-CLI
+      # ----------------------------------
+      - name: Verify WP-CLI installation
+        run: wp --info
+              
       # ----------------------------------
       # Create WordPress.org compliant ZIP
       # Uses .distignore
