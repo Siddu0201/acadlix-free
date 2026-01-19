@@ -59,20 +59,27 @@ jobs:
           php wp-cli.phar --info
           chmod +x wp-cli.phar
           sudo mv wp-cli.phar /usr/local/bin/wp
+      
+      # ----------------------------------
+      # Install wp dist-archive command
+      # ----------------------------------
+      - name: Install wp dist-archive command
+        run: |
+          wp package install wp-cli/dist-archive-command
 
       # ----------------------------------
       # Verify WP-CLI
       # ----------------------------------
       - name: Verify WP-CLI installation
         run: wp --info
-              
+
       # ----------------------------------
       # Create WordPress.org compliant ZIP
       # Uses .distignore
       # ----------------------------------
       - name: Build plugin ZIP using wp dist-archive
         run: |
-          wp dist-archive . plugin.zip
+          wp dist-archive . plugin.zip --allow-root
 
       # ----------------------------------
       # 🚨 WordPress.org Compliance Cleanup
