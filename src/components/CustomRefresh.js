@@ -34,6 +34,8 @@ const CustomRefresh = ({
                     variant="contained"
                     startIcon={<IoMdRefresh />}
                     sx={{
+                        whiteSpace: 'nowrap',
+                        minWidth: 'fit-content',
                         ...sx,
                     }}
                 >
