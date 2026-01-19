@@ -83,8 +83,11 @@ jobs:
       - name: Build plugin ZIP using wp dist-archive
         run: |
           wp dist-archive . --allow-root
-          ls -lh ./dist/*.zip  # Check for the zip in the correct subdirectory
-          mv ./dist/*.zip plugin.zip  # Move the zip to the working directory as plugin.zip
+          echo "Current directory:"
+          pwd
+          echo "Looking for zip in parent directory:"
+          ls -lh ../*.zip
+          mv ../*.zip ./plugin.zip
 
       # ----------------------------------
       # 🚨 WordPress.org Compliance Cleanup
