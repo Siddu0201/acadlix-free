@@ -82,12 +82,9 @@ jobs:
       # ----------------------------------
       - name: Build plugin ZIP using wp dist-archive
         run: |
-          wp dist-archive . --allow-root
-          echo "Current directory:"
-          pwd
-          echo "Looking for zip in parent directory:"
-          ls -lh ../*.zip
-          mv ../*.zip ./plugin.zip
+          cd ..
+          wp dist-archive acadlix --allow-root
+          mv acadlix.*.zip plugin.zip
 
       # ----------------------------------
       # 🚨 WordPress.org Compliance Cleanup
