@@ -31,14 +31,10 @@ vendor/**/tests/
 vendor/**/Tests/
 vendor/**/PHPUnit/
 vendor/**/phpunit/
-vendor/**/bin/
-vendor/**/stubs/
 vendor/**/.github/
 vendor/**/docs/
 vendor/**/*.md
-vendor/**/*.toml
-vendor/**/*.bat
-vendor/**/*.sh
+
 
 # -----------------------------
 # Translations
