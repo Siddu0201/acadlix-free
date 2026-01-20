@@ -110,6 +110,7 @@ jobs:
 
           USER_HOME="/home/$HOSTINGER_USER"
           PLUGIN_DIR_FREE="$USER_HOME/domains/acadlix.in/public_html/freebug/wp-content/plugins"
+          ACADLIX_DIR="$PLUGIN_DIR_FREE/acadlix"
           ZIP_PATH="$USER_HOME/plugin.zip"
 
           ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" \
@@ -117,11 +118,11 @@ jobs:
 
             echo "Deploying Acadlix Free Bug version..."
 
-            rm -rf "$PLUGIN_DIR_FREE"
+            rm -rf "$ACADLIX_DIR"
             unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_FREE"
 
-            find "$PLUGIN_DIR_FREE" -type d -exec chmod 755 {} \;
-            find "$PLUGIN_DIR_FREE" -type f -exec chmod 644 {} \;
+            find "$ACADLIX_DIR" -type d -exec chmod 755 {} \;
+            find "$ACADLIX_DIR" -type f -exec chmod 644 {} \;
 
             rm "$ZIP_PATH"
           EOF
