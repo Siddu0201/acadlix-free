@@ -2,7 +2,7 @@
 # Node / React
 # -----------------------------
 node_modules/
-src/
+./src/
 *.map
 package.json
 package-lock.json
@@ -34,7 +34,11 @@ vendor/**/phpunit/
 vendor/**/.github/
 vendor/**/docs/
 vendor/**/*.md
-
+vendor/**/bin/
+vendor/**/stubs/
+vendor/**/*.toml
+vendor/**/*.bat
+vendor/**/*.sh
 
 # -----------------------------
 # Translations
