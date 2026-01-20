@@ -82,8 +82,8 @@ jobs:
       # ----------------------------------
       - name: Build plugin ZIP using wp dist-archive
         run: |
-          wp dist-archive acadlix --allow-root
-          mv acadlix.*.zip plugin.zip
+            wp dist-archive . --allow-root
+            mv acadlix.*.zip plugin.zip
 
       # ----------------------------------
       # Upload ZIP to Hostinger
