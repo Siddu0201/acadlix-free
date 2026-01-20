@@ -75,6 +75,8 @@ jobs:
             wp dist-archive . --allow-root
             echo "Files created:"
             ls -lh
+            cd ..
+            ls -lh
             mv acadlix*.zip plugin.zip
 
 
