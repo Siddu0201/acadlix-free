@@ -59,16 +59,6 @@ jobs:
           php wp-cli.phar --info
           chmod +x wp-cli.phar
           sudo mv wp-cli.phar /usr/local/bin/wp
-      
-      # ----------------------------------
-      # Install wp dist-archive command
-      # ----------------------------------
-      - name: Install WP-CLI
-        run: |
-          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-          chmod +x wp-cli.phar
-          sudo mv wp-cli.phar /usr/local/bin/wp
-          wp --info
 
       # ----------------------------------
       # Install dist-archive command
@@ -83,7 +73,10 @@ jobs:
       - name: Build plugin ZIP using wp dist-archive
         run: |
             wp dist-archive . --allow-root
-            mv acadlix.*.zip plugin.zip
+            echo "Files created:"
+            ls -lh
+            mv acadlix*.zip plugin.zip
+
 
       # ----------------------------------
       # Upload ZIP to Hostinger
