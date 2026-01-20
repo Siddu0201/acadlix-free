@@ -73,11 +73,12 @@ jobs:
       - name: Build plugin ZIP using wp dist-archive
         run: |
             wp dist-archive . --allow-root
-            echo "Files created:"
+            echo "Files created in current dir:"
             ls -lh
-            cd ..
-            ls -lh
-            mv acadlix*.zip plugin.zip
+            echo "Files in parent dir:"
+            ls -lh ..
+            mv ../acadlix*.zip plugin.zip
+
 
 
       # ----------------------------------
