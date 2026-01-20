@@ -49,6 +49,7 @@ jobs:
       - name: Install Composer dependencies (production only)
         run: |
           composer install --no-dev --optimize-autoloader --classmap-authoritative
+          composer dumpautoload -o --no-dev --classmap-authoritative
 
       # ----------------------------------
       # Install WP-CLI (REQUIRED)
