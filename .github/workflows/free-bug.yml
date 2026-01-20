@@ -72,12 +72,11 @@ jobs:
       # ----------------------------------
       - name: Build plugin ZIP using wp dist-archive
         run: |
-            wp dist-archive . --allow-root
-            echo "Files created in current dir:"
+            wp dist-archive . plugin.zip --allow-root
+            echo "Files created:"
             ls -lh
-            echo "Files in parent dir:"
             ls -lh ..
-            mv ../acadlix*.zip plugin.zip
+            # mv ../acadlix*.zip plugin.zip
 
 
 
@@ -110,7 +109,7 @@ jobs:
           chmod 600 private_key
 
           USER_HOME="/home/$HOSTINGER_USER"
-          PLUGIN_DIR_FREE="$USER_HOME/domains/acadlix.in/public_html/freebug/wp-content/plugins/acadlix"
+          PLUGIN_DIR_FREE="$USER_HOME/domains/acadlix.in/public_html/freebug/wp-content/plugins"
           ZIP_PATH="$USER_HOME/plugin.zip"
 
           ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" \
