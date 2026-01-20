@@ -73,6 +73,7 @@ jobs:
       # ----------------------------------
       - name: Build plugin ZIP using wp dist-archive
         run: |
+            ls -lh vendor/psr/container/src/
             wp dist-archive . --allow-root
             echo "Files created:"
             ls -lh
