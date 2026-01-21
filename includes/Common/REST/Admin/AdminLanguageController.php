@@ -23,12 +23,16 @@ class AdminLanguageController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_languages'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_quiz_language') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_quiz_language');
+                    },
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_language'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_quiz_language') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_quiz_language');
+                    },
                 ],
             ]
         );
@@ -40,7 +44,9 @@ class AdminLanguageController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_language_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz_language') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_quiz_language');
+                    },
                     'args' => array(
                         'language_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -52,7 +58,9 @@ class AdminLanguageController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_language_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz_language') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_quiz_language');
+                    },
                     'args' => array(
                         'language_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -64,7 +72,9 @@ class AdminLanguageController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_language_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_quiz_language') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_quiz_language');
+                    },
                     'args' => array(
                         'language_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -82,7 +92,9 @@ class AdminLanguageController
             [
                 'methods' => WP_REST_Server::EDITABLE,
                 'callback' => [$this, 'default_language_by_id'],
-                'permission_callback' => fn() => current_user_can('acadlix_default_quiz_language') && $this->check_permission(),
+                'permission_callback' => function() {
+                    return current_user_can('acadlix_default_quiz_language');
+                },
                 'args' => array(
                     'language_id' => array(
                         'validate_callback' => function ($param, $request, $key) {
@@ -213,10 +225,5 @@ class AdminLanguageController
         $res['language'] = $language;
         $res['categories'] = acadlix()->model()->language()->all();
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

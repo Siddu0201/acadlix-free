@@ -23,12 +23,16 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_categories'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_quiz_category') && $this->check_permission(),
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_show_quiz_category');
+                    }
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_category'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_quiz_category') && $this->check_permission(),
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_add_quiz_category');
+                    }
                 ],
             ]
         );
@@ -40,7 +44,9 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_category_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz_category') && $this->check_permission(),
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_edit_quiz_category');
+                    },
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -52,7 +58,9 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_category_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz_category') && $this->check_permission(),
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_edit_quiz_category');
+                    },
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -64,7 +72,9 @@ class AdminCategoryController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_category_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_quiz_category') && $this->check_permission(),
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_delete_quiz_category');
+                    },
                     'args' => array(
                         'category_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -169,10 +179,5 @@ class AdminCategoryController
         $res['category'] = $category;
         $res['categories'] = acadlix()->model()->category()->all();
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
-    }
+    }   
 }

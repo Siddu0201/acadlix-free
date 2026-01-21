@@ -8,12 +8,16 @@ export const GetStatisticByUserId = (user_id = '', page = 0, pageSize = 10) => {
     return useQuery({
         queryKey: ["getStatisticByUserId", user_id, page, pageSize],
         queryFn: () => {
-            return instance.get(`${base}/${user_id}`, {
+            return instance.get(`${base}`, {
                 params: {
+                    user_id: user_id,
                     page: page,
                     pageSize: pageSize,
                     _t: Date.now(),
-                }
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                },
             });
         }
     });
@@ -26,8 +30,12 @@ export const GetStatisticByStatisticId = (statistic_id = '') => {
         queryFn: () => {
             return instance.get(`${base}/${statistic_id}/statistic`, {
                 params: {
+                    user_id: acadlixOptions?.user?.ID,
                     _t: Date.now(),
-                }
+                },
+                headers: {
+                    "X-WP-Nonce": acadlixOptions?.nonce,
+                },
             });
         }
     });

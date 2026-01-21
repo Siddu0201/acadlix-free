@@ -33,9 +33,10 @@ use Yuvayana\Acadlix\Common\REST\Front\FrontQuizController;
 use Yuvayana\Acadlix\Common\REST\Front\FrontStatisticController;
 use Yuvayana\Acadlix\Common\REST\Front\FrontUserController;
 
-defined( 'ABSPATH' ) || exit();
+defined('ABSPATH') || exit();
 
-class REST {
+class REST
+{
 
     protected static $_instance = null;
 
@@ -74,14 +75,23 @@ class REST {
     /**
      * Constructor used to register all apis.
      */
-    public function __construct() {
-        if ( ! class_exists( 'WP_REST_Server' ) ) {
+    public function __construct()
+    {
+        if (!class_exists('WP_REST_Server')) {
             return;
         }
 
+        add_action('rest_api_init', function () {
+            if (!function_exists('wp_handle_upload')) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+            }
+        });
+
         $this->adminHome();
-        $this->adminlanguage();
-        $this->admincategory();
+        $this->adminLanguage();
+        $this->adminCategory();
         $this->adminSubject();
         $this->adminQuiz();
         $this->adminQuestion();
@@ -104,179 +114,201 @@ class REST {
         $this->frontUser();
 
         // Init REST API routes.
-        add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
+        add_action('rest_api_init', array($this, 'register_rest_routes'), 10);
     }
 
-    public function adminHome(): AdminHomeController|null{
-        if($this->_adminHome === null){
+    public function adminHome(): AdminHomeController|null
+    {
+        if ($this->_adminHome === null) {
             $this->_adminHome = new AdminHomeController();
         }
         $this->_rests[] = $this->_adminHome;
         return $this->_adminHome;
-    }   
+    }
 
-    public function adminlanguage(): AdminLanguageController|null{
-        if($this->_adminLanguage === null){
+    public function adminLanguage(): AdminLanguageController|null
+    {
+        if ($this->_adminLanguage === null) {
             $this->_adminLanguage = new AdminLanguageController();
         }
         $this->_rests[] = $this->_adminLanguage;
         return $this->_adminLanguage;
-    }   
+    }
 
-    public function admincategory(): AdminCategoryController|null{
-        if($this->_adminCategory === null){
+    public function adminCategory(): AdminCategoryController|null
+    {
+        if ($this->_adminCategory === null) {
             $this->_adminCategory = new AdminCategoryController();
         }
         $this->_rests[] = $this->_adminCategory;
         return $this->_adminCategory;
-    }   
+    }
 
-    public function adminSubject(): AdminSubjectController|null{
-        if($this->_adminSubject === null){
+    public function adminSubject(): AdminSubjectController|null
+    {
+        if ($this->_adminSubject === null) {
             $this->_adminSubject = new AdminSubjectController();
         }
         $this->_rests[] = $this->_adminSubject;
         return $this->_adminSubject;
-    }   
+    }
 
-    public function adminQuiz(): AdminQuizController|null{
-        if($this->_adminQuiz === null){
+    public function adminQuiz(): AdminQuizController|null
+    {
+        if ($this->_adminQuiz === null) {
             $this->_adminQuiz = new AdminQuizController();
         }
         $this->_rests[] = $this->_adminQuiz;
         return $this->_adminQuiz;
-    }   
+    }
 
-    public function adminQuestion(): AdminQuestionController|null{
-        if($this->_adminQuestion === null){
+    public function adminQuestion(): AdminQuestionController|null
+    {
+        if ($this->_adminQuestion === null) {
             $this->_adminQuestion = new AdminQuestionController();
         }
         $this->_rests[] = $this->_adminQuestion;
         return $this->_adminQuestion;
-    }   
+    }
 
-    public function adminTemplate(): AdminTemplateController|null{
-        if($this->_adminTemplate === null){
+    public function adminTemplate(): AdminTemplateController|null
+    {
+        if ($this->_adminTemplate === null) {
             $this->_adminTemplate = new AdminTemplateController();
         }
         $this->_rests[] = $this->_adminTemplate;
         return $this->_adminTemplate;
-    }   
+    }
 
-    public function adminStatistic(): AdminStatisticController|null{
-        if($this->_adminStatistic === null){
+    public function adminStatistic(): AdminStatisticController|null
+    {
+        if ($this->_adminStatistic === null) {
             $this->_adminStatistic = new AdminStatisticController();
         }
         $this->_rests[] = $this->_adminStatistic;
         return $this->_adminStatistic;
     }
 
-    public function adminLeaderboard(): AdminLeaderboardController|null{
-        if($this->_adminLeaderboard === null){
+    public function adminLeaderboard(): AdminLeaderboardController|null
+    {
+        if ($this->_adminLeaderboard === null) {
             $this->_adminLeaderboard = new AdminLeaderboardController();
         }
         $this->_rests[] = $this->_adminLeaderboard;
         return $this->_adminLeaderboard;
     }
 
-    public function adminLesson(): AdminLessonController|null{
-        if($this->_adminLesson === null){
+    public function adminLesson(): AdminLessonController|null
+    {
+        if ($this->_adminLesson === null) {
             $this->_adminLesson = new AdminLessonController();
         }
         $this->_rests[] = $this->_adminLesson;
         return $this->_adminLesson;
     }
 
-    public function adminCourse(): AdminCourseController|null{
-        if($this->_adminCourse === null){
+    public function adminCourse(): AdminCourseController|null
+    {
+        if ($this->_adminCourse === null) {
             $this->_adminCourse = new AdminCourseController();
         }
         $this->_rests[] = $this->_adminCourse;
         return $this->_adminCourse;
     }
 
-    public function adminSetting(): AdminSettingController|null{
-        if($this->_adminSetting === null){
+    public function adminSetting(): AdminSettingController|null
+    {
+        if ($this->_adminSetting === null) {
             $this->_adminSetting = new AdminSettingController();
         }
         $this->_rests[] = $this->_adminSetting;
         return $this->_adminSetting;
     }
 
-    public function adminOrder(): AdminOrderController|null{
-        if($this->_adminOrder === null){
+    public function adminOrder(): AdminOrderController|null
+    {
+        if ($this->_adminOrder === null) {
             $this->_adminOrder = new AdminOrderController();
         }
         $this->_rests[] = $this->_adminOrder;
         return $this->_adminOrder;
     }
 
-    public function adminAddon() {
-        if($this->_adminAddon === null){
+    public function adminAddon()
+    {
+        if ($this->_adminAddon === null) {
             $this->_adminAddon = new AdminAddonController();
         }
         $this->_rests[] = $this->_adminAddon;
         return $this->_adminAddon;
     }
 
-    public function adminStudent(): AdminStudentController|null{
-        if($this->_adminStudent === null){
+    public function adminStudent(): AdminStudentController|null
+    {
+        if ($this->_adminStudent === null) {
             $this->_adminStudent = new AdminStudentController();
         }
         $this->_rests[] = $this->_adminStudent;
         return $this->_adminStudent;
     }
 
-    public function adminTheme(): AdminThemeController|null{
-        if($this->_adminTheme === null){
+    public function adminTheme(): AdminThemeController|null
+    {
+        if ($this->_adminTheme === null) {
             $this->_adminTheme = new AdminThemeController();
         }
         $this->_rests[] = $this->_adminTheme;
         return $this->_adminTheme;
     }
 
-    public function frontCheckout(): FrontCheckoutController|null{
-        if($this->_frontCheckout === null){
+    public function frontCheckout(): FrontCheckoutController|null
+    {
+        if ($this->_frontCheckout === null) {
             $this->_frontCheckout = new FrontCheckoutController();
         }
         $this->_rests[] = $this->_frontCheckout;
         return $this->_frontCheckout;
     }
 
-    public function frontCourse(): FrontCourseController|null{
-        if($this->_frontCourse === null){
+    public function frontCourse(): FrontCourseController|null
+    {
+        if ($this->_frontCourse === null) {
             $this->_frontCourse = new FrontCourseController();
         }
         $this->_rests[] = $this->_frontCourse;
         return $this->_frontCourse;
     }
 
-    public function frontDashboard(): FrontDashboardController|null{
-        if($this->_frontDashboard === null){
+    public function frontDashboard(): FrontDashboardController|null
+    {
+        if ($this->_frontDashboard === null) {
             $this->_frontDashboard = new FrontDashboardController();
         }
         $this->_rests[] = $this->_frontDashboard;
         return $this->_frontDashboard;
     }
 
-    public function frontQuiz(): FrontQuizController|null{
-        if($this->_frontQuiz === null){
+    public function frontQuiz(): FrontQuizController|null
+    {
+        if ($this->_frontQuiz === null) {
             $this->_frontQuiz = new FrontQuizController();
         }
         $this->_rests[] = $this->_frontQuiz;
         return $this->_frontQuiz;
     }
 
-    public function frontStatistic(): FrontStatisticController|null{
-        if($this->_frontStatistic === null){
+    public function frontStatistic(): FrontStatisticController|null
+    {
+        if ($this->_frontStatistic === null) {
             $this->_frontStatistic = new FrontStatisticController();
         }
         $this->_rests[] = $this->_frontStatistic;
         return $this->_frontStatistic;
     }
 
-    public function frontUser(): FrontUserController|null{
-        if($this->_frontUser === null){
+    public function frontUser(): FrontUserController|null
+    {
+        if ($this->_frontUser === null) {
             $this->_frontUser = new FrontUserController();
         }
         $this->_rests[] = $this->_frontUser;
@@ -287,14 +319,16 @@ class REST {
      *
      * @return void
      */
-    public function register_rest_routes(): void {
-        foreach ( $this->_rests as $controller ) {
+    public function register_rest_routes(): void
+    {
+        foreach ($this->_rests as $controller) {
             method_exists($controller, 'register_routes') && $controller->register_routes();
         }
     }
 
-    public static function instance() {
-        if ( ! self::$_instance ) {
+    public static function instance()
+    {
+        if (!self::$_instance) {
             self::$_instance = new self();
         }
 

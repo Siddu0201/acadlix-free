@@ -57,11 +57,16 @@ class Manager
                 ?>
 
                 <div class="acadlix-front-quiz-container">
-                    <h2 class="<?php echo esc_attr(implode(' ', $title_classes)); ?>" id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>">
+                    <h2 class="<?php echo esc_attr(implode(' ', $title_classes)); ?>"
+                        id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>">
                         <?php echo esc_html($quiz->post_title); ?>
                     </h2>
                     <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
-                        <?php echo do_shortcode(apply_filters('comment_text', $quiz->post_content)); //phpcs:ignore ?>
+                        <?php echo wp_kses_post(
+                            do_shortcode(
+                                apply_filters('comment_text', $quiz->post_content)
+                            )
+                        ); ?>
                     </div>
                     <div class="acadlix-front" id="<?php echo esc_html($quiz->ID); ?>">
                         <div class="acadlix-front-quiz-button">
@@ -622,6 +627,11 @@ class Manager
         wp_enqueue_script('wp-date');
         wp_enqueue_script('acadlix-plyr-js');
 
+        wp_localize_script('acadlix-plyr-js', 'acadlixPlyr', [
+            'iconUrl' => ACADLIX_ASSETS_JS_URL . 'plyr/plyr.svg',
+            'blankVideo' => ACADLIX_ASSETS_JS_URL . 'plyr/blank.mp4',
+        ]);
+
         acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
 
         if (is_singular(ACADLIX_COURSE_CPT) || is_post_type_archive(ACADLIX_COURSE_CPT)) {
@@ -632,282 +642,374 @@ class Manager
     public function enqueue_front_assets()
     {
         wp_enqueue_style('acadlix-front-base-style-css');
-        $theme = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
-        // acadlix()->helper()->acadlix_ddd($theme['typography']['h1']['lineHeight']['desktop']);
-        $primaryMain = $theme['palette']['primary']['main'] ?? 'hsl(210, 100%, 50%)';
-        $primaryDark = $theme['palette']['primary']['dark'] ?? 'hsl(210, 100%, 38%)';
-        $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
-        $textSecondary = $theme['palette']['text']['secondary'] ?? 'hsl(218, 10%, 55%)';
-        // $grey            = $theme['palette']['grey']['main'] ?? 'hsl(215, 15%, 97%)';
-        $grey = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 97%)';
-        // $borderColor     = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 82%)';
-        $borderColor = 'hsl(215, 15%, 82%)';
-        // H1
-        $h1_fs_desktop = $theme['typography']['h1']['fontSize']['desktop'] ?? '2.5rem';
-        $h1_fs_tablet = $theme['typography']['h1']['fontSize']['tablet'] ?? '2rem';
-        $h1_fs_mobile = $theme['typography']['h1']['fontSize']['mobile'] ?? '1.75rem';
-        $h1_fw_desktop = $theme['typography']['h1']['fontWeight']['desktop'] ?? 700;
-        $h1_fw_tablet = $theme['typography']['h1']['fontWeight']['tablet'] ?? 700;
-        $h1_fw_mobile = $theme['typography']['h1']['fontWeight']['mobile'] ?? 700;
-        $h1_lh_desktop = $theme['typography']['h1']['lineHeight']['desktop'] ?? '1.25';
-        $h1_lh_tablet = $theme['typography']['h1']['lineHeight']['tablet'] ?? '1.25';
-        $h1_lh_mobile = $theme['typography']['h1']['lineHeight']['mobile'] ?? '1.25';
-        $h1_ls_desktop = $theme['typography']['h1']['letterSpacing']['desktop'] ?? '0.3px';
-        $h1_ls_tablet = $theme['typography']['h1']['letterSpacing']['tablet'] ?? '0.3px';
-        $h1_ls_mobile = $theme['typography']['h1']['letterSpacing']['mobile'] ?? '0.3px';
-        // H2
-        $h2_fs_desktop = $theme['typography']['h2']['fontSize']['desktop'] ?? '1.875rem';
-        $h2_fs_tablet = $theme['typography']['h2']['fontSize']['tablet'] ?? '1.625rem';
-        $h2_fs_mobile = $theme['typography']['h2']['fontSize']['mobile'] ?? '1.5rem';
-        $h2_fw_desktop = $theme['typography']['h2']['fontWeight']['desktop'] ?? 600;
-        $h2_fw_tablet = $theme['typography']['h2']['fontWeight']['tablet'] ?? 600;
-        $h2_fw_mobile = $theme['typography']['h2']['fontWeight']['mobile'] ?? 600;
-        $h2_lh_desktop = $theme['typography']['h2']['lineHeight']['desktop'] ?? '1.25';
-        $h2_lh_tablet = $theme['typography']['h2']['lineHeight']['tablet'] ?? '1.25';
-        $h2_lh_mobile = $theme['typography']['h2']['lineHeight']['mobile'] ?? '1.25';
-        $h2_ls_desktop = $theme['typography']['h2']['letterSpacing']['desktop'] ?? '0.3px';
-        $h2_ls_tablet = $theme['typography']['h2']['letterSpacing']['tablet'] ?? '0.3px';
-        $h2_ls_mobile = $theme['typography']['h2']['letterSpacing']['mobile'] ?? '0.3px';
-        // H3
-        $h3_fs_desktop = $theme['typography']['h3']['fontSize']['desktop'] ?? '1.5rem';
-        $h3_fs_tablet = $theme['typography']['h3']['fontSize']['tablet'] ?? '1.375rem';
-        $h3_fs_mobile = $theme['typography']['h3']['fontSize']['mobile'] ?? '1.25rem';
-        $h3_fw_desktop = $theme['typography']['h3']['fontWeight']['desktop'] ?? 600;
-        $h3_fw_tablet = $theme['typography']['h3']['fontWeight']['tablet'] ?? 600;
-        $h3_fw_mobile = $theme['typography']['h3']['fontWeight']['mobile'] ?? 600;
-        $h3_lh_desktop = $theme['typography']['h3']['lineHeight']['desktop'] ?? '1.25';
-        $h3_lh_tablet = $theme['typography']['h3']['lineHeight']['tablet'] ?? '1.25';
-        $h3_lh_mobile = $theme['typography']['h3']['lineHeight']['mobile'] ?? '1.25';
-        $h3_ls_desktop = $theme['typography']['h3']['letterSpacing']['desktop'] ?? '0.3px';
-        $h3_ls_tablet = $theme['typography']['h3']['letterSpacing']['tablet'] ?? '0.3px';
-        $h3_ls_mobile = $theme['typography']['h3']['letterSpacing']['mobile'] ?? '0.3px';
-        // H4
-        $h4_fs_desktop = $theme['typography']['h4']['fontSize']['desktop'] ?? '1.25rem';
-        $h4_fs_tablet = $theme['typography']['h4']['fontSize']['tablet'] ?? '1.125rem';
-        $h4_fs_mobile = $theme['typography']['h4']['fontSize']['mobile'] ?? '1rem';
-        $h4_fw_desktop = $theme['typography']['h4']['fontWeight']['desktop'] ?? 600;
-        $h4_fw_tablet = $theme['typography']['h4']['fontWeight']['tablet'] ?? 600;
-        $h4_fw_mobile = $theme['typography']['h4']['fontWeight']['mobile'] ?? 600;
-        $h4_lh_desktop = $theme['typography']['h4']['lineHeight']['desktop'] ?? '1.25';
-        $h4_lh_tablet = $theme['typography']['h4']['lineHeight']['tablet'] ?? '1.25';
-        $h4_lh_mobile = $theme['typography']['h4']['lineHeight']['mobile'] ?? '1.25';
-        $h4_ls_desktop = $theme['typography']['h4']['letterSpacing']['desktop'] ?? '0.3px';
-        $h4_ls_tablet = $theme['typography']['h4']['letterSpacing']['tablet'] ?? '0.3px';
-        $h4_ls_mobile = $theme['typography']['h4']['letterSpacing']['mobile'] ?? '0.3px';
-        // H5
-        $h5_fs_desktop = $theme['typography']['h5']['fontSize']['desktop'] ?? '1.125rem';
-        $h5_fs_tablet = $theme['typography']['h5']['fontSize']['tablet'] ?? '1rem';
-        $h5_fs_mobile = $theme['typography']['h5']['fontSize']['mobile'] ?? '0.9375rem';
-        $h5_fw_desktop = $theme['typography']['h5']['fontWeight']['desktop'] ?? 600;
-        $h5_fw_tablet = $theme['typography']['h5']['fontWeight']['tablet'] ?? 600;
-        $h5_fw_mobile = $theme['typography']['h5']['fontWeight']['mobile'] ?? 600;
-        $h5_lh_desktop = $theme['typography']['h5']['lineHeight']['desktop'] ?? '1.25';
-        $h5_lh_tablet = $theme['typography']['h5']['lineHeight']['tablet'] ?? '1.25';
-        $h5_lh_mobile = $theme['typography']['h5']['lineHeight']['mobile'] ?? '1.25';
-        $h5_ls_desktop = $theme['typography']['h5']['letterSpacing']['desktop'] ?? '0.3px';
-        $h5_ls_tablet = $theme['typography']['h5']['letterSpacing']['tablet'] ?? '0.3px';
-        $h5_ls_mobile = $theme['typography']['h5']['letterSpacing']['mobile'] ?? '0.3px';
-        // H6
-        $h6_fs_desktop = $theme['typography']['h6']['fontSize']['desktop'] ?? '1rem';
-        $h6_fs_tablet = $theme['typography']['h6']['fontSize']['tablet'] ?? '0.9375rem';
-        $h6_fs_mobile = $theme['typography']['h6']['fontSize']['mobile'] ?? '0.875rem';
-        $h6_fw_desktop = $theme['typography']['h6']['fontWeight']['desktop'] ?? 600;
-        $h6_fw_tablet = $theme['typography']['h6']['fontWeight']['tablet'] ?? 600;
-        $h6_fw_mobile = $theme['typography']['h6']['fontWeight']['mobile'] ?? 600;
-        $h6_lh_desktop = $theme['typography']['h6']['lineHeight']['desktop'] ?? '1.25';
-        $h6_lh_tablet = $theme['typography']['h6']['lineHeight']['tablet'] ?? '1.25';
-        $h6_lh_mobile = $theme['typography']['h6']['lineHeight']['mobile'] ?? '1.25';
-        $h6_ls_desktop = $theme['typography']['h6']['letterSpacing']['desktop'] ?? '0.3px';
-        $h6_ls_tablet = $theme['typography']['h6']['letterSpacing']['tablet'] ?? '0.3px';
-        $h6_ls_mobile = $theme['typography']['h6']['letterSpacing']['mobile'] ?? '0.3px';
-        // body1
-        $body1_fs_desktop = $theme['typography']['body1']['fontSize']['desktop'] ?? '1rem';
-        $body1_fs_tablet = $theme['typography']['body1']['fontSize']['tablet'] ?? '0.9375rem';
-        $body1_fs_mobile = $theme['typography']['body1']['fontSize']['mobile'] ?? '0.875rem';
-        $body1_fw_desktop = $theme['typography']['body1']['fontWeight']['desktop'] ?? 400;
-        $body1_fw_tablet = $theme['typography']['body1']['fontWeight']['tablet'] ?? 400;
-        $body1_fw_mobile = $theme['typography']['body1']['fontWeight']['mobile'] ?? 400;
-        $body1_lh_desktop = $theme['typography']['body1']['lineHeight']['desktop'] ?? '1.5';
-        $body1_lh_tablet = $theme['typography']['body1']['lineHeight']['tablet'] ?? '1.5';
-        $body1_lh_mobile = $theme['typography']['body1']['lineHeight']['mobile'] ?? '1.5';
-        $body1_ls_desktop = $theme['typography']['body1']['letterSpacing']['desktop'] ?? '0.3px';
-        $body1_ls_tablet = $theme['typography']['body1']['letterSpacing']['tablet'] ?? '0.3px';
-        $body1_ls_mobile = $theme['typography']['body1']['letterSpacing']['mobile'] ?? '0.3px';
-        // body2
-        $body2_fs_desktop = $theme['typography']['body2']['fontSize']['desktop'] ?? '0.875rem';
-        $body2_fs_tablet = $theme['typography']['body2']['fontSize']['tablet'] ?? '0.75rem';
-        $body2_fs_mobile = $theme['typography']['body2']['fontSize']['mobile'] ?? '0.625rem';
-        $body2_fw_desktop = $theme['typography']['body2']['fontWeight']['desktop'] ?? 400;
-        $body2_fw_tablet = $theme['typography']['body2']['fontWeight']['tablet'] ?? 400;
-        $body2_fw_mobile = $theme['typography']['body2']['fontWeight']['mobile'] ?? 400;
-        $body2_lh_desktop = $theme['typography']['body2']['lineHeight']['desktop'] ?? '1.5';
-        $body2_lh_tablet = $theme['typography']['body2']['lineHeight']['tablet'] ?? '1.5';
-        $body2_lh_mobile = $theme['typography']['body2']['lineHeight']['mobile'] ?? '1.5';
-        $body2_ls_desktop = $theme['typography']['body2']['letterSpacing']['desktop'] ?? '0.3px';
-        $body2_ls_tablet = $theme['typography']['body2']['letterSpacing']['tablet'] ?? '0.3px';
-        $body2_ls_mobile = $theme['typography']['body2']['letterSpacing']['mobile'] ?? '0.3px';
-        // subtitle1
-        $subtitle1_fs_desktop = $theme['typography']['subtitle1']['fontSize']['desktop'] ?? '1rem';
-        $subtitle1_fs_tablet = $theme['typography']['subtitle1']['fontSize']['tablet'] ?? '0.9375rem';
-        $subtitle1_fs_mobile = $theme['typography']['subtitle1']['fontSize']['mobile'] ?? '0.875rem';
-        $subtitle1_fw_desktop = $theme['typography']['subtitle1']['fontWeight']['desktop'] ?? 400;
-        $subtitle1_fw_tablet = $theme['typography']['subtitle1']['fontWeight']['tablet'] ?? 400;
-        $subtitle1_fw_mobile = $theme['typography']['subtitle1']['fontWeight']['mobile'] ?? 400;
-        $subtitle1_lh_desktop = $theme['typography']['subtitle1']['lineHeight']['desktop'] ?? '1.75';
-        $subtitle1_lh_tablet = $theme['typography']['subtitle1']['lineHeight']['tablet'] ?? '1.75';
-        $subtitle1_lh_mobile = $theme['typography']['subtitle1']['lineHeight']['mobile'] ?? '1.75';
-        $subtitle1_ls_desktop = $theme['typography']['subtitle1']['letterSpacing']['desktop'] ?? '0.3px';
-        $subtitle1_ls_tablet = $theme['typography']['subtitle1']['letterSpacing']['tablet'] ?? '0.3px';
-        $subtitle1_ls_mobile = $theme['typography']['subtitle1']['letterSpacing']['mobile'] ?? '0.3px';
-        // subtitle2
-        $subtitle2_fs_desktop = $theme['typography']['subtitle2']['fontSize']['desktop'] ?? '0.875rem';
-        $subtitle2_fs_tablet = $theme['typography']['subtitle2']['fontSize']['tablet'] ?? '0.75rem';
-        $subtitle2_fs_mobile = $theme['typography']['subtitle2']['fontSize']['mobile'] ?? '0.625rem';
-        $subtitle2_fw_desktop = $theme['typography']['subtitle2']['fontWeight']['desktop'] ?? 500;
-        $subtitle2_fw_tablet = $theme['typography']['subtitle2']['fontWeight']['tablet'] ?? 500;
-        $subtitle2_fw_mobile = $theme['typography']['subtitle2']['fontWeight']['mobile'] ?? 500;
-        $subtitle2_lh_desktop = $theme['typography']['subtitle2']['lineHeight']['desktop'] ?? '1.5';
-        $subtitle2_lh_tablet = $theme['typography']['subtitle2']['lineHeight']['tablet'] ?? '1.5';
-        $subtitle2_lh_mobile = $theme['typography']['subtitle2']['lineHeight']['mobile'] ?? '1.5';
-        $subtitle2_ls_desktop = $theme['typography']['subtitle2']['letterSpacing']['desktop'] ?? '0.3px';
-        $subtitle2_ls_tablet = $theme['typography']['subtitle2']['letterSpacing']['tablet'] ?? '0.3px';
-        $subtitle2_ls_mobile = $theme['typography']['subtitle2']['letterSpacing']['mobile'] ?? '0.3px';
-        $custom_css = "
-                    :root {
-                        --acadlix-primary-main: {$primaryMain}; 
-                        --acadlix-primary-dark: {$primaryDark};
-                        --acadlix-text-primary: {$textPrimary};
-                        --acadlix-text-secondary: {$textSecondary};
-                        --acadlix-grey: {$grey};
-                        --acadlix-border-color: {$borderColor};
-                        --acadlix-h1-fs-desktop: {$h1_fs_desktop};
-                        --acadlix-h1-fs-tablet: {$h1_fs_tablet};
-                        --acadlix-h1-fs-mobile: {$h1_fs_mobile};
-                        --acadlix-h1-fw-desktop: {$h1_fw_desktop};
-                        --acadlix-h1-fw-tablet: {$h1_fw_tablet};
-                        --acadlix-h1-fw-mobile: {$h1_fw_mobile};
-                        --acadlix-h1-lh-desktop: {$h1_lh_desktop};
-                        --acadlix-h1-lh-tablet: {$h1_lh_tablet};
-                        --acadlix-h1-lh-mobile: {$h1_lh_mobile};
-                        --acadlix-h1-ls-desktop: {$h1_ls_desktop};
-                        --acadlix-h1-ls-tablet: {$h1_ls_tablet};
-                        --acadlix-h1-ls-mobile: {$h1_ls_mobile};
-                        --acadlix-h2-fs-desktop: {$h2_fs_desktop};
-                        --acadlix-h2-fs-tablet: {$h2_fs_tablet};
-                        --acadlix-h2-fs-mobile: {$h2_fs_mobile};
-                        --acadlix-h2-fw-desktop: {$h2_fw_desktop};
-                        --acadlix-h2-fw-tablet: {$h2_fw_tablet};
-                        --acadlix-h2-fw-mobile: {$h2_fw_mobile};
-                        --acadlix-h2-lh-desktop: {$h2_lh_desktop};
-                        --acadlix-h2-lh-tablet: {$h2_lh_tablet};
-                        --acadlix-h2-lh-mobile: {$h2_lh_mobile};
-                        --acadlix-h2-ls-desktop: {$h2_ls_desktop};
-                        --acadlix-h2-ls-tablet: {$h2_ls_tablet};
-                        --acadlix-h2-ls-mobile: {$h2_ls_mobile};
-                        --acadlix-h3-fs-desktop: {$h3_fs_desktop};
-                        --acadlix-h3-fs-tablet: {$h3_fs_tablet};
-                        --acadlix-h3-fs-mobile: {$h3_fs_mobile};
-                        --acadlix-h3-fw-desktop: {$h3_fw_desktop};
-                        --acadlix-h3-fw-tablet: {$h3_fw_tablet};
-                        --acadlix-h3-fw-mobile: {$h3_fw_mobile};
-                        --acadlix-h3-lh-desktop: {$h3_lh_desktop};
-                        --acadlix-h3-lh-tablet: {$h3_lh_tablet};
-                        --acadlix-h3-lh-mobile: {$h3_lh_mobile};
-                        --acadlix-h3-ls-desktop: {$h3_ls_desktop};
-                        --acadlix-h3-ls-tablet: {$h3_ls_tablet};
-                        --acadlix-h3-ls-mobile: {$h3_ls_mobile};
-                        --acadlix-h4-fs-desktop: {$h4_fs_desktop};
-                        --acadlix-h4-fs-tablet: {$h4_fs_tablet};
-                        --acadlix-h4-fs-mobile: {$h4_fs_mobile};
-                        --acadlix-h4-fw-desktop: {$h4_fw_desktop};
-                        --acadlix-h4-fw-tablet: {$h4_fw_tablet};
-                        --acadlix-h4-fw-mobile: {$h4_fw_mobile};
-                        --acadlix-h4-lh-desktop: {$h4_lh_desktop};
-                        --acadlix-h4-lh-tablet: {$h4_lh_tablet};
-                        --acadlix-h4-lh-mobile: {$h4_lh_mobile};
-                        --acadlix-h4-ls-desktop: {$h4_ls_desktop};
-                        --acadlix-h4-ls-tablet: {$h4_ls_tablet};
-                        --acadlix-h4-ls-mobile: {$h4_ls_mobile};
-                        --acadlix-h5-fs-desktop: {$h5_fs_desktop};
-                        --acadlix-h5-fs-tablet: {$h5_fs_tablet};
-                        --acadlix-h5-fs-mobile: {$h5_fs_mobile};
-                        --acadlix-h5-fw-desktop: {$h5_fw_desktop};
-                        --acadlix-h5-fw-tablet: {$h5_fw_tablet};
-                        --acadlix-h5-fw-mobile: {$h5_fw_mobile};
-                        --acadlix-h5-lh-desktop: {$h5_lh_desktop};
-                        --acadlix-h5-lh-tablet: {$h5_lh_tablet};
-                        --acadlix-h5-lh-mobile: {$h5_lh_mobile};
-                        --acadlix-h5-ls-desktop: {$h5_ls_desktop};
-                        --acadlix-h5-ls-tablet: {$h5_ls_tablet};
-                        --acadlix-h5-ls-mobile: {$h5_ls_mobile};
-                        --acadlix-h6-fs-desktop: {$h6_fs_desktop};
-                        --acadlix-h6-fs-tablet: {$h6_fs_tablet};
-                        --acadlix-h6-fs-mobile: {$h6_fs_mobile};
-                        --acadlix-h6-fw-desktop: {$h6_fw_desktop};
-                        --acadlix-h6-fw-tablet: {$h6_fw_tablet};
-                        --acadlix-h6-fw-mobile: {$h6_fw_mobile};
-                        --acadlix-h6-lh-desktop: {$h6_lh_desktop};
-                        --acadlix-h6-lh-tablet: {$h6_lh_tablet};
-                        --acadlix-h6-lh-mobile: {$h6_lh_mobile};
-                        --acadlix-h6-ls-desktop: {$h6_ls_desktop};
-                        --acadlix-h6-ls-tablet: {$h6_ls_tablet};
-                        --acadlix-h6-ls-mobile: {$h6_ls_mobile};
-                        --acadlix-body1-fs-desktop: {$body1_fs_desktop};
-                        --acadlix-body1-fs-tablet: {$body1_fs_tablet};
-                        --acadlix-body1-fs-mobile: {$body1_fs_mobile};
-                        --acadlix-body1-fw-desktop: {$body1_fw_desktop};
-                        --acadlix-body1-fw-tablet: {$body1_fw_tablet};
-                        --acadlix-body1-fw-mobile: {$body1_fw_mobile};
-                        --acadlix-body1-lh-desktop: {$body1_lh_desktop};
-                        --acadlix-body1-lh-tablet: {$body1_lh_tablet};
-                        --acadlix-body1-lh-mobile: {$body1_lh_mobile};
-                        --acadlix-body1-ls-desktop: {$body1_ls_desktop};
-                        --acadlix-body1-ls-tablet: {$body1_ls_tablet};
-                        --acadlix-body1-ls-mobile: {$body1_ls_mobile};
-                        --acadlix-body2-fs-desktop: {$body2_fs_desktop};
-                        --acadlix-body2-fs-tablet: {$body2_fs_tablet};
-                        --acadlix-body2-fs-mobile: {$body2_fs_mobile};
-                        --acadlix-body2-fw-desktop: {$body2_fw_desktop};
-                        --acadlix-body2-fw-tablet: {$body2_fw_tablet};
-                        --acadlix-body2-fw-mobile: {$body2_fw_mobile};
-                        --acadlix-body2-lh-desktop: {$body2_lh_desktop};
-                        --acadlix-body2-lh-tablet: {$body2_lh_tablet};
-                        --acadlix-body2-lh-mobile: {$body2_lh_mobile};
-                        --acadlix-body2-ls-desktop: {$body2_ls_desktop};
-                        --acadlix-body2-ls-tablet: {$body2_ls_tablet};
-                        --acadlix-body2-ls-mobile: {$body2_ls_mobile};
-                        --acadlix-subtitle1-fs-desktop: {$subtitle1_fs_desktop};
-                        --acadlix-subtitle1-fs-tablet: {$subtitle1_fs_tablet};
-                        --acadlix-subtitle1-fs-mobile: {$subtitle1_fs_mobile};
-                        --acadlix-subtitle1-fw-desktop: {$subtitle1_fw_desktop};
-                        --acadlix-subtitle1-fw-tablet: {$subtitle1_fw_tablet};
-                        --acadlix-subtitle1-fw-mobile: {$subtitle1_fw_mobile};
-                        --acadlix-subtitle1-lh-desktop: {$subtitle1_lh_desktop};
-                        --acadlix-subtitle1-lh-tablet: {$subtitle1_lh_tablet};
-                        --acadlix-subtitle1-lh-mobile: {$subtitle1_lh_mobile};
-                        --acadlix-subtitle1-ls-desktop: {$subtitle1_ls_desktop};
-                        --acadlix-subtitle1-ls-tablet: {$subtitle1_ls_tablet};
-                        --acadlix-subtitle1-ls-mobile: {$subtitle1_ls_mobile};
-                        --acadlix-subtitle2-fs-desktop: {$subtitle2_fs_desktop};
-                        --acadlix-subtitle2-fs-tablet: {$subtitle2_fs_tablet};
-                        --acadlix-subtitle2-fs-mobile: {$subtitle2_fs_mobile};
-                        --acadlix-subtitle2-fw-desktop: {$subtitle2_fw_desktop};
-                        --acadlix-subtitle2-fw-tablet: {$subtitle2_fw_tablet};
-                        --acadlix-subtitle2-fw-mobile: {$subtitle2_fw_mobile};
-                        --acadlix-subtitle2-lh-desktop: {$subtitle2_lh_desktop};
-                        --acadlix-subtitle2-lh-tablet: {$subtitle2_lh_tablet};
-                        --acadlix-subtitle2-lh-mobile: {$subtitle2_lh_mobile};
-                        --acadlix-subtitle2-ls-desktop: {$subtitle2_ls_desktop};
-                        --acadlix-subtitle2-ls-tablet: {$subtitle2_ls_tablet};
-                        --acadlix-subtitle2-ls-mobile: {$subtitle2_ls_mobile};
-                    }
-                ";
 
-        wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
+        $helper = acadlix()->helper();
+        $theme = $helper->acadlix_get_option('acadlix_theme_settings') ?? [];
 
-        // wp_enqueue_script('acadlix-front-action-button-course-js');
-        // wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());
+        /* ===============================
+         * Palette
+         * =============================== */
+        $vars = [
+            'acadlix-primary-main' => $helper->acadlix_css_color(
+                $theme['palette']['primary']['main'] ?? null,
+                'hsl(210, 100%, 50%)'
+            ),
+            'acadlix-primary-dark' => $helper->acadlix_css_color(
+                $theme['palette']['primary']['dark'] ?? null,
+                'hsl(210, 100%, 38%)'
+            ),
+            'acadlix-text-primary' => $helper->acadlix_css_color(
+                $theme['palette']['text']['primary'] ?? null,
+                'hsl(215, 15%, 12%)'
+            ),
+            'acadlix-text-secondary' => $helper->acadlix_css_color(
+                $theme['palette']['text']['secondary'] ?? null,
+                'hsl(218, 10%, 55%)'
+            ),
+            'acadlix-grey' => $helper->acadlix_css_color(
+                $theme['palette']['grey']['light'] ?? null,
+                'hsl(215, 15%, 97%)'
+            ),
+            'acadlix-border-color' => 'hsl(215, 15%, 82%)',
+        ];
+
+        /* ===============================
+         * Typography defaults
+         * =============================== */
+        $defaults = [
+            'h1' => ['fs' => ['2.5rem', '2rem', '1.75rem'], 'fw' => [700, 700, 700], 'lh' => ['1.25', '1.25', '1.25'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'h2' => ['fs' => ['1.875rem', '1.625rem', '1.5rem'], 'fw' => [600, 600, 600], 'lh' => ['1.25', '1.25', '1.25'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'h3' => ['fs' => ['1.5rem', '1.375rem', '1.25rem'], 'fw' => [600, 600, 600], 'lh' => ['1.25', '1.25', '1.25'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'h4' => ['fs' => ['1.25rem', '1.125rem', '1rem'], 'fw' => [600, 600, 600], 'lh' => ['1.25', '1.25', '1.25'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'h5' => ['fs' => ['1.125rem', '1rem', '0.9375rem'], 'fw' => [600, 600, 600], 'lh' => ['1.25', '1.25', '1.25'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'h6' => ['fs' => ['1rem', '0.9375rem', '0.875rem'], 'fw' => [600, 600, 600], 'lh' => ['1.25', '1.25', '1.25'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'body1' => ['fs' => ['1rem', '0.9375rem', '0.875rem'], 'fw' => [400, 400, 400], 'lh' => ['1.5', '1.5', '1.5'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'body2' => ['fs' => ['0.875rem', '0.75rem', '0.625rem'], 'fw' => [400, 400, 400], 'lh' => ['1.5', '1.5', '1.5'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'subtitle1' => ['fs' => ['1rem', '0.9375rem', '0.875rem'], 'fw' => [400, 400, 400], 'lh' => ['1.75', '1.75', '1.75'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+            'subtitle2' => ['fs' => ['0.875rem', '0.75rem', '0.625rem'], 'fw' => [500, 500, 500], 'lh' => ['1.5', '1.5', '1.5'], 'ls' => ['0.3px', '0.3px', '0.3px']],
+        ];
+
+        /* ===============================
+         * Typography generator
+         * =============================== */
+        foreach ($defaults as $type => $config) {
+            foreach (['desktop', 'tablet', 'mobile'] as $i => $device) {
+
+                $vars["acadlix-{$type}-fs-{$device}"] =
+                    $helper->acadlix_css_size(
+                        $theme['typography'][$type]['fontSize'][$device] ?? null,
+                        $config['fs'][$i]
+                    );
+
+                $vars["acadlix-{$type}-fw-{$device}"] =
+                    $helper->acadlix_css_number(
+                        $theme['typography'][$type]['fontWeight'][$device] ?? null,
+                        $config['fw'][$i]
+                    );
+
+                $vars["acadlix-{$type}-lh-{$device}"] =
+                    $helper->acadlix_css_line_height(
+                        $theme['typography'][$type]['lineHeight'][$device] ?? null,
+                        $config['lh'][$i]
+                    );
+
+                $vars["acadlix-{$type}-ls-{$device}"] =
+                    $helper->acadlix_css_size(
+                        $theme['typography'][$type]['letterSpacing'][$device] ?? null,
+                        $config['ls'][$i]
+                    );
+            }
+        }
+
+        /* ===============================
+         * Build CSS
+         * =============================== */
+        $css = ":root {\n";
+        foreach ($vars as $name => $value) {
+            $css .= "    --{$name}: {$value};\n";
+        }
+        $css .= "}\n";
+
+        wp_add_inline_style('acadlix-front-base-style-css', $css);
     }
+
+    // public function enqueue_front_assets()
+    // {
+    //     wp_enqueue_style('acadlix-front-base-style-css');
+    //     $theme = acadlix()->helper()->acadlix_get_option('acadlix_theme_settings');
+    //     // acadlix()->helper()->acadlix_ddd($theme['typography']['h1']['lineHeight']['desktop']);
+    //     $primaryMain = $theme['palette']['primary']['main'] ?? 'hsl(210, 100%, 50%)';
+    //     $primaryDark = $theme['palette']['primary']['dark'] ?? 'hsl(210, 100%, 38%)';
+    //     $textPrimary = $theme['palette']['text']['primary'] ?? 'hsl(215, 15%, 12%)';
+    //     $textSecondary = $theme['palette']['text']['secondary'] ?? 'hsl(218, 10%, 55%)';
+    //     $grey = $theme['palette']['grey']['light'] ?? 'hsl(215, 15%, 97%)';
+    //     $borderColor = 'hsl(215, 15%, 82%)';
+    //     // H1
+    //     $h1_fs_desktop = $theme['typography']['h1']['fontSize']['desktop'] ?? '2.5rem';
+    //     $h1_fs_tablet = $theme['typography']['h1']['fontSize']['tablet'] ?? '2rem';
+    //     $h1_fs_mobile = $theme['typography']['h1']['fontSize']['mobile'] ?? '1.75rem';
+    //     $h1_fw_desktop = $theme['typography']['h1']['fontWeight']['desktop'] ?? 700;
+    //     $h1_fw_tablet = $theme['typography']['h1']['fontWeight']['tablet'] ?? 700;
+    //     $h1_fw_mobile = $theme['typography']['h1']['fontWeight']['mobile'] ?? 700;
+    //     $h1_lh_desktop = $theme['typography']['h1']['lineHeight']['desktop'] ?? '1.25';
+    //     $h1_lh_tablet = $theme['typography']['h1']['lineHeight']['tablet'] ?? '1.25';
+    //     $h1_lh_mobile = $theme['typography']['h1']['lineHeight']['mobile'] ?? '1.25';
+    //     $h1_ls_desktop = $theme['typography']['h1']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $h1_ls_tablet = $theme['typography']['h1']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $h1_ls_mobile = $theme['typography']['h1']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // H2
+    //     $h2_fs_desktop = $theme['typography']['h2']['fontSize']['desktop'] ?? '1.875rem';
+    //     $h2_fs_tablet = $theme['typography']['h2']['fontSize']['tablet'] ?? '1.625rem';
+    //     $h2_fs_mobile = $theme['typography']['h2']['fontSize']['mobile'] ?? '1.5rem';
+    //     $h2_fw_desktop = $theme['typography']['h2']['fontWeight']['desktop'] ?? 600;
+    //     $h2_fw_tablet = $theme['typography']['h2']['fontWeight']['tablet'] ?? 600;
+    //     $h2_fw_mobile = $theme['typography']['h2']['fontWeight']['mobile'] ?? 600;
+    //     $h2_lh_desktop = $theme['typography']['h2']['lineHeight']['desktop'] ?? '1.25';
+    //     $h2_lh_tablet = $theme['typography']['h2']['lineHeight']['tablet'] ?? '1.25';
+    //     $h2_lh_mobile = $theme['typography']['h2']['lineHeight']['mobile'] ?? '1.25';
+    //     $h2_ls_desktop = $theme['typography']['h2']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $h2_ls_tablet = $theme['typography']['h2']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $h2_ls_mobile = $theme['typography']['h2']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // H3
+    //     $h3_fs_desktop = $theme['typography']['h3']['fontSize']['desktop'] ?? '1.5rem';
+    //     $h3_fs_tablet = $theme['typography']['h3']['fontSize']['tablet'] ?? '1.375rem';
+    //     $h3_fs_mobile = $theme['typography']['h3']['fontSize']['mobile'] ?? '1.25rem';
+    //     $h3_fw_desktop = $theme['typography']['h3']['fontWeight']['desktop'] ?? 600;
+    //     $h3_fw_tablet = $theme['typography']['h3']['fontWeight']['tablet'] ?? 600;
+    //     $h3_fw_mobile = $theme['typography']['h3']['fontWeight']['mobile'] ?? 600;
+    //     $h3_lh_desktop = $theme['typography']['h3']['lineHeight']['desktop'] ?? '1.25';
+    //     $h3_lh_tablet = $theme['typography']['h3']['lineHeight']['tablet'] ?? '1.25';
+    //     $h3_lh_mobile = $theme['typography']['h3']['lineHeight']['mobile'] ?? '1.25';
+    //     $h3_ls_desktop = $theme['typography']['h3']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $h3_ls_tablet = $theme['typography']['h3']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $h3_ls_mobile = $theme['typography']['h3']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // H4
+    //     $h4_fs_desktop = $theme['typography']['h4']['fontSize']['desktop'] ?? '1.25rem';
+    //     $h4_fs_tablet = $theme['typography']['h4']['fontSize']['tablet'] ?? '1.125rem';
+    //     $h4_fs_mobile = $theme['typography']['h4']['fontSize']['mobile'] ?? '1rem';
+    //     $h4_fw_desktop = $theme['typography']['h4']['fontWeight']['desktop'] ?? 600;
+    //     $h4_fw_tablet = $theme['typography']['h4']['fontWeight']['tablet'] ?? 600;
+    //     $h4_fw_mobile = $theme['typography']['h4']['fontWeight']['mobile'] ?? 600;
+    //     $h4_lh_desktop = $theme['typography']['h4']['lineHeight']['desktop'] ?? '1.25';
+    //     $h4_lh_tablet = $theme['typography']['h4']['lineHeight']['tablet'] ?? '1.25';
+    //     $h4_lh_mobile = $theme['typography']['h4']['lineHeight']['mobile'] ?? '1.25';
+    //     $h4_ls_desktop = $theme['typography']['h4']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $h4_ls_tablet = $theme['typography']['h4']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $h4_ls_mobile = $theme['typography']['h4']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // H5
+    //     $h5_fs_desktop = $theme['typography']['h5']['fontSize']['desktop'] ?? '1.125rem';
+    //     $h5_fs_tablet = $theme['typography']['h5']['fontSize']['tablet'] ?? '1rem';
+    //     $h5_fs_mobile = $theme['typography']['h5']['fontSize']['mobile'] ?? '0.9375rem';
+    //     $h5_fw_desktop = $theme['typography']['h5']['fontWeight']['desktop'] ?? 600;
+    //     $h5_fw_tablet = $theme['typography']['h5']['fontWeight']['tablet'] ?? 600;
+    //     $h5_fw_mobile = $theme['typography']['h5']['fontWeight']['mobile'] ?? 600;
+    //     $h5_lh_desktop = $theme['typography']['h5']['lineHeight']['desktop'] ?? '1.25';
+    //     $h5_lh_tablet = $theme['typography']['h5']['lineHeight']['tablet'] ?? '1.25';
+    //     $h5_lh_mobile = $theme['typography']['h5']['lineHeight']['mobile'] ?? '1.25';
+    //     $h5_ls_desktop = $theme['typography']['h5']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $h5_ls_tablet = $theme['typography']['h5']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $h5_ls_mobile = $theme['typography']['h5']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // H6
+    //     $h6_fs_desktop = $theme['typography']['h6']['fontSize']['desktop'] ?? '1rem';
+    //     $h6_fs_tablet = $theme['typography']['h6']['fontSize']['tablet'] ?? '0.9375rem';
+    //     $h6_fs_mobile = $theme['typography']['h6']['fontSize']['mobile'] ?? '0.875rem';
+    //     $h6_fw_desktop = $theme['typography']['h6']['fontWeight']['desktop'] ?? 600;
+    //     $h6_fw_tablet = $theme['typography']['h6']['fontWeight']['tablet'] ?? 600;
+    //     $h6_fw_mobile = $theme['typography']['h6']['fontWeight']['mobile'] ?? 600;
+    //     $h6_lh_desktop = $theme['typography']['h6']['lineHeight']['desktop'] ?? '1.25';
+    //     $h6_lh_tablet = $theme['typography']['h6']['lineHeight']['tablet'] ?? '1.25';
+    //     $h6_lh_mobile = $theme['typography']['h6']['lineHeight']['mobile'] ?? '1.25';
+    //     $h6_ls_desktop = $theme['typography']['h6']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $h6_ls_tablet = $theme['typography']['h6']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $h6_ls_mobile = $theme['typography']['h6']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // body1
+    //     $body1_fs_desktop = $theme['typography']['body1']['fontSize']['desktop'] ?? '1rem';
+    //     $body1_fs_tablet = $theme['typography']['body1']['fontSize']['tablet'] ?? '0.9375rem';
+    //     $body1_fs_mobile = $theme['typography']['body1']['fontSize']['mobile'] ?? '0.875rem';
+    //     $body1_fw_desktop = $theme['typography']['body1']['fontWeight']['desktop'] ?? 400;
+    //     $body1_fw_tablet = $theme['typography']['body1']['fontWeight']['tablet'] ?? 400;
+    //     $body1_fw_mobile = $theme['typography']['body1']['fontWeight']['mobile'] ?? 400;
+    //     $body1_lh_desktop = $theme['typography']['body1']['lineHeight']['desktop'] ?? '1.5';
+    //     $body1_lh_tablet = $theme['typography']['body1']['lineHeight']['tablet'] ?? '1.5';
+    //     $body1_lh_mobile = $theme['typography']['body1']['lineHeight']['mobile'] ?? '1.5';
+    //     $body1_ls_desktop = $theme['typography']['body1']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $body1_ls_tablet = $theme['typography']['body1']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $body1_ls_mobile = $theme['typography']['body1']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // body2
+    //     $body2_fs_desktop = $theme['typography']['body2']['fontSize']['desktop'] ?? '0.875rem';
+    //     $body2_fs_tablet = $theme['typography']['body2']['fontSize']['tablet'] ?? '0.75rem';
+    //     $body2_fs_mobile = $theme['typography']['body2']['fontSize']['mobile'] ?? '0.625rem';
+    //     $body2_fw_desktop = $theme['typography']['body2']['fontWeight']['desktop'] ?? 400;
+    //     $body2_fw_tablet = $theme['typography']['body2']['fontWeight']['tablet'] ?? 400;
+    //     $body2_fw_mobile = $theme['typography']['body2']['fontWeight']['mobile'] ?? 400;
+    //     $body2_lh_desktop = $theme['typography']['body2']['lineHeight']['desktop'] ?? '1.5';
+    //     $body2_lh_tablet = $theme['typography']['body2']['lineHeight']['tablet'] ?? '1.5';
+    //     $body2_lh_mobile = $theme['typography']['body2']['lineHeight']['mobile'] ?? '1.5';
+    //     $body2_ls_desktop = $theme['typography']['body2']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $body2_ls_tablet = $theme['typography']['body2']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $body2_ls_mobile = $theme['typography']['body2']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // subtitle1
+    //     $subtitle1_fs_desktop = $theme['typography']['subtitle1']['fontSize']['desktop'] ?? '1rem';
+    //     $subtitle1_fs_tablet = $theme['typography']['subtitle1']['fontSize']['tablet'] ?? '0.9375rem';
+    //     $subtitle1_fs_mobile = $theme['typography']['subtitle1']['fontSize']['mobile'] ?? '0.875rem';
+    //     $subtitle1_fw_desktop = $theme['typography']['subtitle1']['fontWeight']['desktop'] ?? 400;
+    //     $subtitle1_fw_tablet = $theme['typography']['subtitle1']['fontWeight']['tablet'] ?? 400;
+    //     $subtitle1_fw_mobile = $theme['typography']['subtitle1']['fontWeight']['mobile'] ?? 400;
+    //     $subtitle1_lh_desktop = $theme['typography']['subtitle1']['lineHeight']['desktop'] ?? '1.75';
+    //     $subtitle1_lh_tablet = $theme['typography']['subtitle1']['lineHeight']['tablet'] ?? '1.75';
+    //     $subtitle1_lh_mobile = $theme['typography']['subtitle1']['lineHeight']['mobile'] ?? '1.75';
+    //     $subtitle1_ls_desktop = $theme['typography']['subtitle1']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $subtitle1_ls_tablet = $theme['typography']['subtitle1']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $subtitle1_ls_mobile = $theme['typography']['subtitle1']['letterSpacing']['mobile'] ?? '0.3px';
+    //     // subtitle2
+    //     $subtitle2_fs_desktop = $theme['typography']['subtitle2']['fontSize']['desktop'] ?? '0.875rem';
+    //     $subtitle2_fs_tablet = $theme['typography']['subtitle2']['fontSize']['tablet'] ?? '0.75rem';
+    //     $subtitle2_fs_mobile = $theme['typography']['subtitle2']['fontSize']['mobile'] ?? '0.625rem';
+    //     $subtitle2_fw_desktop = $theme['typography']['subtitle2']['fontWeight']['desktop'] ?? 500;
+    //     $subtitle2_fw_tablet = $theme['typography']['subtitle2']['fontWeight']['tablet'] ?? 500;
+    //     $subtitle2_fw_mobile = $theme['typography']['subtitle2']['fontWeight']['mobile'] ?? 500;
+    //     $subtitle2_lh_desktop = $theme['typography']['subtitle2']['lineHeight']['desktop'] ?? '1.5';
+    //     $subtitle2_lh_tablet = $theme['typography']['subtitle2']['lineHeight']['tablet'] ?? '1.5';
+    //     $subtitle2_lh_mobile = $theme['typography']['subtitle2']['lineHeight']['mobile'] ?? '1.5';
+    //     $subtitle2_ls_desktop = $theme['typography']['subtitle2']['letterSpacing']['desktop'] ?? '0.3px';
+    //     $subtitle2_ls_tablet = $theme['typography']['subtitle2']['letterSpacing']['tablet'] ?? '0.3px';
+    //     $subtitle2_ls_mobile = $theme['typography']['subtitle2']['letterSpacing']['mobile'] ?? '0.3px';
+    //     $custom_css = "
+    //                 :root {
+    //                     --acadlix-primary-main: {$primaryMain}; 
+    //                     --acadlix-primary-dark: {$primaryDark};
+    //                     --acadlix-text-primary: {$textPrimary};
+    //                     --acadlix-text-secondary: {$textSecondary};
+    //                     --acadlix-grey: {$grey};
+    //                     --acadlix-border-color: {$borderColor};
+    //                     --acadlix-h1-fs-desktop: {$h1_fs_desktop};
+    //                     --acadlix-h1-fs-tablet: {$h1_fs_tablet};
+    //                     --acadlix-h1-fs-mobile: {$h1_fs_mobile};
+    //                     --acadlix-h1-fw-desktop: {$h1_fw_desktop};
+    //                     --acadlix-h1-fw-tablet: {$h1_fw_tablet};
+    //                     --acadlix-h1-fw-mobile: {$h1_fw_mobile};
+    //                     --acadlix-h1-lh-desktop: {$h1_lh_desktop};
+    //                     --acadlix-h1-lh-tablet: {$h1_lh_tablet};
+    //                     --acadlix-h1-lh-mobile: {$h1_lh_mobile};
+    //                     --acadlix-h1-ls-desktop: {$h1_ls_desktop};
+    //                     --acadlix-h1-ls-tablet: {$h1_ls_tablet};
+    //                     --acadlix-h1-ls-mobile: {$h1_ls_mobile};
+    //                     --acadlix-h2-fs-desktop: {$h2_fs_desktop};
+    //                     --acadlix-h2-fs-tablet: {$h2_fs_tablet};
+    //                     --acadlix-h2-fs-mobile: {$h2_fs_mobile};
+    //                     --acadlix-h2-fw-desktop: {$h2_fw_desktop};
+    //                     --acadlix-h2-fw-tablet: {$h2_fw_tablet};
+    //                     --acadlix-h2-fw-mobile: {$h2_fw_mobile};
+    //                     --acadlix-h2-lh-desktop: {$h2_lh_desktop};
+    //                     --acadlix-h2-lh-tablet: {$h2_lh_tablet};
+    //                     --acadlix-h2-lh-mobile: {$h2_lh_mobile};
+    //                     --acadlix-h2-ls-desktop: {$h2_ls_desktop};
+    //                     --acadlix-h2-ls-tablet: {$h2_ls_tablet};
+    //                     --acadlix-h2-ls-mobile: {$h2_ls_mobile};
+    //                     --acadlix-h3-fs-desktop: {$h3_fs_desktop};
+    //                     --acadlix-h3-fs-tablet: {$h3_fs_tablet};
+    //                     --acadlix-h3-fs-mobile: {$h3_fs_mobile};
+    //                     --acadlix-h3-fw-desktop: {$h3_fw_desktop};
+    //                     --acadlix-h3-fw-tablet: {$h3_fw_tablet};
+    //                     --acadlix-h3-fw-mobile: {$h3_fw_mobile};
+    //                     --acadlix-h3-lh-desktop: {$h3_lh_desktop};
+    //                     --acadlix-h3-lh-tablet: {$h3_lh_tablet};
+    //                     --acadlix-h3-lh-mobile: {$h3_lh_mobile};
+    //                     --acadlix-h3-ls-desktop: {$h3_ls_desktop};
+    //                     --acadlix-h3-ls-tablet: {$h3_ls_tablet};
+    //                     --acadlix-h3-ls-mobile: {$h3_ls_mobile};
+    //                     --acadlix-h4-fs-desktop: {$h4_fs_desktop};
+    //                     --acadlix-h4-fs-tablet: {$h4_fs_tablet};
+    //                     --acadlix-h4-fs-mobile: {$h4_fs_mobile};
+    //                     --acadlix-h4-fw-desktop: {$h4_fw_desktop};
+    //                     --acadlix-h4-fw-tablet: {$h4_fw_tablet};
+    //                     --acadlix-h4-fw-mobile: {$h4_fw_mobile};
+    //                     --acadlix-h4-lh-desktop: {$h4_lh_desktop};
+    //                     --acadlix-h4-lh-tablet: {$h4_lh_tablet};
+    //                     --acadlix-h4-lh-mobile: {$h4_lh_mobile};
+    //                     --acadlix-h4-ls-desktop: {$h4_ls_desktop};
+    //                     --acadlix-h4-ls-tablet: {$h4_ls_tablet};
+    //                     --acadlix-h4-ls-mobile: {$h4_ls_mobile};
+    //                     --acadlix-h5-fs-desktop: {$h5_fs_desktop};
+    //                     --acadlix-h5-fs-tablet: {$h5_fs_tablet};
+    //                     --acadlix-h5-fs-mobile: {$h5_fs_mobile};
+    //                     --acadlix-h5-fw-desktop: {$h5_fw_desktop};
+    //                     --acadlix-h5-fw-tablet: {$h5_fw_tablet};
+    //                     --acadlix-h5-fw-mobile: {$h5_fw_mobile};
+    //                     --acadlix-h5-lh-desktop: {$h5_lh_desktop};
+    //                     --acadlix-h5-lh-tablet: {$h5_lh_tablet};
+    //                     --acadlix-h5-lh-mobile: {$h5_lh_mobile};
+    //                     --acadlix-h5-ls-desktop: {$h5_ls_desktop};
+    //                     --acadlix-h5-ls-tablet: {$h5_ls_tablet};
+    //                     --acadlix-h5-ls-mobile: {$h5_ls_mobile};
+    //                     --acadlix-h6-fs-desktop: {$h6_fs_desktop};
+    //                     --acadlix-h6-fs-tablet: {$h6_fs_tablet};
+    //                     --acadlix-h6-fs-mobile: {$h6_fs_mobile};
+    //                     --acadlix-h6-fw-desktop: {$h6_fw_desktop};
+    //                     --acadlix-h6-fw-tablet: {$h6_fw_tablet};
+    //                     --acadlix-h6-fw-mobile: {$h6_fw_mobile};
+    //                     --acadlix-h6-lh-desktop: {$h6_lh_desktop};
+    //                     --acadlix-h6-lh-tablet: {$h6_lh_tablet};
+    //                     --acadlix-h6-lh-mobile: {$h6_lh_mobile};
+    //                     --acadlix-h6-ls-desktop: {$h6_ls_desktop};
+    //                     --acadlix-h6-ls-tablet: {$h6_ls_tablet};
+    //                     --acadlix-h6-ls-mobile: {$h6_ls_mobile};
+    //                     --acadlix-body1-fs-desktop: {$body1_fs_desktop};
+    //                     --acadlix-body1-fs-tablet: {$body1_fs_tablet};
+    //                     --acadlix-body1-fs-mobile: {$body1_fs_mobile};
+    //                     --acadlix-body1-fw-desktop: {$body1_fw_desktop};
+    //                     --acadlix-body1-fw-tablet: {$body1_fw_tablet};
+    //                     --acadlix-body1-fw-mobile: {$body1_fw_mobile};
+    //                     --acadlix-body1-lh-desktop: {$body1_lh_desktop};
+    //                     --acadlix-body1-lh-tablet: {$body1_lh_tablet};
+    //                     --acadlix-body1-lh-mobile: {$body1_lh_mobile};
+    //                     --acadlix-body1-ls-desktop: {$body1_ls_desktop};
+    //                     --acadlix-body1-ls-tablet: {$body1_ls_tablet};
+    //                     --acadlix-body1-ls-mobile: {$body1_ls_mobile};
+    //                     --acadlix-body2-fs-desktop: {$body2_fs_desktop};
+    //                     --acadlix-body2-fs-tablet: {$body2_fs_tablet};
+    //                     --acadlix-body2-fs-mobile: {$body2_fs_mobile};
+    //                     --acadlix-body2-fw-desktop: {$body2_fw_desktop};
+    //                     --acadlix-body2-fw-tablet: {$body2_fw_tablet};
+    //                     --acadlix-body2-fw-mobile: {$body2_fw_mobile};
+    //                     --acadlix-body2-lh-desktop: {$body2_lh_desktop};
+    //                     --acadlix-body2-lh-tablet: {$body2_lh_tablet};
+    //                     --acadlix-body2-lh-mobile: {$body2_lh_mobile};
+    //                     --acadlix-body2-ls-desktop: {$body2_ls_desktop};
+    //                     --acadlix-body2-ls-tablet: {$body2_ls_tablet};
+    //                     --acadlix-body2-ls-mobile: {$body2_ls_mobile};
+    //                     --acadlix-subtitle1-fs-desktop: {$subtitle1_fs_desktop};
+    //                     --acadlix-subtitle1-fs-tablet: {$subtitle1_fs_tablet};
+    //                     --acadlix-subtitle1-fs-mobile: {$subtitle1_fs_mobile};
+    //                     --acadlix-subtitle1-fw-desktop: {$subtitle1_fw_desktop};
+    //                     --acadlix-subtitle1-fw-tablet: {$subtitle1_fw_tablet};
+    //                     --acadlix-subtitle1-fw-mobile: {$subtitle1_fw_mobile};
+    //                     --acadlix-subtitle1-lh-desktop: {$subtitle1_lh_desktop};
+    //                     --acadlix-subtitle1-lh-tablet: {$subtitle1_lh_tablet};
+    //                     --acadlix-subtitle1-lh-mobile: {$subtitle1_lh_mobile};
+    //                     --acadlix-subtitle1-ls-desktop: {$subtitle1_ls_desktop};
+    //                     --acadlix-subtitle1-ls-tablet: {$subtitle1_ls_tablet};
+    //                     --acadlix-subtitle1-ls-mobile: {$subtitle1_ls_mobile};
+    //                     --acadlix-subtitle2-fs-desktop: {$subtitle2_fs_desktop};
+    //                     --acadlix-subtitle2-fs-tablet: {$subtitle2_fs_tablet};
+    //                     --acadlix-subtitle2-fs-mobile: {$subtitle2_fs_mobile};
+    //                     --acadlix-subtitle2-fw-desktop: {$subtitle2_fw_desktop};
+    //                     --acadlix-subtitle2-fw-tablet: {$subtitle2_fw_tablet};
+    //                     --acadlix-subtitle2-fw-mobile: {$subtitle2_fw_mobile};
+    //                     --acadlix-subtitle2-lh-desktop: {$subtitle2_lh_desktop};
+    //                     --acadlix-subtitle2-lh-tablet: {$subtitle2_lh_tablet};
+    //                     --acadlix-subtitle2-lh-mobile: {$subtitle2_lh_mobile};
+    //                     --acadlix-subtitle2-ls-desktop: {$subtitle2_ls_desktop};
+    //                     --acadlix-subtitle2-ls-tablet: {$subtitle2_ls_tablet};
+    //                     --acadlix-subtitle2-ls-mobile: {$subtitle2_ls_mobile};
+    //                 }
+    //             ";
+
+    //     wp_add_inline_style('acadlix-front-base-style-css', $custom_css);
+
+    //     // wp_enqueue_script('acadlix-front-action-button-course-js');
+    //     // wp_localize_script('acadlix-front-action-button-course-js', 'acadlixButton', $this->localize_front_action_button_course_js_options());
+    // }
 
     public function acadlix_front_footer()
     {

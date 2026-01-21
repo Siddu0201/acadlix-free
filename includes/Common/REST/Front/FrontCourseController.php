@@ -58,7 +58,9 @@ class FrontCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_add_wishlist'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function () {
+                        return is_user_logged_in();
+                    },
                 ],
             ]
         );
@@ -69,7 +71,9 @@ class FrontCourseController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'post_remove_wishlist'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function () {
+                        return is_user_logged_in();
+                    },
                 ],
             ]
         );
@@ -235,7 +239,7 @@ class FrontCourseController
                 return new WP_Error('course_not_found', __('Course not found', 'acadlix'), array('status' => 404));
             }
             $order_items = acadlix()->model()->orderItem()
-                ->with(['order','course'])
+                ->with(['order', 'course'])
                 ->whereHas('order', function ($query) use ($userId) {
                     $query->where('user_id', $userId)->where('status', 'success');
                 })
@@ -363,8 +367,11 @@ class FrontCourseController
         return rest_ensure_response($res);
     }
 
-    public function check_permission()
+    public function check_permission($request)
     {
-        return true;
+        return wp_verify_nonce(
+            $request->get_header('X-WP-Nonce'),
+            'wp_rest'
+        );
     }
 }

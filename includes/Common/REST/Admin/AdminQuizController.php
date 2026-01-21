@@ -23,12 +23,16 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_quizes'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_quiz');
+                    },
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_quiz');
+                    },
                 ],
             ]
         );
@@ -40,7 +44,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_create_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_quiz');
+                    },
                 ],
             ]
         );
@@ -52,7 +58,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_quiz_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_quiz');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -64,7 +72,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_quiz_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_quiz');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -76,7 +86,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_quiz_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_quiz');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -95,7 +107,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_set_category'],
-                    'permission_callback' => fn() => current_user_can('acadlix_bulk_set_category_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_bulk_set_category_quiz');
+                    },
                 ],
             ]
         );
@@ -107,7 +121,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_bulk_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_bulk_delete_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_bulk_delete_quiz');
+                    },
                 ],
             ]
         );
@@ -119,7 +135,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_add_language_to_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_edit_language_to_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_edit_language_to_quiz');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -138,7 +156,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_set_default_language_to_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_set_default_quiz_language') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_set_default_quiz_language');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -157,7 +177,9 @@ class AdminQuizController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'delete_language_from_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_language_from_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_language_from_quiz');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -767,10 +789,5 @@ class AdminQuizController
                 ['status' => 500]
             );
         }
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

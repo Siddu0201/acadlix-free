@@ -20,7 +20,9 @@ class AdminStudentController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_students'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_student') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_student');
+                    },
                 ],
             ]
         );
@@ -50,10 +52,5 @@ class AdminStudentController
         $res['total'] = $student->count();
         $res['students'] = $student->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

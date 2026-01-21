@@ -19,7 +19,9 @@ class AdminLeaderboardController {
                 [
                     'methods'             => WP_REST_Server::EDITABLE,
                     'callback'            => [$this, 'post_quiz_load_more_leaderboard' ],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_leaderboard') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_leaderboard');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                           'validate_callback' => function($param, $request, $key) {
@@ -38,7 +40,9 @@ class AdminLeaderboardController {
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_reset_leaderboard_by_quiz_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_reset_leaderboard') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_reset_leaderboard');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -82,9 +86,5 @@ class AdminLeaderboardController {
         }
         $res['toplist'] = acadlix()->model()->toplist()->where("quiz_id", $quiz_id)->delete();
         return rest_ensure_response( $res );
-    }
-
-    public function check_permission(){
-        return true;
     }
 }

@@ -22,12 +22,16 @@ class AdminLessonController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_lessons'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_lesson');
+                    },
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_lesson'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_lesson');
+                    },
                 ],
             ]
         );
@@ -39,7 +43,9 @@ class AdminLessonController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_lesson_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_lesson');
+                    },
                     'args' => array(
                         'lesson_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -51,7 +57,9 @@ class AdminLessonController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_lesson_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_lesson');
+                    },
                     'args' => array(
                         'lesson_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -63,7 +71,9 @@ class AdminLessonController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_lesson_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_lesson');
+                    },
                     'args' => array(
                         'lesson_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -82,7 +92,9 @@ class AdminLessonController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_bulk_lesson'],
-                    'permission_callback' => fn() => current_user_can('acadlix_bulk_delete_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_bulk_delete_lesson');
+                    },
                 ],
             ]
         );
@@ -309,10 +321,5 @@ class AdminLessonController
         }
         $res['message'] = __('Lessons successfully deleted.', 'acadlix');
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

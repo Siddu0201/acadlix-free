@@ -18,12 +18,16 @@ class AdminTemplateController {
                 [
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => [ $this, 'get_templates' ],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_template') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_template');
+                    },
                 ],
                 [
                     'methods'             => WP_REST_Server::CREATABLE,
                     'callback'            => [ $this, 'post_save_template' ],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_template') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_template');
+                    },
                 ],
             ]
         );
@@ -33,7 +37,9 @@ class AdminTemplateController {
                 [
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => [ $this, 'get_template_by_id' ],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_template') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_template');
+                    },
                     'args' => array(
                         'quiz_id' => array(
                           'validate_callback' => function($param, $request, $key) {
@@ -80,9 +86,5 @@ class AdminTemplateController {
         $id = $request['template_id'];
         $res['template'] = acadlix()->model()->template()->find($id);
         return rest_ensure_response( $res );
-    }
-
-    public function check_permission() {
-        return true;
     }
 }

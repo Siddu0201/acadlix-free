@@ -79,20 +79,20 @@ class AllCourseView
             ?>
             <!doctype html>
             <html <?php language_attributes(); ?>>
-        
+
             <head>
                 <meta charset="<?php bloginfo('charset'); ?>">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <?php wp_head(); ?>
             </head>
-        
+
             <body <?php body_class(); ?>>
                 <?php wp_body_open(); ?>
                 <div class="wp-site-blocks">
                     <?php
-            $theme = wp_get_theme();
-            $theme_slug = $theme->get('TextDomain');
-            echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
+                    $theme = wp_get_theme();
+                    $theme_slug = $theme->get('TextDomain');
+                    echo wp_kses_post(do_blocks('<!-- wp:template-part {"slug":"header","theme":"' . esc_attr($theme_slug) . '","tagName":"header","className":"site-header","layout":{"inherit":true}} /-->'));
         } else {
             get_header();
         }
@@ -103,14 +103,7 @@ class AllCourseView
         $course_children = [];
         if (!empty($this->courses)) {
             foreach ($this->courses as $course) {
-                $course_children[] = [
-                    'component' => 'php',
-                    'value' => function () use ($course) {
-                        ob_start();
-                        $this->render_single_course($course);
-                        return ob_get_clean();
-                    },
-                ];
+                $course_children[] = $this->render_single_course($course);
             }
         }
         $all_course_page = [
@@ -179,7 +172,7 @@ class AllCourseView
             ]
         ];
         $single_course_ui = apply_filters('acadlix_single_course_ui', $single_course_ui, $course);
-        acadlix()->helper()->acadlix_render_component($single_course_ui);
+        return $single_course_ui;
     }
 
     /**
@@ -290,8 +283,8 @@ class AllCourseView
     {
         $price_html = acadlix()->helper()->course()->getCoursePrice(
             $course->rendered_metas['enable_sale_price']
-                ? $course->rendered_metas['sale_price']
-                : $course->rendered_metas['price']
+            ? $course->rendered_metas['sale_price']
+            : $course->rendered_metas['price']
         );
 
         $children = [
@@ -415,14 +408,14 @@ class AllCourseView
 
         $is_course_purchased = false;
         $cart = [];
-        if(is_user_logged_in()){
+        if (is_user_logged_in()) {
             $userId = get_current_user_id();
             $is_course_purchased = $course->isPurchasedBy($userId);
             $cart = acadlix()->model()->courseCart()->where([
                 ['user_id', '=', $userId],
                 ['course_id', '=', $course->ID],
             ])->first();
-        }else{
+        } else {
             if (isset($_COOKIE['acadlix_cart_token'])) {
                 $cart = acadlix()
                     ->model()
@@ -490,9 +483,13 @@ class AllCourseView
                         'id' => 'add-to-wishlist-' . esc_attr($course->ID),
                         'title' => esc_attr__('Add to Wishlist', 'acadlix'),
                         'data-id' => esc_attr($course->ID),
-                        'style' => $course_wishlist_count == 0 ? 'display:flex;' : 'display:none;',
+                        'style' => 'display: ' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
+                        // 'style' => 'display:' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
                     ],
-                    'value' => '<i class="far fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
+                    'children' => [
+                        ['component' => 'i', 'props' => ['class' => 'far fa-heart']],
+                        ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+                    ],
                 ],
                 [
                     'component' => 'div',
@@ -501,9 +498,12 @@ class AllCourseView
                         'id' => 'remove-from-wishlist-' . esc_attr($course->ID),
                         'title' => esc_attr__('Remove From Wishlist', 'acadlix'),
                         'data-id' => esc_attr($course->ID),
-                        'style' => $course_wishlist_count > 0 ? 'display:flex;' : 'display:none;',
+                        'style' => 'display: ' . ($course_wishlist_count > 0 ? 'flex' : 'none'),
                     ],
-                    'value' => '<i class="fas fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
+                    'children' => [
+                        ['component' => 'i', 'props' => ['class' => 'fas fa-heart']],
+                        ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+                    ],
                 ]
             ]
         ], $course);

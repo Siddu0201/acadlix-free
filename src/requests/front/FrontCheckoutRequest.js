@@ -29,6 +29,9 @@ export const GetCheckoutCart = (user_id = 0, cart_token = "") => {
             cart_token,
             _t: Date.now(),
           },
+          headers: {
+            "X-WP-Nonce": acadlixOptions?.nonce,
+          },
         });
       },
       { user_id, cart_token, instance, base }
@@ -40,6 +43,9 @@ export const GetCheckoutCart = (user_id = 0, cart_token = "") => {
           user_id,
           cart_token,
           _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         },
       });
     });
@@ -67,7 +73,11 @@ export const PostCheckoutRazorpay = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-checkout-razorpay`, data);
+      return instance.post(`${base}/post-checkout-razorpay`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };
@@ -76,7 +86,11 @@ export const PostVerifyRazorpayPayment = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-verify-razorpay-payment`, data);
+      return instance.post(`${base}/post-verify-razorpay-payment`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };
@@ -85,7 +99,11 @@ export const PostCheckoutPaypal = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-checkout-paypal`, data);
+      return instance.post(`${base}/post-checkout-paypal`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };
@@ -94,7 +112,11 @@ export const PostCheckoutPayu = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-checkout-payu`, data);
+      return instance.post(`${base}/post-checkout-payu`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };
@@ -103,7 +125,11 @@ export const PostFreeCheckout = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-free-checkout`, data);
+      return instance.post(`${base}/post-free-checkout`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };
@@ -112,7 +138,11 @@ export const PostCheckoutStripe = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-checkout-stripe`, data);
+      return instance.post(`${base}/post-checkout-stripe`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };
@@ -121,7 +151,11 @@ export const PostCheckoutOfflinePayment = () => {
   const instance = useInstance();
   return useMutation({
     mutationFn: (data) => {
-      return instance.post(`${base}/post-checkout-offline-payment`, data);
+      return instance.post(`${base}/post-checkout-offline-payment`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
     },
   });
 };

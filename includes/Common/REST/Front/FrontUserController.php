@@ -13,31 +13,29 @@ class FrontUserController
 
     public function register_routes()
     {
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/login',
-            [
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_user_login'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(),
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/login',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::EDITABLE,
+        //             'callback' => [$this, 'post_user_login'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //         ],
+        //     ]
+        // );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/register',
-            [
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_user_register'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(),
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/register',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::EDITABLE,
+        //             'callback' => [$this, 'post_user_register'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //         ],
+        //     ]
+        // );
     }
 
     public function post_user_login($request)

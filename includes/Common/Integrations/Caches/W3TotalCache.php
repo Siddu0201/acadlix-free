@@ -4,7 +4,7 @@ namespace Yuvayana\Acadlix\Common\Integrations\Caches;
 
 defined('ABSPATH') || exit();
 
-if (!class_exists('W3TotalCache')) {
+if (!class_exists(__NAMESPACE__ . '\\W3TotalCache')) {
     class W3TotalCache
     {
         public function __construct()
