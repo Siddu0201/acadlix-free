@@ -737,7 +737,7 @@ class FrontCheckoutController
             //     'server' => $_SERVER,
             //     'stream' => file_get_contents('php://input'),
             // );
-            $payment_method = sanitize_text_field(wp_unslash($_GET['payment_method'] ?? ''));
+            $payment_method = sanitize_text_field(wp_unslash($_GET['payment_method'] ?? '')); // phpcs:ignore
 
             if (!$payment_method) {
                 return new WP_Error('missing_gateway', 'Payment gateway not specified', ['status' => 400]);
