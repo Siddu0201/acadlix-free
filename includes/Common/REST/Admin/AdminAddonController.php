@@ -24,7 +24,7 @@ class AdminAddonController
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_addons'],
                     'permission_callback' => function () {
-                        return current_user_can('acadlix_view_addon');
+                        return current_user_can('acadlix_show_addon');
                     }
                 ],
                 [
