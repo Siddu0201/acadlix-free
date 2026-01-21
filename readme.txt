@@ -64,15 +64,7 @@ Acadlix works with standard WordPress themes and supports Elementor page-builder
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of Acadlix
-
-Acadlix does not store or sell personal user data externally.
-
-However, when payment gateways such as Stripe, PayPal, PayU, or Razorpay are enabled, payment-related data is transmitted to these third-party services strictly for the purpose of processing payments initiated by users.
-
-Acadlix does not store credit card or sensitive payment information on its own servers. All payment data handling is managed securely by the respective payment providers in accordance with their privacy policies.
-
-Acadlix may also use Google reCAPTCHA to protect forms and authentication endpoints from spam and abuse. The data sent to Google is used solely for security purposes.
+Initial release of Acadlix. Includes course management, quizzes, and payment gateway integrations (Stripe, PayPal, PayU, Razorpay) with optional Google reCAPTCHA support.
 
 
 == External Services ==
@@ -193,13 +185,30 @@ For support or feature requests, please visit:
 
 Developed by the **Acadlix Team**, creators of the modern and developer-friendly Acadlix LMS.
 
-== Source Code ==
+== Build & Source Code ==
 
-Acadlix is open-source software.
+This plugin uses modern JavaScript (React, Webpack) and ships compiled assets
+in the /build directory for performance reasons.
 
-You can view, fork, and contribute to the source code on GitHub:
+The original, human-readable source code is publicly available on GitHub:
 
 [Acadlix Free – GitHub Repository](https://github.com/Siddu0201/acadlix-free)
+
+Source files are located in:
+- /src/
+
+Compiled production files are generated into:
+- /build/
+
+=== Build Instructions ===
+
+To reproduce the build files:
+
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm run build:free`
+
+This will generate the contents of the /build directory included in this plugin.
 
 == Documentation ==
 

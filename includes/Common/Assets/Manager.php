@@ -64,7 +64,7 @@ class Manager
                     <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
                         <?php echo wp_kses_post(
                             do_shortcode(
-                                apply_filters('comment_text', $quiz->post_content)
+                                apply_filters('comment_text', $quiz->post_content) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                             )
                         ); ?>
                     </div>
