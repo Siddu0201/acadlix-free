@@ -243,7 +243,7 @@ if (!class_exists(__NAMESPACE__ . '\\Stripe')) {
                 }
 
                 $payload = $data['stream'] ?? '';
-                $signature = $data['header']['stripe_signature'] ?? '';
+                $signature = $data['headers']['stripe_signature'] ?? '';
 
                 if (empty($this->webhook_signature_key)) {
                     throw new Exception('Stripe webhook signature key missing');
@@ -265,24 +265,28 @@ if (!class_exists(__NAMESPACE__ . '\\Stripe')) {
                 $signed_payload = $parts['t'] . '.' . $payload;
                 $expected_signature = hash_hmac('sha256', $signed_payload, $this->webhook_signature_key);
 
-                if (hash_equals($expected_signature, $parts['v1'])) {
-                    $event = json_decode($payload);
-                    $event_type = explode('.', $event->type)[0];
-                    switch ($event_type) {
-                        case 'checkout':
-                            $stripe_order_id = $event->data->object->id;
-                            $response = $this->orderCapture($stripe_order_id);
-                            $response = new WP_REST_Response($response, 200);
-                            break;
-                        default:
-                            $response = new WP_REST_Response(['message' => 'Event ignored'], 200);
-                            break;
-                    }
-                    return $response;
+                if (!hash_equals($expected_signature, $parts['v1'])) {
+                    throw new Exception('Stripe webhook signature verification failed: Signatures do not match.');
                 }
-                exit;
+                $event = json_decode($payload);
+                $event_type = explode('.', $event->type)[0];
+                switch ($event_type) {
+                    case 'checkout':
+                        $stripe_order_id = $event->data->object->id;
+                        $response = $this->orderCapture($stripe_order_id);
+                        $response = new WP_REST_Response($response, 200);
+                        break;
+                    default:
+                        $response = new WP_REST_Response(['message' => 'Event ignored'], 200);
+                        break;
+                }
+                return $response;
             } catch (Exception $e) {
-                exit;
+                return new WP_Error(
+                    'webhook_error',
+                    __('Stripe webhook error: ', 'acadlix') . esc_html($e->getMessage()),
+                    ['status' => 500]
+                );
             }
         }
 

@@ -365,24 +365,28 @@ if (!class_exists(__NAMESPACE__ . '\\Paypal')) {
 
                 $url = $this->paypal_url . '/v1/notifications/verify-webhook-signature';
                 $result = $this->createConnection($url, 'POST', $verify_payload);
-
-                if (isset($result->verification_status)) {
-                    $event = json_decode($body);
-                    switch ($event->event_type) {
-                        case 'CHECKOUT.ORDER.APPROVED':
-                            $paypal_order_id = $event->resource->id ?? '';
-                            $response = $this->orderCapture($paypal_order_id);
-                            $response = new WP_REST_Response($response, 200);
-                            break;
-                        default:
-                            $response = new WP_REST_Response(['message' => 'Event ignored'], 200);
-                            break;
-                    }
-                    return $response;
+                error_log('PayPal webhook verification result: ' . json_encode($result));
+                if (!isset($result->verification_status) || $result->verification_status !== 'SUCCESS') {
+                    throw new Exception('PayPal webhook verification failed: ' . $result->verification_status);
                 }
-                exit;
+                $event = json_decode($body);
+                switch ($event->event_type) {
+                    case 'CHECKOUT.ORDER.APPROVED':
+                        $paypal_order_id = $event->resource->id ?? '';
+                        $response = $this->orderCapture($paypal_order_id);
+                        $response = new WP_REST_Response($response, 200);
+                        break;
+                    default:
+                        $response = new WP_REST_Response(['message' => 'Event ignored'], 200);
+                        break;
+                }
+                return $response;
             } catch (Exception $e) {
-                exit;
+                return new WP_Error(
+                    'webhook_error',
+                    __('PayPal webhook error: ', 'acadlix') . esc_html($e->getMessage()),
+                    ['status' => 500]
+                );
             }
         }
 

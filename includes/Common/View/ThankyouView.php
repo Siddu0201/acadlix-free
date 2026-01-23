@@ -52,10 +52,10 @@ class ThankyouView
                             $this->status = $order->status;
                         } else {
                             if ($order->status == 'pending') {
-                                acadlix()
-                                            ->payments()
-                                    ->{$payment_method}()
-                                        ->verifyOrder($this->token);
+                                // acadlix()
+                                //             ->payments()
+                                //     ->{$payment_method}()
+                                //         ->verifyOrder($this->token);
                                 $order = acadlix()
                                             ->payments()
                                     ->{$payment_method}()
@@ -126,7 +126,7 @@ class ThankyouView
                     [
                         'component' => 'php',
                         'value' => function () {
-                            return the_content();
+                            return apply_filters('the_content', get_the_content());
                         }
                     ]
                 ]

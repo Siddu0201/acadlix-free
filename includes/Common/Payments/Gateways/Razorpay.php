@@ -316,6 +316,7 @@ if (!class_exists(__NAMESPACE__ . '\\Razorpay')) {
                     return new WP_Error('invalid_signature', 'Signature verification failed', ['status' => 403]);
                 }
 
+                
                 $event = json_decode($payload);
                 switch ($event->event) {
                     case 'payment.authorized':
@@ -330,7 +331,11 @@ if (!class_exists(__NAMESPACE__ . '\\Razorpay')) {
                 }
                 return $response;
             } catch (Exception $e) {
-                exit;
+                return new WP_Error(
+                    'webhook_error',
+                    __('Razorpay webhook error: ', 'acadlix') . esc_html($e->getMessage()),
+                    ['status' => 500]
+                );
             }
         }
 
