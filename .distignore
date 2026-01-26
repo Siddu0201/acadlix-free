@@ -1,5 +1,5 @@
 # -----------------------------
-# Node / React
+# Core Root Exclusions
 # -----------------------------
 node_modules/
 /src/
@@ -10,47 +10,62 @@ webpack.config.js
 composer.lock
 jsconfig.json
 .distignore
+README.md
+handle-dev-server.sh
+/api.txt
+/test.json
+-----------------------------
 
 # -----------------------------
-# Git / CI
+# Git / CI / IDE
 # -----------------------------
 .git/
 .github/
 .gitignore
+.editorconfig
+.phpstorm.meta.php
+.travis.yml
+circle.yml
 
 # -----------------------------
-# Tests & Dev
+# Tests & Dev Artifacts
 # -----------------------------
 tests/
 phpunit.xml
 phpunit.xml.dist
-
-# -----------------------------
-# Composer Dev Artifacts
-# -----------------------------
 vendor/**/tests/
 vendor/**/Tests/
-vendor/**/PHPUnit/
+vendor/**/test/
+vendor/**/testing/
 vendor/**/phpunit/
+vendor/**/PHPUnit/
+vendor/**/*.md
 vendor/**/.github/
 vendor/**/docs/
-vendor/**/*.md
 vendor/**/bin/
 vendor/**/stubs/
+vendor/**/installed.json
+vendor/**/composer.json
 vendor/**/*.toml
 vendor/**/*.bat
 vendor/**/*.sh
+
+# -----------------------------
+# Specific Library Cleanup
+# -----------------------------
+
+# Carbon: Remove massive unused language files to reduce bloat
+# (WordPress.org prefers you use their translation system)
+vendor/nesbot/carbon/src/Carbon/Lang/*
+# Keep English just in case, but block the rest
+!vendor/nesbot/carbon/src/Carbon/Lang/en.php
+
+# Illuminate/Database: Clean up internal dev files
+vendor/illuminate/database/Console/
+vendor/illuminate/database/Migrations/
 
 # -----------------------------
 # Translations
 # -----------------------------
 *.po
 languages/Pro/
-
-# -----------------------------
-# Misc
-# -----------------------------
-README.md
-handle-dev-server.sh
-/api.txt
-/test.json
