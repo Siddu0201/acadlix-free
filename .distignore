@@ -2,7 +2,7 @@
 # Node / React
 # -----------------------------
 node_modules/
-./src/
+src/
 *.map
 package.json
 package-lock.json
