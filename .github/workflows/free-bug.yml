@@ -35,8 +35,8 @@ jobs:
       # ----------------------------------
       - name: Set plugin version for Free
         run: |
-          sed -i 's/{{VERSION}}/1.0.0/' acadlix.php
-          sed -i 's/{{VERSION}}/1.0.0/' languages/Common/acadlix.pot
+          sed -i 's/{{VERSION}}/1.0.1/' acadlix.php
+          sed -i 's/{{VERSION}}/1.0.1/' languages/Common/acadlix.pot
 
       # ----------------------------------
       # PHP / Composer
