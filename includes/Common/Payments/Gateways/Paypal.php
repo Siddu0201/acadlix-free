@@ -365,7 +365,7 @@ if (!class_exists(__NAMESPACE__ . '\\Paypal')) {
 
                 $url = $this->paypal_url . '/v1/notifications/verify-webhook-signature';
                 $result = $this->createConnection($url, 'POST', $verify_payload);
-                error_log('PayPal webhook verification result: ' . json_encode($result));
+                
                 if (!isset($result->verification_status) || $result->verification_status !== 'SUCCESS') {
                     throw new Exception('PayPal webhook verification failed: ' . $result->verification_status);
                 }
