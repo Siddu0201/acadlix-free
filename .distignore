@@ -2,7 +2,7 @@
 # Node / React
 # -----------------------------
 node_modules/
-src/
+/src/
 *.map
 package.json
 package-lock.json
@@ -52,3 +52,5 @@ languages/Pro/
 # -----------------------------
 README.md
 handle-dev-server.sh
+/api.txt
+/test.json
