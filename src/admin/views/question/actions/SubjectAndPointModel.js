@@ -8,7 +8,6 @@ import {
   IconButton,
   Paper,
   TextField,
-  Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -55,6 +54,7 @@ const SubjectAndPointModel = (props) => {
               methods?.setValue("subject_id", data?.data?.subject_id ?? null, {
                 shouldDirty: true,
               });
+              setInput("");
             },
           }
         );
@@ -113,9 +113,7 @@ const SubjectAndPointModel = (props) => {
         <Grid container gap={4}>
           <Grid size={{ xs: 12, lg: 12 }}>
             <Autocomplete
-              sx={{
-                width: "100%",
-              }}
+              fullWidth
               size="small"
               value={
                 methods?.watch("subject_id") !== null
@@ -124,33 +122,46 @@ const SubjectAndPointModel = (props) => {
                   )?.[0]
                   : null
               }
-              disablePortal
+              // disablePortal
               options={subjects ? subjects : []}
               getOptionLabel={(option) => option?.subject_name || ""}
               isOptionEqualToValue={(option, value) => option?.id === value?.id}
+              freeSolo
+              inputValue={input}
+              onInputChange={(_, newInput) => {
+                setInput(newInput);
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "spoc_gender",
-                  }}
                   label={__("Select Subject", "acadlix")}
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {createSubjectMutation?.isPending ? (
-                          <CircularProgress color="inherit" size={20} />
-                        ) : null}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
-                    ),
+                  error={!!methods?.formState?.errors?.subject_id}
+                  helperText={methods?.formState?.errors?.subject_id?.message}
+                  onKeyDown={(e) => {
+                    if(e?.key === 'Enter'){
+                      e.preventDefault();
+                      createSubject();
+                    }
                   }}
-                  onChange={(e) => setInput(e.target.value)}
+                  slotProps={{
+                    input: {
+                      ...params.InputProps,
+                      autoComplete: "subject",
+                      endAdornment: (
+                        <React.Fragment>
+                          {createSubjectMutation?.isPending ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </React.Fragment>
+                      ),
+                    }
+                  }}
+                  // onChange={(e) => setInput(e.target.value)}
                 />
               )}
               onChange={(_, newValue) => {
+                methods?.clearErrors("subject_id");
                 methods?.setValue("subject_id", newValue?.id ?? null, {
                   shouldDirty: true,
                 });
@@ -171,11 +182,11 @@ const SubjectAndPointModel = (props) => {
                 );
               }}
             />
-            {Boolean(methods?.formState?.errors?.subject_id) && (
+            {/* {Boolean(methods?.formState?.errors?.subject_id) && (
               <Typography component="p" color="error">
                 {methods?.formState?.errors?.subject_id?.message}
               </Typography>
-            )}
+            )} */}
           </Grid>
           <Grid size={{ xs: 12, lg: 12 }}>
             <CustomTextField

@@ -225,11 +225,6 @@ const GeneralOptionSection = (props) => {
                   );
                 }}
               />
-              {Boolean(props?.formState?.errors?.subject_id) && (
-                <Typography component="p" color="error">
-                  {props?.formState?.errors?.subject_id?.message}
-                </Typography>
-              )}
             </Grid>
           </Grid>
         </CardContent>
