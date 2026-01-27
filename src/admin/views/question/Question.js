@@ -301,7 +301,11 @@ const Question = () => {
     const filtered = window?.acadlixHooks?.applyFilters(
       'acadlix.admin.question.bulkActions',
       defaults,
-      { quiz_id }
+      {
+        quiz_id: quiz_id,
+        watch: methods?.watch,
+        setValue: methods?.setValue,
+      }
     ) ?? defaults;
 
     return filtered.filter((action) => !action?.capability || hasCapability(action.capability));
@@ -575,7 +579,7 @@ const Question = () => {
                         children: [
                           hasCapability("acadlix_bulk_action_question") && {
                             component: "Box",
-                            component_name: "admin_quiz_question_card_content_box_bulk_actions",  
+                            component_name: "admin_quiz_question_card_content_box_bulk_actions",
                             props: {
                               sx: {
                                 display: "flex",
