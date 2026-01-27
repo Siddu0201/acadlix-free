@@ -5,9 +5,12 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -66,7 +69,7 @@ const GeneralOptionSection = (props) => {
             xs: 2,
             sm: 4,
           }}>
-            <Grid size={{ xs: 12, sm: 5 }}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <CustomTextField
                 {...props?.register("title")}
                 fullWidth
@@ -80,7 +83,33 @@ const GeneralOptionSection = (props) => {
                 }}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 2 }}>
+            <Grid size={{ xs: 12, sm: 3 }}>
+              <FormControl
+                fullWidth
+                size="small"
+              >
+                <InputLabel id="difficulty-level-label">
+                  {__("Difficulty Level", "acadlix")}
+                </InputLabel>
+                <Select
+                  labelId="difficulty-level-label"
+                  id="difficulty-level-select"
+                  value={props?.watch("difficulty_level")}
+                  label={__("Difficulty Level", "acadlix")}
+                  onChange={(e) => {
+                    props?.setValue("difficulty_level", e?.target?.value, {
+                      shouldDirty: true,
+                    });
+                  }}
+                >
+                  <MenuItem value="easy">{__("Easy", "acadlix")}</MenuItem>
+                  <MenuItem value="medium">{__("Medium", "acadlix")}</MenuItem>
+                  <MenuItem value="hard">{__("Hard", "acadlix")}</MenuItem>
+                  <MenuItem value="expert">{__("Expert", "acadlix")}</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 3 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -116,7 +145,7 @@ const GeneralOptionSection = (props) => {
                 }}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 2 }}>
+            <Grid size={{ xs: 12, sm: 3 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -181,7 +210,7 @@ const GeneralOptionSection = (props) => {
                     error={!!props?.formState?.errors?.subject_id}
                     helperText={props?.formState?.errors?.subject_id?.message}
                     onKeyDown={(e) => {
-                      if(e?.key === 'Enter'){
+                      if (e?.key === 'Enter') {
                         e.preventDefault();
                         createSubject()
                       }

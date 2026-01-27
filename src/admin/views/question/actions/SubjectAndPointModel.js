@@ -5,8 +5,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
@@ -27,6 +31,7 @@ const SubjectAndPointModel = (props) => {
       subject_id: null,
       points: "",
       negative_points: "",
+      difficulty_level: "",
     },
   });
   const [input, setInput] = React.useState("");
@@ -110,7 +115,7 @@ const SubjectAndPointModel = (props) => {
         <IoClose />
       </IconButton>
       <DialogContent>
-        <Grid container gap={4}>
+        <Grid container spacing={3}>
           <Grid size={{ xs: 12, lg: 12 }}>
             <Autocomplete
               fullWidth
@@ -138,7 +143,7 @@ const SubjectAndPointModel = (props) => {
                   error={!!methods?.formState?.errors?.subject_id}
                   helperText={methods?.formState?.errors?.subject_id?.message}
                   onKeyDown={(e) => {
-                    if(e?.key === 'Enter'){
+                    if (e?.key === 'Enter') {
                       e.preventDefault();
                       createSubject();
                     }
@@ -157,7 +162,7 @@ const SubjectAndPointModel = (props) => {
                       ),
                     }
                   }}
-                  // onChange={(e) => setInput(e.target.value)}
+                // onChange={(e) => setInput(e.target.value)}
                 />
               )}
               onChange={(_, newValue) => {
@@ -188,7 +193,33 @@ const SubjectAndPointModel = (props) => {
               </Typography>
             )} */}
           </Grid>
-          <Grid size={{ xs: 12, lg: 12 }}>
+          <Grid size={{ xs: 12, lg: 4 }}>
+            <FormControl
+              fullWidth
+              size="small"
+            >
+              <InputLabel id="difficulty-level-label">
+                {__("Difficulty Level", "acadlix")}
+              </InputLabel>
+              <Select
+                labelId="difficulty-level-label"
+                id="difficulty-level-select"
+                value={methods?.watch("difficulty_level") ?? ''}
+                label={__("Difficulty Level", "acadlix")}
+                onChange={(e) => {
+                  methods?.setValue("difficulty_level", e?.target?.value, {
+                    shouldDirty: true,
+                  });
+                }}
+              >
+                <MenuItem value="easy">{__("Easy", "acadlix")}</MenuItem>
+                <MenuItem value="medium">{__("Medium", "acadlix")}</MenuItem>
+                <MenuItem value="hard">{__("Hard", "acadlix")}</MenuItem>
+                <MenuItem value="expert">{__("Expert", "acadlix")}</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={{ xs: 12, lg: 4 }}>
             <CustomTextField
               fullWidth
               size="small"
@@ -224,7 +255,7 @@ const SubjectAndPointModel = (props) => {
               }}
             />
           </Grid>
-          <Grid size={{ xs: 12, lg: 12 }}>
+          <Grid size={{ xs: 12, lg: 4 }}>
             <CustomTextField
               fullWidth
               size="small"

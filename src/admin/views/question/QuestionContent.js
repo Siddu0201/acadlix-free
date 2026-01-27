@@ -174,6 +174,7 @@ const QuestionContent = (props) => {
       subject_id: props?.question?.subject_id
         ? Number(props?.question?.subject_id)
         : null,
+      difficulty_level: props?.question?.difficulty_level ?? "",
       online: !props?.create ? Boolean(Number(props?.question?.online)) : true,
       sort: props?.create
         ? props?.all_question_count + 1

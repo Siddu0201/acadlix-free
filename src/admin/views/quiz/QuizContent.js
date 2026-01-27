@@ -93,6 +93,7 @@ const QuizContent = (props) => {
         display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
         answer_bullet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.answer_bullet)),
         answer_bullet_type: props?.quiz?.rendered_metas?.quiz_settings?.answer_bullet_type ?? "numeric", // numeric/alphabet
+        show_difficulty_level: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_difficulty_level)),
         random_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.random_question)),
         random_option: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.random_option)),
         do_not_randomize_last_option: Boolean(

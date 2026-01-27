@@ -3,6 +3,7 @@ import React from "react";
 import { secondsToHms } from "@acadlix/helpers/util";
 import { MdOutlineReviews, MdReviews, FaRegBookmark } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
+import QuestionDifficultyLevel from "@acadlix/components/QuestionDifficultyLevel";
 
 const AdvanceQuestionReport = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -157,6 +158,16 @@ const QuestionSubjectAndPointSection = (props) => {
             </Typography>
           </Box>
         )}
+        {
+          props?.watch("show_difficulty_level") && (
+            <Box>
+              <QuestionDifficultyLevel
+                value={props?.watch(`questions.${props?.index}.difficulty_level`)}
+                size="small"
+              />
+            </Box>
+          )
+        }
         {props?.watch("enable_question_reporting") && props?.watch('view_answer') && (
           <React.Suspense fallback={null}>
             <AdvanceQuestionReport {...props} />

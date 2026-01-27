@@ -21,6 +21,7 @@ if(!class_exists('QuestionMigration')){
                         ->references('id')
                         ->on(acadlix()->helper()->acadlix_table_prefix('subject'))
                         ->nullOnDelete();
+                    $table->string('difficulty_level')->nullable();
                     $table->boolean('online')->default(1)->comment('0 => offline, 1 => online');
                     $table->integer('sort')->unsigned()->default(1);
                     $table->string('title')->nullable();
@@ -47,6 +48,12 @@ if(!class_exists('QuestionMigration')){
 
         public function update()
         {
+            if (!Manager::schema()->hasColumn(acadlix()->helper()->acadlix_table_prefix($this->_table_name), 'difficulty_level')) {
+                Manager::schema()->table(acadlix()->helper()->acadlix_table_prefix($this->_table_name), function ($table) {
+                    $table->string('difficulty_level')->nullable()->after('subject_id');
+                });
+            }
+
             acadlix()->helper()->acadlix_update_fk(
                 acadlix()->helper()->acadlix_table_prefix($this->_table_name), 
                 acadlix()->helper()->acadlix_old_fk_prefix($this->_table_name, 'subject_id'), 

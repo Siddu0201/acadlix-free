@@ -248,6 +248,7 @@ class AdminQuestionController
                 'subject_id' => !empty($params['subject_id']) ? $params['subject_id'] : $question->subject_id,
                 'points' => !empty($params['points']) ? $params['points'] : $question->points,
                 'negative_points' => $params['negative_points'] != "" ? (float) $params['negative_points'] : $question->negative_points,
+                'difficulty_level' => !empty($params['difficulty_level']) ? $params['difficulty_level'] : $question->difficulty_level,
             ]);
         }
         return rest_ensure_response($res);

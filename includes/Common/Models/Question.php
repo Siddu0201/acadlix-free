@@ -14,6 +14,7 @@ if (!class_exists('Question')) {
         protected $fillable = [
             "quiz_id",
             "subject_id",
+            "difficulty_level", // can be easy, medium, hard, expert
             "online",
             "sort",
             "title",
@@ -44,6 +45,7 @@ if (!class_exists('Question')) {
             "hint_enabled" => "integer",
             "paragraph_enabled" => "integer",
             "paragraph_id" => "integer",
+            "difficulty_level" => "string",
         ];
 
         public function __construct(array $attributes = [])

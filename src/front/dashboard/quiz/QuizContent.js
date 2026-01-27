@@ -107,6 +107,7 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.do_not_randomize_last_option)
     ),
     question_overview: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.question_overview)),
+    show_difficulty_level: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_difficulty_level)),
     hide_question_numbering: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
     ),
@@ -209,6 +210,7 @@ const QuizContent = (props) => {
           quiz_id: props?.quiz?.ID,
           subject_id: question?.subject_id,
           subject_name: question?.subject?.subject_name ?? "Uncategorized",
+          difficulty_level: question?.difficulty_level ?? "",
           online: question?.online,
           sort: question?.sort,
           title: question?.title,

@@ -34,6 +34,7 @@ import { getStripHtml, hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
+import QuestionDifficultyLevel from "@acadlix/components/QuestionDifficultyLevel";
 
 const CopyQuestionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -101,7 +102,17 @@ const Question = () => {
     { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
     { field: "type", headerName: __("Type", "acadlix"), flex: 1, minWidth: 100 },
     { field: "subject", headerName: __("Subject", "acadlix"), flex: 1, minWidth: 100 },
-    { field: "points", headerName: __("Points", "acadlix"), flex: 1, minWidth: 100 },
+    {
+      field: "difficulty_level", headerName: __("Difficulty Level", "acadlix"), flex: 1, minWidth: 100,
+      renderCell: (params) => {
+        return (
+          <QuestionDifficultyLevel
+            value={params?.row?.difficulty_level}
+          />
+        );
+      }
+    },
+    { field: "points", headerName: __("Points", "acadlix"), flex: 1, minWidth: 60 },
     {
       field: "negative_points",
       headerName: __("Negative Points", "acadlix"),
@@ -200,6 +211,7 @@ const Question = () => {
             ),
           type: getType(question?.answer_type),
           subject: question?.subject?.subject_name ?? "Uncategorized",
+          difficulty_level: question?.difficulty_level ?? '',
           points: question?.points,
           negative_points: question?.negative_points,
         };
@@ -475,7 +487,7 @@ const Question = () => {
                             {
                               hasCapability("acadlix_bulk_set_subject_and_point_question") &&
                               <MenuItem value="set_subject_and_points">
-                                {__("Set Subject and Points", "acadlix")}
+                                {__("Set Subject, Level and Points", "acadlix")}
                               </MenuItem>
                             }
                             {

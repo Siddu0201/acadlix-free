@@ -231,6 +231,35 @@ const Question = (props) => {
           />
         </GridItem1>
 
+        {/* Used to show difficulty level in question */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Difficulty Level", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Enabling this will display the question difficulty level in the frontend quiz.", "acadlix")}
+              placement="right-start"
+            />
+          </CustomTypography>
+        </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch />
+            }
+            checked={props?.watch("meta.quiz_settings.show_difficulty_level") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.show_difficulty_level", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode" &&
+              props?.watch("meta.advance_mode_type") !== "advance_panel"
+            }
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
+
         {/* Used to randomize question */}
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
           <CustomTypography>{__("Random Question", "acadlix")}

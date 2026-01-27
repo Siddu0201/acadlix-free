@@ -115,12 +115,12 @@ const AnswerSheet = ({
         ),
         options_per_row: quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
         // Question settings
-        // Question settings
         show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
         display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
         hide_question_numbering: Boolean(
             Number(quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
         ),
+        show_difficulty_level: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_difficulty_level)),
         // Result settings
         save_statistic: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.save_statistic)),
         hide_result: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_result)),
@@ -168,6 +168,7 @@ const AnswerSheet = ({
                 subject_id: stat?.question?.subject_id,
                 subject_name:
                     stat?.question?.subject?.subject_name ?? "Uncategorized",
+                difficulty_level: stat?.question?.difficulty_level ?? "",
                 online: stat?.question?.online,
                 sort: stat?.question?.sort,
                 title: stat?.question?.title,
