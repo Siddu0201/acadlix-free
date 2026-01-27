@@ -159,7 +159,7 @@ const QuestionSubjectAndPointSection = (props) => {
           </Box>
         )}
         {
-          props?.watch("show_difficulty_level") && (
+          props?.watch("show_difficulty_level") && props?.watch(`questions.${props?.index}.difficulty_level`) && (
             <Box>
               <QuestionDifficultyLevel
                 value={props?.watch(`questions.${props?.index}.difficulty_level`)}
