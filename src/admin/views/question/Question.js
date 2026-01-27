@@ -35,6 +35,7 @@ import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 import QuestionDifficultyLevel from "@acadlix/components/QuestionDifficultyLevel";
+import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const CopyQuestionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -75,16 +76,23 @@ const Question = () => {
     pageSize: parseInt(localStorage.getItem('adminQuestionPageSize') || acadlixOptions?.settings?.acadlix_default_rows_per_page, 10),
   };
 
+  const baseSettings = {
+    search: "",
+    title: "",
+    rows: [],
+    question_ids: [],
+    action: "",
+    subject_and_point_model: false,
+    paragraph_model: false,
+  };
+
+  const filteredDefaults = window?.acadlixHooks?.applyFilters(
+    'acadlix.admin.question.defaultValues',
+    baseSettings,
+  );
+
   const methods = useForm({
-    defaultValues: {
-      search: "",
-      title: "",
-      rows: [],
-      question_ids: [],
-      action: "",
-      subject_and_point_model: false,
-      paragraph_model: false,
-    },
+    defaultValues: filteredDefaults,
   });
   const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
@@ -97,69 +105,71 @@ const Question = () => {
     }
   };
 
-  const columns = [
-    { field: "id", headerName: __("ID", "acadlix"), flex: 1, minWidth: 50 },
-    { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
-    { field: "type", headerName: __("Type", "acadlix"), flex: 1, minWidth: 100 },
-    { field: "subject", headerName: __("Subject", "acadlix"), flex: 1, minWidth: 100 },
-    {
-      field: "difficulty_level", headerName: __("Difficulty Level", "acadlix"), flex: 1, minWidth: 100,
-      renderCell: (params) => {
-        return (
-          <QuestionDifficultyLevel
-            value={params?.row?.difficulty_level}
-          />
-        );
-      }
-    },
-    { field: "points", headerName: __("Points", "acadlix"), flex: 1, minWidth: 60 },
-    {
-      field: "negative_points",
-      headerName: __("Negative Points", "acadlix"),
-      flex: 1,
-      minWidth: 100,
-    },
-    {
-      field: "action",
-      headerName: __("Action", "acadlix"),
-      sortable: false,
-      flex: 1,
-      minWidth: 80,
-      renderCell: (params) => {
-        return (
-          <>
-            {
-              hasCapability("acadlix_edit_question") &&
-              <Tooltip title={__("Edit Question", "acadlix")} arrow>
-                <IconButton
-                  aria-label="edit"
-                  size="small"
-                  color="primary"
-                  LinkComponent={Link}
-                  to={`/${quiz_id}/question/edit/${params?.id}`}
-                >
-                  <FaEdit />
-                </IconButton>
-              </Tooltip>
-            }
-            {
-              hasCapability("acadlix_delete_question") &&
-              <Tooltip title={__("Delete Question", "acadlix")} arrow>
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  color="error"
-                  onClick={deleteQuestionById.bind(this, params?.id)}
-                >
-                  <FaTrash />
-                </IconButton>
-              </Tooltip>
-            }
-          </>
-        );
+  const columns = window?.acadlixHooks?.applyFilters(
+    'acadlix.admin.question.columns',
+    [
+      { field: "id", headerName: __("ID", "acadlix"), flex: 1, minWidth: 50 },
+      { field: "title", headerName: __("Title", "acadlix"), flex: 2, minWidth: 130 },
+      { field: "type", headerName: __("Type", "acadlix"), flex: 1, minWidth: 100 },
+      { field: "subject", headerName: __("Subject", "acadlix"), flex: 1, minWidth: 100 },
+      {
+        field: "difficulty_level", headerName: __("Difficulty Level", "acadlix"), flex: 1, minWidth: 100,
+        renderCell: (params) => {
+          return (
+            <QuestionDifficultyLevel
+              value={params?.row?.difficulty_level}
+            />
+          );
+        }
       },
-    },
-  ];
+      { field: "points", headerName: __("Points", "acadlix"), flex: 1, minWidth: 60 },
+      {
+        field: "negative_points",
+        headerName: __("Negative Points", "acadlix"),
+        flex: 1,
+        minWidth: 100,
+      },
+      {
+        field: "action",
+        headerName: __("Action", "acadlix"),
+        sortable: false,
+        flex: 1,
+        minWidth: 80,
+        renderCell: (params) => {
+          return (
+            <>
+              {
+                hasCapability("acadlix_edit_question") &&
+                <Tooltip title={__("Edit Question", "acadlix")} arrow>
+                  <IconButton
+                    aria-label="edit"
+                    size="small"
+                    color="primary"
+                    LinkComponent={Link}
+                    to={`/${quiz_id}/question/edit/${params?.id}`}
+                  >
+                    <FaEdit />
+                  </IconButton>
+                </Tooltip>
+              }
+              {
+                hasCapability("acadlix_delete_question") &&
+                <Tooltip title={__("Delete Question", "acadlix")} arrow>
+                  <IconButton
+                    aria-label="delete"
+                    size="small"
+                    color="error"
+                    onClick={deleteQuestionById.bind(this, params?.id)}
+                  >
+                    <FaTrash />
+                  </IconButton>
+                </Tooltip>
+              }
+            </>
+          );
+        },
+      },
+    ]);
 
   const { isFetching, data, refetch } = GetQuizQuestion(
     quiz_id,
@@ -200,21 +210,28 @@ const Question = () => {
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.questions)) {
       const newRows = data?.data?.questions?.map((question) => {
-        return {
-          id: question?.id,
-          title: question?.title
-            ? question?.title
-            : getStripHtml(
-              question?.question_languages
-                ?.filter((d) => d?.default)?.[0]
-                ?.question.substring(0, 50)
-            ),
-          type: getType(question?.answer_type),
-          subject: question?.subject?.subject_name ?? "Uncategorized",
-          difficulty_level: question?.difficulty_level ?? '',
-          points: question?.points,
-          negative_points: question?.negative_points,
-        };
+        return window?.acadlixHooks?.applyFilters(
+          'acadlix.admin.question.row',
+          {
+            id: question?.id,
+            title: question?.title
+              ? question?.title
+              : getStripHtml(
+                question?.question_languages
+                  ?.filter((d) => d?.default)?.[0]
+                  ?.question.substring(0, 50)
+              ),
+            type: getType(question?.answer_type),
+            subject: question?.subject?.subject_name ?? "Uncategorized",
+            difficulty_level: question?.difficulty_level ?? '',
+            points: question?.points,
+            negative_points: question?.negative_points,
+          },
+          {
+            question: question,
+            quiz_id: quiz_id,
+          }
+        );
       });
       methods.setValue("rows", newRows, { shouldDirty: true });
     }
@@ -257,6 +274,39 @@ const Question = () => {
     methods?.setValue("paragraph_model", true, { shouldDirty: true });
   };
 
+  const bulkActions = React.useMemo(() => {
+    const defaults = [
+      {
+        value: "delete",
+        label: __("Delete", "acadlix"),
+        capability: "acadlix_bulk_delete_question",
+        handler: handleBulkDelete,
+      },
+      {
+        value: "set_subject_and_points",
+        label: __("Set Subject, Level and Points", "acadlix"),
+        capability: "acadlix_bulk_set_subject_and_point_question",
+        handler: handleSetSubjectAndPoints,
+      },
+      {
+        value: "set_paragraph",
+        label: __("Set Paragraph", "acadlix"),
+        capability: "acadlix_bulk_set_paragraph_question",
+        handler: handleSetParagraph,
+        disabled: !acadlixOptions?.isActive,
+        isProLocked: !acadlixOptions?.isActive,
+      },
+    ];
+
+    const filtered = window?.acadlixHooks?.applyFilters(
+      'acadlix.admin.question.bulkActions',
+      defaults,
+      { quiz_id }
+    ) ?? defaults;
+
+    return filtered.filter((action) => !action?.capability || hasCapability(action.capability));
+  }, [quiz_id, handleSetSubjectAndPoints, handleSetParagraph, handleBulkDelete]);
+
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
   };
@@ -265,18 +315,8 @@ const Question = () => {
     if (methods?.watch("action")) {
       methods?.clearErrors("action");
       if (methods?.watch("question_ids")?.length > 0) {
-        switch (methods?.watch("action")) {
-          case "delete":
-            handleBulkDelete();
-            break;
-          case "set_subject_and_points":
-            handleSetSubjectAndPoints();
-            break;
-          case "set_paragraph":
-            handleSetParagraph();
-            break;
-          default:
-        }
+        const selected = bulkActions.find((item) => item?.value === methods?.watch("action"));
+        selected?.handler?.();
       } else {
         toast.error(__("Please select atleast 1 entry.", "acadlix"), {
           position: "bottom-left",
@@ -320,6 +360,438 @@ const Question = () => {
     localStorage.setItem('adminQuestionPageSize', model.pageSize);
   };
 
+  const defaultSetting = {
+    component: "Box",
+    component_name: "admin_quiz_question_box",
+    children: [
+      !isFetching && ({
+        component: "Fragment",
+        component_name: "admin_quiz_question_modals_fragment",
+        children: [
+          {
+            component: "BootstrapDialog",
+            component_name: "admin_quiz_question_subject_and_point_model_dialog",
+            props: {
+              open: methods?.watch("subject_and_point_model"),
+              onClose: handleSubjectClose,
+            },
+            children: [
+              {
+                component: <SubjectAndPointModel
+                  {...methods}
+                  handleClose={handleSubjectClose}
+                  quiz_id={quiz_id}
+                />,
+                component_name: "admin_quiz_question_subject_and_point_model",
+              }
+            ]
+          },
+          {
+            component: "BootstrapDialog",
+            component_name: "admin_quiz_question_paragraph_model_dialog",
+            props: {
+              open: methods?.watch("paragraph_model"),
+              onClose: handleParagraphClose,
+            },
+            children: [
+              {
+                component: <React.Suspense fallback={null}>
+                  <ParagraphModel
+                    {...methods}
+                    handleClose={handleParagraphClose}
+                    quiz_id={quiz_id}
+                    paragraphs={data?.data?.paragraphs}
+                  />
+                </React.Suspense>,
+                component_name: "admin_quiz_question_paragraph_model",
+              }
+            ]
+          }
+        ],
+      }),
+      {
+        component: "Grid",
+        component_name: "admin_quiz_question_grid_container",
+        props: {
+          container: true,
+          spacing: {
+            xs: 2,
+            sm: 4,
+          },
+          sx: {
+            padding: {
+              xs: 2,
+              sm: 4,
+            },
+          },
+        },
+        children: [
+          {
+            component: "Grid",
+            component_name: "admin_quiz_question_grid_item_back_button",
+            props: {
+              size: { xs: 12, lg: 12 },
+            },
+            children: [
+              {
+                component: "Button",
+                component_name: "admin_quiz_question_back_button",
+                props: {
+                  variant: "contained",
+                  startIcon: <TiArrowLeftThick />,
+                  size: "medium",
+                  sx: {
+                    width: "fit-content",
+                  },
+                  LinkComponent: Link,
+                  to: "/",
+                },
+                value: __('Back', 'acadlix'),
+              }
+            ]
+          },
+          {
+            component: "Grid",
+            component_name: "admin_quiz_question_grid_item_main_card",
+            props: {
+              size: { xs: 12, lg: 12 },
+            },
+            children: [
+              {
+                component: "Card",
+                component_name: "admin_quiz_question_main_card",
+                children: [
+                  {
+                    component: "CardHeader",
+                    component_name: "admin_quiz_question_card_header",
+                    props: {
+                      title: {
+                        component: "Box",
+                        component_name: "admin_quiz_question_card_header_box",
+                        props: {
+                          sx: {
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "left",
+                            gap: 2,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Typography",
+                            component_name: "admin_quiz_question_card_header_title",
+                            props: {
+                              variant: "h3",
+                            },
+                            value: sprintf(
+                              /* translators: %s is the quiz title */
+                              __("Question Overview (%s)", "acadlix"),
+                              methods?.watch("title")
+                            ),
+                          },
+                          {
+                            component: "Box",
+                            component_name: "admin_quiz_question_card_header_box_buttons",
+                            props: {
+                              sx: {
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 2,
+                              },
+                            },
+                            children: [
+                              hasCapability("acadlix_add_question") && {
+                                component: "Button",
+                                component_name: "admin_quiz_question_add_button",
+                                props: {
+                                  variant: "contained",
+                                  LinkComponent: Link,
+                                  to: `/${quiz_id}/question/create`,
+                                  color: "primary",
+                                },
+                                value: __("Add", "acadlix"),
+                              },
+                              {
+                                component: "CustomRefresh",
+                                component_name: "admin_quiz_question_refresh_button",
+                                props: {
+                                  refetch: refetch,
+                                },
+                              },
+                              {
+                                component: "Suspense",
+                                component_name: "admin_quiz_question_copy_question_button_suspense",
+                                props: { fallback: null },
+                                children: [
+                                  {
+                                    component: <CopyQuestionButton quiz_id={quiz_id} />,
+                                    component_name: "admin_quiz_question_copy_question_button",
+                                  }
+                                ]
+                              },
+                              {
+                                component: "Suspense",
+                                component_name: "admin_quiz_question_bulk_import_button_suspense",
+                                props: { fallback: null },
+                                children: [
+                                  {
+                                    component: <BulkImportButton quiz_id={quiz_id} />,
+                                    component_name: "admin_quiz_question_bulk_import_button",
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      sx: {
+                        paddingX: 4,
+                        paddingY: 2,
+                        paddingBottom: 1,
+                      }
+                    },
+                  },
+                  {
+                    component: "CardContent",
+                    component_name: "admin_quiz_question_card_content",
+                    children: [
+                      {
+                        component: "Box",
+                        component_name: "admin_quiz_question_card_content_box_top_controls",
+                        props: {
+                          sx: {
+                            paddingBottom: 2,
+                            display: {
+                              xs: "block",
+                              sm: "flex",
+                            },
+                            gap: 2,
+                            alignItems: "flex-start",
+                            justifyContent: hasCapability("acadlix_bulk_action_question")
+                              ? "space-between"
+                              : "flex-end",
+                          },
+                        },
+                        children: [
+                          hasCapability("acadlix_bulk_action_question") && {
+                            component: "Box",
+                            component_name: "admin_quiz_question_card_content_box_bulk_actions",  
+                            props: {
+                              sx: {
+                                display: "flex",
+                                gap: 2,
+                                alignItems: "baseline",
+                              },
+                            },
+                            children: [
+                              {
+                                component: "FormControl",
+                                component_name: "admin_quiz_question_bulk_action_form_control",
+                                props: {
+                                  sx: { minWidth: 150 },
+                                  size: "small",
+                                  error: Boolean(methods?.formState?.errors?.action),
+                                },
+                                children: [
+                                  {
+                                    component: "InputLabel",
+                                    component_name: "admin_quiz_question_bulk_action_input_label",
+                                    props: {
+                                      id: "demo-simple-select-label",
+                                    },
+                                    value: __("Bulk Actions", "acadlix"),
+                                  },
+                                  {
+                                    component: "Suspense",
+                                    component_name: "admin_quiz_question_bulk_action_select_suspense",
+                                    props: { fallback: null },
+                                    children: [
+                                      {
+                                        component: "Select",
+                                        component_name: "admin_quiz_question_bulk_action_select",
+                                        props: {
+                                          labelId: "demo-simple-select-label",
+                                          id: "demo-simple-select",
+                                          value: methods?.watch("action"),
+                                          label: __("Bulk Actions", "acadlix"),
+                                          onChange: handleActionChange,
+                                        },
+                                        children: [
+                                          {
+                                            component: "MenuItem",
+                                            component_name: "admin_quiz_question_bulk_action_menu_item_default",
+                                            props: { value: "" },
+                                            value: __("Bulk Actions", "acadlix"),
+                                          },
+                                          ...bulkActions.map((action) => ({
+                                            component: "MenuItem",
+                                            props: {
+                                              value: action?.value,
+                                              disabled: action?.disabled,
+                                            },
+                                            children: [
+                                              action?.isProLocked ? ({
+                                                component: "CustomFeatureElement",
+                                                props: {
+                                                  element: "text",
+                                                  label: action?.label,
+                                                  iconsx: {
+                                                    color: '#fff',
+                                                  },
+                                                  iconboxsx: {
+                                                    top: -5,
+                                                    right: -7,
+                                                  },
+                                                },
+                                              }) : ({
+                                                component: "span",
+                                                value: action?.label,
+                                              })
+                                            ]
+                                          }))
+                                        ],
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    component: "FormHelperText",
+                                    props: {
+                                      error: Boolean(methods?.formState?.errors?.action),
+                                    },
+                                    value: methods?.formState?.errors?.action?.message || "",
+                                  },
+                                ],
+                              },
+                              {
+                                component: "Button",
+                                component_name: "admin_quiz_question_bulk_action_apply_button",
+                                props: {
+                                  variant: "contained",
+                                  onClick: handleBulkAction,
+                                  sx: {
+                                    marginRight: 2,
+                                  },
+                                  color: "primary",
+                                },
+                                value: __("Apply", "acadlix"),
+                              },
+                            ]
+                          },
+                          {
+                            component: "Box",
+                            component_name: "admin_quiz_question_card_content_box_search",
+                            children: [
+                              {
+                                component: "CustomTextField",
+                                component_name: "admin_quiz_question_search_custom_text_field",
+                                props: {
+                                  label: __("Search", "acadlix"),
+                                  helperText: __("Search by question title", "acadlix"),
+                                  fullWidth: true,
+                                  size: "small",
+                                  value: methods?.watch("search"),
+                                  onChange: handleSearch,
+                                  type: "search",
+                                  slotProps: {
+                                    input: {
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <FaSearch />
+                                        </InputAdornment>
+                                      ),
+                                    }
+                                  }
+                                },
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        component: "Box",
+                        component_name: "admin_quiz_question_data_grid_box",
+                        props: {
+                          sx: {
+                            width: "100%",
+                          },
+                        },
+                        children: [
+                          {
+                            component: "DataGrid",
+                            component_name: "admin_quiz_question_data_grid",
+                            props: {
+                              rows: methods?.watch("rows"),
+                              columns: columns,
+                              rowCount: rowCount,
+                              paginationModel: paginationModel,
+                              onPaginationModelChange: handlePaginationChange,
+                              paginationMode: "server",
+                              pageSizeOptions: [5, 10, 20, 50, 100],
+                              checkboxSelection: true,
+                              disableRowSelectionOnClick: true,
+                              disableColumnMenu: true,
+                              onRowSelectionModelChange: (ids) => {
+                                methods?.setValue("question_ids", ids, { shouldDirty: true });
+                              },
+                              rowSelectionModel: methods?.watch("question_ids"),
+                              loading: isFetching || deleteMutation?.isLoading || deleteBulkMutation?.isLoading,
+                              columnVisibilityModel: {
+                                id: false,
+                              },
+                              sx: {
+                                "& .PrivateSwitchBase-input": {
+                                  height: "100% !important",
+                                  width: "100% !important",
+                                  margin: "0 !important",
+                                },
+                              }
+                            },
+                          }
+                        ]
+                      }
+                    ],
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
+  const question_setting = window?.acadlixHooks?.applyFilters(
+    'acadlix.admin.question.overview',
+    [defaultSetting],
+    {
+      register: methods?.register,
+      watch: methods?.watch,
+      setValue: methods?.setValue,
+      quiz_id: quiz_id,
+      isFetching: isFetching,
+
+    }
+  ) ?? [];
+
+  return (
+    <>
+      {question_setting.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            index={i}
+            formProps={{
+              register: methods?.register,
+              setValue: methods?.setValue,
+              watch: methods?.watch,
+              control: methods?.control,
+            }}
+          />
+        </React.Fragment>
+      ))}
+    </>
+  )
+
   return (
     <Box>
       {!isFetching && (
@@ -352,7 +824,8 @@ const Question = () => {
             </React.Suspense>
           </BootstrapDialog>
         </>
-      )}
+      )
+      }
       <Grid
         container
         spacing={{
@@ -480,36 +953,20 @@ const Question = () => {
                             <MenuItem value="">
                               {__("Bulk Actions", "acadlix")}
                             </MenuItem>
-                            {
-                              hasCapability("acadlix_bulk_delete_question") &&
-                              <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                            }
-                            {
-                              hasCapability("acadlix_bulk_set_subject_and_point_question") &&
-                              <MenuItem value="set_subject_and_points">
-                                {__("Set Subject, Level and Points", "acadlix")}
+                            {bulkActions.map((action) => (
+                              <MenuItem key={action?.value} value={action?.value} disabled={action?.disabled}>
+                                {action?.isProLocked ? (
+                                  <CustomFeatureElement
+                                    element="text"
+                                    label={action?.label}
+                                    iconsx={{ color: '#fff' }}
+                                    iconboxsx={{ top: -5, right: -7 }}
+                                  />
+                                ) : (
+                                  action?.label
+                                )}
                               </MenuItem>
-                            }
-                            {
-                              hasCapability("acadlix_bulk_set_paragraph_question") &&
-                              <MenuItem value="set_paragraph" disabled={!acadlixOptions?.isActive}>
-                                {
-                                  acadlixOptions?.isActive
-                                    ? __("Set Paragraph", "acadlix")
-                                    : <CustomFeatureElement
-                                      element="text"
-                                      label={__("Set Paragraph", "acadlix")}
-                                      iconsx={{
-                                        color: '#fff',
-                                      }}
-                                      iconboxsx={{
-                                        top: -5,
-                                        right: -7,
-                                      }}
-                                    />
-                                }
-                              </MenuItem>
-                            }
+                            ))}
                           </Select>
                         </React.Suspense>
                         <FormHelperText>
@@ -590,7 +1047,7 @@ const Question = () => {
           </Card>
         </Grid>
       </Grid>
-    </Box>
+    </Box >
   );
 };
 
