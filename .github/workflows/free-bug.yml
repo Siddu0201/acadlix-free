@@ -5,6 +5,9 @@ on:
     branches:
       - Free-bug
 
+env:
+  PLUGIN_VERSION: "1.0.2"
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -35,8 +38,8 @@ jobs:
       # ----------------------------------
       - name: Set plugin version for Free
         run: |
-          sed -i 's/{{VERSION}}/1.0.1/' acadlix.php
-          sed -i 's/{{VERSION}}/1.0.1/' languages/Common/acadlix.pot
+          sed -i "s/{{VERSION}}/${{ env.PLUGIN_VERSION }}/" acadlix.php
+          sed -i "s/{{VERSION}}/${{ env.PLUGIN_VERSION }}/" languages/Common/acadlix.pot
 
       # ----------------------------------
       # PHP / Composer

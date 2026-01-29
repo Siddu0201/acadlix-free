@@ -5,7 +5,7 @@ Tags: lms, quiz, online course, education, exam
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Acadlix works with standard WordPress themes and supports Elementor page-builder
 4. Student dashboard view
 
 == Changelog ==
+
+= 1.0.2 =
+* Improvement: Enhanced compatibility with WP Local development environments.
 
 = 1.0.1 =
 * Bug Fix: Resolved issues.
