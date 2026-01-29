@@ -17,6 +17,25 @@ if (!class_exists('Database')) {
         {
             $this->boot();
         }
+
+        private function parseDbHost($host)
+        {
+            $port = null;
+            $socket = null;
+
+            if (strpos($host, ':') !== false) {
+                [$host, $extra] = explode(':', $host, 2);
+
+                if (is_numeric($extra)) {
+                    $port = (int) $extra;
+                } else {
+                    $socket = $extra;
+                }
+            }
+
+            return [$host, $port, $socket];
+        }
+
         public function boot()
         {
             global $wpdb;
@@ -25,27 +44,43 @@ if (!class_exists('Database')) {
                 return;
             }
 
-            $charset_collate = $wpdb->get_charset_collate();
+            // $charset_collate = $wpdb->get_charset_collate();
 
-            $charset = '';
-            $collate = '';
+            // $charset = '';
+            // $collate = '';
 
-            // Extract charset and collate using regular expressions
-            if (preg_match('/CHARSET\s+([^\s]+)/i', $charset_collate, $charset_matches)) {
-                $charset = $charset_matches[1]; // Get the captured charset
-            }
+            // // Extract charset and collate using regular expressions
+            // if (preg_match('/CHARSET\s+([^\s]+)/i', $charset_collate, $charset_matches)) {
+            //     $charset = $charset_matches[1]; // Get the captured charset
+            // }
 
-            if (preg_match('/COLLATE\s+([^\s]+)/i', $charset_collate, $collate_matches)) {
-                $collate = $collate_matches[1]; // Get the captured collate
-            }
+            // if (preg_match('/COLLATE\s+([^\s]+)/i', $charset_collate, $collate_matches)) {
+            //     $collate = $collate_matches[1]; // Get the captured collate
+            // }
 
-            // Fallback defaults if charset or collate not found
-            $charset = $charset ?: 'utf8mb4';
-            $collate = $collate ?: 'utf8mb4_unicode_ci';
+            // // Fallback defaults if charset or collate not found
+            // $charset = $charset ?: 'utf8mb4';
+            // $collate = $collate ?: 'utf8mb4_unicode_ci';
+
+            // Use WordPress parsed charset & collate (bonus improvement)
+            $charset = $wpdb->charset ?: 'utf8mb4';
+            $collate = $wpdb->collate ?: 'utf8mb4_unicode_ci';
+
+            // Parse DB_HOST for host, port, socket (WordPress compatible)
+            $rawHost = $wpdb->dbhost ?: DB_HOST;
+            list($dbHost, $dbPort, $dbSocket) = $this->parseDbHost($rawHost);
+
+            // Detect WP Local
+            $isWpLocal = strpos(ABSPATH, 'Local Sites') !== false;
+
+            // Convert localhost to 127.0.0.1 ONLY on non-local environments
+            // if ($dbHost === 'localhost' && !$isWpLocal) {
+            //     $dbHost = '127.0.0.1';
+            // }
 
             $options = [
                 'driver' => 'mysql',
-                'host' => DB_HOST,
+                'host' => $dbHost,
                 'database' => DB_NAME,
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
@@ -53,7 +88,22 @@ if (!class_exists('Database')) {
                 'collation' => $collate,
             ];
 
-            if (acadlix()->isDev) {
+            // if (acadlix()->isDev) {
+            //     $options['port'] = 10011;
+            // }
+
+            // Apply port if available
+            if (!empty($dbPort)) {
+                $options['port'] = (int) $dbPort;
+            }
+
+            // Apply unix socket if available
+            if (!empty($dbSocket)) {
+                $options['unix_socket'] = $dbSocket;
+            }
+
+            // WP Local fallback port (only if no port/socket)
+            if (empty($dbPort) && empty($dbSocket) && $isWpLocal) {
                 $options['port'] = 10011;
             }
 
