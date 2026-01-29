@@ -44,23 +44,6 @@ if (!class_exists('Database')) {
                 return;
             }
 
-            // $charset_collate = $wpdb->get_charset_collate();
-
-            // $charset = '';
-            // $collate = '';
-
-            // // Extract charset and collate using regular expressions
-            // if (preg_match('/CHARSET\s+([^\s]+)/i', $charset_collate, $charset_matches)) {
-            //     $charset = $charset_matches[1]; // Get the captured charset
-            // }
-
-            // if (preg_match('/COLLATE\s+([^\s]+)/i', $charset_collate, $collate_matches)) {
-            //     $collate = $collate_matches[1]; // Get the captured collate
-            // }
-
-            // // Fallback defaults if charset or collate not found
-            // $charset = $charset ?: 'utf8mb4';
-            // $collate = $collate ?: 'utf8mb4_unicode_ci';
 
             // Use WordPress parsed charset & collate (bonus improvement)
             $charset = $wpdb->charset ?: 'utf8mb4';
@@ -70,13 +53,6 @@ if (!class_exists('Database')) {
             $rawHost = $wpdb->dbhost ?: DB_HOST;
             list($dbHost, $dbPort, $dbSocket) = $this->parseDbHost($rawHost);
 
-            // Detect WP Local
-            $isWpLocal = strpos(ABSPATH, 'Local Sites') !== false;
-
-            // Convert localhost to 127.0.0.1 ONLY on non-local environments
-            // if ($dbHost === 'localhost' && !$isWpLocal) {
-            //     $dbHost = '127.0.0.1';
-            // }
 
             $options = [
                 'driver' => 'mysql',
@@ -88,10 +64,6 @@ if (!class_exists('Database')) {
                 'collation' => $collate,
             ];
 
-            // if (acadlix()->isDev) {
-            //     $options['port'] = 10011;
-            // }
-
             // Apply port if available
             if (!empty($dbPort)) {
                 $options['port'] = (int) $dbPort;
@@ -102,9 +74,15 @@ if (!class_exists('Database')) {
                 $options['unix_socket'] = $dbSocket;
             }
 
+
             // WP Local fallback port (only if no port/socket)
-            if (empty($dbPort) && empty($dbSocket) && $isWpLocal) {
-                $options['port'] = 10011;
+            if (empty($dbPort) && empty($dbSocket) && acadlix()->isDev) {
+
+                $result = $wpdb->get_row("SHOW VARIABLES WHERE Variable_name = 'port'");
+                // error_log('Detected MySQL Port: ' . $result->Value);
+                if($result->Value){
+                    $options['port'] = (int) $result->Value;
+                }
             }
 
 
