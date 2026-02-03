@@ -773,6 +773,7 @@ const Question = () => {
       setValue: methods?.setValue,
       quiz_id: quiz_id,
       isFetching: isFetching,
+      refetch: refetch,
 
     }
   ) ?? [];
