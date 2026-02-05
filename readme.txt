@@ -41,15 +41,20 @@ Acadlix is designed by educators, for educators. Our team has over 13 years of e
 == What makes Acadlix different from other WordPress LMS Plugins? ==
 
 Acadlix is designed to work both as a full Learning Management System and as a standalone quizzing plugin. You can publish quizzes on any page or post using shortcodes, which gives you the flexibility to conduct exams anywhere on your website.
+
 It supports everything from simple practice quizzes to advanced examination for mock tests and real exams. Its cheat proof approach doesn’t even expose the questions or answer in the code.  
+
 With the built-in course module, you can create structured curriculums and assign quizzes to courses to sell them in an organized manner. This helps students follow a clear learning path.
+
 The distraction-free student dashboard is optimized for speed and usability, so learners can focus on their studies without unnecessary page reloads or delays.
 Acadlix also includes built-in eCommerce with popular payment gateways, allowing you to sell your courses without relying on additional plugins.
+
 These features make Acadlix a powerful choice for institutes and educators looking for both an LMS and an advanced online examination system for WordPress.
 
 == Who can use Acadlix LMS? ==
 
 Acadlix LMS is ideal for:
+
 * eLearning platforms  
 * Skill development & vocational institutes  
 * EdTech startups  
@@ -60,7 +65,8 @@ Acadlix LMS is ideal for:
 
 == Acadlix LMS Free Features ==
 
-** Course Creation & Management **
+= Course Creation & Management =
+
 * Unlimited courses, lessons, and quizzes
 * Drag-and-drop lesson organization
 * Multi-level course structure (Sections → Lessons)
@@ -70,7 +76,7 @@ Acadlix LMS is ideal for:
 * Downloadable and linked resources
 * Automatic video and quiz lesson completion
 
-** Quiz & Exam System **
+= Quiz & Exam System =
 * Configurable Quiz builder
 * Question types:
   - Single choice
@@ -95,7 +101,7 @@ Acadlix LMS is ideal for:
 * Basic performance metrics (score, time spent, average score, etc.)
 * WP Pro Quiz → Acadlix one-click importer
 
-** Student Dashboard **
+= Student Dashboard =
 * Quiz performance overview
 * Resume course from last lesson
 * Enrolled courses list
@@ -103,7 +109,7 @@ Acadlix LMS is ideal for:
 * Fast student dashboard
 * Mobile-friendly UI
 
-** Built-in Ecommerce **
+= Built-in Ecommerce =
 * Fully integrated checkout system
 * One-time payments
 * Stripe, PayPal, Razorpay payment gateways
@@ -112,7 +118,7 @@ Acadlix LMS is ideal for:
 * Transaction history
 * Manual / offline payment mode for admin
 
-** Email Notifications **
+= Email Notifications =
 * Enrollment confirmation
 * Payment success / failure
 * Quiz attempt email
@@ -120,19 +126,19 @@ Acadlix LMS is ideal for:
 * Admin sales notifications
 * Student Sales Notifications
 
-** Elementor Integration **
+= Elementor Integration =
 * Ready-to-use Elementor widgets
 * Design single and all course pages
 * Works with Elementor Free and Pro
 * Dynamic course data support
 * Mobile-optimized widgets
 
-** Design Customization **
+= Design Customization =
 * Global colors for courses, lessons, and quizzes
 * Button, heading, and link color customization
 * Lightweight styling system
 
-** Security **
+= Security =
 * Secure checkout
 * Role-based access control
 * Student data protection
@@ -140,7 +146,7 @@ Acadlix LMS is ideal for:
 * Google reCAPTCHA for login
 * Login / register shortcode
 
-** Performance **
+= Performance =
 * Lightweight loading
 * Optimized database structure
 * Course and quiz caching
@@ -148,7 +154,7 @@ Acadlix LMS is ideal for:
 * CDN compatible
 * Optimized for high-traffic LMS sites
 
-** Migration **
+= Migration =
 * WP Pro Quiz → Acadlix automatic migration
 * Error logging
 * Restart-safe importer
@@ -158,20 +164,20 @@ Acadlix LMS is ideal for:
 == Additional Pro Features (Acadlix Pro) ==
 
 Acadlix Pro has all features of Acadlix Free version and additionally has following
-** Artificial Intelligence (Pro) **
+= Artificial Intelligence =
 * AI-powered personalized result feedback
 * AI-based question validator
 * AI-based course description generator
 * AI-based lesson content generator
 * AI-based quiz description generator
 
-** Advanced Course Tools **
+= Advanced Course Tools =
 * Course progress tracking
 * Free lesson preview control
 * Assignment module
 * Live classes via Zoom
 
-** Advanced Quiz & Exams **
+= Advanced Quiz & Exams =
 * Numerical type questions
 * Range type questions
 * Assessment type questions
@@ -194,12 +200,12 @@ Acadlix Pro has all features of Acadlix Free version and additionally has follow
 * Paragraph
 * and many more
 
-** Student Dashboard Enhancements **
+= Student Dashboard Enhancements =
 * Customizable dashboard menu
 * Course progress tracker
 * Subscription management
 
-** Subscriptions & Billing **
+= Subscriptions & Billing =
 * Subscription payments (weekly / monthly / yearly / custom)
 * Mixed payment mode (one-time + subscription)
 * Offer course Trail 
@@ -213,17 +219,17 @@ Acadlix Pro has all features of Acadlix Free version and additionally has follow
 * Webhooks (PayPal, Stripe, Razorpay, PayU)
 * Purchase receipt emails
 
-** Design & Typography **
+= Design & Typography =
 * Full typography control
 * Font size, spacing, weight, and line height control
 * Mobile typography settings
 
-** Advanced Security **
+= Advanced Security =
 * Email-based MFA login
 * Email & SMS OTP login
 * Google social login
 
-** Migration **
+= Migration =
 * Bulk question import from MS Word
 
 == Installation ==
@@ -316,19 +322,17 @@ This plugin integrates with the Stripe payment gateway to securely process onlin
 Stripe is used to handle course purchases, subscriptions, and payment confirmations.
 
 When a user initiates a payment, the following data may be sent to Stripe:
-- Payment amount
-- Currency
-- Billing details provided by the user
-- Transaction metadata required for payment processing
+
+* Payment amount
+* Currency
+* Billing details provided by the user
+* Transaction metadata required for payment processing
 
 Data is transmitted only during payment processing or webhook-based payment status updates.
 
 Stripe is a third-party service provided by Stripe, Inc.
 
-Stripe Terms of Service:
 [Stripe Terms of Service](https://stripe.com/legal)
-
-Stripe Privacy Policy:
 [Stripe Privacy Policy](https://stripe.com/privacy)
 
 
@@ -337,17 +341,15 @@ Stripe Privacy Policy:
 This plugin integrates with PayPal to allow users to complete payments using their PayPal accounts or supported payment methods.
 
 When a payment is initiated, the following data may be sent to PayPal:
-- Payment amount
-- Currency
-- Transaction and order details
-- User-provided billing information
+
+* Payment amount
+* Currency
+* Transaction and order details
+* User-provided billing information
 
 PayPal is a third-party service provided by PayPal Holdings, Inc.
 
-PayPal Terms of Service:
 [PayPal User Agreement](https://www.paypal.com/legalhub/useragreement-full)
-
-PayPal Privacy Policy:
 [PayPal Privacy Policy](https://www.paypal.com/privacy)
 
 
@@ -356,17 +358,15 @@ PayPal Privacy Policy:
 This plugin supports PayU as a payment gateway for processing online payments.
 
 When PayU is used, the plugin may send:
-- Payment amount
-- Currency
-- Order and transaction details
-- Billing information entered by the user
+
+* Payment amount
+* Currency
+* Order and transaction details
+* Billing information entered by the user
 
 PayU is a third-party payment service provider.
 
-PayU Terms of Service:
 [PayU Terms of Service](https://www.payu.com/terms)
-
-PayU Privacy Policy:
 [PayU Privacy Policy](https://www.payu.com/privacy)
 
 
@@ -375,17 +375,15 @@ PayU Privacy Policy:
 This plugin integrates with Razorpay to process payments securely.
 
 When Razorpay is enabled and used, the following data may be transmitted:
-- Payment amount
-- Currency
-- Order identifiers
-- Billing and contact details provided by the user
+
+* Payment amount
+* Currency
+* Order identifiers
+* Billing and contact details provided by the user
 
 Razorpay is a third-party service provided by Razorpay Software Private Limited.
 
-Razorpay Terms of Service:
 [Razorpay Terms of Service](https://razorpay.com/terms/)
-
-Razorpay Privacy Policy:
 [Razorpay Privacy Policy](https://razorpay.com/privacy/)
 
 = Google reCAPTCHA =
@@ -394,11 +392,9 @@ Acadlix uses Google reCAPTCHA v3 to protect forms and authentication endpoints f
 
 When reCAPTCHA is enabled, the following data may be sent to Google:
 
-User interaction data (mouse movements, keystrokes, timing)
-
-IP address
-
-Browser and device information
+* User interaction data (mouse movements, keystrokes, timing)
+* IP address
+* Browser and device information
 
 reCAPTCHA response token generated by the client
 
@@ -406,22 +402,19 @@ This data is sent only for security and spam-prevention purposes and only when r
 
 Google reCAPTCHA is a third-party service provided by Google LLC.
 
-Google Terms of Service:
 [Google Terms of Service](https://policies.google.com/terms)
-
-Google Privacy Policy:
 [Google Privacy Policy](https://policies.google.com/privacy)
 
 == Support ==
 
 For support or feature requests, please visit:
 
-* Plugin Support Forum  
+* [Plugin Support Forum](https://wordpress.org/support/plugin/acadlix/)
 * [Acadlix Website](https://acadlix.com/)  
 
 == Credits ==
 
-Developed by the **Acadlix Team**, creators of the modern and developer-friendly Acadlix LMS.
+Developed by the **[Acadlix Team](https://acadlix.com/)**, creators of the modern and developer-friendly Acadlix LMS.
 
 == Build & Source Code ==
 
