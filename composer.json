@@ -16,7 +16,6 @@
     "require": {
         "php": "^8.2",
         "illuminate/database": "^12.0",
-        "illuminate/events": "^12.0",
-        "doctrine/dbal": "^4.0"
+        "illuminate/events": "^12.0"
     }
 }
