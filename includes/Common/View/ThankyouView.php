@@ -28,7 +28,7 @@ class ThankyouView
         $this->courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);
         $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
         $this->token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : '';
-        $this->is_payment_offline = isset($_GET['offline']) ? true : false; 
+        $this->is_payment_offline = isset($_GET['offline']) ? true : false;
         $this->is_cancelled = isset($_GET['cancelled']) && !empty($_GET['cancelled']) ? true : false;
         $this->order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
         $this->setup_query();
@@ -52,10 +52,10 @@ class ThankyouView
                             $this->status = $order->status;
                         } else {
                             if ($order->status == 'pending') {
-                                // acadlix()
-                                //             ->payments()
-                                //     ->{$payment_method}()
-                                //         ->verifyOrder($this->token);
+                                acadlix()
+                                    ->payments()
+                                    ->{$payment_method}()
+                                    ->verifyOrder($this->token);
                                 $order = acadlix()
                                             ->payments()
                                     ->{$payment_method}()
@@ -69,7 +69,7 @@ class ThankyouView
                     }
                 }
             }
-        }else{
+        } else {
             if ($this->order_id) {
                 $order = acadlix()->model()->order()->find($this->order_id);
                 if ($order) {
