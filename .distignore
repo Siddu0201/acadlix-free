@@ -64,6 +64,8 @@ vendor/nesbot/carbon/src/Carbon/Lang/*
 vendor/illuminate/database/Console/
 vendor/illuminate/database/Migrations/
 
+vendor/brick/*
+
 # -----------------------------
 # Translations
 # -----------------------------
