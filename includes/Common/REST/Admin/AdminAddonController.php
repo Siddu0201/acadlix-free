@@ -18,17 +18,21 @@ class AdminAddonController
     {
         register_rest_route(
             $this->namespace,
-            '/'. $this->base,
+            '/' . $this->base,
             [
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_addons'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_addon') && $this->check_permission()
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_show_addon');
+                    }
                 ],
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_update_internal_addon'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_addon') && $this->check_permission()
+                    'permission_callback' => function () {
+                        return current_user_can('acadlix_edit_addon');
+                    }
                 ]
             ]
         );
@@ -48,7 +52,7 @@ class AdminAddonController
         $key = $request['key'];
         $value = $request['value'];
 
-        if(empty($key) || empty($value)) {
+        if (empty($key) || empty($value)) {
             return new WP_Error(
                 'missing_key_value',
                 __('Key and value are required.', 'acadlix'),
@@ -56,7 +60,7 @@ class AdminAddonController
             );
         }
         acadlix()->helper()->acadlix_update_option($key, $value);
-        
+
         $res['message'] = __('Addon updated successfully.', 'acadlix');
         return rest_ensure_response($res);
     }

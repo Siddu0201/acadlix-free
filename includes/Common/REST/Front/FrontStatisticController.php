@@ -16,7 +16,7 @@ class FrontStatisticController
     {
         register_rest_route(
             $this->namespace,
-            '/' . $this->base . '/(?P<user_id>[\d]+)',
+            '/' . $this->base,
             array(
                 array(
                     'methods' => WP_REST_Server::READABLE,
@@ -56,9 +56,9 @@ class FrontStatisticController
     public function get_statistic_by_user_id($request)
     {
         $res = [];
-        $user_id = $request['user_id'];
         $params = $request->get_params();
 
+        $user_id = $request->get_param('user_id');
         // Validate required fields
         if (empty($user_id)) {
             return new WP_Error(
@@ -69,9 +69,9 @@ class FrontStatisticController
         }
         $skip = $params['page'] * $params['pageSize'];
         $stat_ref = acadlix()->model()->statisticRef()
-                    ->with('quiz')
-                    ->where('user_id', $user_id)
-                    ->orderBy("id", "desc");
+            ->with('quiz')
+            ->where('user_id', $user_id)
+            ->orderBy("id", "desc");
         $res['total'] = $stat_ref->count();
         $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get();
         return rest_ensure_response($res);
@@ -81,6 +81,16 @@ class FrontStatisticController
     {
         $res = [];
         $statistic_id = $request['statistic_id'];
+
+        $user_id = $request->get_param('user_id');
+        // Validate required fields
+        if (empty($user_id)) {
+            return new WP_Error(
+                'missing_id',
+                __('User id is required.', 'acadlix'),
+                ['status' => 400]
+            );
+        }
 
         // Validate required fields
         if (empty($statistic_id)) {
@@ -105,8 +115,18 @@ class FrontStatisticController
         return rest_ensure_response($res);
     }
 
-    public function check_permission()
+    public function check_permission($request)
     {
+        if (!is_user_logged_in()) {
+            return new WP_Error('not_logged_in', 'Login required', ['status' => 401]);
+        }
+
+        $user_id = absint($request->get_param('user_id') ?? 0);
+
+        if ($user_id && get_current_user_id() !== $user_id) {
+            return new WP_Error('forbidden', 'Access denied', ['status' => 403]);
+        }
+
         return true;
     }
 }

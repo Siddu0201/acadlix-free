@@ -20,7 +20,9 @@ class AdminThemeController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_update_settings'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_update_setting');
+                    },
                 ],
             ]
         );
@@ -36,10 +38,5 @@ class AdminThemeController
         }
         $res['message'] = __('Theme updated successfully', 'acadlix');
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

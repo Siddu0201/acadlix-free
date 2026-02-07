@@ -5,32 +5,232 @@ Tags: lms, quiz, online course, education, exam
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.0.0
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Create online courses, quizzes, exams, and test series with assignments using WordPress.
 
 == Description ==
+Acadlix LMS is a free WordPress LMS plugin designed for coaching institutes, training centers, educators and startups who want to create and sell online courses, test series, and live classes with advanced examination.
 
-**Acadlix** is a lightweight Learning Management System (LMS) plugin for WordPress that helps you build educational websites with courses, quizzes, exams, and assignments.
+[youtube https://www.youtube.com/watch?v=k34FHVk2UDU]
 
-It is designed for educators, coaching institutes, and training providers who want a simple way to manage learning content and assess students directly from WordPress.
+You can create unlimited courses, lessons, quizzes, exams, assignments, and live classes without any restrictions from our side. Acadlix gives you full control over your eLearning platform while keeping performance fast and setup simple.
 
-With Acadlix, you can:
-- Create structured online courses
-- Build quizzes and exams for assessments
-- Manage student enrollments and progress
-- Run educational and exam-focused websites without complex setup
+Acadlix LMS has built-in eCommerce system with popular payment gateways such as PayPal, Stripe, and Razorpay, so you can sell courses without installing additional plugins.
+
+Acadlix is designed by educators, for educators. Our team has over 13 years of experience in EdTech and WordPress. We have focused on solving the real problems faced by institutes, teachers, and course creators.
+
+* [Acadlix LMS Pro](https://acadlix.com/)  
+* [Live Demo](https://demo.acadlix.com/)  
+* [Documentation](https://acadlix.com/docs/acadlix/)  
 
 == Features ==
 
-* Course creation and management
-* Quiz and exam builder with multiple question types
-* Student dashboard to track progress
-* Basic reports for quiz and course activity
-* Works with standard WordPress themes
-* Clean and easy-to-use admin interface
+✅ Unlimited online courses, lessons, quizzes and assignments   
+✅ Test series & advanced quizzes  
+✅ Live classes integration via Zoom
+✅ Deep AI Integration  
+✅ Exam-focused features  
+✅ Built-in eCommerce  
+✅ Student dashboard  
+✅ Reports & analytics  
+✅ Migration from WP Pro Quiz  
+
+== What makes Acadlix different from other WordPress LMS Plugins? ==
+
+Acadlix is designed to work both as a full Learning Management System and as a standalone quizzing plugin. You can publish quizzes on any page or post using shortcodes, which gives you the flexibility to conduct exams anywhere on your website.
+
+It supports everything from simple practice quizzes to advanced examination for mock tests and real exams. Its cheat proof approach doesn’t even expose the questions or answer in the code.  
+
+With the built-in course module, you can create structured curriculums and assign quizzes to courses to sell them in an organized manner. This helps students follow a clear learning path.
+
+The distraction-free student dashboard is optimized for speed and usability, so learners can focus on their studies without unnecessary page reloads or delays.
+Acadlix also includes built-in eCommerce with popular payment gateways, allowing you to sell your courses without relying on additional plugins.
+
+These features make Acadlix a powerful choice for institutes and educators looking for both an LMS and an advanced online examination system for WordPress.
+
+== Who can use Acadlix LMS? ==
+
+Acadlix LMS is ideal for:
+
+* eLearning platforms  
+* Skill development & vocational institutes  
+* EdTech startups  
+* Coaching & test preparation centers  
+* Corporate training teams  
+* Schools  
+* Colleges & universities
+
+== Acadlix LMS Free Features ==
+
+= Course Creation & Management =
+
+* Unlimited courses, lessons, and quizzes
+* Drag-and-drop lesson organization
+* Multi-level course structure (Sections → Lessons)
+* Video, audio, and external resource support
+* Native, YouTube, Vimeo, embed, and shortcode video support
+* Course difficulty level
+* Downloadable and linked resources
+* Automatic video and quiz lesson completion
+
+= Quiz & Exam System =
+* Configurable Quiz builder
+* Question types:
+  - Single choice
+  - Multiple choice
+  - True / False
+  - Free choice
+  - Fill in the blanks
+  - Sorting
+  - Matrix sorting
+* Quiz shortcode
+* Leaderboard shortcode
+* Configurable quiz mode
+* Configurable quiz options
+* Timer-based quizzes (full quiz / no timer)
+* Negative marking
+* Random questions & question shuffling
+* Random answer shuffling
+* Set number of quiz attempts
+* Automatic evaluation
+* Instant results
+* Detailed answer sheet
+* Basic performance metrics (score, time spent, average score, etc.)
+* WP Pro Quiz → Acadlix one-click importer
+
+= Student Dashboard =
+* Quiz performance overview
+* Resume course from last lesson
+* Enrolled courses list
+* Purchase history
+* Fast student dashboard
+* Mobile-friendly UI
+
+= Built-in Ecommerce =
+* Fully integrated checkout system
+* One-time payments
+* Stripe, PayPal, Razorpay payment gateways
+* Order statuses
+* Tax & VAT options
+* Transaction history
+* Manual / offline payment mode for admin
+
+= Email Notifications =
+* Enrollment confirmation
+* Payment success / failure
+* Quiz attempt email
+* Course completion email
+* Admin sales notifications
+* Student Sales Notifications
+
+= Elementor Integration =
+* Ready-to-use Elementor widgets
+* Design single and all course pages
+* Works with Elementor Free and Pro
+* Dynamic course data support
+* Mobile-optimized widgets
+
+= Design Customization =
+* Global colors for courses, lessons, and quizzes
+* Button, heading, and link color customization
+* Lightweight styling system
+
+= Security =
+* Secure checkout
+* Role-based access control
+* Student data protection
+* Course content protection
+* Google reCAPTCHA for login
+* Login / register shortcode
+
+= Performance =
+* Lightweight loading
+* Optimized database structure
+* Course and quiz caching
+* Works with LiteSpeed Cache
+* CDN compatible
+* Optimized for high-traffic LMS sites
+
+= Migration =
+* WP Pro Quiz → Acadlix automatic migration
+* Error logging
+* Restart-safe importer
+* Import status monitor
+
+
+== Additional Pro Features (Acadlix Pro) ==
+
+Acadlix Pro has all features of Acadlix Free version and additionally has following
+= Artificial Intelligence =
+* AI-powered personalized result feedback
+* AI-based question validator
+* AI-based course description generator
+* AI-based lesson content generator
+* AI-based quiz description generator
+
+= Advanced Course Tools =
+* Course progress tracking
+* Free lesson preview control
+* Assignment module
+* Live classes via Zoom
+
+= Advanced Quiz & Exams =
+* Numerical type questions
+* Range type questions
+* Assessment type questions
+* Quiz prerequisites
+* Bulk question upload from MS Word
+* AI-powered personalized feedback
+* Quiz leaderboard
+* Result comparison with topper
+* Indian competitive exam layouts (IBPS, SBI, JEE, NEET, NET, GATE, etc.)
+* Subject-wise question count rules
+* Selectable question rules
+* Timer-based quizzes ( Per Question, Subject wise)
+* Copy questions between quizzes
+* Passing score configuration
+* Custom result messages
+* Per-question time tracking
+* Export results to PDF
+* Question error reporting
+* Bulk Actions to save time
+* Paragraph
+* and many more
+
+= Student Dashboard Enhancements =
+* Customizable dashboard menu
+* Course progress tracker
+* Subscription management
+
+= Subscriptions & Billing =
+* Subscription payments (weekly / monthly / yearly / custom)
+* Mixed payment mode (one-time + subscription)
+* Offer course Trail 
+* Enrollment Fee
+* Access control after billing cycle
+* Auto-renewals and manual renewals
+* Renewal alerts & expiration reminders
+* Grace periods & buffer days
+* Failed payment handling
+* Customer subscription dashboard
+* Webhooks (PayPal, Stripe, Razorpay, PayU)
+* Purchase receipt emails
+
+= Design & Typography =
+* Full typography control
+* Font size, spacing, weight, and line height control
+* Mobile typography settings
+
+= Advanced Security =
+* Email-based MFA login
+* Email & SMS OTP login
+* Google social login
+
+= Migration =
+* Bulk question import from MS Word
 
 == Installation ==
 
@@ -40,23 +240,67 @@ With Acadlix, you can:
 
 == Frequently Asked Questions ==
 
-= Is Acadlix suitable for exam or test-series websites? =
-Yes. Acadlix includes quiz and exam features that can be used for educational assessments.
+= Is Acadlix really free? =
 
-= Can I create free courses? =
-Yes. You can create and offer free courses using Acadlix.
 
-= Does Acadlix work with page builders? =
-Acadlix works with standard WordPress themes and supports Elementor page-builder-based layouts.
+Yes. You can create unlimited courses and quizzes using the free version. Advanced features are available in Acadlix Pro.
+
+
+= Can I sell my courses with Acadlix free?=
+
+
+Yes, we made popular payment gateway free to use for everyone. Simply configure the required payment gateway and set a price to your course and enjoy course selling even with Acadlix Free. 
+
+
+= Which payment gateways are supported? =
+
+
+PayPal, Stripe, Razorpay, and PayU are supported in the free version.
+
+
+= Does Acadlix work with Elementor? =
+
+
+Yes, Acadlix provides dedicated Elementor widgets for designing course pages. Please install the Acadlix Addon for elementor to utilize the widgets. 
+
+
+= Can I migrate from WP Pro Quiz? =
+
+
+Yes. Acadlix provides a one-click importer to migrate your existing quizzes from WP Pro Quiz.
+
+
+= Can I suggest new features? =
+
+
+Yes. You are welcome to suggest new features and share feedback through our website.
+
 
 == Screenshots ==
 
-1. Acadlix admin dashboard
-2. Course creation screen
-3. Quiz and exam builder
-4. Student dashboard view
+1. Course Loop
+2. Frontend Single Course Page Design 
+3. Course Payment Settings – One time and Subscription 
+4. Curriculum Builder with Drag and Drop Sorting for easy management 
+5. Blazing Fast Student Dashboard – My Course Section 
+6. Lessons, Quizzes and Assignment
+7. Student Dashboard result section 
+8. Multiple Quiz Modes – Normal, Check and Continue, IBPS, NTA, etc.
+9. Detailed Quiz Overview Page
+10. Answer types for quizzes 
+11. Detailed Student Progress Report 
+12. Customize your LMS with Design Studio 
+13. Configurable Quiz options to create variety of quizzes 
+14. Built-in eCommerce Engine to prevent bottleneck 
+15. Customizable Student Dashboard Menu
 
 == Changelog ==
+
+= 1.0.2 =
+* Improvement: Enhanced compatibility with WP Local development environments.
+
+= 1.0.1 =
+* Bug Fix: Resolved issues.
 
 = 1.0.0 =
 * Initial public release
@@ -64,23 +308,12 @@ Acadlix works with standard WordPress themes and supports Elementor page-builder
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of Acadlix
-
-
-== Privacy Policy ==
-
-Acadlix itself does not store or sell personal user data externally.
-
-However, when payment gateways such as Stripe, PayPal, PayU, or Razorpay are enabled, payment-related data is transmitted to these third-party services strictly for the purpose of processing payments initiated by users.
-
-Acadlix does not store credit card or sensitive payment information on its own servers. All payment data handling is managed securely by the respective payment providers in accordance with their privacy policies.
+Initial release of Acadlix. Includes course management, quizzes, and payment gateway integrations (Stripe, PayPal, PayU, Razorpay) with optional Google reCAPTCHA support.
 
 
 == External Services ==
 
-Acadlix integrates with third-party payment gateways to process online payments for courses, exams, and related services.
-
-These external services are used only when payments are enabled and initiated by the site administrator and end users.
+Acadlix integrates with third-party services only when certain features are enabled by the site administrator or end users.
 
 = Stripe =
 
@@ -89,19 +322,17 @@ This plugin integrates with the Stripe payment gateway to securely process onlin
 Stripe is used to handle course purchases, subscriptions, and payment confirmations.
 
 When a user initiates a payment, the following data may be sent to Stripe:
-- Payment amount
-- Currency
-- Billing details provided by the user
-- Transaction metadata required for payment processing
+
+* Payment amount
+* Currency
+* Billing details provided by the user
+* Transaction metadata required for payment processing
 
 Data is transmitted only during payment processing or webhook-based payment status updates.
 
 Stripe is a third-party service provided by Stripe, Inc.
 
-Stripe Terms of Service:
 [Stripe Terms of Service](https://stripe.com/legal)
-
-Stripe Privacy Policy:
 [Stripe Privacy Policy](https://stripe.com/privacy)
 
 
@@ -110,17 +341,15 @@ Stripe Privacy Policy:
 This plugin integrates with PayPal to allow users to complete payments using their PayPal accounts or supported payment methods.
 
 When a payment is initiated, the following data may be sent to PayPal:
-- Payment amount
-- Currency
-- Transaction and order details
-- User-provided billing information
+
+* Payment amount
+* Currency
+* Transaction and order details
+* User-provided billing information
 
 PayPal is a third-party service provided by PayPal Holdings, Inc.
 
-PayPal Terms of Service:
 [PayPal User Agreement](https://www.paypal.com/legalhub/useragreement-full)
-
-PayPal Privacy Policy:
 [PayPal Privacy Policy](https://www.paypal.com/privacy)
 
 
@@ -129,17 +358,15 @@ PayPal Privacy Policy:
 This plugin supports PayU as a payment gateway for processing online payments.
 
 When PayU is used, the plugin may send:
-- Payment amount
-- Currency
-- Order and transaction details
-- Billing information entered by the user
+
+* Payment amount
+* Currency
+* Order and transaction details
+* Billing information entered by the user
 
 PayU is a third-party payment service provider.
 
-PayU Terms of Service:
 [PayU Terms of Service](https://www.payu.com/terms)
-
-PayU Privacy Policy:
 [PayU Privacy Policy](https://www.payu.com/privacy)
 
 
@@ -148,38 +375,71 @@ PayU Privacy Policy:
 This plugin integrates with Razorpay to process payments securely.
 
 When Razorpay is enabled and used, the following data may be transmitted:
-- Payment amount
-- Currency
-- Order identifiers
-- Billing and contact details provided by the user
+
+* Payment amount
+* Currency
+* Order identifiers
+* Billing and contact details provided by the user
 
 Razorpay is a third-party service provided by Razorpay Software Private Limited.
 
-Razorpay Terms of Service:
 [Razorpay Terms of Service](https://razorpay.com/terms/)
-
-Razorpay Privacy Policy:
 [Razorpay Privacy Policy](https://razorpay.com/privacy/)
 
+= Google reCAPTCHA =
+
+Acadlix uses Google reCAPTCHA v3 to protect forms and authentication endpoints from spam and abuse.
+
+When reCAPTCHA is enabled, the following data may be sent to Google:
+
+* User interaction data (mouse movements, keystrokes, timing)
+* IP address
+* Browser and device information
+
+reCAPTCHA response token generated by the client
+
+This data is sent only for security and spam-prevention purposes and only when reCAPTCHA protection is active.
+
+Google reCAPTCHA is a third-party service provided by Google LLC.
+
+[Google Terms of Service](https://policies.google.com/terms)
+[Google Privacy Policy](https://policies.google.com/privacy)
 
 == Support ==
 
 For support or feature requests, please visit:
 
-* Plugin Support Forum  
+* [Plugin Support Forum](https://wordpress.org/support/plugin/acadlix/)
 * [Acadlix Website](https://acadlix.com/)  
 
 == Credits ==
 
-Developed by the **Acadlix Team**, creators of the modern and developer-friendly Acadlix LMS.
+Developed by the **[Acadlix Team](https://acadlix.com/)**, creators of the modern and developer-friendly Acadlix LMS.
 
-== Source Code ==
+== Build & Source Code ==
 
-Acadlix is open-source software.
+This plugin uses modern JavaScript (React, Webpack) and ships compiled assets
+in the /build directory for performance reasons.
 
-You can view, fork, and contribute to the source code on GitHub:
+The original, human-readable source code is publicly available on GitHub:
 
 [Acadlix Free – GitHub Repository](https://github.com/Siddu0201/acadlix-free)
+
+Source files are located in:
+- /src/
+
+Compiled production files are generated into:
+- /build/
+
+=== Build Instructions ===
+
+To reproduce the build files:
+
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm run build:free`
+
+This will generate the contents of the /build directory included in this plugin.
 
 == Documentation ==
 

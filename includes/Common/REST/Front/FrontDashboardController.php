@@ -304,11 +304,16 @@ class FrontDashboardController
         $course = acadlix()
             ->model()
             ->course()
-            ->with(['sections', 'sections.contents' => function ($query) use ($userId) {
-                $query->with(['course_statistics' => function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                }]);
-            }])
+            ->with([
+                'sections',
+                'sections.contents' => function ($query) use ($userId) {
+                    $query->with([
+                        'course_statistics' => function ($query) use ($userId) {
+                            $query->where('user_id', $userId);
+                        }
+                    ]);
+                }
+            ])
             ->find($courseId);
 
         $course->completion_percentage = $course->getCourseCompletionPercentage($userId);
@@ -656,11 +661,6 @@ class FrontDashboardController
             return new WP_Error('invalid_file_type', __('Only JPG and PNG files are allowed', 'acadlix'), array('status' => 400));
         }
 
-        // Handle the upload using WordPress functions
-        require_once (ABSPATH . 'wp-admin/includes/file.php');
-        require_once (ABSPATH . 'wp-admin/includes/media.php');
-        require_once (ABSPATH . 'wp-admin/includes/image.php');
-
         $upload_overrides = array(
             'test_form' => false
         );
@@ -720,8 +720,18 @@ class FrontDashboardController
         return rest_ensure_response($res);
     }
 
-    public function check_permission()
+    public function check_permission($request)
     {
+        if (!is_user_logged_in()) {
+            return new WP_Error('not_logged_in', 'Login required', ['status' => 401]);
+        }
+
+        $user_id = absint($request->get_param('user_id') ?? 0);
+
+        if ($user_id && get_current_user_id() !== $user_id) {
+            return new WP_Error('forbidden', 'Access denied', ['status' => 403]);
+        }
+
         return true;
     }
 }

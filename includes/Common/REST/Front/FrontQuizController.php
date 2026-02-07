@@ -474,8 +474,11 @@ class FrontQuizController
         return rest_ensure_response($res);
     }
 
-    public function check_permission()
+    public function check_permission($request)
     {
-        return true;
+        return wp_verify_nonce(
+            $request->get_header('X-WP-Nonce'),
+            'wp_rest'
+        );
     }
 }

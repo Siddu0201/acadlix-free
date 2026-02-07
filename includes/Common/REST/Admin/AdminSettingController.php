@@ -21,7 +21,9 @@ class AdminSettingController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_page'],
-                    'permission_callback' => fn() => current_user_can('acadlix_create_page_setting') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_create_page_setting');
+                    },
                 ],
             ]
         );
@@ -33,27 +35,31 @@ class AdminSettingController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_update_settings'],
-                    'permission_callback' => fn() => current_user_can('acadlix_update_setting') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_update_setting');
+                    },
                 ],
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_update_settings'],
-                    'permission_callback' => fn() => current_user_can('acadlix_update_setting') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_update_setting');
+                    },
                 ],
             ]
         );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/test-email',
-            [
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_test_email'],
-                    'permission_callback' => [$this, 'check_permission'],
-                ],
-            ]
-        );
+        // register_rest_route(
+        //     $this->namespace,
+        //     '/' . $this->base . '/test-email',
+        //     [
+        //         [
+        //             'methods' => WP_REST_Server::EDITABLE,
+        //             'callback' => [$this, 'post_test_email'],
+        //             'permission_callback' => [$this, 'check_permission'],
+        //         ],
+        //     ]
+        // );
     }
 
     public function post_create_page($request)
@@ -139,11 +145,5 @@ class AdminSettingController
         }
         $res['message'] = __('Email sent successfully', 'acadlix');
         return rest_ensure_response($res);
-    }
-
-
-    public function check_permission()
-    {
-        return true;
     }
 }

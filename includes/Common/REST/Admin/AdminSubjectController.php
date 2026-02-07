@@ -21,12 +21,16 @@ class AdminSubjectController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_subjects'],
-                    'permission_callback' => fn() => current_user_can('acadlix_show_subject') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_show_subject');
+                    },
                 ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_subject'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_subject') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_subject');
+                    },
                 ],
             ]
         );
@@ -38,7 +42,9 @@ class AdminSubjectController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_subject_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_subject') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_subject');
+                    },
                     'args' => array(
                         'subject_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -50,7 +56,9 @@ class AdminSubjectController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_subject_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_subject') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_subject');
+                    },
                     'args' => array(
                         'subject_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -62,7 +70,9 @@ class AdminSubjectController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_subject_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_subject') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_subject');
+                    },
                     'args' => array(
                         'subject_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -184,10 +194,5 @@ class AdminSubjectController
         $res['subject'] = $subject;
         $res['subjects'] = acadlix()->model()->subject()->get();
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

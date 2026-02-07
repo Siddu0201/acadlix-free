@@ -350,6 +350,7 @@
   gap: 4px;
   align-items: baseline;
   justify-content: center;
+  color: var(--acadlix-text-primary);
 }
 
 .acadlix-all-course-page .acadlix-course-page-price {
@@ -359,6 +360,10 @@
 .acadlix-all-course-page .acadlix-course-page-before-price {
   text-decoration: line-through;
   color: var(--acadlix-text-secondary);
+}
+
+.acadlix-all-course-page .acadlix-btn-loader{
+  display: none;
 }
 
 .acadlix-all-course-page .acadlix-action-button {

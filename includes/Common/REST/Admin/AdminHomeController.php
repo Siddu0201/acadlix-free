@@ -20,7 +20,9 @@ class AdminHomeController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_home_data'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function() {
+                        return current_user_can('manage_options');
+                    },
                 ],
             ]
         );
@@ -36,10 +38,5 @@ class AdminHomeController
         $res['today_sale'] = acadlix()->model()->order()->getTodaySalesTotal();
         $res['total_sale'] = acadlix()->model()->order()->getTotalSales();
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

@@ -17,6 +17,25 @@ if (!class_exists('Database')) {
         {
             $this->boot();
         }
+
+        private function parseDbHost($host)
+        {
+            $port = null;
+            $socket = null;
+
+            if (strpos($host, ':') !== false) {
+                [$host, $extra] = explode(':', $host, 2);
+
+                if (is_numeric($extra)) {
+                    $port = (int) $extra;
+                } else {
+                    $socket = $extra;
+                }
+            }
+
+            return [$host, $port, $socket];
+        }
+
         public function boot()
         {
             global $wpdb;
@@ -25,27 +44,19 @@ if (!class_exists('Database')) {
                 return;
             }
 
-            $charset_collate = $wpdb->get_charset_collate();
 
-            $charset = '';
-            $collate = '';
+            // Use WordPress parsed charset & collate (bonus improvement)
+            $charset = $wpdb->charset ?: 'utf8mb4';
+            $collate = $wpdb->collate ?: 'utf8mb4_unicode_ci';
 
-            // Extract charset and collate using regular expressions
-            if (preg_match('/CHARSET\s+([^\s]+)/i', $charset_collate, $charset_matches)) {
-                $charset = $charset_matches[1]; // Get the captured charset
-            }
+            // Parse DB_HOST for host, port, socket (WordPress compatible)
+            $rawHost = $wpdb->dbhost ?: DB_HOST;
+            list($dbHost, $dbPort, $dbSocket) = $this->parseDbHost($rawHost);
 
-            if (preg_match('/COLLATE\s+([^\s]+)/i', $charset_collate, $collate_matches)) {
-                $collate = $collate_matches[1]; // Get the captured collate
-            }
-
-            // Fallback defaults if charset or collate not found
-            $charset = $charset ?: 'utf8mb4';
-            $collate = $collate ?: 'utf8mb4_unicode_ci';
 
             $options = [
                 'driver' => 'mysql',
-                'host' => DB_HOST,
+                'host' => $dbHost,
                 'database' => DB_NAME,
                 'username' => DB_USER,
                 'password' => DB_PASSWORD,
@@ -53,8 +64,25 @@ if (!class_exists('Database')) {
                 'collation' => $collate,
             ];
 
-            if (acadlix()->isDev) {
-                $options['port'] = 10011;
+            // Apply port if available
+            if (!empty($dbPort)) {
+                $options['port'] = (int) $dbPort;
+            }
+
+            // Apply unix socket if available
+            if (!empty($dbSocket)) {
+                $options['unix_socket'] = $dbSocket;
+            }
+
+
+            // WP Local fallback port (only if no port/socket)
+            if (empty($dbPort) && empty($dbSocket) && acadlix()->isDev) {
+
+                $result = $wpdb->get_row("SHOW VARIABLES WHERE Variable_name = 'port'");
+                // error_log('Detected MySQL Port: ' . $result->Value);
+                if($result->Value){
+                    $options['port'] = (int) $result->Value;
+                }
             }
 
 

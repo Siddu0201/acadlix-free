@@ -21,7 +21,7 @@ if (!class_exists("AllCourseController")) {
         public function template_loader($template)
         {
             if (is_post_type_archive(ACADLIX_COURSE_CPT)) {
-                !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
+                // !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
                 add_filter('acadlix_course_page_context', function () {
                     return ACADLIX_COURSE_CPT;
                 });

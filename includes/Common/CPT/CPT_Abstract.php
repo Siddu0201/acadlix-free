@@ -53,7 +53,7 @@ abstract class CPT_Abstract
 			$this->_post_type = $post_type;
 		}
 		add_action('init', array($this, '_acadlix_register'));
-		add_action( 'save_post', array( $this, '_do_save_post' ), 10, 3 );
+		add_action('save_post', array($this, '_do_save_post'), 10, 3);
 		add_action('before_delete_post', array($this, '_acadlix_before_delete_post'));
 
 		add_filter("manage_edit-{$this->_post_type}_sortable_columns", array($this, 'sortable_columns'));
@@ -67,18 +67,31 @@ abstract class CPT_Abstract
 	{
 		$args = $this->args_register_post_type();
 
-		if ($args) {
-			// print_r($args);
-			register_post_type($this->_post_type, $args);
+		if (!$args || empty($this->_post_type)) {
+			return;
 		}
+
+		if (!str_starts_with($this->_post_type, 'acadlix_')) {
+			_doing_it_wrong(
+				__METHOD__,
+				'CPT slug must be prefixed with acadlix_.',
+				false
+			);
+			return;
+		}
+
+		// print_r($args);
+		register_post_type($this->_post_type, $args);
 	}
 
-	final public function _do_save_post( int $post_id = 0, WP_Post $post = null, bool $is_update = false ) {
+	final public function _do_save_post(int $post_id = 0, WP_Post $post = null, bool $is_update = false)
+	{
 
-		$this->save_post( $post_id, $post, $is_update );
+		$this->save_post($post_id, $post, $is_update);
 	}
 
-	public function save_post( int $post_id = 0, WP_Post $post = null, bool $is_update = false ) {
+	public function save_post(int $post_id = 0, WP_Post $post = null, bool $is_update = false)
+	{
 		// Implement from child
 	}
 

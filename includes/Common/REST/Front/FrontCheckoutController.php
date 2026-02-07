@@ -25,7 +25,12 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_checkout_cart'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function (WP_REST_Request $request) {
+                        return wp_verify_nonce(
+                            $request->get_header('X-WP-Nonce'),
+                            'wp_rest'
+                        );
+                    },
                 ],
             ]
         );
@@ -38,10 +43,10 @@ class FrontCheckoutController
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_course_from_cart'],
                     'permission_callback' => function (WP_REST_Request $request) {
-                        if (wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest')) {
-                            return true;
-                        }
-                        return false;
+                        return wp_verify_nonce(
+                            $request->get_header('X-WP-Nonce'),
+                            'wp_rest'
+                        );
                     },
                 ],
             ]
@@ -54,7 +59,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_checkout_razorpay'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_user_permission'],
                 ],
             ]
         );
@@ -66,7 +71,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_checkout_paypal'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_user_permission'],
                 ],
             ]
         );
@@ -78,7 +83,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_checkout_payu'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_user_permission'],
                 ],
             ]
         );
@@ -90,7 +95,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_free_checkout'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_user_permission'],
                 ],
             ]
         );
@@ -102,7 +107,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_checkout_stripe'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_user_permission'],
                 ],
             ]
         );
@@ -114,7 +119,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_checkout_offline_payment'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => [$this, 'check_user_permission'],
                 ],
             ]
         );
@@ -126,7 +131,7 @@ class FrontCheckoutController
                 [
                     'methods' => WP_REST_Server::ALLMETHODS,
                     'callback' => [$this, 'handle_webhook'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => '__return_true',
                 ],
             ]
         );
@@ -650,9 +655,9 @@ class FrontCheckoutController
                 $files['offline_upload_file'],
                 '/acadlix-offline-payments',
                 $allowed_extensions,
-                (float)$max_file_size
+                (float) $max_file_size
             );
-            if( is_wp_error( $new_file ) ) {
+            if (is_wp_error($new_file)) {
                 return $new_file; // Return the error if upload failed
             }
         }
@@ -667,49 +672,50 @@ class FrontCheckoutController
         $message = "Offline Payment OrderId: {$order->id}";
         $order->createActivityLog($message);
 
-        if( $order ) {
+        if ($order) {
             $order_items = json_decode($request['order_items'], true);
-            foreach ( $order_items as $item ) {
-                $order->order_items()->create( [
-                    'course_id'             => $item['course_id'],
-                    'course_title'          => $item['course_title'],
-                    'quantity'              => $item['quantity'],
-                    'price'                 => $item['price'],
-                    'discount'              => $item['discount'],
-                    'price_after_discount'  => $item['price_after_discount'],
-                    'additional_fee'        => $item['additional_fee'],
-                    'tax'                   => $item['tax'],
-                    'price_after_tax'       => $item['price_after_tax'],
-                ] );
+            foreach ($order_items as $item) {
+                $order->order_items()->create([
+                    'course_id' => $item['course_id'],
+                    'course_title' => $item['course_title'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'discount' => $item['discount'],
+                    'price_after_discount' => $item['price_after_discount'],
+                    'additional_fee' => $item['additional_fee'],
+                    'tax' => $item['tax'],
+                    'price_after_tax' => $item['price_after_tax'],
+                ]);
             }
 
-            if ( ! empty( $request->get_param( 'billing_info' ) ) ) {
-                $order->updateOrCreateMeta( 'billing_info', $request->get_param( 'billing_info' ) );
+            if (!empty($request->get_param('billing_info'))) {
+                $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
             }
 
-            $order->updateOrCreateMeta( 'payment_method', 'offline' );
-            $order->updateOrCreateMeta( 'currency', $request->get_param( 'currency' ) );
-            $order->updateOrCreateMeta( 'offline_user_text', $request->get_param( 'offline_user_text' ) );
-            if ( ! empty( $new_file ) ) {
-                $order->updateOrCreateMeta( 'offline_upload_file', $new_file );
+            $order->updateOrCreateMeta('payment_method', 'offline');
+            $order->updateOrCreateMeta('currency', $request->get_param('currency'));
+            $order->updateOrCreateMeta('offline_user_text', $request->get_param('offline_user_text'));
+            if (!empty($new_file)) {
+                $order->updateOrCreateMeta('offline_upload_file', $new_file);
             }
-            
-            if ( $order->order_items()->count() > 0 ) {
-                foreach ( $order->order_items as $item ) {
-                    $cart = acadlix()->model()->courseCart()->where( 'user_id', $order->user_id )->where( 'course_id', $item->course_id )->first();
+
+            if ($order->order_items()->count() > 0) {
+                foreach ($order->order_items as $item) {
+                    $cart = acadlix()->model()->courseCart()->where('user_id', $order->user_id)->where('course_id', $item->course_id)->first();
                     $cart->delete();
                 }
             }
             // send mail on success
-            acadlix()->notifications()->email()->handleOfflinePurchaseEmail( $order->id );
+            acadlix()->notifications()->email()->handleOfflinePurchaseEmail($order->id);
         }
         $thankyou_page_url = esc_url(get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_thankyou_page_id')));
-        $redirect_url = !empty($thankyou_page_url) 
-                        ? add_query_arg([
-                            'order_id' => $order->id,
-                            'offline' => true
-                        ], $thankyou_page_url)
-                        : '';
+        $redirect_url = !empty($thankyou_page_url)
+            ? add_query_arg([
+                'order_id' => $order->id,
+                'offline' => true,
+                'nonce' => wp_create_nonce('acadlix_payment_nonce'),
+            ], $thankyou_page_url)
+            : '';
         return rest_ensure_response([
             'status' => 'success',
             'redirect_url' => $redirect_url,
@@ -719,39 +725,72 @@ class FrontCheckoutController
     public function handle_webhook()
     {
         try {
-            $webhook_data = array(
-                'get' => $_GET, // phpcs:ignore
-                'post' => $_POST, // phpcs:ignore
-                'server' => $_SERVER,
-                'stream' => file_get_contents('php://input'),
-            );
-            $payment_method = $webhook_data['get']['payment_method'] ?? null;
+            // Raw body is required for signature verification (do not sanitize yet)
+            $raw_body = file_get_contents('php://input');
 
-            $res = [];
-            switch ($payment_method) {
-                case 'razorpay':
-                    $res = acadlix()->payments()->razorpay()->verifyWebhook($webhook_data);
-                    break;
-                case 'paypal':
-                    $res = acadlix()->payments()->paypal()->verifyWebhook($webhook_data);
-                    break;
-                case 'payu':
-                    $res = acadlix()->payments()->payu()->verifyWebhook($webhook_data);
-                    break;
-                case 'stripe':
-                    $res = acadlix()->payments()->stripe()->verifyWebhook($webhook_data);
-                    break;
-                default:
-                    break;
+            if ($raw_body === false || $raw_body === '') {
+                return new WP_Error('empty_body', 'Empty webhook body', ['status' => 400]);
             }
-            return $res;
+            // $webhook_data = array(
+            //     'get' => $_GET, // phpcs:ignore
+            //     'post' => $_POST, // phpcs:ignore
+            //     'server' => $_SERVER,
+            //     'stream' => file_get_contents('php://input'),
+            // );
+            $payment_method = sanitize_text_field(wp_unslash($_GET['payment_method'] ?? '')); // phpcs:ignore
+
+            if (!$payment_method) {
+                return new WP_Error('missing_gateway', 'Payment gateway not specified', ['status' => 400]);
+            }
+
+            // Whitelist headers ONLY
+            $headers = [
+                // Razorpay
+                'razorpay_signature' => sanitize_text_field(
+                    wp_unslash($_SERVER['HTTP_X_RAZORPAY_SIGNATURE'] ?? '')
+                ),
+
+                // PayPal
+                'paypal_transmission_id' => sanitize_text_field(
+                    wp_unslash($_SERVER['HTTP_PAYPAL_TRANSMISSION_ID'] ?? '')
+                ),
+                'paypal_transmission_time' => sanitize_text_field(
+                    wp_unslash($_SERVER['HTTP_PAYPAL_TRANSMISSION_TIME'] ?? '')
+                ),
+                'paypal_transmission_sig' => sanitize_text_field(
+                    wp_unslash($_SERVER['HTTP_PAYPAL_TRANSMISSION_SIG'] ?? '')
+                ),
+                'paypal_auth_algo' => sanitize_text_field(
+                    wp_unslash($_SERVER['HTTP_PAYPAL_AUTH_ALGO'] ?? '')
+                ),
+                'paypal_cert_url' => esc_url_raw(
+                    wp_unslash($_SERVER['HTTP_PAYPAL_CERT_URL'] ?? '')
+                ),
+
+                // Stripe
+                'stripe_signature' => sanitize_text_field(
+                    wp_unslash($_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '')
+                ),
+            ];
+            $webhook_data = [
+                'headers' => $headers,
+                'stream' => $raw_body,
+            ];
+
+            return match ($payment_method) {
+                'razorpay' => acadlix()->payments()->razorpay()->verifyWebhook($webhook_data),
+                'paypal' => acadlix()->payments()->paypal()->verifyWebhook($webhook_data),
+                'payu' => acadlix()->payments()->payu()->verifyWebhook($webhook_data),
+                'stripe' => acadlix()->payments()->stripe()->verifyWebhook($webhook_data),
+                default => new WP_Error('invalid_gateway', 'Unsupported payment gateway', ['status' => 400]),
+            };
         } catch (Exception $e) {
             return new WP_Error('error', $e->getMessage(), array('status' => 400));
         }
     }
 
-    public function check_permission()
+    public function check_user_permission()
     {
-        return true;
+        return is_user_logged_in();
     }
 }

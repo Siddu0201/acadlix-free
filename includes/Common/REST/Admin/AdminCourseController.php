@@ -20,15 +20,17 @@ class AdminCourseController
             $this->namespace,
             '/' . $this->base,
             [
-                [
-                    'methods' => WP_REST_Server::READABLE,
-                    'callback' => [$this, 'get_courses'],
-                    'permission_callback' => [$this, 'check_permission'],
-                ],
+                // [
+                //     'methods' => WP_REST_Server::READABLE,
+                //     'callback' => [$this, 'get_courses'],
+                //     'permission_callback' => [$this, 'check_permission'],
+                // ],
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_update_course'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_course') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_course');
+                    },
                 ],
             ]
         );
@@ -40,7 +42,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_create_section'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_course_section') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_course_section');
+                    },
                 ],
             ]
         );
@@ -52,7 +56,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'update_section_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_course_section') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_course_section');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -64,7 +70,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'delete_section_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_course_section') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_course_section');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -83,7 +91,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_sort_section'],
-                    'permission_callback' => fn() => current_user_can('acadlix_sort_course_section') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_sort_course_section');
+                    },
                     'args' => array(
                         'course_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -102,7 +112,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::EDITABLE,
                     'callback' => [$this, 'post_sort_content'],
-                    'permission_callback' => fn() => current_user_can('acadlix_sort_course_section_content') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_sort_course_section_content');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -121,7 +133,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_lessons_for_course'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_course_section_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_course_section_lesson');
+                    },
                 ],
             ]
         );
@@ -133,7 +147,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_add_create_lesson'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_course_section_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_course_section_lesson');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -152,7 +168,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_update_lesson_by_id'],
-                    'permission_callback' => fn() => current_user_can('acadlix_edit_course_section_lesson') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_edit_course_section_lesson');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -176,7 +194,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'get_quizzes_for_course'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_course_section_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_course_section_quiz');
+                    },
                 ],
             ]
         );
@@ -188,7 +208,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_add_quiz'],
-                    'permission_callback' => fn() => current_user_can('acadlix_add_course_section_quiz') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_add_course_section_quiz');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -207,7 +229,9 @@ class AdminCourseController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'remove_content'],
-                    'permission_callback' => fn() => current_user_can('acadlix_delete_course_section_content') && $this->check_permission(),
+                    'permission_callback' => function() {
+                        return current_user_can('acadlix_delete_course_section_content');
+                    },
                     'args' => array(
                         'section_id' => array(
                             'validate_callback' => function ($param, $request, $key) {
@@ -867,10 +891,5 @@ class AdminCourseController
         }
         $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
         return rest_ensure_response($res);
-    }
-
-    public function check_permission()
-    {
-        return true;
     }
 }

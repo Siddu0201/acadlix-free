@@ -156,14 +156,7 @@ class AllCourseView
         $course_children = [];
         if (!empty($this->courses)) {
             foreach ($this->courses as $course) {
-                $course_children[] = [
-                    'component' => 'php',
-                    'value' => function () use ($course) {
-                        ob_start();
-                        $this->render_single_course($course);
-                        return ob_get_clean();
-                    },
-                ];
+                $course_children[] = $this->render_single_course($course);
             }
         }
         $all_course_page = [
@@ -234,7 +227,7 @@ class AllCourseView
             ]
         ];
         $single_course_ui = apply_filters('acadlix_single_course_ui', $single_course_ui, $course);
-        acadlix()->helper()->acadlix_render_component($single_course_ui);
+        return $single_course_ui;
     }
 
     /**
@@ -601,9 +594,13 @@ class AllCourseView
                         'id' => 'add-to-wishlist-' . esc_attr($course->ID),
                         'title' => esc_attr__('Add to Wishlist', 'acadlix'),
                         'data-id' => esc_attr($course->ID),
-                        'style' => $course_wishlist_count == 0 ? 'display:flex;' : 'display:none;',
+                        'style' => 'display: ' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
+                        // 'style' => 'display:' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
                     ],
-                    'value' => '<i class="far fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
+                    'children' => [
+                        ['component' => 'i', 'props' => ['class' => 'far fa-heart']],
+                        ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+                    ],
                 ],
                 [
                     'component' => 'div',
@@ -612,9 +609,12 @@ class AllCourseView
                         'id' => 'remove-from-wishlist-' . esc_attr($course->ID),
                         'title' => esc_attr__('Remove From Wishlist', 'acadlix'),
                         'data-id' => esc_attr($course->ID),
-                        'style' => $course_wishlist_count > 0 ? 'display:flex;' : 'display:none;',
+                        'style' => 'display: ' . ($course_wishlist_count > 0 ? 'flex' : 'none'),
                     ],
-                    'value' => '<i class="fas fa-heart"></i><div class="acadlix-btn-loader" style="display:none;"></div>'
+                    'children' => [
+                        ['component' => 'i', 'props' => ['class' => 'fas fa-heart']],
+                        ['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+                    ],
                 ]
             ]
         ], $course);

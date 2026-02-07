@@ -58,7 +58,9 @@ class FrontCourseController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'post_add_wishlist'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function () {
+                        return is_user_logged_in();
+                    },
                 ],
             ]
         );
@@ -69,7 +71,9 @@ class FrontCourseController
                 [
                     'methods' => WP_REST_Server::DELETABLE,
                     'callback' => [$this, 'post_remove_wishlist'],
-                    'permission_callback' => [$this, 'check_permission'],
+                    'permission_callback' => function () {
+                        return is_user_logged_in();
+                    },
                 ],
             ]
         );
@@ -459,20 +463,20 @@ class FrontCourseController
         $take_count = intval($params['take_count']);
 
         $reviews_query = acadlix()
-        ->model()
-        ->courseReview()
-        ->ofCourseRating()
+            ->model()
+            ->courseReview()
+            ->ofCourseRating()
             ->ofApproved()
             ->where('comment_post_ID', $course_id)
             ->orderBy('comment_date', 'DESC');
-            
-            $total_reviews = $reviews_query->count();
-            
-            $reviews = $reviews_query
+
+        $total_reviews = $reviews_query->count();
+
+        $reviews = $reviews_query
             ->skip($skip_count)
             ->take($take_count)
             ->get();
-            
+
         setup_postdata(get_post($course_id));
         ob_start();
         acadlix()->view()->singleCourse()->course_main_reviews_list($reviews);
@@ -488,9 +492,11 @@ class FrontCourseController
 
         return rest_ensure_response($res);
     }
-
-    public function check_permission()
+    public function check_permission($request)
     {
-        return true;
+        return wp_verify_nonce(
+            $request->get_header('X-WP-Nonce'),
+            'wp_rest'
+        );
     }
 }
