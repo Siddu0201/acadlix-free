@@ -61,6 +61,15 @@ const BulkImportButton = React.lazy(() =>
     )
 );
 
+const AddQuestionWithAiButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_pro_add_question_with_ai" */
+      "@acadlix/pro/admin/question/AddQuestionWithAiButton"
+    )
+    : Promise.resolve({ default: () => null })
+);
+
 const ParagraphModel = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
@@ -543,7 +552,18 @@ const Question = () => {
                                     component_name: "admin_quiz_question_bulk_import_button",
                                   }
                                 ]
-                              }
+                              },
+                              {
+                                component: "Suspense",
+                                component_name: "admin_quiz_question_add_with_ai_button_suspense",
+                                props: { fallback: null },
+                                children: [
+                                  {
+                                    component: <AddQuestionWithAiButton quiz_id={quiz_id} />,
+                                    component_name: "admin_quiz_question_add_with_ai_button",
+                                  }
+                                ]
+                              },
                             ]
                           }
                         ]
