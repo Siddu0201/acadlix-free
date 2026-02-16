@@ -636,9 +636,7 @@ class Manager
 
         acadlix()->assets()->manager()->load_assets('front', $this->localize_front_js_options());
 
-        if (is_singular(ACADLIX_COURSE_CPT) || is_post_type_archive(ACADLIX_COURSE_CPT)) {
-            acadlix()->assets()->manager()->load_assets('front_button_listener', $this->localize_front_button_listener_js_options(), 'acadlixListeners');
-        }
+        acadlix()->assets()->manager()->load_assets('front_button_listener', $this->localize_front_button_listener_js_options(), 'acadlixListeners');
     }
 
     public function enqueue_front_assets()
