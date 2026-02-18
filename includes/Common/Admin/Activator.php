@@ -6,7 +6,7 @@ defined('ABSPATH') || exit();
 
 class Activator
 {
-    public $dbVersion = 10;
+    public $dbVersion = 11;
     public function __construct()
     {
         if (!is_admin())
@@ -219,7 +219,7 @@ class Activator
             8 => 'updateV8', // update 1.5.0
             9 => 'updateV9', // update 1.6.0,
             10 => 'updateV10', // update 1.6.1,
-            11 => 'updateV11', // update 1.7.0,
+            11 => 'updateV11', // update 1.6.2,
         ];
 
         foreach ($updates as $version => $method) {
