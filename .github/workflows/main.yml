@@ -6,7 +6,7 @@ on:
       - yuvayana
 
 env:
-  PLUGIN_VERSION: "1.0.2"
+  PLUGIN_VERSION: "1.0.4"
 
 jobs:
   build-and-deploy:
@@ -31,6 +31,7 @@ jobs:
         run: |
           sed -i "s/{{VERSION}}/${{ env.PLUGIN_VERSION }}/" acadlix.php
           sed -i "s/{{VERSION}}/${{ env.PLUGIN_VERSION }}/" languages/Common/acadlix.pot
+          sed -i "s/{{VERSION}}/${{ env.PLUGIN_VERSION }}/" readme.txt
 
       # ----------------------------------
       # PHP / Composer

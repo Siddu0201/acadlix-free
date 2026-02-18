@@ -1,15 +1,15 @@
-=== Acadlix ===
+=== Acadlix – WordPress LMS for Courses, Quizzes & Exams ===
 Contributors: acadlix
 Donate link: https://acadlix.com/
 Tags: lms, quiz, online course, education, exam
 Requires at least: 6.8
-Tested up to: 6.9
+Tested up to: 6.9.1
 Requires PHP: 8.2
-Stable tag: 1.0.2
+Stable tag: {{VERSION}}
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create online courses, quizzes, exams, and test series with assignments using WordPress.
+Acadlix is a WordPress LMS plugin for creating and selling online courses, quizzes, exam-level test series, and assessments.
 
 == Description ==
 Acadlix LMS is a free WordPress LMS plugin designed for coaching institutes, training centers, educators and startups who want to create and sell online courses, test series, and live classes with advanced examination.
@@ -295,6 +295,19 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 15. Customizable Student Dashboard Menu
 
 == Changelog ==
+
+= 1.0.4 - 19-02-2026 =
+* Added - Rating and review system for courses.
+* Added: Question difficulty level support for better question categorization.
+* Improved: Enhanced UX for dynamic fields; new fields (Course Outcome, Question Options, Lesson Resources) now receive auto-focus upon addition.
+* Improved: Real-time leaderboard updates; the leaderboard now refreshes automatically upon quiz completion if placed on the same page.
+* Improved: Streamlined Quiz Category and Question Subject creation with "Enter" key support for faster additions.
+* Improved: Refined UI/UX for Quiz Category and Question Subject settings for better management.
+* Fixed: Corrected UI layout issues in the Subject-wise results view.
+* Fixed: Removed unnecessary button underlines on the Thank You pages.
+
+= 1.0.3 =
+* Update: Update assets and readme for better performance and user experience.
 
 = 1.0.2 =
 * Improvement: Enhanced compatibility with WP Local development environments.
