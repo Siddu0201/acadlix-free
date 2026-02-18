@@ -48,6 +48,11 @@ if (!class_exists(class: 'CourseStatistic')) {
             return $this->belongsTo(acadlix()->model()->orderItem(), 'order_item_id', 'id');
         }
 
+        public function course()
+        {
+            return $this->belongsTo(acadlix()->model()->course(), 'course_id', 'ID')->ofCourse();
+        }
+
         public function user()
         {
             return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
