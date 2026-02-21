@@ -208,7 +208,7 @@ const CouponOptionSection = (props) => {
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTextField
                 fullWidth
-                label={__("Usage Limit per Coupon (0 => Unlimited)", "acadlix")}
+                label={__("Usage Limit per Coupon (0 => ∞)", "acadlix")}
                 size="small"
                 type="number"
                 value={props?.watch("meta.usage_limit_per_coupon") ?? 0}
@@ -241,7 +241,7 @@ const CouponOptionSection = (props) => {
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTextField
                 fullWidth
-                label={__("Usage Limit per User (0 => Unlimited)", "acadlix")}
+                label={__("Usage Limit per User (0 => ∞)", "acadlix")}
                 size="small"
                 type="number"
                 value={props?.watch("meta.usage_limit_per_user") ?? 0}

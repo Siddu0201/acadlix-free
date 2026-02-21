@@ -57,7 +57,7 @@ const Coupon = () => {
       field: "usage_count", headerName: __("Usage Count", "acadlix"), flex: 1, minWidth: 100,
       renderCell: (params) => {
         return (
-          <>{params?.row?.coupon_usage || 0} / {params?.row?.usage_limit_per_coupon > 0 ? params?.row?.usage_limit_per_coupon : __("Unlimited", "acadlix")}</>
+          <>{params?.row?.coupon_usage || 0} / {params?.row?.usage_limit_per_coupon > 0 ? params?.row?.usage_limit_per_coupon : '∞'}</>
         );
       }
      },

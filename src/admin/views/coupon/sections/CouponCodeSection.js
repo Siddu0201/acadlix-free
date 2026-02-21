@@ -50,7 +50,7 @@ const CouponCodeSection = (props) => {
                 fullWidth
                 name="post_content"
                 size="small"
-                label={__("Enter coupon description", "acadlix")}
+                label={__("Enter coupon description", "acadlix")+ " *"}
                 value={props?.watch("post_content") ?? ""}
                 onChange={(e) => {
                   props?.setValue("post_content", e?.target?.value, {

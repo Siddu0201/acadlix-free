@@ -61,7 +61,7 @@ const CouponContent = (props) => {
           sx={{
             padding: {
               xs: 2,
-              sm: 2,
+              sm: 4,
             },
           }}
         >
