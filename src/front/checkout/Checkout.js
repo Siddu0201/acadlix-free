@@ -690,6 +690,9 @@ const Checkout = () => {
                       component_name: "checkout_coupon_grid_item",
                       props: {
                         size: { xs: 12, sm: 12 },
+                        sx: {
+                          display: acadlixCheckoutOptions?.settings?.acadlix_enable_coupon_code === "yes" ? "block" : "none",
+                        },
                       },
                       children: [
                         {

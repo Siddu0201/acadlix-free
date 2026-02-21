@@ -102,6 +102,9 @@ const SettingContent = ({
       options?.acadlix_enable_dashboard_fullwidth ?? "no",
     acadlix_enable_site_logo_in_header:
       options?.acadlix_enable_site_logo_in_header ?? "no",
+    // Checkout Options
+    acadlix_enable_coupon_code:
+      options?.acadlix_enable_coupon_code ?? "no",
     // Data management
     acadlix_delete_data_on_plugin_uninstall:
       options?.acadlix_delete_data_on_plugin_uninstall ?? "no",

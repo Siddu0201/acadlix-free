@@ -846,6 +846,10 @@ class FrontCheckoutController
       return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
     }
 
+    if(acadlix()->helper()->acadlix_get_option('acadlix_enable_coupon_code') != 'yes') {
+      return new WP_Error('invalid_coupon', __('Coupons are disabled.', 'acadlix'), array('status' => 404));
+    }
+
     $coupon = acadlix()->model()->coupon()
       ->where('post_title', $request->get_param('coupon_code'))
       ->first();

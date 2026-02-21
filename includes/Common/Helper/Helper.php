@@ -642,6 +642,8 @@ if (!class_exists('Helper')) {
         'acadlix_logout_redirect_url' => '',
         'acadlix_enable_dashboard_fullwidth' => 'no',
         'acadlix_enable_site_logo_in_header' => 'no',
+        // Checkout Option
+        'acadlix_enable_coupon_code' => 'no',
         // Data management
         'acadlix_delete_data_on_plugin_uninstall' => 'no',
         // Notification option

@@ -851,6 +851,48 @@ function General(props) {
               marginY: 2,
             }}
           >
+            <Typography variant="h4">{__("Checkout Options", "acadlix")}
+            </Typography>
+            <Divider />
+          </Box>
+          <Grid
+            container
+            spacing={{
+              xs: 2,
+              sm: 4,
+            }}
+            sx={{
+              alignItems: "center",
+            }}
+          >
+            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>
+                {__("Enable Coupon Code", "acadlix")}
+              </CustomTypography>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+              <FormControlLabel
+                label={__("Activate", "acadlix")}
+                control={<CustomSwitch />}
+                value="yes"
+                checked={props?.watch("acadlix_enable_coupon_code") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_enable_coupon_code",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      { shouldDirty: true }
+                    );
+                  }
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              marginY: 2,
+            }}
+          >
             <Typography variant="h4">{__("Data Management", "acadlix")}
               <CustomFeatureTooltip
                 plan={"open"}
