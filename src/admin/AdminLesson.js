@@ -33,7 +33,6 @@ const AdminLesson = () => {
     routes
   )?.filter(Boolean) || [];
 
-  console.log(filteredRoutes);
 
   return (
     <Provider>

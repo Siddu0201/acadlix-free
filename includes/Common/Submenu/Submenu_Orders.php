@@ -52,6 +52,7 @@ class Submenu_Orders
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'nonce' => wp_create_nonce('wp_rest'),
             'settings' => acadlix()->helper()->acadlix_get_all_options(),
+            'acadlix_coupon_url' => admin_url('admin.php?page=acadlix_coupon'),
             'theme_settings'=> acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
             'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
             'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),

@@ -4,7 +4,7 @@ namespace Yuvayana\Acadlix\Common\Submenu;
 
 defined('ABSPATH') || exit();
 
-class Submenu_Lessons
+class Submenu_Coupon
 {
   private static $_instance = null;
 
@@ -14,12 +14,12 @@ class Submenu_Lessons
   {
     $this->_options = [
       'parent_slug' => ACADLIX_SLUG,
-      'page_title' => __('Acadlix Lessons', 'acadlix'),
-      'menu_title' => __('Lessons', 'acadlix'),
-      'capability' => 'acadlix_show_lesson',
-      'menu_slug' => 'acadlix_lesson',
-      'callback' => [$this, 'lesson_callback'],
-      'position' => 800
+      'page_title' => __('Acadlix Coupons', 'acadlix'),
+      'menu_title' => __('Coupons', 'acadlix'),
+      'capability' => 'acadlix_show_coupon',
+      'menu_slug' => 'acadlix_coupon',
+      'callback' => [$this, 'coupon_callback'],
+      'position' => 505
     ];
   }
 
@@ -54,6 +54,7 @@ class Submenu_Lessons
       'settings' => acadlix()->helper()->acadlix_get_all_options(),
       'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
       'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
+      'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
       'user_id' => get_current_user_id(),
       'capabilities' => $capabilities,
       'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
@@ -65,18 +66,12 @@ class Submenu_Lessons
   {
     wp_enqueue_editor();
     wp_enqueue_media();
-    acadlix()->assets()->manager()->load_assets('admin_lesson', $this->localize_options());
-    // wp_enqueue_script('acadlix-runtime-js');
-    // wp_enqueue_script('acadlix-vendors-js');
-    // wp_enqueue_script("acadlix-admin-lesson");
-    // wp_enqueue_style("acadlix-admin-lesson-css");
-    // wp_localize_script('acadlix-admin-lesson', 'acadlixOptions', $this->localize_options());
-    // wp_set_script_translations('acadlix-admin-lesson', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
+    acadlix()->assets()->manager()->load_assets('admin_coupon', $this->localize_options());
   }
 
-  public function lesson_callback()
+  public function coupon_callback()
   {
-    echo '<div id="acadlix-admin-lesson"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
+    echo '<div id="acadlix-admin-coupon"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
   }
 
   public static function instance()

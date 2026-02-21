@@ -46,6 +46,7 @@ class UserRole
             $this->template_capabilities(),
             $this->design_studio_capabilities(),
             $this->review_capabilities(),
+            $this->coupon_capabilities(),
         );
     }
 
@@ -263,6 +264,17 @@ class UserRole
             'acadlix_show_review' => true,
             'acadlix_edit_review' => true,
             'acadlix_delete_review' => true,
+        ];
+    }
+
+    public function coupon_capabilities(): array
+    {
+        return [
+            'acadlix_show_coupon' => true,
+            'acadlix_add_coupon' => true,
+            'acadlix_edit_coupon' => true,
+            'acadlix_delete_coupon' => true,
+            'acadlix_bulk_delete_coupon' => true,
         ];
     }
 

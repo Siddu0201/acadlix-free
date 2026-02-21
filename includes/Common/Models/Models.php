@@ -136,4 +136,8 @@ class Models
         return $this->getInstance('wpTermTaxonomy', WpTermTaxonomy::class);
     }
 
+    public function coupon(): Coupon|null{
+        return $this->getInstance('coupon', Coupon::class);
+    }
+
 }

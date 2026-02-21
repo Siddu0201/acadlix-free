@@ -25,6 +25,7 @@ use Yuvayana\Acadlix\Common\REST\Admin\AdminQuestionController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminTemplateController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminThemeController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminReviewController;
+use Yuvayana\Acadlix\Common\REST\Admin\AdminCouponController;   
 
 // Front API Controller
 use Yuvayana\Acadlix\Common\REST\Front\FrontCheckoutController;
@@ -66,6 +67,7 @@ class REST
     protected $_adminStudent = null;
     protected $_adminTheme = null;
     protected $_adminReview = null;
+    protected $_adminCoupon = null;
 
     protected $_frontCheckout = null;
     protected $_frontCourse = null;
@@ -108,6 +110,7 @@ class REST
         $this->adminStudent();
         $this->adminTheme();
         $this->adminReview();
+        $this->adminCoupon();
 
         $this->frontCheckout();
         $this->frontCourse();
@@ -237,7 +240,7 @@ class REST
         return $this->_adminOrder;
     }
 
-    public function adminAddon()
+    public function adminAddon(): AdminAddonController|null
     {
         if ($this->_adminAddon === null) {
             $this->_adminAddon = new AdminAddonController();
@@ -270,6 +273,14 @@ class REST
         }
         $this->_rests[] = $this->_adminReview;
         return $this->_adminReview;
+    }
+
+    public function adminCoupon(): AdminCouponController|null{
+        if($this->_adminCoupon === null){
+            $this->_adminCoupon = new AdminCouponController();
+        }
+        $this->_rests[] = $this->_adminCoupon;
+        return $this->_adminCoupon;
     }
 
     public function frontCheckout(): FrontCheckoutController|null{

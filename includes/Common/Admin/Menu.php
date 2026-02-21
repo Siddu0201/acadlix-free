@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Common\Admin;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Addon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Categories;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Coupon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Design_Studio;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
@@ -33,6 +34,7 @@ class Menu
     protected ?Submenu_Student $student = null;
     protected ?Submenu_Design_Studio $design_studio = null;
     protected ?Submenu_Reviews $reviews = null;
+    protected ?Submenu_Coupon $coupon = null;
 
     public function __construct()
     {
@@ -70,6 +72,7 @@ class Menu
             'acadlix_addon',
             'acadlix_design_studio',
             'acadlix_review',
+            'acadlix_coupon',
         ];
     }
 
@@ -96,6 +99,7 @@ class Menu
         $this->submenu_student();
         $this->submenu_design_studio();
         $this->submenu_reviews();
+        $this->submenu_coupon();
     }
 
     public function init_admin_menu()
@@ -207,6 +211,13 @@ class Menu
         return $this->reviews;
     }
 
+    public function submenu_coupon(){
+        if(is_null($this->coupon)){
+            $this->coupon = new Submenu_Coupon();
+        }
+        $this->_submenus[] = $this->coupon;
+        return $this->coupon;
+    }
 
     public function acadlix_set_active_menu_class($parent_file)
     {

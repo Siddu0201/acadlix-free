@@ -17,6 +17,10 @@ if (!class_exists('Order')) {
             'subscription_id',
             'parent_id',
             'status',
+            'coupon_id',
+            'coupon_code',
+            'coupon_amount',
+            'discount_type',
             'extra_charges',
             'total_amount'
         ];

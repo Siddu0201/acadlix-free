@@ -128,7 +128,7 @@ export const DeleteBulkLesson = () => {
             });
         },
         onSuccess: () => {
-            toast.success(__('Lessons deleted successfully', 'acadlix'));
+            toast.success(__('Selected lessons deleted successfully', 'acadlix'));
             queryClient.invalidateQueries({
                 queryKey: ["getLessons"]
             });

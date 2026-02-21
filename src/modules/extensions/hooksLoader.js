@@ -240,6 +240,28 @@ export const loadAdminReviewHooks = async (hooks) => {
     }
 }
 
+export const loadAdminCouponHooks = async (hooks) => {
+    try {
+        const mod = await (
+            process.env.REACT_APP_IS_PREMIUM === 'true'
+                ? import(
+                    /* webpackChunkName: "admin_coupon_hooks" */
+                    '@acadlix/pro/hooks/AdminCouponHooks'
+                )
+                : import(
+                    /* webpackChunkName: "admin_coupon_hooks" */
+                    '@acadlix/free/hooks/AdminCouponHooks'
+                )
+        );
+
+        if (typeof mod.registerPluginHooks === 'function') {
+            mod.registerPluginHooks(hooks);
+        }
+    } catch (e) {
+        // console.log(e);
+    }
+}
+
 export const loadFrontCheckoutHooks = async (hooks) => {
     try {
         const mod = await (

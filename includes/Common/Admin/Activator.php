@@ -220,6 +220,7 @@ class Activator
             9 => 'updateV9', // update 1.6.0,
             10 => 'updateV10', // update 1.6.1,
             11 => 'updateV11', // update 1.6.2,
+            12 => 'updateV12', // update 1.6.3,
         ];
 
         foreach ($updates as $version => $method) {
@@ -231,6 +232,13 @@ class Activator
                 $this->$method();
             }
         }
+    }
+
+    public function updateV12()
+    {
+        /**
+         * In this update add coupon module.
+         */
     }
 
     protected function updateV11()

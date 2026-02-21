@@ -11,6 +11,7 @@ import OrderActivityLogs from './sections/OrderActivityLogs';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 import OrderBillingInfo from './sections/OrderBillingInfo';
 import OrderDetails from './sections/OrderDetails';
+import { formatPrice } from '@acadlix/helpers/util';
 
 const OrderContent = (props) => {
     const getOrderMetaValue = (order_metas = [], meta_key = "", order_default = "") => {
@@ -39,19 +40,21 @@ const OrderContent = (props) => {
         user_id: props?.order?.user_id ?? null,
         user_name: props?.order?.user?.display_name ?? "",
         user_email: props?.order?.user?.user_email ?? "",
-        total_amount: props?.order?.total_amount ?? 0,
+        total_amount: formatPrice(props?.order?.total_amount ?? 0),
+        coupon_id: props?.order?.coupon_id ?? null,
+        coupon_code: props?.order?.coupon_code ?? "",
         order_items: props?.order?.order_items ?
             props?.order?.order_items?.map((item) => {
                 return {
                     course_id: item?.course_id,
                     course_title: item?.course_title,
                     quantity: item?.quantity,
-                    price: item?.price,
-                    discount: item?.discount,
-                    additional_fee: item?.additional_fee ?? 0,
-                    price_after_discount: item?.price_after_discount,
-                    tax: item?.tax,
-                    price_after_tax: item?.price_after_tax
+                    price: formatPrice(item?.price),
+                    discount: formatPrice(item?.discount),
+                    additional_fee: formatPrice(item?.additional_fee ?? 0),
+                    price_after_discount: formatPrice(item?.price_after_discount),
+                    tax: formatPrice(item?.tax),
+                    price_after_tax: formatPrice(item?.price_after_tax)
                 }
             })
             : [],

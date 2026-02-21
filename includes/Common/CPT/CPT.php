@@ -13,13 +13,14 @@ class CPT {
     protected $courseSectionContent = null;
     protected $lesson = null;
     protected $quiz = null;
-
+    protected $coupon = null;
     public function __construct() {
         $this->course();
         $this->courseSection();
         $this->courseSectionContent();
         $this->lesson();
         $this->quiz();
+        $this->coupon();
     }
 
     public function register_all_cpts(){
@@ -75,6 +76,14 @@ class CPT {
         }
         $this->_all_cpts[] = $this->quiz;
         return $this->quiz;
+    }
+
+    public function coupon(): Coupon {
+        if (is_null($this->coupon)) {
+            $this->coupon = new Coupon();
+        }
+        $this->_all_cpts[] = $this->coupon;
+        return $this->coupon;
     }
 
     public static function instance() {
