@@ -84,6 +84,7 @@ const Coupon = (props) => {
                 let tax = 0;
                 let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
                 if (
+                  c?.tax > 0 &&
                   course?.rendered_metas?.tax !== 0 &&
                   course?.rendered_metas?.tax_percent !== 0
                 ) {
@@ -137,6 +138,7 @@ const Coupon = (props) => {
           let tax = 0;
           let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
           if (
+            c?.tax > 0 &&
             course?.rendered_metas?.tax !== 0 &&
             course?.rendered_metas?.tax_percent !== 0
           ) {
