@@ -827,7 +827,7 @@ class FrontCheckoutController
 
   public function post_apply_coupon($request)
   {
-    $required_fields = array('coupon_code', 'user_id', 'subtotal_amount');
+    $required_fields = array('coupon_code', 'user_id', 'price_after_discount');
     $params = $request->get_json_params();
     if (is_array($params) && count($params) == 0) {
       return new WP_Error('no_data_found', __('Required coupon code and user_id', 'acadlix'), array('status' => 404));
@@ -864,7 +864,7 @@ class FrontCheckoutController
       return new WP_Error('invalid_coupon', __('This coupon code is disabled.', 'acadlix'), array('status' => 404));
     }
 
-    if ($metas['minimum_purchase_amount'] > 0 && $request->get_param('subtotal_amount') < $metas['minimum_purchase_amount']) {
+    if ($metas['minimum_purchase_amount'] > 0 && $request->get_param('price_after_discount') < $metas['minimum_purchase_amount']) {
       return new WP_Error('invalid_coupon', sprintf(__('This coupon code requires a minimum purchase of %1$s%2$s.', 'acadlix'), $request->get_param('currency_symbol'), $metas['minimum_purchase_amount']), array('status' => 404));
     }
 

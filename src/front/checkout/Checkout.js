@@ -109,15 +109,15 @@ const Checkout = () => {
             : c?.course?.rendered_metas?.price
         );
         let discount = 0;
-        let price_after_discount = price - discount;
         let additional_fee = 0;
+        let price_after_discount = (price + additional_fee) - discount;
         let tax = 0;
         if (
           c?.course?.rendered_metas?.tax !== 0 &&
           c?.course?.rendered_metas?.tax_percent !== 0
         ) {
           tax = formatPrice(
-            (price * c?.course?.rendered_metas?.tax_percent) / 100
+            (price_after_discount * c?.course?.rendered_metas?.tax_percent) / 100
           );
         }
         let price_after_tax = price_after_discount + tax;

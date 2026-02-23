@@ -13,7 +13,7 @@ const Coupon = (props) => {
       alert(__('Please enter a coupon code.', 'acadlix'));
       return;
     }
-    if(props?.watch("total_amount") <= 0) {
+    if (props?.watch("total_amount") <= 0) {
       alert(__('Total amount must be greater than zero to apply a coupon.', 'acadlix'));
       return;
     }
@@ -21,7 +21,7 @@ const Coupon = (props) => {
       {
         coupon_code: couponCode,
         user_id: props?.watch("user_id") || 0,
-        subtotal_amount: props?.watch("order_items")?.reduce((acc, item) => acc + item.price, 0) || 0,
+        price_after_discount: props?.watch("order_items")?.reduce((acc, item) => acc + item.price_after_discount, 0) || 0,
         currency_symbol: props?.watch("currency_symbol") || '$',
       }, {
       onSuccess: (data) => {
@@ -37,21 +37,34 @@ const Coupon = (props) => {
               const coupon_amount = data?.data?.coupon?.rendered_metas?.discount || 0;
               const discount_type = data?.data?.coupon?.rendered_metas?.discount_type;
               let price = c?.price || 0;
-              let discount = 0;
-              if (discount_type === "percentage") {
-                discount = formatPrice((coupon_amount / 100) * price);
+              let new_discount = 0;
+
+              if (c?.discount > 0) {
+                new_discount = c?.discount;
+                if (c?.additional_fee > 0) {
+                  if (discount_type === "percentage") {
+                    new_discount += formatPrice((coupon_amount / 100) * c?.additional_fee);
+                  } else {
+                    const total_additional_fee = props?.watch("order_items")?.reduce((total, item) => total + item.additional_fee, 0) || 0;
+                    const proportion = c?.additional_fee / total_additional_fee;
+                    new_discount += formatPrice(coupon_amount * proportion);
+                  }
+                }
               } else {
-                const total_price = props?.watch("order_items")?.reduce((total, item) => total + item.price, 0) || 0;
-                const proportion = price / total_price;
-                discount = formatPrice(coupon_amount * proportion);
+                if (discount_type === "percentage") {
+                  new_discount = formatPrice((coupon_amount / 100) * price);
+                } else {
+                  const total_price = props?.watch("order_items")?.reduce((total, item) => total + item.price, 0) || 0;
+                  const proportion = price / total_price;
+                  new_discount = formatPrice(coupon_amount * proportion);
+                }
               }
 
-              if (discount > price) {
-                discount = price;
+              if (new_discount > price_after_discount) {
+                new_discount = price_after_discount;
               }
 
-              let price_after_discount = formatPrice(price - discount);
-              let additional_fee = 0;
+              let price_after_discount = formatPrice(price + (c?.additional_fee || 0) - new_discount);
               let tax = 0;
               let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
               if (
@@ -66,9 +79,8 @@ const Coupon = (props) => {
               return {
                 ...c,
                 price: price,
-                discount: discount,
+                discount: new_discount + (c?.discount || 0),
                 price_after_discount: price_after_discount,
-                additional_fee: additional_fee,
                 tax: tax,
                 price_after_tax: price_after_tax,
               };
@@ -82,7 +94,6 @@ const Coupon = (props) => {
               shouldDirty: true,
             }
           );
-
         }
       },
       onError: (error) => {
