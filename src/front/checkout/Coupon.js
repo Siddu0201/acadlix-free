@@ -63,6 +63,16 @@ const Coupon = (props) => {
                     const proportion = price / total_price;
                     new_discount = formatPrice(coupon_amount * proportion);
                   }
+
+                  if (c?.additional_fee > 0) {
+                    if (discount_type === "percentage") {
+                      new_discount += formatPrice((coupon_amount / 100) * c?.additional_fee);
+                    } else {
+                      const total_additional_fee = props?.watch("order_items")?.reduce((total, item) => total + item.additional_fee, 0) || 0;
+                      const proportion = c?.additional_fee / total_additional_fee;
+                      new_discount += formatPrice(coupon_amount * proportion);
+                    }
+                  }
                 }
 
                 if (new_discount > (c?.price + (c?.additional_fee || 0))) {
