@@ -13,6 +13,10 @@ const Coupon = (props) => {
       alert(__('Please enter a coupon code.', 'acadlix'));
       return;
     }
+    if(props?.watch("total_amount") <= 0) {
+      alert(__('Total amount must be greater than zero to apply a coupon.', 'acadlix'));
+      return;
+    }
     applyCouponMutation.mutate(
       {
         coupon_code: couponCode,
