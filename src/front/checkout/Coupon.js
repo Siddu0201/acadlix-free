@@ -17,6 +17,10 @@ const Coupon = (props) => {
       alert(__('Total amount must be greater than zero to apply a coupon.', 'acadlix'));
       return;
     }
+    if (props?.watch("coupon_id") !== null) {
+      alert(__('A coupon is already applied. Please remove the existing coupon before applying a new one.', 'acadlix'));
+      return;
+    }
     applyCouponMutation.mutate(
       {
         coupon_code: couponCode,
