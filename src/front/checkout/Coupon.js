@@ -61,11 +61,12 @@ const Coupon = (props) => {
                   }
                 }
 
-                if (new_discount > c?.price_after_discount) {
-                  new_discount = c?.price_after_discount;
+                if (new_discount > (c?.price + (c?.additional_fee || 0))) {
+                  new_discount = c?.price + (c?.additional_fee || 0);
                 }
 
-                let price_after_discount = formatPrice(price + (c?.additional_fee || 0) - new_discount);
+                let price_after_discount = formatPrice((price + (c?.additional_fee || 0)) - new_discount);
+
                 let tax = 0;
                 let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
                 if (
@@ -80,7 +81,7 @@ const Coupon = (props) => {
                 return {
                   ...c,
                   price: price,
-                  discount: new_discount + (c?.discount || 0),
+                  discount: new_discount,
                   price_after_discount: price_after_discount,
                   tax: tax,
                   price_after_tax: price_after_tax,
