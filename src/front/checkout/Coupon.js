@@ -60,8 +60,8 @@ const Coupon = (props) => {
                 }
               }
 
-              if (new_discount > price_after_discount) {
-                new_discount = price_after_discount;
+              if (new_discount > c?.price_after_discount) {
+                new_discount = c?.price_after_discount;
               }
 
               let price_after_discount = formatPrice(price + (c?.additional_fee || 0) - new_discount);
