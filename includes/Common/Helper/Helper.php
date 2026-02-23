@@ -619,8 +619,13 @@ if (!class_exists('Helper')) {
         // 'acadlix_cart_page_id' => null,
         'acadlix_checkout_page_id' => null,
         'acadlix_thankyou_page_id' => null,
-        'acadlix_no_of_courses_per_page' => 10,
         'acadlix_one_click_checkout' => 'no',
+        // Course Option
+        'acadlix_no_of_courses_per_page' => 10,
+        'acadlix_disable_wishlist' => 'no',
+        'acadlix_enable_rating_and_reviews' => 'no',
+        'acadlix_require_admin_approval_for_reviews' => 'no',
+        'acadlix_review_pagination_count' => 10,
         // Currency Option
         'acadlix_currency' => 'USD',
         'acadlix_currency_position' => 'Left ( $99.99 )',
@@ -629,15 +634,12 @@ if (!class_exists('Helper')) {
         'acadlix_number_of_decimals' => 2,
         'acadlix_default_payment_gateway' => '',
         // Admin Option
+        'acadlix_default_rows_per_page' => 20,
         'acadlix_admin_auto_registration_to_courses' => 'no',
         'acadlix_admin_can_assign_courses_to_student' => 'no',
         'acadlix_admin_can_remove_student_from_course' => 'no',
-        // Course Option
-        'acadlix_default_rows_per_page' => 20,
-        'acadlix_disable_wishlist' => 'no',
-        'acadlix_enable_rating_and_reviews' => 'no',
-        'acadlix_require_admin_approval_for_reviews' => 'no',
-        'acadlix_review_pagination_count' => 10,
+        // Front end Option
+        'acadlix_disable_admin_toolbar' => 'no',
         // Student Dashboard Option
         'acadlix_logout_redirect_url' => '',
         'acadlix_enable_dashboard_fullwidth' => 'no',

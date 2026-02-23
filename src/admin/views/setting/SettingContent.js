@@ -84,6 +84,8 @@ const SettingContent = ({
     acadlix_number_of_decimals:
       options?.acadlix_number_of_decimals ?? 2,
     // Admin Options
+    acadlix_default_rows_per_page:
+      options?.acadlix_default_rows_per_page ?? 20,
     acadlix_admin_auto_registration_to_courses:
       options?.acadlix_admin_auto_registration_to_courses ??
       "no",
@@ -93,8 +95,9 @@ const SettingContent = ({
     acadlix_admin_can_remove_student_from_course:
       options?.acadlix_admin_can_remove_student_from_course ??
       "no",
-    acadlix_default_rows_per_page:
-      options?.acadlix_default_rows_per_page ?? 20,
+    // Frontend Options
+    acadlix_disable_admin_toolbar: 
+      options?.acadlix_disable_admin_toolbar ?? "no",
     // Student Dashboard Options
     acadlix_logout_redirect_url:
       options?.acadlix_logout_redirect_url ?? "",

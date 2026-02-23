@@ -757,6 +757,49 @@ function General(props) {
               </Select>
             </Grid>
           </Grid>
+          {/* Frontend Options */}
+          <Box
+            sx={{
+              marginY: 2,
+            }}
+          >
+            <Typography variant="h4">{__("Frontend Options", "acadlix")}
+            </Typography>
+            <Divider />
+          </Box>
+          <Grid
+            container
+            spacing={{
+              xs: 2,
+              sm: 4,
+            }}
+            sx={{
+              alignItems: "center",
+            }}
+          >
+            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>
+                {__("Disable Admin Toolbar", "acadlix")}
+              </CustomTypography>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+              <FormControlLabel
+                label={__("Activate", "acadlix")}
+                control={<CustomSwitch />}
+                value="yes"
+                checked={props?.watch("acadlix_disable_admin_toolbar") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_disable_admin_toolbar",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      { shouldDirty: true }
+                    );
+                  }
+                }}
+              />
+            </Grid>
+          </Grid>
           {/* Student Dashboard options */}
           <Box
             sx={{
