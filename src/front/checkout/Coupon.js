@@ -33,58 +33,59 @@ const Coupon = (props) => {
 
           props?.setValue(
             "order_items",
-            window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_order_items_with_coupon", props?.watch("order_items")?.map((c) => {
-              const coupon_amount = data?.data?.coupon?.rendered_metas?.discount || 0;
-              const discount_type = data?.data?.coupon?.rendered_metas?.discount_type;
-              let price = c?.price || 0;
-              let new_discount = 0;
+            window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_order_items_with_coupon",
+              props?.watch("order_items")?.map((c) => {
+                const coupon_amount = data?.data?.coupon?.rendered_metas?.discount || 0;
+                const discount_type = data?.data?.coupon?.rendered_metas?.discount_type;
+                let price = c?.price || 0;
+                let new_discount = 0;
 
-              if (c?.discount > 0) {
-                new_discount = c?.discount;
-                if (c?.additional_fee > 0) {
+                if (c?.discount > 0) {
+                  new_discount = c?.discount;
+                  if (c?.additional_fee > 0) {
+                    if (discount_type === "percentage") {
+                      new_discount += formatPrice((coupon_amount / 100) * c?.additional_fee);
+                    } else {
+                      const total_additional_fee = props?.watch("order_items")?.reduce((total, item) => total + item.additional_fee, 0) || 0;
+                      const proportion = c?.additional_fee / total_additional_fee;
+                      new_discount += formatPrice(coupon_amount * proportion);
+                    }
+                  }
+                } else {
                   if (discount_type === "percentage") {
-                    new_discount += formatPrice((coupon_amount / 100) * c?.additional_fee);
+                    new_discount = formatPrice((coupon_amount / 100) * price);
                   } else {
-                    const total_additional_fee = props?.watch("order_items")?.reduce((total, item) => total + item.additional_fee, 0) || 0;
-                    const proportion = c?.additional_fee / total_additional_fee;
-                    new_discount += formatPrice(coupon_amount * proportion);
+                    const total_price = props?.watch("order_items")?.reduce((total, item) => total + item.price, 0) || 0;
+                    const proportion = price / total_price;
+                    new_discount = formatPrice(coupon_amount * proportion);
                   }
                 }
-              } else {
-                if (discount_type === "percentage") {
-                  new_discount = formatPrice((coupon_amount / 100) * price);
-                } else {
-                  const total_price = props?.watch("order_items")?.reduce((total, item) => total + item.price, 0) || 0;
-                  const proportion = price / total_price;
-                  new_discount = formatPrice(coupon_amount * proportion);
+
+                if (new_discount > c?.price_after_discount) {
+                  new_discount = c?.price_after_discount;
                 }
-              }
 
-              if (new_discount > c?.price_after_discount) {
-                new_discount = c?.price_after_discount;
-              }
-
-              let price_after_discount = formatPrice(price + (c?.additional_fee || 0) - new_discount);
-              let tax = 0;
-              let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
-              if (
-                course?.rendered_metas?.tax !== 0 &&
-                course?.rendered_metas?.tax_percent !== 0
-              ) {
-                tax = formatPrice(
-                  (price_after_discount * course?.rendered_metas?.tax_percent) / 100
-                );
-              }
-              let price_after_tax = formatPrice(price_after_discount + tax);
-              return {
-                ...c,
-                price: price,
-                discount: new_discount + (c?.discount || 0),
-                price_after_discount: price_after_discount,
-                tax: tax,
-                price_after_tax: price_after_tax,
-              };
-            }),
+                let price_after_discount = formatPrice(price + (c?.additional_fee || 0) - new_discount);
+                let tax = 0;
+                let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
+                if (
+                  course?.rendered_metas?.tax !== 0 &&
+                  course?.rendered_metas?.tax_percent !== 0
+                ) {
+                  tax = formatPrice(
+                    (price_after_discount * course?.rendered_metas?.tax_percent) / 100
+                  );
+                }
+                let price_after_tax = formatPrice(price_after_discount + tax);
+                return {
+                  ...c,
+                  price: price,
+                  discount: new_discount + (c?.discount || 0),
+                  price_after_discount: price_after_discount,
+                  tax: tax,
+                  price_after_tax: price_after_tax,
+                };
+              }),
               {
                 props: props,
                 coupon: data?.data?.coupon,
@@ -138,7 +139,10 @@ const Coupon = (props) => {
             tax: tax,
             price_after_tax: price_after_tax,
           };
-        })
+        }),
+        {
+          props: props,
+        }
       ),
       {
         shouldDirty: true,
