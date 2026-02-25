@@ -107,6 +107,7 @@ class UserRole
             'acadlix_add_edit_language_to_quiz' => true,
             'acadlix_set_default_quiz_language' => true,
             'acadlix_delete_language_from_quiz' => true,
+            'acadlix_import_export_json_quiz' => true,
         ];
     }
 
