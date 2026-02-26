@@ -72,6 +72,8 @@ const SettingContent = ({
       options?.acadlix_require_admin_approval_for_reviews ?? "no",
     acadlix_review_pagination_count:
       options?.acadlix_review_pagination_count ?? 10,
+    acadlix_enable_course_filters:
+      options?.acadlix_enable_course_filters ?? "no",
     // Enrollment Options
     // Currency Options
     acadlix_currency: options?.acadlix_currency ?? "USD",
@@ -105,6 +107,8 @@ const SettingContent = ({
       options?.acadlix_enable_dashboard_fullwidth ?? "no",
     acadlix_enable_site_logo_in_header:
       options?.acadlix_enable_site_logo_in_header ?? "no",
+    acadlix_enable_course_content_scroll_button:
+      options?.acadlix_enable_course_content_scroll_button ?? "no",
     // Checkout Options
     acadlix_enable_coupon_code:
       options?.acadlix_enable_coupon_code ?? "no",

@@ -22,6 +22,10 @@ class Ajax
         // action for ajax calls
         add_filter('acadlix_login_pre_validate', [$this, 'acadlix_verify_captcha'], 10, 1);
         add_filter('acadlix_register_pre_validate', [$this, 'acadlix_verify_captcha'], 10, 1);
+
+        // For course filtering (frontend)
+        add_action('wp_ajax_acadlix_filter_courses', [$this, 'acadlix_filter_courses']);
+        add_action('wp_ajax_nopriv_acadlix_filter_courses', [$this, 'acadlix_filter_courses']);
     }
 
     public function acadlix_check_user_login_status()
@@ -474,6 +478,86 @@ class Ajax
         }
 
         return $return; // no error → continue login pipeline
+    }
+
+    public function acadlix_filter_courses()
+    {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (
+            empty($nonce) ||
+            !wp_verify_nonce($nonce, 'acadlix_course_nonce')
+        ) {
+            wp_send_json_error([
+                'message' => __('Invalid nonce', 'acadlix'),
+                'error_code' => 'invalid_nonce'
+            ], 403);
+        }
+
+        $context = isset($_POST['context']) ? sanitize_text_field(wp_unslash($_POST['context'])) : '';
+        $term_id = isset($_POST['term_id']) ? intval($_POST['term_id']) : 0;
+
+        $categories = isset($_POST['categories'])
+            ? json_decode(stripslashes($_POST['categories']), true)
+            : [];
+
+        $search = isset($_POST['search'])
+            ? sanitize_text_field(wp_unslash($_POST['search']))
+            : '';
+        $page = isset($_POST['page']) ? max(1, intval($_POST['page']))
+            : 1;
+        $coursesPerPage = acadlix()->helper()->acadlix_get_option('acadlix_no_of_courses_per_page');
+
+        $courses = acadlix()->model()->course()
+            ->ofCourse()
+            ->when(!empty($search), function ($query) use ($search) {
+                $query->where('post_title', 'like', '%' . $search . '%');
+            })
+            ->where('post_status', 'publish')
+            ->orderBy('ID', 'desc');
+
+        if ($context === ACADLIX_COURSE_CPT) {
+            $courses->when(!empty($categories), function ($query) use ($categories) {
+                $query->whereHas('course_categories', function ($q) use ($categories) {
+                    $q->whereIn('term_id', $categories);
+                });
+            });
+        }
+
+        if ($context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $term_id) {
+            $courses->whereHas('course_categories', function ($q) use ($term_id) {
+                $q->where('term_id', $term_id);
+            });
+        }
+
+        if ($context === ACADLIX_COURSE_TAG_TAXONOMY && $term_id) {
+            $courses->whereHas('course_tags', function ($q) use ($term_id) {
+                $q->where('term_id', $term_id);
+            });
+        }
+
+        $total_courses = $courses->count();
+
+        if ($total_courses <= $coursesPerPage) {
+            $page = 1; // reset to first page if requested page exceeds total pages
+        }
+
+        $courses = $courses->skip(($page - 1) * $coursesPerPage)
+            ->take($coursesPerPage)
+            ->get();
+
+        $allCourseView = acadlix()->view()->allCourse();
+        $allCourseView->setPage($page);
+        $allCourseView->setCourseCount($total_courses);
+        ob_start();
+        add_filter('acadlix_course_page_context', function () {
+            return ACADLIX_COURSE_CPT;
+        });
+        $allCourseView->render_all_courses($courses);
+        $rendered_courses = ob_get_clean();
+
+        wp_send_json_success([
+            'courses' => $rendered_courses,
+        ]);
     }
 
 

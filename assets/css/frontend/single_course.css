@@ -475,6 +475,10 @@
   box-shadow: var(--acadlix-box-shadow-3);
 }
 
+.acadlix-course-page .acadlix-btn-loader {
+  display: none;
+}
+
 .acadlix-btn-loader {
   border: 3px solid var(--acadlix-border-color);
   border-top: 3px solid var(--acadlix-primary-main);
@@ -482,6 +486,10 @@
   width: 18px;
   height: 18px;
   animation: spin 1s linear infinite;
+}
+
+.acadlix-course-page .acadlix-hidden {
+  display: none;
 }
 
 @keyframes spin {
@@ -730,7 +738,7 @@
   gap: 1rem;
 }
 
-.acadlix-course-page .acadlix-review-star {
+.acadlix-course-page .acadlix-rating-star-icon {
   color: var(--acadlix-star-color);
 }
 

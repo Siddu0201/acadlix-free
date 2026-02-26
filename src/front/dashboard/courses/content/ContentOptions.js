@@ -1,9 +1,19 @@
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "@acadlix/helpers/icons";
+import { AiOutlineFullscreen, AiOutlineFullscreenExit, FaCaretSquareDown } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 
 const ContentOptions = (props) => {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleScrollToContent = () => {
+    const contentElement = document.getElementById("acadlix_course_content");
+    if (contentElement) {
+      contentElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <>
@@ -26,8 +36,30 @@ const ContentOptions = (props) => {
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
+              gap: 2,
             }}
           >
+            {
+              isMobile && acadlixOptions?.settings?.acadlix_enable_course_content_scroll_button == "yes" && (
+                <IconButton
+                  onClick={handleScrollToContent}
+                  sx={{
+                    backgroundColor: "transparent",
+                    borderRadius: 0,
+                    boxShadow: "none",
+                    color: "inherit",
+                    ":hover, :focus": {
+                      backgroundColor: "transparent",
+                      borderRadius: 0,
+                      boxShadow: "none",
+                      color: "inherit",
+                    },
+                  }}
+                >
+                  <FaCaretSquareDown />
+                </IconButton>
+              )
+            }
             {props?.watch("sections")?.map((s, index) =>
               s?.content?.map((c, c_index) => (
                 <React.Fragment key={c?.id}>
@@ -47,7 +79,6 @@ const ContentOptions = (props) => {
                             size="small"
                             sx={{
                               display: c?.is_active ? "" : "none",
-                              marginRight: 1,
                               "&:hover,&:focus": {
                                 backgroundColor: (theme) => theme.palette.error.dark,
                               },
@@ -69,7 +100,6 @@ const ContentOptions = (props) => {
                             size="small"
                             sx={{
                               display: c?.is_active ? "" : "none",
-                              marginRight: 1,
                             }}
                           >
                             {__("Mark as complete", "acadlix")}

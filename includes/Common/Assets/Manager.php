@@ -563,6 +563,7 @@ class Manager
             'nonce' => wp_create_nonce('wp_rest'),
             'nonces' => [
                 'auth' => wp_create_nonce('acadlix_auth_nonce'),
+                'course' => wp_create_nonce('acadlix_course_nonce'),
             ],
             'user' => get_current_user_id() > 0
                 ? acadlix()
@@ -671,6 +672,8 @@ class Manager
                 'hsl(215, 15%, 97%)'
             ),
             'acadlix-border-color' => 'hsl(215, 15%, 82%)',
+            'acadlix-star-color' => 'rgb(250 166 37)'
+            ,
         ];
 
         /* ===============================

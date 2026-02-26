@@ -696,6 +696,7 @@ const CourseContent = () => {
                       sm: 9,
                     },
                   }}
+                  id="acadlix_course_content"
                 >
                   {!open && (
                     <TabPanel value="1">

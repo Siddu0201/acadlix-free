@@ -626,6 +626,7 @@ if (!class_exists('Helper')) {
         'acadlix_enable_rating_and_reviews' => 'no',
         'acadlix_require_admin_approval_for_reviews' => 'no',
         'acadlix_review_pagination_count' => 10,
+        'acadlix_enable_course_filters' => 'no',
         // Currency Option
         'acadlix_currency' => 'USD',
         'acadlix_currency_position' => 'Left ( $99.99 )',
@@ -644,6 +645,7 @@ if (!class_exists('Helper')) {
         'acadlix_logout_redirect_url' => '',
         'acadlix_enable_dashboard_fullwidth' => 'no',
         'acadlix_enable_site_logo_in_header' => 'no',
+        'acadlix_enable_course_content_scroll_button' => 'no',
         // Checkout Option
         'acadlix_enable_coupon_code' => 'no',
         // Data management
@@ -1294,9 +1296,9 @@ if (!class_exists('Helper')) {
           'aria-*' => true,
           'data-*' => true,
         ],
-        'ul' => ['id' => true, 'class' => true, 'style' => true],
-        'ol' => ['id' => true, 'class' => true, 'style' => true],
-        'li' => ['id' => true, 'class' => true, 'style' => true],
+        'ul' => ['id' => true, 'class' => true, 'style' => true, 'data-*' => true],
+        'ol' => ['id' => true, 'class' => true, 'style' => true, 'data-*' => true],
+        'li' => ['id' => true, 'class' => true, 'style' => true, 'data-*' => true],
         'strong' => [],
         'em' => [],
         'br' => [],
@@ -1332,6 +1334,7 @@ if (!class_exists('Helper')) {
         'time' => ['datetime' => true, 'class' => true],
         'figure' => ['class' => true],
         'figcaption' => ['class' => true],
+        'style' => true,
       ];
     }
 
@@ -1390,6 +1393,19 @@ if (!class_exists('Helper')) {
           }
 
           if ($value !== null) {
+            // Special handling for style
+            if ($key === 'style') {
+              $safe_style = safecss_filter_attr($value);
+              if (!empty($safe_style)) {
+                $attributes .= sprintf(
+                  ' %s="%s"',
+                  esc_attr($key),
+                  esc_attr($safe_style)
+                );
+              }
+              continue;
+            }
+
             $attributes .= sprintf(
               ' %s="%s"',
               esc_attr($key),
@@ -1418,7 +1434,7 @@ if (!class_exists('Helper')) {
 
       // Output opening tag
       printf(
-        '<%1$s%2$s>',
+        '<%1$s %2$s>',
         esc_html($tag),
         $attributes // phpcs:ignore
       );

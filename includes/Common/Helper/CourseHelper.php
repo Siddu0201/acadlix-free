@@ -258,7 +258,7 @@ if (!class_exists('CourseHelper')) {
             return [
                 'component' => 'div',
                 'props' => [
-                    'class' => 'acadlix-fs-' . esc_attr($fs),
+                    'class' => 'acadlix-rating-star-icon acadlix-fs-' . esc_attr($fs),
                     'style' => 'color: var(--acadlix-star-color);' // Gold color for stars
                 ],
                 'children' => [

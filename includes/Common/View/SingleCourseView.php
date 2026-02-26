@@ -521,7 +521,6 @@ class SingleCourseView
 					'component' => 'div',
 					'props' => [
 						'class' => 'acadlix-btn-loader',
-						'style' => 'display: none;',
 					],
 				],
 			],
@@ -562,7 +561,6 @@ class SingleCourseView
 					'component' => 'div',
 					'props' => [
 						'class' => 'acadlix-btn-loader',
-						'style' => 'display: none;',
 					],
 				],
 			],
@@ -603,29 +601,27 @@ class SingleCourseView
 					[
 						'component' => 'div',
 						'props' => [
-							'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist',
+							'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist '. ($course_wishlist_count == 0 ? '' : 'acadlix-hidden'),
 							'id' => 'add-to-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Add to Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
-							'style' => 'display: ' . ($course_wishlist_count == 0 ? 'flex' : 'none'),
 						],
 						'children' => [
 							['component' => 'i', 'props' => ['class' => 'far fa-heart']],
-							['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+							['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader']],
 						],
 					],
 					[
 						'component' => 'div',
 						'props' => [
-							'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist',
+							'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist '. ($course_wishlist_count > 0 ? '' : 'acadlix-hidden'),
 							'id' => 'remove-from-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Remove From Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
-							'style' => 'display: ' . ($course_wishlist_count > 0 ? 'flex' : 'none'),
 						],
 						'children' => [
 							['component' => 'i', 'props' => ['class' => 'fas fa-heart']],
-							['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader', 'style' => 'display: none;']],
+							['component' => 'div', 'props' => ['class' => 'acadlix-btn-loader']],
 						],
 					],
 				]
@@ -1748,8 +1744,7 @@ class SingleCourseView
 			$selectable_stars[] = [
 				'component' => 'i',
 				'props' => [
-					'class' => $class . ' acadlix-fs-5',
-					'style' => 'color: var(--acadlix-star-color);',
+					'class' => $class . ' acadlix-fs-5 acadlix-rating-star-icon',
 					'data-rating-value' => esc_attr($i),
 				]
 			];
@@ -1766,8 +1761,7 @@ class SingleCourseView
 			'component' => 'div',
 			'props' => [
 				'id' => 'acadlix-review-form-container',
-				'class' => 'acadlix-review-form-container',
-				'style' => 'display: none;' // Hidden by default, shown when user clicks "Add/Edit Review"
+				'class' => 'acadlix-review-form-container acadlix-hidden',
 			],
 			'children' => [
 				// Review form elements would go here
@@ -1850,7 +1844,6 @@ class SingleCourseView
 									'component' => 'div',
 									'props' => [
 										'class' => 'acadlix-btn-loader',
-										'style' => 'display: none;',
 									],
 								],
 							],
@@ -1927,10 +1920,9 @@ class SingleCourseView
 								[
 									'component' => 'button',
 									'props' => [
-										'class' => 'acadlix-load-review-button',
+										'class' => 'acadlix-load-review-button ' . ($view_pagination_button ? '' : 'acadlix-hidden'),
 										'type' => 'button',
 										'id' => 'acadlix-load-review-button',
-										'style' => 'display: ' . ($view_pagination_button ? 'block' : 'none') . ';',
 										'data-pagination-count' => esc_attr($this->review_pagination_count),
 										'data-course-id' => esc_attr($this->course->ID),
 										'data-current-page' => esc_attr($current_page),
@@ -1950,7 +1942,6 @@ class SingleCourseView
 											'component' => 'div',
 											'props' => [
 												'class' => 'acadlix-btn-loader',
-												'style' => 'display: none;',
 											],
 										],
 									],
@@ -1961,10 +1952,9 @@ class SingleCourseView
 						[
 							'component' => 'button',
 							'props' => [
-								'class' => 'acadlix-add-edit-review-button',
+								'class' => 'acadlix-add-edit-review-button ' . ($this->is_course_purchased ? '' : 'acadlix-hidden'),
 								'type' => 'button',
 								'id' => 'acadlix-add-edit-review-button',
-								'style' => 'display: ' . ($this->is_course_purchased ? 'block' : 'none') . ';',
 							],
 							'children' => [
 								[

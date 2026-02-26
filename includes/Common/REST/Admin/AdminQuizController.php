@@ -675,7 +675,6 @@ class AdminQuizController
       $term = $quizData['category']['name'];
       $term_id = acadlix()->model()->category()->findOrCreateByName($term);
       $result = acadlix()->model()->quiz()->assignCategory($quizId, $term_id);
-      error_log("category assign");
       if (is_wp_error($result)) {
         acadlix()->model()->quiz()->deleteQuiz($quizId);
         return new WP_Error(
@@ -699,8 +698,6 @@ class AdminQuizController
           ['status' => 500]
         );
       }
-
-      error_log("language assign");
 
       // Retrieve and return the quiz data
       $quiz = get_post($quizId);

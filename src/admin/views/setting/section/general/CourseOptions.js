@@ -331,6 +331,57 @@ const CourseOptions = (props) => {
               }
             ]
           },
+          {
+            component: "Grid",
+            component_name: "course_options_grid_item_enable_course_filters",
+            props: {
+              size: {
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }
+            },
+            children: [
+              {
+                component: "CustomTypography",
+                component_name: "course_options_custom_typography_enable_course_filters",
+                value: __("Enable course filters", "acadlix"),
+              },
+            ]
+          },
+          {
+            component: "Grid",
+            props: {
+              size: {
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }
+            },
+            children: [
+              {
+                component: "FormControlLabel",
+                component_name: "course_options_form_control_label_enable_course_filters",
+                props: {
+                  control: {
+                    component: "CustomSwitch",
+                  },
+                  label: __("Activate", "acadlix"),
+                  checked: props.watch("acadlix_enable_course_filters") === "yes",
+                  onChange: (e) => {
+                    if (e?.target?.checked !== undefined) {
+                      props?.setValue(
+                        "acadlix_enable_course_filters",
+                        e?.target?.checked ? e?.target?.value : "no",
+                        { shouldDirty: true }
+                      );
+                    }
+                  },
+                  value: "yes",
+                }
+              }
+            ]
+          },
         ]
       }
     ]

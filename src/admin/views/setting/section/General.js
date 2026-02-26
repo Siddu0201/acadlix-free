@@ -888,6 +888,28 @@ function General(props) {
                 }}
               />
             </Grid>
+            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+              <CustomTypography>
+                {__("Enable course content scroll button", "acadlix")}
+              </CustomTypography>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+              <FormControlLabel
+                label={__("Activate", "acadlix")}
+                control={<CustomSwitch />}
+                value="yes"
+                checked={props?.watch("acadlix_enable_course_content_scroll_button") === "yes"}
+                onClick={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue(
+                      "acadlix_enable_course_content_scroll_button",
+                      e?.target?.checked ? e?.target?.value : "no",
+                      { shouldDirty: true }
+                    );
+                  }
+                }}
+              />
+            </Grid>
           </Grid>
           <Box
             sx={{
