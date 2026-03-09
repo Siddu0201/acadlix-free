@@ -88,6 +88,7 @@ const OptionButtonSection = (props) => {
           `questions.${currentIndex}.language`,
           props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].yourAnswer = "";
+            lang.answer_data[props?.question?.answer_type].yourUploads = [];
             return lang;
           }),
           { shouldDirty: true }
