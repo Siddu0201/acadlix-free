@@ -255,7 +255,7 @@ const Coupon = (props) => {
                           onClick: handleApplyCoupon,
                           loading: applyCouponMutation.isPending,
                         },
-                        value: __('Apply Coupon', 'acadlix'),
+                        value: __('Apply', 'acadlix'),
                       }
                     ]
                   },
