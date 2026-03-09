@@ -156,7 +156,7 @@ const QuestionContent = (props) => {
           yourAnswer: "",
           yourUploads: [],
           allowed_mime_types: [],
-          allowUploads: true,
+          allowUploads: false,
           number_of_uploads: 1,
           max_file_size: 2
         };
