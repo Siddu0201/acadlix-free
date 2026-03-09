@@ -254,7 +254,10 @@ const AnswerSheet = ({
                     : lang?.rendered_answer_data?.rangeType,
                 assessment:
                   stat?.question?.answer_type === "assessment" && stat?.answer_data
-                    ? { ...lang?.rendered_answer_data?.assessment, yourAnswer: stat?.answer_data }
+                    ? {
+                      ...lang?.rendered_answer_data?.assessment,
+                      ...stat?.answer_data,
+                    }
                     : lang?.rendered_answer_data?.assessment,
 
               },

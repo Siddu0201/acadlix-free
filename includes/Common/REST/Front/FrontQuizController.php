@@ -9,476 +9,631 @@ defined('ABSPATH') || exit();
 
 class FrontQuizController
 {
-    protected $namespace = 'acadlix/v1';
+  protected $namespace = 'acadlix/v1';
 
-    protected $base = 'front-quiz';
+  protected $base = 'front-quiz';
 
-    public function register_routes()
-    {
+  public function register_routes()
+  {
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/(?P<quiz_id>[\d]+)',
-            [
-                [
-                    'methods' => WP_REST_Server::READABLE,
-                    'callback' => [$this, 'get_front_quiz_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'quiz_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_save_result_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'quiz_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)',
+      [
+        [
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => [$this, 'get_front_quiz_by_id'],
+          'permission_callback' => [$this, 'check_permission'],
+          'args' => array(
+            'quiz_id' => array(
+              'validate_callback' => function ($param, $request, $key) {
+                return is_numeric($param);
+              }
+            ),
+          ),
+        ],
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'post_save_result_by_id'],
+          'permission_callback' => [$this, 'check_permission'],
+          'args' => array(
+            'quiz_id' => array(
+              'validate_callback' => function ($param, $request, $key) {
+                return is_numeric($param);
+              }
+            ),
+          ),
+        ],
+      ]
+    );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/save-quiz-attempt',
-            [
-                'methods' => WP_REST_Server::EDITABLE,
-                'callback' => [$this, 'post_save_quiz_attempt_by_id'],
-                'permission_callback' => [$this, 'check_permission'],
-                'args' => array(
-                    'quiz_id' => array(
-                        'validate_callback' => function ($param, $request, $key) {
-                            return is_numeric($param);
-                        }
-                    ),
-                ),
-            ],
-        );
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/post-upload-assessment-file',
+      [
+        'methods' => WP_REST_Server::EDITABLE,
+        'callback' => [$this, 'post_upload_assessment_file_by_id'],
+        'permission_callback' => [$this, 'check_permission'],
+        'args' => array(
+          'quiz_id' => array(
+            'validate_callback' => function ($param, $request, $key) {
+              return is_numeric($param);
+            }
+          ),
+        ),
+      ],
+    );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/leaderboard',
-            [
-                'methods' => WP_REST_Server::READABLE,
-                'callback' => [$this, 'get_front_quiz_leaderboard_by_id'],
-                'permission_callback' => [$this, 'check_permission'],
-                'args' => array(
-                    'quiz_id' => array(
-                        'validate_callback' => function ($param, $request, $key) {
-                            return is_numeric($param);
-                        }
-                    ),
-                ),
-            ],
-        );
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/post-delete-assessment-file',
+      [
+        'methods' => WP_REST_Server::EDITABLE,
+        'callback' => [$this, 'post_delete_assessment_file_by_id'],
+        'permission_callback' => [$this, 'check_permission'],
+        'args' => array(
+          'quiz_id' => array(
+            'validate_callback' => function ($param, $request, $key) {
+              return is_numeric($param);
+            }
+          ),
+        ),
+      ],
+    );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/save-quiz-attempt',
+      [
+        'methods' => WP_REST_Server::EDITABLE,
+        'callback' => [$this, 'post_save_quiz_attempt_by_id'],
+        'permission_callback' => [$this, 'check_permission'],
+        'args' => array(
+          'quiz_id' => array(
+            'validate_callback' => function ($param, $request, $key) {
+              return is_numeric($param);
+            }
+          ),
+        ),
+      ],
+    );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)' . '/leaderboard',
+      [
+        'methods' => WP_REST_Server::READABLE,
+        'callback' => [$this, 'get_front_quiz_leaderboard_by_id'],
+        'permission_callback' => [$this, 'check_permission'],
+        'args' => array(
+          'quiz_id' => array(
+            'validate_callback' => function ($param, $request, $key) {
+              return is_numeric($param);
+            }
+          ),
+        ),
+      ],
+    );
 
 
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/load-more-leaderboard/(?P<quiz_id>[\d]+)',
-            [
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_load_more_toplist_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'quiz_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/load-more-leaderboard/(?P<quiz_id>[\d]+)',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'post_load_more_toplist_by_id'],
+          'permission_callback' => [$this, 'check_permission'],
+          'args' => array(
+            'quiz_id' => array(
+              'validate_callback' => function ($param, $request, $key) {
+                return is_numeric($param);
+              }
+            ),
+          ),
+        ],
+      ]
+    );
 
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->base . '/(?P<quiz_id>[\d]+)/check-quiz',
-            [
-                [
-                    'methods' => WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'post_check_quiz_by_id'],
-                    'permission_callback' => [$this, 'check_permission'],
-                    'args' => array(
-                        'quiz_id' => array(
-                            'validate_callback' => function ($param, $request, $key) {
-                                return is_numeric($param);
-                            }
-                        ),
-                    ),
-                ],
-            ]
-        );
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)/check-quiz',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'post_check_quiz_by_id'],
+          'permission_callback' => [$this, 'check_permission'],
+          'args' => array(
+            'quiz_id' => array(
+              'validate_callback' => function ($param, $request, $key) {
+                return is_numeric($param);
+              }
+            ),
+          ),
+        ],
+      ]
+    );
+  }
+
+  public function get_front_quiz_by_id($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+
+    // Validate required fields
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+    $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id)->setAppends([
+      'rendered_post_content',
+      'rendered_metas',
+      'category',
+      'languages',
+      'rendered_questions',
+    ]);
+    $custom_logo_id = get_theme_mod('custom_logo');
+    $res['logo'] = wp_get_attachment_image_url($custom_logo_id, 'full');
+
+    $res['quiz'] = $quiz;
+    return rest_ensure_response($res);
+  }
+
+  public function post_check_quiz_by_id($request)
+  {
+    $res = [];
+    $errors = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+    $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
+    $user_id = $params['user_id'];
+    $user_token = $params['user_token'];
+
+    // check quiz attempt
+    $per_user_allowed_attempt = $quiz->rendered_metas['quiz_settings']['per_user_allowed_attempt'] ?? 0;
+    if ($per_user_allowed_attempt > 0) {
+      $user_attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
+        ->ofQuizAttempt()
+        ->where('type_id', $quiz_id)
+        ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
+        ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
+        ->first();
+      ;
+
+      if ($user_attempts && $user_attempts->meta_value >= $per_user_allowed_attempt) {
+        $errors[] = __('You have reached your maximum limit of attempts.', 'acadlix');
+      }
     }
 
-    public function get_front_quiz_by_id($request)
-    {
-        $res = [];
-        $quiz_id = $request['quiz_id'];
+    // Handle error
+    $html = '';
+    if (count($errors) > 0) {
+      $html .= "<ul>";
+      foreach ($errors as $error) {
+        $html .= "<li>{$error}</li>";
+      }
+      $html .= "</ul>";
+    }
 
-        // Validate required fields
-        if (empty($quiz_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Quiz id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id)->setAppends([
-            'rendered_post_content',
-            'rendered_metas',
-            'category',
-            'languages',
-            'rendered_questions',
+    $res['errors'] = $html;
+    return rest_ensure_response($res);
+  }
+
+  public function post_save_quiz_attempt_by_id($request)
+  {
+    $res = [];
+    $params = $request->get_json_params();
+    $quiz_id = $request['quiz_id'];
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+    $user_id = $params['user_id'];
+    $user_token = $params['user_token'];
+    $type = $params['quiz_attempt_type'] ?? "shortcode";
+    $course_statistic_id = $params['course_statistic_id'] ?? 0;
+
+    $attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
+      ->ofQuizAttempt()
+      ->where("type_id", $quiz_id)
+      ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
+      ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
+      ->first();
+
+    if ($attempts) {
+      $attempts->update([
+        'meta_value' => (int) $attempts->meta_value + 1 // phpcs:ignore
+      ]);
+    } else {
+      $attempts = acadlix()->model()->userActivityMeta()->create([
+        "user_token" => $params['user_token'],
+        "user_id" => $params['user_id'],
+        "type" => "quiz",
+        "type_id" => $quiz_id,
+        "meta_key" => "quiz_attempt", // phpcs:ignore
+        "meta_value" => 1 // phpcs:ignore
+      ]);
+    }
+
+    // Save course statistic attempt time
+    if ($type == "course_statistic" && $course_statistic_id) {
+      acadlix()->model()->userActivityMeta()
+        ->create([
+          "user_token" => $params['user_token'],
+          "user_id" => $params['user_id'],
+          "type" => $type,
+          "type_id" => $course_statistic_id,
+          "meta_key" => "course_statistic_quiz_attempt_time", // phpcs:ignore
+          "meta_value" => time() // phpcs:ignore
         ]);
-        $custom_logo_id = get_theme_mod('custom_logo');
-        $res['logo'] = wp_get_attachment_image_url($custom_logo_id, 'full');
-
-        $res['quiz'] = $quiz;
-        return rest_ensure_response($res);
     }
+    $res['attempts'] = $attempts;
 
-    public function post_check_quiz_by_id($request)
-    {
-        $res = [];
-        $errors = [];
-        $quiz_id = $request['quiz_id'];
-        $params = $request->get_json_params();
+    return rest_ensure_response($res);
+  }
 
-        if (empty($quiz_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Quiz id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
-        $user_id = $params['user_id'];
-        $user_token = $params['user_token'];
-
-        // check quiz attempt
-        $per_user_allowed_attempt = $quiz->rendered_metas['quiz_settings']['per_user_allowed_attempt'] ?? 0;
-        if ($per_user_allowed_attempt > 0) {
-            $user_attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
-                ->ofQuizAttempt()
-                ->where('type_id', $quiz_id)
-                ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
-                ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
-                ->first();
-            ;
-
-            if ($user_attempts && $user_attempts->meta_value >= $per_user_allowed_attempt) {
-                $errors[] = __('You have reached your maximum limit of attempts.', 'acadlix');
-            }
-        }
-
-        // Handle error
-        $html = '';
-        if (count($errors) > 0) {
-            $html .= "<ul>";
-            foreach ($errors as $error) {
-                $html .= "<li>{$error}</li>";
-            }
-            $html .= "</ul>";
-        }
-
-        $res['errors'] = $html;
-        return rest_ensure_response($res);
+  public function post_save_result_by_id($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
     }
+    $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
+    $user_id = $params['user_id'];
+    $user_token = $params['user_token'];
+    $type = $params['quiz_attempt_type'] ?? "shortcode";
+    $course_statistic_id = $params['course_statistic_id'] ?? 0;
 
-    public function post_save_quiz_attempt_by_id($request)
-    {
-        $res = [];
-        $params = $request->get_json_params();
-        $quiz_id = $request['quiz_id'];
+    $data = [
+      "quiz_id" => (int) $quiz_id,
+      "user_token" => $params["user_token"],
+      "user_id" => (int) $params["user_id"],
+      "points" => (float) $params["points"],
+      "result" => (float) $params["result"],
+      "quiz_time" => (int) $params["time_taken"],
+      "accuracy" => (float) $params["accuracy"],
+      "status" => $params["status"],
+    ];
+    $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
+    $ip = filter_var($remote_addr, FILTER_VALIDATE_IP);
+    // Check and save statistic
+    $save_statistic = $quiz->rendered_metas['quiz_settings']['save_statistic'] ?? false;
+    $statistic_ip_lock = $quiz->rendered_metas['quiz_settings']['statistic_ip_lock'] ?? 0;
+    $save_statistic_number_of_times = $quiz->rendered_metas['quiz_settings']['save_statistic_number_of_times'] ?? 0;
 
-        if (empty($quiz_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Quiz id is required.', 'acadlix'),
-                ['status' => 400]
-            );
+    if ($save_statistic) {
+      $statistic_ref = acadlix()->model()->statisticRef()->where("quiz_id", $quiz_id)
+        ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
+        ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token));
+      $check_ip_lock = $statistic_ip_lock == 0 || round((time() - strtotime($statistic_ref->latest()->first()->created_at)) / 60) > $statistic_ip_lock;
+      $check_multiple_entry = $save_statistic_number_of_times == 0 || $save_statistic_number_of_times > $statistic_ref->count();
+      if ($statistic_ref->count() == 0 || ($check_ip_lock && $check_multiple_entry)) {
+        $stat_ref = acadlix()->model()->statisticRef()->create($data);
+        foreach ($params['questions'] as $question) {
+          $stat_ref?->statistics()?->create([
+            "question_id" => $question["question_id"],
+            "correct_count" => $question["result"]["correct_count"],
+            "incorrect_count" => $question["result"]["incorrect_count"],
+            "hint_count" => $question["result"]["hint_count"],
+            "solved_count" => $question["result"]["solved_count"],
+            "points" => $question["result"]["points"],
+            "negative_points" => $question["result"]["negative_points"],
+            "question_time" => $question["result"]["time"],
+            "answer_data" => $question["result"]["answer_data"],
+            "attempted_at" => $question["result"]["attempted_at"] !== '' ? (int) $question["result"]["attempted_at"] : null,
+            "is_evaluated" => $question["result"]["is_evaluated"],
+            "evaluated_by" => $question["result"]["evaluated_by"],
+            "evaluated_id" => $question["result"]["evaluated_id"],
+            "evaluation_remark" => $question["result"]["evaluation_remark"],
+          ]);
         }
-        $user_id = $params['user_id'];
-        $user_token = $params['user_token'];
-        $type = $params['quiz_attempt_type'] ?? "shortcode";
-        $course_statistic_id = $params['course_statistic_id'] ?? 0;
 
-        $attempts = acadlix()->model()->userActivityMeta()->ofQuiz()
-            ->ofQuizAttempt()
-            ->where("type_id", $quiz_id)
-            ->when($user_id > 0, fn($query) => $query->where('user_id', $params['user_id']))
-            ->when($user_id == 0 && $user_token != '', fn($query) => $query->where('user_token', $params['user_token']))
-            ->first();
-
-        if ($attempts) {
-            $attempts->update([
-                'meta_value' => (int) $attempts->meta_value + 1 // phpcs:ignore
-            ]);
-        } else {
-            $attempts = acadlix()->model()->userActivityMeta()->create([
-                "user_token" => $params['user_token'],
-                "user_id" => $params['user_id'],
-                "type" => "quiz",
-                "type_id" => $quiz_id,
-                "meta_key" => "quiz_attempt", // phpcs:ignore
-                "meta_value" => 1 // phpcs:ignore
-            ]);
-        }
-
-        // Save course statistic attempt time
+        // Save statistic_ref_id if type is course_statistic
         if ($type == "course_statistic" && $course_statistic_id) {
-            acadlix()->model()->userActivityMeta()
-                ->create([
-                    "user_token" => $params['user_token'],
-                    "user_id" => $params['user_id'],
-                    "type" => $type,
-                    "type_id" => $course_statistic_id,
-                    "meta_key" => "course_statistic_quiz_attempt_time", // phpcs:ignore
-                    "meta_value" => time() // phpcs:ignore
-                ]);
+          acadlix()->model()->userActivityMeta()
+            ->create([
+              "user_token" => $params['user_token'],
+              "user_id" => $params['user_id'],
+              "type" => $type,
+              "type_id" => $course_statistic_id,
+              "meta_key" => "statistic_ref_id", // phpcs:ignore
+              "meta_value" => $stat_ref->id // phpcs:ignore
+            ]);
         }
-        $res['attempts'] = $attempts;
-
-        return rest_ensure_response($res);
+      }
+      $show_average_score = $quiz->rendered_metas['quiz_settings']['show_average_score'] ?? false;
+      $statistic_ref = acadlix()->model()->statisticRef()->where('quiz_id', $quiz_id);
+      $res['average_score'] = $statistic_ref->count() > 0 && $show_average_score ? (float) $statistic_ref->avg('points') : 0;
     }
 
-    public function post_save_result_by_id($request)
-    {
-        $res = [];
-        $quiz_id = $request['quiz_id'];
-        $params = $request->get_json_params();
-        if (empty($quiz_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Quiz id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
-        $user_id = $params['user_id'];
-        $user_token = $params['user_token'];
-        $type = $params['quiz_attempt_type'] ?? "shortcode";
-        $course_statistic_id = $params['course_statistic_id'] ?? 0;
-
-        $data = [
-            "quiz_id" => (int) $quiz_id,
-            "user_token" => $params["user_token"],
-            "user_id" => (int) $params["user_id"],
-            "points" => (float) $params["points"],
-            "result" => (float) $params["result"],
-            "quiz_time" => (int) $params["time_taken"],
-            "accuracy" => (float) $params["accuracy"],
-            "status" => $params["status"],
-        ];
-        $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
-        $ip = filter_var($remote_addr, FILTER_VALIDATE_IP);
-        // Check and save statistic
-        $save_statistic = $quiz->rendered_metas['quiz_settings']['save_statistic'] ?? false;
-        $statistic_ip_lock = $quiz->rendered_metas['quiz_settings']['statistic_ip_lock'] ?? 0;
-        $save_statistic_number_of_times = $quiz->rendered_metas['quiz_settings']['save_statistic_number_of_times'] ?? 0;
-
-        if ($save_statistic) {
-            $statistic_ref = acadlix()->model()->statisticRef()->where("quiz_id", $quiz_id)
-                ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
-                ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token));
-            $check_ip_lock = $statistic_ip_lock == 0 || round((time() - strtotime($statistic_ref->latest()->first()->created_at)) / 60) > $statistic_ip_lock;
-            $check_multiple_entry = $save_statistic_number_of_times == 0 || $save_statistic_number_of_times > $statistic_ref->count();
-            if ($statistic_ref->count() == 0 || ($check_ip_lock && $check_multiple_entry)) {
-                $stat_ref = acadlix()->model()->statisticRef()->create($data);
-                foreach ($params['questions'] as $question) {
-                    $stat_ref?->statistics()?->create([
-                        "question_id" => $question["question_id"],
-                        "correct_count" => $question["result"]["correct_count"],
-                        "incorrect_count" => $question["result"]["incorrect_count"],
-                        "hint_count" => $question["result"]["hint_count"],
-                        "solved_count" => $question["result"]["solved_count"],
-                        "points" => $question["result"]["points"],
-                        "negative_points" => $question["result"]["negative_points"],
-                        "question_time" => $question["result"]["time"],
-                        "answer_data" => $question["result"]["answer_data"],
-                        "attempted_at" => $question["result"]["attempted_at"] !== '' ? (int) $question["result"]["attempted_at"] : null,
-                        "is_evaluated" => $question["result"]["is_evaluated"],
-                        "evaluated_by" => $question["result"]["evaluated_by"],
-                        "evaluated_id" => $question["result"]["evaluated_id"],
-                        "evaluation_remark" => $question["result"]["evaluation_remark"],
-                    ]);
-                }
-
-                // Save statistic_ref_id if type is course_statistic
-                if ($type == "course_statistic" && $course_statistic_id) {
-                    acadlix()->model()->userActivityMeta()
-                        ->create([
-                            "user_token" => $params['user_token'],
-                            "user_id" => $params['user_id'],
-                            "type" => $type,
-                            "type_id" => $course_statistic_id,
-                            "meta_key" => "statistic_ref_id", // phpcs:ignore
-                            "meta_value" => $stat_ref->id // phpcs:ignore
-                        ]);
-                }
-            }
-            $show_average_score = $quiz->rendered_metas['quiz_settings']['show_average_score'] ?? false;
-            $statistic_ref = acadlix()->model()->statisticRef()->where('quiz_id', $quiz_id);
-            $res['average_score'] = $statistic_ref->count() > 0 && $show_average_score ? (float) $statistic_ref->avg('points') : 0;
-        }
-
-        // Check and save toplist
-        $leaderboard = $quiz->rendered_metas['quiz_settings']['leaderboard'] ?? false;
-        $leaderboard_user_can_apply_multiple_times = $quiz->rendered_metas['quiz_settings']['leaderboard_user_can_apply_multiple_times'] ?? false;
-        $leaderboard_apply_multiple_number_of_times = $quiz->rendered_metas['quiz_settings']['leaderboard_apply_multiple_number_of_times'] ?? 0;
-        if ($leaderboard) {
-            $toplist_count = acadlix()->model()->toplist()->where("quiz_id", $quiz_id)
-                ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
-                ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token))
-                ->count();
-            $check_multiple_leaderboard_entry = $leaderboard_user_can_apply_multiple_times && ($leaderboard_apply_multiple_number_of_times == 0 || $leaderboard_apply_multiple_number_of_times > $toplist_count);
-            if ($toplist_count == 0 || $check_multiple_leaderboard_entry) {
-                $top = acadlix()->model()->toplist()->create([
-                    ...$data,
-                    "name" => $params["name"],
-                    "email" => $params["email"],
-                    "ip" => $ip,
-                ]);
-            }
-            $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
-            $res['toplist_id'] = $top->id;
-            $toplist = acadlix()->model()->toplist();
-            if ($leaderboard_total_number_of_entries > 0 && $leaderboard_total_number_of_entries < 10) {
-                $res['toplist'] = $toplist->getTopList($quiz_id, 0, $leaderboard_total_number_of_entries);
-            } else {
-                $res['toplist'] = $toplist->getTopList($quiz_id, 0, 10);
-            }
-            $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
-        }
-
-        // handle email
-        $quiz_name = $quiz->post_title ?? '';
-        $r = array(
-            '$userId' => $user_id,
-            '$username' => $params['name'] ?? __('Anonymous', 'acadlix'),
-            '$quizname' => $quiz_name,
-            '$result' => number_format($params['result'], 2) . '%',
-            '$points' => $params['points'],
-            '$ip' => $ip,
-            '$categories' => "",
-            '$subjects' => "",
-        );
-        $admin_email = $quiz->rendered_metas['quiz_settings']['admin_email_notification'] ?? false;
-        if ($admin_email && $user_id > 0) {
-            $admin_to = $quiz->rendered_metas['quiz_settings']['admin_to'];
-            $admin_from = $quiz->rendered_metas['quiz_settings']['admin_from'];
-            $admin_subject = $quiz->rendered_metas['quiz_settings']['admin_subject'];
-            $admin_message = $quiz->rendered_metas['quiz_settings']['admin_message'];
-
-            $admin_msg = str_replace(array_keys($r), $r, $admin_message);
-            acadlix()->helper()->email()->sendEmail(
-                $admin_to,
-                $admin_subject,
-                $admin_msg,
-                $admin_from,
-            );
-        }
-
-        $student_email = $quiz->rendered_metas['quiz_settings']['student_email_notification'] ?? false;
-        if ($student_email && $user_id > 0) {
-            $student_to = $params["email"];
-            $student_from = $quiz->rendered_metas['quiz_settings']['student_from'];
-            $student_subject = $quiz->rendered_metas['quiz_settings']['student_subject'];
-            $student_message = $quiz->rendered_metas['quiz_settings']['student_message'];
-
-            $student_msg = str_replace(array_keys($r), $r, $student_message);
-            acadlix()->helper()->email()->sendEmail(
-                $student_to,
-                $student_subject,
-                $student_msg,
-                $student_from,
-            );
-        }
-
-        return rest_ensure_response($res);
-    }
-
-    public function get_front_quiz_leaderboard_by_id($request)
-    {
-         $res = [];
-        $quiz_id = $request['quiz_id'];
-
-        // Validate required fields
-        if (empty($quiz_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Quiz id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-        $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id)->setAppends([
-            'rendered_post_content',
-            'rendered_metas',
-            'category',
-            'languages',
+    // Check and save toplist
+    $leaderboard = $quiz->rendered_metas['quiz_settings']['leaderboard'] ?? false;
+    $leaderboard_user_can_apply_multiple_times = $quiz->rendered_metas['quiz_settings']['leaderboard_user_can_apply_multiple_times'] ?? false;
+    $leaderboard_apply_multiple_number_of_times = $quiz->rendered_metas['quiz_settings']['leaderboard_apply_multiple_number_of_times'] ?? 0;
+    if ($leaderboard) {
+      $toplist_count = acadlix()->model()->toplist()->where("quiz_id", $quiz_id)
+        ->when($user_id > 0, fn($query) => $query->where("user_id", $user_id))
+        ->when($user_id == 0 && $user_token != '', fn($query) => $query->where("user_token", $user_token))
+        ->count();
+      $check_multiple_leaderboard_entry = $leaderboard_user_can_apply_multiple_times && ($leaderboard_apply_multiple_number_of_times == 0 || $leaderboard_apply_multiple_number_of_times > $toplist_count);
+      if ($toplist_count == 0 || $check_multiple_leaderboard_entry) {
+        $top = acadlix()->model()->toplist()->create([
+          ...$data,
+          "name" => $params["name"],
+          "email" => $params["email"],
+          "ip" => $ip,
         ]);
-
-        $res['quiz'] = $quiz;
-
-        $leaderboard = $quiz->rendered_metas['quiz_settings']['leaderboard'] ?? false;
-        if ($leaderboard) {
-            $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
-            $toplist = acadlix()->model()->toplist();
-            $entry = 10;
-            if ($leaderboard_total_number_of_entries > 0 && $leaderboard_total_number_of_entries < $entry) {
-                $res['toplist'] = $toplist->getTopList($quiz_id, 0, $leaderboard_total_number_of_entries);
-            } else {
-                $res['toplist'] = $toplist->getTopList($quiz_id, 0, $entry);
-            }
-            $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
-        }
-        return rest_ensure_response($res);
+      }
+      $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
+      $res['toplist_id'] = $top->id;
+      $toplist = acadlix()->model()->toplist();
+      if ($leaderboard_total_number_of_entries > 0 && $leaderboard_total_number_of_entries < 10) {
+        $res['toplist'] = $toplist->getTopList($quiz_id, 0, $leaderboard_total_number_of_entries);
+      } else {
+        $res['toplist'] = $toplist->getTopList($quiz_id, 0, 10);
+      }
+      $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
     }
 
-    public function post_load_more_toplist_by_id($request)
-    {
-        $res = [];
-        $quiz_id = $request['quiz_id'];
-        $params = $request->get_json_params();
+    // handle email
+    $quiz_name = $quiz->post_title ?? '';
+    $r = array(
+      '$userId' => $user_id,
+      '$username' => $params['name'] ?? __('Anonymous', 'acadlix'),
+      '$quizname' => $quiz_name,
+      '$result' => number_format($params['result'], 2) . '%',
+      '$points' => $params['points'],
+      '$ip' => $ip,
+      '$categories' => "",
+      '$subjects' => "",
+    );
+    $admin_email = $quiz->rendered_metas['quiz_settings']['admin_email_notification'] ?? false;
+    if ($admin_email && $user_id > 0) {
+      $admin_to = $quiz->rendered_metas['quiz_settings']['admin_to'];
+      $admin_from = $quiz->rendered_metas['quiz_settings']['admin_from'];
+      $admin_subject = $quiz->rendered_metas['quiz_settings']['admin_subject'];
+      $admin_message = $quiz->rendered_metas['quiz_settings']['admin_message'];
 
-        $leaderboard_total_number_of_entries = $params['leaderboard_total_number_of_entries'] ?? 0;
-        $toplist_view_count = $params['toplist_view_count'] ?? 0;
-
-        if (empty($quiz_id)) {
-            return new WP_Error(
-                'missing_id',
-                __('Quiz id is required.', 'acadlix'),
-                ['status' => 400]
-            );
-        }
-
-        $toplist = acadlix()->model()->toplist();
-        if ($leaderboard_total_number_of_entries - $toplist_view_count < 10) {
-            $res["toplist"] = $toplist->getTopList($quiz_id, $toplist_view_count, $leaderboard_total_number_of_entries - $toplist_view_count);
-        } else {
-            $res["toplist"] = $toplist->getTopList($quiz_id, $toplist_view_count, 10);
-        }
-        $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
-        return rest_ensure_response($res);
+      $admin_msg = str_replace(array_keys($r), $r, $admin_message);
+      acadlix()->helper()->email()->sendEmail(
+        $admin_to,
+        $admin_subject,
+        $admin_msg,
+        $admin_from,
+      );
     }
 
-    public function check_permission($request)
-    {
-        return wp_verify_nonce(
-            $request->get_header('X-WP-Nonce'),
-            'wp_rest'
-        );
+    $student_email = $quiz->rendered_metas['quiz_settings']['student_email_notification'] ?? false;
+    if ($student_email && $user_id > 0) {
+      $student_to = $params["email"];
+      $student_from = $quiz->rendered_metas['quiz_settings']['student_from'];
+      $student_subject = $quiz->rendered_metas['quiz_settings']['student_subject'];
+      $student_message = $quiz->rendered_metas['quiz_settings']['student_message'];
+
+      $student_msg = str_replace(array_keys($r), $r, $student_message);
+      acadlix()->helper()->email()->sendEmail(
+        $student_to,
+        $student_subject,
+        $student_msg,
+        $student_from,
+      );
     }
+
+    return rest_ensure_response($res);
+  }
+
+  public function post_upload_assessment_file_by_id($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $files = $request->get_file_params();
+
+    if (empty($files['files'])) {
+      return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
+    }
+
+    // Include WordPress upload functions
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+
+    // Get the base uploads directory
+    $upload_dir = wp_upload_dir();  // Gives [basedir] and [baseurl]
+
+    // Define custom subdirectory path
+    $custom_subdir = '/acadlix-assessment';
+    $custom_dir_path = $upload_dir['basedir'] . $custom_subdir;
+
+    // Create the folder if it doesn't exist
+    if (!file_exists($custom_dir_path)) {
+      if (!wp_mkdir_p($custom_dir_path)) {
+        return new WP_Error('mkdir_failed', __('Failed to create assessment folder.', 'acadlix'), ['status' => 500]);
+      }
+    }
+
+    // Upload override settings
+    $upload_overrides = ['test_form' => false];
+
+    // Loop through each file
+    $file_count = count($files['files']['name']);
+    $new_file = [];
+    // return rest_ensure_response($file_count);
+    for ($i = 0; $i < $file_count; $i++) {
+      $file = [
+        'name' => $files['files']['name'][$i],
+        'type' => $files['files']['type'][$i],
+        'tmp_name' => $files['files']['tmp_name'][$i],
+        'error' => $files['files']['error'][$i],
+        'size' => $files['files']['size'][$i],
+      ];
+
+      $original_filename = sanitize_file_name($file['name']);
+      $timestamp = time();
+      $extension = pathinfo($original_filename, PATHINFO_EXTENSION);
+      $filename_wo_ext = pathinfo($original_filename, PATHINFO_FILENAME);
+      $file['name'] = "{$filename_wo_ext}_{$timestamp}.{$extension}";
+      // Set upload_dir filter for each file
+      add_filter('upload_dir', function ($dirs) use ($custom_subdir) {
+        $dirs['subdir'] = $custom_subdir;
+        $dirs['path'] = $dirs['basedir'] . $custom_subdir;
+        $dirs['url'] = $dirs['baseurl'] . $custom_subdir;
+        return $dirs;
+      });
+
+      $result = wp_handle_upload($file, $upload_overrides);
+
+      // Remove the filter (important when looping)
+      remove_filter('upload_dir', '__return_custom_assignment_dir');
+
+      if ($result && !isset($result['error'])) {
+        $new_file[] = [
+          'file_name' => $file['name'],
+          'file_size' => $file['size'],
+          'file_extension' => $extension,
+          'file_url' => $result['url'],
+          'file_path' => $result['file'],
+          'file_type' => $result['type'],
+        ];
+      } else {
+        return new WP_Error('upload_failed', __('Failed to upload file.', 'acadlix'), array('status' => 500));
+      }
+    }
+
+    return rest_ensure_response([
+      'success' => true,
+      'answer_attachments' => $new_file,
+    ]);
+  }
+
+  public function post_delete_assessment_file_by_id($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $delete_file_data = $request->get_param('delete_file_data');
+    $answer_attachments = $request->get_param('answer_attachments');
+    $file_path = $delete_file_data['file_path'];
+    if (file_exists($file_path)) {
+      $delete_file = wp_delete_file($file_path);
+      if (!$delete_file) {
+        return new WP_Error('file_not_deleted', __('File not deleted', 'acadlix'), ['status' => 500]);
+      }
+    }
+   
+    return rest_ensure_response([
+      'success' => true,
+      'answer_attachments' => $answer_attachments ?? null,
+    ]);
+  }
+
+  public function get_front_quiz_leaderboard_by_id($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+
+    // Validate required fields
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+    $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id)->setAppends([
+      'rendered_post_content',
+      'rendered_metas',
+      'category',
+      'languages',
+    ]);
+
+    $res['quiz'] = $quiz;
+
+    $leaderboard = $quiz->rendered_metas['quiz_settings']['leaderboard'] ?? false;
+    if ($leaderboard) {
+      $leaderboard_total_number_of_entries = $quiz->rendered_metas['quiz_settings']['leaderboard_total_number_of_entries'] ?? 10;
+      $toplist = acadlix()->model()->toplist();
+      $entry = 10;
+      if ($leaderboard_total_number_of_entries > 0 && $leaderboard_total_number_of_entries < $entry) {
+        $res['toplist'] = $toplist->getTopList($quiz_id, 0, $leaderboard_total_number_of_entries);
+      } else {
+        $res['toplist'] = $toplist->getTopList($quiz_id, 0, $entry);
+      }
+      $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
+    }
+    return rest_ensure_response($res);
+  }
+
+  public function post_load_more_toplist_by_id($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+
+    $leaderboard_total_number_of_entries = $params['leaderboard_total_number_of_entries'] ?? 0;
+    $toplist_view_count = $params['toplist_view_count'] ?? 0;
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $toplist = acadlix()->model()->toplist();
+    if ($leaderboard_total_number_of_entries - $toplist_view_count < 10) {
+      $res["toplist"] = $toplist->getTopList($quiz_id, $toplist_view_count, $leaderboard_total_number_of_entries - $toplist_view_count);
+    } else {
+      $res["toplist"] = $toplist->getTopList($quiz_id, $toplist_view_count, 10);
+    }
+    $res["toplist_count"] = $toplist->where("quiz_id", $quiz_id)->count();
+    return rest_ensure_response($res);
+  }
+
+  public function check_permission($request)
+  {
+    return wp_verify_nonce(
+      $request->get_header('X-WP-Nonce'),
+      'wp_rest'
+    );
+  }
 }

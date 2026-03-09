@@ -1,8 +1,11 @@
-import { Box, Chip, Typography } from '@mui/material';
-import React, { useEffect } from 'react'
-import { __ } from '@wordpress/i18n';
+import { Alert, Box, Button, Chip, IconButton, Link, List, ListItem, Typography } from '@mui/material';
+import React, { useEffect, useRef } from 'react'
+import { __, sprintf } from '@wordpress/i18n';
 import { getCurrentDateString, getStripHtml } from '@acadlix/helpers/util';
 import CustomLatex from '@acadlix/modules/latex/CustomLatex';
+import { RawHTML } from "@wordpress/element";
+import { PostDeleteAssessmentFile, PostUploadAssessmentFile } from '@acadlix/requests/front/FrontQuizRequest';
+import { FaTrash } from '@acadlix/helpers/icons';
 
 const TypeAssessment = (props) => {
   const getTextLength = () => {
@@ -41,6 +44,25 @@ const TypeAssessment = (props) => {
     window.wp.editor.remove(key);
   };
 
+  const updateResult = () => {
+    let solved = false;
+    if(props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourAnswer`)?.trim()?.length > 0) {
+      solved = true;
+    }
+    if(props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowUploads`) && props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.length > 0) {
+      solved = true;
+    }
+    props?.setValue(
+      `questions.${props?.index}.result`,
+      {
+        ...props?.watch(`questions.${props?.index}.result`),
+        solved_count: solved ? 1 : 0,
+        answer_data: props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}`) ?? null,
+        attempted_at: getCurrentDateString(),
+      },
+    );
+  }
+
   const handleChange = (content) => {
     let value = content;
     props?.setValue(
@@ -49,16 +71,7 @@ const TypeAssessment = (props) => {
       { shouldDirty: true }
     );
 
-    props?.setValue(
-      `questions.${props?.index}.result`,
-      {
-        ...props?.watch(`questions.${props?.index}.result`),
-        solved_count: value ? 1 : 0,
-        answer_data: value ?? null,
-        attempted_at: getCurrentDateString(),
-      },
-    );
-
+    updateResult(value?.trim()?.length > 0);
   };
 
   const loadPage = () => {
@@ -77,6 +90,125 @@ const TypeAssessment = (props) => {
       window.removeEventListener("load", loadPage);
     };
   }, []);
+
+  const fileInputRef = useRef(null);
+  const [fileError, setFileError] = React.useState(null);
+  const validateFiles = (files) => {
+    const maxFiles = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.number_of_uploads`)
+    const maxFileSize = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.max_file_size`) * 1024 * 1024;
+    const allowedExtensions = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowed_mime_types`)?.map((a) => a?.extension);
+    const filesArray = Array.from(files);
+
+    setFileError(null);
+
+    if (maxFiles > 0 && (filesArray?.length + props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.length) > maxFiles) {
+      setFileError(sprintf(
+        // translators: %s is the number of files allowed
+        __("You can only upload %s files.", "acadlix"),
+        maxFiles
+      ));
+      return false;
+    }
+
+    for (const file of filesArray) {
+      const ext = file?.name?.split('.')?.pop()?.toLowerCase();
+      if (!allowedExtensions.includes(ext)) {
+        setFileError(sprintf(
+          // translators: %s is the file name
+          __("%s has invalid extension.", "acadlix"),
+          file.name
+        ));
+        return false;
+      }
+
+      if (file?.size > maxFileSize && maxFileSize > 0) {
+        setFileError(sprintf(
+          // translators: %1$s is the file name, %2$s is the file size
+          __("%1$s exceeds the %2$sMB limit.", "acadlix"),
+          file.name,
+          props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.max_file_size`)
+        ));
+        return false;
+      }
+    }
+    console.log("Valid files: ", filesArray);
+    return filesArray;
+  }
+
+  const uploadAssessmentFileMutation = PostUploadAssessmentFile(props?.watch('id'));
+  const hanldeFileChange = (e) => {
+    const selectedFiles = e.target.files;
+    const valid = validateFiles(selectedFiles);
+    if (!valid) {
+      return;
+    }
+    const formData = new FormData();
+    for (const file of valid) {
+      formData.append("files[]", file);
+    }
+    uploadAssessmentFileMutation?.mutate(formData, {
+      onSuccess: (data) => {
+        if (data?.data?.success && data?.data?.answer_attachments) {
+          props?.setValue(
+            `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`,
+            [
+              ...props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`) || [],
+              ...data?.data?.answer_attachments,
+            ],
+            {
+              shouldDirty: true,
+            }
+          );
+          updateResult();
+        }
+        // Reset file input value
+        if (fileInputRef?.current) {
+          fileInputRef.current.value = '';
+        }
+      },
+      onError: (error) => {
+        setFileError(error?.response?.data?.message);
+      }
+    });
+
+  }
+
+  const [deleteIndex, setDeleteIndex] = React.useState(null);
+  const deleteAssessmentFileMutation = PostDeleteAssessmentFile(props?.watch('id'));
+  const handleRemoveFile = (index) => {
+    if (!confirm(__("Are you sure you want to delete this file?", "acadlix"))) {
+      return;
+    }
+    setFileError(null);
+    const delete_file_data = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.[index];
+    if (!delete_file_data) {
+      return;
+    }
+    setDeleteIndex(index);
+    const answerAttachments = props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.filter((_, i) => i !== index);
+    deleteAssessmentFileMutation?.mutate({
+      delete_file_data: delete_file_data,
+      answer_attachments: answerAttachments,
+    }, {
+      onSuccess: (data) => {
+        if (data?.data?.success && data?.data?.answer_attachments) {
+          props?.setValue(
+            `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`,
+            data?.data?.answer_attachments,
+            {
+              shouldDirty: true,
+            }
+          );
+          setDeleteIndex(null);
+        }
+        updateResult();
+      },
+      onError: (error) => {
+        setFileError(error?.response?.data?.message);
+        setDeleteIndex(null);
+      }
+    });
+  }
 
   return (
     <Box
@@ -112,16 +244,187 @@ const TypeAssessment = (props) => {
         {
           props?.watch("view_answer") ||
             props?.watch(`questions.${props?.index}.check`) ? (
-            <CustomLatex>
-              {props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourAnswer`) || ""}
-            </CustomLatex>
+            <Box sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}>
+              {
+                props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.length > 0 && (
+                  <Box>
+                    <List>
+                      <ListItem sx={{
+                        padding: 1
+                      }}>
+                        <Typography variant="h6">
+                          {__("Uploads", "acadlix")}
+                        </Typography>
+                      </ListItem>
+                      {
+                        props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.map((f, i) => (
+                          <ListItem key={i} sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            padding: 1,
+                          }}>
+                            <Typography variant="body2">
+                              <Link
+                                href={f?.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{
+                                  textDecoration: "none",
+                                }}
+                              >
+                                {f?.file_name}
+                              </Link>
+                            </Typography>
+                          </ListItem>
+                        ))
+                      }
+                    </List>
+                  </Box>
+                )
+              }
+              <CustomLatex>
+                {props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourAnswer`) || ""}
+              </CustomLatex>
+            </Box>
           ) : (
             <Box sx={{
               width: "100%",
               display: "flex",
               flexDirection: "column",
-              gap: 1,
+              gap: 2,
             }}>
+              {
+                fileError && (
+                  <Alert severity="error">
+                    {fileError}
+                  </Alert>
+                )
+              }
+              {
+                props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.length > 0 && (
+                  <Box>
+                    <List>
+                      <ListItem sx={{
+                        padding: 1
+                      }}>
+                        <Typography variant="h6">
+                          {__("Uploads", "acadlix")}
+                        </Typography>
+                      </ListItem>
+                      {
+                        props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.map((f, i) => (
+                          <ListItem key={i} sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            padding: 1,
+                          }}>
+                            <Typography variant="body2">
+                              <Link
+                                href={f?.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{
+                                  textDecoration: "none",
+                                }}
+                              >
+                                {f?.file_name}
+                              </Link>
+                            </Typography>
+                            <IconButton
+                              color="error"
+                              aria-label="delete"
+                              size="small"
+                              onClick={() => handleRemoveFile(i)}
+                              loading={deleteAssessmentFileMutation?.isPending && i === deleteIndex}
+                            >
+                              <FaTrash />
+                            </IconButton>
+                          </ListItem>
+                        ))
+                      }
+                    </List>
+                  </Box>
+                )
+              }
+              {
+                props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowUploads`) && (
+                  <Box sx={{
+                    padding: {
+                      xs: 2,
+                      sm: 6,
+                      md: 6,
+                      lg: 6,
+                      xl: 6,
+                    },
+                    backgroundColor: "lightgrey",
+                    borderRadius: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}>
+                    {
+                      props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.number_of_uploads`) > 0 && (
+                        <Typography variant="body1" component="div">
+                          <RawHTML>
+                            {sprintf(
+                              /* translators: %s is the number of max attachments */
+                              __('Attach assignment files (Max. <strong>%s</strong> files)', "acadlix"),
+                              props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.number_of_uploads`)
+                            )}
+                          </RawHTML>
+                        </Typography>
+                      )}
+                    <input
+                      type="file"
+                      multiple={props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.number_of_uploads`) === 0 || props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.number_of_uploads`) > 1}
+                      onChange={hanldeFileChange}
+                      ref={fileInputRef}
+                      style={{ display: "none" }}
+                      accept={props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowed_mime_types`)?.map((t) => `.${t?.extension}`).join(",")}
+                    />
+                    <Button
+                      variant="contained"
+                      onClick={() => fileInputRef?.current?.click()}
+                      sx={{
+                        width: "max-content",
+                      }}
+                      loading={uploadAssessmentFileMutation?.isPending}
+                    >
+                      {__('Upload File(s)', "acadlix")}
+                    </Button>
+                    {
+                      props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowed_mime_types`)?.length > 0 && (
+                        <Typography variant="body2" component="div">
+                          <RawHTML>
+                            {sprintf(
+                              /* translators: %s is the number of max attachments */
+                              __('Only <strong>%s</strong> files are allowed', "acadlix"),
+                              props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowed_mime_types`)?.map((t) => `.${t?.extension}`).join(", ")
+                            )}
+                          </RawHTML>
+                        </Typography>
+                      )}
+                    {
+                      props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.max_file_size`) > 0 && (
+                        <Typography variant="body2" component="div">
+                          <RawHTML>
+                            {sprintf(
+                              /* translators: %s is the number of max attachments */
+                              __('Total size of files should not exceed <strong>%s MB</strong>', "acadlix"),
+                              `${props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.max_file_size`)}`
+                            )}
+                          </RawHTML>
+                        </Typography>
+                      )}
+                  </Box>
+                )}
               <textarea
                 {
                 ...props?.register(
@@ -142,7 +445,7 @@ const TypeAssessment = (props) => {
                     <Chip
                       label={`${__("Character Count", "acadlix")}: ${getTextLength()} / ${getCharacterLimit()}`}
                       size="small"
-                      color={getTextLength() > getCharacterLimit()   ? "error" : "default"}
+                      color={getTextLength() > getCharacterLimit() ? "error" : "default"}
                     />
                   </Box>
                 )
