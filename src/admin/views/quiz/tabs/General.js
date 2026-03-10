@@ -370,6 +370,33 @@ const General = (props) => {
           />
         </GridItem1>
 
+        {/* Auto Start */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Auto Start", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Enables the quiz to start automatically without user interaction (Only for normal, check and continue, and question below each other modes).", "acadlix")}
+              placement="right-start"
+            />
+          </CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            checked={props?.watch("meta.quiz_settings.auto_start") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.auto_start", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode"
+            }
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
+
       </Grid>
 
       <Box

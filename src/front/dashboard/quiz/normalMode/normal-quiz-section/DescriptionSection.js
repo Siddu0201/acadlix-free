@@ -144,6 +144,12 @@ const DescriptionSection = (props) => {
     }
   }
 
+  React.useEffect(() => {
+    if (props?.watch("auto_start") && props?.watch("mode") !== "advance_mode") {
+      handleQuizStart();
+    }
+  }, []);
+
   return (
     <Box>
       {!(props?.watch("hide_quiz_title") || props?.hide_title) && (
