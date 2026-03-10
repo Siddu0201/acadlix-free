@@ -35,7 +35,8 @@ import {
   FaRankingStar,
   MdFileCopy,
   LuFileChartColumn,
-  FaSearch
+  FaSearch,
+  FaQuora
 } from "@acadlix/helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -281,7 +282,7 @@ const Quiz = () => {
                   LinkComponent={Link}
                   to={`/${params?.id}/question`}
                 >
-                  <FaQuestion />
+                  <FaQuora />
                 </IconButton>
               </Tooltip>
             }
