@@ -126,7 +126,7 @@ React.useMemo(() => {
       code: coupon?.post_title,
       discount_type: coupon?.rendered_metas?.discount_type,
       discount: coupon?.rendered_metas?.discount,
-      expiry_date: dateI18n(acadlixOptions?.date_time_format, coupon?.rendered_metas?.expiry_date),
+      expiry_date: coupon?.rendered_metas?.expiry_date ? dateI18n(acadlixOptions?.date_time_format, coupon?.rendered_metas?.expiry_date) : "-",
       status: coupon?.rendered_metas?.disable_coupon,
       coupon_usage: coupon?.coupon_usage,
       usage_limit_per_coupon: coupon?.rendered_metas?.usage_limit_per_coupon,

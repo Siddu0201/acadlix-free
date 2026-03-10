@@ -166,6 +166,7 @@ const Coupon = (props) => {
       }
     );
   }
+  
   const defaultSetting = {
     component: "Box",
     component_name: "checkout_coupon_box",
