@@ -491,10 +491,40 @@ const CourseContent = () => {
     }
   }, [location]);
 
+  const enable_course_protection = acadlixOptions?.settings?.acadlix_enable_course_protection === "yes";
 
+  const handleKeyDown = (e) => {
+    // Disable Ctrl+C, Ctrl+V, Ctrl+U, and F12
+    if (
+      (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's')) ||
+      e.key === 'F12'
+    ) {
+      e.preventDefault();
+      alert("Content protection is enabled for this course.");
+    }
+  };
   return (
     <Box
-      onContextMenu={(e) => e.preventDefault()}
+      onContextMenu={(e) => {
+        if (enable_course_protection) {
+          e.preventDefault();
+        }
+      }}
+      onKeyDown={(e) => {
+        if (enable_course_protection) {
+          handleKeyDown(e);
+        }
+      }}
+      tabIndex={0}
+      sx={{
+        userSelect: enable_course_protection ? 'none' : 'auto',        // Disables text selection
+        WebkitUserSelect: enable_course_protection ? 'none' : 'auto',  // For Safari
+        MozUserSelect: enable_course_protection ? 'none' : 'auto',     // For Firefox
+        msUserSelect: enable_course_protection ? 'none' : 'auto',      // For IE/Edge
+        '& *': {
+          userSelect: enable_course_protection ? 'none' : 'auto',      // Ensures children are also protected
+        }
+      }}
     >
       {(isFetching ||
         incompleteMutation?.isPending ||
