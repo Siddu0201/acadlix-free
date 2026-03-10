@@ -63,6 +63,7 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_on_option_selected)
     ),
     skip_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.skip_question)),
+    auto_check: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_check)),
     question_per_page: props?.quiz?.rendered_metas?.quiz_settings?.question_per_page, // 0 => all question
     pagination_page: 1,
     // General settings
@@ -602,6 +603,22 @@ const QuizContent = (props) => {
     });
   };
 
+  const handleCheckClick = (index = 0) => {
+    const forceAnswer = methods?.watch("force_user_to_answer_each_question");
+    const solvedCount = methods?.watch(`questions.${index}.result.solved_count`) ?? 0;
+
+    if (forceAnswer && solvedCount === 0) {
+      alert(__("Please select an option before checking the answer", "acadlix"));
+      return;
+    }
+
+    methods?.setValue(
+      `questions.${index}.check`,
+      !methods?.watch(`questions.${index}.check`),
+      { shouldDirty: true }
+    );
+  };
+
   const checkMode = () => {
     switch (methods?.watch("mode")) {
       case "normal":
@@ -640,6 +657,7 @@ const QuizContent = (props) => {
             isCorrect={isCorrect}
             isIncorrect={isIncorrect}
             isQuestionEvaluated={isQuestionEvaluated}
+            handleCheckClick={handleCheckClick}
           />
         );
       case "advance_mode":
@@ -677,6 +695,7 @@ const QuizContent = (props) => {
               isCorrect={isCorrect}
               isIncorrect={isIncorrect}
               isQuestionEvaluated={isQuestionEvaluated}
+              handleCheckClick={handleCheckClick}
             />
           </React.Suspense>
         );

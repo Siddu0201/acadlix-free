@@ -390,7 +390,7 @@ const Question = (props) => {
           <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}
             <CustomFeatureTooltip
               plan={acadlixOptions?.isActive ? "open" : "closed"}
-              msg={__("Users will automatically navigate to the next question after selecting an option. This feature is only available for single-choice questions.", "acadlix")}
+              msg={__("Users will automatically navigate to the next question after selecting an option. This feature is only available for single-choice and true-false questions.", "acadlix")}
               placement="right-start"
               redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/question-options/#attempt-move-forward-automatically`}
             />

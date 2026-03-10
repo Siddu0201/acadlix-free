@@ -55,6 +55,7 @@ const QuizContent = (props) => {
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_on_option_selected)
         ),
         skip_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.skip_question)),
+        auto_check: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_check)),
         question_per_page: props?.quiz?.rendered_metas?.quiz_settings?.question_per_page ?? 10, // 0 => all question
         // General settings
         hide_quiz_title: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_quiz_title)),

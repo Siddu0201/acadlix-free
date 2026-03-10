@@ -55,6 +55,34 @@ const TypeTrueFalse = (props) => {
       },
       { shouldDirty: true }
     );
+
+    if (props?.watch("mode") === "check_and_continue" && props?.watch("auto_check")) {
+      props?.handleCheckClick(props?.index);
+    }
+
+    if (props?.watch("attempt_and_move_forward")) {
+      if (props?.last) {
+        props?.setValue("finish", true, { shouldDirty: true });
+      }
+      props?.setValue(
+        "questions",
+        props.watch("questions")?.map((question, index) => {
+          if (question.selected) {
+            question.result.time =
+              question.result.time +
+              Math.round((Date.now() - props?.watch("last")) / 1000);
+          }
+          if (index === props?.num) {
+            question.selected = true;
+          } else {
+            question.selected = false;
+          }
+          return question;
+        }),
+        { shouldDirty: true }
+      );
+      props?.setValue("last", Date.now(), { shouldDirty: true });
+    }
   };
 
 
