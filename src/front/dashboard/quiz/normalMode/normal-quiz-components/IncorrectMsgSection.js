@@ -30,6 +30,7 @@ const IncorrectMsgSection = ({
             <Box>
                 <Typography
                     className="acadlix-normal-quiz-incorrect-msg-label"
+                    component="div"
                 >
                     <b>{__('Explanation', 'acadlix')}</b>
                 </Typography>

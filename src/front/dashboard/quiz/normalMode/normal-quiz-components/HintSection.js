@@ -7,6 +7,7 @@ import { __ } from "@wordpress/i18n";
 const HintSection = ({
     lang,
     question,
+    disable_hint,
 }) => {
     return (
         <Box
@@ -18,7 +19,7 @@ const HintSection = ({
                 backgroundColor: "transparent",
                 boxShadow: (theme) => theme?.shadows[1],
                 display:
-                    question?.hint && lang?.hint_msg?.length > 0
+                    question?.hint && lang?.hint_msg?.length > 0 && !disable_hint
                         ? ""
                         : "none",
             }}
@@ -27,9 +28,9 @@ const HintSection = ({
             <Box>
                 <Typography 
                     className="acadlix-normal-quiz-hint-label"
-                    fontWeight={'bold'}
+                    component="div"
                 >
-                    {__('Hint', 'acadlix')}
+                    <b>{__('Hint', 'acadlix')}</b>
                 </Typography>
             </Box>
             <Box>
@@ -48,4 +49,5 @@ export default HintSection
 HintSection.propTypes = {
     lang: PropTypes.object.isRequired,
     question: PropTypes.object.isRequired,
+    disable_hint: PropTypes.bool,   
 }

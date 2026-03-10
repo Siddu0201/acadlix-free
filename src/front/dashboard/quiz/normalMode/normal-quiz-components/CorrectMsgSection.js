@@ -24,6 +24,7 @@ const CorrectMsgSection = ({
             <Box>
                 <Typography 
                     className="acadlix-normal-quiz-correct-msg-label"
+                    component="div"
                 >
                     <b>{__('Explanation', 'acadlix')}</b>
                 </Typography>

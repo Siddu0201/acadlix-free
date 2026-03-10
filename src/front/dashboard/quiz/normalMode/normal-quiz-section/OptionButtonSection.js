@@ -255,7 +255,9 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        {props?.watch(`questions.${props?.index}.hint_enabled`) &&
+        {
+        !props?.watch("disable_hint") &&
+        props?.watch(`questions.${props?.index}.hint_enabled`) &&
           props
             ?.watch(`questions.${props?.index}.language`)
             .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (

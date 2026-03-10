@@ -118,6 +118,7 @@ const QuizContent = (props) => {
     force_user_to_answer_each_question: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.force_user_to_answer_each_question)
     ),
+    disable_hint: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_hint)),
     // Subject wise settings
     optional_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.optional_subject)),
     subject_wise_question: Boolean(

@@ -110,6 +110,7 @@ const QuizContent = (props) => {
         force_user_to_answer_each_question: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.force_user_to_answer_each_question)
         ),
+        disable_hint: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_hint)),
         // Result settings
         hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
         hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
