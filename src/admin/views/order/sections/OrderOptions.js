@@ -599,6 +599,7 @@ const OrderUsers = (props) => {
       value={props?.watch("users") || []}
       disableCloseOnSelect
       getOptionLabel={(option) => option.display_name || ""}
+      isOptionEqualToValue={(option, value) => option?.ID === value?.ID}
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props;
         const SelectionIcon = selected ? MdCheckBox : MdOutlineCheckBoxOutlineBlank;
