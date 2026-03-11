@@ -1,7 +1,14 @@
 import React from 'react'
 import OrderContent from './OrderContent'
+import { GetCreateOrder } from '@acadlix/requests/admin/AdminOrderRequest';
+import Loader from '@acadlix/components/Loader';
 
 const CreateOrder = () => {
+  const {data, isFetching} = GetCreateOrder();
+
+  if (isFetching) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -9,7 +16,8 @@ const CreateOrder = () => {
         order_id={null}
         create={true}
         order={null}
-        isFetching={false}
+        isFetching={isFetching}
+        users={data?.data?.users || []}
      /> 
     </>
   )

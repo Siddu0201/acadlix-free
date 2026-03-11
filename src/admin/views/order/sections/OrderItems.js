@@ -495,32 +495,32 @@ const OrderItem = ({ item, index, ...props }) => {
           {
             component: "TableCell",
             component_name: "order_items_price_table_cell",
-            value: currencyPosition(item?.price)
+            value: currencyPosition(item?.price,  getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
           },
           {
             component: "TableCell",
             component_name: "order_items_additional_fee_table_cell",
-            value: currencyPosition(item?.additional_fee)
+            value: currencyPosition(item?.additional_fee,  getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
           },
           {
             component: "TableCell",
             component_name: "order_items_discount_table_cell",
-            value: currencyPosition(item?.discount)
+            value: currencyPosition(item?.discount,  getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
           },
           {
             component: "TableCell",
             component_name: "order_items_price_after_discount_table_cell",
-            value: currencyPosition(item?.price_after_discount)
+            value: currencyPosition(item?.price_after_discount,  getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
           },
           {
             component: "TableCell",
             component_name: "order_items_tax_table_cell",
-            value: currencyPosition(item?.tax)
+            value: currencyPosition(item?.tax,  getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
           },
           {
             component: "TableCell",
             component_name: "order_items_price_after_tax_table_cell",
-            value: currencyPosition(item?.price_after_tax)
+            value: currencyPosition(item?.price_after_tax,  getStripHtml(acadlixOptions?.currency_symbols[props?.watch('meta.currency')]))
           },
           props?.create && ({
             component: "TableCell",
