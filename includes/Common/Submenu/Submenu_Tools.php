@@ -19,8 +19,13 @@ class Submenu_Tools
             'capability' => 'acadlix_show_tool',
             'menu_slug' => 'acadlix_tool',
             'callback' => [$this, 'tool_callback'],
-            'position' => 40
+            'position' => 310
         ];
+    }
+
+    public function get_position()
+    {
+        return $this->_options['position'];
     }
 
     public function add_submenu()
@@ -38,17 +43,34 @@ class Submenu_Tools
         add_action("admin_print_scripts-{$page}", [$this, 'admin_print_scripts']);
     }
 
+    public function localize_options()
+    {
+        $current_user = wp_get_current_user();
+        $capabilities = $current_user->exists() ? $current_user->allcaps : [];
+        return [
+            'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+            'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
+            'user_id' => get_current_user_id(),
+            'quiz_categories' => acadlix()->model()->category()->all(),
+            'quiz_languages' => acadlix()->model()->language()->all(),
+            'capabilities' => $capabilities,
+            'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
+            'isActive' => acadlix()->license()->isActive ?? false,
+            'home_url' => home_url(),
+            'image_url' => ACADLIX_ASSETS_IMAGE_URL,
+            'sample_url' => ACADLIX_PLUGIN_URL . 'assets/sample',
+        ];
+    }
+
     public function admin_print_scripts()
     {
-        wp_enqueue_script('acadlix-runtime-js');
-        wp_enqueue_script('acadlix-vendors-js');
-        wp_enqueue_script("acadlix-admin-tool");
-        wp_set_script_translations('acadlix-admin-tool', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages');
+        acadlix()->assets()->manager()->load_assets('admin_tool', $this->localize_options());
     }
 
     public function tool_callback()
     {
-        // $this->updater->getActivator()->renderActivationForm();
         echo '<div id="acadlix-admin-tool"><h2>' . esc_html__('Loading...', 'acadlix') . '</h2></div>';
     }
 

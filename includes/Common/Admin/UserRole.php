@@ -214,6 +214,7 @@ class UserRole
     {
         return [
             'acadlix_show_tool' => true,
+            'acadlix_show_import_export_tool' => true,
         ];
     }
 

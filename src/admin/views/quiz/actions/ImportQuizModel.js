@@ -28,7 +28,7 @@ const ImportQuizModel = (props) => {
       reader.onload = (event) => {
         try {
           const jsonData = JSON.parse(event.target.result);
-          console.log(jsonData);
+          // console.log(jsonData);
           methods?.setValue("quizzes", jsonData, {
             shouldDirty: true,
           });

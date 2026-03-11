@@ -1,8 +1,6 @@
 <?php
 
 namespace Yuvayana\Acadlix\Common\Submenu;
-use Yuvayana\Acadlix\Common\Models\Category;
-use Yuvayana\Acadlix\Common\Models\Language;
 
 defined('ABSPATH') || exit();
 
