@@ -10,6 +10,7 @@ import {
   Stack,
   Pagination,
   CircularProgress,
+  PaginationItem,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -21,7 +22,7 @@ import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const {open} = useOutletContext();
+  const { open } = useOutletContext();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -178,14 +179,14 @@ const Courses = () => {
         ) : data?.data?.courses?.length > 0 ?
           data?.data?.courses?.map((course, index) => (
             <React.Fragment key={index}>
-                <Grid size={{ 
-                  xs: 12, 
-                  sm: 6, 
-                  md: 4, 
-                  lg: open ? 4 : 3 
-                }}>
-                  <CourseCard course={course} />
-                </Grid>
+              <Grid size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+                lg: open ? 4 : 3
+              }}>
+                <CourseCard course={course} />
+              </Grid>
             </React.Fragment>
           )) : (
             <Grid size={{ xs: 12, lg: 12 }}>
@@ -209,6 +210,12 @@ const Courses = () => {
             }
             page={paginationModel?.page + 1}
             onChange={handlePaginationChange}
+            renderItem={(item) => (
+              <PaginationItem
+                {...item}
+                className="acadlix-icon-btn"
+              />
+            )}
           />
         </Stack>
       </Box>
@@ -245,7 +252,7 @@ const CourseCard = (props) => {
             md: "inherit",
             lg: "inherit",
           },
-          height: "200px", 
+          height: "200px",
           aspectRatio: "auto 240/135",
         }}
         image={

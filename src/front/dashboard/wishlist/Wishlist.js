@@ -236,6 +236,19 @@ const Wishlist = () => {
                       columnVisibilityModel={{
                         id: false,
                       }}
+                      slotProps={{
+                        pagination: {
+                          slotProps: {
+                            selectLabel: { component: "div" },
+                            displayedRows: { component: "div" },
+                            // 2. Actions contains the buttons
+                            actions: {
+                              nextButton: { className: "acadlix-icon-btn" },
+                              previousButton: { className: "acadlix-icon-btn" },
+                            },
+                          },
+                        }
+                      }}
                       getRowHeight={() => "auto"}
                       // getEstimatedRowHeight={() => 200}
                       sx={{
@@ -401,6 +414,22 @@ const MobileOnlyView = (props) => {
               pageSize: pageSize,
               page: page,
             })
+          }}
+          slotProps={{
+            selectLabel: {
+              component: "div",
+            },
+            displayedRows: {
+              component: "div",
+            },
+            actions: {
+              nextButton: {
+                className: "acadlix-icon-btn",
+              },
+              previousButton: {
+                className: "acadlix-icon-btn",
+              }
+            },
           }}
           sx={{
             '& .MuiToolbar-root': {

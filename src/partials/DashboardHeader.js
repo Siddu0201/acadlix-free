@@ -11,6 +11,7 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
       >
         <Toolbar>
           <IconButton
+            className="acadlix-icon-btn"
             size="large"
             edge="start"
             color="inherit"
@@ -67,6 +68,7 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
                   )
               }
               <Typography
+                component="div"
                 variant="h6"
                 sx={{
                   color: "primary.contrastText",

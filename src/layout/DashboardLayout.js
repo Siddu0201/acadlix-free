@@ -177,6 +177,7 @@ const MobileSidebar = ({ isDesktop, open, setOpen, handleDrawerToggle }) => {
                 )
             }
             <Typography
+              component="div"
               variant="h6"
             >
               {acadlixOptions?.user?.display_name}

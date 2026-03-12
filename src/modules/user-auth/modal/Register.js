@@ -496,6 +496,14 @@ const Register = (props) => {
                                   {option.phonecode} ({option.isoCode})
                                 </Box>
                               ),
+                              slotProps: {
+                                popupIndicator: {
+                                  className: "acadlix-icon-btn",
+                                },
+                                clearIndicator: {
+                                  className: "acadlix-icon-btn",
+                                }
+                              },
                               renderInput: (params) => (
                                 <TextField
                                   {...params}
