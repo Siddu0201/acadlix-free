@@ -232,7 +232,7 @@ const TypeAssessment = (props) => {
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-          <Typography>
+          <Typography component="div">
             <b>{__("Your answer", "acadlix")}</b>
           </Typography>
         )}
@@ -257,7 +257,7 @@ const TypeAssessment = (props) => {
                       <ListItem sx={{
                         padding: 1
                       }}>
-                        <Typography variant="h6">
+                        <Typography variant="h6" component="div">
                           {__("Uploads", "acadlix")}
                         </Typography>
                       </ListItem>
@@ -269,7 +269,7 @@ const TypeAssessment = (props) => {
                             gap: 1,
                             padding: 1,
                           }}>
-                            <Typography variant="body2">
+                            <Typography variant="body2" component="div">
                               <Link
                                 href={f?.file_url}
                                 target="_blank"
@@ -313,7 +313,7 @@ const TypeAssessment = (props) => {
                       <ListItem sx={{
                         padding: 1
                       }}>
-                        <Typography variant="h6">
+                        <Typography variant="h6" component="div">
                           {__("Uploads", "acadlix")}
                         </Typography>
                       </ListItem>
@@ -325,7 +325,7 @@ const TypeAssessment = (props) => {
                             gap: 1,
                             padding: 1,
                           }}>
-                            <Typography variant="body2">
+                            <Typography variant="body2" component="div">
                               <Link
                                 href={f?.file_url}
                                 target="_blank"
@@ -338,6 +338,7 @@ const TypeAssessment = (props) => {
                               </Link>
                             </Typography>
                             <IconButton
+                              className="acadlix-icon-btn"
                               color="error"
                               aria-label="delete"
                               size="small"
@@ -390,6 +391,7 @@ const TypeAssessment = (props) => {
                       accept={props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowed_mime_types`)?.map((t) => `.${t?.extension}`).join(",")}
                     />
                     <Button
+                      className="acadlix-btn"
                       variant="contained"
                       onClick={() => fileInputRef?.current?.click()}
                       sx={{
@@ -459,7 +461,7 @@ const TypeAssessment = (props) => {
         props?.watch(`questions.${props?.index}.result.evaluation_remark`) &&
         (
           <>
-            <Typography>
+            <Typography component="div">
               <b>{__("Evaluation remarks", "acadlix")}</b>
             </Typography>
             <Box>

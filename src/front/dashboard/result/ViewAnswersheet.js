@@ -99,6 +99,7 @@ const ViewAnswersheet = () => {
                 component: "Button",
                 component_name: "acadlix_front_result_view_answersheet_back_button",
                 props: {
+                  className: "acadlix-btn",
                   variant: "contained",
                   startIcon: <TiArrowLeftThick />,
                   size: "medium",
@@ -138,6 +139,7 @@ const ViewAnswersheet = () => {
                             component: "Typography",
                             component_name: "acadlix_front_result_view_answersheet_card_header_box_typography",
                             props: {
+                              component: "div",
                               variant: "h3",
                             },
                             value: __("AnswerSheet", "acadlix")
@@ -172,6 +174,9 @@ const ViewAnswersheet = () => {
                           ({
                             component: "Typography",
                             component_name: "acadlix_front_result_view_answersheet_card_content_typography",
+                            props: {
+                              component: "div",
+                            },
                             value: __("You are not alowed to access this page.", "acadlix")
                           })
                     ]

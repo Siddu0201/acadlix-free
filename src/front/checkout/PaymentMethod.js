@@ -453,6 +453,7 @@ const PaymentMethod = (props) => {
                         component: "Typography",
                         component_name: "checkout_payment_method_no_payment_gateway_typography",
                         props: {
+                          component: "div",
                           variant: "body1",
                         },
                         value: __("No payment gateway is activated, contact admin.", "acadlix")

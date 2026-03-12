@@ -596,6 +596,9 @@ const Checkout = () => {
                         {
                           component: "Typography",
                           component_name: "checkout_login_grid_item_typography",
+                          props: {
+                            component: "div",
+                          },
                           children: [
                             {
                               component: "span",
@@ -746,6 +749,7 @@ const Checkout = () => {
                   component_name: "checkout_cart_empty_grid_item_typography",
                   props: {
                     variant: "body1",
+                    component: "div",
                   },
                   value: __("Your cart is currently empty.", "acadlix"),
                 },

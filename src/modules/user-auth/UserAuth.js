@@ -79,6 +79,7 @@ const UserAuth = ({
       maxWidth={maxWidth}
     >
       <IconButton
+        className='acadlix-icon-btn'
         onClick={handleClose}
         sx={{
           position: 'absolute',

@@ -168,7 +168,7 @@ const Profile = () => {
                         ? (
                           <Avatar
                             src={
-                                methods?.watch("photo")
+                              methods?.watch("photo")
                             }
                             alt="Profile"
                             sx={{
@@ -229,7 +229,7 @@ const Profile = () => {
                           onChange={handleMediaChange}
                           accept=".jpg,.jpeg,.png"
                         />
-                        <Button variant="contained" onClick={handleUploadPhoto}>
+                        <Button className="acadlix-btn" variant="contained" onClick={handleUploadPhoto}>
                           {updatePhotoMutation?.isPending ? (
                             <CircularProgress size={20} color="inherit" />
                           ) : (
@@ -259,6 +259,7 @@ const Profile = () => {
                       <Typography
                         variant="body2"
                         color="textSecondary"
+                        component="div"
                         sx={{
                           display: "flex",
                           alignItems: "center",
@@ -274,6 +275,7 @@ const Profile = () => {
                       <Typography
                         variant="body2"
                         color="text.secondary"
+                        component="div"
                         sx={{
                           display: "flex",
                           alignItems: "center",
@@ -296,7 +298,7 @@ const Profile = () => {
                     <Typography variant="h4" component="div" gutterBottom>
                       {__("Bio", "acadlix")}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" component="div">
                       {methods?.watch("description")}
                     </Typography>
                   </CardContent>
@@ -305,9 +307,9 @@ const Profile = () => {
             </Grid>
           </Grid>
 
-          <Grid size={{ 
-            xs: 12, 
-            md: open ? 8 : 9 
+          <Grid size={{
+            xs: 12,
+            md: open ? 8 : 9
           }}>
             <Card>
               <CardContent>
@@ -378,6 +380,12 @@ const Profile = () => {
                             { name: 'flip', enabled: false },
                           ],
                         },
+                        popupIndicator: {
+                          className: "acadlix-icon-btn",
+                        },
+                        clearIndicator: {
+                          className: "acadlix-icon-btn",
+                        }
                       }}
                       id="phonecode"
                       autoComplete
@@ -479,6 +487,12 @@ const Profile = () => {
                             { name: 'flip', enabled: false },
                           ],
                         },
+                        popupIndicator: {
+                          className: "acadlix-icon-btn",
+                        },
+                        clearIndicator: {
+                          className: "acadlix-icon-btn",
+                        }
                       }}
                       id="acadlix-country"
                       autoComplete
@@ -579,6 +593,7 @@ const Profile = () => {
                   </Grid>
                   <Grid size={{ xs: 12 }} sx={{ textAlign: "center", mt: 3 }}>
                     <Button
+                      className="acadlix-btn"
                       variant="contained"
                       color="primary"
                       type="submit"

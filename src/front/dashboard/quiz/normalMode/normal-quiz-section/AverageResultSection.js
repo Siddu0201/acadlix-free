@@ -19,6 +19,7 @@ const AverageResultSection = () => {
         }}
       >
         <Typography
+          component="div"
           sx={{
             fontWeight: "bold",
             paddingX: 3,
@@ -26,7 +27,7 @@ const AverageResultSection = () => {
         >
           {__("Average Score:", "acadlix")}
         </Typography>
-        <Typography>0%</Typography>
+        <Typography component="div">0%</Typography>
       </Box>
       <Box
         sx={{
@@ -36,6 +37,7 @@ const AverageResultSection = () => {
         }}
       >
         <Typography
+          component="div"
           sx={{
             fontWeight: "bold",
             paddingX: 3,
@@ -43,7 +45,7 @@ const AverageResultSection = () => {
         >
           {__("Your Score:", "acadlix")}
         </Typography>
-        <Typography>50%</Typography>
+        <Typography component="div">50%</Typography>
       </Box>
     </Box>
   );

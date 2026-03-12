@@ -2,18 +2,14 @@ import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { FaMoneyBillTransfer, HistoryToggleOff } from "@acadlix/helpers/icons";
 import { useForm } from "react-hook-form";
 import {
   Card,
   CardContent,
   CardHeader,
   Chip,
-  CircularProgress,
-  TablePagination,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import { DataGrid } from "@mui/x-data-grid";
 import { GetUserPurchases } from "@acadlix/requests/front/FrontDashboardRequest";
 import { dateI18n } from "@wordpress/date";
 import { currencyPosition } from "@acadlix/helpers/util";
@@ -214,6 +210,7 @@ const PurchaseHistory = () => {
                 >
                   <Typography
                     variant="h3"
+                    component="div"
                   >
                     {__("Purchase History", "acadlix")}
                   </Typography>
@@ -349,6 +346,7 @@ const MobileOnlyView = (props) => {
                   component_name: "purchase_history_box_content_no_data_text",
                   component: "Typography",
                   props: {
+                    component: "div",
                     variant: "h6",
                     sx: {
                       color: "text.secondary",
@@ -386,6 +384,22 @@ const MobileOnlyView = (props) => {
                   pageSize: pageSize,
                   page: page,
                 });
+              },
+              slotProps: {
+                selectLabel: {
+                  component: "div",
+                },
+                displayedRows: {
+                  component: "div",
+                },
+                actions: {
+                  nextButton: {
+                    className: "acadlix-icon-btn",
+                  },
+                  previousButton: {
+                    className: "acadlix-icon-btn",
+                  }
+                },
               },
               sx: {
                 '& .MuiToolbar-root': {
@@ -425,7 +439,7 @@ const MobileOnlyView = (props) => {
   if (props?.isFetching) {
     return <Loader />;
   }
-  
+
   return (
     <>
       {purchaseHistoryMobile.map((field, i) => (
@@ -489,6 +503,7 @@ const SingleOrder = ({ row, ...props }) => {
             component: "Typography",
             component_name: "purchase_history_box_content_typography",
             props: {
+              component: "div",
               variant: "h6",
             },
             value: `#${row?.id} - ${row?.order_items}`
@@ -520,6 +535,7 @@ const SingleOrder = ({ row, ...props }) => {
             component: "Typography",
             component_name: "purchase_history_txn_id_typography",
             props: {
+              component: "div",
               variant: "body2",
               color: "text.secondary",
             },
@@ -552,6 +568,7 @@ const SingleOrder = ({ row, ...props }) => {
             component: "Typography",
             component_name: "purchase_history_date_typography",
             props: {
+              component: "div",
               variant: "body2",
               color: "text.secondary",
             },
@@ -584,6 +601,7 @@ const SingleOrder = ({ row, ...props }) => {
             component: "Typography",
             component_name: "purchase_history_amount_typography",
             props: {
+              component: "div",
               variant: "body2",
             },
             value: row?.total_amount
@@ -592,6 +610,7 @@ const SingleOrder = ({ row, ...props }) => {
             component: "Typography",
             component_name: "purchase_history_amount_payment_method_typography",
             props: {
+              component: "div",
               variant: "body2",
               sx: {
                 display: "flex",

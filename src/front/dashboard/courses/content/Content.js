@@ -93,6 +93,7 @@ const Content = (props) => {
               >
                 <Tooltip title={c?.title} placement="right" arrow>
                   <IconButton
+                    className='acadlix-icon-btn'
                     onClick={props?.handleNavigate.bind(this, c?.id)}
                     sx={{
                       borderRadius: 0,
@@ -123,6 +124,7 @@ const Content = (props) => {
               >
                 <Tooltip title={c?.title} placement="left" arrow>
                   <IconButton
+                    className='acadlix-icon-btn'
                     onClick={props?.handleNavigate.bind(this, c?.id)}
                     sx={{
                       borderRadius: 0,

@@ -61,7 +61,7 @@ const TypeNumerical = (props) => {
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-          <Typography>
+          <Typography component="div">
             <b>{__("Your answer", "acadlix")}</b>
           </Typography>
         )}
@@ -148,10 +148,10 @@ const TypeNumerical = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <>
-            <Typography>
+            <Typography component="div">
               <b>{__("Correct answer", "acadlix")}</b>
             </Typography>
-            <Typography>{props?.answer_data?.[props?.type]?.option}</Typography>
+            <Typography component="div">{props?.answer_data?.[props?.type]?.option}</Typography>
           </>
         )}
     </Box>

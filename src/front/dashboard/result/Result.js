@@ -1,9 +1,8 @@
 import * as React from "react";
-import { FaExpandArrowsAlt, HistoryToggleOff } from "@acadlix/helpers/icons";
+import { FaExpandArrowsAlt } from "@acadlix/helpers/icons";
 import {
   Box,
   Typography,
-  Paper,
   useMediaQuery,
   Card,
   CardContent,
@@ -11,12 +10,9 @@ import {
   IconButton,
   CardHeader,
   Chip,
-  TablePagination,
-  CircularProgress,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
-import { DataGrid } from "@mui/x-data-grid";
 import { __ } from "@wordpress/i18n";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
@@ -100,6 +96,7 @@ export default function Result() {
             }}>
               <Tooltip title={__("View Answersheet", "acadlix")} arrow>
                 <IconButton
+                  className="acadlix-icon-btn"
                   aria-label="expand"
                   size="small"
                   color="warning"
@@ -177,6 +174,7 @@ export default function Result() {
                 }}
               >
                 <Typography
+                  component="div"
                   variant="h3"
                 >
                   {__("My Result", "acadlix")}
@@ -292,6 +290,7 @@ const MobileOnlyView = (props) => {
                 component_name: "result_box_no_data_text",
                 component: "Typography",
                 props: {
+                  component: "div",
                   variant: "h6",
                   sx: {
                     color: "text.secondary",
@@ -328,6 +327,22 @@ const MobileOnlyView = (props) => {
                   pageSize: pageSize,
                   page: page,
                 })
+              },
+              slotProps: {
+                selectLabel: {
+                  component: "div",
+                },
+                displayedRows: {
+                  component: "div",
+                },
+                actions: {
+                  nextButton: {
+                    className: "acadlix-icon-btn",
+                  },
+                  previousButton: {
+                    className: "acadlix-icon-btn",
+                  }
+                },
               },
               sx: {
                 '& .MuiToolbar-root': {
@@ -386,155 +401,155 @@ const MobileOnlyView = (props) => {
     </>
   )
 
-  return (
-    <Paper style={{
-      width: "100%",
-      backgroundColor: "transparent",
-      border: "none",
-      boxShadow: "none"
-    }} >
-      {
-        props?.isFetching ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 2,
-            }}
-          >
-            <CircularProgress />
-          </Box >
-        ) : (
-          props?.watch("rows")?.map((row, index) => {
-            let color = "default";
-            let label = "";
-            if (row?.status === "Pass") {
-              color = "success";
-              label = __("Pass", "acadlix");
-            } else if (row?.status === "Fail") {
-              color = "error";
-              label = __("Fail", "acadlix");
-            } else if (row?.status === "NA") {
-              color = "grey";
-              label = __("NA", "acadlix");
-            }
-            return (
-              <Box
-                key={index}
-                sx={{
-                  padding: "8px",
-                  marginTop: "8px",
-                  marginBottom: "8px",
-                  borderBottom: "1px solid #e0e0e0",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "4px",
-                  boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-                  borderRadius: "8px",
-                  backgroundColor: "white",
-                }}
-              >
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "14px",
-                    }}
-                  >
-                    {row?.title}
-                  </Typography>
-                  <Tooltip title={__("View Answersheet", "acadlix")} arrow>
-                    <IconButton
-                      aria-label="expand"
-                      size="small"
-                      color="warning"
-                      LinkComponent={Link}
-                      to={`/result/${row?.id}`}
-                      disabled={row?.hide_answer_sheet}
-                    >
-                      <FaExpandArrowsAlt fontSize="inherit" />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Box display="flex" alignItems="center" gap="4px">
-                  <HistoryToggleOff style={{ color: "gray" }} />
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {row?.date}
-                  </Typography>
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography
-                    variant="body2"
-                  >
-                    {__("Score: ", "acadlix")}{row?.score}
-                  </Typography>
-                  <Chip
-                    color={color}
-                    label={label}
-                  />
-                </Box>
-              </Box>
-            )
-          })
-        )}
+  // return (
+  //   <Paper style={{
+  //     width: "100%",
+  //     backgroundColor: "transparent",
+  //     border: "none",
+  //     boxShadow: "none"
+  //   }} >
+  //     {
+  //       props?.isFetching ? (
+  //         <Box
+  //           sx={{
+  //             display: "flex",
+  //             justifyContent: "center",
+  //             padding: 2,
+  //           }}
+  //         >
+  //           <CircularProgress />
+  //         </Box >
+  //       ) : (
+  //         props?.watch("rows")?.map((row, index) => {
+  //           let color = "default";
+  //           let label = "";
+  //           if (row?.status === "Pass") {
+  //             color = "success";
+  //             label = __("Pass", "acadlix");
+  //           } else if (row?.status === "Fail") {
+  //             color = "error";
+  //             label = __("Fail", "acadlix");
+  //           } else if (row?.status === "NA") {
+  //             color = "grey";
+  //             label = __("NA", "acadlix");
+  //           }
+  //           return (
+  //             <Box
+  //               key={index}
+  //               sx={{
+  //                 padding: "8px",
+  //                 marginTop: "8px",
+  //                 marginBottom: "8px",
+  //                 borderBottom: "1px solid #e0e0e0",
+  //                 display: "flex",
+  //                 flexDirection: "column",
+  //                 gap: "4px",
+  //                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+  //                 borderRadius: "8px",
+  //                 backgroundColor: "white",
+  //               }}
+  //             >
+  //               <Box
+  //                 display="flex"
+  //                 justifyContent="space-between"
+  //                 alignItems="center"
+  //               >
+  //                 <Typography
+  //                   variant="h6"
+  //                   sx={{
+  //                     fontSize: "14px",
+  //                   }}
+  //                 >
+  //                   {row?.title}
+  //                 </Typography>
+  //                 <Tooltip title={__("View Answersheet", "acadlix")} arrow>
+  //                   <IconButton
+  //                     aria-label="expand"
+  //                     size="small"
+  //                     color="warning"
+  //                     LinkComponent={Link}
+  //                     to={`/result/${row?.id}`}
+  //                     disabled={row?.hide_answer_sheet}
+  //                   >
+  //                     <FaExpandArrowsAlt fontSize="inherit" />
+  //                   </IconButton>
+  //                 </Tooltip>
+  //               </Box>
+  //               <Box display="flex" alignItems="center" gap="4px">
+  //                 <HistoryToggleOff style={{ color: "gray" }} />
+  //                 <Typography
+  //                   variant="body2"
+  //                   color="text.secondary"
+  //                 >
+  //                   {row?.date}
+  //                 </Typography>
+  //               </Box>
+  //               <Box
+  //                 display="flex"
+  //                 justifyContent="space-between"
+  //                 alignItems="center"
+  //               >
+  //                 <Typography
+  //                   variant="body2"
+  //                 >
+  //                   {__("Score: ", "acadlix")}{row?.score}
+  //                 </Typography>
+  //                 <Chip
+  //                   color={color}
+  //                   label={label}
+  //                 />
+  //               </Box>
+  //             </Box>
+  //           )
+  //         })
+  //       )}
 
-      <Box display="flex" justifyContent="center" padding={1}>
-        <TablePagination
-          component="div"
-          count={props?.rowCount}
-          page={props?.paginationModel?.page}
-          onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
-          rowsPerPage={props?.paginationModel?.pageSize}
-          onRowsPerPageChange={(e) => {
-            const pageSize = parseInt(e?.target?.value);
-            const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
-            props?.handlePaginationChange({
-              pageSize: pageSize,
-              page: page,
-            })
-          }}
-          sx={{
-            '& .MuiToolbar-root': {
-              paddingLeft: 0,
-              paddingRight: 0,
-            },
-            '& .MuiTablePagination-selectLabel': {
-              margin: 0,
-            },
-            '& .MuiTablePagination-displayedRows': {
-              margin: 0,
-            },
-            '& .MuiInputBase-root': {
-              marginX: 0,
-            },
-          }}
-        />
-        {/* <Stack spacing={2}> */}
-        {/* <Pagination
-            shape="rounded"
-            count={Math.ceil(
-              props?.watch("rows").length / props?.paginationModel?.pageSize
-            )}
-            page={props?.paginationModel?.page}
-            onChange={(e, value) =>
-              props?.setPaginationModel((p) => ({ ...p, page: value }))
-            }
-          /> */}
-        {/* </Stack> */}
-      </Box>
-    </Paper >
-  );
+  //     <Box display="flex" justifyContent="center" padding={1}>
+  //       <TablePagination
+  //         component="div"
+  //         count={props?.rowCount}
+  //         page={props?.paginationModel?.page}
+  //         onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
+  //         rowsPerPage={props?.paginationModel?.pageSize}
+  //         onRowsPerPageChange={(e) => {
+  //           const pageSize = parseInt(e?.target?.value);
+  //           const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
+  //           props?.handlePaginationChange({
+  //             pageSize: pageSize,
+  //             page: page,
+  //           })
+  //         }}
+  //         sx={{
+  //           '& .MuiToolbar-root': {
+  //             paddingLeft: 0,
+  //             paddingRight: 0,
+  //           },
+  //           '& .MuiTablePagination-selectLabel': {
+  //             margin: 0,
+  //           },
+  //           '& .MuiTablePagination-displayedRows': {
+  //             margin: 0,
+  //           },
+  //           '& .MuiInputBase-root': {
+  //             marginX: 0,
+  //           },
+  //         }}
+  //       />
+  //       {/* <Stack spacing={2}> */}
+  //       {/* <Pagination
+  //           shape="rounded"
+  //           count={Math.ceil(
+  //             props?.watch("rows").length / props?.paginationModel?.pageSize
+  //           )}
+  //           page={props?.paginationModel?.page}
+  //           onChange={(e, value) =>
+  //             props?.setPaginationModel((p) => ({ ...p, page: value }))
+  //           }
+  //         /> */}
+  //       {/* </Stack> */}
+  //     </Box>
+  //   </Paper >
+  // );
 };
 
 const SingleResult = ({ row, ...props }) => {
@@ -582,6 +597,7 @@ const SingleResult = ({ row, ...props }) => {
             component: "Typography",
             component_name: "single_result_box_header_typography",
             props: {
+              component: "div",
               variant: "h6",
               sx: {
                 fontSize: "14px",
@@ -601,6 +617,7 @@ const SingleResult = ({ row, ...props }) => {
                 component: "IconButton",
                 component_name: "single_result_box_header_tooltip_iconbutton",
                 props: {
+                  className: "acadlix-icon-btn",
                   size: "small",
                   color: "warning",
                   LinkComponent: Link,
@@ -641,6 +658,7 @@ const SingleResult = ({ row, ...props }) => {
             component: "Typography",
             component_name: "single_result_box_date_typography",
             props: {
+              component: "div",
               variant: "body2",
               color: "text.secondary",
             },
@@ -661,6 +679,7 @@ const SingleResult = ({ row, ...props }) => {
             component: "Typography",
             component_name: "single_result_box_score_typography",
             props: {
+              component: "div",
               variant: "body2",
             },
             value: __("Score: ", "acadlix") + row?.score,

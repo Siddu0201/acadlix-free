@@ -20,6 +20,7 @@ const ListItemResource = (props) => {
   return (
     <Box>
       <Button
+        className="acadlix-btn"
         variant="outlined"
         size="small"
         id="basic-button"

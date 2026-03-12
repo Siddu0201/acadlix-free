@@ -449,7 +449,7 @@ const AnswerSheet = ({
                 },
               }}
               onClick={handleClick.bind(this, index)}
-              className="acadlix-normal-quiz-question-overview-answersheet-button"
+              className="acadlix-normal-quiz-question-overview-answersheet-button acadlix-btn"
             >
               {++index}
             </Button>
@@ -474,7 +474,7 @@ const AnswerSheet = ({
               display: "inline-block",
             }}
           ></Box>
-          <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Correct", "acadlix")}</Typography>
+          <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Correct", "acadlix")}</Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -485,7 +485,7 @@ const AnswerSheet = ({
               display: "inline-block",
             }}
           ></Box>
-          <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Incorrect", "acadlix")}</Typography>
+          <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Incorrect", "acadlix")}</Typography>
           <Box
             sx={{
               marginTop: "5px",
@@ -496,7 +496,7 @@ const AnswerSheet = ({
               display: "inline-block",
             }}
           ></Box>
-          <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
+          <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
           {
             hasEvaluatedQuestions && (
               <>
@@ -511,6 +511,7 @@ const AnswerSheet = ({
                   }}
                 ></Box>
                 <Typography
+                  component="div"
                   className="acadlix-normal-quiz-question-overview-label-text"
                 >
                   {__("Pending", "acadlix")}
@@ -527,6 +528,7 @@ const AnswerSheet = ({
                 ></Box>
                 <Typography
                   className="acadlix-normal-quiz-question-overview-label-text"
+                  component="div"
                 >
                   {__("Evaluated", "acadlix")}
                 </Typography>

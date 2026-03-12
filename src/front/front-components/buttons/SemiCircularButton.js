@@ -4,6 +4,7 @@ import React from "react";
 const SemiCircularButton = (props) => {
   return (
     <Button
+      className="acadlix-btn"
       variant="contained"
       sx={{
         width: "40px",

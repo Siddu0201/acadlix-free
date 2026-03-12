@@ -47,6 +47,7 @@ const Dashbaord = () => {
           />
           <h3>{__('Please login: ', 'acadlix')}
             <Button
+              className="acadlix-btn"
               variant="contained"
               onClick={() => methods.setValue("login_modal", true, { shouldDirty: true })}>
               {__('Login', 'acadlix')}

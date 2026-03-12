@@ -251,6 +251,7 @@ const Coupon = (props) => {
                         component: "Button",
                         component_name: "checkout_coupon_code_button",
                         props: {
+                          className: "acadlix-btn",
                           fullWidth: true,
                           variant: "contained",
                           onClick: handleApplyCoupon,

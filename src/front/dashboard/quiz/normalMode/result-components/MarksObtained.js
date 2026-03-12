@@ -24,6 +24,7 @@ const MarksObtained = ({
         </Box>
         <Box>
           <Typography
+            component="div"
             variant="h6"
             sx={{ fontWeight: 600 }}
             className='acadlix-quiz-result-text acadlix-quiz-result-text-marks-obtained'
@@ -31,6 +32,7 @@ const MarksObtained = ({
             {getPoints()?.toFixed(2)}/{getTotalPoints()?.toFixed(2)}
           </Typography>
           <Typography
+            component="div"
             variant="subtitle2"
             className='acadlix-quiz-result-subtitle acadlix-quiz-result-subtitle-marks-obtained'
           >

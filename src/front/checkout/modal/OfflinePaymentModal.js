@@ -31,6 +31,7 @@ const OfflinePaymentModal = ({
 			{
 				component: "IconButton",
 				props: {
+					className: 'acadlix-icon-btn',
 					onClick: handleClose,
 					sx: {
 						position: 'absolute',
@@ -69,6 +70,9 @@ const OfflinePaymentModal = ({
 								children: [
 									{
 										component: "CustomTypography",
+										props: {
+											component: "div",
+										},
 										value: __("Given Instructions for offline payment go here. Please follow the steps to complete your payment.", "acadlix"),
 									}
 								],
@@ -93,6 +97,9 @@ const OfflinePaymentModal = ({
 								children: [
 									{
 										component: "CustomTypography",
+										props: {
+											component: "div",
+										},
 										value: __("Enter Detail", "acadlix"),
 									}
 								],
@@ -125,6 +132,9 @@ const OfflinePaymentModal = ({
 								children: [
 									{
 										component: "CustomTypography",
+										props: {
+											component: "div",
+										},
 										value: __("Upload File", "acadlix"),
 									}
 								],
@@ -167,6 +177,7 @@ const OfflinePaymentModal = ({
 					{
 						component: "Button",
 						props: {
+							className: "acadlix-btn",
 							variant: "contained",
 							color: "error",
 							onClick: handleClose,
@@ -176,6 +187,7 @@ const OfflinePaymentModal = ({
 					{
 						component: "Button",
 						props: {
+							className: "acadlix-btn",
 							variant: "contained",
 							onClick: () => handleOfflinePayment && handleOfflinePayment(),
 							loading: isPending,

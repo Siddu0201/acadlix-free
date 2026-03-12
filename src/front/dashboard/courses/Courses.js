@@ -86,6 +86,7 @@ const Courses = () => {
                   >
                     <Typography
                       variant="h3"
+                      component="div"
                     >
                       {__("My Courses", "acadlix")}
                     </Typography>
@@ -172,7 +173,7 @@ const Courses = () => {
           </Grid>
         ) : isError ? (
           <Grid size={{ xs: 12, lg: 12 }}>
-            <Typography variant="h3">{__("Something went wrong", "acadlix")}</Typography>
+            <Typography variant="h3" component="div">{__("Something went wrong", "acadlix")}</Typography>
           </Grid>
         ) : data?.data?.courses?.length > 0 ?
           data?.data?.courses?.map((course, index) => (
@@ -188,7 +189,7 @@ const Courses = () => {
             </React.Fragment>
           )) : (
             <Grid size={{ xs: 12, lg: 12 }}>
-              <Typography variant="h4">{__("No Course Found", "acadlix")}</Typography>
+              <Typography variant="h4" component="div">{__("No Course Found", "acadlix")}</Typography>
             </Grid>
           )}
       </Grid>
@@ -270,6 +271,7 @@ const CourseCard = (props) => {
         >
           <Typography
             variant="h6"
+            component="div"
           >
             {props?.course?.post_title?.length > 40
               ? props?.course?.post_title?.substring(0, 40) + "..."
@@ -278,6 +280,7 @@ const CourseCard = (props) => {
           <Typography
             variant="body2"
             color="text.secondary"
+            component="div"
           >
             {props?.course?.users?.length > 0
               ? props?.course?.users
@@ -293,6 +296,7 @@ const CourseCard = (props) => {
         >
           <LinearProgress variant="determinate" value={props?.course?.completion_percentage} />
           <Typography
+            component="div"
             variant="body2"
             color="text.secondary"
             sx={{

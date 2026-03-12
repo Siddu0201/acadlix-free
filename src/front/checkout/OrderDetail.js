@@ -126,6 +126,7 @@ const OrderItem = (props) => {
                 component: "Typography",
                 component_name: "checkout_order_detail_title_typography",
                 props: {
+                  component: "div",
                   variant: "body1",
                   sx: {
                     fontWeight: "bold",
@@ -148,6 +149,7 @@ const OrderItem = (props) => {
                     component: "Typography",
                     component_name: "checkout_order_detail_sale_price_typography",
                     props: {
+                      component: "div",
                       variant: "h6",
                     },
                     value: `${currencyPosition(
@@ -162,6 +164,7 @@ const OrderItem = (props) => {
                       component: "Typography",
                       component_name: "checkout_order_detail_price_typography",
                       props: {
+                        component: "div",
                         variant: "body2",
                         sx: {
                           textDecoration: "line-through",
@@ -187,6 +190,7 @@ const OrderItem = (props) => {
                 component: "IconButton",
                 component_name: "checkout_order_detail_remove_order_item_icon_button",
                 props: {
+                  className: 'acadlix-icon-btn',
                   color: "error",
                   onClick: handleRemoveCourse,
                 },

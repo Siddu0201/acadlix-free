@@ -104,7 +104,7 @@ const QuestionSubjectAndPointSection = (props) => {
                     sx={{
                       fontSize: 18
                     }}
-                    className="acadlix-normal-quiz-question-remove-review-button"
+                    className="acadlix-normal-quiz-question-remove-review-button acadlix-btn"
                   >
                     <MdReviews />
                   </Button>
@@ -118,7 +118,7 @@ const QuestionSubjectAndPointSection = (props) => {
                     sx={{
                       fontSize: 18
                     }}
-                    className="acadlix-normal-quiz-question-review-button"
+                    className="acadlix-normal-quiz-question-review-button acadlix-btn"
                   >
                     <MdOutlineReviews />
                   </Button>

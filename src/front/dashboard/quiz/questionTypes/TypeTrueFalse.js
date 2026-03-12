@@ -146,7 +146,7 @@ const TypeTrueFalse = (props) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography>{data?.option == "True" ? __("True", "acadlix") : __("False", "acadlix")}</Typography>
+                    <Typography component="div">{data?.option == "True" ? __("True", "acadlix") : __("False", "acadlix")}</Typography>
                     <Box
                       sx={{
                         position: "relative",

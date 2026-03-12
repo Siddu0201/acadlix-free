@@ -593,6 +593,7 @@ const CourseContent = () => {
                   <Box>
                     <Typography
                       variant="h4"
+                      component="div"
                     >
                       {__("Course content", "acadlix")}
                     </Typography>

@@ -144,7 +144,7 @@ const QuestionOverviewSection = (props) => {
               },
             }}
             onClick={handleClick.bind(this, index)}
-            className="acadlix-normal-quiz-question-overview-button"
+            className="acadlix-normal-quiz-question-overview-button acadlix-btn"
           >
             {++index}
           </Button>

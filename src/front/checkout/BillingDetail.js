@@ -50,6 +50,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_first_name",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -109,6 +110,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_last_name",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -147,6 +149,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_email",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -204,6 +207,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_phone_code",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -238,6 +242,14 @@ const BillingDetail = (props) => {
                                 shouldDirty: true,
                               }
                             );
+                          },
+                          slotProps: {
+                            popupIndicator: {
+                              className: "acadlix-icon-btn",
+                            },
+                            clearIndicator: {
+                              className: "acadlix-icon-btn",
+                            }
                           },
                           disabled: !props?.watch("is_user_logged_in"),
                           renderOption: (props, option) => (
@@ -281,6 +293,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_phone_number",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -325,6 +338,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_address",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -363,6 +377,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_country",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -394,6 +409,14 @@ const BillingDetail = (props) => {
                             props.setValue("billing_info.country", newValue?.name, {
                               shouldDirty: true,
                             });
+                          },
+                          slotProps: {
+                            popupIndicator: {
+                              className: "acadlix-icon-btn",
+                            },
+                            clearIndicator: {
+                              className: "acadlix-icon-btn",
+                            }
                           },
                           disabled: !props?.watch("is_user_logged_in"),
                           renderOption: (props, option) => (
@@ -437,6 +460,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_city",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,
@@ -475,6 +499,7 @@ const BillingDetail = (props) => {
                         component: "Typography",
                         component_name: "checkout_billing_detail_typography_zip_code",
                         props: {
+                          component: "div",
                           variant: "body2",
                           sx: {
                             paddingY: 1,

@@ -42,6 +42,7 @@ const ContentOptions = (props) => {
             {
               isMobile && acadlixOptions?.settings?.acadlix_enable_course_content_scroll_button == "yes" && (
                 <IconButton
+                  className="acadlix-icon-btn"
                   onClick={handleScrollToContent}
                   sx={{
                     backgroundColor: "transparent",
@@ -68,6 +69,7 @@ const ContentOptions = (props) => {
                       <>
                         {c?.is_completed ? (
                           <Button
+                            className="acadlix-btn"
                             onClick={props?.handleIncomplete.bind(
                               this,
                               c?.id,
@@ -88,6 +90,7 @@ const ContentOptions = (props) => {
                           </Button>
                         ) : (
                           <Button
+                            className="acadlix-btn"
                             key={c_index}
                             onClick={props?.handleComplete.bind(
                               this,
@@ -117,6 +120,7 @@ const ContentOptions = (props) => {
                 props?.active_content?.type === "lesson")) && (
                 <>
                   <IconButton
+                    className="acadlix-icon-btn"
                     onClick={props?.handleFullScreen}
                     sx={{
                       backgroundColor: "transparent",

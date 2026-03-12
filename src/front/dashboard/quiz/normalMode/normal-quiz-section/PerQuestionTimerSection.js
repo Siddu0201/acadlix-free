@@ -87,6 +87,7 @@ const PerQuestionTimerSection = (props) => {
           return (
             <>
               <Typography
+                component="div"
                 style={{
                   margin: 1,
                 }}

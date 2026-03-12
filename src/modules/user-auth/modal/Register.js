@@ -94,6 +94,7 @@ const Register = (props) => {
               {
                 component: "Typography",
                 props: {
+                  component: "div",
                   variant: "h4",
                 },
                 value: __("Welcome Back", "acadlix")
@@ -108,6 +109,7 @@ const Register = (props) => {
                 component: "Typography",
                 component_name: "register_modal_details_typography",
                 props: {
+                  component: "div",
                   variant: "body2",
                 },
                 value: __("Please enter your details to sign up.", "acadlix")
@@ -172,6 +174,7 @@ const Register = (props) => {
                     component: "Typography",
                     component_name: "register_modal_form_username_typography",
                     props: {
+                      component: "div",
                       variant: "body2",
                       sx: {
                         paddingY: 1,
@@ -229,6 +232,7 @@ const Register = (props) => {
                     component: "Typography",
                     component_name: "register_modal_form_email_typography",
                     props: {
+                      component: "div",
                       variant: "body2",
                       sx: {
                         paddingY: 1,
@@ -287,6 +291,7 @@ const Register = (props) => {
                     component_name: "register_modal_form_password_typography",
                     props: {
                       variant: "body2",
+                      component: "div",
                       sx: {
                         paddingY: 1,
                       }
@@ -348,6 +353,7 @@ const Register = (props) => {
                     component: "Typography",
                     component_name: "register_modal_form_confirm_password_typography",
                     props: {
+                      component: "div",
                       variant: "body2",
                       sx: {
                         paddingY: 1,
@@ -413,6 +419,7 @@ const Register = (props) => {
                   {
                     component: "Typography",
                     props: {
+                      component: "div",
                       variant: "body2",
                       sx: {
                         paddingY: 1,
@@ -559,6 +566,7 @@ const Register = (props) => {
                     component: "Button",
                     component_name: "register_modal_form_register_button",
                     props: {
+                      className: 'acadlix-btn',
                       loading: isLoading,
                       fullWidth: true,
                       variant: "contained",
@@ -584,6 +592,7 @@ const Register = (props) => {
                     component: "Typography",
                     component_name: "register_modal_form_login_forgot_password_typography",
                     props: {
+                      component: "div",
                       variant: "body2",
                     },
                     children: [
