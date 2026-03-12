@@ -38,7 +38,7 @@ const ViewAnswersheet = () => {
     leaderborad_text_background: "#f5faea",
   };
 
-  const enable_course_protection = acadlixOptions?.settings?.acadlix_enable_course_protection === "yes";
+  const enable_course_protection = acadlixOptions?.settings?.acadlix_enable_content_protection === "yes";
 
   const handleKeyDown = (e) => {
     // Disable Ctrl+C, Ctrl+V, Ctrl+U, and F12
@@ -47,7 +47,7 @@ const ViewAnswersheet = () => {
       e.key === 'F12'
     ) {
       e.preventDefault();
-      alert("Content protection is enabled for this course.");
+      alert("Protected content.");
     }
   };
 

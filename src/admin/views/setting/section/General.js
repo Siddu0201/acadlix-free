@@ -912,9 +912,9 @@ function General(props) {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
-                {__("Enable course protection", "acadlix")}
+                {__("Enable content protection", "acadlix")}
                 <CustomFeatureTooltip
-                  msg={__("If you enable this option, it will disable right-click, copy text, and text selection on course content and result answer sheets.", "acadlix")}
+                  msg={__("If you enable this option, it will disable right-click, copy text, and text selection on course, quiz and result answer sheets.", "acadlix")}
                   placement="right-start"
                 />
               </CustomTypography>
@@ -924,11 +924,11 @@ function General(props) {
                 label={__("Activate", "acadlix")}
                 control={<CustomSwitch />}
                 value="yes"
-                checked={props?.watch("acadlix_enable_course_protection") === "yes"}
+                checked={props?.watch("acadlix_enable_content_protection") === "yes"}
                 onClick={(e) => {
                   if (e?.target?.checked !== undefined) {
                     props?.setValue(
-                      "acadlix_enable_course_protection",
+                      "acadlix_enable_content_protection",
                       e?.target?.checked ? e?.target?.value : "no",
                       { shouldDirty: true }
                     );

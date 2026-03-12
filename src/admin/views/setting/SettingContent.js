@@ -109,8 +109,8 @@ const SettingContent = ({
       options?.acadlix_enable_site_logo_in_header ?? "no",
     acadlix_enable_course_content_scroll_button:
       options?.acadlix_enable_course_content_scroll_button ?? "no",
-    acadlix_enable_course_protection:
-      options?.acadlix_enable_course_protection ?? "no",
+    acadlix_enable_content_protection:
+      options?.acadlix_enable_content_protection ?? "no",
     // Checkout Options
     acadlix_enable_coupon_code:
       options?.acadlix_enable_coupon_code ?? "no",

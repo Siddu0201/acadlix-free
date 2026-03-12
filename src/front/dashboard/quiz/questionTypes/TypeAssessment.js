@@ -376,7 +376,7 @@ const TypeAssessment = (props) => {
                           <RawHTML>
                             {sprintf(
                               /* translators: %s is the number of max attachments */
-                              __('Attach assignment files (Max. <strong>%s</strong> files)', "acadlix"),
+                              __('Attach assessment files (Max. <strong>%s</strong> files)', "acadlix"),
                               props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.number_of_uploads`)
                             )}
                           </RawHTML>
