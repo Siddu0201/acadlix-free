@@ -60,12 +60,29 @@ class AdminToolController
       $user_id = wp_create_user($login, $password, $email);
 
       if (is_wp_error($user_id)) {
-        return new WP_Error('user_creation_failed', __('Failed to create user: ' . $user_id->get_error_message(), 'acadlix'), ['status' => 500]);
+        continue;
       }
 
+      // Prepare Name Data
+      $first_name = sanitize_text_field($user['first_name'] ?? '');
+      $last_name = sanitize_text_field($user['last_name'] ?? '');
+
+      // Construct Display Name: "First Last", "First", or fallback to Login
+      $display_name = trim("$first_name $last_name");
+      if (empty($display_name)) {
+        $display_name = $login;
+      }
+
+      $user_data = [
+        'ID' => $user_id,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'display_name' => $display_name,
+        'nickname' => $first_name ? $first_name : $login,
+      ];
+      wp_update_user($user_data);
+
       // 5. Save metadata (Phone, Address, etc.)
-      update_user_meta($user_id, 'first_name', sanitize_text_field($params['first_name']));
-      update_user_meta($user_id, 'last_name', sanitize_text_field($params['last_name']));
       update_user_meta($user_id, '_acadlix_profile_phone_number', sanitize_text_field($user['phone'] ?? ''));
       update_user_meta($user_id, '_acadlix_profile_phonecode', sanitize_text_field($user['country_code'] ?? ''));
       update_user_meta($user_id, '_acadlix_profile_address', sanitize_textarea_field($user['address_1'] ?? ''));
