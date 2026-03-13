@@ -846,7 +846,7 @@ class FrontCheckoutController
       return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
     }
 
-    if(acadlix()->helper()->acadlix_get_option('acadlix_enable_coupon_code') != 'yes') {
+    if (acadlix()->helper()->acadlix_get_option('acadlix_enable_coupon_code') != 'yes') {
       return new WP_Error('invalid_coupon', __('Coupons are disabled.', 'acadlix'), array('status' => 404));
     }
 
@@ -868,16 +868,19 @@ class FrontCheckoutController
       return new WP_Error('invalid_coupon', sprintf(__('This coupon code requires a minimum purchase of %1$s%2$s.', 'acadlix'), $request->get_param('currency_symbol'), $metas['minimum_purchase_amount']), array('status' => 404));
     }
 
-    if ($metas['expiry_date'] && strtotime($metas['expiry_date']) < time()) {
+    $current_time = current_time('timestamp');
+    $expiry_timestamp = strtotime($metas['expiry_date']);
+
+    if ($metas['expiry_date'] && $expiry_timestamp < $current_time) {
       return new WP_Error('invalid_coupon', __('This coupon code has expired.', 'acadlix'), array('status' => 404));
     }
 
     // handle usage limit
-    if($metas['usage_limit_per_coupon'] > 0 && $coupon->coupon_usage >= $metas['usage_limit_per_coupon']) {
+    if ($metas['usage_limit_per_coupon'] > 0 && $coupon->coupon_usage >= $metas['usage_limit_per_coupon']) {
       return new WP_Error('invalid_coupon', __('This coupon code has reached its maximum usage limit.', 'acadlix'), array('status' => 404));
     }
 
-    if($metas['usage_limit_per_user'] > 0 && $coupon->getCouponUsageByUser($request->get_param('user_id')) >= $metas['usage_limit_per_user']) {
+    if ($metas['usage_limit_per_user'] > 0 && $coupon->getCouponUsageByUser($request->get_param('user_id')) >= $metas['usage_limit_per_user']) {
       return new WP_Error('invalid_coupon', __('You have reached the maximum usage limit for this coupon code.', 'acadlix'), array('status' => 404));
     }
 

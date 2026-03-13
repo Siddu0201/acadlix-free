@@ -21,7 +21,9 @@ const Register = (props) => {
     }
   });
 
-  console.log('methods', methods?.watch());
+  if (process.env.REACT_APP_MODE === 'development') {
+    console.log('methods', methods?.watch());
+  }
 
   const handleSubmit = async (data) => {
     methods?.setValue("error", "", { shouldDirty: true });
