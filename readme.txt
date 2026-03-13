@@ -352,7 +352,7 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 
 == Changelog ==
 
-= 1.0.5 - 12-03-2026 =
+= 1.0.5 - 13-03-2026 =
 * Added: Coupon system to allow discounts on course purchases.
 * Added: Import and export quiz functionality using JSON format for easy quiz migration and backup.
 * Added: Category filter on the frontend for improved course browsing and discovery.
