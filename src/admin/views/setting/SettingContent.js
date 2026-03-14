@@ -28,20 +28,20 @@ import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
 import Authentication from "./section/Authentication";
 
-const SettingProContent = React.lazy(() => 
+const SettingProContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import(
       /* webpackChunkName: "admin_setting_pro_content" */
-        "@acadlix/pro/admin/views/setting/SettingProContent") :
+      "@acadlix/pro/admin/views/setting/SettingProContent") :
     Promise.resolve({ default: () => null })
 );
 
-const SettingContent = ({ 
-    selected = 'general', 
-    options = {}, 
-    all_pages = [], 
-    currencies_with_symbol = [],
-    filteredSettingRoutes = [] 
+const SettingContent = ({
+  selected = 'general',
+  options = {},
+  all_pages = [],
+  currencies_with_symbol = [],
+  filteredSettingRoutes = []
 }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -98,8 +98,10 @@ const SettingContent = ({
       options?.acadlix_admin_can_remove_student_from_course ??
       "no",
     // Frontend Options
-    acadlix_disable_admin_toolbar: 
+    acadlix_disable_admin_toolbar:
       options?.acadlix_disable_admin_toolbar ?? "no",
+    acadlix_enable_content_protection:
+      options?.acadlix_enable_content_protection ?? "no",
     // Student Dashboard Options
     acadlix_logout_redirect_url:
       options?.acadlix_logout_redirect_url ?? "",
@@ -109,8 +111,6 @@ const SettingContent = ({
       options?.acadlix_enable_site_logo_in_header ?? "no",
     acadlix_enable_course_content_scroll_button:
       options?.acadlix_enable_course_content_scroll_button ?? "no",
-    acadlix_enable_content_protection:
-      options?.acadlix_enable_content_protection ?? "no",
     // Checkout Options
     acadlix_enable_coupon_code:
       options?.acadlix_enable_coupon_code ?? "no",
@@ -376,7 +376,7 @@ const SettingContent = ({
               )
             }
             <React.Suspense fallback={null}>
-              <SettingProContent 
+              <SettingProContent
                 {...methods}
                 selected={selected}
                 isPending={updateMutation?.isPending}

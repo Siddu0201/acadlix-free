@@ -375,6 +375,12 @@ class Manager
                 'deps' => ['wp-hooks'],
                 'in_footer' => true,
             ],
+            'acadlix-content-protection' => [
+                'src' => ACADLIX_ASSETS_JS_URL . 'frontend/content-protection.js',
+                'version' => ACADLIX_VERSION,
+                'deps' => ['jquery'],
+                'in_footer' => true,
+            ],
             // 'acadlix-runtime-js' => [
             //     'src' => ACADLIX_BUILD_URL . acadlix()->versionPath . '/runtime.js',
             //     'version' => $runtime_dependency['version'],
@@ -608,6 +614,11 @@ class Manager
     public function enqueue_common_assets()
     {
         wp_enqueue_script('acadlix-global-hooks');
+
+        $content_protection_enabled = acadlix()->helper()->acadlix_get_option('acadlix_enable_content_protection') === 'yes';
+        if($content_protection_enabled && !is_admin()) {
+            wp_enqueue_script('acadlix-content-protection');
+        }
     }
 
     public function enqueue_front_react_assets()

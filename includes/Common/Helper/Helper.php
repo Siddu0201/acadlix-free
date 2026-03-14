@@ -641,12 +641,12 @@ if (!class_exists('Helper')) {
         'acadlix_admin_can_remove_student_from_course' => 'no',
         // Front end Option
         'acadlix_disable_admin_toolbar' => 'no',
+        'acadlix_enable_content_protection' => 'no',
         // Student Dashboard Option
         'acadlix_logout_redirect_url' => '',
         'acadlix_enable_dashboard_fullwidth' => 'no',
         'acadlix_enable_site_logo_in_header' => 'no',
         'acadlix_enable_course_content_scroll_button' => 'no',
-        'acadlix_enable_content_protection' => 'no',
         // Checkout Option
         'acadlix_enable_coupon_code' => 'no',
         // Data management

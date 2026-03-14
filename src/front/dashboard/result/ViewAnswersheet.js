@@ -38,44 +38,10 @@ const ViewAnswersheet = () => {
     leaderborad_text_background: "#f5faea",
   };
 
-  const enable_course_protection = acadlixOptions?.settings?.acadlix_enable_content_protection === "yes";
-
-  const handleKeyDown = (e) => {
-    // Disable Ctrl+C, Ctrl+V, Ctrl+U, and F12
-    if (
-      (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's')) ||
-      e.key === 'F12'
-    ) {
-      e.preventDefault();
-      alert("Protected content.");
-    }
-  };
 
   const defaultSetting = {
     component: "Box",
     component_name: "acadlix_front_result_view_answersheet_box",
-    props: {
-      onContextMenu: (e) => {
-        if (enable_course_protection) {
-          e.preventDefault();
-        }
-      },
-      onKeyDown: (e) => {
-        if (enable_course_protection) {
-          handleKeyDown(e);
-        }
-      },
-      tabIndex: 0,
-      sx: {
-        userSelect: enable_course_protection ? 'none' : 'auto',        // Disables text selection
-        WebkitUserSelect: enable_course_protection ? 'none' : 'auto',  // For Safari
-        MozUserSelect: enable_course_protection ? 'none' : 'auto',     // For Firefox
-        msUserSelect: enable_course_protection ? 'none' : 'auto',      // For IE/Edge
-        '& *': {
-          userSelect: enable_course_protection ? 'none' : 'auto',      // Ensures children are also protected
-        }
-      }
-    },
     children: [
       {
         component: "Grid",
