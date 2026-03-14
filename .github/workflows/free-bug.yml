@@ -6,7 +6,7 @@ on:
       - Free-bug
 
 env:
-  PLUGIN_VERSION: "1.0.4"
+  PLUGIN_VERSION: "1.0.5"
 
 jobs:
   build-and-deploy:
