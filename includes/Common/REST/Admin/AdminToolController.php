@@ -85,7 +85,7 @@ class AdminToolController
       // 5. Save metadata (Phone, Address, etc.)
       update_user_meta($user_id, '_acadlix_profile_phone_number', sanitize_text_field($user['phone'] ?? ''));
       update_user_meta($user_id, '_acadlix_profile_phonecode', sanitize_text_field($user['country_code'] ?? ''));
-      update_user_meta($user_id, '_acadlix_profile_address', sanitize_textarea_field($user['address_1'] ?? ''));
+      update_user_meta($user_id, '_acadlix_profile_address', sanitize_textarea_field($user['address'] ?? ''));
       update_user_meta($user_id, '_acadlix_profile_zip_code', sanitize_text_field($user['postcode'] ?? ''));
       update_user_meta($user_id, '_acadlix_profile_city', sanitize_text_field($user['city'] ?? ''));
       update_user_meta($user_id, '_acadlix_profile_state', sanitize_text_field($user['state'] ?? ''));

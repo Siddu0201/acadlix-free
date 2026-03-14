@@ -33,7 +33,7 @@ const ImportExport = () => {
           { header: "last_name", key: "last_name" },
           { header: "country_code", key: "country_code" },
           { header: "phone", key: "phone" },
-          { header: "address_1", key: "address" },
+          { header: "address", key: "address" },
           { header: "postcode", key: "postcode" },
           { header: "city", key: "city" },
           { header: "state", key: "state" },

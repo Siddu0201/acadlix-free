@@ -120,6 +120,11 @@ const Profile = () => {
     });
   };
 
+  if(process.env.REACT_APP_MODE === "development"){
+    console.log(methods?.watch());
+  }
+
+
   return (
     <Box
       sx={{
@@ -408,17 +413,22 @@ const Profile = () => {
                           shouldDirty: true,
                         });
                       }}
-                      renderOption={(props, option) => (
-                        <Box
-                          component="li"
-                          {...props}
-                          sx={{
-                            fontSize: "11px",
-                          }}
-                        >
-                          {option.phonecode} ({option.isoCode})
-                        </Box>
-                      )}
+                      renderOption={(props, option) => {
+                        const { key, ...optionProps } = props;
+
+                        return (
+                          <Box
+                            component="li"
+                            key={key}
+                            {...optionProps}
+                            sx={{
+                              fontSize: "11px",
+                            }}
+                          >
+                            {option.phonecode} ({option.isoCode})
+                          </Box>
+                        );
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -512,17 +522,22 @@ const Profile = () => {
                           shouldDirty: true,
                         });
                       }}
-                      renderOption={(props, option) => (
-                        <Box
-                          component="li"
-                          {...props}
-                          sx={{
-                            fontSize: "11px",
-                          }}
-                        >
-                          {option.name}
-                        </Box>
-                      )}
+                      renderOption={(props, option) => {
+                        const { key, ...optionProps } = props;
+
+                        return (
+                          <Box
+                            component="li"
+                            key={key}
+                            {...optionProps}
+                            sx={{
+                              fontSize: "11px",
+                            }}
+                          >
+                            {option.name}
+                          </Box>
+                        );
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
