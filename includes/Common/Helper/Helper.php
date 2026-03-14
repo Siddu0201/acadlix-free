@@ -619,8 +619,14 @@ if (!class_exists('Helper')) {
         // 'acadlix_cart_page_id' => null,
         'acadlix_checkout_page_id' => null,
         'acadlix_thankyou_page_id' => null,
-        'acadlix_no_of_courses_per_page' => 10,
         'acadlix_one_click_checkout' => 'no',
+        // Course Option
+        'acadlix_no_of_courses_per_page' => 10,
+        'acadlix_disable_wishlist' => 'no',
+        'acadlix_enable_rating_and_reviews' => 'no',
+        'acadlix_require_admin_approval_for_reviews' => 'no',
+        'acadlix_review_pagination_count' => 10,
+        'acadlix_enable_course_filters' => 'no',
         // Currency Option
         'acadlix_currency' => 'USD',
         'acadlix_currency_position' => 'Left ( $99.99 )',
@@ -629,19 +635,20 @@ if (!class_exists('Helper')) {
         'acadlix_number_of_decimals' => 2,
         'acadlix_default_payment_gateway' => '',
         // Admin Option
+        'acadlix_default_rows_per_page' => 20,
         'acadlix_admin_auto_registration_to_courses' => 'no',
         'acadlix_admin_can_assign_courses_to_student' => 'no',
         'acadlix_admin_can_remove_student_from_course' => 'no',
-        // Course Option
-        'acadlix_default_rows_per_page' => 20,
-        'acadlix_disable_wishlist' => 'no',
-        'acadlix_enable_rating_and_reviews' => 'no',
-        'acadlix_require_admin_approval_for_reviews' => 'no',
-        'acadlix_review_pagination_count' => 10,
+        // Front end Option
+        'acadlix_disable_admin_toolbar' => 'no',
+        'acadlix_enable_content_protection' => 'no',
         // Student Dashboard Option
         'acadlix_logout_redirect_url' => '',
         'acadlix_enable_dashboard_fullwidth' => 'no',
         'acadlix_enable_site_logo_in_header' => 'no',
+        'acadlix_enable_course_content_scroll_button' => 'no',
+        // Checkout Option
+        'acadlix_enable_coupon_code' => 'no',
         // Data management
         'acadlix_delete_data_on_plugin_uninstall' => 'no',
         // Notification option
@@ -1290,9 +1297,9 @@ if (!class_exists('Helper')) {
           'aria-*' => true,
           'data-*' => true,
         ],
-        'ul' => ['id' => true, 'class' => true, 'style' => true],
-        'ol' => ['id' => true, 'class' => true, 'style' => true],
-        'li' => ['id' => true, 'class' => true, 'style' => true],
+        'ul' => ['id' => true, 'class' => true, 'style' => true, 'data-*' => true],
+        'ol' => ['id' => true, 'class' => true, 'style' => true, 'data-*' => true],
+        'li' => ['id' => true, 'class' => true, 'style' => true, 'data-*' => true],
         'strong' => [],
         'em' => [],
         'br' => [],
@@ -1328,6 +1335,7 @@ if (!class_exists('Helper')) {
         'time' => ['datetime' => true, 'class' => true],
         'figure' => ['class' => true],
         'figcaption' => ['class' => true],
+        'style' => true,
       ];
     }
 
@@ -1386,6 +1394,19 @@ if (!class_exists('Helper')) {
           }
 
           if ($value !== null) {
+            // Special handling for style
+            if ($key === 'style') {
+              $safe_style = safecss_filter_attr($value);
+              if (!empty($safe_style)) {
+                $attributes .= sprintf(
+                  ' %s="%s"',
+                  esc_attr($key),
+                  esc_attr($safe_style)
+                );
+              }
+              continue;
+            }
+
             $attributes .= sprintf(
               ' %s="%s"',
               esc_attr($key),
@@ -1414,7 +1435,7 @@ if (!class_exists('Helper')) {
 
       // Output opening tag
       printf(
-        '<%1$s%2$s>',
+        '<%1$s %2$s>',
         esc_html($tag),
         $attributes // phpcs:ignore
       );

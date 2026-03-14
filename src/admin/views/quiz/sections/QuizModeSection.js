@@ -45,6 +45,17 @@ const SkipQuestionButton = React.lazy(() =>
       "@acadlix/free/admin/quiz/sections/mode/SkipQuestionButton"
     )
 );
+const AutoCheckButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_pro_auto_check_button" */
+      "@acadlix/pro/admin/quiz/sections/mode/AutoCheckButton"
+    )
+    : import(
+      /* webpackChunkName: "admin_quiz_free_auto_check_button" */
+      "@acadlix/free/admin/quiz/sections/mode/AutoCheckButton"
+    )
+);
 const AdvanceModeOptions = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
@@ -189,6 +200,10 @@ const QuizModeSection = (props) => {
 
                     <React.Suspense fallback={null}>
                       <SkipQuestionButton {...props} />
+                    </React.Suspense>
+
+                    <React.Suspense fallback={null}>
+                      <AutoCheckButton {...props} />
                     </React.Suspense>
 
                   </Box>

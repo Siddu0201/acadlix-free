@@ -16,7 +16,6 @@ import {
   Tooltip,
   Typography,
   styled,
-  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
@@ -27,6 +26,7 @@ import {
   DeleteBulkQuiz,
   DeleteQuizById,
   GetQuizes,
+  PostExportQuiz,
 } from "@acadlix/requests/admin/AdminQuizRequest";
 import {
   FaEdit,
@@ -34,9 +34,9 @@ import {
   FaTrash,
   FaRankingStar,
   MdFileCopy,
-  IoMdRefresh,
   LuFileChartColumn,
-  FaSearch
+  FaSearch,
+  FaQuora
 } from "@acadlix/helpers/icons";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -45,6 +45,8 @@ import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
+import { useJsonExport } from "@acadlix/hooks/useJsonExport";
+import ImportQuizModel from "./actions/ImportQuizModel";
 
 const PragraphOptionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -91,12 +93,12 @@ const Quiz = () => {
       action: "",
       category_model: false,
       subject_model: false,
+      import_model: false,
       quiz_id: null,
     },
   });
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const deleteMutation = DeleteQuizById();
@@ -110,6 +112,10 @@ const Quiz = () => {
     methods?.setValue("quiz_id", null, { shouldDirty: true });
     methods?.setValue("subject_model", false, { shouldDirty: true });
   };
+
+  const handleImportClose = () => {
+    methods?.setValue("import_model", false, { shouldDirty: true });
+  }
 
   const columns = [
     { field: "id", headerName: __("ID", "acadlix") },
@@ -276,7 +282,7 @@ const Quiz = () => {
                   LinkComponent={Link}
                   to={`/${params?.id}/question`}
                 >
-                  <FaQuestion />
+                  <FaQuora />
                 </IconButton>
               </Tooltip>
             }
@@ -383,6 +389,28 @@ const Quiz = () => {
     methods?.setValue("category_model", true, { shouldDirty: true });
   };
 
+  const exportMutation = PostExportQuiz();
+  const exportJson = useJsonExport();
+  const handleExport = () => {
+    exportMutation?.mutate(
+      {
+        quiz_ids: methods?.watch("quiz_ids"),
+      },
+      {
+        onSuccess: (data) => {
+          const fileName = `acadlix_quiz_${new Date().getTime()}.json`;
+          exportJson(fileName, { data: data?.data?.quizzes ?? [] });
+          methods?.setValue("action", "", { shouldDirty: true });
+          methods?.setValue("quiz_ids", [], { shouldDirty: true });
+        },
+        onError: (error) => {
+          toast.error(error?.response?.data?.message);
+          console.error(error);
+        }
+      }
+    );
+  };
+
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
   };
@@ -397,6 +425,9 @@ const Quiz = () => {
             break;
           case "set_category":
             handleCategory();
+            break;
+          case "export":
+            handleExport();
             break;
           default:
         }
@@ -461,6 +492,14 @@ const Quiz = () => {
           <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
         </React.Suspense>
       </BootstrapDialog>
+      <BootstrapDialog
+        open={methods?.watch("import_model")}
+        onClose={handleImportClose}
+        aria-labelledby="alert-import-title"
+        aria-describedby="alert-import-description"
+      >
+        <ImportQuizModel {...methods} handleClose={handleImportClose} />
+      </BootstrapDialog>
       <Grid
         container
         spacing={{
@@ -499,6 +538,18 @@ const Quiz = () => {
                       color="primary"
                     >
                       {__("Add", "acadlix")}
+                    </Button>
+                  }
+                  {
+                    hasCapability("acadlix_import_export_json_quiz") &&
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        methods?.setValue("import_model", true, { shouldDirty: true });
+                      }}
+                    >
+                      {__("Import (JSON)", "acadlix")}
                     </Button>
                   }
                   <CustomRefresh
@@ -559,6 +610,10 @@ const Quiz = () => {
                           hasCapability("acadlix_bulk_set_category_quiz") &&
                           <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
                         }
+                        {
+                          hasCapability("acadlix_import_export_json_quiz") &&
+                          <MenuItem value="export">{__("Export (JSON)", "acadlix")}</MenuItem>
+                        }
                       </Select>
                       <FormHelperText>
                         {methods?.formState?.errors?.action?.message}
@@ -571,6 +626,7 @@ const Quiz = () => {
                       }}
                       onClick={handleBulkAction}
                       color="primary"
+                      loading={deleteBulkMutation?.isPending || exportMutation?.isPending}
                     >
                       {__("Apply", "acadlix")}
                     </Button>

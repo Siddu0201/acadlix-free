@@ -15,6 +15,7 @@ const CustomRefresh = ({
         <>
             {isMobile ? (
                 <Button
+                    className='acadlix-icon-btn'
                     disabled={disabled}
                     onClick={refetch}
                     variant="contained"
@@ -29,6 +30,7 @@ const CustomRefresh = ({
                 </Button>
             ) : (
                 <Button
+                    className='acadlix-btn'
                     disabled={disabled}
                     onClick={refetch}
                     variant="contained"

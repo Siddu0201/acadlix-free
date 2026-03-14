@@ -6,14 +6,11 @@ import {
   Box,
   Typography,
   Divider,
-  Tooltip,
-  IconButton,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
 import CustomTypography from "@acadlix/components/CustomTypography";
-import { RiQuestionFill } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 
@@ -393,7 +390,7 @@ const Question = (props) => {
           <CustomTypography>{__("Attempt & move forward automatically", "acadlix")}
             <CustomFeatureTooltip
               plan={acadlixOptions?.isActive ? "open" : "closed"}
-              msg={__("Users will automatically navigate to the next question after selecting an option. This feature is only available for single-choice questions.", "acadlix")}
+              msg={__("Users will automatically navigate to the next question after selecting an option. This feature is only available for single-choice and true-false questions.", "acadlix")}
               placement="right-start"
               redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/question-options/#attempt-move-forward-automatically`}
             />
@@ -423,6 +420,25 @@ const Question = (props) => {
             {...props}
           />
         </React.Suspense>
+
+        {/* Disable hint option */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Disable Hint", "acadlix")}</CustomTypography>
+        </GridItem1>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch />
+            }
+            checked={props?.watch("meta.quiz_settings.disable_hint") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.disable_hint", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
       </Grid>
     </Box>
   );

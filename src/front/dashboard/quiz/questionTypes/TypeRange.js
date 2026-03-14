@@ -68,7 +68,7 @@ const TypeRange = (props) => {
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-          <Typography>
+          <Typography component="div">
             <b>{__("Your answer", "acadlix")}</b>
           </Typography>
         )}
@@ -154,10 +154,10 @@ const TypeRange = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <>
-            <Typography>
+            <Typography component="div">
               <b>{__("Correct answer", "acadlix")}</b>
             </Typography>
-            <Typography>
+            <Typography component="div">
               {props?.answer_data?.[props?.type]?.from} -{" "}
               {props?.answer_data?.[props?.type]?.to}
             </Typography>

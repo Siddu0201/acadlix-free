@@ -98,6 +98,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_price_label_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body1",
                                   sx: {
                                     fontWeight: "bold",
@@ -109,6 +110,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_price_value_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body2",
                                 },
                                 value: currencyPosition(
@@ -151,6 +153,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_subtotal_label_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body1",
                                   sx: {
                                     fontWeight: "bold",
@@ -162,6 +165,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_subtotal_value_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body2",
                                 },
                                 value: currencyPosition(
@@ -181,7 +185,7 @@ const OrderSummary = (props) => {
                       },
                       {
                         component: "Grid",
-                        component_name: "checkout_order_summary_price_grid_item",
+                        component_name: "checkout_order_summary_discount_grid_item",
                         props: {
                           size: {
                             xs: 12,
@@ -204,6 +208,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_price_label_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body1",
                                   sx: {
                                     fontWeight: "bold",
@@ -215,6 +220,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_price_value_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body2",
                                   sx: {
                                     color: props
@@ -226,9 +232,64 @@ const OrderSummary = (props) => {
                                   ?.watch("order_items")
                                   ?.reduce((total, c) => total + c?.discount, 0) > 0 ? "-" : ""}
                                   ${currencyPosition(
+                                    props
+                                      ?.watch("order_items")
+                                      ?.reduce((total, c) => total + c?.discount, 0),
+                                    props?.watch("currency_symbol")
+                                  )}`
+                              },
+                            ]
+                          },
+                          {
+                            component: "Divider",
+                            component_name: "checkout_order_summary_price_divider",
+                          },
+                        ]
+                      },
+                      {
+                        component: "Grid",
+                        component_name: "checkout_order_summary_price_after_discount_grid_item",
+                        props: {
+                          size: {
+                            xs: 12,
+                            lg: 12,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Box",
+                            component_name: "checkout_order_summary_price_after_discount_box",
+                            props: {
+                              sx: {
+                                display: "flex",
+                                justifyContent: "space-between",
+                                paddingBottom: 2,
+                              },
+                            },
+                            children: [
+                              {
+                                component: "Typography",
+                                component_name: "checkout_order_summary_price_after_discount_label_typography",
+                                props: {
+                                  component: "div",
+                                  variant: "body1",
+                                  sx: {
+                                    fontWeight: "bold",
+                                  },
+                                },
+                                value: __('Price After Discount:', 'acadlix')
+                              },
+                              {
+                                component: "Typography",
+                                component_name: "checkout_order_summary_price_after_discount_value_typography",
+                                props: {
+                                  component: "div",
+                                  variant: "body2",
+                                },
+                                value: `${currencyPosition(
                                   props
                                     ?.watch("order_items")
-                                    ?.reduce((total, c) => total + c?.discount, 0),
+                                    ?.reduce((total, c) => total + c?.price_after_discount, 0),
                                   props?.watch("currency_symbol")
                                 )}`
                               },
@@ -236,7 +297,7 @@ const OrderSummary = (props) => {
                           },
                           {
                             component: "Divider",
-                            component_name: "checkout_order_summary_price_divider",
+                            component_name: "checkout_order_summary_price_after_discount_divider",
                           },
                         ]
                       },
@@ -265,6 +326,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_tax_label_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body1",
                                   sx: {
                                     fontWeight: "bold",
@@ -276,6 +338,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_tax_value_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body2",
                                 },
                                 value: currencyPosition(
@@ -318,6 +381,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_total_label_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body1",
                                   sx: {
                                     fontWeight: "bold",
@@ -329,6 +393,7 @@ const OrderSummary = (props) => {
                                 component: "Typography",
                                 component_name: "checkout_order_summary_total_value_typography",
                                 props: {
+                                  component: "div",
                                   variant: "body2",
                                 },
                                 value: currencyPosition(
@@ -359,7 +424,8 @@ const OrderSummary = (props) => {
                           {
                             component: "Button",
                             component_name: "checkout_order_summary_button",
-                              props: {
+                            props: {
+                              className: "acadlix-btn",
                               color: "primary",
                               variant: "contained",
                               fullWidth: true,
@@ -515,6 +581,7 @@ const OrderSummary = (props) => {
                   </Grid>
                   <Grid size={{ xs: 12, lg: 12 }}>
                     <Button
+                      className="acadlix-btn"
                       color="success"
                       variant="contained"
                       fullWidth

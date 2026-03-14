@@ -21,37 +21,37 @@ const AdminSetting = () => {
       path: "/payment",
       name: "payment",
       label: __('Payment', 'acadlix'),
-      isFree: false,
+      isFree: true,
     },
     hasCapability("acadlix_show_notification_setting") && {
       path: "/notification",
       name: "notification",
       label: __('Notification', 'acadlix'),
-      isFree: false,
+      isFree: true,
     },
     hasCapability("acadlix_show_permalink_setting") && {
       path: "/permalink",
       name: "permalink",
       label: __('Permalink', 'acadlix'),
-      isFree: false,
+      isFree: true,
     },
     hasCapability("acadlix_show_quiz_setting") && {
       path: "/quiz",
       name: "quiz",
       label: __('Quiz', 'acadlix'),
-      isFree: false,
+      isFree: true,
     },
     hasCapability("acadlix_show_authentication_setting") && {
       path: "/authentication",
       name: "authentication",
       label: __('Authentication', 'acadlix'),
-      isFree: false,
+      isFree: true,
     },
     hasCapability("acadlix_show_integration_setting") && {
       path: "/integration",
       name: "integration",
       label: __('Integration', 'acadlix'),
-      isFree: false,
+      isFree: true,
     },
   ];
 

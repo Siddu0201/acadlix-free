@@ -43,6 +43,7 @@ const ContentHeader = (props) => {
         >
           {props?.open ? (
             <IconButton
+              className='acadlix-icon-btn'
               onClick={props?.handleOpen}
               sx={{
                 borderRadius: 0,
@@ -63,6 +64,7 @@ const ContentHeader = (props) => {
             </IconButton>
           ) : (
             <IconButton
+              className='acadlix-icon-btn'
               onClick={props?.handleOpen}
               sx={{
                 borderRadius: 0,
@@ -89,6 +91,7 @@ const ContentHeader = (props) => {
           }}
         >
           <Typography
+            component="div"
             variant="h4"
             sx={{
               color: "primary.contrastText",
@@ -144,6 +147,7 @@ const ContentHeader = (props) => {
         </Box>
         <Box>
           <Button
+            className="acadlix-btn"
             variant="outlined"
             color="primary"
             onClick={() => {

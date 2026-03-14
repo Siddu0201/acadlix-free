@@ -21,6 +21,7 @@ import { convertToUnitPrice, formatPrice } from "@acadlix/helpers/util";
 import { Country } from "country-state-city";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import OfflinePaymentModal from "./modal/OfflinePaymentModal";
+import Coupon from "./Coupon";
 
 const Checkout = () => {
   const getUserMetaValue = (key = "") => {
@@ -57,6 +58,11 @@ const Checkout = () => {
     cart_token: acadlixCheckoutOptions?.cart_token,
     cart: [],
     order_items: [],
+    coupon: null,
+    coupon_id: null,
+    coupon_code: "",
+    coupon_amount: 0,
+    discount_type: null,
     total_amount: 0,
     currency: acadlixCheckoutOptions?.settings?.acadlix_currency,
     currency_symbol: acadlixCheckoutOptions?.currency_symbol,
@@ -103,15 +109,15 @@ const Checkout = () => {
             : c?.course?.rendered_metas?.price
         );
         let discount = 0;
-        let price_after_discount = price - discount;
         let additional_fee = 0;
+        let price_after_discount = (price + additional_fee) - discount;
         let tax = 0;
         if (
           c?.course?.rendered_metas?.tax !== 0 &&
           c?.course?.rendered_metas?.tax_percent !== 0
         ) {
           tax = formatPrice(
-            (price * c?.course?.rendered_metas?.tax_percent) / 100
+            (price_after_discount * c?.course?.rendered_metas?.tax_percent) / 100
           );
         }
         let price_after_tax = price_after_discount + tax;
@@ -137,20 +143,37 @@ const Checkout = () => {
       }
     );
 
-    methods?.setValue(
-      "total_amount",
-      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_total_amount", formatPrice(
-        methods
-          ?.watch("order_items")
-          ?.reduce((total, c) => total + c?.price_after_tax, 0)
-      ),
-        {
-          cart: cart,
-          methods: methods,
-        }),
-      { shouldDirty: true }
-    );
+    // methods?.setValue(
+    //   "total_amount",
+    //   window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_total_amount", formatPrice(
+    //     methods
+    //       ?.watch("order_items")
+    //       ?.reduce((total, c) => total + c?.price_after_tax, 0)
+    //   ),
+    //     {
+    //       cart: cart,
+    //       methods: methods,
+    //     }),
+    //   { shouldDirty: true }
+    // );
   };
+
+  React.useEffect(() => {
+    if (methods?.watch("order_items")?.length > 0) {
+      methods?.setValue(
+        "total_amount",
+        window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_total_amount", formatPrice(
+          methods
+            ?.watch("order_items")
+            ?.reduce((total, c) => total + c?.price_after_tax, 0)
+        ),
+          {
+            methods: methods,
+          }),
+        { shouldDirty: true }
+      );
+    }
+  }, [methods?.watch("order_items")]); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useLayoutEffect(() => {
     if (!getCart?.isFetching && getCart?.data?.data?.cart?.length > 0) {
@@ -184,6 +207,10 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
         amount: convertToUnitPrice(data?.total_amount),
+        coupon_id: data?.coupon_id,
+        coupon_code: data?.coupon_code,
+        coupon_amount: data?.coupon_amount,
+        discount_type: data?.discount_type,
       },
         {
           methods: methods,
@@ -231,6 +258,10 @@ const Checkout = () => {
         payment_method: data?.payment_method,
         order_items: data?.order_items,
         total_amount: data?.total_amount,
+        coupon_id: data?.coupon_id,
+        coupon_code: data?.coupon_code,
+        coupon_amount: data?.coupon_amount,
+        discount_type: data?.discount_type,
       },
         {
           methods: methods,
@@ -270,6 +301,10 @@ const Checkout = () => {
         payment_method: data?.payment_method,
         order_items: data?.order_items,
         total_amount: data?.total_amount,
+        coupon_id: data?.coupon_id,
+        coupon_code: data?.coupon_code,
+        coupon_amount: data?.coupon_amount,
+        discount_type: data?.discount_type,
       },
         {
           methods: methods,
@@ -345,6 +380,10 @@ const Checkout = () => {
         order_items: data?.order_items,
         total_amount: data?.total_amount,
         amount: convertToUnitPrice(data?.total_amount),
+        coupon_id: data?.coupon_id,
+        coupon_code: data?.coupon_code,
+        coupon_amount: data?.coupon_amount,
+        discount_type: data?.discount_type,
       }
       ),
       {
@@ -378,6 +417,10 @@ const Checkout = () => {
       total_amount: methods?.watch("total_amount"),
       offline_user_text: methods?.watch("offline_user_text"),
       offline_upload_file: methods?.watch("offline_upload_file"),
+      coupon_id: data?.coupon_id,
+      coupon_code: data?.coupon_code,
+      coupon_amount: data?.coupon_amount,
+      discount_type: data?.discount_type,
     });
 
     // Convert to FormData
@@ -553,6 +596,9 @@ const Checkout = () => {
                         {
                           component: "Typography",
                           component_name: "checkout_login_grid_item_typography",
+                          props: {
+                            component: "div",
+                          },
                           children: [
                             {
                               component: "span",
@@ -644,6 +690,22 @@ const Checkout = () => {
                     },
                     {
                       component: "Grid",
+                      component_name: "checkout_coupon_grid_item",
+                      props: {
+                        size: { xs: 12, sm: 12 },
+                        sx: {
+                          display: acadlixCheckoutOptions?.settings?.acadlix_enable_coupon_code === "yes" ? "block" : "none",
+                        },
+                      },
+                      children: [
+                        {
+                          component: <Coupon {...methods} />,
+                          component_name: "checkout_coupon",
+                        }
+                      ]
+                    },
+                    {
+                      component: "Grid",
                       component_name: "checkout_order_summary_grid_item",
                       props: {
                         size: { xs: 12, sm: 12 },
@@ -687,6 +749,7 @@ const Checkout = () => {
                   component_name: "checkout_cart_empty_grid_item_typography",
                   props: {
                     variant: "body1",
+                    component: "div",
                   },
                   value: __("Your cart is currently empty.", "acadlix"),
                 },

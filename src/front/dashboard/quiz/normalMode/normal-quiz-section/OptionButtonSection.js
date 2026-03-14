@@ -88,6 +88,7 @@ const OptionButtonSection = (props) => {
           `questions.${currentIndex}.language`,
           props?.watch(`questions.${currentIndex}.language`)?.map((lang) => {
             lang.answer_data[props?.question?.answer_type].yourAnswer = "";
+            lang.answer_data[props?.question?.answer_type].yourUploads = [];
             return lang;
           }),
           { shouldDirty: true }
@@ -181,22 +182,6 @@ const OptionButtonSection = (props) => {
     );
   };
 
-  const handleCheckClick = () => {
-    const forceAnswer = props?.watch("force_user_to_answer_each_question");
-    const solvedCount = props?.watch(`questions.${props?.index}.result.solved_count`) ?? 0;
-
-    if (forceAnswer && solvedCount === 0) {
-      alert(__("Please select an option before checking the answer", "acadlix"));
-      return;
-    }
-
-    props?.setValue(
-      `questions.${props?.index}.check`,
-      !props?.watch(`questions.${props?.index}.check`),
-      { shouldDirty: true }
-    );
-  };
-
   return (
     <Box
       sx={{
@@ -254,7 +239,9 @@ const OptionButtonSection = (props) => {
           columnGap: 1,
         }}
       >
-        {props?.watch(`questions.${props?.index}.hint_enabled`) &&
+        {
+        !props?.watch("disable_hint") &&
+        props?.watch(`questions.${props?.index}.hint_enabled`) &&
           props
             ?.watch(`questions.${props?.index}.language`)
             .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (
@@ -271,7 +258,7 @@ const OptionButtonSection = (props) => {
           props?.watch("enable_check_button") &&
           !props?.question?.check && (
             <CustomButton
-              onClick={handleCheckClick}
+              onClick={() => props?.handleCheckClick(props?.index)}
               className="acadlix-normal-quiz-option-button-check"
             >
               {__("Check", "acadlix")}
@@ -282,7 +269,7 @@ const OptionButtonSection = (props) => {
         {props?.watch("mode") === "check_and_continue" &&
           !props?.question?.check && (
             <CustomButton
-              onClick={handleCheckClick}
+              onClick={() => props?.handleCheckClick(props?.index)}
               sx={{
                 display:
                   props?.watch("enable_check_on_option_selected") &&

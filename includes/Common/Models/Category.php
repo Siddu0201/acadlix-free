@@ -49,6 +49,34 @@ if (!class_exists('Category')) {
             return null;
         }
 
+        public static function findOrCreateByName($name)
+        {
+            $instance = static::instance();
+            $taxonomy = $instance->taxonomy;
+
+            if (empty($name)) {
+                return null;
+            }
+
+            // 1️⃣ Check if term exists
+            $existing = term_exists($name, $taxonomy);
+
+            if ($existing && !is_wp_error($existing)) {
+                return is_array($existing)
+                    ? (int) $existing['term_id']
+                    : (int) $existing;
+            }
+
+            // 2️⃣ Create term if not exists
+            $created = wp_insert_term($name, $taxonomy);
+
+            if (!is_wp_error($created) && isset($created['term_id'])) {
+                return (int) $created['term_id'];
+            }
+
+            return null;
+        }
+
         /**
          * Get all terms in the taxonomy.
          *

@@ -20,6 +20,7 @@ class Core
 
         add_action('admin_bar_menu', [$this, 'add_toolbar_menu'], 100);
         add_filter('get_avatar_url', [$this, 'filter_avatar'], 10, 3);
+        add_filter("show_admin_bar", [$this, 'show_admin_bar_for_roles']);
     }
 
     public function acadlix_sync_data_on_login($user_login, WP_User $user)
@@ -287,6 +288,16 @@ class Core
             }
         }
         return $url;
+    }
+
+    public function show_admin_bar_for_roles($show)
+    {
+        $hide = acadlix()->helper()->acadlix_get_option('acadlix_disable_admin_toolbar') == 'yes';
+        if (!is_admin() && $hide && !current_user_can('manage_options')) {
+            return false;
+        }
+
+        return $show;
     }
 
     public static function instance()

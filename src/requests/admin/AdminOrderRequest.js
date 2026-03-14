@@ -99,10 +99,6 @@ export const PostCreateOrder = () => {
                     "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
         }
     });
 }
@@ -131,11 +127,7 @@ export const UpdateOrderById = (order_id = '') => {
                     "X-WP-Nonce": acadlixOptions?.nonce,
                 }
             });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
-        }
+        }        
     });
 }
 

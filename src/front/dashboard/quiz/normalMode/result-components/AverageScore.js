@@ -27,6 +27,7 @@ const AverageScore = ({
                 </Box>
                 <Box>
                     <Typography
+                        component="div"
                         variant="h6"
                         sx={{ fontWeight: 600 }}
                         className='acadlix-quiz-result-text acadlix-quiz-result-text-average-score'
@@ -36,6 +37,7 @@ const AverageScore = ({
                             : average_score}
                     </Typography>
                     <Typography
+                        component="div"
                         variant="subtitle2"
                         className='acadlix-quiz-result-subtitle acadlix-quiz-result-subtitle-average-score'
                     >

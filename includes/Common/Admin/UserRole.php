@@ -46,6 +46,7 @@ class UserRole
             $this->template_capabilities(),
             $this->design_studio_capabilities(),
             $this->review_capabilities(),
+            $this->coupon_capabilities(),
         );
     }
 
@@ -106,6 +107,7 @@ class UserRole
             'acadlix_add_edit_language_to_quiz' => true,
             'acadlix_set_default_quiz_language' => true,
             'acadlix_delete_language_from_quiz' => true,
+            'acadlix_import_export_json_quiz' => true,
         ];
     }
 
@@ -212,6 +214,7 @@ class UserRole
     {
         return [
             'acadlix_show_tool' => true,
+            'acadlix_show_import_export_tool' => true,
         ];
     }
 
@@ -263,6 +266,17 @@ class UserRole
             'acadlix_show_review' => true,
             'acadlix_edit_review' => true,
             'acadlix_delete_review' => true,
+        ];
+    }
+
+    public function coupon_capabilities(): array
+    {
+        return [
+            'acadlix_show_coupon' => true,
+            'acadlix_add_coupon' => true,
+            'acadlix_edit_coupon' => true,
+            'acadlix_delete_coupon' => true,
+            'acadlix_bulk_delete_coupon' => true,
         ];
     }
 

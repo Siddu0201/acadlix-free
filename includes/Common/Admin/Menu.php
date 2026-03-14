@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Common\Admin;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Addon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Categories;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Coupon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Design_Studio;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
@@ -13,6 +14,7 @@ use Yuvayana\Acadlix\Common\Submenu\Submenu_Reviews;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Settings;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Student;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Tags;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Tools;
 
 defined('ABSPATH') || exit();
 
@@ -33,6 +35,8 @@ class Menu
     protected ?Submenu_Student $student = null;
     protected ?Submenu_Design_Studio $design_studio = null;
     protected ?Submenu_Reviews $reviews = null;
+    protected ?Submenu_Coupon $coupon = null;
+    protected ?Submenu_Tools $tools = null;
 
     public function __construct()
     {
@@ -70,6 +74,8 @@ class Menu
             'acadlix_addon',
             'acadlix_design_studio',
             'acadlix_review',
+            'acadlix_coupon',
+            'acadlix_tool',
         ];
     }
 
@@ -96,6 +102,8 @@ class Menu
         $this->submenu_student();
         $this->submenu_design_studio();
         $this->submenu_reviews();
+        $this->submenu_coupon();
+        $this->submenu_tools();
     }
 
     public function init_admin_menu()
@@ -207,6 +215,21 @@ class Menu
         return $this->reviews;
     }
 
+    public function submenu_coupon(){
+        if(is_null($this->coupon)){
+            $this->coupon = new Submenu_Coupon();
+        }
+        $this->_submenus[] = $this->coupon;
+        return $this->coupon;
+    }
+
+    public function submenu_tools(){
+        if(is_null($this->tools)){
+            $this->tools = new Submenu_Tools();
+        }
+        $this->_submenus[] = $this->tools;
+        return $this->tools;
+    }
 
     public function acadlix_set_active_menu_class($parent_file)
     {

@@ -13,6 +13,7 @@ const HintAndMessageSection = (props) => {
       <HintSection
         lang={props?.lang}
         question={props?.question}
+        disable_hint={props?.watch("disable_hint") || false}
       />
       {props?.question?.check ? (
         props?.question?.result?.correct_count ? (

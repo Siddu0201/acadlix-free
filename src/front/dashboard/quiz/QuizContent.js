@@ -63,6 +63,7 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_on_option_selected)
     ),
     skip_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.skip_question)),
+    auto_check: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_check)),
     question_per_page: props?.quiz?.rendered_metas?.quiz_settings?.question_per_page, // 0 => all question
     pagination_page: 1,
     // General settings
@@ -76,6 +77,7 @@ const QuizContent = (props) => {
     quiz_time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time * 1000, // 0 => Infinity (no limit)
     show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
     start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
+    auto_start: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_start)),
     enable_login_register: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
     ),
@@ -118,6 +120,7 @@ const QuizContent = (props) => {
     force_user_to_answer_each_question: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.force_user_to_answer_each_question)
     ),
+    disable_hint: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_hint)),
     // Subject wise settings
     optional_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.optional_subject)),
     subject_wise_question: Boolean(
@@ -294,7 +297,23 @@ const QuizContent = (props) => {
                     ?.fillInTheBlank,
                   numerical: lang?.rendered_answer_data?.numerical,
                   rangeType: lang?.rendered_answer_data?.rangeType,
-                  assessment: lang?.rendered_answer_data?.assessment,
+                  assessment: lang?.rendered_answer_data?.assessment ? {
+                    ...lang?.rendered_answer_data?.assessment,
+                    yourUploads: [],
+                    allowed_mime_types: lang?.rendered_answer_data?.assessment?.allowed_mime_types ?? [],
+                    allowUploads: lang?.rendered_answer_data?.assessment?.allowUploads ?? false,
+                    number_of_uploads: Number(lang?.rendered_answer_data?.assessment?.number_of_uploads ?? 1),
+                    max_file_size: Number(lang?.rendered_answer_data?.assessment?.max_file_size ?? 2)
+                  } : {
+                    characterLimit: 0,
+                    referenceAnswer: "",
+                    yourAnswer: "",
+                    yourUploads: [],
+                    allowed_mime_types: [],
+                    allowUploads: false,
+                    number_of_uploads: 1,
+                    max_file_size: 2
+                  },
                 },
               };
             }) ?? [],
@@ -585,6 +604,22 @@ const QuizContent = (props) => {
     });
   };
 
+  const handleCheckClick = (index = 0) => {
+    const forceAnswer = methods?.watch("force_user_to_answer_each_question");
+    const solvedCount = methods?.watch(`questions.${index}.result.solved_count`) ?? 0;
+
+    if (forceAnswer && solvedCount === 0) {
+      alert(__("Please select an option before checking the answer", "acadlix"));
+      return;
+    }
+
+    methods?.setValue(
+      `questions.${index}.check`,
+      !methods?.watch(`questions.${index}.check`),
+      { shouldDirty: true }
+    );
+  };
+
   const checkMode = () => {
     switch (methods?.watch("mode")) {
       case "normal":
@@ -623,6 +658,7 @@ const QuizContent = (props) => {
             isCorrect={isCorrect}
             isIncorrect={isIncorrect}
             isQuestionEvaluated={isQuestionEvaluated}
+            handleCheckClick={handleCheckClick}
           />
         );
       case "advance_mode":
@@ -660,6 +696,7 @@ const QuizContent = (props) => {
               isCorrect={isCorrect}
               isIncorrect={isIncorrect}
               isQuestionEvaluated={isQuestionEvaluated}
+              handleCheckClick={handleCheckClick}
             />
           </React.Suspense>
         );

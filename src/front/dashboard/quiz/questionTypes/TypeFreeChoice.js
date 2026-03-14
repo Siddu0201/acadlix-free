@@ -63,7 +63,7 @@ const TypeFreeChoice = (props) => {
         >
             {(props?.watch("view_answer") ||
                 props?.watch(`questions.${props?.index}.check`)) && (
-                    <Typography>
+                    <Typography component="div">
                         <b>{__("Your answer", "acadlix")}</b>
                     </Typography>
                 )}
@@ -139,10 +139,10 @@ const TypeFreeChoice = (props) => {
             {(props?.watch("view_answer") ||
                 props?.watch(`questions.${props?.index}.check`)) && (
                     <>
-                        <Typography>
+                        <Typography component="div">
                             <b>{__("Correct answer", "acadlix")}</b>
                         </Typography>
-                        <Typography>{props?.answer_data?.[props?.type]?.correctOption?.join(" | ")}</Typography>
+                        <Typography component="div">{props?.answer_data?.[props?.type]?.correctOption?.join(" | ")}</Typography>
                     </>
                 )}
         </Box>

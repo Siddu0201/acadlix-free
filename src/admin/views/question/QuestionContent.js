@@ -23,50 +23,50 @@ import { TiArrowLeftThick } from "../../../helpers/icons";
 import { __ } from "@wordpress/i18n";
 import FreeChoice from "./types/FreeChoice";
 
-const QuestionParagraphSection = React.lazy(() => 
+const QuestionParagraphSection = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_question_paragraph_section" */
-        "@acadlix/pro/admin/question/sections/QuestionParagraphSection"
-      )
+      /* webpackChunkName: "admin_quiz_pro_question_paragraph_section" */
+      "@acadlix/pro/admin/question/sections/QuestionParagraphSection"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_question_paragraph_section" */
-        "@acadlix/free/admin/question/sections/QuestionParagraphSection"
-      )
+      /* webpackChunkName: "admin_quiz_free_question_paragraph_section" */
+      "@acadlix/free/admin/question/sections/QuestionParagraphSection"
+    )
 );
-const Numerical = React.lazy(() => 
+const Numerical = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_numerical" */
-        "@acadlix/pro/admin/question/types/Numerical"
-      )
+      /* webpackChunkName: "admin_quiz_pro_numerical" */
+      "@acadlix/pro/admin/question/types/Numerical"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_numerical" */
-        "@acadlix/free/admin/question/types/Numerical"
-      )
+      /* webpackChunkName: "admin_quiz_free_numerical" */
+      "@acadlix/free/admin/question/types/Numerical"
+    )
 );
-const RangeType = React.lazy(() => 
+const RangeType = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_range_type" */
-        "@acadlix/pro/admin/question/types/RangeType"
-      )
+      /* webpackChunkName: "admin_quiz_pro_range_type" */
+      "@acadlix/pro/admin/question/types/RangeType"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_range_type" */
-        "@acadlix/free/admin/question/types/RangeType"
-      )
+      /* webpackChunkName: "admin_quiz_free_range_type" */
+      "@acadlix/free/admin/question/types/RangeType"
+    )
 );
 
-const Assessment = React.lazy(() => 
+const Assessment = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "admin_quiz_pro_assessment" */
-        "@acadlix/pro/admin/question/types/Assessment"
-      )
+      /* webpackChunkName: "admin_quiz_pro_assessment" */
+      "@acadlix/pro/admin/question/types/Assessment"
+    )
     : import(
-        /* webpackChunkName: "admin_quiz_free_assessment" */
-        "@acadlix/free/admin/question/types/Assessment"
-      )
+      /* webpackChunkName: "admin_quiz_free_assessment" */
+      "@acadlix/free/admin/question/types/Assessment"
+    )
 );
 
 const QuestionContent = (props) => {
@@ -154,6 +154,11 @@ const QuestionContent = (props) => {
           characterLimit: 500,
           referenceAnswer: "",
           yourAnswer: "",
+          yourUploads: [],
+          allowed_mime_types: [],
+          allowUploads: false,
+          number_of_uploads: 1,
+          max_file_size: 2
         };
         break;
       case "paragraph":
@@ -249,7 +254,7 @@ const QuestionContent = (props) => {
     },
   });
 
-  if(process.env.REACT_APP_MODE === 'development') {
+  if (process.env.REACT_APP_MODE === 'development') {
     console.log(methods?.watch());
   }
 

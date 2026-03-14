@@ -159,3 +159,16 @@ export const PostCheckoutOfflinePayment = () => {
     },
   });
 };
+
+export const PostApplyCoupon = () => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/post-apply-coupon`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        },
+      });
+    }
+  });
+};

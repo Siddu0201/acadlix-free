@@ -205,6 +205,7 @@ const TypeMatrixSortingChoice = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <Typography
+            component="div"
             sx={{
               paddingY: 2,
             }}
@@ -228,7 +229,7 @@ const TypeMatrixSortingChoice = (props) => {
               padding: "10px !important",
               marginY: "8px !important",
             }}>
-              <Typography variant="body2" sx={{
+              <Typography component="div" variant="body2" sx={{
                 fontWeight: "bold"
               }}>
                 {__("Pick Elements", "acadlix")}
@@ -366,6 +367,7 @@ const TypeMatrixSortingChoice = (props) => {
         props?.watch(`questions.${props?.index}.check`)) && (
           <>
             <Typography
+              component="div"
               sx={{
                 paddingY: 2,
               }}

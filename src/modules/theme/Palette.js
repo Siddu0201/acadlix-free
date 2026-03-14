@@ -101,6 +101,7 @@ const Palette = (props) => {
                             {__('Palette', 'acadlix')}
                         </Typography>
                         <Button
+                            className='acadlix-btn'
                             variant="contained"
                             color="primary"
                             onClick={handleReset}
@@ -318,6 +319,7 @@ const Palette = (props) => {
                             }}
                         >
                             <Button 
+                                className='acadlix-btn'
                                 variant="contained" 
                                 color="primary"
                                 href={acadlixOptions?.pricing_link}
@@ -331,6 +333,7 @@ const Palette = (props) => {
             }
             <CardActions>
                 <Button
+                    className='acadlix-btn'
                     variant="contained"
                     color="primary"
                     type="submit"

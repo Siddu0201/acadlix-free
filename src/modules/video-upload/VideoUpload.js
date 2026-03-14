@@ -176,6 +176,7 @@ const VideoUpload = ({
               allowedTypes={["video"]}
               render={({ open }) => (
                 <Button
+                  className='acadlix-btn'
                   variant="contained"
                   onClick={open}
                   startIcon={<FaCloudUploadAlt />}
@@ -186,11 +187,12 @@ const VideoUpload = ({
             />
             {methods?.watch("video_data.html_5") !== "" && (
               <>
-                <Typography variant="body1" sx={{ marginTop: 2 }}>
+                <Typography component="div" variant="body1" sx={{ marginTop: 2 }}>
                   <b>{__('Selected file:', 'acadlix')}</b>
                   <br />
                   {methods?.watch("video_data.html_5")?.split("/").pop()}
                   <IconButton
+                    className="acadlix-icon-btn"
                     sx={{
                       marginLeft: 2,
                     }}
@@ -238,6 +240,7 @@ const VideoUpload = ({
             />
             {methods?.watch("video_thumbnail") !== "" && (
               <IconButton
+                className="acadlix-icon-btn"
                 sx={{
                   marginLeft: 2,
                   position: "absolute",
@@ -260,6 +263,7 @@ const VideoUpload = ({
               allowedTypes={["image"]}
               render={({ open }) => (
                 <Button
+                  className='acadlix-btn'
                   variant="contained"
                   onClick={open}
                   startIcon={<FaCloudUploadAlt />}

@@ -491,11 +491,8 @@ const CourseContent = () => {
     }
   }, [location]);
 
-
   return (
-    <Box
-      onContextMenu={(e) => e.preventDefault()}
-    >
+    <Box>
       {(isFetching ||
         incompleteMutation?.isPending ||
         completeMutation?.isPending) && (
@@ -563,6 +560,7 @@ const CourseContent = () => {
                   <Box>
                     <Typography
                       variant="h4"
+                      component="div"
                     >
                       {__("Course content", "acadlix")}
                     </Typography>
@@ -696,6 +694,7 @@ const CourseContent = () => {
                       sm: 9,
                     },
                   }}
+                  id="acadlix_course_content"
                 >
                   {!open && (
                     <TabPanel value="1">

@@ -34,7 +34,7 @@ if (!class_exists('Language')) {
             $instance = static::instance();
             $term = get_term($id, $instance->taxonomy);
 
-            $default = (int) acadlix()->helper()->acadlix_get_option( 'default_term_' . $instance->taxonomy );
+            $default = (int) acadlix()->helper()->acadlix_get_option('default_term_' . $instance->taxonomy);
             if (!is_wp_error($term) && $term) {
                 return [
                     'term_id' => $term->term_id,
@@ -42,6 +42,34 @@ if (!class_exists('Language')) {
                     'slug' => $term->slug,
                     'default' => $term->term_id === $default
                 ];
+            }
+
+            return null;
+        }
+
+        public static function findOrCreateByName($name)
+        {
+            $instance = static::instance();
+            $taxonomy = $instance->taxonomy;
+
+            if (empty($name)) {
+                return null;
+            }
+
+            // 1️⃣ Check if term exists
+            $existing = term_exists($name, $taxonomy);
+
+            if ($existing && !is_wp_error($existing)) {
+                return is_array($existing)
+                    ? (int) $existing['term_id']
+                    : (int) $existing;
+            }
+
+            // 2️⃣ Create term if not exists
+            $created = wp_insert_term($name, $taxonomy);
+
+            if (!is_wp_error($created) && isset($created['term_id'])) {
+                return (int) $created['term_id'];
             }
 
             return null;
@@ -56,7 +84,7 @@ if (!class_exists('Language')) {
         {
             $instance = static::instance();
             $terms = get_terms([
-                'taxonomy'   => $instance->taxonomy,
+                'taxonomy' => $instance->taxonomy,
                 'hide_empty' => false,
             ]);
 
@@ -118,7 +146,7 @@ if (!class_exists('Language')) {
         public static function get_default()
         {
             $instance = static::instance();
-            $default = (int) acadlix()->helper()->acadlix_get_option( 'default_term_' . $instance->taxonomy );
+            $default = (int) acadlix()->helper()->acadlix_get_option('default_term_' . $instance->taxonomy);
             return static::find($default);
         }
 
@@ -148,13 +176,13 @@ if (!class_exists('Language')) {
 
         public static function get_quiz_languages($quiz_id)
         {
-            if(empty($quiz_id)){
+            if (empty($quiz_id)) {
                 return null;
             }
 
             $instance = static::instance();
             $terms = get_the_terms($quiz_id, $instance->taxonomy);
-            if($terms && count($terms) > 0){
+            if ($terms && count($terms) > 0) {
                 return array_map(function ($term) {
                     return static::find($term->term_id);
                 }, $terms);

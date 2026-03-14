@@ -119,6 +119,7 @@ const FrontSingleCourse = (props) => {
                                                             {c?.title}
                                                         </DialogTitle>
                                                         <IconButton
+                                                            className='acadlix-icon-btn'
                                                             aria-label="close"
                                                             onClick={handleClose.bind(this, index, c_index)}
                                                             sx={{

@@ -84,6 +84,7 @@ const AiDescription = ({
                 />
             </BootstrapDialog>
             <Button
+                className='acadlix-btn'
                 aria-label="ai"
                 size='small'
                 variant='contained'
@@ -190,6 +191,7 @@ const DescriptionModel = ({
                 {generateType()}
             </DialogTitle>
             <IconButton
+                className='acadlix-icon-btn'
                 aria-label="close"
                 onClick={handleClose}
                 sx={{
@@ -211,7 +213,7 @@ const DescriptionModel = ({
                         <Grid container spacing={2}>
 
                             <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography>
+                                <CustomTypography component="div">
                                     {__("Min. Words", "acadlix")}
                                 </CustomTypography>
                             </Grid>
@@ -244,7 +246,7 @@ const DescriptionModel = ({
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography>
+                                <CustomTypography component="div">
                                     {__("Max. Words", "acadlix")}
                                 </CustomTypography>
                             </Grid>
@@ -271,7 +273,7 @@ const DescriptionModel = ({
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography>
+                                <CustomTypography component="div">
                                     {__("Level", "acadlix")}
                                 </CustomTypography>
                             </Grid>
@@ -297,7 +299,7 @@ const DescriptionModel = ({
                                 </FormControl>
                             </Grid>
                             <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography>
+                                <CustomTypography component="div">
                                     {__("Tone", "acadlix")}
                                 </CustomTypography>
                             </Grid>
@@ -353,6 +355,7 @@ const DescriptionModel = ({
                             alignItems: "center"
                         }}>
                             <Button
+                                className='acadlix-btn'
                                 variant="contained"
                                 color="primary"
                                 loading={generateMutation.isPending}
@@ -371,7 +374,7 @@ const DescriptionModel = ({
                         </Box>
                     </Grid>
                     <Grid size={{ xs: 12, lg: 12 }}>
-                        <Typography variant='h6'>{__('Response', 'acadlix')}</Typography>
+                        <Typography variant='h6' component="div">{__('Response', 'acadlix')}</Typography>
                         <Typography variant="body1" component="div">
                             {
                                 (generateMutation?.isPending || improveMutation?.isPending) ?
@@ -382,6 +385,7 @@ const DescriptionModel = ({
                         {
                             response &&
                             <Button
+                                className='acadlix-btn'
                                 variant="contained"
                                 color="primary"
                                 onClick={() => {
@@ -397,6 +401,7 @@ const DescriptionModel = ({
             </DialogContent>
             <DialogActions>
                 <Button
+                    className='acadlix-btn'
                     variant="contained"
                     color="error"
                     onClick={handleClose}

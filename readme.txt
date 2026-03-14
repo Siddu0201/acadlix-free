@@ -3,7 +3,7 @@ Contributors: acadlix
 Donate link: https://acadlix.com/
 Tags: lms, quiz, online course, education, exam
 Requires at least: 6.8
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 Requires PHP: 8.2
 Stable tag: {{VERSION}}
 License: GPLv2 or later
@@ -351,6 +351,20 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 15. Customizable Student Dashboard Menu
 
 == Changelog ==
+
+= 1.0.5 - 13-03-2026 =
+* Added: Coupon system to allow discounts on course purchases.
+* Added: Import and export quiz functionality using JSON format for easy quiz migration and backup.
+* Added: Category filter on the frontend for improved course browsing and discovery.
+* Added: File upload option in Assessment question type to allow students to submit files as answers.
+* Added: Content protection setting to disable right-click, copy, and text selection on course content, quizzes, and answer sheets.
+* Added: Auto-start quiz option for all quiz modes except Advanced Quiz.
+* Added: Option to disable the Hint feature in quizzes.
+* Added: Ability to assign multiple courses to multiple users at once.
+* Added: CSV import feature for bulk user creation.
+* Added: Option to hide the WordPress admin toolbar for non-admin users from plugin settings.
+* Improved: Updated question action icon in quiz interface for better clarity.
+* Improved: Dashboard login page UI with centered layout for better user experience.
 
 = 1.0.4 - 19-02-2026 =
 * Added - Rating and review system for courses.

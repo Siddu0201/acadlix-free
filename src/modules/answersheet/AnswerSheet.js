@@ -27,810 +27,815 @@ import TypeAssessment from "@acadlix/front/dashboard/quiz/questionTypes/TypeAsse
 // import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
 
 const QuestionStatusSection = React.lazy(() =>
-    import(
-        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_question_status_section" */
-        "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection")
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_question_status_section" */
+    "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionStatusSection")
 );
 
 const MarksObtained = React.lazy(() =>
-    import(
-        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_marks_obtained" */
-        "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained")
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_marks_obtained" */
+    "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained")
 );
 
 const NegativeMarks = React.lazy(() =>
-    import(
-        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_negative_marks" */
-        "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks")
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_negative_marks" */
+    "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks")
 );
 
 const TimeTaken = React.lazy(() =>
-    import(
-        /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_time_taken" */
-        "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken")
+  import(
+    /* webpackChunkName: "admin_quiz_front_dashboard_quiz_result_section_time_taken" */
+    "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken")
 );
 
 const QuestionSubjectAndPointSection = React.lazy(() =>
-    process.env.REACT_APP_IS_PREMIUM === 'true'
-        ? import(
-            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_question_subject_and_point_section" */
-            "@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
-        : import(
-            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_question_subject_and_point_section" */
-            "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection"
-        )           // Provide fallback if in Free build
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_question_subject_and_point_section" */
+      "@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionSubjectAndPointSection") // Use pro version in Pro build
+    : import(
+      /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_question_subject_and_point_section" */
+      "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-section/QuestionSubjectAndPointSection"
+    )           // Provide fallback if in Free build
 );
 
 const ResultStatus = React.lazy(() =>
-    process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import(
-            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_status" */
-            "@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus"
-        ) :
-        Promise.resolve({ default: () => null })
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_status" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultStatus"
+    ) :
+    Promise.resolve({ default: () => null })
 );
 
 const Accuracy = React.lazy(() =>
-    process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import(
-            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_accuracy" */
-            "@acadlix/pro/front/dashboard/quiz/result-components/Accuracy"
-        ) :
-        Promise.resolve({ default: () => null })
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_accuracy" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/Accuracy"
+    ) :
+    Promise.resolve({ default: () => null })
 );
 
 const ResultSpeed = React.lazy(() =>
-    process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import(
-            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_speed" */
-            "@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed"
-        ) :
-        Promise.resolve({ default: () => null })
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_speed" */
+      "@acadlix/pro/front/dashboard/quiz/result-components/ResultSpeed"
+    ) :
+    Promise.resolve({ default: () => null })
 );
 
 const ResultEvaluation = React.lazy(() =>
-    process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import(
-            /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_evaluation" */
-            "@acadlix/pro/admin/quiz/quiz-result/result-evaluation/ResultEvaluation"
-        ) :
-        Promise.resolve({ default: () => null })
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_quiz_front_dashboard_quiz_answer_sheet_result_evaluation" */
+      "@acadlix/pro/admin/quiz/quiz-result/result-evaluation/ResultEvaluation"
+    ) :
+    Promise.resolve({ default: () => null })
 );
 
 const AnswerSheet = ({
-    statistic = [],
-    colorCode = {},
-    quiz = {},
-    type = "answersheet",
-    ...props
+  statistic = [],
+  colorCode = {},
+  quiz = {},
+  type = "answersheet",
+  ...props
 }) => {
-    const theme = useTheme();
-    const baseSettings = {
-        view_answer: true,
-        multi_language: Boolean(Number(quiz?.multi_language)),
-        mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
-        advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
-        enable_inline_answer_options_layout: Boolean(
-            Number(quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
+  const theme = useTheme();
+  const baseSettings = {
+    view_answer: true,
+    multi_language: Boolean(Number(quiz?.multi_language)),
+    mode: quiz?.rendered_metas?.mode, // normal/check_and_continue/question_below_each_other/advance_mode
+    advance_mode_type: quiz?.rendered_metas?.advance_mode_type, // advance_panel/ibps/ssc/gate/sbi/jee/railway
+    enable_inline_answer_options_layout: Boolean(
+      Number(quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
+    ),
+    options_per_row: quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
+    // Question settings
+    show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
+    display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
+    hide_question_numbering: Boolean(
+      Number(quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
+    ),
+    show_difficulty_level: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_difficulty_level)),
+    // Result settings
+    save_statistic: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.save_statistic)),
+    hide_result: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_result)),
+    hide_negative_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
+    hide_quiz_time: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
+    show_speed: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_speed)),
+    show_percentile: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_percentile)),
+    show_accuracy: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
+    show_average_score: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_average_score)),
+    show_status_based_on_min_percent: Boolean(
+      Number(quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
+    ),
+    minimum_percent_to_pass: quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
+    hide_answer_sheet: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+    show_per_question_time: Boolean(
+      Number(quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
+    ),
+    enable_selectable_questions_rule: Boolean(
+      Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
+    ),
+    subject_times:
+      quiz?.subject_times ?
+        quiz?.subject_times?.map((s) => {
+          return {
+            ...s,
+            optional: Boolean(Number(s?.optional)),
+          };
+        }) : [],
+    subjects: statistic?.reduce((acc, stat) => {
+      if (!acc?.some((d) => d?.subject_id === stat?.question?.subject_id)) {
+        acc.push({
+          subject_id: stat?.question?.subject_id,
+          subject_name:
+            stat?.question?.subject?.subject_name ?? "Uncategorized",
+          selectable_rule_number_of_questions: quiz?.subject_times?.find(s => s?.subject_id === stat?.question?.subject_id)?.selectable_rule_number_of_questions ?? 0,
+        });
+      }
+      return acc;
+    }, []) ?? [],
+    questions: statistic?.map((stat) => {
+      return {
+        selected: true,
+        check: true,
+        question_id: stat?.question_id,
+        subject_id: stat?.question?.subject_id,
+        subject_name:
+          stat?.question?.subject?.subject_name ?? "Uncategorized",
+        difficulty_level: stat?.question?.difficulty_level ?? "",
+        online: stat?.question?.online,
+        sort: stat?.question?.sort,
+        title: stat?.question?.title,
+        points: stat?.question?.points,
+        negative_points: stat?.question?.negative_points,
+        different_points_for_each_answer: Boolean(
+          Number(stat?.question?.different_points_for_each_answer)
         ),
-        options_per_row: quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
-        // Question settings
-        show_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_marks)),
-        display_subject: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.display_subject)),
-        hide_question_numbering: Boolean(
-            Number(quiz?.rendered_metas?.quiz_settings?.hide_question_numbering)
+        different_incorrect_msg: Boolean(
+          Number(stat?.question?.different_incorrect_msg)
         ),
-        show_difficulty_level: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_difficulty_level)),
-        // Result settings
-        save_statistic: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.save_statistic)),
-        hide_result: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_result)),
-        hide_negative_marks: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
-        hide_quiz_time: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_quiz_time)),
-        show_speed: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_speed)),
-        show_percentile: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_percentile)),
-        show_accuracy: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_accuracy)),
-        show_average_score: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.show_average_score)),
-        show_status_based_on_min_percent: Boolean(
-            Number(quiz?.rendered_metas?.quiz_settings?.show_status_based_on_min_percent)
-        ),
-        minimum_percent_to_pass: quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
-        hide_answer_sheet: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
-        show_per_question_time: Boolean(
-            Number(quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
-        ),
-        enable_selectable_questions_rule: Boolean(
-            Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
-        ),
-        subject_times:
-            quiz?.subject_times ?
-                quiz?.subject_times?.map((s) => {
-                    return {
-                        ...s,
-                        optional: Boolean(Number(s?.optional)),
-                    };
-                }) : [],
-        subjects: statistic?.reduce((acc, stat) => {
-            if (!acc?.some((d) => d?.subject_id === stat?.question?.subject_id)) {
-                acc.push({
-                    subject_id: stat?.question?.subject_id,
-                    subject_name:
-                        stat?.question?.subject?.subject_name ?? "Uncategorized",
-                    selectable_rule_number_of_questions: quiz?.subject_times?.find(s => s?.subject_id === stat?.question?.subject_id)?.selectable_rule_number_of_questions ?? 0,
-                });
-            }
-            return acc;
-        }, []) ?? [],
-        questions: statistic?.map((stat) => {
+        hint_enabled: Boolean(Number(stat?.question?.hint_enabled)),
+        paragraph_enabled: Boolean(Number(stat?.question?.paragraph_enabled)),
+        paragraph_id: stat?.question?.paragraph_id,
+        answer_type: stat?.question?.answer_type,
+        result: {
+          id: stat?.id,
+          correct_count: stat?.correct_count,
+          incorrect_count: stat?.incorrect_count,
+          solved_count: stat?.solved_count,
+          hint_count: stat?.hint_count,
+          points: stat?.points,
+          negative_points: stat?.negative_points,
+          time: stat?.question_time,
+          answer_data: stat?.answer_data,
+          attempted_at: Number(stat?.attempted_at) ?? null,
+          is_evaluated: stat?.is_evaluated,
+          evaluated_by: stat?.evaluated_by,
+          evaluated_id: stat?.evaluated_id,
+          evaluation_remark: stat?.evaluation_remark,
+        },
+        language:
+          stat?.question?.question_languages?.map((lang) => {
             return {
-                selected: true,
-                check: true,
-                question_id: stat?.question_id,
-                subject_id: stat?.question?.subject_id,
-                subject_name:
-                    stat?.question?.subject?.subject_name ?? "Uncategorized",
-                difficulty_level: stat?.question?.difficulty_level ?? "",
-                online: stat?.question?.online,
-                sort: stat?.question?.sort,
-                title: stat?.question?.title,
-                points: stat?.question?.points,
-                negative_points: stat?.question?.negative_points,
-                different_points_for_each_answer: Boolean(
-                    Number(stat?.question?.different_points_for_each_answer)
-                ),
-                different_incorrect_msg: Boolean(
-                    Number(stat?.question?.different_incorrect_msg)
-                ),
-                hint_enabled: Boolean(Number(stat?.question?.hint_enabled)),
-                paragraph_enabled: Boolean(Number(stat?.question?.paragraph_enabled)),
-                paragraph_id: stat?.question?.paragraph_id,
-                answer_type: stat?.question?.answer_type,
-                result: {
-                    id: stat?.id,
-                    correct_count: stat?.correct_count,
-                    incorrect_count: stat?.incorrect_count,
-                    solved_count: stat?.solved_count,
-                    hint_count: stat?.hint_count,
-                    points: stat?.points,
-                    negative_points: stat?.negative_points,
-                    time: stat?.question_time,
-                    answer_data: stat?.answer_data,
-                    attempted_at: Number(stat?.attempted_at) ?? null,
-                    is_evaluated: stat?.is_evaluated,
-                    evaluated_by: stat?.evaluated_by,
-                    evaluated_id: stat?.evaluated_id,
-                    evaluation_remark: stat?.evaluation_remark,
-                },
-                language:
-                    stat?.question?.question_languages?.map((lang) => {
-                        return {
-                            language_id: lang?.language_id,
-                            language_name: lang?.language?.name,
-                            default: Boolean(Number(lang?.default)),
-                            selected: Boolean(Number(lang?.default)),
-                            paragraph: stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "" ?? "",
-                            question: lang?.rendered_question,
-                            correct_msg: lang?.rendered_correct_msg,
-                            incorrect_msg: lang?.rendered_incorrect_msg,
-                            hint_msg: lang?.rendered_hint_msg,
-                            answer_data: {
-                                singleChoice:
-                                    stat?.question?.answer_type === "singleChoice" && stat?.answer_data
-                                        ? lang?.rendered_answer_data?.singleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
-                                        : lang?.rendered_answer_data?.singleChoice,
-                                multipleChoice:
-                                    stat?.question?.answer_type === "multipleChoice" && stat?.answer_data
-                                        ? lang?.rendered_answer_data?.multipleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
-                                        : lang?.rendered_answer_data?.multipleChoice,
-                                trueFalse:
-                                    stat?.question?.answer_type === "trueFalse" && stat?.answer_data
-                                        ? lang?.rendered_answer_data?.trueFalse?.map((answer, index) => ({ ...answer, isChecked: stat?.answer_data == index ?? false }))
-                                        : lang?.rendered_answer_data?.trueFalse,
-                                freeChoice:
-                                    stat?.question?.answer_type === "freeChoice" && stat?.answer_data
-                                        ? { ...lang?.rendered_answer_data?.freeChoice, yourAnswer: stat?.answer_data }
-                                        : lang?.rendered_answer_data?.freeChoice,
-                                sortingChoice:
-                                    stat?.question?.answer_type === "sortingChoice" && stat?.answer_data
-                                        ? shuffleArrayBasedOnOrder(lang?.rendered_answer_data?.sortingChoice, stat?.answer_data)
-                                        : lang?.rendered_answer_data?.sortingChoice,
-                                matrixSortingChoice:
-                                    stat?.question?.answer_type === "matrixSortingChoice" && stat?.answer_data
-                                        ? lang?.rendered_answer_data?.matrixSortingChoice?.map((c, index) => ({ ...c, yourPosition: stat?.answer_data?.[index] ?? null }))
-                                        : lang?.rendered_answer_data?.matrixSortingChoice,
-                                fillInTheBlank:
-                                    stat?.question?.answer_type === "fillInTheBlank" && stat?.answer_data
-                                        ? {
-                                            ...lang?.rendered_answer_data?.fillInTheBlank,
-                                            correctOption: lang?.rendered_answer_data?.fillInTheBlank?.correctOption?.map((c, index) => ({ ...c, yourAnswer: stat?.answer_data?.[index] ?? '' })),
-                                        }
-                                        : lang?.rendered_answer_data?.fillInTheBlank,
-                                numerical:
-                                    stat?.question?.answer_type === "numerical" && stat?.answer_data
-                                        ? { ...lang?.rendered_answer_data?.numerical, yourAnswer: stat?.answer_data }
-                                        : lang?.rendered_answer_data?.numerical,
-                                rangeType:
-                                    stat?.question?.answer_type === "rangeType" && stat?.answer_data
-                                        ? { ...lang?.rendered_answer_data?.rangeType, yourAnswer: stat?.answer_data }
-                                        : lang?.rendered_answer_data?.rangeType,
-                                assessment:
-                                    stat?.question?.answer_type === "assessment" && stat?.answer_data
-                                        ? { ...lang?.rendered_answer_data?.assessment, yourAnswer: stat?.answer_data }
-                                        : lang?.rendered_answer_data?.assessment,
-
-                            },
-                        };
-                    }) ?? [],
-            };
-        }),
-    };
-    const filteredDefaults = window?.acadlixHooks?.applyFilters(
-        "acadlix.front.answerSheet.defaultValues",
-        baseSettings,
-        {
-            quiz: quiz,
-            statistic: statistic,
-
-        }
-    ) ?? baseSettings;
-    const methods = useForm({
-        defaultValues: filteredDefaults,
-    });
-
-    if (process.env.REACT_APP_MODE === 'development') {
-        console.log(methods?.watch());
-    }
-
-    let questionRef = React.useRef([]);
-
-    const handleClick = (id) => {
-        const elm = document.getElementById(`acadlix_question_${id}`);
-        if (elm) {
-            elm?.scrollIntoView({ behavior: "smooth" });
-        }
-    };
-
-    const {
-        hasEvaluatedQuestions,
-        isQuestionEvaluated,
-        getPoints,
-        getNegativePoints,
-        getTotalPoints,
-        getResult,
-        getCorrectCount,
-        getIncorrectCount,
-        getSkippedCount,
-        getSolvedCount,
-        getAccuracy,
-        getStatus,
-        getTimeTaken,
-        getPointsBySubjectId,
-        getNegativePointsBySubjectId,
-        getTotalPointsBySubjectId,
-        getCorrectCountBySubjectId,
-        getIncorrectCountBySubjectId,
-        getSkippedCountBySubjectId,
-        getSolvedCountBySubjectId,
-        getTimeBySubjectId,
-        isSolved,
-        isCorrect,
-        isIncorrect
-    } = AnswerSheetFunction(methods);
-
-    const getQuestionColor = (d) => {
-        const solved = d?.result?.solved_count;
-        const correct = d?.result?.correct_count;
-        const incorrect = d?.result?.incorrect_count;
-        const isEvaluated = d?.result?.is_evaluated;
-        const answerType = d?.answer_type;
-        // Skipped
-        if (!solved) {
-            return theme.palette.grey[300];
-        }
-
-        // Assessment questions
-        if (answerType === 'assessment') {
-            if (!isEvaluated) {
-                return theme.palette.warning.main;
-            }
-
-            return theme.palette.info.main;
-        }
-
-        // Non-assessment questions
-        if (correct) {
-            return theme.palette.success.main;
-        }
-
-        if (incorrect) {
-            return theme.palette.error.main;
-        }
-
-        return theme.palette.grey[300];
-    };
-
-    if (type === "result_evaluation") {
-        return (
-            <React.Suspense fallback={null}>
-                <ResultEvaluation
-                    {...props}
-                    {...methods}
-                    getPoints={getPoints}
-                    getTotalPoints={getTotalPoints}
-                    getResult={getResult}
-                    getStatus={getStatus}
-                />
-            </React.Suspense>
-        )
-    }
-
-    return (
-        <Box>
-            {!methods?.watch("hide_result") && (
-                <ResultSection
-                    {...props}
-                    {...methods}
-                    colorCode={colorCode}
-                    hasEvaluatedQuestions={hasEvaluatedQuestions}
-                    getPoints={getPoints}
-                    getNegativePoints={getNegativePoints}
-                    getTotalPoints={getTotalPoints}
-                    getResult={getResult}
-                    getCorrectCount={getCorrectCount}
-                    getIncorrectCount={getIncorrectCount}
-                    getSkippedCount={getSkippedCount}
-                    getSolvedCount={getSolvedCount}
-                    getAccuracy={getAccuracy}
-                    getStatus={getStatus}
-                    getTimeTaken={getTimeTaken}
-                    getPointsBySubjectId={getPointsBySubjectId}
-                    getNegativePointsBySubjectId={getNegativePointsBySubjectId}
-                    getTotalPointsBySubjectId={getTotalPointsBySubjectId}
-                    getCorrectCountBySubjectId={getCorrectCountBySubjectId}
-                    getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
-                    getSkippedCountBySubjectId={getSkippedCountBySubjectId}
-                    getSolvedCountBySubjectId={getSolvedCountBySubjectId}
-                    getTimeBySubjectId={getTimeBySubjectId}
-                    isSolved={isSolved}
-                    isCorrect={isCorrect}
-                    isIncorrect={isIncorrect}
-                />
-            )}
-            {/* Question OverView */}
-            <Box
-                sx={{
-                    border: `1px solid ${colorCode?.overview_border}`,
-                    borderRadius: 1,
-                    boxShadow: (theme) => theme?.shadows[2],
-                }}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        overflowY: "scroll",
-                        maxHeight: "105px",
-                        padding: {
-                            xs: "3px",
-                            sm: "5px",
-                        },
-                        borderBottom: `1px solid ${colorCode?.overview_border}`,
-                        boxShadow: (theme) => theme?.shadows[1],
-                        backgroundColor: "transparent",
-                    }}
-                >
-                    {methods?.watch("questions")?.map((d, index) => (
-                        <Button
-                            key={index}
-                            variant="outlined"
-                            sx={{
-                                minWidth: {
-                                    xs: "31px",
-                                    sm: "32px",
-                                },
-                                padding: "3px 3px",
-                                margin: "3px",
-                                border: `1px solid ${d?.selected
-                                    ? colorCode?.overview_button_active_border
-                                    : colorCode?.overview_button_border
-                                    }`,
-                                boxShadow: d?.selected ? theme.shadows[3] : "none",
-                                backgroundColor: getQuestionColor(d),
-                                color: colorCode?.overview_button_active_text,
-                                ":hover, :focus": {
-                                    backgroundColor: getQuestionColor(d),
-                                    color: colorCode?.overview_button_active_text,
-                                    border: `1px solid ${d?.selected
-                                        ? colorCode?.overview_button_active_border
-                                        : colorCode?.overview_button_border
-                                        }`,
-                                },
-                            }}
-                            onClick={handleClick.bind(this, index)}
-                            className="acadlix-normal-quiz-question-overview-answersheet-button"
-                        >
-                            {++index}
-                        </Button>
-                    ))}
-                </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        padding: {
-                            xs: "3px 3px",
-                            sm: "5px 8px",
-                        },
-                    }}
-                >
-                    <Box
-                        sx={{
-                            marginTop: "5px",
-                            height: "15px",
-                            width: "15px",
-                            backgroundColor: (theme) => theme?.palette?.success?.main,
-                            marginRight: "5px",
-                            display: "inline-block",
-                        }}
-                    ></Box>
-                    <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Correct", "acadlix")}</Typography>
-                    <Box
-                        sx={{
-                            marginTop: "5px",
-                            backgroundColor: (theme) => theme?.palette?.error?.main,
-                            height: "15px",
-                            width: "15px",
-                            marginX: "5px",
-                            display: "inline-block",
-                        }}
-                    ></Box>
-                    <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Incorrect", "acadlix")}</Typography>
-                    <Box
-                        sx={{
-                            marginTop: "5px",
-                            backgroundColor: (theme) => theme?.palette?.grey[300],
-                            height: "15px",
-                            width: "15px",
-                            marginX: "5px",
-                            display: "inline-block",
-                        }}
-                    ></Box>
-                    <Typography className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
-                    {
-                        hasEvaluatedQuestions && (
-                            <>
-                                <Box
-                                    sx={{
-                                        marginTop: "5px",
-                                        backgroundColor: (theme) => theme?.palette?.warning?.main,
-                                        height: "15px",
-                                        width: "15px",
-                                        marginX: "5px",
-                                        display: "inline-block",
-                                    }}
-                                ></Box>
-                                <Typography
-                                    className="acadlix-normal-quiz-question-overview-label-text"
-                                >
-                                    {__("Pending", "acadlix")}
-                                </Typography>
-                                <Box
-                                    sx={{
-                                        marginTop: "5px",
-                                        backgroundColor: (theme) => theme?.palette?.info?.main,
-                                        height: "15px",
-                                        width: "15px",
-                                        marginX: "5px",
-                                        display: "inline-block",
-                                    }}
-                                ></Box>
-                                <Typography
-                                    className="acadlix-normal-quiz-question-overview-label-text"
-                                >
-                                    {__("Evaluated", "acadlix")}
-                                </Typography>
-                            </>
-                        )
+              language_id: lang?.language_id,
+              language_name: lang?.language?.name,
+              default: Boolean(Number(lang?.default)),
+              selected: Boolean(Number(lang?.default)),
+              paragraph: stat?.question?.paragraph?.rendered_metas?.language_data?.find(p => p?.language_id === lang?.language_id)?.content ?? "" ?? "",
+              question: lang?.rendered_question,
+              correct_msg: lang?.rendered_correct_msg,
+              incorrect_msg: lang?.rendered_incorrect_msg,
+              hint_msg: lang?.rendered_hint_msg,
+              answer_data: {
+                singleChoice:
+                  stat?.question?.answer_type === "singleChoice" && stat?.answer_data
+                    ? lang?.rendered_answer_data?.singleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
+                    : lang?.rendered_answer_data?.singleChoice,
+                multipleChoice:
+                  stat?.question?.answer_type === "multipleChoice" && stat?.answer_data
+                    ? lang?.rendered_answer_data?.multipleChoice?.map((answer) => ({ ...answer, isChecked: stat?.answer_data?.includes(answer?.position) ?? false }))
+                    : lang?.rendered_answer_data?.multipleChoice,
+                trueFalse:
+                  stat?.question?.answer_type === "trueFalse" && stat?.answer_data
+                    ? lang?.rendered_answer_data?.trueFalse?.map((answer, index) => ({ ...answer, isChecked: stat?.answer_data == index ?? false }))
+                    : lang?.rendered_answer_data?.trueFalse,
+                freeChoice:
+                  stat?.question?.answer_type === "freeChoice" && stat?.answer_data
+                    ? { ...lang?.rendered_answer_data?.freeChoice, yourAnswer: stat?.answer_data }
+                    : lang?.rendered_answer_data?.freeChoice,
+                sortingChoice:
+                  stat?.question?.answer_type === "sortingChoice" && stat?.answer_data
+                    ? shuffleArrayBasedOnOrder(lang?.rendered_answer_data?.sortingChoice, stat?.answer_data)
+                    : lang?.rendered_answer_data?.sortingChoice,
+                matrixSortingChoice:
+                  stat?.question?.answer_type === "matrixSortingChoice" && stat?.answer_data
+                    ? lang?.rendered_answer_data?.matrixSortingChoice?.map((c, index) => ({ ...c, yourPosition: stat?.answer_data?.[index] ?? null }))
+                    : lang?.rendered_answer_data?.matrixSortingChoice,
+                fillInTheBlank:
+                  stat?.question?.answer_type === "fillInTheBlank" && stat?.answer_data
+                    ? {
+                      ...lang?.rendered_answer_data?.fillInTheBlank,
+                      correctOption: lang?.rendered_answer_data?.fillInTheBlank?.correctOption?.map((c, index) => ({ ...c, yourAnswer: stat?.answer_data?.[index] ?? '' })),
                     }
-                </Box>
-            </Box>
+                    : lang?.rendered_answer_data?.fillInTheBlank,
+                numerical:
+                  stat?.question?.answer_type === "numerical" && stat?.answer_data
+                    ? { ...lang?.rendered_answer_data?.numerical, yourAnswer: stat?.answer_data }
+                    : lang?.rendered_answer_data?.numerical,
+                rangeType:
+                  stat?.question?.answer_type === "rangeType" && stat?.answer_data
+                    ? { ...lang?.rendered_answer_data?.rangeType, yourAnswer: stat?.answer_data }
+                    : lang?.rendered_answer_data?.rangeType,
+                assessment:
+                  stat?.question?.answer_type === "assessment" && stat?.answer_data
+                    ? {
+                      ...lang?.rendered_answer_data?.assessment,
+                      ...stat?.answer_data,
+                    }
+                    : lang?.rendered_answer_data?.assessment,
 
-            {methods?.watch("questions")?.length > 0 &&
-                methods?.watch("questions")
-                    ?.map((question, index) => (
-                        <ViewQuestionSection
-                            {...props}
-                            {...methods}
-                            colorCode={colorCode}
-                            key={index}
-                            index={index}
-                            num={index + 1}
-                            question={question}
-                            first={index === 0}
-                            questionRef={questionRef}
-                            last={methods?.watch("questions")?.length - 1 === index}
-                            isQuestionEvaluated={isQuestionEvaluated}
-                        />
-                    ))}
+              },
+            };
+          }) ?? [],
+      };
+    }),
+  };
+  const filteredDefaults = window?.acadlixHooks?.applyFilters(
+    "acadlix.front.answerSheet.defaultValues",
+    baseSettings,
+    {
+      quiz: quiz,
+      statistic: statistic,
+
+    }
+  ) ?? baseSettings;
+  const methods = useForm({
+    defaultValues: filteredDefaults,
+  });
+
+  if (process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch());
+  }
+
+  let questionRef = React.useRef([]);
+
+  const handleClick = (id) => {
+    const elm = document.getElementById(`acadlix_question_${id}`);
+    if (elm) {
+      elm?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const {
+    hasEvaluatedQuestions,
+    isQuestionEvaluated,
+    getPoints,
+    getNegativePoints,
+    getTotalPoints,
+    getResult,
+    getCorrectCount,
+    getIncorrectCount,
+    getSkippedCount,
+    getSolvedCount,
+    getAccuracy,
+    getStatus,
+    getTimeTaken,
+    getPointsBySubjectId,
+    getNegativePointsBySubjectId,
+    getTotalPointsBySubjectId,
+    getCorrectCountBySubjectId,
+    getIncorrectCountBySubjectId,
+    getSkippedCountBySubjectId,
+    getSolvedCountBySubjectId,
+    getTimeBySubjectId,
+    isSolved,
+    isCorrect,
+    isIncorrect
+  } = AnswerSheetFunction(methods);
+
+  const getQuestionColor = (d) => {
+    const solved = d?.result?.solved_count;
+    const correct = d?.result?.correct_count;
+    const incorrect = d?.result?.incorrect_count;
+    const isEvaluated = d?.result?.is_evaluated;
+    const answerType = d?.answer_type;
+    // Skipped
+    if (!solved) {
+      return theme.palette.grey[300];
+    }
+
+    // Assessment questions
+    if (answerType === 'assessment') {
+      if (!isEvaluated) {
+        return theme.palette.warning.main;
+      }
+
+      return theme.palette.info.main;
+    }
+
+    // Non-assessment questions
+    if (correct) {
+      return theme.palette.success.main;
+    }
+
+    if (incorrect) {
+      return theme.palette.error.main;
+    }
+
+    return theme.palette.grey[300];
+  };
+
+  if (type === "result_evaluation") {
+    return (
+      <React.Suspense fallback={null}>
+        <ResultEvaluation
+          {...props}
+          {...methods}
+          getPoints={getPoints}
+          getTotalPoints={getTotalPoints}
+          getResult={getResult}
+          getStatus={getStatus}
+        />
+      </React.Suspense>
+    )
+  }
+
+  return (
+    <Box>
+      {!methods?.watch("hide_result") && (
+        <ResultSection
+          {...props}
+          {...methods}
+          colorCode={colorCode}
+          hasEvaluatedQuestions={hasEvaluatedQuestions}
+          getPoints={getPoints}
+          getNegativePoints={getNegativePoints}
+          getTotalPoints={getTotalPoints}
+          getResult={getResult}
+          getCorrectCount={getCorrectCount}
+          getIncorrectCount={getIncorrectCount}
+          getSkippedCount={getSkippedCount}
+          getSolvedCount={getSolvedCount}
+          getAccuracy={getAccuracy}
+          getStatus={getStatus}
+          getTimeTaken={getTimeTaken}
+          getPointsBySubjectId={getPointsBySubjectId}
+          getNegativePointsBySubjectId={getNegativePointsBySubjectId}
+          getTotalPointsBySubjectId={getTotalPointsBySubjectId}
+          getCorrectCountBySubjectId={getCorrectCountBySubjectId}
+          getIncorrectCountBySubjectId={getIncorrectCountBySubjectId}
+          getSkippedCountBySubjectId={getSkippedCountBySubjectId}
+          getSolvedCountBySubjectId={getSolvedCountBySubjectId}
+          getTimeBySubjectId={getTimeBySubjectId}
+          isSolved={isSolved}
+          isCorrect={isCorrect}
+          isIncorrect={isIncorrect}
+        />
+      )}
+      {/* Question OverView */}
+      <Box
+        sx={{
+          border: `1px solid ${colorCode?.overview_border}`,
+          borderRadius: 1,
+          boxShadow: (theme) => theme?.shadows[2],
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            overflowY: "scroll",
+            maxHeight: "105px",
+            padding: {
+              xs: "3px",
+              sm: "5px",
+            },
+            borderBottom: `1px solid ${colorCode?.overview_border}`,
+            boxShadow: (theme) => theme?.shadows[1],
+            backgroundColor: "transparent",
+          }}
+        >
+          {methods?.watch("questions")?.map((d, index) => (
+            <Button
+              key={index}
+              variant="outlined"
+              sx={{
+                minWidth: {
+                  xs: "31px",
+                  sm: "32px",
+                },
+                padding: "3px 3px",
+                margin: "3px",
+                border: `1px solid ${d?.selected
+                  ? colorCode?.overview_button_active_border
+                  : colorCode?.overview_button_border
+                  }`,
+                boxShadow: d?.selected ? theme.shadows[3] : "none",
+                backgroundColor: getQuestionColor(d),
+                color: colorCode?.overview_button_active_text,
+                ":hover, :focus": {
+                  backgroundColor: getQuestionColor(d),
+                  color: colorCode?.overview_button_active_text,
+                  border: `1px solid ${d?.selected
+                    ? colorCode?.overview_button_active_border
+                    : colorCode?.overview_button_border
+                    }`,
+                },
+              }}
+              onClick={handleClick.bind(this, index)}
+              className="acadlix-normal-quiz-question-overview-answersheet-button acadlix-btn"
+            >
+              {++index}
+            </Button>
+          ))}
         </Box>
-    );
+        <Box
+          sx={{
+            display: "flex",
+            padding: {
+              xs: "3px 3px",
+              sm: "5px 8px",
+            },
+          }}
+        >
+          <Box
+            sx={{
+              marginTop: "5px",
+              height: "15px",
+              width: "15px",
+              backgroundColor: (theme) => theme?.palette?.success?.main,
+              marginRight: "5px",
+              display: "inline-block",
+            }}
+          ></Box>
+          <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Correct", "acadlix")}</Typography>
+          <Box
+            sx={{
+              marginTop: "5px",
+              backgroundColor: (theme) => theme?.palette?.error?.main,
+              height: "15px",
+              width: "15px",
+              marginX: "5px",
+              display: "inline-block",
+            }}
+          ></Box>
+          <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Incorrect", "acadlix")}</Typography>
+          <Box
+            sx={{
+              marginTop: "5px",
+              backgroundColor: (theme) => theme?.palette?.grey[300],
+              height: "15px",
+              width: "15px",
+              marginX: "5px",
+              display: "inline-block",
+            }}
+          ></Box>
+          <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
+          {
+            hasEvaluatedQuestions && (
+              <>
+                <Box
+                  sx={{
+                    marginTop: "5px",
+                    backgroundColor: (theme) => theme?.palette?.warning?.main,
+                    height: "15px",
+                    width: "15px",
+                    marginX: "5px",
+                    display: "inline-block",
+                  }}
+                ></Box>
+                <Typography
+                  component="div"
+                  className="acadlix-normal-quiz-question-overview-label-text"
+                >
+                  {__("Pending", "acadlix")}
+                </Typography>
+                <Box
+                  sx={{
+                    marginTop: "5px",
+                    backgroundColor: (theme) => theme?.palette?.info?.main,
+                    height: "15px",
+                    width: "15px",
+                    marginX: "5px",
+                    display: "inline-block",
+                  }}
+                ></Box>
+                <Typography
+                  className="acadlix-normal-quiz-question-overview-label-text"
+                  component="div"
+                >
+                  {__("Evaluated", "acadlix")}
+                </Typography>
+              </>
+            )
+          }
+        </Box>
+      </Box>
+
+      {methods?.watch("questions")?.length > 0 &&
+        methods?.watch("questions")
+          ?.map((question, index) => (
+            <ViewQuestionSection
+              {...props}
+              {...methods}
+              colorCode={colorCode}
+              key={index}
+              index={index}
+              num={index + 1}
+              question={question}
+              first={index === 0}
+              questionRef={questionRef}
+              last={methods?.watch("questions")?.length - 1 === index}
+              isQuestionEvaluated={isQuestionEvaluated}
+            />
+          ))}
+    </Box>
+  );
 };
 
 AnswerSheet.prototype = {
-    statistic: PropTypes.object,
-    colorCode: PropTypes.object,
-    quiz: PropTypes.object,
+  statistic: PropTypes.object,
+  colorCode: PropTypes.object,
+  quiz: PropTypes.object,
 }
 
 const ViewQuestionSection = (props) => {
-    const answerType = (data = {}, lang_index = 0) => {
-        switch (props?.question?.answer_type) {
-            case "singleChoice":
-                return (
-                    <TypeSingleChoice
-                        type="singleChoice"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "multipleChoice":
-                return (
-                    <TypeMultipleChoice
-                        type="multipleChoice"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "trueFalse":
-                return (
-                    <TypeTrueFalse
-                        type="trueFalse"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "freeChoice":
-                return (
-                    <TypeFreeChoice
-                        type="freeChoice"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "sortingChoice":
-                return (
-                    <TypeSortingChoice
-                        type="sortingChoice"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "matrixSortingChoice":
-                return (
-                    <TypeMatrixSortingChoice
-                        type="matrixSortingChoice"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "fillInTheBlank":
-                return (
-                    <TypeFill
-                        type="fillInTheBlank"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "numerical":
-                return (
-                    <TypeNumerical
-                        type="numerical"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "rangeType":
-                return (
-                    <TypeRange
-                        type="rangeType"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            case "assessment":
-                return (
-                    <TypeAssessment
-                        type="assessment"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-            default:
-                return (
-                    <TypeSingleChoice
-                        type="singleChoice"
-                        lang_index={lang_index}
-                        index={props?.index}
-                        isDisabled={true}
-                        {...props}
-                        {...data}
-                    />
-                );
-        }
-    };
+  const answerType = (data = {}, lang_index = 0) => {
+    switch (props?.question?.answer_type) {
+      case "singleChoice":
+        return (
+          <TypeSingleChoice
+            type="singleChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "multipleChoice":
+        return (
+          <TypeMultipleChoice
+            type="multipleChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "trueFalse":
+        return (
+          <TypeTrueFalse
+            type="trueFalse"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "freeChoice":
+        return (
+          <TypeFreeChoice
+            type="freeChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "sortingChoice":
+        return (
+          <TypeSortingChoice
+            type="sortingChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "matrixSortingChoice":
+        return (
+          <TypeMatrixSortingChoice
+            type="matrixSortingChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "fillInTheBlank":
+        return (
+          <TypeFill
+            type="fillInTheBlank"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "numerical":
+        return (
+          <TypeNumerical
+            type="numerical"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "rangeType":
+        return (
+          <TypeRange
+            type="rangeType"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      case "assessment":
+        return (
+          <TypeAssessment
+            type="assessment"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+      default:
+        return (
+          <TypeSingleChoice
+            type="singleChoice"
+            lang_index={lang_index}
+            index={props?.index}
+            isDisabled={true}
+            {...props}
+            {...data}
+          />
+        );
+    }
+  };
 
-    const questionBelowSx = {
-        boxShadow: (theme) => theme?.shadows[2],
-        paddingX: 2,
-        paddingY: 3,
-        marginTop: 3,
-        borderRadius: "6px",
-    };
+  const questionBelowSx = {
+    boxShadow: (theme) => theme?.shadows[2],
+    paddingX: 2,
+    paddingY: 3,
+    marginTop: 3,
+    borderRadius: "6px",
+  };
 
-    return (
-        <Box
-            sx={{
-                ...questionBelowSx,
-                display: props?.question?.selected ? "" : "none",
-                marginBottom: 5,
-            }}
-            id={`acadlix_question_${props?.index}`}
-            ref={(elem) => (props.questionRef.current[props.index] = elem)}
-        >
-            <Box>
-                {props?.watch("multi_language") && <LanguageSection {...props} />}
-                <React.Suspense fallback={null}>
-                    <QuestionSubjectAndPointSection {...props} />
-                </React.Suspense>
+  return (
+    <Box
+      sx={{
+        ...questionBelowSx,
+        display: props?.question?.selected ? "" : "none",
+        marginBottom: 5,
+      }}
+      id={`acadlix_question_${props?.index}`}
+      ref={(elem) => (props.questionRef.current[props.index] = elem)}
+    >
+      <Box>
+        {props?.watch("multi_language") && <LanguageSection {...props} />}
+        <React.Suspense fallback={null}>
+          <QuestionSubjectAndPointSection {...props} />
+        </React.Suspense>
 
-                {props?.question?.language?.length > 0 &&
-                    props?.question?.language?.map((lang, lang_index) => (
-                        <React.Fragment key={lang_index}>
-                            <Box
-                                sx={{
-                                    display: lang?.selected ? "block" : "none",
-                                }}
-                            >
-                                {props?.question?.paragraph_enabled &&
-                                    props?.question?.paragraph_id !== null && (
-                                        <ParagraphText
-                                            lang={lang}
-                                        />
-                                    )}
-                                <QuestionText
-                                    lang={lang}
-                                />
-                                <Box className="acadlix-normal-quiz-question-answer-container">
-                                    {answerType(lang, lang_index)}
-                                </Box>
-                            </Box>
-                        </React.Fragment>
-                    ))}
-                <React.Suspense fallback={null}>
-                    <QuestionStatusSection {...props} />
-                </React.Suspense>
-                {props?.question?.language?.length > 0 &&
-                    props?.question?.language?.map((lang, index) => (
-                        <Box key={index} sx={{
-                            display: lang?.selected ? "" : "none"
-                        }}>
-                            {props?.question?.result?.solved_count ? (
-                                props?.question?.result?.correct_count ? (
-                                    <CorrectMsgSection
-                                        lang={lang}
-                                        question={props?.question}
-                                    />
-                                ) : (
-                                    <IncorrectMsgSection
-                                        lang={lang}
-                                        question={props?.question}
-                                    />
-                                )
-                            ) : (
-                                <IncorrectMsgSection
-                                    lang={lang}
-                                    question={props?.question}
-                                />
-                            )}
-                        </Box>
-                    ))}
+        {props?.question?.language?.length > 0 &&
+          props?.question?.language?.map((lang, lang_index) => (
+            <React.Fragment key={lang_index}>
+              <Box
+                sx={{
+                  display: lang?.selected ? "block" : "none",
+                }}
+              >
+                {props?.question?.paragraph_enabled &&
+                  props?.question?.paragraph_id !== null && (
+                    <ParagraphText
+                      lang={lang}
+                    />
+                  )}
+                <QuestionText
+                  lang={lang}
+                />
+                <Box className="acadlix-normal-quiz-question-answer-container">
+                  {answerType(lang, lang_index)}
+                </Box>
+              </Box>
+            </React.Fragment>
+          ))}
+        <React.Suspense fallback={null}>
+          <QuestionStatusSection {...props} />
+        </React.Suspense>
+        {props?.question?.language?.length > 0 &&
+          props?.question?.language?.map((lang, index) => (
+            <Box key={index} sx={{
+              display: lang?.selected ? "" : "none"
+            }}>
+              {props?.question?.result?.solved_count ? (
+                props?.question?.result?.correct_count ? (
+                  <CorrectMsgSection
+                    lang={lang}
+                    question={props?.question}
+                  />
+                ) : (
+                  <IncorrectMsgSection
+                    lang={lang}
+                    question={props?.question}
+                  />
+                )
+              ) : (
+                <IncorrectMsgSection
+                  lang={lang}
+                  question={props?.question}
+                />
+              )}
             </Box>
-        </Box>
-    );
+          ))}
+      </Box>
+    </Box>
+  );
 };
 
 
 const ResultSection = (props) => {
-    return (
-        <Box sx={{
-            marginY: 1,
-        }}>
-            <Grid
-                container
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    margin: "10px auto",
-                }}
-                spacing={{
-                    xs: 2,
-                    sm: 4,
-                }}
-            >
-                <React.Suspense fallback={null}>
-                    <MarksObtained
-                        getPoints={props?.getPoints}
-                        getTotalPoints={props?.getTotalPoints}
-                    />
-                </React.Suspense>
-                {!props?.watch("hide_negative_marks") && (
-                    <React.Suspense fallback={null}>
-                        <NegativeMarks
-                            getNegativePoints={props?.getNegativePoints}
-                        />
-                    </React.Suspense>
-                )}
-                {props?.watch("show_status_based_on_min_percent") && (
-                    <React.Suspense fallback={null}>
-                        <ResultStatus
-                            getResult={props?.getResult}
-                            getStatus={props?.getStatus}
-                            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
-                        />
-                    </React.Suspense>
-                )}
-                {props?.watch("show_accuracy") && (
-                    <React.Suspense fallback={null}>
-                        <Accuracy
-                            getAccuracy={props?.getAccuracy}
-                        />
-                    </React.Suspense>
-                )}
-                {!props?.watch("hide_quiz_time") && (
-                    <React.Suspense fallback={null}>
-                        <TimeTaken
-                            getTimeTaken={props?.getTimeTaken}
-                        />
-                    </React.Suspense>
-                )}
-                {props?.watch("show_speed") && (
-                    <React.Suspense fallback={null}>
-                        <ResultSpeed
-                            getSolvedCount={props?.getSolvedCount}
-                            getTimeTaken={props?.getTimeTaken}
-                        />
-                    </React.Suspense>
-                )}
-            </Grid>
-        </Box>
-    );
+  return (
+    <Box sx={{
+      marginY: 1,
+    }}>
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "10px auto",
+        }}
+        spacing={{
+          xs: 2,
+          sm: 4,
+        }}
+      >
+        <React.Suspense fallback={null}>
+          <MarksObtained
+            getPoints={props?.getPoints}
+            getTotalPoints={props?.getTotalPoints}
+          />
+        </React.Suspense>
+        {!props?.watch("hide_negative_marks") && (
+          <React.Suspense fallback={null}>
+            <NegativeMarks
+              getNegativePoints={props?.getNegativePoints}
+            />
+          </React.Suspense>
+        )}
+        {props?.watch("show_status_based_on_min_percent") && (
+          <React.Suspense fallback={null}>
+            <ResultStatus
+              getResult={props?.getResult}
+              getStatus={props?.getStatus}
+              minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+            />
+          </React.Suspense>
+        )}
+        {props?.watch("show_accuracy") && (
+          <React.Suspense fallback={null}>
+            <Accuracy
+              getAccuracy={props?.getAccuracy}
+            />
+          </React.Suspense>
+        )}
+        {!props?.watch("hide_quiz_time") && (
+          <React.Suspense fallback={null}>
+            <TimeTaken
+              getTimeTaken={props?.getTimeTaken}
+            />
+          </React.Suspense>
+        )}
+        {props?.watch("show_speed") && (
+          <React.Suspense fallback={null}>
+            <ResultSpeed
+              getSolvedCount={props?.getSolvedCount}
+              getTimeTaken={props?.getTimeTaken}
+            />
+          </React.Suspense>
+        )}
+      </Grid>
+    </Box>
+  );
 }
 export default AnswerSheet;

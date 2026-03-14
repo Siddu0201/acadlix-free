@@ -31,3 +31,4 @@ const ACADLIX_QUIZ_CATEGORY_TAXONOMY = 'acadlix_quiz_category';
 const ACADLIX_QUIZ_LANGUAGE_TAXONOMY = 'acadlix_quiz_language';
 
 const ACADLIX_LESSON_CPT = 'acadlix_lesson';
+const ACADLIX_COUPON_CPT = 'acadlix_coupon';

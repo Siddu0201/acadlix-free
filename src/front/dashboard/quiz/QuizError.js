@@ -30,8 +30,8 @@ const QuizError = (props) => {
             }
           }}
         />
-        <Typography variant="h3">{props?.code ?? "404"}</Typography>
-        <Typography variant="h6">{props?.message ?? __("Page Not Found", "acadlix")}</Typography>
+        <Typography variant="h3" component="div">{props?.code ?? "404"}</Typography>
+        <Typography variant="h6" component="div">{props?.message ?? __("Page Not Found", "acadlix")}</Typography>
       </Box>
     </Box>
   );

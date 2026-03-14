@@ -90,6 +90,7 @@ const Login = (props) => {
                 component_name: "login_modal_welcome_typography",
                 props: {
                   variant: "h4",
+                  component: "div"
                 },
                 value: __("Welcome Back", "acadlix")
               }
@@ -104,6 +105,7 @@ const Login = (props) => {
                 component_name: "login_modal_signin_typography",
                 props: {
                   variant: "body2",
+                  component: "div"
                 },
                 value: __("Please enter your details to sign in.", "acadlix")
               }
@@ -209,6 +211,7 @@ const Login = (props) => {
                     component_name: "login_modal_form_typography_username_label",
                     props: {
                       variant: "body2",
+                      component: "div",
                       sx: {
                         paddingY: 1
                       }
@@ -270,6 +273,7 @@ const Login = (props) => {
                     component_name: "login_modal_form_typography_password_label",
                     props: {
                       variant: "body2",
+                      component: "div",
                       sx: {
                         paddingY: 1
                       }
@@ -312,6 +316,7 @@ const Login = (props) => {
                       },
                       error: Boolean(methods?.formState?.errors?.password),
                       helperText: methods?.formState?.errors?.password?.message,
+                      
                     }
                   }
                 ]
@@ -356,6 +361,7 @@ const Login = (props) => {
                         component: "Typography",
                         component_name: "login_modal_form_typography_forgot_password",
                         props: {
+                          component: "div",
                           variant: "body2"
                         },
                         children: [
@@ -396,6 +402,7 @@ const Login = (props) => {
                     component: "Button",
                     component_name: "login_modal_form_button_login",
                     props: {
+                      className: 'acadlix-btn',
                       loading: isLoading,
                       fullWidth: true,
                       variant: "contained",
@@ -423,6 +430,7 @@ const Login = (props) => {
                     component: "Typography",
                     component_name: "login_modal_form_typography_register_text",
                     props: {
+                      component: "div",
                       variant: "body2"
                     },
                     children: [

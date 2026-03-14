@@ -10,6 +10,7 @@ import {
   Stack,
   Pagination,
   CircularProgress,
+  PaginationItem,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -21,7 +22,7 @@ import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const {open} = useOutletContext();
+  const { open } = useOutletContext();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -86,6 +87,7 @@ const Courses = () => {
                   >
                     <Typography
                       variant="h3"
+                      component="div"
                     >
                       {__("My Courses", "acadlix")}
                     </Typography>
@@ -172,23 +174,23 @@ const Courses = () => {
           </Grid>
         ) : isError ? (
           <Grid size={{ xs: 12, lg: 12 }}>
-            <Typography variant="h3">{__("Something went wrong", "acadlix")}</Typography>
+            <Typography variant="h3" component="div">{__("Something went wrong", "acadlix")}</Typography>
           </Grid>
         ) : data?.data?.courses?.length > 0 ?
           data?.data?.courses?.map((course, index) => (
             <React.Fragment key={index}>
-                <Grid size={{ 
-                  xs: 12, 
-                  sm: 6, 
-                  md: 4, 
-                  lg: open ? 4 : 3 
-                }}>
-                  <CourseCard course={course} />
-                </Grid>
+              <Grid size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+                lg: open ? 4 : 3
+              }}>
+                <CourseCard course={course} />
+              </Grid>
             </React.Fragment>
           )) : (
             <Grid size={{ xs: 12, lg: 12 }}>
-              <Typography variant="h4">{__("No Course Found", "acadlix")}</Typography>
+              <Typography variant="h4" component="div">{__("No Course Found", "acadlix")}</Typography>
             </Grid>
           )}
       </Grid>
@@ -208,6 +210,12 @@ const Courses = () => {
             }
             page={paginationModel?.page + 1}
             onChange={handlePaginationChange}
+            renderItem={(item) => (
+              <PaginationItem
+                {...item}
+                className="acadlix-icon-btn"
+              />
+            )}
           />
         </Stack>
       </Box>
@@ -244,7 +252,7 @@ const CourseCard = (props) => {
             md: "inherit",
             lg: "inherit",
           },
-          height: "200px", 
+          height: "200px",
           aspectRatio: "auto 240/135",
         }}
         image={
@@ -270,6 +278,7 @@ const CourseCard = (props) => {
         >
           <Typography
             variant="h6"
+            component="div"
           >
             {props?.course?.post_title?.length > 40
               ? props?.course?.post_title?.substring(0, 40) + "..."
@@ -278,6 +287,7 @@ const CourseCard = (props) => {
           <Typography
             variant="body2"
             color="text.secondary"
+            component="div"
           >
             {props?.course?.users?.length > 0
               ? props?.course?.users
@@ -293,6 +303,7 @@ const CourseCard = (props) => {
         >
           <LinearProgress variant="determinate" value={props?.course?.completion_percentage} />
           <Typography
+            component="div"
             variant="body2"
             color="text.secondary"
             sx={{

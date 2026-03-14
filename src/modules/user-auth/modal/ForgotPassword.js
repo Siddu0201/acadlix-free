@@ -132,7 +132,10 @@ const ForgotPassword = (props) => {
                         {
                           component: "Typography",
                           component_name: "forgot_password_modal_username_typography",
-                          props: { variant: "body2", sx: { paddingY: 1 } },
+                          props: { 
+                            component: "div",
+                            variant: "body2", 
+                            sx: { paddingY: 1 } },
                           children: [
                             { component: "span", value: __("Username/Email", 'acadlix') },
                             { component: "span", props: { style: { color: "red" } }, value: "*" }
@@ -172,6 +175,7 @@ const ForgotPassword = (props) => {
                           component: "Button",
                           component_name: "forgot_password_modal_button",
                           props: {
+                            className: 'acadlix-btn',
                             loading: isLoading,
                             fullWidth: true,
                             variant: "contained",
@@ -218,7 +222,7 @@ const ForgotPassword = (props) => {
                   {
                     component: "Typography",
                     component_name: "forgot_password_modal_login_typography",
-                    props: { variant: "body2" },
+                    props: { component: "div", variant: "body2" },
                     children: [
                       {
                         component: "Link",

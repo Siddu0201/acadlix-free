@@ -128,6 +128,7 @@ const LeaderboardSection = ({
     >
       <Box sx={styles.header}>
         <Typography
+          component="div"
           variant="h4"
           sx={{ fontWeight: "600" }}
           className="acadlix-normal-quiz-leaderboard-header-text"
@@ -144,14 +145,15 @@ const LeaderboardSection = ({
         {props?.watch("toplist").map((item, index) => (
           <Box key={index} sx={styles.leaderboardItem}>
             <Box sx={styles.rankNameContainer}>
-              <Typography variant="body1" sx={styles.rank}>
+              <Typography variant="body1" sx={styles.rank} component="div">
                 {`${item?.rank}. `}
               </Typography>
-              <Typography variant="body1" sx={styles.name}>
+              <Typography variant="body1" sx={styles.name} component="div">
                 {item?.name ?? "Anonymous"}
               </Typography>
             </Box>
             <Typography
+              component="div"
               variant="body1"
               sx={{ fontWeight: "bold", color: "#37afca" }}
             >
@@ -170,7 +172,7 @@ const LeaderboardSection = ({
           }}
           className="acadlix-normal-quiz-leaderboard-load-more-button"
         >
-          <Button variant="contained" onClick={handleLoadMoreLeaderboard}>
+          <Button className="acadlix-btn" variant="contained" onClick={handleLoadMoreLeaderboard}>
             {__('Load More', 'acadlix')}
           </Button>
         </Box>

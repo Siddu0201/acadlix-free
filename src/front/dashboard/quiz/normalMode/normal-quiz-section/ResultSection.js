@@ -93,6 +93,7 @@ const ResultSection = (props) => {
       }}
     >
       <Typography
+        component="div"
         sx={{
           color: "#fa7419",
           fontWeight: "500",

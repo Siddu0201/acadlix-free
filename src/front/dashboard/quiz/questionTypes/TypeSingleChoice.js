@@ -56,6 +56,10 @@ const TypeSingleChoice = (props) => {
       { shouldDirty: true }
     );
 
+    if (props?.watch("mode") === "check_and_continue" && props?.watch("auto_check")) {
+      props?.handleCheckClick(props?.index);
+    }
+
     if (props?.watch("attempt_and_move_forward")) {
       if (props?.last) {
         props?.setValue("finish", true, { shouldDirty: true });

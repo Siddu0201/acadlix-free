@@ -28,20 +28,20 @@ import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
 import Authentication from "./section/Authentication";
 
-const SettingProContent = React.lazy(() => 
+const SettingProContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
     import(
       /* webpackChunkName: "admin_setting_pro_content" */
-        "@acadlix/pro/admin/views/setting/SettingProContent") :
+      "@acadlix/pro/admin/views/setting/SettingProContent") :
     Promise.resolve({ default: () => null })
 );
 
-const SettingContent = ({ 
-    selected = 'general', 
-    options = {}, 
-    all_pages = [], 
-    currencies_with_symbol = [],
-    filteredSettingRoutes = [] 
+const SettingContent = ({
+  selected = 'general',
+  options = {},
+  all_pages = [],
+  currencies_with_symbol = [],
+  filteredSettingRoutes = []
 }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -72,6 +72,8 @@ const SettingContent = ({
       options?.acadlix_require_admin_approval_for_reviews ?? "no",
     acadlix_review_pagination_count:
       options?.acadlix_review_pagination_count ?? 10,
+    acadlix_enable_course_filters:
+      options?.acadlix_enable_course_filters ?? "no",
     // Enrollment Options
     // Currency Options
     acadlix_currency: options?.acadlix_currency ?? "USD",
@@ -84,6 +86,8 @@ const SettingContent = ({
     acadlix_number_of_decimals:
       options?.acadlix_number_of_decimals ?? 2,
     // Admin Options
+    acadlix_default_rows_per_page:
+      options?.acadlix_default_rows_per_page ?? 20,
     acadlix_admin_auto_registration_to_courses:
       options?.acadlix_admin_auto_registration_to_courses ??
       "no",
@@ -93,8 +97,11 @@ const SettingContent = ({
     acadlix_admin_can_remove_student_from_course:
       options?.acadlix_admin_can_remove_student_from_course ??
       "no",
-    acadlix_default_rows_per_page:
-      options?.acadlix_default_rows_per_page ?? 20,
+    // Frontend Options
+    acadlix_disable_admin_toolbar:
+      options?.acadlix_disable_admin_toolbar ?? "no",
+    acadlix_enable_content_protection:
+      options?.acadlix_enable_content_protection ?? "no",
     // Student Dashboard Options
     acadlix_logout_redirect_url:
       options?.acadlix_logout_redirect_url ?? "",
@@ -102,6 +109,11 @@ const SettingContent = ({
       options?.acadlix_enable_dashboard_fullwidth ?? "no",
     acadlix_enable_site_logo_in_header:
       options?.acadlix_enable_site_logo_in_header ?? "no",
+    acadlix_enable_course_content_scroll_button:
+      options?.acadlix_enable_course_content_scroll_button ?? "no",
+    // Checkout Options
+    acadlix_enable_coupon_code:
+      options?.acadlix_enable_coupon_code ?? "no",
     // Data management
     acadlix_delete_data_on_plugin_uninstall:
       options?.acadlix_delete_data_on_plugin_uninstall ?? "no",
@@ -364,7 +376,7 @@ const SettingContent = ({
               )
             }
             <React.Suspense fallback={null}>
-              <SettingProContent 
+              <SettingProContent
                 {...methods}
                 selected={selected}
                 isPending={updateMutation?.isPending}

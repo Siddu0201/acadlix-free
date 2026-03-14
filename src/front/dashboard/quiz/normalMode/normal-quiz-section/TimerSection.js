@@ -53,6 +53,7 @@ const TimerSection = (props) => {
                 margin: 1,
               }}
               className="acadlix-normal-quiz-timer-label"
+              component="div"
             >
               {__("Time Limit", "acadlix")}: {secondsToHms(Math.ceil(prop?.total / 1000))}
             </Typography>

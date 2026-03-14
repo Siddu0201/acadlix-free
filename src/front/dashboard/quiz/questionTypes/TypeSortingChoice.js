@@ -110,6 +110,7 @@ const TypeSortingChoice = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <Typography
+            component="div"
             sx={{
               paddingY: 2,
             }}
@@ -153,6 +154,7 @@ const TypeSortingChoice = (props) => {
         props?.watch(`questions.${props?.index}.check`)) && (
           <>
             <Typography
+              component="div"
               sx={{
                 paddingY: 2,
               }}

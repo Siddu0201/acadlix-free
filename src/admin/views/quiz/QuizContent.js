@@ -55,6 +55,7 @@ const QuizContent = (props) => {
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_check_on_option_selected)
         ),
         skip_question: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.skip_question)),
+        auto_check: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_check)),
         question_per_page: props?.quiz?.rendered_metas?.quiz_settings?.question_per_page ?? 10, // 0 => all question
         // General settings
         hide_quiz_title: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_quiz_title)),
@@ -67,6 +68,7 @@ const QuizContent = (props) => {
         quiz_time: props?.quiz?.rendered_metas?.quiz_settings?.quiz_time ?? 0, // 0 => Infinity (no limit)
         show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
         start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
+        auto_start: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_start)),
         enable_login_register: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
         ),
@@ -110,6 +112,7 @@ const QuizContent = (props) => {
         force_user_to_answer_each_question: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.force_user_to_answer_each_question)
         ),
+        disable_hint: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_hint)),
         // Result settings
         hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
         hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),

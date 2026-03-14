@@ -96,7 +96,7 @@ const TypeFill = (props) => {
     >
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
-          <Typography>
+          <Typography component="div">
             <b>{__("Your answer", "acadlix")}</b>
           </Typography>
         )}
@@ -194,7 +194,7 @@ const TypeFill = (props) => {
       {(props?.watch("view_answer") ||
         props?.watch(`questions.${props?.index}.check`)) && (
           <>
-            <Typography>
+            <Typography component="div">
               <b>{__("Correct answer", "acadlix")}</b>
             </Typography>
             <Box>
