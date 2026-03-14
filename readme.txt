@@ -3,7 +3,7 @@ Contributors: acadlix
 Donate link: https://acadlix.com/
 Tags: lms, quiz, online course, education, exam
 Requires at least: 6.8
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 Requires PHP: 8.2
 Stable tag: {{VERSION}}
 License: GPLv2 or later
