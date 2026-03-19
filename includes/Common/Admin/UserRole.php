@@ -184,6 +184,7 @@ class UserRole
             'acadlix_show_permalink_setting' => true,
             'acadlix_show_integration_setting' => true,
             'acadlix_show_authentication_setting' => true,
+            'acadlix_show_certificate_setting' => true,
             'acadlix_update_setting' => true,
             'acadlix_create_page_setting' => true,
         ];

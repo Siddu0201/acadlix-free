@@ -1,6 +1,8 @@
 import {
   Box,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -215,6 +217,35 @@ const General = (props) => {
                   <MenuItem value="advance">{__("Advance", "acadlix")}</MenuItem>
                 </Select>
               </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 12 }}>
+              <Typography
+                variant="h6"
+              >
+                {__("Enable Certificate", "acadlix")}
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12 }}>
+              <FormControlLabel
+                label={__("Activate", "acadlix")}
+                control={
+                  <Checkbox />
+                }
+                onChange={(e) => {
+                  if (e?.target?.checked !== undefined) {
+                    props?.setValue("meta.enable_certificate", e?.target?.checked, {
+                      shouldDirty: true,
+                    });
+                  }
+                }}
+                checked={props?.watch("meta.enable_certificate") ?? false}
+                onKeyDown={props?.handleKeyDown}
+              />
             </Grid>
           </Grid>
         </Grid>

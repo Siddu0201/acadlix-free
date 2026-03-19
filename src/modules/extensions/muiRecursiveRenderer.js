@@ -46,9 +46,10 @@ import {
   DialogTitle,
   DialogActions,
   FormGroup,
+  Avatar,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import React, { Suspense } from "react";
+import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import GridItem1 from "@acadlix/components/GridItem1";
 import CustomSwitch from "@acadlix/components/CustomSwitch";
@@ -57,6 +58,7 @@ import CustomButton from "@acadlix/components/CustomButton";
 import PasswordTextField from "@acadlix/components/PasswordTextField";
 import { iconMap } from "@acadlix/helpers/icons";
 import { RawHTML } from "@wordpress/element";
+import { MediaUpload } from '@wordpress/media-utils'
 import CustomCopyableText from "@acadlix/components/CustomCopyableText";
 import { DataGrid } from "@mui/x-data-grid";
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from "@mui/lab";
@@ -123,6 +125,7 @@ const COMPONENT_MAP = {
   Link,
   Typography,
   Alert,
+  Avatar,
   Chip,
   Card,
   CardMedia,
@@ -174,6 +177,7 @@ const COMPONENT_MAP = {
   CustomFeatureElement,
   // WordPress Components
   RawHTML,
+  MediaUpload,
   // React Components
   Fragment: React.Fragment,
   Suspense: React.Suspense,

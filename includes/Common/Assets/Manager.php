@@ -565,6 +565,7 @@ class Manager
             'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'home_url' => esc_url(home_url()),
+            'certificate_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_certificate_page_id')),
             'logout_url' => esc_url(wp_logout_url(acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') !== '' ? acadlix()->helper()->acadlix_get_option('acadlix_logout_redirect_url') : home_url())),
             'nonce' => wp_create_nonce('wp_rest'),
             'nonces' => [
@@ -595,6 +596,7 @@ class Manager
             'currency_symbols' => acadlix()->helper()->acadlix_currency_symbols(),
             'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
             'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
+            'certificate_url_path' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'certificate/'),
             'users_can_register' => acadlix()->helper()->acadlix_get_option('users_can_register'),
             'isActive' => acadlix()->license()->isActive ?? false,
             'isReCaptchaEnabled' => acadlix()->authentications()->recaptchav3()->is_enabled(),
@@ -616,7 +618,7 @@ class Manager
         wp_enqueue_script('acadlix-global-hooks');
 
         $content_protection_enabled = acadlix()->helper()->acadlix_get_option('acadlix_enable_content_protection') === 'yes';
-        if($content_protection_enabled && !is_admin()) {
+        if ($content_protection_enabled && !is_admin()) {
             wp_enqueue_script('acadlix-content-protection');
         }
     }

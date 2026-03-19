@@ -728,6 +728,18 @@ export const MdOutlineCheckBoxOutlineBlank = (props) => {
   )
 }
 
+export const FaImage = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M464 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h416c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM112 120c-30.928 0-56 25.072-56 56s25.072 56 56 56 56-25.072 56-56-25.072-56-56-56zM64 384h384V272l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L208 320l-55.515-55.515c-4.686-4.686-12.284-4.686-16.971 0L64 336v48z"></path></svg>
+  )
+}
+
+export const TbCertificate = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path><path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"></path><path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"></path><path d="M6 9l12 0"></path><path d="M6 12l3 0"></path><path d="M6 15l2 0"></path></svg>
+  )
+}
+
 export const iconMap = {
   IoClose: <IoClose />,
   IoMdRefresh: <IoMdRefresh />,
@@ -839,4 +851,6 @@ export const iconMap = {
   LuBrainCircuit: <LuBrainCircuit />,
   FaCaretSquareDown: <FaCaretSquareDown />,
   FaQuora: <FaQuora />,
+  FaImage: <FaImage />,
+  TbCertificate: <TbCertificate />,
 };

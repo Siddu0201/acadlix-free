@@ -666,6 +666,15 @@ if (!class_exists('Helper')) {
         'acadlix_course_tag_base' => 'course-tag',
         // DB option
         'acadlix_db_version' => '',
+        // Certificate option
+        'acadlix_certificate_authorised_name' => '',
+        'acadlix_certificate_authorised_company' => '',
+        'acadlix_certificate_show_instructor_name_on_certificate' => 'no',
+        'acadlix_certificate_show_course_completion_date_on_certificate' => 'no',
+        'acadlix_certificate_page_id' => null,
+        'acadlix_certificate_show_certificate_link_in_email' => 'no',
+        'acadlix_certificate_signature' => [],
+        'acadlix_certificate_template' => 'classic-landscape',
         // Authentication option
         'acadlix_default_auth_screen' => 'login',
         'acadlix_registration_options' => [
@@ -1686,6 +1695,17 @@ if (!class_exists('Helper')) {
         return (string) $value;
       }
       return $default;
+    }
+
+    public function acadlix_generate_certificate_id()
+    {
+      do {
+        $id = 'CRT-' . date('Y') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 8));
+      } while (
+        acadlix()->model()->userActivityMeta()->where('reference_id', $id)->exists()
+      );
+
+      return $id;
     }
 
     public static function instance()

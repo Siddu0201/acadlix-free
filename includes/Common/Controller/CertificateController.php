@@ -4,8 +4,8 @@ namespace Yuvayana\Acadlix\Common\Controller;
 
 defined('ABSPATH') || exit();
 
-if (!class_exists("DashboardController")) {
-  class DashboardController
+if (!class_exists("CertificateController")) {
+  class CertificateController
   {
     protected static $_instance = null;
 
@@ -19,12 +19,12 @@ if (!class_exists("DashboardController")) {
 
     public function template_loader($template)
     {
-      $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
-      if ($dashboard_page_id && is_page($dashboard_page_id)) {
+      $certificate_page_id = acadlix()->helper()->acadlix_get_option('acadlix_certificate_page_id');
+      if ($certificate_page_id && is_page($certificate_page_id)) {
         // !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
-        $dashboard_template = ACADLIX_INCLUDES_PATH . 'Common/View/DashboardView.php';
-        if ($dashboard_template) {
-          return $dashboard_template;
+        $certificate_template = ACADLIX_INCLUDES_PATH . 'Common/View/CertificateView.php';
+        if ($certificate_template) {
+          return $certificate_template;
         }
       }
       return $template;

@@ -58,6 +58,8 @@ class Submenu_Settings
             'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
             'isActive' => acadlix()->license()->isActive ?? false,
             'home_url' => home_url(),
+            'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
+            'certificate_url_path' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'certificate/'),
         ];
     }
 

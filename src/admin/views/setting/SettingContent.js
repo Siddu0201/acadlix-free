@@ -27,6 +27,7 @@ import Integration from "./section/Integration";
 import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
 import Authentication from "./section/Authentication";
+import Certificate from "./section/Certificate";
 
 const SettingProContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -199,6 +200,23 @@ const SettingContent = ({
       "course-category",
     acadlix_course_tag_base:
       options?.acadlix_course_tag_base ?? "course-tag",
+    // Certificate option
+    acadlix_certificate_authorised_name:
+      options?.acadlix_certificate_authorised_name ?? "",
+    acadlix_certificate_authorised_company:
+      options?.acadlix_certificate_authorised_company ?? "",
+    acadlix_certificate_show_instructor_name_on_certificate:
+      options?.acadlix_certificate_show_instructor_name_on_certificate ?? "no",
+    acadlix_certificate_show_course_completion_date_on_certificate:
+      options?.acadlix_certificate_show_course_completion_date_on_certificate ?? "no",
+    acadlix_certificate_page_id:
+      options?.acadlix_certificate_page_id ?? null,  
+    acadlix_certificate_show_certificate_link_in_email:
+      options?.acadlix_certificate_show_certificate_link_in_email ?? "no",
+    acadlix_certificate_signature: 
+      options?.acadlix_certificate_signature ?? {},  
+    acadlix_certificate_template:
+      options?.acadlix_certificate_template ?? "classic-landscape",
     // Authentication option
     acadlix_registration_options:
       options?.acadlix_registration_options ?? {
@@ -353,6 +371,16 @@ const SettingContent = ({
                 <QuizSettings
                   {...methods}
                   options={options}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "certificate" && (
+                <Certificate
+                  {...methods}
+                  options={options}
+                  all_pages={all_pages}
                   isPending={updateMutation?.isPending}
                 />
               )
