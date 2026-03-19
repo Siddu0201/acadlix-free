@@ -338,7 +338,7 @@ if (!class_exists('Course')) {
                 return [];
             }
             // Base query for one-time purchases
-            $query = self::whereHas('order_items', function ($oi) use ($userId) {
+            $query = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
                 $oi
                     ->whereHas('order', function ($q) use ($userId) {
                         $q

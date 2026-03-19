@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 
 const ClassicLandscape = (props) => {
   return (
-    <Document>
+    <Document title={`${props?.watch("certificate_id") || ""}`}>
       <Page size="A4" orientation='landscape'>
 
         <View style={{

@@ -21,7 +21,7 @@ const ModernLandscape = (props) => {
   });
 
   return (
-    <Document>
+    <Document title={`${props?.watch("certificate_id") || ""}`}>
       <Page size="A4" orientation="landscape" style={styles.page}>
 
         {/* The background image must come FIRST */}

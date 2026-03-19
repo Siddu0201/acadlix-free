@@ -14,6 +14,7 @@ class SingleCourseView
 	protected $enable_rating_and_reviews = false;
 	protected $require_admin_approval_for_reviews = false;
 	protected $review_pagination_count = 10;
+	protected $disable_student_enrolled = false;
 	protected $average_rating = 0;
 	protected $total_rating = 0;
 	protected $comments = [];
@@ -34,6 +35,7 @@ class SingleCourseView
 		$this->enable_rating_and_reviews = acadlix()->helper()->acadlix_get_option('acadlix_enable_rating_and_reviews') === 'yes';
 		$this->require_admin_approval_for_reviews = acadlix()->helper()->acadlix_get_option('acadlix_require_admin_approval_for_reviews') === 'yes';
 		$this->review_pagination_count = (int) acadlix()->helper()->acadlix_get_option('acadlix_review_pagination_count') ?: 10;
+		$this->disable_student_enrolled = acadlix()->helper()->acadlix_get_option('acadlix_disable_student_enrolled') === 'yes';
 
 		$this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
 		$this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
@@ -343,6 +345,34 @@ class SingleCourseView
 		], $this->course);
 	}
 
+	protected function acadlix_student_enrolled()
+	{
+		if ($this->disable_student_enrolled) {
+			return null;
+		}
+		return apply_filters('acadlix_single_course_students_enrolled', [
+			'component' => 'div',
+			'props' => [
+				'class' => 'acadlix-course-aside-details-option'
+			],
+			'children' => [
+				[
+					'component' => 'div',
+					'children' => [
+						[
+							'component' => 'strong',
+							'value' => esc_html__('Students Enrolled:', 'acadlix'),
+						]
+					]
+				],
+				[
+					'component' => 'div',
+					'value' => esc_html($this->course->student_count),
+				]
+			]
+		], $this->course);
+	}
+
 	protected function acadlix_basic_course_details(bool $desktop = true, bool $mobile = true)
 	{
 		if (!is_bool($desktop) || !is_bool($mobile)) {
@@ -414,27 +444,7 @@ class SingleCourseView
 						],
 					]
 				],
-				[
-					'component' => 'div',
-					'props' => [
-						'class' => 'acadlix-course-aside-details-option'
-					],
-					'children' => [
-						[
-							'component' => 'div',
-							'children' => [
-								[
-									'component' => 'strong',
-									'value' => esc_html__('Students Enrolled:', 'acadlix'),
-								]
-							]
-						],
-						[
-							'component' => 'div',
-							'value' => esc_html($this->course->student_count),
-						]
-					]
-				],
+				$this->acadlix_student_enrolled(),
 				[
 					'component' => 'div',
 					'props' => [
@@ -601,7 +611,7 @@ class SingleCourseView
 					[
 						'component' => 'div',
 						'props' => [
-							'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist '. ($course_wishlist_count == 0 ? '' : 'acadlix-hidden'),
+							'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist ' . ($course_wishlist_count == 0 ? '' : 'acadlix-hidden'),
 							'id' => 'add-to-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Add to Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
@@ -614,7 +624,7 @@ class SingleCourseView
 					[
 						'component' => 'div',
 						'props' => [
-							'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist '. ($course_wishlist_count > 0 ? '' : 'acadlix-hidden'),
+							'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist ' . ($course_wishlist_count > 0 ? '' : 'acadlix-hidden'),
 							'id' => 'remove-from-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Remove From Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),

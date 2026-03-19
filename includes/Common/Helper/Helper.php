@@ -627,6 +627,7 @@ if (!class_exists('Helper')) {
         'acadlix_require_admin_approval_for_reviews' => 'no',
         'acadlix_review_pagination_count' => 10,
         'acadlix_enable_course_filters' => 'no',
+        'acadlix_disable_student_enrolled' => 'no',
         // Currency Option
         'acadlix_currency' => 'USD',
         'acadlix_currency_position' => 'Left ( $99.99 )',

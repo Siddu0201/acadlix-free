@@ -75,6 +75,8 @@ const SettingContent = ({
       options?.acadlix_review_pagination_count ?? 10,
     acadlix_enable_course_filters:
       options?.acadlix_enable_course_filters ?? "no",
+    acadlix_disable_student_enrolled:
+      options?.acadlix_disable_student_enrolled ?? "no",
     // Enrollment Options
     // Currency Options
     acadlix_currency: options?.acadlix_currency ?? "USD",

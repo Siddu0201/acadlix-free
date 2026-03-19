@@ -149,7 +149,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_label",
+                    component_name: "setting_certificate_option_card_grid_item_show_instructor",
                     props: {
                       size: { xs: 12, sm: 6, lg: 3 },
                     },
@@ -162,7 +162,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_show_instructor_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 9 },
                     },
@@ -190,7 +190,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_label",
+                    component_name: "setting_certificate_option_card_grid_item_show_course_completion_date",
                     props: {
                       size: { xs: 12, sm: 6, lg: 3 },
                     },
@@ -203,7 +203,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_show_course_completion_date_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 9 },
                     },
@@ -231,7 +231,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_label",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_page_label",
                     props: {
                       size: { xs: 12, sm: 6, lg: 3 },
                     },
@@ -244,7 +244,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_page_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 9 },
                     },
@@ -339,7 +339,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_link_in_email_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 3 },
                     },
@@ -352,7 +352,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_link_in_email_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 9 },
                     },
@@ -380,7 +380,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_signature_image_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 3 },
                     },
@@ -398,7 +398,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_signature_image_field",
                     props: {
                       size: { xs: 12, sm: 6, lg: 9 },
                     },
@@ -500,7 +500,7 @@ const Certificate = (props) => {
                   },
                   {
                     component: "Grid",
-                    component_name: "setting_certificate_option_card_grid_item_certificate_template_field",
+                    component_name: "setting_certificate_option_card_grid_item_certificate_template",
                     props: {
                       size: { xs: 12, sm: 6, lg: 3 },
                     },
