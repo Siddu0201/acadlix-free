@@ -352,6 +352,12 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 
 == Changelog ==
 
+= 1.0.6 - 20-03-2026 =
+* Added: Certificate module for course completion.
+* Added: Option to disable course enrollment visibility on the frontend.
+* Added: Default phone code setting for user registration.
+* Fixed: Trashed courses appearing in the "My Courses" section.
+
 = 1.0.5 - 13-03-2026 =
 * Added: Coupon system to allow discounts on course purchases.
 * Added: Import and export quiz functionality using JSON format for easy quiz migration and backup.
