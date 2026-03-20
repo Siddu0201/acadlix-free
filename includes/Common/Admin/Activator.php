@@ -228,6 +228,7 @@ class Activator
       if ($installed_ver < $version && method_exists($this, $method)) {
         acadlix()->migration()->createTable(); // function to update schema/data
         acadlix()->seeder()->seed(); // function to upadte schema/data
+        acadlix()->admin()->option()->createOption(); // to update options
         acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
         acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         $this->$method();

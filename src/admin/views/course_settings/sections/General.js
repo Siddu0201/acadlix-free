@@ -34,6 +34,26 @@ const EndDate = React.lazy(() =>
       "@acadlix/free/admin/course_settings/EndDate")
 );
 
+const LockCompletedContent = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_course_settings_general_lock_completed_content" */
+      "@acadlix/pro/admin/course_settings/LockCompletedContent") :
+    import(
+      /* webpackChunkName: "admin_course_settings_general_lock_completed_content" */
+      "@acadlix/free/admin/course_settings/LockCompletedContent")
+);
+
+const DisableMarkAsIncomplete = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true' ?
+    import(
+      /* webpackChunkName: "admin_course_settings_general_disable_mark_as_incomplete" */
+      "@acadlix/pro/admin/course_settings/DisableMarkAsIncomplete") :
+    import(
+      /* webpackChunkName: "admin_course_settings_general_disable_mark_as_incomplete" */
+      "@acadlix/free/admin/course_settings/DisableMarkAsIncomplete")
+);
+
 const General = (props) => {
   return (
     <Box>
@@ -247,6 +267,42 @@ const General = (props) => {
                 onKeyDown={props?.handleKeyDown}
               />
             </Grid>
+          </Grid>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 12 }}>
+              <Typography
+                variant="h6"
+              >
+                {__("Lock Completed Content", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={acadlixOptions?.isActive ? "open" : "closed"}
+                  msg={__("Prevents students from reopening or accessing content after completing it.", "acadlix")}
+                />
+              </Typography>
+            </Grid>
+            <React.Suspense fallback={null}>
+              <LockCompletedContent {...props} />
+            </React.Suspense>
+          </Grid>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 12 }}>
+              <Typography
+                variant="h6"
+              >
+                {__("Disable Mark As Incomplete", "acadlix")}
+                <CustomFeatureTooltip
+                  plan={acadlixOptions?.isActive ? "open" : "closed"}
+                  msg={__("Prevents students from marking completed content as incomplete.", "acadlix")}
+                />
+              </Typography>
+            </Grid>
+            <React.Suspense fallback={null}>
+              <DisableMarkAsIncomplete {...props} />
+            </React.Suspense>
           </Grid>
         </Grid>
         {/* <Grid size={{  xs: 12 ,  sm: 6  }}>

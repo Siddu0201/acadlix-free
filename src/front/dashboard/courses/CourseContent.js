@@ -50,6 +50,8 @@ const CourseContent = () => {
       sections: [],
       certificate: null,
       enable_certificate: false,
+      lock_completed_content: false,
+      disable_mark_as_incomplete: false,
     },
   });
 
@@ -180,6 +182,12 @@ const CourseContent = () => {
         shouldDirty: true,
       });
       methods?.setValue("enable_certificate", Boolean(course?.rendered_metas?.enable_certificate), {
+        shouldDirty: true,
+      });
+      methods?.setValue("lock_completed_content", Boolean(course?.rendered_metas?.lock_completed_content), {
+        shouldDirty: true,
+      });
+      methods?.setValue("disable_mark_as_incomplete", Boolean(course?.rendered_metas?.disable_mark_as_incomplete), {
         shouldDirty: true,
       });
       let i = 0;
