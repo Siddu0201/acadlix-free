@@ -418,10 +418,10 @@ const Checkout = () => {
       total_amount: methods?.watch("total_amount"),
       offline_user_text: methods?.watch("offline_user_text"),
       offline_upload_file: methods?.watch("offline_upload_file"),
-      coupon_id: data?.coupon_id,
-      coupon_code: data?.coupon_code,
-      coupon_amount: data?.coupon_amount,
-      discount_type: data?.discount_type,
+      coupon_id: methods?.watch("coupon_id"),
+      coupon_code: methods?.watch("coupon_code"),
+      coupon_amount: methods?.watch("coupon_amount"),
+      discount_type: methods?.watch("discount_type"),
     });
 
     // Convert to FormData
