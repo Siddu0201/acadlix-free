@@ -793,6 +793,7 @@ class FrontDashboardController
     update_user_meta($user_id, 'last_name', sanitize_text_field($params['last_name']));
     update_user_meta($user_id, 'description', sanitize_text_field($params['description']));
     update_user_meta($user_id, '_acadlix_profile_phonecode', sanitize_text_field($params['phonecode']));
+    update_user_meta($user_id, '_acadlix_profile_isocode', sanitize_text_field($params['isocode']));
     update_user_meta($user_id, '_acadlix_profile_phone_number', sanitize_text_field($params['phone_number']));
     update_user_meta($user_id, '_acadlix_profile_address', sanitize_text_field($params['address']));
     update_user_meta($user_id, '_acadlix_profile_country', sanitize_text_field($params['country']));

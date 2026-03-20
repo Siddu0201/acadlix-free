@@ -740,6 +740,19 @@ export const TbCertificate = (props) => {
   )
 }
 
+export const LockContent = (props) => {
+  return (
+    <svg fill="#000000" viewBox="0 0 24 24" id="lock-file-2" dataName="Flat Color" xmlns="http://www.w3.org/2000/svg" className="icon flat-color" width="1em" height="1em" {...props}>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path id="primary" d="M2.29,4.29l2-2A1,1,0,0,1,5,2H16a2,2,0,0,1,2,2V8a8.51,8.51,0,0,0-8.5,8.5,8.41,8.41,0,0,0,2,5.5H4a2,2,0,0,1-2-2V5A1,1,0,0,1,2.29,4.29Z" style={{fill: props?.primary || "#636363"}}></path>
+        <path id="secondary" d="M20,14v-.87a3.09,3.09,0,0,0-2.4-3.07A3,3,0,0,0,14,13v1a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h6a2,2,0,0,0,2-2V16A2,2,0,0,0,20,14Zm-4-1a1,1,0,0,1,2,0v1H16ZM2,5a1,1,0,0,1,.28-.71l2-2A1,1,0,0,1,5,2V4A1,1,0,0,1,4,5Z" style={{fill: props?.secondary || "#2ca9bc"}}></path>
+      </g>
+    </svg>
+  )
+}
+
 export const iconMap = {
   IoClose: <IoClose />,
   IoMdRefresh: <IoMdRefresh />,
@@ -853,4 +866,5 @@ export const iconMap = {
   FaQuora: <FaQuora />,
   FaImage: <FaImage />,
   TbCertificate: <TbCertificate />,
+  LockContent: <LockContent />,
 };

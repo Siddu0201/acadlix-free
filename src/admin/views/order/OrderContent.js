@@ -92,6 +92,7 @@ const OrderContent = (props) => {
       last_name: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.last_name ?? "",
       email: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.email ?? "",
       phonecode: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.phonecode ?? "",
+      isocode: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.isocode ?? "",
       phone_number: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.phone_number ?? "",
       address: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.address ?? "",
       country: getOrderMetaValue(props?.order?.order_metas, "billing_info", "")?.country ?? "",

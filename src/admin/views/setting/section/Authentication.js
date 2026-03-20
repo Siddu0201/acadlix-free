@@ -1,6 +1,9 @@
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 import React from 'react'
 import { __ } from "@wordpress/i18n";
+import { Country } from 'country-state-city';
+import { Box, TextField } from '@mui/material';
+import { formatPhoneCode } from '@acadlix/helpers/util';
 
 const Authentication = (props) => {
   const defaultSetting = {
@@ -240,7 +243,7 @@ const Authentication = (props) => {
                   {
                     component: "Grid",
                     props: {
-                      size: { xs: 12, sm: 4, lg: 4 },
+                      size: { xs: 12, sm: 4, lg: 3 },
                     },
                     children: [
                       {
@@ -252,7 +255,7 @@ const Authentication = (props) => {
                   {
                     component: "Grid",
                     props: {
-                      size: { xs: 12, sm: 4, lg: 4 },
+                      size: { xs: 12, sm: 4, lg: 3 },
                     },
                     children: [
                       {
@@ -280,7 +283,7 @@ const Authentication = (props) => {
                   {
                     component: "Grid",
                     props: {
-                      size: { xs: 12, sm: 4, lg: 4 },
+                      size: { xs: 12, sm: 4, lg: 3 },
                     },
                     children: [
                       {
@@ -305,6 +308,89 @@ const Authentication = (props) => {
                         },
                       }
                     ],
+                  },
+                  {
+                    component: "Grid",
+                    props: {
+                      size: { xs: 12, sm: 4, lg: 3 },
+                    },
+                    children: [
+                      {
+                        component: "Autocomplete",
+                        props: {
+                          fullWidth: true,
+                          id: "phonecode",
+                          autoComplete: true,
+                          size: "small",
+                          options: Country.getAllCountries(),
+                          getOptionLabel: (option) =>
+                            `${formatPhoneCode(option.phonecode)} (${option.name})`,
+                          value:
+                            props.watch("acadlix_registration_options.phone.default_phonecode") !== null
+                              ? Country.getAllCountries().find((country) => {
+                                const phonecode = props.watch("acadlix_registration_options.phone.default_phonecode");
+                                const isoCode = props.watch("acadlix_registration_options.phone.default_isocode");
+
+                                // ✅ Priority: match both isoCode + phonecode (unique)
+                                if (isoCode) {
+                                  return (
+                                    country.isoCode === isoCode &&
+                                    country.phonecode === phonecode
+                                  );
+                                }
+                                // ⚠️ Fallback: only phonecode (old data)
+                                return country.phonecode === phonecode;
+                              }) ?? null
+                              : null,
+                          onChange: (_, newValue) => {
+                            props.setValue(
+                              "acadlix_registration_options.phone.default_phonecode",
+                              newValue?.phonecode,
+                              {
+                                shouldDirty: true,
+                              }
+                            );
+                            props.setValue(
+                              "acadlix_registration_options.phone.default_isocode",
+                              newValue?.isoCode,
+                              {
+                                shouldDirty: true,
+                              }
+                            );
+                          },
+                          renderOption: (props, option) => (
+                            <Box
+                              component="li"
+                              {...props}
+                              sx={{
+                                // fontSize: "11px",
+                              }}
+                            >
+                              {`${formatPhoneCode(option.phonecode)} (${option.name})`}
+                            </Box>
+                          ),
+                          slotProps: {
+                            popupIndicator: {
+                              className: "acadlix-icon-btn",
+                            },
+                            clearIndicator: {
+                              className: "acadlix-icon-btn",
+                            }
+                          },
+                          renderInput: (params) => (
+                            <TextField
+                              {...params}
+                              label="Default Phone Code"
+                              inputProps={{
+                                ...params.inputProps,
+                                autoComplete: "code",
+                              }}
+                              error={Boolean(props.formState.errors.acadlix_registration_options?.phone?.default_phonecode)}
+                            />
+                          ),
+                        },
+                      },
+                    ]
                   }
                 ],
               }

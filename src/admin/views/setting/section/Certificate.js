@@ -95,11 +95,12 @@ const Certificate = (props) => {
                         component: "CustomTextField",
                         component_name: "setting_certificate_option_custom_textfield_authorised_name_field",
                         props: {
+                          ...props?.register("acadlix_certificate_authorised_name"),
                           fullWidth: true,
                           size: "small",
                           type: "text",
                           label: __("Authorised Name", "acadlix"),
-                          value: props?.watch("acadlix_certificate_authorised_name") || "",
+                          // value: props?.watch("acadlix_certificate_authorised_name") || "",
                           onChange: (e) => {
                             props?.setValue("acadlix_certificate_authorised_name", e.target.value, {
                               shouldDirty: true,
@@ -133,11 +134,12 @@ const Certificate = (props) => {
                         component: "CustomTextField",
                         component_name: "setting_certificate_option_custom_textfield_authorised_company_field",
                         props: {
+                          ...props?.register("acadlix_certificate_authorised_company"),
                           fullWidth: true,
                           size: "small",
                           type: "text",
                           label: __("Authorised Company Name", "acadlix"),
-                          value: props?.watch("acadlix_certificate_authorised_company") || "",
+                          // value: props?.watch("acadlix_certificate_authorised_company") || "",
                           onChange: (e) => {
                             props?.setValue("acadlix_certificate_authorised_company", e.target.value, {
                               shouldDirty: true,

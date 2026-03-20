@@ -39,6 +39,7 @@ const Checkout = () => {
       last_name: getUserMetaValue("last_name") ?? "",
       email: acadlixCheckoutOptions?.user?.user_email ?? "",
       phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
+      isocode: getUserMetaValue("_acadlix_profile_isocode") ?? null,
       phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
       address: getUserMetaValue("_acadlix_profile_address") ?? "",
       user_url: acadlixCheckoutOptions?.user?.user_url ?? "",

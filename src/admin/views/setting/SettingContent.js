@@ -218,13 +218,15 @@ const SettingContent = ({
     acadlix_certificate_signature: 
       options?.acadlix_certificate_signature ?? {},  
     acadlix_certificate_template:
-      options?.acadlix_certificate_template ?? "classic-landscape",
+      options?.acadlix_certificate_template ?? "modern-landscape",
     // Authentication option
     acadlix_registration_options:
       options?.acadlix_registration_options ?? {
         phone: {
           enabled: false,
           required: false,
+          default_phonecode: "",
+          default_isocode: "",
         }
       },
     acadlix_default_auth_screen:

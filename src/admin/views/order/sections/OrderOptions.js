@@ -572,6 +572,7 @@ const OrderUser = (props) => {
               last_name: newValue?.user_metas?.find(m => m?.meta_key == "last_name")?.meta_value,
               email: newValue?.user_email,
               phonecode: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_phonecode")?.meta_value,
+              isocode: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_isocode")?.meta_value,
               phone_number: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_phone_number")?.meta_value,
               address: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_address")?.meta_value,
               country: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_country")?.meta_value,

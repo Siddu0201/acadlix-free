@@ -204,6 +204,10 @@ class Ajax
       $phonecode = isset($_POST['phonecode'])
         ? sanitize_text_field(wp_unslash($_POST['phonecode']))
         : '';
+      
+      $isocode = isset($_POST['isocode'])
+        ? sanitize_text_field(wp_unslash($_POST['isocode']))
+        : '';
 
       $phone_number = isset($_POST['phone_number'])
         ? sanitize_text_field(wp_unslash($_POST['phone_number']))
@@ -264,6 +268,7 @@ class Ajax
        */
       $user_meta = [
         acadlix()->helper()->acadlix_get_option("acadlix_phonecode_user_meta_key", '_acadlix_profile_phonecode') => $phonecode,
+        acadlix()->helper()->acadlix_get_option("acadlix_isocode_user_meta_key", '_acadlix_profile_isocode') => $isocode,
         acadlix()->helper()->acadlix_get_option("acadlix_phone_user_meta_key", '_acadlix_profile_phone_number') => $phone_number,
       ];
 

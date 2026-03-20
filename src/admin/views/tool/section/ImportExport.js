@@ -39,7 +39,21 @@ const ImportExport = () => {
           { header: "state", key: "state" },
           { header: "country", key: "country" },
         ];
-        const userData = await excelImport(file, { columns });
+        let userData = await excelImport(file, { columns });
+        userData = userData.map(user => {
+          let country_code = user?.country_code?.trim() || "";
+          let isocode = "";
+          if(country_code.includes("/")) {
+            let parts = country_code.split("/");
+            country_code = parts[0];
+            isocode = parts[1] || "";
+          }
+          return {
+            ...user,
+            country_code,
+            isocode,
+          }
+        });
         // console.log("Parsed User Data:", userData);
         methods?.setValue("users", userData, {
           shouldDirty: true,

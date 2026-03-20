@@ -1,8 +1,11 @@
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import React from 'react'
 import { __, sprintf } from "@wordpress/i18n";
+import CustomTypography from '@acadlix/components/CustomTypography';
+import { LockContent } from '@acadlix/helpers/icons';
 
 const ContentLocked = (props) => {
+  const theme = useTheme();
   const getType = () => {
     switch (props?.c?.type) {
       case "lesson":
@@ -44,11 +47,17 @@ const ContentLocked = (props) => {
         overflowY: "auto",
       }}
     >
-      {sprintf(
-        /* translators: %s is replaced with content type (lesson, assignment, quiz, zoom meeting) */
-        __("You have already completed this %s.", "acadlix"),
-        getType()
-      )}
+      <LockContent
+        style={{ fontSize: 80 }}
+        secondary={theme.palette?.primary?.main}
+      />
+      <CustomTypography component="div" variant="h4" >
+        {sprintf(
+          /* translators: %s is replaced with content type (lesson, assignment, quiz, zoom meeting) */
+          __("You have already completed this %s.", "acadlix"),
+          getType()
+        )}
+      </CustomTypography>
     </Box>
   )
 }
