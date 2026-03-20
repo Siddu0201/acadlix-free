@@ -220,8 +220,8 @@ const ActiveContent = (props) => {
           <React.Suspense fallback={null}>
             <AssignmentContent
               {...props}
-              loadEditor={loadEditor}
-              removeEditor={removeEditor}
+              loadEditor={props?.loadEditor}
+              removeEditor={props?.removeEditor}
               user_stat={props?.c?.assignment_user_stat}
               current_submission_value={props?.c?.assignment_user_stat?.submissions?.find((a) => a?.is_active)}
               current_submission_index={props?.c?.assignment_user_stat?.submissions?.findIndex((a) => a?.is_active)}
