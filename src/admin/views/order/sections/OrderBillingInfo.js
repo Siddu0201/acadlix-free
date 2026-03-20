@@ -118,16 +118,16 @@ const OrderBillingInfo = (props) => {
                   props.watch("billing_info.phonecode") !== null
                     ? Country?.getAllCountries()?.find(
                       (country) => {
-                        const isocode = methods.watch("billing_info.isocode");
+                        const isocode = props.watch("billing_info.isocode");
                         if (isocode) {
                           return (
                             country.isoCode === isocode &&
-                            country.phonecode === methods?.watch("billing_info.phonecode")
+                            country.phonecode === props?.watch("billing_info.phonecode")
                           );
                         }
                         return (
                           country?.phonecode ===
-                          methods?.watch("billing_info.phonecode")
+                          props?.watch("billing_info.phonecode")
                         );
                       }
                     ) ?? null
@@ -143,7 +143,7 @@ const OrderBillingInfo = (props) => {
                   );
                   props.setValue(
                     "billing_info.isocode",
-                    newValue?.isocode,
+                    newValue?.isoCode,
                     {
                       shouldDirty: true,
                     }
