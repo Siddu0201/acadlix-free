@@ -184,7 +184,7 @@ export default Content;
 
 const ActiveContent = (props) => {
 
-  if (props?.c?.is_completed && props?.watch("lock_completed_content")) {
+  if (props?.c?.is_completed && props?.watch("lock_completed_content") && props?.c?.type === "lesson") {
     return (
       <ContentLocked
         {...props}

@@ -278,7 +278,7 @@ const General = (props) => {
                 {__("Lock Completed Content", "acadlix")}
                 <CustomFeatureTooltip
                   plan={acadlixOptions?.isActive ? "open" : "closed"}
-                  msg={__("Prevents students from reopening or accessing content after completing it.", "acadlix")}
+                  msg={__("Prevents students from reopening or accessing content (lessons) after completing it.", "acadlix")}
                 />
               </Typography>
             </Grid>
