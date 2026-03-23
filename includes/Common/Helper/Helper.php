@@ -1136,6 +1136,18 @@ if (!class_exists('Helper')) {
           'icon' => 'SocialLogin',
           'icon_color' => '#3B82F6',
         ],
+        [
+          'name' => __('Course Bundle', 'acadlix'),
+          'description' => __('Allow users to purchase multiple courses as a bundle.', 'acadlix'),
+          'pro' => true,
+          'internal' => true,
+          'installed' => true,
+          'active' => $this->acadlix_get_option('acadlix_addon_course_bundle_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_course_bundle_enabled',
+          'icon' => 'FaLayerGroup',
+          'icon_color' => '#7C3AED',
+        ],
       ];
     }
 
@@ -1254,6 +1266,22 @@ if (!class_exists('Helper')) {
     public function is_question_error_reporting_addon_active()
     {
       $value = get_option('acadlix_addon_question_error_reporting_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->pro) {
+        return false;
+      } else {
+        if (!acadlix()->license()->isActive) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    public function is_course_bundle_addon_active()
+    {
+      $value = get_option('acadlix_addon_course_bundle_enabled', false);
       if ($value != 'yes') {
         return false;
       }

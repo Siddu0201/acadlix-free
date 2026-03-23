@@ -1,9 +1,14 @@
 import React from "react";
-import { Typography, Box, AppBar, Toolbar, IconButton, Avatar } from "@mui/material";
-import { IoMenu } from "@acadlix/helpers/icons";
+import { Typography, Box, AppBar, Toolbar, IconButton, Avatar, Button } from "@mui/material";
+import { ImSwitch, IoMenu } from "@acadlix/helpers/icons";
 import { nameToInitials } from "@acadlix/helpers/util";
+import { __ } from "@wordpress/i18n";
 
 const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
+  const handleLogout = () => {
+    if (!acadlixOptions?.logout_url) return;
+    window.location.href = acadlixOptions?.logout_url;
+  }
   return (
     <>
       <AppBar
@@ -80,6 +85,43 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
               >
                 {acadlixOptions?.user?.display_name}
               </Typography>
+              {
+                isDesktop ? (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleLogout}
+                    sx={{
+                      color: "primary.contrastText",
+                      borderColor: "primary.contrastText",
+                      ":hover, :focus": {
+                        color: "primary.contrastText",
+                        borderColor: "primary.contrastText",
+                      },
+                    }}
+                  >
+                    {__("Logout", "acadlix")}
+                  </Button>
+                ) :
+                  (
+                    <IconButton
+                      className="acadlix-icon-btn"
+                      size="medium"
+                      edge="end"
+                      color="inherit"
+                      aria-label="account"
+                      onClick={handleLogout}
+                      sx={{
+                        '&:hover,&:active,&:focus': {
+                          backgroundColor: 'transparent',
+                        },
+                      }}
+                    >
+                      <ImSwitch />
+                    </IconButton>
+                  )
+
+              }
             </Box>
           </Box>
         </Toolbar>

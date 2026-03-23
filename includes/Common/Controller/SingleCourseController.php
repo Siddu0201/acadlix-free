@@ -17,9 +17,14 @@ if (!class_exists('SingleCourseController')) {
             add_filter('template_include', [$this, 'template_loader'], 99);
         }
 
+        protected function is_single_course_page()
+        {
+            return is_singular(ACADLIX_COURSE_CPT);
+        }
+
         public function template_loader($template)
         {
-            if (is_singular(ACADLIX_COURSE_CPT)) {
+            if ($this->is_single_course_page()) {
                 // !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
                 $single_course_template = ACADLIX_INCLUDES_PATH .'Common/Wrappers/SingleCourseWrapper.php';
                 if ($single_course_template) {
@@ -40,7 +45,7 @@ if (!class_exists('SingleCourseController')) {
 
         public function enqueue_front_single_course()
         {
-            if (is_singular(ACADLIX_COURSE_CPT)) {
+            if ($this->is_single_course_page()) {
                 // wp_dequeue_style('acadlix-front-css');
                 // wp_dequeue_script('acadlix-front-js');
                 wp_enqueue_style('acadlix-front-single-course-css');

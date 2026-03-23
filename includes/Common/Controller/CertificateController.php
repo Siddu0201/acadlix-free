@@ -17,10 +17,15 @@ if (!class_exists("CertificateController")) {
       add_filter('show_admin_bar', [$this, 'disable_admin_bar_on_dashboard']);
     }
 
-    public function template_loader($template)
+    protected function is_certificate_page()
     {
       $certificate_page_id = acadlix()->helper()->acadlix_get_option('acadlix_certificate_page_id');
-      if ($certificate_page_id && is_page($certificate_page_id)) {
+      return $certificate_page_id && is_page($certificate_page_id);
+    }
+
+    public function template_loader($template)
+    {
+      if ($this->is_certificate_page()) {
         // !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
         $certificate_template = ACADLIX_INCLUDES_PATH . 'Common/View/CertificateView.php';
         if ($certificate_template) {
@@ -28,15 +33,6 @@ if (!class_exists("CertificateController")) {
         }
       }
       return $template;
-    }
-
-    public function disable_admin_bar_on_dashboard($show_admin_bar)
-    {
-      $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
-      if ($dashboard_page_id && is_page($dashboard_page_id)) {
-        return false;
-      }
-      return $show_admin_bar;
     }
 
     public static function instance()

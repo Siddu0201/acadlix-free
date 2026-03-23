@@ -260,19 +260,6 @@ const Quiz = () => {
               </Tooltip>
             }
             {
-              hasCapability("acadlix_delete_quiz") &&
-              <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  color="error"
-                  onClick={deleteQuizById.bind(this, params?.id)}
-                >
-                  <FaTrash />
-                </IconButton>
-              </Tooltip>
-            }
-            {
               hasCapability("acadlix_show_question") &&
               <Tooltip title={__("Questions", "acadlix")} arrow>
                 <IconButton
@@ -323,12 +310,26 @@ const Quiz = () => {
                     params={params}
                   />
                 </React.Suspense>
-              )}
+              )
+            }
             <React.Suspense fallback={null}>
               <PragraphOptionButton
                 params={params}
               />
             </React.Suspense>
+            {
+              hasCapability("acadlix_delete_quiz") &&
+              <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteQuizById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
           </>
         );
       },

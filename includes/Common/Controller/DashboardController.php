@@ -17,10 +17,15 @@ if (!class_exists("DashboardController")) {
       add_filter('show_admin_bar', [$this, 'disable_admin_bar_on_dashboard']);
     }
 
-    public function template_loader($template)
+    protected function is_dashboard_page()
     {
       $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
-      if ($dashboard_page_id && is_page($dashboard_page_id)) {
+      return $dashboard_page_id && is_page($dashboard_page_id);
+    }
+
+    public function template_loader($template)
+    {
+      if ($this->is_dashboard_page()) {
         // !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
         $dashboard_template = ACADLIX_INCLUDES_PATH . 'Common/View/DashboardView.php';
         if ($dashboard_template) {
@@ -32,8 +37,7 @@ if (!class_exists("DashboardController")) {
 
     public function disable_admin_bar_on_dashboard($show_admin_bar)
     {
-      $dashboard_page_id = acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id');
-      if ($dashboard_page_id && is_page($dashboard_page_id)) {
+      if ($this->is_dashboard_page()) {
         return false;
       }
       return $show_admin_bar;
