@@ -14,7 +14,6 @@ if (!class_exists("CertificateController")) {
       if (is_admin())
         return;
       add_filter("template_include", [$this, 'template_loader'], 10);
-      add_filter('show_admin_bar', [$this, 'disable_admin_bar_on_dashboard']);
     }
 
     protected function is_certificate_page()
