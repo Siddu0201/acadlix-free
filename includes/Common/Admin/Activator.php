@@ -222,6 +222,7 @@ class Activator
       11 => 'updateV11', // update 1.6.2,
       12 => 'updateV12', // update 1.6.3 (pro) 1.0.5 (free),
       13 => 'updateV13', // update 1.6.4 (pro) 1.0.6 (free),
+      14 => 'updateV14', // update 1.6.5 (pro) 1.0.7 (free),
     ];
 
     foreach ($updates as $version => $method) {
@@ -234,6 +235,13 @@ class Activator
         $this->$method();
       }
     }
+  }
+
+  public function updateV14()
+  {
+    /**
+     * In this update add course bundle module.
+     */
   }
 
   public function updateV13()
