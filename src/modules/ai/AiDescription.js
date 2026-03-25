@@ -168,6 +168,9 @@ const DescriptionModel = ({
             case "course":
                 s = "Course Description";
                 break;
+            case "course_bundle":
+                s = "Course Bundle Description";
+                break;
             case "article":
                 s = "Article";
                 break;
