@@ -246,6 +246,17 @@ class AdminOrderController
     return rest_ensure_response($res);
   }
 
+  public function isItemPurchasedBy($item_id, $user_id, $type = 'course')
+  {
+    if ($type === 'course') {
+      $item = acadlix()->model()->course()->find($item_id);
+      if ($item && method_exists($item, 'isPurchasedBy')) {
+        return $item->isPurchasedBy($user_id);
+      }
+    }
+    return false;
+  }
+
   public function post_create_order($request)
   {
     $res = [];
@@ -270,166 +281,204 @@ class AdminOrderController
     if (empty($order_items)) {
       $errors[] = __('Order items is required.', 'acadlix');
     }
-    foreach ($order_items as $order_item) {
-      if (!$order_item['course_id'])
-        continue;
-      $course = acadlix()->model()->course()->find($order_item['course_id']);
-      if ($user_type === 'multiple') {
-        foreach ($users as $user) {
-          if ($course->isPurchasedBy($user['ID'])) {
-            if ($skip_already_purchased) {
-              continue;
-            }
-            /* translators: %1$s is the course title, %2$s is the user display name */
-            $errors[] = sprintf(__('%1$s already purchased by user %2$s.', 'acadlix'), $order_item['course_title'], $user['display_name']);
-          } else {
-            $cartItem = acadlix()
-              ->model()
-              ->courseCart()
-              ->where('user_id', $user['ID'])
-              ->where('course_id', $order_item['course_id'])
-              ->first();
-            if ($cartItem && $params['status'] == 'success') {
-              $cartItem->delete();
-            }
-          }
-        }
-      } elseif ($user_type === 'single') {
-        if ($course->isPurchasedBy($user_id)) {
-          /* translators: %1$s is the course title */
-          $errors[] = sprintf(__('%1$s already purchased.', 'acadlix'), $order_item['course_title']);
-        } else {
-          $cartItem = acadlix()
-            ->model()
-            ->courseCart()
-            ->where('user_id', $user_id)
-            ->where('course_id', $order_item['course_id'])
-            ->first();
-          if ($cartItem && $params['status'] == 'success') {
-            $cartItem->delete();
-          }
-        }
-      }
-    }
 
     if (!empty($errors)) {
-      return new WP_Error('missing_params', implode('<br/> ', $errors), array('status' => 400));
+      return new WP_Error(
+        'missing_params',
+        implode('<br/> ', $errors),
+        ['status' => 400]
+      );
     }
 
-    if ($user_type === 'multiple') {
-      foreach ($users as $user) {
-        $course_ids = array_filter(array_column($order_items, 'course_id'));
-        $courses_data = acadlix()->model()->course()->whereIn('ID', $course_ids)->get()->keyBy('ID');
-        $available_items = array_filter($order_items, function ($item) use ($user, $courses_data) {
-          if (!$item['course_id'] || !isset($courses_data[$item['course_id']]))
-            return false;
-
-          // Use the pre-fetched course object
-          $course = $courses_data[$item['course_id']];
-
-          // If they own it, skip it
-          if ($course->isPurchasedBy($user['ID'])) {
-            return false;
-          }
-          return true;
-        });
-
-        // 2. Only proceed if there are items left to purchase
-        if (empty($available_items)) {
+    $prepare_user_order = function ($target_user_id, $user_data = []) use ($order_items, $skip_already_purchased, &$errors) {
+      $available_items = [];
+      foreach ($order_items as $item) {
+        if (empty($item['item_id'])) {
           continue;
         }
+        /* ---- Purchase Check ---- */
 
-        $order = acadlix()->model()->order()->create([
-          'user_id' => $user['ID'],
-          'status' => $params['status'],
-          'total_amount' => (float) array_sum(array_column($available_items, 'price_after_tax')),
-        ]);
+        if (
+          $this->isItemPurchasedBy(
+            $item['item_id'],
+            $target_user_id,
+            $item['type']
+          )
+        ) {
 
-        if ($order) {
-          $admin = get_userdata($admin_id);
-          $order->createActivityLog("Order created by {$admin->display_name}");
-          $order->createActivityLog("Order status updated to {$params['status']} by {$admin->display_name}");
-
-          foreach ($available_items as $item) {
-            $order->order_items()->create([
-              'course_id' => $item['course_id'],
-              'course_title' => $item['course_title'],
-              'quantity' => $item['quantity'],
-              'price' => $item['price'],
-              'discount' => $item['discount'],
-              'price_after_discount' => $item['price_after_discount'],
-              'additional_fee' => $item['additional_fee'],
-              'tax' => $item['tax'],
-              'price_after_tax' => $item['price_after_tax'],
-            ]);
+          if ($skip_already_purchased) {
+            continue;
           }
-          $metas = array_column($user["user_metas"], 'meta_value', 'meta_key');
-          $billing_info = [
-            "first_name" => $metas['first_name'] ?? "",
-            "last_name" => $metas['last_name'] ?? "",
-            "email" => $user['user_email'] ?? "", // Adjust key name if different
-            "phonecode" => $metas['_acadlix_profile_phonecode'] ?? "",
-            "isocode" => $metas['_acadlix_profile_isocode'] ?? "",
-            "phone_number" => $metas['_acadlix_profile_phone_number'] ?? "",
-            "address" => $metas['_acadlix_profile_address'] ?? "",
-            "country" => $metas['_acadlix_profile_country'] ?? "",
-            "city" => $metas['_acadlix_profile_city'] ?? "",
-            "zip_code" => $metas['_acadlix_profile_zip_code'] ?? "",
-          ];
-          $order->updateOrCreateMeta('billing_info', $billing_info);
-          $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
-          $order->updateOrCreateMeta('is_free', $params['meta']['is_free']);
+
+          if (!empty($user_data)) {
+            $user_info = $user_data['display_name'] ?? $user_data['user_email'] ?? '';
+          } else {
+            $user = get_userdata($target_user_id);
+            $user_info = $user ? $user->display_name : '';
+          }
+
+          $errors[] = sprintf(
+            __('%1$s already purchased by %2$s.', 'acadlix'),
+            $item['item_title'],
+            $user_info
+          );
+
+          continue;
         }
+        $available_items[] = $item;
       }
-    } elseif ($user_type === 'single') {
-      $course_ids = array_filter(array_column($order_items, 'course_id'));
-      $courses_data = acadlix()->model()->course()->whereIn('ID', $course_ids)->get()->keyBy('ID');
-      $available_items = array_filter($order_items, function ($item) use ($user, $courses_data) {
-        if (!$item['course_id'] || !isset($courses_data[$item['course_id']]))
-          return false;
+      /* prevent duplicate items inside same order */
+      $available_items = collect($available_items)
+        ->unique(fn($i) => $i['type'] . '_' . $i['item_id'])
+        ->values()
+        ->all();
 
-        // Use the pre-fetched course object
-        $course = $courses_data[$item['course_id']];
+      return $available_items;
+    };
+    /* -------------------------------------------------
+     | PHASE 1 — VALIDATE ALL USERS
+     --------------------------------------------------*/
 
-        // If they own it, skip it
-        if ($course->isPurchasedBy($user['ID'])) {
-          return false;
-        }
-        return true;
-      });
+    if ($user_type === 'single') {
 
-      // 2. Only proceed if there are items left to purchase
-      if (count($available_items) > 0) {
-        $order = acadlix()->model()->order()->create([
+      $items = $prepare_user_order($user_id);
+
+      if (!empty($items)) {
+        $orders_to_create[] = [
           'user_id' => $user_id,
-          'status' => $params['status'],
-          'total_amount' => (float) array_sum(array_column($available_items, 'price_after_tax')),
-        ]);
+          'items' => $items,
+          'user' => []
+        ];
+      }
+    }
+    if ($user_type === 'multiple') {
+      foreach ($users as $user) {
+        $items = $prepare_user_order($user['ID'], $user);
 
-        if ($order) {
-          $admin = get_userdata($admin_id);
-          $order->createActivityLog("Order created by {$admin->display_name}");
-          $order->createActivityLog("Order status updated to {$params['status']} by {$admin->display_name}");
-
-          foreach ($available_items as $item) {
-            $order->order_items()->create([
-              'course_id' => $item['course_id'],
-              'course_title' => $item['course_title'],
-              'quantity' => $item['quantity'],
-              'price' => $item['price'],
-              'discount' => $item['discount'],
-              'price_after_discount' => $item['price_after_discount'],
-              'additional_fee' => $item['additional_fee'],
-              'tax' => $item['tax'],
-              'price_after_tax' => $item['price_after_tax'],
-            ]);
-          }
-          $order->updateOrCreateMeta('billing_info', $billing_info);
-          $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
-          $order->updateOrCreateMeta('is_free', $params['meta']['is_free']);
+        if (!empty($items)) {
+          $orders_to_create[] = [
+            'user_id' => $user['ID'],
+            'items' => $items,
+            'user' => $user
+          ];
         }
       }
     }
+    /* -------------------------------------------------
+     | STOP IF ANY ERROR EXISTS (ATOMIC SAFETY)
+     --------------------------------------------------*/
+
+    if (!empty($errors)) {
+      return new WP_Error(
+        'purchase_error',
+        implode('<br/>', $errors),
+        ['status' => 400]
+      );
+    }
+
+    /* -------------------------------------------------
+     | PHASE 2 — CREATE ORDERS
+     --------------------------------------------------*/
+
+    $admin = get_userdata($admin_id);
+
+    foreach ($orders_to_create as $data) {
+
+      $target_user_id = $data['user_id'];
+      $available_items = $data['items'];
+      $user_data = $data['user'];
+
+      /* ---- Cart Cleanup ---- */
+      foreach ($available_items as $item) {
+        $cartItem = acadlix()
+          ->model()
+          ->courseCart()
+          ->where('user_id', $target_user_id)
+          ->where('item_id', $item['item_id'])
+          ->where('type', $item['type'])
+          ->first();
+
+        if ($cartItem) {
+          $cartItem->delete();
+        }
+      }
+
+      /* ---- Create Order ---- */
+
+      $order = acadlix()->model()->order()->create([
+        'user_id' => $target_user_id,
+        'status' => $params['status'],
+        'total_amount' => (float) 
+          array_sum(array_column($available_items, 'price_after_tax')),
+      ]);
+
+      if (!$order) {
+        continue;
+      }
+
+      $order->createActivityLog(
+        "Order created by {$admin->display_name}"
+      );
+
+      $order->createActivityLog(
+        "Order status updated to {$params['status']} by {$admin->display_name}"
+      );
+
+      /* ---- Order Items ---- */
+
+      foreach ($available_items as $item) {
+
+        $order->order_items()->create([
+          'item_id' => $item['item_id'],
+          'item_title' => $item['item_title'],
+          'type' => $item['type'],
+          'quantity' => $item['quantity'],
+          'price' => $item['price'],
+          'discount' => $item['discount'],
+          'price_after_discount' => $item['price_after_discount'],
+          'additional_fee' => $item['additional_fee'],
+          'tax' => $item['tax'],
+          'price_after_tax' => $item['price_after_tax'],
+        ]);
+      }
+
+      /* ---- Billing Meta ---- */
+
+      if (!empty($user_data)) {
+
+        $metas = array_column(
+          $user_data['user_metas'],
+          'meta_value',
+          'meta_key'
+        );
+
+        $billing_info = [
+          "first_name" => $metas['first_name'] ?? "",
+          "last_name" => $metas['last_name'] ?? "",
+          "email" => $user_data['user_email'] ?? "",
+          "phonecode" => $metas['_acadlix_profile_phonecode'] ?? "",
+          "isocode" => $metas['_acadlix_profile_isocode'] ?? "",
+          "phone_number" => $metas['_acadlix_profile_phone_number'] ?? "",
+          "address" => $metas['_acadlix_profile_address'] ?? "",
+          "country" => $metas['_acadlix_profile_country'] ?? "",
+          "city" => $metas['_acadlix_profile_city'] ?? "",
+          "zip_code" => $metas['_acadlix_profile_zip_code'] ?? "",
+        ];
+
+      }
+      $order->updateOrCreateMeta('billing_info', $billing_info);
+
+      $order->updateOrCreateMeta(
+        'payment_method',
+        $params['meta']['payment_method']
+      );
+
+      $order->updateOrCreateMeta(
+        'is_free',
+        $params['meta']['is_free']
+      );
+    }
+
     return rest_ensure_response($res);
   }
 
@@ -451,7 +500,6 @@ class AdminOrderController
       ->order()
       ->with([
         'order_items',
-        'order_items.course',
         'order_metas',
         'user',
         'activity_logs'
@@ -467,8 +515,9 @@ class AdminOrderController
     $params = $request->get_params();
     $orderId = $request['order_id'];
     $user_id = $params['user_id'];
-    // $order_items = $params['order_items'];
+    $order_items = $params['order_items'];
     $admin_id = $params['admin_id'];
+    $billing_info = $params['billing_info'];
 
     if (empty($orderId)) {
       $errors[] = __('Order id is required.', 'acadlix');
@@ -478,28 +527,28 @@ class AdminOrderController
       $errors[] = __('User id is required.', 'acadlix');
     }
 
-    // if (empty($order_items)) {
-    //     $errors[] = __('Order items is required.', 'acadlix');
-    // }
+    if (empty($order_items)) {
+      $errors[] = __('Order items is required.', 'acadlix');
+    }
 
     // foreach ($order_items as $order_item) {
     //     if (!$order_item['course_id'])
     //         continue;
     //     $orderItem = acadlix()->model()->orderItem()
     //                 ->where('order_id', $orderId)
-    //                 ->where('course_id', $order_item['course_id'])
+    //                 ->where('item_id', $order_item['item_id'])
     //                 ->first();
     //     if($orderItem){
     //        continue;
     //     }
-    //     $course = acadlix()->model()->course()->ofCourse()->find($order_item['course_id']);
+    //     $course = acadlix()->model()->course()->ofCourse()->find($order_item['item_id']);
     //     if ($course->isPurchasedBy($user_id)) {
     //         /* translators: %s is the course title */
     //         $errors[] = sprintf(__('Course %s already purchased.', 'acadlix'), $order_item['course_title']);
     //     }
     //     $cartItem = acadlix()->model()->courseCart()
     //                 ->where('user_id', $user_id)
-    //                 ->where('course_id', $order_item['course_id'])
+    //                 ->where('item_id', $order_item['item_id'])
     //                 ->first();
     //     if ($cartItem && $params['status'] == 'success') {
     //         $cartItem->delete();
@@ -512,14 +561,16 @@ class AdminOrderController
 
     $order = acadlix()->model()->order()->find($orderId);
     if ($order) {
+      if ($order->status !== $params['status']) {
+        $order->createActivityLog(
+          "Order status updated to {$params['status']} by " . get_userdata($admin_id)->display_name
+        );
+      }
       $order->update([
         'user_id' => $user_id,
         'status' => $params['status'],
         // 'total_amount' => (float) $params['total_amount'],
       ]);
-      $admin = get_userdata($admin_id);
-      $message = "Order status updated to {$params['status']} by {$admin->display_name}";
-      $order->createActivityLog($message);
 
       // $course_ids = array_column($order_items, 'course_id');
       // $order->order_items()->whereNotIn('course_id', $course_ids)->delete();
@@ -540,7 +591,7 @@ class AdminOrderController
       //     ]);
       // }
 
-      // $order->updateOrCreateMeta('payment_method', $params['meta']['payment_method']);
+      $order->updateOrCreateMeta('billing_info', $billing_info);
       // $order->updateOrCreateMeta('is_free', (bool) $params['meta']['is_free']);
     }
 

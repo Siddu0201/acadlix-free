@@ -88,11 +88,6 @@ if (!class_exists("CheckoutController")) {
         wp_enqueue_script('acadlix-razorpay-js');
 
         acadlix()->assets()->manager()->load_assets('front_checkout', $this->localize_checkout_options(), 'acadlixCheckoutOptions');
-        // wp_enqueue_style('acadlix-front-checkout-css');
-        // wp_enqueue_script('acadlix-front-checkout-js');
-        // wp_localize_script('acadlix-front-checkout-js', 'acadlixOptions', array(
-
-        // ));
       }
     }
 

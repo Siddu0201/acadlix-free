@@ -22,6 +22,7 @@ class AllCourseView
   protected $context = ACADLIX_COURSE_CPT;
   protected $term = null;
   protected $enable_course_filters = false;
+  protected $type = 'course';
 
   public function __construct()
   {
@@ -110,13 +111,13 @@ class AllCourseView
     // $this->courses = apply_filters('acadlix_all_courses_list', $this->courses, $this->page, $this->search);
     if (is_user_logged_in()) {
       $userId = get_current_user_id();
-      $this->cart = acadlix()->model()->courseCart()->where('user_id', $userId)->pluck('course_id')->toArray();
+      $this->cart = acadlix()->model()->courseCart()->where('user_id', $userId)->pluck('item_id')->toArray();
       $this->order_item = acadlix()->model()->orderItem()->with(['order'])->whereHas('order', function ($query) use ($userId) {
         $query->where('user_id', $userId)->where('status', 'success');
-      })->pluck('course_id')->toArray();
+      })->pluck('item_id')->toArray();
     } else {
       if (isset($_COOKIE['acadlix_cart_token'])) {
-        $this->cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck('course_id')->toArray();
+        $this->cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck('item_id')->toArray();
       }
     }
   }
@@ -334,6 +335,7 @@ class AllCourseView
 
   public function render_single_course($course)
   {
+    $this->type = "course";
     $single_course_ui = [
       'component' => 'div',
       'props' => [
@@ -597,7 +599,8 @@ class AllCourseView
       'component' => 'button',
       'props' => [
         'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
-        'data-id' => esc_attr($course->ID)
+        'data-id' => esc_attr($course->ID),
+        'data-type' => esc_attr($this->type),
       ],
       'children' => [
         [
@@ -621,7 +624,8 @@ class AllCourseView
       'component' => 'button',
       'props' => [
         'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
-        'data-id' => esc_attr($course->ID)
+        'data-id' => esc_attr($course->ID),
+        'data-type' => esc_attr($this->type),
       ],
       'children' => [
         [
@@ -660,7 +664,8 @@ class AllCourseView
       $is_course_purchased = $course->isPurchasedBy($userId);
       $cart = acadlix()->model()->courseCart()->where([
         ['user_id', '=', $userId],
-        ['course_id', '=', $course->ID],
+        ['item_id', '=', $course->ID],
+        ['type', '=', $this->type],
       ])->first();
     } else {
       if (isset($_COOKIE['acadlix_cart_token'])) {
@@ -668,7 +673,8 @@ class AllCourseView
           ->model()
           ->courseCart()
           ->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
-          ->where('course_id', $course->ID)
+          ->where('item_id', $course->ID)
+          ->where('type', $this->type)
           ->first();
       }
     }
@@ -709,11 +715,11 @@ class AllCourseView
     $course_wishlist_count = acadlix()
       ->model()
       ->userActivityMeta()
-      ->ofCourse()
-      ->ofCourseWishlist()
+      ->ofWishlist()
       ->where([
         'type_id' => $course->ID,
         'user_id' => get_current_user_id(),
+        'type' => $this->type,
       ])
       ->count();
 
@@ -731,6 +737,7 @@ class AllCourseView
             'id' => 'add-to-wishlist-' . esc_attr($course->ID),
             'title' => esc_attr__('Add to Wishlist', 'acadlix'),
             'data-id' => esc_attr($course->ID),
+            'data-type' => esc_attr($this->type),
           ],
           'children' => [
             ['component' => 'i', 'props' => ['class' => 'far fa-heart']],
@@ -744,6 +751,7 @@ class AllCourseView
             'id' => 'remove-from-wishlist-' . esc_attr($course->ID),
             'title' => esc_attr__('Remove From Wishlist', 'acadlix'),
             'data-id' => esc_attr($course->ID),
+            'data-type' => esc_attr($this->type),
           ],
           'children' => [
             ['component' => 'i', 'props' => ['class' => 'fas fa-heart']],

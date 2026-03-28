@@ -40,9 +40,9 @@ const OrderDetail = (props) => {
 export default OrderDetail;
 
 const OrderItem = (props) => {
-  const removeCourseMutation = DeleteCourseFromCart(props?.c?.id);
-  const handleRemoveCourse = () => {
-    removeCourseMutation?.mutate(
+  const removeItemMutation = DeleteCourseFromCart(props?.c?.id);
+  const handleRemoveItem = () => {
+    removeItemMutation?.mutate(
       {},
       {
         onSuccess: (data) => {
@@ -79,7 +79,7 @@ const OrderItem = (props) => {
                 height: 100,
                 width: 150,
               },
-              image: props?.c?.course?.thumbnail?.url ??
+              image: props?.c?.item?.thumbnail?.url ??
                 acadlixCheckoutOptions?.default_img_url,
             },
           },
@@ -132,7 +132,7 @@ const OrderItem = (props) => {
                     fontWeight: "bold",
                   },
                 },
-                value: props?.c?.course?.post_title,
+                value: props?.c?.item?.post_title,
               },
               {
                 component: "Box",
@@ -153,13 +153,13 @@ const OrderItem = (props) => {
                       variant: "h6",
                     },
                     value: `${currencyPosition(
-                      Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price))
-                        ? props?.c?.course?.rendered_metas?.sale_price
-                        : props?.c?.course?.rendered_metas?.price,
+                      Boolean(Number(props?.c?.item?.rendered_metas?.enable_sale_price))
+                        ? props?.c?.item?.rendered_metas?.sale_price
+                        : props?.c?.item?.rendered_metas?.price,
                         props?.watch("currency_symbol")
                     )} `,
                   },
-                  Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price)) && (
+                  Boolean(Number(props?.c?.item?.rendered_metas?.enable_sale_price)) && (
                     {
                       component: "Typography",
                       component_name: "checkout_order_detail_price_typography",
@@ -170,7 +170,7 @@ const OrderItem = (props) => {
                           textDecoration: "line-through",
                         }
                       },
-                      value: currencyPosition(props?.c?.course?.rendered_metas?.price, props?.watch("currency_symbol")),
+                      value: currencyPosition(props?.c?.item?.rendered_metas?.price, props?.watch("currency_symbol")),
                     }
                   )
                 ],
@@ -192,10 +192,10 @@ const OrderItem = (props) => {
                 props: {
                   className: 'acadlix-icon-btn',
                   color: "error",
-                  onClick: handleRemoveCourse,
+                  onClick: handleRemoveItem,
                 },
                 children: [
-                  removeCourseMutation?.isPending ? (
+                  removeItemMutation?.isPending ? (
                     {
                       component: "CircularProgress",
                       component_name: "checkout_order_detail_remove_order_item_circular_progress",
@@ -236,8 +236,8 @@ const OrderItem = (props) => {
       control: props?.control,
       watch: props?.watch,
       setValue: props?.setValue,
-      handleRemoveCourse: handleRemoveCourse,
-      removeCourseMutation: removeCourseMutation,
+      handleRemoveItem: handleRemoveItem,
+      removeItemMutation: removeItemMutation,
     }
   ) ?? [];
   
@@ -257,103 +257,6 @@ const OrderItem = (props) => {
           />
         </React.Fragment>
       ))}
-      {/* <Grid size={{ xs: 12, md: 12 }}>
-        <Card
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <CardMedia
-            sx={{
-              height: 100,
-              width: 150,
-            }}
-            image={
-              props?.c?.course?.thumbnail?.url ??
-              acadlixCheckoutOptions?.default_img_url
-            }
-            title="product image"
-          />
-          <CardContent
-            sx={{
-              paddingY: 2,
-              ":last-child": {
-                paddingY: 2,
-              },
-            }}
-          >
-            {
-              props?.c?.errors?.length > 0 &&
-              (
-                <Box sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 1
-                }}>
-                  {
-                    props?.c?.errors?.map((e, index) => (
-                      <Alert key={index} severity="error">
-                        <RawHTML>
-                          {e}
-                        </RawHTML>
-                      </Alert>
-                    ))
-
-                  }
-                </Box>
-              )
-
-            }
-            <Typography
-              variant="body1"
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
-              {props?.c?.course?.post_title}
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-              }}
-            >
-              <Typography variant="body1">
-                <b>{`${currencyPosition(
-                  Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price))
-                    ? props?.c?.course?.rendered_metas?.sale_price
-                    : props?.c?.course?.rendered_metas?.price
-                )} `}</b>
-              </Typography>
-              {Boolean(Number(props?.c?.course?.rendered_metas?.enable_sale_price)) && (
-                <Typography variant="body2">
-                  <del>
-                    {currencyPosition(props?.c?.course?.rendered_metas?.price)}
-                  </del>
-                </Typography>
-              )}
-            </Box>
-          </CardContent>
-          <CardActions
-            sx={{
-              marginLeft: "auto",
-            }}
-          >
-            <IconButton
-              color="error"
-              onClick={handleRemoveCourse}
-            >
-              {removeCourseMutation?.isPending ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                <FaTrashAlt />
-              )}
-            </IconButton>
-          </CardActions>
-        </Card>
-      </Grid> */}
     </>
   )
 }

@@ -170,13 +170,13 @@ class FrontCheckoutController
 
     foreach ($cart as $key => $item) {
       $errors = [];
-      if ($item->course->isPurchasedBy($userId)) {
-        $errors[] = __('Course already purchased.', 'acadlix');
+      if ($item->item->isPurchasedBy($userId)) {
+        $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $item->item->post_title);
       }
 
       $checkRegistrationDate = acadlix()->helper()->course()->checkRegistrationDate(
-        $item->course->start_date,
-        $item->course->end_date
+        $item->item->start_date,
+        $item->item->end_date
       );
 
       if (!$checkRegistrationDate['status']) {
@@ -197,7 +197,13 @@ class FrontCheckoutController
     if ($userId != 0) {
       $res = $this->get_user_cart($userId);
     } else {
-      $res['cart'] = !empty($params['cart_token']) ? acadlix()->model()->courseCart()->where('cart_token', $params['cart_token'])->get() : [];
+      $res['cart'] = !empty($params['cart_token']) ?
+        acadlix()
+          ->model()
+          ->courseCart()
+          ->where('cart_token', $params['cart_token'])
+          ->get()
+        : [];
     }
     return rest_ensure_response($res);
   }
@@ -212,14 +218,18 @@ class FrontCheckoutController
 
     $cart = acadlix()->model()->courseCart()->find($request->get_param('id'));
     if (!$cart) {
-      return new WP_Error('cart_not_found', __('No course found.', 'acadlix'), array('status' => 404));
+      return new WP_Error('cart_not_found', __('No cart item found.', 'acadlix'), array('status' => 404));
     }
     $cart->delete();
 
     if ($cart->user_id != 0) {
       $res = $this->get_user_cart($cart->user_id);
     } else {
-      $res['cart'] = acadlix()->model()->courseCart()->where('cart_token', $cart->cart_token)->get();
+      $res['cart'] = acadlix()
+        ->model()
+        ->courseCart()
+        ->where('cart_token', $cart->cart_token)
+        ->get();
     }
 
     return rest_ensure_response($res);
@@ -231,7 +241,7 @@ class FrontCheckoutController
       $required_fields = array('currency', 'user_id', 'total_amount');
       $params = $request->get_json_params();
       if (is_array($params) && count($params) == 0) {
-        throw new Exception(__('Required course id and user_id', 'acadlix'), 404);
+        throw new Exception(__('Required parameters are missing.', 'acadlix'), 404);
       }
 
       if ($request->get_param('payment_method') != 'razorpay') {
@@ -279,8 +289,9 @@ class FrontCheckoutController
         if ($order) {
           foreach ($request->get_param('order_items') as $item) {
             $order->order_items()->create([
-              'course_id' => $item['course_id'],
-              'course_title' => $item['course_title'],
+              'item_id' => $item['item_id'],
+              'item_title' => $item['item_title'],
+              'type' => $item['type'],
               'quantity' => $item['quantity'],
               'price' => $item['price'],
               'discount' => $item['discount'],
@@ -366,8 +377,9 @@ class FrontCheckoutController
         if ($order) {
           foreach ($request->get_param('order_items') as $item) {
             $order->order_items()->create([
-              'course_id' => $item['course_id'],
-              'course_title' => $item['course_title'],
+              'item_id' => $item['item_id'],
+              'item_title' => $item['item_title'],
+              'type' => $item['type'],
               'quantity' => $item['quantity'],
               'price' => $item['price'],
               'discount' => $item['discount'],
@@ -454,8 +466,9 @@ class FrontCheckoutController
         if ($order) {
           foreach ($request->get_param('order_items') as $item) {
             $order->order_items()->create([
-              'course_id' => $item['course_id'],
-              'course_title' => $item['course_title'],
+              'item_id' => $item['item_id'],
+              'item_title' => $item['item_title'],
+              'type' => $item['type'],
               'quantity' => $item['quantity'],
               'price' => $item['price'],
               'discount' => $item['discount'],
@@ -542,8 +555,9 @@ class FrontCheckoutController
         if ($order) {
           foreach ($request->get_param('order_items') as $item) {
             $order->order_items()->create([
-              'course_id' => $item['course_id'],
-              'course_title' => $item['course_title'],
+              'item_id' => $item['item_id'],
+              'item_title' => $item['item_title'],
+              'type' => $item['type'],
               'quantity' => $item['quantity'],
               'price' => $item['price'],
               'discount' => $item['discount'],
@@ -581,7 +595,7 @@ class FrontCheckoutController
     $required_fields = array('currency', 'user_id');
     $params = $request->get_json_params();
     if (is_array($params) && count($params) == 0) {
-      return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
+      return new WP_Error('no_data_found', __('Required parameters are missing', 'acadlix'), array('status' => 404));
     }
 
     if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
@@ -617,8 +631,9 @@ class FrontCheckoutController
     if ($order) {
       foreach ($request->get_param('order_items') as $item) {
         $order->order_items()->create([
-          'course_id' => $item['course_id'],
-          'course_title' => $item['course_title'],
+          'item_id' => $item['item_id'],
+          'item_title' => $item['item_title'],
+          'type' => $item['type'],
           'quantity' => $item['quantity'],
           'price' => $item['price'],
           'discount' => $item['discount'],
@@ -641,8 +656,15 @@ class FrontCheckoutController
       $order->createActivityLog($message);
       if ($order->order_items()->count() > 0) {
         foreach ($order->order_items as $item) {
-          $cart = acadlix()->model()->courseCart()->where('user_id', $order->user_id)->where('course_id', $item->course_id)->first();
-          $cart->delete();
+          $cart = acadlix()
+            ->model()
+            ->courseCart()
+            ->where('user_id', $order->user_id)
+            ->where('item_id', $item->item_id)
+            ->first();
+          if ($cart) {
+            $cart->delete();
+          }
         }
       }
       // send mail on success
@@ -659,7 +681,7 @@ class FrontCheckoutController
     $params = $request->get_json_params();
     $files = $request->get_file_params();
     if (is_array($params) && count($params) == 0) {
-      return new WP_Error('no_data_found', __('Required course id and user_id', 'acadlix'), array('status' => 404));
+      return new WP_Error('no_data_found', __('Required parameters not found', 'acadlix'), array('status' => 404));
     }
     if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
       return new WP_Error('no_order_found', __('No order found', 'acadlix'), array('status' => 404));
@@ -712,8 +734,9 @@ class FrontCheckoutController
       $order_items = json_decode($request['order_items'], true);
       foreach ($order_items as $item) {
         $order->order_items()->create([
-          'course_id' => $item['course_id'],
-          'course_title' => $item['course_title'],
+          'item_id' => $item['item_id'],
+          'item_title' => $item['item_title'],
+          'type' => $item['type'],
           'quantity' => $item['quantity'],
           'price' => $item['price'],
           'discount' => $item['discount'],
@@ -737,8 +760,15 @@ class FrontCheckoutController
 
       if ($order->order_items()->count() > 0) {
         foreach ($order->order_items as $item) {
-          $cart = acadlix()->model()->courseCart()->where('user_id', $order->user_id)->where('course_id', $item->course_id)->first();
-          $cart->delete();
+          $cart = acadlix()
+            ->model()
+            ->courseCart()
+            ->where('user_id', $order->user_id)
+            ->where('item_id', $item->item_id)
+            ->first();
+          if ($cart) {
+            $cart->delete();
+          }
         }
       }
       // send mail on success

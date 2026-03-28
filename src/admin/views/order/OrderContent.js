@@ -47,8 +47,9 @@ const OrderContent = (props) => {
     order_items: props?.order?.order_items ?
       props?.order?.order_items?.map((item) => {
         return {
-          course_id: item?.course_id,
-          course_title: item?.course_title,
+          item_id: item?.item_id,
+          item_title: item?.item_title,
+          type: item?.type,
           quantity: item?.quantity,
           price: formatPrice(item?.price),
           discount: formatPrice(item?.discount),
@@ -59,12 +60,12 @@ const OrderContent = (props) => {
         }
       })
       : [],
-    courses: props?.order?.order_items ?
+    items: props?.order?.order_items ?
       props?.order?.order_items?.map((item) => {
         return {
-          ID: item?.course?.ID,
-          post_title: item?.course?.post_title,
-          rendered_metas: item?.course?.rendered_metas
+          ID: item?.item?.ID,
+          post_title: item?.item?.post_title,
+          rendered_metas: item?.item?.rendered_metas
         }
       })
       : [],

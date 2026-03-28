@@ -69,7 +69,7 @@ if (!class_exists('UserActivityMeta')) {
       return $query->where('meta_key', 'quiz_attempt');
     }
 
-    public function scopeOfCourseWishlist($query)
+    public function scopeOfWishlist($query)
     {
       return $query->where('meta_key', 'wishlist');
     }
@@ -132,6 +132,25 @@ if (!class_exists('UserActivityMeta')) {
     public function user()
     {
       return $this->belongsTo(acadlix()->model()->wpUsers(), 'user_id', 'ID');
+    }
+
+    public function resolveWishlistItem()
+    {
+      switch ($this->type) {
+
+        case 'course':
+          $course = acadlix()->model()->course()->ofCourse()->ofPublish()->find($this->type_id);
+
+          if ($course) {
+            return [
+              'item' => $course,
+              'permalink' => get_permalink($course->ID),
+            ];
+          }
+          break;
+      }
+
+      return null;
     }
   }
 }

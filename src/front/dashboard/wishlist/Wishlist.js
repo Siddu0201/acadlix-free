@@ -24,6 +24,7 @@ import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff, FaExternalLinkAlt, 
 import { DataGrid } from "@mui/x-data-grid";
 import { PostRemoveWishlist } from '@acadlix/requests/front/FrontCourseRequest';
 import CustomRefresh from '@acadlix/components/CustomRefresh';
+import toast from 'react-hot-toast';
 
 const Wishlist = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -41,14 +42,54 @@ const Wishlist = () => {
     },
   });
 
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
+
+  const { isFetching, data, refetch } = GetUserWishlist(
+    acadlixOptions?.user?.ID,
+    paginationModel?.page,
+    paginationModel?.pageSize
+  );
+
   const removeWishlistMutation = PostRemoveWishlist();
   const removeFromWishlist = (row) => {
-    if (confirm(__('Are you sure you want to remove this course from wishlist?', 'acadlix'))) {
+    if (confirm(__('Are you sure you want to remove this item from wishlist?', 'acadlix'))) {
       removeWishlistMutation.mutate({
-        course_id: row?.course_id,
+        item_id: row?.item_id,
         user_id: row?.user_id,
+        type: row?.type,
+      }, {
+        onSuccess: (data) => {
+          toast.success(data?.data?.message ?? __('Item removed from wishlist successfully', 'acadlix'));
+          refetch();
+        }
       });
     }
+  }
+
+  const getType = (type) => {
+    let info = {
+      label: "",
+      color: "default",
+    }
+    switch (type) {
+      case "course":
+        info = {
+          label: __("Course", "acadlix"),
+          color: "primary",
+        }
+        break;
+      default:
+        info = {
+          label: type,
+          color: "default",
+        }
+    }
+    info = window?.acadlixHooks?.applyFilters(
+      "acadlix.front.dashboard.wishlist.type_info",
+      info,
+      type
+    ) ?? info;
+    return info;
   }
 
   const columns = [
@@ -70,10 +111,26 @@ const Wishlist = () => {
       }
     },
     {
-      field: "course",
-      headerName: __("Course", "acadlix"),
+      field: "item",
+      headerName: __("Item", "acadlix"),
       flex: 2,
       minWidth: 130,
+    },
+    {
+      field: "type",
+      headerName: __("Type", "acadlix"),
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params) => {
+        const typeInfo = getType(params?.row?.type);
+        return (
+          <Chip
+            label={typeInfo.label}
+            color={typeInfo.color}
+            size="small"
+          />
+        );
+      }
     },
     { field: "price", headerName: __("Price", "acadlix"), flex: 2, minWidth: 180 },
     { field: "added_at", headerName: __("Added At", "acadlix"), minWidth: 180 },
@@ -118,32 +175,27 @@ const Wishlist = () => {
     },
   ];
 
-  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
-
-  const { isFetching, data, refetch } = GetUserWishlist(
-    acadlixOptions?.user?.ID,
-    paginationModel?.page,
-    paginationModel?.pageSize
-  );
-
   React.useLayoutEffect(() => {
     if (Array.isArray(data?.data?.wishlist)) {
       const newRows = data?.data?.wishlist?.map((wishlist) => {
         return {
           id: wishlist?.id,
-          course: wishlist?.course?.post_title,
-          course_id: wishlist?.course?.ID,
+          item: wishlist?.item?.post_title,
+          item_id: wishlist?.type_id,
           user_id: wishlist?.user_id,
-          price: currencyPosition(wishlist?.course?.rendered_metas?.enable_sale_price ? wishlist?.course?.rendered_metas?.sale_price : wishlist?.course?.rendered_metas?.price),
+          type: wishlist?.type,
+          price: currencyPosition(wishlist?.item?.rendered_metas?.enable_sale_price ? wishlist?.item?.rendered_metas?.sale_price : wishlist?.item?.rendered_metas?.price),
           added_at: getFormatDate(wishlist?.created_at),
           permalink: wishlist?.permalink,
-          thumbnail_url: wishlist?.course?.thumbnail?.url ?? acadlixOptions?.default_img_url,
-          thumbnail_alt: wishlist?.course?.thumbnail?.alt ?? wishlist?.course?.post_title,
+          thumbnail_url: wishlist?.item?.thumbnail?.url ?? acadlixOptions?.default_img_url,
+          thumbnail_alt: wishlist?.item?.thumbnail?.alt ?? wishlist?.item?.post_title,
         };
       });
       methods?.setValue("rows", newRows, { shouldDirty: true });
     }
   }, [data]);
+
+  console.log("wishlist data", methods?.watch("rows"));
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
 

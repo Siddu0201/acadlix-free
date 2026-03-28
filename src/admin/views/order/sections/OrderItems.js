@@ -28,15 +28,16 @@ const OrderItems = (props) => {
           : 0
         : 0;
       const price_after_tax = price_after_discount + tax;
-      props?.setValue("courses", [...props?.watch("courses"), course], { shouldDirty: true });
+      props?.setValue("items", [...props?.watch("items"), course], { shouldDirty: true });
       props?.setValue(
         "order_items",
         [...props?.watch("order_items"),
         window?.acadlixHooks?.applyFilters?.(
           "acadlix.admin.order.order_items.add_order_items",
           {
-            course_id: course?.ID,
-            course_title: course?.post_title,
+            item_id: course?.ID,
+            item_title: course?.post_title,
+            type: "course",
             quantity: 1,
             price: price,
             additional_fee: 0,
@@ -46,7 +47,7 @@ const OrderItems = (props) => {
             price_after_tax: price_after_tax
           },
           {
-            course: course,
+            item: course,
             watch: props?.watch,
             setValue: props?.setValue,
           }
@@ -422,7 +423,7 @@ const OrderCourse = (props) => {
       fullWidth
       value={props?.course}
       options={data?.data?.courses?.length > 0 ?
-        data?.data?.courses?.filter(c => !props?.watch("order_items")?.some(o => o?.course_id === c?.ID)) : []}
+        data?.data?.courses?.filter(c => !props?.watch("order_items")?.some(o => o?.item_id === c?.ID)) : []}
       getOptionLabel={(option) => option?.post_title || ""}
       isOptionEqualToValue={(option, value) => option?.ID === value?.ID}
       filterOptions={(x) => x}
@@ -457,11 +458,11 @@ const OrderCourse = (props) => {
 const OrderItem = ({ item, index, ...props }) => {
   const handleRemoveOrder = (id) => {
     props.setValue("order_items",
-      props?.watch("order_items").filter((item) => item?.course_id !== id),
+      props?.watch("order_items")?.filter((item) => item?.item_id !== id),
       { shouldDirty: true }
     );
-    props.setValue("courses",
-      props?.watch("courses").filter((item) => item?.ID !== id),
+    props.setValue("items",
+      props?.watch("items")?.filter((item) => item?.ID !== id),
       { shouldDirty: true }
     );
   }
@@ -485,7 +486,7 @@ const OrderItem = ({ item, index, ...props }) => {
               component: "th",
               scope: "row"
             },
-            value: item?.course_title
+            value: item?.item_title
           },
           {
             component: "TableCell",
@@ -530,7 +531,7 @@ const OrderItem = ({ item, index, ...props }) => {
                 component: "IconButton",
                 component_name: "order_items_action_table_cell_icon_button",
                 props: {
-                  onClick: handleRemoveOrder.bind(this, item?.course_id)
+                  onClick: handleRemoveOrder.bind(this, item?.item_id)
                 },
                 children: [
                   {

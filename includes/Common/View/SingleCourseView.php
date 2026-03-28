@@ -20,6 +20,7 @@ class SingleCourseView
 	protected $comments = [];
 	protected $user_comment = [];
 	protected $rating_breakdown = [];
+	protected $type = 'course';
 
 	public function __construct()
 	{
@@ -48,7 +49,7 @@ class SingleCourseView
 			$this->user_id = get_current_user_id() ?? 0;
 			$this->cart = acadlix()->model()->courseCart()->where([
 				['user_id', '=', $this->user_id],
-				['course_id', '=', $post->ID],
+				['item_id', '=', $post->ID],
 			])->first();
 			$this->is_course_purchased = $this->course->isPurchasedBy($this->user_id);
 		} else {
@@ -57,7 +58,7 @@ class SingleCourseView
 					->model()
 					->courseCart()
 					->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
-					->where('course_id', $post->ID)
+					->where('item_id', $post->ID)
 					->first();
 			}
 		}
@@ -595,11 +596,11 @@ class SingleCourseView
 			$course_wishlist_count = acadlix()
 				->model()
 				->userActivityMeta()
-				->ofCourse()
-				->ofCourseWishlist()
+				->ofWishlist()
 				->where([
 					'type_id' => $this->course->ID,
 					'user_id' => get_current_user_id(),
+					'type' => $this->type,
 				])
 				->count();
 			$wishlist = apply_filters('acadlix_single_course_whishlist', [
@@ -615,6 +616,7 @@ class SingleCourseView
 							'id' => 'add-to-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Add to Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
+							'data-type' => esc_attr($this->type),
 						],
 						'children' => [
 							['component' => 'i', 'props' => ['class' => 'far fa-heart']],
@@ -628,6 +630,7 @@ class SingleCourseView
 							'id' => 'remove-from-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Remove From Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
+							'data-type' => esc_attr($this->type),
 						],
 						'children' => [
 							['component' => 'i', 'props' => ['class' => 'fas fa-heart']],

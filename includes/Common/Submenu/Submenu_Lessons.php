@@ -66,12 +66,6 @@ class Submenu_Lessons
     wp_enqueue_editor();
     wp_enqueue_media();
     acadlix()->assets()->manager()->load_assets('admin_lesson', $this->localize_options());
-    // wp_enqueue_script('acadlix-runtime-js');
-    // wp_enqueue_script('acadlix-vendors-js');
-    // wp_enqueue_script("acadlix-admin-lesson");
-    // wp_enqueue_style("acadlix-admin-lesson-css");
-    // wp_localize_script('acadlix-admin-lesson', 'acadlixOptions', $this->localize_options());
-    // wp_set_script_translations('acadlix-admin-lesson', 'acadlix', ACADLIX_PLUGIN_DIR . 'languages/' . acadlix()->versionPath);
   }
 
   public function lesson_callback()

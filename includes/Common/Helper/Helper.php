@@ -28,7 +28,7 @@ if (!class_exists('Helper')) {
 
     public function course(): CourseHelper|null
     {
-      if ($this->course === null) {
+      if (is_null($this->course)) {
         $this->course = new CourseHelper();
       }
       return $this->course;
@@ -36,7 +36,7 @@ if (!class_exists('Helper')) {
 
     public function cpt(): CptHelper|null
     {
-      if ($this->cpt === null) {
+      if (is_null($this->cpt)) {
         $this->cpt = new CptHelper();
       }
       return $this->cpt;
@@ -44,7 +44,7 @@ if (!class_exists('Helper')) {
 
     public function email(): EmailHelper|null
     {
-      if ($this->email === null) {
+      if (is_null($this->email)) {
         $this->email = new EmailHelper();
       }
       return $this->email;
@@ -52,7 +52,7 @@ if (!class_exists('Helper')) {
 
     public function queryLogger(): QueryLogger|null
     {
-      if ($this->queryLogger === null) {
+      if (is_null($this->queryLogger)) {
         $this->queryLogger = new QueryLogger();
       }
       return $this->queryLogger;
@@ -1090,7 +1090,7 @@ if (!class_exists('Helper')) {
         ],
         [
           'name' => __('Acadlix Subscriptions', 'acadlix'),
-          'description' => __('Manage subscriptions for your students and courses.', 'acadlix'),
+          'description' => __('Manage subscriptions for your students, courses and course bundles.', 'acadlix'),
           'pro' => true,
           'internal' => true,
           'installed' => true,

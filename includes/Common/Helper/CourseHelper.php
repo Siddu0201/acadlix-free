@@ -99,15 +99,13 @@ if (!class_exists('CourseHelper')) {
     /**
      * Generates an HTML string containing links to the profile pages of users enrolled in a course.
      *
-     * @param Course $course The course object to generate the links for.
-     *
      * @return string An HTML string containing the links to the user profile pages.
      *
      * @throws WP_Error If the course object is invalid or if the user objects in the course object are invalid.
      */
-    public function getCourseUserHtml(Course $course): string|WP_Error
+    public function getCourseUserHtml($course): string|WP_Error
     {
-      if (is_null($course) || !($course instanceof Course)) {
+      if (is_null($course)) {
         return new WP_Error("invalid_course", __("The course object is invalid.", "acadlix"));
       }
 
@@ -117,11 +115,9 @@ if (!class_exists('CourseHelper')) {
 
       $userLinks = [];
       foreach ($course->users as $user) {
-
         if (is_null($user)) {
           return new WP_Error("invalid_user", __("The user objects in the course object are invalid.", "acadlix"));
         }
-
         $userLinks[] = $this->getUserLinkHtml($user->ID);
       }
 

@@ -9,7 +9,6 @@ defined('ABSPATH') || exit();
 
 class AdminToolController
 {
-
   protected $namespace = 'acadlix/v1';
   protected $base = 'admin-tool';
 

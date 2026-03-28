@@ -61,7 +61,7 @@ const Student = () => {
           name: student?.display_name,
           email: student?.user_email,
           registration_date: student?.user_registered,
-          course_count: student?.course_count,
+          course_count: student?.course_purchased_count || 0,
         };
       });
       methods.setValue("rows", newRows, { shouldDirty: true });

@@ -11,7 +11,6 @@ defined('ABSPATH') || exit();
 class AdminQuizController
 {
   protected $namespace = 'acadlix/v1';
-
   protected $base = 'admin-quiz';
 
   public function register_routes()

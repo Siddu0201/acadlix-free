@@ -10,7 +10,6 @@ defined('ABSPATH') || exit();
 class FrontDashboardController
 {
   protected $namespace = 'acadlix/v1';
-
   protected $base = 'front-dashboard';
 
   public function register_routes()
@@ -201,12 +200,12 @@ class FrontDashboardController
 
     $skip = $params['page'] * $params['pageSize'];
     $userId = $request->get_param('user_id');
-    $order_items = acadlix()->model()->orderItem()->with(['order', 'course'])->whereHas('order', function ($query) use ($userId) {
+    $order_items = acadlix()->model()->orderItem()->with(['order', 'item'])->whereHas('order', function ($query) use ($userId) {
       $query->where('user_id', $userId)->where('status', 'success');
     })->orderByDesc('created_at');
 
     if (!empty($search)) {
-      $order_items->whereHas('course', function ($query) use ($search) {
+      $order_items->whereHas('item', function ($query) use ($search) {
         $query->where('post_title', 'like', "%$search%");
       });
     }
@@ -271,7 +270,8 @@ class FrontDashboardController
     $orderItem = acadlix()
       ->model()
       ->orderItem()
-      ->with(['order', 'course', 'course.sections'])
+      ->with(['order', 'item', 'item.sections'])
+      ->where('type', 'course')
       ->whereHas('order', function ($query) use ($userId) {
         $query
           ->where('user_id', $userId)
@@ -697,23 +697,21 @@ class FrontDashboardController
     $wishlist = acadlix()
       ->model()
       ->userActivityMeta()
-      ->ofCourse()
-      ->ofCourseWishlist()
+      ->ofWishlist()
       ->where('user_id', $request->get_param('user_id'))
       ->orderBy('created_at', 'desc');
+
     $res['total'] = $wishlist->count();
     $res['wishlist'] = $wishlist
       ->skip($skip)
       ->take($params['pageSize'])
       ->get()
       ->map(function ($item) {
-        // Safely enrich only if type is 'course'
-        if ($item->type === 'course') {
-          $course = acadlix()->model()->course()->find($item->type_id);
-          if ($course) {
-            $item->course = $course;
-            $item->permalink = get_permalink($course->ID);
-          }
+        $resolved = $item->resolveWishlistItem();
+
+        if ($resolved) {
+          $item->item = $resolved['item'];
+          $item->permalink = $resolved['permalink'];
         }
         return $item;
       });

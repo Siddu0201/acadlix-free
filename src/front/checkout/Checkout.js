@@ -105,26 +105,27 @@ const Checkout = () => {
       "order_items",
       window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_order_items", cart?.map((c) => {
         let price = formatPrice(
-          Boolean(Number(c?.course?.rendered_metas?.enable_sale_price))
-            ? c?.course?.rendered_metas?.sale_price
-            : c?.course?.rendered_metas?.price
+          Boolean(Number(c?.item?.rendered_metas?.enable_sale_price))
+            ? c?.item?.rendered_metas?.sale_price
+            : c?.item?.rendered_metas?.price
         );
         let discount = 0;
         let additional_fee = 0;
         let price_after_discount = (price + additional_fee) - discount;
         let tax = 0;
         if (
-          c?.course?.rendered_metas?.tax !== 0 &&
-          c?.course?.rendered_metas?.tax_percent !== 0
+          c?.item?.rendered_metas?.tax !== 0 &&
+          c?.item?.rendered_metas?.tax_percent !== 0
         ) {
           tax = formatPrice(
-            (price_after_discount * c?.course?.rendered_metas?.tax_percent) / 100
+            (price_after_discount * c?.item?.rendered_metas?.tax_percent) / 100
           );
         }
         let price_after_tax = price_after_discount + tax;
         return {
-          course_id: c?.course_id,
-          course_title: c?.course?.post_title,
+          item_id: c?.item_id,
+          item_title: c?.item?.post_title,
+          type: c?.type,
           quantity: 1,
           price: price,
           discount: discount,

@@ -126,7 +126,7 @@ class REST
 
   public function adminHome(): AdminHomeController|null
   {
-    if ($this->_adminHome === null) {
+    if (is_null($this->_adminHome)) {
       $this->_adminHome = new AdminHomeController();
     }
     $this->_rests[] = $this->_adminHome;
@@ -135,7 +135,7 @@ class REST
 
   public function adminLanguage(): AdminLanguageController|null
   {
-    if ($this->_adminLanguage === null) {
+    if (is_null($this->_adminLanguage)) {
       $this->_adminLanguage = new AdminLanguageController();
     }
     $this->_rests[] = $this->_adminLanguage;
@@ -144,7 +144,7 @@ class REST
 
   public function adminCategory(): AdminCategoryController|null
   {
-    if ($this->_adminCategory === null) {
+    if (is_null($this->_adminCategory)) {
       $this->_adminCategory = new AdminCategoryController();
     }
     $this->_rests[] = $this->_adminCategory;
@@ -153,7 +153,7 @@ class REST
 
   public function adminSubject(): AdminSubjectController|null
   {
-    if ($this->_adminSubject === null) {
+    if (is_null($this->_adminSubject)) {
       $this->_adminSubject = new AdminSubjectController();
     }
     $this->_rests[] = $this->_adminSubject;
@@ -162,7 +162,7 @@ class REST
 
   public function adminQuiz(): AdminQuizController|null
   {
-    if ($this->_adminQuiz === null) {
+    if (is_null($this->_adminQuiz)) {
       $this->_adminQuiz = new AdminQuizController();
     }
     $this->_rests[] = $this->_adminQuiz;
@@ -171,7 +171,7 @@ class REST
 
   public function adminQuestion(): AdminQuestionController|null
   {
-    if ($this->_adminQuestion === null) {
+    if (is_null($this->_adminQuestion)) {
       $this->_adminQuestion = new AdminQuestionController();
     }
     $this->_rests[] = $this->_adminQuestion;
@@ -180,7 +180,7 @@ class REST
 
   public function adminTemplate(): AdminTemplateController|null
   {
-    if ($this->_adminTemplate === null) {
+    if (is_null($this->_adminTemplate)) {
       $this->_adminTemplate = new AdminTemplateController();
     }
     $this->_rests[] = $this->_adminTemplate;
@@ -189,7 +189,7 @@ class REST
 
   public function adminStatistic(): AdminStatisticController|null
   {
-    if ($this->_adminStatistic === null) {
+    if (is_null($this->_adminStatistic)) {
       $this->_adminStatistic = new AdminStatisticController();
     }
     $this->_rests[] = $this->_adminStatistic;
@@ -198,7 +198,7 @@ class REST
 
   public function adminLeaderboard(): AdminLeaderboardController|null
   {
-    if ($this->_adminLeaderboard === null) {
+    if (is_null($this->_adminLeaderboard)) {
       $this->_adminLeaderboard = new AdminLeaderboardController();
     }
     $this->_rests[] = $this->_adminLeaderboard;
@@ -207,7 +207,7 @@ class REST
 
   public function adminLesson(): AdminLessonController|null
   {
-    if ($this->_adminLesson === null) {
+    if (is_null($this->_adminLesson)) {
       $this->_adminLesson = new AdminLessonController();
     }
     $this->_rests[] = $this->_adminLesson;
@@ -216,7 +216,7 @@ class REST
 
   public function adminCourse(): AdminCourseController|null
   {
-    if ($this->_adminCourse === null) {
+    if (is_null($this->_adminCourse)) {
       $this->_adminCourse = new AdminCourseController();
     }
     $this->_rests[] = $this->_adminCourse;
@@ -225,7 +225,7 @@ class REST
 
   public function adminSetting(): AdminSettingController|null
   {
-    if ($this->_adminSetting === null) {
+    if (is_null($this->_adminSetting)) {
       $this->_adminSetting = new AdminSettingController();
     }
     $this->_rests[] = $this->_adminSetting;
@@ -234,7 +234,7 @@ class REST
 
   public function adminOrder(): AdminOrderController|null
   {
-    if ($this->_adminOrder === null) {
+    if (is_null($this->_adminOrder)) {
       $this->_adminOrder = new AdminOrderController();
     }
     $this->_rests[] = $this->_adminOrder;
@@ -243,7 +243,7 @@ class REST
 
   public function adminAddon(): AdminAddonController|null
   {
-    if ($this->_adminAddon === null) {
+    if (is_null($this->_adminAddon)) {
       $this->_adminAddon = new AdminAddonController();
     }
     $this->_rests[] = $this->_adminAddon;
@@ -252,7 +252,7 @@ class REST
 
   public function adminStudent(): AdminStudentController|null
   {
-    if ($this->_adminStudent === null) {
+    if (is_null($this->_adminStudent)) {
       $this->_adminStudent = new AdminStudentController();
     }
     $this->_rests[] = $this->_adminStudent;
@@ -261,7 +261,7 @@ class REST
 
   public function adminTheme(): AdminThemeController|null
   {
-    if ($this->_adminTheme === null) {
+    if (is_null($this->_adminTheme)) {
       $this->_adminTheme = new AdminThemeController();
     }
     $this->_rests[] = $this->_adminTheme;
@@ -270,7 +270,7 @@ class REST
 
   public function adminReview(): AdminReviewController|null
   {
-    if ($this->_adminReview === null) {
+    if (is_null($this->_adminReview)) {
       $this->_adminReview = new AdminReviewController();
     }
     $this->_rests[] = $this->_adminReview;
@@ -279,7 +279,7 @@ class REST
 
   public function adminCoupon(): AdminCouponController|null
   {
-    if ($this->_adminCoupon === null) {
+    if (is_null($this->_adminCoupon)) {
       $this->_adminCoupon = new AdminCouponController();
     }
     $this->_rests[] = $this->_adminCoupon;
@@ -288,7 +288,7 @@ class REST
 
   public function adminTool(): AdminToolController|null
   {
-    if ($this->_adminTool === null) {
+    if (is_null($this->_adminTool)) {
       $this->_adminTool = new AdminToolController();
     }
     $this->_rests[] = $this->_adminTool;
@@ -297,7 +297,7 @@ class REST
 
   public function frontCheckout(): FrontCheckoutController|null
   {
-    if ($this->_frontCheckout === null) {
+    if (is_null($this->_frontCheckout)) {
       $this->_frontCheckout = new FrontCheckoutController();
     }
     $this->_rests[] = $this->_frontCheckout;
@@ -306,7 +306,7 @@ class REST
 
   public function frontCourse(): FrontCourseController|null
   {
-    if ($this->_frontCourse === null) {
+    if (is_null($this->_frontCourse)) {
       $this->_frontCourse = new FrontCourseController();
     }
     $this->_rests[] = $this->_frontCourse;
@@ -315,7 +315,7 @@ class REST
 
   public function frontDashboard(): FrontDashboardController|null
   {
-    if ($this->_frontDashboard === null) {
+    if (is_null($this->_frontDashboard)) {
       $this->_frontDashboard = new FrontDashboardController();
     }
     $this->_rests[] = $this->_frontDashboard;
@@ -324,7 +324,7 @@ class REST
 
   public function frontQuiz(): FrontQuizController|null
   {
-    if ($this->_frontQuiz === null) {
+    if (is_null($this->_frontQuiz)) {
       $this->_frontQuiz = new FrontQuizController();
     }
     $this->_rests[] = $this->_frontQuiz;
@@ -333,7 +333,7 @@ class REST
 
   public function frontStatistic(): FrontStatisticController|null
   {
-    if ($this->_frontStatistic === null) {
+    if (is_null($this->_frontStatistic)) {
       $this->_frontStatistic = new FrontStatisticController();
     }
     $this->_rests[] = $this->_frontStatistic;
@@ -342,7 +342,7 @@ class REST
 
   public function frontUser(): FrontUserController|null
   {
-    if ($this->_frontUser === null) {
+    if (is_null($this->_frontUser)) {
       $this->_frontUser = new FrontUserController();
     }
     $this->_rests[] = $this->_frontUser;

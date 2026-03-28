@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import toast from 'react-hot-toast';
 
 const FrontButtonListener = () => {
-  const course = {
+  const item = {
     userId: acadlixListeners?.user_id ? Number(acadlixListeners?.user_id) : 0,
     ajaxUrl: acadlixListeners?.ajax_url,
     cookieName: "acadlix_cart_token",
@@ -25,11 +25,11 @@ const FrontButtonListener = () => {
       onSuccess = () => { },
       onError = () => { }
     ) => {
-      if (course.ajaxUrl) {
+      if (item.ajaxUrl) {
         const formData = new FormData();
         formData.append("action", "acadlix_check_user_login_status");
         formData.append("nonce", acadlixOptions?.nonces?.auth || '');
-        axios.post(course.ajaxUrl, formData)
+        axios.post(item.ajaxUrl, formData)
           .then((response) => {
             if (response) {
               onSuccess(response);
@@ -46,19 +46,20 @@ const FrontButtonListener = () => {
     },
     getTokenWithExpiry: (res = {}) => {
       const tokenExpiry =
-        new Date().getTime() + course?.expiryDays * 24 * 60 * 60 * 1000;
+        new Date().getTime() + item?.expiryDays * 24 * 60 * 60 * 1000;
       const cartToken = res?.data?.user_id
         ? ""
-        : getCookie(course?.cookieName) ||
-        `${course?.cookieName}_${tokenExpiry}`;
-      if (res?.data?.user_id == 0 && !getCookie(course?.cookieName)) {
-        setCookie(course?.cookieName, cartToken, tokenExpiry);
+        : getCookie(item?.cookieName) ||
+        `${item?.cookieName}_${tokenExpiry}`;
+      if (res?.data?.user_id == 0 && !getCookie(item?.cookieName)) {
+        setCookie(item?.cookieName, cartToken, tokenExpiry);
       }
       return { cartToken, tokenExpiry };
     },
     buyNow: (btn) => {
       // console.log(btn);
-      const courseId = btn.getAttribute("data-id");
+      const itemId = btn.getAttribute("data-id");
+      const type = btn.getAttribute("data-type");
       const text = btn.querySelector(".acadlix-action-button-text");
       const loader = btn.querySelector(".acadlix-btn-loader");
 
@@ -86,7 +87,7 @@ const FrontButtonListener = () => {
         console.error(error);
         callback();
       }
-      if (course?.userId === 0) {
+      if (item?.userId === 0) {
         methods?.isUserLoggedIn(
           (response) => {
             if (response && response.data && response.data.success) {
@@ -98,7 +99,8 @@ const FrontButtonListener = () => {
               }
 
               buyNowMutation.mutate({
-                course_id: courseId,
+                item_id: itemId,
+                type: type,
                 user_id: response?.data?.data?.user_id,
                 cart_token: cartToken,
                 token_expiry: tokenExpiry
@@ -116,8 +118,9 @@ const FrontButtonListener = () => {
         );
       } else {
         buyNowMutation.mutate({
-          course_id: courseId,
-          user_id: course?.userId,
+          item_id: itemId,
+          type: type,
+          user_id: item?.userId,
           cart_token: "",
           token_expiry: 0
         }, {
@@ -131,7 +134,8 @@ const FrontButtonListener = () => {
       }
     },
     startNow: (btn) => {
-      const courseId = btn.getAttribute("data-id");
+      const itemId = btn.getAttribute("data-id");
+      const type = btn.getAttribute("data-type");
       const text = btn.querySelector(".acadlix-action-button-text");
       const loader = btn.querySelector(".acadlix-btn-loader");
 
@@ -159,7 +163,7 @@ const FrontButtonListener = () => {
         console.error(error);
         callback();
       }
-      if (course?.userId === 0) {
+      if (item?.userId === 0) {
         methods?.isUserLoggedIn(
           (response) => {
             if (response && response.data && response.data.success) {
@@ -171,7 +175,8 @@ const FrontButtonListener = () => {
               }
 
               startNowMutation.mutate({
-                course_id: courseId,
+                item_id: itemId,
+                type: type,
                 user_id: response?.data?.data?.user_id,
                 cart_token: cartToken,
                 token_expiry: tokenExpiry
@@ -189,8 +194,9 @@ const FrontButtonListener = () => {
         );
       } else {
         startNowMutation.mutate({
-          course_id: courseId,
-          user_id: course?.userId,
+          item_id: itemId,
+          type: type,
+          user_id: item?.userId,
           cart_token: "",
           token_expiry: 0
         }, {
@@ -216,10 +222,15 @@ const FrontButtonListener = () => {
       }
     },
     addToWishlist: (btn) => {
-      const courseId = btn.getAttribute("data-id");
-      const userId = course?.userId;
-      if (courseId === undefined) {
+      const itemId = btn.getAttribute("data-id");
+      const type = btn.getAttribute("data-type");
+      const userId = item?.userId;
+      if (itemId === undefined) {
         console.error("Element does not have a 'data-id' attribute.");
+        return;
+      }
+      if(type === undefined) {
+        console.error("Element does not have a 'data-type' attribute.");
         return;
       }
       if (userId === undefined) {
@@ -243,13 +254,14 @@ const FrontButtonListener = () => {
         loader.style.display = "block";
       }
       addWishlistMutation.mutate({
-        course_id: courseId,
+        item_id: itemId,
+        type: type,
         user_id: userId,
       }, {
         onSuccess: (data) => {
           icon.style.display = "block";
           loader.style.display = "none";
-          btn.parentElement.querySelector(`#remove-from-wishlist-${courseId}`).classList.remove("acadlix-hidden");
+          btn.parentElement.querySelector(`#remove-from-wishlist-${itemId}`).classList.remove("acadlix-hidden");
           btn.classList.add("acadlix-hidden");
         },
         onError: (error) => {
@@ -260,12 +272,18 @@ const FrontButtonListener = () => {
       });
     },
     removeFromWishlist: (btn) => {
-      const courseId = btn.getAttribute("data-id");
-      const userId = course?.userId;
-      if (courseId === undefined) {
+      const itemId = btn.getAttribute("data-id");
+      const type = btn.getAttribute("data-type"); 
+      const userId = item?.userId;
+      if (itemId === undefined) {
         console.error("Element does not have a 'data-id' attribute.");
         return;
       }
+      if(type === undefined) {
+        console.error("Element does not have a 'data-type' attribute.");
+        return;
+      }
+
       if (userId === undefined) {
         console.error("User ID is undefined.");
         return;
@@ -287,13 +305,14 @@ const FrontButtonListener = () => {
         loader.style.display = "block";
       }
       removeWishlistMutation.mutate({
-        course_id: courseId,
-        user_id: course?.userId,
+        item_id: itemId,
+        type: type,
+        user_id: item?.userId,
       }, {
         onSuccess: (data) => {
           icon.style.display = "block";
           loader.style.display = "none";
-          btn.parentElement.querySelector(`#add-to-wishlist-${courseId}`).classList.remove("acadlix-hidden");
+          btn.parentElement.querySelector(`#add-to-wishlist-${itemId}`).classList.remove("acadlix-hidden");
           btn.classList.add("acadlix-hidden");
         },
         onError: (error) => {
@@ -581,7 +600,7 @@ const FrontButtonListener = () => {
       formData.append("page", targetPage);
       formData.append("context", context);
       formData.append("term_id", termId);
-      axios.post(course.ajaxUrl, formData)
+      axios.post(item.ajaxUrl, formData)
         .then((response) => {
           if (response?.data?.success && response?.data?.data?.courses) {
             courseContainer.innerHTML = response.data.data.courses;
@@ -634,7 +653,7 @@ const FrontButtonListener = () => {
   methods = window?.acadlixHooks?.applyFilters?.(
     "acadlix.front_button_listener.methods",
     methods,
-    course
+    item
   ) ?? methods;
 
   let buttonListeners = [
@@ -732,7 +751,7 @@ const FrontButtonListener = () => {
     "acadlix.front_button_listener.button_listeners",
     buttonListeners,
     methods,
-    course
+    item
   ) ?? buttonListeners;
 
   // useEffect(() => {
