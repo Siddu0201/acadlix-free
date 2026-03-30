@@ -149,6 +149,17 @@ class FrontCheckoutController
     );
   }
 
+  protected function isItemPurchased($item, $userId)
+  {
+    if ($item->type == 'course') {
+      $course = acadlix()->model()->course()->find($item->item_id);
+      if ($course) {
+        return $course->isPurchasedBy($userId);
+      }
+    }
+    return false;
+  }
+
   /**
    * Get user cart.
    *
@@ -170,7 +181,7 @@ class FrontCheckoutController
 
     foreach ($cart as $key => $item) {
       $errors = [];
-      if ($item->item->isPurchasedBy($userId)) {
+      if ($this->isItemPurchased($item->item, $userId)) {
         $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $item->item->post_title);
       }
 
