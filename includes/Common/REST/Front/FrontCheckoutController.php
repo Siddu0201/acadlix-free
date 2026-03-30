@@ -149,15 +149,12 @@ class FrontCheckoutController
     );
   }
 
-  protected function isItemPurchased($item, $userId)
+  protected function getItem($item)
   {
     if ($item->type == 'course') {
-      $course = acadlix()->model()->course()->find($item->item_id);
-      if ($course) {
-        return $course->isPurchasedBy($userId);
-      }
+      return acadlix()->model()->course()->find($item->item_id);
     }
-    return false;
+    return null;
   }
 
   /**
@@ -179,15 +176,16 @@ class FrontCheckoutController
       'cart' => $cart,
     ];
 
-    foreach ($cart as $key => $item) {
+    foreach ($cart as $key => $ct) {
       $errors = [];
-      if ($this->isItemPurchased($item->item, $userId)) {
-        $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $item->item->post_title);
+      $item = $this->getItem($ct);
+      if ($item->isPurchasedBy($userId)) {
+        $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $item->post_title);
       }
 
       $checkRegistrationDate = acadlix()->helper()->course()->checkRegistrationDate(
-        $item->item->start_date,
-        $item->item->end_date
+        $item->start_date,
+        $item->end_date
       );
 
       if (!$checkRegistrationDate['status']) {
