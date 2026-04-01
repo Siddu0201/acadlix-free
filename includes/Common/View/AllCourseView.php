@@ -39,11 +39,6 @@ class AllCourseView
     ) {
       $this->term = get_queried_object();
     }
-    $this->setup_query();
-  }
-
-  protected function setup_query()
-  {
     $this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
     $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
     $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : ''; // phpcs:ignore
@@ -67,48 +62,6 @@ class AllCourseView
     $this->enable_rating_and_reviews = acadlix()->helper()->acadlix_get_option('acadlix_enable_rating_and_reviews') === 'yes';
     $this->enable_course_filters = acadlix()->helper()->acadlix_get_option('acadlix_enable_course_filters') === 'yes';
 
-    $query = acadlix()
-      ->model()
-      ->course()
-      ->ofCourse()
-      ->when(!empty($this->search), function ($query) {
-        $query->where('post_title', 'like', '%' . $this->search . '%');
-      })
-      ->where('post_status', 'publish')
-      ->orderBy('ID', 'desc');
-
-    if($this->context === ACADLIX_COURSE_CPT) {
-      $query->when(!empty($this->categories), function ($query) {
-        $query->whereHas('course_categories', function ($q) {
-          $q->whereIn('term_id', $this->categories);
-        });
-      });
-    }
-
-    if ($this->context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $this->term) {
-      $query->whereHas('course_categories', function ($q) {
-        $q->where('term_id', $this->term->term_id);
-      });
-    }
-
-    if ($this->context === ACADLIX_COURSE_TAG_TAXONOMY && $this->term) {
-      $query->whereHas('course_tags', function ($q) {
-        $q->where('term_id', $this->term->term_id);
-      });
-    }
-
-    $this->course_count = $query->count();
-    if ($this->course_count <= $this->per_page) {
-      $this->page = 1;
-    }
-
-    $this->courses = $query
-      ->skip(($this->page - 1) * $this->per_page)
-      ->take($this->per_page)
-      ->get();
-
-    // Allow Pro or addons to modify query results
-    // $this->courses = apply_filters('acadlix_all_courses_list', $this->courses, $this->page, $this->search);
     if (is_user_logged_in()) {
       $userId = get_current_user_id();
       $this->cart = acadlix()->model()->courseCart()->where('user_id', $userId)->pluck('item_id')->toArray();
@@ -120,6 +73,71 @@ class AllCourseView
         $this->cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck('item_id')->toArray();
       }
     }
+
+    $query = $this->setup_query(
+      $this->search,
+      $this->categories,
+      $this->term->term_id ?? null,
+      $this->context,
+      $this->page,
+      $this->per_page
+    );
+    $this->courses = $query['courses'];
+    $this->course_count = $query['course_count'];
+  }
+
+  public function setup_query(
+    $search = '',
+    $categories = [],
+    $term_id = null,
+    $context = null,
+    $page = 1,
+    $per_page = 10
+  ) {
+    $query = acadlix()
+      ->model()
+      ->course()
+      ->ofCourse()
+      ->when(!empty($search), function ($query) use ($search) {
+        $query->where('post_title', 'like', '%' . $search . '%');
+      })
+      ->where('post_status', 'publish')
+      ->orderBy('ID', 'desc');
+
+    if ($context === ACADLIX_COURSE_CPT) {
+      $query->when(!empty($categories), function ($query) use ($categories) {
+        $query->whereHas('course_categories', function ($q) use ($categories) {
+          $q->whereIn('term_id', $categories);
+        });
+      });
+    }
+
+    if ($context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $term_id) {
+      $query->whereHas('course_categories', function ($q) use ($term_id) {
+        $q->where('term_id', $term_id);
+      });
+    }
+
+    if ($context === ACADLIX_COURSE_TAG_TAXONOMY && $term_id) {
+      $query->whereHas('course_tags', function ($q) use ($term_id) {
+        $q->where('term_id', $term_id);
+      });
+    }
+
+    $course_count = $query->count();
+    if ($course_count <= $per_page) {
+      $page = 1;
+    }
+
+    $courses = $query
+      ->skip(($page - 1) * $per_page)
+      ->take($per_page)
+      ->get();
+    return [
+      'courses' => $courses,
+      'course_count' => $course_count,
+    ];
+    // $this->courses = apply_filters('acadlix_all_courses_list', $this->courses, $this->page, $this->search);
   }
 
   public function setPage($page)
