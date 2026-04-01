@@ -353,7 +353,7 @@ class AllCourseView
 
   public function render_single_course($course)
   {
-    $this->type = "course";
+    $this->set_type($course);
     $single_course_ui = [
       'component' => 'div',
       'props' => [
