@@ -388,6 +388,12 @@ class AllCourseView
     return $single_course_ui;
   }
 
+  public function set_type($course){
+    if($course->post_type == ACADLIX_COURSE_CPT){
+      $this->type = 'course';
+    }
+  }
+
   /**
    * Image section
    */
