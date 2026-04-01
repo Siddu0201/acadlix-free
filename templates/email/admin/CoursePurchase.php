@@ -96,7 +96,7 @@ $acadlix_textPrimary = $acadlix_theme['palette']['text']['primary'] ?? 'hsl(215,
                 <li><strong><?php echo esc_html__('Order ID:', 'acadlix'); ?></strong> <?php echo esc_html($order_id); ?></li>
                 <li><strong><?php echo esc_html__('Student Name:', 'acadlix'); ?></strong> <?php echo esc_html($username); ?>
                 </li>
-                <li><strong><?php echo esc_html__('Course Purchased:', 'acadlix'); ?></strong>
+                <li><strong><?php echo esc_html__('Item Purchased:', 'acadlix'); ?></strong>
                     <?php echo esc_html($course_names); ?></li>
                 <li><strong><?php echo esc_html__('Amount Paid:', 'acadlix'); ?></strong> <?php echo esc_html($order_amount); ?></li>
                 <li><strong><?php echo esc_html__('Payment Method:', 'acadlix'); ?></strong>

@@ -172,14 +172,16 @@ export const PostUpdateLessonById = (section_id = 0, lesson_id = 0) => {
   });
 }
 
-export const GetQuizzesForCourse = () => {
+export const GetQuizzesForCourse = (search = "", selectedCategories = []) => {
   const instance = useInstance();
   return useQuery({
-    queryKey: ["getQuizzesForCourse"],
+    queryKey: ["getQuizzesForCourse", search, selectedCategories],
     queryFn: () => {
       return instance.get(`${base}/get-quizzes-for-course`, {
         params: {
           _t: Date.now(),
+          search: search,
+          category_id: selectedCategories,
         },
         headers: {
           "X-WP-Nonce": acadlixOptions?.nonce,

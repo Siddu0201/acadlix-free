@@ -772,19 +772,29 @@ class AdminCourseController
     return rest_ensure_response($res);
   }
 
-  public function get_quizzes_for_course()
+  public function get_quizzes_for_course($request)
   {
     $res = [];
+    $params = $request->get_params();
+    $search = $params['search'] ?? '';
+    $category_id = $params['category_id'] ?? [];
+
+    $res['categories'] = acadlix()->model()->category()->all();
     $res['quizzes'] = acadlix()->model()->quiz()->ofQuiz()
+      ->with(['quiz_categories'])
       ->without(['author', 'metas', 'quiz_shortcode'])
       ->whereHas("quiz_shortcode")
+      ->when(!empty($search), function ($query) use ($search) {
+        $query->where('post_title', 'like', '%' . $search . '%');
+      })
+      ->when(!empty($category_id), function ($query) use ($category_id) {
+        $query->whereHas('quiz_categories', function ($q) use ($category_id) {
+          $q->whereIn('term_id', $category_id);
+        });
+      })
       ->select(["ID", "post_title"])
       ->orderBy('ID', 'desc')
-      ->get()
-      ->each
-      ->setAppends([
-        'category'
-      ]);
+      ->get();
     return rest_ensure_response($res);
   }
 

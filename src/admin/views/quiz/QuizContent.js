@@ -69,6 +69,7 @@ const QuizContent = (props) => {
         show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
         start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
         auto_start: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_start)),
+        show_finish_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_finish_button)),
         enable_login_register: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
         ),

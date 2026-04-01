@@ -61,6 +61,18 @@ if (!class_exists('Quiz')) {
       return $this->hasMany(acadlix()->model()->wpPostMeta(), 'post_id', 'ID');
     }
 
+    public function quiz_categories()
+    {
+      return $this->belongsToMany(
+        acadlix()->model()->wpTermTaxonomy(),
+        acadlix()->helper()->acadlix_wp_prefix('term_relationships'),
+        'object_id',
+        'term_taxonomy_id'
+      )
+        ->where('taxonomy', ACADLIX_QUIZ_CATEGORY_TAXONOMY)
+        ->with('term');
+    }
+
     public function getRenderedMetasAttribute()
     {
       $metas = $this->metas;

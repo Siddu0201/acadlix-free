@@ -78,6 +78,7 @@ const QuizContent = (props) => {
     show_review_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_review_button)),
     start_button_text: props?.quiz?.rendered_metas?.quiz_settings?.start_button_text ?? "Start Quiz",
     auto_start: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.auto_start)),
+    show_finish_button: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_finish_button)),
     enable_login_register: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
     ),
@@ -620,6 +621,14 @@ const QuizContent = (props) => {
     );
   };
 
+  const handleFinishQuiz = (e) => {
+    saveResult();
+    countdownApi && countdownApi?.stop();
+    methods?.setValue('finish', false, {shouldDirty: true});
+    methods?.setValue('view_result', true, {shouldDirty: true});
+    methods?.setValue('view_question', false, {shouldDirty: true});
+  } 
+
   const checkMode = () => {
     switch (methods?.watch("mode")) {
       case "normal":
@@ -659,6 +668,7 @@ const QuizContent = (props) => {
             isIncorrect={isIncorrect}
             isQuestionEvaluated={isQuestionEvaluated}
             handleCheckClick={handleCheckClick}
+            handleFinishQuiz={handleFinishQuiz}
           />
         );
       case "advance_mode":
