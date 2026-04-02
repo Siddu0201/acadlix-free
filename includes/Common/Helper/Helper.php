@@ -1154,18 +1154,18 @@ if (!class_exists('Helper')) {
           'pro' => true,
           'internal' => true,
           'installed' => false,
-          'active' => $this->acadlix_get_option('acadlix_addon_google_meet_enabled', false) == 'yes',
+          'active' => $this->acadlix_get_option('acadlix_addon_google_meet_integration_enabled', false) == 'yes',
           'url' => '',
-          'option_name' => 'acadlix_addon_google_meet_enabled',
+          'option_name' => 'acadlix_addon_google_meet_integration_enabled',
           'icon' => 'GoogleMeet',
           'icon_color' => '#e9ecea',
         ]
       ];
     }
 
-    public function is_addon_google_meet_active()
+    public function is_google_meet_integration_addon_active()
     {
-      $value = get_option('acadlix_addon_google_meet_enabled', false);
+      $value = get_option('acadlix_addon_google_meet_integration_enabled', false);
       if ($value != 'yes') {
         return false;
       }
