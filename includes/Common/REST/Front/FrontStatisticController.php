@@ -58,6 +58,8 @@ class FrontStatisticController
     $params = $request->get_params();
 
     $user_id = $request->get_param('user_id');
+    $search = $request->get_param('search') ?? '';
+    $category_ids = $request->get_param('category_ids') ?? [];
     // Validate required fields
     if (empty($user_id)) {
       return new WP_Error(
@@ -67,9 +69,20 @@ class FrontStatisticController
       );
     }
     $skip = $params['page'] * $params['pageSize'];
+    $res['categories'] = acadlix()->model()->category()->all();
     $stat_ref = acadlix()->model()->statisticRef()
       ->with('quiz')
       ->where('user_id', $user_id)
+      ->when(!empty($category_ids), function ($query) use ($category_ids) {
+        $query->whereHas('quiz.quiz_categories', function ($q) use ($category_ids) {
+          $q->whereIn('term_id', $category_ids);
+        });
+      })
+      ->when(!empty($search), function ($query) use ($search) {
+        $query->whereHas('quiz', function ($q) use ($search) {
+          $q->where('post_title', 'like', '%' . $search . '%');
+        });
+      })
       ->orderBy("id", "desc");
     $res['total'] = $stat_ref->count();
     $res['stat_refs'] = $stat_ref->skip($skip)->take($params['pageSize'])->get();
