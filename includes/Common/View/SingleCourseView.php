@@ -519,6 +519,7 @@ class SingleCourseView
 			'props' => [
 				'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
 				'data-id' => esc_attr($this->course->ID),
+				'data-type' => esc_attr($this->type),
 			],
 			'children' => [
 				[
@@ -545,6 +546,7 @@ class SingleCourseView
 			'props' => [
 				'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
 				'data-id' => esc_attr($this->course->ID),
+				'data-type' => esc_attr($this->type),
 			],
 			'children' => [
 				[
