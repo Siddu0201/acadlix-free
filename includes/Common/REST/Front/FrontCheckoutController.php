@@ -184,8 +184,8 @@ class FrontCheckoutController
       }
 
       $checkRegistrationDate = acadlix()->helper()->course()->checkRegistrationDate(
-        $item->start_date,
-        $item->end_date
+        $item->rendered_metas['start_date'] ?? null,
+        $item->rendered_metas['end_date'] ?? null
       );
 
       if (!$checkRegistrationDate['status']) {
