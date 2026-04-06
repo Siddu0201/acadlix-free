@@ -208,10 +208,14 @@ if (!class_exists('CourseHelper')) {
       $timezone_string = acadlix()->helper()->acadlix_get_time_zone_string();
       $dateTimeFormat = acadlix()->helper()->acadlix_get_date_time_format();
       // Get current date/time in WordPress timezone
-      $current_timestamp = current_time('timestamp');
+      // $current_timestamp = current_time('timestamp');
+      $current_timestamp = time();
+      $wp_timezone = wp_timezone();
       // Check start_date
       if (!empty($start_date)) {
-        $start_timestamp = strtotime($start_date);
+        $start_datetime = new \DateTime($start_date, $wp_timezone);
+        $start_timestamp = $start_datetime->getTimestamp();
+        // $start_timestamp = strtotime($start_date);
         if ($current_timestamp < $start_timestamp) {
           return [
             'status' => false,
@@ -227,7 +231,9 @@ if (!class_exists('CourseHelper')) {
 
       // Check end_date
       if (!empty($end_date)) {
-        $end_timestamp = strtotime($end_date);
+        $end_datetime = new \DateTime($end_date, $wp_timezone);
+        $end_timestamp = $end_datetime->getTimestamp();
+        // $end_timestamp = strtotime($end_date);
 
         if ($current_timestamp > $end_timestamp) {
           return [
