@@ -100,7 +100,7 @@ const SubjectAndPointModel = (props) => {
   return (
     <>
       <DialogTitle id="alert-dialog-title" sx={{ m: 0, p: 2 }}>
-        {__("Set Subject and Points", "acadlix")}
+        {__("Set Subject, Level and Points", "acadlix")}
       </DialogTitle>
       <IconButton
         aria-label="close"
