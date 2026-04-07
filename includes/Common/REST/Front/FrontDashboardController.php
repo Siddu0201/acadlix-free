@@ -730,8 +730,20 @@ class FrontDashboardController
 
   public function post_update_user_photo($request)
   {
-    $files = $request->get_file_params();
+    if (!function_exists('wp_generate_attachment_metadata')) {
+      require_once ABSPATH . 'wp-admin/includes/image.php';
+    }
 
+    if (!function_exists('wp_handle_upload')) {
+      require_once ABSPATH . 'wp-admin/includes/file.php';
+    }
+
+    if (!function_exists('wp_insert_attachment')) {
+      require_once ABSPATH . 'wp-admin/includes/media.php';
+    }
+
+    $files = $request->get_file_params();
+    
     if (empty($files['file'])) {
       return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
     }
