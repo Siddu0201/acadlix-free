@@ -352,6 +352,17 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 
 == Changelog ==
 
+= 1.0.7 - 13-04-2026 =
+* Added: Logout button on the header right-side for quick user access.
+* Added: Category filter in quiz search within course curriculum backend.
+* Added: Category filter on the admin quiz management page.
+* Added: Category filter on frontend quiz result page for improved navigation.
+* Added: Optional Finish Quiz button placement after the Next button across all quiz modes.
+* Improved: Quiz delete action icon repositioned at the end for clearer interface flow.
+* Improved: Left sidebar user header redesigned with enhanced background and real-time app-like mobile view displaying username, email.
+* Fixed: Course registration date display issue.
+* Fixed: Quiz import/export functionality issues.
+
 = 1.0.6 - 20-03-2026 =
 * Added: Certificate module for course completion.
 * Added: Option to disable course enrollment visibility on the frontend.
