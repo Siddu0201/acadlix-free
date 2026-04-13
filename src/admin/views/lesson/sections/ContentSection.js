@@ -1,15 +1,6 @@
+import AiButton from '@acadlix/free/admin/lesson/AiButton';
 import Grid from '@mui/material/Grid';
 import React from "react";
-
-const AiButton = React.lazy(() =>
-    process.env.REACT_APP_IS_PREMIUM === 'true' ?
-        import(
-            /* webpackChunkName: "admin_lesson_pro_lesson_ai_button" */
-            "@acadlix/pro/admin/lesson/AiButton") :
-        import(
-            /* webpackChunkName: "admin_lesson_free_lesson_ai_button" */
-            "@acadlix/free/admin/lesson/AiButton")
-);
 
 const ContentSection = (props) => {
   const loadPage = () => {
@@ -28,11 +19,9 @@ const ContentSection = (props) => {
 
   return (
     <>
-      <React.Suspense fallback={null}>
-        <AiButton
-         id="lesson_content"
+      <AiButton
+        id="lesson_content"
         {...props} />
-      </React.Suspense>
       <Grid size={{ xs: 12, sm: 12 }}>
         <textarea
           id="lesson_content"

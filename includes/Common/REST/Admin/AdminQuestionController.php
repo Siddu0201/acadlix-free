@@ -142,6 +142,48 @@ class AdminQuestionController
         ],
       ]
     );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/by-ids',
+      [
+        [
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => [$this, 'get_question_by_ids'],
+          'permission_callback' => function () {
+            return current_user_can('acadlix_bulk_question_validate_ai_model');
+          },
+        ],
+      ]
+    );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/ai/bulk-update',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'update_ai_questions'],
+          'permission_callback' => function () {
+            return current_user_can('acadlix_bulk_question_validate_ai_model');
+          },
+        ],
+      ]
+    );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/ai/upload-questions',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'upload_ai_questions'],
+          'permission_callback' => function () {
+            return current_user_can('acadlix_add_question_with_ai');
+          },
+        ],
+      ]
+    );
   }
 
   public function get_quiz_questions($request)
@@ -287,6 +329,174 @@ class AdminQuestionController
         $question->update(['online' => 0]);
       }
     }
+    return rest_ensure_response($res);
+  }
+
+  public function get_question_by_ids($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    // Accept question_ids from query params (GET) and fallback to JSON body
+    $question_ids = $request->get_param('question_ids');
+    if ($question_ids === null) {
+      $bodyParams = $request->get_json_params();
+      $question_ids = $bodyParams['question_ids'] ?? null;
+    }
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_quiz_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    // Normalize and validate question ids
+    $question_ids = array_values(array_filter((array) $question_ids, 'is_numeric'));
+    $question_ids = array_map('intval', $question_ids);
+
+    if (empty($question_ids)) {
+      return new WP_Error(
+        'missing_question_ids',
+        __('Question ids is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $questions = acadlix()
+      ->model()
+      ->question()
+      ->ofOnline()
+      ->where('quiz_id', $quiz_id)
+      ->whereIn('id', $question_ids)
+      ->with([
+        'question_languages',
+      ])
+      ->get();
+
+    $res['questions'] = $questions;
+    return rest_ensure_response($res);
+  }
+
+  public function update_ai_questions($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+    $questions = $params['questions'];
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_quiz_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    if (empty($questions) || !is_array($questions)) {
+      return new WP_Error(
+        'missing_questions',
+        __('Questions are required for AI validation.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $updatedCount = 0;
+    foreach ($questions as $question) {
+      $qs = acadlix()->model()->question()->find($question['id']);
+      if (!$qs) {
+        continue; // skip invalid question id
+      }
+      if (is_array($question['question_languages']) && count($question['question_languages']) > 0) {
+        foreach ($question['question_languages'] as $lang) {
+          $ql = acadlix()->model()->questionLang()->find($lang['id']);
+          if ($ql) {
+            $ql->update([
+              'question' => $lang['question'] ?? $ql->question,
+              'correct_msg' => $lang['correct_msg'] ?? $ql->correct_msg,
+              'incorrect_msg' => $lang['incorrect_msg'] ?? $ql->incorrect_msg,
+              'hint_msg' => $lang['hint_msg'] ?? $ql->hint_msg,
+              'answer_data' => $lang['answer_data'] ?? $ql->answer_data,
+            ]);
+            $updatedCount++;
+          }
+        }
+      }
+    }
+
+    $res['message'] = sprintf(
+      _n(
+        '%d question updated with AI validation.',
+        '%d questions updated with AI validation.',
+        $updatedCount,
+        'acadlix'
+      ),
+      $updatedCount
+    );
+
+    return rest_ensure_response($res);
+  }
+
+  public function upload_ai_questions($request)
+  {
+    $res = [];
+    $quiz_id = $request['quiz_id'];
+    $params = $request->get_json_params();
+    $questions = $params['questions'];
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_quiz_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    if (empty($questions) || !is_array($questions)) {
+      return new WP_Error(
+        'missing_questions',
+        __('Questions are required for AI upload.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+
+    foreach ($questions as $question) {
+      $sort = acadlix()->model()->question()->where('quiz_id', $quiz_id)->latest('sort')->value('sort') ?? 0;
+      $newQuestion = acadlix()->model()->question()->create([
+        "sort" => $sort + 1,
+        "different_incorrect_msg" => $question['different_incorrect_msg'] ?? 0,
+        "hint_enabled" => $question['hint_enabled'] ?? 0,
+        "answer_type" => $question['answer_type'] ?? 'singleChoice',
+        'quiz_id' => $quiz_id,
+        'subject_id' => $question['subject_id'] ?? null,
+        'difficulty_level' => $question['difficulty_level'] ?? null,
+        'online' => 1,
+        'points' => $question['points'] ?? 1,
+        'negative_points' => $question['negative_points'] ?? 0,
+      ]);
+
+      if (is_wp_error($newQuestion)) {
+        continue; // skip failed question
+      }
+
+      if (is_array($question['question_languages']) && count($question['question_languages']) > 0) {
+        foreach ($question['question_languages'] as $lang) {
+          acadlix()->model()->questionLang()->create([
+            'question_id' => $newQuestion->id,
+            'language_id' => $lang['language_id'] ?? null,
+            'default' => $lang['default'] ?? true,
+            'question' => $lang['question'] ?? '',
+            'correct_msg' => $lang['correct_msg'] ?? '',
+            'incorrect_msg' => $lang['incorrect_msg'] ?? '',
+            'hint_msg' => $lang['hint_msg'] ?? '',
+            'answer_data' => $lang['answer_data'] ?? '',
+          ]);
+        }
+      }
+    }
+
+    $res['questions'] = $questions;
     return rest_ensure_response($res);
   }
 }

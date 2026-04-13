@@ -17,6 +17,7 @@ import "./AdminQuiz.css";
 import ScrollToTop from "@acadlix/helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
+import AddQuestionWithAi from "./views/question/AddQuestionWithAi";
 
 const AdminQuiz = () => {
   const routes = [
@@ -51,6 +52,10 @@ const AdminQuiz = () => {
     hasCapability("acadlix_show_leaderboard") && {
       path: "/:quiz_id/leaderboard",
       element: <QuizLeaderboard />,
+    },
+    hasCapability("acadlix_add_question_with_ai") && {
+      path: "/:quiz_id/question/create_with_ai",
+      element: <AddQuestionWithAi />,
     },
   ];
 

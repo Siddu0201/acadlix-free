@@ -47,6 +47,7 @@ class UserRole
       $this->design_studio_capabilities(),
       $this->review_capabilities(),
       $this->coupon_capabilities(),
+      $this->ai_capabilities(),
     );
   }
 
@@ -121,6 +122,8 @@ class UserRole
       'acadlix_bulk_action_question' => true,
       'acadlix_bulk_delete_question' => true,
       'acadlix_bulk_set_subject_and_point_question' => true,
+      'acadlix_bulk_question_validate_ai_model' => true,
+      'acadlix_add_question_with_ai' => true,
     ];
   }
 
@@ -226,7 +229,7 @@ class UserRole
     ];
   }
 
-  public function addon_capabilities()
+  public function addon_capabilities(): array
   {
     return [
       'acadlix_show_addon' => true,
@@ -278,6 +281,17 @@ class UserRole
       'acadlix_edit_coupon' => true,
       'acadlix_delete_coupon' => true,
       'acadlix_bulk_delete_coupon' => true,
+    ];
+  }
+
+  public function ai_capabilities(): array
+  {
+    return [
+      'acadlix_ai_generate_description' => true,
+      'acadlix_ai_improve_description' => true,
+      'acadlix_ai_result_feedback' => true,
+      'acadlix_question_ai_validation' => true,
+      'acadlix_question_ai_generate' => true,
     ];
   }
 

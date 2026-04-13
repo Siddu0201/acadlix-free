@@ -36,6 +36,8 @@ import CustomRefresh from "@acadlix/components/CustomRefresh";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 import QuestionDifficultyLevel from "@acadlix/components/QuestionDifficultyLevel";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import AddQuestionWithAiButton from "./AddQuestionWithAiButton";
+import ValidateWithAiModel from "./actions/ValidateWithAiModel";
 
 const CopyQuestionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -61,14 +63,6 @@ const BulkImportButton = React.lazy(() =>
     )
 );
 
-const AddQuestionWithAiButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import(
-      /* webpackChunkName: "admin_quiz_pro_add_question_with_ai" */
-      "@acadlix/pro/admin/question/AddQuestionWithAiButton"
-    )
-    : Promise.resolve({ default: () => null })
-);
 
 const ParagraphModel = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -93,6 +87,7 @@ const Question = () => {
     action: "",
     subject_and_point_model: false,
     paragraph_model: false,
+    validate_ai_model: false,
   };
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters(
@@ -283,6 +278,10 @@ const Question = () => {
     methods?.setValue("paragraph_model", true, { shouldDirty: true });
   };
 
+  const handleSetValidateAIModel = () => {
+    methods?.setValue("validate_ai_model", true, { shouldDirty: true });
+  }
+
   const bulkActions = React.useMemo(() => {
     const defaults = [
       {
@@ -296,6 +295,12 @@ const Question = () => {
         label: __("Set Subject, Level and Points", "acadlix"),
         capability: "acadlix_bulk_set_subject_and_point_question",
         handler: handleSetSubjectAndPoints,
+      },
+      {
+        value: "validate_ai_model",
+        label: __("Validate With AI", "acadlix"),
+        capability: "acadlix_bulk_question_validate_ai_model",
+        handler: handleSetValidateAIModel,
       },
       {
         value: "set_paragraph",
@@ -318,7 +323,7 @@ const Question = () => {
     ) ?? defaults;
 
     return filtered.filter((action) => !action?.capability || hasCapability(action.capability));
-  }, [quiz_id, handleSetSubjectAndPoints, handleSetParagraph, handleBulkDelete]);
+  }, [quiz_id, handleSetSubjectAndPoints, handleSetParagraph, handleBulkDelete, handleSetValidateAIModel]);
 
   const handleActionChange = (e) => {
     methods?.setValue("action", e?.target?.value, { shouldDirty: true });
@@ -367,6 +372,17 @@ const Question = () => {
     methods?.setValue("paragraph_model", false, { shouldDirty: true });
   };
 
+  const handleValidateAiClose = () => {
+    methods?.setValue("validate_ai_model", false, { shouldDirty: true });
+  }
+
+  const handleValiadteAndRefresh = () => {
+    handleValidateAiClose();
+    refetch();
+    methods?.setValue("action", "", { shouldDirty: true });
+    methods?.setValue("question_ids", [], { shouldDirty: true });
+  }
+
   const handlePaginationChange = (model) => {
     setPaginationModel(model);
     localStorage.setItem('adminQuestionPage', model.page);
@@ -398,6 +414,27 @@ const Question = () => {
                 component_name: "admin_quiz_question_subject_and_point_model",
               }
             ]
+          },
+          {
+            component: "BootstrapDialog",
+            component_name: "admin_quiz_question_validate_ai_model_dialog",
+            props: {
+              open: methods?.watch("validate_ai_model") || false,
+              onClose: handleValidateAiClose,
+              sm: "100%",
+              md: "100%",
+            },
+            children: [
+              {
+                component: <ValidateWithAiModel
+                  quiz_id={quiz_id}
+                  handleClose={handleValidateAiClose}
+                  handleValiadteAndRefresh={handleValiadteAndRefresh}
+                  {...methods}
+                />,
+                component_name: "admin_quiz_question_validate_ai_model",
+              },
+            ],
           },
           {
             component: "BootstrapDialog",
@@ -532,6 +569,10 @@ const Question = () => {
                                 },
                               },
                               {
+                                component: <AddQuestionWithAiButton quiz_id={quiz_id} />,
+                                component_name: "admin_quiz_question_add_with_ai_button",
+                              },
+                              {
                                 component: "Suspense",
                                 component_name: "admin_quiz_question_copy_question_button_suspense",
                                 props: { fallback: null },
@@ -550,17 +591,6 @@ const Question = () => {
                                   {
                                     component: <BulkImportButton quiz_id={quiz_id} />,
                                     component_name: "admin_quiz_question_bulk_import_button",
-                                  }
-                                ]
-                              },
-                              {
-                                component: "Suspense",
-                                component_name: "admin_quiz_question_add_with_ai_button_suspense",
-                                props: { fallback: null },
-                                children: [
-                                  {
-                                    component: <AddQuestionWithAiButton quiz_id={quiz_id} />,
-                                    component_name: "admin_quiz_question_add_with_ai_button",
                                   }
                                 ]
                               },

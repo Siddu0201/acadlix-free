@@ -15,6 +15,7 @@ if (!class_exists('Helper')) {
     protected $cpt = null;
     protected $email = null;
     protected $queryLogger = null;
+    protected $ai = null;
 
     public function __construct()
     {
@@ -56,6 +57,14 @@ if (!class_exists('Helper')) {
         $this->queryLogger = new QueryLogger();
       }
       return $this->queryLogger;
+    }
+
+    public function ai(): AiHelper|null
+    {
+      if (is_null($this->ai)) {
+        $this->ai = new AiHelper();
+      }
+      return $this->ai;
     }
 
     public function acadlix_modify_video_shortcode($content)
@@ -726,6 +735,7 @@ if (!class_exists('Helper')) {
         'acadlix_offline_enable_file_upload' => 'no',
         'acadlix_offline_max_upload_file_size' => 2,
         'acadlix_offline_allowed_mime_types' => [],
+        'acadlix_openai_api_key' => null,
       ];
       return $options;
     }

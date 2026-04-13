@@ -1,21 +1,21 @@
 import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormControl,
-    Grid,
-    IconButton,
-    InputLabel,
-    MenuItem,
-    Select,
-    styled,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material'
 import React from 'react'
 import { __, sprintf } from '@wordpress/i18n'
@@ -28,345 +28,345 @@ import CustomTextField from '@acadlix/components/CustomTextField';
 import { RawHTML } from "@wordpress/element";
 
 const AiDescription = ({
-    title = '',
-    description = '',
-    type = 'quiz',
-    handleAddDescription = null,
-    language = '',
-    disabled = false,
+  title = '',
+  description = '',
+  type = 'quiz',
+  handleAddDescription = null,
+  language = '',
+  disabled = false,
 }) => {
-    const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-    const handleOpen = () => {
-        if (!title) {
-            toast.error(__("Please enter title", "acadlix"));
-            return
-        }
-        setOpen(true);
+  const handleOpen = () => {
+    if (!title) {
+      toast.error(__("Please enter title", "acadlix"));
+      return
     }
+    setOpen(true);
+  }
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-        "& .MuiDialogContent-root": {
-            padding: theme.spacing(2),
-        },
-        "& .MuiDialogActions-root": {
-            padding: theme.spacing(1),
-        },
-        "& .MuiPaper-root": {
-            width: "100%",
-        },
-    }));
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+    "& .MuiPaper-root": {
+      width: "100%",
+    },
+  }));
 
-    return (
-        <>
-            <BootstrapDialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-                fullScreen={fullScreen}
-            // maxWidth="md"
-            >
-                <DescriptionModel
-                    handleClose={handleClose}
-                    handleOpen={handleOpen}
-                    title={title}
-                    description={description}
-                    type={type}
-                    handleAddDescription={handleAddDescription}
-                    language={language}
-                />
-            </BootstrapDialog>
-            <Button
-                className='acadlix-btn'
-                aria-label="ai"
-                size='small'
-                variant='contained'
-                color='primary'
-                disabled={disabled}
-                onClick={handleOpen}
-            >
-                {__("Generate From AI", "acadlix")}
-            </Button>
-        </>
-    )
+  return (
+    <>
+      <BootstrapDialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullScreen={fullScreen}
+      // maxWidth="md"
+      >
+        <DescriptionModel
+          handleClose={handleClose}
+          handleOpen={handleOpen}
+          title={title}
+          description={description}
+          type={type}
+          handleAddDescription={handleAddDescription}
+          language={language}
+        />
+      </BootstrapDialog>
+      <Button
+        className='acadlix-btn'
+        aria-label="ai"
+        size='small'
+        variant='contained'
+        color='primary'
+        disabled={disabled}
+        onClick={handleOpen}
+      >
+        {__("Generate From AI", "acadlix")}
+      </Button>
+    </>
+  )
 }
 
 AiDescription.prototype = {
-    title: PropTypes.string,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    handleAddDescription: PropTypes.func,
-    language: PropTypes.string,
-    disabled: PropTypes.bool,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  type: PropTypes.string,
+  handleAddDescription: PropTypes.func,
+  language: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default AiDescription
 
 const DescriptionModel = ({
-    handleClose = null,
-    handleOpen = null,
-    title = '',
-    description = '',
-    type = 'quiz',
-    language = '',
-    handleAddDescription = null,
+  handleClose = null,
+  handleOpen = null,
+  title = '',
+  description = '',
+  type = 'quiz',
+  language = '',
+  handleAddDescription = null,
 }) => {
-    const [minWords, setMinWords] = React.useState(250);
-    const [maxWords, setMaxWords] = React.useState(500);
-    const [level, setLevel] = React.useState("All Level");
-    const [tone, setTone] = React.useState("Formal & Professional");
-    const [prompt, setPrompt] = React.useState("");
-    const [response, setResponse] = React.useState("");
+  const [minWords, setMinWords] = React.useState(250);
+  const [maxWords, setMaxWords] = React.useState(500);
+  const [level, setLevel] = React.useState("All Level");
+  const [tone, setTone] = React.useState("Formal & Professional");
+  const [prompt, setPrompt] = React.useState("");
+  const [response, setResponse] = React.useState("");
 
-    const generateMutation = PostGenerateDescription();
-    const handleGenerateDescription = () => {
+  const generateMutation = PostGenerateDescription();
+  const handleGenerateDescription = () => {
 
-        if (!title) {
-            toast.error(__("Please enter title", "acadlix"));
-            return
-        }
-        setResponse("");
-        const data = {
-            title: title,
-            prompt: prompt,
-            type: type,
-            min_words: minWords,
-            max_words: maxWords,
-            level: level,
-            tone: tone,
-            language: language
-        };
-        generateMutation.mutate(data, {
-            onSuccess: (data) => {
-                setResponse(data?.data?.description);
-            }
-        });
-
+    if (!title) {
+      toast.error(__("Please enter title", "acadlix"));
+      return
     }
+    setResponse("");
+    const data = {
+      title: title,
+      prompt: prompt,
+      type: type,
+      min_words: minWords,
+      max_words: maxWords,
+      level: level,
+      tone: tone,
+      language: language
+    };
+    generateMutation.mutate(data, {
+      onSuccess: (data) => {
+        setResponse(data?.data?.description);
+      }
+    });
 
-    const improveMutation = PostImproveDescription();
-    const handleImproveDescription = () => {
+  }
 
+  const improveMutation = PostImproveDescription();
+  const handleImproveDescription = () => {
+
+  }
+
+  const generateType = () => {
+    let s = '';
+    switch (type) {
+      case "quiz":
+        s = "Quiz Description";
+        break;
+      case "lesson":
+        s = "Lesson Content";
+        break;
+      case "course":
+        s = "Course Description";
+        break;
+      case "course_bundle":
+        s = "Course Bundle Description";
+        break;
+      case "article":
+        s = "Article";
+        break;
+      case "video":
+        s = "Video";
+        break;
+      default:
+        s = "Quiz";
+        break;
     }
+    /* translators: %s is the type of item */
+    return sprintf(
+      __('Generate %s From AI', 'acadlix'),
+      s
+    );
+  }
 
-    const generateType = () => {
-        let s = '';
-        switch (type) {
-            case "quiz":
-                s = "Quiz Description";
-                break;
-            case "lesson":
-                s = "Lesson Content";
-                break;
-            case "course":
-                s = "Course Description";
-                break;
-            case "course_bundle":
-                s = "Course Bundle Description";
-                break;
-            case "article":
-                s = "Article";
-                break;
-            case "video":
-                s = "Video";
-                break;
-            default:
-                s = "Quiz";
-                break;
-        }
-        /* translators: %s is the type of item */
-        return sprintf(
-            __('Generate %s From AI', 'acadlix'),
-            s
-        );
-    }
+  return (
+    <>
+      <DialogTitle id="alert-dialog-title">
+        {generateType()}
+      </DialogTitle>
+      <IconButton
+        className='acadlix-icon-btn'
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <IoClose />
+      </IconButton>
+      <DialogContent sx={{
+        marginX: 2
+      }}>
+        <Grid
+          container
+          spacing={4}>
+          <Grid size={{ xs: 12, lg: 12 }}>
+            <Grid container spacing={2}>
 
-    return (
-        <>
-            <DialogTitle id="alert-dialog-title">
-                {generateType()}
-            </DialogTitle>
-            <IconButton
-                className='acadlix-icon-btn'
-                aria-label="close"
-                onClick={handleClose}
-                sx={{
-                    position: "absolute",
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                }}
-            >
-                <IoClose />
-            </IconButton>
-            <DialogContent sx={{
-                marginX: 2
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <CustomTypography component="div">
+                  {__("Min. Words", "acadlix")}
+                </CustomTypography>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <CustomTextField
+                  fullWidth
+                  placeholder={__("Min. Words", "acadlix")}
+                  size="small"
+                  type="number"
+                  value={minWords}
+                  onChange={(e) => {
+                    setMinWords(e.target.value);
+                  }}
+                  sx={{
+                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
+                  }}
+                  inputProps={{
+                    sx: {
+                      border: `0 !important`,
+                      boxShadow: `none !important`,
+                      minHeight: `auto !important`,
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <CustomTypography component="div">
+                  {__("Max. Words", "acadlix")}
+                </CustomTypography>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <CustomTextField
+                  fullWidth
+                  placeholder={__("Max. Words", "acadlix")}
+                  size="small"
+                  type="number"
+                  value={maxWords}
+                  onChange={(e) => {
+                    setMaxWords(e.target.value);
+                  }}
+                  sx={{
+                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
+                  }}
+
+                />
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <CustomTypography component="div">
+                  {__("Level", "acadlix")}
+                </CustomTypography>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    {__("Level", "acadlix")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={level}
+                    label={__("Level", "acadlix")}
+                    onChange={(e) => {
+                      setLevel(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="All Level">{__("All Level", "acadlix")}</MenuItem>
+                    <MenuItem value="Beginner">{__("Beginner", "acadlix")}</MenuItem>
+                    <MenuItem value="Intermediate">{__("Intermediate", "acadlix")}</MenuItem>
+                    <MenuItem value="Advanced">{__("Advanced", "acadlix")}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <CustomTypography component="div">
+                  {__("Tone", "acadlix")}
+                </CustomTypography>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 3 }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    {__("Tone", "acadlix")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={tone}
+                    label={__("Tone", "acadlix")}
+                    onChange={(e) => {
+                      setTone(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="Formal & Professional">{__("Formal & Professional", "acadlix")}</MenuItem>
+                    <MenuItem value="Conversational & Friendly" > {__("Conversational & Friendly", "acadlix")}</MenuItem>
+                    <MenuItem value="Persuasive & Sales-Oriented">{__("Persuasive & Sales-Oriented", "acadlix")}</MenuItem>
+                    <MenuItem value="Storytelling & Creative">{__("Storytelling & Creative", "acadlix")}</MenuItem>
+                    <MenuItem value="Inspiring & Motivational">{__("Inspiring & Motivational", "acadlix")}</MenuItem>
+                    <MenuItem value="Humorous & Witty">{__("Humorous & Witty", "acadlix")}</MenuItem>
+                    <MenuItem value="Technical & Precise">{__("Technical & Precise", "acadlix")}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid size={{ xs: 12, lg: 12 }}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label={__("Prompt (Optional)", "acadlix")}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              slotProps={{
+                htmlInput: {
+                  sx: {
+                    border: `0 !important`,
+                    boxShadow: `none !important`,
+                    minHeight: `auto !important`,
+                  },
+                }
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, lg: 12 }}>
+            <Box sx={{
+              display: "flex",
+              gap: 2,
+              alignItems: "center"
             }}>
-                <Grid
-                    container
-                    spacing={4}>
-                    <Grid size={{ xs: 12, lg: 12 }}>
-                        <Grid container spacing={2}>
-
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography component="div">
-                                    {__("Min. Words", "acadlix")}
-                                </CustomTypography>
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTextField
-                                    fullWidth
-                                    placeholder={__("Min. Words", "acadlix")}
-                                    size="small"
-                                    type="number"
-                                    value={minWords}
-                                    onChange={(e) => {
-                                        setMinWords(e.target.value);
-                                    }}
-                                    sx={{
-                                        "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                                        {
-                                            display: "none",
-                                        },
-                                        "& input[type=number]": {
-                                            MozAppearance: "textfield",
-                                        },
-                                    }}
-                                    inputProps={{
-                                        sx: {
-                                            border: `0 !important`,
-                                            boxShadow: `none !important`,
-                                            minHeight: `auto !important`,
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography component="div">
-                                    {__("Max. Words", "acadlix")}
-                                </CustomTypography>
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTextField
-                                    fullWidth
-                                    placeholder={__("Max. Words", "acadlix")}
-                                    size="small"
-                                    type="number"
-                                    value={maxWords}
-                                    onChange={(e) => {
-                                        setMaxWords(e.target.value);
-                                    }}
-                                    sx={{
-                                        "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                                        {
-                                            display: "none",
-                                        },
-                                        "& input[type=number]": {
-                                            MozAppearance: "textfield",
-                                        },
-                                    }}
-                                    
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography component="div">
-                                    {__("Level", "acadlix")}
-                                </CustomTypography>
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">
-                                        {__("Level", "acadlix")}
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={level}
-                                        label={__("Level", "acadlix")}
-                                        onChange={(e) => {
-                                            setLevel(e.target.value);
-                                        }}
-                                    >
-                                        <MenuItem value="All Level">{__("All Level", "acadlix")}</MenuItem>
-                                        <MenuItem value="Beginner">{__("Beginner", "acadlix")}</MenuItem>
-                                        <MenuItem value="Intermediate">{__("Intermediate", "acadlix")}</MenuItem>
-                                        <MenuItem value="Advanced">{__("Advanced", "acadlix")}</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <CustomTypography component="div">
-                                    {__("Tone", "acadlix")}
-                                </CustomTypography>
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 3 }}>
-                                <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">
-                                        {__("Tone", "acadlix")}
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={tone}
-                                        label={__("Tone", "acadlix")}
-                                        onChange={(e) => {
-                                            setTone(e.target.value);
-                                        }}
-                                    >
-                                        <MenuItem value="Formal & Professional">{__("Formal & Professional", "acadlix")}</MenuItem>
-                                        <MenuItem value="Conversational & Friendly" > {__("Conversational & Friendly", "acadlix")}</MenuItem>
-                                        <MenuItem value="Persuasive & Sales-Oriented">{__("Persuasive & Sales-Oriented", "acadlix")}</MenuItem>
-                                        <MenuItem value="Storytelling & Creative">{__("Storytelling & Creative", "acadlix")}</MenuItem>
-                                        <MenuItem value="Inspiring & Motivational">{__("Inspiring & Motivational", "acadlix")}</MenuItem>
-                                        <MenuItem value="Humorous & Witty">{__("Humorous & Witty", "acadlix")}</MenuItem>
-                                        <MenuItem value="Technical & Precise">{__("Technical & Precise", "acadlix")}</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid size={{ xs: 12, lg: 12 }}>
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={4}
-                            label={__("Prompt (Optional)", "acadlix")}
-                            value={prompt}
-                            onChange={(e) => setPrompt(e.target.value)}
-                            slotProps={{
-                                htmlInput: {
-                                    sx: {
-                                        border: `0 !important`,
-                                        boxShadow: `none !important`,
-                                        minHeight: `auto !important`,
-                                    },
-                                }
-                            }}
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, lg: 12 }}>
-                        <Box sx={{
-                            display: "flex",
-                            gap: 2,
-                            alignItems: "center"
-                        }}>
-                            <Button
-                                className='acadlix-btn'
-                                variant="contained"
-                                color="primary"
-                                loading={generateMutation.isPending}
-                                onClick={handleGenerateDescription}
-                            >
-                                {__("Generate", "acadlix")}
-                            </Button>
-                            {/* <Button
+              <Button
+                className='acadlix-btn'
+                variant="contained"
+                color="primary"
+                loading={generateMutation.isPending}
+                onClick={handleGenerateDescription}
+              >
+                {__("Generate", "acadlix")}
+              </Button>
+              {/* <Button
                                 variant="contained"
                                 color="secondary"
                                 loading={improveMutation.isPending}
@@ -374,55 +374,55 @@ const DescriptionModel = ({
                             >
                                 {__("Improve", "acadlix")}
                             </Button> */}
-                        </Box>
-                    </Grid>
-                    <Grid size={{ xs: 12, lg: 12 }}>
-                        <Typography variant='h6' component="div">{__('Response', 'acadlix')}</Typography>
-                        <Typography variant="body1" component="div">
-                            {
-                                (generateMutation?.isPending || improveMutation?.isPending) ?
-                                    __('Generating...', 'acadlix') :
-                                    <RawHTML>{response}</RawHTML>
-                            }
-                        </Typography>
-                        {
-                            response &&
-                            <Button
-                                className='acadlix-btn'
-                                variant="contained"
-                                color="primary"
-                                onClick={() => {
-                                    handleAddDescription(response)
-                                    handleClose()
-                                }}
-                            >
-                                {__("Add", "acadlix")}
-                            </Button>
-                        }
-                    </Grid>
-                </Grid>
-            </DialogContent>
-            <DialogActions>
-                <Button
-                    className='acadlix-btn'
-                    variant="contained"
-                    color="error"
-                    onClick={handleClose}
-                    autoFocus
-                >
-                    {__("Close", "acadlix")}
-                </Button>
-            </DialogActions>
-        </>
-    )
+            </Box>
+          </Grid>
+          <Grid size={{ xs: 12, lg: 12 }}>
+            <Typography variant='h6' component="div">{__('Response', 'acadlix')}</Typography>
+            <Typography variant="body1" component="div">
+              {
+                (generateMutation?.isPending || improveMutation?.isPending) ?
+                  __('Generating...', 'acadlix') :
+                  <RawHTML>{response}</RawHTML>
+              }
+            </Typography>
+            {
+              response &&
+              <Button
+                className='acadlix-btn'
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleAddDescription(response)
+                  handleClose()
+                }}
+              >
+                {__("Add", "acadlix")}
+              </Button>
+            }
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          className='acadlix-btn'
+          variant="contained"
+          color="error"
+          onClick={handleClose}
+          autoFocus
+        >
+          {__("Close", "acadlix")}
+        </Button>
+      </DialogActions>
+    </>
+  )
 }
 
 DescriptionModel.prototype = {
-    handleClose: PropTypes.func,
-    handleOpen: PropTypes.func,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    handleAddDescription: PropTypes.func,
-    language: PropTypes.string
+  handleClose: PropTypes.func,
+  handleOpen: PropTypes.func,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  type: PropTypes.string,
+  handleAddDescription: PropTypes.func,
+  language: PropTypes.string
 }

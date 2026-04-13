@@ -29,6 +29,7 @@ use Yuvayana\Acadlix\Common\REST\Admin\AdminCouponController;
 use Yuvayana\Acadlix\Common\REST\Admin\AdminToolController;
 
 // Front API Controller
+use Yuvayana\Acadlix\Common\REST\AI\AICommonController;
 use Yuvayana\Acadlix\Common\REST\Front\FrontCheckoutController;
 use Yuvayana\Acadlix\Common\REST\Front\FrontCourseController;
 use Yuvayana\Acadlix\Common\REST\Front\FrontDashboardController;
@@ -76,6 +77,7 @@ class REST
   protected $_frontQuiz = null;
   protected $_frontStatistic = null;
   protected $_frontUser = null;
+  protected $_aiCommon = null;
 
   /**
    * Constructor used to register all apis.
@@ -119,6 +121,7 @@ class REST
     $this->frontQuiz();
     $this->frontStatistic();
     $this->frontUser();
+    $this->aiCommon();
 
     // Init REST API routes.
     add_action('rest_api_init', array($this, 'register_rest_routes'), 10);
@@ -347,6 +350,15 @@ class REST
     }
     $this->_rests[] = $this->_frontUser;
     return $this->_frontUser;
+  }
+
+  public function aiCommon(): AICommonController|null
+  {
+    if (is_null($this->_aiCommon)) {
+      $this->_aiCommon = new AICommonController();
+    }
+    $this->_rests[] = $this->_aiCommon;
+    return $this->_aiCommon;
   }
   /**
    * Register rest API route function

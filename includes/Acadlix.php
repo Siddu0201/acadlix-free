@@ -109,7 +109,7 @@ namespace Yuvayana\Acadlix {
       $this->seeder = $this->pro ? new Pro\Seeder\Seeder() : new Common\Seeder\Seeder();
       $this->rest = $this->pro ? new Pro\REST\REST() : new Common\REST\REST();
 
-      $this->ai = $this->pro ? new Pro\Ai\Ai() : null;
+      $this->ai = $this->pro ? new Pro\Ai\Ai() : new Common\Ai\Ai();
       $this->integrations = $this->pro ? new Pro\Integrations\Integrations() : new Common\Integrations\Integrations();
       $this->payments = $this->pro ? new Pro\Payments\Payments() : new Common\Payments\Payments();
       $this->schedule = $this->pro ? new Pro\Schedule\ScheduleAction() : new Common\Schedule\ScheduleAction();
