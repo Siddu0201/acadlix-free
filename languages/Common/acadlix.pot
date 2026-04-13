@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-13T07:37:47+02:00\n"
+"POT-Creation-Date: 2026-04-13T12:50:31+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: acadlix\n"
@@ -160,6 +160,10 @@ msgstr ""
 msgid "Certificate"
 msgstr ""
 
+#: includes/Common/Ai/OpenAi.php:137
+msgid "Instruction and post content are required for AI to generate suggestions."
+msgstr ""
+
 #: includes/Common/Authentications/ReCaptchaV3.php:40
 msgid "Invalid token"
 msgstr ""
@@ -218,6 +222,7 @@ msgstr ""
 #: build/Common/admin_course.js:3
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 #: build/Common/admin_setting.js:1
 #: build/Common/admin_setting_general_advance_quiz_option.bundle.js:1
 msgid "Add New"
@@ -636,25 +641,19 @@ msgstr ""
 
 #: includes/Common/Helper/CourseHelper.php:32
 #: includes/Common/Helper/CourseHelper.php:38
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+#: build/Common/src_modules_ai_AiDescription_js.js:2
 msgid "All Level"
 msgstr ""
 
 #: includes/Common/Helper/CourseHelper.php:33
 #: build/Common/admin_course.js:3
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+#: build/Common/src_modules_ai_AiDescription_js.js:2
 msgid "Beginner"
 msgstr ""
 
 #: includes/Common/Helper/CourseHelper.php:34
 #: build/Common/admin_course.js:3
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
+#: build/Common/src_modules_ai_AiDescription_js.js:2
 msgid "Intermediate"
 msgstr ""
 
@@ -668,7 +667,7 @@ msgid "Currency settings are not configured properly."
 msgstr ""
 
 #: includes/Common/Helper/CourseHelper.php:82
-#: includes/Common/Helper/Helper.php:1641
+#: includes/Common/Helper/Helper.php:1651
 msgid "Currency symbol not found for the selected currency."
 msgstr ""
 
@@ -714,731 +713,731 @@ msgid "Email not sent"
 msgstr ""
 
 #. translators: %s is the filepath
-#: includes/Common/Helper/Helper.php:135
+#: includes/Common/Helper/Helper.php:144
 #, php-format
 msgid "Failed to write to file: %s"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:172
+#: includes/Common/Helper/Helper.php:181
 msgid "Invalid file upload."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:179
+#: includes/Common/Helper/Helper.php:188
 msgid "File extension not allowed."
 msgstr ""
 
 #. translators: %s is the maximum size in MB
-#: includes/Common/Helper/Helper.php:190
+#: includes/Common/Helper/Helper.php:199
 #, php-format
 msgid "File size exceeds the maximum allowed size of %s MB."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:204
+#: includes/Common/Helper/Helper.php:213
 msgid "Failed to create upload folder."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:264
+#: includes/Common/Helper/Helper.php:273
 msgid "Afghan afghani"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:265
+#: includes/Common/Helper/Helper.php:274
 msgid "Albanian lek"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:266
+#: includes/Common/Helper/Helper.php:275
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:267
+#: includes/Common/Helper/Helper.php:276
 msgid "Angolan kwanza"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:268
+#: includes/Common/Helper/Helper.php:277
 msgid "Argentine peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:269
+#: includes/Common/Helper/Helper.php:278
 msgid "Armenian dram"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:270
+#: includes/Common/Helper/Helper.php:279
 msgid "Netherlands Antilles guilder"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:271
+#: includes/Common/Helper/Helper.php:280
 msgid "Aruban florin"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:272
+#: includes/Common/Helper/Helper.php:281
 msgid "Australian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:273
+#: includes/Common/Helper/Helper.php:282
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:274
+#: includes/Common/Helper/Helper.php:283
 msgid "Bahamian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:275
+#: includes/Common/Helper/Helper.php:284
 msgid "Bahraini dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:276
+#: includes/Common/Helper/Helper.php:285
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:277
+#: includes/Common/Helper/Helper.php:286
 msgid "Barbadian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:278
+#: includes/Common/Helper/Helper.php:287
 msgid "Belarusian ruble"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:279
+#: includes/Common/Helper/Helper.php:288
 msgid "Belizean dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:280
+#: includes/Common/Helper/Helper.php:289
 msgid "Bermudian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:281
+#: includes/Common/Helper/Helper.php:290
 msgid "Bhutanese ngultrum"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:282
+#: includes/Common/Helper/Helper.php:291
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:283
+#: includes/Common/Helper/Helper.php:292
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:284
+#: includes/Common/Helper/Helper.php:293
 msgid "Botswana pula"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:285
+#: includes/Common/Helper/Helper.php:294
 msgid "Brazilian real"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:286
+#: includes/Common/Helper/Helper.php:295
 msgid "Brunei dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:287
+#: includes/Common/Helper/Helper.php:296
 msgid "Bulgarian lev"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:288
+#: includes/Common/Helper/Helper.php:297
 msgid "Burundian franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:289
+#: includes/Common/Helper/Helper.php:298
 msgid "Canadian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:290
+#: includes/Common/Helper/Helper.php:299
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:291
+#: includes/Common/Helper/Helper.php:300
 msgid "Chilean peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:292
+#: includes/Common/Helper/Helper.php:301
 msgid "Chinese renminbi"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:293
+#: includes/Common/Helper/Helper.php:302
 msgid "Colombian peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:294
+#: includes/Common/Helper/Helper.php:303
 msgid "Congolese franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:295
+#: includes/Common/Helper/Helper.php:304
 msgid "Swiss franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:296
+#: includes/Common/Helper/Helper.php:305
 msgid "Costa Rican colón"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:297
+#: includes/Common/Helper/Helper.php:306
 msgid "Cuban peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:298
+#: includes/Common/Helper/Helper.php:307
 msgid "Czech koruna"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:299
+#: includes/Common/Helper/Helper.php:308
 msgid "Danish krone"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:300
+#: includes/Common/Helper/Helper.php:309
 msgid "Djiboutian franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:301
+#: includes/Common/Helper/Helper.php:310
 msgid "Dominican peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:302
+#: includes/Common/Helper/Helper.php:311
 msgid "Algerian dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:303
+#: includes/Common/Helper/Helper.php:312
 msgid "Egyptian pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:304
+#: includes/Common/Helper/Helper.php:313
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:305
+#: includes/Common/Helper/Helper.php:314
 msgid "Euro"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:306
+#: includes/Common/Helper/Helper.php:315
 msgid "Ethiopian birr"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:307
+#: includes/Common/Helper/Helper.php:316
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:308
+#: includes/Common/Helper/Helper.php:317
 msgid "Fijian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:309
+#: includes/Common/Helper/Helper.php:318
 msgid "Gambian dalasi"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:310
+#: includes/Common/Helper/Helper.php:319
 msgid "Georgian lari"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:311
+#: includes/Common/Helper/Helper.php:320
 msgid "Ghanian cedi"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:312
+#: includes/Common/Helper/Helper.php:321
 msgid "Gibraltar pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:313
+#: includes/Common/Helper/Helper.php:322
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:314
+#: includes/Common/Helper/Helper.php:323
 msgid "British pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:315
+#: includes/Common/Helper/Helper.php:324
 msgid "Guinean franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:316
+#: includes/Common/Helper/Helper.php:325
 msgid "Guyanese dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:317
+#: includes/Common/Helper/Helper.php:326
 msgid "Haitian gourde"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:318
+#: includes/Common/Helper/Helper.php:327
 msgid "Honduran lempira"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:319
+#: includes/Common/Helper/Helper.php:328
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:320
+#: includes/Common/Helper/Helper.php:329
 msgid "Croatian kuna"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:321
+#: includes/Common/Helper/Helper.php:330
 msgid "Hungarian forint"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:322
+#: includes/Common/Helper/Helper.php:331
 msgid "Icelandic króna"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:323
+#: includes/Common/Helper/Helper.php:332
 msgid "Indian rupee"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:324
+#: includes/Common/Helper/Helper.php:333
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:325
+#: includes/Common/Helper/Helper.php:334
 msgid "Iranian rial"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:326
+#: includes/Common/Helper/Helper.php:335
 msgid "Iraqi dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:327
+#: includes/Common/Helper/Helper.php:336
 msgid "Israeli new sheqel"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:328
+#: includes/Common/Helper/Helper.php:337
 msgid "Jamaican dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:329
+#: includes/Common/Helper/Helper.php:338
 msgid "Japanese yen "
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:330
+#: includes/Common/Helper/Helper.php:339
 msgid "Jersey pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:331
+#: includes/Common/Helper/Helper.php:340
 msgid "Jordanian dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:332
+#: includes/Common/Helper/Helper.php:341
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:333
+#: includes/Common/Helper/Helper.php:342
 msgid "Kenyan shilling"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:334
+#: includes/Common/Helper/Helper.php:343
 msgid "North Korean won"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:335
+#: includes/Common/Helper/Helper.php:344
 msgid "Cambodian riel"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:336
+#: includes/Common/Helper/Helper.php:345
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:337
+#: includes/Common/Helper/Helper.php:346
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:338
+#: includes/Common/Helper/Helper.php:347
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:339
+#: includes/Common/Helper/Helper.php:348
 msgid "Comorian franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:340
+#: includes/Common/Helper/Helper.php:349
 msgid "South Korean won"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:341
+#: includes/Common/Helper/Helper.php:350
 msgid "Lao kip"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:342
+#: includes/Common/Helper/Helper.php:351
 msgid "Latvian lats"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:343
+#: includes/Common/Helper/Helper.php:352
 msgid "Lebanese pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:344
+#: includes/Common/Helper/Helper.php:353
 msgid "Lesotho loti"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:345
+#: includes/Common/Helper/Helper.php:354
 msgid "Liberian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:346
-#: includes/Common/Helper/Helper.php:347
+#: includes/Common/Helper/Helper.php:355
+#: includes/Common/Helper/Helper.php:356
 msgid "Libyan dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:348
+#: includes/Common/Helper/Helper.php:357
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:349
+#: includes/Common/Helper/Helper.php:358
 msgid "Lithuanian litas"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:350
+#: includes/Common/Helper/Helper.php:359
 msgid "Macanese pataca"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:351
+#: includes/Common/Helper/Helper.php:360
 msgid "Macedonian denar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:352
+#: includes/Common/Helper/Helper.php:361
 msgid "Malagasy ariary"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:353
+#: includes/Common/Helper/Helper.php:362
 msgid "Malawian kwacha"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:354
+#: includes/Common/Helper/Helper.php:363
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:355
+#: includes/Common/Helper/Helper.php:364
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:356
+#: includes/Common/Helper/Helper.php:365
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:357
+#: includes/Common/Helper/Helper.php:366
 msgid "Mauritian rupee"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:358
+#: includes/Common/Helper/Helper.php:367
 msgid "Mexican peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:359
+#: includes/Common/Helper/Helper.php:368
 msgid "Moldovan leu"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:360
+#: includes/Common/Helper/Helper.php:369
 msgid "Mongolian tugrik"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:361
+#: includes/Common/Helper/Helper.php:370
 msgid "Moroccan dirham"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:362
+#: includes/Common/Helper/Helper.php:371
 msgid "Mozambican metical"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:363
+#: includes/Common/Helper/Helper.php:372
 msgid "Burmese kyat"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:364
+#: includes/Common/Helper/Helper.php:373
 msgid "Namibian dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:365
+#: includes/Common/Helper/Helper.php:374
 msgid "Nepalese rupee"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:366
+#: includes/Common/Helper/Helper.php:375
 msgid "Nicaraguan córdoba"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:367
+#: includes/Common/Helper/Helper.php:376
 msgid "Nigerian naira"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:368
+#: includes/Common/Helper/Helper.php:377
 msgid "Norwegian krone"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:369
+#: includes/Common/Helper/Helper.php:378
 msgid "New Zealand dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:370
+#: includes/Common/Helper/Helper.php:379
 msgid "Omani rial"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:371
+#: includes/Common/Helper/Helper.php:380
 msgid "Pakistani rupee"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:372
+#: includes/Common/Helper/Helper.php:381
 msgid "Panamanian balboa"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:373
+#: includes/Common/Helper/Helper.php:382
 msgid "Papua New Guinea kina"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:374
+#: includes/Common/Helper/Helper.php:383
 msgid "Paraguayan guarani"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:375
+#: includes/Common/Helper/Helper.php:384
 msgid "Peruvian nuevo sol"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:376
+#: includes/Common/Helper/Helper.php:385
 msgid "Philippine peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:377
+#: includes/Common/Helper/Helper.php:386
 msgid "Polish zloty"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:378
+#: includes/Common/Helper/Helper.php:387
 msgid "Qatari riyal"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:379
+#: includes/Common/Helper/Helper.php:388
 msgid "Romanian leu"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:380
+#: includes/Common/Helper/Helper.php:389
 msgid "Russian ruble"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:381
+#: includes/Common/Helper/Helper.php:390
 msgid "Serbian dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:382
+#: includes/Common/Helper/Helper.php:391
 msgid "Rwandan franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:383
+#: includes/Common/Helper/Helper.php:392
 msgid "Salvadoran colón"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:384
+#: includes/Common/Helper/Helper.php:393
 msgid "São Tomé and Príncipe dobra"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:385
+#: includes/Common/Helper/Helper.php:394
 msgid "Saudi riyal"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:386
+#: includes/Common/Helper/Helper.php:395
 msgid "Seychellois rupee"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:387
+#: includes/Common/Helper/Helper.php:396
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:388
+#: includes/Common/Helper/Helper.php:397
 msgid "Singapore dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:389
+#: includes/Common/Helper/Helper.php:398
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:390
+#: includes/Common/Helper/Helper.php:399
 msgid "Somali shilling"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:391
+#: includes/Common/Helper/Helper.php:400
 msgid "St. Helena pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:392
+#: includes/Common/Helper/Helper.php:401
 msgid "Sudanese pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:393
+#: includes/Common/Helper/Helper.php:402
 msgid "Surinamese dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:394
+#: includes/Common/Helper/Helper.php:403
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:395
+#: includes/Common/Helper/Helper.php:404
 msgid "Swedish krona"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:396
+#: includes/Common/Helper/Helper.php:405
 msgid "Syrian pound"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:397
+#: includes/Common/Helper/Helper.php:406
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:398
+#: includes/Common/Helper/Helper.php:407
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:399
+#: includes/Common/Helper/Helper.php:408
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:400
+#: includes/Common/Helper/Helper.php:409
 msgid "Thai baht "
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:401
+#: includes/Common/Helper/Helper.php:410
 msgid "Tongan pa’anga"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:402
+#: includes/Common/Helper/Helper.php:411
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:403
+#: includes/Common/Helper/Helper.php:412
 msgid "Tunisian dinar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:404
+#: includes/Common/Helper/Helper.php:413
 msgid "Turkish lira"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:405
+#: includes/Common/Helper/Helper.php:414
 msgid "Turkmenistani manat"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:406
+#: includes/Common/Helper/Helper.php:415
 msgid "Ugandan shilling"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:407
+#: includes/Common/Helper/Helper.php:416
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:408
+#: includes/Common/Helper/Helper.php:417
 msgid "US dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:409
+#: includes/Common/Helper/Helper.php:418
 msgid "Uruguayan peso"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:410
+#: includes/Common/Helper/Helper.php:419
 msgid "Uzbekistani som"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:411
+#: includes/Common/Helper/Helper.php:420
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:412
+#: includes/Common/Helper/Helper.php:421
 msgid "Venezuelan bolivar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:413
+#: includes/Common/Helper/Helper.php:422
 msgid "Vietnamese dong"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:414
+#: includes/Common/Helper/Helper.php:423
 msgid "Samoan tālā"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:415
+#: includes/Common/Helper/Helper.php:424
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:416
+#: includes/Common/Helper/Helper.php:425
 msgid "West African CFA franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:417
+#: includes/Common/Helper/Helper.php:426
 msgid "Central African CFA franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:418
+#: includes/Common/Helper/Helper.php:427
 msgid "CFP franc"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:419
+#: includes/Common/Helper/Helper.php:428
 msgid "Yemeni rial"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:420
+#: includes/Common/Helper/Helper.php:429
 msgid "South African rand"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:421
+#: includes/Common/Helper/Helper.php:430
 msgid "Zambian kwacha"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:422
+#: includes/Common/Helper/Helper.php:431
 msgid "Zimbabwean dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1044
+#: includes/Common/Helper/Helper.php:1054
 msgid "Acadlix Bulk Question Upload"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1045
+#: includes/Common/Helper/Helper.php:1055
 msgid "Upload hundreds of questions in seconds via MS Word."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1056
+#: includes/Common/Helper/Helper.php:1066
 msgid "Acadlix Assignments"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1057
+#: includes/Common/Helper/Helper.php:1067
 msgid "Create, assign, and evaluate student assignments seamlessly."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1068
+#: includes/Common/Helper/Helper.php:1078
 msgid "Acadlix Zoom Integration"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1069
+#: includes/Common/Helper/Helper.php:1079
 msgid "Schedule and manage live classes via Zoom from your dashboard."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1080
+#: includes/Common/Helper/Helper.php:1090
 msgid "Acadlix Advanced Report"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1081
+#: includes/Common/Helper/Helper.php:1091
 msgid "Generate detailed reports for your students and courses."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1092
+#: includes/Common/Helper/Helper.php:1102
 msgid "Acadlix Subscriptions"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1093
+#: includes/Common/Helper/Helper.php:1103
 msgid "Manage subscriptions for your students, courses and course bundles."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1104
+#: includes/Common/Helper/Helper.php:1114
 msgid "Acadlix Data Exporter"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1105
+#: includes/Common/Helper/Helper.php:1115
 msgid "Export results, answer sheets in PDF or Excel."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1116
+#: includes/Common/Helper/Helper.php:1126
 msgid "Question Error Reporting"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1117
+#: includes/Common/Helper/Helper.php:1127
 msgid "This addon lets students flag and report incorrect or unclear questions, helping admins maintain accuracy and improve question quality."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1128
+#: includes/Common/Helper/Helper.php:1138
 msgid "Social Login"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1129
+#: includes/Common/Helper/Helper.php:1139
 msgid "Allow users to log in using their social media accounts."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1140
+#: includes/Common/Helper/Helper.php:1150
 msgid "Course Bundle"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1141
+#: includes/Common/Helper/Helper.php:1151
 msgid "Allow users to purchase multiple courses as a bundle."
 msgstr ""
 
@@ -1777,6 +1776,9 @@ msgstr ""
 
 #: includes/Common/REST/Admin/AdminLeaderboardController.php:70
 #: includes/Common/REST/Admin/AdminLeaderboardController.php:88
+#: includes/Common/REST/Admin/AdminQuestionController.php:349
+#: includes/Common/REST/Admin/AdminQuestionController.php:391
+#: includes/Common/REST/Admin/AdminQuestionController.php:450
 #: includes/Common/REST/Admin/AdminQuizController.php:441
 #: includes/Common/REST/Admin/AdminQuizController.php:537
 #: includes/Common/REST/Admin/AdminQuizController.php:773
@@ -1818,7 +1820,7 @@ msgid "Lessons successfully deleted."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminOrderController.php:274
-#: includes/Common/REST/Admin/AdminOrderController.php:527
+#: includes/Common/REST/Admin/AdminOrderController.php:528
 #: includes/Common/REST/Front/FrontStatisticController.php:67
 #: includes/Common/REST/Front/FrontStatisticController.php:102
 msgid "User id is required."
@@ -1829,36 +1831,54 @@ msgid "Users is required."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminOrderController.php:282
-#: includes/Common/REST/Admin/AdminOrderController.php:531
+#: includes/Common/REST/Admin/AdminOrderController.php:532
 msgid "Order items is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:321
+#. translators: 1: item title 2: user info
+#: includes/Common/REST/Admin/AdminOrderController.php:322
 #, php-format
 msgid "%1$s already purchased by %2$s."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:494
-#: includes/Common/REST/Admin/AdminOrderController.php:523
-#: includes/Common/REST/Admin/AdminOrderController.php:609
+#: includes/Common/REST/Admin/AdminOrderController.php:495
+#: includes/Common/REST/Admin/AdminOrderController.php:524
+#: includes/Common/REST/Admin/AdminOrderController.php:610
 msgid "Order id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminOrderController.php:618
+#: includes/Common/REST/Admin/AdminOrderController.php:619
 msgid "Order successfully deleted."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuestionController.php:215
+#: includes/Common/REST/Admin/AdminQuestionController.php:257
 msgid "Question id is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuestionController.php:223
+#: includes/Common/REST/Admin/AdminQuestionController.php:265
 msgid "Question language is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuestionController.php:257
-#: includes/Common/REST/Admin/AdminQuestionController.php:280
+#: includes/Common/REST/Admin/AdminQuestionController.php:299
+#: includes/Common/REST/Admin/AdminQuestionController.php:322
+#: includes/Common/REST/Admin/AdminQuestionController.php:361
 msgid "Question ids is required."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminQuestionController.php:399
+#: includes/Common/REST/AI/AICommonController.php:125
+msgid "Questions are required for AI validation."
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminQuestionController.php:428
+#, php-format
+msgid "%d question updated with AI validation."
+msgid_plural "%d questions updated with AI validation."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Common/REST/Admin/AdminQuestionController.php:458
+msgid "Questions are required for AI upload."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminQuizController.php:300
@@ -1955,13 +1975,13 @@ msgstr ""
 
 #. translators: %s is the required field
 #: includes/Common/REST/Admin/AdminSettingController.php:75
-#: includes/Common/REST/Front/FrontCheckoutController.php:269
-#: includes/Common/REST/Front/FrontCheckoutController.php:353
-#: includes/Common/REST/Front/FrontCheckoutController.php:445
-#: includes/Common/REST/Front/FrontCheckoutController.php:534
-#: includes/Common/REST/Front/FrontCheckoutController.php:619
-#: includes/Common/REST/Front/FrontCheckoutController.php:703
-#: includes/Common/REST/Front/FrontCheckoutController.php:880
+#: includes/Common/REST/Front/FrontCheckoutController.php:273
+#: includes/Common/REST/Front/FrontCheckoutController.php:357
+#: includes/Common/REST/Front/FrontCheckoutController.php:449
+#: includes/Common/REST/Front/FrontCheckoutController.php:538
+#: includes/Common/REST/Front/FrontCheckoutController.php:623
+#: includes/Common/REST/Front/FrontCheckoutController.php:707
+#: includes/Common/REST/Front/FrontCheckoutController.php:884
 #: includes/Common/REST/Front/FrontCourseController.php:119
 #: includes/Common/REST/Front/FrontCourseController.php:149
 #: includes/Common/REST/Front/FrontCourseController.php:160
@@ -2023,71 +2043,86 @@ msgstr ""
 msgid "Users imported successfully"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:183
+#: includes/Common/REST/AI/AICommonController.php:147
+#: includes/Common/REST/AI/AICommonController.php:206
+msgid "Received invalid response from AI model."
+msgstr ""
+
+#: includes/Common/REST/AI/AICommonController.php:166
+msgid "Parameters are required for generating questions."
+msgstr ""
+
+#: includes/Common/REST/AI/AICommonController.php:174
+msgid "Quiz ID is required for generating questions."
+msgstr ""
+
+#. translators: %s is the item title
+#: includes/Common/REST/Front/FrontCheckoutController.php:185
 #, php-format
 msgid "%s already purchased."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:225
+#: includes/Common/REST/Front/FrontCheckoutController.php:229
 msgid "Cart id is required."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:230
+#: includes/Common/REST/Front/FrontCheckoutController.php:234
 msgid "No cart item found."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:253
+#: includes/Common/REST/Front/FrontCheckoutController.php:257
 msgid "Required parameters are missing."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:257
+#: includes/Common/REST/Front/FrontCheckoutController.php:261
 msgid "Unacceptable payment gateway"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:261
-#: includes/Common/REST/Front/FrontCheckoutController.php:611
-#: includes/Common/REST/Front/FrontCheckoutController.php:696
+#: includes/Common/REST/Front/FrontCheckoutController.php:265
+#: includes/Common/REST/Front/FrontCheckoutController.php:615
+#: includes/Common/REST/Front/FrontCheckoutController.php:700
 msgid "No order found"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:607
+#: includes/Common/REST/Front/FrontCheckoutController.php:611
 msgid "Required parameters are missing"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:693
+#: includes/Common/REST/Front/FrontCheckoutController.php:697
 msgid "Required parameters not found"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:872
+#: includes/Common/REST/Front/FrontCheckoutController.php:876
 msgid "Required coupon code and user_id"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:889
+#: includes/Common/REST/Front/FrontCheckoutController.php:893
 msgid "Coupons are disabled."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:897
+#: includes/Common/REST/Front/FrontCheckoutController.php:901
 msgid "Invalid coupon code."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:903
+#: includes/Common/REST/Front/FrontCheckoutController.php:907
 msgid "This coupon code is disabled."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:907
+#. translators: 1: currency symbol 2: minimum purchase amount
+#: includes/Common/REST/Front/FrontCheckoutController.php:913
 #, php-format
 msgid "This coupon code requires a minimum purchase of %1$s%2$s."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:914
+#: includes/Common/REST/Front/FrontCheckoutController.php:920
 msgid "This coupon code has expired."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:919
+#: includes/Common/REST/Front/FrontCheckoutController.php:925
 msgid "This coupon code has reached its maximum usage limit."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:923
+#: includes/Common/REST/Front/FrontCheckoutController.php:929
 msgid "You have reached the maximum usage limit for this coupon code."
 msgstr ""
 
@@ -2185,7 +2220,7 @@ msgstr ""
 #: includes/Common/Submenu/Submenu_Orders.php:75
 #: includes/Common/Submenu/Submenu_Quiz.php:84
 #: includes/Common/Submenu/Submenu_Reviews.php:75
-#: includes/Common/Submenu/Submenu_Settings.php:77
+#: includes/Common/Submenu/Submenu_Settings.php:78
 #: includes/Common/Submenu/Submenu_Student.php:69
 #: includes/Common/Submenu/Submenu_Tools.php:74
 #: templates/app.php:6
@@ -2265,51 +2300,52 @@ msgstr ""
 msgid "Filter by Category"
 msgstr ""
 
+#. translators: 1: average rating, 2: total ratings
 #. translators: 1: average rating 2: total ratings
-#: includes/Common/View/AllCourseView.php:467
+#: includes/Common/View/AllCourseView.php:468
 #: includes/Common/View/SingleCourseView.php:864
 #, php-format
-msgid "%.2f (%d ratings)"
+msgid "%1$.2f (%2$d ratings)"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:594
+#: includes/Common/View/AllCourseView.php:595
 #: includes/Common/View/SingleCourseView.php:489
 msgid "Go to Checkout"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:614
+#: includes/Common/View/AllCourseView.php:615
 #: includes/Common/View/SingleCourseView.php:509
 msgid "Go to Course"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:633
+#: includes/Common/View/AllCourseView.php:634
 #: includes/Common/View/SingleCourseView.php:530
 msgid "Start Now"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:658
+#: includes/Common/View/AllCourseView.php:659
 #: includes/Common/View/SingleCourseView.php:569
 msgid "Buy Now"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:762
+#: includes/Common/View/AllCourseView.php:763
 #: includes/Common/View/SingleCourseView.php:619
 msgid "Add to Wishlist"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:776
+#: includes/Common/View/AllCourseView.php:777
 #: includes/Common/View/SingleCourseView.php:633
 msgid "Remove From Wishlist"
 msgstr ""
 
 #. translators: %s: course count
-#: includes/Common/View/AllCourseView.php:830
+#: includes/Common/View/AllCourseView.php:831
 #, php-format
 msgid "We found %s courses available for you"
 msgstr ""
 
 #. translators: %1$s: start, %2$s: end, %3$s: course count
-#: includes/Common/View/AllCourseView.php:987
+#: includes/Common/View/AllCourseView.php:988
 #, php-format
 msgid "Showing %1$s-%2$s of %3$s results"
 msgstr ""
@@ -2710,6 +2746,7 @@ msgstr ""
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 #: build/Common/admin_quiz_free_accuracy_button.bundle.js:1
 #: build/Common/admin_quiz_free_advance_options.bundle.js:1
 #: build/Common/admin_quiz_free_answer_sheet_options.bundle.js:1
@@ -2837,15 +2874,13 @@ msgid "Coupon Overview"
 msgstr ""
 
 #: build/Common/admin_coupon.js:1
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
 #: build/Common/admin_lesson.js:1
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
 #: build/Common/admin_quiz_free_prerequisite_options.bundle.js:1
 #: build/Common/admin_setting.js:1
+#: build/Common/src_modules_ai_AiDescription_js.js:2
 msgid "Add"
 msgstr ""
 
@@ -2983,6 +3018,7 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_setting.js:1
 msgid "Save Changes"
 msgstr ""
@@ -2991,7 +3027,7 @@ msgstr ""
 #: build/Common/admin_design_studio.js:1
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_review.js:1
 #: build/Common/admin_setting.js:1
 #: build/Common/admin_student.js:1
@@ -3269,129 +3305,6 @@ msgstr ""
 
 #: build/Common/admin_course.js:3
 msgid "Outcome"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:1
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:1
-#: build/Common/admin_quiz_free_ai_button.bundle.js:1
-msgid "Generate with AI"
-msgstr ""
-
-#. translators: %s is the type of item
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-#, js-format
-msgid "Generate %s From AI"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Min. Words"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Max. Words"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Level"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Advanced"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Tone"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Formal & Professional"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Conversational & Friendly"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Persuasive & Sales-Oriented"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Storytelling & Creative"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Inspiring & Motivational"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Humorous & Witty"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Technical & Precise"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_advance_options.bundle.js:1
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Prompt (Optional)"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Please enter title"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Generate"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Response"
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Generating..."
-msgstr ""
-
-#: build/Common/admin_course_ai_free_ai_course_button.bundle.js:2
-#: build/Common/admin_lesson_free_lesson_ai_button.bundle.js:2
-#: build/Common/admin_quiz_free_ai_button.bundle.js:2
-msgid "Close"
 msgstr ""
 
 #: build/Common/admin_design_studio.js:1
@@ -4592,10 +4505,12 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Add More"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
 #: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
 msgid "Remove"
 msgstr ""
@@ -4753,11 +4668,13 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Subject name is already exist"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Subject cannot be empty"
 msgstr ""
 
@@ -4777,28 +4694,32 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #: build/Common/front.js:1
 msgid "Easy"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #: build/Common/front.js:1
 msgid "Medium"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #: build/Common/front.js:1
 msgid "Hard"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #: build/Common/front.js:1
 msgid "Expert"
 msgstr ""
@@ -4811,6 +4732,106 @@ msgstr ""
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
 msgid "- Point"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Add Question with AI"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Validate Questions With AI"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Note: The validation process may take some time depending on the number of questions selected. Please be patient while the AI model processes the questions."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Creating chunks..."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
+msgid "chunk"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
+#: build/Common/front.js:16
+msgid "of"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Go to Question"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
+msgid "Remove Question from List"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
+msgid "Hint:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
+msgid "Correct Exp:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
+msgid "Incorrect Exp:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "AI Suggested Corrections"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "AI Question:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "AI Answer Data:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "AI Hint:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "AI Correct Exp:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "AI Incorrect Exp:"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Select All"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:8
+msgid "Deselect All"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Retry Validation"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Please select at least one question to save changes."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Questions updated successfully."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "An error occurred while updating questions."
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
@@ -4836,11 +4857,13 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Single Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Multiple Choice"
 msgstr ""
 
@@ -4850,16 +4873,19 @@ msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Free Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Sorting Choice"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Matrix Sorting Choice"
 msgstr ""
 
@@ -4868,18 +4894,21 @@ msgid "Fill in the blank"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
 #: build/Common/admin_quiz_free_numerical.bundle.js:1
 #: build/Common/admin_quiz_free_numerical_option.bundle.js:1
 msgid "Numerical"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
 #: build/Common/admin_quiz_free_range_type.bundle.js:1
 #: build/Common/admin_quiz_free_range_type_option.bundle.js:1
 msgid "Range Type"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:7
 #: build/Common/admin_quiz_free_assessment.bundle.js:1
 #: build/Common/admin_quiz_free_assessment_option.bundle.js:1
 msgid "Assessment"
@@ -4898,6 +4927,10 @@ msgid "Do you really want to delete these questions?"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+msgid "Validate With AI"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Set Paragraph"
 msgstr ""
 
@@ -4912,6 +4945,7 @@ msgid "Search by question title"
 msgstr ""
 
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "Fill in the Blank"
 msgstr ""
 
@@ -4939,6 +4973,7 @@ msgid "Case Sensitive"
 msgstr ""
 
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:7
 msgid "True/False"
 msgstr ""
 
@@ -5131,6 +5166,138 @@ msgstr ""
 msgid "Load More"
 msgstr ""
 
+#: build/Common/admin_quiz.js:6
+msgid "Failed to generate questions"
+msgstr ""
+
+#: build/Common/admin_quiz.js:6
+msgid "Back to Questions"
+msgstr ""
+
+#. translators: %s is the quiz title
+#: build/Common/admin_quiz.js:7
+#, js-format
+msgid "Generate Question(s) with AI (%s)"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Question generation prompt"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "E.g. Generate 5 multiple choice questions for the topic 'Photosynthesis' with difficulty level 'Medium'."
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Generate correct message"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Generate incorrect message"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Generate hint message"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Enable source content"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Enter your source content here"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Enable Advanced Settings"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Generate Questions"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Preview Generated Questions"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Duplicate"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Subject is required"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Select Subject *"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Difficulty Level *"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Difficulty level is required"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Question Type *"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Question type is required"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Answer Options is required"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Answer Options must be at least 2"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Answer Options cannot be more than 26"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Answer Options *"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Number of questions is required"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Number of questions must be at least 1"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "Number of questions cannot be more than 25"
+msgstr ""
+
+#: build/Common/admin_quiz.js:7
+msgid "No. of Questions *"
+msgstr ""
+
+#. translators: 1: number of selected questions, 2: total number of questions
+#: build/Common/admin_quiz.js:8
+#, js-format
+msgid "Select All (%1$d / %2$d)"
+msgstr ""
+
+#: build/Common/admin_quiz.js:8
+msgid "Are you sure you want to remove all generated questions?"
+msgstr ""
+
+#: build/Common/admin_quiz.js:8
+msgid "Remove All"
+msgstr ""
+
+#: build/Common/admin_quiz.js:8
+msgid "Retry Generation(failed)"
+msgstr ""
+
 #: build/Common/admin_quiz_free_advance_mode_options.bundle.js:1
 msgid "This mode is to create Panel exams. You can also create exam specific quizzes from this mode. In this mode, certain features will be preset based on the exam and cannot be modified. Admins can also customize additional settings according to their requirements."
 msgstr ""
@@ -5241,6 +5408,11 @@ msgstr ""
 
 #: build/Common/admin_quiz_free_advance_options.bundle.js:1
 msgid "Use this option to modify the prompt used for generating result feedback, allowing you to tailor the feedback to your requirements."
+msgstr ""
+
+#: build/Common/admin_quiz_free_advance_options.bundle.js:1
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Prompt (Optional)"
 msgstr ""
 
 #: build/Common/admin_quiz_free_answer_sheet_options.bundle.js:1
@@ -6529,10 +6701,6 @@ msgid "Certificate does not exist"
 msgstr ""
 
 #: build/Common/front.js:16
-msgid "of"
-msgstr ""
-
-#: build/Common/front.js:16
 msgid "Point"
 msgstr ""
 
@@ -6797,6 +6965,85 @@ msgstr ""
 
 #: build/Common/src_helpers_util_js-src_modules_extensions_hooksLoader_js-src_provider_Provider_js.js:1
 msgid "Invalid amount"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:1
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Please enter title"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:1
+msgid "Generate From AI"
+msgstr ""
+
+#. translators: %s is the type of item
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+#, js-format
+msgid "Generate %s From AI"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Min. Words"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Max. Words"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Level"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Advanced"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Tone"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Formal & Professional"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Conversational & Friendly"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Persuasive & Sales-Oriented"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Storytelling & Creative"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Inspiring & Motivational"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Humorous & Witty"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Technical & Precise"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Generate"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Response"
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Generating..."
+msgstr ""
+
+#: build/Common/src_modules_ai_AiDescription_js.js:2
+msgid "Close"
 msgstr ""
 
 #: build/Common/src_modules_extensions_muiRecursiveRenderer_js.js:1
