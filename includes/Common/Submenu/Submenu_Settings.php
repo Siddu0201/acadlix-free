@@ -61,6 +61,7 @@ class Submenu_Settings
       'home_url' => home_url(),
       'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
       'certificate_url_path' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'certificate/'),
+      'isCourseBundleActive' => acadlix()->helper()->is_course_bundle_addon_active() ?? false,
     ];
   }
 
