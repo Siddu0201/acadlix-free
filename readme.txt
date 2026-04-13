@@ -353,6 +353,9 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 == Changelog ==
 
 = 1.0.7 - 13-04-2026 =
+* Added: AI-powered question validation to ensure content accuracy and quality.
+* Added: AI-powered question generation to assist educators in creating diverse and engaging quizzes.
+* Added: AI-powered description generation for courses, lessons, and quizzes to save time and enhance content appeal.
 * Added: Logout button on the header right-side for quick user access.
 * Added: Category filter in quiz search within course curriculum backend.
 * Added: Category filter on the admin quiz management page.
