@@ -861,7 +861,7 @@ class SingleCourseView
 					'props' => ['class' => 'acadlix-course-rating-value acadlix-body1'],
 					'value' => sprintf(
 						/* translators: 1: average rating 2: total ratings */
-						esc_html__('%.2f (%d ratings)', 'acadlix'),
+						esc_html__('%1$.2f (%2$d ratings)', 'acadlix'),
 						$this->average_rating,
 						$this->total_rating
 					)
