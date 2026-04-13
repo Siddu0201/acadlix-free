@@ -514,7 +514,7 @@ class Ajax
     $term_id = isset($_POST['term_id']) ? intval($_POST['term_id']) : 0;
 
     $categories = isset($_POST['categories'])
-      ? json_decode(stripslashes($_POST['categories']), true)
+      ? json_decode(wp_unslash($_POST['categories']), true) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
       : [];
 
     $search = isset($_POST['search'])

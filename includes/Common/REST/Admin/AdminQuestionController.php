@@ -425,6 +425,7 @@ class AdminQuestionController
     }
 
     $res['message'] = sprintf(
+      /* translators: %d: number of questions updated */
       _n(
         '%d question updated with AI validation.',
         '%d questions updated with AI validation.',

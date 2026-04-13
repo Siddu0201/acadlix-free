@@ -21,10 +21,11 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff, FaExternalLinkAlt, FaTrash } from "@acadlix/helpers/icons";
-import { DataGrid } from "@mui/x-data-grid";
 import { PostRemoveWishlist } from '@acadlix/requests/front/FrontCourseRequest';
 import CustomRefresh from '@acadlix/components/CustomRefresh';
 import toast from 'react-hot-toast';
+import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
+import Loader from '@acadlix/components/Loader';
 
 const Wishlist = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -175,12 +176,12 @@ const Wishlist = () => {
     },
   ];
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (Array.isArray(data?.data?.wishlist)) {
       const newRows = data?.data?.wishlist?.map((wishlist) => {
         return {
           id: wishlist?.id,
-          item: wishlist?.item?.post_title,
+          item: wishlist?.item?.post_title ?? "",
           item_id: wishlist?.type_id,
           user_id: wishlist?.user_id,
           type: wishlist?.type,
@@ -188,14 +189,16 @@ const Wishlist = () => {
           added_at: getFormatDate(wishlist?.created_at),
           permalink: wishlist?.permalink,
           thumbnail_url: wishlist?.item?.thumbnail?.url ?? acadlixOptions?.default_img_url,
-          thumbnail_alt: wishlist?.item?.thumbnail?.alt ?? wishlist?.item?.post_title,
+          thumbnail_alt: wishlist?.item?.thumbnail?.alt ?? wishlist?.item?.post_title ?? "",
         };
       });
       methods?.setValue("rows", newRows, { shouldDirty: true });
     }
-  }, [data]);
+  }, [data?.data]);
 
-  console.log("wishlist data", methods?.watch("rows"));
+  if (process.env.REACT_APP_MODE === 'development') {
+    console.log(methods?.watch("rows"));
+  }
 
   const rowCountRef = React.useRef(data?.data?.total || 0);
 
@@ -256,7 +259,16 @@ const Wishlist = () => {
                   width: "100%",
                 }}
               >
-                {
+                <MobileOnlyView
+                  {...methods}
+                  isFetching={isFetching || removeWishlistMutation?.isPending}
+                  paginationModel={paginationModel}
+                  handlePaginationChange={handlePaginationChange}
+                  removeFromWishlist={removeFromWishlist}
+                  rowCount={rowCount}
+                  getType={getType}
+                />
+                {/* {
                   isMobile ? (
                     <MobileOnlyView
                       {...methods}
@@ -316,7 +328,7 @@ const Wishlist = () => {
                       }}
                     />
                   )
-                }
+                } */}
               </Box>
             </CardContent>
           </Card>
@@ -329,189 +341,572 @@ const Wishlist = () => {
 export default Wishlist
 
 const MobileOnlyView = (props) => {
-  return (
-    <Box>
-      {props?.isFetching ? (
-        <Box
-          sx={{
+  const defaultSetting = {
+    component: "Box",
+    children: [
+      props?.isFetching ? ({
+        component: "Box",
+        props: {
+          sx: {
             display: "flex",
             justifyContent: "center",
-            padding: 2
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-        props?.watch("rows")?.map((row, index) => (
-          <Box
-            key={index}
-            sx={{
-              padding: 2,
-              borderBottom: "1px solid #e0e0e0",
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.4)",
-              marginBottom: "8px",
-              borderRadius: "8px",
-              backgroundColor: "white",
-              marginX: 0,
-            }}
-          >
-            <Box>
-              <Avatar
-                variant='rounded'
-                src={row?.thumbnail_url}
-                alt={row?.thumbnail_alt}
-                sx={{
-                  width: 100,
-                  height: 80,
-                }}
-              />
-            </Box>
-            <Box sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-            }}>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography
-                  variant="h6"
-                  component="div"
-                >
-                  {row.course}
-                </Typography>
-              </Box>
-              <Box
-                display="flex"
-                alignItems="center"
-                sx={{
-                  gap: 0.5,
-                }}
-              >
-                <HistoryToggleOff
-                  sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
+            padding: 2,
+          }
+        },
+        children: {
+          component: "CircularProgress",
+        }
+      }) :
+        {
+          component: "Fragment",
+          children: props?.watch("rows")?.length > 0 ?
+            props?.watch("rows")?.map((row, index) => {
+              return {
+                component: <SingleWishlistItem
+                  key={index}
+                  row={row}
+                  {...props}
                 />
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  component="div"
-                >
-                  {row?.added_at}
-                </Typography>
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography
-                  variant="body2"
-                  component="div"
-                >
-                  {row?.price}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  height: "100%",
+              }
+            }) : [{
+              component: "Box",
+              props: {
+                sx: {
                   display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Tooltip title={__("Go to course", "acadlix")} arrow>
-                  <IconButton
-                    className="acadlix-icon-btn"
-                    onClick={() => {
-                      window.location.href = row?.permalink;
-                    }}
-                    size="small"
-                    color='warning'
-                  >
-                    <FaExternalLinkAlt />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={__("Remove from wishlist", "acadlix")} arrow>
-                  <IconButton
-                    className="acadlix-icon-btn"
-                    size="small"
-                    color='error'
-                    onClick={() => {
-                      props?.removeFromWishlist(row);
-                    }}
-                  >
-                    <FaTrash />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Box>
-          </Box>
-        ))
-      )}
-      <Box display="flex" justifyContent="center" alignItems="center" padding={2}>
-        <TablePagination
-          component="div"
-          count={props?.rowCount}
-          page={props?.paginationModel?.page}
-          onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
-          rowsPerPage={props?.paginationModel?.pageSize}
-          onRowsPerPageChange={(e) => {
-            const pageSize = parseInt(e?.target?.value);
-            const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
-            props?.handlePaginationChange({
-              pageSize: pageSize,
-              page: page,
-            })
-          }}
-          slotProps={{
-            selectLabel: {
-              component: "div",
-            },
-            displayedRows: {
-              component: "div",
-            },
-            actions: {
-              nextButton: {
-                className: "acadlix-icon-btn",
+                  justifyContent: "center",
+                  padding: 2,
+                }
               },
-              previousButton: {
-                className: "acadlix-icon-btn",
+              children: [
+                {
+                  component: "Typography",
+                  props: {
+                    component: "div",
+                    variant: "h6",
+                  },
+                  children: __("No items in wishlist", "acadlix"),
+                }
+              ]
+            }]
+        },
+      {
+        component: "Box",
+        component_name: "wishlist_pagination_box",
+        props: {
+          sx: {
+            display: "flex",
+            justifyContent: "center",
+            padding: 2,
+          }
+        },
+        children: [
+          {
+            component: "TablePagination",
+            component_name: "wishlist_pagination_table_pagination",
+            props: {
+              component: "div",
+              count: props?.rowCount,
+              page: props?.paginationModel?.page,
+              onPageChange: (_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage }),
+              rowsPerPage: props?.paginationModel?.pageSize,
+              onRowsPerPageChange: (e) => {
+                const pageSize = parseInt(e?.target?.value);
+                const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
+                props?.handlePaginationChange({
+                  pageSize: pageSize,
+                  page: page,
+                });
+              },
+              slotProps: {
+                selectLabel: {
+                  component: "div",
+                },
+                displayedRows: {
+                  component: "div",
+                },
+                actions: {
+                  nextButton: {
+                    className: "acadlix-icon-btn",
+                  },
+                  previousButton: {
+                    className: "acadlix-icon-btn",
+                  }
+                },
+              },
+              sx: {
+                '& .MuiToolbar-root': {
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                },
+                '& .MuiTablePagination-selectLabel': {
+                  margin: 0,
+                },
+                '& .MuiTablePagination-displayedRows': {
+                  margin: 0,
+                },
+                '& .MuiInputBase-root': {
+                  marginX: 0,
+                },
               }
             },
-          }}
-          sx={{
-            '& .MuiToolbar-root': {
-              paddingLeft: 0,
-              paddingRight: 0,
-            },
-            '& .MuiTablePagination-selectLabel': {
-              margin: 0,
-            },
-            '& .MuiTablePagination-displayedRows': {
-              margin: 0,
-            },
-            '& .MuiInputBase-root': {
-              marginX: 0,
-            },
-          }}
+          }
+        ]
+      }
+    ]
+  }
 
-        />
-        {/* <Stack spacing={2}>
-          <Pagination
-            count={Math.ceil(
-              props?.watch("rows").length / props?.paginationModel?.pageSize
-            )}
-            page={props?.paginationModel?.page}
-            onChange={(e, value) =>
-              props?.handlePaginationChange({ ...props?.paginationModel, page: value })
-            }
+  const wishlistMobile = window.acadlixHooks?.applyFilters(
+    'acadlix.front.dashboard.wishlist.mobile',
+    [defaultSetting],
+    {
+      register: props?.register,
+      watch: props?.watch,
+      setValue: props?.setValue,
+      handlePaginationChange: props?.handlePaginationChange,
+      paginationModel: props?.paginationModel,
+      isDesktop: false,
+    }
+  )?.filter(Boolean) || [];
+
+  if (props?.isFetching) {
+    return <Loader />;
+  }
+
+  return (
+    <>
+      {wishlistMobile.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            key={i}
+            formProps={{
+              register: props?.register,
+              watch: props?.watch,
+              setValue: props?.setValue,
+            }}
           />
-        </Stack> */}
-      </Box>
-    </Box>
-  );
+        </React.Fragment>
+      ))}
+    </>
+  )
+
+  // return (
+  //   <Box>
+  //     {props?.isFetching ? (
+  //       <Box
+  //         sx={{
+  //           display: "flex",
+  //           justifyContent: "center",
+  //           padding: 2
+  //         }}
+  //       >
+  //         <CircularProgress />
+  //       </Box>
+  //     ) : (
+  //       props?.watch("rows")?.map((row, index) => (
+  //         <Box
+  //           key={index}
+  //           sx={{
+  //             padding: 2,
+  //             borderBottom: "1px solid #e0e0e0",
+  //             display: "flex",
+  //             alignItems: "center",
+  //             gap: 2,
+  //             boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.4)",
+  //             marginBottom: "8px",
+  //             borderRadius: "8px",
+  //             backgroundColor: "white",
+  //             marginX: 0,
+  //           }}
+  //         >
+  //           <Box>
+  //             <Avatar
+  //               variant='rounded'
+  //               src={row?.thumbnail_url}
+  //               alt={row?.thumbnail_alt}
+  //               sx={{
+  //                 width: 100,
+  //                 height: 80,
+  //               }}
+  //             />
+  //           </Box>
+  //           <Box sx={{
+  //             display: "flex",
+  //             flexDirection: "column",
+  //             gap: 1,
+  //           }}>
+  //             <Box
+  //               display="flex"
+  //               justifyContent="space-between"
+  //               alignItems="center"
+  //             >
+  //               <Typography
+  //                 variant="h6"
+  //                 component="div"
+  //               >
+  //                 {row.course}
+  //               </Typography>
+  //             </Box>
+  //             <Box
+  //               display="flex"
+  //               alignItems="center"
+  //               sx={{
+  //                 gap: 0.5,
+  //               }}
+  //             >
+  //               <HistoryToggleOff
+  //                 sx={{ marginRight: "4px", color: "gray", fontSize: "18px" }}
+  //               />
+  //               <Typography
+  //                 variant="body2"
+  //                 color="text.secondary"
+  //                 component="div"
+  //               >
+  //                 {row?.added_at}
+  //               </Typography>
+  //             </Box>
+  //             <Box
+  //               display="flex"
+  //               justifyContent="space-between"
+  //               alignItems="center"
+  //             >
+  //               <Typography
+  //                 variant="body2"
+  //                 component="div"
+  //               >
+  //                 {row?.price}
+  //               </Typography>
+  //             </Box>
+  //             <Box
+  //               sx={{
+  //                 height: "100%",
+  //                 display: "flex",
+  //                 alignItems: "center",
+  //               }}
+  //             >
+  //               <Tooltip title={__("Go to course", "acadlix")} arrow>
+  //                 <IconButton
+  //                   className="acadlix-icon-btn"
+  //                   onClick={() => {
+  //                     window.location.href = row?.permalink;
+  //                   }}
+  //                   size="small"
+  //                   color='warning'
+  //                 >
+  //                   <FaExternalLinkAlt />
+  //                 </IconButton>
+  //               </Tooltip>
+  //               <Tooltip title={__("Remove from wishlist", "acadlix")} arrow>
+  //                 <IconButton
+  //                   className="acadlix-icon-btn"
+  //                   size="small"
+  //                   color='error'
+  //                   onClick={() => {
+  //                     props?.removeFromWishlist(row);
+  //                   }}
+  //                 >
+  //                   <FaTrash />
+  //                 </IconButton>
+  //               </Tooltip>
+  //             </Box>
+  //           </Box>
+  //         </Box>
+  //       ))
+  //     )}
+  //     <Box display="flex" justifyContent="center" alignItems="center" padding={2}>
+  //       <TablePagination
+  //         component="div"
+  //         count={props?.rowCount}
+  //         page={props?.paginationModel?.page}
+  //         onPageChange={(_, newPage) => props?.handlePaginationChange({ ...props?.paginationModel, page: newPage })}
+  //         rowsPerPage={props?.paginationModel?.pageSize}
+  //         onRowsPerPageChange={(e) => {
+  //           const pageSize = parseInt(e?.target?.value);
+  //           const page = Math.min(props?.paginationModel?.page, Math.floor(props?.watch("rows").length / pageSize)); // Ensure page does not exceed limit
+  //           props?.handlePaginationChange({
+  //             pageSize: pageSize,
+  //             page: page,
+  //           })
+  //         }}
+  //         slotProps={{
+  //           selectLabel: {
+  //             component: "div",
+  //           },
+  //           displayedRows: {
+  //             component: "div",
+  //           },
+  //           actions: {
+  //             nextButton: {
+  //               className: "acadlix-icon-btn",
+  //             },
+  //             previousButton: {
+  //               className: "acadlix-icon-btn",
+  //             }
+  //           },
+  //         }}
+  //         sx={{
+  //           '& .MuiToolbar-root': {
+  //             paddingLeft: 0,
+  //             paddingRight: 0,
+  //           },
+  //           '& .MuiTablePagination-selectLabel': {
+  //             margin: 0,
+  //           },
+  //           '& .MuiTablePagination-displayedRows': {
+  //             margin: 0,
+  //           },
+  //           '& .MuiInputBase-root': {
+  //             marginX: 0,
+  //           },
+  //         }}
+
+  //       />
+  //       {/* <Stack spacing={2}>
+  //         <Pagination
+  //           count={Math.ceil(
+  //             props?.watch("rows").length / props?.paginationModel?.pageSize
+  //           )}
+  //           page={props?.paginationModel?.page}
+  //           onChange={(e, value) =>
+  //             props?.handlePaginationChange({ ...props?.paginationModel, page: value })
+  //           }
+  //         />
+  //       </Stack> */}
+  //     </Box>
+  //   </Box>
+  // );
 };
+
+const SingleWishlistItem = ({ row, removeFromWishlist, getType, ...props }) => {
+  console.log(row);
+  const defaultSetting = {
+    component: "Box",
+    props: {
+      sx: {
+        padding: 2,
+        borderBottom: "1px solid #e0e0e0",
+        display: "flex",
+        alignItems: "stretch",
+        gap: 2,
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.4)",
+        marginBottom: "8px",
+        borderRadius: "8px",
+        backgroundColor: "white",
+        marginX: 0,
+      }
+    },
+    children: [
+      {
+        component: "Box",
+        props: {
+          sx: {
+            display: "flex",
+          }
+        },
+        children: [
+          {
+            component: "Avatar",
+            props: {
+              variant: 'rounded',
+              src: row?.thumbnail_url,
+              alt: row?.thumbnail_alt,
+              sx: {
+                width: 150,
+                height: "100%",
+              }
+            }
+          }
+        ]
+      },
+      {
+        component: "Box",
+        props: {
+          sx: {
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+          }
+        },
+        children: [
+          {
+            component: "Box",
+            props: {
+              sx: {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }
+            },
+            children: [
+              {
+                component: "Typography",
+                props: {
+                  variant: "h6",
+                  component: "div",
+                },
+                value: row?.item ?? "",
+              },
+            ]
+          },
+          {
+            component: "Box",
+            props: {
+              sx: {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }
+            },
+            children: [
+              {
+                component: "Chip",
+                props: {
+                  label: getType(row?.type)?.label,
+                  color: getType(row?.type)?.color,
+                  size: "small",
+                }
+              }
+            ]
+          },
+          {
+            component: "Box",
+            props: {
+              sx: {
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+              }
+            },
+            children: [
+              {
+                component: "HistoryToggleOff",
+                props: {
+                  sx: { marginRight: "4px", color: "gray", fontSize: "18px" }
+                }
+              },
+              {
+                component: "Typography",
+                props: {
+                  variant: "body2",
+                  color: "text.secondary",
+                  component: "div",
+                },
+                value: row?.added_at,
+              },
+            ]
+          },
+          {
+            component: "Box",
+            props: {
+              sx: {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }
+            },
+            children: [
+              {
+                component: "Typography",
+                props: {
+                  variant: "body2",
+                  component: "div",
+                },
+                value: row?.price,
+              }
+            ]
+          },
+          {
+            component: "Box",
+            props: {
+              sx: {
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }
+            },
+            children: [
+              {
+                component: "Tooltip",
+                props: {
+                  title: __("Go to course", "acadlix"),
+                  arrow: true,
+                },
+                children: [
+                  {
+                    component: "IconButton",
+                    props: {
+                      className: "acadlix-icon-btn",
+                      onClick: () => {
+                        window.location.href = row?.permalink;
+                      },
+                      size: "small",
+                      color: 'warning',
+                    },
+                    children: [
+                      {
+                        component: "FaExternalLinkAlt",
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                component: "Tooltip",
+                props: {
+                  title: __("Remove from wishlist", "acadlix"),
+                  arrow: true,
+                },
+                children: [
+                  {
+                    component: "IconButton",
+                    props: {
+                      className: "acadlix-icon-btn",
+                      size: "small",
+                      color: 'error',
+                      onClick: () => {
+                        removeFromWishlist(row);
+                      },
+                    },
+                    children: [
+                      {
+                        component: "FaTrash",
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  const singleWishlistItem = window.acadlixHooks?.applyFilters(
+    'acadlix.front.dashboard.wishlist.singleWishlistItem',
+    [defaultSetting],
+    {
+      register: props?.register,
+      watch: props?.watch,
+      setValue: props?.setValue,
+      isDesktop: props?.isDesktop,
+      row: row,
+    }
+  )?.filter(Boolean) || [];
+
+  return (
+    <>
+      {singleWishlistItem.map((field, i) => (
+        <DynamicMUIRenderer
+          item={field}
+          key={i}
+          formProps={{
+            register: props?.register,
+            watch: props?.watch,
+            setValue: props?.setValue,
+          }}
+        />
+      ))}
+    </>
+  )
+}
