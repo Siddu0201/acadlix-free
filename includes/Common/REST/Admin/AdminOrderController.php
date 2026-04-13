@@ -318,6 +318,7 @@ class AdminOrderController
           }
 
           $errors[] = sprintf(
+            /* translators: 1: item title 2: user info */
             __('%1$s already purchased by %2$s.', 'acadlix'),
             $item['item_title'],
             $user_info

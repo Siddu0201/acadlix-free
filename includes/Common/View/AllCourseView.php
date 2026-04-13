@@ -388,8 +388,9 @@ class AllCourseView
     return $single_course_ui;
   }
 
-  public function set_type($course){
-    if($course->post_type == ACADLIX_COURSE_CPT){
+  public function set_type($course)
+  {
+    if ($course->post_type == ACADLIX_COURSE_CPT) {
       $this->type = 'course';
     }
   }
@@ -463,11 +464,11 @@ class AllCourseView
           'component' => 'div',
           'props' => ['class' => 'acadlix-course-rating-value acadlix-body1'],
           'value' => sprintf(
-            /* translators: 1: average rating 2: total ratings */
-            esc_html__('%.2f (%d ratings)', 'acadlix'),
+            /* translators: 1: average rating, 2: total ratings */
+            esc_html__('%1$.2f (%2$d ratings)', 'acadlix'),
             $average_rating,
             $total_rating
-          )
+          ),
         ]
       ]
     ], $course);

@@ -180,7 +180,11 @@ class FrontCheckoutController
       $errors = [];
       $item = $this->getItem($ct);
       if ($item->isPurchasedBy($userId)) {
-        $errors[] = sprintf(__('%s already purchased.', 'acadlix'), $item->post_title);
+        $errors[] = sprintf(
+          /* translators: %s is the item title */
+          __('%s already purchased.', 'acadlix'),
+          $item->post_title
+        );
       }
 
       $checkRegistrationDate = acadlix()->helper()->course()->checkRegistrationDate(
@@ -904,7 +908,9 @@ class FrontCheckoutController
     }
 
     if ($metas['minimum_purchase_amount'] > 0 && $request->get_param('price_after_discount') < $metas['minimum_purchase_amount']) {
-      return new WP_Error('invalid_coupon', sprintf(__('This coupon code requires a minimum purchase of %1$s%2$s.', 'acadlix'), $request->get_param('currency_symbol'), $metas['minimum_purchase_amount']), array('status' => 404));
+      return new WP_Error('invalid_coupon', sprintf(
+        /* translators: 1: currency symbol 2: minimum purchase amount */
+        __('This coupon code requires a minimum purchase of %1$s%2$s.', 'acadlix'), $request->get_param('currency_symbol'), $metas['minimum_purchase_amount']), array('status' => 404));
     }
 
     $current_time = current_time('timestamp');
