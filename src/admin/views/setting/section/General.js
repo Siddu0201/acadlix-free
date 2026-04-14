@@ -803,6 +803,7 @@ function General(props) {
               <CustomTypography>
                 {__("Enable content protection", "acadlix")}
                 <CustomFeatureTooltip
+                  plan="open"
                   msg={__("If you enable this option, it will disable right-click, copy text, and text selection site wide.", "acadlix")}
                   placement="right-start"
                 />
