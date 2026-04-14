@@ -26,41 +26,49 @@ const EditLessonModel = (props) => {
           editor.setContent(data?.data?.lesson?.post_content || "");
         }
       }
-      props?.reset({
-        ...props?.watch(),
-        title: data?.data?.lesson?.post_title ?? "",
-        content: data?.data?.lesson?.post_content ?? "",
-        meta: {
-          type: data?.data?.lesson?.rendered_metas?.type ?? "video",
-          video: {
-            video_type: data?.data?.lesson?.rendered_metas?.video?.video_type ?? "",
-            video_data: {
-              html_5: data?.data?.lesson?.rendered_metas?.video?.video_data?.html_5 ?? "",
-              external_link:
-                data?.data?.lesson?.rendered_metas?.video?.video_data?.external_link ?? "",
-              youtube: data?.data?.lesson?.rendered_metas?.video?.video_data?.youtube ?? "",
-              vimeo: data?.data?.lesson?.rendered_metas?.video?.video_data?.vimeo ?? "",
-              embedded: data?.data?.lesson?.rendered_metas?.video?.video_data?.embedded ?? "",
-              shortcode: data?.data?.lesson?.rendered_metas?.video?.video_data?.shortcode ?? "",
-            },
-            video_thumbnail: data?.data?.lesson?.rendered_metas?.video?.video_thumbnail ?? "",
+      props?.setValue("title", data?.data?.lesson?.post_title ?? "", { shouldDirty: true });
+      props?.setValue(
+        "content", data?.data?.lesson?.post_content ?? "", { shouldDirty: true }
+      );
+      let meta = {
+        type: data?.data?.lesson?.rendered_metas?.type ?? "video",
+        video: {
+          video_type: data?.data?.lesson?.rendered_metas?.video?.video_type ?? "",
+          video_data: {
+            html_5: data?.data?.lesson?.rendered_metas?.video?.video_data?.html_5 ?? "",
+            external_link: data?.data?.lesson?.rendered_metas?.video?.video_data?.external_link ?? "",
+            youtube: data?.data?.lesson?.rendered_metas?.video?.video_data?.youtube ?? "",
+            vimeo: data?.data?.lesson?.rendered_metas?.video?.video_data?.vimeo ?? "",
+            embedded: data?.data?.lesson?.rendered_metas?.video?.video_data?.embedded ?? "",
+            shortcode: data?.data?.lesson?.rendered_metas?.video?.video_data?.shortcode ?? "",
           },
-          hours: data?.data?.lesson?.rendered_metas?.hours ?? 0,
-          minutes: data?.data?.lesson?.rendered_metas?.minutes ?? 0,
-          seconds: data?.data?.lesson?.rendered_metas?.seconds ?? 0,
-          resources: data?.data?.lesson?.rendered_metas?.resources?.map((r) => {
-            return {
-              title: r?.title,
-              type: r?.type,
-              filename: r?.filename,
-              file_url: r?.file_url,
-              link: r?.link,
-            };
-          }) ?? [],
+          video_thumbnail: data?.data?.lesson?.rendered_metas?.video?.video_thumbnail ?? "",
         },
-      });
+        hours: data?.data?.lesson?.rendered_metas?.hours ?? 0,
+        minutes: data?.data?.lesson?.rendered_metas?.minutes ?? 0,
+        seconds: data?.data?.lesson?.rendered_metas?.seconds ?? 0,
+        resources: data?.data?.lesson?.rendered_metas?.resources?.map((r) => {
+          return {
+            title: r?.title,
+            type: r?.type,
+            filename: r?.filename,
+            file_url: r?.file_url,
+            link: r?.link,
+          };
+        }) ?? [],
+      }
+      props?.setValue(
+        "meta",
+        meta,
+        { shouldDirty: true }
+      );
+      // props?.reset({
+      //   ...props?.watch(),
+      //   title: data?.data?.lesson?.post_title ?? "",
+      //   content: data?.data?.lesson?.post_content ?? "",
+      // });
     }
-  }, [data]);
+  }, [data?.data]);
 
   return (
     <>
