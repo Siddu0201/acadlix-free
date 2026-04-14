@@ -257,7 +257,7 @@ if (!class_exists('AiHelper')) {
                     - Remove duplicates.
                     - Fix misleading or incorrect options.
                     - Ensure exactly one correct answer for singleChoice & trueFalse.
-                    - Ensure multiple correct answers for multipleChoice.
+                    - Ensure two or more correct answers for multipleChoice.
                     - If answer_type is freeChoice, NEVER introduce plural intent or quantity-based wording.
                     - For fillInTheBlank, blanks MUST be marked using { } with correct answers inside; multiple answers must use {[a][b][c]} syntax and multiple blanks must be preserved.
                     -NEVER remove or alter { } / [ ], NEVER change intent, NEVER convert to other question types, and NEVER rewrite a valid fillInTheBlank question.
@@ -568,8 +568,8 @@ if (!class_exists('AiHelper')) {
 
                     2) multipleChoice
                     - Generate the specified number of options.
-                    - One or more options may have isCorrect=true.
-                    - For each question, randomly assign the correct answer position.
+                    - Two or more options must have isCorrect=true.
+                    - For each question, randomly assign the correct answer positions.
                     - position starts from 0 and is sequential (0, 1, 2, ...).
                     - points = 0 (for future use, does not affect correctness).
                     - negative_points = 0 (for future use, does not affect correctness).

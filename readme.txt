@@ -1,4 +1,4 @@
-=== Acadlix – WordPress LMS for Courses, Quizzes & Exams ===
+=== Acadlix LMS – AI Quiz Maker, Exam & Course Plugin for WordPress ===
 Contributors: acadlix
 Donate link: https://acadlix.com/
 Tags: lms, quiz, online course, education, exam
