@@ -30,7 +30,7 @@ if (!class_exists('AiHelper')) {
                         **Guidelines:**
                         - Clearly state **what the quiz tests** (concepts, skills, topics).
                         - Keep the description **brief but informative**.
-                        - Content should be SEO-friendly and properly h1, h2, h3 tags.
+                        - Content should be SEO-friendly and properly h2, h3 tags.
                         - If required also use bullet points.
                         - Do not include title in response.
                     ";
@@ -54,7 +54,7 @@ if (!class_exists('AiHelper')) {
           $instructions[1] = "
                         **Guidelines:**
                         - Keep the description **brief but informative**.
-                        - Content should be SEO-friendly and properly h1, h2, h3 tags.
+                        - Content should be SEO-friendly and properly h2, h3 tags.
                         - If required also use bullet points.
                         - Do not include title in response.
                         ";
@@ -64,7 +64,7 @@ if (!class_exists('AiHelper')) {
           $instructions[1] = "
                         **Guidelines:**
                         - Keep the description **brief but informative**.
-                        - Content should be SEO-friendly and properly h1, h2, h3 tags.
+                        - Content should be SEO-friendly and properly h2, h3 tags.
                         - If required also use bullet points.
                         - Do not include title in response.
                         ";
