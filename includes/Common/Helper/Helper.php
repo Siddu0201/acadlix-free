@@ -1158,36 +1158,36 @@ if (!class_exists('Helper')) {
           'icon' => 'FaLayerGroup',
           'icon_color' => '#7C3AED',
         ],
-        // [
-        //   'name' => __('Google Meet', 'acadlix'),
-        //   'description' => __('Schedule and manage live classes via Google Meet from your dashboard.', 'acadlix'),
-        //   'pro' => true,
-        //   'internal' => true,
-        //   'installed' => false,
-        //   'active' => $this->acadlix_get_option('acadlix_addon_google_meet_integration_enabled', false) == 'yes',
-        //   'url' => '',
-        //   'option_name' => 'acadlix_addon_google_meet_integration_enabled',
-        //   'icon' => 'GoogleMeet',
-        //   'icon_color' => '#e9ecea',
-        // ]
+        [
+          'name' => __('Google Meet', 'acadlix'),
+          'description' => __('Schedule and manage live classes via Google Meet from your dashboard.', 'acadlix'),
+          'pro' => true,
+          'internal' => true,
+          'installed' => false,
+          'active' => $this->acadlix_get_option('acadlix_addon_google_meet_integration_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_google_meet_integration_enabled',
+          'icon' => 'GoogleMeet',
+          'icon_color' => '#e9ecea',
+        ]
       ];
     }
 
-    // public function is_google_meet_integration_addon_active()
-    // {
-    //   $value = get_option('acadlix_addon_google_meet_integration_enabled', false);
-    //   if ($value != 'yes') {
-    //     return false;
-    //   }
-    //   if (!acadlix()->pro) {
-    //     return false;
-    //   } else {
-    //     if (!acadlix()->license()->isActive) {
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // }
+    public function is_google_meet_integration_addon_active()
+    {
+      $value = get_option('acadlix_addon_google_meet_integration_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->pro) {
+        return false;
+      } else {
+        if (!acadlix()->license()->isActive) {
+          return false;
+        }
+      }
+      return true;
+    }
 
     public function is_social_login_addon_active()
     {
