@@ -40,6 +40,7 @@ const VideoPlayer = ({
   ...props
 }) => {
   const playerRef = useRef(null);
+  const maskRef = useRef(null);
 
   useEffect(() => {
     const Plyr = window.Plyr;
@@ -78,19 +79,19 @@ const VideoPlayer = ({
         ...quality,
       },
       youtube: {
-        ...youtube,
         noCookie: true,
         rel: 0,
         modestbranding: 1,
         iv_load_policy: 3,
         playsInline: 1,
         disablekb: 1,
+        ...youtube,
       },
       vimeo: {
-        ...vimeo,
         byline: false,
         portrait: false,
         title: false,
+        ...vimeo,
       },
     });
 
@@ -300,6 +301,15 @@ const VideoPlayer = ({
             />
           );
         case "youtube":
+          return (
+            <div className="plyr__video-embed" ref={playerRef}>
+              <iframe
+                src={src}
+                allow="autoplay; fullscreen; picture-in-picture"
+                title="Video player"
+              ></iframe>
+            </div>
+          );
         case "vimeo":
           return (
             <div className="plyr__video-embed" ref={playerRef}>
@@ -313,9 +323,21 @@ const VideoPlayer = ({
         case "embedded":
           return (
             <div className="plyr__video-embed" ref={playerRef}>
-              {/* <RawHTML> */}
+              {/* <RawHTML>
                 {src}
-              {/* </RawHTML> */}
+              </RawHTML> */}
+              {
+                src?.type === "youtube" ?
+                  <iframe
+                    src={src.src}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    title="Video player"
+                  ></iframe>
+                  :
+                  <RawHTML>
+                    {src?.src}
+                  </RawHTML>
+              }
             </div>
           );
         default:
@@ -325,8 +347,10 @@ const VideoPlayer = ({
       return <></>;
     }
   };
-
-  return <div>{renderContent()}</div>;
+  // console.log('src', src)
+  return <div className="acadlix-video-wrapper">
+    {renderContent()}
+  </div>;
 };
 
 VideoPlayer.prototype = {

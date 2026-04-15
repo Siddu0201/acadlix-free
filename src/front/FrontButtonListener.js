@@ -229,7 +229,7 @@ const FrontButtonListener = () => {
         console.error("Element does not have a 'data-id' attribute.");
         return;
       }
-      if(type === undefined) {
+      if (type === undefined) {
         console.error("Element does not have a 'data-type' attribute.");
         return;
       }
@@ -273,13 +273,13 @@ const FrontButtonListener = () => {
     },
     removeFromWishlist: (btn) => {
       const itemId = btn.getAttribute("data-id");
-      const type = btn.getAttribute("data-type"); 
+      const type = btn.getAttribute("data-type");
       const userId = item?.userId;
       if (itemId === undefined) {
         console.error("Element does not have a 'data-id' attribute.");
         return;
       }
-      if(type === undefined) {
+      if (type === undefined) {
         console.error("Element does not have a 'data-type' attribute.");
         return;
       }
@@ -558,6 +558,27 @@ const FrontButtonListener = () => {
       const nextUrl = `${url.pathname}${query ? `?${query}` : ""}${url.hash || ""}`;
       window.history.replaceState({}, "", nextUrl);
     },
+    toogleCategoryFilter: (btn, e) => {
+      e.preventDefault();
+      const header = btn;
+      const filterContainer = header.parentElement;
+      const categoryFilter = filterContainer?.querySelector(".acadlix-category-filter");
+      const toggleIcon = filterContainer?.querySelector(".acadlix-category-filter-toggle");
+      if (header) {
+        const isOpen = header.getAttribute("data-open") == "true";
+        if (isOpen) {
+          categoryFilter.classList.add("acadlix-hidden");
+          header.setAttribute("data-open", !isOpen);
+          toggleIcon.classList.add("fa-chevron-up");
+          toggleIcon.classList.remove("fa-chevron-down");
+        } else {
+          categoryFilter.classList.remove("acadlix-hidden");
+          header.setAttribute("data-open", !isOpen);
+          toggleIcon.classList.add("fa-chevron-down");
+          toggleIcon.classList.remove("fa-chevron-up");
+        }
+      }
+    },
     applyFilterAuto: () => {
       const checkboxes = document.querySelectorAll(
         '.acadlix-category-filter-checkbox:checked'
@@ -719,6 +740,11 @@ const FrontButtonListener = () => {
       selector: "#acadlix-load-review-button",
       event: "click",
       handler: (btn) => methods?.loadMoreReview(btn),
+    },
+    {
+      selector: ".acadlix-category-filter-header",
+      event: "click",
+      handler: (btn, e) => methods?.toogleCategoryFilter(btn, e),
     },
     {
       selector: ".acadlix-category-filter-checkbox",

@@ -18,6 +18,11 @@ class WpTermTaxonomy extends Model
     $this->table = acadlix()->helper()->acadlix_wp_prefix('term_taxonomy');
   }
 
+  public function scopeOfCourseCategory($query)
+  {
+    return $query->where('taxonomy', ACADLIX_COURSE_CATEGORY_TAXONOMY);
+  }
+
   public function term()
   {
     return $this->belongsTo(WpTerm::class, 'term_id', 'term_id');

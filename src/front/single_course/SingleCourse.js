@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react'
 import VideoPlayer from '@acadlix/modules/video-player/VideoPlayer';
-import { getVimeoVideoId, getYouTubeVideoId } from '@acadlix/helpers/util';
+import { getVideoSrc, getVimeoVideoId, getYouTubeVideoId } from '@acadlix/helpers/util';
 import CustomLatex from '@acadlix/modules/latex/CustomLatex';
 
 const SingleCourse = (props) => {
@@ -27,51 +27,52 @@ export default SingleCourse
 
 const LessonVideoPreview = (props) => {
   let src = "";
-  switch (props?.c?.video?.video_type) {
-    case "html_5":
-      src = props?.c?.video?.video_data?.html_5;
-      break;
-    case "youtube":
-      src =
-        props?.c?.video?.video_data?.youtube !== ""
-          ? `https://www.youtube.com/embed/${getYouTubeVideoId(
-            props?.c?.video?.video_data?.youtube
-          )}`
-          : "";
-      break;
-    case "vimeo":
-      src =
-        props?.c?.video?.video_data?.vimeo !== ""
-          ? `https://player.vimeo.com/video/${getVimeoVideoId(
-            props?.c?.video?.video_data?.vimeo
-          )}`
-          : "";
-      break;
-    case "external_link":
-      src = props?.c?.video?.video_data?.external_link;
-      break;
-    case "embedded":
-      src = props?.c?.video?.video_data?.embedded;
-      break;
-    case "shortcode":
-      if (props?.c?.video?.video_data?.shortcode !== "") {
-        const parseShortcode = window?.wp?.shortcode?.next(
-          "video",
-          props?.c?.video?.video_data?.shortcode
-        );
-        let attribute = {};
-        if (parseShortcode) {
-          const { attrs } = parseShortcode?.shortcode;
-          attribute = attrs?.named;
-        }
-        src = attribute?.mp4;
-      } else {
-        src = "";
-      }
-      break;
-    default:
-      src = "";
-  }
+  // switch (props?.c?.video?.video_type) {
+  //   case "html_5":
+  //     src = props?.c?.video?.video_data?.html_5;
+  //     break;
+  //   case "youtube":
+  //     src =
+  //       props?.c?.video?.video_data?.youtube !== ""
+  //         ? `https://www.youtube.com/embed/${getYouTubeVideoId(
+  //           props?.c?.video?.video_data?.youtube
+  //         )}`
+  //         : "";
+  //     break;
+  //   case "vimeo":
+  //     src =
+  //       props?.c?.video?.video_data?.vimeo !== ""
+  //         ? `https://player.vimeo.com/video/${getVimeoVideoId(
+  //           props?.c?.video?.video_data?.vimeo
+  //         )}`
+  //         : "";
+  //     break;
+  //   case "external_link":
+  //     src = props?.c?.video?.video_data?.external_link;
+  //     break;
+  //   case "embedded":
+  //     src = props?.c?.video?.video_data?.embedded;
+  //     break;
+  //   case "shortcode":
+  //     if (props?.c?.video?.video_data?.shortcode !== "") {
+  //       const parseShortcode = window?.wp?.shortcode?.next(
+  //         "video",
+  //         props?.c?.video?.video_data?.shortcode
+  //       );
+  //       let attribute = {};
+  //       if (parseShortcode) {
+  //         const { attrs } = parseShortcode?.shortcode;
+  //         attribute = attrs?.named;
+  //       }
+  //       src = attribute?.mp4;
+  //     } else {
+  //       src = "";
+  //     }
+  //     break;
+  //   default:
+  //     src = "";
+  // }
+  src = getVideoSrc(props?.c?.video);
   return (
     <Box id="acadlix-video-player">
       <VideoPlayer

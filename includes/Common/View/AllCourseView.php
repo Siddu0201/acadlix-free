@@ -279,24 +279,20 @@ class AllCourseView
       return [];
     }
 
-    $categories = get_terms([
-      'taxonomy' => ACADLIX_COURSE_CATEGORY_TAXONOMY,
-      'hide_empty' => false,
-    ]);
-    ;
-    $category_children = [];
-    $category_children[] = [
-      'component' => 'h3',
-      'props' => [
-        'class' => 'acadlix-category-filter-header'
-      ],
-      'value' => esc_html__('Filter by Category', 'acadlix')
-    ];
+    $categories = acadlix()
+      ->model()
+      ->wpTermTaxonomy()
+      ->ofCourseCategory()
+      ->with('term')
+      ->where('count', '>', 0)
+      ->get();
+
+    $single_category_children = [];
     foreach ($categories as $category) {
-      $category_children[] = [
+      $single_category_children[] = [
         'component' => 'div',
         'props' => [
-          'class' => 'acadlix-category-filter'
+          'class' => 'acadlix-single-category-filter'
         ],
         'children' => [
           [
@@ -316,7 +312,7 @@ class AllCourseView
               'for' => 'acadlix_course_category_filter_' . esc_attr($category->term_id),
               'class' => 'acadlix-category-filter-label acadlix-body2',
             ],
-            'value' => esc_html($category->name)
+            'value' => esc_html($category->term->name) . ' (' . esc_html($category->count) . ')'
           ]
         ]
       ];
@@ -325,7 +321,35 @@ class AllCourseView
     return apply_filters('acadlix_all_course_category_filter', [
       'component' => 'div',
       'props' => ['class' => 'acadlix-card acadlix-category-filter-card'],
-      'children' => $category_children
+      'children' => [
+        [
+          'component' => 'div',
+          'props' => [
+            'class' => 'acadlix-category-filter-header',
+            'data-open' => true,
+          ],
+          'children' => [
+            [
+              'component' => 'h3',
+              'props' => [
+                'class' => 'acadlix-category-filter-header-title'
+              ],
+              'value' => esc_html__('Filter by Category', 'acadlix')
+            ],
+            [
+              'component' => 'i',
+              'props' => [
+                'class' => 'fa fa-chevron-down acadlix-category-filter-toggle'
+              ]
+            ]
+          ]
+        ],
+        [
+          'component' => 'div',
+          'props' => ['class' => 'acadlix-category-filter'],
+          'children' => $single_category_children
+        ]
+      ]
     ]);
   }
 

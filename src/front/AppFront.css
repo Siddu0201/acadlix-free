@@ -1179,13 +1179,23 @@ a.plyr__control:before {
   }
 }
 
+/* remove youtube branding  */
+.plyr__video-embed iframe {
+	top: -50%;
+	height: 200%;
+}
+/* .plyr__video-embed iframe {
+	top: 0;
+	height: 100%;
+} */
+
 .plyr__video-embed iframe,
 .plyr__video-wrapper--fixed-ratio video {
   border: 0;
-  height: 100%;
+  /* height: 100%; */
   left: 0;
   position: absolute;
-  top: 0;
+  /* top: 0; */
   width: 100%;
 }
 

@@ -268,11 +268,19 @@ export const convertTime = (seconds) => {
  *
  * @returns {string|null} - The YouTube video ID if found, otherwise null.
  */
+// export const getYouTubeVideoId = (url = "") => {
+//   const youtubeRegex =
+//     /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+//   const match = url?.match(youtubeRegex);
+//   return match?.[1] ?? null;
+// };
+
 export const getYouTubeVideoId = (url = "") => {
-  const youtubeRegex =
-    /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  const match = url?.match(youtubeRegex);
-  return match?.[1] ?? null;
+  const regex =
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+  const match = url.match(regex);
+  return match ? match[1] : null;
 };
 
 /**
@@ -286,6 +294,111 @@ export const getVimeoVideoId = (url = "") => {
   const vimeoRegex = /(?:vimeo\.com\/)(\d+)/;
   const match = url?.match(vimeoRegex);
   return match?.[1] ?? null;
+};
+
+/**
+ * Extracts an embeddable link from embedded markup or plain URL text.
+ *
+ * @param {string} [embedded=""] - Embedded HTML or URL.
+ *
+ * @returns {{ src: string, type: string }} - Extracted URL and detected type.
+ */
+export const getEmbeddedVideoLink = (embedded = "") => {
+  if (!embedded || typeof embedded !== "string") {
+    return {
+      src: "",
+      type: "other",
+    };
+  }
+
+  const trimmed = embedded.trim();
+
+  let extractedSrc = "";
+
+  // ✅ Case 1: Plain URL
+  if (/^https?:\/\//i.test(trimmed)) {
+    extractedSrc = trimmed;
+  }
+  // ✅ Case 2: iframe / embed HTML
+  else {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(trimmed, "text/html");
+
+    const iframe =
+      doc.querySelector("iframe, embed, object, a, video, source");
+
+    extractedSrc =
+      iframe?.getAttribute("src") ||
+      iframe?.getAttribute("href") ||
+      "";
+  }
+  
+  // ✅ Detect YouTube
+  const youtubeId = getYouTubeVideoId(extractedSrc);
+  console.log("Extracted src:", youtubeId, extractedSrc);
+
+  if (youtubeId) {
+    return {
+      src: extractedSrc,
+      type: "youtube",
+    };
+  }
+
+  // ✅ Not YouTube → return full embed
+  return {
+    src: trimmed,
+    type: "other",
+  };
+};
+
+export const getVideoSrc = (video) => {
+  let src = "";
+  switch (video?.video_type) {
+    case "html_5":
+      src = video?.video_data?.html_5;
+      break;
+    case "youtube":
+      src =
+        video?.video_data?.youtube !== ""
+          ? `https://www.youtube.com/embed/${getYouTubeVideoId(
+            video?.video_data?.youtube
+          )}?&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1`
+          : "";
+      break;
+    case "vimeo":
+      src =
+        video?.video_data?.vimeo !== ""
+          ? `https://player.vimeo.com/video/${getVimeoVideoId(
+            video?.video_data?.vimeo
+          )}`
+          : "";
+      break;
+    case "external_link":
+      src = video?.video_data?.external_link;
+      break;
+    case "embedded":
+      src = getEmbeddedVideoLink(video?.video_data?.embedded);
+      break;
+    case "shortcode":
+      if (video?.video_data?.shortcode !== "") {
+        const parseShortcode = window?.wp?.shortcode?.next(
+          "video",
+          video?.video_data?.shortcode
+        );
+        let attribute = {};
+        if (parseShortcode) {
+          const { attrs } = parseShortcode?.shortcode;
+          attribute = attrs?.named;
+        }
+        src = attribute?.mp4;
+      } else {
+        src = "";
+      }
+      break;
+    default:
+      src = "";
+  }
+  return src;
 };
 
 export const convertToPostDate = (obj) => {
@@ -434,42 +547,42 @@ export const generateFileName = (name, separator = "_") => {
 }
 
 export const maskEmail = (email, unmaskCount = 1, maskDomain = false) => {
-    const parts = email.split("@");
-    if (parts.length !== 2) return email;
+  const parts = email.split("@");
+  if (parts.length !== 2) return email;
 
-    let [user, domain] = parts;
+  let [user, domain] = parts;
 
-    // --- Handle username masking ---
-    if (unmaskCount < 0) unmaskCount = 0;
-    if (unmaskCount > user.length) unmaskCount = user.length;
+  // --- Handle username masking ---
+  if (unmaskCount < 0) unmaskCount = 0;
+  if (unmaskCount > user.length) unmaskCount = user.length;
 
-    const visibleUser = user.slice(0, unmaskCount);
-    const maskedUser = visibleUser + "*".repeat(user.length - unmaskCount);
+  const visibleUser = user.slice(0, unmaskCount);
+  const maskedUser = visibleUser + "*".repeat(user.length - unmaskCount);
 
-    // --- Handle domain masking ---
-    if (maskDomain) {
-        const domainParts = domain.split(".");
-        const domainName = domainParts[0];
-        const tld = domainParts.slice(1).join("."); // .com, .in, .co.in
+  // --- Handle domain masking ---
+  if (maskDomain) {
+    const domainParts = domain.split(".");
+    const domainName = domainParts[0];
+    const tld = domainParts.slice(1).join("."); // .com, .in, .co.in
 
-        const maskedDomainName =
-            domainName[0] + "*".repeat(domainName.length - 1);
+    const maskedDomainName =
+      domainName[0] + "*".repeat(domainName.length - 1);
 
-        domain = maskedDomainName + (tld ? "." + tld : "");
-    }
+    domain = maskedDomainName + (tld ? "." + tld : "");
+  }
 
-    return maskedUser + "@" + domain;
+  return maskedUser + "@" + domain;
 }
 
 export const maskMobile = (mobile, unmaskCount = 4) => {
-    const digits = mobile.replace(/\D/g, ""); // remove non-digits
+  const digits = mobile.replace(/\D/g, ""); // remove non-digits
 
-    if (digits.length < unmaskCount) return mobile; // not enough digits to mask
+  if (digits.length < unmaskCount) return mobile; // not enough digits to mask
 
-    const visible = digits.slice(-unmaskCount);
-    const masked = "*".repeat(digits.length - unmaskCount) + visible;
+  const visible = digits.slice(-unmaskCount);
+  const masked = "*".repeat(digits.length - unmaskCount) + visible;
 
-    return masked;
+  return masked;
 }
 
 export const capitalizeFirstLetter = (string) => {
