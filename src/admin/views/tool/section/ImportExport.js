@@ -22,7 +22,7 @@ const ImportExport = () => {
   const excelImport = useExcelImport();
   const handleFile = async (file) => {
     const fileExtension = file?.name.split(".").pop().toLowerCase();
-    if (["csv", "xlsx"]?.includes(fileExtension)) {
+    if (["xlsx"]?.includes(fileExtension)) {
       setFileName(file.name);
       try {
         const columns = [
@@ -64,7 +64,7 @@ const ImportExport = () => {
       }
     } else {
       setFileName("");
-      toast.error("Only .csv and .xlsx files are allowed.");
+      toast.error("Only .xlsx files are allowed.");
     }
   };
 
@@ -113,10 +113,10 @@ const ImportExport = () => {
               marginY: 2,
             }}
           >
-            <Typography variant="h4">{__("Student Import(CSV/Excel)", "acadlix")}
+            <Typography variant="h4">{__("Student Import(Excel)", "acadlix")}
               <CustomFeatureTooltip
                 plan={"open"}
-                msg={__("Import students from a CSV/Excel file.", "acadlix")}
+                msg={__("Import students from an Excel file.", "acadlix")}
               />
             </Typography>
             <Divider />
@@ -168,7 +168,7 @@ const ImportExport = () => {
                 />
                 <TextField
                   inputProps={{
-                    accept: ".csv, .xlsx",
+                    accept: ".xlsx",
                   }}
                   id="file-upload"
                   type="file"
@@ -185,7 +185,7 @@ const ImportExport = () => {
                     variant="body1"
                     sx={{ margin: "10px 0px 10px 0px" }}
                   >
-                    {__("Please select a file to be uploaded (Accepted file formats: .csv, .xlsx)", "acadlix")}
+                    {__("Please select a file to be uploaded (Accepted file formats: .xlsx)", "acadlix")}
                   </Typography>
                 )}
                 {fileName && (
