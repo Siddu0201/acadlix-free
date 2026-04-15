@@ -397,10 +397,18 @@ class AllCourseView
                 'class' => 'acadlix-card-body acadlix-all-course-card-body'
               ],
               'children' => [
-                $this->render_course_level($course),
-                $this->render_course_rating($course),
-                $this->render_course_title($course),
-                $this->render_course_user($course),
+                [
+                  'component' => 'div',
+                  'props' => [
+                    'class' => 'acadlix-all-course-body-detail',
+                  ],
+                  'children' => [
+                    $this->render_course_level($course),
+                    $this->render_course_rating($course),
+                    $this->render_course_title($course),
+                    $this->render_course_user($course),
+                  ]
+                ],
                 $this->render_course_footer($course),
               ]
             ]
