@@ -335,7 +335,7 @@ export const getEmbeddedVideoLink = (embedded = "") => {
   
   // ✅ Detect YouTube
   const youtubeId = getYouTubeVideoId(extractedSrc);
-  console.log("Extracted src:", youtubeId, extractedSrc);
+  console.log("Extracted src:", extractedSrc);
 
   if (youtubeId) {
     return {
@@ -346,7 +346,7 @@ export const getEmbeddedVideoLink = (embedded = "") => {
 
   // ✅ Not YouTube → return full embed
   return {
-    src: trimmed,
+    src: extractedSrc,
     type: "other",
   };
 };

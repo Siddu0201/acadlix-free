@@ -147,7 +147,7 @@ const VideoUpload = ({
             <MenuItem value="external_link">{__("External Link", 'acadlix')}</MenuItem>
             <MenuItem value="youtube">{__("Youtube", 'acadlix')}</MenuItem>
             <MenuItem value="vimeo">{__("Vimeo", 'acadlix')}</MenuItem>
-            <MenuItem value="embedded">{__("Embedded", 'acadlix')}</MenuItem>
+            {/* <MenuItem value="embedded">{__("Embedded", 'acadlix')}</MenuItem> */}
             <MenuItem value="shortcode">{__("Shortcode", 'acadlix')}</MenuItem>
           </Select>
         </FormControl>

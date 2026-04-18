@@ -320,26 +320,33 @@ const VideoPlayer = ({
               ></iframe>
             </div>
           );
-        case "embedded":
-          return (
-            <div className="plyr__video-embed" ref={playerRef}>
-              {/* <RawHTML>
-                {src}
-              </RawHTML> */}
-              {
-                src?.type === "youtube" ?
-                  <iframe
-                    src={src.src}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    title="Video player"
-                  ></iframe>
-                  :
-                  <RawHTML>
-                    {src?.src}
-                  </RawHTML>
-              }
-            </div>
-          );
+        // case "embedded":
+        //   return (
+        //     <>
+        //       {/* <RawHTML>
+        //       {src}
+        //       </RawHTML> */}
+        //       {
+        //         src?.type === "youtube" ?
+        //           <div className="plyr__video-embed" ref={playerRef}>
+        //             <iframe
+        //               src={src.src}
+        //               allow="autoplay; fullscreen; picture-in-picture"
+        //               title="Video player"
+        //             ></iframe>
+        //           </div>
+        //           :
+        //           <video
+        //             ref={playerRef} // Attach the ref to the video element
+        //             className="plyr-react plyr"
+        //             src={src?.src} // Dynamic video URL
+        //             playsInline
+        //             controls
+        //           // poster={thumbnail}
+        //           />
+        //       }
+        //     </>
+        //   );
         default:
           return <></>;
       }
