@@ -1,7 +1,7 @@
-=== Acadlix LMS – AI Quiz Maker, Exam & Course Plugin for WordPress ===
+= Acadlix LMS – AI Quiz Maker, Online Exam & Course Plugin for WordPress =
 Contributors: acadlix
 Donate link: https://acadlix.com/
-Tags: lms, quiz, online course, education, exam
+Tags: lms, ai quiz, course, assessment, exam
 Requires at least: 6.8
 Tested up to: 6.9.4
 Requires PHP: 8.2
@@ -9,233 +9,247 @@ Stable tag: {{VERSION}}
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Acadlix is a WordPress LMS plugin for creating and selling online courses, quizzes, exam-level test series, and assessments.
+Acadlix is an AI-powered quiz and exam plugin for WordPress that also works as a complete LMS to create and sell courses, test series, and live classes — all in one platform.
 
 == Description ==
-Acadlix LMS is a free WordPress LMS cum quiz plugin designed for coaching institutes, training centers, educators and startups who want to create and sell online courses, test series, and live classes with advanced examination.
 
+Acadlix bridges the gap between advanced assessment and course management. Effortlessly generate AI-driven test series, build comprehensive courses, and stream live classes—all within a single, lightweight WordPress plugin built for educators who prioritize student evaluation.
+
+It is an all-in-one LMS and quiz plugin for WordPress designed for coaching institutes, training centers, and course creators. Whether you need to sell online courses, conduct mock exams, or manage a student body, Acadlix handles it all from one dashboard.
+
+**The Acadlix Difference**: Unlike basic quiz tools, education plugins, or traditional LMS plugins, we combine AI-powered creation, advanced proctoring features, and built-in eCommerce with subscriptions—eliminating the need for a messy stack of expensive add-ons.
+
+== Why Choose Acadlix? ==
+
+Most WordPress quiz plugins focus only on basic assessments, while many LMS plugins for WordPress lack advanced exam capabilities, including an AI assessment tool. Acadlix is designed to bridge this gap by combining an AI quiz maker, a complete exam system, and a full LMS in one platform.
+
+With Acadlix, you don’t need multiple plugins to run your eLearning platform.
+
+* **Limitless AI (Free Version)**: AI question generator that also validates questions using AI, and writes quiz, course, and lesson descriptions—no platform-imposed limits.
+
+* **Professional Exam System**: Built for high-stakes environments with timed tests, an automatic grading system with negative marking, subject-wise settings, and advanced configurations.
+
+* **Zero-Bloat Integration**: A complete LMS and quiz system in one. Stop managing a "plugin soup" of extensions.
+
+* **Direct eCommerce**: Sell your courses and test series immediately with built-in payment support—no extra eCommerce plugins required, which makes it one of the best course plugin for WordPress.
+
+* **Full-Spectrum Flexibility**: Use it as a lightweight quiz tool, skill assessment, a dedicated exam portal, or a comprehensive course platform.
+
+* **Performance First**: Optimized for high-traffic coaching portals to ensure stability during simultaneous exam sessions.
+
+* **Distraction Free**: Avoid distraction using Acadlix's full screen mode for the courses, which many plugins sell as a premium feature. 
+
+Acadlix is ideal for individual educators, coaching institutes, and organizations that want both a powerful quiz system and a complete LMS without complexity. 
+
+
+== See Acadlix in Action ==
+
+= Create Courses & Quizzes (Full Walkthrough) =
 [youtube https://www.youtube.com/watch?v=k34FHVk2UDU]
 
-You can create unlimited courses, lessons, quizzes, exams, assignments, and live classes without any restrictions from our side. Acadlix gives you full control over your eLearning platform while keeping performance fast and setup simple.
+= AI Quiz Generator =
+[youtube https://www.youtube.com/watch?v=9KbkOC7n8dA]
 
-Acadlix LMS has built-in eCommerce system with popular payment gateways such as PayPal, Stripe, and Razorpay, so you can sell courses without installing additional plugins.
+= AI Question Validation =
+[youtube https://www.youtube.com/watch?v=5YqOsT-dzK4]
 
-Acadlix is designed by educators, for educators. Our team has over 13 years of experience in EdTech and WordPress. We have focused on solving the real problems faced by institutes, teachers, and course creators.
+== Acadlix Free Version Features == 
 
-* [Acadlix LMS Pro](https://acadlix.com/)  
-* [Live Demo](https://demo.acadlix.com/)  
-* [Documentation](https://acadlix.com/docs/acadlix/)  
+Create, sell, and manage online courses and professional exams—without the "premium" price tag.
 
-== Features ==
+While most LMS plugins lock essential tools like AI quiz maker, payments, and certificates behind paywalls, Acadlix gives you a complete, AI-powered, high-performance learning management system for free. No extra eCommerce plugins needed to sell courses—just everything you need to launch.
 
-✅ Unlimited online courses, lessons, quizzes and assignments   
-✅ Test series & advanced quizzes  
-✅ Live classes integration via Zoom
-✅ Deep AI Integration  
-✅ Exam-focused features  
-✅ Built-in eCommerce  
-✅ Student dashboard  
-✅ Reports & analytics  
-✅ Migration from WP Pro Quiz  
+= Built-in AI Features (Included in Free) =
 
-== What makes Acadlix different from other WordPress LMS Plugins? ==
+We know that AI can’t replace teachers, but it can assist you in speeding up your workflow with native AI tools. Acadlix helps you automate the heavy lifting of content creation at no extra cost.
 
-Acadlix is designed to work both as a full Learning Management System and as a standalone quizzing plugin. You can publish online quizzes on any page or post using shortcodes, which gives you the flexibility to conduct exams anywhere on your website.
+**AI-Powered Question Creation**: Instantly transform topics or text into professional-grade quizzes and exam questions.
 
-It supports everything from simple practice quizzes to advanced examinations or assessments for mock tests and real exams. Its cheat-proof approach doesn’t even expose the questions or answers in the code.  
+**AI-Generated Descriptions**: Create high-converting, SEO-optimized descriptions for your courses and quizzes automatically.
 
-With the built-in course module, you can create structured curriculums and assign quizzes to courses to sell them in an organized manner. This helps students follow a clear learning path.
+**Smart Question Validation**: Use AI to review and verify question accuracy, ensuring your assessments are error-free.
 
-The distraction-free student dashboard is optimized for speed and usability, so learners can focus on their studies without unnecessary page reloads or delays.
-Acadlix also includes built-in eCommerce with popular payment gateways, allowing you to sell your courses without relying on additional plugins.
+= The Acadlix AI Advantage: =
+**Unlimited Usage**: No monthly credits or platform-imposed limits.
 
-These features make Acadlix a powerful choice for institutes and educators looking for both an LMS and an advanced online examination system for WordPress.
+**Direct Integration**: Simply connect your own API key (OpenAI) and pay only for what you use.
 
-== Who can use Acadlix LMS? ==
+**Workflow Efficiency**: Reduce manual content entry using the built-in AI assistant.
 
-Acadlix LMS is ideal for:
+= Advanced Course Builder (Drag-and-Drop) =
+ 
+Build a professional curriculum without touching a single line of code using a single lightweight WordPress quiz plugin.
 
-* eLearning platforms  
-* Skill development & vocational institutes  
-* EdTech startups  
-* Coaching & test preparation centers  
-* Corporate training teams  
-* Schools  
-* Colleges & universities
+**Unlimited Everything**: Create endless courses, lessons, and assignments.
 
-== Acadlix LMS Free Features ==
+**Multi-Level Logic**: Organize content into structured Sections and Lessons.
 
-= Course Creation & Management =
+**Rich Media Lessons**: Embed video (YouTube, Vimeo, Self-hosted), audio, PDFs, and downloadable resources.
 
-* Unlimited courses, lessons, and quizzes
-* Drag-and-drop lesson organization
-* Multi-level course structure (Sections → Lessons)
-* Video, audio, and external resource support
-* Native, YouTube, Vimeo, embed, and shortcode video support
-* Course difficulty level
-* Downloadable and linked resources
-* Automatic video and quiz lesson completion
+**Premium Essentials Included**: Set course duration, difficulty levels, and issue certificates—features other plugins charge $100+ for.
 
-= Advanced Quiz & Exam System =
-* Configurable Quiz builder
-* Question types:
-  - Single choice (MCQ)
-  - Multiple choice
-  - True / False
-  - Free choice
-  - Fill in the blanks
-  - Sorting
-  - Matrix sorting
-* Quiz shortcode
-* Leaderboard shortcode
-* Configurable quiz mode
-* Configurable quiz options
-* Timed exams (full quiz / no timer)
-* Negative marking
-* Random questions & question shuffling
-* Random answer shuffling
-* Set number of quiz attempts
-* Automatic evaluation
-* Instant results
-* Detailed answer sheet
-* Basic performance metrics (score, time spent, average score, etc.)
-* WP Pro Quiz → Acadlix one-click importer
+= Built-in eCommerce =
 
-= Student Dashboard =
-* Quiz performance overview
-* Resume the course from the last lesson
-* Enrolled courses list
-* Purchase history
-* Fast student dashboard
-* Mobile-friendly UI
-* Full Screen Mode ( Distraction Free)
-* Auto Video Lesson completion 
-* Native Video player 
-* YouTube, Vimeo, Self-Hosted, and External Link video support
+Start earning immediately with a native checkout system designed for speed.
 
-= Built-in Ecommerce =
-* Fully integrated checkout system
-* One-time payments
-* Free Stripe, PayPal, Razorpay payment gateways
-* Order statuses
-* Tax & VAT options
-* Transaction history
-* Manual/offline payment mode for admin
+**Global & Local Payments**: Accept payments via Stripe, PayPal, Razorpay, and PayU.
+Offline Payments: Support manual transfers or QR code payments.
 
-= Email Notifications =
-* Enrollment confirmation
-* Payment success/failure
-* Quiz attempt email
-* Course completion email
-* Admin sales notifications
-* Student Sales Notifications
+**Marketing Tools**: Create custom coupons, offer discounts, and set your local currency.
+Order Management: Track transactions and manage enrollments from a single dashboard.
 
-= Elementor Integration =
-* Ready-to-use Elementor widgets
-* Design single and all course pages
-* Works with Elementor Free and Pro
-* Dynamic course data support
-* Mobile-optimized widgets
+= Professional Quiz & Online Test System = 
 
-= Design Customization =
-* Global colors for courses, lessons, and quizzes
-* Button, heading, and link color customization
-* Lightweight styling system
+Turn your WordPress site into a powerful examination platform.
 
-= Security =
-* Secure checkout
-* Role-based access control
-* Student data protection
-* Course content protection
-* Google reCAPTCHA for login
-* Login/register shortcode
+**7+ Question Types**: MCQ (Single/Multi), True/False, Free Choice, Fill-in-the-Blanks, Sorting, and Matrix questions.
 
-= Performance =
-* Lightweight loading
-* Optimized database structure
-* Course and quiz caching
-* Works with LiteSpeed Cache
-* CDN compatible
-* Optimized for high-traffic LMS sites
+**Competitive Exam Rules**: Set negative marking, difficulty levels, and subject-wise categorization.
 
-= Migration =
-* WP Pro Quiz → Acadlix automatic migration
-* Error logging
-* Restart-safe importer
-* Import status monitor
+**Flexible Timing**: Run strict timed exams or untimed practice sets.
+Engagement Tools: Display Leaderboards via shortcodes and show instant answer explanations.
+ 
 
+= Premium Student & Admin Experience = 
 
-== Additional Pro Features (Acadlix Pro) ==
+Manage thousands of learners with ease using a single WordPress education plugin.
 
-Acadlix Pro has all the features of the Acadlix Free version and additionally has the following
-= Artificial Intelligence =
-* AI-Powered Advanced Question Creation 
-* AI-powered personalized result feedback
-* AI-based question validator
-* AI-based course description generator
-* AI-based lesson content generator
-* AI-based quiz description generator
+**Personalized Student Dashboard**: A clean portal for students to track progress, resume lessons, and view results.
 
-= Advanced Course Tools =
-* Course progress tracking
-* Free lesson preview control
-* Assignment module
-* Live classes via Zoom
+**Bulk Management**: Import students via CSV/Excel and assign courses in seconds.
 
-= Advanced Quiz & Exams =
-* Numerical type questions
-* Range type questions
-* Assessment type questions
-* Quiz prerequisites
-* Bulk question upload from MS Word
-* AI-powered personalized feedback
-* Quiz leaderboard
-* Result comparison with the topper
-* Indian competitive exam layouts (IBPS, SBI, SSC, Railway, JEE, NEET, NET, GATE, etc.)
-* Subject-wise question count rules
-* Selectable question rules
-* Timer-based quizzes ( Per Question, Subject-wise)
-* Copy questions between quizzes
-* Passing score configuration
-* Custom result messages
-* Per-question time tracking
-* Export results to PDF
-* Question error reporting
-* Bulk Actions to save time
-* Paragraph
-* and many more
+**Custom Login & Registration**: Use shortcodes to place branded login forms anywhere; includes Google reCAPTCHA v3 to block spam.
 
-= Student Dashboard Enhancements =
-* Customizable dashboard menu
-* Course progress tracker
-* Subscription management
+= Design & Performance =
 
-= Subscriptions & Billing =
-* Subscription payments (weekly/monthly/yearly / custom)
-* Mixed payment mode (one-time + subscription)
-* Offer course Trail 
-* Enrollment Fee
-* Access control after billing cycle
-* Auto-renewals and manual renewals
-* Renewal alerts & expiration reminders
-* Grace periods & buffer days
-* Failed payment handling
-* Customer subscription dashboard
-* Webhooks (PayPal, Stripe, Razorpay, PayU)
-* Purchase receipt emails
+**Elementor Integration**: Includes a dedicated Elementor Addon to design stunning course pages visually (works with Elementor Free!).
 
-= Design & Typography =
-* Full typography control
-* Font size, spacing, weight, and line height control
-* Mobile typography settings
+**Mobile-First Design**: Fully responsive and optimized for speed, ensuring a smooth experience on all devices.
 
-= Advanced Security =
-* Email-based MFA login
-* Email & SMS OTP login
-* Google social login
+**SEO Friendly**: Customizable permalinks and schema-ready layouts to help your courses rank on Google.
 
-= Migration =
-* Bulk question import from MS Word
+= Seamless Login & Enterprise-Grade Security = 
+
+Stop losing students to clunky login pages. Acadlix provides a secure, streamlined entry point.
+
+**Branded Entry Points**: Use custom shortcodes to place login and registration forms on any page or popup.
+
+**Mobile-Ready Registration**: Includes built-in phone number fields, perfect for SMS-based marketing and student verification.
+
+**Bot Protection**: Integrated Google reCAPTCHA v3 keeps your site fast while blocking spam registrations automatically.
+
+**All-in-One Solution**: Eliminate the bloat of "User Profile" or "Security" plugins—everything is natively coded for speed.
+
+= Admin Mastery: Data Import & Export = 
+
+Managing a large-scale institution? We’ve simplified the heavy lifting.
+
+**One-Click Data Migration**: Import and export quizzes to move content between sites effortlessly.
+
+**Bulk Student Onboarding**: Upload thousands of learners at once via Excel to save hours of manual entry.
+
+**Order Management**: A centralized hub to track every transaction, manage enrollments, and filter through sales data.
+
+**SEO Permalinks**: Customize your course URLs to rank better on Google and provide a professional link structure.
+
+= Trust & Engagement Tools = 
+
+Turn successful students into your best marketing assets.
+
+**Social Proof**: Collect and display student reviews and ratings directly on course landing pages to boost conversion rates.
+
+**Gamified Learning**: Use public leaderboards to spark healthy competition among your top performers.
+
+**Automated Notifications**: Keep users informed with triggered alerts for quiz results, course updates, and enrollment confirmations.
+
+= Built to Scale (Free Forever)=
+
+The Acadlix Free version isn’t a "trial"—it is a fully functional LMS plugin for WordPress designed for growth. From the moment you create your first lesson to the day you process your thousandth order, Acadlix provides the stability and tools to run a professional EdTech business.
+
+== Want to take your Academy to the next level? == 
+[Unlock Acadlix Pro](https://acadlix.com/pricing/) to access:
+
+= Premium AI Content Engine (The Full Suite) = 
+
+**Advanced Question Generation**: Generate premium question types with the AI in the Pro version.
+
+**Personalized Result Feedback**: Automatically provide AI-driven, constructive feedback to students based on their specific quiz performance to motivate them.
+
+= The Ultimate Examination Engine =
+
+Built for high-stakes testing, mock exams, training modules, and professional certification.
+
+**Competitive Exam Layouts**: Specialized UI/UX designed specifically for Indian and International competitive exams (IBPS, SBI, JEE, NEET, GATE, etc.).
+
+**Advanced Question Types**: Apart from multiple choice quizzes, Unlock Numerical and Range-type questions for math, science, physics, chemistry, accounting, and technical assessments.
+
+**Assessment type questions**: Create school-like essay or assessment questions with a character limit and manual evaluation. Allows the user to submit answer using file uploads.
+
+**MS Word Bulk Question Upload**: Don't waste time on manual entry—upload thousands of questions directly from a .docx file.
+
+**Precision Timers**: Configure timers per question, per subject, or for the full exam to mimic real-world testing conditions.
+
+**Subject-wise actions**: Enabled subject-wise question display limit, optional questions to evaluate, and timers, as happens with the real school and competitive exams.
+
+**AI-powered Interactive Assessment LMS**: Create engaging quizzes with instant feedback, per-question timers, and AI-powered performance insights.
+
+**Detailed Analytics & PDF Exports**: Students can download their answer sheets as PDFs (only if you allow), compare their results with Toppers, and view details like percentile, rankings, time, negative marks, speed, etc..
+
+= Subscription & Recurring Revenue = 
+
+Transform your LMS into a steady membership business.
+
+**Flexible Billing Cycles**: Sell access via weekly, monthly, annual, or custom subscription plans.
+
+**Mixed-Mode Enrollment**: Offer both one-time purchases and subscription options on the same course page.
+
+**Smart Access Control**: Automated billing logic— trail, grace periods, renewal alerts, and instant access revocation for failed payments.
+
+**Customer Subscription Portal**: A dedicated dashboard section for students to manage their renewals and billing history.
+
+= Live Learning & Interactive Modules = 
+
+Bridge the gap between recorded content and real-time interaction for your online training platform.
+
+**Native Zoom and Gmeet Integration**: Host Live Classes directly within your platform; no more sharing external links manually.
+
+**Advanced Assignment Module**: A robust system for student assignment submissions, allowing for manual grading, feedback, scheduling, deadlines, and file uploads.
+
+**Progress Tracking & Prerequisites**: Track the detailed course progress to know how well students are doing. Also, enable quiz prerequisites to pass or attempt a quiz before attempting another. 
+
+= Enterprise-Grade Security & Login =
+
+Protect your intellectual property and student data with advanced protocols.
+
+**MFA & OTP Security**: Secure student accounts with Email-based MFA and Email/SMS-based OTP login.
+
+**Social Login**: Increase conversion with one-click Google Social Login.
+
+**Content Protection**: Advanced options to disable copy, paste, and text selection to prevent course content theft.
+
+**Concurrent Login Limit**: Set the concurrent login limit to extend the usability and security of your portal. 
+
+**White-Label Branding**: Fully customize slugs, colors, and typography to make the platform truly your own.
+
+= Design Studio & Deep Elementor Integration =
+
+Total creative freedom without touching a line of code.
+
+**Global Design Controls**: Change colors, typography, and button styles across your entire LMS from a single panel.
+
+**Dynamic Elementor Widgets**: Dozens of premium widgets to build custom "Single Course" pages and "Course Archives" that fetch data dynamically.
+
+**Mobile-Responsive Styling**: Every design element is optimized for high performance and perfect rendering on mobile devices.
+
+= Performance & Pro Support =
+
+**Ultra-Fast Performance**: No other eCommerce plugin dependency means a leaner database and faster load times for high-traffic sites.
+
+**Migration Pro**: Advanced 1-click migration from WP Pro Quiz with error-logging and status monitoring.
+
+**Priority Support**: Get direct access to expert developers via Email and WhatsApp with a 1-year update guarantee.
+
+Acadlix is built by a team with over 13 years of experience in EdTech and WordPress, focused on solving real challenges faced by educators, institutes, and course creators.
 
 == Installation ==
 
@@ -244,93 +258,93 @@ Acadlix Pro has all the features of the Acadlix Free version and additionally ha
 3. Go to **Acadlix** from the admin menu to start creating courses and quizzes.
 
 == Frequently Asked Questions ==
+= Is Acadlix an LMS plugin for WordPress? =
 
-= Is Acadlix a learning management system plugin for WordPress? =
+Acadlix is a complete LMS plugin for WordPress that allows you to create online courses, manage students, conduct quizzes and exams, and sell learning programs from a single platform.
 
-Yes. Acadlix functions as a lightweight learning management system (LMS) for WordPress that allows you to create online courses, quizzes or exams, manage students, and sell learning programs.
+= Does Acadlix work as a quiz plugin for WordPress? =
 
-= Does Acadlix also work as a quiz plugin for WordPress? =
+Acadlix also works as a powerful quiz plugin for WordPress, enabling you to create unlimited quizzes, MCQ tests, and online assessments with timers, automatic evaluation, and detailed results.
 
-Yes. Acadlix also works as a powerful quiz plugin for WordPress, allowing you to create unlimited quizzes, MCQ tests, and online assessments with timers, result calculation, student reports, and allow you to publish quizzes using shortcodes.
+= Can I create online exams and test series? =
+
+Acadlix allows you to create advanced online exams and test series with timed tests, attempt limits, negative marking, and instant result generation, making it suitable for mock tests and real exam environments.
+
+= Does Acadlix support AI-powered quiz creation? =
+
+Acadlix includes AI-powered features in the free version, allowing you to generate questions, create descriptions, and validate quiz content using your own API key without platform-imposed limits.
 
 = Can I create timed quizzes and online tests? =
 
-Yes. Acadlix allows you to create timed quizzes and online tests with configurable duration, attempt limits, and automatic result evaluation.
+You can create timed quizzes with configurable durations, per-quiz settings, and automatic submission based on time limits.
 
-= Does Acadlix support MCQ tests? =
+= What question types are supported in Acadlix? =
 
-Yes. Acadlix includes full support for MCQ (Multiple Choice Questions), including 9 more question types, making it ideal as an MCQ test plugin for schools, coaching institutes, and online educators.
+Acadlix supports multiple question types including MCQ (single and multiple choice), true/false, fill in the blanks, sorting, matrix sorting, and more.
 
-= Can I create a test series platform on WordPress? =
+= Can I create MCQ-based tests for students? =
 
-Yes. You can create and sell multiple exams as a test series, organize them into courses, and allow students to attempt them individually or as part of a structured program.
+Acadlix is ideal for creating MCQ-based tests and assessments for schools, coaching institutes, and online educators, with support for multiple question formats and automatic scoring.
 
-= Can I display quizzes using shortcodes? =
+= Can I sell courses and test series using Acadlix? =
 
-Yes. Acadlix provides shortcodes so you can place quizzes, exams, or course content anywhere on your WordPress website.
+Acadlix includes built-in eCommerce functionality, allowing you to sell courses and test series without installing additional plugins.
 
-= Can I conduct competitive or entrance exams on WordPress? =
+= Can I build a large-scale learning platform using Acadlix? =
+Yes, Acadlix is built to handle large-scale LMS platforms. You can create and manage thousands of students, courses, and quizzes without performance issues.
+It has been tested with lakhs of questions and high student activity. Real-world platforms like test.yuvayana.org run smoothly on standard hosting setups, making Acadlix a reliable choice for coaching institutes, schools, and online educators.
 
-Yes. Acadlix Pro is suitable for conducting competitive exams, entrance tests, mock tests, and certification exams with automated evaluation and detailed reports.
+= Do I need an external eCommerce plugin? =
 
-= Does Acadlix calculate results automatically? =
-
-Yes. All quizzes and online exams are evaluated automatically, and students can instantly view their scores and performance reports.
-
-= Can students see their exam history and results? =
-
-Yes. Acadlix provides a student dashboard where users can view their quiz attempts, exam history, and performance results.
-
-= Is Acadlix really free? =
-
-
-Yes. You can create and sell unlimited courses and quizzes using the Acadlix free version. Advanced features are available in Acadlix Pro.
-
-
-= Can I sell my courses with Acadlix for free?=
-
-
-Yes, we made popular payment gateways (PayPal, Stripe, RazorPay) free to use for everyone. Simply configure the required payment gateway and set a price for your course, and enjoy course selling even with Acadlix Free. 
-
-= Do I need other eCommerce plugins to sell courses or exams? =
-
-No. Acadlix includes built-in eCommerce functionality, so you can sell courses and online exams without installing any other eCommerce plugin.
+No. Acadlix comes with a built-in checkout system, so you can sell courses and exams directly from your website.
 
 = Which payment gateways are supported? =
 
+Acadlix supports popular payment gateways, including PayPal, Stripe, Razorpay, and PayU.
 
-PayPal, Stripe, Razorpay, and PayU are supported in the free version.
+= Can students track their performance and results? =
 
-= Can I create online exams and tests? =
+Students get access to a dashboard where they can view quiz attempts, exam history, scores, and overall performance.
 
-Yes, Acadlix serves as an **online exam plugin** with timed tests, MCQ support, and detailed results.
+= Can I display quizzes or exams anywhere on my site? =
+
+Acadlix provides shortcodes that allow you to embed quizzes, exams, or course content on any page or post.
 
 = Can I combine courses with quizzes and exams? =
 
-Yes. You can create structured courses and attach quizzes or online exams after each lesson, making Acadlix suitable for both LMS and assessment-based platforms.
+You can create structured courses and attach quizzes or exams to lessons, making Acadlix suitable for both LMS platforms and assessment-based systems.
+
+= Can I conduct competitive or entrance exams? =
+
+Acadlix Pro supports competitive exams, entrance tests, and certification exams with advanced configurations and automated evaluation.
+
+= Is Acadlix free to use? =
+
+The free version of Acadlix allows you to create unlimited courses, quizzes, and exams, including access to AI-powered features. Advanced capabilities are available in Acadlix Pro.
+
+= Can I sell courses for free using Acadlix? =
+
+You can sell courses using the built-in payment system with supported gateways like PayPal, Stripe, and Razorpay, even in the free version.
 
 = Does Acadlix work with Elementor? =
 
+Acadlix provides Elementor widgets for designing course pages. You can install the Acadlix addon for Elementor to use these features.
 
-Yes, Acadlix provides dedicated Elementor widgets for designing course pages. Please install the Acadlix Addon for elementor to utilize the widgets. 
+= Does Acadlix work with any theme? =
 
-= Does Acadlix work with any WordPress theme? =
-
-Yes. Acadlix works with most standard WordPress themes and page builders. If you face any issues with any theme, please contact our support team. 
+Acadlix is compatible with most WordPress themes and page builders. If you face any issues, support is available to help resolve them.
 
 = Is Acadlix suitable for coaching institutes and training centers? =
 
-Yes. Acadlix is ideal for coaching institutes, training centers, schools, and online educators who want to conduct quizzes, online exams, and sell structured courses.
+Acadlix is designed for coaching institutes, schools, training centers, and educators who want to create courses, conduct exams, and manage students online.
 
 = Can I migrate from WP Pro Quiz? =
 
-Yes. Acadlix provides a one-click importer to migrate your existing quizzes from WP Pro Quiz. Contact our support to know more about easy and safe migration.
+Acadlix provides a one-click importer to migrate quizzes from WP Pro Quiz safely and efficiently.
 
+= Can I suggest new features or improvements? =
 
-= Can I suggest new features? =
-
-Yes. You are welcome to suggest new features and share feedback through our website.
-
+You can share feedback and suggest new features through the Acadlix website. User feedback helps improve the platform continuously.
 
 == Screenshots ==
 
@@ -361,6 +375,8 @@ Yes. You are welcome to suggest new features and share feedback through our webs
 * Added: Category filter on the admin quiz management page.
 * Added: Category filter on frontend quiz result page for improved navigation.
 * Added: Optional Finish Quiz button placement after the Next button across all quiz modes.
+* Added: Remove youtube branding option for youtube videos in lessons.
+* Added: Remove embedded option for video lessons.
 * Improved: Quiz delete action icon repositioned at the end for clearer interface flow.
 * Improved: Left sidebar user header redesigned with enhanced background and real-time app-like mobile view displaying username, email.
 * Fixed: Course registration date display issue.
