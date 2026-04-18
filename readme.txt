@@ -366,7 +366,7 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 == Changelog ==
 
-= 1.0.7 - 13-04-2026 =
+= 1.0.7 - 20-04-2026 =
 * Added: AI-powered question validation to ensure content accuracy and quality.
 * Added: AI-powered question generation to assist educators in creating diverse and engaging quizzes.
 * Added: AI-powered description generation for courses, lessons, and quizzes to save time and enhance content appeal.
