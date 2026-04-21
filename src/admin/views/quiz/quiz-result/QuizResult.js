@@ -135,7 +135,7 @@ const QuizResult = () => {
             component: "Box",
             component_name: "quiz_result_action_box",
             children: [
-              hasCapability("acadlix_show_answersheet") && {
+              {
                 component: "Suspense",
                 component_name: "quiz_result_action_answer_sheet_suspense",
                 props: {

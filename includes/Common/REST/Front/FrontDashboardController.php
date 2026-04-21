@@ -10,7 +10,6 @@ defined('ABSPATH') || exit();
 class FrontDashboardController
 {
   protected $namespace = 'acadlix/v1';
-
   protected $base = 'front-dashboard';
 
   public function register_routes()
@@ -170,6 +169,23 @@ class FrontDashboardController
         ],
       ]
     );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/get-user-certificate-by-id',
+      [
+        [
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => [$this, 'get_user_certificate_by_id'],
+          'permission_callback' => function ($request) {
+            return wp_verify_nonce(
+              $request->get_header('X-WP-Nonce'),
+              'wp_rest'
+            );
+          },
+        ],
+      ]
+    );
   }
 
   public function get_user_orders($request)
@@ -184,12 +200,12 @@ class FrontDashboardController
 
     $skip = $params['page'] * $params['pageSize'];
     $userId = $request->get_param('user_id');
-    $order_items = acadlix()->model()->orderItem()->with(['order', 'course'])->whereHas('order', function ($query) use ($userId) {
+    $order_items = acadlix()->model()->orderItem()->with(['order', 'item'])->whereHas('order', function ($query) use ($userId) {
       $query->where('user_id', $userId)->where('status', 'success');
     })->orderByDesc('created_at');
 
     if (!empty($search)) {
-      $order_items->whereHas('course', function ($query) use ($search) {
+      $order_items->whereHas('item', function ($query) use ($search) {
         $query->where('post_title', 'like', "%$search%");
       });
     }
@@ -254,7 +270,8 @@ class FrontDashboardController
     $orderItem = acadlix()
       ->model()
       ->orderItem()
-      ->with(['order', 'course', 'course.sections'])
+      ->with(['order', 'item', 'item.sections'])
+      ->where('type', 'course')
       ->whereHas('order', function ($query) use ($userId) {
         $query
           ->where('user_id', $userId)
@@ -330,6 +347,17 @@ class FrontDashboardController
       $firstSection = $course->sections->first();
       $firstContent = $firstSection?->contents?->first();
       $courseSectionContentId = $firstContent?->ID ?? null;
+    }
+    $certificate = acadlix()
+      ->model()
+      ->userActivityMeta()
+      ->ofCertificate()
+      ->where('user_id', $userId)
+      ->where('type_id', $courseId)
+      ->first();
+
+    if ($certificate) {
+      $res['certificate'] = $certificate;
     }
 
     $res['course'] = $course;
@@ -439,6 +467,7 @@ class FrontDashboardController
 
   public function post_mark_as_complete($request)
   {
+    $res = [];
     $required_fields = array('course_id', 'course_section_content_id', 'user_id');
 
     foreach ($required_fields as $field) {
@@ -499,6 +528,7 @@ class FrontDashboardController
     $course = acadlix()
       ->model()
       ->course()
+      ->ofCourse()
       ->find($courseId);
 
     $course_completion_percentage = 0;
@@ -506,21 +536,74 @@ class FrontDashboardController
       $course_completion_percentage = $course->getCourseCompletionPercentage($userId) ?? 0;
       if ($course_completion_percentage == 100) {
         $courseFullCompleted = true;
+        // handle certificate creation
+        $certificate = acadlix()->model()->userActivityMeta()->ofCertificate()
+          ->where('user_id', $userId)
+          ->where('type_id', $courseId)
+          ->first();
+        if (!$certificate && ($course->rendered_metas['enable_certificate'] ?? false)) {
+          $custom_logo_id = get_theme_mod('custom_logo');
+          $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+          $certificate_id = acadlix()->helper()->acadlix_generate_certificate_id();
+          $instructor_name = "";
+          if (count($course->users) === 0) {
+            $instructor_name = get_the_author_meta('display_name', $course->post_author);
+          } else {
+
+            $instructor_name = implode(', ', array_map(function ($user) {
+              return get_the_author_meta('display_name', $user->ID);
+            }, $course->users));
+          }
+          $data = [
+            "certificate_id" => $certificate_id,
+            "logo" => $logo_url ?? "",
+            "acadlix_certificate_authorised_name" =>
+              acadlix()->helper()->acadlix_get_option('acadlix_certificate_authorised_name') ?? "",
+            "acadlix_certificate_authorised_company" =>
+              acadlix()->helper()->acadlix_get_option('acadlix_certificate_authorised_company') ?? "",
+            "acadlix_certificate_show_instructor_name_on_certificate" =>
+              acadlix()->helper()->acadlix_get_option('acadlix_certificate_show_instructor_name_on_certificate'),
+            "acadlix_certificate_show_course_completion_date_on_certificate" =>
+              acadlix()->helper()->acadlix_get_option('acadlix_certificate_show_course_completion_date_on_certificate'),
+            "acadlix_certificate_signature" =>
+              acadlix()->helper()->acadlix_get_option('acadlix_certificate_signature') ?? [],
+            "template" =>
+              acadlix()->helper()->acadlix_get_option('acadlix_certificate_template') ?? "classic-landscape",
+            "instructor" => $instructor_name,
+            "user_name" => get_the_author_meta('display_name', $userId),
+            "course_name" => $course->post_title ?? "",
+            "completion_date" => time(),
+          ];
+          $certificate = acadlix()
+            ->model()
+            ->userActivityMeta()
+            ->create([
+              'user_id' => $userId,
+              'type' => 'certificate',
+              'type_id' => $courseId, // Will be updated after certificate creation
+              'meta_key' => 'certificate', // phpcs:ignore
+              'meta_value' => $data, // phpcs:ignore
+              'reference_id' => $certificate_id,
+            ]);
+          $res['certificate'] = $certificate;
+        }
+
         // send email for course completion
         acadlix()->notifications()->email()->handleCourseCompletionEmail($courseId, $userId);
       }
     }
 
-    return rest_ensure_response([
-      'success' => true,
-      'course_full_completed' => $courseFullCompleted,
-      'course_completion_percentage' => $course_completion_percentage,
-      'active_statistic' => $active_statistic
-    ]);
+    $res['success'] = true;
+    $res['course_full_completed'] = $courseFullCompleted;
+    $res['course_completion_percentage'] = $course_completion_percentage;
+    $res['active_statistic'] = $active_statistic;
+
+    return rest_ensure_response($res);
   }
 
   public function post_mark_as_incomplete($request)
   {
+    $res = [];
     $required_fields = array('course_id', 'course_section_content_id', 'user_id');
 
     foreach ($required_fields as $field) {
@@ -578,14 +661,15 @@ class FrontDashboardController
       ->course()
       ->find($courseId);
     $course_completion_percentage = 0;
-    if ($course && !empty($course->id)) {
+    if ($course) {
       $course_completion_percentage = $course->getCourseCompletionPercentage($userId) ?? 0;
     }
-    return rest_ensure_response([
-      'success' => true,
-      'course_completion_percentage' => $course_completion_percentage,
-      'active_statistic' => $active_statistic
-    ]);
+
+    $res['success'] = true;
+    $res['course_completion_percentage'] = $course_completion_percentage;
+    $res['active_statistic'] = $active_statistic;
+
+    return rest_ensure_response($res);
   }
 
   public function get_user_purchases($request)
@@ -613,23 +697,21 @@ class FrontDashboardController
     $wishlist = acadlix()
       ->model()
       ->userActivityMeta()
-      ->ofCourse()
-      ->ofCourseWishlist()
+      ->ofWishlist()
       ->where('user_id', $request->get_param('user_id'))
       ->orderBy('created_at', 'desc');
+
     $res['total'] = $wishlist->count();
     $res['wishlist'] = $wishlist
       ->skip($skip)
       ->take($params['pageSize'])
       ->get()
       ->map(function ($item) {
-        // Safely enrich only if type is 'course'
-        if ($item->type === 'course') {
-          $course = acadlix()->model()->course()->find($item->type_id);
-          if ($course) {
-            $item->course = $course;
-            $item->permalink = get_permalink($course->ID);
-          }
+        $resolved = $item->resolveWishlistItem();
+
+        if ($resolved) {
+          $item->item = $resolved['item'];
+          $item->permalink = $resolved['permalink'];
         }
         return $item;
       });
@@ -648,8 +730,20 @@ class FrontDashboardController
 
   public function post_update_user_photo($request)
   {
-    $files = $request->get_file_params();
+    if (!function_exists('wp_generate_attachment_metadata')) {
+      require_once ABSPATH . 'wp-admin/includes/image.php';
+    }
 
+    if (!function_exists('wp_handle_upload')) {
+      require_once ABSPATH . 'wp-admin/includes/file.php';
+    }
+
+    if (!function_exists('wp_insert_attachment')) {
+      require_once ABSPATH . 'wp-admin/includes/media.php';
+    }
+
+    $files = $request->get_file_params();
+    
     if (empty($files['file'])) {
       return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
     }
@@ -709,6 +803,7 @@ class FrontDashboardController
     update_user_meta($user_id, 'last_name', sanitize_text_field($params['last_name']));
     update_user_meta($user_id, 'description', sanitize_text_field($params['description']));
     update_user_meta($user_id, '_acadlix_profile_phonecode', sanitize_text_field($params['phonecode']));
+    update_user_meta($user_id, '_acadlix_profile_isocode', sanitize_text_field($params['isocode']));
     update_user_meta($user_id, '_acadlix_profile_phone_number', sanitize_text_field($params['phone_number']));
     update_user_meta($user_id, '_acadlix_profile_address', sanitize_text_field($params['address']));
     update_user_meta($user_id, '_acadlix_profile_country', sanitize_text_field($params['country']));
@@ -717,6 +812,28 @@ class FrontDashboardController
     // update_user_meta($user_id, '_acadlix_profile_photo', sanitize_text_field($params['photo']));
 
     $res['user'] = acadlix()->model()->wpUsers()->with('user_metas')->where('ID', $user_id)->first();
+    return rest_ensure_response($res);
+  }
+
+  public function get_user_certificate_by_id($request)
+  {
+    $res = [];
+    $certificate_id = $request->get_param('certificate_id');
+    if (!$certificate_id) {
+      return new WP_Error('no_data_found', __('Required certificate_id', 'acadlix'), array('status' => 404));
+    }
+
+    $certificate = acadlix()
+      ->model()
+      ->userActivityMeta()
+      ->ofCertificate()
+      ->where('reference_id', $certificate_id)
+      ->first();
+
+    if (!$certificate) {
+      return new WP_Error('no_data_found', __('Certificate not found', 'acadlix'), array('status' => 404));
+    }
+    $res['certificate'] = $certificate;
     return rest_ensure_response($res);
   }
 

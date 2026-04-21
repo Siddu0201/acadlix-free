@@ -5,19 +5,19 @@ import Provider from '@acadlix/provider/Provider';
 import { loadFrontSingleCourseHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
-    await loadFrontSingleCourseHooks(window?.acadlixHooks);
-    domReady(() => {
-        const course = document.getElementById('acadlix-curriculum-react-preview');
-        if (course) {
-            if (!course.__REACT_ROOT__) {
-                course.__REACT_ROOT__ = createRoot(course);
-            }
+  await loadFrontSingleCourseHooks(window?.acadlixHooks);
+  domReady(() => {
+    const course = document.getElementById('acadlix-curriculum-react-preview');
+    if (course) {
+      if (!course.__REACT_ROOT__) {
+        course.__REACT_ROOT__ = createRoot(course);
+      }
 
-            course.__REACT_ROOT__.render(
-                <Provider>
-                    <FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}} />
-                </Provider>
-            );
-        }
-    })
+      course.__REACT_ROOT__.render(
+        <Provider>
+          <FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}} />
+        </Provider>
+      );
+    }
+  })
 })();

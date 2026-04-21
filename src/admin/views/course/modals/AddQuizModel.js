@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
@@ -12,6 +13,7 @@ import {
   IconButton,
   List,
   ListItem,
+  TextField,
 } from "@mui/material";
 import React from "react";
 import { GetQuizzesForCourse } from "@acadlix/requests/admin/AdminCourseRequest";
@@ -21,8 +23,12 @@ import { __ } from "@wordpress/i18n";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 
 const AddQuizModel = (props) => {
-  const { isFetching, data, refetch } = GetQuizzesForCourse();
-
+  const [search, setSearch] = React.useState("");
+  const [selectedCategories, setSelectedCategories] = React.useState([]);
+  const { isFetching, data, refetch } = GetQuizzesForCourse(
+    search,
+    selectedCategories
+  );
   return (
     <>
       <DialogTitle
@@ -79,7 +85,15 @@ const AddQuizModel = (props) => {
               disabled={isFetching}
             />
           </Box>
-          <AddFromExisting {...props} isFetching={isFetching} data={data} />
+          <AddFromExisting
+            {...props}
+            data={data}
+            isFetching={isFetching}
+            search={search}
+            setSearch={setSearch}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+          />
         </DialogContent>
         <DialogActions>
           <Button
@@ -101,29 +115,6 @@ const AddQuizModel = (props) => {
 export default AddQuizModel;
 
 const AddFromExisting = (props) => {
-  const [search, setSearch] = React.useState("");
-
-  if (props?.isFetching) {
-    return (
-      <CircularProgress
-        size={20}
-        sx={{
-          marginY: 2,
-          display: "flex",
-          justifyContent: "center",
-        }}
-      />
-    );
-  }
-
-  const handleSearch = (data) => {
-    if (search === '') {
-      return data;
-    } else {
-      return data?.filter(d => d?.post_title?.toLowerCase()?.includes(search?.toLowerCase()));
-    }
-  }
-
   return (
     <Box
       sx={{
@@ -132,71 +123,111 @@ const AddFromExisting = (props) => {
     >
       <Card>
         <CardContent>
-          <Box>
+          <Box sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            justifyContent: "space-between",
+          }}>
+            <Box>
+              <Autocomplete
+                multiple
+                id="category-select"
+                options={props?.data?.data?.categories ?? []}
+                getOptionLabel={(option) => option?.name ?? ""}
+                onChange={(event, newValue) => {
+                  props?.setSelectedCategories(newValue?.map((v) => v?.term_id));
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label={__("Filter by Category", "acadlix")}
+                    placeholder={__("Select categories", "acadlix")}
+                    size="small"
+                  />
+                )}
+                sx={{
+                  minWidth: '300px',
+                }}
+              />
+            </Box>
             <CustomTextField
-              fullWidth
               name="title"
               size="small"
               label={__("Search Quiz...", "acadlix")}
-              value={search}
-              onChange={(e) => { setSearch(e?.target?.value) }}
+              value={props?.search}
+              onChange={(e) => { props?.setSearch(e?.target?.value) }}
             />
           </Box>
-          <List
-            sx={{
-              padding: 0,
-            }}
-          >
-            {props?.data?.data?.quizzes?.length > 0 &&
-              handleSearch(props?.data?.data?.quizzes)?.map((q, index) => (
-                <ListItem
-                  key={index}
-                  sx={{
-                    padding: 0,
-                  }}
-                >
-                  <FormControlLabel
-                    value={q?.ID}
-                    label={`${q?.post_title} (${q?.category?.name ?? "Uncategorized"})`}
-                    control={
-                      <Checkbox
-                        checked={
-                          props?.watch("quiz_ids")?.find(
-                            (quiz_id) => quiz_id === q?.ID
-                          )
-                            ? true
-                            : false
+          {
+            props?.isFetching ? (
+              <CircularProgress
+                size={20}
+                sx={{
+                  marginY: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              />
+            ) : (
+              <List
+                sx={{
+                  padding: 0,
+                }}
+              >
+                {props?.data?.data?.quizzes?.length > 0 &&
+                  props?.data?.data?.quizzes?.map((q, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{
+                        padding: 0,
+                      }}
+                    >
+                      <FormControlLabel
+                        value={q?.ID}
+                        label={`${q?.post_title} (${q?.category?.name ?? "Uncategorized"})`}
+                        control={
+                          <Checkbox
+                            checked={
+                              props?.watch("quiz_ids")?.find(
+                                (quiz_id) => quiz_id === q?.ID
+                              )
+                                ? true
+                                : false
+                            }
+                            onClick={(e) => {
+                              const found = props?.watch("quiz_ids")?.find(
+                                (quiz_id) => quiz_id === q?.ID
+                              );
+                              if (e?.target?.checked && !found) {
+                                props?.setValue(
+                                  "quiz_ids",
+                                  [...props?.watch("quiz_ids"), q?.ID],
+                                  {
+                                    shouldDirty: true,
+                                  }
+                                );
+                              } else if (!e?.target?.checked && found) {
+                                props?.setValue(
+                                  "quiz_ids",
+                                  props
+                                    ?.watch("quiz_ids")
+                                    ?.filter((quiz_id) => quiz_id !== q?.ID),
+                                  {
+                                    shouldDirty: true,
+                                  }
+                                );
+                              }
+                            }}
+                          />
                         }
-                        onClick={(e) => {
-                          const found = props?.watch("quiz_ids")?.find(
-                            (quiz_id) => quiz_id === q?.ID
-                          );
-                          if (e?.target?.checked && !found) {
-                            props?.setValue(
-                              "quiz_ids",
-                              [...props?.watch("quiz_ids"), q?.ID],
-                              {
-                                shouldDirty: true,
-                              }
-                            );
-                          } else if (!e?.target?.checked && found) {
-                            props?.setValue(
-                              "quiz_ids",
-                              props
-                                ?.watch("quiz_ids")
-                                ?.filter((quiz_id) => quiz_id !== q?.ID),
-                              {
-                                shouldDirty: true,
-                              }
-                            );
-                          }
-                        }}
                       />
-                    }
-                  />
-                </ListItem>
-              ))}
-          </List>
+                    </ListItem>
+                  ))}
+              </List>
+            )
+          }
         </CardContent>
       </Card>
     </Box>

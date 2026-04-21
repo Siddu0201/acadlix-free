@@ -154,7 +154,7 @@ const PurchaseHistory = () => {
             user_email: order?.user?.user_email,
             total_amount: currencyPosition(order?.total_amount),
             order_items: order?.order_items
-              ?.map((items) => items?.course_title)
+              ?.map((items) => items?.item_title)
               ?.join(", "),
           },
           {

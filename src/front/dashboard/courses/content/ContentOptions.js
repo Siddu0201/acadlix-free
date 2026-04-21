@@ -79,6 +79,7 @@ const ContentOptions = (props) => {
                             variant="contained"
                             color="error"
                             size="small"
+                            disabled={props?.watch("disable_mark_as_incomplete")}
                             sx={{
                               display: c?.is_active ? "" : "none",
                               "&:hover,&:focus": {

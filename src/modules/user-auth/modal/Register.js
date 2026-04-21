@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import { Country } from "country-state-city";
 import { Box, TextField } from "@mui/material";
+import { formatPhoneCode } from "@acadlix/helpers/util";
 
 const Register = (props) => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -15,7 +16,8 @@ const Register = (props) => {
       email: "",
       password: "",
       confirm_password: "",
-      phonecode: "",
+      phonecode: acadlixOptions?.settings?.acadlix_registration_options?.phone?.default_phonecode || "",
+      isocode: acadlixOptions?.settings?.acadlix_registration_options?.phone?.default_isocode || "",
       phone_number: "",
       error: "",
     }
@@ -454,7 +456,7 @@ const Register = (props) => {
                       {
                         component: "Grid",
                         props: {
-                          size: { xs: 4, sm: 4, md: 3, lg: 3 },
+                          size: { xs: 5, sm: 4, md: 4, lg: 4 },
                         },
                         children: [
                           {
@@ -468,20 +470,38 @@ const Register = (props) => {
                               autoComplete: true,
                               size: "small",
                               options: Country.getAllCountries(),
+                              disableClearable: true,
                               getOptionLabel: (option) =>
-                                `${option.phonecode} (${option.isoCode})`,
+                                `${formatPhoneCode(option.phonecode)} (${option.name})`,
                               value:
                                 methods.watch("phonecode") !== null
                                   ? Country?.getAllCountries()?.find(
-                                    (country) =>
-                                      country?.phonecode ===
-                                      methods.watch("phonecode")
+                                    (country) => {
+                                      const isocode = methods.watch("isocode");
+                                      if (isocode) {
+                                        return (
+                                          country.isoCode === isocode &&
+                                          country.phonecode === methods?.watch("phonecode")
+                                        );
+                                      }
+                                      return (
+                                        country?.phonecode ===
+                                        methods?.watch("phonecode")
+                                      );
+                                    }
                                   ) ?? null
                                   : null,
                               onChange: (_, newValue) => {
                                 methods.setValue(
                                   "phonecode",
                                   newValue?.phonecode,
+                                  {
+                                    shouldDirty: true,
+                                  }
+                                );
+                                methods.setValue(
+                                  "isocode",
+                                  newValue?.isoCode,
                                   {
                                     shouldDirty: true,
                                   }
@@ -495,7 +515,7 @@ const Register = (props) => {
                                     fontSize: "11px",
                                   }}
                                 >
-                                  {option.phonecode} ({option.isoCode})
+                                  {`${formatPhoneCode(option.phonecode)} (${option.name})`}
                                 </Box>
                               ),
                               slotProps: {
@@ -529,7 +549,7 @@ const Register = (props) => {
                       {
                         component: "Grid",
                         props: {
-                          size: { xs: 8, sm: 8, md: 9, lg: 9 },
+                          size: { xs: 7, sm: 8, md: 8, lg: 8 },
                         },
                         children: [
                           {

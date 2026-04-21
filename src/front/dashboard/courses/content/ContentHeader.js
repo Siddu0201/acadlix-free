@@ -1,8 +1,8 @@
 import { Box, Button, IconButton, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import { FaAngleLeft, FaAngleRight } from "@acadlix/helpers/icons";
+import { FaAngleLeft, FaAngleRight, TbCertificate } from "@acadlix/helpers/icons";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { __ } from "@wordpress/i18n";
 
 const ContentHeader = (props) => {
@@ -145,6 +145,34 @@ const ContentHeader = (props) => {
             </Typography>
           </Box>
         </Box>
+        {
+          props?.watch("certificate") &&
+          acadlixOptions?.settings?.acadlix_certificate_page_id &&
+          props?.watch("enable_certificate") &&
+          (
+            <Box>
+              <IconButton
+                className='acadlix-icon-btn'
+                component={"a"}
+                href={`${acadlixOptions?.certificate_url}?certificate_id=${props?.watch("certificate")?.reference_id || ""}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  boxShadow: "none",
+                  color: "primary.contrastText",
+                  backgroundColor: "transparent",
+                  ":hover, :focus": {
+                    boxShadow: "none",
+                    color: "primary.contrastText",
+                    outline: "none",
+                  },
+                }}
+              >
+                <TbCertificate />
+              </IconButton>
+            </Box>
+          )
+        }
         <Box>
           <Button
             className="acadlix-btn"

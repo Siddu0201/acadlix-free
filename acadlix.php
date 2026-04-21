@@ -18,77 +18,77 @@ defined('ABSPATH') || exit();
 
 
 if (!defined('ACADLIX_PLUGIN_FILE')) {
-    define('ACADLIX_PLUGIN_FILE', __FILE__);
-    include_once 'includes/acadlix-constant.php';
+  define('ACADLIX_PLUGIN_FILE', __FILE__);
+  include_once 'includes/acadlix-constant.php';
 }
 /**
  * Environment checks
  */
 if (!function_exists('acadlix_environment_check')) {
-    /**
-     * Check if the environment meets the plugin requirements.
-     *
-     * @return bool True if the environment is suitable, false otherwise.
-     */
-    function acadlix_environment_check()
-    {
-        global $wp_version;
+  /**
+   * Check if the environment meets the plugin requirements.
+   *
+   * @return bool True if the environment is suitable, false otherwise.
+   */
+  function acadlix_environment_check()
+  {
+    global $wp_version;
 
-        // PHP check
-        if (version_compare(PHP_VERSION, '8.2', '<')) {
-            add_action('admin_notices', function () {
-                ?>
-                <div class="notice notice-error">
-                    <p><?php echo esc_html(sprintf(
-                        /* translators: 1: required PHP version 2: current PHP version */
-                        __('Acadlix requires PHP %1$s or higher. You are running PHP %2$s.', 'acadlix'),
-                        '8.2',
-                        PHP_VERSION
-                    )); ?></p>
-                </div>
-                <?php
-            });
+    // PHP check
+    if (version_compare(PHP_VERSION, '8.2', '<')) {
+      add_action('admin_notices', function () {
+        ?>
+        <div class="notice notice-error">
+          <p><?php echo esc_html(sprintf(
+            /* translators: 1: required PHP version 2: current PHP version */
+            __('Acadlix requires PHP %1$s or higher. You are running PHP %2$s.', 'acadlix'),
+            '8.2',
+            PHP_VERSION
+          )); ?></p>
+        </div>
+        <?php
+      });
 
-            // deactivate and prevent reactivation
-            deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
-            return false;
-        }
-
-        // WordPress check
-        if (version_compare($wp_version, '6.8', '<')) {
-            add_action('admin_notices', function () use ($wp_version) {
-                ?>
-                <div class="notice notice-error">
-                    <p><?php echo esc_html(sprintf(
-                        /* translators: 1: required WP version 2: current WP version */
-                        __('Acadlix requires WordPress %1$s or higher. You are running WordPress %2$s.', 'acadlix'),
-                        '6.8',
-                        $wp_version
-                    )); ?></p>
-                </div>
-                <?php
-            });
-
-            deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
-            return false;
-        }
-
-        return true;
+      // deactivate and prevent reactivation
+      deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
+      return false;
     }
+
+    // WordPress check
+    if (version_compare($wp_version, '6.8', '<')) {
+      add_action('admin_notices', function () use ($wp_version) {
+        ?>
+        <div class="notice notice-error">
+          <p><?php echo esc_html(sprintf(
+            /* translators: 1: required WP version 2: current WP version */
+            __('Acadlix requires WordPress %1$s or higher. You are running WordPress %2$s.', 'acadlix'),
+            '6.8',
+            $wp_version
+          )); ?></p>
+        </div>
+        <?php
+      });
+
+      deactivate_plugins(ACADLIX_PLUGIN_BASENAME);
+      return false;
+    }
+
+    return true;
+  }
 }
 
 // Run environment check early
 if (!acadlix_environment_check()) {
-    return; // stop loading the plugin completely
+  return; // stop loading the plugin completely
 }
 
 require_once ACADLIX_PLUGIN_DIR . '/bootstrap-activator.php';
 register_activation_hook(__FILE__, function ($network_wide) {
-    Acadlix_Bootstrap_Activator::activate(__FILE__, $network_wide);
+  Acadlix_Bootstrap_Activator::activate(__FILE__, $network_wide);
 });
 
 if (function_exists('acadlix')) {
-    return;
+  return;
 }
 
 require_once ACADLIX_INCLUDES_PATH . '/AcadlixAbstract.php';

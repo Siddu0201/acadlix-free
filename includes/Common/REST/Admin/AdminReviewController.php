@@ -75,7 +75,7 @@ class AdminReviewController
       });
     }
     $res['total'] = $reviews->count();
-    $res['reviews'] = $reviews->skip($skip)->take($params['pageSize'])->get();
+    $res['reviews'] = $reviews->skip($skip)->take($params['pageSize'])->orderBy('comment_date', 'desc')->get();
     return rest_ensure_response($res);
   }
 

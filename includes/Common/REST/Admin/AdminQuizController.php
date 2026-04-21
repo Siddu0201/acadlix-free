@@ -11,7 +11,6 @@ defined('ABSPATH') || exit();
 class AdminQuizController
 {
   protected $namespace = 'acadlix/v1';
-
   protected $base = 'admin-quiz';
 
   public function register_routes()
@@ -233,33 +232,29 @@ class AdminQuizController
     $params = $request->get_params();
     $skip = $params['page'] * $params['pageSize'];
     $search = $params['search'];
+    $category_ids = $params['category_ids'] ?? [];
+
+    $res['categories'] = acadlix()->model()->category()->all();
     $quiz = acadlix()
       ->model()
       ->quiz()
       ->ofQuiz()
+      ->with(['quiz_categories'])
       ->whereHas('quiz_shortcode')
-      ->orderBy('ID', 'desc');
-    if (!empty($search)) {
-      $quiz->where(function ($query) use ($search, $wpdb) {
+      ->orderBy('ID', 'desc')
+      ->when(!empty($category_ids), function ($query) use ($category_ids) {
+        $query->whereHas('quiz_categories', function ($q) use ($category_ids) {
+          $q->whereIn('term_id', $category_ids);
+        });
+      })
+      ->when(!empty($search), function ($query) use ($search) {
         $query
           ->where('post_title', 'LIKE', "%{$search}%")
           ->orWhereHas('quiz_shortcode', function ($query) use ($search) {
             $query->where('id', 'LIKE', "%{$search}%");
-          })
-          ->orWhereIn('ID', function ($sub) use ($wpdb, $search) {
-            $sub
-              ->select('tr.object_id')
-              ->from("{$wpdb->term_relationships} as tr")
-              ->join("{$wpdb->term_taxonomy} as tt", 'tr.term_taxonomy_id', '=', 'tt.term_taxonomy_id')
-              ->join("{$wpdb->terms} as t", 'tt.term_id', '=', 't.term_id')
-              ->where('tt.taxonomy', '=', ACADLIX_QUIZ_CATEGORY_TAXONOMY)
-              ->where(function ($q) use ($search) {
-                $q
-                  ->where('t.name', 'LIKE', "%{$search}%");
-              });
           });
       });
-    }
+   
     $res['total'] = $quiz->count();
     $res['quizes'] = $quiz
       ->skip($skip)

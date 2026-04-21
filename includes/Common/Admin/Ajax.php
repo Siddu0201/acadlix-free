@@ -204,6 +204,10 @@ class Ajax
       $phonecode = isset($_POST['phonecode'])
         ? sanitize_text_field(wp_unslash($_POST['phonecode']))
         : '';
+      
+      $isocode = isset($_POST['isocode'])
+        ? sanitize_text_field(wp_unslash($_POST['isocode']))
+        : '';
 
       $phone_number = isset($_POST['phone_number'])
         ? sanitize_text_field(wp_unslash($_POST['phone_number']))
@@ -264,6 +268,7 @@ class Ajax
        */
       $user_meta = [
         acadlix()->helper()->acadlix_get_option("acadlix_phonecode_user_meta_key", '_acadlix_profile_phonecode') => $phonecode,
+        acadlix()->helper()->acadlix_get_option("acadlix_isocode_user_meta_key", '_acadlix_profile_isocode') => $isocode,
         acadlix()->helper()->acadlix_get_option("acadlix_phone_user_meta_key", '_acadlix_profile_phone_number') => $phone_number,
       ];
 
@@ -509,7 +514,7 @@ class Ajax
     $term_id = isset($_POST['term_id']) ? intval($_POST['term_id']) : 0;
 
     $categories = isset($_POST['categories'])
-      ? json_decode(stripslashes($_POST['categories']), true)
+      ? json_decode(wp_unslash($_POST['categories']), true) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
       : [];
 
     $search = isset($_POST['search'])
@@ -519,45 +524,18 @@ class Ajax
       : 1;
     $coursesPerPage = acadlix()->helper()->acadlix_get_option('acadlix_no_of_courses_per_page');
 
-    $courses = acadlix()->model()->course()
-      ->ofCourse()
-      ->when(!empty($search), function ($query) use ($search) {
-        $query->where('post_title', 'like', '%' . $search . '%');
-      })
-      ->where('post_status', 'publish')
-      ->orderBy('ID', 'desc');
-
-    if ($context === ACADLIX_COURSE_CPT) {
-      $courses->when(!empty($categories), function ($query) use ($categories) {
-        $query->whereHas('course_categories', function ($q) use ($categories) {
-          $q->whereIn('term_id', $categories);
-        });
-      });
-    }
-
-    if ($context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $term_id) {
-      $courses->whereHas('course_categories', function ($q) use ($term_id) {
-        $q->where('term_id', $term_id);
-      });
-    }
-
-    if ($context === ACADLIX_COURSE_TAG_TAXONOMY && $term_id) {
-      $courses->whereHas('course_tags', function ($q) use ($term_id) {
-        $q->where('term_id', $term_id);
-      });
-    }
-
-    $total_courses = $courses->count();
-
-    if ($total_courses <= $coursesPerPage) {
-      $page = 1; // reset to first page if requested page exceeds total pages
-    }
-
-    $courses = $courses->skip(($page - 1) * $coursesPerPage)
-      ->take($coursesPerPage)
-      ->get();
-
     $allCourseView = acadlix()->view()->allCourse();
+    $query = $allCourseView->setup_query(
+      $search,
+      $categories,
+      $term_id,
+      $context,
+      $page,
+      $coursesPerPage
+    );
+    $total_courses = $query['course_count'];
+    $courses = $query['courses'];
+
     $allCourseView->setPage($page);
     $allCourseView->setCourseCount($total_courses);
     ob_start();

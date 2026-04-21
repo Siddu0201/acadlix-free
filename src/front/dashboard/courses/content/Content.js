@@ -14,24 +14,26 @@ import {
   PostUpdateLessonTime,
 } from "@acadlix/requests/front/FrontDashboardRequest";
 import {
+  getVideoSrc,
   getVimeoVideoId,
   getYouTubeVideoId,
 } from "@acadlix/helpers/util";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import { __ } from "@wordpress/i18n";
+import ContentLocked from "../courseComponents/ContentLocked";
 
 const AssignmentContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "front_dashboard_courses_content_assignment_content" */
-        "@acadlix/pro/front/dashboard/courses/content/AssignmentContent") // Use pro version in Pro build
+      /* webpackChunkName: "front_dashboard_courses_content_assignment_content" */
+      "@acadlix/pro/front/dashboard/courses/content/AssignmentContent") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 const ProContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
-        /* webpackChunkName: "front_dashboard_courses_content_pro_content" */
-        "@acadlix/pro/front/dashboard/courses/content/ProContent") // Use pro version in Pro build
+      /* webpackChunkName: "front_dashboard_courses_content_pro_content" */
+      "@acadlix/pro/front/dashboard/courses/content/ProContent") // Use pro version in Pro build
     : Promise.resolve({ default: () => null })           // Provide fallback if in Free build
 );
 
@@ -155,73 +157,21 @@ const Content = (props) => {
               s?.content?.map((c, c_index, c_arr) => (
                 <React.Fragment key={c?.id}>
                   {c?.id === props?.active_content?.id && (
-                    <>
-                      {
-                        c?.type === "lesson" && c?.lesson_type === "video" && (
-                          <LessonVideoContent
-                            {...props}
-                            c={c}
-                            c_index={c_index}
-                            s={s}
-                            index={index}
-                            first={index === 0 && c_index === 0}
-                            last={
-                              index === s_arr?.length - 1 &&
-                              c_index === c_arr?.length - 1
-                            }
-                          />
-                        )
+                    <ActiveContent
+                      {...props}
+                      c={c}
+                      c_index={c_index}
+                      s={s}
+                      index={index}
+                      first={index === 0 && c_index === 0}
+                      last={
+                        index === s_arr?.length - 1 &&
+                        c_index === c_arr?.length - 1
                       }
-                      {
-                        c?.type === "lesson" && c?.lesson_type === "text" && (
-                          <LessonTextContent
-                            {...props}
-                            c={c}
-                            c_index={c_index}
-                            s={s}
-                            index={index}
-                          />
-                        )
-                      }
-                      {
-                        c?.type === "quiz" && (
-                          <QuizContent
-                            {...props}
-                            c={c}
-                            c_index={c_index}
-                            s={s}
-                            index={index}
-                          />
-                        )
-                      }
-                      {
-                        c?.type === "assignment" && (
-                          <React.Suspense fallback={null}>
-                            <AssignmentContent
-                              {...props}
-                              c={c}
-                              c_index={c_index}
-                              s={s}
-                              index={index}
-                              loadEditor={loadEditor}
-                              removeEditor={removeEditor}
-                              user_stat={c?.assignment_user_stat}
-                              current_submission_value={c?.assignment_user_stat?.submissions?.find((a) => a?.is_active)}
-                              current_submission_index={c?.assignment_user_stat?.submissions?.findIndex((a) => a?.is_active)}
-                            />
-                          </React.Suspense>
-                        )
-                      }
-                      <React.Suspense fallback={null}>
-                        <ProContent
-                          {...props}
-                          c={c}
-                          c_index={c_index}
-                          s={s}
-                          index={index}
-                        />
-                      </React.Suspense>
-                    </>
+                      loadEditor={loadEditor}
+                      removeEditor={removeEditor}
+                    />
+
                   )}
                 </React.Fragment>
               ))
@@ -233,6 +183,62 @@ const Content = (props) => {
 
 export default Content;
 
+const ActiveContent = (props) => {
+
+  if (props?.c?.is_completed && props?.watch("lock_completed_content") && props?.c?.type === "lesson") {
+    return (
+      <ContentLocked
+        {...props}
+      />
+    )
+  }
+
+  return (
+    <>
+      {
+        props?.c?.type === "lesson" && props?.c?.lesson_type === "video" && (
+          <LessonVideoContent
+            {...props}
+          />
+        )
+      }
+      {
+        props?.c?.type === "lesson" && props?.c?.lesson_type === "text" && (
+          <LessonTextContent
+            {...props}
+          />
+        )
+      }
+      {
+        props?.c?.type === "quiz" && (
+          <QuizContent
+            {...props}
+          />
+        )
+      }
+      {
+        props?.c?.type === "assignment" && (
+          <React.Suspense fallback={null}>
+            <AssignmentContent
+              {...props}
+              loadEditor={props?.loadEditor}
+              removeEditor={props?.removeEditor}
+              user_stat={props?.c?.assignment_user_stat}
+              current_submission_value={props?.c?.assignment_user_stat?.submissions?.find((a) => a?.is_active)}
+              current_submission_index={props?.c?.assignment_user_stat?.submissions?.findIndex((a) => a?.is_active)}
+            />
+          </React.Suspense>
+        )
+      }
+      <React.Suspense fallback={null}>
+        <ProContent
+          {...props}
+        />
+      </React.Suspense>
+    </>
+  )
+}
+
 const LessonVideoContent = (props) => {
   let src = "";
   const content = props?.watch(
@@ -240,51 +246,53 @@ const LessonVideoContent = (props) => {
   );
 
 
-  switch (props?.c?.video?.video_type) {
-    case "html_5":
-      src = props?.c?.video?.video_data?.html_5;
-      break;
-    case "youtube":
-      src =
-        props?.c?.video?.video_data?.youtube !== ""
-          ? `https://www.youtube.com/embed/${getYouTubeVideoId(
-            props?.c?.video?.video_data?.youtube
-          )}`
-          : "";
-      break;
-    case "vimeo":
-      src =
-        props?.c?.video?.video_data?.vimeo !== ""
-          ? `https://player.vimeo.com/video/${getVimeoVideoId(
-            props?.c?.video?.video_data?.vimeo
-          )}`
-          : "";
-      break;
-    case "external_link":
-      src = props?.c?.video?.video_data?.external_link;
-      break;
-    case "embedded":
-      src = props?.c?.video?.video_data?.embedded;
-      break;
-    case "shortcode":
-      if (props?.c?.video?.video_data?.shortcode !== "") {
-        const parseShortcode = window?.wp?.shortcode?.next(
-          "video",
-          props?.c?.video?.video_data?.shortcode
-        );
-        let attribute = {};
-        if (parseShortcode) {
-          const { attrs } = parseShortcode?.shortcode;
-          attribute = attrs?.named;
-        }
-        src = attribute?.mp4;
-      } else {
-        src = "";
-      }
-      break;
-    default:
-      src = "";
-  }
+  // switch (props?.c?.video?.video_type) {
+  //   case "html_5":
+  //     src = props?.c?.video?.video_data?.html_5;
+  //     break;
+  //   case "youtube":
+  //     src =
+  //       props?.c?.video?.video_data?.youtube !== ""
+  //         ? `https://www.youtube.com/embed/${getYouTubeVideoId(
+  //           props?.c?.video?.video_data?.youtube
+  //         )}`
+  //         : "";
+  //     break;
+  //   case "vimeo":
+  //     src =
+  //       props?.c?.video?.video_data?.vimeo !== ""
+  //         ? `https://player.vimeo.com/video/${getVimeoVideoId(
+  //           props?.c?.video?.video_data?.vimeo
+  //         )}`
+  //         : "";
+  //     break;
+  //   case "external_link":
+  //     src = props?.c?.video?.video_data?.external_link;
+  //     break;
+  //   case "embedded":
+  //     src = props?.c?.video?.video_data?.embedded;
+  //     break;
+  //   case "shortcode":
+  //     if (props?.c?.video?.video_data?.shortcode !== "") {
+  //       const parseShortcode = window?.wp?.shortcode?.next(
+  //         "video",
+  //         props?.c?.video?.video_data?.shortcode
+  //       );
+  //       let attribute = {};
+  //       if (parseShortcode) {
+  //         const { attrs } = parseShortcode?.shortcode;
+  //         attribute = attrs?.named;
+  //       }
+  //       src = attribute?.mp4;
+  //     } else {
+  //       src = "";
+  //     }
+  //     break;
+  //   default:
+  //     src = "";
+  // }
+
+  src = getVideoSrc(props?.c?.video);
 
   const updateTimeMutation = PostUpdateLessonTime();
   const updateDuration = ({ hours, minutes, seconds }) => {

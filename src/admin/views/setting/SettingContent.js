@@ -27,6 +27,7 @@ import Integration from "./section/Integration";
 import { IoMenu } from "@acadlix/helpers/icons";
 import { useNavigate } from "react-router-dom";
 import Authentication from "./section/Authentication";
+import Certificate from "./section/Certificate";
 
 const SettingProContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -74,6 +75,8 @@ const SettingContent = ({
       options?.acadlix_review_pagination_count ?? 10,
     acadlix_enable_course_filters:
       options?.acadlix_enable_course_filters ?? "no",
+    acadlix_disable_student_enrolled:
+      options?.acadlix_disable_student_enrolled ?? "no",
     // Enrollment Options
     // Currency Options
     acadlix_currency: options?.acadlix_currency ?? "USD",
@@ -199,12 +202,31 @@ const SettingContent = ({
       "course-category",
     acadlix_course_tag_base:
       options?.acadlix_course_tag_base ?? "course-tag",
+    // Certificate option
+    acadlix_certificate_authorised_name:
+      options?.acadlix_certificate_authorised_name ?? "",
+    acadlix_certificate_authorised_company:
+      options?.acadlix_certificate_authorised_company ?? "",
+    acadlix_certificate_show_instructor_name_on_certificate:
+      options?.acadlix_certificate_show_instructor_name_on_certificate ?? "no",
+    acadlix_certificate_show_course_completion_date_on_certificate:
+      options?.acadlix_certificate_show_course_completion_date_on_certificate ?? "no",
+    acadlix_certificate_page_id:
+      options?.acadlix_certificate_page_id ?? null,  
+    acadlix_certificate_show_certificate_link_in_email:
+      options?.acadlix_certificate_show_certificate_link_in_email ?? "no",
+    acadlix_certificate_signature: 
+      options?.acadlix_certificate_signature ?? {},  
+    acadlix_certificate_template:
+      options?.acadlix_certificate_template ?? "modern-landscape",
     // Authentication option
     acadlix_registration_options:
       options?.acadlix_registration_options ?? {
         phone: {
           enabled: false,
           required: false,
+          default_phonecode: "",
+          default_isocode: "",
         }
       },
     acadlix_default_auth_screen:
@@ -353,6 +375,16 @@ const SettingContent = ({
                 <QuizSettings
                   {...methods}
                   options={options}
+                  isPending={updateMutation?.isPending}
+                />
+              )
+            }
+            {
+              selected === "certificate" && (
+                <Certificate
+                  {...methods}
+                  options={options}
+                  all_pages={all_pages}
                   isPending={updateMutation?.isPending}
                 />
               )

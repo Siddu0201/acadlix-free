@@ -15,6 +15,7 @@ if (!class_exists('Helper')) {
     protected $cpt = null;
     protected $email = null;
     protected $queryLogger = null;
+    protected $ai = null;
 
     public function __construct()
     {
@@ -28,7 +29,7 @@ if (!class_exists('Helper')) {
 
     public function course(): CourseHelper|null
     {
-      if ($this->course === null) {
+      if (is_null($this->course)) {
         $this->course = new CourseHelper();
       }
       return $this->course;
@@ -36,7 +37,7 @@ if (!class_exists('Helper')) {
 
     public function cpt(): CptHelper|null
     {
-      if ($this->cpt === null) {
+      if (is_null($this->cpt)) {
         $this->cpt = new CptHelper();
       }
       return $this->cpt;
@@ -44,7 +45,7 @@ if (!class_exists('Helper')) {
 
     public function email(): EmailHelper|null
     {
-      if ($this->email === null) {
+      if (is_null($this->email)) {
         $this->email = new EmailHelper();
       }
       return $this->email;
@@ -52,10 +53,18 @@ if (!class_exists('Helper')) {
 
     public function queryLogger(): QueryLogger|null
     {
-      if ($this->queryLogger === null) {
+      if (is_null($this->queryLogger)) {
         $this->queryLogger = new QueryLogger();
       }
       return $this->queryLogger;
+    }
+
+    public function ai(): AiHelper|null
+    {
+      if (is_null($this->ai)) {
+        $this->ai = new AiHelper();
+      }
+      return $this->ai;
     }
 
     public function acadlix_modify_video_shortcode($content)
@@ -627,6 +636,7 @@ if (!class_exists('Helper')) {
         'acadlix_require_admin_approval_for_reviews' => 'no',
         'acadlix_review_pagination_count' => 10,
         'acadlix_enable_course_filters' => 'no',
+        'acadlix_disable_student_enrolled' => 'no',
         // Currency Option
         'acadlix_currency' => 'USD',
         'acadlix_currency_position' => 'Left ( $99.99 )',
@@ -666,6 +676,15 @@ if (!class_exists('Helper')) {
         'acadlix_course_tag_base' => 'course-tag',
         // DB option
         'acadlix_db_version' => '',
+        // Certificate option
+        'acadlix_certificate_authorised_name' => '',
+        'acadlix_certificate_authorised_company' => '',
+        'acadlix_certificate_show_instructor_name_on_certificate' => 'no',
+        'acadlix_certificate_show_course_completion_date_on_certificate' => 'no',
+        'acadlix_certificate_page_id' => null,
+        'acadlix_certificate_show_certificate_link_in_email' => 'no',
+        'acadlix_certificate_signature' => [],
+        'acadlix_certificate_template' => 'classic-landscape',
         // Authentication option
         'acadlix_default_auth_screen' => 'login',
         'acadlix_registration_options' => [
@@ -716,6 +735,7 @@ if (!class_exists('Helper')) {
         'acadlix_offline_enable_file_upload' => 'no',
         'acadlix_offline_max_upload_file_size' => 2,
         'acadlix_offline_allowed_mime_types' => [],
+        'acadlix_openai_api_key' => null,
       ];
       return $options;
     }
@@ -1080,7 +1100,7 @@ if (!class_exists('Helper')) {
         ],
         [
           'name' => __('Acadlix Subscriptions', 'acadlix'),
-          'description' => __('Manage subscriptions for your students and courses.', 'acadlix'),
+          'description' => __('Manage subscriptions for your students, courses and course bundles.', 'acadlix'),
           'pro' => true,
           'internal' => true,
           'installed' => true,
@@ -1126,7 +1146,47 @@ if (!class_exists('Helper')) {
           'icon' => 'SocialLogin',
           'icon_color' => '#3B82F6',
         ],
+        [
+          'name' => __('Course Bundle', 'acadlix'),
+          'description' => __('Allow users to purchase multiple courses as a bundle.', 'acadlix'),
+          'pro' => true,
+          'internal' => true,
+          'installed' => true,
+          'active' => $this->acadlix_get_option('acadlix_addon_course_bundle_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_course_bundle_enabled',
+          'icon' => 'FaLayerGroup',
+          'icon_color' => '#7C3AED',
+        ],
+        [
+          'name' => __('Google Meet', 'acadlix'),
+          'description' => __('Schedule and manage live classes via Google Meet from your dashboard.', 'acadlix'),
+          'pro' => true,
+          'internal' => true,
+          'installed' => false,
+          'active' => $this->acadlix_get_option('acadlix_addon_google_meet_integration_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_google_meet_integration_enabled',
+          'icon' => 'GoogleMeet',
+          'icon_color' => '#e9ecea',
+        ]
       ];
+    }
+
+    public function is_google_meet_integration_addon_active()
+    {
+      $value = get_option('acadlix_addon_google_meet_integration_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->pro) {
+        return false;
+      } else {
+        if (!acadlix()->license()->isActive) {
+          return false;
+        }
+      }
+      return true;
     }
 
     public function is_social_login_addon_active()
@@ -1244,6 +1304,22 @@ if (!class_exists('Helper')) {
     public function is_question_error_reporting_addon_active()
     {
       $value = get_option('acadlix_addon_question_error_reporting_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->pro) {
+        return false;
+      } else {
+        if (!acadlix()->license()->isActive) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    public function is_course_bundle_addon_active()
+    {
+      $value = get_option('acadlix_addon_course_bundle_enabled', false);
       if ($value != 'yes') {
         return false;
       }
@@ -1686,6 +1762,17 @@ if (!class_exists('Helper')) {
         return (string) $value;
       }
       return $default;
+    }
+
+    public function acadlix_generate_certificate_id()
+    {
+      do {
+        $id = 'CRT-' . date('Y') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 8));
+      } while (
+        acadlix()->model()->userActivityMeta()->where('reference_id', $id)->exists()
+      );
+
+      return $id;
     }
 
     public static function instance()

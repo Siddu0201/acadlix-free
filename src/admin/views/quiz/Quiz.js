@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
@@ -13,6 +14,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Tooltip,
   Typography,
   styled,
@@ -100,6 +102,7 @@ const Quiz = () => {
 
   const theme = useTheme();
   const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
+  const [selectedCategories, setSelectedCategories] = React.useState([]);
 
   const deleteMutation = DeleteQuizById();
   const deleteQuizById = (id) => {
@@ -260,19 +263,6 @@ const Quiz = () => {
               </Tooltip>
             }
             {
-              hasCapability("acadlix_delete_quiz") &&
-              <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  color="error"
-                  onClick={deleteQuizById.bind(this, params?.id)}
-                >
-                  <FaTrash />
-                </IconButton>
-              </Tooltip>
-            }
-            {
               hasCapability("acadlix_show_question") &&
               <Tooltip title={__("Questions", "acadlix")} arrow>
                 <IconButton
@@ -323,12 +313,26 @@ const Quiz = () => {
                     params={params}
                   />
                 </React.Suspense>
-              )}
+              )
+            }
             <React.Suspense fallback={null}>
               <PragraphOptionButton
                 params={params}
               />
             </React.Suspense>
+            {
+              hasCapability("acadlix_delete_quiz") &&
+              <Tooltip title={__("Delete Quiz", "acadlix")} arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={deleteQuizById.bind(this, params?.id)}
+                >
+                  <FaTrash />
+                </IconButton>
+              </Tooltip>
+            }
           </>
         );
       },
@@ -339,6 +343,7 @@ const Quiz = () => {
     paginationModel?.page,
     paginationModel?.pageSize,
     methods?.watch("search"),
+    selectedCategories
   );
 
 
@@ -579,66 +584,96 @@ const Quiz = () => {
                     : "flex-end",
                 }}
               >
-                {
-                  hasCapability("acadlix_bulk_action_quiz") &&
-                  <Box sx={{
-                    display: "flex",
-                    gap: 2,
-                    alignItems: "baseline",
-                  }}>
-                    <FormControl
-                      sx={{ minWidth: 150 }}
-                      size="small"
-                      error={Boolean(methods?.formState?.errors?.action)}
-                    >
-                      <InputLabel id="demo-simple-select-label">
-                        {__("Bulk Actions", "acadlix")}
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={methods?.watch("action")}
-                        label={__("Bulk Actions", "acadlix")}
-                        onChange={handleActionChange}
+                <Box sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  justifyContent: "flex-start",
+                }}>
+                  {
+                    hasCapability("acadlix_bulk_action_quiz") &&
+                    <Box sx={{
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "baseline",
+                    }}>
+                      <FormControl
+                        sx={{ minWidth: 150 }}
+                        size="small"
+                        error={Boolean(methods?.formState?.errors?.action)}
                       >
-                        <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
-                        {
-                          hasCapability("acadlix_bulk_delete_quiz") &&
-                          <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
-                        }
-                        {
-                          hasCapability("acadlix_bulk_set_category_quiz") &&
-                          <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
-                        }
-                        {
-                          hasCapability("acadlix_import_export_json_quiz") &&
-                          <MenuItem value="export">{__("Export (JSON)", "acadlix")}</MenuItem>
-                        }
-                      </Select>
-                      <FormHelperText>
-                        {methods?.formState?.errors?.action?.message}
-                      </FormHelperText>
-                    </FormControl>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        marginRight: 2,
+                        <InputLabel id="demo-simple-select-label">
+                          {__("Bulk Actions", "acadlix")}
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={methods?.watch("action")}
+                          label={__("Bulk Actions", "acadlix")}
+                          onChange={handleActionChange}
+                        >
+                          <MenuItem value="">{__("Bulk Actions", "acadlix")}</MenuItem>
+                          {
+                            hasCapability("acadlix_bulk_delete_quiz") &&
+                            <MenuItem value="delete">{__("Delete", "acadlix")}</MenuItem>
+                          }
+                          {
+                            hasCapability("acadlix_bulk_set_category_quiz") &&
+                            <MenuItem value="set_category">{__("Set Category", "acadlix")}</MenuItem>
+                          }
+                          {
+                            hasCapability("acadlix_import_export_json_quiz") &&
+                            <MenuItem value="export">{__("Export (JSON)", "acadlix")}</MenuItem>
+                          }
+                        </Select>
+                        <FormHelperText>
+                          {methods?.formState?.errors?.action?.message}
+                        </FormHelperText>
+                      </FormControl>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          marginRight: 2,
+                        }}
+                        onClick={handleBulkAction}
+                        color="primary"
+                        loading={deleteBulkMutation?.isPending || exportMutation?.isPending}
+                      >
+                        {__("Apply", "acadlix")}
+                      </Button>
+                    </Box>
+                  }
+                  <Box>
+                    <Autocomplete
+                      multiple
+                      id="category-select"
+                      options={data?.data?.categories ?? []}
+                      getOptionLabel={(option) => option?.name ?? ""}
+                      onChange={(event, newValue) => {
+                        setSelectedCategories(newValue?.map((v) => v?.term_id));
                       }}
-                      onClick={handleBulkAction}
-                      color="primary"
-                      loading={deleteBulkMutation?.isPending || exportMutation?.isPending}
-                    >
-                      {__("Apply", "acadlix")}
-                    </Button>
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          label={__("Filter by Category", "acadlix")}
+                          placeholder={__("Select categories", "acadlix")}
+                          size="small"
+                        />
+                      )}
+                      sx={{
+                        minWidth: '250px',
+                      }}
+                    />
                   </Box>
-                }
+                </Box>
 
                 <Box>
                   <CustomTextField
                     fullWidth
                     size="small"
                     label={__("Search", "acadlix")}
-                    helperText={__("Search by title, id, category", "acadlix")}
+                    helperText={__("Search by title, id", "acadlix")}
                     name="search"
                     value={methods?.watch("search") ?? ""}
                     onChange={handleSearch}

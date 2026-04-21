@@ -25,17 +25,17 @@ const OrderOptions = (props) => {
       );
     } else {
       props?.setValue("order_items",
-        props?.watch("order_items")?.map((item) => {
-          const course = props?.watch("courses")?.find(c => c?.ID === item?.course_id);
-          const price_after_discount = item?.price + item?.additional_fee;
-          const tax = course?.rendered_metas?.tax && Number(course?.rendered_metas?.tax_percent) > 0 ?
-            (item?.price + item?.additional_fee) > 0 ?
-              Math.round((Number(course?.rendered_metas?.tax_percent) * price_after_discount / 100) * 100) / 100
+        props?.watch("order_items")?.map((data) => {
+          const item = props?.watch("items")?.find(c => c?.ID === data?.item_id);
+          const price_after_discount = data?.price + data?.additional_fee;
+          const tax = item?.rendered_metas?.tax && Number(item?.rendered_metas?.tax_percent) > 0 ?
+            (data?.price + data?.additional_fee) > 0 ?
+              Math.round((Number(item?.rendered_metas?.tax_percent) * price_after_discount / 100) * 100) / 100
               : 0
             : 0;
           const price_after_tax = price_after_discount + tax;
           return {
-            ...item,
+            ...data,
             discount: 0,
             price_after_discount: price_after_discount,
             tax: tax,
@@ -572,6 +572,7 @@ const OrderUser = (props) => {
               last_name: newValue?.user_metas?.find(m => m?.meta_key == "last_name")?.meta_value,
               email: newValue?.user_email,
               phonecode: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_phonecode")?.meta_value,
+              isocode: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_isocode")?.meta_value,
               phone_number: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_phone_number")?.meta_value,
               address: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_address")?.meta_value,
               country: newValue?.user_metas?.find(m => m?.meta_key == "_acadlix_profile_country")?.meta_value,

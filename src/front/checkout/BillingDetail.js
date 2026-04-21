@@ -6,6 +6,7 @@ import React from "react";
 import { Country } from "country-state-city";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
+import { formatPhoneCode } from "@acadlix/helpers/util";
 
 const BillingDetail = (props) => {
   const defaultSetting = {
@@ -200,7 +201,7 @@ const BillingDetail = (props) => {
                     component: "Grid",
                     component_name: "checkout_billing_detail_grid_item_phone_code",
                     props: {
-                      size: { xs: 3, md: 3 },
+                      size: { xs: 5, md: 4 },
                     },
                     children: [
                       {
@@ -225,19 +226,33 @@ const BillingDetail = (props) => {
                           size: "small",
                           options: Country.getAllCountries(),
                           getOptionLabel: (option) =>
-                            `${option.phonecode} (${option.isoCode})`,
+                            `${formatPhoneCode(option.phonecode)} (${option.name})`,
                           value:
                             props.watch("billing_info.phonecode") !== null
                               ? Country?.getAllCountries()?.find(
-                                (country) =>
-                                  country?.phonecode ===
-                                  props?.watch("billing_info.phonecode")
+                                (country) => {
+                                  const isocode = props.watch("billing_info.isocode");
+                                  if (isocode) {
+                                    return (
+                                      country.isoCode === isocode &&
+                                      country.phonecode === props?.watch("billing_info.phonecode")
+                                    );
+                                  }
+                                  return country.phonecode === props?.watch("billing_info.phonecode");
+                                }
                               ) ?? null
                               : null,
                           onChange: (_, newValue) => {
                             props.setValue(
                               "billing_info.phonecode",
                               newValue?.phonecode,
+                              {
+                                shouldDirty: true,
+                              }
+                            );
+                            props.setValue(
+                              "billing_info.isocode",
+                              newValue?.isoCode,
                               {
                                 shouldDirty: true,
                               }
@@ -254,13 +269,14 @@ const BillingDetail = (props) => {
                           disabled: !props?.watch("is_user_logged_in"),
                           renderOption: (props, option) => (
                             <Box
+                              key={option.isoCode}
                               component="li"
                               {...props}
                               sx={{
                                 fontSize: "11px",
                               }}
                             >
-                              {option.phonecode} ({option.isoCode})
+                              {formatPhoneCode(option.phonecode)} ({option.name})
                             </Box>
                           ),
                           renderInput: (params) => (
@@ -286,7 +302,7 @@ const BillingDetail = (props) => {
                     component: "Grid",
                     component_name: "checkout_billing_detail_grid_item_phone_number",
                     props: {
-                      size: { xs: 9, md: 9 },
+                      size: { xs: 7, md: 8 },
                     },
                     children: [
                       {

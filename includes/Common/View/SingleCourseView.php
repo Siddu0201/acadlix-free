@@ -14,11 +14,13 @@ class SingleCourseView
 	protected $enable_rating_and_reviews = false;
 	protected $require_admin_approval_for_reviews = false;
 	protected $review_pagination_count = 10;
+	protected $disable_student_enrolled = false;
 	protected $average_rating = 0;
 	protected $total_rating = 0;
 	protected $comments = [];
 	protected $user_comment = [];
 	protected $rating_breakdown = [];
+	protected $type = 'course';
 
 	public function __construct()
 	{
@@ -34,6 +36,7 @@ class SingleCourseView
 		$this->enable_rating_and_reviews = acadlix()->helper()->acadlix_get_option('acadlix_enable_rating_and_reviews') === 'yes';
 		$this->require_admin_approval_for_reviews = acadlix()->helper()->acadlix_get_option('acadlix_require_admin_approval_for_reviews') === 'yes';
 		$this->review_pagination_count = (int) acadlix()->helper()->acadlix_get_option('acadlix_review_pagination_count') ?: 10;
+		$this->disable_student_enrolled = acadlix()->helper()->acadlix_get_option('acadlix_disable_student_enrolled') === 'yes';
 
 		$this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
 		$this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
@@ -46,7 +49,7 @@ class SingleCourseView
 			$this->user_id = get_current_user_id() ?? 0;
 			$this->cart = acadlix()->model()->courseCart()->where([
 				['user_id', '=', $this->user_id],
-				['course_id', '=', $post->ID],
+				['item_id', '=', $post->ID],
 			])->first();
 			$this->is_course_purchased = $this->course->isPurchasedBy($this->user_id);
 		} else {
@@ -55,7 +58,7 @@ class SingleCourseView
 					->model()
 					->courseCart()
 					->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
-					->where('course_id', $post->ID)
+					->where('item_id', $post->ID)
 					->first();
 			}
 		}
@@ -343,6 +346,34 @@ class SingleCourseView
 		], $this->course);
 	}
 
+	protected function acadlix_student_enrolled()
+	{
+		if ($this->disable_student_enrolled) {
+			return null;
+		}
+		return apply_filters('acadlix_single_course_students_enrolled', [
+			'component' => 'div',
+			'props' => [
+				'class' => 'acadlix-course-aside-details-option'
+			],
+			'children' => [
+				[
+					'component' => 'div',
+					'children' => [
+						[
+							'component' => 'strong',
+							'value' => esc_html__('Students Enrolled:', 'acadlix'),
+						]
+					]
+				],
+				[
+					'component' => 'div',
+					'value' => esc_html($this->course->student_count),
+				]
+			]
+		], $this->course);
+	}
+
 	protected function acadlix_basic_course_details(bool $desktop = true, bool $mobile = true)
 	{
 		if (!is_bool($desktop) || !is_bool($mobile)) {
@@ -414,27 +445,7 @@ class SingleCourseView
 						],
 					]
 				],
-				[
-					'component' => 'div',
-					'props' => [
-						'class' => 'acadlix-course-aside-details-option'
-					],
-					'children' => [
-						[
-							'component' => 'div',
-							'children' => [
-								[
-									'component' => 'strong',
-									'value' => esc_html__('Students Enrolled:', 'acadlix'),
-								]
-							]
-						],
-						[
-							'component' => 'div',
-							'value' => esc_html($this->course->student_count),
-						]
-					]
-				],
+				$this->acadlix_student_enrolled(),
 				[
 					'component' => 'div',
 					'props' => [
@@ -508,6 +519,7 @@ class SingleCourseView
 			'props' => [
 				'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
 				'data-id' => esc_attr($this->course->ID),
+				'data-type' => esc_attr($this->type),
 			],
 			'children' => [
 				[
@@ -534,6 +546,7 @@ class SingleCourseView
 			'props' => [
 				'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
 				'data-id' => esc_attr($this->course->ID),
+				'data-type' => esc_attr($this->type),
 			],
 			'children' => [
 				[
@@ -585,11 +598,11 @@ class SingleCourseView
 			$course_wishlist_count = acadlix()
 				->model()
 				->userActivityMeta()
-				->ofCourse()
-				->ofCourseWishlist()
+				->ofWishlist()
 				->where([
 					'type_id' => $this->course->ID,
 					'user_id' => get_current_user_id(),
+					'type' => $this->type,
 				])
 				->count();
 			$wishlist = apply_filters('acadlix_single_course_whishlist', [
@@ -601,10 +614,11 @@ class SingleCourseView
 					[
 						'component' => 'div',
 						'props' => [
-							'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist '. ($course_wishlist_count == 0 ? '' : 'acadlix-hidden'),
+							'class' => 'acadlix-course-page-icon-element acadlix-add-to-wishlist ' . ($course_wishlist_count == 0 ? '' : 'acadlix-hidden'),
 							'id' => 'add-to-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Add to Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
+							'data-type' => esc_attr($this->type),
 						],
 						'children' => [
 							['component' => 'i', 'props' => ['class' => 'far fa-heart']],
@@ -614,10 +628,11 @@ class SingleCourseView
 					[
 						'component' => 'div',
 						'props' => [
-							'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist '. ($course_wishlist_count > 0 ? '' : 'acadlix-hidden'),
+							'class' => 'acadlix-course-page-icon-element acadlix-remove-from-wishlist ' . ($course_wishlist_count > 0 ? '' : 'acadlix-hidden'),
 							'id' => 'remove-from-wishlist-' . esc_attr($this->course->ID),
 							'title' => __('Remove From Wishlist', 'acadlix'),
 							'data-id' => esc_attr($this->course->ID),
+							'data-type' => esc_attr($this->type),
 						],
 						'children' => [
 							['component' => 'i', 'props' => ['class' => 'fas fa-heart']],
@@ -845,8 +860,8 @@ class SingleCourseView
 					'component' => 'div',
 					'props' => ['class' => 'acadlix-course-rating-value acadlix-body1'],
 					'value' => sprintf(
-						/* translators: 1: average rating 2: total ratings */
-						esc_html__('%.2f (%d ratings)', 'acadlix'),
+						/* translators: 1: average rating, 2: total ratings */
+						esc_html__('%1$.2f (%2$d ratings)', 'acadlix'),
 						$this->average_rating,
 						$this->total_rating
 					)

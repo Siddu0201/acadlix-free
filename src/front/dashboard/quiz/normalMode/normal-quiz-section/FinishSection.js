@@ -4,14 +4,6 @@ import CustomButton from '@acadlix/components/CustomButton';
 import { __ } from '@wordpress/i18n';
 
 const FinishSection = (props) => {
-  const handleFinishQuiz = (e) => {
-    props?.saveResult();
-    props?.countdownApi && props?.countdownApi?.stop();
-    props?.setValue('finish', false, {shouldDirty: true});
-    props?.setValue('view_result', true, {shouldDirty: true});
-    props?.setValue('view_question', false, {shouldDirty: true});
-  }  
-
   const handleGoToFirstQuestion = () =>{
     props?.setValue("finish", false, { shouldDirty: true });
     let perPage = props?.watch("question_per_page");
@@ -74,7 +66,7 @@ const FinishSection = (props) => {
         </CustomButton>
         <CustomButton
           disabled={props?.watch("force_user_to_answer_each_question") && solved_count !== total}
-          onClick={handleFinishQuiz}
+          onClick={props?.handleFinishQuiz}
           className="acadlix-normal-quiz-button-finish-quiz"
         >
           {__("Finish Quiz", "acadlix")}

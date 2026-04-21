@@ -39,6 +39,7 @@ const Checkout = () => {
       last_name: getUserMetaValue("last_name") ?? "",
       email: acadlixCheckoutOptions?.user?.user_email ?? "",
       phonecode: getUserMetaValue("_acadlix_profile_phonecode") ?? null,
+      isocode: getUserMetaValue("_acadlix_profile_isocode") ?? null,
       phone_number: getUserMetaValue("_acadlix_profile_phone_number") ?? "",
       address: getUserMetaValue("_acadlix_profile_address") ?? "",
       user_url: acadlixCheckoutOptions?.user?.user_url ?? "",
@@ -104,26 +105,27 @@ const Checkout = () => {
       "order_items",
       window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_order_items", cart?.map((c) => {
         let price = formatPrice(
-          Boolean(Number(c?.course?.rendered_metas?.enable_sale_price))
-            ? c?.course?.rendered_metas?.sale_price
-            : c?.course?.rendered_metas?.price
+          Boolean(Number(c?.item?.rendered_metas?.enable_sale_price))
+            ? c?.item?.rendered_metas?.sale_price
+            : c?.item?.rendered_metas?.price
         );
         let discount = 0;
         let additional_fee = 0;
         let price_after_discount = (price + additional_fee) - discount;
         let tax = 0;
         if (
-          c?.course?.rendered_metas?.tax !== 0 &&
-          c?.course?.rendered_metas?.tax_percent !== 0
+          c?.item?.rendered_metas?.tax !== 0 &&
+          c?.item?.rendered_metas?.tax_percent !== 0
         ) {
           tax = formatPrice(
-            (price_after_discount * c?.course?.rendered_metas?.tax_percent) / 100
+            (price_after_discount * c?.item?.rendered_metas?.tax_percent) / 100
           );
         }
         let price_after_tax = price_after_discount + tax;
         return {
-          course_id: c?.course_id,
-          course_title: c?.course?.post_title,
+          item_id: c?.item_id,
+          item_title: c?.item?.post_title,
+          type: c?.type,
           quantity: 1,
           price: price,
           discount: discount,
@@ -417,10 +419,10 @@ const Checkout = () => {
       total_amount: methods?.watch("total_amount"),
       offline_user_text: methods?.watch("offline_user_text"),
       offline_upload_file: methods?.watch("offline_upload_file"),
-      coupon_id: data?.coupon_id,
-      coupon_code: data?.coupon_code,
-      coupon_amount: data?.coupon_amount,
-      discount_type: data?.discount_type,
+      coupon_id: methods?.watch("coupon_id"),
+      coupon_code: methods?.watch("coupon_code"),
+      coupon_amount: methods?.watch("coupon_amount"),
+      discount_type: methods?.watch("discount_type"),
     });
 
     // Convert to FormData

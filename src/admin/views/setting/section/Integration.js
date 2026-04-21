@@ -66,25 +66,11 @@ const Integration = (props) => {
                         component_name: "setting_integration_ai_grid_item_label_typography",
                         // value: __("OpenAI API Key", "acadlix"),
                         children: [
-                          acadlixOptions?.isActive ? (
-                            {
-                              component: "span",
-                              component_name: "setting_integration_ai_grid_premium_span",
-                              value: __("OpenAI API Key", "acadlix"),
-                            }
-                          ) : (
-                            {
-                              component: "CustomFeatureElement",
-                              component_name: "setting_integration_ai_grid_custom_feature_element",
-                              props: {
-                                element: "text",
-                                label: __("OpenAI API Key", "acadlix"),
-                                iconsx: {
-                                  color: '#fff',
-                                },
-                              },
-                            }
-                          ),
+                          {
+                            component: "span",
+                            component_name: "setting_integration_ai_grid_premium_span",
+                            value: __("OpenAI API Key", "acadlix"),
+                          }
                         ],
                       },
                     ],

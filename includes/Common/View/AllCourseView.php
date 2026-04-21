@@ -22,6 +22,7 @@ class AllCourseView
   protected $context = ACADLIX_COURSE_CPT;
   protected $term = null;
   protected $enable_course_filters = false;
+  protected $type = 'course';
 
   public function __construct()
   {
@@ -38,11 +39,6 @@ class AllCourseView
     ) {
       $this->term = get_queried_object();
     }
-    $this->setup_query();
-  }
-
-  protected function setup_query()
-  {
     $this->checkout_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_checkout_page_id'));
     $this->dashboard_url = get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id'));
     $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : ''; // phpcs:ignore
@@ -66,59 +62,82 @@ class AllCourseView
     $this->enable_rating_and_reviews = acadlix()->helper()->acadlix_get_option('acadlix_enable_rating_and_reviews') === 'yes';
     $this->enable_course_filters = acadlix()->helper()->acadlix_get_option('acadlix_enable_course_filters') === 'yes';
 
+    if (is_user_logged_in()) {
+      $userId = get_current_user_id();
+      $this->cart = acadlix()->model()->courseCart()->where('user_id', $userId)->pluck('item_id')->toArray();
+      $this->order_item = acadlix()->model()->orderItem()->with(['order'])->whereHas('order', function ($query) use ($userId) {
+        $query->where('user_id', $userId)->where('status', 'success');
+      })->pluck('item_id')->toArray();
+    } else {
+      if (isset($_COOKIE['acadlix_cart_token'])) {
+        $this->cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck('item_id')->toArray();
+      }
+    }
+
+    $query = $this->setup_query(
+      $this->search,
+      $this->categories,
+      $this->term->term_id ?? null,
+      $this->context,
+      $this->page,
+      $this->per_page
+    );
+    $this->courses = $query['courses'];
+    $this->course_count = $query['course_count'];
+  }
+
+  public function setup_query(
+    $search = '',
+    $categories = [],
+    $term_id = null,
+    $context = null,
+    $page = 1,
+    $per_page = 10
+  ) {
     $query = acadlix()
       ->model()
       ->course()
       ->ofCourse()
-      ->when(!empty($this->search), function ($query) {
-        $query->where('post_title', 'like', '%' . $this->search . '%');
+      ->when(!empty($search), function ($query) use ($search) {
+        $query->where('post_title', 'like', '%' . $search . '%');
       })
       ->where('post_status', 'publish')
       ->orderBy('ID', 'desc');
 
-    if($this->context === ACADLIX_COURSE_CPT) {
-      $query->when(!empty($this->categories), function ($query) {
-        $query->whereHas('course_categories', function ($q) {
-          $q->whereIn('term_id', $this->categories);
+    if ($context === ACADLIX_COURSE_CPT) {
+      $query->when(!empty($categories), function ($query) use ($categories) {
+        $query->whereHas('course_categories', function ($q) use ($categories) {
+          $q->whereIn('term_id', $categories);
         });
       });
     }
 
-    if ($this->context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $this->term) {
-      $query->whereHas('course_categories', function ($q) {
-        $q->where('term_id', $this->term->term_id);
+    if ($context === ACADLIX_COURSE_CATEGORY_TAXONOMY && $term_id) {
+      $query->whereHas('course_categories', function ($q) use ($term_id) {
+        $q->where('term_id', $term_id);
       });
     }
 
-    if ($this->context === ACADLIX_COURSE_TAG_TAXONOMY && $this->term) {
-      $query->whereHas('course_tags', function ($q) {
-        $q->where('term_id', $this->term->term_id);
+    if ($context === ACADLIX_COURSE_TAG_TAXONOMY && $term_id) {
+      $query->whereHas('course_tags', function ($q) use ($term_id) {
+        $q->where('term_id', $term_id);
       });
     }
 
-    $this->course_count = $query->count();
-    if ($this->course_count <= $this->per_page) {
-      $this->page = 1;
+    $course_count = $query->count();
+    if ($course_count <= $per_page) {
+      $page = 1;
     }
 
-    $this->courses = $query
-      ->skip(($this->page - 1) * $this->per_page)
-      ->take($this->per_page)
+    $courses = $query
+      ->skip(($page - 1) * $per_page)
+      ->take($per_page)
       ->get();
-
-    // Allow Pro or addons to modify query results
+    return [
+      'courses' => $courses,
+      'course_count' => $course_count,
+    ];
     // $this->courses = apply_filters('acadlix_all_courses_list', $this->courses, $this->page, $this->search);
-    if (is_user_logged_in()) {
-      $userId = get_current_user_id();
-      $this->cart = acadlix()->model()->courseCart()->where('user_id', $userId)->pluck('course_id')->toArray();
-      $this->order_item = acadlix()->model()->orderItem()->with(['order'])->whereHas('order', function ($query) use ($userId) {
-        $query->where('user_id', $userId)->where('status', 'success');
-      })->pluck('course_id')->toArray();
-    } else {
-      if (isset($_COOKIE['acadlix_cart_token'])) {
-        $this->cart = acadlix()->model()->courseCart()->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))->pluck('course_id')->toArray();
-      }
-    }
   }
 
   public function setPage($page)
@@ -260,24 +279,20 @@ class AllCourseView
       return [];
     }
 
-    $categories = get_terms([
-      'taxonomy' => ACADLIX_COURSE_CATEGORY_TAXONOMY,
-      'hide_empty' => false,
-    ]);
-    ;
-    $category_children = [];
-    $category_children[] = [
-      'component' => 'h3',
-      'props' => [
-        'class' => 'acadlix-category-filter-header'
-      ],
-      'value' => esc_html__('Filter by Category', 'acadlix')
-    ];
+    $categories = acadlix()
+      ->model()
+      ->wpTermTaxonomy()
+      ->ofCourseCategory()
+      ->with('term')
+      ->where('count', '>', 0)
+      ->get();
+
+    $single_category_children = [];
     foreach ($categories as $category) {
-      $category_children[] = [
+      $single_category_children[] = [
         'component' => 'div',
         'props' => [
-          'class' => 'acadlix-category-filter'
+          'class' => 'acadlix-single-category-filter'
         ],
         'children' => [
           [
@@ -297,7 +312,7 @@ class AllCourseView
               'for' => 'acadlix_course_category_filter_' . esc_attr($category->term_id),
               'class' => 'acadlix-category-filter-label acadlix-body2',
             ],
-            'value' => esc_html($category->name)
+            'value' => esc_html($category->term->name) . ' (' . esc_html($category->count) . ')'
           ]
         ]
       ];
@@ -306,7 +321,35 @@ class AllCourseView
     return apply_filters('acadlix_all_course_category_filter', [
       'component' => 'div',
       'props' => ['class' => 'acadlix-card acadlix-category-filter-card'],
-      'children' => $category_children
+      'children' => [
+        [
+          'component' => 'div',
+          'props' => [
+            'class' => 'acadlix-category-filter-header',
+            'data-open' => true,
+          ],
+          'children' => [
+            [
+              'component' => 'h3',
+              'props' => [
+                'class' => 'acadlix-category-filter-header-title'
+              ],
+              'value' => esc_html__('Filter by Category', 'acadlix')
+            ],
+            [
+              'component' => 'i',
+              'props' => [
+                'class' => 'fa fa-chevron-down acadlix-category-filter-toggle'
+              ]
+            ]
+          ]
+        ],
+        [
+          'component' => 'div',
+          'props' => ['class' => 'acadlix-category-filter'],
+          'children' => $single_category_children
+        ]
+      ]
     ]);
   }
 
@@ -334,6 +377,7 @@ class AllCourseView
 
   public function render_single_course($course)
   {
+    $this->set_type($course);
     $single_course_ui = [
       'component' => 'div',
       'props' => [
@@ -353,10 +397,18 @@ class AllCourseView
                 'class' => 'acadlix-card-body acadlix-all-course-card-body'
               ],
               'children' => [
-                $this->render_course_level($course),
-                $this->render_course_rating($course),
-                $this->render_course_title($course),
-                $this->render_course_user($course),
+                [
+                  'component' => 'div',
+                  'props' => [
+                    'class' => 'acadlix-all-course-body-detail',
+                  ],
+                  'children' => [
+                    $this->render_course_level($course),
+                    $this->render_course_rating($course),
+                    $this->render_course_title($course),
+                    $this->render_course_user($course),
+                  ]
+                ],
                 $this->render_course_footer($course),
               ]
             ]
@@ -366,6 +418,13 @@ class AllCourseView
     ];
     $single_course_ui = apply_filters('acadlix_single_course_ui', $single_course_ui, $course);
     return $single_course_ui;
+  }
+
+  public function set_type($course)
+  {
+    if ($course->post_type == ACADLIX_COURSE_CPT) {
+      $this->type = 'course';
+    }
   }
 
   /**
@@ -437,11 +496,11 @@ class AllCourseView
           'component' => 'div',
           'props' => ['class' => 'acadlix-course-rating-value acadlix-body1'],
           'value' => sprintf(
-            /* translators: 1: average rating 2: total ratings */
-            esc_html__('%.2f (%d ratings)', 'acadlix'),
+            /* translators: 1: average rating, 2: total ratings */
+            esc_html__('%1$.2f (%2$d ratings)', 'acadlix'),
             $average_rating,
             $total_rating
-          )
+          ),
         ]
       ]
     ], $course);
@@ -597,7 +656,8 @@ class AllCourseView
       'component' => 'button',
       'props' => [
         'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-start-now',
-        'data-id' => esc_attr($course->ID)
+        'data-id' => esc_attr($course->ID),
+        'data-type' => esc_attr($this->type),
       ],
       'children' => [
         [
@@ -621,7 +681,8 @@ class AllCourseView
       'component' => 'button',
       'props' => [
         'class' => 'acadlix-action-button acadlix-subtitle2 acadlix-buy-now',
-        'data-id' => esc_attr($course->ID)
+        'data-id' => esc_attr($course->ID),
+        'data-type' => esc_attr($this->type),
       ],
       'children' => [
         [
@@ -660,7 +721,8 @@ class AllCourseView
       $is_course_purchased = $course->isPurchasedBy($userId);
       $cart = acadlix()->model()->courseCart()->where([
         ['user_id', '=', $userId],
-        ['course_id', '=', $course->ID],
+        ['item_id', '=', $course->ID],
+        ['type', '=', $this->type],
       ])->first();
     } else {
       if (isset($_COOKIE['acadlix_cart_token'])) {
@@ -668,7 +730,8 @@ class AllCourseView
           ->model()
           ->courseCart()
           ->where('cart_token', sanitize_text_field(wp_unslash($_COOKIE['acadlix_cart_token'])))
-          ->where('course_id', $course->ID)
+          ->where('item_id', $course->ID)
+          ->where('type', $this->type)
           ->first();
       }
     }
@@ -709,11 +772,11 @@ class AllCourseView
     $course_wishlist_count = acadlix()
       ->model()
       ->userActivityMeta()
-      ->ofCourse()
-      ->ofCourseWishlist()
+      ->ofWishlist()
       ->where([
         'type_id' => $course->ID,
         'user_id' => get_current_user_id(),
+        'type' => $this->type,
       ])
       ->count();
 
@@ -731,6 +794,7 @@ class AllCourseView
             'id' => 'add-to-wishlist-' . esc_attr($course->ID),
             'title' => esc_attr__('Add to Wishlist', 'acadlix'),
             'data-id' => esc_attr($course->ID),
+            'data-type' => esc_attr($this->type),
           ],
           'children' => [
             ['component' => 'i', 'props' => ['class' => 'far fa-heart']],
@@ -744,6 +808,7 @@ class AllCourseView
             'id' => 'remove-from-wishlist-' . esc_attr($course->ID),
             'title' => esc_attr__('Remove From Wishlist', 'acadlix'),
             'data-id' => esc_attr($course->ID),
+            'data-type' => esc_attr($this->type),
           ],
           'children' => [
             ['component' => 'i', 'props' => ['class' => 'fas fa-heart']],

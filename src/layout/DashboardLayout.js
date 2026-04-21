@@ -135,7 +135,7 @@ const MobileSidebar = ({ isDesktop, open, setOpen, handleDrawerToggle }) => {
         onClose={() => setOpen(false)}
         sx={{
           '& .MuiDrawer-paper': {
-            width: '200px',
+            width: '80%',
           },
         }}
       >
@@ -152,7 +152,7 @@ const MobileSidebar = ({ isDesktop, open, setOpen, handleDrawerToggle }) => {
           <Box sx={{
             display: "flex",
             alignItems: "center",
-            gap: 1,
+            gap: 2,
           }}>
             {
               acadlixOptions?.user_avatar_url
@@ -160,28 +160,40 @@ const MobileSidebar = ({ isDesktop, open, setOpen, handleDrawerToggle }) => {
                   <Avatar
                     src={acadlixOptions?.user_avatar_url}
                     sx={{
-                      width: 40,
-                      height: 40,
+                      width: 50,
+                      height: 50,
                     }}
+                    variant="rounded"
                   />
                 )
                 : (
                   <Avatar
                     sx={{
-                      width: 40,
-                      height: 40,
+                      width: 50,
+                      height: 50,
                     }}
                   >
                     {nameToInitials(acadlixOptions?.user?.display_name)}
                   </Avatar>
                 )
             }
-            <Typography
-              component="div"
-              variant="h6"
-            >
-              {acadlixOptions?.user?.display_name}
-            </Typography>
+            <Box>
+              <Typography
+                component="div"
+                variant="h6"
+              >
+                {acadlixOptions?.user?.display_name}
+              </Typography>
+              <Typography
+                component="div"
+                variant="caption"
+                sx={{
+                  wordBreak: "break-all",
+                }}
+              >
+                {acadlixOptions?.user?.user_email}
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Divider />

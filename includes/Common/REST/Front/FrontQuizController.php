@@ -10,7 +10,6 @@ defined('ABSPATH') || exit();
 class FrontQuizController
 {
   protected $namespace = 'acadlix/v1';
-
   protected $base = 'front-quiz';
 
   public function register_routes()

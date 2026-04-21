@@ -240,8 +240,8 @@ const OptionButtonSection = (props) => {
         }}
       >
         {
-        !props?.watch("disable_hint") &&
-        props?.watch(`questions.${props?.index}.hint_enabled`) &&
+          !props?.watch("disable_hint") &&
+          props?.watch(`questions.${props?.index}.hint_enabled`) &&
           props
             ?.watch(`questions.${props?.index}.language`)
             .filter((d) => d?.selected)?.[0]?.hint_msg?.length > 0 && (
@@ -298,6 +298,21 @@ const OptionButtonSection = (props) => {
             {props?.last ? __("Quiz Summary", "acadlix") : __("Next", "acadlix")}
           </CustomButton>
         )}
+
+        {
+          ["normal", "check_and_continue", "question_below_each_other"]?.includes(props?.watch("mode")) &&
+          props?.watch("show_finish_button") && (
+            <CustomButton
+              disabled={
+                props?.watch("force_user_to_answer_each_question") &&
+                props?.watch('questions').filter(d => d?.result?.solved_count)?.length !== props?.watch("questions").length}
+              onClick={props?.handleFinishQuiz}
+              className="acadlix-normal-quiz-button-finish-quiz"
+            >
+              {__("Finish Quiz", "acadlix")}
+            </CustomButton>
+          )
+        }
 
         {["question_below_each_other"]?.includes(props?.watch("mode")) &&
           props?.last && (

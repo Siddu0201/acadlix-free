@@ -48,6 +48,10 @@ const CourseContent = () => {
       course_completion_percentage: 0,
       course_completed: false,
       sections: [],
+      certificate: null,
+      enable_certificate: false,
+      lock_completed_content: false,
+      disable_mark_as_incomplete: false,
     },
   });
 
@@ -164,6 +168,9 @@ const CourseContent = () => {
   );
 
   React.useEffect(() => {
+    if(data?.data?.certificate){
+      methods?.setValue("certificate", data?.data?.certificate ?? {}, { shouldDirty: true });
+    }
     if (data?.data?.course) {
       let course = data?.data?.course;
       methods?.setValue("course_id", course?.ID, { shouldDirty: true });
@@ -172,6 +179,15 @@ const CourseContent = () => {
         shouldDirty: true,
       });
       methods?.setValue("course_content", course?.rendered_post_content, {
+        shouldDirty: true,
+      });
+      methods?.setValue("enable_certificate", Boolean(course?.rendered_metas?.enable_certificate), {
+        shouldDirty: true,
+      });
+      methods?.setValue("lock_completed_content", Boolean(course?.rendered_metas?.lock_completed_content), {
+        shouldDirty: true,
+      });
+      methods?.setValue("disable_mark_as_incomplete", Boolean(course?.rendered_metas?.disable_mark_as_incomplete), {
         shouldDirty: true,
       });
       let i = 0;
@@ -332,6 +348,7 @@ const CourseContent = () => {
 
   if (process?.env?.REACT_APP_MODE === 'development') {
     console.log(methods?.watch("sections"));
+    console.log(methods?.watch());
   }
 
 
@@ -426,6 +443,9 @@ const CourseContent = () => {
               //   position: "top-center"
               // })
               methods?.setValue("course_completed", true, { shouldDirty: true });
+            }
+            if(data?.data?.certificate){
+              methods?.setValue("certificate", data?.data?.certificate ?? {}, { shouldDirty: true });
             }
           }
         },

@@ -12,15 +12,15 @@ defined('ABSPATH') || exit();
 
 class Payments
 {
-    protected $_razorpay;
-    protected $_paypal;
-    protected $_payu;
-    protected $_stripe;
-    protected $_offline;
+    protected $_razorpay = null;
+    protected $_paypal = null;
+    protected $_payu = null;
+    protected $_stripe = null;
+    protected $_offline = null;
 
     public function razorpay(): Razorpay
     {
-        if (!$this->_razorpay) {
+        if (is_null($this->_razorpay)) {
             $this->_razorpay = new Razorpay();
         }
         return $this->_razorpay;
@@ -28,7 +28,7 @@ class Payments
 
     public function paypal(): Paypal
     {
-        if (!$this->_paypal) {
+        if (is_null($this->_paypal)) {
             $this->_paypal = new Paypal();
         }
         return $this->_paypal;
@@ -36,7 +36,7 @@ class Payments
 
     public function payu(): PayU
     {
-        if (!$this->_payu) {
+        if (is_null($this->_payu)) {
             $this->_payu = new PayU();
         }
         return $this->_payu;
@@ -44,7 +44,7 @@ class Payments
 
     public function stripe(): Stripe
     {
-        if (!$this->_stripe) {
+        if (is_null($this->_stripe)) {
             $this->_stripe = new Stripe();
         }
         return $this->_stripe;
@@ -52,7 +52,7 @@ class Payments
 
     public function offline(): Offline
     {
-        if (!$this->_offline) {
+        if (is_null($this->_offline)) {
             $this->_offline = new Offline();
         }
         return $this->_offline;

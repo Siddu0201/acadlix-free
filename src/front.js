@@ -6,6 +6,7 @@ import { createRoot } from '@wordpress/element';
 import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
 import FrontLogin from './front/FrontLogin';
 import AppFrontLeaderboard from './front/AppFrontLeaderboard';
+import Certificate from './front/Certificate';
 
 (async () => {
     await loadFrontHooks(window?.acadlixHooks);
@@ -68,6 +69,12 @@ import AppFrontLeaderboard from './front/AppFrontLeaderboard';
         if (dashboard) {
             const dashboardRoot = createRoot(dashboard);
             dashboardRoot.render(<Dashbaord ></Dashbaord>);
+        }
+
+        const certificate = document.getElementById("acadlix_certificate");
+        if (certificate) {
+            const certificateRoot = createRoot(certificate);
+            certificateRoot.render(<Certificate ></Certificate>);
         }
 
         const advanceQuiz = document.getElementById("acadlix_advance_quiz");

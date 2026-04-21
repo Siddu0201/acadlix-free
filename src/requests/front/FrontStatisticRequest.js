@@ -3,16 +3,18 @@ import { useInstance } from "@acadlix/helpers/util";
 
 const base = "/front-statistic";
 
-export const GetStatisticByUserId = (user_id = '', page = 0, pageSize = 10) => {
+export const GetStatisticByUserId = (user_id = '', page = 0, pageSize = 10, search = '', categoryIds = []) => {
     const instance = useInstance();
     return useQuery({
-        queryKey: ["getStatisticByUserId", user_id, page, pageSize],
+        queryKey: ["getStatisticByUserId", user_id, page, pageSize, search, categoryIds],
         queryFn: () => {
             return instance.get(`${base}`, {
                 params: {
                     user_id: user_id,
                     page: page,
                     pageSize: pageSize,
+                    search: search,
+                    category_ids: categoryIds,
                     _t: Date.now(),
                 },
                 headers: {

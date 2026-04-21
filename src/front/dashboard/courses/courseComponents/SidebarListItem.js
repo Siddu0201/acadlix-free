@@ -27,7 +27,10 @@ const SidebarListItem = (props) => {
       <Checkbox
         checked={props?.c?.is_completed}
         disableRipple
-        disabled={!props?.c?.is_completed}
+        disabled={
+          !props?.c?.is_completed ||
+          (props?.c?.is_completed && props?.watch("disable_mark_as_incomplete"))
+        }
         onClick={(e) => {
           e?.stopPropagation();
           props?.handleIncomplete(props?.c?.id, props?.index, props?.c_index);
@@ -76,7 +79,7 @@ const SidebarListItem = (props) => {
                   />
                 )}
                 {props?.c?.lesson_type === "video" &&
-                props?.c?.type === "lesson"
+                  props?.c?.type === "lesson"
                   ? `${props?.c?.hours}:${props?.c?.minutes}:${props?.c?.seconds}`
                   : __("1 min", "acadlix")}
               </Typography>

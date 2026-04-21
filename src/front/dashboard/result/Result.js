@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FaExpandArrowsAlt } from "@acadlix/helpers/icons";
+import { FaExpandArrowsAlt, FaSearch } from "@acadlix/helpers/icons";
 import {
   Box,
   Typography,
@@ -10,6 +10,9 @@ import {
   IconButton,
   CardHeader,
   Chip,
+  Autocomplete,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
@@ -21,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import Loader from "@acadlix/components/Loader";
+import CustomTextField from "@acadlix/components/CustomTextField";
 
 export default function Result() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -38,6 +42,9 @@ export default function Result() {
       resstatistic_ref_idsult_ids: [],
     },
   });
+
+  const [categoryIds, setCategoryIds] = React.useState([]);
+  const [search, setSearch] = React.useState([]);
   const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
 
   const columns = window.acadlixHooks?.applyFilters(
@@ -116,7 +123,10 @@ export default function Result() {
   const { data, isFetching, refetch } = GetStatisticByUserId(
     acadlixOptions?.user?.ID,
     paginationModel?.page,
-    paginationModel?.pageSize);
+    paginationModel?.pageSize,
+    search,
+    categoryIds
+  );
 
   React.useMemo(() => {
     if (Array.isArray(data?.data?.stat_refs)) {
@@ -130,7 +140,8 @@ export default function Result() {
             score: stat_ref?.points?.toFixed(2),
             percentage: stat_ref?.result?.toFixed(2),
             status: stat_ref?.status ?? "NA",
-            hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false
+            hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false,
+            category_name: stat_ref?.quiz?.category?.name || "",
           },
           {
             stat_ref: stat_ref,
@@ -155,6 +166,7 @@ export default function Result() {
     localStorage.setItem('frontResultPage', model.page);
     localStorage.setItem('frontResultPageSize', model.pageSize);
   };
+
 
   return (
     <Box>
@@ -195,6 +207,65 @@ export default function Result() {
                   flexDirection: 'column',
                 }}
               >
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: {
+                    xs: 'column',
+                    md: 'row',
+                  },
+                  alignItems: {
+                    xs: 'stretch',
+                    md: 'flex-start',
+                  },
+                  justifyContent: "space-between",
+                  gap: 2,
+                  marginBottom: 2,
+                }}>
+                  <Autocomplete
+                    multiple
+                    id="category-select"
+                    options={data?.data?.categories ?? []}
+                    getOptionLabel={(option) => option?.name ?? ""}
+                    onChange={(event, newValue) => {
+                      setCategoryIds(newValue?.map((v) => v?.term_id));
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label={__("Filter by Category", "acadlix")}
+                        placeholder={__("Select categories", "acadlix")}
+                        size="small"
+                      />
+                    )}
+                    sx={{
+                      minWidth: {
+                        xs: '100%',
+                        md: '300px',
+                      },
+                    }}
+                  />
+                  <CustomTextField
+                    size="small"
+                    label={__("Search", "acadlix")}
+                    helperText={__("Search by title", "acadlix")}
+                    name="search"
+                    value={search ?? ""}
+                    onChange={(e) => {
+                      setSearch(e?.target?.value);
+                    }}
+                    type="search"
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <FaSearch />
+                          </InputAdornment>
+                        )
+                      }
+                    }}
+                  />
+                </Box>
                 <MobileOnlyView
                   {...methods}
                   isFetching={isFetching}
@@ -635,6 +706,22 @@ const SingleResult = ({ row, ...props }) => {
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        component: "Box",
+        component_name: "single_result_box_category",
+        props: {
+        },
+        children: [
+          {
+            component: "Chip",
+            component_name: "single_result_box_category_chip",
+            props: {
+              label: row?.category_name,
+              color: "primary",
+            },
           }
         ]
       },

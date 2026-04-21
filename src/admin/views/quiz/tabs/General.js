@@ -397,6 +397,33 @@ const General = (props) => {
           />
         </GridItem1>
 
+        {/* Show Finish Button */}
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Show Finish Button", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__("Enables the finish button to be displayed in all the questions.", "acadlix")}
+              placement="right-start"
+            />
+          </CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <FormControlLabel
+            control={<CustomSwitch />}
+            checked={props?.watch("meta.quiz_settings.show_finish_button") ?? false}
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.show_finish_button", e?.target?.checked, {
+                shouldDirty: true,
+              });
+            }}
+            disabled={
+              props?.watch("meta.mode") === "advance_mode"
+            }
+            label={__("Activate", "acadlix")}
+          />
+        </GridItem1>
+
       </Grid>
 
       <Box

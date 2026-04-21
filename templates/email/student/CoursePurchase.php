@@ -100,7 +100,7 @@ $acadlix_textPrimary = $acadlix_theme['palette']['text']['primary'] ?? 'hsl(215,
 
             <p><strong><?php echo esc_html__('Order Details:', 'acadlix'); ?></strong></p>
             <ul>
-                <li><strong><?php echo esc_html__('Course Purchased:', 'acadlix'); ?></strong>
+                <li><strong><?php echo esc_html__('Item Purchased:', 'acadlix'); ?></strong>
                     <?php echo esc_html($course_names); ?></li>
                 <li><strong><?php echo esc_html__('Amount Paid:', 'acadlix'); ?></strong> <?php echo esc_html($order_amount); ?>
                 </li>

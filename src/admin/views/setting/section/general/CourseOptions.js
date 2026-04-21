@@ -382,6 +382,57 @@ const CourseOptions = (props) => {
               }
             ]
           },
+          {
+            component: "Grid",
+            component_name: "course_options_grid_item_disable_student_enrolled",
+            props: {
+              size: {
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }
+            },
+            children: [
+              {
+                component: "CustomTypography",
+                component_name: "course_options_custom_typography_disable_student_enrolled",
+                value: __("Disable student enrolled", "acadlix"),
+              },
+            ]
+          },
+          {
+            component: "Grid",
+            props: {
+              size: {
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }
+            },
+            children: [
+              {
+                component: "FormControlLabel",
+                component_name: "course_options_form_control_label_disable_student_enrolled",
+                props: {
+                  control: {
+                    component: "CustomSwitch",
+                  },
+                  label: __("Activate", "acadlix"),
+                  checked: props.watch("acadlix_disable_student_enrolled") === "yes",
+                  onChange: (e) => {
+                    if (e?.target?.checked !== undefined) {
+                      props?.setValue(
+                        "acadlix_disable_student_enrolled",
+                        e?.target?.checked ? e?.target?.value : "no",
+                        { shouldDirty: true }
+                      );
+                    }
+                  },
+                  value: "yes",
+                }
+              }
+            ]
+          },
         ]
       }
     ]

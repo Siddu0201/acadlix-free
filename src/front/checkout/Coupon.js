@@ -82,14 +82,14 @@ const Coupon = (props) => {
                 let price_after_discount = formatPrice((price + (c?.additional_fee || 0)) - new_discount);
 
                 let tax = 0;
-                let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
+                let item = props?.watch("cart")?.find((item) => item.item_id === c?.item_id)?.item;
                 if (
                   c?.tax > 0 &&
-                  course?.rendered_metas?.tax !== 0 &&
-                  course?.rendered_metas?.tax_percent !== 0
+                  item?.rendered_metas?.tax !== 0 &&
+                  item?.rendered_metas?.tax_percent !== 0
                 ) {
                   tax = formatPrice(
-                    (price_after_discount * course?.rendered_metas?.tax_percent) / 100
+                    (price_after_discount * item?.rendered_metas?.tax_percent) / 100
                   );
                 }
                 let price_after_tax = formatPrice(price_after_discount + tax);
@@ -136,14 +136,14 @@ const Coupon = (props) => {
           let price_after_discount = formatPrice(price - discount);
           let additional_fee = 0;
           let tax = 0;
-          let course = props?.watch("cart")?.find((item) => item.course_id === c?.course_id)?.course;
+          let item = props?.watch("cart")?.find((item) => item.item_id === c?.item_id)?.item;
           if (
             c?.tax > 0 &&
-            course?.rendered_metas?.tax !== 0 &&
-            course?.rendered_metas?.tax_percent !== 0
+            item?.rendered_metas?.tax !== 0 &&
+            item?.rendered_metas?.tax_percent !== 0
           ) {
             tax = formatPrice(
-              (price_after_discount * course?.rendered_metas?.tax_percent) / 100
+              (price_after_discount * item?.rendered_metas?.tax_percent) / 100
             );
           }
           let price_after_tax = formatPrice(price_after_discount + tax);

@@ -24,7 +24,7 @@ import toast from "react-hot-toast";
 import { GrUserManager, SlLocationPin } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import CustomTextField from "@acadlix/components/CustomTextField";
-import { nameToInitials } from "@acadlix/helpers/util";
+import { formatPhoneCode, nameToInitials } from "@acadlix/helpers/util";
 import { useOutletContext } from "react-router-dom";
 
 const Profile = () => {
@@ -35,6 +35,7 @@ const Profile = () => {
       last_name: "",
       email: "",
       phonecode: null,
+      isocode: null,
       phone_number: "",
       address: "",
       user_url: "",
@@ -62,6 +63,9 @@ const Profile = () => {
       email: user?.user_email ?? "",
       phonecode:
         getUserMetaValue(user?.user_metas, "_acadlix_profile_phonecode") ??
+        null,
+      isocode:
+        getUserMetaValue(user?.user_metas, "_acadlix_profile_isocode") ??
         null,
       phone_number:
         getUserMetaValue(user?.user_metas, "_acadlix_profile_phone_number") ??
@@ -376,7 +380,7 @@ const Profile = () => {
                       disabled={true}
                     />
                   </Grid>
-                  <Grid size={{ xs: 4, sm: open ? 4 : 3 }}>
+                  <Grid size={{ xs: 5, sm: 4 }}>
                     <Autocomplete
                       fullWidth
                       slotProps={{
@@ -397,19 +401,32 @@ const Profile = () => {
                       size="small"
                       options={Country.getAllCountries()}
                       getOptionLabel={(option) =>
-                        `${option.phonecode} (${option.isoCode})`
+                        `${formatPhoneCode(option.phonecode)} (${option.name})`
                       }
                       value={
                         methods.watch("phonecode") !== null
                           ? Country?.getAllCountries()?.find(
-                            (country) =>
-                              country?.phonecode ===
-                              methods?.watch("phonecode")
+                            (country) => {
+                              const isocode = methods.watch("isocode");
+                              if (isocode) {
+                                return (
+                                  country.isoCode === isocode &&
+                                  country.phonecode === methods?.watch("phonecode")
+                                );
+                              }
+                              return (
+                                country?.phonecode ===
+                                methods?.watch("phonecode")
+                              );
+                            }
                           ) ?? null
                           : null
                       }
                       onChange={(_, newValue) => {
                         methods.setValue("phonecode", newValue?.phonecode, {
+                          shouldDirty: true,
+                        });
+                        methods.setValue("isocode", newValue?.isoCode, {
                           shouldDirty: true,
                         });
                       }}
@@ -425,7 +442,7 @@ const Profile = () => {
                               fontSize: "11px",
                             }}
                           >
-                            {option.phonecode} ({option.isoCode})
+                            {formatPhoneCode(option.phonecode)} ({option.name})
                           </Box>
                         );
                       }}
@@ -446,7 +463,7 @@ const Profile = () => {
                       )}
                     />
                   </Grid>
-                  <Grid size={{ xs: 8, sm: open ? 8 : 9 }}>
+                  <Grid size={{ xs: 7, sm: 8 }}>
                     <CustomTextField
                       fullWidth
                       label={__("Phone / Mobile", "acadlix")}

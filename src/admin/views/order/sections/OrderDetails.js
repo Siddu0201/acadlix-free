@@ -203,7 +203,7 @@ const OrderDetails = (props) => {
 												component: "Grid",
 												component_name: "order_details_offline_user_text_value_grid_item",
 												props: {
-													size: { xs: 12, sm: 6, lg: 9 },
+													size: { xs: 12, sm: 6, lg: 3 },
 												},
 												children: [
 													{

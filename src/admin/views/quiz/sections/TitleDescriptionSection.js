@@ -3,18 +3,7 @@ import React from "react";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { __ } from "@wordpress/i18n";
 import Grid from "@mui/material/Grid";
-
-const AiButton = React.lazy(() =>
-  process.env.REACT_APP_IS_PREMIUM === 'true'
-    ? import(
-        /* webpackChunkName: "admin_quiz_pro_ai_button" */
-        "@acadlix/pro/admin/quiz/description/AiButton"
-      )
-    : import(
-        /* webpackChunkName: "admin_quiz_free_ai_button" */
-        "@acadlix/free/admin/quiz/description/AiButton"
-      )
-)
+import AiButton from "@acadlix/free/admin/quiz/description/AiButton";
 
 const TitleDescriptionSection = (props) => {
   const loadPage = () => {
@@ -68,11 +57,9 @@ const TitleDescriptionSection = (props) => {
               <Typography variant="h4">{__("Quiz Description", "acadlix")}</Typography>
 
               {/* handle Ai for generating description */}
-              <React.Suspense fallback={null}>
-                <AiButton
-                  {...props}
-                />
-              </React.Suspense>
+              <AiButton
+                {...props}
+              />
             </Grid>
             {/* Used to enter quiz decription, we replace textarea with tinymce editor  */}
             <Grid size={{ xs: 12, sm: 12 }}>

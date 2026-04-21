@@ -4,39 +4,22 @@ defined('ABSPATH') || exit();
 
 abstract class AcadlixAbstract {
 	protected $database = null;
-
 	protected $license = null;
-
 	protected $admin = null;
-
 	protected $controller = null;
-
 	protected $view = null;
-
 	protected $rest = null;
-
 	protected $assets = null;
-
 	protected $cpt = null;
-
 	protected $helper = null;
-
 	protected $migration = null;
-
 	protected $seeder = null;
-
 	protected $ai = null;
-
 	protected $model = null;
-
 	protected $integrations = null;
-
 	protected $payments = null;
-
 	protected $schedule = null;
-
 	protected $notifications = null;
-
 	protected $authentications = null;
 	
 	public function database()
