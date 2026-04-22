@@ -252,6 +252,11 @@ class Manager
         'version' => ACADLIX_VERSION,
         'deps' => [],
       ],
+      'acadlix-admin-css' => [
+        'src' => ACADLIX_ASSETS_CSS_URL . 'admin/acadlix_admin.css',
+        'version' => ACADLIX_VERSION,
+        'deps' => [],
+      ],
     ];
   }
 
@@ -508,6 +513,7 @@ class Manager
   public function enqueue_common_assets()
   {
     wp_enqueue_script('acadlix-global-hooks');
+    wp_enqueue_style('acadlix-admin-css');
 
     $content_protection_enabled = acadlix()->helper()->acadlix_get_option('acadlix_enable_content_protection') === 'yes';
     if ($content_protection_enabled && !is_admin()) {

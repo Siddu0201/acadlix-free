@@ -1,0 +1,10 @@
+a:has(>span.acadlix-get-pro-text) {
+  background-color: orange;
+  font-weight: 600;
+  color: #000 !important
+}
+
+a:has(>span.acadlix-get-pro-text):hover {
+  color: #000 !important;
+  background-color: orange !important
+}
