@@ -9,8 +9,6 @@ if (!class_exists(__NAMESPACE__ . '\\LiteSpeedCache')) {
   {
     public function __construct()
     {
-      // add_filter('litespeed_optimize_js_excludes', [$this, 'js_exclude']);
-      // add_filter('litespeed_optimize_css_excludes ', [$this, 'css_exclude']);
       add_action('plugins_loaded', [$this, 'init_cache_detection'], 20);
     }
 
