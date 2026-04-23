@@ -8,7 +8,6 @@ import MatrixSortingChoice from "./types/MatrixSortingChoice";
 import { Button, Box, Typography, CircularProgress } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
-import LanguageSection from "./sections/LanguageSection";
 import GeneralOptionSection from "./sections/GeneralOptionSection";
 import QuestionTextSection from "./sections/QuestionTextSection";
 import QuestionMessageSection from "./sections/QuestionMessageSection";

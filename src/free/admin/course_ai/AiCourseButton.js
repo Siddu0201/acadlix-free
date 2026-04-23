@@ -1,6 +1,5 @@
 import React from 'react'
 import AiDescription from '@acadlix/modules/ai/AiDescription';
-import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';
 import { __ } from "@wordpress/i18n";
 
 const AiCourseButton = (props) => {

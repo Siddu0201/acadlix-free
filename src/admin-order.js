@@ -5,10 +5,10 @@ import AdminOrder from '@acadlix/admin/AdminOrder';
 import { loadAdminOrderHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
-    await loadAdminOrderHooks(window?.acadlixHooks);
-    const acadlixElement = document.getElementById('acadlix-admin-order');
-    if (acadlixElement){
-        const acadlixElementRoot = createRoot(acadlixElement);
-        acadlixElementRoot.render(<AdminOrder></AdminOrder>);
-    }
+  await loadAdminOrderHooks(window?.acadlixHooks);
+  const acadlixElement = document.getElementById('acadlix-admin-order');
+  if (acadlixElement) {
+    const acadlixElementRoot = createRoot(acadlixElement);
+    acadlixElementRoot.render(<AdminOrder></AdminOrder>);
+  }
 })();

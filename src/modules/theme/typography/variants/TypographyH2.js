@@ -8,80 +8,80 @@ import CustomLetterSpacing from '@acadlix/components/CustomLetterSpacing'
 import { __ } from '@wordpress/i18n'
 
 const TypographyH2 = (props) => {
-    return (
-        <Grid
-            container
-            spacing={{
-                xs: 2,
-                sm: 4,
-            }}
-            sx={{
-                alignItems: "center",
-                marginTop: 4,
-            }}
-        >
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomTypography>
-                    {__('Font Size', 'acadlix')}
-                </CustomTypography>
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomFontSize
-                    name={`typography.h2.fontSize.${props?.type}`}
-                    {...props}
-                />
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomTypography>
-                    {__('Font Weight', 'acadlix')}
-                </CustomTypography>
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomFontWeight
-                    name={`typography.h2.fontWeight.${props?.type}`}
-                    {...props}
-                />
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomTypography>
-                    {__('Line Height', 'acadlix')}
-                </CustomTypography>
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomLineHeight
-                    name={`typography.h2.lineHeight.${props?.type}`}
-                    {...props}
-                />
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomTypography>
-                    {__('Letter Spacing', 'acadlix')}
-                </CustomTypography>
-            </Grid>
-            <Grid
-                size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
-            >
-                <CustomLetterSpacing
-                    name={`typography.h2.letterSpacing.${props?.type}`}
-                    {...props}
-                />
-            </Grid>
-        </Grid>
-    )
+  return (
+    <Grid
+      container
+      spacing={{
+        xs: 2,
+        sm: 4,
+      }}
+      sx={{
+        alignItems: "center",
+        marginTop: 4,
+      }}
+    >
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomTypography>
+          {__('Font Size', 'acadlix')}
+        </CustomTypography>
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomFontSize
+          name={`typography.h2.fontSize.${props?.type}`}
+          {...props}
+        />
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomTypography>
+          {__('Font Weight', 'acadlix')}
+        </CustomTypography>
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomFontWeight
+          name={`typography.h2.fontWeight.${props?.type}`}
+          {...props}
+        />
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomTypography>
+          {__('Line Height', 'acadlix')}
+        </CustomTypography>
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomLineHeight
+          name={`typography.h2.lineHeight.${props?.type}`}
+          {...props}
+        />
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomTypography>
+          {__('Letter Spacing', 'acadlix')}
+        </CustomTypography>
+      </Grid>
+      <Grid
+        size={{ lg: 3, md: 3, sm: 6, xs: 6 }}
+      >
+        <CustomLetterSpacing
+          name={`typography.h2.letterSpacing.${props?.type}`}
+          {...props}
+        />
+      </Grid>
+    </Grid>
+  )
 }
 
 export default TypographyH2

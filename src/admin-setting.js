@@ -5,10 +5,10 @@ import { loadAdminSettingHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 
 (async () => {
-    await loadAdminSettingHooks(window?.acadlixHooks);
-    const acadlixElement = document.getElementById('acadlix-admin-setting');
-    if (acadlixElement){
-        const acadlixElementRoot = createRoot(acadlixElement);
-        acadlixElementRoot.render(<AdminSetting></AdminSetting>);
-    }
+  await loadAdminSettingHooks(window?.acadlixHooks);
+  const acadlixElement = document.getElementById('acadlix-admin-setting');
+  if (acadlixElement) {
+    const acadlixElementRoot = createRoot(acadlixElement);
+    acadlixElementRoot.render(<AdminSetting></AdminSetting>);
+  }
 })();

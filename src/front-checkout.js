@@ -6,9 +6,9 @@ import { loadFrontCheckoutHooks } from '@acadlix/modules/extensions/hooksLoader'
 
 await loadFrontCheckoutHooks(window?.acadlixHooks);
 domReady(() => {
-    const frontCheckout = document.getElementById("acadlix_checkout");
-    if (frontCheckout) {
-        const frontCheckoutRoot = createRoot(frontCheckout);
-        frontCheckoutRoot.render(<FrontCheckout></FrontCheckout>);
-    }
+  const frontCheckout = document.getElementById("acadlix_checkout");
+  if (frontCheckout) {
+    const frontCheckoutRoot = createRoot(frontCheckout);
+    frontCheckoutRoot.render(<FrontCheckout></FrontCheckout>);
+  }
 });

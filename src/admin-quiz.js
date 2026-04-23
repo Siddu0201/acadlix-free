@@ -5,10 +5,10 @@ import AdminQuiz from '@acadlix/admin/AdminQuiz';
 import { loadAdminQuizHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
-    await loadAdminQuizHooks(window?.acadlixHooks);
-    const acadlixElement = document.getElementById('acadlix-admin-quiz');
-    if (acadlixElement){
-        const acadlixElementRoot = createRoot(acadlixElement);
-        acadlixElementRoot.render(<AdminQuiz></AdminQuiz>);
-    }
+  await loadAdminQuizHooks(window?.acadlixHooks);
+  const acadlixElement = document.getElementById('acadlix-admin-quiz');
+  if (acadlixElement) {
+    const acadlixElementRoot = createRoot(acadlixElement);
+    acadlixElementRoot.render(<AdminQuiz></AdminQuiz>);
+  }
 })();

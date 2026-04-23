@@ -6,232 +6,232 @@ import { __ } from "@wordpress/i18n";
 const base = "/admin-assignment";
 
 export const GetAssignments = (page = 0, pageSize = 10, search = '') => {
-    const instance = useInstance();
-    return useQuery({
-        queryKey: ["getAssignments", page, pageSize, search],
-        queryFn: () => {
-            return instance.get(base, {
-                params: {
-                    page: page,
-                    pageSize: pageSize,
-                    search: search,
-                    _t: Date.now(),
-                },
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getAssignments", page, pageSize, search],
+    queryFn: () => {
+      return instance.get(base, {
+        params: {
+          page: page,
+          pageSize: pageSize,
+          search: search,
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    });
+      });
+    }
+  });
 }
 
 export const PostCreateAssignment = () => {
-    const instance = useInstance();
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(base, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
-        },
-        onSuccess: () => {
-            toast.success(__('Assignment successfully created.', 'acadlix'));
-            queryClient.invalidateQueries({
-                queryKey: ["getAssignments"]
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
+  const instance = useInstance();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(base, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    })
+      });
+    },
+    onSuccess: () => {
+      toast.success(__('Assignment successfully created.', 'acadlix'));
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignments"]
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  })
 }
 
 export const GetAssignmentById = (assignment_id = '') => {
-    const instance = useInstance();
-    return useQuery({
-        queryKey: ["getAssignmentById", assignment_id],
-        queryFn: () => {
-            if (!assignment_id) return {};
-            return instance.get(`${base}/${assignment_id}`, {
-                params: {
-                    _t: Date.now(),
-                },
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getAssignmentById", assignment_id],
+    queryFn: () => {
+      if (!assignment_id) return {};
+      return instance.get(`${base}/${assignment_id}`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    });
+      });
+    }
+  });
 }
 
 export const UpdateAssignmentById = (assignment_id = '') => {
-    const instance = useInstance();
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.put(`${base}/${assignment_id}`, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
-        },
-        onSuccess: () => {
-            toast.success(__('Assignment successfully updated.', 'acadlix'));
-            queryClient.invalidateQueries({
-                queryKey: ["getAssignments"]
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
+  const instance = useInstance();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.put(`${base}/${assignment_id}`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    })
+      });
+    },
+    onSuccess: () => {
+      toast.success(__('Assignment successfully updated.', 'acadlix'));
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignments"]
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  })
 }
 
 export const GetAssignmentSubmissionsById = (
-    assignment_id = '',
-    page = 0,
-    pageSize = 10,
-    search = '',
-    course_id = '',
-    user_status = '',
-    admin_status = ''
+  assignment_id = '',
+  page = 0,
+  pageSize = 10,
+  search = '',
+  course_id = '',
+  user_status = '',
+  admin_status = ''
 ) => {
-    const instance = useInstance();
-    return useQuery({
-        queryKey: ["getAssignmentSubmissionsById", assignment_id, page, pageSize, search, course_id, user_status, admin_status],
-        queryFn: () => {
-            if (!assignment_id) return {};
-            return instance.get(`${base}/${assignment_id}/submissions`, {
-                params: {
-                    page: page,
-                    pageSize: pageSize,
-                    search: search,
-                    course_id: course_id,
-                    user_status: user_status,
-                    admin_status: admin_status,
-                    _t: Date.now(),
-                },
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getAssignmentSubmissionsById", assignment_id, page, pageSize, search, course_id, user_status, admin_status],
+    queryFn: () => {
+      if (!assignment_id) return {};
+      return instance.get(`${base}/${assignment_id}/submissions`, {
+        params: {
+          page: page,
+          pageSize: pageSize,
+          search: search,
+          course_id: course_id,
+          user_status: user_status,
+          admin_status: admin_status,
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    });
+      });
+    }
+  });
 }
 
 export const GetEvaluationAssignment = (assignment_id = '', course_statistic_id = '') => {
-    const instance = useInstance();
-    return useQuery({
-        queryKey: ["getEvaluationAssignment", assignment_id, course_statistic_id],
-        queryFn: () => {
-            if (!assignment_id || !course_statistic_id) return {};
-            return instance.get(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
-                params: {
-                    _t: Date.now(),
-                },
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getEvaluationAssignment", assignment_id, course_statistic_id],
+    queryFn: () => {
+      if (!assignment_id || !course_statistic_id) return {};
+      return instance.get(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    });
+      });
+    }
+  });
 }
 
 export const PostEvaluateAssignment = (assignment_id = '', course_statistics_id = '') => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`,
-                data,
-                {
-                    headers: {
-                        "X-WP-Nonce": acadlixOptions?.nonce,
-                    }
-                });
-        },
-        onSuccess: (data) => {
-            toast.success(data?.data?.message);
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
-        }
-    })
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/${assignment_id}/evaluation/${course_statistics_id}`,
+        data,
+        {
+          headers: {
+            "X-WP-Nonce": acadlixOptions?.nonce,
+          }
+        });
+    },
+    onSuccess: (data) => {
+      toast.success(data?.data?.message);
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  })
 }
 
 export const DeleteEvaluationAssignment = (assignment_id = '') => {
-    const instance = useInstance();
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (course_statistic_id) => {
-            return instance.delete(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
-                headers: {
-                    'X-WP-Nonce': acadlixOptions?.nonce,
-                }
-            });
-        },
-        onSuccess: (data) => {
-            toast.success(data?.data?.message);
-            queryClient.invalidateQueries({
-                queryKey: ["getAssignmentSubmissionsById"]
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
+  const instance = useInstance();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (course_statistic_id) => {
+      return instance.delete(`${base}/${assignment_id}/evaluation/${course_statistic_id}`, {
+        headers: {
+          'X-WP-Nonce': acadlixOptions?.nonce,
         }
-    })
+      });
+    },
+    onSuccess: (data) => {
+      toast.success(data?.data?.message);
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignmentSubmissionsById"]
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  })
 }
 
 export const DeleteAssignmentById = () => {
-    const instance = useInstance();
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (assignment_id = '') => {
-            return instance.delete(`${base}/${assignment_id}`, {
-                headers: {
-                    'X-WP-Nonce': acadlixOptions?.nonce,
-                }
-            });
-        },
-        onSuccess: (data) => {
-            toast.success(data?.data?.message);
-            queryClient.invalidateQueries({
-                queryKey: ["getAssignments"]
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
+  const instance = useInstance();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (assignment_id = '') => {
+      return instance.delete(`${base}/${assignment_id}`, {
+        headers: {
+          'X-WP-Nonce': acadlixOptions?.nonce,
         }
-    })
+      });
+    },
+    onSuccess: (data) => {
+      toast.success(data?.data?.message);
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignments"]
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  })
 }
 
 export const DeleteBulkAssignment = () => {
-    const instance = useInstance();
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.delete(`${base}/delete-bulk-assignment`, {
-                headers: {
-                    'X-WP-Nonce': acadlixOptions?.nonce,
-                },
-                data: data
-            });
+  const instance = useInstance();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.delete(`${base}/delete-bulk-assignment`, {
+        headers: {
+          'X-WP-Nonce': acadlixOptions?.nonce,
         },
-        onSuccess: (data) => {
-            toast.success(data?.data?.message);
-            queryClient.invalidateQueries({
-                queryKey: ["getAssignments"]
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
-        }
-    });
+        data: data
+      });
+    },
+    onSuccess: (data) => {
+      toast.success(data?.data?.message);
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignments"]
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  });
 }

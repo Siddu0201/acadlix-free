@@ -5,12 +5,12 @@ import React from 'react'
 const DesignSections = (props) => {
   return (
     <>
-        {
-            props?.selected === 'palette' && <Palette free={true} {...props} />
-        }
-        {
-          props?.selected === 'typography' && <DesignTypography free={true} {...props} />
-        }
+      {
+        props?.selected === 'palette' && <Palette free={true} {...props} />
+      }
+      {
+        props?.selected === 'typography' && <DesignTypography free={true} {...props} />
+      }
     </>
   )
 }

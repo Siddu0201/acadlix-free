@@ -1,7 +1,6 @@
 import React from 'react'
 import Grid from '@mui/material/Grid';
 import AiDescription from '@acadlix/modules/ai/AiDescription';
-import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';
 import { __ } from "@wordpress/i18n";
 
 const AiButton = (props) => {
