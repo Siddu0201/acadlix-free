@@ -64,16 +64,15 @@ const ViewAnswerSection = (props) => {
 
 
   const handleClick = (id) => {
+    const questions = props.watch("questions");
+
+    const updatedQuestions = questions.map((question, index) => ({
+      ...question,
+      selected: index === id,
+    }));
     props?.setValue(
       "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (index === id) {
-          question.selected = true;
-        } else {
-          question.selected = false;
-        }
-        return question;
-      }),
+      updatedQuestions,
       { shouldDirty: true }
     );
   };
@@ -386,33 +385,29 @@ const ViewQuestionSection = (props) => {
   };
 
   const handleNextClick = () => {
+    const questions = props.watch("questions");
+
+    const updatedQuestions = questions.map((question, index) => ({
+      ...question,
+      selected: index === props.num,
+    }));
     props?.setValue(
       "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (index === props?.num) {
-          question.selected = true;
-        } else {
-          question.selected = false;
-        }
-        return question;
-      }),
-      { shouldDirty: true }
+      updatedQuestions,
     );
     props?.scrollToQuestion(props?.num);
   };
 
   const handleBackClick = () => {
+    const questions = props.watch("questions");
+
+    const updatedQuestions = questions.map((question, index) => ({
+      ...question,
+      selected: index === props.index - 1,
+    }));
     props?.setValue(
       "questions",
-      props.watch("questions")?.map((question, index) => {
-        if (index === props?.index - 1) {
-          question.selected = true;
-        } else {
-          question.selected = false;
-        }
-        return question;
-      }),
-      { shouldDirty: true }
+      updatedQuestions,
     );
     props?.scrollToQuestion(props?.index - 1);
   };
