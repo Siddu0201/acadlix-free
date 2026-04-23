@@ -67,7 +67,7 @@ const ViewAnswerSection = (props) => {
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if (index === id) {
+        if (question?.question_id === id) {
           question.selected = true;
         } else {
           question.selected = false;
@@ -131,7 +131,7 @@ const ViewAnswerSection = (props) => {
                     }`,
                 },
               }}
-              onClick={handleClick.bind(this, index)}
+              onClick={handleClick.bind(this, d?.question_id)}
               className="acadlix-normal-quiz-question-overview-answersheet-button acadlix-btn"
             >
               {++index}
@@ -389,7 +389,7 @@ const ViewQuestionSection = (props) => {
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if (index === props?.num) {
+        if (index == props?.index + 1) {
           question.selected = true;
         } else {
           question.selected = false;
@@ -397,14 +397,14 @@ const ViewQuestionSection = (props) => {
         return question;
       })
     );
-    props?.scrollToQuestion(props?.num);
+    props?.scrollToQuestion(props?.index + 1);
   };
 
   const handleBackClick = () => {
     props?.setValue(
       "questions",
       props.watch("questions")?.map((question, index) => {
-        if (index === props?.index - 1) {
+        if (index == props?.index - 1) {
           question.selected = true;
         } else {
           question.selected = false;

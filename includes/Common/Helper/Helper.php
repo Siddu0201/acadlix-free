@@ -1169,7 +1169,19 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_google_meet_integration_enabled',
           'icon' => 'GoogleMeet',
           'icon_color' => '#e9ecea',
-        ]
+        ],
+        // [
+        //   'name' => __('Microsoft Teams', 'acadlix'),
+        //   'description' => __('Schedule and manage live classes via Microsoft Teams from your dashboard.', 'acadlix'),
+        //   'pro' => true,
+        //   'internal' => true,
+        //   'installed' => false,
+        //   'active' => $this->acadlix_get_option('acadlix_addon_microsoft_teams_integration_enabled', false) == 'yes',
+        //   'url' => '',
+        //   'option_name' => 'acadlix_addon_microsoft_teams_integration_enabled',
+        //   'icon' => 'BsMicrosoftTeams',
+        //   'icon_color' => '#5553c1',
+        // ],
       ];
     }
 
