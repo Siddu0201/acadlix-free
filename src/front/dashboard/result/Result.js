@@ -236,6 +236,11 @@ export default function Result() {
                         label={__("Filter by Category", "acadlix")}
                         placeholder={__("Select categories", "acadlix")}
                         size="small"
+                        sx={{
+                          "& .MuiInputBase-input": {
+                            height: "auto",
+                          },
+                        }}
                       />
                     )}
                     sx={{
