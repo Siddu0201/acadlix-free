@@ -14,7 +14,7 @@ class Submenu_Upgrade
     $this->_options = [
       'parent_slug' => ACADLIX_SLUG,
       'page_title' => __('Upgrade to Pro', 'acadlix'),
-      'menu_title' => sprintf('<span class="acadlix-get-pro-text">%s</span>', __('Upgrade to Pro', 'tutor')),
+      'menu_title' => sprintf('<span class="acadlix-get-pro-text">%s</span>', __('Upgrade to Pro', 'acadlix')),
       'capability' => 'acadlix_show_upgrade',
       'menu_slug' => 'acadlix_upgrade',
       'callback' => [$this, 'upgrade_callback'],
