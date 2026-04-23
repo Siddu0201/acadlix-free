@@ -229,6 +229,14 @@ export default function Result() {
                     onChange={(event, newValue) => {
                       setCategoryIds(newValue?.map((v) => v?.term_id));
                     }}
+                    slotProps={{
+                      popupIndicator: {
+                        className: "acadlix-icon-btn",
+                      },
+                      clearIndicator: {
+                        className: "acadlix-icon-btn",
+                      },
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
