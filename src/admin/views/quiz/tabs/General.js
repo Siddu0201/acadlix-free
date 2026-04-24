@@ -103,6 +103,18 @@ const AdvanceOptions = React.lazy(() =>
     )
 );
 
+const ProctoringOptions = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_pro_proctoring_options" */
+      "@acadlix/pro/admin/quiz/tabs/general/ProctoringOptions"
+    )
+    : import(
+      /* webpackChunkName: "admin_quiz_free_proctoring_options" */
+      "@acadlix/free/admin/quiz/tabs/general/ProctoringOptions"
+    )
+);
+
 const General = (props) => {
   return (
     <Box>
@@ -551,6 +563,20 @@ const General = (props) => {
       </Box>
       <React.Suspense fallback={null}>
         <AdvanceOptions
+          {...props}
+        />
+      </React.Suspense>
+      {/* Proctoring Options */}
+      <Box
+        sx={{
+          marginY: 2,
+        }}
+      >
+        <Typography variant="h4">{__("Proctoring Options", "acadlix")}</Typography>
+        <Divider />
+      </Box>
+      <React.Suspense fallback={null}>
+        <ProctoringOptions
           {...props}
         />
       </React.Suspense>
