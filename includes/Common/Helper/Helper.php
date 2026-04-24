@@ -1170,19 +1170,35 @@ if (!class_exists('Helper')) {
           'icon' => 'GoogleMeet',
           'icon_color' => '#e9ecea',
         ],
-        // [
-        //   'name' => __('Microsoft Teams', 'acadlix'),
-        //   'description' => __('Schedule and manage live classes via Microsoft Teams from your dashboard.', 'acadlix'),
-        //   'pro' => true,
-        //   'internal' => true,
-        //   'installed' => false,
-        //   'active' => $this->acadlix_get_option('acadlix_addon_microsoft_teams_integration_enabled', false) == 'yes',
-        //   'url' => '',
-        //   'option_name' => 'acadlix_addon_microsoft_teams_integration_enabled',
-        //   'icon' => 'BsMicrosoftTeams',
-        //   'icon_color' => '#5553c1',
-        // ],
+        [
+          'name' => __('Microsoft Teams', 'acadlix'),
+          'description' => __('Schedule and manage live classes via Microsoft Teams from your dashboard.', 'acadlix'),
+          'pro' => true,
+          'internal' => true,
+          'installed' => false,
+          'active' => $this->acadlix_get_option('acadlix_addon_microsoft_teams_integration_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_microsoft_teams_integration_enabled',
+          'icon' => 'BsMicrosoftTeams',
+          'icon_color' => '#5553c1',
+        ],
       ];
+    }
+
+    public function is_microsoft_teams_integration_addon_active()
+    {
+      $value = get_option('acadlix_addon_microsoft_teams_integration_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->pro) {
+        return false;
+      } else {
+        if (!acadlix()->license()->isActive) {
+          return false;
+        }
+      }
+      return true;
     }
 
     public function is_google_meet_integration_addon_active()
