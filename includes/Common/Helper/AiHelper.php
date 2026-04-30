@@ -429,7 +429,8 @@ if (!class_exists('AiHelper')) {
                     'allowed_mime_types': [],
                     'allowUploads': false,
                     'number_of_uploads': 1,
-                    'max_file_size': 2
+                    'max_file_size': 2,
+                    'adminUploads': []
                   }
 
                   STATUS RULES:
@@ -756,7 +757,8 @@ if (!class_exists('AiHelper')) {
                       "allowed_mime_types": [],
                       "allowUploads": false,
                       "number_of_uploads": 1,
-                      "max_file_size": 2
+                      "max_file_size": 2,
+                      "adminUploads": []
                     }
 
                     Output Schema:
@@ -939,7 +941,8 @@ if (!class_exists('AiHelper')) {
                         "allowed_mime_types": [],
                         "allowUploads": false,
                         "number_of_uploads": 1,
-                        "max_file_size": 2
+                        "max_file_size": 2,
+                        "adminUploads": []
                       }
 
       ';
