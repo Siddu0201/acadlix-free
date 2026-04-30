@@ -304,7 +304,8 @@ const QuizContent = (props) => {
                     allowed_mime_types: lang?.rendered_answer_data?.assessment?.allowed_mime_types ?? [],
                     allowUploads: lang?.rendered_answer_data?.assessment?.allowUploads ?? false,
                     number_of_uploads: Number(lang?.rendered_answer_data?.assessment?.number_of_uploads ?? 1),
-                    max_file_size: Number(lang?.rendered_answer_data?.assessment?.max_file_size ?? 2)
+                    max_file_size: Number(lang?.rendered_answer_data?.assessment?.max_file_size ?? 2),
+                    adminUploads: [],
                   } : {
                     characterLimit: 0,
                     referenceAnswer: "",

@@ -46,10 +46,10 @@ const TypeAssessment = (props) => {
 
   const updateResult = () => {
     let solved = false;
-    if(props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourAnswer`)?.trim()?.length > 0) {
+    if (props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourAnswer`)?.trim()?.length > 0) {
       solved = true;
     }
-    if(props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowUploads`) && props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.length > 0) {
+    if (props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.allowUploads`) && props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.yourUploads`)?.length > 0) {
       solved = true;
     }
     props?.setValue(
@@ -131,7 +131,7 @@ const TypeAssessment = (props) => {
         return false;
       }
     }
-    console.log("Valid files: ", filesArray);
+    // console.log("Valid files: ", filesArray);
     return filesArray;
   }
 
@@ -469,6 +469,37 @@ const TypeAssessment = (props) => {
                 {props?.watch(`questions.${props?.index}.result.evaluation_remark`) || ""}
               </CustomLatex>
             </Box>
+            {
+              props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.adminUploads`)?.length > 0 && (
+                <Box>
+                  <List>
+                    {
+                      props?.watch(`questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.adminUploads`)?.map((f, i) => (
+                        <ListItem key={i} sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          padding: 1,
+                        }}>
+                          <Typography variant="body2" component="div">
+                            <Link
+                              href={f?.file_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              sx={{
+                                textDecoration: "none",
+                              }}
+                            >
+                              {f?.file_name}
+                            </Link>
+                          </Typography>
+                        </ListItem>
+                      ))
+                    }
+                  </List>
+                </Box>
+              )
+            }
           </>
         )
       }
