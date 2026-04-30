@@ -23,7 +23,7 @@ export const GetAddons = () => {
 
 export const PostUpdateInternalAddon = () => {
   const instance = useInstance();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
       return instance.post(base, data, {
@@ -34,9 +34,9 @@ export const PostUpdateInternalAddon = () => {
     },
     onSuccess: (data) => {
       toast.success(data?.data?.message);
-      queryClient.invalidateQueries({
-        queryKey: ["getAddons"]
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ["getAddons"]
+      // });
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message);

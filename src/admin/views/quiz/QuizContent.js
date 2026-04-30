@@ -151,7 +151,7 @@ const QuizContent = (props) => {
           ? Number(props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_apply_multiple_number_of_times)
           : 0,
         display_leaderboard_in_quiz_result:
-          props?.quiz?.rendered_metas?.quiz_settings?.display_leaderboard_in_quiz_result ?? "do_not_display", // do_not_display/below_the_result/in_the_button
+          props?.quiz?.rendered_metas?.quiz_settings?.display_leaderboard_in_quiz_result ?? "in_the_button", // do_not_display/below_the_result/in_the_button
         percent_based_result_text: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text)
         ),
