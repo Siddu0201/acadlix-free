@@ -17,7 +17,7 @@ use Pronamic\WordPress\Pay\CustomerHelper;
 use Pronamic\WordPress\Pay\ContactNameHelper;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus as Core_Statuses;
 
-class Knitpay implements PaymentGatewayInterface
+class KnitPay implements PaymentGatewayInterface
 {
   protected bool $is_knitpay_active = false;
   protected string $knitpay_title = '';

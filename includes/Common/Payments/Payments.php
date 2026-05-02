@@ -2,7 +2,7 @@
 
 namespace Yuvayana\Acadlix\Common\Payments;
 
-use Yuvayana\Acadlix\Common\Payments\Gateways\Knitpay;
+use Yuvayana\Acadlix\Common\Payments\Gateways\KnitPay;
 use Yuvayana\Acadlix\Common\Payments\Gateways\Offline;
 use Yuvayana\Acadlix\Common\Payments\Gateways\Paypal;
 use Yuvayana\Acadlix\Common\Payments\Gateways\PayU;
@@ -60,10 +60,10 @@ class Payments
         return $this->_offline;
     }
 
-    public function knitpay(): Knitpay
+    public function knitpay(): KnitPay
     {
         if (is_null($this->_knitpay)) {
-            $this->_knitpay = new Knitpay();
+            $this->_knitpay = new KnitPay();
         }
         return $this->_knitpay;
     }
