@@ -99,7 +99,7 @@ class Knitpay implements PaymentGatewayInterface
     }
 
     $order->updateStatus('success');
-    if($order->status != 'success') {
+    if ($order->status != 'success') {
       $message = 'Order status updated to success';
       $order->createActivityLog($message);
     }
@@ -128,7 +128,7 @@ class Knitpay implements PaymentGatewayInterface
       throw new Exception('Order not found');
     }
     $order->updateStatus('failed');
-    if($order->status != 'failed') {
+    if ($order->status != 'failed') {
       $message = 'Order status updated to failed';
       $order->createActivityLog($message);
     }
@@ -278,6 +278,54 @@ class Knitpay implements PaymentGatewayInterface
     }
   }
 
+  protected function getKpPayment($kp_payment_id)
+  {
+    if (function_exists('get_pronamic_payment')) {
+      return get_pronamic_payment($kp_payment_id);
+    }
+    return new WP_Error('function_not_exists', __('Required function get_pronamic_payment does not exist.', 'acadlix'), array('status' => 500));
+  }
+
+  public function getOrder($kp_order_id)
+  {
+    $payment = $this->getKpPayment($kp_order_id);
+    if (is_wp_error($payment)) {
+      return $payment;
+    }
+
+    if ($payment) {
+      $order = acadlix()->model()->order()->find($payment->get_order_id());
+      if (!$order) {
+        return new WP_Error('order_not_found', __('Order not found for the given payment ID.', 'acadlix'), array('status' => 500));
+      }
+      return $order;
+    }
+    return new WP_Error('order_not_found', __('Order not found for the given payment ID.', 'acadlix'), array('status' => 500));
+  }
+
+  public function getPaymentStatus($kp_order_id)
+  {
+    $payment = $this->getKpPayment($kp_order_id);
+    if (is_wp_error($payment)) {
+      return $payment;
+    }
+    if ($payment) {
+      switch ($payment->get_status()) {
+        case Core_Statuses::CANCELLED:
+        case Core_Statuses::EXPIRED:
+        case Core_Statuses::FAILURE:
+          return 'failed';
+        case Core_Statuses::SUCCESS:
+          return 'success';
+        case Core_Statuses::OPEN:
+          return 'pending';
+        default:
+          return 'pending';
+      }
+    }
+    return 'pending';
+  }
+
   public function verifyOrder($kp_order_id): void
   {
     try {
@@ -288,48 +336,23 @@ class Knitpay implements PaymentGatewayInterface
         throw new Exception(__('Order ID is missing.', 'acadlix'));
       }
 
-      if (function_exists('get_pronamic_payment')) {
-        $payment = get_pronamic_payment($kp_order_id);
-        if (!$payment) {
-          throw new Exception(__('Payment not found for the given order ID.', 'acadlix'));
-        }
+      $payment_status = $this->getPaymentStatus($kp_order_id);
+      if (is_wp_error($payment_status)) {
+        throw new Exception($payment_status->get_error_message());
+      }
 
-        $order_id = $payment->get_order_id();
-
-        switch ($payment->get_status()) {
-          case Core_Statuses::CANCELLED:
-          case Core_Statuses::EXPIRED:
-            $payment_status = 'failed';
-            break;
-          case Core_Statuses::FAILURE:
-            $payment_status = 'failed';
-
-            break;
-          case Core_Statuses::SUCCESS:
-            $payment_status = 'success';
-
-            break;
-          case Core_Statuses::OPEN:
-            $payment_status = 'pending';
-
-            break;
-          default:
-            $payment_status = 'pending';
-        }
-
-        $order = acadlix()->model()->order()->find($order_id);
-        if (!$order) {
-          throw new Exception(__('Order not found for the given order ID.', 'acadlix'));
-        }
-        if ($payment_status == 'success') {
-          $this->successOrder($order);
-        } else if ($payment_status == 'failed') {
-          $this->failedOrder($order, 'Payment failed via Knitpay');
-        } else {
-          $order->updateStatus($payment_status);
-          $message = "Order status updated to {$payment_status}";
-          $order->createActivityLog($message);
-        }
+      $order = $this->getOrder($kp_order_id);
+      if (is_wp_error($order)) {
+        throw new Exception($order->get_error_message());
+      }
+      if ($payment_status == 'success') {
+        $this->successOrder($order);
+      } else if ($payment_status == 'failed') {
+        $this->failedOrder($order, 'Payment failed via Knitpay');
+      } else {
+        $order->updateStatus($payment_status);
+        $message = "Order status updated to {$payment_status}";
+        $order->createActivityLog($message);
       }
     } catch (Exception $e) {
       // Handle the error as needed, e.g., log it, notify admin, etc.
