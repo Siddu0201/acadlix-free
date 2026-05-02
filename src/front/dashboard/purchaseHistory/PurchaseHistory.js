@@ -149,7 +149,9 @@ const PurchaseHistory = () => {
               order?.order_metas,
               "payment_method",
               "Free"
-            )?.toUpperCase(),
+            ) === "knitpay"
+              ? acadlixOptions?.knitpay_title
+              : getOrderMetaValue(order?.order_metas, "payment_method", "Free"),
             order_id: getOrderId(order?.order_metas),
             order_date: formattedDateTime,
             user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
@@ -632,7 +634,7 @@ const SingleOrder = ({ row, ...props }) => {
               {
                 component: "Fragment",
                 component_name: "purchase_history_amount_payment_method_value",
-                value: row?.payment_method
+                value: row?.payment_method?.toUpperCase() ?? "N/A"
               }
             ]
           }

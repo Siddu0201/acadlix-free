@@ -61,6 +61,7 @@ class Submenu_Orders
       'capabilities' => $capabilities,
       'user_id' => get_current_user_id(),
       'isActive' => acadlix()->license()->isActive ?? false,
+      'knitpay_title' => acadlix()->payments()->knitpay()->get_title(),
     ];
   }
 

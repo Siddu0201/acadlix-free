@@ -888,7 +888,7 @@ class FrontCheckoutController
           if (!empty($request->get_param('billing_info'))) {
             $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
           }
-          $order->updateOrCreateMeta('payment_method', acadlix()->payments()->knitpay()->get_title());
+          $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
           $order->updateOrCreateMeta('currency', $request->get_param('currency'));
           $order->updateOrCreateMeta('knitpay_order_id', $knitpay_order_id);
           $order->updateOrCreateMeta('knitpay_amount', $request->get_param('total_amount'));

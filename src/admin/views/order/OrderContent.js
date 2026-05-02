@@ -73,7 +73,9 @@ const OrderContent = (props) => {
       : [],
     meta: {
       payment_method: props?.order?.order_metas ?
-        getOrderMetaValue(props?.order?.order_metas, "payment_method", "razorpay")
+        getOrderMetaValue(props?.order?.order_metas, "payment_method", "razorpay") == "knitpay"
+          ? acadlixOptions?.knitpay_title
+          : getOrderMetaValue(props?.order?.order_metas, "payment_method", "razorpay")
         : "admin",
       is_free: props?.order?.order_metas ?
         Boolean(Number(getOrderMetaValue(props?.order?.order_metas, "is_free", 0)))
