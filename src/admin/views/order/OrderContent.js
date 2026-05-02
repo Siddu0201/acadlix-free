@@ -29,7 +29,7 @@ const OrderContent = (props) => {
         return getOrderMetaValue(order_metas, "payu_txn_id");
       case "stripe":
         return getOrderMetaValue(order_metas, "stripe_order_id");
-      case "knit_pay":
+      case "knitpay":
         return getOrderMetaValue(order_metas, "knitpay_order_id");
       default:
         return "N/A";

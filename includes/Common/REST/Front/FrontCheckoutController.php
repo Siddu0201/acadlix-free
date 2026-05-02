@@ -822,7 +822,7 @@ class FrontCheckoutController
         throw new Exception('No data found');
       }
 
-      if ($request->get_param('payment_method') != 'knit_pay') {
+      if ($request->get_param('payment_method') != 'knitpay') {
         throw new Exception('Unacceptable payment gateway');
       }
 

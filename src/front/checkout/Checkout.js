@@ -504,7 +504,7 @@ const Checkout = () => {
     paypal: handlePaypal,
     payu: handlePayu,
     stripe: handleStripe,
-    knit_pay: handleKnitpay, // Assuming you have a handleKnitpay function defined
+    knitpay: handleKnitpay, // Assuming you have a handleKnitpay function defined
   };
 
   const handlePaymentGateway = (data = {}) => {

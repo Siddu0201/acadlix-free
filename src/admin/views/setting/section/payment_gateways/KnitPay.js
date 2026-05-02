@@ -115,8 +115,8 @@ const KnitPay = (props) => {
                   component_name: "knit_pay_default_gateway_switch",
                   props: {
                     label: __("Default", "acadlix"),
-                    value: "knit_pay",
-                    checked: props?.watch("acadlix_default_payment_gateway") === "knit_pay",
+                    value: "knitpay",
+                    checked: props?.watch("acadlix_default_payment_gateway") === "knitpay",
                     control: {
                       component: "CustomSwitch",
                       props: {},

@@ -488,8 +488,8 @@ const PaymentMethod = (props) => {
                                     props: {
                                       size: "small",
                                       name: "payment_method",
-                                      checked: props?.watch("payment_method") === "knit_pay",
-                                      value: "knit_pay",
+                                      checked: props?.watch("payment_method") === "knitpay",
+                                      value: "knitpay",
                                       onClick: (e) => {
                                         props?.setValue(
                                           "payment_method",
