@@ -2,6 +2,7 @@
 
 namespace Yuvayana\Acadlix\Common\Payments;
 
+use Yuvayana\Acadlix\Common\Payments\Gateways\Knitpay;
 use Yuvayana\Acadlix\Common\Payments\Gateways\Offline;
 use Yuvayana\Acadlix\Common\Payments\Gateways\Paypal;
 use Yuvayana\Acadlix\Common\Payments\Gateways\PayU;
@@ -17,6 +18,7 @@ class Payments
     protected $_payu = null;
     protected $_stripe = null;
     protected $_offline = null;
+    protected $_knitpay = null;
 
     public function razorpay(): Razorpay
     {
@@ -56,5 +58,13 @@ class Payments
             $this->_offline = new Offline();
         }
         return $this->_offline;
+    }
+
+    public function knitpay(): Knitpay
+    {
+        if (is_null($this->_knitpay)) {
+            $this->_knitpay = new Knitpay();
+        }
+        return $this->_knitpay;
     }
 }

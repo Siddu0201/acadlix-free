@@ -78,6 +78,8 @@ if (!class_exists("CheckoutController")) {
         'is_stripe_active' => acadlix()->payments()->stripe()->is_stripe_active() ?? false,
         'is_offline_active' => acadlix()->payments()->offline()->is_offline_active() ?? false,
         'offline_data' => acadlix()->payments()->offline()->getData() ?? [],
+        'is_knitpay_active' => acadlix()->payments()->knitpay()->is_knitpay_active() ?? false,
+        'knitpay_title' => acadlix()->helper()->acadlix_get_option('acadlix_knit_pay_title', 'Knit Pay'),
       ];
     }
 

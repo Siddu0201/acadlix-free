@@ -1,6 +1,7 @@
 import React from "react";
 import {
   GetCheckoutCart,
+  PostCheckoutKnitpay,
   PostCheckoutOfflinePayment,
   PostCheckoutPaypal,
   PostCheckoutPayu,
@@ -455,11 +456,55 @@ const Checkout = () => {
     methods?.setValue("offline_modal", true, { shouldDirty: true });
   };
 
+  const knitpayMutation = PostCheckoutKnitpay();
+  const handleKnitpay = (data = {}) => {
+    knitpayMutation?.mutate(
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_knitpay_data", {
+        currency: data?.currency,
+        billing_info: data?.billing_info,
+        user_id: data?.user_id,
+        payment_method: data?.payment_method,
+        order_items: data?.order_items,
+        total_amount: data?.total_amount,
+        coupon_id: data?.coupon_id,
+        coupon_code: data?.coupon_code,
+        coupon_amount: data?.coupon_amount,
+        discount_type: data?.discount_type,
+      },
+        {
+          methods: methods,
+        }
+      ),
+      {
+        onSuccess: async (data) => {
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+          if (data?.data?.redirect_url) {
+            window.location.href = data?.data?.redirect_url;
+          } else {
+            toast?.error(__("Opps! Something went wrong", "acadlix"));
+          }
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+            __("Opps! Something went wrong", "acadlix")
+          );
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
+  }
+
   const paymentHandlers = {
     razorpay: handleRazorpay,
     paypal: handlePaypal,
     payu: handlePayu,
     stripe: handleStripe,
+    knit_pay: handleKnitpay, // Assuming you have a handleKnitpay function defined
   };
 
   const handlePaymentGateway = (data = {}) => {

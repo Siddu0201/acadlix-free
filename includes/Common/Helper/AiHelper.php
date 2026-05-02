@@ -245,6 +245,23 @@ if (!class_exists('AiHelper')) {
                 - rangeType
                 - assessment
 
+                COSMETIC NORMALIZATION RULE (STRICT):
+
+                Do NOT flag or generate feedback for:
+                - Whitespace normalization
+                - Minor punctuation adjustments
+                - HTML entity normalization
+                - Equivalent casing fixes
+
+                If the rendered text remains visually and semantically unchanged,
+                treat the question as VALID.
+
+                Only flag when:
+                - Meaning changes
+                - Grammar affects clarity
+                - Answer correctness is wrong
+                - Data or logic is incorrect
+
                 VALIDATION RULES:
                   A. General
                     - Correct grammar and spelling.
@@ -267,7 +284,8 @@ if (!class_exists('AiHelper')) {
                     - Detect contradictions or incomplete data.
                     - Fix incorrect answers.
                   D. Formatting
-                    - Normalize spacing and punctuation.
+                    - Normalize spacing and punctuation ONLY if it improves readability or correctness.
+                    - Ignore invisible or non-impactful changes.
                     - Standardize symbols.
                     - Ensure consistent casing.
                   E. Answer Verification (CRITICAL)
@@ -439,7 +457,7 @@ if (!class_exists('AiHelper')) {
                     - 'Invalid' → Critical data missing and cannot be inferred
                   
                   FEEDBACK RULE:
-                    - Provide a SHORT feedback summary ONLY if issues are found.
+                    - Provide a SHORT feedback ONLY if the issue impacts meaning, clarity, or correctness. Do NOT provide feedback for cosmetic normalization. 
                     - Keep feedback under 20 words.
 
                   OUTPUT FORMAT (JSON ONLY):

@@ -60,7 +60,7 @@ const InternalAddonCard = (props) => {
                       name="checked"
                       color="primary"
                       value="yes"
-                      disabled={!hasCapability("acadlix_edit_addon")}
+                      disabled={!hasCapability("acadlix_edit_addon") || props?.disabled}
                     />
                   }
                 />

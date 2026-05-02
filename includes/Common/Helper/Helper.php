@@ -735,6 +735,10 @@ if (!class_exists('Helper')) {
         'acadlix_offline_enable_file_upload' => 'no',
         'acadlix_offline_max_upload_file_size' => 2,
         'acadlix_offline_allowed_mime_types' => [],
+        'acadlix_knit_pay_active' => 'no',
+        'acadlix_knit_pay_title' => 'Knit Pay',
+        'acadlix_knit_pay_configuration' => '',
+        'acadlix_knit_pay_description' => '',
         'acadlix_openai_api_key' => null,
       ];
       return $options;
@@ -1051,6 +1055,19 @@ if (!class_exists('Helper')) {
     {
       return [
         [
+          'name' => __('Knit Pay Integration', 'acadlix'),
+          'description' => __('Knit pay integration for seamless payment processing.', 'acadlix'),
+          'pro' => false,
+          'internal' => true,
+          'installed' => true,
+          'active' => $this->acadlix_get_option('acadlix_addon_knit_pay_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_knit_pay_enabled',
+          'icon' => 'KnitPayIcon',
+          'icon_color' => '#efefef',
+          'disabled' => acadlix()->integrations()->knit_pay()->is_active() ? false : true,
+        ],
+        [
           'name' => __('Acadlix Bulk Question Upload', 'acadlix'),
           'description' => __('Upload hundreds of questions in seconds via MS Word.', 'acadlix'),
           'pro' => true,
@@ -1061,6 +1078,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_bulk_question_upload_enabled',
           'icon' => 'FaCloudUploadAlt',
           'icon_color' => 'red',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Assignments', 'acadlix'),
@@ -1073,6 +1091,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_assignments_enabled',
           'icon' => 'MdAssignment',
           'icon_color' => '#ffa65a',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Zoom Integration', 'acadlix'),
@@ -1085,6 +1104,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_zoom_integration_enabled',
           'icon' => 'BiLogoZoom',
           'icon_color' => '#2d8cff',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Advanced Report', 'acadlix'),
@@ -1097,6 +1117,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_advanced_report_enabled',
           'icon' => 'HiDocumentReport',
           'icon_color' => '#4A90E2',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Subscriptions', 'acadlix'),
@@ -1109,6 +1130,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_subscriptions_enabled',
           'icon' => 'MdSubscriptions',
           'icon_color' => '#22C55E',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Data Exporter', 'acadlix'),
@@ -1121,6 +1143,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_data_exporter_enabled',
           'icon' => 'FaFileExport',
           'icon_color' => '#3B82F6',
+          'disabled' => false,
         ],
         [
           'name' => __('Question Error Reporting', 'acadlix'),
@@ -1133,6 +1156,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_question_error_reporting_enabled',
           'icon' => 'TbAlertTriangleFilled',
           'icon_color' => '#FFAB00',
+          'disabled' => false,
         ],
         [
           'name' => __('Social Login', 'acadlix'),
@@ -1145,6 +1169,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_social_login_enabled',
           'icon' => 'SocialLogin',
           'icon_color' => '#3B82F6',
+          'disabled' => false,
         ],
         [
           'name' => __('Course Bundle', 'acadlix'),
@@ -1157,6 +1182,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_course_bundle_enabled',
           'icon' => 'FaLayerGroup',
           'icon_color' => '#7C3AED',
+          'disabled' => false,
         ],
         [
           'name' => __('Google Meet', 'acadlix'),
@@ -1169,6 +1195,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_google_meet_integration_enabled',
           'icon' => 'GoogleMeet',
           'icon_color' => '#e9ecea',
+          'disabled' => false,
         ],
         [
           'name' => __('Microsoft Teams', 'acadlix'),
@@ -1181,8 +1208,21 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_microsoft_teams_integration_enabled',
           'icon' => 'BsMicrosoftTeams',
           'icon_color' => '#5553c1',
+          'disabled' => false,  
         ],
       ];
+    }
+
+    public function is_knit_pay_integration_addon_active()
+    {
+      $value = get_option('acadlix_addon_knit_pay_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->integrations()->knit_pay()->is_active()) {
+        return false;
+      }
+      return true;
     }
 
     public function is_microsoft_teams_integration_addon_active()

@@ -6,6 +6,7 @@ import RazorPay from "./payment_gateways/RazorPay";
 import Stripe from "./payment_gateways/Stripe";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import Offline from "./payment_gateways/Offline";
+import KnitPay from "./payment_gateways/KnitPay";
 
 function Payment(props) {
   const defaultSetting = {
@@ -57,6 +58,9 @@ function Payment(props) {
               {
                 component: <Offline {...props} />,
               },
+              acadlixOptions?.isKnitPayActive && ({
+                component: <KnitPay {...props} />,
+              }),
             ],
           },
         ],

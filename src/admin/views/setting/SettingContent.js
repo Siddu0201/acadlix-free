@@ -169,6 +169,14 @@ const SettingContent = ({
       options?.acadlix_offline_max_upload_file_size ?? 2,
     acadlix_offline_allowed_mime_types:
       options?.acadlix_offline_allowed_mime_types ?? [],
+    acadlix_knit_pay_active:
+      options?.acadlix_knit_pay_active ?? "no",
+    acadlix_knit_pay_title:
+      options?.acadlix_knit_pay_title ?? "Knit Pay",
+    acadlix_knit_pay_configuration:
+      options?.acadlix_knit_pay_configuration ?? "",
+    acadlix_knit_pay_description:
+      options?.acadlix_knit_pay_description ?? "",
     // Notification option
     acadlix_notify_course_purchase_to_student:
       options?.acadlix_notify_course_purchase_to_student ??
@@ -212,11 +220,11 @@ const SettingContent = ({
     acadlix_certificate_show_course_completion_date_on_certificate:
       options?.acadlix_certificate_show_course_completion_date_on_certificate ?? "no",
     acadlix_certificate_page_id:
-      options?.acadlix_certificate_page_id ?? null,  
+      options?.acadlix_certificate_page_id ?? null,
     acadlix_certificate_show_certificate_link_in_email:
       options?.acadlix_certificate_show_certificate_link_in_email ?? "no",
-    acadlix_certificate_signature: 
-      options?.acadlix_certificate_signature ?? {},  
+    acadlix_certificate_signature:
+      options?.acadlix_certificate_signature ?? {},
     acadlix_certificate_template:
       options?.acadlix_certificate_template ?? "modern-landscape",
     // Authentication option

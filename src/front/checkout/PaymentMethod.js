@@ -10,6 +10,7 @@ const PaymentMethod = (props) => {
       payu: acadlixCheckoutOptions?.is_payu_active,
       stripe: acadlixCheckoutOptions?.is_stripe_active,
       offline: acadlixCheckoutOptions?.is_offline_active,
+      knitpay: acadlixCheckoutOptions?.is_knitpay_active,
     };
 
     return React.useMemo(() => {
@@ -434,12 +435,87 @@ const PaymentMethod = (props) => {
                       },
                     ],
                   }),
+                  acadlixCheckoutOptions?.is_knitpay_active && ({
+                    component: "Grid",
+                    component_name: "checkout_payment_method_knitpay_grid",
+                    props: {
+                      size: {
+                        xs: 12,
+                        lg: 12,
+                      },
+                    },
+                    children: [
+                      {
+                        component: "Card",
+                        component_name: "checkout_payment_method_knitpay_card",
+                        children: [
+                          {
+                            component: "CardContent",
+                            component_name: "checkout_payment_method_knitpay_card_content",
+                            props: {
+                              sx: {
+                                paddingY: 1,
+                                paddingX: 3,
+                                ":last-child": {
+                                  paddingY: 1,
+                                  paddingX: 3,
+                                },
+                                display: "flex",
+                                alignItems: "center",
+                              }
+                            },
+                            children: [
+                              {
+                                component: "FormControlLabel",
+                                component_name: "checkout_payment_method_knitpay_card_form_control_label",
+                                props: {
+                                  slotProps: {
+                                    typography: {
+                                      sx: {
+                                        fontWeight: "bold",
+                                        fontSize: "14px",
+                                      },
+                                    },
+                                  },
+                                  sx: {
+                                    width: "100%"
+                                  },
+                                  label: acadlixCheckoutOptions?.knitpay_title || __("Knit Pay", "acadlix"),
+                                  disabled: !props?.watch("is_user_logged_in"),
+                                  control: {
+                                    component: "Radio",
+                                    component_name: "checkout_payment_method_knitpay_card_form_control_label_radio",
+                                    props: {
+                                      size: "small",
+                                      name: "payment_method",
+                                      checked: props?.watch("payment_method") === "knit_pay",
+                                      value: "knit_pay",
+                                      onClick: (e) => {
+                                        props?.setValue(
+                                          "payment_method",
+                                          e?.target?.value,
+                                          {
+                                            shouldDirty: true,
+                                          }
+                                        );
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            ]
+                          },
+                        ],
+                      },
+                    ],
+                  }),
                   !acadlixCheckoutOptions?.is_razorpay_active &&
                   !acadlixCheckoutOptions?.is_paypal_active &&
                   !acadlixCheckoutOptions?.is_payu_active &&
                   !acadlixCheckoutOptions?.is_stripe_active &&
                   !acadlixCheckoutOptions?.is_offline_active &&
-                   ({
+                  !acadlixCheckoutOptions?.is_knitpay_active &&
+                  ({
                     component: "Grid",
                     component_name: "checkout_payment_method_no_payment_gateway_grid",
                     props: {
