@@ -49,6 +49,11 @@ class KnitPay implements PaymentGatewayInterface
     return false;
   }
 
+  public function get_title(): string
+  {
+    return $this->knitpay_title ?: 'Knit Pay';
+  }
+
   public function setAmount(float $amount): self
   {
     $this->amount = $amount;
