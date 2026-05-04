@@ -142,6 +142,9 @@ const QuizContent = (props) => {
     show_subject_wise_analysis: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_subject_wise_analysis)
     ),
+    hide_subject_wise_marks: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_subject_wise_marks)
+    ),
     show_marks_distribution: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks_distribution)
     ),
@@ -625,10 +628,10 @@ const QuizContent = (props) => {
   const handleFinishQuiz = (e) => {
     saveResult();
     countdownApi && countdownApi?.stop();
-    methods?.setValue('finish', false, {shouldDirty: true});
-    methods?.setValue('view_result', true, {shouldDirty: true});
-    methods?.setValue('view_question', false, {shouldDirty: true});
-  } 
+    methods?.setValue('finish', false, { shouldDirty: true });
+    methods?.setValue('view_result', true, { shouldDirty: true });
+    methods?.setValue('view_question', false, { shouldDirty: true });
+  }
 
   const checkMode = () => {
     switch (methods?.watch("mode")) {

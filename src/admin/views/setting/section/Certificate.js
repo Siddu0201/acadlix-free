@@ -410,6 +410,10 @@ const Certificate = (props) => {
                         props: {
                           sx: {
                             display: "flex",
+                            flexDirection: {
+                              xs: "column",
+                              md: "row",
+                            },
                             gap: 1,
                             alignItems: "center",
                             border: "1px solid lightgray",
@@ -458,7 +462,7 @@ const Certificate = (props) => {
                                 component: "MediaUpload",
                                 props: {
                                   onSelect: (media) => {
-                                    console.log(media);
+                                    // console.log(media);
                                     if (!media?.url) {
                                       toast.error(__("Media upload failed. Please try again.", "acadlix"));
                                       return;
