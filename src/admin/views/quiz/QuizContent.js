@@ -125,6 +125,7 @@ const QuizContent = (props) => {
         show_subject_wise_analysis: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.show_subject_wise_analysis)
         ),
+        subject_wise_text: props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_text ?? __("Subject Wise Result", "acadlix"),
         hide_subject_wise_marks: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_subject_wise_marks)
         ),
