@@ -90,7 +90,7 @@ const CustomWpEditor = ({
           }
         }
         if (typeof onChange === 'function') {
-          onChange(value);
+          onChange(inputValue);
         }
       }}
       style={{ width: '100%', minHeight: 120, ...style }}
