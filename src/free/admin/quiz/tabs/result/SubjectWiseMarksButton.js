@@ -4,7 +4,7 @@ import { FormControlLabel } from '@mui/material'
 import React from 'react'
 import { __ } from "@wordpress/i18n";
 
-const SubjectWiseMarksButton = () => {
+const SubjectWiseMarksButton = (props) => {
   return (
     <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
       <FormControlLabel
