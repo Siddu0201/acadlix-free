@@ -54,3 +54,40 @@ export const GetTemplateById = () => {
     }
   })
 }
+
+export const UpdateTemplateById = (template_id) => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.put(`${base}/${template_id}`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  });
+}
+
+export const DeleteTemplateById = (template_id) => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.delete(`${base}/${template_id}`, {
+        params: {
+          type: data?.type || 'quiz',
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    }
+  });
+}

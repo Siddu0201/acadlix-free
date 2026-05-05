@@ -1240,7 +1240,7 @@ class SingleCourseView
 												? '<i class="fas fa-video"></i>'
 												: '<i class="fas fa-file"></i>';
 										} elseif ($type === 'quiz') {
-											$icon = '<i class="fas fa-question"></i>';
+											$icon = '<i class="fas fa-clipboard-question"></i>';
 										} elseif ($type === 'assignment') {
 											$icon = '<i class="fas fa-file-signature"></i>';
 										}

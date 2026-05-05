@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FaEdit, FaTrash, MdDragIndicator } from "@acadlix/helpers/icons";
+import { FaEdit, FaTrash, iconMap, MdDragIndicator } from "@acadlix/helpers/icons";
 import {
   PostSortContent,
   RemoveContentFromSection,
@@ -129,6 +129,35 @@ const ViewContentSection = (props) => {
     })
   );
 
+  const typeIcon = function (c) {
+    return window.acadlixHooks?.applyFilters(
+      'acadlix.admin.course.section.viewContentSection.typeIcon',
+      [
+        {
+          "type": "lesson",
+          "icon": c?.lesson_type === "video" ? "FaVideo" : "FaFile",
+          "options": {
+            style: {
+              fontSize: 14,
+            }
+          }
+        },
+        {
+          "type": "quiz",
+          "icon": "FaClipboardQuestion",
+          "options": {
+            style: {
+              fontSize: 16,
+            }
+          }
+        }
+      ],
+      {
+        c: c,
+      }
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -168,6 +197,7 @@ const ViewContentSection = (props) => {
                     content_id={index}
                     c={c}
                     content_activeId={activeId}
+                    typeIcon={typeIcon}
                     {...props}
                   />
                 ))}
@@ -178,6 +208,7 @@ const ViewContentSection = (props) => {
                 activeId={activeId}
                 s={props?.s}
                 colorCode={props?.colorCode}
+                typeIcon={typeIcon}
               />
             ) : null}
           </DragOverlay>
@@ -227,6 +258,7 @@ const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
               cursor: "move",
             }}
           />
+
           <Typography
             variant="h6"
             sx={{
@@ -328,7 +360,7 @@ const SortableSections = (props) => {
   //       },
   //     }
   //   );
-  // }
+  // };
 
   return (
     <ListItem
@@ -369,6 +401,12 @@ const SortableSections = (props) => {
             {...listeners}
             {...attributes}
           />
+          {
+            props?.typeIcon(props?.c)?.filter(i => i?.type === props?.c?.type)?.map((icon, index) => {
+              const Icon = iconMap[icon?.icon];
+              return Icon ? React.cloneElement(Icon, { key: index, ...icon?.options }) : null;
+            })
+          }
           <Typography
             variant="h6"
             sx={{
@@ -448,9 +486,9 @@ const SortableSections = (props) => {
           </Box>
         )}
         <React.Suspense fallback={null}>
-          <ViewProContentSection 
-          {...props}
-          handleRemoveContent={handleRemoveContent}
+          <ViewProContentSection
+            {...props}
+            handleRemoveContent={handleRemoveContent}
           />
         </React.Suspense>
       </Box>

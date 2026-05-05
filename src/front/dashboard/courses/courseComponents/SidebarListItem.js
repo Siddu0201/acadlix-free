@@ -198,7 +198,7 @@ const ListItemSecondary = (props) => {
       },
       {
         "type": "quiz",
-        "icon": "MdQuiz"
+        "icon": "FaClipboardQuestion"
       }
     ],
     {
