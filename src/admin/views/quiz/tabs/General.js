@@ -567,7 +567,7 @@ const General = (props) => {
         />
       </React.Suspense>
       {/* Proctoring Options */}
-      <Box
+      {/* <Box
         sx={{
           marginY: 2,
         }}
@@ -579,7 +579,7 @@ const General = (props) => {
         <ProctoringOptions
           {...props}
         />
-      </React.Suspense>
+      </React.Suspense> */}
     </Box>
   );
 };
