@@ -165,6 +165,11 @@ class Models
     return $this->getInstance('wpTermTaxonomy', WpTermTaxonomy::class);
   }
 
+  public function wpTermRelationship(): WpTermRelationship|null
+  {
+    return $this->getInstance('wpTermRelationship', WpTermRelationship::class);
+  }
+
   public function coupon(): Coupon|null
   {
     return $this->getInstance('coupon', Coupon::class);

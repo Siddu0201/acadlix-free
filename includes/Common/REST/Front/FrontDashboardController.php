@@ -229,8 +229,9 @@ class FrontDashboardController
 
     $skip = $params['page'] * $params['pageSize'];
     $userId = $request->get_param('user_id');
+    $category_id = $request->get_param('category_id') ?? null;
 
-    $courses = acadlix()
+    $result = acadlix()
       ->model()
       ->course()
       ->getPurchasedCourses(
@@ -238,10 +239,24 @@ class FrontDashboardController
         $search,
         $skip,
         $params['pageSize'],
-        ['order_items']
+        ['order_items'],
+        $category_id
       );
-    $res['total'] = $courses['total'];
-    $res['courses'] = $courses['courses'];
+    $categoryIds = $result['category_ids'] ?? [];
+    $categories = acadlix()
+      ->model()
+      ->wpTermTaxonomy()
+      ->ofCourseCategory()
+      ->with('term')
+      ->where('count', '>', 0)
+      ->whereHas('term', function ($query) use ($categoryIds) {
+        $query->whereIn('term_id', $categoryIds);
+      })
+      ->get();
+
+    $res['categories'] = $categories;
+    $res['total'] = $result['total'];
+    $res['courses'] = $result['courses'];
     return rest_ensure_response($res);
   }
 
@@ -743,7 +758,7 @@ class FrontDashboardController
     }
 
     $files = $request->get_file_params();
-    
+
     if (empty($files['file'])) {
       return new WP_Error('no_file', __('No file uploaded', 'acadlix'), array('status' => 400));
     }

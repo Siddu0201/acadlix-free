@@ -27,4 +27,9 @@ class WpTermTaxonomy extends Model
   {
     return $this->belongsTo(WpTerm::class, 'term_id', 'term_id');
   }
+
+  public function termRelationships()
+  {
+    return $this->hasMany(WpTermRelationship::class, 'term_taxonomy_id', 'term_taxonomy_id');
+  }
 }

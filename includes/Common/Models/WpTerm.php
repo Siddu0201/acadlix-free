@@ -17,4 +17,9 @@ class WpTerm extends Model
     parent::__construct($attributes);
     $this->table = acadlix()->helper()->acadlix_wp_prefix('terms');
   }
+
+  public function termTaxonomies()
+  {
+    return $this->hasMany(WpTermTaxonomy::class, 'term_id', 'term_id');
+  }
 }

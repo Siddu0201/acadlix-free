@@ -334,22 +334,36 @@ if (!class_exists('Course')) {
         ->exists();
     }
 
-    public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [])
+    public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [], $categoryId = null)
     {
       if (empty($userId)) {
         return [];
       }
       // Base query for one-time purchases
-      $query = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
+      $oneTimeCourseIds = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
         $oi
           ->whereHas('order', function ($q) use ($userId) {
             $q
               ->where('user_id', $userId)
-              ->where('status', 'success');
+              ->where('status', 'success')
+              ->orderBy('created_at', 'desc');
           })
           ->whereNull('subscription_id');  // exclude subscription items
-      });
+      })->pluck('ID')
+        ->unique()
+        ->values();
 
+      $categoryIds = self::ofPublish()
+        ->whereIn('ID', $oneTimeCourseIds)
+        ->with('course_categories')
+        ->get()
+        ->pluck('course_categories')
+        ->flatten()
+        ->pluck('term_id')
+        ->unique()
+        ->values();
+
+      $query = self::ofPublish()->whereIn('ID', $oneTimeCourseIds);
       // Apply eager loading if any
       if (!empty($with)) {
         $query->with($with);
@@ -360,16 +374,21 @@ if (!class_exists('Course')) {
         $query->where("post_title", 'like', "%$search%");
       }
 
-      // Fetch results
-      $courses = $query->get()->unique('ID')->sortByDesc(function ($course) {
-        return $course->order_items->max('created_at');
-      })->values();
+      if (!is_null($categoryId)) {
+        $query->whereHas('course_categories', function ($q) use ($categoryId) {
+          $q->where('term_id', $categoryId);
+        });
+      }
 
       // Get total count before pagination
-      $total = $courses->count();
+      $total = $query->count();
+
+      if($total <= $skip){
+        $skip = 0;
+      }
 
       // Apply skip/take for pagination
-      $paginatedCourses = $courses->slice($skip, $take);
+      $paginatedCourses = $query->skip($skip)->take($take)->get();
 
       // Add completion percentage
       $paginatedCourses->each(function ($course) use ($userId) {
@@ -379,6 +398,7 @@ if (!class_exists('Course')) {
       return [
         'total' => $total,
         'courses' => $paginatedCourses,
+        'category_ids' => $categoryIds,
       ];
     }
 
