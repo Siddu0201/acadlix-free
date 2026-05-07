@@ -49,6 +49,7 @@ class Submenu_Orders
     $capabilities = $current_user->exists() ? $current_user->allcaps : [];
     return [
       'api_url' => esc_url_raw(rest_url('acadlix/v1')),
+      'admin_url' => admin_url(),
       'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
       'nonce' => wp_create_nonce('wp_rest'),
       'settings' => acadlix()->helper()->acadlix_get_all_options(),
@@ -61,6 +62,7 @@ class Submenu_Orders
       'capabilities' => $capabilities,
       'user_id' => get_current_user_id(),
       'isActive' => acadlix()->license()->isActive ?? false,
+      'isKnitPayActive' => acadlix()->helper()->is_knit_pay_integration_addon_active() ?? false,
       'knitpay_title' => acadlix()->payments()->knitpay()->get_title(),
     ];
   }

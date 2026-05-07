@@ -174,11 +174,9 @@ const SettingContent = ({
     acadlix_knit_pay_active:
       options?.acadlix_knit_pay_active ?? "no",
     acadlix_knit_pay_title:
-      options?.acadlix_knit_pay_title ?? "Knit Pay",
+      options?.acadlix_knit_pay_title ?? "Online Payment",
     acadlix_knit_pay_configuration:
       options?.acadlix_knit_pay_configuration ?? "",
-    acadlix_knit_pay_description:
-      options?.acadlix_knit_pay_description ?? "",
     // Notification option
     acadlix_notify_course_purchase_to_student:
       options?.acadlix_notify_course_purchase_to_student ??

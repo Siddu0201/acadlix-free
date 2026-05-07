@@ -1,5 +1,5 @@
 import React from 'react'
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const KnitPay = (props) => {
@@ -89,6 +89,32 @@ const KnitPay = (props) => {
             sx: { alignItems: "center" },
           },
           children: [
+            // 🔹 Info Alert
+            {
+              component: "Grid",
+              component_name: "knit_pay_info_grid",
+              props: {
+                size: { lg: 12, md: 12, sm: 12, xs: 12 },
+              },
+              children: [
+                {
+                  component: "Alert",
+                  component_name: "knit_pay_info_alert",
+                  props: {
+                    severity: "info",
+                  },
+                  children: [
+                    {
+                      component: "RawHTML",
+                      value: sprintf(
+                        __("Configurations can be created in Knit Pay gateway configurations page at <a href='%s'>\"Knit Pay >> Configurations\"</a>.", "acadlix"),
+                        acadlixOptions?.knitPayUrl
+                      ),
+                    }
+                  ]
+                },
+              ],
+            },
             {
               component: "Grid",
               component_name: "knit_pay_make_default_label_grid",
@@ -245,47 +271,6 @@ const KnitPay = (props) => {
                   ],
                 }
               ]
-            },
-            {
-              component: "Grid",
-              component_name: "knit_pay_description_label_grid",
-              props: {
-                size: { lg: 3, md: 3, sm: 3, xs: 12 },
-              },
-              children: [
-                {
-                  component: "CustomTypography",
-                  component_name: "knit_pay_description_label",
-                  value: __("Description (optional)", "acadlix"),
-                },
-              ],
-            },
-            {
-              component: "Grid",
-              props: {
-                size: { lg: 9, md: 9, sm: 9, xs: 12 },
-                component_name: "knit_pay_description_input_grid",
-              },
-              children: [
-                {
-                  component: "CustomTextField",
-                  component_name: "knit_pay_description_input",
-                  props: {
-                    ...props?.register("acadlix_knit_pay_description"),
-                    fullWidth: true,
-                    multiline: true,
-                    rows: 4,
-                    size: "small",
-                    label: __("Description (optional)", "acadlix"),
-                    // value: props?.watch("acadlix_knit_pay_description"),
-                    onChange: (e) => {
-                      props?.setValue("acadlix_knit_pay_description", e?.target?.value, {
-                        shouldDirty: true,
-                      });
-                    },
-                  },
-                },
-              ],
             },
           ]
         }

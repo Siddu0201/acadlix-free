@@ -30,7 +30,10 @@ const OrderContent = (props) => {
       case "stripe":
         return getOrderMetaValue(order_metas, "stripe_order_id");
       case "knitpay":
-        return getOrderMetaValue(order_metas, "knitpay_order_id");
+        const order_id = getOrderMetaValue(order_metas, "knitpay_order_id");
+        const url = acadlixOptions?.admin_url + 'post.php?post=' + order_id + '&action=edit';
+        const link = `<a href="${url}">#${order_id}</a>`;
+        return acadlixOptions?.isKnitPayActive ? link : `#${order_id}` || "N/A";
       default:
         return "N/A";
     }

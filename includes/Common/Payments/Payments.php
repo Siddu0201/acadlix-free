@@ -13,58 +13,63 @@ defined('ABSPATH') || exit();
 
 class Payments
 {
-    protected $_razorpay = null;
-    protected $_paypal = null;
-    protected $_payu = null;
-    protected $_stripe = null;
-    protected $_offline = null;
-    protected $_knitpay = null;
+  protected $_razorpay = null;
+  protected $_paypal = null;
+  protected $_payu = null;
+  protected $_stripe = null;
+  protected $_offline = null;
+  protected $_knitpay = null;
 
-    public function razorpay(): Razorpay
-    {
-        if (is_null($this->_razorpay)) {
-            $this->_razorpay = new Razorpay();
-        }
-        return $this->_razorpay;
-    }
+  public function __construct()
+  {
+    $this->knitpay();
+  }
 
-    public function paypal(): Paypal
-    {
-        if (is_null($this->_paypal)) {
-            $this->_paypal = new Paypal();
-        }
-        return $this->_paypal;
+  public function razorpay(): Razorpay
+  {
+    if (is_null($this->_razorpay)) {
+      $this->_razorpay = new Razorpay();
     }
+    return $this->_razorpay;
+  }
 
-    public function payu(): PayU
-    {
-        if (is_null($this->_payu)) {
-            $this->_payu = new PayU();
-        }
-        return $this->_payu;
+  public function paypal(): Paypal
+  {
+    if (is_null($this->_paypal)) {
+      $this->_paypal = new Paypal();
     }
+    return $this->_paypal;
+  }
 
-    public function stripe(): Stripe
-    {
-        if (is_null($this->_stripe)) {
-            $this->_stripe = new Stripe();
-        }
-        return $this->_stripe;
+  public function payu(): PayU
+  {
+    if (is_null($this->_payu)) {
+      $this->_payu = new PayU();
     }
+    return $this->_payu;
+  }
 
-    public function offline(): Offline
-    {
-        if (is_null($this->_offline)) {
-            $this->_offline = new Offline();
-        }
-        return $this->_offline;
+  public function stripe(): Stripe
+  {
+    if (is_null($this->_stripe)) {
+      $this->_stripe = new Stripe();
     }
+    return $this->_stripe;
+  }
 
-    public function knitpay(): KnitPay
-    {
-        if (is_null($this->_knitpay)) {
-            $this->_knitpay = new KnitPay();
-        }
-        return $this->_knitpay;
+  public function offline(): Offline
+  {
+    if (is_null($this->_offline)) {
+      $this->_offline = new Offline();
     }
+    return $this->_offline;
+  }
+
+  public function knitpay(): KnitPay
+  {
+    if (is_null($this->_knitpay)) {
+      $this->_knitpay = new KnitPay();
+    }
+    return $this->_knitpay;
+  }
 }

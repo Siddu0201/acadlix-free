@@ -64,6 +64,7 @@ class Submenu_Settings
       'isCourseBundleActive' => acadlix()->helper()->is_course_bundle_addon_active() ?? false,
       'isKnitPayActive' => acadlix()->helper()->is_knit_pay_integration_addon_active() ?? false,
       'knitPayGateways' => acadlix()->integrations()->knit_pay()->get_gateways() ?? [],
+      'knitPayUrl' => admin_url('edit.php?post_type=pronamic_gateway')
     ];
   }
 

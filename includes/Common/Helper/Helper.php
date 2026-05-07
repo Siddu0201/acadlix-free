@@ -737,7 +737,7 @@ if (!class_exists('Helper')) {
         'acadlix_offline_max_upload_file_size' => 2,
         'acadlix_offline_allowed_mime_types' => [],
         'acadlix_knit_pay_active' => 'no',
-        'acadlix_knit_pay_title' => 'Knit Pay',
+        'acadlix_knit_pay_title' => 'Online Payment',
         'acadlix_knit_pay_configuration' => '',
         'acadlix_knit_pay_description' => '',
         'acadlix_openai_api_key' => null,

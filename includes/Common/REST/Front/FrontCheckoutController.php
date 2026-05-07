@@ -191,7 +191,11 @@ class FrontCheckoutController
     foreach ($cart as $key => $ct) {
       $errors = [];
       $item = $this->getItem($ct);
-      if ($item->isPurchasedBy($userId)) {
+      if(!$item) {
+        $errors[] = __('Item not found.', 'acadlix');
+        continue;
+      }
+      if ($item && $item->isPurchasedBy($userId)) {
         $errors[] = sprintf(
           /* translators: %s is the item title */
           __('%s already purchased.', 'acadlix'),

@@ -82,10 +82,10 @@ class ThankyouView
         if (function_exists('get_pronamic_payment')) {
           $payment = get_pronamic_payment($this->kp_payment_id);
           if ($payment && $payment->get_order_id()) {
-            acadlix()
-              ->payments()
-              ->knitpay()
-              ->verifyOrder($this->kp_payment_id);
+            // acadlix()
+            //   ->payments()
+            //   ->knitpay()
+            //   ->verifyOrder($this->kp_payment_id);
             $order = acadlix()->model()->order()->find($payment->get_order_id());
             if ($order) {
               $this->status = $order->status;

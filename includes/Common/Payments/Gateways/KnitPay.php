@@ -19,9 +19,9 @@ use Pronamic\WordPress\Pay\Payments\PaymentStatus as Core_Statuses;
 
 class KnitPay implements PaymentGatewayInterface
 {
+  const SLUG = 'acadlix';
   protected bool $is_knitpay_active = false;
   protected string $knitpay_title = '';
-  protected string $knitpay_description = '';
   protected string $knitpay_configuration = '';
   protected float $amount;
   protected string $currency;
@@ -31,9 +31,12 @@ class KnitPay implements PaymentGatewayInterface
 
   public function __construct()
   {
+    add_filter('pronamic_payment_source_text_' . self::SLUG, [$this, 'source_text'], 10, 2);
+    add_filter('pronamic_payment_source_description_' . self::SLUG, [$this, 'source_description'], 10, 2);
+    add_filter('pronamic_payment_source_url_' . self::SLUG, [$this, 'source_url'], 10, 2);
+
     $this->is_knitpay_active = acadlix()->helper()->acadlix_get_option('acadlix_knit_pay_active') === 'yes';
     $this->knitpay_title = acadlix()->helper()->acadlix_get_option('acadlix_knit_pay_title', 'Knit Pay');
-    $this->knitpay_description = acadlix()->helper()->acadlix_get_option('acadlix_knit_pay_description', '');
     $this->knitpay_configuration = acadlix()->helper()->acadlix_get_option('acadlix_knit_pay_configuration', '');
   }
 
@@ -170,26 +173,26 @@ class KnitPay implements PaymentGatewayInterface
      */
     $payment = new Payment();
 
-    $payment->source = 'acadlix'; //TODO: Change this with your plugin slug
+    $payment->source = self::SLUG; //TODO: Change this with your plugin slug
     $payment->source_id = $order_id;
     $payment->order_id = $order_id;
 
-    $payment->set_description($this->knitpay_description); // TODO Payment Description
+    $payment->set_description("Order " . $order_id); // TODO Payment Description
 
     $payment->title = "Order " . $order_id;
     $billing_info = $this->billing_info;
     // Customer.
     $customer_name = ContactNameHelper::from_array(
       [
-        'first_name' => $billing_info['first_name'] ?? 'First', // TODO: customer first name here
-        'last_name' => $billing_info['last_name'] ?? 'Last', // TODO: customer last name here
+        'first_name' => $billing_info['first_name'] ?? '', // TODO: customer first name here
+        'last_name' => $billing_info['last_name'] ?? '', // TODO: customer last name here
       ]
     );
     $payment->set_customer(CustomerHelper::from_array(
       [
         'name' => $customer_name,
-        'email' => $billing_info['email'] ?? 'email@example.com', // TODO: customer email here
-        'phone' => $billing_info['phone_number'] ?? "1234567890", // TODO: customer phone here
+        'email' => $billing_info['email'] ?? '', // TODO: customer email here
+        'phone' => $billing_info['phone_number'] ?? '', // TODO: customer phone here
       ]
     ));
 
@@ -198,14 +201,14 @@ class KnitPay implements PaymentGatewayInterface
       // address array, pass only those fields which are available
       [
         'name' => $customer_name,
-        'email' => $billing_info['email'] ?? 'email@example.com', // TODO: customer email here
-        'phone' => $billing_info['phone_number'] ?? "1234567890", // TODO: customer phone here
+        'email' => $billing_info['email'] ?? '', // TODO: customer email here
+        'phone' => $billing_info['phone_number'] ?? '', // TODO: customer phone here
         'line_1' => $billing_info['address'] ?? '', // TODO: customer address line 1 here
         'line_2' => '', // TODO: customer address line 2 here
-        'postal_code' => $billing_info['zip_code'] ?? '123456', // TODO: customer postal code here
-        'city' => $billing_info['city'] ?? 'city', // TODO: customer city here
-        'region' => $billing_info['state'] ?? 'state', // TODO: customer state here
-        'country_code' => $billing_info['country_code'] ?? 'IN', // TODO: customer country code here
+        'postal_code' => $billing_info['zip_code'] ?? '', // TODO: customer postal code here
+        'city' => $billing_info['city'] ?? '', // TODO: customer city here
+        'region' => $billing_info['state'] ?? '', // TODO: customer state here
+        'country_code' => $billing_info['country_code'] ?? '', // TODO: customer country code here
       ]
     ));
 
@@ -277,7 +280,7 @@ class KnitPay implements PaymentGatewayInterface
     } catch (Exception $e) {
       return new WP_Error(
         'webhook_error',
-        __('PayPal webhook error: ', 'acadlix') . esc_html($e->getMessage()),
+        __('Knitpay webhook error: ', 'acadlix') . esc_html($e->getMessage()),
         ['status' => 500]
       );
     }
@@ -365,4 +368,39 @@ class KnitPay implements PaymentGatewayInterface
     }
   }
 
+  public function get_order_link($order_id)
+  {
+    return admin_url('admin.php?page=acadlix_order#/edit/' . $order_id);
+  }
+
+  public function source_text($text, $payment)
+  {
+    $text = __( 'Acadlix', 'acadlix' ) . '<br />';
+		if ( ! empty( $payment->source_id ) ) {
+			$text .= sprintf(
+				'<a href="%s">%s</a>',
+				$this->get_order_link( $payment->source_id ),
+				/* translators: %s: source id */
+				sprintf( __( 'Payment %s', 'acadlix' ), $payment->source_id )
+			);
+		}
+
+		return $text;
+  }
+
+  public function source_description($description, $payment)
+  {
+    if ($payment->get_source() === self::SLUG) {
+      return __('Acadlix Order', 'acadlix');
+    }
+    return $description;
+  }
+
+  public function source_url($url, $payment)
+  {
+    if ($payment->get_source() === self::SLUG) {
+      return $this->get_order_link($payment->source_id);
+    }
+    return $url;
+  }
 }

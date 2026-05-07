@@ -27,6 +27,9 @@ function Payment(props) {
                 props: {
                   sx: {
                     marginY: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
                   },
                 },
                 children: [
