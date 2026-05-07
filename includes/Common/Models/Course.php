@@ -340,21 +340,51 @@ if (!class_exists('Course')) {
         return [];
       }
       // Base query for one-time purchases
-      $oneTimeCourseIds = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
-        $oi
-          ->whereHas('order', function ($q) use ($userId) {
-            $q
-              ->where('user_id', $userId)
-              ->where('status', 'success')
-              ->orderBy('created_at', 'desc');
-          })
-          ->whereNull('subscription_id');  // exclude subscription items
-      })->pluck('ID')
-        ->unique()
-        ->values();
+      // $oneTimeCourseIds = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
+      //   $oi
+      //     ->whereHas('order', function ($q) use ($userId) {
+      //       $q
+      //         ->where('user_id', $userId)
+      //         ->where('status', 'success');
+      //     })
+      //     ->whereNull('subscription_id');  // exclude subscription items
+      // })->pluck('ID')
+      //   ->unique()
+      //   ->values();
+
+      $purchaseMap = self::ofPublish()
+        ->whereHas('order_items', function ($oi) use ($userId) {
+          $oi->whereNull('subscription_id')
+            ->whereHas('order', function ($q) use ($userId) {
+              $q->where('user_id', $userId)
+                ->where('status', 'success');
+            });
+        })
+        ->with([
+          'order_items.order' => function ($q) use ($userId) {
+            $q->where('user_id', $userId)
+              ->where('status', 'success');
+          }
+        ])
+        ->get()
+        ->mapWithKeys(function ($course) {
+
+          $latestOrder = $course->order_items
+            ->filter(fn($oi) => $oi->order)
+            ->sortByDesc(fn($oi) => $oi->order->created_at)
+            ->first();
+
+          return [
+            $course->ID => optional($latestOrder->order)->created_at
+          ];
+        })
+        ->filter()
+        ->sortByDesc(fn($date) => $date);
+
+      $courseIds = $purchaseMap->keys()->values();
 
       $categoryIds = self::ofPublish()
-        ->whereIn('ID', $oneTimeCourseIds)
+        ->whereIn('ID', $courseIds)
         ->with('course_categories')
         ->get()
         ->pluck('course_categories')
@@ -363,7 +393,19 @@ if (!class_exists('Course')) {
         ->unique()
         ->values();
 
-      $query = self::ofPublish()->whereIn('ID', $oneTimeCourseIds);
+      if ($courseIds->isEmpty()) {
+        return [
+          'total' => 0,
+          'courses' => collect(),
+          'category_ids' => collect(),
+        ];
+      }
+
+      $idsString = $courseIds->implode(',');
+
+      $query = self::ofPublish()
+          ->whereIn('ID', $courseIds)
+          ->orderByRaw("FIELD(ID, $idsString)");
       // Apply eager loading if any
       if (!empty($with)) {
         $query->with($with);
@@ -383,7 +425,7 @@ if (!class_exists('Course')) {
       // Get total count before pagination
       $total = $query->count();
 
-      if($total <= $skip){
+      if ($total <= $skip) {
         $skip = 0;
       }
 
