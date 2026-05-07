@@ -568,6 +568,11 @@ if (!class_exists('AiHelper')) {
                     - Generate the specified number of options.
                     - Exactly ONE option must have isCorrect=true.
                     - For each question, randomly assign the correct answer position.
+                    - DO NOT always place the correct answer at position 0.
+                    - Across multiple questions, the correct answer position must vary.
+                    - Avoid predictable patterns such as always first or always last.
+                    - Ensure distribution appears random.
+
                     - position starts from 0 and is sequential (0, 1, 2, ...).
                     - points = 0 (for future use, does not affect correctness).
                     - negative_points = 0 (for future use, does not affect correctness).
@@ -588,7 +593,9 @@ if (!class_exists('AiHelper')) {
                     2) multipleChoice
                     - Generate the specified number of options.
                     - Two or more options must have isCorrect=true.
-                    - For each question, randomly assign the correct answer positions.
+                    - Correct options MUST be randomly selected for EACH question.
+                    - Correct answers must NOT follow a fixed pattern.
+                    - Ensure different combinations across questions.
                     - position starts from 0 and is sequential (0, 1, 2, ...).
                     - points = 0 (for future use, does not affect correctness).
                     - negative_points = 0 (for future use, does not affect correctness).
