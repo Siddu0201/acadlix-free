@@ -384,7 +384,7 @@ const MobileOnlyView = (props) => {
                     component: "div",
                     variant: "h6",
                   },
-                  children: __("No items in wishlist", "acadlix"),
+                  value: __("No items in wishlist", "acadlix"),
                 }
               ]
             }]

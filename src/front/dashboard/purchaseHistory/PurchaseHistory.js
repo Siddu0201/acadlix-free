@@ -356,7 +356,7 @@ const MobileOnlyView = (props) => {
                       color: "text.secondary",
                     }
                   },
-                  value: __("No Data Found", "acadlix")
+                  value: __("No Orders Found", "acadlix")
                 }
               ]
             }]
