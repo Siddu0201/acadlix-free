@@ -479,6 +479,7 @@ if (!class_exists('Course')) {
         ->orderItem()
         ->ofCourse()
         ->where('item_id', $this->ID)
+        ->whereNull('subscription_id')
         ->whereHas('order', function ($q) {
           $q->where('status', 'success');
         })
