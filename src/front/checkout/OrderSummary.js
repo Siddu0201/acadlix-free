@@ -4,19 +4,6 @@ import { currencyPosition } from "@acadlix/helpers/util";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 
 const OrderSummary = (props) => {
-  const is_payment_gateway_active = () => {
-    if (
-      acadlixCheckoutOptions?.is_razorpay_active ||
-      acadlixCheckoutOptions?.is_paypal_active ||
-      acadlixCheckoutOptions?.is_payu_active ||
-      acadlixCheckoutOptions?.is_stripe_active ||
-      acadlixCheckoutOptions?.is_offline_active
-    ) {
-      return true;
-    }
-
-    return false;
-  };
 
   const defaultSetting = {
     component: "Box",
@@ -434,7 +421,7 @@ const OrderSummary = (props) => {
                               },
                               loading: props?.watch("is_checkout_loading"),
                               disabled: props?.watch("cart")?.length === 0 ||
-                                !is_payment_gateway_active() ||
+                                !props?.is_payment_gateway_active ||
                                 !props?.watch("is_user_logged_in") ||
                                 props?.watch("is_checkout_locked"),
                               onClick: props?.handleSubmit(props?.handleCheckout),
@@ -462,7 +449,7 @@ const OrderSummary = (props) => {
       control: props?.control,
       watch: props?.watch,
       setValue: props?.setValue,
-      is_payment_gateway_active: is_payment_gateway_active(),
+      is_payment_gateway_active: props?.is_payment_gateway_active,
       handleSubmit: props?.handleSubmit,
       handleCheckout: props?.handleCheckout,
     }
@@ -484,125 +471,6 @@ const OrderSummary = (props) => {
           />
         </React.Fragment>
       ))}
-      {/* <Box>
-        <Card>
-          <CardHeader title={__('Order Summary', 'acadlix')} />
-          <Divider />
-          <CardContent>
-            <Grid container spacing={2}>
-              {props?.isFetching ? (
-                <Grid size={{ xs: 12, sm: 12, lg: 12 }}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CircularProgress />
-                </Grid>
-              ) : (
-                <>
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        paddingBottom: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {__('Price:', 'acadlix')}
-                      </Typography>
-                      <Typography variant="body2">
-                        {currencyPosition(
-                          props
-                            ?.watch("order_items")
-                            ?.reduce((total, c) => total + c?.price, 0)
-                        )}
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Grid>
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        paddingBottom: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {__('Tax:', 'acadlix')}
-                      </Typography>
-                      <Typography variant="body2">
-                        {currencyPosition(
-                          props
-                            ?.watch("order_items")
-                            ?.reduce((total, c) => total + c?.tax, 0)
-                        )}
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Grid>
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        paddingBottom: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {__('Total:', 'acadlix')}
-                      </Typography>
-                      <Typography variant="body2">
-                        {currencyPosition(
-                          props
-                            ?.watch("order_items")
-                            ?.reduce((total, c) => total + c?.price_after_tax, 0)
-                        )}
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Grid>
-                  <Grid size={{ xs: 12, lg: 12 }}>
-                    <Button
-                      className="acadlix-btn"
-                      color="success"
-                      variant="contained"
-                      fullWidth
-                      loading={props?.watch("is_checkout_loading")}
-                      onClick={props?.handleSubmit(props?.handleCheckout)}
-                      disabled={
-                        props?.watch("cart")?.length === 0 ||
-                        !is_payment_gateway_active() ||
-                        !props?.watch("is_user_logged_in") ||
-                        props?.watch("is_checkout_locked")
-                      }
-                    >
-                      {__('Checkout', 'acadlix')}
-                    </Button>
-                  </Grid>
-                </>
-              )}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Box> */}
     </>
   );
 };

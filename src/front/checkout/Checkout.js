@@ -559,6 +559,21 @@ const Checkout = () => {
     }
   };
 
+  const is_payment_gateway_active = () => {
+    if (
+      acadlixCheckoutOptions?.is_razorpay_active ||
+      acadlixCheckoutOptions?.is_paypal_active ||
+      acadlixCheckoutOptions?.is_payu_active ||
+      acadlixCheckoutOptions?.is_stripe_active ||
+      acadlixCheckoutOptions?.is_offline_active ||
+      acadlixCheckoutOptions?.is_knitpay_active
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
   if (getCart?.isFetching) {
     return (
       <Box
@@ -763,6 +778,7 @@ const Checkout = () => {
                             {...methods}
                             isFetching={getCart?.isFetching}
                             handleCheckout={handleCheckout}
+                            is_payment_gateway_active={is_payment_gateway_active()}
                           />,
                           component_name: "checkout_order_summary",
                         }
