@@ -14,6 +14,7 @@ class AllCourseView
   protected $categories = [];
   protected $page = 1;
   protected $per_page = 10;
+  protected $column_per_row = 3;
   protected $courses = [];
   protected $course_count = 0;
   protected $cart = [];
@@ -44,6 +45,7 @@ class AllCourseView
     $this->search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : ''; // phpcs:ignore
     $this->page = max(1, (isset($_GET['page']) ? intval($_GET['page']) : 1));
     $this->per_page = acadlix()->helper()->acadlix_get_option('acadlix_no_of_courses_per_page');
+    $this->column_per_row = acadlix()->helper()->acadlix_get_option('acadlix_column_per_row', 3);
 
     $request_taxonomy_categories = [];
     if (isset($_GET['taxonomy']) && is_array($_GET['taxonomy'])) { // phpcs:ignore
@@ -377,11 +379,12 @@ class AllCourseView
 
   public function render_single_course($course)
   {
+    $column_class = 'acadlix-col-lg-' . 12/$this->column_per_row . ' acadlix-col-md-6 acadlix-col-sm-12';
     $this->set_type($course);
     $single_course_ui = [
       'component' => 'div',
       'props' => [
-        'class' => 'acadlix-col-lg-4 acadlix-col-md-6 acadlix-col-sm-12'
+        'class' => $column_class
       ],
       'children' => [
         [
@@ -849,7 +852,7 @@ class AllCourseView
   {
     $search_ui = [
       'component' => 'section',
-      'props' => ['class' => 'acadlix-card acadlix-my-8'],
+      'props' => ['class' => 'acadlix-card acadlix-my-4 acadlix-course-filter-bar'],
       'children' => [
         [
           'component' => 'div',
@@ -858,11 +861,7 @@ class AllCourseView
             [
               'component' => 'div',
               'props' => ['class' => 'acadlix-h4'],
-              'value' => sprintf(
-                /* translators: %s: course count */
-                __('We found %s courses available for you', 'acadlix'),
-                '<span>' . esc_html($this->course_count) . '</span>'
-              )
+              'value' => ""
             ],
             [
               'component' => 'form',

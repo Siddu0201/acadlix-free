@@ -63,6 +63,8 @@ const SettingContent = ({
     // Course Options
     acadlix_no_of_courses_per_page:
       options?.acadlix_no_of_courses_per_page ?? 10,
+    acadlix_column_per_row:
+      options?.acadlix_column_per_row ?? 3,
     acadlix_disable_wishlist:
       options?.acadlix_disable_wishlist ?? "no",
     acadlix_one_click_checkout:
@@ -228,15 +230,8 @@ const SettingContent = ({
     acadlix_certificate_template:
       options?.acadlix_certificate_template ?? "modern-landscape",
     // Authentication option
-    acadlix_registration_options:
-      options?.acadlix_registration_options ?? {
-        phone: {
-          enabled: false,
-          required: false,
-          default_phonecode: "",
-          default_isocode: "",
-        }
-      },
+    acadlix_registration_fields:
+      options?.acadlix_registration_fields ?? [],
     acadlix_default_auth_screen:
       options?.acadlix_default_auth_screen ?? "login",
     acadlix_enable_fraud_protection:
@@ -279,6 +274,24 @@ const SettingContent = ({
       },
     });
   };
+
+  React.useEffect(() => {
+    const handleSaveShortcut = (event) => {
+      if (!(event.ctrlKey || event.metaKey)) return;
+      if (event.key?.toLowerCase() !== 's') return;
+
+      event.preventDefault();
+
+      if (updateMutation?.isPending) return;
+      methods.handleSubmit(onSubmit)();
+    };
+
+    window.addEventListener('keydown', handleSaveShortcut);
+
+    return () => {
+      window.removeEventListener('keydown', handleSaveShortcut);
+    };
+  }, [methods, onSubmit, updateMutation?.isPending]);
 
   return (
     <Box>
