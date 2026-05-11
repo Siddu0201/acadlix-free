@@ -235,7 +235,7 @@ class Ajax
             break;
 
           case 'user_url':
-            $result['meta']['user_url'] = esc_url_raw(wp_unslash($value));
+            $result['user_url'] = esc_url_raw(wp_unslash($value));
             break;
 
           default:
@@ -315,6 +315,7 @@ class Ajax
       $username = $processed['username'];
       $email = $processed['email'];
       $password = $processed['password'];
+      $user_url = $processed['user_url'] ?? '';
       $phone_number = $processed['phone_number'] ?? '';
       $phonecode = $processed['phonecode'] ?? '';
       $user_meta = $processed['meta'];
@@ -382,7 +383,7 @@ class Ajax
         $username,
         $email,
         $password,
-        [],
+        ['user_url' => $user_url],
         $user_meta,
         true
       );
