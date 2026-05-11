@@ -420,10 +420,7 @@ const OrderSummary = (props) => {
                                 textTransform: "uppercase",
                               },
                               loading: props?.watch("is_checkout_loading"),
-                              disabled: props?.watch("cart")?.length === 0 ||
-                                !props?.is_payment_gateway_active ||
-                                !props?.watch("is_user_logged_in") ||
-                                props?.watch("is_checkout_locked"),
+                              disabled: props?.is_checkout_disabled,
                               onClick: props?.handleSubmit(props?.handleCheckout),
                             },
                             value: __('Checkout', 'acadlix')
@@ -450,6 +447,7 @@ const OrderSummary = (props) => {
       watch: props?.watch,
       setValue: props?.setValue,
       is_payment_gateway_active: props?.is_payment_gateway_active,
+      is_checkout_disabled: props?.is_checkout_disabled,
       handleSubmit: props?.handleSubmit,
       handleCheckout: props?.handleCheckout,
     }

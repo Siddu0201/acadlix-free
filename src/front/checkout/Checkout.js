@@ -574,6 +574,18 @@ const Checkout = () => {
     return false;
   };
 
+  const is_checkout_disabled = () => {
+    if (
+      methods?.watch("cart")?.length === 0 ||
+      !is_payment_gateway_active() ||
+      !methods?.watch("is_user_logged_in") ||
+      methods?.watch("is_checkout_locked")
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   if (getCart?.isFetching) {
     return (
       <Box
@@ -779,6 +791,7 @@ const Checkout = () => {
                             isFetching={getCart?.isFetching}
                             handleCheckout={handleCheckout}
                             is_payment_gateway_active={is_payment_gateway_active()}
+                            is_checkout_disabled={is_checkout_disabled()}
                           />,
                           component_name: "checkout_order_summary",
                         }
