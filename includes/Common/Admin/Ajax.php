@@ -176,7 +176,7 @@ class Ajax
   /**
    * Process dynamic registration form data
    */
-  private function process_registration_data($data = [])
+  protected function process_registration_data($data = [])
   {
     $result = [
       'username' => '',
