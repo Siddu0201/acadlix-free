@@ -38,6 +38,7 @@ const RegisterPassword = (props) => {
         autoCapitalize="off"
         type={props?.data?.type || "password"}
         name={props?.data?.id}
+        disabled={props?.disabled || false}
         placeholder={props?.data?.placeholder || ""}
         onChange={(e) => {
           props?.setValue(`data.${props?.index}.value`,

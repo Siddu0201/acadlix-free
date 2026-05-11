@@ -23,6 +23,7 @@ const RegisterUrl = (props) => {
         autoComplete="off"
         autoCapitalize="off"
         type={props?.data?.type || "url"}
+        disabled={props?.disabled || false}
         name={props?.data?.id}
         placeholder={props?.data?.placeholder || ""}
         onChange={(e) => {

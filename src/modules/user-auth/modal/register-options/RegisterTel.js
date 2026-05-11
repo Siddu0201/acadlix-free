@@ -29,6 +29,7 @@ const RegisterTel = (props) => {
             id={props?.data?.id + "_country_code"}
             size='small'
             // disableClearable
+            disabled={props?.disabled || false}
             options={Country.getAllCountries()}
             getOptionLabel={(option) => `${formatPhoneCode(option.phonecode)} (${option.name})`}
             value={
@@ -103,6 +104,7 @@ const RegisterTel = (props) => {
             autoCapitalize="off"
             type={props?.data?.type || "tel"}
             name={props?.data?.id}
+            disabled={props?.disabled || false}
             placeholder={props?.data?.placeholder || ""}
             onChange={(e) => {
               props?.setValue(`data.${props?.index}.value`,

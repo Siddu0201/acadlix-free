@@ -22,6 +22,7 @@ const RegisterTextarea = (props) => {
         multiline
         rows={4}
         size='small'
+        disabled={props?.disabled || false}
         autoComplete="off"
         autoCapitalize="off"
         name={props?.data?.id}

@@ -25,6 +25,7 @@ const RegisterEmail = (props) => {
         type={props?.data?.type || "email"}
         name={props?.data?.id}
         placeholder={props?.data?.placeholder || ""}
+        disabled={props?.disabled || false}
         onChange={(e) => {
           props?.setValue(`data.${props?.index}.value`,
             e.target.value,

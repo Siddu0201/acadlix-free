@@ -28,6 +28,7 @@ const RegisterText = (props) => {
         autoCapitalize="off"
         type={props?.data?.type || "text"}
         name={props?.data?.id}
+        disabled={props?.disabled || false}
         placeholder={props?.data?.placeholder || ""}
         onChange={(e) => {
           props?.setValue(`data.${props?.index}.value`,

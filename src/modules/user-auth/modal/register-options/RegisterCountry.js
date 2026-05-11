@@ -34,6 +34,7 @@ const RegisterCountry = (props) => {
         }}
         id="acadlix-country"
         size="small"
+        disabled={props?.disabled || false}
         options={Country.getAllCountries()}
         getOptionLabel={(option) => `${option.name}`}
         value={
