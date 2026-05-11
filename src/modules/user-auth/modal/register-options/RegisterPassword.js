@@ -18,7 +18,7 @@ const RegisterPassword = (props) => {
   if (props.data?.id === "confirm_password") {
     validationRules.validate = (value) => {
       const password = props?.watch("data")?.find(d => d.id === "password")?.value;
-      return value === password || __("Your Passwords do not match", "acadlix");
+      return value == password || __("Your Passwords do not match", "acadlix");
     };
   }
 
