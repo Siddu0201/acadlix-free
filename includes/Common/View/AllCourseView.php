@@ -314,7 +314,7 @@ class AllCourseView
               'for' => 'acadlix_course_category_filter_' . esc_attr($category->term_id),
               'class' => 'acadlix-category-filter-label acadlix-body2',
             ],
-            'value' => esc_html($category->term->name) . ' (' . esc_html($category->count) . ')'
+            'value' => esc_html($category->term->name)
           ]
         ]
       ];
