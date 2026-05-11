@@ -3,6 +3,10 @@ import { Country } from 'country-state-city';
 import React from 'react'
 
 const RegisterCountry = (props) => {
+  if (!props?.data?.enabled) {
+    return null;
+  }
+
   return (
     <Grid size={{ xs: 12, lg: 12 }}>
       <Typography component={"div"} variant='body2'>

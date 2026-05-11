@@ -5,7 +5,9 @@ import { Country } from 'country-state-city';
 import React from 'react'
 
 const RegisterTel = (props) => {
-  console.log(props?.data);
+  if (!props?.data?.enabled) {
+    return null;
+  }
 
   return (
     <Grid size={{ xs: 12, lg: 12 }}>

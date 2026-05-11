@@ -188,7 +188,7 @@ const Register = (props) => {
             children: [
               {
                 component: "Fragment",
-                children: methods?.watch("data")?.length > 0 && methods?.watch("data")?.filter(d => d?.enabled)?.map((field, index) => {
+                children: methods?.watch("data")?.length > 0 && methods?.watch("data")?.map((field, index) => {
                   return {
                     component: getComponentByType(field?.type, field, index, methods)
                   };

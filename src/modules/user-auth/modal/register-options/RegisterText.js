@@ -7,6 +7,11 @@ const RegisterText = (props) => {
   if (props?.data?.settings?.width == "50%") {
     lg = 6;
   }
+
+  if (!props?.data?.enabled) {
+    return null;
+  }
+
   return (
     <Grid size={{ xs: 12, lg: lg }}>
       <Typography component={"div"} variant='body2'>

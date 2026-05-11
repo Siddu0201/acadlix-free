@@ -22,6 +22,10 @@ const RegisterPassword = (props) => {
     };
   }
 
+  if (!props?.data?.enabled) {
+    return null;
+  }
+
   return (
     <Grid size={{ xs: 12, lg: 12 }}>
       <Typography component={"div"} variant='body2'>
