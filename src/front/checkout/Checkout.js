@@ -73,7 +73,7 @@ const Checkout = () => {
   };
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters(
-    "acadlix.admin.checkout.defaultValues",
+    "acadlix.front.checkout.defaultValues",
     baseSetting,
     acadlixCheckoutOptions
   ) ?? baseSetting;
