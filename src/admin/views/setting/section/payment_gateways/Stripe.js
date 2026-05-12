@@ -60,6 +60,16 @@ const Stripe = (props) => {
                         e?.target?.checked ? e?.target?.value : "no",
                         { shouldDirty: true }
                       );
+                      if (!e?.target?.checked) {
+                        // If the gateway is being deactivated, also clear the default gateway if it is set to stripe
+                        if (props?.watch("acadlix_default_payment_gateway") === "stripe") {
+                          props?.setValue(
+                            "acadlix_default_payment_gateway",
+                            "",
+                            { shouldDirty: true }
+                          );
+                        }
+                      }
                     }
                   },
                 },
