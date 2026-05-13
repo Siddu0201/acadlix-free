@@ -84,6 +84,7 @@ const QuizContent = (props) => {
         specific_number_of_questions:
           props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions ?? 0, // 0 => all
         enable_selectable_questions_rule: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)),
+        subject_wise_minimum_percent: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_minimum_percent)),
         enable_inline_answer_options_layout: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
         ),
