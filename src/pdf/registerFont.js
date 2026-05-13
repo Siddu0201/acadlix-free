@@ -4,11 +4,11 @@ Font.register({
   family: "NotoSans",
   fonts: [
     {
-      src: "./fonts/NotoSans-Regular.ttf",
+      src: `${acadlixOptions?.pdf_url}fonts/NotoSans-Regular.ttf`,
       fontWeight: "normal",
     },
     {
-      src: "./fonts/NotoSans-Bold.ttf",
+      src: `${acadlixOptions?.pdf_url}fonts/NotoSans-Bold.ttf`,
       fontWeight: "bold",
     },
   ],
@@ -18,11 +18,11 @@ Font.register({
   family: "NotoSansDevanagari",
   fonts: [
     {
-      src: "./fonts/NotoSansDevanagari-Regular.ttf",
+      src: `${acadlixOptions?.pdf_url}fonts/NotoSansDevanagari-Regular.ttf`,
       fontWeight: "normal",
     },
     {
-      src: "./fonts/NotoSansDevanagari-Bold.ttf",
+      src: `${acadlixOptions?.pdf_url}fonts/NotoSansDevanagari-Bold.ttf`,
       fontWeight: "bold",
     },
   ],
