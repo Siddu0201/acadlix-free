@@ -7,6 +7,9 @@ export const QuizFunction = (methods) => {
 
   const getPoints = () => {
     let points = methods?.watch("questions")?.reduce((total, d) => {
+      if (d?.answer_type == 'assessment' && d?.result?.is_evaluated) {
+        return total + Number(d?.result?.points);
+      }
       if (d?.result?.solved_count && d?.result?.correct_count) {
         return total + Number(d?.points);
       } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
@@ -164,6 +167,23 @@ export const QuizFunction = (methods) => {
           : "fail";
     }
 
+    if (methods?.watch("subject_wise_minimum_percent")) {
+      const subjects = methods?.watch("subject_times") || [];
+      const failed_subjects = subjects?.filter((subject) => {
+        const subject_id = subject?.subject_id;
+        const points = getPointsBySubjectId(subject_id);
+        const total_points = getTotalPointsBySubjectId(subject_id);
+        const percent = total_points > 0 ? (points / total_points) * 100 : 0;
+        const minimum_percent = subject?.minimum_percent ?? 0;
+        return percent < minimum_percent;
+      }) || [];
+      if (failed_subjects?.length > 0) {
+        defaultStatus = "fail";
+      } else {
+        defaultStatus = "pass";
+      }
+    }
+
     // ALWAYS allow extensions
     return (
       window?.acadlixHooks?.applyFilters(
@@ -199,6 +219,9 @@ export const QuizFunction = (methods) => {
     let points = methods?.watch("questions")
       ?.filter((d) => d?.subject_id === subjectId)
       ?.reduce((total, d) => {
+        if (d?.answer_type == 'assessment' && d?.result?.is_evaluated) {
+          return total + Number(d?.result?.points);
+        }
         if (d?.result?.solved_count && d?.result?.correct_count) {
           return total + Number(d?.points);
         } else if (d?.result?.solved_count && d?.result?.incorrect_count) {
@@ -228,6 +251,9 @@ export const QuizFunction = (methods) => {
 
       const evaluated_questions = attempted_questions?.slice(0, evaluate_number_of_question);
       points = evaluated_questions?.reduce((total, d) => {
+        if (d?.answer_type == 'assessment' && d?.result?.is_evaluated) {
+          return total + Number(d?.result?.points);
+        }
         if (d?.result?.solved_count && d?.result?.correct_count) {
           return total + Number(d?.points);
         } else if (d?.result?.solved_count && d?.result?.incorrect_count) {

@@ -20,8 +20,9 @@ import ParagraphText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-
 import QuestionText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/QuestionText";
 import CorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/CorrectMsgSection";
 import IncorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/IncorrectMsgSection";
-import { AnswerSheetFunction } from "./AnswerSheetFunction";
+// import { AnswerSheetFunction } from "./AnswerSheetFunction";
 import TypeAssessment from "@acadlix/front/dashboard/quiz/questionTypes/TypeAssessment";
+import { QuizFunction } from "@acadlix/front/dashboard/quiz/QuizFunction";
 // import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
 // import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
 // import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
@@ -318,7 +319,7 @@ const AnswerSheet = ({
     isSolved,
     isCorrect,
     isIncorrect
-  } = AnswerSheetFunction(methods);
+  } = QuizFunction(methods);
 
   const getQuestionColor = (d) => {
     const solved = d?.result?.solved_count;
