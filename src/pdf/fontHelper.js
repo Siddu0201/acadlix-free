@@ -4,9 +4,9 @@ export const isHindi = (text = "") => {
 };
 
 export const getFontFamily = (text) => {
-  if (isHindi(text)) {
-    return "NotoSansDevanagari";
-  }
+  // if (isHindi(text)) {
+  //   return "NotoSansDevanagari";
+  // }
 
-  return "NotoSans";
+  return "AcadlixUniversal";
 };
