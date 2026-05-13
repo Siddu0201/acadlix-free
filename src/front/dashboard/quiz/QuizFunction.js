@@ -175,6 +175,14 @@ export const QuizFunction = (methods) => {
           methods,
           getPoints,
           getTotalPoints,
+          getPointsBySubjectId,
+          getNegativePointsBySubjectId,
+          getTotalPointsBySubjectId,
+          getSolvedCountBySubjectId,
+          getCorrectCountBySubjectId,
+          getIncorrectCountBySubjectId,
+          getSkippedCountBySubjectId,
+          getTimeBySubjectId,
         }
       ) ?? defaultStatus
     );
