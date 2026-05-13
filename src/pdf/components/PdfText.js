@@ -1,5 +1,5 @@
 import { Text } from "@react-pdf/renderer";
-import { getFontFamily } from "./fontHelper";
+import { getFontFamily } from "../fontHelper";
 
 const PdfText = ({ children, style = {}, ...props }) => {
   return (
