@@ -131,6 +131,7 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
     ),
     selectable_questions_rule: props?.quiz?.rendered_metas?.quiz_settings?.selectable_questions_rule, //evaluate_first_x_attempted_questions/allow_only_x_attempts
+    subject_wise_minimum_percent: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_minimum_percent)),
     // Result settings
     hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
     hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
