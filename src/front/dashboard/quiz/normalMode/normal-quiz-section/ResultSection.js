@@ -145,15 +145,14 @@ const ResultSection = (props) => {
             average_score={props?.watch("average_score")}
           />
         )}
-        {props?.watch("show_status_based_on_min_percent") && (
-          <React.Suspense fallback={null}>
-            <ResultStatus
-              getResult={props?.getResult}
-              getStatus={props?.getStatus}
-              minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
-            />
-          </React.Suspense>
-        )}
+        <React.Suspense fallback={null}>
+          <ResultStatus
+            getResult={props?.getResult}
+            getStatus={props?.getStatus}
+            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+            {...props}
+          />
+        </React.Suspense>
         {props?.watch("show_accuracy") && (
           <React.Suspense fallback={null}>
             <Accuracy

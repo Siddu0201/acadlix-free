@@ -141,6 +141,7 @@ const AnswerSheet = ({
     enable_selectable_questions_rule: Boolean(
       Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
     ),
+    subject_wise_minimum_percent: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.subject_wise_minimum_percent)),
     subject_times:
       quiz?.subject_times ?
         quiz?.subject_times?.map((s) => {
@@ -803,15 +804,14 @@ const ResultSection = (props) => {
             />
           </React.Suspense>
         )}
-        {props?.watch("show_status_based_on_min_percent") && (
-          <React.Suspense fallback={null}>
-            <ResultStatus
-              getResult={props?.getResult}
-              getStatus={props?.getStatus}
-              minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
-            />
-          </React.Suspense>
-        )}
+        <React.Suspense fallback={null}>
+          <ResultStatus
+            getResult={props?.getResult}
+            getStatus={props?.getStatus}
+            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+            {...props}
+          />
+        </React.Suspense>
         {props?.watch("show_accuracy") && (
           <React.Suspense fallback={null}>
             <Accuracy
