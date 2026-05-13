@@ -482,6 +482,7 @@ const Quiz = () => {
         onClose={handleSubjectTimeClose}
         aria-labelledby="alert-subject-title"
         aria-describedby="alert-subject-description"
+        md="80%"
       >
         <React.Suspense fallback={null}>
           <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />
