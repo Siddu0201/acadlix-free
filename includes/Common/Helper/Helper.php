@@ -658,7 +658,7 @@ if (!class_exists('Helper')) {
         'acadlix_enable_dashboard_fullwidth' => 'no',
         'acadlix_enable_site_logo_in_header' => 'no',
         'acadlix_enable_course_content_scroll_button' => 'no',
-        'acadlix_light_logo' => [],
+        'acadlix_custom_logo' => [],
         // Checkout Option
         'acadlix_enable_coupon_code' => 'no',
         // Data management
@@ -809,8 +809,8 @@ if (!class_exists('Helper')) {
           'required' => true,
           'value' => '',
           'controls' => [
-            'can_disable' => false,
-            'can_require_toggle' => false,
+            'can_disable' => true,
+            'can_require_toggle' => true,
             'can_delete' => false,
             'can_edit_name' => false,
             'can_edit_type' => false,
@@ -878,8 +878,8 @@ if (!class_exists('Helper')) {
           'required' => true,
           'value' => '',
           'controls' => [
-            'can_disable' => false,
-            'can_require_toggle' => false,
+            'can_disable' => true,
+            'can_require_toggle' => true,
             'can_delete' => false,
             'can_edit_name' => false,
             'can_edit_type' => false,

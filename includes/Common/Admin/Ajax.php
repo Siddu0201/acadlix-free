@@ -312,8 +312,8 @@ class Ajax
 
       $processed = $this->process_registration_data($form);
 
-      $username = $processed['username'];
       $email = $processed['email'];
+      $username = !empty($processed['username']) ? $processed['username'] : $email;
       $password = $processed['password'];
       $user_url = $processed['user_url'] ?? '';
       $phone_number = $processed['phone_number'] ?? '';

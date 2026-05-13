@@ -972,7 +972,7 @@ function General(props) {
                   }}>
                     <Avatar
                       variant="rounded"
-                      src={props?.watch("acadlix_light_logo")?.url ?? acadlixOptions?.default_img_url}
+                      src={props?.watch("acadlix_custom_logo")?.url ?? acadlixOptions?.default_img_url}
                       sx={{
                         width: "280px",
                         height: "90px",
@@ -1009,7 +1009,7 @@ function General(props) {
                             return;
                           }
                           props?.setValue(
-                            "acadlix_light_logo",
+                            "acadlix_custom_logo",
                             {
                               id: media?.id,
                               url: media?.url,
