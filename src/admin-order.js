@@ -6,9 +6,10 @@ import { loadAdminOrderHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminOrderHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-order');
+  const adminOrderId = "acadlix-admin-order";
+  const acadlixElement = document.getElementById(adminOrderId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminOrder></AdminOrder>);
+    acadlixElementRoot.render(<AdminOrder id={adminOrderId}></AdminOrder>);
   }
 })();

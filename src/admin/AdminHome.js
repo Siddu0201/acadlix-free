@@ -4,9 +4,9 @@ import { Toaster } from "react-hot-toast";
 import Home from "./views/home/Home";
 import AdminLayout from "@acadlix/layout/AdminLayout";
 
-const AdminHome = () => {
+const AdminHome = (props) => {
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <Toaster position="bottom-right" />
       <AdminLayout>
         <Home />

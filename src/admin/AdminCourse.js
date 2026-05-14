@@ -12,7 +12,7 @@ const AdminCourse = (props) => {
   const users = window?.acadlixCourseList?.users;
   const user_id = window?.acadlixCourseList?.user_id ?? 0;
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Toaster position="bottom-right" />
         {

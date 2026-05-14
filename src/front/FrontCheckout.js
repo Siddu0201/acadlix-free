@@ -4,9 +4,9 @@ import Checkout from "./checkout/Checkout";
 import { Toaster } from "react-hot-toast";
 import './FrontCheckout.css';
 
-const FrontCheckout = () => {
+const FrontCheckout = (props) => {
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <Toaster position="bottom-right" />
       <Checkout />
     </Provider>

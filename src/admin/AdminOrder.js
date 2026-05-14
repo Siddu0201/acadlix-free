@@ -12,7 +12,7 @@ import EditOrder from "./views/order/EditOrder";
 import "./AdminOrder.css";
 import { hasCapability } from "@acadlix/helpers/util";
 
-const AdminOrder = () => {
+const AdminOrder = (props) => {
   const routes = [
     hasCapability("acadlix_show_order") && {
       path: "/",
@@ -34,7 +34,7 @@ const AdminOrder = () => {
   )?.filter(Boolean) || [];
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Toaster position="bottom-right" />

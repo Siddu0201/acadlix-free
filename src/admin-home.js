@@ -6,9 +6,10 @@ import { loadAdminHomeHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminHomeHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-home');
+  const adminHomeId = "acadlix-admin-home";
+  const acadlixElement = document.getElementById(adminHomeId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminHome></AdminHome>);
+    acadlixElementRoot.render(<AdminHome id={adminHomeId}></AdminHome>);
   }
 })();

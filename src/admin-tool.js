@@ -6,9 +6,10 @@ import { loadAdminToolHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminToolHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-tool');
+  const adminToolId = "acadlix-admin-tool";
+  const acadlixElement = document.getElementById(adminToolId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminTool></AdminTool>);
+    acadlixElementRoot.render(<AdminTool id={adminToolId}></AdminTool>);
   }
 })();

@@ -7,7 +7,7 @@ import { hasCapability } from '@acadlix/helpers/util';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Tool from './views/tool/Tool';
 
-const AdminTool = () => {
+const AdminTool = (props) => {
   const routes = [
     hasCapability("acadlix_show_import_export_tool") && {
       path: "/",
@@ -23,7 +23,7 @@ const AdminTool = () => {
   )?.filter(Boolean) || [];
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <Toaster position="bottom-right" />
         <Routes>

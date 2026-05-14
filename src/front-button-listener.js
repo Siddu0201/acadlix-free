@@ -7,13 +7,14 @@ import FrontButtonListener from './front/FrontButtonListener';
 (async () => {
   await loadFrontButtonListenerHooks(window?.acadlixHooks);
   domReady(() => {
-    const courseListener = document.getElementById('acadlix-course-listener');
+    const courseListenerId = "acadlix-course-listener";
+    const courseListener = document.getElementById(courseListenerId);
     if (courseListener) {
       if (!courseListener.__REACT_ROOT__) {
         courseListener.__REACT_ROOT__ = createRoot(courseListener);
       }
       courseListener.__REACT_ROOT__.render(
-        <Provider>
+        <Provider id={courseListenerId}>
           <FrontButtonListener />
         </Provider>
       );

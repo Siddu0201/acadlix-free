@@ -99,6 +99,18 @@
   width: 100%;
 }
 
+/* #acadlix_dashboard button {
+  all: unset;
+} */
+
+#acadlix_dashboard *{
+  box-sizing: border-box;
+}
+
+/* #acadlix_dashboard .css-5hae6c-MuiButtonBase-root-MuiButton-root {
+  padding: 10px;
+} */
+
 .acadlix-normal-quiz-question-answer-container p,
 .acadlix-advance-quiz-question-answer-container p {
   margin: 0px !important;

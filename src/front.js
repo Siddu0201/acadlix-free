@@ -7,6 +7,7 @@ import { loadFrontHooks } from '@acadlix/modules/extensions/hooksLoader';
 import FrontLogin from './front/FrontLogin';
 import AppFrontLeaderboard from './front/AppFrontLeaderboard';
 import Certificate from './front/Certificate';
+import Provider from './provider/Provider';
 
 (async () => {
   await loadFrontHooks(window?.acadlixHooks);
@@ -18,18 +19,22 @@ import Certificate from './front/Certificate';
           if (!short.__REACT_ROOT__) {
             short.__REACT_ROOT__ = createRoot(short);
           }
-
+          const quizId = "acadlix_quiz_" + short.getAttribute('id');
           short.__REACT_ROOT__.render(
-            <AppFront
-              quiz_elm={short}
-              elm_index={index}
-              key={index}
-              quiz_id={short.getAttribute('id')}
-              start={false}
-              advance={false}
-              hide_title={true}
-              hide_description={true}
-            />
+            <div id={quizId}>
+              <Provider id={quizId}>
+                <AppFront
+                  quiz_elm={short}
+                  elm_index={index}
+                  key={index}
+                  quiz_id={short.getAttribute('id')}
+                  start={false}
+                  advance={false}
+                  hide_title={true}
+                  hide_description={true}
+                />
+              </Provider>
+            </div>
           );
         }
       });
@@ -40,12 +45,17 @@ import Certificate from './front/Certificate';
         if (!short.__REACT_ROOT__) {
           short.__REACT_ROOT__ = createRoot(short);
         }
+        const leaderboardId = "acadlix_leaderboard_" + short.getAttribute('id');
         short.__REACT_ROOT__.render(
-          <AppFrontLeaderboard
-            quiz_elm={short}
-            elm_index={index}
-            quiz_id={short.getAttribute('id')}
-          />
+          <div id={leaderboardId}>
+            <Provider id={leaderboardId}>
+              <AppFrontLeaderboard
+                quiz_elm={short}
+                elm_index={index}
+                quiz_id={short.getAttribute('id')}
+              />
+            </Provider>
+          </div>
         );
       });
     }
@@ -55,7 +65,14 @@ import Certificate from './front/Certificate';
         if (!short.__REACT_ROOT__) {
           short.__REACT_ROOT__ = createRoot(short);
         }
-        short.__REACT_ROOT__.render(<FrontLogin />);
+        const loginId = "acadlix_login_" + index;
+        short.__REACT_ROOT__.render(
+          <div id={loginId}>
+            <Provider id={loginId}>
+              <FrontLogin />
+            </Provider>
+          </div>
+        );
       });
     }
   }
@@ -65,22 +82,25 @@ import Certificate from './front/Certificate';
   window.initializeShortcodes();
 
   domReady(() => {
-    const dashboard = document.getElementById("acadlix_dashboard");
+    const dashboardId = "acadlix_dashboard";
+    const dashboard = document.getElementById(dashboardId);
     if (dashboard) {
       const dashboardRoot = createRoot(dashboard);
-      dashboardRoot.render(<Dashbaord ></Dashbaord>);
+      dashboardRoot.render(<Dashbaord id={dashboardId}></Dashbaord>);
     }
 
-    const certificate = document.getElementById("acadlix_certificate");
+    const certificateId = "acadlix_certificate";
+    const certificate = document.getElementById(certificateId);
     if (certificate) {
       const certificateRoot = createRoot(certificate);
-      certificateRoot.render(<Certificate ></Certificate>);
+      certificateRoot.render(<Certificate id={certificateId}></Certificate>);
     }
 
-    const advanceQuiz = document.getElementById("acadlix_advance_quiz");
+    const advanceQuizId = "acadlix_advance_quiz";
+    const advanceQuiz = document.getElementById(advanceQuizId);
     if (advanceQuiz) {
       const advanceQuizRoot = createRoot(advanceQuiz);
-      advanceQuizRoot.render(<AppFront start={true} advance={true} hide_title={true} hide_description={true}></AppFront>);
+      advanceQuizRoot.render(<AppFront id={advanceQuizId} start={true} advance={true} hide_title={true} hide_description={true}></AppFront>);
     }
 
     // mutation observer for detect shortcode

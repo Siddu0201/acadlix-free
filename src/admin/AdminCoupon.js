@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
 import CreateCoupon from './views/coupon/CreateCoupon';
 import EditCoupon from './views/coupon/EditCoupon';
 
-const AdminCoupon = () => {
+const AdminCoupon = (props) => {
   const routes = [
     hasCapability("acadlix_show_coupon") && {
       path: "/",
@@ -35,7 +35,7 @@ const AdminCoupon = () => {
   )?.filter(Boolean) || [];
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position="bottom-right" />

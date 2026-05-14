@@ -6,9 +6,10 @@ import { loadAdminQuizHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminQuizHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-quiz');
+  const adminQuizId = "acadlix-admin-quiz";
+  const acadlixElement = document.getElementById(adminQuizId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminQuiz></AdminQuiz>);
+    acadlixElementRoot.render(<AdminQuiz id={adminQuizId}></AdminQuiz>);
   }
 })();

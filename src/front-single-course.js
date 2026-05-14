@@ -7,14 +7,15 @@ import { loadFrontSingleCourseHooks } from '@acadlix/modules/extensions/hooksLoa
 (async () => {
   await loadFrontSingleCourseHooks(window?.acadlixHooks);
   domReady(() => {
-    const course = document.getElementById('acadlix-curriculum-react-preview');
+    const singleCourseId = "acadlix-curriculum-react-preview";
+    const course = document.getElementById(singleCourseId);
     if (course) {
       if (!course.__REACT_ROOT__) {
         course.__REACT_ROOT__ = createRoot(course);
       }
 
       course.__REACT_ROOT__.render(
-        <Provider>
+        <Provider id={singleCourseId}>
           <FrontSingleCourse course={JSON.parse(acadlixSingleCourse?.course) ?? {}} />
         </Provider>
       );

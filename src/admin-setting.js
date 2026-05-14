@@ -6,9 +6,10 @@ import { loadAdminSettingHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminSettingHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-setting');
+  const adminSettingId = "acadlix-admin-setting";
+  const acadlixElement = document.getElementById(adminSettingId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminSetting></AdminSetting>);
+    acadlixElementRoot.render(<AdminSetting id={adminSettingId}></AdminSetting>);
   }
 })();

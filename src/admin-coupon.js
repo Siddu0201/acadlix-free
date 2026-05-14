@@ -6,9 +6,10 @@ import { loadAdminCouponHooks } from './modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminCouponHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-coupon');
+  const adminCouponId = "acadlix-admin-coupon";
+  const acadlixElement = document.getElementById(adminCouponId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminCoupon></AdminCoupon>);
+    acadlixElementRoot.render(<AdminCoupon id={adminCouponId}></AdminCoupon>);
   }
 })();

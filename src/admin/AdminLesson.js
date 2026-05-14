@@ -12,7 +12,7 @@ import "./AdminLesson.css";
 import ScrollToTop from "@acadlix/helpers/ScrollToTop";
 import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
-const AdminLesson = () => {
+const AdminLesson = (props) => {
   const routes = [
     hasCapability("acadlix_show_lesson") && {
       path: "/",
@@ -35,7 +35,7 @@ const AdminLesson = () => {
 
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position="bottom-right" />

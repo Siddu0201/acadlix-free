@@ -11,7 +11,7 @@ import './AdminStudent.css'
 import { hasCapability } from '@acadlix/helpers/util'
 
 
-const AdminStudent = () => {
+const AdminStudent = (props) => {
   const routes = [
     hasCapability("acadlix_show_student") && {
       path: "/",
@@ -25,7 +25,7 @@ const AdminStudent = () => {
   )?.filter(Boolean) || [];
 
   return (
-    <Provider>
+    <Provider id={props.id}>
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position='bottom-right' />

@@ -6,9 +6,10 @@ import { loadAdminAddonHooks } from '@acadlix/modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminAddonHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-addon');
+  const adminAddonId = "acadlix-admin-addon";
+  const acadlixElement = document.getElementById(adminAddonId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminAddon></AdminAddon>);
+    acadlixElementRoot.render(<AdminAddon id={adminAddonId}></AdminAddon>);
   }
 })();

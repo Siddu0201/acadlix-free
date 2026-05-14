@@ -6,9 +6,10 @@ import { loadAdminStudentHooks } from './modules/extensions/hooksLoader';
 
 (async () => {
   await loadAdminStudentHooks(window?.acadlixHooks);
-  const acadlixElement = document.getElementById('acadlix-admin-student');
+  const adminStudentId = "acadlix-admin-student";
+  const acadlixElement = document.getElementById(adminStudentId);
   if (acadlixElement) {
     const acadlixElementRoot = createRoot(acadlixElement);
-    acadlixElementRoot.render(<AdminStudent></AdminStudent>);
+    acadlixElementRoot.render(<AdminStudent id={adminStudentId}></AdminStudent>);
   }
 })();
