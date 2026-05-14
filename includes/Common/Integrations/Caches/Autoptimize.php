@@ -19,5 +19,12 @@ if (!class_exists(__NAMESPACE__ . '\\Autoptimize')) {
       $excluded .= ', acadlix';
       return $excluded;
     }
+
+    public function clear()
+    {
+      if (class_exists('autoptimizeCache')) {
+        \autoptimizeCache::clearall();
+      }
+    }
   }
 }

@@ -54,5 +54,12 @@ if (!class_exists(__NAMESPACE__ . '\\LiteSpeedCache')) {
       $excluded[] = 'acadlix';
       return $excluded;
     }
+
+    public function clear()
+    {
+      if($this->is_litespeed_active()) {
+        do_action('litespeed_purge_all');
+      }
+    }
   }
 }

@@ -121,6 +121,7 @@ class Activator
     acadlix()->admin()->userRole()->addCapabilities();
     acadlix()->cpt()->register_all_cpts();
     acadlix()->schedule()->createSchedules();
+    acadlix()->integrations()->caches()->clearAll(); // to clear cache of all integrations
   }
 
   public function deactivate($network_wide)
@@ -232,6 +233,7 @@ class Activator
         acadlix()->seeder()->seed(); // function to upadte schema/data
         acadlix()->admin()->option()->createOption(); // to update options
         acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
+        acadlix()->integrations()->caches()->clearAll(); // to clear cache of all integrations
         acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         $this->$method();
       }

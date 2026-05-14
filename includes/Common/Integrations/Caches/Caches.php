@@ -24,7 +24,7 @@ if (!class_exists('Caches')) {
 
     public function litespeed(): LiteSpeedCache
     {
-      if ($this->litespeed === null) {
+      if (is_null($this->litespeed)) {
         $this->litespeed = new LiteSpeedCache();
       }
       return $this->litespeed;
@@ -32,7 +32,7 @@ if (!class_exists('Caches')) {
 
     public function autoptimize(): Autoptimize
     {
-      if ($this->autoptimize === null) {
+      if (is_null($this->autoptimize)) {
         $this->autoptimize = new Autoptimize();
       }
       return $this->autoptimize;
@@ -40,7 +40,7 @@ if (!class_exists('Caches')) {
 
     public function w3totalcache(): W3TotalCache
     {
-      if ($this->w3totalcache === null) {
+      if (is_null($this->w3totalcache)) {
         $this->w3totalcache = new W3TotalCache();
       }
       return $this->w3totalcache;
@@ -48,7 +48,7 @@ if (!class_exists('Caches')) {
 
     public function wpoptimize(): WpOptimize
     {
-      if ($this->wpoptimize === null) {
+      if (is_null($this->wpoptimize)) {
         $this->wpoptimize = new WpOptimize();
       }
       return $this->wpoptimize;
@@ -56,10 +56,45 @@ if (!class_exists('Caches')) {
 
     public function prefmatters(): Prefmatters
     {
-      if ($this->prefmatters === null) {
+      if (is_null($this->prefmatters)) {
         $this->prefmatters = new Prefmatters();
       }
       return $this->prefmatters;
+    }
+
+    public function clearAll()
+    {
+      $this->litespeed()->clear();
+      $this->autoptimize()->clear();
+      $this->w3totalcache()->clear();
+      $this->wpoptimize()->clear();
+      $this->prefmatters()->clear();
+
+      // WP Rocket
+      if (function_exists('rocket_clean_domain')) {
+        rocket_clean_domain();
+      }
+
+      // WP Super Cache
+      if (function_exists('wp_cache_clear_cache')) {
+        global $file_prefix;
+        wp_cache_clear_cache($file_prefix);
+      }
+
+      // SG Optimizer
+      if (function_exists('sg_cachepress_purge_cache')) {
+        sg_cachepress_purge_cache();
+      }
+
+      // Elementor CSS cache
+      if (class_exists('\Elementor\Plugin')) {
+        \Elementor\Plugin::$instance->files_manager->clear_cache();
+      }
+
+      // WordPress object cache
+      if (function_exists('wp_cache_flush')) {
+        wp_cache_flush();
+      }
     }
   }
 }

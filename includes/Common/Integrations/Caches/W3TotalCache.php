@@ -17,5 +17,12 @@ if (!class_exists(__NAMESPACE__ . '\\W3TotalCache')) {
       $excluded[] = 'acadlix';
       return $excluded;
     }
+
+    public function clear()
+    {
+      if (function_exists('w3tc_flush_all')) {
+        w3tc_flush_all();
+      }
+    }
   }
 }

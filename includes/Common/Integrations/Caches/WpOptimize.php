@@ -20,5 +20,12 @@ if (!class_exists(__NAMESPACE__ . '\\WpOptimize')) {
       $excluded[] = '/wp-content/plugins/' . ACADLIX_PLUGIN_FOLDER_NAME . '/build/' . acadlix()->versionPath . '/';
       return $excluded;
     }
+
+    public function clear()
+    {
+      // if (function_exists('wp_optimize_cache_clear')) {
+      //   wp_optimize_cache_clear();
+      // }
+    }
   }
 }

@@ -613,22 +613,34 @@ const CustomThemeProvider = ({ children, ...props }) => {
             backgroundImage: "none",
           },
           contained: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
               backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].dark : theme.palette[themeColor]?.dark,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+            //   backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
+            // },
           }),
           outlined: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
               backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette[ownerState?.color]?.main : theme.palette[themeColor]?.main,
+            //   backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].contrastText : theme.palette[themeColor]?.contrastText,
+            // },
           }),
           text: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
               backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+            //   backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
+            // },
           }),
         },
       },
@@ -637,9 +649,12 @@ const CustomThemeProvider = ({ children, ...props }) => {
           root: ({ theme, ownerState }) => ({
             boxShadow: "none",
             backgroundImage: "none",
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette?.[ownerState?.color]?.dark : theme.palette[themeColor].dark,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette?.[ownerState?.color]?.dark : theme.palette[themeColor].dark,
+            // },
           })
         }
       },
