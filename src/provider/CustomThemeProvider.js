@@ -705,11 +705,6 @@ const CustomThemeProvider = ({ children, ...props }) => {
           container: () => document.getElementById(`${props?.id}`),
         },
       },
-      MuiTooltip: {
-        defaultProps: {
-          container: () => document.getElementById(`${props?.id}`),
-        },
-      },
     },
   });
   return (

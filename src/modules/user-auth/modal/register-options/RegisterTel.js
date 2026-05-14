@@ -9,6 +9,8 @@ const RegisterTel = (props) => {
     return null;
   }
 
+  const isPhoneCodeEnabled = props?.data?.settings?.phonecode?.enabled;
+
   return (
     <Grid size={{ xs: 12, lg: 12 }}>
       <Typography component={"div"} variant='body2'>
@@ -18,81 +20,93 @@ const RegisterTel = (props) => {
         }
       </Typography>
       <Grid container spacing={2}>
-        <Grid size={{ xs: 6, sm: 6, lg: 6 }}>
-          <Autocomplete
-            {...props?.register(`data.${props?.index}.settings.phonecode.value`, {
-              required: {
-                value: props?.data?.required,
-                message: `${props?.data?.name} is required`
-              }
-            })}
-            fullWidth
-            autoCapitalize="off"
-            id={props?.data?.id + "_country_code"}
-            size='small'
-            // disableClearable
-            disabled={props?.disabled || false}
-            options={Country.getAllCountries()}
-            getOptionLabel={(option) => `${formatPhoneCode(option.phonecode)} (${option.name})`}
-            value={
-              props?.data?.settings?.phonecode?.value !== null
-                ? Country?.getAllCountries()?.find(
-                  (country) => {
-                    const isocode = props?.data?.settings?.isocode?.value;
-                    if (isocode) {
-                      return (
-                        country.isoCode === isocode &&
-                        country.phonecode === props?.data?.settings?.phonecode?.value
-                      );
-                    }
-                    return (
-                      country?.phonecode ===
-                      props?.data?.settings?.phonecode?.value
-                    );
+        {
+          isPhoneCodeEnabled && (
+            <Grid size={{
+              xs: isPhoneCodeEnabled ? 6 : 12,
+              sm: isPhoneCodeEnabled ? 6 : 12,
+              lg: isPhoneCodeEnabled ? 6 : 12
+            }}>
+              <Autocomplete
+                {...props?.register(`data.${props?.index}.settings.phonecode.value`, {
+                  required: {
+                    value: props?.data?.required,
+                    message: `${props?.data?.name} is required`
                   }
-                ) ?? null
-                : null
-            }
-            onChange={(_, newValue) => {
-              props?.setValue(`data.${props?.index}.settings.phonecode.value`, newValue?.phonecode || null, {
-                shouldDirty: true,
-              });
-              props?.setValue(`data.${props?.index}.settings.isocode.value`, newValue?.isoCode || null, {
-                shouldDirty: true,
-              });
-            }}
-            renderOption={(props, option) => (
-              <Box component="li" {...props}>
-                {formatPhoneCode(option.phonecode)} ({option.name})
-              </Box>
-            )}
-            slotProps={{
-              popupIndicator: {
-                className: "acadlix-icon-btn"
-              },
-              clearIndicator: {
-                className: "acadlix-icon-btn"
-              }
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                inputProps={{
-                  ...params.inputProps,
-                  autoComplete: "code",
+                })}
+                fullWidth
+                autoCapitalize="off"
+                id={props?.data?.id + "_country_code"}
+                size='small'
+                // disableClearable
+                disabled={props?.disabled || false}
+                options={Country.getAllCountries()}
+                getOptionLabel={(option) => `${formatPhoneCode(option.phonecode)} (${option.name})`}
+                value={
+                  props?.data?.settings?.phonecode?.value !== null
+                    ? Country?.getAllCountries()?.find(
+                      (country) => {
+                        const isocode = props?.data?.settings?.isocode?.value;
+                        if (isocode) {
+                          return (
+                            country.isoCode === isocode &&
+                            country.phonecode === props?.data?.settings?.phonecode?.value
+                          );
+                        }
+                        return (
+                          country?.phonecode ===
+                          props?.data?.settings?.phonecode?.value
+                        );
+                      }
+                    ) ?? null
+                    : null
+                }
+                onChange={(_, newValue) => {
+                  props?.setValue(`data.${props?.index}.settings.phonecode.value`, newValue?.phonecode || null, {
+                    shouldDirty: true,
+                  });
+                  props?.setValue(`data.${props?.index}.settings.isocode.value`, newValue?.isoCode || null, {
+                    shouldDirty: true,
+                  });
                 }}
-                sx={{
-                  "& .MuiInputBase-input": {
-                    height: "auto",
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    {formatPhoneCode(option.phonecode)} ({option.name})
+                  </Box>
+                )}
+                slotProps={{
+                  popupIndicator: {
+                    className: "acadlix-icon-btn"
                   },
+                  clearIndicator: {
+                    className: "acadlix-icon-btn"
+                  }
                 }}
-                error={Boolean(props.formState.errors.data?.[props?.index]?.settings?.phonecode?.value)}
-                helperText={props.formState.errors.data?.[props?.index]?.settings?.phonecode?.value?.message}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "code",
+                    }}
+                    sx={{
+                      "& .MuiInputBase-input": {
+                        height: "auto",
+                      },
+                    }}
+                    error={Boolean(props.formState.errors.data?.[props?.index]?.settings?.phonecode?.value)}
+                    helperText={props.formState.errors.data?.[props?.index]?.settings?.phonecode?.value?.message}
+                  />
+                )}
               />
-            )}
-          />
-        </Grid>
-        <Grid size={{ xs: 6, sm: 6, lg: 6 }}>
+            </Grid>
+          )
+        }
+        <Grid size={{
+          xs: isPhoneCodeEnabled ? 6 : 12,
+          sm: isPhoneCodeEnabled ? 6 : 12,
+          lg: isPhoneCodeEnabled ? 6 : 12
+        }}>
           <CustomTextField
             {...props?.register(`data.${props?.index}.value`, {
               required: {

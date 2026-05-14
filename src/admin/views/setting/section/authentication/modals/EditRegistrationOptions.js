@@ -326,11 +326,45 @@ const OptionSettings = (props) => {
     return <>
       <Grid size={{ xs: 12, lg: 3 }}>
         <Typography variant="h6">
+          {__("Enable Phone Code", "acadlix")}
+        </Typography>
+      </Grid>
+      <Grid size={{ xs: 12, lg: 9 }}>
+        <FormControlLabel
+          control={
+            <CustomSwitch />
+          }
+          label={__("Enable", "acadlix")}
+          checked={props?.watch("settings")?.phonecode?.enabled}
+          onChange={(e) => {
+            if (e?.target?.checked !== undefined) {
+              props?.setValue(
+                "settings.phonecode.enabled",
+                e?.target?.checked,
+                { shouldDirty: true }
+              )
+            }
+          }}
+        />
+      </Grid>
+      <Grid size={{ xs: 12, lg: 3 }}>
+        <Typography variant="h6">
           {__("Default Phone Code", "acadlix")}
+          {!props?.watch("settings")?.phonecode?.enabled && (
+            <span style={{ color: "red" }}> *</span>
+          )}
         </Typography>
       </Grid>
       <Grid size={{ xs: 12, lg: 9 }}>
         <Autocomplete
+          {
+            ...props?.register("settings.phonecode.default", {
+                required: {
+                  value: !props?.watch("settings")?.phonecode?.enabled,
+                  message: __("Default phone code is required if phone code is disabled", "acadlix")
+                }
+            })
+          }
           fullWidth
           id="phonecode"
           autoComplete
@@ -412,6 +446,8 @@ const OptionSettings = (props) => {
                 ...params.inputProps,
                 autoComplete: "code",
               }}
+              error={!!props?.formState?.errors?.settings?.phonecode?.default}
+              helperText={props?.formState?.errors?.settings?.phonecode?.default?.message}
             />
           )}
         />
