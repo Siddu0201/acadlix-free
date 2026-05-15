@@ -476,18 +476,44 @@ if (!class_exists('Course')) {
 
     public function getCourseCompletionPercentage($userId)
     {
-      $statistics = $this->course_statistics()->where('user_id', $userId)->get();
+      global $wpdb;
+      // $statistics = $this->course_statistics()->where('user_id', $userId)->get();
 
-      if ($statistics->isEmpty()) {
+      // if ($statistics->isEmpty()) {
+      //   return 0;
+      // }
+      if (!$userId) {
         return 0;
       }
 
-      $total_count = $this->sections->flatMap->contents->count();
+      $sectionIds = DB::table($wpdb->posts)
+        ->where('post_parent', $this->ID)
+        ->where('post_type', ACADLIX_COURSE_SECTION_CPT)
+        ->pluck('ID');
+
+      $total_count = 0;
+
+      if ($sectionIds->isNotEmpty()) {
+        $total_count = DB::table($wpdb->posts)
+          ->whereIn('post_parent', $sectionIds)
+          ->where('post_type', ACADLIX_COURSE_SECTION_CONTENT_CPT)
+          ->where('post_status', 'publish')
+          ->count();
+      }
+
+      // $total_count = $this->sections->flatMap->contents->count();
       if ($total_count === 0) {
         return 0;
       }
 
-      $completed_count = $statistics->where('is_completed', 1)->count();
+      $courseStatisticTable = acadlix()->model()->courseStatistic()->getTable();
+      $completed_count = DB::table($courseStatisticTable)
+        ->where('course_id', $this->ID)
+        ->where('user_id', $userId)
+        ->where('is_completed', 1)
+        ->count();
+
+      // $completed_count = $statistics->where('is_completed', 1)->count();
 
       return round(($completed_count / $total_count) * 100, 0);
     }

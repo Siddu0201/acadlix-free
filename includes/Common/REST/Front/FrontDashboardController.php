@@ -239,7 +239,7 @@ class FrontDashboardController
         $search,
         $skip,
         $params['pageSize'],
-        ['order_items'],
+        [],
         $category_id
       );
     $categoryIds = $result['category_ids'] ?? [];
