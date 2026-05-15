@@ -99,9 +99,11 @@
   width: 100%;
 }
 
-/* #acadlix_dashboard button {
-  all: unset;
-} */
+.mce-toolbar .mce-listbox button, .mce-toolbar .mce-btn button {
+  background-color: transparent !important;
+  background-image: none;
+  border: none;
+}
 
 #acadlix_dashboard *{
   box-sizing: border-box;
