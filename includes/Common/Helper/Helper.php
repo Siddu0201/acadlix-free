@@ -630,7 +630,7 @@ if (!class_exists('Helper')) {
         'acadlix_thankyou_page_id' => null,
         'acadlix_one_click_checkout' => 'no',
         // Course Option
-        'acadlix_no_of_courses_per_page' => 10,
+        'acadlix_no_of_courses_per_page' => 12,
         'acadlix_column_per_row' => 3,
         'acadlix_disable_wishlist' => 'no',
         'acadlix_enable_rating_and_reviews' => 'no',
