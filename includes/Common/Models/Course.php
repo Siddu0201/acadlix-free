@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Capsule\Manager as DB;
 
 defined('ABSPATH') || exit();
 
@@ -337,8 +338,26 @@ if (!class_exists('Course')) {
     public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [], $categoryId = null)
     {
       if (empty($userId)) {
-        return [];
+        return [
+          'total' => 0,
+          'courses' => collect(),
+          'category_ids' => collect(),
+        ];
       }
+      $courseTable = (new static)->getTable();
+      $orderItemTable = acadlix()->model()->orderItem()->getTable();
+      $ordersTable = acadlix()->model()->order()->getTable();
+
+      $purchaseMap = DB::table($orderItemTable)
+        ->join($ordersTable, "$ordersTable.id", '=', "$orderItemTable.order_id")
+        ->whereNull("$orderItemTable.subscription_id")
+        ->where("$ordersTable.user_id", $userId)
+        ->where("$ordersTable.status", 'success')
+        ->where("$orderItemTable.type", 'course')
+        ->selectRaw("$orderItemTable.item_id as course_id, MAX($ordersTable.created_at) as purchased_at")
+        ->groupBy("$orderItemTable.item_id")
+        ->pluck('purchased_at', 'course_id');
+
       // Base query for one-time purchases
       // $oneTimeCourseIds = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
       //   $oi
@@ -352,46 +371,36 @@ if (!class_exists('Course')) {
       //   ->unique()
       //   ->values();
 
-      $purchaseMap = self::ofPublish()
-        ->whereHas('order_items', function ($oi) use ($userId) {
-          $oi->whereNull('subscription_id')
-            ->whereHas('order', function ($q) use ($userId) {
-              $q->where('user_id', $userId)
-                ->where('status', 'success');
-            });
-        })
-        ->with([
-          'order_items.order' => function ($q) use ($userId) {
-            $q->where('user_id', $userId)
-              ->where('status', 'success');
-          }
-        ])
-        ->get()
-        ->mapWithKeys(function ($course) {
+      // $purchaseMap = self::ofPublish()
+      //   ->whereHas('order_items', function ($oi) use ($userId) {
+      //     $oi->whereNull('subscription_id')
+      //       ->whereHas('order', function ($q) use ($userId) {
+      //         $q->where('user_id', $userId)
+      //           ->where('status', 'success');
+      //       });
+      //   })
+      //   ->with([
+      //     'order_items.order' => function ($q) use ($userId) {
+      //       $q->where('user_id', $userId)
+      //         ->where('status', 'success');
+      //     }
+      //   ])
+      //   ->get()
+      //   ->mapWithKeys(function ($course) {
 
-          $latestOrder = $course->order_items
-            ->filter(fn($oi) => $oi->order)
-            ->sortByDesc(fn($oi) => $oi->order->created_at)
-            ->first();
+      //     $latestOrder = $course->order_items
+      //       ->filter(fn($oi) => $oi->order)
+      //       ->sortByDesc(fn($oi) => $oi->order->created_at)
+      //       ->first();
 
-          return [
-            $course->ID => optional($latestOrder->order)->created_at
-          ];
-        })
-        ->filter()
-        ->sortByDesc(fn($date) => $date);
+      //     return [
+      //       $course->ID => optional($latestOrder->order)->created_at
+      //     ];
+      //   })
+      //   ->filter()
+      //   ->sortByDesc(fn($date) => $date);
 
       $courseIds = $purchaseMap->keys()->values();
-
-      $categoryIds = self::ofPublish()
-        ->whereIn('ID', $courseIds)
-        ->with('course_categories')
-        ->get()
-        ->pluck('course_categories')
-        ->flatten()
-        ->pluck('term_id')
-        ->unique()
-        ->values();
 
       if ($courseIds->isEmpty()) {
         return [
@@ -401,11 +410,27 @@ if (!class_exists('Course')) {
         ];
       }
 
+      // $categoryIds = self::ofPublish()
+      //   ->whereIn('ID', $courseIds)
+      //   ->with('course_categories')
+      //   ->get()
+      //   ->pluck('course_categories')
+      //   ->flatten()
+      //   ->pluck('term_id')
+      //   ->unique()
+      //   ->values();
+      $termRelationshipsTable = acadlix()->model()->wpTermRelationship()->getTable();
+      $categoryIds = DB::table($termRelationshipsTable)
+        ->whereIn('object_id', $courseIds)
+        ->pluck('term_taxonomy_id')
+        ->unique()
+        ->values();
+
       $idsString = $courseIds->implode(',');
 
       $query = self::ofPublish()
-          ->whereIn('ID', $courseIds)
-          ->orderByRaw("FIELD(ID, $idsString)");
+        ->whereIn('ID', $courseIds)
+        ->orderByRaw("FIELD(ID, $idsString)");
       // Apply eager loading if any
       if (!empty($with)) {
         $query->with($with);
