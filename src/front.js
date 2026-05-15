@@ -100,7 +100,11 @@ import Provider from './provider/Provider';
     const advanceQuiz = document.getElementById(advanceQuizId);
     if (advanceQuiz) {
       const advanceQuizRoot = createRoot(advanceQuiz);
-      advanceQuizRoot.render(<AppFront id={advanceQuizId} start={true} advance={true} hide_title={true} hide_description={true}></AppFront>);
+      advanceQuizRoot.render(
+        <Provider id={advanceQuizId}>
+          <AppFront id={advanceQuizId} start={true} advance={true} hide_title={true} hide_description={true}></AppFront>
+        </Provider>
+      );
     }
 
     // mutation observer for detect shortcode
