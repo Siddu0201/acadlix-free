@@ -375,7 +375,7 @@ const AnswerSheet = ({
           {...props}
           {...methods}
           colorCode={colorCode}
-          hasEvaluatedQuestions={hasEvaluatedQuestions}
+          hasEvaluatedQuestions={hasEvaluatedQuestions()}
           getPoints={getPoints}
           getNegativePoints={getNegativePoints}
           getTotalPoints={getTotalPoints}
@@ -500,7 +500,7 @@ const AnswerSheet = ({
           ></Box>
           <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
           {
-            hasEvaluatedQuestions && (
+            hasEvaluatedQuestions() && (
               <>
                 <Box
                   sx={{

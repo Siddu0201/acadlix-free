@@ -649,7 +649,7 @@ const QuizContent = (props) => {
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
-            hasEvaluatedQuestions={hasEvaluatedQuestions}
+            hasEvaluatedQuestions={hasEvaluatedQuestions()}
             getPoints={getPoints}
             getNegativePoints={getNegativePoints}
             getTotalPoints={getTotalPoints}
@@ -688,7 +688,7 @@ const QuizContent = (props) => {
               saveResult={saveResult}
               isPending={saveResultMutation?.isPending}
               isPendingResultFeedback={resultFeedbackMutation?.isPending}
-              hasEvaluatedQuestions={hasEvaluatedQuestions}
+              hasEvaluatedQuestions={hasEvaluatedQuestions()}
               getPoints={getPoints}
               getNegativePoints={getNegativePoints}
               getTotalPoints={getTotalPoints}
