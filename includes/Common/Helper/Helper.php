@@ -902,7 +902,7 @@ if (!class_exists('Helper')) {
           'value' => '',
           'settings' => [
             'phonecode' => [
-              'enabled' => get_option("acadlix_registration_options", [])['phone']['enabled'] ?? false,
+              'enabled' => true,
               'default' => get_option("acadlix_registration_options", [])['phone']['default_phonecode'] ?? '',
               'meta_key' => get_option("acadlix_phonecode_user_meta_key", "_acadlix_profile_phonecode"),
               'value' => get_option("acadlix_registration_options", [])['phone']['default_phonecode'] ?? '',
