@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Box,
   Button,
   Card,
   CardContent,
@@ -109,7 +110,7 @@ const GeneralOptionSection = (props) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid size={{ xs: 12, sm: 3 }}>
+            <Grid size={{ xs: 12, sm: 5/2 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -145,7 +146,7 @@ const GeneralOptionSection = (props) => {
                 }}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 3 }}>
+            <Grid size={{ xs: 12, sm: 5/2 }}>
               <CustomTextField
                 fullWidth
                 size="small"
@@ -181,79 +182,105 @@ const GeneralOptionSection = (props) => {
                 }}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 3 }}>
-              <Autocomplete
-                fullWidth
-                size="small"
-                value={
-                  props?.watch("subject_id") !== null
-                    ? subjects.filter(
-                      (option) => props?.watch("subject_id") === option?.id
-                    )?.[0]
-                    : null
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
+                <Autocomplete
+                  fullWidth
+                  size="small"
+                  value={
+                    props?.watch("subject_id") !== null
+                      ? subjects.find(
+                        (option) => props?.watch("subject_id") === option?.id
+                      )
+                      : null
+                  }
+                  options={subjects ? subjects : []}
+                  getOptionLabel={(option) => option?.subject_name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option?.id === value?.id
+                  }
+                  freeSolo
+                  inputValue={input}
+                  onInputChange={(_, newInput) => {
+                    setInput(newInput);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      // onChange={(e) => setInput(e.target.value)}
+                      label={__("Select Subject", "acadlix")}
+                      error={!!props?.formState?.errors?.subject_id}
+                      helperText={props?.formState?.errors?.subject_id?.message}
+                      onKeyDown={(e) => {
+                        if (e?.key === 'Enter') {
+                          e.preventDefault();
+                          createSubject()
+                        }
+                      }}
+                      slotProps={{
+                        input: {
+                          ...params.InputProps,
+                          autoComplete: "subject",
+                          endAdornment: (
+                            <React.Fragment>
+                              {createSubjectMutation?.isPending ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }
+                      }}
+                    />
+                  )}
+                  onChange={(_, newValue) => {
+                    props?.clearErrors("subject_id");
+                    props?.setValue("subject_id", newValue?.id ?? null, {
+                      shouldDirty: true,
+                    });
+                  }}
+                  // PaperComponent={(data) => {
+                  //   return (
+                  //     <Paper>
+                  //       {data?.children}
+                  //       <Button
+                  //         color="primary"
+                  //         fullWidth
+                  //         disabled={!hasCapability("acadlix_add_subject")}
+                  //         sx={{ justifyContent: "flex-start", pl: 2 }}
+                  //         onMouseDown={createSubject}
+                  //       >
+                  //         {__("Add New", "acadlix")}
+                  //       </Button>
+                  //     </Paper>
+                  //   );
+                  // }}
+                />
+                {
+                  input && subjects?.filter(
+                    (d) => d?.subject_name?.toLowerCase().includes(input?.toLowerCase())
+                  )?.length === 0 && (
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      disabled={!hasCapability("acadlix_add_subject")}
+                      sx={{
+                        justifyContent: "center",
+                        minWidth: "110px",
+                      }}
+                      onClick={createSubject}
+                    >
+                      {__("Add New", "acadlix")}
+                    </Button>
+                  )
                 }
-                options={subjects ? subjects : []}
-                getOptionLabel={(option) => option?.subject_name || ""}
-                isOptionEqualToValue={(option, value) =>
-                  option?.id === value?.id
-                }
-                freeSolo
-                inputValue={input}
-                onInputChange={(_, newInput) => {
-                  setInput(newInput);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    // onChange={(e) => setInput(e.target.value)}
-                    label={__("Select Subject", "acadlix")}
-                    error={!!props?.formState?.errors?.subject_id}
-                    helperText={props?.formState?.errors?.subject_id?.message}
-                    onKeyDown={(e) => {
-                      if (e?.key === 'Enter') {
-                        e.preventDefault();
-                        createSubject()
-                      }
-                    }}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        autoComplete: "subject",
-                        endAdornment: (
-                          <React.Fragment>
-                            {createSubjectMutation?.isPending ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
-                        ),
-                      }
-                    }}
-                  />
-                )}
-                onChange={(_, newValue) => {
-                  props?.clearErrors("subject_id");
-                  props?.setValue("subject_id", newValue?.id ?? null, {
-                    shouldDirty: true,
-                  });
-                }}
-                PaperComponent={(data) => {
-                  return (
-                    <Paper>
-                      {data?.children}
-                      <Button
-                        color="primary"
-                        fullWidth
-                        disabled={!hasCapability("acadlix_add_subject")}
-                        sx={{ justifyContent: "flex-start", pl: 2 }}
-                        onMouseDown={createSubject}
-                      >
-                        {__("Add New", "acadlix")}
-                      </Button>
-                    </Paper>
-                  );
-                }}
-              />
+              </Box>
             </Grid>
           </Grid>
         </CardContent>
