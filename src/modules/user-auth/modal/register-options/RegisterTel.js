@@ -85,6 +85,7 @@ const RegisterTel = (props) => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    placeholder={props?.data?.phonecode?.placeholder || ""}
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "code",

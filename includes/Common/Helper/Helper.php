@@ -903,6 +903,7 @@ if (!class_exists('Helper')) {
           'settings' => [
             'phonecode' => [
               'enabled' => true,
+              'placeholder' => 'Code',
               'default' => get_option("acadlix_registration_options", [])['phone']['default_phonecode'] ?? '',
               'meta_key' => get_option("acadlix_phonecode_user_meta_key", "_acadlix_profile_phonecode"),
               'value' => get_option("acadlix_registration_options", [])['phone']['default_phonecode'] ?? '',
@@ -928,7 +929,7 @@ if (!class_exists('Helper')) {
           'id' => 'user_url',
           'name' => 'Website',
           'label' => 'Website',
-          'placeholder' => 'Website',
+          'placeholder' => 'https://example.com',
           'type' => 'url',
           'meta_key' => 'user_url',
           'is_meta' => false,

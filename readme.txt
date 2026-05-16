@@ -366,6 +366,21 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 == Changelog ==
 
+= 1.0.8 - 16-05-2026 =
+* Added: Knit Pay payment gateway integration.
+* Added: Quiz template delete functionality.
+* Added: Course content icons in course backend for improved visual identification.
+* Added: Category selection option in My Courses dashboard.
+* Added: Column-per-row layout configuration for course listing.
+* Added: Configure registration fields directly from backend settings.
+* Added: Custom Acadlix logo variant for student dashboard.
+* Added: Automatic cache clearing after plugin update.
+* Fixed: Leaderboard default button display issue in quiz interface.
+* Fixed: Multiple category assignment issue in courses.
+* Fixed: Coupon revalidation issue when course is removed from checkout.
+* Fixed: Quiz import issue with language.
+* Fixed: Frontend button and icon button CSS inconsistencies.
+
 = 1.0.7 - 20-04-2026 =
 * Added: AI-powered question validation to ensure content accuracy and quality.
 * Added: AI-powered question generation to assist educators in creating diverse and engaging quizzes.
