@@ -400,6 +400,10 @@ if (!class_exists('Course')) {
       //   ->filter()
       //   ->sortByDesc(fn($date) => $date);
 
+      $purchaseMap = $purchaseMap
+        ->filter()
+        ->sortByDesc(fn($date) => $date);
+        
       $courseIds = $purchaseMap->keys()->values();
 
       if ($courseIds->isEmpty()) {
