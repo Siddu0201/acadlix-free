@@ -194,6 +194,7 @@ const CategoryTemplateSection = (props) => {
                   // always keep dropdown open
                   return filtered;
                 }}
+                noOptionsText=""
                 onChange={(_, newValue) => {
                   props?.clearErrors("category_id");
                   props?.setValue("category_id", newValue?.term_id ?? null, {
