@@ -27,6 +27,7 @@ const CategoryTemplateSection = (props) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [input, setInput] = React.useState("");
+  const [open, setOpen] = React.useState(false);
   const [categories, setCategories] = React.useState(props?.categories);
   const createCategoryMutation = PostCreateCategory();
 
@@ -138,6 +139,9 @@ const CategoryTemplateSection = (props) => {
             <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
               <Autocomplete
                 size="small"
+                open={open}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
                 value={
                   props?.watch("category_id") !== null
                     ? categories?.find(
@@ -154,6 +158,7 @@ const CategoryTemplateSection = (props) => {
                 inputValue={input}
                 onInputChange={(_, newInput) => {
                   setInput(newInput);
+                  setOpen(true);
                 }}
                 renderInput={(params) => (
                   <TextField
@@ -165,6 +170,7 @@ const CategoryTemplateSection = (props) => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault(); // 🚫 stop form submit
+                        e.stopPropagation();
                         createCategory();   // ✅ use your existing logic
                       }
                     }}
