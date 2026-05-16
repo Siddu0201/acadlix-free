@@ -140,9 +140,9 @@ const CategoryTemplateSection = (props) => {
                 size="small"
                 value={
                   props?.watch("category_id") !== null
-                    ? categories?.filter(
+                    ? categories?.find(
                       (option) => props?.watch("category_id") === option?.term_id
-                    )?.[0]
+                    )
                     : null
                 }
                 options={categories ? categories : []}
@@ -184,6 +184,16 @@ const CategoryTemplateSection = (props) => {
                     }}
                   />
                 )}
+                filterOptions={(options, state) => {
+                  const filtered = options.filter(option =>
+                    option.name
+                      ?.toLowerCase()
+                      .includes(state.inputValue.toLowerCase())
+                  );
+
+                  // always keep dropdown open
+                  return filtered;
+                }}
                 onChange={(_, newValue) => {
                   props?.clearErrors("category_id");
                   props?.setValue("category_id", newValue?.term_id ?? null, {
