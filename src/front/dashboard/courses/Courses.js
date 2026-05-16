@@ -197,10 +197,11 @@ const Courses = () => {
                   />
                   <CustomTextField
                     size="small"
-                    id="search"
-                    type="search"
                     label={__("Search", "acadlix")}
-                    value={searchTerm}
+                    helperText={__("Search by title", "acadlix")}
+                    type="search"
+                    name="search"
+                    value={searchTerm ?? ""}
                     onChange={handleChange}
                     slotProps={{
                       input: {

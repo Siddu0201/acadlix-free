@@ -83,7 +83,6 @@ const AddEditSectionModal = (props) => {
                 <CustomTextField
                   {...props?.register("post_content")}
                   fullWidth
-                  required
                   multiline
                   rows={3}
                   name="post_content"
