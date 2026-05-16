@@ -201,21 +201,23 @@ const CategoryTemplateSection = (props) => {
                     shouldDirty: true,
                   });
                 }}
-                PaperComponent={(data) => {
-                  return (
-                    <Paper>
-                      {data?.children}
-                      <Button
-                        color="primary"
-                        fullWidth
-                        disabled={!hasCapability("acadlix_add_quiz_category")}
-                        sx={{ justifyContent: "flex-start", pl: 2 }}
-                        onMouseDown={createCategory}
-                      >
-                        + {__("Add New", "acadlix")}
-                      </Button>
-                    </Paper>
-                  );
+                slots={{
+                  paper: (data) => {
+                    return (
+                      <Paper>
+                        {data?.children}
+                        <Button
+                          color="primary"
+                          fullWidth
+                          disabled={!hasCapability("acadlix_add_quiz_category")}
+                          sx={{ justifyContent: "flex-start", pl: 2 }}
+                          onMouseDown={createCategory}
+                        >
+                          + {__("Add New", "acadlix")}
+                        </Button>
+                      </Paper>
+                    );
+                  }
                 }}
               />
             </Grid>
